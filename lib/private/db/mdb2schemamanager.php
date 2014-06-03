@@ -8,6 +8,11 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\PostgreSqlPlatform;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
+
 class MDB2SchemaManager {
 	/**
 	 * @var \OC\DB\Connection $conn
@@ -31,7 +36,7 @@ class MDB2SchemaManager {
 	 *
 	 * TODO: write more documentation
 	 */
-	public function getDbStructure( $file, $mode = MDB2_SCHEMA_DUMP_STRUCTURE) {
+	public function getDbStructure($file, $mode = MDB2_SCHEMA_DUMP_STRUCTURE) {
 		$sm = $this->conn->getSchemaManager();
 
 		return \OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $sm);
@@ -44,58 +49,64 @@ class MDB2SchemaManager {
 	 *
 	 * TODO: write more documentation
 	 */
-	public function createDbFromStructure( $file ) {
+	public function createDbFromStructure($file) {
 		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 		return $this->executeSchemaChange($toSchema);
 	}
 
 	/**
+	 * @return \OC\DB\Migrator
+	 */
+	protected function getMigrator() {
+		$platform = $this->conn->getDatabasePlatform();
+		if ($platform instanceof SqlitePlatform) {
+			return new SQLiteMigrator($this->conn);
+		} else if ($platform instanceof OraclePlatform) {
+			return new OracleMigrator($this->conn);
+		} else if ($platform instanceof MySqlPlatform) {
+			return new MySQLMigrator($this->conn);
+		} else if ($platform instanceof PostgreSqlPlatform) {
+			return new Migrator($this->conn);
+		} else {
+			return new NoCheckMigrator($this->conn);
+		}
+	}
+
+	/**
 	 * update the database scheme
 	 * @param string $file file to read structure from
+	 * @param bool $generateSql only return the sql needed for the upgrade
 	 * @return string|boolean
 	 */
 	public function updateDbFromStructure($file, $generateSql = false) {
-		$sm = $this->conn->getSchemaManager();
-		$fromSchema = $sm->createSchema();
-
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
-		$toSchema = $schemaReader->loadSchemaFromFile($file);
-
-		// remove tables we don't know about
-		/** @var $table \Doctrine\DBAL\Schema\Table */
-		foreach($fromSchema->getTables() as $table) {
-			if (!$toSchema->hasTable($table->getName())) {
-				$fromSchema->dropTable($table->getName());
-			}
-		}
-		// remove sequences we don't know about
-		foreach($fromSchema->getSequences() as $table) {
-			if (!$toSchema->hasSequence($table->getName())) {
-				$fromSchema->dropSequence($table->getName());
-			}
-		}
-
-		$comparator = new \Doctrine\DBAL\Schema\Comparator();
-		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
 
 		$platform = $this->conn->getDatabasePlatform();
-		foreach($schemaDiff->changedTables as $tableDiff) {
-			$tableDiff->name = $platform->quoteIdentifier($tableDiff->name);
-			foreach($tableDiff->changedColumns as $column) {
-				$column->oldColumnName = $platform->quoteIdentifier($column->oldColumnName);
-			}
-		}
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
+		$toSchema = $schemaReader->loadSchemaFromFile($file);
+		$migrator = $this->getMigrator();
 
 		if ($generateSql) {
-			return $this->generateChangeScript($schemaDiff);
+			return $migrator->generateChangeScript($toSchema);
+		} else {
+			$migrator->checkMigrate($toSchema);
+			$migrator->migrate($toSchema);
+			return true;
 		}
+	}
 
-		return $this->executeSchemaChange($schemaDiff);
+	/**
+	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @return string
+	 */
+	public function generateChangeScript($schema) {
+		$migrator = $this->getMigrator();
+		return $migrator->generateChangeScript($schema);
 	}
 
 	/**
 	 * remove all tables defined in a database structure xml file
+	 *
 	 * @param string $file the xml file describing the tables
 	 */
 	public function removeDBStructure($file) {
@@ -103,7 +114,7 @@ class MDB2SchemaManager {
 		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		/** @var $table \Doctrine\DBAL\Schema\Table */
-		foreach($toSchema->getTables() as $table) {
+		foreach ($toSchema->getTables() as $table) {
 			$toSchema->dropTable($table->getName());
 		}
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
@@ -117,26 +128,10 @@ class MDB2SchemaManager {
 	 */
 	private function executeSchemaChange($schema) {
 		$this->conn->beginTransaction();
-		foreach($schema->toSql($this->conn->getDatabasePlatform()) as $sql) {
+		foreach ($schema->toSql($this->conn->getDatabasePlatform()) as $sql) {
 			$this->conn->query($sql);
 		}
 		$this->conn->commit();
 		return true;
-	}
-
-	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $schema
-	 * @return string
-	 */
-	public function generateChangeScript($schema) {
-
-		$script = '';
-		$sqls = $schema->toSql($this->conn->getDatabasePlatform());
-		foreach($sqls as $sql) {
-			$script .= $sql . ';';
-			$script .= PHP_EOL;
-		}
-
-		return $script;
 	}
 }
