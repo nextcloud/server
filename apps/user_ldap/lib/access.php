@@ -27,20 +27,21 @@ namespace OCA\user_ldap\lib;
  * Class Access
  * @package OCA\user_ldap\lib
  */
-class Access extends LDAPUtility {
+class Access extends LDAPUtility implements user\IUserTools {
 	public $connection;
+	public $userManager;
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
 	protected $cookies = array();
 
-	/**
-	 * @param Connection $connection
-	 * @param ILDAPWrapper $ldap
-	 */
-	public function __construct(Connection $connection, ILDAPWrapper $ldap) {
+
+	public function __construct(Connection $connection, ILDAPWrapper $ldap,
+		user\Manager $userManager) {
 		parent::__construct($ldap);
 		$this->connection = $connection;
+		$this->userManager = $userManager;
+		$this->userManager->setLdapAccess($this);
 	}
 
 	/**
@@ -51,9 +52,17 @@ class Access extends LDAPUtility {
 	}
 
 	/**
+	 * returns the Connection instance
+	 * @return \OCA\user_ldap\lib\Connection
+	 */
+	public function getConnection() {
+		return $this->connection;
+	}
+
+	/**
 	 * reads a given attribute for an LDAP record identified by a DN
-	 * @param string $dn the record in question
-	 * @param string $attr the attribute that shall be retrieved
+	 * @param $dn the record in question
+	 * @param $attr the attribute that shall be retrieved
 	 *        if empty, just check the record's existence
 	 * @param string $filter
 	 * @return array|false an array of values on success or an empty
@@ -624,6 +633,12 @@ class Access extends LDAPUtility {
 
 		if($insRows === 0) {
 			return false;
+		}
+
+		if($isUser) {
+			//make sure that email address is retrieved prior to login, so user
+			//will be notified when something is shared with him
+			$this->userManager->get($ocname)->update();
 		}
 
 		return true;

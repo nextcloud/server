@@ -28,127 +28,18 @@ namespace OCA\user_ldap;
 use OCA\user_ldap\lib\BackendUtility;
 
 class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
-
-	private function updateQuota($dn) {
-		$quota = null;
-		$quotaDefault = $this->access->connection->ldapQuotaDefault;
-		$quotaAttribute = $this->access->connection->ldapQuotaAttribute;
-		if(!empty($quotaDefault)) {
-			$quota = $quotaDefault;
-		}
-		if(!empty($quotaAttribute)) {
-			$aQuota = $this->access->readAttribute($dn, $quotaAttribute);
-
-			if($aQuota && (count($aQuota) > 0)) {
-				$quota = $aQuota[0];
-			}
-		}
-		if(!is_null($quota)) {
-			\OCP\Config::setUserValue(	$this->access->dn2username($dn),
-										'files',
-										'quota',
-										\OCP\Util::computerFileSize($quota));
-		}
-	}
-
-	private function updateEmail($dn) {
-		$email = null;
-		$emailAttribute = $this->access->connection->ldapEmailAttribute;
-		if(!empty($emailAttribute)) {
-			$aEmail = $this->access->readAttribute($dn, $emailAttribute);
-			if($aEmail && (count($aEmail) > 0)) {
-				$email = $aEmail[0];
-			}
-			if(!is_null($email)) {
-				\OCP\Config::setUserValue(	$this->access->dn2username($dn),
-											'settings',
-											'email',
-											$email);
-			}
-		}
-	}
-
-	/**
-	 * reads jpegPhoto and set is as avatar if available
-	 * @param string $uid ownCloud user name
-	 * @param string $dn the user's LDAP DN
-	 * @return void
-	 */
-	private function updateAvatar($uid, $dn) {
-		$hasLoggedIn = \OCP\Config::getUserValue($uid, 'user_ldap',
-												 'firstLoginAccomplished', 0);
-		$lastChecked = \OCP\Config::getUserValue($uid, 'user_ldap',
-												 'lastJpegPhotoLookup', 0);
-		if(($hasLoggedIn !== '1') || (time() - intval($lastChecked)) < 86400 ) {
-			//update only once a day
-			return;
-		}
-
-		$avatarImage = $this->getAvatarImage($uid, $dn);
-		if($avatarImage === false) {
-			//not set, nothing left to do;
-			return;
-		}
-
-		$image = new \OCP\Image();
-		$image->loadFromBase64(base64_encode($avatarImage));
-
-		if(!$image->valid()) {
-			\OCP\Util::writeLog('user_ldap', 'jpegPhoto data invalid for '.$dn,
-								\OCP\Util::ERROR);
-			return;
-		}
-		//make sure it is a square and not bigger than 128x128
-		$size = min(array($image->width(), $image->height(), 128));
-		if(!$image->centerCrop($size)) {
-			\OCP\Util::writeLog('user_ldap',
-								'croping image for avatar failed for '.$dn,
-								\OCP\Util::ERROR);
-			return;
-		}
-
-		if(!\OC\Files\Filesystem::$loaded) {
-			\OC_Util::setupFS($uid);
-		}
-
-		$avatarManager = \OC::$server->getAvatarManager();
-		$avatar = $avatarManager->getAvatar($uid);
-		$avatar->set($image);
-	}
-
 	/**
 	 * checks whether the user is allowed to change his avatar in ownCloud
 	 * @param string $uid the ownCloud user name
 	 * @return boolean either the user can or cannot
 	 */
 	public function canChangeAvatar($uid) {
-		$dn = $this->access->username2dn($uid);
-		if(!$dn) {
+		$user = $this->access->userManager->get($uid);
+		if(is_null($user)) {
 			return false;
 		}
-		if($this->getAvatarImage($uid, $dn) === false) {
-			//The user is allowed to change his avatar in ownCloud only if no
-			//avatar is provided by LDAP
+		if($user->getAvatarImage() === false) {
 			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * reads the image from LDAP that shall be used as Avatar
-	 * @param string $uid the ownCloud user name
-	 * @param string $dn the user DN
-	 * @return string data (provided by LDAP) | false
-	 */
-	private function getAvatarImage($uid, $dn) {
-		$attributes = array('jpegPhoto', 'thumbnailPhoto');
-		foreach($attributes as $attribute) {
-			$result = $this->access->readAttribute($dn, $attribute);
-			\OCP\Config::setUserValue($uid, 'user_ldap', 'lastJpegPhotoLookup',
-									  time());
-			if($result !== false && is_array($result) && isset($result[0])) {
-				return $result[0];
-			}
 		}
 
 		return false;
@@ -174,25 +65,17 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		}
 		$dn = $ldap_users[0];
 
-		//do we have a username for him/her?
-		$ocname = $this->access->dn2username($dn);
-
-		if($ocname) {
-			//update some settings, if necessary
-			$this->updateQuota($dn);
-			$this->updateEmail($dn);
-
+		$user = $this->access->userManager->get($dn);
+		if($user->getUsername() !== false) {
 			//are the credentials OK?
 			if(!$this->access->areCredentialsValid($dn, $password)) {
 				return false;
 			}
 
-			\OCP\Config::setUserValue($ocname, 'user_ldap',
-									  'firstLoginAccomplished', 1);
+			$user->markLogin();
+			$user->update();
 
-			$this->updateAvatar($ocname, $dn);
-			//give back the display name
-			return $ocname;
+			return $user->getUsername();
 		}
 
 		return false;
@@ -249,13 +132,14 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 			return $this->access->connection->getFromCache('userExists'.$uid);
 		}
 		//getting dn, if false the user does not exist. If dn, he may be mapped only, requires more checking.
-		$dn = $this->access->username2dn($uid);
-		if(!$dn) {
+		$user = $this->access->userManager->get($uid);
+		if(is_null($user)) {
 			\OCP\Util::writeLog('user_ldap', 'No DN found for '.$uid.' on '.
 				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
+		$dn = $user->getDN();
 		//check if user really still exists by reading its entry
 		if(!is_array($this->access->readAttribute($dn, ''))) {
 			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn.' on '.
@@ -265,8 +149,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		}
 
 		$this->access->connection->writeToCache('userExists'.$uid, true);
-		$this->updateQuota($dn);
-		$this->updateAvatar($uid, $dn);
+		$user->update();
 		return true;
 	}
 

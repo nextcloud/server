@@ -41,8 +41,21 @@ abstract class Proxy {
 	 * @param string $configPrefix
 	 */
 	private function addAccess($configPrefix) {
+		static $ocConfig;
+		static $fs;
+		static $log;
+		static $avatarM;
+		if(is_null($fs)) {
+			$ocConfig = \OC::$server->getConfig();
+			$fs       = new FilesystemHelper();
+			$log      = new LogWrapper();
+			$avatarM  = \OC::$server->getAvatarManager();
+		}
+		$userManager =
+			new user\Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image());
 		$connector = new Connection($this->ldap, $configPrefix);
-		self::$accesses[$configPrefix] = new Access($connector, $this->ldap);
+		self::$accesses[$configPrefix] =
+			new Access($connector, $this->ldap, $userManager);
 	}
 
 	/**
