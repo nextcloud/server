@@ -118,7 +118,8 @@ class LostController extends Controller {
 			throw new EncryptedDataException();
 		}
 
-		if (!$this->userClass->userExists($user)) {
+		$userClass = $this->userClass;
+		if (!$userClass::userExists($user)) {
 			throw new \Exception($this->l10n->t('Couldn’t send reset email. Please make sure your username is correct.'));
 		}
 		$token = hash('sha256', \OC_Util::generateRandomBytes(30));
