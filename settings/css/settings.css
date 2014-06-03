@@ -180,8 +180,6 @@ span.error {
         background: #ce3702;
 }
 
-/* HELP */
-.pressed {background-color:#DDD;}
 
 /* PASSWORD */
 .strengthify-wrapper {
@@ -195,4 +193,23 @@ span.error {
 doesnotexist:-o-prefocus, .strengthify-wrapper {
 	left: 185px;
 	width: 129px;
+}
+
+
+
+
+
+/* HELP */
+
+.help-includes {
+	overflow: hidden !important;
+}
+
+.help-iframe {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	overflow: auto;
 }
