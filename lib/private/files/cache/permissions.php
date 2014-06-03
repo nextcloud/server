@@ -15,14 +15,28 @@ class Permissions {
 	private $storageId;
 
 	/**
+	 * @var \OC\Files\Storage\Storage $storage
+	 */
+	protected $storage;
+
+	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
 	public function __construct($storage) {
 		if ($storage instanceof \OC\Files\Storage\Storage) {
 			$this->storageId = $storage->getId();
+			$this->storage = $storage;
 		} else {
 			$this->storageId = $storage;
+			$mountManager = \OC\Files\Filesystem::getMountManager();
+			$mount = $mountManager->findByStorageId($this->storageId);
+			$firstMountPoint = reset($mount);
+			if ($firstMountPoint instanceof \OC\Files\Storage\Storage) {
+				$storage = $firstMountPoint->getStorage();
+				$this->storage = $storage;
+			}
 		}
+
 	}
 
 	/**
