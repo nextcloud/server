@@ -82,13 +82,13 @@
 				}
 				return;
 			}
-			this.$el.find('li').removeClass('selected');
+			this.$el.find('li').removeClass('active');
 			if (this.$currentContent) {
 				this.$currentContent.addClass('hidden');
 				this.$currentContent.trigger(jQuery.Event('hide'));
 			}
 			this._activeItem = itemId;
-			this.$el.find('li[data-id=' + itemId + ']').addClass('selected');
+			this.$el.find('li[data-id=' + itemId + ']').addClass('active');
 			this.$currentContent = $('#app-content-' + itemId);
 			this.$currentContent.removeClass('hidden');
 			if (!options || !options.silent) {

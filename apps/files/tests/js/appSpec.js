@@ -200,31 +200,31 @@ describe('OCA.Files.App tests', function() {
 				expect(App.navigation.getActiveItem()).toEqual('other');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(true);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(false);
-				expect($('li[data-id=files]').hasClass('selected')).toEqual(false);
-				expect($('li[data-id=other]').hasClass('selected')).toEqual(true);
+				expect($('li[data-id=files]').hasClass('active')).toEqual(false);
+				expect($('li[data-id=other]').hasClass('active')).toEqual(true);
 
 				App._onPopState({view: 'files', dir: '/somedir'});
 
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
-				expect($('li[data-id=files]').hasClass('selected')).toEqual(true);
-				expect($('li[data-id=other]').hasClass('selected')).toEqual(false);
+				expect($('li[data-id=files]').hasClass('active')).toEqual(true);
+				expect($('li[data-id=other]').hasClass('active')).toEqual(false);
 			});
 			it('clicking on navigation switches the panel visibility', function() {
 				$('li[data-id=other]>a').click();
 				expect(App.navigation.getActiveItem()).toEqual('other');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(true);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(false);
-				expect($('li[data-id=files]').hasClass('selected')).toEqual(false);
-				expect($('li[data-id=other]').hasClass('selected')).toEqual(true);
+				expect($('li[data-id=files]').hasClass('active')).toEqual(false);
+				expect($('li[data-id=other]').hasClass('active')).toEqual(true);
 
 				$('li[data-id=files]>a').click();
 				expect(App.navigation.getActiveItem()).toEqual('files');
 				expect($('#app-content-files').hasClass('hidden')).toEqual(false);
 				expect($('#app-content-other').hasClass('hidden')).toEqual(true);
-				expect($('li[data-id=files]').hasClass('selected')).toEqual(true);
-				expect($('li[data-id=other]').hasClass('selected')).toEqual(false);
+				expect($('li[data-id=files]').hasClass('active')).toEqual(true);
+				expect($('li[data-id=other]').hasClass('active')).toEqual(false);
 			});
 			it('clicking on navigation sends "show" and "urlChanged" event', function() {
 				var handler = sinon.stub();

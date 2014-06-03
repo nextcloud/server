@@ -368,7 +368,7 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 	padding: 28px 14px 19px !important;
 }
 
-#fileList .action.action-share-notification span, img, a {
+#fileList .action.action-share-notification span, #fileList a {
 	cursor: default !important;
 }
 
