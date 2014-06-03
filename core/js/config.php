@@ -25,11 +25,13 @@ foreach(OC_App::getEnabledApps() as $app) {
 	$apps_paths[$app] = OC_App::getAppWebPath($app);
 }
 
-$defaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+$value = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+$defaultExpireDateEnabled = ($value === 'yes') ? true :false;
 $defaultExpireDate = $enforceDefaultExpireDate = null;
-if ($defaultExpireDateEnabled === 'yes') {
-	$defaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
-	$enforceDefaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+if ($defaultExpireDateEnabled) {
+	$defaultExpireDate = (int)\OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
+	$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+	$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
 }
 
 $array = array(
