@@ -112,18 +112,10 @@
 	padding-left: 80px; /* main nav bar */
 }
 
-.app-files #app-navigation {
-	width: 230px;
-}
-
 /* move Deleted Files to bottom of sidebar */
 .nav-trashbin {
 	position: absolute !important;
 	bottom: 0;
-}
-
-.app-files #app-settings {
-	width: 229px; /* DUH */
 }
 
 .app-files #app-settings input {
