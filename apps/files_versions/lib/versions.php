@@ -313,38 +313,7 @@ class Storage {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * get the size of all stored versions from a given user
-	 * @param string $uid id from the user
-	 * @return int size of versions
-	 */
-	private static function calculateSize($uid) {
-		if (\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED) == 'true') {
-			$view = new \OC\Files\View('/' . $uid . '/files_versions');
-
-			$size = 0;
-
-			$dirContent = $view->getDirectoryContent('/');
-
-			while (!empty($dirContent)) {
-				$path = reset($dirContent);
-				if ($path['type'] === 'dir') {
-					$dirContent = array_merge($dirContent, $view->getDirectoryContent(substr($path['path'], strlen('files_versions'))));
-				} else {
-					$size += $view->filesize(substr($path['path'], strlen('files_versions')));
-				}
-				unset($dirContent[key($dirContent)]);
-			}
-
-			return $size;
-		}
-	}
-
-	/**
 	 * returns all stored file versions from a given user
-=======
-	 * @brief returns all stored file versions from a given user
->>>>>>> 2f97e2f... let file cache handle the versions size
 	 * @param string $uid id of the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
 	 */
