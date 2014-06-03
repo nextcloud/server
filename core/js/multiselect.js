@@ -1,14 +1,19 @@
 /**
- * @param 'createCallback' A function to be called when a new entry is created. Two arguments are supplied to this function:
- *	The select element used and the value of the option. If the function returns false addition will be cancelled. If it returns
- * 	anything else it will be used as the value of the newly added option.
+ * @param 'createCallback' A function to be called when a new entry is created.
+ *    Two arguments are supplied to this function:
+ *    The select element used and the value of the option. If the function
+ *    returns false addition will be cancelled. If it returns
+ *    anything else it will be used as the value of the newly added option.
  * @param 'createText' The placeholder text for the create action.
  * @param 'title' The title to show if no options are selected.
- * @param 'checked' An array containing values for options that should be checked. Any options which are already selected will be added to this array.
+ * @param 'checked' An array containing values for options that should be
+ *    checked. Any options which are already selected will be added to this array.
  * @param 'labels' The corresponding labels to show for the checked items.
- * @param 'oncheck' Callback function which will be called when a checkbox/radiobutton is selected. If the function returns false the input will be unchecked.
+ * @param 'oncheck' Callback function which will be called when a
+ *    checkbox/radiobutton is selected. If the function returns false the input will be unchecked.
  * @param 'onuncheck' @see 'oncheck'.
- * @param 'singleSelect' If true radiobuttons will be used instead of checkboxes. 
+ * @param 'singleSelect' If true radiobuttons will be used instead of
+ *    checkboxes.
  */
 (function( $ ){
 	var multiSelectId=-1;
@@ -32,12 +37,18 @@
 		$.extend(settings,options);
 		$.each(this.children(),function(i,option) {
 			// If the option is selected, but not in the checked array, add it.
-			if($(option).attr('selected') && settings.checked.indexOf($(option).val()) === -1) {
+			if (
+				$(option).attr('selected') &&
+				settings.checked.indexOf($(option).val()) === -1
+			) {
 				settings.checked.push($(option).val());
 				settings.labels.push($(option).text().trim());
 			}
 			// If the option is in the checked array but not selected, select it.
-			else if(settings.checked.indexOf($(option).val()) !== -1 && !$(option).attr('selected')) {
+			else if (
+				settings.checked.indexOf($(option).val()) !== -1 &&
+				!$(option).attr('selected')
+			) {
 				$(option).attr('selected', 'selected');
 				settings.labels.push($(option).text().trim());
 			}
@@ -104,7 +115,7 @@
 				var label=$('<label/>');
 				label.attr('for',id);
 				label.text(element.text() || item);
-				if(settings.checked.indexOf(item)!=-1 || checked) {
+				if(settings.checked.indexOf(item) !== -1 || checked) {
 					input.attr('checked', true);
 				}
 				if(checked){
@@ -151,10 +162,13 @@
 						settings.labels.splice(index,1);
 					}
 					var oldWidth=button.width();
-					button.children('span').first().text(settings.labels.length > 0 
+					button.children('span').first().text(settings.labels.length > 0
 						? settings.labels.join(', ')
 						: settings.title);
-					var newOuterWidth=Math.max((button.outerWidth()-2),settings.minOuterWidth)+'px';
+					var newOuterWidth = Math.max(
+						(button.outerWidth() - 2),
+						settings.minOuterWidth
+					) + 'px';
 					var newWidth=Math.max(button.width(),settings.minWidth);
 					var pos=button.position();
 					button.css('width',oldWidth);
@@ -184,7 +198,7 @@
 					input.css('width',button.innerWidth());
 					button.parent().data('preventHide',true);
 					input.keypress(function(event) {
-						if(event.keyCode == 13) {
+						if(event.keyCode === 13) {
 							event.preventDefault();
 							event.stopPropagation();
 							var value = $(this).val();
@@ -222,7 +236,7 @@
 							select.append(option);
 							li.prev().children('input').prop('checked', true).trigger('change');
 							button.parent().data('preventHide',false);
-							button.children('span').first().text(settings.labels.length > 0 
+							button.children('span').first().text(settings.labels.length > 0
 								? settings.labels.join(', ')
 								: settings.title);
 							if(self.menuDirection === 'up') {
@@ -265,9 +279,9 @@
 			}
 			list.append(list.find('li.creator'));
 			var pos=button.position();
-			if(($(document).height() > (button.offset().top+button.outerHeight() + list.children().length * button.height())
-				&& $(document).height() - button.offset().top > (button.offset().top+button.outerHeight() + list.children().length * button.height()))
-				|| $(document).height()/2 > button.offset().top
+			if(($(document).height() > (button.offset().top + button.outerHeight() + list.children().length * button.height()) &&
+				$(document).height() - button.offset().top > (button.offset().top+button.outerHeight() + list.children().length * button.height())) ||
+				$(document).height() / 2 > button.offset().top
 			) {
 				list.css({
 					top:pos.top+button.outerHeight()-5,

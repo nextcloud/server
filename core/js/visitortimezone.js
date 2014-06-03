@@ -7,4 +7,5 @@ $(document).ready(function () {
 		if ($loginForm.length) {
 			$loginForm.find('input#submit').prop('disabled', false);
 		}
-});
+	}
+);
