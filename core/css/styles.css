@@ -811,7 +811,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	display: block;
 	padding: 7px 12px 6px 7px;
 	cursor: pointer;
-	font-weight: bold;
 }
 #expand:hover, #expand:focus, #expand:active { color:#fff; }
 #expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
