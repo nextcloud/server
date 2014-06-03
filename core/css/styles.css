@@ -679,7 +679,7 @@ label.infield {
 #body-login input {
 	font-size: 20px;
 	margin: 5px;
-	padding: 12px 10px 8px;
+	padding: 11px 10px 9px;
 }
 #body-login input[type="text"],
 #body-login input[type="password"] {
