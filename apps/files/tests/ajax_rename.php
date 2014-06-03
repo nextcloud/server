@@ -81,7 +81,7 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$this->viewMock->expects($this->any())
 			->method('getFileInfo')
 			->will($this->returnValue(new \OC\Files\FileInfo(
-				'/',
+				'/new_name',
 				new \OC\Files\Storage\Local(array('datadir' => '/')),
 				'/',
 				array(
