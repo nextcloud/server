@@ -53,9 +53,10 @@
 		print_unescaped($l->t('<span class="licence"></span>-licensed by <span class="author"></span>'));?></p>
 	<input class="enable hidden" type="submit" />
 	<input class="update hidden" type="submit" value="<?php p($l->t('Update')); ?>" />
-
+	<br />
 	<input class="hidden" type="checkbox" id="groups_enable"/>
 	<label class="hidden" for="groups_enable"><?php p($l->t('Enable only for specific groups')); ?></label>
+	<br />
 	<select class="hidden" id="group_select" multiple="multiple" title="<?php p($l->t('All')); ?>">
 		<?php foreach($_['groups'] as $group):?>
 			<option value="<?php p($group);?>"><?php p($group); ?></option>
