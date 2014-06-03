@@ -94,7 +94,7 @@ class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
 		$this->view->unlink($this->folder);
 	}
 
-		/**
+	/**
 	 * @medium
 	 */
 	function testDeleteParentOfMountPoint() {
@@ -134,6 +134,64 @@ class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
+	}
+
+	function testMoveSharedFile() {
+		$fileinfo = $this->view->getFileInfo($this->filename);
+		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		\OC\Files\Filesystem::rename($this->filename, "newFileName");
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('newFileName'));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
+
+		//cleanup
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
+	}
+
+	/**
+	 * share file with a group if a user renames the file the filename should not change
+	 * for the other users
+	 */
+	function testMoveGroupShare () {
+		\OC_Group::createGroup('testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+			"testGroup", 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+
+		\OC\Files\Filesystem::rename($this->filename, "newFileName");
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('newFileName'));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
+
+		//cleanup
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
 	}
 
 }
