@@ -309,7 +309,7 @@ input[type="submit"].enabled {
 	position: fixed;
 	top:45px;
 	right: 0;
-	left: 0;
+	left:0;
 	height: 44px;
 	width: 100%;
 	padding: 0;
