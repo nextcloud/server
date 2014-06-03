@@ -102,11 +102,11 @@ if (!$_['isAnnotationsWorking']) {
 if ($_['databaseOverload']) {
 	?>
 <div class="section">
-	<h2><?php p($l->t('Database Performance Warning'));?></h2>
+	<h2><?php p($l->t('Database Performance Info'));?></h2>
 
-	<span class="securitywarning">
-		<?php p($l->t('SQLite will be used as database. For larger installations we recommend to change this.')); ?>
-	</span>
+	<p class="securitywarning">
+		<?php p($l->t('SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
+	</p>
 
 </div>
 <?php

@@ -89,27 +89,7 @@ foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
 
-$databaseOverload = false;
-if(strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false){
-	// > 5 users
-	$userCount = 0;
-	foreach (\OC::$server->getUserManager()->countUsers() as $classname => $count) {
-		$userCount += $count;
-	}
-	if($userCount >= 5){
-		$databaseOverload = true;
-	}
-
-	// OR > 1000 files
-	$sql = 'SELECT COUNT(*) FROM *PREFIX*filecache;';
-	$query = \OCP\DB::prepare($sql);
-	$row = $query->execute()->fetchRow();
-	$fileCount = $row['COUNT(*)'];
-
-	if($fileCount >= 1000){
-		$databaseOverload = true;
-	}
-}
+$databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false);
 $tmpl->assign('databaseOverload', $databaseOverload);
 
 $tmpl->printPage();
