@@ -49,14 +49,18 @@ class View extends \PHPUnit_Framework_TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
-		\OC\Files\Filesystem::mount($storage1, array(), '/');
-		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
-		\OC\Files\Filesystem::mount($storage3, array(), '/folder/anotherstorage');
+		$root = '/' . uniqid();
+		\OC\Files\Filesystem::mount($storage1, array(), $root . '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $root . '/substorage');
+		\OC\Files\Filesystem::mount($storage3, array(), $root . '/folder/anotherstorage');
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
 		$storageSize = $textSize * 2 + $imageSize;
 
-		$rootView = new \OC\Files\View('');
+		$storageInfo = $storage3->getCache()->get('');
+		$this->assertEquals($storageSize, $storageInfo['size']);
+
+		$rootView = new \OC\Files\View($root);
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$this->assertEquals($textSize, $cachedData['size']);
@@ -107,7 +111,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('foo.png', $folderData[1]['name']);
 		$this->assertEquals('foo.txt', $folderData[2]['name']);
 
-		$folderView = new \OC\Files\View('/folder');
+		$folderView = new \OC\Files\View($root . '/folder');
 		$this->assertEquals($rootView->getFileInfo('/folder'), $folderView->getFileInfo('/'));
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
