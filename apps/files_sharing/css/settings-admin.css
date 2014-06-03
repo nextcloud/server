@@ -9,7 +9,7 @@
 #mailTemplateSettings textarea {
 	box-sizing: border-box;
 	width: 100%;
-	height: 100px;
+	height: 150px;
 }
 
 #mailTemplateSettings .templateEditor + .actions {

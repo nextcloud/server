@@ -3,9 +3,11 @@
 namespace OCA\Files_Sharing;
 
 use \OCP\Files\NotPermittedException;
+use \OC\AppFramework\Middleware\Security\SecurityException;
+use OCA\Files_Sharing\Http\MailTemplateResponse;
 
 class MailTemplate extends \OC_Template {
-	
+
 	private $path;
 	private $theme;
 	private $editableThemes;
@@ -14,24 +16,37 @@ class MailTemplate extends \OC_Template {
 	public function __construct($theme, $path) {
 		$this->theme = $theme;
 		$this->path = $path;
-		
+
 		//determine valid theme names
 		$this->editableThemes = self::getEditableThemes();
 		//for now hardcode the valid mail template paths
 		$this->editableTemplates = self::getEditableTemplates();
 	}
 	
+	/**
+	 * 
+	 * @return \OCA\Files_Sharing\Http\MailTemplateResponse
+	 */
+	public function getResponse() {
+		if($this->isEditable()) {
+			list($app, $filename) = explode('/templates/', $this->path, 2);
+			$name = substr($filename, 0, -4);
+			list($path, $template) = $this->findTemplate($this->theme, $app, $name, '');
+			return new MailTemplateResponse($template);
+		}
+	}
+
 	public function renderContent() {
 		if($this->isEditable()) {
-			list($app, $filename) = explode("/templates/", $this->path, 2);
+			list($app, $filename) = explode('/templates/', $this->path, 2);
 			$name = substr($filename, 0, -4);
 			list($path, $template) = $this->findTemplate($this->theme, $app, $name, '');
 			\OC_Response::sendFile($template);
 		} else {
-			throw new NotPermittedException('Template not editable.');
+			throw new SecurityException('Template not editable.', 403);
 		}
 	}
-	
+
 	public function isEditable() {
 		if ($this->editableThemes[$this->theme]
 			&& $this->editableTemplates[$this->path]
@@ -40,6 +55,7 @@ class MailTemplate extends \OC_Template {
 		}
 		return false;
 	}
+
 	public function setContent($data) {
 		if($this->isEditable()) {
 			//save default templates in default folder to overwrite core template
@@ -47,19 +63,20 @@ class MailTemplate extends \OC_Template {
 			$parent = dirname($absolutePath);
 			if ( ! is_dir($parent) ) {
 				if ( ! mkdir(dirname($absolutePath), 0777, true) ){
-					throw new NotPermittedException('Could not create directory.');
+					throw new \Exception('Could not create directory.', 500);
 				}
 			}
 			if ( $this->theme !== 'default' && is_file($absolutePath) ) {
 				if ( ! copy($absolutePath, $absolutePath.'.bak') ){
-					throw new NotPermittedException('Could not create directory.');
+					throw new \Exception('Could not overwrite template.', 500);
 				}
 			}
 			//overwrite theme templates? versioning?
 			return file_put_contents($absolutePath, $data);
 		}
-		throw new NotPermittedException('Template not editable.');
+		throw new SecurityException('Template not editable.', 403);
 	}
+
 	public function reset(){
 		if($this->isEditable()) {
 			$absolutePath = \OC::$SERVERROOT.'/themes/'.$this->theme.'/'.$this->path;
@@ -78,15 +95,16 @@ class MailTemplate extends \OC_Template {
 			}
 			return false;
 		}
-		throw new NotPermittedException('Template not editable.');
+		throw new NotPermittedException('Template not editable.', 403);
 	}
+
 	public static function getEditableThemes() {
 		$themes = array(
 			'default' => true
 		);
 		if ($handle = opendir(\OC::$SERVERROOT.'/themes')) {
 			while (false !== ($entry = readdir($handle))) {
-				if ($entry != '.' && $entry != '..') {
+				if ($entry != '.' && $entry != '..' && $entry != 'default') {
 					if (is_dir(\OC::$SERVERROOT.'/themes/'.$entry)) {
 						$themes[$entry] = true;
 					}
@@ -96,6 +114,7 @@ class MailTemplate extends \OC_Template {
 		}
 		return $themes;
 	}
+
 	public static function getEditableTemplates() {
 		return array(
 			'core/templates/mail.php' => true,
