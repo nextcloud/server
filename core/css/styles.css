@@ -558,7 +558,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 
 
-#body-login p.info{
+#body-login footer .info {
 	white-space: nowrap;
 }
 

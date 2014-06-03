@@ -91,7 +91,7 @@
 		<div id="selectDbType">
 		<?php foreach($_['databases'] as $type => $label): ?>
 		<?php if(count($_['databases']) === 1): ?>
-		<p class="info"><?php p($label . ' ' . $l->t( 'will be used' )); ?>.</p>
+		<p class="info"><?php p($l->t( 'Only %s is available.', array($label) )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
@@ -112,7 +112,7 @@
 					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
 			<p class="infield groupmiddle">
-				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword" 
+				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword"
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off" />
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
@@ -146,6 +146,8 @@
 		</fieldset>
 		<?php endif; ?>
 	<?php endif; ?>
+
+	<p id="sqliteInformation" class="info"><?php p($l->t('SQLite will be used as database. For larger installations we recommend to change this.'));?></p>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>
 </form>

@@ -98,6 +98,20 @@ if (!$_['isAnnotationsWorking']) {
 <?php
 }
 
+// SQLite database performance issue
+if ($_['databaseOverload']) {
+	?>
+<div class="section">
+	<h2><?php p($l->t('Database Performance Info'));?></h2>
+
+	<p class="securitywarning">
+		<?php p($l->t('SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
+	</p>
+
+</div>
+<?php
+}
+
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>

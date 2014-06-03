@@ -88,6 +88,10 @@ $tmpl->assign('forms', array());
 foreach($forms as $form) {
 	$tmpl->append('forms', $form);
 }
+
+$databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false);
+$tmpl->assign('databaseOverload', $databaseOverload);
+
 $tmpl->printPage();
 
 /**
