@@ -470,13 +470,13 @@ input[name='password-clone'] {
 #password-icon {
 	position: absolute;
 	left: 16px;
-	top: 24px;
+	top: 20px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
 #adminpass-icon, #password-icon {
-	top: 18px;
+	top: 15px;
 }
 
 /* General new input field look */
