@@ -196,7 +196,7 @@ class AppConfig implements \OCP\IAppConfig {
 			$this->cache[$app] = array();
 		}
 		if (is_array($this->apps) and array_search($app, $this->apps) === false) {
-			$this->apps[] = $app;
+			$this->apps[$app] = $app;
 		}
 		$this->cache[$app][$key] = $value;
 	}
@@ -233,9 +233,7 @@ class AppConfig implements \OCP\IAppConfig {
 		);
 		$this->conn->delete('*PREFIX*appconfig', $where);
 		unset($this->cache[$app]);
-		if (is_array($this->apps) and $i = array_search($app, $this->apps) !== false) {
-			unset($this->apps[$i]);
-		}
+		unset($this->apps[$app]);
 	}
 
 	/**
