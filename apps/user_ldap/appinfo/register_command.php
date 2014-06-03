@@ -6,6 +6,6 @@
  * See the COPYING-README file.
  */
 
-$application->add(new OCA\user_ldap\Command\showConfig());
-$application->add(new OCA\user_ldap\Command\setConfig());
-$application->add(new OCA\user_ldap\Command\testConfig());
+$application->add(new OCA\user_ldap\Command\ShowConfig());
+$application->add(new OCA\user_ldap\Command\SetConfig());
+$application->add(new OCA\user_ldap\Command\TestConfig());

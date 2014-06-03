@@ -52,7 +52,6 @@ class ShowConfig extends Command {
 	 * @param OutputInterface $output
 	 */
 	protected function renderConfigs($configIDs, $output) {
-		$ldapWrapper = new \OCA\user_ldap\lib\LDAP();
 		foreach($configIDs as $id) {
 			$configHolder = new Configuration($id);
 			$configuration = $configHolder->getConfiguration();

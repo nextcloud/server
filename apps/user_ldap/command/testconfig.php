@@ -52,7 +52,7 @@ class TestConfig extends Command {
 
 	/**
 	 * tests the specified connection
-	 * @param string configID
+	 * @param string $configID
 	 * @return int
 	 */
 	protected function testConfig($configID) {
