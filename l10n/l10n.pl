@@ -169,6 +169,10 @@ elsif( $task eq 'write' ){
 			}
 			next if $#strings == -1; # Skip empty files
 
+			for (@strings) {
+				s/\$/\\\$/g;
+			}
+
 			# Write PHP file
 			open( OUT, ">$language.php" );
 			print OUT "<?php\n\$TRANSLATIONS = array(\n";
