@@ -25,7 +25,6 @@
  * @link       http://pear.php.net/package/Crypt_Blowfish
  */
 
-
 /**
  * Class containing default key
  *
@@ -323,5 +322,3 @@ class Crypt_Blowfish_DefaultKey
     }
     
 }
-
-?>

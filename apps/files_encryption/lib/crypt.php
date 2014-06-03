@@ -532,7 +532,7 @@ class Crypt {
 
 		if ($key) {
 
-			return new \Crypt_Blowfish($key);
+			return new \Legacy_Crypt_Blowfish($key);
 
 		} else {
 

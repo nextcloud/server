@@ -25,9 +25,7 @@
  * @link       http://pear.php.net/package/Crypt_Blowfish
  */
 
-
 require_once 'PEAR.php';
-
 
 /**
  *
@@ -47,7 +45,7 @@ require_once 'PEAR.php';
  * @version    @package_version@
  * @access     public
  */
-class Crypt_Blowfish
+class Legacy_Crypt_Blowfish
 {
     /**
      * P-Array contains 18 32-bit subkeys
@@ -91,7 +89,7 @@ class Crypt_Blowfish
      * @param string $key
      * @access public
      */
-    function Crypt_Blowfish($key)
+    function Legacy_Crypt_Blowfish($key)
     {
         if (extension_loaded('mcrypt')) {
             $this->_td = mcrypt_module_open(MCRYPT_BLOWFISH, '', 'ecb', '');
@@ -133,7 +131,7 @@ class Crypt_Blowfish
      */
     function _init()
     {
-        $defaults = new Crypt_Blowfish_DefaultKey();
+        $defaults = new \Crypt_Blowfish_DefaultKey();
         $this->_P = $defaults->P;
         $this->_S = $defaults->S;
     }
@@ -192,7 +190,7 @@ class Crypt_Blowfish
     function encrypt($plainText)
     {
         if (!is_string($plainText)) {
-            PEAR::raiseError('Plain text must be a string', 0, PEAR_ERROR_DIE);
+            \PEAR::raiseError('Plain text must be a string', 0, PEAR_ERROR_DIE);
         }
 
         if (extension_loaded('mcrypt')) {
@@ -221,7 +219,7 @@ class Crypt_Blowfish
     function decrypt($cipherText)
     {
         if (!is_string($cipherText)) {
-            PEAR::raiseError('Cipher text must be a string', 1, PEAR_ERROR_DIE);
+            \PEAR::raiseError('Cipher text must be a string', 1, PEAR_ERROR_DIE);
         }
 
         if (extension_loaded('mcrypt')) {
@@ -252,13 +250,13 @@ class Crypt_Blowfish
     function setKey($key)
     {
         if (!is_string($key)) {
-            PEAR::raiseError('Key must be a string', 2, PEAR_ERROR_DIE);
+            \PEAR::raiseError('Key must be a string', 2, PEAR_ERROR_DIE);
         }
 
         $len = strlen($key);
 
         if ($len > 56 || $len == 0) {
-            PEAR::raiseError('Key must be less than 56 characters and non-zero. Supplied key length: ' . $len, 3, PEAR_ERROR_DIE);
+            \PEAR::raiseError('Key must be less than 56 characters and non-zero. Supplied key length: ' . $len, 3, PEAR_ERROR_DIE);
         }
 
         if (extension_loaded('mcrypt')) {
@@ -313,5 +311,3 @@ class Crypt_Blowfish
     }
     
 }
-
-?>

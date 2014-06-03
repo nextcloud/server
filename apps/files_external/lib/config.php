@@ -21,11 +21,6 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-set_include_path(
-	get_include_path() . PATH_SEPARATOR .
-	\OC_App::getAppPath('files_external') . '/3rdparty/phpseclib/phpseclib'
-);
-
 /**
  * Class to configure mount.json globally and for users
  */
