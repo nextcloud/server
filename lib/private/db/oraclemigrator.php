@@ -29,4 +29,12 @@ class OracleMigrator extends NoCheckMigrator {
 
 		return $schemaDiff;
 	}
+
+	/**
+	 * @param string $name
+	 * @return string
+	 */
+	protected function generateTemporaryTableName($name) {
+		return 'oc_' . uniqid();
+	}
 }

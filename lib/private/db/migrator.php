@@ -78,6 +78,16 @@ class Migrator {
 	}
 
 	/**
+	 * Create a unique name for the temporary table
+	 *
+	 * @param string $name
+	 * @return string
+	 */
+	protected function generateTemporaryTableName($name) {
+		return 'oc_' . $name . '_' . uniqid();
+	}
+
+	/**
 	 * Check the migration of a table on a copy so we can detect errors before messing with the real table
 	 *
 	 * @param \Doctrine\DBAL\Schema\Table $table
@@ -85,7 +95,7 @@ class Migrator {
 	 */
 	protected function checkTableMigrate(Table $table) {
 		$name = $table->getName();
-		$tmpName = 'oc_' . uniqid();
+		$tmpName = $this->generateTemporaryTableName($name);
 
 		$this->copyTable($name, $tmpName);
 
