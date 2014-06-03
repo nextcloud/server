@@ -55,7 +55,7 @@ describe('OCA.Sharing.Util tests', function() {
 			path: '/subdir',
 			mimetype: 'text/plain',
 			size: 12,
-			permissions: 31,
+			permissions: OC.PERMISSION_ALL,
 			etag: 'abc',
 			shareOwner: 'User One',
 			isShareMountPoint: false
@@ -87,7 +87,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				etag: 'abc'
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
@@ -106,7 +106,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				etag: 'abc'
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
@@ -127,7 +127,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				etag: 'abc'
 			}]);
 			$tr = fileList.$el.find('tbody tr:first');
@@ -147,7 +147,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				shareOwner: 'User One',
 				etag: 'abc'
 			}]);
@@ -167,7 +167,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				recipientsDisplayName: 'User One, User Two',
 				etag: 'abc'
 			}]);
@@ -175,6 +175,28 @@ describe('OCA.Sharing.Util tests', function() {
 			$action = $tr.find('.action-share');
 			expect($action.hasClass('permanent')).toEqual(true);
 			expect($action.find('>span').text()).toEqual('Shared with User One, User Two');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
+			expect($action.find('img').length).toEqual(1);
+		});
+		it('shows static share text when file shared with user that has no share permission', function() {
+			var $action, $tr;
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_CREATE,
+				etag: 'abc',
+				shareOwner: 'User One'
+			}]);
+			$tr = fileList.$el.find('tbody tr:first');
+			expect($tr.find('.action-share').length).toEqual(0);
+			$action = $tr.find('.action-share-notification');
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
 			expect($action.find('img').length).toEqual(1);
@@ -201,7 +223,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				etag: 'abc'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
@@ -237,7 +259,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				etag: 'abc'
 			}]);
 			$action = fileList.$el.find('tbody tr:first .action-share');
@@ -273,7 +295,7 @@ describe('OCA.Sharing.Util tests', function() {
 				path: '/subdir',
 				mimetype: 'text/plain',
 				size: 12,
-				permissions: 31,
+				permissions: OC.PERMISSION_ALL,
 				etag: 'abc',
 				recipients: 'User One, User Two'
 			}]);
@@ -295,6 +317,80 @@ describe('OCA.Sharing.Util tests', function() {
 
 			OC.Share.updateIcon('file', 1);
 			expect($action.hasClass('permanent')).toEqual(false);
+		});
+		it('keep share text after updating reshare', function() {
+			var $action, $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
+			fileList.setFiles([{
+				id: 1,
+				type: 'file',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_ALL,
+				etag: 'abc',
+				shareOwner: 'User One'
+			}]);
+			$action = fileList.$el.find('tbody tr:first .action-share');
+			$tr = fileList.$el.find('tr:first');
+
+			expect($action.hasClass('permanent')).toEqual(true);
+
+			$tr.find('.action-share').click();
+
+			expect(showDropDownStub.calledOnce).toEqual(true);
+
+			// simulate what the dropdown does
+			var itemShares = {};
+			itemShares[OC.Share.SHARE_TYPE_USER] = ['User Two'];
+			OC.Share.itemShares = itemShares;
+			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+
+			expect($tr.attr('data-share-recipients')).toEqual('User Two');
+
+			OC.Share.updateIcon('file', 1);
+
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared by User One');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
+		});
+		it('keep share text after unsharing reshare', function() {
+			var $action, $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
+			fileList.setFiles([{
+				id: 1,
+				type: 'file',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_ALL,
+				etag: 'abc',
+				shareOwner: 'User One',
+				recipients: 'User Two'
+			}]);
+			$action = fileList.$el.find('tbody tr:first .action-share');
+			$tr = fileList.$el.find('tr:first');
+
+			expect($action.hasClass('permanent')).toEqual(true);
+
+			$tr.find('.action-share').click();
+
+			expect(showDropDownStub.calledOnce).toEqual(true);
+
+			// simulate what the dropdown does
+			var itemShares = {};
+			OC.Share.itemShares = itemShares;
+			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+
+			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+
+			OC.Share.updateIcon('file', 1);
+
+			expect($action.hasClass('permanent')).toEqual(true);
+			expect($action.find('>span').text()).toEqual('Shared by User One');
+			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
 	});
 	describe('formatRecipients', function() {

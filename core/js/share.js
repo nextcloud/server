@@ -151,7 +151,7 @@ OC.Share={
 		var img = action.find('img');
 		var message;
 		var recipients;
-		var owner;
+		var owner = $tr.attr('data-share-owner');
 		var shareFolderIcon;
 		var image = OC.imagePath('core', 'actions/share');
 		// update folder icon
@@ -168,16 +168,16 @@ OC.Share={
 			$tr.children('.filename').css('background-image', 'url(' + shareFolderIcon + ')');
 		}
 		// update share action text / icon
-		if (hasShares) {
+		if (hasShares || owner) {
 			recipients = $tr.attr('data-share-recipients');
-			owner = $tr.attr('data-share-owner');
 
 			action.addClass('permanent');
 			message = t('core', 'Shared');
-			if (owner && !recipients) {
+			// even if reshared, only show "Shared by"
+			if (owner) {
 				message = t('files_sharing', 'Shared by {owner}', {owner: owner});
 			}
-			if (recipients) {
+			else if (recipients) {
 				message = t('core', 'Shared with {recipients}', {recipients: recipients});
 			}
 			action.html(' <span>'+ message + '</span>').prepend(img);

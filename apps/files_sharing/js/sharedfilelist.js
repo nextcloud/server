@@ -38,6 +38,13 @@
 			}
 		},
 
+		_renderRow: function() {
+			// HACK: needed to call the overridden _renderRow
+			// this is because at the time this class is created
+			// the overriding hasn't been done yet...
+			return OCA.Files.FileList.prototype._renderRow.apply(this, arguments);
+		},
+
 		_createRow: function(fileData) {
 			// TODO: hook earlier and render the whole row here
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
