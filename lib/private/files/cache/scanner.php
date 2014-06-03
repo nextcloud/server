@@ -40,11 +40,6 @@ class Scanner extends BasicEmitter {
 	protected $cache;
 
 	/**
-	 * @var \OC\Files\Cache\Permissions $permissionsCache
-	 */
-	protected $permissionsCache;
-
-	/**
 	 * @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache
 	 */
 	protected $cacheActive;
@@ -59,7 +54,6 @@ class Scanner extends BasicEmitter {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->permissionsCache = $storage->getPermissionsCache();
 		$this->cacheActive = !Config::getSystemValue('filesystem_cache_readonly', false);
 	}
 
@@ -86,6 +80,7 @@ class Scanner extends BasicEmitter {
 		}
 		$data['etag'] = $this->storage->getETag($path);
 		$data['storage_mtime'] = $data['mtime'];
+		$data['permissions'] = $this->storage->getPermissions($path);
 		return $data;
 	}
 
@@ -117,9 +112,6 @@ class Scanner extends BasicEmitter {
 				$newData = $data;
 				$cacheData = $this->cache->get($file);
 				if ($cacheData) {
-					if (isset($cacheData['fileid'])) {
-						$this->permissionsCache->remove($cacheData['fileid']);
-					}
 					if ($reuseExisting) {
 						// prevent empty etag
 						if (empty($cacheData['etag'])) {

@@ -41,14 +41,6 @@ interface Storage extends \OCP\Files\Storage {
 	public function getOwner($path);
 
 	/**
-	 * get a permissions cache instance for the cache
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Cache\Permissions
-	 */
-	public function getPermissionsCache($path = '');
-
-	/**
 	 * get a watcher instance for the cache
 	 *
 	 * @param string $path
