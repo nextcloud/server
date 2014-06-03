@@ -42,6 +42,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	public function testReuseExistingRoot() {
 		$storage = new Temporary(array());
 		$mount = new Mount($storage, '');
+		Filesystem::getMountManager()->addMount($mount);
 		$cache = $storage->getCache();
 
 		$storage->mkdir('folder');
@@ -63,6 +64,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	public function testReuseExistingFile() {
 		$storage = new Temporary(array());
 		$mount = new Mount($storage, '');
+		Filesystem::getMountManager()->addMount($mount);
 		$cache = $storage->getCache();
 
 		$storage->mkdir('folder');
