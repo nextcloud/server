@@ -106,8 +106,8 @@ class Shared extends \OC\Files\Storage\Common {
 	 */
 	public function getPermissions($target = '') {
 		$permissions = $this->share['permissions'];
-		// part file are always have delete permissions
-		if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
+		// part files and the mount point always have delete permissions
+		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
 			$permissions |= \OCP\PERMISSION_DELETE;
 		}
 
