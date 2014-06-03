@@ -291,8 +291,7 @@ if (!$_['internetconnectionworking']) {
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
 					   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowMailNotification"><?php p($l->t('Allow mail notification'));?></label><br/>
-				<em><?php p($l->t('Allow users to send mail notification for shared files')); ?></em>
+				<label for="allowMailNotification"><?php p($l->t('Allow users to send mail notification for shared files'));?></label><br/>
 			</td>
 		</tr>
 		<tr>

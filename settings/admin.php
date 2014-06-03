@@ -82,7 +82,7 @@ $tmpl->assign('allowLinks', OC_Appconfig::getValue('core', 'shareapi_allow_links
 $tmpl->assign('enforceLinkPassword', \OCP\Util::isPublicLinkPasswordRequired());
 $tmpl->assign('allowPublicUpload', OC_Appconfig::getValue('core', 'shareapi_allow_public_upload', 'yes'));
 $tmpl->assign('allowResharing', OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes'));
-$tmpl->assign('allowMailNotification', OC_Appconfig::getValue('core', 'shareapi_allow_mail_notification', 'yes'));
+$tmpl->assign('allowMailNotification', OC_Appconfig::getValue('core', 'shareapi_allow_mail_notification', 'no'));
 $tmpl->assign('sharePolicy', OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global'));
 $tmpl->assign('forms', array());
 foreach($forms as $form) {
