@@ -236,7 +236,6 @@ class AppConfig implements \OCP\IAppConfig {
 		if (is_array($this->apps) and $i = array_search($app, $this->apps) !== false) {
 			unset($this->apps[$i]);
 		}
-		$this->apps = null;
 	}
 
 	/**
