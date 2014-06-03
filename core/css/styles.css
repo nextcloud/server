@@ -16,7 +16,10 @@ ul { list-style:none; }
 
 body {
 	background: #fefefe;
-	font: normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif;
+	font-weight: normal;
+	font-size: .8em;
+	line-height: 1.6em;
+	font-family: 'OpenSans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 	color: #000;
 	height: auto;
 }
