@@ -175,7 +175,6 @@ class Scanner extends BasicEmitter {
 	 * @return int the id of the added file
 	 */
 	protected function addToCache($path, $data) {
-		echo "add";
 		\OC_Hook::emit('Scanner', 'addToCache', array('file' => $path, 'data' => $data));
 		$this->emit('\OC\Files\Cache\Scanner', 'addToCache', array($path, $this->storageId, $data));
 		if ($this->cacheActive) {
@@ -249,11 +248,8 @@ class Scanner extends BasicEmitter {
 							if ($data) {
 								if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
 									$childQueue[] = $child;
-								}
-								if ($data['size'] === -1) {
-									if ($recursive !== self::SCAN_RECURSIVE) {
-										$size = -1;
-									}
+								} else if ($data['size'] === -1) {
+									$size = -1;
 								} else if ($size !== -1) {
 									$size += $data['size'];
 								}
@@ -286,7 +282,7 @@ class Scanner extends BasicEmitter {
 				$childSize = $this->scanChildren($child, self::SCAN_RECURSIVE, $reuse);
 				if ($childSize === -1) {
 					$size = -1;
-				} else {
+				} else if ($size !== -1) {
 					$size += $childSize;
 				}
 			}
