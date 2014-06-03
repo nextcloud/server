@@ -35,7 +35,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	protected $cookies = array();
 
-	
+
 	public function __construct(Connection $connection, ILDAPWrapper $ldap,
 		user\Manager $userManager) {
 		parent::__construct($ldap);
@@ -52,7 +52,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
-	 * @brief returns the Connection instance
+	 * returns the Connection instance
 	 * @return \OCA\user_ldap\lib\Connection
 	 */
 	public function getConnection() {
@@ -60,7 +60,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
-	 * @brief reads a given attribute for an LDAP record identified by a DN
+	 * reads a given attribute for an LDAP record identified by a DN
 	 * @param $dn the record in question
 	 * @param $attr the attribute that shall be retrieved
 	 *        if empty, just check the record's existence
