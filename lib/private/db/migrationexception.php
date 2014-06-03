@@ -13,7 +13,7 @@ class MigrationException extends \Exception {
 	private $table;
 
 	public function __construct($table, $message) {
-		$this->$table = $table;
+		$this->table = $table;
 		parent::__construct($message);
 	}
 
