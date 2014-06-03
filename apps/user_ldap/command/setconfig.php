@@ -21,7 +21,7 @@ class SetConfig extends Command {
 	protected function configure() {
 		$this
 			->setName('ldap:set-config')
-			->setDescription('shows the LDAP configuration')
+			->setDescription('modifies an LDAP configuration')
 			->addArgument(
 					'configID',
 					InputArgument::REQUIRED,

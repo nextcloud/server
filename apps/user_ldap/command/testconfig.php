@@ -21,7 +21,7 @@ class TestConfig extends Command {
 	protected function configure() {
 		$this
 			->setName('ldap:test-config')
-			->setDescription('shows the LDAP configuration')
+			->setDescription('tests an LDAP configuration')
 			->addArgument(
 					'configID',
 					InputArgument::REQUIRED,
