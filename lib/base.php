@@ -419,6 +419,7 @@ class OC {
 		self::$loader->registerPrefix('Pimple', '3rdparty/Pimple');
 		spl_autoload_register(array(self::$loader, 'load'));
 
+		// make a dummy session available as early as possible since error pages need it
 		self::$session = new \OC\Session\Memory('');
 
 		// set some stuff
