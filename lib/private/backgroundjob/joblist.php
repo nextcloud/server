@@ -149,6 +149,9 @@ class JobList implements IJobList {
 		/**
 		 * @var Job $job
 		 */
+		if ($class === 'OC_Cache_FileGlobalGC') {
+			$class = '\OC\Cache\FileGlobalGC';
+		}
 		$job = new $class();
 		$job->setId($row['id']);
 		$job->setLastRun($row['last_run']);
