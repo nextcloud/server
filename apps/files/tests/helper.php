@@ -17,7 +17,7 @@ class Test_Files_Helper extends \PHPUnit_Framework_TestCase {
 
 	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
 		return new \OC\Files\FileInfo(
-			'/',
+			'/' . $name,
 			null,
 			'/',
 			array(
