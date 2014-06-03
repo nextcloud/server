@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]><html class="ng-csp ie ie6 lte9 lte8 lte7"><![endif]-->
-<!--[if IE 7]><html class="ng-csp ie ie7 lte9 lte8 lte7"><![endif]-->
-<!--[if IE 8]><html class="ng-csp ie ie8 lte9 lte8"><![endif]-->
-<!--[if IE 9]><html class="ng-csp ie ie9 lte9"><![endif]-->
-<!--[if gt IE 9]><html class="ng-csp ie"><![endif]-->
-<!--[if !IE]><!--><html class="ng-csp"><!--<![endif]-->
+<!--[if lt IE 7]><html class="ng-csp ie ie6 lte9 lte8 lte7" data-placeholder-focus="false"><![endif]-->
+<!--[if IE 7]><html class="ng-csp ie ie7 lte9 lte8 lte7" data-placeholder-focus="false"><![endif]-->
+<!--[if IE 8]><html class="ng-csp ie ie8 lte9 lte8" data-placeholder-focus="false"><![endif]-->
+<!--[if IE 9]><html class="ng-csp ie ie9 lte9" data-placeholder-focus="false"><![endif]-->
+<!--[if gt IE 9]><html class="ng-csp ie" data-placeholder-focus="false"><![endif]-->
+<!--[if !IE]><!--><html class="ng-csp" data-placeholder-focus="false"><!--<![endif]-->
 
 	<head data-user="<?php p($_['user_uid']); ?>" data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
