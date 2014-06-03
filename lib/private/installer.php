@@ -168,7 +168,7 @@ class OC_Installer{
 		$appdata = OC_OCSClient::getApplication($app);
 		$download = OC_OCSClient::getApplicationDownload($app, 1);
 
-		if (array_key_exists('downloadlink', $download) && trim($download['downloadlink']) !== '') {
+		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
 			$info = array(
 				'source' => 'http',
