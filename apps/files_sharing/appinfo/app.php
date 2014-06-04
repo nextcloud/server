@@ -47,6 +47,6 @@ OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		"appname" => 'files_sharing',
 		"script" => 'list.php',
 		"order" => 20,
-		"name" => $l->t('Shared with link')
+		"name" => $l->t('Shared by link')
 	)
 );

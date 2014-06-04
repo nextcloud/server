@@ -67,8 +67,8 @@ OCA.Sharing.App = {
 		);
 
 		this._extendFileList(this._linkFileList);
-		this._linkFileList.appName = t('files_sharing', 'Shared with link');
-		this._linkFileList.$el.find('#emptycontent').text(t('files_sharing', 'You haven\'t shared any files with link yet.'));
+		this._linkFileList.appName = t('files_sharing', 'Shared by link');
+		this._linkFileList.$el.find('#emptycontent').text(t('files_sharing', 'You haven\'t shared any files by link yet.'));
 		return this._linkFileList;
 	},
 
