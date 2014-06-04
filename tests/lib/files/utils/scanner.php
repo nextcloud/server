@@ -105,8 +105,12 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 
 		$scanner->scan('');
 
-		$this->assertEquals(array('/foo', '/foo/foo.txt', '/foo/folder', '/foo/folder/bar.txt'), $propagator->getChanges());
-		$this->assertEquals(array('/', '/foo', '/foo/folder'), $propagator->getAllParents());
+		$changes = $propagator->getChanges();
+		$parents = $propagator->getAllParents();
+		sort($changes);
+		sort($parents);
+		$this->assertEquals(array('/foo', '/foo/folder', '/foo/folder/bar.txt', '/foo/foo.txt'), $changes);
+		$this->assertEquals(array('/', '/foo', '/foo/folder'), $parents);
 
 		$cache->put('foo.txt', array('mtime' => time() - 50));
 
@@ -116,8 +120,10 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 
 		$scanner->scan('');
 
-		$this->assertEquals(array('/foo/foo.txt'), $propagator->getChanges());
-		$this->assertEquals(array('/', '/foo'), $propagator->getAllParents());
+		$changes = $propagator->getChanges();
+		$parents = $propagator->getAllParents();
+		$this->assertEquals(array('/foo/foo.txt'), $changes);
+		$this->assertEquals(array('/', '/foo'), $parents);
 
 		$scanner->setPropagator($originalPropagator);
 
