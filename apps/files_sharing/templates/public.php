@@ -27,7 +27,6 @@
 					<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
 					<?php p($l->t('Download'))?>
 				</a>
-				<?php p($l->t('shared by %s', array($_['displayName']))) ?>
 			</span>
 		</div>
 </div></header>
