@@ -396,5 +396,29 @@ class DAV extends \OC\Files\Storage\Common {
 			return array('curl');
 		}
 	}
+
+	public function getPermissions($path) {
+		$this->init();
+		$response = $this->client->propfind($this->encodePath($path), array('{http://owncloud.org/ns}permissions'));
+		if (isset($response['{http://owncloud.org/ns}permissions'])) {
+			$permissions = 0;
+			$permissionsString = $response['{http://owncloud.org/ns}permissions'];
+			if (strpos($permissionsString, 'R') !== false) {
+				$permissions |= \OCP\PERMISSION_SHARE;
+			}
+			if (strpos($permissionsString, 'D') !== false) {
+				$permissions |= \OCP\PERMISSION_DELETE;
+			}
+			if (strpos($permissionsString, 'W') !== false) {
+				$permissions |= \OCP\PERMISSION_UPDATE;
+			}
+			if (strpos($permissionsString, 'C') !== false) {
+				$permissions |= \OCP\PERMISSION_CREATE;
+			}
+			return $permissions;
+		} else {
+			return parent::getPermissions($path);
+		}
+	}
 }
 
