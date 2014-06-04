@@ -30,7 +30,6 @@ class Test_Installer extends PHPUnit_Framework_TestCase {
 
 		//clean-up
 		OC_Installer::removeApp(self::$appid);
-		unlink($tmp);
 	}
 
 	public function testUpdateApp() {
@@ -68,7 +67,5 @@ class Test_Installer extends PHPUnit_Framework_TestCase {
 
 		//clean-up
 		OC_Installer::removeApp(self::$appid);
-		unlink($oldTmp);
-		unlink($newTmp);
 	}
 }
