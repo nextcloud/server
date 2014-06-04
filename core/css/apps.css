@@ -168,6 +168,7 @@
 
 /* Part where the content will be loaded into */
 #app-content {
+	position: relative;
 	height: 100%;
 	overflow-y: auto;
 }
