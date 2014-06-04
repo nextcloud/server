@@ -19,7 +19,7 @@ class MailTemplate extends \OC_Template {
 
 		//determine valid theme names
 		$this->editableThemes = self::getEditableThemes();
-		//for now hardcode the valid mail template paths
+		//for now hard code the valid mail template paths
 		$this->editableTemplates = self::getEditableTemplates();
 	}
 	
@@ -34,6 +34,7 @@ class MailTemplate extends \OC_Template {
 			list($path, $template) = $this->findTemplate($this->theme, $app, $name, '');
 			return new MailTemplateResponse($template);
 		}
+		throw new SecurityException('Template not editable.', 403);
 	}
 
 	public function renderContent() {

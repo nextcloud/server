@@ -15,35 +15,46 @@ class AdminSettingsController extends ApiController {
 	/**
 	 * @param string $theme
 	 * @param string $template
-	 * @return type Description
 	 * @return \OCA\Files_Sharing\Http\MailTemplateResponse
 	 */
 	public function render( $theme, $template ) {
-		$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
-		return $template->getResponse();
+		try {
+			$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
+			return $template->getResponse();
+		} catch (\Exception $ex) {
+			return new JSONResponse(array('message' => $ex->getMessage()), $ex->getCode());
+		}
 	}
 
 	/**
 	 * @param string $theme
 	 * @param string $template
 	 * @param string $content
-	 * @return array
+	 * @return JSONResponse
 	 */
 	public function update( $theme, $template, $content ) {
-		$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
-		$template->setContent( $content );
-		return new JSONResponse();
+		try {
+			$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
+			$template->setContent( $content );
+			return new JSONResponse();
+		} catch (\Exception $ex) {
+			return new JSONResponse(array('message' => $ex->getMessage()), $ex->getCode());
+		}
 	}
 
 	/**
 	 * @param string $theme
 	 * @param string $template
-	 * @return array
+	 * @return JSONResponse
 	 */
 	public function reset( $theme, $template ) {
-		$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
-		$template->reset();
-		return new JSONResponse();
+		try {
+			$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
+			$template->reset();
+			return new JSONResponse();
+		} catch (\Exception $ex) {
+			return new JSONResponse(array('message' => $ex->getMessage()), $ex->getCode());
+		}
 	}
 
 }

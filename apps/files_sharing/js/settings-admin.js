@@ -7,9 +7,9 @@ $(document).ready(function() {
 		).done(function( result ) {
 			$( '#mailTemplateSettings textarea' ).val(result);
 		}).fail(function( result ) {
-			alert(result);
+			OC.dialogs.alert(result.message, t('files_sharing', 'Could not load template'));
 		});
-	}
+	};
 
 	// load default template
 	var theme = $( '#mts-theme' ).val();
@@ -41,11 +41,11 @@ $(document).ready(function() {
 			$.post(
 				OC.generateUrl('apps/files_sharing/settings/mailtemplate'),
 				{ theme: theme, template: template, content: content }
-			).done(function( result ) {
+			).done(function() {
 				var data = { status:'success', data:{message:t('files_sharing', 'Saved')} };
 				OC.msg.finishedSaving('#mts-msg', data);
-			}).fail(function( result ) {
-				var data = { status:'error', data:{message:t('files_sharing', 'Error')} };
+			}).fail(function(result) {
+				var data = { status: 'error', data:{message:result.responseJSON.message} };
 				OC.msg.finishedSaving('#mts-msg', data);
 			});
 		}
@@ -55,13 +55,12 @@ $(document).ready(function() {
 		function() {
 			var theme = $( '#mts-theme' ).val();
 			var template = $( '#mts-template' ).val();
-			var content = $( '#mailTemplateSettings textarea' ).val();
 			OC.msg.startSaving('#mts-msg');
 			$.ajax({
 				type: "DELETE",
 				url: OC.generateUrl('apps/files_sharing/settings/mailtemplate'),
 				data: { theme: theme, template: template }
-			}).done(function( result ) {
+			}).done(function() {
 				var data = { status:'success', data:{message:t('files_sharing', 'Reset')} };
 				OC.msg.finishedSaving('#mts-msg', data);
 
@@ -69,8 +68,8 @@ $(document).ready(function() {
 				var theme = $( '#mts-theme' ).val();
 				var template = $( '#mts-template' ).val();
 				loadTemplate(theme, template);
-			}).fail(function( result ) {
-				var data = { status:'error', data:{message:t('files_sharing', 'Error')} };
+			}).fail(function(result) {
+				var data = { status: 'error', data:{message:result.responseJSON.message} };
 				OC.msg.finishedSaving('#mts-msg', data);
 			});
 		}
