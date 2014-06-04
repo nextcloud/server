@@ -24,23 +24,6 @@ body {
 	height: auto;
 }
 
-
-/* HEADERS */
-#body-user #header,
-#body-settings #header,
-#body-public #header {
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 100;
-	height: 45px;
-	line-height: 2.5em;
-	background-color: #1d2d44;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
 #body-login {
 	text-align: center;
 	background: #1d2d44; /* Old browsers */
@@ -53,37 +36,7 @@ body {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */
 }
 
-#owncloud {
-	position: absolute;
-	top: 0;
-	left: 0;
-	padding: 6px;
-	padding-bottom: 0;
-	height: 45px; /* header height */
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
 
-/* info part on the right, used e.g. for info on who shared something */
-.header-right {
-	position: absolute;
-	right: 0;
-	padding: 7px 5px;
-	color: #fff;
-	height: 100%;
-	max-width: 40%;
-	white-space: nowrap;
-}
-
-/* Profile picture in header */
-#header .avatardiv {
-	float: left;
-	display: inline-block;
-	margin-right: 5px;
-}
-#header .avatardiv img {
-	opacity: 1;
-}
 
 #nojavascript {
 	position: absolute;
@@ -113,20 +66,6 @@ body {
 	color: #aaa;
 }
 
-#header .logo {
-	background-image: url(../img/logo.svg);
-	background-repeat: no-repeat;
-	width: 250px;
-	height: 118px;
-	margin: 0 auto;
-}
-
-#header .logo-wide {
-	background-image: url(../img/logo-wide.svg);
-	background-repeat: no-repeat;
-	width: 147px;
-	height: 32px;
-}
 
 /* INPUTS */
 input[type="text"],

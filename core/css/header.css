@@ -9,8 +9,37 @@
 
 
 
+/* HEADERS ------------------------------------------------------------------ */
+
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 45px;
+	line-height: 2.5em;
+	background-color: #1d2d44;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
 
 /* LOGO and APP NAME -------------------------------------------------------- */
+
+#owncloud {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 6px;
+	padding-bottom: 0;
+	height: 45px; /* header height */
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 
 #header .logo {
 	background-image: url(../img/logo.svg);
@@ -185,7 +214,29 @@
 
 
 
-/* USER MENU */
+/* USER MENU -----------------------------------------------------------------*/
+
+/* info part on the right, used e.g. for info on who shared something */
+.header-right {
+	position: absolute;
+	right: 0;
+	padding: 7px 5px;
+	color: #fff;
+	height: 100%;
+	max-width: 40%;
+	white-space: nowrap;
+}
+
+/* Profile picture in header */
+#header .avatardiv {
+	float: left;
+	display: inline-block;
+	margin-right: 5px;
+}
+#header .avatardiv img {
+	opacity: 1;
+}
+
 #settings {
 	float: right;
 	color: #bbb;
