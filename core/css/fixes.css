@@ -11,7 +11,7 @@ select {
 }
 
 /* reset typeface for IE8 because OpenSans renders too small */
-.ie body {
+.ie8 body {
     font-family: Frutiger, Calibri, 'Myriad Pro', Myriad, Arial, sans-serif;
 }
 
