@@ -74,6 +74,24 @@
 	padding-right: 10px;
 }
 
+/* hover effect for app switcher label */
+.menutoggle .header-appname,
+.menutoggle .icon-caret {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	filter: alpha(opacity=75);
+	opacity: .75;
+}
+.menutoggle:hover .header-appname,
+.menutoggle:hover .icon-caret,
+.menutoggle:focus .header-appname
+.menutoggle:focus .icon-caret
+.menutoggle.active .header-appname
+.menutoggle.active .icon-caret {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
 /* show appname next to logo */
 .header-appname {
 	display: inline-block;
@@ -94,12 +112,6 @@
 	margin-top: -21px;
 	padding: 0;
 	vertical-align: middle;
-}
-.header-appname,
-#header .icon-caret {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-	filter: alpha(opacity=75);
-	opacity: .75;
 }
 /* do not show menu toggle on public share links as there is no menu */
 #body-public #header .icon-caret {
