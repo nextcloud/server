@@ -10,6 +10,7 @@ namespace OC\Files\Cache;
 
 use OC\Files\Filesystem;
 use OC\Hooks\BasicEmitter;
+use OCP\Config;
 
 /**
  * Class Scanner
@@ -43,6 +44,11 @@ class Scanner extends BasicEmitter {
 	 */
 	private $permissionsCache;
 
+	/**
+	 * @var boolean $cacheActive If true, perform cache operations, if false, do not affect cache
+	 */
+	protected $cacheActive;
+
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
@@ -54,6 +60,7 @@ class Scanner extends BasicEmitter {
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
 		$this->permissionsCache = $storage->getPermissionsCache();
+		$this->cacheActive = !Config::getSystemValue('filesystem_cache_readonly', false);
 	}
 
 	/**
@@ -136,9 +143,12 @@ class Scanner extends BasicEmitter {
 											$parent = '';
 										}
 										$parentCacheData = $this->cache->get($parent);
-										$this->cache->update($parentCacheData['fileid'], array(
-											'etag' => $this->storage->getETag($parent),
-										));
+										\OC_Hook::emit('Scanner', 'updateCache', array('file' => $file, 'data' => $data));
+										if($this->cacheActive) {
+											$this->cache->update($parentCacheData['fileid'], array(
+												'etag' => $this->storage->getETag($parent),
+											));
+										}
 									}
 								}
 							}
@@ -155,12 +165,18 @@ class Scanner extends BasicEmitter {
 					}
 				}
 				if (!empty($newData)) {
-					$this->cache->put($file, $newData);
+					\OC_Hook::emit('Scanner', 'addToCache', array('file' => $file, 'data' => $newData));
+					if($this->cacheActive) {
+						$data['fileid'] = $this->cache->put($file, $newData);
+					}
 					$this->emit('\OC\Files\Cache\Scanner', 'postScanFile', array($file, $this->storageId));
 					\OC_Hook::emit('\OC\Files\Cache\Scanner', 'post_scan_file', array('path' => $file, 'storage' => $this->storageId));
 				}
 			} else {
-				$this->cache->remove($file);
+				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $file));
+				if($this->cacheActive) {
+					$this->cache->remove($file);
+				}
 			}
 			return $data;
 		}
@@ -241,7 +257,10 @@ class Scanner extends BasicEmitter {
 			$removedChildren = \array_diff($existingChildren, $newChildren);
 			foreach ($removedChildren as $childName) {
 				$child = ($path) ? $path . '/' . $childName : $childName;
-				$this->cache->remove($child);
+				\OC_Hook::emit('Scanner', 'removeFromCache', array('file' => $child));
+				if($this->cacheActive) {
+					$this->cache->remove($child);
+				}
 			}
 			\OC_DB::commit();
 			if ($exceptionOccurred){
@@ -260,7 +279,11 @@ class Scanner extends BasicEmitter {
 					$size += $childSize;
 				}
 			}
-			$this->cache->put($path, array('size' => $size));
+			$newData = array('size' => $size);
+			\OC_Hook::emit('Scanner', 'addToCache', array('file' => $child, 'data' => $newData));
+			if($this->cacheActive) {
+				$this->cache->put($path, $newData);
+			}
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'postScanFolder', array($path, $this->storageId));
 		return $size;
@@ -287,8 +310,19 @@ class Scanner extends BasicEmitter {
 		$lastPath = null;
 		while (($path = $this->cache->getIncomplete()) !== false && $path !== $lastPath) {
 			$this->scan($path, self::SCAN_RECURSIVE, self::REUSE_ETAG);
-			$this->cache->correctFolderSize($path);
+			\OC_Hook::emit('Scanner', 'correctFolderSize', array('path' => $path));
+			if($this->cacheActive) {
+				$this->cache->correctFolderSize($path);
+			}
 			$lastPath = $path;
 		}
+	}
+
+	/**
+	 * Set whether the cache is affected by scan operations
+	 * @param boolean $active The active state of the cache
+	 */
+	public function setCacheActive($active) {
+		$this->cacheActive = $active;
 	}
 }

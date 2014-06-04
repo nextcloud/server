@@ -254,4 +254,7 @@ $CONFIG = array(
 
 /* whether usage of the instance should be restricted to admin users only */
 'singleuser' => false,
+
+/* If true, prevent owncloud from changing the cache due to changes in the filesystem for all storage */
+'filesystem_cache_readonly' => false,
 );
