@@ -1,20 +1,48 @@
-/* display logo so appname can be shown next to it */
-#header .logo-wide {
-	display: inline-block;
+#header .logo {
+	background-image: url(../img/logo.svg);
+	background-repeat: no-repeat;
+	width: 250px;
+	height: 118px;
+	margin: 0 auto;
 }
+
+#header .logo-wide {
+	background-image: url(../img/logo-wide.svg);
+	background-repeat: no-repeat;
+	width: 147px;
+	height: 32px;
+}
+
+#header .logo-icon {
+	/* display logo so appname can be shown next to it */
+	display: inline-block;
+	background-image: url(../img/logo-icon.svg);
+	background-repeat: no-repeat;
+	width: 60px;
+	height: 32px;
+}
+
+
 /* show appname next to logo */
 .header-appname {
 	display: inline-block;
 	position: relative;
 	color: #fff;
-	font-size: 15px;
-	margin-left: 5px;
+	font-size: 16px;
+	margin: 0;
+	margin-top: -24px;
+	padding: 7px 0 7px 5px;
+	vertical-align: middle;
 }
 /* show caret indicator next to logo to make clear it is tappable */
 #header .icon-caret {
 	display: inline-block;
 	width: 12px;
-	height: 8px;
+	height: 12px;
+	margin: 0;
+	margin-top: -21px;
+	padding: 0;
+	vertical-align: middle;
 }
 .header-appname,
 #header .icon-caret {
