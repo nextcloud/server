@@ -115,6 +115,11 @@
 					OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
 				}
 				$('#dropdown').on('sharesChanged', function(ev) {
+					// files app current cannot show recipients on load, so we don't update the
+					// icon when changed for consistency
+					if (context.fileList.$el.closest('#app-content-files').length) {
+						return;
+					}
 					var recipients = _.pluck(ev.shares[OC.Share.SHARE_TYPE_USER], 'share_with_displayname');
 					var groupRecipients = _.pluck(ev.shares[OC.Share.SHARE_TYPE_GROUP], 'share_with_displayname');
 					recipients = recipients.concat(groupRecipients);
