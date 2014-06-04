@@ -278,12 +278,9 @@ if (!$_['internetconnectionworking']) {
 		</tr>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal"
-					   value="global" <?php if ($_['sharePolicy'] === 'global') print_unescaped('checked="checked"'); ?> />
-				<label for="sharePolicyGlobal"><?php p($l->t('Allow users to share with anyone')); ?></label><br/>
-				<input type="radio" name="shareapi_share_policy" id="sharePolicyGroupsOnly"
-					   value="groups_only" <?php if ($_['sharePolicy'] === 'groups_only') print_unescaped('checked="checked"'); ?> />
-				<label for="sharePolicyGroupsOnly"><?php p($l->t('Allow users to only share with users in their groups'));?></label><br/>
+				<input type="checkbox" name="shareapi_only_share_with_group_members" id="onlyShareWithGroupMembers"
+					   value="1" <?php if ($_['onlyShareWithGroupMembers']) print_unescaped('checked="checked"'); ?> />
+				<label for="onlyShareWithGroupMembers"><?php p($l->t('Restrict users to only share with users in their groups'));?></label><br/>
 			</td>
 		</tr>
 		<tr>

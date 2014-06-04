@@ -236,7 +236,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			break;
 		case 'getShareWith':
 			if (isset($_GET['search'])) {
-				$sharePolicy = OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
+				$shareWithinGroupOnly = OC\Share\Share::shareWithGroupMembersOnly();
 				$shareWith = array();
 // 				if (OC_App::isEnabled('contacts')) {
 // 					// TODO Add function to contacts to only get the 'fullname' column to improve performance
@@ -256,7 +256,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 // 					}
 // 				}
 				$groups = OC_Group::getGroups($_GET['search']);
-				if ($sharePolicy == 'groups_only') {
+				if ($shareWithinGroupOnly) {
 					$usergroups = OC_Group::getUserGroups(OC_User::getUser());
 					$groups = array_intersect($groups, $usergroups);
 				}
@@ -266,7 +266,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$offset = 0;
 				while ($count < 15 && count($users) == $limit) {
 					$limit = 15 - $count;
-					if ($sharePolicy == 'groups_only') {
+					if ($shareWithinGroupOnly) {
 						$users = OC_Group::DisplayNamesInGroups($usergroups, $_GET['search'], $limit, $offset);
 					} else {
 						$users = OC_User::getDisplayNames($_GET['search'], $limit, $offset);

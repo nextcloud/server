@@ -53,7 +53,7 @@ class Updater extends BasicEmitter {
 		$version = \OC_Util::getVersion();
 		$version['installed'] = \OC_Appconfig::getValue('core', 'installedat');
 		$version['updated'] = \OC_Appconfig::getValue('core', 'lastupdatedat');
-		$version['updatechannel'] = \OC_Util::getChannel(); 
+		$version['updatechannel'] = \OC_Util::getChannel();
 		$version['edition'] = \OC_Util::getEditionString();
 		$version['build'] = \OC_Util::getBuild();
 		$versionString = implode('x', $version);
@@ -119,7 +119,7 @@ class Updater extends BasicEmitter {
 		if (!\OC::$CLI && version_compare($installedVersion, '6.90.1', '<')) {
 			// Add the trusted_domains config if it is not existant
 			// This is added to prevent host header poisoning
-			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost()))); 
+			\OC_Config::setValue('trusted_domains', \OC_Config::getValue('trusted_domains', array(\OC_Request::serverHost())));
 		}
 		/*
 		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
@@ -149,6 +149,13 @@ class Updater extends BasicEmitter {
 			$canUpgrade = true;
 		} catch (\Exception $exception) {
 			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
+		}
+
+		// upgrade from OC6 to OC7
+		// TODO removed it again for OC8
+		$sharePolicy = \OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
+		if ($sharePolicy === 'groups_only') {
+			\OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		}
 
 		if ($canUpgrade) {
