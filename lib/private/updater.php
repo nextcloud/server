@@ -130,7 +130,7 @@ class Updater extends BasicEmitter {
 		// simulate DB upgrade
 		try {
 			// simulate core DB upgrade
-			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml', true);
+			\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 
 			// simulate apps DB upgrade
 			$version = \OC_Util::getVersion();
@@ -139,7 +139,7 @@ class Updater extends BasicEmitter {
 				$info = \OC_App::getAppInfo($appId);
 				if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
 					if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
-						\OC_DB::updateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml', true);
+						\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
 					}
 				}
 			}

@@ -307,21 +307,32 @@ class OC_DB {
 	/**
 	 * update the database schema
 	 * @param string $file file to read structure from
-	 * @param bool $simulate whether to simulate the upgrade on separate tables
 	 * @throws Exception
 	 * @return string|boolean
 	 */
-	public static function updateDbFromStructure($file, $simulate = false) {
+	public static function updateDbFromStructure($file) {
 		$schemaManager = self::getMDB2SchemaManager();
 		try {
-			$result = $schemaManager->updateDbFromStructure($file, false, $simulate);
+			$result = $schemaManager->updateDbFromStructure($file);
 		} catch (Exception $e) {
-			if ($simulate) {
-				OC_Log::write('core', 'Database structure update simulation failed ('.$e.')', OC_Log::FATAL);
-			}
-			else {
-				OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
-			}
+			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
+			throw $e;
+		}
+		return $result;
+	}
+
+	/**
+	 * simulate the database schema update
+	 * @param string $file file to read structure from
+	 * @throws Exception
+	 * @return string|boolean
+	 */
+	public static function simulateUpdateDbFromStructure($file) {
+		$schemaManager = self::getMDB2SchemaManager();
+		try {
+			$result = $schemaManager->simulateUpdateDbFromStructure($file);
+		} catch (Exception $e) {
+			OC_Log::write('core', 'Simulated database structure update failed ('.$e.')', OC_Log::FATAL);
 			throw $e;
 		}
 		return $result;

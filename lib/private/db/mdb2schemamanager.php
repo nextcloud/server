@@ -74,30 +74,43 @@ class MDB2SchemaManager {
 	}
 
 	/**
+	 * Reads database schema from file
+	 *
+	 * @param string $file file to read from
+	 */
+	private function readSchemaFromFile($file) {
+		$platform = $this->conn->getDatabasePlatform();
+		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
+		return $schemaReader->loadSchemaFromFile($file);
+	}
+
+	/**
 	 * update the database scheme
 	 * @param string $file file to read structure from
 	 * @param bool $generateSql only return the sql needed for the upgrade
-	 * @param bool $simulate whether to simulate on separate tables instead of the real onces
 	 * @return string|boolean
 	 */
-	public function updateDbFromStructure($file, $generateSql = false, $simulate = false) {
-
-		$platform = $this->conn->getDatabasePlatform();
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
-		$toSchema = $schemaReader->loadSchemaFromFile($file);
+	public function updateDbFromStructure($file, $generateSql = false) {
+		$toSchema = $this->readSchemaFromFile($file);
 		$migrator = $this->getMigrator();
 
 		if ($generateSql) {
 			return $migrator->generateChangeScript($toSchema);
 		} else {
-			if ($simulate) {
-				$migrator->checkMigrate($toSchema);
-			}
-			else {
-				$migrator->migrate($toSchema);
-			}
+			$migrator->migrate($toSchema);
 			return true;
 		}
+	}
+
+	/**
+	 * update the database scheme
+	 * @param string $file file to read structure from
+	 * @return string|boolean
+	 */
+	public function simulateUpdateDbFromStructure($file) {
+		$toSchema = $this->readSchemaFromFile($file);
+		$migrator = $this->getMigrator()->checkMigrate($toSchema);
+		return true;
 	}
 
 	/**
