@@ -202,13 +202,11 @@
 	left: 24px;
 	width: 32px;
 	height: 32px;
-	background-color: rgba(0, 0, 0, .2);
-	border-radius: 50%;
 }
 #navigation .app-loading .app-icon {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-	filter: alpha(opacity=20);
-	opacity: .2;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity=10);
+	opacity: .1;
 }
 
 
