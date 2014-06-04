@@ -53,6 +53,25 @@ OCA.Sharing.App = {
 		return this._outFileList;
 	},
 
+	initSharingLinks: function($el) {
+		if (this._linkFileList) {
+			return this._linkFileList;
+		}
+		this._linkFileList = new OCA.Sharing.FileList(
+			$el,
+			{
+				scrollContainer: $('#app-content'),
+				linksOnly: true,
+				fileActions: this._createFileActions()
+			}
+		);
+
+		this._extendFileList(this._linkFileList);
+		this._linkFileList.appName = t('files_sharing', 'Shared with link');
+		this._linkFileList.$el.find('#emptycontent').text(t('files_sharing', 'You haven\'t shared any files with link yet.'));
+		return this._linkFileList;
+	},
+
 	removeSharingIn: function() {
 		if (this._inFileList) {
 			this._inFileList.$fileList.empty();
@@ -62,6 +81,12 @@ OCA.Sharing.App = {
 	removeSharingOut: function() {
 		if (this._outFileList) {
 			this._outFileList.$fileList.empty();
+		}
+	},
+
+	removeSharingLinks: function() {
+		if (this._linkFileList) {
+			this._linkFileList.$fileList.empty();
 		}
 	},
 
@@ -101,6 +126,12 @@ $(document).ready(function() {
 	});
 	$('#app-content-sharingout').on('hide', function() {
 		OCA.Sharing.App.removeSharingOut();
+	});
+	$('#app-content-sharinglinks').on('show', function(e) {
+		OCA.Sharing.App.initSharingLinks($(e.target));
+	});
+	$('#app-content-sharinglinks').on('hide', function() {
+		OCA.Sharing.App.removeSharingLinks();
 	});
 });
 
