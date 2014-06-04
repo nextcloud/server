@@ -22,6 +22,8 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 	\OC::$server->getUserSession()
 );
 
+$name = OCP\Files::buildNotExistingFileName('/', $name);
+
 $mount = $externalManager->addShare($remote, $token, $password, $name, $owner);
 /**
  * @var \OCA\Files_Sharing\External\Storage $storage
