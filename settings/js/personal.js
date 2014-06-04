@@ -187,8 +187,6 @@ $(document).ready(function(){
 
 	});
 
-	$('.personalblock input[type=password]').placeholder();
-
 	$('#displayName').keyUpDelayedOrEnter(changeDisplayName);
 	$('#email').keyUpDelayedOrEnter(changeEmailAddress);
 
