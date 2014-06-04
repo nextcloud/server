@@ -164,21 +164,7 @@ class OC_Installer{
 	 * upgrade.php can determine the current installed version of the app using
 	 * "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
-	public static function updateApp( $app ) {
-		$appdata = OC_OCSClient::getApplication($app);
-		$download = OC_OCSClient::getApplicationDownload($app, 1);
-
-		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
-			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
-			$info = array(
-				'source' => 'http',
-				'href' => $download['downloadlink'],
-				'appdata' => $appdata
-			);
-		} else {
-			throw new \Exception('Could not fetch app info!');
-		}
-
+	public static function updateApp( $info=array() ) {
 		list($extractDir, $path) = self::downloadApp($info);
 		$info = self::checkAppsIntegrity($info, $extractDir, $path);
 
@@ -206,6 +192,29 @@ class OC_Installer{
 		return OC_App::updateApp($info['id']);
 	}
 
+	/**
+	 * update an app by it's id
+	 * @param integer $ocsid
+	 * @return bool
+	 * @throws Exception
+	 */
+	public static function updateAppByOCSId($ocsid) {
+		$appdata = OC_OCSClient::getApplication($ocsid);
+		$download = OC_OCSClient::getApplicationDownload($ocsid, 1);
+
+		if (isset($download['downloadlink']) && trim($download['downloadlink']) !== '') {
+			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
+			$info = array(
+				'source' => 'http',
+				'href' => $download['downloadlink'],
+				'appdata' => $appdata
+			);
+		} else {
+			throw new \Exception('Could not fetch app info!');
+		}
+
+		return self::updateApp($info);
+	}
 
 	/**
 	 * @param array $data
@@ -322,7 +331,7 @@ class OC_Installer{
 			$version = trim($info['version']);
 		}
 
-		if($version<>trim($data['appdata']['version'])) {
+		if(isset($data['appdata']['version']) && $version<>trim($data['appdata']['version'])) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because the version in info.xml/version is not the same as the version reported from the app store"));
 		}
