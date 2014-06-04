@@ -16,7 +16,10 @@ ul { list-style:none; }
 
 body {
 	background: #fefefe;
-	font: normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif;
+	font-weight: normal;
+	font-size: .8em;
+	line-height: 1.6em;
+	font-family: 'Open Sans', Frutiger, Calibri, 'Myriad Pro', Myriad, sans-serif;
 	color: #000;
 	height: auto;
 }
@@ -802,7 +805,6 @@ label.infield {
 	display: block;
 	padding: 7px 12px 6px 7px;
 	cursor: pointer;
-	font-weight: bold;
 }
 #expand:hover, #expand:focus, #expand:active { color:#fff; }
 #expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
