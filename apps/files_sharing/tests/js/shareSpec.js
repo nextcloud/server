@@ -71,6 +71,7 @@ describe('OCA.Sharing.Util tests', function() {
 		delete OCA.Sharing.sharesLoaded;
 		delete OC.Share.droppedDown;
 		OC.Share.statuses = {};
+		OC.Share.currentShares = {};
 	});
 
 	describe('Sharing data in table row', function() {
@@ -205,6 +206,12 @@ describe('OCA.Sharing.Util tests', function() {
 	describe('Share action', function() {
 		var showDropDownStub;
 
+		function makeDummyShareItem(displayName) {
+			return {
+				share_with_displayname: displayName
+			};
+		}
+
 		beforeEach(function() {
 			showDropDownStub = sinon.stub(OC.Share, 'showDropDown', function() {
 				$('#testArea').append($('<div id="dropdown"></div>'));
@@ -236,11 +243,12 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(showDropDownStub.calledOnce).toEqual(true);
 
 			// simulate what the dropdown does
-			var itemShares = {};
-			itemShares[OC.Share.SHARE_TYPE_USER] = ['User One', 'User Two'];
-			itemShares[OC.Share.SHARE_TYPE_GROUP] = ['Group One', 'Group Two'];
-			OC.Share.itemShares = itemShares;
-			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+			var shares = {};
+			OC.Share.itemShares[OC.Share.SHARE_TYPE_USER] = ['user1', 'user2'];
+			OC.Share.itemShares[OC.Share.SHARE_TYPE_GROUP] = ['group1', 'group2'];
+			shares[OC.Share.SHARE_TYPE_USER] = _.map(['User One', 'User Two'], makeDummyShareItem);
+			shares[OC.Share.SHARE_TYPE_GROUP] = _.map(['Group One', 'Group Two'], makeDummyShareItem);
+			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: shares}));
 
 			expect($tr.attr('data-share-recipients')).toEqual('Group One, Group Two, User One, User Two');
 
@@ -249,7 +257,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($action.find('>span').text()).toEqual('Shared with Group One, Group Two, User One, User Two');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
-		it('removes share icon after unsharing a shared file', function() {
+		it('updates share icon after updating shares of a file', function() {
 			var $action, $tr;
 			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
 			fileList.setFiles([{
@@ -272,10 +280,10 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(showDropDownStub.calledOnce).toEqual(true);
 
 			// simulate what the dropdown does
-			var itemShares = {};
-			itemShares[OC.Share.SHARE_TYPE_USER] = ['User One', 'User Two', 'User Three'];
-			OC.Share.itemShares = itemShares;
-			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+			var shares = {};
+			OC.Share.itemShares[OC.Share.SHARE_TYPE_USER] = ['user1', 'user2', 'user3'];
+			shares[OC.Share.SHARE_TYPE_USER] = _.map(['User One', 'User Two', 'User Three'], makeDummyShareItem);
+			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: shares}));
 
 			expect($tr.attr('data-share-recipients')).toEqual('User One, User Three, User Two');
 
@@ -285,7 +293,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($action.find('>span').text()).toEqual('Shared with User One, User Three, User Two');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
-		it('updates share icon after modifying shares on a shared file', function() {
+		it('removes share icon after removing all shares from a file', function() {
 			var $action, $tr;
 			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
 			fileList.setFiles([{
@@ -309,9 +317,8 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(showDropDownStub.calledOnce).toEqual(true);
 
 			// simulate what the dropdown does
-			var itemShares = {};
-			OC.Share.itemShares = itemShares;
-			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+			OC.Share.itemShares = {};
+			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: {}}));
 
 			expect($tr.attr('data-share-recipients')).not.toBeDefined();
 
@@ -342,10 +349,10 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(showDropDownStub.calledOnce).toEqual(true);
 
 			// simulate what the dropdown does
-			var itemShares = {};
-			itemShares[OC.Share.SHARE_TYPE_USER] = ['User Two'];
-			OC.Share.itemShares = itemShares;
-			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+			var shares = {};
+			OC.Share.itemShares[OC.Share.SHARE_TYPE_USER] = ['user2'];
+			shares[OC.Share.SHARE_TYPE_USER] = _.map(['User Two'], makeDummyShareItem);
+			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: shares}));
 
 			expect($tr.attr('data-share-recipients')).toEqual('User Two');
 
@@ -380,9 +387,8 @@ describe('OCA.Sharing.Util tests', function() {
 			expect(showDropDownStub.calledOnce).toEqual(true);
 
 			// simulate what the dropdown does
-			var itemShares = {};
-			OC.Share.itemShares = itemShares;
-			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: itemShares}));
+			OC.Share.itemShares = {};
+			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: {}}));
 
 			expect($tr.attr('data-share-recipients')).not.toBeDefined();
 

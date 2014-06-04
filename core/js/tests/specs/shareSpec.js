@@ -170,11 +170,11 @@ describe('OC.Share tests', function() {
 					JSON.stringify({status: 'success'})
 				);
 				expect(handler.calledOnce).toEqual(true);
-				var itemShares = handler.getCall(0).args[0].itemShares;
-				expect(itemShares).toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_USER]).toEqual(['user1', 'user2']);
-				expect(itemShares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_LINK]).not.toBeDefined();
+				var shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
+				expect(shares[OC.Share.SHARE_TYPE_USER][1].share_with_displayname).toEqual('User Two');
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
 			});
 			it('triggers "sharesChanged" event when deleting shares', function() {
 				$('#dropdown .unshare:eq(0)').click();
@@ -184,11 +184,10 @@ describe('OC.Share tests', function() {
 					JSON.stringify({status: 'success'})
 				);
 				expect(handler.calledOnce).toEqual(true);
-				var itemShares = handler.getCall(0).args[0].itemShares;
-				expect(itemShares).toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_USER]).toEqual([]);
-				expect(itemShares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_LINK]).not.toBeDefined();
+				var shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER]).toEqual([]);
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
 			});
 			it('triggers "sharesChanged" event when toggling link share', function() {
 				// simulate autocomplete selection
@@ -199,11 +198,10 @@ describe('OC.Share tests', function() {
 					JSON.stringify({status: 'success', data: { token: 'abc' }})
 				);
 				expect(handler.calledOnce).toEqual(true);
-				var itemShares = handler.getCall(0).args[0].itemShares;
-				expect(itemShares).toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_USER]).toEqual(['user1']);
-				expect(itemShares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_LINK]).toEqual(true);
+				var shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
 
 				handler.reset();
 
@@ -216,14 +214,10 @@ describe('OC.Share tests', function() {
 				);
 
 				expect(handler.calledOnce).toEqual(true);
-				itemShares = handler.getCall(0).args[0].itemShares;
-				expect(itemShares).toBeDefined();
-				expect(itemShares[OC.Share.SHARE_TYPE_USER]).toEqual(['user1']);
-				expect(itemShares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
-				// currently inconsistent, removing share with link sets it to false
-				// instead of delete
-				expect(itemShares[OC.Share.SHARE_TYPE_LINK]).toBeFalsy();
-				//expect(itemShares[OC.Share.SHARE_TYPE_LINK]).not.toBeDefined();
+				shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
 			});
 		});
 	});

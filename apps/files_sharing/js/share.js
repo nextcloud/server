@@ -75,7 +75,9 @@
 					OCA.Sharing.sharesLoaded = true;
 				}
 				else{
-					// this will update the icons for all the visible elements
+					// this will update the icons for all the currently visible elements
+					// additionally added elements when scrolling down will be
+					// updated in the _renderRow override
 					OC.Share.updateIcons('file', fileList);
 				}
 			});
@@ -113,11 +115,11 @@
 					OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
 				}
 				$('#dropdown').on('sharesChanged', function(ev) {
+					var recipients = _.pluck(ev.shares[OC.Share.SHARE_TYPE_USER], 'share_with_displayname');
+					var groupRecipients = _.pluck(ev.shares[OC.Share.SHARE_TYPE_GROUP], 'share_with_displayname');
+					recipients = recipients.concat(groupRecipients);
 					// note: we only update the data attribute because updateIcon()
 					// is called automatically after this event
-					var userShares = ev.itemShares[OC.Share.SHARE_TYPE_USER] || [];
-					var groupShares = ev.itemShares[OC.Share.SHARE_TYPE_GROUP] || [];
-					var recipients = _.union(userShares, groupShares);
 					if (recipients.length) {
 						$tr.attr('data-share-recipients', OCA.Sharing.Util.formatRecipients(recipients));
 					}

@@ -3,8 +3,25 @@ OC.Share={
 	SHARE_TYPE_GROUP:1,
 	SHARE_TYPE_LINK:3,
 	SHARE_TYPE_EMAIL:4,
+	/**
+	 * @deprecated use OC.Share.currentShares instead
+	 */
 	itemShares:[],
+	/**
+	 * Full list of all share statuses
+	 */
 	statuses:{},
+	/**
+	 * Shares for the currently selected file.
+	 * (for which the dropdown is open)
+	 *
+	 * Key is item type and value is an array or
+	 * shares of the given item type.
+	 */
+	currentShares: {},
+	/**
+	 * Whether the share dropdown is opened.
+	 */
 	droppedDown:false,
 	/**
 	 * Loads ALL share statuses from server, stores them in OC.Share.statuses then
@@ -345,6 +362,7 @@ OC.Share={
 			dropDownEl = dropDownEl.appendTo(appendTo);
 			// Reset item shares
 			OC.Share.itemShares = [];
+			OC.Share.currentShares = {};
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
 					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
@@ -418,7 +436,7 @@ OC.Share={
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, itemSourceName, expirationDate, function() {
 					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
-					$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: OC.Share.itemShares}));
+					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 				});
 				return false;
@@ -475,6 +493,7 @@ OC.Share={
 		$('#shareWith').focus();
 	},
 	hideDropDown:function(callback) {
+		OC.Share.currentShares = null;
 		$('#dropdown').hide('blind', function() {
 			OC.Share.droppedDown = false;
 			$('#dropdown').remove();
@@ -487,6 +506,12 @@ OC.Share={
 		});
 	},
 	addShareWith:function(shareType, shareWith, shareWithDisplayName, permissions, possiblePermissions, mailSend, collection) {
+		var shareItem = {
+			share_type: shareType,
+			share_with: shareWith,
+			share_with_displayname: shareWithDisplayName,
+			permissions: permissions
+		};
 		if (shareType === 1) {
 			shareWithDisplayName = shareWithDisplayName + " (" + t('core', 'group') + ')';
 		}
@@ -565,6 +590,10 @@ OC.Share={
 				html.find('.cruds').before(showCrudsButton);
 			}
 			$('#expiration').show();
+			if (!OC.Share.currentShares[shareType]) {
+				OC.Share.currentShares[shareType] = [];
+			}
+			OC.Share.currentShares[shareType].push(shareItem);
 		}
 	},
 	showLink:function(token, password, itemSource) {
@@ -700,7 +729,9 @@ $(document).ready(function() {
 			$li.remove();
 			var index = OC.Share.itemShares[shareType].indexOf(shareWith);
 			OC.Share.itemShares[shareType].splice(index, 1);
-			$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: OC.Share.itemShares}));
+			// updated list of shares
+			OC.Share.currentShares[shareType].splice(index, 1);
+			$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 			OC.Share.updateIcon(itemType, itemSource);
 			if (typeof OC.Share.statuses[itemSource] === 'undefined') {
 				$('#expiration').hide('blind');
@@ -759,7 +790,7 @@ $(document).ready(function() {
 			if (oc_appconfig.core.enforcePasswordForPublicLink === false) {
 				OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, expirationDate, function(data) {
 					OC.Share.showLink(data.token, null, itemSource);
-					$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: OC.Share.itemShares}));
+					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 				});
 			} else {
@@ -772,7 +803,7 @@ $(document).ready(function() {
 			if ($('#linkText').val() !== '') {
 				OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
 					OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
-					$('#dropdown').trigger(new $.Event('sharesChanged', {itemShares: OC.Share.itemShares}));
+					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
 					if (typeof OC.Share.statuses[itemSource] === 'undefined') {
 						$('#expiration').hide('blind');
