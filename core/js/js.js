@@ -533,7 +533,6 @@ var OC={
 	 */
 	registerMenu: function($toggle, $menuEl) {
 		$menuEl.addClass('menu');
-		$toggle.addClass('menutoggle');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
 				$menuEl.slideUp(OC.menuSpeed);
@@ -1112,7 +1111,7 @@ function initCore() {
 	 */
 	function setupMainMenu() {
 		// toggle the navigation
-		var $toggle = $('#header #owncloud');
+		var $toggle = $('#header .menutoggle');
 		var $navigation = $('#navigation');
 
 		// init the menu
@@ -1120,6 +1119,15 @@ function initCore() {
 		$toggle.data('oldhref', $toggle.attr('href'));
 		$toggle.attr('href', '#');
 		$navigation.hide();
+
+		// show loading feedback
+		$navigation.delegate('a', 'click', function(event) {
+			var $app = $(event.target);
+			if(!$app.is('a')) {
+				$app = $app.closest('a');
+			}
+			$app.find('img').attr('src', OC.imagePath('core','loading-dark.gif'));
+		});
 	}
 
 	setupMainMenu();
