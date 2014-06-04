@@ -60,6 +60,71 @@ class Test_Files_Sharing extends Test_Files_Sharing_Base {
 		parent::tearDown();
 	}
 
+	function testUnshareFromSelf() {
+
+		\OC_Group::createGroup('testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+
+		$pathinfo = pathinfo($this->filename);
+
+		$duplicate = '/' . $pathinfo['filename'] . ' (2).' . $pathinfo['extension'];
+
+		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, 31);
+
+		$this->assertTrue($result);
+
+		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+				'testGroup', 31);
+
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($duplicate));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($duplicate));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		\OC\Files\Filesystem::unlink($this->filename);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($duplicate));
+
+		// for user3 nothing should change
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($duplicate));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		\OC\Files\Filesystem::unlink($duplicate);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($duplicate));
+
+		// for user3 nothing should change
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER3);
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertFalse(\OC\Files\Filesystem::file_exists($duplicate));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
+				'testGroup');
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2);
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');
+		\OC_Group::deleteGroup('testGroup');
+
+
+	}
+
 	/**
 	 * shared files should never have delete permissions
 	 * @dataProvider  DataProviderTestFileSharePermissions

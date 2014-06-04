@@ -403,15 +403,18 @@ class Shared extends \OC\Files\Storage\Common {
 			|| $shares
 		) {
 			foreach ($shares as $share) {
-				$mount = new SharedMount(
-					'\OC\Files\Storage\Shared',
-					$options['user_dir'] . '/' . $share['file_target'],
-					array(
-						'share' => $share,
-					),
-					$loader
-				);
-				$manager->addMount($mount);
+				// don't mount shares where we have no permissions
+				if ($share['permissions'] > 0) {
+					$mount = new SharedMount(
+							'\OC\Files\Storage\Shared',
+							$options['user_dir'] . '/' . $share['file_target'],
+							array(
+								'share' => $share,
+								),
+							$loader
+							);
+					$manager->addMount($mount);
+				}
 			}
 		}
 	}

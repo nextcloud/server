@@ -717,33 +717,48 @@ class Share extends \OC\Share\Constants {
 	 * Unsharing from self is not allowed for items inside collections
 	 */
 	public static function unshareFromSelf($itemType, $itemTarget) {
-		$item = self::getItemSharedWith($itemType, $itemTarget);
-		if (!empty($item)) {
-			if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
-				// Insert an extra row for the group share and set permission
-				// to 0 to prevent it from showing up for the user
-				$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share`'
+
+		if ($itemType === 'file' || $itemType === 'folder') {
+			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `file_target` = ?';
+		} else {
+			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `item_target` = ?';
+		}
+
+		$query = \OCP\DB::prepare($statement);
+		$result = $query->execute(array($itemType, $itemTarget));
+
+		$shares = $result->fetchAll();
+
+		$itemUnshared = false;
+		foreach ($shares as $share) {
+			if ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_USER) {
+				Helper::delete($share['id']);
+				$itemUnshared = true;
+				break;
+			} elseif ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP) {
+				$groupShare = $share;
+			} elseif ((int)$share['share_type'] === self::$shareTypeGroupUserUnique) {
+				$uniqueGroupShare = $share;
+			}
+		}
+
+		if (!$itemUnshared && isset($groupShare)) {
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share`'
 					.' (`item_type`, `item_source`, `item_target`, `parent`, `share_type`,'
 					.' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`, `file_target`)'
 					.' VALUES (?,?,?,?,?,?,?,?,?,?,?)');
-				$query->execute(array($item['item_type'], $item['item_source'], $item['item_target'],
-					$item['id'], self::$shareTypeGroupUserUnique,
-					\OC_User::getUser(), $item['uid_owner'], 0, $item['stime'], $item['file_source'],
-					$item['file_target']));
-				\OC_DB::insertid('*PREFIX*share');
-				// Delete all reshares by this user of the group share
-				Helper::delete($item['id'], true, \OC_User::getUser());
-			} else if ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
-				// Set permission to 0 to prevent it from showing up for the user
-				$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
-				$query->execute(array(0, $item['id']));
-				Helper::delete($item['id'], true);
-			} else {
-				Helper::delete($item['id']);
-			}
-			return true;
+			$query->execute(array($groupShare['item_type'], $groupShare['item_source'], $groupShare['item_target'],
+				$groupShare['id'], self::$shareTypeGroupUserUnique,
+				\OC_User::getUser(), $groupShare['uid_owner'], 0, $groupShare['stime'], $groupShare['file_source'],
+				$groupShare['file_target']));
+			$itemUnshared = true;
+		} elseif (!$itemUnshared && isset($uniqueGroupShare)) {
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
+			$query->execute(array(0, $uniqueGroupShare['id']));
+			$itemUnshared = true;
 		}
-		return false;
+
+		return $itemUnshared;
 	}
 
 	/**
