@@ -20,10 +20,13 @@ input#openid, input#webdav { width:20em; }
 }
 
 /* Sync clients */
-.clientsbox { margin:12px; }
-.clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
-.clientsbox h2 { font-size:20px; font-weight:bold; margin:35px 0 10px; }
-.clientsbox .center { margin-top:10px; }
+.clientsbox h2 {
+	font-size: 20px;
+	margin: 35px 0 10px;
+}
+.clientsbox .center {
+	margin-top: 10px;
+}
 
 #passworderror { display:none; }
 #passwordchanged { display:none; }
