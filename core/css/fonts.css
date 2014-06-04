@@ -1,11 +1,13 @@
 @font-face {
-	font-family: 'OpenSans';
+	font-family: 'Open Sans';
+	font-style: normal;
 	font-weight: normal;
-	src: url(../fonts/OpenSans-Regular.ttf);
+	src: local('Open Sans'), local('OpenSans'), url(../fonts/OpenSans-Regular.woff) format('woff');
 }
 
 @font-face {
-	font-family: 'OpenSans';
+	font-family: 'Open Sans';
+	font-style: normal;
 	font-weight: bold;
-	src: url(../fonts/OpenSans-Bold.ttf);
+	src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../fonts/OpenSans-Bold.woff) format('woff');
 }

@@ -10,6 +10,11 @@ select {
 	height: 32px;
 }
 
+/* reset typeface for IE8 because OpenSans renders too small */
+.ie body {
+    font-family: Frutiger, Calibri, 'Myriad Pro', Myriad, Arial, sans-serif;
+}
+
 .lte8 .delete-icon { background-image: url('../img/actions/delete.png'); }
 .lte8 .delete-icon:hover, .delete-icon:focus {
 	background-image: url('../img/actions/delete-hover.png');
@@ -76,7 +81,7 @@ select {
 
 /* IE8 isn't able to display transparent background. So it is specified using a gradient */
 .ie8 #nojavascript {
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c320000', endColorstr='#4c320000'); /* IE */
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c320000', endColorstr='#4c320000');
 }
 
 /* IE8 doesn't have rounded corners, so the strengthify bar should be wider */
@@ -84,3 +89,4 @@ select {
 	width: 271px;
 	left: 6px;
 }
+
