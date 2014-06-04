@@ -753,7 +753,7 @@ class Trashbin {
 			$filename = pathinfo($file['name'], PATHINFO_FILENAME);
 			if ($timestamp < $limit) {
 				$size += self::delete($filename, $timestamp);
-				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" fom trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
+				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
 			}
 		}
 		$availableSpace += $size;
