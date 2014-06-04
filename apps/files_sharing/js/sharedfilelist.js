@@ -38,6 +38,13 @@
 			}
 		},
 
+		_renderRow: function() {
+			// HACK: needed to call the overridden _renderRow
+			// this is because at the time this class is created
+			// the overriding hasn't been done yet...
+			return OCA.Files.FileList.prototype._renderRow.apply(this, arguments);
+		},
+
 		_createRow: function(fileData) {
 			// TODO: hook earlier and render the whole row here
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
@@ -46,7 +53,7 @@
 			$tr.find('td.filename input:checkbox').remove();
 			$tr.attr('data-share-id', _.pluck(fileData.shares, 'id').join(','));
 			if (this._sharedWithUser) {
-				$tr.attr('data-share-owner', fileData.shares[0].ownerDisplayName);
+				$tr.attr('data-share-owner', fileData.shareOwner);
 			}
 			return $tr;
 		},
@@ -159,7 +166,7 @@
 						stime: share.stime * 1000,
 					};
 					if (self._sharedWithUser) {
-						file.share.ownerDisplayName = share.displayname_owner;
+						file.shareOwner = share.displayname_owner;
 						file.name = OC.basename(share.file_target);
 						file.path = OC.dirname(share.file_target);
 						file.permissions = share.permissions;
@@ -179,15 +186,15 @@
 				// inside the same file object (by file id).
 				.reduce(function(memo, file) {
 					var data = memo[file.id];
-					var counterPart = file.share.ownerDisplayName || file.share.targetDisplayName;
+					var recipient = file.share.targetDisplayName;
 					if (!data) {
 						data = memo[file.id] = file;
 						data.shares = [file.share];
 						// using a hash to make them unique,
 						// this is only a list to be displayed
-						data.counterParts = {};
+						data.recipients = {};
 						// counter is cheaper than calling _.keys().length
-						data.counterPartsCount = 0;
+						data.recipientsCount = 0;
 						data.mtime = file.share.stime;
 					}
 					else {
@@ -198,12 +205,14 @@
 						data.shares.push(file.share);
 					}
 
-					if (file.share.type === OC.Share.SHARE_TYPE_LINK) {
-						data.hasLinkShare = true;
-					} else if (counterPart && data.counterPartsCount < 10) {
+					if (recipient) {
 						// limit counterparts for output
-						data.counterParts[counterPart] = true;
-						data.counterPartsCount++;
+						if (data.recipientsCount < 4) {
+							// only store the first ones, they will be the only ones
+							// displayed
+							data.recipients[recipient] = true;
+						}
+						data.recipientsCount++;
 					}
 
 					delete file.share;
@@ -213,14 +222,14 @@
 				.values()
 				// Clean up
 				.each(function(data) {
-					// convert the counterParts map to a flat
+					// convert the recipients map to a flat
 					// array of sorted names
-					data.counterParts = _.chain(data.counterParts).keys().sort().value();
-					if (data.hasLinkShare) {
-						data.counterParts.unshift(t('files_sharing', 'link'));
-						delete data.hasLinkShare;
-					}
-					delete data.counterPartsCount;
+					data.recipients = _.keys(data.recipients);
+					data.recipientsDisplayName = OCA.Sharing.Util.formatRecipients(
+						data.recipients,
+						data.recipientsCount
+					);
+					delete data.recipientsCount;
 				})
 				// Sort by expected sort comparator
 				.sortBy(this._sortComparator)
