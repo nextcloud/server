@@ -125,29 +125,63 @@ class Updater extends BasicEmitter {
 		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
 		 */
 
+		$canUpgrade = false;
 
+		// simulate DB upgrade
 		try {
-			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
-			$this->emit('\OC\Updater', 'dbUpgrade');
+			// simulate core DB upgrade
+			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml', true);
 
+			// simulate apps DB upgrade
+			$version = \OC_Util::getVersion();
+			$apps = \OC_App::getEnabledApps();
+			foreach ($apps as $appId) {
+				$info = \OC_App::getAppInfo($appId);
+				if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
+					if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
+						\OC_DB::updateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml', true);
+					}
+				}
+			}
+
+			$this->emit('\OC\Updater', 'dbSimulateUpgrade');
+
+			$canUpgrade = true;
 		} catch (\Exception $exception) {
 			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 		}
-		\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
-		$disabledApps = \OC_App::checkAppsRequirements();
-		if (!empty($disabledApps)) {
-			$this->emit('\OC\Updater', 'disabledApps', array($disabledApps));
+
+		if ($canUpgrade) {
+			// proceed with real upgrade
+			try {
+				// do the real upgrade
+				\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+				$this->emit('\OC\Updater', 'dbUpgrade');
+
+			} catch (\Exception $exception) {
+				$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
+				return false;
+			}
+			// TODO: why not do this at the end ?
+			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
+			$disabledApps = \OC_App::checkAppsRequirements();
+			if (!empty($disabledApps)) {
+				$this->emit('\OC\Updater', 'disabledApps', array($disabledApps));
+			}
+			// load all apps to also upgrade enabled apps
+			\OC_App::loadApps();
+
+			$repair = new Repair();
+			$repair->run();
+
+			//Invalidate update feed
+			\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		}
-		// load all apps to also upgrade enabled apps
-		\OC_App::loadApps();
 
-		$repair = new Repair();
-		$repair->run();
-
-		//Invalidate update feed
-		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		\OC_Config::setValue('maintenance', false);
 		$this->emit('\OC\Updater', 'maintenanceEnd');
+
+		return $canUpgrade;
 	}
 
 }

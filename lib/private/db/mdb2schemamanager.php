@@ -77,9 +77,10 @@ class MDB2SchemaManager {
 	 * update the database scheme
 	 * @param string $file file to read structure from
 	 * @param bool $generateSql only return the sql needed for the upgrade
+	 * @param bool $simulate whether to simulate on separate tables instead of the real onces
 	 * @return string|boolean
 	 */
-	public function updateDbFromStructure($file, $generateSql = false) {
+	public function updateDbFromStructure($file, $generateSql = false, $simulate = false) {
 
 		$platform = $this->conn->getDatabasePlatform();
 		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
@@ -89,8 +90,12 @@ class MDB2SchemaManager {
 		if ($generateSql) {
 			return $migrator->generateChangeScript($toSchema);
 		} else {
-			$migrator->checkMigrate($toSchema);
-			$migrator->migrate($toSchema);
+			if ($simulate) {
+				$migrator->checkMigrate($toSchema);
+			}
+			else {
+				$migrator->migrate($toSchema);
+			}
 			return true;
 		}
 	}

@@ -28,7 +28,7 @@
 			this.addMessage(t(
 				'core',
 				'Updating {productName} to version {version}, this may take a while.', {
-					productName: OC.theme.name,
+					productName: OC.theme.name || 'ownCloud',
 					version: OC.config.versionstring
 				}),
 				'bold'
