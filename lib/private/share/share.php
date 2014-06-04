@@ -731,7 +731,8 @@ class Share extends \OC\Share\Constants {
 
 		$itemUnshared = false;
 		foreach ($shares as $share) {
-			if ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_USER) {
+			if ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_USER &&
+					$share['share_with'] === \OCP\User::getUser()) {
 				Helper::delete($share['id']);
 				$itemUnshared = true;
 				break;
