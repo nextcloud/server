@@ -1,3 +1,17 @@
+/* prevent ugly selection effect on accidental selection */
+#header,
+#navigation,
+#expanddiv {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+
+
+
+/* LOGO and APP NAME -------------------------------------------------------- */
+
 #header .logo {
 	background-image: url(../img/logo.svg);
 	background-repeat: no-repeat;
@@ -64,28 +78,30 @@
 }
 
 
-/* toggle navigation */
+
+/* NAVIGATION --------------------------------------------------------------- */
+
 #content-wrapper {
 	padding-left: 0;
 }
 
 #navigation {
+	position: fixed;
 	top: 45px;
-	bottom: initial;
 	width: 265px;
 	max-height: 85%;
 	margin-top: 0;
-	top: 45px;
 	background-color: rgba(36, 40, 47, .97);
-	overflow-x: initial;
 	border-bottom-right-radius: 7px;
-	border-bottom: 1px #333 solid;
-	border-right: 1px #333 solid;
 	box-shadow: 0 0 7px rgba(29,45,68,.97);
 	display: none;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 150;
 }
 #navigation, #navigation * {
-	box-sizing:border-box; -moz-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
 }
 #navigation li {
 	display: inline-block;
@@ -104,21 +120,48 @@
 	padding-bottom: 0;
 	padding-left: 0;
 	width: 80px;
+	text-align: center;
+	color: #fff;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
-#navigation .icon {
+	/* icon opacity and hover effect */
+	#navigation a img,
+	#navigation a span {
+		/* 50% opacity when inactive */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		opacity: .5;
+	}
+	#navigation a:hover img, #navigation a:focus img,
+	#navigation a:hover span, #navigation a:focus span {
+		/* 80% opacity when hovered or focused */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+		filter: alpha(opacity=80);
+		opacity: .8;
+	}
+	#navigation a.active img,
+	#navigation a.active span {
+		 /* full opacity for the active app */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
+	}
+
+#navigation .app-icon {
 	margin: 0 auto;
 	padding: 0;
 }
-#navigation li:first-child .icon {
-	padding-top: 0;
-}
-/* Apps management as sticky footer */
-#navigation .wrapper {
-	min-height: initial;
-	margin: 0;
-}
+
+/* Apps management */
 #apps-management {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+	min-height: initial;
 	height: initial;
+	margin: 0;
 }
 
 
@@ -133,15 +176,56 @@
 	background-color: rgba(0, 0, 0, .2);
 	border-radius: 50%;
 }
-#navigation .app-loading .icon {
+#navigation .app-loading .app-icon {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
 	filter: alpha(opacity=20);
 	opacity: .2;
 }
 
 
-/* shift to account for missing navigation */
-#body-user #controls,
-#body-settings #controls {
-	padding-left: 0;
+
+
+/* USER MENU */
+#settings {
+	float: right;
+	color: #bbb;
 }
+#expand {
+	display: block;
+	padding: 7px 12px 6px 7px;
+	cursor: pointer;
+}
+#expand:hover, #expand:focus, #expand:active { color:#fff; }
+#expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
+#expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
+#expanddiv {
+	position: absolute;
+	right: 0;
+	top: 45px;
+	z-index: 150;
+	display: none;
+	background-color: #383c43;
+	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
+	box-shadow:0 0 7px rgb(29,45,68);
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+	#expanddiv a {
+		display: block;
+		height: 40px;
+		color: #fff;
+		padding: 4px 12px 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+		filter: alpha(opacity=70);
+		opacity: .7;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	#expanddiv a img {
+		margin-bottom: -3px;
+		margin-right: 6px;
+	}
+	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active {
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
+	}

@@ -210,16 +210,6 @@ input img, button img, .button img {
 }
 
 
-/* prevent ugly selection effect on accidental selection */
-#header,
-#navigation,
-#expanddiv {
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-}
-
-
 /* SCROLLING */
 ::-webkit-scrollbar {
 	width: 8px;
@@ -323,11 +313,6 @@ input[type="submit"].enabled {
 	background: #eee;
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
-}
-/* account for shift of controls bar due to app navigation */
-#body-user #controls,
-#body-settings #controls {
-	padding-left: 80px;
 }
 #controls .button,
 #controls button,
@@ -714,120 +699,6 @@ label.infield {
 }
 
 
-
-
-/* NAVIGATION ------------------------------------------------------------- */
-#navigation {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 80px;
-	margin-top:45px;
-	z-index: 75;
-	background-color: #383c43;
-	overflow-y: auto;
-	overflow-x: hidden;
-	-moz-box-sizing:border-box; box-sizing:border-box;
-}
-#apps {
-	height: 100%;
-}
-#navigation a span {
-	display: block;
-	text-decoration: none;
-	font-size: 11px;
-	text-align: center;
-	color: #fff;
-	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
-	padding-bottom: 10px;
-	/* prevent shift caused by scrollbar */
-	padding-left: 8px;
-	width: 64px;
-}
-
-	/* icon opacity and hover effect */
-	#navigation a img,
-	#navigation a span {
-		/* 50% opacity when inactive */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-		filter: alpha(opacity=50);
-		opacity: .5;
-	}
-	#navigation a:hover img, #navigation a:focus img,
-	#navigation a:hover span, #navigation a:focus span {
-		/* 80% opacity when hovered or focused */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-		filter: alpha(opacity=80);
-		opacity: .8;
-	}
-	#navigation a.active img,
-	#navigation a.active span {
-		 /* full opacity for the active app */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-		filter: alpha(opacity=100);
-		opacity: 1;
-	}
-	#navigation .icon {
-		display: block;
-		width: 32px;
-		height: 32px;
-		margin-left: 24px;
-		padding: 10px 0 4px;
-	}
-	#navigation li:first-child .icon { /* special rule for Files icon as it's first */
-		padding-top: 20px;
-	}
-
-/* Apps management as sticky footer, less obtrusive in the list */
-#apps-management {
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-	filter: alpha(opacity=60);
-	opacity: .6;
-}
-
-
-
-
-/* USER MENU */
-#settings {
-	float: right;
-	color: #bbb;
-}
-#expand {
-	display: block;
-	padding: 7px 12px 6px 7px;
-	cursor: pointer;
-}
-#expand:hover, #expand:focus, #expand:active { color:#fff; }
-#expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
-#expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-#expanddiv {
-	position:absolute; right:0; top:45px; z-index:76; display:none;
-	background-color: #383c43;
-	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
-	box-shadow:0 0 7px rgb(29,45,68);
-	-moz-box-sizing: border-box; box-sizing: border-box;
-}
-	#expanddiv a {
-		display: block;
-		height: 40px;
-		color: #fff;
-		padding: 4px 12px 0;
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
-		filter: alpha(opacity=70);
-		opacity: .7;
-		-moz-box-sizing: border-box;
-		box-sizing: border-box;
-	}
-	#expanddiv a img {
-		margin-bottom: -3px;
-		margin-right: 6px;
-	}
-	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active {
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-		filter: alpha(opacity=100);
-		opacity: 1;
-	}
 
 
 /* VARIOUS REUSABLE SELECTORS */

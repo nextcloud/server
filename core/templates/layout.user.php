@@ -98,7 +98,7 @@
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>"/>
+							<img class="app-icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>"/>
 							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($entry['name']); ?>
@@ -112,7 +112,7 @@
 					<li id="apps-management">
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
+							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
 							<span>
 								<?php p($l->t('Apps')); ?>
 							</span>
