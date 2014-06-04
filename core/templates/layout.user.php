@@ -50,7 +50,7 @@
 			</a>
 			<a href="#" class="menutoggle">
 				<div class="header-appname">
-					<?php p(!empty($_['application'])?$_['application']:''); ?>
+					<?php p(!empty($_['application'])?$_['application']:'Apps'); ?>
 				</div>
 				<div class="icon-caret"></div>
 			</a>
