@@ -93,7 +93,7 @@
 
 		<nav><div id="navigation">
 			<div id="apps" class="svg">
-				<ul class="wrapper"><!-- for sticky footer of apps management -->
+				<ul>
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php p($entry['id']); ?>">
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
@@ -106,12 +106,10 @@
 						</a>
 					</li>
 				<?php endforeach; ?>
-				</ul>
 
-				<!-- show "More apps" link to app administration directly in app navigation, as sticky footer -->
+				<!-- show "More apps" link to app administration directly in app navigation, as last entry -->
 				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
-				<ul id="apps-management">
-					<li>
+					<li id="apps-management">
 						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
@@ -120,8 +118,9 @@
 							</span>
 						</a>
 					</li>
-				</ul>
 				<?php endif; ?>
+
+				</ul>
 			</div>
 		</div></nav>
 

@@ -720,7 +720,6 @@ label.infield {
 #navigation {
 	position: fixed;
 	top: 0;
-	bottom: 0;
 	left: 0;
 	width: 80px;
 	margin-top:45px;
@@ -780,20 +779,10 @@ label.infield {
 	}
 
 /* Apps management as sticky footer, less obtrusive in the list */
-#navigation .wrapper {
-	min-height: 100%;
-	margin: 0 auto -82px 0;
-}
-#apps-management {
-	height: 72px;
-}
 #apps-management {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
 	filter: alpha(opacity=60);
 	opacity: .6;
-}
-#apps-management .icon {
-	padding-bottom: 0;
 }
 
 
