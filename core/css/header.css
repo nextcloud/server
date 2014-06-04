@@ -26,7 +26,9 @@
 	display: inline-block;
 	position: absolute;
 	left: 70px;
-	top: 18px;
+	height: 27px;
+	padding-top: 18px;
+	padding-right: 10px;
 }
 
 /* show appname next to logo */
@@ -89,6 +91,7 @@
 	display: inline-block;
 }
 #navigation a {
+	position: relative;
 	width: 80px;
 	height: 80px;
 	display: inline-block;
@@ -117,6 +120,25 @@
 #apps-management {
 	height: initial;
 }
+
+
+/* loading feedback for apps */
+#navigation .app-loading .icon-loading-dark {
+	display: inline !important;
+	position: absolute;
+	top: 20px;
+	left: 24px;
+	width: 32px;
+	height: 32px;
+	background-color: rgba(0, 0, 0, .2);
+	border-radius: 50%;
+}
+#navigation .app-loading .icon {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+	filter: alpha(opacity=20);
+	opacity: .2;
+}
+
 
 /* shift to account for missing navigation */
 #body-user #controls,

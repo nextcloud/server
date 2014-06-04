@@ -1126,7 +1126,7 @@ function initCore() {
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
-			$app.find('img').attr('src', OC.imagePath('core','loading-dark.gif'));
+			$app.addClass('app-loading');
 		});
 	}
 

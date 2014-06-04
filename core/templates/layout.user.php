@@ -99,6 +99,7 @@
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 							<img class="icon svg" alt="" src="<?php print_unescaped($entry['icon']); ?>"/>
+							<div class="icon-loading-dark" style="display:none;"></div>
 							<span>
 								<?php p($entry['name']); ?>
 							</span>
