@@ -111,5 +111,10 @@ class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 		$this->assertEquals(7, $contents[0]['permissions']);
 		$this->assertEquals('textfile1.txt', $contents[1]['name']);
 		$this->assertEquals(7, $contents[1]['permissions']);
+
+		// the share mount point should always have delete permissions to allow the user
+		// to unmount it
+		$restrictedShare = $this->secondView->getFileInfo('files/shareddirrestricted');
+		$this->assertEquals(7 | \OCP\PERMISSION_DELETE, $restrictedShare['permissions']);
 	}
 }
