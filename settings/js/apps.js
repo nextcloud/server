@@ -167,7 +167,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		},'json');
 	},
 	uninstallApp:function(appid, element) {
-		console.log('uninstall app:', appid, element);
 		element.val(t('settings','Uninstalling ....'));
 		$.post(OC.filePath('settings','ajax','uninstallapp.php'),{appid:appid},function(result) {
 			if(!result || result.status !== 'success') {
