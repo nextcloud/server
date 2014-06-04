@@ -173,7 +173,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertInstanceOf('\OC\Files\Storage\Local', $homeMount);
+		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 	}
 
@@ -189,7 +189,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertInstanceOf('\OC\Files\Storage\Home', $homeMount);
+		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
 		$this->assertEquals('home::' . $userId, $homeMount->getId());
 
 		\OC_User::deleteUser($userId);
@@ -214,7 +214,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 
 		$homeMount = \OC\Files\Filesystem::getStorage('/' . $userId . '/');
 
-		$this->assertInstanceOf('\OC\Files\Storage\Home', $homeMount);
+		$this->assertTrue($homeMount->instanceOfStorage('\OC\Files\Storage\Home'));
 		$this->assertEquals('local::' . $datadir . '/' . $userId . '/', $homeMount->getId());
 
 		\OC_User::deleteUser($userId);
@@ -244,7 +244,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
 		);
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
-		$this->assertInstanceOf('\OC\Files\Storage\Home', $storage);
+		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Home'));
 		$this->assertEquals('cache', $internalPath);
 		\OC_User::deleteUser($userId);
 
@@ -271,7 +271,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 			\OC\Files\Filesystem::getMountPoint('/' . $userId . '/cache')
 		);
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath('/' . $userId . '/cache');
-		$this->assertInstanceOf('\OC\Files\Storage\Local', $storage);
+		$this->assertTrue($storage->instanceOfStorage('\OC\Files\Storage\Local'));
 		$this->assertEquals('', $internalPath);
 		\OC_User::deleteUser($userId);
 

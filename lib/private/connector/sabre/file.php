@@ -97,15 +97,24 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			// the path for the file was not valid
 			// TODO: find proper http status code for this case
 			throw new Sabre_DAV_Exception_Forbidden($e->getMessage());
+		} catch (\OCP\Files\LockNotAcquiredException $e) {
+			// the file is currently being written to by another process
+			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
 		// rename to correct path
-		$renameOkay = $this->fileView->rename($partpath, $this->path);
-		$fileExists = $this->fileView->file_exists($this->path);
-		if ($renameOkay === false || $fileExists === false) {
-			\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-			$this->fileView->unlink($partpath);
-			throw new Sabre_DAV_Exception('Could not rename part file to final file');
+		try {
+			$renameOkay = $this->fileView->rename($partpath, $this->path);
+			$fileExists = $this->fileView->file_exists($this->path);
+			if ($renameOkay === false || $fileExists === false) {
+				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+				$this->fileView->unlink($partpath);
+				throw new Sabre_DAV_Exception('Could not rename part file to final file');
+			}
+		}
+		catch (\OCP\Files\LockNotAcquiredException $e) {
+			// the file is currently being written to by another process
+			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
 		// allow sync clients to send the mtime along in a header

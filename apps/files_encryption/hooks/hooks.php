@@ -99,12 +99,14 @@ class Hooks {
 
 			// Set legacy encryption key if it exists, to support
 			// depreciated encryption system
-			$encLegacyKey = $userView->file_get_contents('encryption.key');
-			if ($encLegacyKey) {
+			if ($userView->file_exists('encryption.key')) {
+				$encLegacyKey = $userView->file_get_contents('encryption.key');
+				if ($encLegacyKey) {
 
-				$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
+					$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
 
-				$session->setLegacyKey($plainLegacyKey);
+					$session->setLegacyKey($plainLegacyKey);
+				}
 			}
 
 			// Encrypt existing user files

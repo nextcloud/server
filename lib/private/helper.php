@@ -946,7 +946,7 @@ class OC_Helper {
 		$quota = 0;
 		// TODO: need a better way to get total space from storage
 		$storage = $rootInfo->getStorage();
-		if ($storage instanceof \OC\Files\Storage\Wrapper\Quota) {
+		if ($storage->instanceOfStorage('\OC\Files\Storage\Wrapper\Quota')) {
 			$quota = $storage->getQuota();
 		}
 		$free = $storage->free_space('');
