@@ -22,6 +22,12 @@
 	height: 32px;
 }
 
+#header .menutoggle {
+	display: inline-block;
+	position: absolute;
+	left: 70px;
+	top: 18px;
+}
 
 /* show appname next to logo */
 .header-appname {
