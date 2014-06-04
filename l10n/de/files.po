@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-02 01:54-0400\n"
-"PO-Revision-Date: 2014-06-02 05:01+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -209,7 +209,7 @@ msgstr "Teilen"
 msgid "Delete permanently"
 msgstr "Endgültig löschen"
 
-#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "Löschen"
 
@@ -251,11 +251,11 @@ msgstr "Fehler beim Löschen der Datei."
 msgid "Name"
 msgstr "Name"
 
-#: js/filelist.js:1450 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Größe"
 
-#: js/filelist.js:1451 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Geändert"
 
@@ -322,35 +322,19 @@ msgstr "%s konnte nicht umbenannt werden"
 msgid "Upload (max. %s)"
 msgstr "Hochladen (max. %s)"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Dateibehandlung"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Maximale Upload-Größe"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "maximal möglich:"
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Für Mehrfachdatei- und Ordnerdownloads benötigt:"
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "ZIP-Download aktivieren"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 bedeutet unbegrenzt"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Maximale Größe für ZIP-Dateien"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Speichern"
 
@@ -401,24 +385,24 @@ msgstr "Du besitzt hier keine Berechtigung, um Dateien hochzuladen oder zu erste
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Lade etwas hoch!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "Der Upload ist zu groß"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Dateien werden gescannt, bitte warten."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr "Durchsuchen läuft"

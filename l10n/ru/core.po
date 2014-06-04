@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-02 01:54-0400\n"
-"PO-Revision-Date: 2014-06-01 08:11+0000\n"
-"Last-Translator: Alexander Savchenko <a.v.savchenko@mail.ru>\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,23 +63,23 @@ msgstr "База данных обновлена"
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "Не указано изображение или файл"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Неизвестный тип файла"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Изображение повреждено"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "Временная картинка профиля недоступна, повторите попытку"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "Не указана информация о кадрировании"
 
@@ -159,338 +159,338 @@ msgstr "Ноябрь"
 msgid "December"
 msgstr "Декабрь"
 
-#: js/js.js:496
+#: js/js.js:501
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: js/js.js:596
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Сохранение..."
 
-#: js/js.js:1220
+#: js/js.js:1234
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:1221
+#: js/js.js:1235
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минуту назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: js/js.js:1222
+#: js/js.js:1236
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: js/js.js:1223
+#: js/js.js:1237
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:1224
+#: js/js.js:1238
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:1225
+#: js/js.js:1239
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: js/js.js:1226
+#: js/js.js:1240
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:1227
+#: js/js.js:1241
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: js/js.js:1228
+#: js/js.js:1242
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:1229
+#: js/js.js:1243
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "Нет"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Выбрать"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Ошибка при загрузке шаблона выбора файлов: {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "Ок"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Ошибка загрузки шаблона сообщений: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} конфликт в файлах"
 msgstr[1] "{count} конфликта в файлах"
 msgstr[2] "{count} конфликтов в файлах"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "Один конфликт в файлах"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "Новые файлы"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "Существующие файлы"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "Какие файлы вы хотите сохранить?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "При выборе обоих версий,  к названию копируемого файла будет добавлена цифра"
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Отменить"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Продолжить"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(выбраны все)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({count} выбрано)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr "Ошибка при загрузке шаблона существующего файла"
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "Очень слабый пароль"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "Слабый пароль"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "Так себе пароль"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "Хороший пароль"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "Устойчивый к взлому пароль"
 
-#: js/share.js:69 js/share.js:84 js/share.js:127
+#: js/share.js:79 js/share.js:96 js/share.js:152
 msgid "Shared"
 msgstr "Общие"
 
-#: js/share.js:130
+#: js/share.js:155
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: js/share.js:195 js/share.js:208 js/share.js:215 js/share.js:822
+#: js/share.js:220 js/share.js:234 js/share.js:241 js/share.js:848
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/share.js:197 js/share.js:885
+#: js/share.js:222 js/share.js:911
 msgid "Error while sharing"
 msgstr "Ошибка при открытии доступа"
 
-#: js/share.js:208
+#: js/share.js:234
 msgid "Error while unsharing"
 msgstr "Ошибка при закрытии доступа"
 
-#: js/share.js:215
+#: js/share.js:241
 msgid "Error while changing permissions"
 msgstr "Ошибка при смене разрешений"
 
-#: js/share.js:225
+#: js/share.js:251
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} открыл доступ для Вас и группы {group} "
 
-#: js/share.js:227
+#: js/share.js:253
 msgid "Shared with you by {owner}"
 msgstr "{owner} открыл доступ для Вас"
 
-#: js/share.js:251
+#: js/share.js:277
 msgid "Share with user or group …"
 msgstr "Поделиться с пользователем или группой..."
 
-#: js/share.js:257
+#: js/share.js:283
 msgid "Share link"
 msgstr "Поделиться ссылкой"
 
-#: js/share.js:263
+#: js/share.js:289
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "Срок действия публичной ссылки истекает не позже чем через {days} дней, после её создания"
 
-#: js/share.js:265
+#: js/share.js:291
 msgid "By default the public link will expire after {days} days"
 msgstr "По умолчанию срок действия публичной ссылки истекает через {days} дней"
 
-#: js/share.js:270
+#: js/share.js:296
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:272
+#: js/share.js:298
 msgid "Choose a password for the public link"
 msgstr "Выберите пароль для публичной ссылки"
 
-#: js/share.js:278
+#: js/share.js:304
 msgid "Allow Public Upload"
 msgstr "Разрешить загрузку"
 
-#: js/share.js:282
+#: js/share.js:308
 msgid "Email link to person"
 msgstr "Почтовая ссылка на персону"
 
-#: js/share.js:283
+#: js/share.js:309
 msgid "Send"
 msgstr "Отправить"
 
-#: js/share.js:288
+#: js/share.js:314
 msgid "Set expiration date"
 msgstr "Установить срок доступа"
 
-#: js/share.js:289
+#: js/share.js:315
 msgid "Expiration date"
 msgstr "Дата окончания"
 
-#: js/share.js:326
+#: js/share.js:352
 msgid "Share via email:"
 msgstr "Поделится через электронную почту:"
 
-#: js/share.js:329
+#: js/share.js:355
 msgid "No people found"
 msgstr "Ни один человек не найден"
 
-#: js/share.js:377 js/share.js:438
+#: js/share.js:403 js/share.js:464
 msgid "group"
 msgstr "группа"
 
-#: js/share.js:410
+#: js/share.js:436
 msgid "Resharing is not allowed"
 msgstr "Общий доступ не разрешен"
 
-#: js/share.js:454
+#: js/share.js:480
 msgid "Shared in {item} with {user}"
 msgstr "Общий доступ к {item} с {user}"
 
-#: js/share.js:476
+#: js/share.js:502
 msgid "Unshare"
 msgstr "Закрыть общий доступ"
 
-#: js/share.js:484
+#: js/share.js:510
 msgid "notify by email"
 msgstr "уведомить по почте"
 
-#: js/share.js:487
+#: js/share.js:513
 msgid "can edit"
 msgstr "может редактировать"
 
-#: js/share.js:489
+#: js/share.js:515
 msgid "access control"
 msgstr "контроль доступа"
 
-#: js/share.js:492
+#: js/share.js:518
 msgid "create"
 msgstr "создать"
 
-#: js/share.js:495
+#: js/share.js:521
 msgid "update"
 msgstr "обновить"
 
-#: js/share.js:498
+#: js/share.js:524
 msgid "delete"
 msgstr "удалить"
 
-#: js/share.js:501
+#: js/share.js:527
 msgid "share"
 msgstr "открыть доступ"
 
-#: js/share.js:803
+#: js/share.js:829
 msgid "Password protected"
 msgstr "Защищено паролем"
 
-#: js/share.js:822
+#: js/share.js:848
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отмене срока доступа"
 
-#: js/share.js:843
+#: js/share.js:869
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке срока доступа"
 
-#: js/share.js:872
+#: js/share.js:898
 msgid "Sending ..."
 msgstr "Отправляется ..."
 
-#: js/share.js:883
+#: js/share.js:909
 msgid "Email sent"
 msgstr "Письмо отправлено"
 
-#: js/share.js:907
+#: js/share.js:933
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "Тип объекта не указан"
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr "Ввести новое"
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Добавить"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "Изменить метки"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr "Ошибка загрузки шаблона диалога: {error}"
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr "Не выбраны меток для удаления."
 
@@ -541,7 +541,7 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "На ваш адрес Email выслана ссылка для сброса пароля."
 
 #: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: templates/login.php:34
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -707,7 +707,7 @@ msgstr "Для информации, как правильно настроит�
 msgid "Create an <strong>admin account</strong>"
 msgstr "Создать <strong>учётную запись администратора</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:60 templates/login.php:42
 msgid "Password"
 msgstr "Пароль"
 
@@ -724,8 +724,9 @@ msgid "Configure the database"
 msgstr "Настройка базы данных"
 
 #: templates/installation.php:94
-msgid "will be used"
-msgstr "будет использовано"
+#, php-format
+msgid "Only %s is available."
+msgstr ""
 
 #: templates/installation.php:109
 msgid "Database user"
@@ -748,10 +749,16 @@ msgid "Database host"
 msgstr "Хост базы данных"
 
 #: templates/installation.php:150
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:152
 msgid "Finish setup"
 msgstr "Завершить установку"
 
-#: templates/installation.php:150
+#: templates/installation.php:152
 msgid "Finishing …"
 msgstr "Завершаем..."
 
@@ -771,41 +778,41 @@ msgstr "%s доступно. Получить дополнительную ин�
 msgid "Log out"
 msgstr "Выйти"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "Автоматический вход в систему отключен!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!"
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Пожалуйста, смените пароль, чтобы обезопасить свою учетную запись."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Неудачная аутентификация с сервером!"
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr "Пожалуйста, свяжитесь с вашим администратором."
 
-#: templates/login.php:46
+#: templates/login.php:48
 msgid "Lost your password?"
 msgstr "Забыли пароль?"
 
-#: templates/login.php:51
+#: templates/login.php:53
 msgid "remember"
 msgstr "запомнить"
 
-#: templates/login.php:54
+#: templates/login.php:57
 msgid "Log in"
 msgstr "Войти"
 
-#: templates/login.php:60
+#: templates/login.php:63
 msgid "Alternative Logins"
 msgstr "Альтернативные имена пользователя"
 

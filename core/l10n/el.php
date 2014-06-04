@@ -158,7 +158,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Αποθήκευση & βάση δεδομένων",
 "Data folder" => "Φάκελος δεδομένων",
 "Configure the database" => "Ρύθμιση της βάσης δεδομένων",
-"will be used" => "θα χρησιμοποιηθούν",
 "Database user" => "Χρήστης της βάσης δεδομένων",
 "Database password" => "Συνθηματικό βάσης δεδομένων",
 "Database name" => "Όνομα βάσης δεδομένων",

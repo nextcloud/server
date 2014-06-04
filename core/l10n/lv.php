@@ -104,7 +104,6 @@ $TRANSLATIONS = array(
 "Password" => "Parole",
 "Data folder" => "Datu mape",
 "Configure the database" => "Konfigurēt datubāzi",
-"will be used" => "tiks izmantots",
 "Database user" => "Datubāzes lietotājs",
 "Database password" => "Datubāzes parole",
 "Database name" => "Datubāzes nosaukums",

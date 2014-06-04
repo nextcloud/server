@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "ストレージとデータベース",
 "Data folder" => "データフォルダー",
 "Configure the database" => "データベースを設定してください",
-"will be used" => "が使用されます",
 "Database user" => "データベースのユーザー名",
 "Database password" => "データベースのパスワード",
 "Database name" => "データベース名",

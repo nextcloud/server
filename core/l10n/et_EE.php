@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Andmehoidla ja andmebaas",
 "Data folder" => "Andmete kaust",
 "Configure the database" => "Seadista andmebaasi",
-"will be used" => "kasutatakse",
 "Database user" => "Andmebaasi kasutaja",
 "Database password" => "Andmebaasi parool",
 "Database name" => "Andmebasi nimi",

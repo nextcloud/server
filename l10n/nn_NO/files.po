@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-01 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 06:12+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -204,7 +204,7 @@ msgstr "Del"
 msgid "Delete permanently"
 msgstr "Slett for godt"
 
-#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "Slett"
 
@@ -246,11 +246,11 @@ msgstr ""
 msgid "Name"
 msgstr "Namn"
 
-#: js/filelist.js:1450 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Storleik"
 
-#: js/filelist.js:1451 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Endra"
 
@@ -317,35 +317,19 @@ msgstr "Klarte ikkje å omdøypa på %s"
 msgid "Upload (max. %s)"
 msgstr ""
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Filhandtering"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Maksimal opplastingsstorleik"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "maks. moglege:"
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Nødvendig for fleirfils- og mappenedlastingar."
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "Slå på ZIP-nedlasting"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 er ubegrensa"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Maksimal storleik for ZIP-filer"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Lagre"
 
@@ -396,24 +380,24 @@ msgstr ""
 msgid "Nothing in here. Upload something!"
 msgstr "Ingenting her. Last noko opp!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "For stor opplasting"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filene du prøver å lasta opp er større enn maksgrensa til denne tenaren."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Skannar filer, ver venleg og vent."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr ""

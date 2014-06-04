@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "Create an <strong>admin account</strong>" => "建立管理員帳戶",
 "Password" => "密碼",
 "Configure the database" => "設定資料庫",
-"will be used" => "將被使用",
 "Database user" => "資料庫帳戶",
 "Database password" => "資料庫密碼",
 "Database name" => "資料庫名稱",

@@ -151,7 +151,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Biltegia & datubasea",
 "Data folder" => "Datuen karpeta",
 "Configure the database" => "Konfiguratu datu basea",
-"will be used" => "erabiliko da",
 "Database user" => "Datubasearen erabiltzailea",
 "Database password" => "Datubasearen pasahitza",
 "Database name" => "Datubasearen izena",

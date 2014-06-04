@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Sletting mislyktes",
 "Take over settings from recent server configuration?" => "Hent innstillinger fra tidligere tjener-konfigurasjon?",
 "Keep settings?" => "Behold innstillinger?",
-"{nbServer}. Server" => "{nbServer}. Server",
 "Cannot add server configuration" => "Kan ikke legge til tjener-konfigurasjon",
 "mappings cleared" => "tilknytninger nullstilt",
 "Success" => "Suksess",

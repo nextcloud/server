@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Úložiště & databáze",
 "Data folder" => "Složka s daty",
 "Configure the database" => "Nastavit databázi",
-"will be used" => "bude použito",
 "Database user" => "Uživatel databáze",
 "Database password" => "Heslo databáze",
 "Database name" => "Název databáze",

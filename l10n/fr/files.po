@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-02 01:54-0400\n"
-"PO-Revision-Date: 2014-06-02 05:01+0000\n"
-"Last-Translator: Gauth <gauthier@openux.org>\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -208,7 +208,7 @@ msgstr "Partager"
 msgid "Delete permanently"
 msgstr "Supprimer de façon définitive"
 
-#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "Supprimer"
 
@@ -250,11 +250,11 @@ msgstr "Erreur pendant la suppression du fichier."
 msgid "Name"
 msgstr "Nom"
 
-#: js/filelist.js:1450 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Taille"
 
-#: js/filelist.js:1451 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Modifié"
 
@@ -321,35 +321,19 @@ msgstr "%s ne peut être renommé"
 msgid "Upload (max. %s)"
 msgstr "Envoi (max. %s)"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Gestion des fichiers"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Taille max. d'envoi"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "Max. possible :"
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Nécessaire pour le téléchargement de plusieurs fichiers et de dossiers."
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "Activer le téléchargement ZIP"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 est illimité"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Taille maximale pour les fichiers ZIP"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Sauvegarder"
 
@@ -400,24 +384,24 @@ msgstr "Vous n'avez pas la permission de téléverser ou de créer des fichiers 
 msgid "Nothing in here. Upload something!"
 msgstr "Il n'y a rien ici ! Envoyez donc quelque chose :)"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Télécharger"
 
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "Téléversement trop volumineux"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Les fichiers sont en cours d'analyse, veuillez patienter."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr "Analyse en cours de traitement"

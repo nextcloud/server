@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "La suppression a échoué",
 "Take over settings from recent server configuration?" => "Récupérer les paramètres depuis une configuration récente du serveur ?",
 "Keep settings?" => "Garder ces paramètres ?",
-"{nbServer}. Server" => "{nbServer}. Serveur",
 "Cannot add server configuration" => "Impossible d'ajouter la configuration du serveur",
 "mappings cleared" => "associations supprimées",
 "Success" => "Succès",

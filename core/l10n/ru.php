@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Система хранения данных & база данных",
 "Data folder" => "Директория с данными",
 "Configure the database" => "Настройка базы данных",
-"will be used" => "будет использовано",
 "Database user" => "Пользователь базы данных",
 "Database password" => "Пароль базы данных",
 "Database name" => "Название базы данных",

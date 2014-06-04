@@ -59,11 +59,9 @@ $TRANSLATIONS = array(
 "Help translate" => "অনুবাদ করতে সহায়তা করুন",
 "Login Name" => "প্রবেশ",
 "Create" => "তৈরী কর",
-"Default Storage" => "পূর্বনির্ধারিত সংরক্ষণাগার",
 "Unlimited" => "অসীম",
 "Other" => "অন্যান্য",
 "Username" => "ব্যবহারকারী",
-"Storage" => "সংরক্ষণাগার",
 "Default" => "পূর্বনির্ধারিত"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

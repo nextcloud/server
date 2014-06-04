@@ -81,11 +81,9 @@ $TRANSLATIONS = array(
 "Help translate" => "ช่วยกันแปล",
 "Login Name" => "ชื่อที่ใช้สำหรับเข้าสู่ระบบ",
 "Create" => "สร้าง",
-"Default Storage" => "พื้นที่จำกัดข้อมูลเริ่มต้น",
 "Unlimited" => "ไม่จำกัดจำนวน",
 "Other" => "อื่นๆ",
 "Username" => "ชื่อผู้ใช้งาน",
-"Storage" => "พื้นที่จัดเก็บข้อมูล",
 "set new password" => "ตั้งค่ารหัสผ่านใหม่",
 "Default" => "ค่าเริ่มต้น"
 );

@@ -143,7 +143,6 @@ $TRANSLATIONS = array(
 "Password" => "密碼",
 "Data folder" => "資料儲存位置",
 "Configure the database" => "設定資料庫",
-"will be used" => "將會使用",
 "Database user" => "資料庫使用者",
 "Database password" => "資料庫密碼",
 "Database name" => "資料庫名稱",

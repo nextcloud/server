@@ -158,7 +158,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Depolama ve veritabanı",
 "Data folder" => "Veri klasörü",
 "Configure the database" => "Veritabanını yapılandır",
-"will be used" => "kullanılacak",
 "Database user" => "Veritabanı kullanıcı adı",
 "Database password" => "Veritabanı parolası",
 "Database name" => "Veritabanı adı",

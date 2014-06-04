@@ -94,7 +94,6 @@ $TRANSLATIONS = array(
 "Password" => "รหัสผ่าน",
 "Data folder" => "โฟลเดอร์เก็บข้อมูล",
 "Configure the database" => "กำหนดค่าฐานข้อมูล",
-"will be used" => "จะถูกใช้",
 "Database user" => "ชื่อผู้ใช้งานฐานข้อมูล",
 "Database password" => "รหัสผ่านฐานข้อมูล",
 "Database name" => "ชื่อฐานข้อมูล",

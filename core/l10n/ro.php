@@ -111,7 +111,6 @@ $TRANSLATIONS = array(
 "Password" => "Parolă",
 "Data folder" => "Director date",
 "Configure the database" => "Configurează baza de date",
-"will be used" => "vor fi folosite",
 "Database user" => "Utilizatorul bazei de date",
 "Database password" => "Parola bazei de date",
 "Database name" => "Numele bazei de date",

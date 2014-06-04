@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "加密功能未初始化!可能加密功能需要重新啟用在現在的連線上。請試著登出再登入來初始化加密功能。",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "您的私人金鑰不正確!可能您的密碼已經變更在外部的 %s (例如:您的企業目錄)。您可以在您的個人設定中更新私人金鑰密碼來還原存取您的加密檔案。",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "無法解密這個檔案，也許這是分享的檔案。請詢問檔案所有人重新分享檔案給您。",
+"Unknown error. Please check your system settings or contact your administrator" => "未知錯誤請檢查您的系統設定或是聯絡您的管理員",
 "Missing requirements." => "遺失必要條件。",
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." => "請確認已安裝 PHP 5.3.3 或是更新的版本以及 OpenSSL 也一併安裝在 PHP extension 裡面並啟用及設置完成。現在，加密功能是停用的。",
 "Following users are not set up for encryption:" => "以下的使用者無法設定加密:",

@@ -1,9 +1,9 @@
 <?php
 $TRANSLATIONS = array(
-"Shared with you" => "compartido con vostede",
+"Shared with you" => "Compartido con vostede",
 "Shared with others" => "Compartido con outros",
 "No files have been shared with you yet." => "Aínda non hai ficheiros compartidos con vostede.",
-"You haven't shared any files yet." => "Aínda non compartíu ningún ficheiro.",
+"You haven't shared any files yet." => "Aínda non compartiu ningún ficheiro.",
 "Shared by {owner}" => "Compartido por {owner}",
 "Shared by" => "Compartido por",
 "link" => "ligazón",

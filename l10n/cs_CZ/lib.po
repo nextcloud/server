@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -24,49 +24,49 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: base.php:695
+#: base.php:713
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Přistupujete na server z nedůvěryhodné domény."
 
-#: base.php:696
+#: base.php:714
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Kontaktujte prosím správce. Pokud jste správce této instalace, nastavte \"trusted_domain\" v souboru config/config.php. Příklad konfigurace najdete v souboru config/config.sample.php."
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Aplikace \"%s\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "Nebyl zadan název aplikace"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Nápověda"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Osobní"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Nastavení"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Uživatelé"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Administrace"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
@@ -82,28 +82,6 @@ msgstr "Chybný obrázek"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "Stahování v ZIPu je vypnuto."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "Soubory musí být stahovány jednotlivě."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "Zpět k souborům"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "Vybrané soubory jsou příliš velké pro vytvoření ZIP souboru."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "Prosím stáhněte soubory odděleně po menších množstvích nebo požádejte vašeho správce."
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -134,29 +112,29 @@ msgstr "Aplikace neposkytuje soubor info.xml"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Aplikace nemůže být nainstalována, protože obsahuje nepovolený kód"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Aplikace nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud"
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Aplikace nemůže být nainstalována, protože obsahuje značku\n<shipped>\n\ntrue\n</shipped>\n\ncož není povoleno pro nedodávané aplikace"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Aplikace nemůže být nainstalována, protože verze uvedená v info.xml/version nesouhlasí s verzí oznámenou z úložiště aplikací."
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "Adresář aplikace již existuje"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nelze vytvořit složku aplikace. Opravte práva souborů. %s"
@@ -473,20 +451,20 @@ msgstr "minulý rok"
 msgid "years ago"
 msgstr "před lety"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\" a \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Musíte zadat platné uživatelské jméno"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Musíte zadat platné heslo"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Uživatelské jméno je již využíváno"

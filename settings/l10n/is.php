@@ -59,11 +59,9 @@ $TRANSLATIONS = array(
 "Language" => "Tungumál",
 "Help translate" => "Hjálpa við þýðingu",
 "Create" => "Búa til",
-"Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",
 "Other" => "Annað",
 "Username" => "Notendanafn",
-"Storage" => "gagnapláss",
 "Default" => "Sjálfgefið"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

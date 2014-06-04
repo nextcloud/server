@@ -7,12 +7,13 @@
 # Carlos <crolidge@gmail.com>, 2014
 # Mouxy <daniel@mouxy.net>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
+# Drew Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +76,7 @@ msgid "Keep settings?"
 msgstr "Manter as definições?"
 
 #: js/settings.js:93
-msgid "{nbServer}. Server"
+msgid "{nthServer}. Server"
 msgstr ""
 
 #: js/settings.js:99
@@ -96,15 +97,15 @@ msgstr "Erro"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Por favor indique a Base DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "Não foi possível determinar a Base DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Por favor indique a porta"
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -170,15 +171,15 @@ msgstr "Não se encontrou a função desejada"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Filtro de utilizadores"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Filtro de Login"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -258,12 +259,12 @@ msgstr "Define o filtro a aplicar, quando se tenta uma sessão. %%uid substitui 
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Servidor"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Servvidor"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -271,7 +272,7 @@ msgstr "Adicionar configurações do servidor"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Apagar Configuração"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -322,7 +323,7 @@ msgstr "Limitar o acesso a %s de utilizadores com estes critérios:"
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "O filtro especifica quais utilizadores do LDAP devem ter acesso  à instância %s."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
@@ -338,7 +339,7 @@ msgstr "Continuar"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Perito"
 
 #: templates/settings.php:8
 msgid "Advanced"
@@ -393,7 +394,7 @@ msgstr "Ligar apenas ao servidor de réplicas."
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Servidor LDAP (Windows) não é sensível a maiúsculas."
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

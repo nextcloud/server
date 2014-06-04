@@ -92,7 +92,6 @@ $TRANSLATIONS = array(
 "Password" => "Lykilorð",
 "Data folder" => "Gagnamappa",
 "Configure the database" => "Stilla gagnagrunn",
-"will be used" => "verður notað",
 "Database user" => "Gagnagrunns notandi",
 "Database password" => "Gagnagrunns lykilorð",
 "Database name" => "Nafn gagnagrunns",

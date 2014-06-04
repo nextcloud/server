@@ -158,7 +158,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Tallennus ja tietokanta",
 "Data folder" => "Datakansio",
 "Configure the database" => "Muokkaa tietokantaa",
-"will be used" => "käytetään",
 "Database user" => "Tietokannan käyttäjä",
 "Database password" => "Tietokannan salasana",
 "Database name" => "Tietokannan nimi",

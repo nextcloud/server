@@ -22,7 +22,6 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Maximum upload size" => "Максимален размер за качване",
-"0 is unlimited" => "Ползвайте 0 за без ограничения",
 "Save" => "Запис",
 "WebDAV" => "WebDAV",
 "New" => "Ново",

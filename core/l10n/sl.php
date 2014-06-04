@@ -152,7 +152,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Shramba in podatkovna zbirka",
 "Data folder" => "Podatkovna mapa",
 "Configure the database" => "Nastavi podatkovno zbirko",
-"will be used" => "bo uporabljen",
 "Database user" => "Uporabnik podatkovne zbirke",
 "Database password" => "Geslo podatkovne zbirke",
 "Database name" => "Ime podatkovne zbirke",

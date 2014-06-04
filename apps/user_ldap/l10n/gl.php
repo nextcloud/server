@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Produciuse un fallo ao eliminar",
 "Take over settings from recent server configuration?" => "Tomar os recentes axustes de configuración do servidor?",
 "Keep settings?" => "Manter os axustes?",
-"{nbServer}. Server" => "{nbServer}. Servidor",
 "Cannot add server configuration" => "Non é posíbel engadir a configuración do servidor",
 "mappings cleared" => "limpadas as asignacións",
 "Success" => "Correcto",

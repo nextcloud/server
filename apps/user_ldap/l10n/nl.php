@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Verwijderen mislukt",
 "Take over settings from recent server configuration?" => "Overnemen instellingen van de recente serverconfiguratie?",
 "Keep settings?" => "Instellingen bewaren?",
-"{nbServer}. Server" => "{nbServer}. Server",
 "Cannot add server configuration" => "Kon de serverconfiguratie niet toevoegen",
 "mappings cleared" => "vertaaltabel leeggemaakt",
 "Success" => "Succes",

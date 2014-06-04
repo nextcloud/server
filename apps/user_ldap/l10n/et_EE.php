@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Kustutamine ebaõnnestus",
 "Take over settings from recent server configuration?" => "Võta sätted viimasest serveri seadistusest?",
 "Keep settings?" => "Säilitada seadistused?",
-"{nbServer}. Server" => "{nbServer}. Server",
 "Cannot add server configuration" => "Ei suuda lisada serveri seadistust",
 "mappings cleared" => "vastendused puhastatud",
 "Success" => "Korras",

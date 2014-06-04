@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-01 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 18:11+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-03 17:41+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: appinfo/app.php:32 js/app.js:32
 msgid "Shared with you"
-msgstr "compartido con vostede"
+msgstr "Compartido con vostede"
 
 #: appinfo/app.php:41 js/app.js:51
 msgid "Shared with others"
@@ -33,7 +33,7 @@ msgstr "Aínda non hai ficheiros compartidos con vostede."
 
 #: js/app.js:52
 msgid "You haven't shared any files yet."
-msgstr "Aínda non compartíu ningún ficheiro."
+msgstr "Aínda non compartiu ningún ficheiro."
 
 #: js/share.js:47 js/share.js:55
 msgid "Shared by {owner}"
@@ -91,15 +91,15 @@ msgstr "foi desactivada a compartición"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón."
 
-#: templates/public.php:21
+#: templates/public.php:20
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/public.php:52
+#: templates/public.php:50
 #, php-format
 msgid "Download %s"
 msgstr "Descargar %s"
 
-#: templates/public.php:56
+#: templates/public.php:54
 msgid "Direct link"
 msgstr "Ligazón directa"

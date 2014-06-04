@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "存储 & 数据库",
 "Data folder" => "数据目录",
 "Configure the database" => "配置数据库",
-"will be used" => "将被使用",
 "Database user" => "数据库用户",
 "Database password" => "数据库密码",
 "Database name" => "数据库名",

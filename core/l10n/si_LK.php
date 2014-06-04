@@ -75,7 +75,6 @@ $TRANSLATIONS = array(
 "Password" => "මුර පදය",
 "Data folder" => "දත්ත ෆෝල්ඩරය",
 "Configure the database" => "දත්ත සමුදාය හැඩගැසීම",
-"will be used" => "භාවිතා වනු ඇත",
 "Database user" => "දත්තගබඩා භාවිතාකරු",
 "Database password" => "දත්තගබඩාවේ මුරපදය",
 "Database name" => "දත්තගබඩාවේ නම",

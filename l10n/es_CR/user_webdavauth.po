@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-04-23 01:54-0400\n"
-"PO-Revision-Date: 2014-04-22 22:45+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:55+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/projects/p/owncloud/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,11 @@ msgid "WebDAV Authentication"
 msgstr ""
 
 #: templates/settings.php:3
-msgid "Address: "
+msgid "Address:"
+msgstr ""
+
+#: templates/settings.php:5
+msgid "Save"
 msgstr ""
 
 #: templates/settings.php:6

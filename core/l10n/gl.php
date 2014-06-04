@@ -158,7 +158,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Almacenamento e base de datos",
 "Data folder" => "Cartafol de datos",
 "Configure the database" => "Configurar a base de datos",
-"will be used" => "vai ser utilizado",
 "Database user" => "Usuario da base de datos",
 "Database password" => "Contrasinal da base de datos",
 "Database name" => "Nome da base de datos",

@@ -122,7 +122,6 @@ $TRANSLATIONS = array(
 "Password" => "Лозинка",
 "Data folder" => "Фолдер со податоци",
 "Configure the database" => "Конфигурирај ја базата",
-"will be used" => "ќе биде користено",
 "Database user" => "Корисник на база",
 "Database password" => "Лозинка на база",
 "Database name" => "Име на база",

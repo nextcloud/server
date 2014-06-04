@@ -56,11 +56,9 @@ $TRANSLATIONS = array(
 "Help translate" => "Помогнете с превода",
 "Login Name" => "Потребител",
 "Create" => "Създаване",
-"Default Storage" => "Хранилище по подразбиране",
 "Unlimited" => "Неограничено",
 "Other" => "Други",
 "Username" => "Потребител",
-"Storage" => "Хранилище",
 "Default" => "По подразбиране"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

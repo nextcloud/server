@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-25 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 10:12+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,49 +23,49 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:713
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Sie greifen von einer nicht vertrauenswürdigen Domain auf den Server zu."
 
-#: base.php:696
+#: base.php:714
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Bitte kontaktieren Sie Ihren Administrator. Wenn Sie aktuell Administrator dieser Instanz sind, konfigurieren Sie bitte die \"trusted_domain\" - Einstellung in config/config.php. Eine Beispielkonfiguration wird unter config/config.sample.php bereit gestellt."
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Applikation \"%s\" kann nicht installiert werden, da sie mit dieser ownCloud Version nicht kompatibel ist."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "Es wurde kein Applikation-Name angegeben"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Hilfe"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Persönlich"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Benutzer"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Administrator"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Konnte \"%s\" nicht aktualisieren."
@@ -81,28 +81,6 @@ msgstr "Ungültiges Bild"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "Web-Services unter Ihrer Kontrolle"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "Der ZIP-Download ist deaktiviert."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "Die Dateien müssen einzeln heruntergeladen werden."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "Zurück zu \"Dateien\""
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "Bitte laden Sie die Dateien einzeln in kleineren Teilen herunter oder bitten Sie Ihren Administrator."
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -133,29 +111,29 @@ msgstr "Die Applikation enthält keine info.xml Datei"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Die Applikation kann auf Grund von unerlaubten Code nicht installiert werden"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Die Anwendung konnte nicht installiert werden, weil Sie nicht mit dieser Version von ownCloud kompatibel ist."
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Die Applikation konnte nicht installiert werden, da diese das <shipped>true</shipped> Tag beinhaltet und dieses, bei nicht mitausgelieferten Applikationen, nicht erlaubt ist ist"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Die Applikation konnte nicht installiert werden, da die Version in der info.xml nicht die gleiche Version wie im App-Store ist"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "Der Ordner für die Anwendung existiert bereits."
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Der Ordner für die Anwendung konnte nicht angelegt werden. Bitte überprüfen Sie die Ordner- und Dateirechte und passen Sie diese entsprechend an. %s"
@@ -468,20 +446,20 @@ msgstr "Letztes Jahr"
 msgid "years ago"
 msgstr "Vor  Jahren"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Folgende Zeichen sind im Benutzernamen erlaubt: \"a-z\", \"A-Z\", \"0-9\" und \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Es muss ein gültiger Benutzername angegeben werden"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Es muss ein gültiges Passwort angegeben werden"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Der Benutzername existiert bereits"

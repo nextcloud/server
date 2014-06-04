@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-01 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 06:12+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -201,7 +201,7 @@ msgstr "பகிர்வு"
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:226 templates/list.php:80 templates/list.php:81
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "நீக்குக"
 
@@ -243,11 +243,11 @@ msgstr ""
 msgid "Name"
 msgstr "பெயர்"
 
-#: js/filelist.js:1450 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "அளவு"
 
-#: js/filelist.js:1451 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "மாற்றப்பட்டது"
 
@@ -314,35 +314,19 @@ msgstr ""
 msgid "Upload (max. %s)"
 msgstr ""
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "கோப்பு கையாளுதல்"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "பதிவேற்றக்கூடிய ஆகக்கூடிய அளவு "
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "ஆகக் கூடியது:"
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "பல்வேறுப்பட்ட கோப்பு மற்றும் கோப்புறைகளை பதிவிறக்க தேவையானது."
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "ZIP பதிவிறக்கலை இயலுமைப்படுத்துக"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 ஆனது எல்லையற்றது"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "ZIP கோப்புகளுக்கான ஆகக்கூடிய உள்ளீட்டு அளவு"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "சேமிக்க "
 
@@ -393,24 +377,24 @@ msgstr ""
 msgid "Nothing in here. Upload something!"
 msgstr "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "பதிவிறக்குக"
 
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "பதிவேற்றல் மிகப்பெரியது"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr ""

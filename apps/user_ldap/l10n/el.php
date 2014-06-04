@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Η διαγραφή απέτυχε",
 "Take over settings from recent server configuration?" => "Πάρτε πάνω από τις πρόσφατες ρυθμίσεις διαμόρφωσης του διακομιστή?",
 "Keep settings?" => "Διατήρηση ρυθμίσεων;",
-"{nbServer}. Server" => "{nbServer}. Διακομιστής",
 "Cannot add server configuration" => "Αδυναμία προσθήκης ρυθμίσεων διακομιστή",
 "mappings cleared" => "αντιστοιχίες εκκαθαρίστηκαν",
 "Success" => "Επιτυχία",
