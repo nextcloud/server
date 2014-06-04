@@ -166,6 +166,7 @@ input[type="submit"], input[type="button"],
 button, .button,
 #quota, select, .pager li a {
 	width: auto;
+	min-width: 25px;
 	padding: 5px;
 	background-color: rgba(240,240,240,.9);
 	font-weight: bold;

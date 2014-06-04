@@ -8,7 +8,7 @@
 	<li id="newgroup-form">
 		<form>
 			<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group')); ?>..." />
-			<input type="submit" class="button" value="<?php p($l->t('Add Group'))?>" />
+			<input type="submit" class="button icon-add" value="" />
 		</form>
 	</li>
 	<!-- Everyone -->
