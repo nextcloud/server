@@ -718,6 +718,8 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function unshareFromSelf($itemType, $itemTarget) {
 
+		$uid = \OCP\User::getUser();
+
 		if ($itemType === 'file' || $itemType === 'folder') {
 			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `file_target` = ?';
 		} else {
@@ -732,13 +734,16 @@ class Share extends \OC\Share\Constants {
 		$itemUnshared = false;
 		foreach ($shares as $share) {
 			if ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_USER &&
-					$share['share_with'] === \OCP\User::getUser()) {
+					$share['share_with'] === $uid) {
 				Helper::delete($share['id']);
 				$itemUnshared = true;
 				break;
 			} elseif ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP) {
-				$groupShare = $share;
-			} elseif ((int)$share['share_type'] === self::$shareTypeGroupUserUnique) {
+				if (\OC_Group::inGroup($uid, $share['share_with'])) {
+					$groupShare = $share;
+				}
+			} elseif ((int)$share['share_type'] === self::$shareTypeGroupUserUnique &&
+					$share['share_with'] === $uid) {
 				$uniqueGroupShare = $share;
 			}
 		}
