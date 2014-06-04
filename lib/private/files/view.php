@@ -359,7 +359,8 @@ class View {
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 		if (!($storage instanceof \OC\Files\Storage\Shared) &&
-				(!$internalPath || $internalPath === '' || $internalPath === '/')) {
+			(!$internalPath || $internalPath === '' || $internalPath === '/')
+		) {
 			// do not allow deleting the storage's root / the mount point
 			// because for some storages it might delete the whole contents
 			// but isn't supposed to work that way
@@ -678,6 +679,7 @@ class View {
 
 	/**
 	 * abstraction layer for basic filesystem functions: wrapper for \OC\Files\Storage\Storage
+	 *
 	 * @param string $operation
 	 * @param string $path
 	 * @param array $hooks (optional)
@@ -1138,12 +1140,14 @@ class View {
 			/**
 			 * @var \OC\Files\Mount\Mount $mount
 			 */
-			$cache = $mount->getStorage()->getCache();
-			$internalPath = $cache->getPathById($id);
-			if (is_string($internalPath)) {
-				$fullPath = $mount->getMountPoint() . $internalPath;
-				if (!is_null($path = $this->getRelativePath($fullPath))) {
-					return $path;
+			if ($mount->getStorage()) {
+				$cache = $mount->getStorage()->getCache();
+				$internalPath = $cache->getPathById($id);
+				if (is_string($internalPath)) {
+					$fullPath = $mount->getMountPoint() . $internalPath;
+					if (!is_null($path = $this->getRelativePath($fullPath))) {
+						return $path;
+					}
 				}
 			}
 		}
