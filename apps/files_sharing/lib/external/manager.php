@@ -8,6 +8,7 @@
 
 namespace OCA\Files_Sharing\External;
 
+use OC\Files\Filesystem;
 use OC\Files\Mount\Mount;
 
 class Manager {
@@ -52,7 +53,7 @@ class Manager {
 		if ($user) {
 			$query = $this->connection->prepare('INSERT INTO *PREFIX*share_external(`remote`, `share_token`, `password`,
 				`name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
-			$mountPoint = '/' . $user->getUID() . '/files/' . $name;
+			$mountPoint = Filesystem::normalizePath('/' . $name);
 			$hash = md5($mountPoint);
 			$query->execute(array($remote, $token, $password, $name, $owner, $user->getUID(), $mountPoint, $hash));
 
@@ -63,9 +64,7 @@ class Manager {
 				'mountpoint' => $mountPoint,
 				'owner' => $owner
 			);
-			$mount = new Mount(self::STORAGE, $mountPoint, $options, $this->storageLoader);
-			$this->mountManager->addMount($mount);
-			return $mount;
+			return $this->mountShare($options);
 		}
 	}
 
@@ -79,10 +78,20 @@ class Manager {
 			while ($row = $query->fetch()) {
 				$row['manager'] = $this;
 				$row['token'] = $row['share_token'];
-				$mount = new Mount(self::STORAGE, $row['mountpoint'], $row, $this->storageLoader);
-				$this->mountManager->addMount($mount);
+				$this->mountShare($row);
 			}
 		}
+	}
+
+	/**
+	 * @param array $data
+	 * @return Mount
+	 */
+	protected function mountShare($data) {
+		$mountPoint = '/' . $this->userSession->getUser()->getUID() . '/files' . $data['mountpoint'];
+		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this->storageLoader);
+		$this->mountManager->addMount($mount);
+		return $mount;
 	}
 
 	/**
