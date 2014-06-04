@@ -367,7 +367,7 @@ describe('Core base tests', function() {
 				'<a id="owncloud" href="#"></a>' +
 				'</div>' +
 				'<div id="navigation"></div>');
-			$toggle = $('#owncloud');
+			$toggle = $('#header').find('.menutoggle');
 			$navigation = $('#navigation');
 		});
 		afterEach(function() {
@@ -375,7 +375,6 @@ describe('Core base tests', function() {
 		});
 		it('Sets up menu toggle', function() {
 			window.initCore();
-			expect($toggle.hasClass('menutoggle')).toEqual(true);
 			expect($navigation.hasClass('menu')).toEqual(true);
 		});
 		it('Clicking menu toggle toggles navigation in', function() {
