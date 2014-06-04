@@ -87,10 +87,6 @@
 
 #filestable tbody tr { background-color:#fff; height:51px; }
 
-.app-files #app-content {
-	position: relative;
-}
-
 /* fit app list view heights */
 .app-files #app-content>.viewcontainer {
 	height: 100%;
