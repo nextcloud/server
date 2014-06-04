@@ -21,7 +21,8 @@
  *
  */
 
-class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sabre_DAV_ICollection, Sabre_DAV_IQuota {
+class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
+	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
 
 	/**
 	 * Creates a new file in the directory
@@ -45,7 +46,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 *
 	 * @param string $name Name of the file
 	 * @param resource|string $data Initial payload
-	 * @throws Sabre_DAV_Exception_Forbidden
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @return null|string
 	 */
 	public function createFile($name, $data = null) {
@@ -58,13 +59,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			$info = OC_FileChunking::decodeName($name);
 			if (!$this->fileView->isCreatable($this->path) &&
 					!$this->fileView->isUpdatable($this->path . '/' . $info['name'])) {
-				throw new \Sabre_DAV_Exception_Forbidden();
+				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 
 		} else {
 			// For non-chunked upload it is enough to check if we can create a new file
 			if (!$this->fileView->isCreatable($this->path)) {
-				throw new \Sabre_DAV_Exception_Forbidden();
+				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		}
 
@@ -79,17 +80,17 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * Creates a new subdirectory
 	 *
 	 * @param string $name
-	 * @throws Sabre_DAV_Exception_Forbidden
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 * @return void
 	 */
 	public function createDirectory($name) {
 		if (!$this->fileView->isCreatable($this->path)) {
-			throw new \Sabre_DAV_Exception_Forbidden();
+			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
 		$newPath = $this->path . '/' . $name;
 		if(!$this->fileView->mkdir($newPath)) {
-			throw new Sabre_DAV_Exception_Forbidden('Could not create directory '.$newPath);
+			throw new \Sabre\DAV\Exception\Forbidden('Could not create directory '.$newPath);
 		}
 
 	}
@@ -99,8 +100,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 *
 	 * @param string $name
 	 * @param \OCP\Files\FileInfo $info
-	 * @throws Sabre_DAV_Exception_NotFound
-	 * @return Sabre_DAV_INode
+	 * @throws \Sabre\DAV\Exception\FileNotFound
+	 * @return \Sabre\DAV\INode
 	 */
 	public function getChild($name, $info = null) {
 
@@ -110,7 +111,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		}
 
 		if (!$info) {
-			throw new Sabre_DAV_Exception_NotFound('File with name ' . $path . ' could not be located');
+			throw new \Sabre\DAV\Exception\NotFound('File with name ' . $path . ' could not be located');
 		}
 
 		if ($info['mimetype'] == 'httpd/unix-directory') {
@@ -124,7 +125,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	/**
 	 * Returns an array with all the child nodes
 	 *
-	 * @return Sabre_DAV_INode[]
+	 * @return \Sabre\DAV\INode[]
 	 */
 	public function getChildren() {
 
@@ -183,12 +184,12 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	 * Deletes all files in this directory, and then itself
 	 *
 	 * @return void
-	 * @throws Sabre_DAV_Exception_Forbidden
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function delete() {
 
 		if (!$this->info->isDeletable()) {
-			throw new \Sabre_DAV_Exception_Forbidden();
+			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
 		$this->fileView->rmdir($this->path);

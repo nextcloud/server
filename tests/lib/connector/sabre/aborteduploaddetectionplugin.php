@@ -9,7 +9,7 @@
 class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Framework_TestCase {
 
 	/**
-	 * @var Sabre_DAV_Server
+	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
 
@@ -19,7 +19,7 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 	private $plugin;
 
 	private function init($view) {
-		$this->server = new Sabre_DAV_Server();
+		$this->server = new \Sabre\DAV\Server();
 		$this->plugin = new OC_Connector_Sabre_AbortedUploadDetectionPlugin($view);
 		$this->plugin->initialize($this->server);
 	}
@@ -30,7 +30,7 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 	public function testLength($expected, $headers) {
 		$this->init(null);
 
-		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
+		$this->server->httpRequest = new \Sabre\HTTP\Request($headers);
 		$length = $this->plugin->getLength();
 		$this->assertEquals($expected, $length);
 	}
@@ -42,14 +42,14 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 		$this->init($this->buildFileViewMock($fileSize));
 
 		$headers['REQUEST_METHOD'] = $method;
-		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
+		$this->server->httpRequest = new Sabre\HTTP\Request($headers);
 		$this->plugin->verifyContentLength('foo.txt');
 		$this->assertTrue(true);
 	}
 
 	/**
 	 * @dataProvider verifyContentLengthFailedProvider
-	 * @expectedException Sabre_DAV_Exception_BadRequest
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
 	 */
 	public function testVerifyContentLengthFailed($method, $fileSize, $headers) {
 		$view = $this->buildFileViewMock($fileSize);
@@ -58,7 +58,7 @@ class Test_OC_Connector_Sabre_AbortedUploadDetectionPlugin extends PHPUnit_Frame
 		$view->expects($this->once())->method('unlink');
 
 		$headers['REQUEST_METHOD'] = $method;
-		$this->server->httpRequest = new Sabre_HTTP_Request($headers);
+		$this->server->httpRequest = new Sabre\HTTP\Request($headers);
 		$this->plugin->verifyContentLength('foo.txt');
 	}
 

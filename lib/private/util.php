@@ -983,7 +983,7 @@ class OC_Util {
 		try {
 			// test PROPFIND
 			$client->propfind('', array('{DAV:}resourcetype'));
-		} catch (\Sabre_DAV_Exception_NotAuthenticated $e) {
+		} catch (\Sabre\DAV\Exception\NotAuthenticated $e) {
 			$return = true;
 		} catch (\Exception $e) {
 			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);

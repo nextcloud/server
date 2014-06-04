@@ -9,7 +9,7 @@
 
 namespace OCA\Files_Sharing\Connector;
 
-class PublicAuth extends \Sabre_DAV_Auth_Backend_AbstractBasic {
+class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 
 	/**
 	 * @var \OCP\IConfig
