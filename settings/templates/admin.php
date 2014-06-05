@@ -237,15 +237,14 @@ if (!$_['internetconnectionworking']) {
 			<td id="enable">
 				<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
 					   value="1" <?php if ($_['shareAPIEnabled'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="shareAPIEnabled"><?php p($l->t('Enable Share API'));?></label><br/>
-				<em><?php p($l->t('Allow apps to use the Share API')); ?></em>
+				<label for="shareAPIEnabled"><?php p($l->t('Allow apps to use the Share API'));?></label><br/>
 			</td>
 		</tr>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
 					   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowLinks"><?php p($l->t('Allow links'));?></label><br/>
+				<label for="allowLinks"><?php p($l->t('Allow users to share via link'));?></label><br/>
 				<div <?php ($_['allowLinks'] === 'yes') ? print_unescaped('class="indent"') : print_unescaped('class="hidden indent"');?> id="publicLinkSettings">
 				<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword"
 						   value="1" <?php if ($_['enforceLinkPassword']) print_unescaped('checked="checked"'); ?> />
@@ -268,7 +267,6 @@ if (!$_['internetconnectionworking']) {
 				</div>
 
 				</div>
-				<em><?php p($l->t('Allow users to share items to the public with links')); ?></em>
 			</td>
 		</tr>
 		<tr>
@@ -276,15 +274,13 @@ if (!$_['internetconnectionworking']) {
 				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
 					   value="1" <?php if ($_['allowResharing'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowResharing"><?php p($l->t('Allow resharing'));?></label><br/>
-				<em><?php p($l->t('Allow users to share items shared with them again')); ?></em>
-				<div id="resharingSettings" <?php ($_['allowResharing'] === 'yes') ? print_unescaped('class="indent"') : print_unescaped('class="hidden indent"');?>>
-					<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal"
-						    value="global" <?php if ($_['sharePolicy'] === 'global') print_unescaped('checked="checked"'); ?> />
-					<label for="sharePolicyGlobal"><?php p($l->t('Allow users to share with anyone')); ?></label><br/>
-					<input type="radio" name="shareapi_share_policy" id="sharePolicyGroupsOnly"
-						    value="groups_only" <?php if ($_['sharePolicy'] === 'groups_only') print_unescaped('checked="checked"'); ?> />
-					<label for="sharePolicyGroupsOnly"><?php p($l->t('Allow users to only share with users in their groups'));?></label><br/>
-				</div>
+			</td>
+		</tr>
+		<tr>
+			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
+				<input type="checkbox" name="shareapi_only_share_with_group_members" id="onlyShareWithGroupMembers"
+					   value="1" <?php if ($_['onlyShareWithGroupMembers']) print_unescaped('checked="checked"'); ?> />
+				<label for="onlyShareWithGroupMembers"><?php p($l->t('Restrict users to only share with users in their groups'));?></label><br/>
 			</td>
 		</tr>
 		<tr>

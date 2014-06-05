@@ -478,7 +478,7 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null) {
 		$uidOwner = \OC_User::getUser();
-		$sharingPolicy = \OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
+		$shareWithinGroupOnly = self::shareWithGroupMembersOnly();
 		$l = \OC_L10N::get('lib');
 
 		if (is_null($itemSourceName)) {
@@ -533,7 +533,7 @@ class Share extends \OC\Share\Constants {
 				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OC_Log::ERROR);
 				throw new \Exception($message_t);
 			}
-			if ($sharingPolicy == 'groups_only') {
+			if ($shareWithinGroupOnly) {
 				$inGroup = array_intersect(\OC_Group::getUserGroups($uidOwner), \OC_Group::getUserGroups($shareWith));
 				if (empty($inGroup)) {
 					$message = 'Sharing %s failed, because the user '
@@ -563,7 +563,7 @@ class Share extends \OC\Share\Constants {
 				\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName, $shareWith), \OC_Log::ERROR);
 				throw new \Exception($message_t);
 			}
-			if ($sharingPolicy == 'groups_only' && !\OC_Group::inGroup($uidOwner, $shareWith)) {
+			if ($shareWithinGroupOnly && !\OC_Group::inGroup($uidOwner, $shareWith)) {
 				$message = 'Sharing %s failed, because '
 					.'%s is not a member of the group %s';
 				$message_t = $l->t('Sharing %s failed, because %s is not a member of the group %s', array($itemSourceName, $uidOwner, $shareWith));
@@ -1829,4 +1829,14 @@ class Share extends \OC\Share\Constants {
 			return $backend->formatItems($items, $format, $parameters);
 		}
 	}
+
+	/**
+	 * check if user can only share with group members
+	 * @return bool
+	 */
+	public static function shareWithGroupMembersOnly() {
+		$value = \OC_Appconfig::getValue('core', 'shareapi_only_share_with_group_members', 'no');
+		return ($value === 'yes') ? true : false;
+	}
+
 }

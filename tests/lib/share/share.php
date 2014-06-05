@@ -384,8 +384,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		} catch (Exception $exception) {
 			$this->assertEquals($message, $exception->getMessage());
 		}
-		$policy = OC_Appconfig::getValue('core', 'shareapi_share_policy', 'global');
-		OC_Appconfig::setValue('core', 'shareapi_share_policy', 'groups_only');
+		$policy = OC_Appconfig::getValue('core', 'shareapi_only_share_with_group_members', 'no');
+		OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		$message = 'Sharing test.txt failed, because '.$this->user1.' is not a member of the group '.$this->group2;
 		try {
 			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->group2, OCP\PERMISSION_READ);
@@ -393,7 +393,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		} catch (Exception $exception) {
 			$this->assertEquals($message, $exception->getMessage());
 		}
-		OC_Appconfig::setValue('core', 'shareapi_share_policy', $policy);
+		OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', $policy);
 
 		// Valid share
 		$this->shareUserOneTestFileWithGroupOne();
