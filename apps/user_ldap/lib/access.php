@@ -638,7 +638,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		if($isUser) {
 			//make sure that email address is retrieved prior to login, so user
 			//will be notified when something is shared with him
-			$this->userManager->get($ocname)->update();
+			$this->userManager->get($ocName)->update();
 		}
 
 		return true;
