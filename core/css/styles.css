@@ -253,6 +253,10 @@ input[type="submit"].enabled {
 	background: #eee;
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #controls .button,
 #controls button,
@@ -272,14 +276,22 @@ input[type="submit"].enabled {
 	display: none;
 }
 
-#content { position:relative; height:100%; width:100%; }
+#content {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
 #content .hascontrols {
 	position: relative;
 	top: 45px;
 }
 #content-wrapper {
-	position:absolute; height:100%; width:100%; padding-left:80px; padding-top: 45px;
-	-moz-box-sizing:border-box; box-sizing:border-box;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	padding-top: 45px;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
 }
 
 #emptycontent {
