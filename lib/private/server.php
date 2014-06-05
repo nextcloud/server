@@ -186,6 +186,9 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 			return $router;
 		});
+		$this->registerService('Search', function($c){
+			return new Search();
+		});
 		$this->registerService('Db', function($c){
 			return new Db();
 		});
@@ -422,6 +425,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		return $this->query('Router');
 	}
 
+	/**
+	 * Returns a search instance
+	 * @return \OCP\ISearch
+	 */
+	function getSearch() {
+		return $this->query('Search');
+	}
 
 	/**
 	 * Returns an instance of the db facade

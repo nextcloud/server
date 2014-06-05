@@ -22,7 +22,7 @@ use \OC\Files\Filesystem;
 /**
  * A found file
  */
-class File extends \OC\Search\Result {
+class File extends \OCP\Search\Result {
 
 	/**
 	 * Type name; translated in templates

@@ -17,7 +17,7 @@
  *
  */
 
-namespace OC\Search;
+namespace OCP\Search;
 
 /**
  * Provides a template for search functionality throughout ownCloud; 
@@ -41,7 +41,7 @@ abstract class Provider {
 	/**
 	 * Search for $query
 	 * @param string $query
-	 * @return array An array of OC\Search\Result's
+	 * @return array An array of OCP\Search\Result's
 	 */
 	abstract public function search($query);
 }

@@ -17,7 +17,7 @@
  *
  */
 
-namespace OC\Search;
+namespace OCP\Search;
 
 /**
  * The generic result of a search

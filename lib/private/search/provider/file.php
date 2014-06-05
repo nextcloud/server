@@ -23,12 +23,12 @@ use OC\Files\Filesystem;
 /**
  * Provide search results from the 'files' app
  */
-class File extends \OC\Search\Provider {
+class File extends \OCP\Search\Provider {
 
 	/**
 	 * Search for files and folders matching the given query
 	 * @param string $query
-	 * @return \OC\Search\Result
+	 * @return \OCP\Search\Result
 	 */
 	function search($query) {
 		$files = Filesystem::search($query);

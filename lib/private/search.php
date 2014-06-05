@@ -21,27 +21,28 @@
  */
 
 namespace OC;
-use OC\Search\Provider;
+use OCP\Search\Provider;
+use OCP\ISearch;
 
 /**
  * Provide an interface to all search providers
  */
-class Search {
+class Search implements ISearch {
 
-	static private $providers=array();
-	static private $registeredProviders=array();
+	private $providers = array();
+	private $registeredProviders = array();
 
 	/**
 	 * Search all providers for $query
 	 * @param string $query
 	 * @return array An array of OC\Search\Result's
 	 */
-	public static function search($query) {
-		self::initProviders();
-		$results=array();
-		foreach(self::$providers as $provider) {
+	public function search($query) {
+		$this->initProviders();
+		$results = array();
+		foreach($this->providers as $provider) {
 			/** @var $provider Provider */
-			$results=array_merge($results, $provider->search($query));
+			$results = array_merge($results, $provider->search($query));
 		}
 		return $results;
 	}
@@ -49,24 +50,24 @@ class Search {
 	/**
 	 * Remove all registered search providers
 	 */
-	public static function clearProviders() {
-		self::$providers=array();
-		self::$registeredProviders=array();
+	public function clearProviders() {
+		$this->providers=array();
+		$this->registeredProviders=array();
 	}
 
 	/**
 	 * Remove one existing search provider
 	 * @param string $provider class name of a OC\Search\Provider
 	 */
-	public static function removeProvider($provider) {
-		self::$registeredProviders = array_filter(
-			self::$registeredProviders,
+	public function removeProvider($provider) {
+		$this->registeredProviders = array_filter(
+			$this->registeredProviders,
 			function ($element) use ($provider) {
 				return ($element['class'] != $provider);
 			}
 		);
 		// force regeneration of providers on next search
-		self::$providers=array();
+		$this->providers=array();
 	}
 
 	/**
@@ -74,21 +75,21 @@ class Search {
 	 * @param string $class class name of a OC\Search\Provider
 	 * @param array $options optional
 	 */
-	public static function registerProvider($class, $options=array()) {
-		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
+	public function registerProvider($class, $options=array()) {
+		$this->registeredProviders[]=array('class'=>$class, 'options'=>$options);
 	}
 
 	/**
 	 * Create instances of all the registered search providers
 	 */
-	private static function initProviders() {
-		if(count(self::$providers)>0) {
+	private function initProviders() {
+		if(count($this->providers)>0) {
 			return;
 		}
-		foreach(self::$registeredProviders as $provider) {
-			$class=$provider['class'];
-			$options=$provider['options'];
-			self::$providers[]=new $class($options);
+		foreach($this->registeredProviders as $provider) {
+			$class = $provider['class'];
+			$options = $provider['options'];
+			$this->providers[]=new $class($options);
 		}
 	}
 

@@ -204,4 +204,12 @@ interface IServerContainer {
 	 * @return \OCP\Route\IRouter
 	 */
 	function getRouter();
+
+	/**
+	 * Returns a search instance
+	 *
+	 * @return \OCP\ISearch
+	 */
+	function getSearch();
+
 }

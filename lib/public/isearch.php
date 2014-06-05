@@ -1,9 +1,10 @@
 <?php
+
 /**
- * ownCloud
+ * ownCloud - App Framework
  *
- * @author Frank Karlitschek
- * @copyright 2012 Frank Karlitschek frank@owncloud.org
+ * @author Jörn Dreyer
+ * @copyright 2014 Jörn Dreyer jfd@owncloud.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -20,49 +21,37 @@
  *
  */
 
+namespace OCP;
+
+
 /**
- * provides an interface to all search providers
- * @deprecated see lib/search.php
+ * Small Interface for Search
  */
-class OC_Search {
-	/**
-	 * @return \OCP\ISearch
-	 */
-	private static function getSearch() {
-		return \OC::$server->getSearch();
-	}
+interface ISearch {
 
 	/**
 	 * Search all providers for $query
 	 * @param string $query
 	 * @return array An array of OCP\Search\Result's
 	 */
-	public static function search($query) {
-		return self::getSearch()->search($query);
-	}
+	public function search($query);
 
 	/**
 	 * Register a new search provider to search with
 	 * @param string $class class name of a OCP\Search\Provider
 	 * @param array $options optional
 	 */
-	public static function registerProvider($class, $options = array()) {
-		return self::getSearch()->registerProvider($class, $options);
-	}
+	public function registerProvider($class, $options = array());
 
 	/**
 	 * Remove one existing search provider
 	 * @param string $provider class name of a OCP\Search\Provider
 	 */
-	public static function removeProvider($provider) {
-		return self::getSearch()->removeProvider($provider);
-	}
+	public function removeProvider($provider);
 
 	/**
 	 * Remove all registered search providers
 	 */
-	public static function clearProviders() {
-		return self::getSearch()->clearProviders();
-	}
+	public function clearProviders();
 
 }
