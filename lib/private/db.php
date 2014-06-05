@@ -67,6 +67,8 @@ class OC_DB {
 			list($host, $port)=explode(':', $host, 2);
 			if(!is_int($port)||$port<1||$port>65535) {
 				$socket=true;
+			} else {
+				$socket=false;
 			}
 		} else {
 			$port=false;
