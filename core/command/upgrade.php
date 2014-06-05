@@ -56,6 +56,9 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
+			$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use($output) {
+				$output->writeln('<info>Checked database schema update</info>');
+			});
 			$updater->listen('\OC\Updater', 'disabledApps', function ($appList) use($output) {
 				$output->writeln('<info>Disabled incompatible apps: ' . implode(', ', $appList) . '</info>');
 			});

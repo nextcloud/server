@@ -875,6 +875,18 @@ class OC_App {
 		}
 	}
 
+	public static function shouldUpgrade($app) {
+		$versions = self::getAppVersions();
+		$currentVersion = OC_App::getAppVersion($app);
+		if ($currentVersion) {
+			$installedVersion = $versions[$app];
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * check if the app needs updating and update when needed
 	 *
@@ -885,26 +897,27 @@ class OC_App {
 			return;
 		}
 		self::$checkedApps[] = $app;
-		$versions = self::getAppVersions();
-		$currentVersion = OC_App::getAppVersion($app);
-		if ($currentVersion) {
-			$installedVersion = $versions[$app];
-			if (version_compare($currentVersion, $installedVersion, '>')) {
-				$info = self::getAppInfo($app);
-				OC_Log::write($app,
-					'starting app upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-					OC_Log::DEBUG);
-				try {
-					OC_App::updateApp($app);
-					OC_Hook::emit('update', 'success', 'Updated ' . $info['name'] . ' app');
-				} catch (Exception $e) {
-					OC_Hook::emit('update', 'failure', 'Failed to update ' . $info['name'] . ' app: ' . $e->getMessage());
-					$l = OC_L10N::get('lib');
-					throw new RuntimeException($l->t('Failed to upgrade "%s".', array($app)), 0, $e);
-				}
-				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
-			}
+		if (!self::shouldUpgrade($app)) {
+			return;
 		}
+		$versions = self::getAppVersions();
+		$installedVersion = $versions[$app];
+		$currentVersion = OC_App::getAppVersion($app);
+		OC_Log::write(
+			$app,
+			'starting app upgrade from ' . $installedVersion . ' to ' . $currentVersion,
+			OC_Log::DEBUG
+		);
+		$info = self::getAppInfo($app);
+		try {
+			OC_App::updateApp($app);
+			OC_Hook::emit('update', 'success', 'Updated ' . $info['name'] . ' app');
+		} catch (Exception $e) {
+			OC_Hook::emit('update', 'failure', 'Failed to update ' . $info['name'] . ' app: ' . $e->getMessage());
+			$l = OC_L10N::get('lib');
+			throw new RuntimeException($l->t('Failed to upgrade "%s".', array($app)), 0, $e);
+		}
+		OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 	}
 
 	/**

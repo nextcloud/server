@@ -15,6 +15,9 @@ if (OC::checkUpgrade(false)) {
 	$updater->listen('\OC\Updater', 'dbUpgrade', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Updated database'));
 	});
+	$updater->listen('\OC\Updater', 'dbSimulateUpgrade', function () use ($eventSource, $l) {
+		$eventSource->send('success', (string)$l->t('Checked database schema update'));
+	});
 	$updater->listen('\OC\Updater', 'disabledApps', function ($appList) use ($eventSource, $l) {
 		$list = array();
 		foreach ($appList as $appId) {
