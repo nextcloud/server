@@ -1132,6 +1132,7 @@ function initCore() {
 
 	setupMainMenu();
 
+
 	// App sidebar on mobile
 	var snapper = new Snap({
 		element: document.getElementById('app-content'),
@@ -1145,6 +1146,25 @@ function initCore() {
 		} else {
 			snapper.open('left');
 		}
+	});
+	// close sidebar when switching navigation entry
+	var $appNavigation = $('#app-navigation');
+	$appNavigation.delegate('a', 'click', function(event) {
+		var $target = $(event.target);
+		// don't hide navigation when changing settings or adding things
+		if($target.is('.app-navigation-noclose') ||
+			$target.closest('.app-navigation-noclose').length) {
+			return;
+		}
+		if($target.is('.add-new') ||
+			$target.closest('.add-new').length) {
+			return;
+		}
+		if($target.is('#app-settings') ||
+			$target.closest('#app-settings').length) {
+			return;
+		}
+		snapper.close();
 	});
 }
 

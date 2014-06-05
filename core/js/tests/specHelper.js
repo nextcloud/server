@@ -68,6 +68,9 @@ window.oc_appconfig = {
 };
 window.oc_defaults = {};
 
+// mock for Snap.js plugin
+window.Snap = function() {};
+
 // global setup for all tests
 (function setupTests() {
 	var fakeServer = null,
