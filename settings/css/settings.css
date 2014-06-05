@@ -9,7 +9,7 @@ input#openid, input#webdav { width:20em; }
 	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
 	position: fixed;
 	right: 0;
-	left: 230px;
+	left: 250px;
 	height: 44px;
 	padding: 0; margin: 0;
 	background: #eee; border-bottom: 1px solid #e7e7e7;

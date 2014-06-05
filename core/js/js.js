@@ -1137,7 +1137,7 @@ function initCore() {
 	var snapper = new Snap({
 		element: document.getElementById('app-content'),
 		disable: 'right',
-		maxPosition: 230
+		maxPosition: 250
 	});
 	$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');
 	$('#app-navigation-toggle').click(function(){

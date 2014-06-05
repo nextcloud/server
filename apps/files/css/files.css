@@ -97,7 +97,7 @@
  * to be more flexible / relative
  */
 #body-user .app-files #controls {
-	left: 230px; /* sidebar width */
+	left: 250px; /* sidebar width */
 	position: fixed;
 	padding-left: 0px;
 }
