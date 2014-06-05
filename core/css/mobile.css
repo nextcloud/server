@@ -62,6 +62,10 @@
 
 
 /* app sidebar toggle and swipe */
+#content-wrapper {
+	overflow: hidden;
+}
+
 #app-navigation,
 #app-content {
 	position: absolute;
