@@ -24,4 +24,8 @@ class Temporary extends Local{
 		parent::__destruct();
 		$this->cleanUp();
 	}
+
+	public function getDataDir() {
+		return $this->datadir;
+	}
 }
