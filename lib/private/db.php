@@ -65,6 +65,9 @@ class OC_DB {
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
 		if(strpos($host, ':')) {
 			list($host, $port)=explode(':', $host, 2);
+			if(!is_int($port)||$port<1||$port>65535) {
+				$socket=true;
+			}
 		} else {
 			$port=false;
 		}
@@ -89,7 +92,11 @@ class OC_DB {
 				'dbname' => $name,
 			);
 			if (!empty($port)) {
-				$connectionParams['port'] = $port;
+				if ($socket) {
+					$connectionParams['unix_socket'] = $port;
+				} else {
+					$connectionParams['port'] = $port;
+				}
 			}
 		}
 
