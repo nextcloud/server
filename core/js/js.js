@@ -533,7 +533,6 @@ var OC={
 	 */
 	registerMenu: function($toggle, $menuEl) {
 		$menuEl.addClass('menu');
-		$toggle.addClass('menutoggle');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
 				$menuEl.slideUp(OC.menuSpeed);
@@ -1111,45 +1110,27 @@ function initCore() {
 	 * If the screen is bigger, the main menu is not a toggle any more.
 	 */
 	function setupMainMenu() {
-		// toggle the navigation on mobile
-		if (!OC._matchMedia) {
-			return;
-		}
-		var mq = OC._matchMedia('(max-width: 768px)');
-		var lastMatch = mq.matches;
-		var $toggle = $('#header #owncloud');
+		// toggle the navigation
+		var $toggle = $('#header .menutoggle');
 		var $navigation = $('#navigation');
 
-		function updateMainMenu() {
-			// mobile mode ?
-			if (lastMatch && !$toggle.hasClass('menutoggle')) {
-				// init the menu
-				OC.registerMenu($toggle, $navigation);
-				$toggle.data('oldhref', $toggle.attr('href'));
-				$toggle.attr('href', '#');
-				$navigation.hide();
-			}
-			else {
-				OC.unregisterMenu($toggle, $navigation);
-				$toggle.attr('href', $toggle.data('oldhref'));
-				$navigation.show();
-			}
-		}
+		// init the menu
+		OC.registerMenu($toggle, $navigation);
+		$toggle.data('oldhref', $toggle.attr('href'));
+		$toggle.attr('href', '#');
+		$navigation.hide();
 
-		updateMainMenu();
-
-		// TODO: debounce this
-		$(window).resize(function() {
-			if (lastMatch !== mq.matches) {
-				lastMatch = mq.matches;
-				updateMainMenu();
+		// show loading feedback
+		$navigation.delegate('a', 'click', function(event) {
+			var $app = $(event.target);
+			if(!$app.is('a')) {
+				$app = $app.closest('a');
 			}
+			$app.addClass('app-loading');
 		});
 	}
 
-	if (window.matchMedia) {
-		setupMainMenu();
-	}
+	setupMainMenu();
 }
 
 $(document).ready(initCore);

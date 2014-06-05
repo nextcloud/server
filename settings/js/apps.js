@@ -232,7 +232,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			if(response.status === 'success'){
 				var navIds=response.nav_ids;
 				for(var i=0; i< navIds.length; i++){
-					$('#apps .wrapper').children('li[data-id="'+navIds[i]+'"]').remove();
+					$('#apps ul').children('li[data-id="'+navIds[i]+'"]').remove();
 				}
 			}
 		});
@@ -243,7 +243,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				var navEntries=response.nav_entries;
 				for(var i=0; i< navEntries.length; i++){
 					var entry = navEntries[i];
-					var container = $('#apps .wrapper');
+					var container = $('#apps ul');
 
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
@@ -257,8 +257,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						li.append(a);
 
 						// append the new app as last item in the list
-						// (.push is from sticky footer)
-						$('#apps .wrapper .push').before(li);
+						// which is the "add apps" entry with the id
+						// #apps-management
+						$('#apps-management').before(li);
 
 						// scroll the app navigation down
 						// so the newly added app is seen
@@ -268,11 +269,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 						// draw attention to the newly added app entry
 						// by flashing it twice
-						container.children('li[data-id="' + entry.id + '"]')
-							.animate({opacity: 0.3})
+						$('#header .menutoggle')
+							.animate({opacity: 0.5})
 							.animate({opacity: 1})
-							.animate({opacity: 0.3})
-							.animate({opacity: 1});
+							.animate({opacity: 0.5})
+							.animate({opacity: 1})
+							.animate({opacity: 0.75});
 
 						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
 							$(img).addClass('svg');
