@@ -9,13 +9,25 @@
 class Test_Installer extends PHPUnit_Framework_TestCase {
 
 	private static $appid = 'testapp';
+	private $appstore;
+
+	public function setUp() {
+		$this->appstore = OC_Config::getValue('appstoreenabled', true);
+		OC_Config::setValue('appstoreenabled', true);
+		OC_Installer::removeApp(self::$appid);
+	}
+
+	public function tearDown() {
+		OC_Installer::removeApp(self::$appid);
+		OC_Config::setValue('appstoreenabled', $this->appstore);
+	}
 
 	public function testInstallApp() {
 		$pathOfTestApp  = __DIR__;
 		$pathOfTestApp .= '/../data/';
 		$pathOfTestApp .= 'testapp.zip';
 
-		$tmp = OC_Helper::tmpFile();
+		$tmp = OC_Helper::tmpFile('.zip');
 		OC_Helper::copyr($pathOfTestApp, $tmp);
 
 		$data = array(
@@ -27,9 +39,6 @@ class Test_Installer extends PHPUnit_Framework_TestCase {
 		$isInstalled = OC_Installer::isInstalled(self::$appid);
 
 		$this->assertTrue($isInstalled);
-
-		//clean-up
-		OC_Installer::removeApp(self::$appid);
 	}
 
 	public function testUpdateApp() {
@@ -37,7 +46,7 @@ class Test_Installer extends PHPUnit_Framework_TestCase {
 		$pathOfOldTestApp .= '/../data/';
 		$pathOfOldTestApp .= 'testapp.zip';
 
-		$oldTmp = OC_Helper::tmpFile();
+		$oldTmp = OC_Helper::tmpFile('.zip');
 		OC_Helper::copyr($pathOfOldTestApp, $oldTmp);
 
 		$oldData = array(
@@ -49,7 +58,7 @@ class Test_Installer extends PHPUnit_Framework_TestCase {
 		$pathOfNewTestApp .= '/../data/';
 		$pathOfNewTestApp .= 'testapp2.zip';
 
-		$newTmp = OC_Helper::tmpFile();
+		$newTmp = OC_Helper::tmpFile('.zip');
 		OC_Helper::copyr($pathOfNewTestApp, $newTmp);
 
 		$newData = array(
@@ -64,8 +73,5 @@ class Test_Installer extends PHPUnit_Framework_TestCase {
 		$newVersionNumber = OC_App::getAppVersion(self::$appid);
 
 		$this->assertNotEquals($oldVersionNumber, $newVersionNumber);
-
-		//clean-up
-		OC_Installer::removeApp(self::$appid);
 	}
 }
