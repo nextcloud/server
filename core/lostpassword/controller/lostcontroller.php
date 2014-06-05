@@ -11,6 +11,7 @@ namespace OC\Core\LostPassword\Controller;
 use \OCP\AppFramework\Controller;
 use \OCP\AppFramework\Http\JSONResponse;
 use \OCP\AppFramework\Http\TemplateResponse;
+use \OC\Core\LostPassword\EncryptedDataException;
 
 class LostController extends Controller {
 	
