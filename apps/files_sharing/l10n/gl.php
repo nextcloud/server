@@ -1,9 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Shared with you" => "Compartido con vostede",
+"Shared with others" => "Compartido con outros",
+"No files have been shared with you yet." => "Aínda non hai ficheiros compartidos con vostede.",
+"You haven't shared any files yet." => "Aínda non compartiu ningún ficheiro.",
 "Shared by {owner}" => "Compartido por {owner}",
+"Shared by" => "Compartido por",
 "This share is password-protected" => "Esta compartición está protexida con contrasinal",
 "The password is wrong. Try again." => "O contrasinal é incorrecto. Ténteo de novo.",
 "Password" => "Contrasinal",
+"Name" => "Nome",
+"Share time" => "Compartir o tempo",
 "Sorry, this link doesn’t seem to work anymore." => "Semella que esta ligazón non funciona.",
 "Reasons might be:" => "As razóns poderían ser:",
 "the item was removed" => "o elemento foi retirado",

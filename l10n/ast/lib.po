@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-27 07:41+0000\n"
-"Last-Translator: Tornes Llume <l.lumex03.tornes@gmail.com>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,49 +19,49 @@ msgstr ""
 "Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Tas accediendo al sirvidor dende un dominiu non confiáu."
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Nun pue instalase l'aplicación \"%s\" porque nun ye compatible con esta versión d'ownCloud."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Ayuda"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Personal"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Axustes"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Usuarios"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Almin"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Fallu al anovar \"%s\"."
@@ -77,28 +77,6 @@ msgstr "Imaxe inválida"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "servicios web baxo'l to control"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "Tan deshabilitaes les descargues de ZIP."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "Los ficheros necesiten descargase ún a ún"
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr ""
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "Los ficheros esbillaos son milenta grandes pa xenerar un ficheru zip."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr ""
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -464,20 +442,25 @@ msgstr "añu caberu"
 msgid "years ago"
 msgstr "fai años"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Tien d'apurrise un nome d'usuariu válidu"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Tien d'apurrise una contraseña válida"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "El nome d'usuariu yá ta usándose"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

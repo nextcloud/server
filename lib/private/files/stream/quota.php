@@ -123,7 +123,7 @@ class Quota {
 	}
 
 	public function stream_lock($mode) {
-		flock($this->source, $mode);
+		return flock($this->source, $mode);
 	}
 
 	public function stream_flush() {

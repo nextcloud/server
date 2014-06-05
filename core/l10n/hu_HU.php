@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Tárolás és adatbázis",
 "Data folder" => "Adatkönyvtár",
 "Configure the database" => "Adatbázis konfigurálása",
-"will be used" => "adatbázist fogunk használni",
 "Database user" => "Adatbázis felhasználónév",
 "Database password" => "Adatbázis jelszó",
 "Database name" => "Az adatbázis neve",

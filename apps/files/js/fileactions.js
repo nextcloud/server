@@ -275,14 +275,8 @@
 			});
 
 			this.setDefault('dir', 'Open');
-			var downloadScope;
-			if ($('#allowZipDownload').val() == 1) {
-				downloadScope = 'all';
-			} else {
-				downloadScope = 'file';
-			}
 
-			this.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
+			this.register('all', 'Download', OC.PERMISSION_READ, function () {
 				return OC.imagePath('core', 'actions/download');
 			}, function (filename, context) {
 				var dir = context.dir || context.fileList.getCurrentDirectory();

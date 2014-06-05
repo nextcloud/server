@@ -4,12 +4,13 @@
 # 
 # Translators:
 # mbouzada <mbouzada@gmail.com>, 2013
+# mbouzada <mbouzada@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 10:20+0000\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-03 10:11+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,22 +24,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "Non foi posíbel reverter: %s"
 
-#: js/versions.js:7
+#: js/versions.js:48
 msgid "Versions"
 msgstr "Versións"
 
-#: js/versions.js:53
+#: js/versions.js:70
 msgid "Failed to revert {file} to revision {timestamp}."
 msgstr "Non foi posíbel reverter {file} á revisión {timestamp}."
 
-#: js/versions.js:79
+#: js/versions.js:97
 msgid "More versions..."
 msgstr "Máis versións..."
 
-#: js/versions.js:116
+#: js/versions.js:135
 msgid "No other versions available"
 msgstr "Non hai outras versións dispoñíbeis"
 
-#: js/versions.js:149
+#: js/versions.js:165
 msgid "Restore"
-msgstr "Restablecer"
+msgstr "Restabelecer"

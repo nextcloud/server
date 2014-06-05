@@ -22,6 +22,7 @@ $TRANSLATIONS = array(
 "Groups" => "Gruppen",
 "Group Admin" => "Gruppen Admin",
 "Delete" => "Läschen",
+"never" => "ni",
 "__language_name__" => "__language_name__",
 "Login" => "Login",
 "Security Warning" => "Sécherheets Warnung",
@@ -39,6 +40,7 @@ $TRANSLATIONS = array(
 "Add your App" => "Setz deng App bei",
 "Select an App" => "Wiel eng Applikatioun aus",
 "See application page at apps.owncloud.com" => "Kuck dir d'Applicatioun's Säit op apps.owncloud.com un",
+"All" => "All",
 "Password" => "Passwuert",
 "Unable to change your password" => "Konnt däin Passwuert net änneren",
 "Current password" => "Momentan 't Passwuert",
@@ -51,7 +53,10 @@ $TRANSLATIONS = array(
 "Help translate" => "Hëllef iwwersetzen",
 "Login Name" => "Login",
 "Create" => "Erstellen",
+"Group" => "Grupp",
+"Default Quota" => "Standard Quota",
 "Other" => "Aner",
-"Username" => "Benotzernumm"
+"Username" => "Benotzernumm",
+"Quota" => "Quota"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -80,7 +80,6 @@ $TRANSLATIONS = array(
 "Password" => "Senhal",
 "Data folder" => "Dorsièr de donadas",
 "Configure the database" => "Configura la basa de donadas",
-"will be used" => "serà utilizat",
 "Database user" => "Usancièr de la basa de donadas",
 "Database password" => "Senhal de la basa de donadas",
 "Database name" => "Nom de la basa de donadas",

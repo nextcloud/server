@@ -667,7 +667,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	 */
 	function legacyEncrypt($data, $passwd) {
 
-		$bf = new \Crypt_Blowfish($passwd);
+		$bf = new Legacy_Crypt_Blowfish($passwd);
 		$crypted = $bf->encrypt($data);
 
 		return $crypted;

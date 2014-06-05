@@ -46,15 +46,17 @@
 	<?php endif; ?>
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t( 'Create an <strong>admin account</strong>' )); ?></legend>
-		<p class="infield grouptop">
-			<input type="text" name="adminlogin" id="adminlogin" placeholder=""
+		<p class="grouptop">
+			<input type="text" name="adminlogin" id="adminlogin"
+				placeholder="<?php p($l->t( 'Username' )); ?>"
 				value="<?php p($_['adminlogin']); ?>"
 				autocomplete="off" autocapitalize="off" autocorrect="off" autofocus required />
 			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
 			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="" />
 		</p>
-		<p class="infield groupbottom">
-			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass" placeholder=""
+		<p class="groupbottom">
+			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
+				placeholder="<?php p($l->t( 'Password' )); ?>"
 				value="<?php p($_['adminpass']); ?>"
 				autocomplete="off" autocapitalize="off" autocorrect="off" required />
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
@@ -91,7 +93,7 @@
 		<div id="selectDbType">
 		<?php foreach($_['databases'] as $type => $label): ?>
 		<?php if(count($_['databases']) === 1): ?>
-		<p class="info"><?php p($label . ' ' . $l->t( 'will be used' )); ?>.</p>
+		<p class="info"><?php p($l->t( 'Only %s is available.', array($label) )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="<?php p($type) ?>" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="<?php p($type) ?>" id="<?php p($type) ?>"
@@ -105,40 +107,45 @@
 		<?php if($hasOtherDB): ?>
 		<fieldset id='databaseField'>
 		<div id="use_other_db">
-			<p class="infield grouptop">
+			<p class="grouptop">
 				<label for="dbuser" class="infield"><?php p($l->t( 'Database user' )); ?></label>
-				<input type="text" name="dbuser" id="dbuser" placeholder=""
+				<input type="text" name="dbuser" id="dbuser"
+					placeholder="<?php p($l->t( 'Database user' )); ?>"
 					value="<?php p($_['dbuser']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
-			<p class="infield groupmiddle">
-				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword" 
+			<p class="groupmiddle">
+				<input type="password" name="dbpass" id="dbpass" data-typetoggle="#dbpassword"
+					placeholder="<?php p($l->t( 'Database password' )); ?>"
 					value="<?php p($_['dbpass']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off" />
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
 				<input type="checkbox" id="dbpassword" name="dbpassword" />
 				<label for="dbpassword"></label>
 			</p>
-			<p class="infield groupmiddle">
+			<p class="groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
-				<input type="text" name="dbname" id="dbname" placeholder=""
+				<input type="text" name="dbname" id="dbname"
+					placeholder="<?php p($l->t( 'Database name' )); ?>"
 					value="<?php p($_['dbname']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off"
 					pattern="[0-9a-zA-Z$_-]+" />
 			</p>
 			<?php if($_['hasOracle']): ?>
 			<div id="use_oracle_db">
-				<p class="infield groupmiddle">
+				<p class="groupmiddle">
 					<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
-					<input type="text" name="dbtablespace" id="dbtablespace" placeholder=""
+					<input type="text" name="dbtablespace" id="dbtablespace"
+						placeholder="<?php p($l->t( 'Database tablespace' )); ?>"
 						value="<?php p($_['dbtablespace']); ?>"
 						autocomplete="off" autocapitalize="off" autocorrect="off" />
 				</p>
 			</div>
 			<?php endif; ?>
-			<p class="infield groupbottom">
+			<p class="groupbottom">
 				<label for="dbhost" class="infield"><?php p($l->t( 'Database host' )); ?></label>
-				<input type="text" name="dbhost" id="dbhost" placeholder=""
+				<input type="text" name="dbhost" id="dbhost"
+					placeholder="<?php p($l->t( 'Database host' )); ?>"
 					value="<?php p($_['dbhost']); ?>"
 					autocomplete="off" autocapitalize="off" autocorrect="off" />
 			</p>
@@ -146,6 +153,8 @@
 		</fieldset>
 		<?php endif; ?>
 	<?php endif; ?>
+
+	<p id="sqliteInformation" class="info"><?php p($l->t('SQLite will be used as database. For larger installations we recommend to change this.'));?></p>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>
 </form>

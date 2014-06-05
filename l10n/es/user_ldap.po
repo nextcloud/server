@@ -5,23 +5,23 @@
 # Translators:
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
 # Art O. Pal <artopal@fastmail.fm>, 2014
-# Jose Luis Tirado <joseluis.tirado@gmail.com>, 2014
+# Jose Luis <joseluis.tirado@gmail.com>, 2014
 # joses <jose_mari_s@hotmail.com>, 2014
 # Maenso <balero_arana@hotmail.com>, 2013
-# plaguna <laguna.sanchez@gmail.com>, 2014
+# Pablo Laguna <laguna.sanchez@gmail.com>, 2014
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013
-# ordenet <roberto@ordenet.com>, 2013
-# Rodrigo Rodríguez <roirobo@ubuntu.org.ni>, 2013
-# Rubén del Campo <yo@rubendelcampo.es>, 2013
+# Roberto de Miguel <roberto@ordenet.com>, 2013
+# Rodrigo <roirobo@ubuntu.org.ni>, 2013
+# Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
 # victormce <victormce@gmail.com>, 2014
 # xhiena <xhiena@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-29 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 17:24+0000\n"
-"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,8 +83,8 @@ msgid "Keep settings?"
 msgstr "¿Mantener la configuración?"
 
 #: js/settings.js:93
-msgid "{nbServer}. Server"
-msgstr "{nbServer}. Servidor"
+msgid "{nthServer}. Server"
+msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"

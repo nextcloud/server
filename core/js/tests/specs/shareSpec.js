@@ -26,13 +26,17 @@ describe('OC.Share tests', function() {
 		var oldAppConfig;
 		var loadItemStub;
 		var autocompleteStub;
+
 		beforeEach(function() {
 			$('#testArea').append($('<div id="shareContainer"></div>'));
+			// horrible parameters
+			$('#testArea').append('<input id="allowShareWithLink" type="hidden" value="yes">');
 			$container = $('#shareContainer');
 			/* jshint camelcase:false */
-			oldAppConfig = oc_appconfig.core;
-			loadItemStub = sinon.stub(OC.Share, 'loadItem');
+			oldAppConfig = _.extend({}, oc_appconfig.core);
+			oc_appconfig.core.enforcePasswordForPublicLink = false;
 
+			loadItemStub = sinon.stub(OC.Share, 'loadItem');
 			loadItemStub.returns({
 				reshare: [],
 				shares: []
@@ -89,9 +93,133 @@ describe('OC.Share tests', function() {
 			oc_appconfig.core.defaultExpireDate = '';
 			// TODO: expect that default date was NOT set
 		});
-		// TODO: test password field visibility (whenever enforced or not)
-		// TODO: check link share field visibility based on whether it is allowed
-		// TODO: check public upload visibility based on config
+		describe('Share with link', function() {
+			// TODO: test ajax calls
+			// TODO: test password field visibility (whenever enforced or not)
+			// TODO: check public upload visibility based on config
+			it('shows share with link checkbox when allowed', function() {
+				$('#allowShareWithLink').val('yes');
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'shared_file_name.txt'
+				);
+				expect($('#dropdown #linkCheckbox').length).toEqual(1);
+			});
+			it('does not show share with link checkbox when not allowed', function() {
+				$('#allowShareWithLink').val('no');
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'shared_file_name.txt'
+				);
+				expect($('#dropdown #linkCheckbox').length).toEqual(0);
+			});
+		});
+		describe('"sharesChanged" event', function() {
+			var autocompleteOptions;
+			var handler;
+			beforeEach(function() {
+				handler = sinon.stub();
+				loadItemStub.returns({
+					reshare: [],
+					shares: [{
+						id: 100,
+						item_source: 123,
+						permissions: 31,
+						share_type: OC.Share.SHARE_TYPE_USER,
+						share_with: 'user1',
+						share_with_displayname: 'User One'
+					}]
+				});
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'shared_file_name.txt'
+				);
+				$('#dropdown').on('sharesChanged', handler);
+				autocompleteOptions = autocompleteStub.getCall(0).args[0];
+			});
+			afterEach(function() {
+				autocompleteOptions = null;
+				handler = null;
+			});
+			it('triggers "sharesChanged" event when adding shares', function() {
+				// simulate autocomplete selection
+				autocompleteOptions.select(new $.Event('select'), {
+					item: {
+						label: 'User Two',
+						value: {
+							shareType: OC.Share.SHARE_TYPE_USER,
+							shareWith: 'user2'
+						}
+					}
+				});
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+				expect(handler.calledOnce).toEqual(true);
+				var shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
+				expect(shares[OC.Share.SHARE_TYPE_USER][1].share_with_displayname).toEqual('User Two');
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
+			});
+			it('triggers "sharesChanged" event when deleting shares', function() {
+				$('#dropdown .unshare:eq(0)').click();
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+				expect(handler.calledOnce).toEqual(true);
+				var shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER]).toEqual([]);
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
+			});
+			it('triggers "sharesChanged" event when toggling link share', function() {
+				// simulate autocomplete selection
+				$('#dropdown #linkCheckbox').click();
+				fakeServer.requests[0].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success', data: { token: 'abc' }})
+				);
+				expect(handler.calledOnce).toEqual(true);
+				var shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
+
+				handler.reset();
+
+				// uncheck checkbox
+				$('#dropdown #linkCheckbox').click();
+				fakeServer.requests[1].respond(
+					200,
+					{ 'Content-Type': 'application/json' },
+					JSON.stringify({status: 'success'})
+				);
+
+				expect(handler.calledOnce).toEqual(true);
+				shares = handler.getCall(0).args[0].shares;
+				expect(shares).toBeDefined();
+				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
+				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
+			});
+		});
 	});
 });
 

@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Groups" => "Hópar",
 "Group Admin" => "Hópstjóri",
 "Delete" => "Eyða",
+"never" => "aldrei",
 "__language_name__" => "__nafn_tungumáls__",
 "None" => "Ekkert",
 "Security Warning" => "Öryggis aðvörun",
@@ -59,11 +60,9 @@ $TRANSLATIONS = array(
 "Language" => "Tungumál",
 "Help translate" => "Hjálpa við þýðingu",
 "Create" => "Búa til",
-"Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",
 "Other" => "Annað",
 "Username" => "Notendanafn",
-"Storage" => "gagnapláss",
 "Default" => "Sjálfgefið"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

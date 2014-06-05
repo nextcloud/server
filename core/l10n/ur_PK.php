@@ -132,7 +132,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "ذخیرہ اور ڈیٹا بیس",
 "Data folder" => "ڈیٹا فولڈر",
 "Configure the database" => "ڈیٹا بیس کونفگر کریں",
-"will be used" => "استعمال ہو گا",
 "Database user" => "ڈیٹابیس یوزر",
 "Database password" => "ڈیٹابیس پاسورڈ",
 "Database name" => "ڈیٹابیس کا نام",

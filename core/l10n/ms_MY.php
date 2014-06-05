@@ -54,7 +54,6 @@ $TRANSLATIONS = array(
 "Password" => "Kata laluan",
 "Data folder" => "Fail data",
 "Configure the database" => "Konfigurasi pangkalan data",
-"will be used" => "akan digunakan",
 "Database user" => "Nama pengguna pangkalan data",
 "Database password" => "Kata laluan pangkalan data",
 "Database name" => "Nama pangkalan data",

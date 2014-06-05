@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AsavarTzeth <asavartzeth@gmail.com>, 2014
+# Patrik Nilsson <asavartzeth@gmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # enoch85 <enoch85@gmail.com>, 2014
-# henrikhjelm <mailto@henrikhjelm.se>, 2014
-# medialabs, 2013-2014
-# kallemooo <karl.h.thoren@gmail.com>, 2013
+# henrik hjelm <mailto@henrikhjelm.se>, 2014
+# Juho Ojala, 2013-2014
+# Karl Thorén <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
-# medialabs, 2013
+# Juho Ojala, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-25 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 23:51+0000\n"
-"Last-Translator: medialabs\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,49 +25,49 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Du ansluter till servern från en osäker domän."
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Vänligen kontakta din administratör. Om du är en administratör, konfigurera inställningen \"trusted_domain\" i  config/config.php. En exempelkonfiguration finns i tillgänglig i config/config.sample.php."
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "Inget appnamn angivet"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Hjälp"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Personligt"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Inställningar"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Användare"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
@@ -83,28 +83,6 @@ msgstr "Ogiltig bild"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "webbtjänster under din kontroll"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "Nerladdning av ZIP är avstängd."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "Filer laddas ner en åt gången."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "Tillbaka till Filer"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "Valda filer är för stora för att skapa zip-fil."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "Ladda ner filerna i mindre bitar, separat eller fråga din administratör."
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -135,29 +113,29 @@ msgstr "Appen har ingen info.xml fil"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Appen kan inte installeras eftersom att den innehåller otillåten kod"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Appen kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud"
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Appen kan inte installeras eftersom att den innehåller etiketten <shipped>true</shipped> vilket inte är tillåtet för icke inkluderade appar"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Appen kan inte installeras eftersom versionen i info.xml inte är samma som rapporteras från app store"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "Appens mapp finns redan"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Kan inte skapa appens mapp. Var god åtgärda rättigheterna. %s"
@@ -470,20 +448,25 @@ msgstr "förra året"
 msgid "years ago"
 msgstr "år sedan"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Endast följande tecken är tillåtna i ett användarnamn: \"az\", \"AZ\", \"0-9\", och \"_ @ -.\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Ett giltigt användarnamn måste anges"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Ett giltigt lösenord måste anges"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Användarnamnet används redan"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

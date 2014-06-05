@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Password" => "Slaptažodis",
 "Data folder" => "Duomenų katalogas",
 "Configure the database" => "Nustatyti duomenų bazę",
-"will be used" => "bus naudojama",
 "Database user" => "Duomenų bazės vartotojas",
 "Database password" => "Duomenų bazės slaptažodis",
 "Database name" => "Duomenų bazės pavadinimas",

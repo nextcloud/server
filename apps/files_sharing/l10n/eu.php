@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Shared by {owner}" => "{owner}-k partekatuta",
+"Shared by" => "Honek elkarbanatuta",
 "This share is password-protected" => "Elkarbanatutako hau pasahitzarekin babestuta dago",
 "The password is wrong. Try again." => "Pasahitza ez da egokia. Saiatu berriro.",
 "Password" => "Pasahitza",
+"Name" => "Izena",
 "Sorry, this link doesn’t seem to work anymore." => "Barkatu, lotura ez dirudi eskuragarria dagoenik.",
 "Reasons might be:" => "Arrazoiak hurrengoak litezke:",
 "the item was removed" => "fitxategia ezbatua izan da",

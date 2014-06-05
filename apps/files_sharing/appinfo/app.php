@@ -21,6 +21,9 @@ OCP\Util::addScript('files_sharing', 'share');
 \OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
 \OC_Hook::connect('OC_Appconfig', 'post_set_value', '\OCA\Files\Share\Maintainer', 'configChangeHook');
 
+// Register settings scripts for mail template editing
+OCP\App::registerAdmin('files_sharing', 'settings-admin');
+
 OC_FileProxy::register(new OCA\Files\Share\Proxy());
 
 \OCA\Files\App::getNavigationManager()->add(
@@ -39,5 +42,14 @@ OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		"script" => 'list.php',
 		"order" => 15,
 		"name" => $l->t('Shared with others')
+	)
+);
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		"id" => 'sharinglinks',
+		"appname" => 'files_sharing',
+		"script" => 'list.php',
+		"order" => 20,
+		"name" => $l->t('Shared by link')
 	)
 );

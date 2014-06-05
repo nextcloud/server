@@ -105,7 +105,6 @@ $TRANSLATIONS = array(
 "Password" => "Kodi",
 "Data folder" => "Emri i dosjes",
 "Configure the database" => "Konfiguro database-in",
-"will be used" => "do të përdoret",
 "Database user" => "Përdoruesi i database-it",
 "Database password" => "Kodi i database-it",
 "Database name" => "Emri i database-it",

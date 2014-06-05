@@ -1,9 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Shared with you" => "Delat med dig",
+"Shared with others" => "Delat med andra",
+"No files have been shared with you yet." => "Inga filer har ännu delats med dig.",
+"You haven't shared any files yet." => "Du har inte delat några filer ännu.",
 "Shared by {owner}" => "Delad av {owner}",
+"Shared by" => "Delad av",
 "This share is password-protected" => "Den här delningen är lösenordsskyddad",
 "The password is wrong. Try again." => "Lösenordet är fel. Försök igen.",
 "Password" => "Lösenord",
+"Name" => "Namn",
+"Share time" => "Delningstid",
 "Sorry, this link doesn’t seem to work anymore." => "Tyvärr, denna länk verkar inte fungera längre.",
 "Reasons might be:" => "Orsaker kan vara:",
 "the item was removed" => "objektet togs bort",

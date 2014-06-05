@@ -807,7 +807,8 @@ class View {
 	 * get the filesystem info
 	 *
 	 * @param string $path
-	 * @param boolean $includeMountPoints whether to add mountpoint sizes,
+	 * @param boolean|string $includeMountPoints true to add mountpoint sizes,
+	 * 'ext' to add only ext storage mount point sizes. Defaults to true.
 	 * defaults to true
 	 * @return \OC\Files\FileInfo|false
 	 */
@@ -826,8 +827,6 @@ class View {
 		$data = null;
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
-			$permissionsCache = $storage->getPermissionsCache($internalPath);
-			$user = \OC_User::getUser();
 
 			if (!$cache->inCache($internalPath)) {
 				if (!$storage->file_exists($internalPath)) {
@@ -847,23 +846,21 @@ class View {
 			if ($data and isset($data['fileid'])) {
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
 					//add the sizes of other mountpoints to the folder
+					$extOnly = ($includeMountPoints === 'ext');
 					$mountPoints = Filesystem::getMountPoints($path);
 					foreach ($mountPoints as $mountPoint) {
 						$subStorage = Filesystem::getStorage($mountPoint);
 						if ($subStorage) {
+							// exclude shared storage ?
+							if ($extOnly && $subStorage instanceof \OC\Files\Storage\Shared) {
+								continue;
+							}
 							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
 							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
 						}
 					}
 				}
-
-				$permissions = $permissionsCache->get($data['fileid'], $user);
-				if ($permissions === -1) {
-					$permissions = $storage->getPermissions($internalPath);
-					$permissionsCache->set($data['fileid'], $user, $permissions);
-				}
-				$data['permissions'] = $permissions;
 			}
 		}
 		if (!$data) {
@@ -896,7 +893,6 @@ class View {
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
-			$permissionsCache = $storage->getPermissionsCache($internalPath);
 			$user = \OC_User::getUser();
 
 			if ($cache->getStatus($internalPath) < Cache\Cache::COMPLETE) {
@@ -913,7 +909,6 @@ class View {
 			foreach ($contents as $content) {
 				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
 			}
-			$permissions = $permissionsCache->getDirectoryPermissions($folderId, $user);
 
 			$ids = array();
 			foreach ($files as $i => $file) {
@@ -922,7 +917,6 @@ class View {
 
 				if (!isset($permissions[$file['fileid']])) {
 					$permissions[$file['fileid']] = $storage->getPermissions($file['path']);
-					$permissionsCache->set($file['fileid'], $user, $permissions[$file['fileid']]);
 				}
 				$files[$i]['permissions'] = $permissions[$file['fileid']];
 			}
@@ -954,12 +948,7 @@ class View {
 						} else { //mountpoint in this folder, add an entry for it
 							$rootEntry['name'] = $relativePath;
 							$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-							$subPermissionsCache = $subStorage->getPermissionsCache('');
-							$permissions = $subPermissionsCache->get($rootEntry['fileid'], $user);
-							if ($permissions === -1) {
-								$permissions = $subStorage->getPermissions($rootEntry['path']);
-								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
-							}
+							$permissions = $rootEntry['permissions'];
 							// do not allow renaming/deleting the mount point if they are not shared files/folders
 							// for shared files/folders we use the permissions given by the owner
 							if ($subStorage instanceof \OC\Files\Storage\Shared) {

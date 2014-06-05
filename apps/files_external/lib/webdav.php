@@ -17,7 +17,7 @@ class DAV extends \OC\Files\Storage\Common {
 	private $certPath;
 	private $ready;
 	/**
-	 * @var \Sabre_DAV_Client
+	 * @var \Sabre\DAV\Client
 	 */
 	private $client;
 
@@ -71,7 +71,7 @@ class DAV extends \OC\Files\Storage\Common {
 			'password' => $this->password,
 		);
 
-		$this->client = new \Sabre_DAV_Client($settings);
+		$this->client = new \Sabre\DAV\Client($settings);
 
 		if ($this->secure === true && $this->certPath) {
 			$this->client->addTrustedCertificates($this->certPath);
@@ -252,7 +252,7 @@ class DAV extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
-			} catch (\Sabre_DAV_Exception_NotImplemented $e) {
+			} catch (\Sabre\DAV\Exception\NotImplemented $e) {
 				return false;
 			}
 		} else {
@@ -394,6 +394,30 @@ class DAV extends \OC\Files\Storage\Common {
 			return true;
 		} else {
 			return array('curl');
+		}
+	}
+
+	public function getPermissions($path) {
+		$this->init();
+		$response = $this->client->propfind($this->encodePath($path), array('{http://owncloud.org/ns}permissions'));
+		if (isset($response['{http://owncloud.org/ns}permissions'])) {
+			$permissions = 0;
+			$permissionsString = $response['{http://owncloud.org/ns}permissions'];
+			if (strpos($permissionsString, 'R') !== false) {
+				$permissions |= \OCP\PERMISSION_SHARE;
+			}
+			if (strpos($permissionsString, 'D') !== false) {
+				$permissions |= \OCP\PERMISSION_DELETE;
+			}
+			if (strpos($permissionsString, 'W') !== false) {
+				$permissions |= \OCP\PERMISSION_UPDATE;
+			}
+			if (strpos($permissionsString, 'C') !== false) {
+				$permissions |= \OCP\PERMISSION_CREATE;
+			}
+			return $permissions;
+		} else {
+			return parent::getPermissions($path);
 		}
 	}
 }

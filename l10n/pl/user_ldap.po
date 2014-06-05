@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
-# hoek <hoek@hoek.pl>, 2014
-# orcio6 <orcio6@o2.pl>, 2013
-# maxxx <maxxxrally@gmail.com>, 2014
-# bobie <maciej.przybecki@gmail.com>, 2014
+# Dawid <hoek@hoek.pl>, 2014
+# Jerzy Ruszczak <orcio6@o2.pl>, 2013
+# Krzysztof Łojowski <maxxxrally@gmail.com>, 2014
+# Maciej Przybecki <maciej.przybecki@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -76,8 +76,8 @@ msgid "Keep settings?"
 msgstr "Zachować ustawienia?"
 
 #: js/settings.js:93
-msgid "{nbServer}. Server"
-msgstr "{nbServer}. Serwer"
+msgid "{nthServer}. Server"
+msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -97,15 +97,15 @@ msgstr "Błąd"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Proszę podać bazowy DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "Nie można ustalić bazowego DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Proszę podać port"
 
 #: js/settings.js:780
 msgid "Configuration OK"

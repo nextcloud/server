@@ -20,3 +20,8 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 	position: relative;
 	top: 3px;
 }
+
+
+#externalStorage td.status .success {
+	border-radius: 50%;
+}

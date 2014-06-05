@@ -23,8 +23,6 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
 			$ids = $cache->getAll();
-			$permissionsCache = $storage->getPermissionsCache();
-			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
 			$cache->clear();
 		}
 	}

@@ -96,7 +96,6 @@ $TRANSLATIONS = array(
 "Password" => "პაროლი",
 "Data folder" => "მონაცემთა საქაღალდე",
 "Configure the database" => "მონაცემთა ბაზის კონფიგურირება",
-"will be used" => "გამოყენებული იქნება",
 "Database user" => "მონაცემთა ბაზის მომხმარებელი",
 "Database password" => "მონაცემთა ბაზის პაროლი",
 "Database name" => "მონაცემთა ბაზის სახელი",

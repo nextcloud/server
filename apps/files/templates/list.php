@@ -61,13 +61,11 @@
 					<label for="select_all_files"></label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
-						<?php if($_['allowZipDownload']) : ?>
-							<a href="" class="download">
-								<img class="svg" alt="Download"
-									 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
-								<?php p($l->t('Download'))?>
-							</a>
-						<?php endif; ?>
+						<a href="" class="download">
+							<img class="svg" alt="Download"
+								 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
+							<?php p($l->t('Download'))?>
+						</a>
 					</span>
 				</div>
 			</th>
@@ -89,7 +87,6 @@
 	<tfoot>
 	</tfoot>
 </table>
-<input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php p($_['allowZipDownload']); ?>" />
 <input type="hidden" name="dir" id="dir" value="" />
 <div id="editor"></div><!-- FIXME Do not use this div in your app! It is deprecated and will be removed in the future! -->
 <div id="uploadsize-message" title="<?php p($l->t('Upload too large'))?>">

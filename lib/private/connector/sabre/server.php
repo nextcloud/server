@@ -12,7 +12,7 @@
 /**
  * Class OC_Connector_Sabre_Server
  *
- * This class reimplements some methods from @see Sabre_DAV_Server.
+ * This class reimplements some methods from @see \Sabre\DAV\Server.
  *
  * Basically we add handling of depth: infinity.
  *
@@ -24,16 +24,16 @@
  *
  * For ownCloud 7 we will upgrade SabreDAV and submit the patch - if needed.
  *
- * @see Sabre_DAV_Server
+ * @see \Sabre\DAV\Server
  */
-class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
+class OC_Connector_Sabre_Server extends Sabre\DAV\Server {
 
 	/**
-	 * @see Sabre_DAV_Server
+	 * @see \Sabre\DAV\Server
 	 */
 	protected function httpPropfind($uri) {
 
-		// $xml = new Sabre_DAV_XMLReader(file_get_contents('php://input'));
+		// $xml = new \Sabre\DAV\XMLReader(file_get_contents('php://input'));
 		$requestedProperties = $this->parsePropFindRequest($this->httpRequest->getBody(true));
 
 		$depth = $this->getHTTPDepth(1);
@@ -72,7 +72,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 	private function addPathNodesRecursively(&$nodes, $path) {
 		foreach($this->tree->getChildren($path) as $childNode) {
 			$nodes[$path . '/' . $childNode->getName()] = $childNode;
-			if ($childNode instanceof Sabre_DAV_ICollection)
+			if ($childNode instanceof \Sabre\DAV\ICollection)
 				$this->addPathNodesRecursively($nodes, $path . '/' . $childNode->getName());
 		}
 	}
@@ -89,10 +89,10 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 		$nodes = array(
 			$path => $parentNode
 		);
-		if ($depth==1 && $parentNode instanceof Sabre_DAV_ICollection) {
+		if ($depth==1 && $parentNode instanceof \Sabre\DAV\ICollection) {
 			foreach($this->tree->getChildren($path) as $childNode)
 				$nodes[$path . '/' . $childNode->getName()] = $childNode;
-		} else if ($depth == self::DEPTH_INFINITY && $parentNode instanceof Sabre_DAV_ICollection) {
+		} else if ($depth == self::DEPTH_INFINITY && $parentNode instanceof \Sabre\DAV\ICollection) {
 			$this->addPathNodesRecursively($nodes, $path);
 		}
 
@@ -140,7 +140,7 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 
 			if (count($currentPropertyNames) > 0) {
 
-				if ($node instanceof Sabre_DAV_IProperties) {
+				if ($node instanceof \Sabre\DAV\IProperties) {
 					$nodeProperties = $node->getProperties($currentPropertyNames);
 
 					// The getProperties method may give us too much,
@@ -165,9 +165,9 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 				if (isset($newProperties[200][$prop])) continue;
 
 				switch($prop) {
-					case '{DAV:}getlastmodified'       : if ($node->getLastModified()) $newProperties[200][$prop] = new Sabre_DAV_Property_GetLastModified($node->getLastModified()); break;
+					case '{DAV:}getlastmodified'       : if ($node->getLastModified()) $newProperties[200][$prop] = new \Sabre\DAV\Property\GetLastModified($node->getLastModified()); break;
 					case '{DAV:}getcontentlength'      :
-						if ($node instanceof Sabre_DAV_IFile) {
+						if ($node instanceof \Sabre\DAV\IFile) {
 							$size = $node->getSize();
 							if (!is_null($size)) {
 								$newProperties[200][$prop] = 0 + $size;
@@ -175,28 +175,28 @@ class OC_Connector_Sabre_Server extends Sabre_DAV_Server {
 						}
 						break;
 					case '{DAV:}quota-used-bytes'      :
-						if ($node instanceof Sabre_DAV_IQuota) {
+						if ($node instanceof \Sabre\DAV\IQuota) {
 							$quotaInfo = $node->getQuotaInfo();
 							$newProperties[200][$prop] = $quotaInfo[0];
 						}
 						break;
 					case '{DAV:}quota-available-bytes' :
-						if ($node instanceof Sabre_DAV_IQuota) {
+						if ($node instanceof \Sabre\DAV\IQuota) {
 							$quotaInfo = $node->getQuotaInfo();
 							$newProperties[200][$prop] = $quotaInfo[1];
 						}
 						break;
-					case '{DAV:}getetag'               : if ($node instanceof Sabre_DAV_IFile && $etag = $node->getETag())  $newProperties[200][$prop] = $etag; break;
-					case '{DAV:}getcontenttype'        : if ($node instanceof Sabre_DAV_IFile && $ct = $node->getContentType())  $newProperties[200][$prop] = $ct; break;
+					case '{DAV:}getetag'               : if ($node instanceof \Sabre\DAV\IFile && $etag = $node->getETag())  $newProperties[200][$prop] = $etag; break;
+					case '{DAV:}getcontenttype'        : if ($node instanceof \Sabre\DAV\IFile && $ct = $node->getContentType())  $newProperties[200][$prop] = $ct; break;
 					case '{DAV:}supported-report-set'  :
 						$reports = array();
 						foreach($this->plugins as $plugin) {
 							$reports = array_merge($reports, $plugin->getSupportedReportSet($myPath));
 						}
-						$newProperties[200][$prop] = new Sabre_DAV_Property_SupportedReportSet($reports);
+						$newProperties[200][$prop] = new \Sabre\DAV\Property\SupportedReportSet($reports);
 						break;
 					case '{DAV:}resourcetype' :
-						$newProperties[200]['{DAV:}resourcetype'] = new Sabre_DAV_Property_ResourceType();
+						$newProperties[200]['{DAV:}resourcetype'] = new \Sabre\DAV\Property\ResourceType();
 						foreach($this->resourceTypeMapping as $className => $resourceType) {
 							if ($node instanceof $className) $newProperties[200]['{DAV:}resourcetype']->add($resourceType);
 						}

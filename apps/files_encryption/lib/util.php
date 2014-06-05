@@ -303,7 +303,7 @@ class Util {
 	 * Find all files and their encryption status within a directory
 	 * @param string $directory The path of the parent directory to search
 	 * @param bool $found the founded files if called again
-	 * @return mixed false if 0 found, array on success. Keys: name, path
+	 * @return array keys: plain, encrypted, legacy, broken
 	 * @note $directory needs to be a path relative to OC data dir. e.g.
 	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
@@ -322,11 +322,8 @@ class Util {
 			);
 		}
 
-		if (
-			$this->view->is_dir($directory)
-			&& $handle = $this->view->opendir($directory)
-		) {
-			if(is_resource($handle)) {
+		if ($this->view->is_dir($directory) && $handle = $this->view->opendir($directory)){
+			if (is_resource($handle)) {
 				while (false !== ($file = readdir($handle))) {
 
 					if ($file !== "." && $file !== "..") {
@@ -390,34 +387,16 @@ class Util {
 									'name' => $file,
 									'path' => $relPath
 								);
-
 							}
-
 						}
-
 					}
-
 				}
 			}
-
-			\OC_FileProxy::$enabled = true;
-
-			if (empty($found)) {
-
-				return false;
-
-			} else {
-
-				return $found;
-
-			}
-
 		}
 
 		\OC_FileProxy::$enabled = true;
 
-		return false;
-
+		return $found;
 	}
 
 	/**
@@ -569,28 +548,6 @@ class Util {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return $result;
-	}
-
-
-	/**
-	 * @param string $path
-	 * @return bool
-	 */
-	public function isSharedPath($path) {
-
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
-
-		if (isset($split[2]) && $split[2] === 'Shared') {
-
-			return true;
-
-		} else {
-
-			return false;
-
-		}
-
 	}
 
 	/**
@@ -808,121 +765,119 @@ class Util {
 	 */
 	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
 
+		$result = true;
+
 		$found = $this->findEncFiles($dirPath);
 
-		if ($found) {
+		// Disable proxy to prevent file being encrypted twice
+		\OC_FileProxy::$enabled = false;
 
-			// Disable proxy to prevent file being encrypted twice
-			\OC_FileProxy::$enabled = false;
+		$versionStatus = \OCP\App::isEnabled('files_versions');
+		\OC_App::disable('files_versions');
 
-			$versionStatus = \OCP\App::isEnabled('files_versions');
-			\OC_App::disable('files_versions');
+		$encryptedFiles = array();
 
-			$encryptedFiles = array();
+		// Encrypt unencrypted files
+		foreach ($found['plain'] as $plainFile) {
 
-			// Encrypt unencrypted files
-			foreach ($found['plain'] as $plainFile) {
+			//get file info
+			$fileInfo = \OC\Files\Filesystem::getFileInfo($plainFile['path']);
 
-				//get file info
-				$fileInfo = \OC\Files\Filesystem::getFileInfo($plainFile['path']);
+			//relative to data/<user>/file
+			$relPath = $plainFile['path'];
 
-				//relative to data/<user>/file
-				$relPath = $plainFile['path'];
+			//relative to /data
+			$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
 
-				//relative to /data
-				$rawPath = '/' . $this->userId . '/files/' . $plainFile['path'];
+			// keep timestamp
+			$timestamp = $fileInfo['mtime'];
 
-				// keep timestamp
-				$timestamp = $fileInfo['mtime'];
+			// Open plain file handle for binary reading
+			$plainHandle = $this->view->fopen($rawPath, 'rb');
 
-				// Open plain file handle for binary reading
-				$plainHandle = $this->view->fopen($rawPath, 'rb');
+			// Open enc file handle for binary writing, with same filename as original plain file
+			$encHandle = fopen('crypt://' . $rawPath . '.part', 'wb');
+
+			if (is_resource($encHandle) && is_resource($plainHandle)) {
+				// Move plain file to a temporary location
+				$size = stream_copy_to_stream($plainHandle, $encHandle);
+
+				fclose($encHandle);
+				fclose($plainHandle);
+
+				$fakeRoot = $this->view->getRoot();
+				$this->view->chroot('/' . $this->userId . '/files');
+
+				$this->view->rename($relPath . '.part', $relPath);
+
+				// set timestamp
+				$this->view->touch($relPath, $timestamp);
+
+				$encSize = $this->view->filesize($relPath);
+
+				$this->view->chroot($fakeRoot);
+
+				// Add the file to the cache
+				\OC\Files\Filesystem::putFileInfo($relPath, array(
+					'encrypted' => true,
+					'size' => $encSize,
+					'unencrypted_size' => $size,
+					'etag' => $fileInfo['etag']
+				));
+
+				$encryptedFiles[] = $relPath;
+			} else {
+				\OCP\Util::writeLog('files_encryption', 'initial encryption: could not encrypt ' . $rawPath, \OCP\Util::FATAL);
+				$result = false;
+			}
+		}
+
+		// Encrypt legacy encrypted files
+		if (!empty($legacyPassphrase) && !empty($newPassphrase)) {
+
+			foreach ($found['legacy'] as $legacyFile) {
+
+				// Fetch data from file
+				$legacyData = $this->view->file_get_contents($legacyFile['path']);
+
+				// decrypt data, generate catfile
+				$decrypted = Crypt::legacyBlockDecrypt($legacyData, $legacyPassphrase);
+
+				$rawPath = $legacyFile['path'];
+
+				// enable proxy the ensure encryption is handled
+				\OC_FileProxy::$enabled = true;
 
 				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = fopen('crypt://' . $rawPath . '.part', 'wb');
+				$encHandle = $this->view->fopen($rawPath, 'wb');
 
 				if (is_resource($encHandle)) {
-					// Move plain file to a temporary location
-					$size = stream_copy_to_stream($plainHandle, $encHandle);
 
+					// write data to stream
+					fwrite($encHandle, $decrypted);
+
+					// close stream
 					fclose($encHandle);
-					fclose($plainHandle);
-
-					$fakeRoot = $this->view->getRoot();
-					$this->view->chroot('/' . $this->userId . '/files');
-
-					$this->view->rename($relPath . '.part', $relPath);
-
-					// set timestamp
-					$this->view->touch($relPath, $timestamp);
-
-					$encSize = $this->view->filesize($relPath);
-
-					$this->view->chroot($fakeRoot);
-
-					// Add the file to the cache
-					\OC\Files\Filesystem::putFileInfo($relPath, array(
-						'encrypted' => true,
-						'size' => $encSize,
-						'unencrypted_size' => $size,
-						'etag' => $fileInfo['etag']
-					));
-
-					$encryptedFiles[] = $relPath;
+				} else {
+					\OCP\Util::writeLog('files_encryption', 'initial encryption: could not encrypt legacy file ' . $rawPath, \OCP\Util::FATAL);
+					$result = false;
 				}
+
+				// disable proxy to prevent file being encrypted twice
+				\OC_FileProxy::$enabled = false;
 			}
-
-			// Encrypt legacy encrypted files
-			if (
-				!empty($legacyPassphrase)
-				&& !empty($newPassphrase)
-			) {
-
-				foreach ($found['legacy'] as $legacyFile) {
-
-					// Fetch data from file
-					$legacyData = $this->view->file_get_contents($legacyFile['path']);
-
-					// decrypt data, generate catfile
-					$decrypted = Crypt::legacyBlockDecrypt($legacyData, $legacyPassphrase);
-
-					$rawPath = $legacyFile['path'];
-
-					// enable proxy the ensure encryption is handled
-					\OC_FileProxy::$enabled = true;
-
-					// Open enc file handle for binary writing, with same filename as original plain file
-					$encHandle = $this->view->fopen( $rawPath, 'wb' );
-
-					if (is_resource($encHandle)) {
-
-						// write data to stream
-						fwrite($encHandle, $decrypted);
-
-						// close stream
-						fclose($encHandle);
-					}
-
-					// disable proxy to prevent file being encrypted twice
-					\OC_FileProxy::$enabled = false;
-				}
-			}
-
-			\OC_FileProxy::$enabled = true;
-
-			if ($versionStatus) {
-				\OC_App::enable('files_versions');
-			}
-
-			$this->encryptVersions($encryptedFiles);
-
-			// If files were found, return true
-			return true;
-		} else {
-
-			// If no files were found, return false
-			return false;
 		}
+
+		\OC_FileProxy::$enabled = true;
+
+		if ($versionStatus) {
+			\OC_App::enable('files_versions');
+		}
+
+		$result = $result && $this->encryptVersions($encryptedFiles);
+
+		return $result;
+
 	}
 
 	/**

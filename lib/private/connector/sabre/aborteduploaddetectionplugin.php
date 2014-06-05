@@ -12,12 +12,12 @@
  * This plugin will verify if the uploaded data has been stored completely.
  * This is done by comparing the content length of the request with the file size on storage.
  */
-class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPlugin {
+class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends \Sabre\DAV\ServerPlugin {
 
 	/**
 	 * Reference to main server object
 	 *
-	 * @var Sabre_DAV_Server
+	 * @var \Sabre\DAV\Server
 	 */
 	private $server;
 
@@ -36,14 +36,14 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 	/**
 	 * This initializes the plugin.
 	 *
-	 * This function is called by Sabre_DAV_Server, after
+	 * This function is called by \Sabre\DAV\Server, after
 	 * addPlugin is called.
 	 *
 	 * This method should set up the requires event subscriptions.
 	 *
-	 * @param Sabre_DAV_Server $server
+	 * @param \Sabre\DAV\Server $server
 	 */
-	public function initialize(Sabre_DAV_Server $server) {
+	public function initialize(\Sabre\DAV\Server $server) {
 
 		$this->server = $server;
 
@@ -53,10 +53,10 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 
 	/**
 	 * @param string $filePath
-	 * @param Sabre_DAV_INode $node
-	 * @throws Sabre_DAV_Exception_BadRequest
+	 * @param \Sabre\DAV\INode $node
+	 * @throws \Sabre\DAV\Exception\BadRequest
 	 */
-	public function verifyContentLength($filePath, Sabre_DAV_INode $node = null) {
+	public function verifyContentLength($filePath, \Sabre\DAV\INode $node = null) {
 
 		// we should only react on PUT which is used for upload
 		// e.g. with LOCK this will not work, but LOCK uses createFile() as well
@@ -78,7 +78,7 @@ class OC_Connector_Sabre_AbortedUploadDetectionPlugin extends Sabre_DAV_ServerPl
 		$actual = $this->fileView->filesize($filePath);
 		if ($actual != $expected) {
 			$this->fileView->unlink($filePath);
-			throw new Sabre_DAV_Exception_BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+			throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
 		}
 
 	}

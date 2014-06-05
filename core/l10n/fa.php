@@ -112,7 +112,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "انبارش و پایگاه داده",
 "Data folder" => "پوشه اطلاعاتی",
 "Configure the database" => "پایگاه داده برنامه ریزی شدند",
-"will be used" => "استفاده خواهد شد",
 "Database user" => "شناسه پایگاه داده",
 "Database password" => "پسورد پایگاه داده",
 "Database name" => "نام پایگاه داده",

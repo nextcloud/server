@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# dixebra <davidlopezcastanon@gmail.com>, 2014
+# David López Castañón <davidlopezcastanon@gmail.com>, 2014
 # Iñigo Varela <ivarela@softastur.org>, 2014
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -47,23 +47,23 @@ msgstr "Base de datos anovada"
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "Nun s'especificó nenguna imaxe o ficheru"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Triba de ficheru desconocida"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Imaxe inválida"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "Nengún perfil d'imaxe temporal disponible, intentalo de nueves"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "Nun s'apurrió'l retayu de datos"
 
@@ -143,333 +143,341 @@ msgstr "Payares"
 msgid "December"
 msgstr "Avientu"
 
-#: js/js.js:487
+#: js/js.js:501
 msgid "Settings"
 msgstr "Axustes"
 
-#: js/js.js:587
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: js/js.js:1211
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "fai segundos"
 
-#: js/js.js:1212
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
 msgstr[1] "fai %n minutos"
 
-#: js/js.js:1213
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
 msgstr[1] "fai %n hores"
 
-#: js/js.js:1214
+#: js/js.js:1232
 msgid "today"
 msgstr "güei"
 
-#: js/js.js:1215
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "ayeri"
 
-#: js/js.js:1216
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
 msgstr[1] "fai %n díes"
 
-#: js/js.js:1217
+#: js/js.js:1235
 msgid "last month"
 msgstr "mes caberu"
 
-#: js/js.js:1218
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
 msgstr[1] "fai %n meses"
 
-#: js/js.js:1219
+#: js/js.js:1237
 msgid "last year"
 msgstr "añu caberu"
 
-#: js/js.js:1220
+#: js/js.js:1238
 msgid "years ago"
 msgstr "fai años"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "Non"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Esbillar"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Fallu cargando'l ficheru de plantía d'escoyeta: {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "Aceutar"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Fallu cargando'l mensaxe de la plantía: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflictu de ficheru"
 msgstr[1] "{count} conflictos de ficheru "
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "Conflictu nun ficheru"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "Ficheros nuevos"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "Ficheros qu'esisten yá"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "¿Qué ficheros quies caltener?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Si seleiciones dames versiones, el ficheru copiáu tendrá un númberu amestáu al so nome"
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Encaboxar"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(esbillao too)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "(esbillaos {count})"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "Contraseña mui feble"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "Contraseña feble"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "Contraseña pasable"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "Contraseña bona"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "Contraseña mui bona"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Compartíu"
 
-#: js/share.js:109
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fallu"
 
-#: js/share.js:175 js/share.js:863
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Fallu mientres la compartición"
 
-#: js/share.js:186
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Fallu mientres se dexaba de compartir"
 
-#: js/share.js:193
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Fallu mientres camudaben los permisos"
 
-#: js/share.js:203
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Compartíu contigo y col grupu {group} por {owner}"
 
-#: js/share.js:205
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Compartíu contigo por {owner}"
 
-#: js/share.js:229
+#: js/share.js:328
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Compartir col usuariu o grupu ..."
 
-#: js/share.js:235
+#: js/share.js:334
 msgid "Share link"
 msgstr "Compartir enllaz"
 
-#: js/share.js:241
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:243
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:248
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Protexer con contraseña"
 
-#: js/share.js:250
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr "Escueyi una contraseña pal enllaz públicu"
 
-#: js/share.js:256
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Permitir xuba pública"
 
-#: js/share.js:260
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Enlláz de corréu electrónicu a la persona"
 
-#: js/share.js:261
+#: js/share.js:360
 msgid "Send"
 msgstr "Unviar"
 
-#: js/share.js:266
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Afitar la data de caducidá"
 
-#: js/share.js:267
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Data de caducidá"
 
-#: js/share.js:304
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Compartir vía corréu electrónicu:"
 
-#: js/share.js:307
+#: js/share.js:407
 msgid "No people found"
 msgstr "Nun s'atoparon persones"
 
-#: js/share.js:355 js/share.js:416
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "grupu"
 
-#: js/share.js:388
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Recompartir nun ta permitíu"
 
-#: js/share.js:432
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "Compartíu en {item} con {user}"
 
-#: js/share.js:454
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Dexar de compartir"
 
-#: js/share.js:462
+#: js/share.js:570
 msgid "notify by email"
 msgstr "notificar per corréu"
 
-#: js/share.js:465
+#: js/share.js:573
 msgid "can edit"
 msgstr "pue editar"
 
-#: js/share.js:467
+#: js/share.js:575
 msgid "access control"
 msgstr "control d'accesu"
 
-#: js/share.js:470
+#: js/share.js:578
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:473
+#: js/share.js:581
 msgid "update"
 msgstr "xubir"
 
-#: js/share.js:476
+#: js/share.js:584
 msgid "delete"
 msgstr "desaniciar"
 
-#: js/share.js:479
+#: js/share.js:587
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:781
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Contraseña protexida"
 
-#: js/share.js:800
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Fallu desafitando la data de caducidá"
 
-#: js/share.js:821
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Fallu afitando la fecha de caducidá"
 
-#: js/share.js:850
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Unviando ..."
 
-#: js/share.js:861
+#: js/share.js:978
 msgid "Email sent"
 msgstr "Corréu unviáu"
 
-#: js/share.js:885
+#: js/share.js:1002
 msgid "Warning"
 msgstr "Avisu"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "El tipu d'oxetu nun ta especificáu."
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr ""
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Desaniciar"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Amestar"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "Editar etiquetes"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr ""
 
@@ -483,7 +491,7 @@ msgstr "Por favor, recarga la páxina"
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "L'anovamientu nun foi esitosu."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -519,12 +527,13 @@ msgstr "¡Petición fallida!<br>¿Asegurástite qué'l to nome d'usuariu/corréu
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vas recibir un enllaz vía Corréu-e pa restablecer la to contraseña"
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Nome d'usuariu"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -532,11 +541,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Los tos ficheros tan cifraos. Si nun habilitesti la clave de recuperación, nun habrá forma de recuperar los tos datos dempués de que la contraseña se reanicie. Si nun tas seguru que facer, por favor contauta col to alministrador enantes de siguir. ¿De xuru quies continuar?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Sí, quiero reaniciar daveres la mio contraseña agora"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "Reaniciar"
 
@@ -549,10 +558,11 @@ msgid "To login page"
 msgstr "Aniciar sesión na páxina"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Contraseña nueva"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Restablecer contraseña"
 
@@ -590,11 +600,11 @@ msgstr "Ayuda"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Fallu cargando les etiquetes"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Yá esiste la etiqueta"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
@@ -602,7 +612,7 @@ msgstr ""
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Fallu etiquetando"
 
 #: tags/controller.php:86
 msgid "Error untagging"
@@ -686,51 +696,59 @@ msgstr "Pa informase de cómo configurar el so sirvidor, por favor güeya la  <a
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea una <strong>cuenta d'alministrador</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr ""
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Carpeta de datos"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Configura la base de datos"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "usaráse"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr "Namái ta disponible %s"
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Usuariu de la base de datos"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Contraseña de la base de datos"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Nome de la base de datos"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Espaciu de tables de la base de datos"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Agospiador de la base de datos"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Finar la configuración "
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "Finando ..."
 
@@ -750,41 +768,41 @@ msgstr "Ta disponible %s. Consigui más información en como anovar·"
 msgid "Log out"
 msgstr "Zarrar sesión"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "¡Aniciu de sesión automáticu refugáu!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "¡Si nun camudó la so contraseña últimamente, la so cuenta pue tar comprometida!"
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Por favor, camude la so contraseña p'asegurar la so cuenta de nueves"
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr ""
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr "Por favor, contauta col to alministrador"
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "¿Escaeciesti la to contraseña?"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "recordar"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Aniciar sesión"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Anicios de sesión alternativos"
 
@@ -793,7 +811,7 @@ msgstr "Anicios de sesión alternativos"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Hola, ¿qué hai?,<br><br>namái déxamos dicite que %s compartió <strong>%s</strong> contigo.\n<br><a href=\"%s\">¡Velu!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
@@ -816,11 +834,11 @@ msgstr "Gracies pola to paciencia."
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s anovaráse a la versión %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "Deshabilitaránse les siguientes aplicaciones:"
 
 #: templates/update.admin.php:17
 #, php-format
@@ -835,12 +853,12 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Aniciar anovamientu"
 
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "Esta instancia de OwnCloud ta anguaño anovándose, polo que pue tardar un pocoñín."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."

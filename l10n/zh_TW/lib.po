@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# v998 <keroro20054@gmail.com>, 2014
-# pellaeon <nfsmwlin@gmail.com>, 2013
+# happy chan <keroro20054@gmail.com>, 2014
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -19,49 +19,49 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "無法安裝應用程式 %s 因為它和此版本的 ownCloud 不相容。"
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "沒有指定應用程式名稱"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "說明"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "個人"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "設定"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "使用者"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "升級失敗：%s"
@@ -77,28 +77,6 @@ msgstr "無效的圖片"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "由您控制的網路服務"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "ZIP 下載已關閉。"
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "檔案需要逐一下載。"
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "回到檔案列表"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "選擇的檔案太大以致於無法產生壓縮檔。"
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "請分割您的檔案後下載，或請詢問您的系統管理員。"
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -129,29 +107,29 @@ msgstr "應用程式沒有提供 info.xml 檔案"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "無法安裝應用程式因為在當中找到危險的代碼"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "無法安裝應用程式因為它和此版本的 ownCloud 不相容。"
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "無法安裝應用程式，因為它包含了 <shipped>true</shipped> 標籤，在未發行的應用程式當中這是不允許的"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "無法安裝應用程式，因為它在 info.xml/version 宣告的版本與 app store 當中記載的版本不同"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "應用程式目錄已經存在"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "無法建立應用程式目錄，請檢查權限：%s"
@@ -460,20 +438,25 @@ msgstr "去年"
 msgid "years ago"
 msgstr "幾年前"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr ""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "必須提供一個有效的用戶名"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "一定要提供一個有效的密碼"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
+msgstr ""
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
 msgstr ""

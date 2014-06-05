@@ -139,7 +139,6 @@ $TRANSLATIONS = array(
 "Password" => "Mật khẩu",
 "Data folder" => "Thư mục dữ liệu",
 "Configure the database" => "Cấu hình cơ sở dữ liệu",
-"will be used" => "được sử dụng",
 "Database user" => "Người dùng cơ sở dữ liệu",
 "Database password" => "Mật khẩu cơ sở dữ liệu",
 "Database name" => "Tên cơ sở dữ liệu",

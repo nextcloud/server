@@ -35,7 +35,7 @@ class Mount extends \PHPUnit_Framework_TestCase {
 		};
 
 		$loader = new Loader();
-		$loader->addStorageWrapper($wrapper);
+		$loader->addStorageWrapper('test_wrapper', $wrapper);
 
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()

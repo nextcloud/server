@@ -1,3 +1,5 @@
+<?php /** @var $l OC_L10N */ ?>
+
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
 <form method="post" name="login">
 	<fieldset>
@@ -24,19 +26,21 @@
 			<!-- the following div ensures that the spinner is always inside the #message div -->
 			<div style="clear: both;"></div>
 		</p>
-		<p class="infield grouptop">
-			<input type="text" name="user" id="user" placeholder=""
-				   value="<?php p($_['username']); ?>"
-				   <?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
-				   autocomplete="on" autocapitalize="off" autocorrect="off" required />
+		<p class="grouptop">
+			<input type="text" name="user" id="user"
+				placeholder="<?php p($l->t('Username')); ?>"
+				value="<?php p($_['username']); ?>"
+				<?php p($_['user_autofocus'] ? 'autofocus' : ''); ?>
+				autocomplete="on" autocapitalize="off" autocorrect="off" required />
 			<label for="user" class="infield"><?php p($l->t('Username')); ?></label>
 			<img class="svg" src="<?php print_unescaped(image_path('', 'actions/user.svg')); ?>" alt=""/>
 		</p>
 
-		<p class="infield groupbottom">
-			<input type="password" name="password" id="password" value="" placeholder=""
-				   <?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
-				   autocomplete="on" autocapitalize="off" autocorrect="off" required />
+		<p class="groupbottom">
+			<input type="password" name="password" id="password" value=""
+				placeholder="<?php p($l->t('Password')); ?>"
+				<?php p($_['user_autofocus'] ? '' : 'autofocus'); ?>
+				autocomplete="on" autocapitalize="off" autocorrect="off" required />
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
 		</p>
@@ -51,6 +55,7 @@
 		<label for="remember_login"><?php p($l->t('remember')); ?></label>
 		<?php endif; ?>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>
+		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 		<input type="submit" id="submit" class="login primary" value="<?php p($l->t('Log in')); ?>" disabled="disabled"/>
 	</fieldset>
 </form>

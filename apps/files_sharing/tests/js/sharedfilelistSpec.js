@@ -9,7 +9,8 @@
  */
 
 describe('OCA.Sharing.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList;
+	var testFiles, alertStub, notificationStub, fileList, fileActions;
+	var oldFileListPrototype;
 
 	beforeEach(function() {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
@@ -45,10 +46,17 @@ describe('OCA.Sharing.FileList tests', function() {
 			'<div id="emptycontent">Empty content message</div>' +
 			'</div>'
 		);
+		// back up prototype, as it will be extended by
+		// the sharing code
+		oldFileListPrototype = _.extend({}, OCA.Files.FileList.prototype);
+		fileActions = new OCA.Files.FileActions();
+		OCA.Sharing.Util.initialize(fileActions);
 	});
 	afterEach(function() {
+		OCA.Files.FileList.prototype = oldFileListPrototype;
 		testFiles = undefined;
 		fileList = undefined;
+		fileActions = undefined;
 
 		notificationStub.restore();
 		alertStub.restore();
@@ -406,6 +414,97 @@ describe('OCA.Sharing.FileList tests', function() {
 				'/index.php/apps/files/ajax/download.php' +
 				'?dir=%2Flocal%20path&files=local%20name.txt'
 			);
+			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
+		});
+	});
+	describe('loading file list for link shares', function() {
+		var ocsResponse;
+
+		beforeEach(function() {
+			fileList = new OCA.Sharing.FileList(
+				$('#app-content-container'), {
+					linksOnly: true
+				}
+			);
+
+			fileList.reload();
+
+			ocsResponse = {
+				ocs: {
+					meta: {
+						status: 'ok',
+						statuscode: 100,
+						message: null
+					},
+					data: [{
+						id: 7,
+						item_type: 'file',
+						item_source: 49,
+						file_source: 49,
+						path: '/local path/local name.txt',
+						permissions: 1,
+						stime: 11111,
+						share_type: OC.Share.SHARE_TYPE_LINK,
+						share_with: null,
+						token: 'abc',
+						mimetype: 'text/plain',
+						uid_owner: 'user1',
+						displayname_owner: 'User One'
+					}]
+				}
+			};
+		});
+		it('render only link shares', function() {
+			/* jshint camelcase: false */
+			var request;
+			ocsResponse.ocs.data.push({
+				// non-link share
+				id: 8,
+				item_type: 'file',
+				item_source: 49,
+				file_source: 49,
+				path: '/local path/local name.txt',
+				permissions: 27,
+				stime: 11111,
+				share_type: OC.Share.SHARE_TYPE_USER,
+				share_with: 'user2',
+				share_with_displayname: 'User Two',
+				mimetype: 'text/plain',
+				uid_owner: 'user1',
+				displayname_owner: 'User One'
+			});
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1') +
+				'shares?format=json&shared_with_me=false'
+			);
+
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify(ocsResponse)
+			);
+
+			// only renders the link share entry
+			var $rows = fileList.$el.find('tbody tr');
+			var $tr = $rows.eq(0);
+			expect($rows.length).toEqual(1);
+			expect($tr.attr('data-id')).toEqual('49');
+			expect($tr.attr('data-type')).toEqual('file');
+			expect($tr.attr('data-file')).toEqual('local name.txt');
+			expect($tr.attr('data-path')).toEqual('/local path');
+			expect($tr.attr('data-size')).not.toBeDefined();
+			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
+			expect($tr.attr('data-mime')).toEqual('text/plain');
+			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-owner')).not.toBeDefined();
+			expect($tr.attr('data-share-id')).toEqual('7');
+			expect($tr.find('a.name').attr('href')).toEqual(
+					OC.webroot +
+					'/index.php/apps/files/ajax/download.php' +
+					'?dir=%2Flocal%20path&files=local%20name.txt');
+
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
 	});

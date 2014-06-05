@@ -1,3 +1,5 @@
-<?php $TRANSLATIONS = array(
-"WebDAV URL: http://" => "WebDAV URL: http://"
+<?php
+$TRANSLATIONS = array(
+"Save" => "சேமிக்க "
 );
+$PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -97,7 +97,6 @@ $TRANSLATIONS = array(
 "Password" => "Cyfrinair",
 "Data folder" => "Plygell data",
 "Configure the database" => "Cyflunio'r gronfa ddata",
-"will be used" => "ddefnyddir",
 "Database user" => "Defnyddiwr cronfa ddata",
 "Database password" => "Cyfrinair cronfa ddata",
 "Database name" => "Enw cronfa ddata",

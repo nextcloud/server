@@ -98,6 +98,20 @@ if (!$_['isAnnotationsWorking']) {
 <?php
 }
 
+// SQLite database performance issue
+if ($_['databaseOverload']) {
+	?>
+<div class="section">
+	<h2><?php p($l->t('Database Performance Info'));?></h2>
+
+	<p class="securitywarning">
+		<?php p($l->t('SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
+	</p>
+
+</div>
+<?php
+}
+
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>
@@ -263,24 +277,21 @@ if (!$_['internetconnectionworking']) {
 					   value="1" <?php if ($_['allowResharing'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowResharing"><?php p($l->t('Allow resharing'));?></label><br/>
 				<em><?php p($l->t('Allow users to share items shared with them again')); ?></em>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal"
-					   value="global" <?php if ($_['sharePolicy'] === 'global') print_unescaped('checked="checked"'); ?> />
-				<label for="sharePolicyGlobal"><?php p($l->t('Allow users to share with anyone')); ?></label><br/>
-				<input type="radio" name="shareapi_share_policy" id="sharePolicyGroupsOnly"
-					   value="groups_only" <?php if ($_['sharePolicy'] === 'groups_only') print_unescaped('checked="checked"'); ?> />
-				<label for="sharePolicyGroupsOnly"><?php p($l->t('Allow users to only share with users in their groups'));?></label><br/>
+				<div id="resharingSettings" <?php ($_['allowResharing'] === 'yes') ? print_unescaped('class="indent"') : print_unescaped('class="hidden indent"');?>>
+					<input type="radio" name="shareapi_share_policy" id="sharePolicyGlobal"
+						    value="global" <?php if ($_['sharePolicy'] === 'global') print_unescaped('checked="checked"'); ?> />
+					<label for="sharePolicyGlobal"><?php p($l->t('Allow users to share with anyone')); ?></label><br/>
+					<input type="radio" name="shareapi_share_policy" id="sharePolicyGroupsOnly"
+						    value="groups_only" <?php if ($_['sharePolicy'] === 'groups_only') print_unescaped('checked="checked"'); ?> />
+					<label for="sharePolicyGroupsOnly"><?php p($l->t('Allow users to only share with users in their groups'));?></label><br/>
+				</div>
 			</td>
 		</tr>
 		<tr>
 			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
 				<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
 					   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowMailNotification"><?php p($l->t('Allow mail notification'));?></label><br/>
-				<em><?php p($l->t('Allow users to send mail notification for shared files')); ?></em>
+				<label for="allowMailNotification"><?php p($l->t('Allow users to send mail notification for shared files'));?></label><br/>
 			</td>
 		</tr>
 		<tr>

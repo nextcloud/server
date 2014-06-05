@@ -3,28 +3,28 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# lord93 <lordakryl@gmail.com>, 2013
+# Andrew Batchmauga <lordakryl@gmail.com>, 2013
 # BuxarNET <buxarnet@gmail.com>, 2014
-# Denis Plastinin <denispal@gmail.com>, 2014
-# Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
+# Denis <denispal@gmail.com>, 2014
+# Evgenij Spitsyn <evgeniy@spitsyn.net>, 2013
 # Gennady <mxiru@mail.ru>, 2014
 # jekader <jekader@gmail.com>, 2013
 # mogarych <mogarych@mail.ru>, 2014
-# eurekafag <rkfg@rkfg.me>, 2013
+# Serge Shpikin <rkfg@rkfg.me>, 2013
 # Swab <swab@i.ua>, 2014
 # Victor Bravo <>, 2013
-# vsapronov <vladimir.sapronov@gmail.com>, 2013
-# not_your_conscience <hex.void@gmail.com>, 2013
-# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
-# hackproof <hackproof.ai@gmail.com>, 2013
-# Friktor <antonshramko@yandex.ru>, 2013
+# Vladimir Sapronov <vladimir.sapronov@gmail.com>, 2013
+# Void Ayanami <hex.void@gmail.com>, 2013
+# Yuriy Malyovaniy <yuriy.malyovaniy@gmail.com>, 2013
+# Алексей <hackproof.ai@gmail.com>, 2013
+# Антон <antonshramko@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-29 08:11+0000\n"
-"Last-Translator: Gennady <mxiru@mail.ru>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:41+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -192,7 +192,7 @@ msgstr "Идёт загрузка файла. Покинув страницу, �
 msgid "URL cannot be empty"
 msgstr "Ссылка не может быть пустой."
 
-#: js/file-upload.js:559 js/filelist.js:1170
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} уже существует"
 
@@ -208,79 +208,79 @@ msgstr "Не удалось создать каталог"
 msgid "Error fetching URL"
 msgstr "Ошибка получения URL"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Удалить окончательно"
 
-#: js/fileactions.js:183 templates/list.php:80 templates/list.php:81
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Переименовать"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Идёт подготовка к скачиванию. Это может занять некоторое время, если файлы большого размера."
 
-#: js/filelist.js:596 js/filelist.js:1665
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Ожидание"
 
-#: js/filelist.js:1121
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "Ошибка перемещения файла."
 
-#: js/filelist.js:1129
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Ошибка при перемещении файла"
 
-#: js/filelist.js:1129
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/filelist.js:1207
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Не удалось переименовать файл"
 
-#: js/filelist.js:1328
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Ошибка при удалении файла."
 
-#: js/filelist.js:1431 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Имя"
 
-#: js/filelist.js:1432 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Размер"
 
-#: js/filelist.js:1433 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Дата изменения"
 
-#: js/filelist.js:1443 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n каталог"
 msgstr[1] "%n каталога"
 msgstr[2] "%n каталогов"
 
-#: js/filelist.js:1449 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n файл"
 msgstr[1] "%n файла"
 msgstr[2] "%n файлов"
 
-#: js/filelist.js:1573 js/filelist.js:1612
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Закачка %n файла"
@@ -332,35 +332,19 @@ msgstr "%s не может быть переименован"
 msgid "Upload (max. %s)"
 msgstr "Загружено (max. %s)"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Управление файлами"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Максимальный размер загружаемого файла"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "макс. возможно: "
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Требуется для скачивания нескольких файлов и папок"
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "Включить скачивание в виде архивов ZIP"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 - без ограничений"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Максимальный исходный размер для ZIP файлов"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Сохранить"
 
@@ -411,24 +395,24 @@ msgstr "У вас нет прав для загрузки или создани�
 msgid "Nothing in here. Upload something!"
 msgstr "Здесь ничего нет. Загрузите что-нибудь!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "Файл слишком велик"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Подождите, файлы сканируются."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr "В настоящее время сканируется"

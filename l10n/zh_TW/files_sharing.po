@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# pellaeon <nfsmwlin@gmail.com>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -18,33 +18,41 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: appinfo/app.php:32 js/app.js:32
+#: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
 msgstr ""
 
-#: appinfo/app.php:41 js/app.js:51
+#: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
 msgstr ""
 
-#: js/app.js:33
+#: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr ""
 
-#: js/app.js:52
+#: js/app.js:54
 msgid "You haven't shared any files yet."
 msgstr ""
 
-#: js/share.js:47 js/share.js:55
+#: js/settings-admin.js:10
+msgid "Could not load template"
+msgstr ""
+
+#: js/settings-admin.js:45
+msgid "Saved"
+msgstr ""
+
+#: js/settings-admin.js:64 templates/settings-admin.php:33
+msgid "Reset"
+msgstr ""
+
+#: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "由 {owner} 分享"
 
-#: js/sharedfilelist.js:116
+#: js/sharedfilelist.js:123
 msgid "Shared by"
-msgstr ""
-
-#: js/sharedfilelist.js:220
-msgid "link"
-msgstr ""
+msgstr "由...分享"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -54,13 +62,13 @@ msgstr "這個分享有密碼保護"
 msgid "The password is wrong. Try again."
 msgstr "請檢查您的密碼並再試一次"
 
-#: templates/authenticate.php:10
+#: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
 msgstr "密碼"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: templates/list.php:20
 msgid "Share time"
@@ -90,15 +98,31 @@ msgstr "分享功能已停用"
 msgid "For more info, please ask the person who sent this link."
 msgstr "請詢問告訴您此連結的人以瞭解更多"
 
-#: templates/public.php:21
+#: templates/public.php:20
 msgid "Download"
 msgstr "下載"
 
-#: templates/public.php:52
+#: templates/public.php:50
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:56
+#: templates/public.php:54
 msgid "Direct link"
+msgstr ""
+
+#: templates/settings-admin.php:3
+msgid "Mail templates"
+msgstr ""
+
+#: templates/settings-admin.php:8
+msgid "Theme"
+msgstr ""
+
+#: templates/settings-admin.php:17
+msgid "Template"
+msgstr ""
+
+#: templates/settings-admin.php:35
+msgid "Save"
 msgstr ""

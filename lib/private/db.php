@@ -322,6 +322,23 @@ class OC_DB {
 	}
 
 	/**
+	 * simulate the database schema update
+	 * @param string $file file to read structure from
+	 * @throws Exception
+	 * @return string|boolean
+	 */
+	public static function simulateUpdateDbFromStructure($file) {
+		$schemaManager = self::getMDB2SchemaManager();
+		try {
+			$result = $schemaManager->simulateUpdateDbFromStructure($file);
+		} catch (Exception $e) {
+			OC_Log::write('core', 'Simulated database structure update failed ('.$e.')', OC_Log::FATAL);
+			throw $e;
+		}
+		return $result;
+	}
+
+	/**
 	 * drop a table - the database prefix will be prepended
 	 * @param string $tableName the table to drop
 	 */

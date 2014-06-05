@@ -21,19 +21,6 @@
 	box-align: center;
 }
 
-/* show caret indicator next to logo to make clear it is tappable */
-#owncloud.menutoggle {
-	background-image: url('../img/actions/caret.svg');
-	background-repeat: no-repeat;
-	background-position: right 26px;
-	padding-right: 16px !important;
-}
-/* do not show menu toggle on public share links as there is no menu */
-#body-public #owncloud.menutoggle {
-	background-image: none;
-	padding-right: 0 !important;
-}
-
 /* compress search box on mobile, expand when focused */
 .searchbox input[type="search"] {
 	width: 15%;
@@ -51,70 +38,6 @@
 /* do not show display name on mobile when profile picture is present */
 #header .avatardiv.avatardiv-shown + #expandDisplayName {
 	display: none;
-}
-
-/* toggle navigation */
-#content-wrapper {
-	padding-left: 0;
-}
-
-#navigation {
-	top: 45px;
-	bottom: initial;
-	width: 255px;
-	max-height: 90%;
-	margin-top: 0;
-	top: 45px;
-	background-color: rgba(36, 40, 47, .97);
-	overflow-x: initial;
-	border-bottom-right-radius: 7px;
-	border-bottom: 1px #333 solid;
-	border-right: 1px #333 solid;
-	box-shadow: 0 0 7px rgba(29,45,68,.97);
-	display: none;
-}
-#navigation, #navigation * {
-	box-sizing:border-box; -moz-box-sizing:border-box;
-}
-#navigation li {
-	display: inline-block;
-}
-#navigation a {
-	width: 80px;
-	height: 80px;
-	display: inline-block;
-	text-align: center;
-	padding: 20px 0;
-}
-#navigation a span {
-	display: inline-block;
-	font-size: 13px;
-	padding-bottom: 0;
-	padding-left: 0;
-	width: 80px;
-}
-#navigation .icon {
-	margin: 0 auto;
-	padding: 0;
-}
-#navigation li:first-child .icon {
-	padding-top: 0;
-}
-/* Apps management as sticky footer */
-#navigation .wrapper {
-	min-height: initial;
-	margin: 0;
-}
-#apps-management, #navigation .push {
-	height: initial;
-}
-
-
-
-/* shift to account for missing navigation */
-#body-user #controls,
-#body-settings #controls {
-	padding-left: 0;
 }
 
 /* don’t require a minimum width for controls bar */

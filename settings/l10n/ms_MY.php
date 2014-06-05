@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "deleted" => "dihapus",
 "Groups" => "Kumpulan",
 "Delete" => "Padam",
+"never" => "jangan",
 "__language_name__" => "_nama_bahasa_",
 "Login" => "Log masuk",
 "Security Warning" => "Amaran keselamatan",
@@ -35,7 +36,9 @@ $TRANSLATIONS = array(
 "Help translate" => "Bantu terjemah",
 "Login Name" => "Log masuk",
 "Create" => "Buat",
+"Default Quota" => "Kuota Lalai",
 "Other" => "Lain",
-"Username" => "Nama pengguna"
+"Username" => "Nama pengguna",
+"Quota" => "Kuota"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

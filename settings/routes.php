@@ -25,6 +25,8 @@ $this->create('settings_admin', '/settings/admin')
 // users
 $this->create('settings_ajax_userlist', '/settings/ajax/userlist')
 	->actionInclude('settings/ajax/userlist.php');
+$this->create('settings_ajax_grouplist', '/settings/ajax/grouplist')
+	->actionInclude('settings/ajax/grouplist.php');
 $this->create('settings_ajax_createuser', '/settings/ajax/createuser.php')
 	->actionInclude('settings/ajax/createuser.php');
 $this->create('settings_ajax_removeuser', '/settings/ajax/removeuser.php')
@@ -44,6 +46,8 @@ $this->create('settings_users_changepassword', '/settings/users/changepassword')
 	->action('OC\Settings\ChangePassword\Controller', 'changeUserPassword');
 $this->create('settings_ajax_changedisplayname', '/settings/ajax/changedisplayname.php')
 	->actionInclude('settings/ajax/changedisplayname.php');
+$this->create('settings_ajax_changegorupname', '/settings/ajax/changegroupname.php')
+	->actionInclude('settings/ajax/changegroupname.php');	
 // personal
 $this->create('settings_personal_changepassword', '/settings/personal/changepassword')
 	->post()

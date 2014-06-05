@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
-# hoek <hoek@hoek.pl>, 2014
-# bobie <maciej.przybecki@gmail.com>, 2014
-# adbrand <pkwiecin@adbrand.pl>, 2013
+# Dawid <hoek@hoek.pl>, 2014
+# Maciej Przybecki <maciej.przybecki@gmail.com>, 2014
+# Piotr Kwiecinski <pkwiecin@adbrand.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -51,15 +51,15 @@ msgstr "E-mail wysłany"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Musisz najpierw ustawić użytkownika e-mail, aby móc wysyłać wiadomości testowe."
 
-#: admin/controller.php:116 templates/admin.php:346
+#: admin/controller.php:116 templates/admin.php:357
 msgid "Send mode"
 msgstr "Tryb wysyłki"
 
-#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
 msgid "Encryption"
 msgstr "Szyfrowanie"
 
-#: admin/controller.php:120 templates/admin.php:383
+#: admin/controller.php:120 templates/admin.php:394
 msgid "Authentication method"
 msgstr "Metoda autentykacji"
 
@@ -80,11 +80,11 @@ msgstr "Twoja pełna nazwa została zmieniona."
 msgid "Unable to change full name"
 msgstr "Nie można zmienić pełnej nazwy"
 
-#: ajax/creategroup.php:10
+#: ajax/creategroup.php:11
 msgid "Group already exists"
 msgstr "Grupa już istnieje"
 
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:20
 msgid "Unable to add group"
 msgstr "Nie można dodać grupy"
 
@@ -193,11 +193,11 @@ msgstr "Zaplecze nie obsługuje zmiany hasła, ale klucz szyfrowania użytkownik
 msgid "Unable to change password"
 msgstr "Nie można zmienić hasła"
 
-#: js/admin.js:126
+#: js/admin.js:129
 msgid "Sending..."
 msgstr "Wysyłam..."
 
-#: js/apps.js:45 templates/help.php:4
+#: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
 msgstr "Dokumentacja użytkownika"
 
@@ -209,43 +209,43 @@ msgstr "Dokumentacja Administratora"
 msgid "Update to {appversion}"
 msgstr "Aktualizacja do {appversion}"
 
-#: js/apps.js:73 js/apps.js:106 js/apps.js:134
+#: js/apps.js:73 js/apps.js:135 js/apps.js:168
 msgid "Disable"
 msgstr "Wyłącz"
 
-#: js/apps.js:73 js/apps.js:114 js/apps.js:127 js/apps.js:143
+#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
 msgid "Enable"
 msgstr "Włącz"
 
-#: js/apps.js:95
+#: js/apps.js:124
 msgid "Please wait...."
 msgstr "Proszę czekać..."
 
-#: js/apps.js:103 js/apps.js:104 js/apps.js:125
+#: js/apps.js:132 js/apps.js:133 js/apps.js:159
 msgid "Error while disabling app"
 msgstr "Błąd podczas wyłączania aplikacji"
 
-#: js/apps.js:124 js/apps.js:138 js/apps.js:139
+#: js/apps.js:158 js/apps.js:187 js/apps.js:188
 msgid "Error while enabling app"
 msgstr "Błąd podczas włączania aplikacji"
 
-#: js/apps.js:149
+#: js/apps.js:197
 msgid "Updating...."
 msgstr "Aktualizacja w toku..."
 
-#: js/apps.js:152
+#: js/apps.js:200
 msgid "Error while updating app"
 msgstr "Błąd podczas aktualizacji aplikacji"
 
-#: js/apps.js:152
+#: js/apps.js:200
 msgid "Error"
 msgstr "Błąd"
 
-#: js/apps.js:153 templates/apps.php:55
+#: js/apps.js:201 templates/apps.php:55
 msgid "Update"
 msgstr "Aktualizuj"
 
-#: js/apps.js:156
+#: js/apps.js:204
 msgid "Updated"
 msgstr "Zaktualizowano"
 
@@ -285,48 +285,63 @@ msgstr "Usuń trwale klucze szyfrujące."
 msgid "Restore encryption keys."
 msgstr "Przywróć klucze szyfrujące."
 
-#: js/users.js:47
+#: js/users/deleteHandler.js:166
+msgid "Unable to delete "
+msgstr ""
+
+#: js/users/groups.js:73 js/users/groups.js:178
+msgid "Error creating group"
+msgstr ""
+
+#: js/users/groups.js:177
+msgid "A valid group name must be provided"
+msgstr ""
+
+#: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
 msgstr "usunięto"
 
-#: js/users.js:47
+#: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
 msgstr "cofnij"
 
-#: js/users.js:79
-msgid "Unable to remove user"
-msgstr "Nie można usunąć użytkownika"
-
-#: js/users.js:101 templates/admin.php:295 templates/users.php:24
-#: templates/users.php:88 templates/users.php:116
+#: js/users/users.js:37 templates/admin.php:306
+#: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
+#: templates/users/part.userlist.php:41
 msgid "Groups"
 msgstr "Grupy"
 
-#: js/users.js:105 templates/users.php:90 templates/users.php:128
+#: js/users/users.js:41 templates/users/part.userlist.php:12
+#: templates/users/part.userlist.php:57
 msgid "Group Admin"
 msgstr "Administrator grupy"
 
-#: js/users.js:127 templates/users.php:168
+#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Usuń"
 
-#: js/users.js:310
+#: js/users/users.js:84 templates/users/part.userlist.php:98
+msgid "never"
+msgstr "nigdy"
+
+#: js/users/users.js:371
 msgid "add group"
 msgstr "dodaj grupę"
 
-#: js/users.js:486
+#: js/users/users.js:568
 msgid "A valid username must be provided"
 msgstr "Należy podać prawidłową nazwę użytkownika"
 
-#: js/users.js:487 js/users.js:493 js/users.js:508
+#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
 msgid "Error creating user"
 msgstr "Błąd podczas tworzenia użytkownika"
 
-#: js/users.js:492
+#: js/users/users.js:574
 msgid "A valid password must be provided"
 msgstr "Należy podać prawidłowe hasło"
 
-#: js/users.js:516
+#: js/users/users.js:598
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Ostrzeżenie: Katalog domowy dla użytkownika \"{user}\" już istnieje"
 
@@ -417,61 +432,72 @@ msgstr "Proszę sprawdź ponownie <a href=\"%s\">przewodnik instalacji</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "Wygląda na to, że ustawienia PHP ucinają bloki wklejonych dokumentów. To sprawi, że niektóre wbudowane aplikacje będą niedostępne."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Dzieje się tak prawdopodobnie przez cache lub akcelerator taki jak Zend OPcache lub eAccelerator."
 
 #: templates/admin.php:105
+msgid "Database Performance Info"
+msgstr ""
+
+#: templates/admin.php:108
+msgid ""
+"SQLite is used as database. For larger installations we recommend to change "
+"this. To migrate to another database use the command line tool: 'occ db"
+":convert-type'"
+msgstr ""
+
+#: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
 msgstr "Brak modułu „fileinfo”"
 
-#: templates/admin.php:108
+#: templates/admin.php:122
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "Brak modułu PHP „fileinfo”. Zalecamy włączenie tego modułu, aby uzyskać najlepsze wyniki podczas wykrywania typów MIME."
 
-#: templates/admin.php:119
+#: templates/admin.php:133
 msgid "Your PHP version is outdated"
 msgstr "Twoja wersja PHP jest za stara"
 
-#: templates/admin.php:122
+#: templates/admin.php:136
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Twoja wersja PHP jest za stara. Rekomendujemy przynajmniej wersje 5.3.8. Jeśli masz starsza wersję ownCloud może nie działać poprawnie."
 
-#: templates/admin.php:133
+#: templates/admin.php:147
 msgid "Locale not working"
 msgstr "Lokalizacja nie działa"
 
-#: templates/admin.php:138
+#: templates/admin.php:152
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Ustawienia regionalne systemu nie można ustawić na jeden, który obsługuje UTF-8."
 
-#: templates/admin.php:142
+#: templates/admin.php:156
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Oznacza to, że mogą być problemy z niektórymi znakami w nazwach plików."
 
-#: templates/admin.php:146
+#: templates/admin.php:160
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Zalecamy, aby zainstalować wymagane pakiety w systemie, jeden z następujących języków: %s."
 
-#: templates/admin.php:158
+#: templates/admin.php:172
 msgid "Internet connection not working"
 msgstr "Połączenie internetowe nie działa"
 
-#: templates/admin.php:161
+#: templates/admin.php:175
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -480,206 +506,202 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Ten serwer OwnCloud nie ma połączenia z Internetem. Oznacza to, że niektóre z funkcji, takich jak montowanie zewnętrznych zasobów, powiadomienia o aktualizacji lub 3-cie aplikacje mogą nie działać. Dostęp do plików z zewnątrz i wysyłanie powiadomienia e-mail nie może również działać. Sugerujemy, aby włączyć połączenia internetowego dla tego serwera, jeśli chcesz mieć wszystkie opcje."
 
-#: templates/admin.php:175
+#: templates/admin.php:189
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:182
+#: templates/admin.php:196
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Ostatni cron był uruchomiony %s."
 
-#: templates/admin.php:185
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Ostatni cron był uruchomiony %s. To jest więcej niż godzinę temu, wygląda na to, że coś jest nie tak."
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Cron was not executed yet!"
 msgstr "Cron nie został jeszcze uruchomiony!"
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 msgid "Execute one task with each page loaded"
 msgstr "Wykonuj jedno zadanie wraz z każdą wczytaną stroną"
 
-#: templates/admin.php:207
+#: templates/admin.php:221
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php jest zarejestrowany w serwisie webcron do uruchamiania cron.php raz na 15 minut przez http."
 
-#: templates/admin.php:215
+#: templates/admin.php:229
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Użyj systemowego cron-a do uruchamiania cron.php raz na 15 minut."
 
-#: templates/admin.php:220
+#: templates/admin.php:234
 msgid "Sharing"
 msgstr "Udostępnianie"
 
-#: templates/admin.php:226
+#: templates/admin.php:240
 msgid "Enable Share API"
 msgstr "Włącz API udostępniania"
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "Zezwalaj aplikacjom na korzystanie z API udostępniania"
 
-#: templates/admin.php:234
+#: templates/admin.php:248
 msgid "Allow links"
 msgstr "Zezwalaj na odnośniki"
 
-#: templates/admin.php:238
+#: templates/admin.php:252
 msgid "Enforce password protection"
 msgstr "Wymuś zabezpieczenie hasłem"
 
-#: templates/admin.php:241
+#: templates/admin.php:255
 msgid "Allow public uploads"
 msgstr "Pozwól na  publiczne wczytywanie"
 
-#: templates/admin.php:245
+#: templates/admin.php:259
 msgid "Set default expiration date"
 msgstr "Ustaw domyślną datę wygaśnięcia"
 
-#: templates/admin.php:247
+#: templates/admin.php:261
 msgid "Expire after "
 msgstr "Wygaś po"
 
-#: templates/admin.php:250
+#: templates/admin.php:264
 msgid "days"
 msgstr "dniach"
 
-#: templates/admin.php:253
+#: templates/admin.php:267
 msgid "Enforce expiration date"
 msgstr "Wymuś datę wygaśnięcia"
 
-#: templates/admin.php:257
+#: templates/admin.php:271
 msgid "Allow users to share items to the public with links"
 msgstr "Zezwalaj użytkownikom na publiczne współdzielenie zasobów za pomocą odnośników"
 
-#: templates/admin.php:264
+#: templates/admin.php:278
 msgid "Allow resharing"
 msgstr "Zezwalaj na ponowne udostępnianie"
 
-#: templates/admin.php:265
+#: templates/admin.php:279
 msgid "Allow users to share items shared with them again"
 msgstr "Zezwalaj użytkownikom na ponowne współdzielenie zasobów już z nimi współdzielonych"
 
-#: templates/admin.php:272
+#: templates/admin.php:283
 msgid "Allow users to share with anyone"
 msgstr "Zezwalaj użytkownikom na współdzielenie z kimkolwiek"
 
-#: templates/admin.php:275
+#: templates/admin.php:286
 msgid "Allow users to only share with users in their groups"
 msgstr "Zezwalaj użytkownikom współdzielić z użytkownikami ze swoich grup"
 
-#: templates/admin.php:282
-msgid "Allow mail notification"
-msgstr "Pozwól na mailowe powiadomienia"
-
-#: templates/admin.php:283
+#: templates/admin.php:294
 msgid "Allow users to send mail notification for shared files"
 msgstr "Zezwól użytkownikom na wysyłanie powiadomień email dla udostępnionych plików"
 
-#: templates/admin.php:290
+#: templates/admin.php:301
 msgid "Exclude groups from sharing"
 msgstr "Wyklucz grupy z udostępniania"
 
-#: templates/admin.php:301
+#: templates/admin.php:312
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Grupy te nadal będą mogli otrzymywać udostępnione udziały, ale nie do ich inicjowania."
 
-#: templates/admin.php:308
+#: templates/admin.php:319
 msgid "Security"
 msgstr "Bezpieczeństwo"
 
-#: templates/admin.php:321
+#: templates/admin.php:332
 msgid "Enforce HTTPS"
 msgstr "Wymuś HTTPS"
 
-#: templates/admin.php:323
+#: templates/admin.php:334
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Wymusza na klientach na łączenie się %s za pośrednictwem połączenia szyfrowanego."
 
-#: templates/admin.php:329
+#: templates/admin.php:340
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Proszę połącz się do twojego %s za pośrednictwem protokołu HTTPS, aby włączyć lub wyłączyć stosowanie protokołu SSL."
 
-#: templates/admin.php:341
+#: templates/admin.php:352
 msgid "Email Server"
 msgstr "Serwer pocztowy"
 
-#: templates/admin.php:343
+#: templates/admin.php:354
 msgid "This is used for sending out notifications."
 msgstr "To jest używane do wysyłania powiadomień"
 
-#: templates/admin.php:374
+#: templates/admin.php:385
 msgid "From address"
 msgstr "Z adresu"
 
-#: templates/admin.php:375
+#: templates/admin.php:386
 msgid "mail"
-msgstr ""
+msgstr "mail"
 
-#: templates/admin.php:396
+#: templates/admin.php:407
 msgid "Authentication required"
 msgstr "Wymagana autoryzacja"
 
-#: templates/admin.php:400
+#: templates/admin.php:411
 msgid "Server address"
 msgstr "Adres Serwera"
 
-#: templates/admin.php:404
+#: templates/admin.php:415
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:409
+#: templates/admin.php:420
 msgid "Credentials"
 msgstr "Poświadczenia"
 
-#: templates/admin.php:410
+#: templates/admin.php:421
 msgid "SMTP Username"
 msgstr "Użytkownik SMTP"
 
-#: templates/admin.php:413
+#: templates/admin.php:424
 msgid "SMTP Password"
 msgstr "Hasło SMTP"
 
-#: templates/admin.php:417
+#: templates/admin.php:428
 msgid "Test email settings"
 msgstr "Ustawienia testowej wiadomości"
 
-#: templates/admin.php:418
+#: templates/admin.php:429
 msgid "Send email"
 msgstr "Wyślij email"
 
-#: templates/admin.php:423
+#: templates/admin.php:434
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:424
+#: templates/admin.php:435
 msgid "Log level"
 msgstr "Poziom logów"
 
-#: templates/admin.php:456
+#: templates/admin.php:467
 msgid "More"
 msgstr "Więcej"
 
-#: templates/admin.php:457
+#: templates/admin.php:468
 msgid "Less"
 msgstr "Mniej"
 
-#: templates/admin.php:463 templates/personal.php:196
+#: templates/admin.php:474 templates/personal.php:196
 msgid "Version"
 msgstr "Wersja"
 
-#: templates/admin.php:467 templates/personal.php:199
+#: templates/admin.php:478 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -717,23 +739,31 @@ msgstr "Zobacz na stronie aplikacji"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencjonowane przez <span class=\"author\"></span>"
 
-#: templates/help.php:6
+#: templates/apps.php:58
+msgid "Enable only for specific groups"
+msgstr ""
+
+#: templates/apps.php:60
+msgid "All"
+msgstr "Wszystkie"
+
+#: templates/help.php:13
 msgid "Administrator Documentation"
 msgstr "Dokumentacja administratora"
 
-#: templates/help.php:9
+#: templates/help.php:20
 msgid "Online Documentation"
 msgstr "Dokumentacja online"
 
-#: templates/help.php:11
+#: templates/help.php:25
 msgid "Forum"
 msgstr "Forum"
 
-#: templates/help.php:14
+#: templates/help.php:33
 msgid "Bugtracker"
 msgstr "Zgłaszanie błędów"
 
-#: templates/help.php:17
+#: templates/help.php:40
 msgid "Commercial Support"
 msgstr "Wsparcie komercyjne"
 
@@ -750,7 +780,8 @@ msgstr "Uruchom ponownie kreatora pierwszego uruchomienia"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Wykorzystujesz <strong>%s</strong> z dostępnych <strong>%s</strong>"
 
-#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users/part.createuser.php:8
+#: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Hasło"
 
@@ -774,7 +805,7 @@ msgstr "Nowe hasło"
 msgid "Change password"
 msgstr "Zmień hasło"
 
-#: templates/personal.php:61 templates/users.php:86
+#: templates/personal.php:61 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Pełna nazwa"
 
@@ -859,56 +890,85 @@ msgstr "Przywróć klucze szyfrujące"
 msgid "Delete Encryption Keys"
 msgstr "Usuń klucze szyfrujące"
 
-#: templates/users.php:19
+#: templates/users/part.createuser.php:4
 msgid "Login Name"
 msgstr "Login"
 
-#: templates/users.php:28
+#: templates/users/part.createuser.php:20
 msgid "Create"
 msgstr "Utwórz"
 
-#: templates/users.php:34
+#: templates/users/part.createuser.php:26
 msgid "Admin Recovery Password"
 msgstr "Odzyskiwanie hasła administratora"
 
-#: templates/users.php:35 templates/users.php:36
+#: templates/users/part.createuser.php:27
+#: templates/users/part.createuser.php:28
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
 msgstr "Wpisz hasło odzyskiwania, aby odzyskać pliki użytkowników podczas zmiany hasła"
 
-#: templates/users.php:40
-msgid "Default Storage"
-msgstr "Magazyn domyślny"
+#: templates/users/part.createuser.php:32
+msgid "Search Users and Groups"
+msgstr ""
 
-#: templates/users.php:42 templates/users.php:137
+#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+msgid "Add Group"
+msgstr ""
+
+#: templates/users/part.grouplist.php:10
+msgid "Group"
+msgstr "Grupa"
+
+#: templates/users/part.grouplist.php:18
+msgid "Everyone"
+msgstr ""
+
+#: templates/users/part.grouplist.php:29
+msgid "Admins"
+msgstr ""
+
+#: templates/users/part.setquota.php:7
+msgid "Default Quota"
+msgstr "Domyślny udział"
+
+#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "Proszę ustawić ograniczenie zasobów (np. \"512 MB\" albo \"12 GB)"
 
-#: templates/users.php:46 templates/users.php:146
+#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "Bez limitu"
 
-#: templates/users.php:64 templates/users.php:161
+#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "Inne"
 
-#: templates/users.php:85
+#: templates/users/part.userlist.php:7
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
-#: templates/users.php:92
-msgid "Storage"
-msgstr "Magazyn"
+#: templates/users/part.userlist.php:14
+msgid "Quota"
+msgstr "Udział"
 
-#: templates/users.php:106
+#: templates/users/part.userlist.php:15
+msgid "Storage Location"
+msgstr ""
+
+#: templates/users/part.userlist.php:16
+msgid "Last Login"
+msgstr ""
+
+#: templates/users/part.userlist.php:30
 msgid "change full name"
 msgstr "Zmień pełna nazwę"
 
-#: templates/users.php:110
+#: templates/users/part.userlist.php:34
 msgid "set new password"
 msgstr "ustaw nowe hasło"
 
-#: templates/users.php:141
+#: templates/users/part.userlist.php:70
 msgid "Default"
 msgstr "Domyślny"

@@ -28,6 +28,7 @@
 
 class OC_Log_Owncloud {
 	static protected $logFile;
+	static protected $reqId;
 
 	/**
 	 * Init class data
@@ -68,8 +69,20 @@ class OC_Log_Owncloud {
 				$timezone = new DateTimeZone('UTC');
 			}
 			$time = new DateTime(null, $timezone);
-			// remove username/passswords from URLs before writing the to the log file
-			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time->format($format));
+			// remove username/passwords from URLs before writing the to the log file
+			$time = $time->format($format);
+			if($minLevel == OC_Log::DEBUG) {
+				if(empty(self::$reqId)) {
+					self::$reqId = uniqid();
+				}
+				$reqId = self::$reqId;
+				$url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '--';
+				$method = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : '--';
+				$entry = compact('reqId', 'app', 'message', 'level', 'time', 'method', 'url');
+			}
+			else {
+				$entry = compact('app', 'message', 'level', 'time');
+			}
 			$entry = json_encode($entry);
 			$handle = @fopen(self::$logFile, 'a');
 			@chmod(self::$logFile, 0640);

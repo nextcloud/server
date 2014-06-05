@@ -3,36 +3,40 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# a.tangemann <a.tangemann@web.de>, 2013
-# a.tangemann <a.tangemann@web.de>, 2012-2013
-# Marcel Kühlhorn <susefan93@gmx.de>, 2013
-# Mario Siegmann <mario_siegmann@web.de>, 2013
-# multimill <multimill@gmail.com>, 2012
-# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
-# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# Andreas Tangemann <a.tangemann@web.de>, 2013
+# Andreas Tangemann <a.tangemann@web.de>, 2012-2013
+# Marcel Kühlhorn <tux93@opensuse.org>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013-2014
+# Christian <multimill@gmail.com>, 2012
+# traductor, 2013
+# traductor, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-08-01 01:55-0400\n"
-"PO-Revision-Date: 2013-07-31 21:30+0000\n"
-"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
-"Language-Team: German (Germany) <translations@owncloud.org>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 07:01+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/settings.php:3
+#: templates/settings.php:2
 msgid "WebDAV Authentication"
 msgstr "WebDAV-Authentifizierung"
 
-#: templates/settings.php:4
-msgid "Address: "
+#: templates/settings.php:3
+msgid "Address:"
 msgstr "Adresse:"
 
-#: templates/settings.php:7
+#: templates/settings.php:5
+msgid "Save"
+msgstr "Speichern"
+
+#: templates/settings.php:6
 msgid ""
 "The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "

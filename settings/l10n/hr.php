@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Groups" => "Grupe",
 "Group Admin" => "Grupa Admin",
 "Delete" => "Obriši",
+"never" => "nikad",
 "__language_name__" => "__ime_jezika__",
 "Login" => "Prijava",
 "Cron" => "Cron",
@@ -34,7 +35,10 @@ $TRANSLATIONS = array(
 "Help translate" => "Pomoć prevesti",
 "Login Name" => "Prijava",
 "Create" => "Izradi",
+"Group" => "Grupa",
+"Default Quota" => "standardni kvota",
 "Other" => "ostali",
-"Username" => "Korisničko ime"
+"Username" => "Korisničko ime",
+"Quota" => "kvota"
 );
 $PLURAL_FORMS = "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;";

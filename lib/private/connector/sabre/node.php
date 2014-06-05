@@ -1,4 +1,5 @@
 <?php
+use Sabre\DAV\URLUtil;
 
 /**
  * ownCloud
@@ -20,7 +21,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IProperties {
+abstract class OC_Connector_Sabre_Node implements \Sabre\DAV\INode, \Sabre\DAV\IProperties {
 	const GETETAG_PROPERTYNAME = '{DAV:}getetag';
 	const LASTMODIFIED_PROPERTYNAME = '{DAV:}lastmodified';
 
@@ -81,21 +82,21 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	/**
 	 * Renames the node
 	 * @param string $name The new name
-	 * @throws Sabre_DAV_Exception_BadRequest
-	 * @throws Sabre_DAV_Exception_Forbidden
+	 * @throws \Sabre\DAV\Exception\BadRequest
+	 * @throws \Sabre\DAV\Exception\Forbidden
 	 */
 	public function setName($name) {
 
 		// rename is only allowed if the update privilege is granted
 		if (!$this->info->isUpdateable()) {
-			throw new \Sabre_DAV_Exception_Forbidden();
+			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
-		list($parentPath,) = Sabre_DAV_URLUtil::splitPath($this->path);
-		list(, $newName) = Sabre_DAV_URLUtil::splitPath($name);
+		list($parentPath,) = URLUtil::splitPath($this->path);
+		list(, $newName) = URLUtil::splitPath($name);
 
 		if (!\OCP\Util::isValidFileName($newName)) {
-			throw new \Sabre_DAV_Exception_BadRequest();
+			throw new \Sabre\DAV\Exception\BadRequest();
 		}
 
 		$newPath = $parentPath . '/' . $newName;
@@ -139,7 +140,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 
 	/**
 	 * Updates properties on this node,
-	 * @see Sabre_DAV_IProperties::updateProperties
+	 * @see \Sabre\DAV\IProperties::updateProperties
 	 * @param array $properties
 	 * @return boolean
 	 */

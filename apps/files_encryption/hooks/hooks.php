@@ -51,16 +51,16 @@ class Hooks {
 		$view = new \OC\Files\View('/');
 
 		// ensure filesystem is loaded
-		if(!\OC\Files\Filesystem::$loaded) {
+		if (!\OC\Files\Filesystem::$loaded) {
 			\OC_Util::setupFS($params['uid']);
 		}
 
 		$privateKey = \OCA\Encryption\Keymanager::getPrivateKey($view, $params['uid']);
 
 		// if no private key exists, check server configuration
-		if(!$privateKey) {
+		if (!$privateKey) {
 			//check if all requirements are met
-			if(!Helper::checkRequirements() || !Helper::checkConfiguration()) {
+			if (!Helper::checkRequirements() || !Helper::checkConfiguration()) {
 				$error_msg = $l->t("Missing requirements.");
 				$hint = $l->t('Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled.');
 				\OC_App::disable('files_encryption');
@@ -90,6 +90,8 @@ class Hooks {
 			return false;
 		}
 
+		$result = true;
+
 		// If migration not yet done
 		if ($ready) {
 
@@ -97,15 +99,14 @@ class Hooks {
 
 			// Set legacy encryption key if it exists, to support
 			// depreciated encryption system
-			if (
-				$userView->file_exists('encryption.key')
-				&& $encLegacyKey = $userView->file_get_contents('encryption.key')
-			) {
+			if ($userView->file_exists('encryption.key')) {
+				$encLegacyKey = $userView->file_get_contents('encryption.key');
+				if ($encLegacyKey) {
 
-				$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
+					$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
 
-				$session->setLegacyKey($plainLegacyKey);
-
+					$session->setLegacyKey($plainLegacyKey);
+				}
 			}
 
 			// Encrypt existing user files
@@ -113,26 +114,24 @@ class Hooks {
 				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password']);
 			} catch (\Exception $ex) {
 				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed! Error: ' . $ex->getMessage(), \OCP\Util::FATAL);
-				$util->resetMigrationStatus();
-				\OCP\User::logout();
 				$result = false;
 			}
 
 			if ($result) {
-
 				\OC_Log::write(
-					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
-					, \OC_Log::INFO
-				);
-
+						'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
+						, \OC_Log::INFO
+					);
 				// Register successful migration in DB
 				$util->finishMigration();
-
+			} else  {
+				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed!', \OCP\Util::FATAL);
+				$util->resetMigrationStatus();
+				\OCP\User::logout();
 			}
 		}
 
-		return true;
-
+		return $result;
 	}
 
 	/**

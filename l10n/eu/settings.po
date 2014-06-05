@@ -4,14 +4,14 @@
 # 
 # Translators:
 # asieriko <asieriko@gmail.com>, 2013
-# Debatik mundura!, 2013
+# @atzerritik, 2013
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +50,15 @@ msgstr "Eposta bidalia"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:346
+#: admin/controller.php:116 templates/admin.php:357
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:359 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
 msgid "Encryption"
 msgstr "Enkriptazioa"
 
-#: admin/controller.php:120 templates/admin.php:383
+#: admin/controller.php:120 templates/admin.php:394
 msgid "Authentication method"
 msgstr ""
 
@@ -79,11 +79,11 @@ msgstr "Zure izena aldatu egin da."
 msgid "Unable to change full name"
 msgstr "Ezin izan da izena aldatu"
 
-#: ajax/creategroup.php:10
+#: ajax/creategroup.php:11
 msgid "Group already exists"
 msgstr "Taldea dagoeneko existitzenda"
 
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:20
 msgid "Unable to add group"
 msgstr "Ezin izan da taldea gehitu"
 
@@ -192,11 +192,11 @@ msgstr ""
 msgid "Unable to change password"
 msgstr "Ezin izan da pasahitza aldatu"
 
-#: js/admin.js:126
+#: js/admin.js:129
 msgid "Sending..."
 msgstr ""
 
-#: js/apps.js:45 templates/help.php:4
+#: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
 msgstr "Erabiltzaile dokumentazioa"
 
@@ -208,43 +208,43 @@ msgstr ""
 msgid "Update to {appversion}"
 msgstr "Eguneratu {appversion}-ra"
 
-#: js/apps.js:73 js/apps.js:106 js/apps.js:134
+#: js/apps.js:73 js/apps.js:135 js/apps.js:168
 msgid "Disable"
 msgstr "Ez-gaitu"
 
-#: js/apps.js:73 js/apps.js:114 js/apps.js:127 js/apps.js:143
+#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
 msgid "Enable"
 msgstr "Gaitu"
 
-#: js/apps.js:95
+#: js/apps.js:124
 msgid "Please wait...."
 msgstr "Itxoin mesedez..."
 
-#: js/apps.js:103 js/apps.js:104 js/apps.js:125
+#: js/apps.js:132 js/apps.js:133 js/apps.js:159
 msgid "Error while disabling app"
 msgstr "Erroea izan da aplikazioa desgaitzerakoan"
 
-#: js/apps.js:124 js/apps.js:138 js/apps.js:139
+#: js/apps.js:158 js/apps.js:187 js/apps.js:188
 msgid "Error while enabling app"
 msgstr "Erroea izan da aplikazioa gaitzerakoan"
 
-#: js/apps.js:149
+#: js/apps.js:197
 msgid "Updating...."
 msgstr "Eguneratzen..."
 
-#: js/apps.js:152
+#: js/apps.js:200
 msgid "Error while updating app"
 msgstr "Errorea aplikazioa eguneratzen zen bitartean"
 
-#: js/apps.js:152
+#: js/apps.js:200
 msgid "Error"
 msgstr "Errorea"
 
-#: js/apps.js:153 templates/apps.php:55
+#: js/apps.js:201 templates/apps.php:55
 msgid "Update"
 msgstr "Eguneratu"
 
-#: js/apps.js:156
+#: js/apps.js:204
 msgid "Updated"
 msgstr "Eguneratuta"
 
@@ -284,48 +284,63 @@ msgstr ""
 msgid "Restore encryption keys."
 msgstr ""
 
-#: js/users.js:47
+#: js/users/deleteHandler.js:166
+msgid "Unable to delete "
+msgstr ""
+
+#: js/users/groups.js:73 js/users/groups.js:178
+msgid "Error creating group"
+msgstr ""
+
+#: js/users/groups.js:177
+msgid "A valid group name must be provided"
+msgstr ""
+
+#: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
 msgstr "ezabatuta"
 
-#: js/users.js:47
+#: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
 msgstr "desegin"
 
-#: js/users.js:79
-msgid "Unable to remove user"
-msgstr "Ezin izan da erabiltzailea aldatu"
-
-#: js/users.js:101 templates/admin.php:295 templates/users.php:24
-#: templates/users.php:88 templates/users.php:116
+#: js/users/users.js:37 templates/admin.php:306
+#: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
+#: templates/users/part.userlist.php:41
 msgid "Groups"
 msgstr "Taldeak"
 
-#: js/users.js:105 templates/users.php:90 templates/users.php:128
+#: js/users/users.js:41 templates/users/part.userlist.php:12
+#: templates/users/part.userlist.php:57
 msgid "Group Admin"
 msgstr "Talde administradorea"
 
-#: js/users.js:127 templates/users.php:168
+#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: js/users.js:310
+#: js/users/users.js:84 templates/users/part.userlist.php:98
+msgid "never"
+msgstr "inoiz"
+
+#: js/users/users.js:371
 msgid "add group"
 msgstr "gehitu taldea"
 
-#: js/users.js:486
+#: js/users/users.js:568
 msgid "A valid username must be provided"
 msgstr "Baliozko erabiltzaile izena eman behar da"
 
-#: js/users.js:487 js/users.js:493 js/users.js:508
+#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
 msgid "Error creating user"
 msgstr "Errore bat egon da erabiltzailea sortzean"
 
-#: js/users.js:492
+#: js/users/users.js:574
 msgid "A valid password must be provided"
 msgstr "Baliozko pasahitza eman behar da"
 
-#: js/users.js:516
+#: js/users/users.js:598
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Abisua: \"{user}\" erabiltzailearen Home karpeta dagoeneko exisititzen da"
 
@@ -425,52 +440,63 @@ msgid ""
 msgstr ""
 
 #: templates/admin.php:105
+msgid "Database Performance Info"
+msgstr ""
+
+#: templates/admin.php:108
+msgid ""
+"SQLite is used as database. For larger installations we recommend to change "
+"this. To migrate to another database use the command line tool: 'occ db"
+":convert-type'"
+msgstr ""
+
+#: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
 msgstr "'fileinfo' Modulua falta da"
 
-#: templates/admin.php:108
+#: templates/admin.php:122
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP 'fileinfo' modulua falta da. Modulu hau gaitzea aholkatzen dizugu mime-type ezberdinak hobe detektatzeko."
 
-#: templates/admin.php:119
+#: templates/admin.php:133
 msgid "Your PHP version is outdated"
 msgstr "Zure PHP bertsioa zaharkituta dago"
 
-#: templates/admin.php:122
+#: templates/admin.php:136
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Zure PHP bertsioa zaharkituta dago. Gure aholkua 5.3.8 edo bertsio berriago batera eguneratzea da, bertsio zaharragoak arazoak ematen baitituzte. Posible da instalazio honek ez funtzionatzea ongi."
 
-#: templates/admin.php:133
+#: templates/admin.php:147
 msgid "Locale not working"
 msgstr "Lokala ez dabil"
 
-#: templates/admin.php:138
+#: templates/admin.php:152
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Sistemaren lokala ezin da UTF-8 onartzen duen batera ezarri."
 
-#: templates/admin.php:142
+#: templates/admin.php:156
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Honek esan nahi du fitxategien izenetako karaktere batzuekin arazoak egon daitezkeela."
 
-#: templates/admin.php:146
+#: templates/admin.php:160
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:158
+#: templates/admin.php:172
 msgid "Internet connection not working"
 msgstr "Interneteko konexioak ez du funtzionatzen"
 
-#: templates/admin.php:161
+#: templates/admin.php:175
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -479,206 +505,202 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Zerbitzari honen interneteko konexioa ez dabil. Honek esan nahi du kanpoko biltegiratze zerbitzuak, eguneraketen informazioa edo bestelako aplikazioen instalazioa bezalako programek ez dutela funtzionatuko. Urrunetik fitxategiak eskuratzea eta e-postak bidaltzea ere ezinezkoa izan daiteke. onwCloud-en aukera guztiak erabili ahal izateko zerbitzari honetan interneteko konexioa gaitzea aholkatzen dizugu."
 
-#: templates/admin.php:175
+#: templates/admin.php:189
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:182
+#: templates/admin.php:196
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr ""
 
-#: templates/admin.php:185
+#: templates/admin.php:199
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr ""
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Cron was not executed yet!"
 msgstr ""
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 msgid "Execute one task with each page loaded"
 msgstr "Exekutatu zeregin bat orri karga bakoitzean"
 
-#: templates/admin.php:207
+#: templates/admin.php:221
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php webcron zerbitzu batean erregistratua dago cron.php  15 minuturo http bidez deitzeko."
 
-#: templates/admin.php:215
+#: templates/admin.php:229
 msgid "Use systems cron service to call the cron.php file every 15 minutes."
 msgstr "Erabili sistemaren cron zerbitzua cron.php fitxategia 15 minuturo deitzeko."
 
-#: templates/admin.php:220
+#: templates/admin.php:234
 msgid "Sharing"
 msgstr "Partekatzea"
 
-#: templates/admin.php:226
+#: templates/admin.php:240
 msgid "Enable Share API"
 msgstr "Gaitu Elkarbanatze APIa"
 
-#: templates/admin.php:227
+#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "Baimendu aplikazioak Elkarbanatze APIa erabiltzeko"
 
-#: templates/admin.php:234
+#: templates/admin.php:248
 msgid "Allow links"
 msgstr "Baimendu loturak"
 
-#: templates/admin.php:238
+#: templates/admin.php:252
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:241
+#: templates/admin.php:255
 msgid "Allow public uploads"
 msgstr "Baimendu igoera publikoak"
 
-#: templates/admin.php:245
+#: templates/admin.php:259
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:247
+#: templates/admin.php:261
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:250
+#: templates/admin.php:264
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:253
+#: templates/admin.php:267
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:257
+#: templates/admin.php:271
 msgid "Allow users to share items to the public with links"
 msgstr "Baimendu erabiltzaileak loturen bidez fitxategiak publikoki elkarbanatzen"
 
-#: templates/admin.php:264
+#: templates/admin.php:278
 msgid "Allow resharing"
 msgstr "Baimendu birpartekatzea"
 
-#: templates/admin.php:265
+#: templates/admin.php:279
 msgid "Allow users to share items shared with them again"
 msgstr "Baimendu erabiltzaileak haiekin elkarbanatutako fitxategiak berriz ere elkarbanatzen"
 
-#: templates/admin.php:272
+#: templates/admin.php:283
 msgid "Allow users to share with anyone"
 msgstr "Baimendu erabiltzaileak edonorekin elkarbanatzen"
 
-#: templates/admin.php:275
+#: templates/admin.php:286
 msgid "Allow users to only share with users in their groups"
 msgstr "Baimendu erabiltzaileak bakarrik bere taldeko erabiltzaileekin elkarbanatzen"
 
-#: templates/admin.php:282
-msgid "Allow mail notification"
-msgstr "Baimendu posta bidezko jakinarazpenak"
-
-#: templates/admin.php:283
+#: templates/admin.php:294
 msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:290
+#: templates/admin.php:301
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:301
+#: templates/admin.php:312
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:308
+#: templates/admin.php:319
 msgid "Security"
 msgstr "Segurtasuna"
 
-#: templates/admin.php:321
+#: templates/admin.php:332
 msgid "Enforce HTTPS"
 msgstr "Behartu HTTPS"
 
-#: templates/admin.php:323
+#: templates/admin.php:334
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Bezeroak %s-ra konexio enkriptatu baten bidez konektatzera behartzen ditu."
 
-#: templates/admin.php:329
+#: templates/admin.php:340
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Mesedez konektatu zure %s-ra HTTPS bidez SSL zehaztapenak aldatzeko."
 
-#: templates/admin.php:341
+#: templates/admin.php:352
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:343
+#: templates/admin.php:354
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:374
+#: templates/admin.php:385
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:375
+#: templates/admin.php:386
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:396
+#: templates/admin.php:407
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:400
+#: templates/admin.php:411
 msgid "Server address"
 msgstr "Zerbitzariaren helbidea"
 
-#: templates/admin.php:404
+#: templates/admin.php:415
 msgid "Port"
 msgstr "Portua"
 
-#: templates/admin.php:409
+#: templates/admin.php:420
 msgid "Credentials"
 msgstr "Kredentzialak"
 
-#: templates/admin.php:410
+#: templates/admin.php:421
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:413
+#: templates/admin.php:424
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:417
+#: templates/admin.php:428
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:418
+#: templates/admin.php:429
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:423
+#: templates/admin.php:434
 msgid "Log"
 msgstr "Egunkaria"
 
-#: templates/admin.php:424
+#: templates/admin.php:435
 msgid "Log level"
 msgstr "Erregistro maila"
 
-#: templates/admin.php:456
+#: templates/admin.php:467
 msgid "More"
 msgstr "Gehiago"
 
-#: templates/admin.php:457
+#: templates/admin.php:468
 msgid "Less"
 msgstr "Gutxiago"
 
-#: templates/admin.php:463 templates/personal.php:196
+#: templates/admin.php:474 templates/personal.php:196
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/admin.php:467 templates/personal.php:199
+#: templates/admin.php:478 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -716,23 +738,31 @@ msgstr ""
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizentziatua <span class=\"author\"></span>"
 
-#: templates/help.php:6
+#: templates/apps.php:58
+msgid "Enable only for specific groups"
+msgstr ""
+
+#: templates/apps.php:60
+msgid "All"
+msgstr "Denak"
+
+#: templates/help.php:13
 msgid "Administrator Documentation"
 msgstr "Administradore dokumentazioa"
 
-#: templates/help.php:9
+#: templates/help.php:20
 msgid "Online Documentation"
 msgstr "Online dokumentazioa"
 
-#: templates/help.php:11
+#: templates/help.php:25
 msgid "Forum"
 msgstr "Foroa"
 
-#: templates/help.php:14
+#: templates/help.php:33
 msgid "Bugtracker"
 msgstr "Bugtracker"
 
-#: templates/help.php:17
+#: templates/help.php:40
 msgid "Commercial Support"
 msgstr "Babes komertziala"
 
@@ -749,7 +779,8 @@ msgstr "Erakutsi berriz Lehenengo Aldiko Morroia"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik"
 
-#: templates/personal.php:38 templates/users.php:21 templates/users.php:87
+#: templates/personal.php:38 templates/users/part.createuser.php:8
+#: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Pasahitza"
 
@@ -773,7 +804,7 @@ msgstr "Pasahitz berria"
 msgid "Change password"
 msgstr "Aldatu pasahitza"
 
-#: templates/personal.php:61 templates/users.php:86
+#: templates/personal.php:61 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Izena"
 
@@ -858,56 +889,85 @@ msgstr ""
 msgid "Delete Encryption Keys"
 msgstr ""
 
-#: templates/users.php:19
+#: templates/users/part.createuser.php:4
 msgid "Login Name"
 msgstr "Sarrera Izena"
 
-#: templates/users.php:28
+#: templates/users/part.createuser.php:20
 msgid "Create"
 msgstr "Sortu"
 
-#: templates/users.php:34
+#: templates/users/part.createuser.php:26
 msgid "Admin Recovery Password"
 msgstr "Kudeatzaile pasahitz berreskuratzea"
 
-#: templates/users.php:35 templates/users.php:36
+#: templates/users/part.createuser.php:27
+#: templates/users/part.createuser.php:28
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
 msgstr "berreskuratze pasahitza idatzi pasahitz aldaketan erabiltzaileen fitxategiak berreskuratzeko"
 
-#: templates/users.php:40
-msgid "Default Storage"
-msgstr "Lehenetsitako Biltegiratzea"
+#: templates/users/part.createuser.php:32
+msgid "Search Users and Groups"
+msgstr ""
 
-#: templates/users.php:42 templates/users.php:137
+#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+msgid "Add Group"
+msgstr ""
+
+#: templates/users/part.grouplist.php:10
+msgid "Group"
+msgstr "Taldea"
+
+#: templates/users/part.grouplist.php:18
+msgid "Everyone"
+msgstr ""
+
+#: templates/users/part.grouplist.php:29
+msgid "Admins"
+msgstr ""
+
+#: templates/users/part.setquota.php:7
+msgid "Default Quota"
+msgstr "Kuota lehentsia"
+
+#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "Mesedez sartu biltegiratze kouta (adb: \"512 MB\" edo \"12 GB\")"
 
-#: templates/users.php:46 templates/users.php:146
+#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "Mugarik gabe"
 
-#: templates/users.php:64 templates/users.php:161
+#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "Bestelakoa"
 
-#: templates/users.php:85
+#: templates/users/part.userlist.php:7
 msgid "Username"
 msgstr "Erabiltzaile izena"
 
-#: templates/users.php:92
-msgid "Storage"
-msgstr "Biltegiratzea"
+#: templates/users/part.userlist.php:14
+msgid "Quota"
+msgstr "Kuota"
 
-#: templates/users.php:106
+#: templates/users/part.userlist.php:15
+msgid "Storage Location"
+msgstr ""
+
+#: templates/users/part.userlist.php:16
+msgid "Last Login"
+msgstr ""
+
+#: templates/users/part.userlist.php:30
 msgid "change full name"
 msgstr "aldatu izena"
 
-#: templates/users.php:110
+#: templates/users/part.userlist.php:34
 msgid "set new password"
 msgstr "ezarri pasahitz berria"
 
-#: templates/users.php:141
+#: templates/users/part.userlist.php:70
 msgid "Default"
 msgstr "Lehenetsia"

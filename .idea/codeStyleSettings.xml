@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value>
+        <PHPCodeStyleSettings>
+          <option name="PHPDOC_BLANK_LINE_BEFORE_TAGS" value="true" />
+          <option name="LOWER_CASE_BOOLEAN_CONST" value="true" />
+          <option name="LOWER_CASE_NULL_CONST" value="true" />
+        </PHPCodeStyleSettings>
+        <XML>
+          <option name="XML_KEEP_BLANK_LINES" value="1" />
+          <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+        </XML>
+        <codeStyleSettings language="CSS">
+          <indentOptions>
+            <option name="USE_TAB_CHARACTER" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="HTML">
+          <indentOptions>
+            <option name="USE_TAB_CHARACTER" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="JavaScript">
+          <option name="SPACE_BEFORE_METHOD_PARENTHESES" value="true" />
+          <indentOptions>
+            <option name="USE_TAB_CHARACTER" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="PHP">
+          <option name="CLASS_BRACE_STYLE" value="1" />
+          <option name="METHOD_BRACE_STYLE" value="1" />
+          <option name="DOWHILE_BRACE_FORCE" value="3" />
+          <option name="WHILE_BRACE_FORCE" value="3" />
+          <option name="FOR_BRACE_FORCE" value="3" />
+          <indentOptions>
+            <option name="USE_TAB_CHARACTER" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="XML">
+          <indentOptions>
+            <option name="USE_TAB_CHARACTER" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+      </value>
+    </option>
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default (1)" />
+  </component>
+</project>
+

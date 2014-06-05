@@ -301,13 +301,6 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->scanner;
 	}
 
-	public function getPermissionsCache($path = '') {
-		if (!isset($this->permissioncache)) {
-			$this->permissioncache = new \OC\Files\Cache\Permissions($this);
-		}
-		return $this->permissioncache;
-	}
-
 	public function getWatcher($path = '') {
 		if (!isset($this->watcher)) {
 			$this->watcher = new \OC\Files\Cache\Watcher($this);

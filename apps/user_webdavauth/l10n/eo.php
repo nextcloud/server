@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "WebDAV Authentication" => "WebDAV-aŭtentigo",
-"Address: " => "Adreso:"
+"Save" => "Konservi"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

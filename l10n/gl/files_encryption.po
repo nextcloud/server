@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-29 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 14:07+0000\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-03 10:11+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -62,7 +62,7 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr "Non se iniciou o aplicativo de cifrado! Quizais volva a activarse durante a sesión. Tente pechar a sesión e volver iniciala que tamén se inicie o aplicativo de cifrado."
+msgstr "Non se iniciou o aplicativo de cifrado! Quizais volva a activarse durante a sesión. Tente pechar a sesión e volver iniciala para que tamén se inicie o aplicativo de cifrado."
 
 #: files/error.php:16
 #, php-format
@@ -76,7 +76,7 @@ msgstr "A chave privada non é correcta! É probábel que o seu contrasinal teñ
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr "Non foi posíbel descifrar o ficheiro, probabelmente tratase dun ficheiro compartido. Pidalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede."
+msgstr "Non foi posíbel descifrar o ficheiro, probabelmente tratase dun ficheiro compartido. Pídalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede."
 
 #: files/error.php:22 files/error.php:27
 msgid ""
@@ -93,9 +93,9 @@ msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
-msgstr "Asegúrese de que está instalado o PHP 5.3.3 ou posterior e de o OpenSSL xunto coa extensión PHP estean activados e configurados correctamente. Polo de agora foi desactivado o aplicativo de cifrado."
+msgstr "Asegúrese de que está instalado o PHP 5.3.3 ou posterior e de que o OpenSSL xunto coa extensión PHP estean activados e configurados correctamente. Polo de agora foi desactivado o aplicativo de cifrado."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:296
 msgid "Following users are not set up for encryption:"
 msgstr "Os seguintes usuarios non teñen configuración para o cifrado:"
 
@@ -130,7 +130,7 @@ msgstr "Contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:12
 msgid "Repeat Recovery key password"
-msgstr "Repita o contrasinal da chave da recuperación"
+msgstr "Repita o contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:19 templates/settings-personal.php:50
 msgid "Enabled"
@@ -154,7 +154,7 @@ msgstr "Novo contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:51
 msgid "Repeat New Recovery key password"
-msgstr "Repita o novo contrasinal da chave da recuperación"
+msgstr "Repita o novo contrasinal da chave de recuperación"
 
 #: templates/settings-admin.php:56
 msgid "Change Password"
@@ -172,15 +172,15 @@ msgstr "Estabeleza o seu contrasinal antigo da chave de recuperación ao seu con
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr " Se non lembra o seu antigo contrasinal pode pedírllelo ao seu administrador para recuperar os seus ficheiros."
+msgstr "Se non lembra o seu antigo contrasinal pode pedírllelo ao seu administrador para recuperar os seus ficheiros."
 
 #: templates/settings-personal.php:21
 msgid "Old log-in password"
-msgstr "Contrasinal de acceso antigo"
+msgstr "Contrasinal antigo de acceso"
 
 #: templates/settings-personal.php:27
 msgid "Current log-in password"
-msgstr "Contrasinal de acceso actual"
+msgstr "Contrasinal actual de acceso"
 
 #: templates/settings-personal.php:32
 msgid "Update Private Key Password"

@@ -1,0 +1,293 @@
+/* prevent ugly selection effect on accidental selection */
+#header,
+#navigation,
+#expanddiv {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+}
+
+
+
+/* HEADERS ------------------------------------------------------------------ */
+
+#body-user #header,
+#body-settings #header,
+#body-public #header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	height: 45px;
+	line-height: 2.5em;
+	background-color: #1d2d44;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+
+/* LOGO and APP NAME -------------------------------------------------------- */
+
+#owncloud {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 6px;
+	padding-bottom: 0;
+	height: 45px; /* header height */
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#header .logo {
+	background-image: url(../img/logo.svg);
+	background-repeat: no-repeat;
+	width: 250px;
+	height: 118px;
+	margin: 0 auto;
+}
+
+#header .logo-wide {
+	background-image: url(../img/logo-wide.svg);
+	background-repeat: no-repeat;
+	width: 147px;
+	height: 32px;
+}
+
+#header .logo-icon {
+	/* display logo so appname can be shown next to it */
+	display: inline-block;
+	background-image: url(../img/logo-icon.svg);
+	background-repeat: no-repeat;
+	width: 60px;
+	height: 32px;
+}
+
+#header .menutoggle {
+	display: inline-block;
+	position: absolute;
+	left: 70px;
+	height: 27px;
+	padding-top: 18px;
+	padding-right: 10px;
+}
+
+/* hover effect for app switcher label */
+.menutoggle .header-appname,
+.menutoggle .icon-caret {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
+	filter: alpha(opacity=75);
+	opacity: .75;
+}
+.menutoggle:hover .header-appname,
+.menutoggle:hover .icon-caret,
+.menutoggle:focus .header-appname
+.menutoggle:focus .icon-caret
+.menutoggle.active .header-appname
+.menutoggle.active .icon-caret {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+/* show appname next to logo */
+.header-appname {
+	display: inline-block;
+	position: relative;
+	color: #fff;
+	font-size: 16px;
+	margin: 0;
+	margin-top: -24px;
+	padding: 7px 0 7px 5px;
+	vertical-align: middle;
+}
+/* show caret indicator next to logo to make clear it is tappable */
+#header .icon-caret {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	margin: 0;
+	margin-top: -21px;
+	padding: 0;
+	vertical-align: middle;
+}
+/* do not show menu toggle on public share links as there is no menu */
+#body-public #header .icon-caret {
+	display: none;
+}
+
+
+
+/* NAVIGATION --------------------------------------------------------------- */
+
+#content-wrapper {
+	padding-left: 0;
+}
+
+#navigation {
+	position: fixed;
+	top: 45px;
+	width: 265px;
+	max-height: 85%;
+	margin-top: 0;
+	padding-bottom: 10px;
+	background-color: rgba(36, 40, 47, .97);
+	border-bottom-right-radius: 7px;
+	box-shadow: 0 0 7px rgba(29,45,68,.97);
+	display: none;
+	overflow-y: auto;
+	overflow-x: hidden;
+	z-index: 150;
+}
+#navigation, #navigation * {
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+}
+#navigation li {
+	display: inline-block;
+}
+#navigation a {
+	position: relative;
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+	text-align: center;
+	padding: 20px 0;
+}
+#navigation a span {
+	display: inline-block;
+	font-size: 13px;
+	padding-bottom: 0;
+	padding-left: 0;
+	width: 80px;
+	text-align: center;
+	color: #fff;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+	/* icon opacity and hover effect */
+	#navigation a img,
+	#navigation a span {
+		/* 50% opacity when inactive */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		opacity: .5;
+	}
+	#navigation a:hover img, #navigation a:focus img,
+	#navigation a:hover span, #navigation a:focus span {
+		/* 80% opacity when hovered or focused */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+		filter: alpha(opacity=80);
+		opacity: .8;
+	}
+	#navigation a.active img,
+	#navigation a.active span {
+		 /* full opacity for the active app */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
+	}
+
+#navigation .app-icon {
+	margin: 0 auto;
+	padding: 0;
+}
+
+/* Apps management */
+#apps-management {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+	min-height: initial;
+	height: initial;
+	margin: 0;
+}
+
+
+/* loading feedback for apps */
+#navigation .app-loading .icon-loading-dark {
+	display: inline !important;
+	position: absolute;
+	top: 20px;
+	left: 24px;
+	width: 32px;
+	height: 32px;
+}
+#navigation .app-loading .app-icon {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity=10);
+	opacity: .1;
+}
+
+
+
+
+/* USER MENU -----------------------------------------------------------------*/
+
+/* info part on the right, used e.g. for info on who shared something */
+.header-right {
+	position: absolute;
+	right: 0;
+	padding: 7px 5px;
+	color: #fff;
+	height: 100%;
+	max-width: 40%;
+	white-space: nowrap;
+}
+
+/* Profile picture in header */
+#header .avatardiv {
+	float: left;
+	display: inline-block;
+	margin-right: 5px;
+}
+#header .avatardiv img {
+	opacity: 1;
+}
+
+#settings {
+	float: right;
+	color: #bbb;
+}
+#expand {
+	display: block;
+	padding: 7px 12px 6px 7px;
+	cursor: pointer;
+}
+#expand:hover, #expand:focus, #expand:active { color:#fff; }
+#expand img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity:.7; margin-bottom:-2px; }
+#expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
+#expanddiv {
+	position: absolute;
+	right: 0;
+	top: 45px;
+	z-index: 150;
+	display: none;
+	background-color: #383c43;
+	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
+	box-shadow:0 0 7px rgb(29,45,68);
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+	#expanddiv a {
+		display: block;
+		height: 40px;
+		color: #fff;
+		padding: 4px 12px 0;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+		filter: alpha(opacity=70);
+		opacity: .7;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	#expanddiv a img {
+		margin-bottom: -3px;
+		margin-right: 6px;
+	}
+	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active {
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
+	}

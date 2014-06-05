@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mnestis <transifex@mnestis.net>, 2013-2014
+# Darren Richardson <transifex@mnestis.net>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 11:31+0000\n"
-"Last-Translator: mnestis <transifex@mnestis.net>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,23 +44,23 @@ msgstr "Updated database"
 msgid "Disabled incompatible apps: %s"
 msgstr "Disabled incompatible apps: %s"
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "No image or file provided"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Unknown filetype"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Invalid image"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "No temporary profile picture available, try again"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "No crop data provided"
 
@@ -140,333 +140,341 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:496
+#: js/js.js:501
 msgid "Settings"
 msgstr "Settings"
 
-#: js/js.js:596
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Saving..."
 
-#: js/js.js:1220
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "seconds ago"
 
-#: js/js.js:1221
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minute ago"
 msgstr[1] "%n minutes ago"
 
-#: js/js.js:1222
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n hour ago"
 msgstr[1] "%n hours ago"
 
-#: js/js.js:1223
+#: js/js.js:1232
 msgid "today"
 msgstr "today"
 
-#: js/js.js:1224
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "yesterday"
 
-#: js/js.js:1225
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n day ago"
 msgstr[1] "%n days ago"
 
-#: js/js.js:1226
+#: js/js.js:1235
 msgid "last month"
 msgstr "last month"
 
-#: js/js.js:1227
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n month ago"
 msgstr[1] "%n months ago"
 
-#: js/js.js:1228
+#: js/js.js:1237
 msgid "last year"
 msgstr "last year"
 
-#: js/js.js:1229
+#: js/js.js:1238
 msgid "years ago"
 msgstr "years ago"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Yes"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "No"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Choose"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Error loading file picker template: {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "OK"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Error loading message template: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} file conflict"
 msgstr[1] "{count} file conflicts"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "One file conflict"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "New Files"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "Already existing files"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "Which files do you wish to keep?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "If you select both versions, the copied file will have a number added to its name."
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Cancel"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Continue"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(all selected)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({count} selected)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr "Error loading file exists template"
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "Very weak password"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "Weak password"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "So-so password"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "Good password"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "Strong password"
 
-#: js/share.js:69 js/share.js:84 js/share.js:127
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Shared"
 
-#: js/share.js:130
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Share"
 
-#: js/share.js:195 js/share.js:208 js/share.js:215 js/share.js:822
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:197 js/share.js:885
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Error whilst sharing"
 
-#: js/share.js:208
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Error whilst unsharing"
 
-#: js/share.js:215
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Error whilst changing permissions"
 
-#: js/share.js:225
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Shared with you and the group {group} by {owner}"
 
-#: js/share.js:227
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Shared with you by {owner}"
 
-#: js/share.js:251
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr "Share with user or group …"
 
-#: js/share.js:257
+#: js/share.js:334
 msgid "Share link"
 msgstr "Share link"
 
-#: js/share.js:263
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "The public link will expire no later than {days} days after it is created"
 
-#: js/share.js:265
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr "By default the public link will expire after {days} days"
 
-#: js/share.js:270
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Password protect"
 
-#: js/share.js:272
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr "Choose a password for the public link"
 
-#: js/share.js:278
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Allow Public Upload"
 
-#: js/share.js:282
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Email link to person"
 
-#: js/share.js:283
+#: js/share.js:360
 msgid "Send"
 msgstr "Send"
 
-#: js/share.js:288
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Set expiration date"
 
-#: js/share.js:289
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Expiration date"
 
-#: js/share.js:326
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Share via email:"
 
-#: js/share.js:329
+#: js/share.js:407
 msgid "No people found"
 msgstr "No people found"
 
-#: js/share.js:377 js/share.js:438
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "group"
 
-#: js/share.js:410
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Resharing is not allowed"
 
-#: js/share.js:454
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "Shared in {item} with {user}"
 
-#: js/share.js:476
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Unshare"
 
-#: js/share.js:484
+#: js/share.js:570
 msgid "notify by email"
 msgstr "notify by email"
 
-#: js/share.js:487
+#: js/share.js:573
 msgid "can edit"
 msgstr "can edit"
 
-#: js/share.js:489
+#: js/share.js:575
 msgid "access control"
 msgstr "access control"
 
-#: js/share.js:492
+#: js/share.js:578
 msgid "create"
 msgstr "create"
 
-#: js/share.js:495
+#: js/share.js:581
 msgid "update"
 msgstr "update"
 
-#: js/share.js:498
+#: js/share.js:584
 msgid "delete"
 msgstr "delete"
 
-#: js/share.js:501
+#: js/share.js:587
 msgid "share"
 msgstr "share"
 
-#: js/share.js:803
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Password protected"
 
-#: js/share.js:822
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Error unsetting expiration date"
 
-#: js/share.js:843
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Error setting expiration date"
 
-#: js/share.js:872
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Sending ..."
 
-#: js/share.js:883
+#: js/share.js:978
 msgid "Email sent"
 msgstr "Email sent"
 
-#: js/share.js:907
+#: js/share.js:1002
 msgid "Warning"
 msgstr "Warning"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "The object type is not specified."
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr "Enter new"
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Delete"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Add"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "Edit tags"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr "Error loading dialog template: {error}"
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr "No tags selected for deletion."
 
@@ -516,12 +524,13 @@ msgstr "Request failed!<br>Did you make sure your email/username was correct?"
 msgid "You will receive a link to reset your password via Email."
 msgstr "You will receive a link to reset your password via email."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Username"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -529,11 +538,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset. If you are not sure what to do, please contact your administrator before you continue. Do you really want to continue?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Yes, I really want to reset my password now"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "Reset"
 
@@ -546,10 +555,11 @@ msgid "To login page"
 msgstr "To login page"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "New password"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Reset password"
 
@@ -683,51 +693,59 @@ msgstr "For information how to properly configure your server, please see the <a
 msgid "Create an <strong>admin account</strong>"
 msgstr "Create an <strong>admin account</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Password"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr "Storage & database"
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Data folder"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Configure the database"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "will be used"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Database user"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Database password"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Database name"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Database tablespace"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Finish setup"
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "Finishing …"
 
@@ -747,41 +765,41 @@ msgstr "%s is available. Get more information on how to update."
 msgid "Log out"
 msgstr "Log out"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "Automatic logon rejected!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "If you did not change your password recently, your account may be compromised!"
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Please change your password to secure your account again."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Server side authentication failed!"
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr "Please contact your administrator."
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "Lost your password?"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "remember"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Log in"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Alternative Logins"
 

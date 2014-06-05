@@ -5,6 +5,16 @@
 select#languageinput, select#timezone { width:15em; }
 input#openid, input#webdav { width:20em; }
 
+#user-controls {
+	-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+	position: fixed;
+	right: 0;
+	left: 230px;
+	height: 44px;
+	padding: 0; margin: 0;
+	background: #eee; border-bottom: 1px solid #e7e7e7;
+	z-index: 50;
+}
 
 /* PERSONAL */
 #rootcert_import {
@@ -13,10 +23,13 @@ input#openid, input#webdav { width:20em; }
 }
 
 /* Sync clients */
-.clientsbox { margin:12px; }
-.clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
-.clientsbox h2 { font-size:20px; font-weight:bold; margin:35px 0 10px; }
-.clientsbox .center { margin-top:10px; }
+.clientsbox h2 {
+	font-size: 20px;
+	margin: 35px 0 10px;
+}
+.clientsbox .center {
+	margin-top: 10px;
+}
 
 #passworderror { display:none; }
 #passwordchanged { display:none; }
@@ -44,7 +57,37 @@ table.nostyle label { margin-right: 2em; }
 table.nostyle td { padding: 0.2em 0; }
 
 /* USERS */
+#newgroup-init a span { margin-left: 20px; }
+#newgroup-init a span:before {
+	position: absolute;	left: 12px; top:-2px;
+	content: '+'; font-weight: bold; font-size: 150%;
+}
+.usercount { float: left; margin: 5px; }
+li.active span.utils .delete {
+	float: left; position: relative; opacity: 0.5;
+	top: -7px; left: 7px; width: 44px; height: 44px;
+}
+li.active .rename {
+	padding: 8px 14px 20px 14px;
+	top: 0px; position: absolute; width: 16px; height: 16px;
+	opacity: 0.5;
+	display: inline-block !important;
+}
+li.active span.utils .delete img { margin: 14px; }
+li.active .rename { opacity: 0.5; }
+li.active span.utils .delete:hover, li.active .rename:hover { opacity: 1; }
+span.utils .delete, .rename { display: none; }
+#app-navigation ul li.active > span.utils .delete,
+#app-navigation ul li.active > span.utils .rename { display: block; }
+#usersearchform { position: absolute; top: 4px; right: 10px; }
+#usersearchform label { font-weight: 700; }
 form { display:inline; }
+
+/* display table at full width */
+table.grid {
+	width: 100%;
+}
+
 table.grid th { height:2em; color:#999; }
 table.grid th, table.grid td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
@@ -57,9 +100,8 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 
-table.grid { width:100%; }
 div.quota {
-	float: right;
+	margin: 10px;
 	display: block;
 }
 div.quota-select-wrapper { position: relative; }
@@ -77,6 +119,8 @@ div.quota>span {
 	text-shadow: 0 1px 0 #fff;
 }
 select.quota.active { background: #fff; }
+
+input.userFilter {width: 200px;}
 
 /* positioning fixes */
 #newuser .multiselect {
@@ -158,6 +202,10 @@ table.shareAPI .indent { padding-left: 2em; }
 	vertical-align: text-bottom;
 }
 
+.cronstatus.success {
+	border-radius: 50%;
+}
+
 #selectGroups select {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -176,8 +224,6 @@ span.error {
         background: #ce3702;
 }
 
-/* HELP */
-.pressed {background-color:#DDD;}
 
 /* PASSWORD */
 .strengthify-wrapper {
@@ -191,4 +237,23 @@ span.error {
 doesnotexist:-o-prefocus, .strengthify-wrapper {
 	left: 185px;
 	width: 129px;
+}
+
+
+
+
+
+/* HELP */
+
+.help-includes {
+	overflow: hidden !important;
+}
+
+.help-iframe {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	overflow: auto;
 }

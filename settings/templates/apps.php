@@ -16,7 +16,7 @@
 		<?php endif; ?>
 
 		<?php foreach($_['apps'] as $app):?>
-		<li <?php if($app['active']) print_unescaped('class="active"')?> data-id="<?php p($app['id']) ?>"
+		<li <?php if($app['active']) print_unescaped('class="active"')?> data-id="<?php p($app['id']) ?>" data-groups="<?php p($app['groups']) ?>"
 			<?php if ( isset( $app['ocs_id'] ) ) { print_unescaped("data-id-ocs=\"{".OC_Util::sanitizeHTML($app['ocs_id'])."}\""); } ?>
 				data-type="<?php p($app['internal'] ? 'internal' : 'external') ?>" data-installed="1">
 			<a class="app<?php if(!$app['internal']) p(' externalapp') ?>"
@@ -54,6 +54,16 @@
 	<input class="enable hidden" type="submit" />
 	<input class="update hidden" type="submit" value="<?php p($l->t('Update')); ?>" />
 	<input class="uninstall hidden" type="submit" value="<?php p($l->t('Uninstall')); ?>"/>
+	<br />
+	<input class="hidden" type="checkbox" id="groups_enable"/>
+	<label class="hidden" for="groups_enable"><?php p($l->t('Enable only for specific groups')); ?></label>
+	<br />
+	<select class="hidden" id="group_select" multiple="multiple" title="<?php p($l->t('All')); ?>">
+		<?php foreach($_['groups'] as $group):?>
+			<option value="<?php p($group);?>"><?php p($group); ?></option>
+		<?php endforeach;?>
+	</select>
+
 	<div class="warning hidden"></div>
 	</div>
 </div>

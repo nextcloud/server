@@ -20,10 +20,12 @@
  */
 
 /**
- * Wrapper for server side events (http://en.wikipedia.org/wiki/Server-sent_events)
+ * Wrapper for server side events
+ * (http://en.wikipedia.org/wiki/Server-sent_events)
  * includes a fallback for older browsers and IE
  *
- * Use server side events with caution, too many open requests can hang the server
+ * use server side events with caution, too many open requests can hang the
+ * server
  */
 
 /**
@@ -43,7 +45,7 @@ OC.EventSource=function(src,data){
 	dataStr+='requesttoken='+oc_requesttoken;
 	if(!this.useFallBack && typeof EventSource !='undefined'){
 		var joinChar = '&';
-		if(src.indexOf('?') == -1) {
+		if(src.indexOf('?') === -1) {
 			joinChar = '?';
 		}
 		this.source=new EventSource(src+joinChar+dataStr);
@@ -60,13 +62,13 @@ OC.EventSource=function(src,data){
 		this.iframe.hide();
 
 		var joinChar = '&';
-		if(src.indexOf('?') == -1) {
+		if(src.indexOf('?') === -1) {
 			joinChar = '?';
 		}
 		this.iframe.attr('src',src+joinChar+'fallback=true&fallback_id='+OC.EventSource.iframeCount+'&'+dataStr);
 		$('body').append(this.iframe);
 		this.useFallBack=true;
-		OC.EventSource.iframeCount++
+		OC.EventSource.iframeCount++;
 	}
 	//add close listener
 	this.listen('__internal__',function(data){

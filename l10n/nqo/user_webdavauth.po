@@ -6,10 +6,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-09-07 04:40-0400\n"
-"PO-Revision-Date: 2013-09-07 07:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-06-04 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 05:55+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: N'ko (http://www.transifex.com/projects/p/owncloud/language/nqo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,15 +17,19 @@ msgstr ""
 "Language: nqo\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: templates/settings.php:3
+#: templates/settings.php:2
 msgid "WebDAV Authentication"
 msgstr ""
 
-#: templates/settings.php:4
-msgid "Address: "
+#: templates/settings.php:3
+msgid "Address:"
 msgstr ""
 
-#: templates/settings.php:7
+#: templates/settings.php:5
+msgid "Save"
+msgstr ""
+
+#: templates/settings.php:6
 msgid ""
 "The user credentials will be sent to this address. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "

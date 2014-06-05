@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# leostandards100 <mrshah_300@yahoo.com>, 2014
+# Ahmed Waqar Shah <mrshah_300@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -44,23 +44,23 @@ msgstr "اپ ڈیٹ ہوئ ڈیٹا بیس"
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "کوئی تصویر یا فائل فراہم نہیں"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "غیر معرروف قسم کی فائل"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "غلط تصویر"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr ""
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "کوئی کروپ ڈیٹا ميسر نہیں "
 
@@ -140,333 +140,341 @@ msgstr "نومبر"
 msgid "December"
 msgstr "دسمبر"
 
-#: js/js.js:487
+#: js/js.js:501
 msgid "Settings"
 msgstr "ترتیبات"
 
-#: js/js.js:587
+#: js/js.js:601
 msgid "Saving..."
 msgstr "محفوظ ھو رہا ہے ..."
 
-#: js/js.js:1211
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "سیکنڈز پہلے"
 
-#: js/js.js:1212
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n منٹس پہلے"
 msgstr[1] "%n منٹس پہلے"
 
-#: js/js.js:1213
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1214
+#: js/js.js:1232
 msgid "today"
 msgstr "آج"
 
-#: js/js.js:1215
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "کل"
 
-#: js/js.js:1216
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1217
+#: js/js.js:1235
 msgid "last month"
 msgstr "پچھلے مہنیے"
 
-#: js/js.js:1218
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1219
+#: js/js.js:1237
 msgid "last year"
 msgstr "پچھلے سال"
 
-#: js/js.js:1220
+#: js/js.js:1238
 msgid "years ago"
 msgstr "سالوں پہلے"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "ہاں"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "نہیں"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "منتخب کریں"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "اوکے"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{گنتی} فائل متصادم "
 msgstr[1] "{گنتی} فائل متصادم "
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "اایک فائل متصادم ہے"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "جدید فائلیں"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "پہلے سے موجودجدید فائلیں"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "آپ کون سی فائلیں رکھنا چاہتے ہیں  ؟"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "منسوخ کریں"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "جاری"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(سب منتخب شدہ)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({گنتی} منتخب شدہ)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "بہت کمزور پاسورڈ"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "کمزور پاسورڈ"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "نص نص پاسورڈ"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "اچھا پاسورڈ"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "مضبوط پاسورڈ"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "اشتراک شدہ"
 
-#: js/share.js:109
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "اشتراک"
 
-#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "خرابی"
 
-#: js/share.js:175 js/share.js:863
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "اشتراک کے دوران خرابی "
 
-#: js/share.js:186
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "اشترک ختم کرنے کے دوران خرابی"
 
-#: js/share.js:193
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "اختیارات کو تبدیل کرنے کے دوران  خرابی "
 
-#: js/share.js:203
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "آپ اور گروہ سے مشترق شدہ {گروہ } سے {مالک}"
 
-#: js/share.js:205
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "اشتراک شدہ آپ سے{مالک}"
 
-#: js/share.js:229
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr "صارف یا مجموعہ کے ساتھ اشتراک کریں ..."
 
-#: js/share.js:235
+#: js/share.js:334
 msgid "Share link"
 msgstr "اشتراک لنک"
 
-#: js/share.js:241
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:243
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr "ڈیفالٹ میں عوامی لنک ختم ہو جائے گا {دن} دن"
 
-#: js/share.js:248
+#: js/share.js:347
 msgid "Password protect"
 msgstr "محفوظ پاسورڈ"
 
-#: js/share.js:250
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr "عوامی لنک کے لئےپاس ورڈ منتخب کریں"
 
-#: js/share.js:256
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "پبلک اپ لوڈ کرنے کی اجازت دیں"
 
-#: js/share.js:260
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "شحص کے لیے ای میل لنک"
 
-#: js/share.js:261
+#: js/share.js:360
 msgid "Send"
 msgstr "بھجیں"
 
-#: js/share.js:266
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "تاریخ معیاد سیٹ کریں"
 
-#: js/share.js:267
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "تاریخ معیاد"
 
-#: js/share.js:304
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "ای میل کے زریعے ارسال کریں"
 
-#: js/share.js:307
+#: js/share.js:407
 msgid "No people found"
 msgstr "کوئ شخص موجود نہیں "
 
-#: js/share.js:355 js/share.js:416
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "مجموعہ"
 
-#: js/share.js:388
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "دوبارہ اشتراک کی اجازت نہیں"
 
-#: js/share.js:432
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "شراکت میں {آئٹم}اور {مستخدم}"
 
-#: js/share.js:454
+#: js/share.js:562
 msgid "Unshare"
 msgstr "شئیرنگ ختم کریں"
 
-#: js/share.js:462
+#: js/share.js:570
 msgid "notify by email"
 msgstr "ای میل کے ذریعے مطلع کریں"
 
-#: js/share.js:465
+#: js/share.js:573
 msgid "can edit"
 msgstr "تبدیل کر سکے ھیں"
 
-#: js/share.js:467
+#: js/share.js:575
 msgid "access control"
 msgstr "اسیس کنٹرول"
 
-#: js/share.js:470
+#: js/share.js:578
 msgid "create"
 msgstr "نیا بنائیں"
 
-#: js/share.js:473
+#: js/share.js:581
 msgid "update"
 msgstr "اپ ڈیٹ"
 
-#: js/share.js:476
+#: js/share.js:584
 msgid "delete"
 msgstr "ختم کریں"
 
-#: js/share.js:479
+#: js/share.js:587
 msgid "share"
 msgstr "شئیر کریں"
 
-#: js/share.js:781
+#: js/share.js:898
 msgid "Password protected"
 msgstr "پاسورڈ سے محفوظ کیا گیا ہے"
 
-#: js/share.js:800
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "خرابی غیر تصحیح تاریخ معیاد"
 
-#: js/share.js:821
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "خرابی  تصحیح تاریخ معیاد"
 
-#: js/share.js:850
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "ارسال ہو رہا ھے"
 
-#: js/share.js:861
+#: js/share.js:978
 msgid "Email sent"
 msgstr "ارسال شدہ ای میل "
 
-#: js/share.js:885
+#: js/share.js:1002
 msgid "Warning"
 msgstr "انتباہ"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "اس چیز کی قسم کی وضاحت نہیں"
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr "جدید درج کریں"
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "حذف کریں"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "شامل کریں"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "ترمیم ٹیگز"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr ""
 
@@ -516,12 +524,13 @@ msgstr "گذارش ناکام!<br>کيا پ نے يقينی بنايا کہ  آ�
 msgid "You will receive a link to reset your password via Email."
 msgstr "آپ ای میل کے ذریعے اپنے پاسورڈ ری سیٹ کا لنک موصول کریں گے"
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "یوزر نیم"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -529,11 +538,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "جی ہاں، میں واقعی ابھی اپنا پاس ورڈ ری سیٹ کرنا چاہتا ہوں"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "ری سیٹ"
 
@@ -546,10 +555,11 @@ msgid "To login page"
 msgstr "لاگ ان صفحے کی طرف"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "نیا پاسورڈ"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "ری سیٹ پاسورڈ"
 
@@ -683,51 +693,59 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "پاسورڈ"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr "ذخیرہ اور ڈیٹا بیس"
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "ڈیٹا فولڈر"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "ڈیٹا بیس کونفگر کریں"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "استعمال ہو گا"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "ڈیٹابیس یوزر"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "ڈیٹابیس پاسورڈ"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "ڈیٹابیس کا نام"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "ڈیٹابیس ٹیبل سپیس"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "ڈیٹابیس ہوسٹ"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "سیٹ اپ ختم کریں"
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "تکمیل ..."
 
@@ -747,41 +765,41 @@ msgstr "%s دستیاب ہے. اپ ڈیٹ کرنے کے  بارے میں مزی�
 msgid "Log out"
 msgstr "لاگ آؤٹ"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "آٹومیٹک لاگ ان مسترد"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "آپ نے حال ہی میں اپنا پاس ورڈ تبدیل نہیں کیا تو، آپ کے اکاؤنٹ سے سمجھوتہ ہو سکتا ہے"
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "براہ مہربانی پھر سے اکاونٹ محفوظ کرنے کے لیے  اپنا پاس ورڈ تبدیل کریں."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr ""
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "کیا آپ پاسورڈ بھول گئے ہیں؟"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "یاد رکھیں"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "لاگ ان"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "متبادل لاگ ان "
 

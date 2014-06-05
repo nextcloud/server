@@ -122,7 +122,6 @@ $TRANSLATIONS = array(
 "Password" => "Pasvorto",
 "Data folder" => "Datuma dosierujo",
 "Configure the database" => "Agordi la datumbazon",
-"will be used" => "estos uzata",
 "Database user" => "Datumbaza uzanto",
 "Database password" => "Datumbaza pasvorto",
 "Database name" => "Datumbaza nomo",

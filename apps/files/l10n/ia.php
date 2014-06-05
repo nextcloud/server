@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "Manca un dossier temporari",
 "Files" => "Files",
 "Share" => "Compartir",
+"Delete" => "Deler",
 "Error" => "Error",
 "Name" => "Nomine",
 "Size" => "Dimension",
@@ -20,7 +21,6 @@ $TRANSLATIONS = array(
 "Folder" => "Dossier",
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
 "Download" => "Discargar",
-"Delete" => "Deler",
 "Upload too large" => "Incargamento troppo longe"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

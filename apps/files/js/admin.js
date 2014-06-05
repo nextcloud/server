@@ -25,12 +25,4 @@ $(document).ready(function() {
 		// To get rid of onClick()
 		switchPublicFolder();
 	});
-
-	$('#allowZipDownload').bind('change', function() {
-		if($('#allowZipDownload').attr('checked')) {
-			$('#maxZipInputSize').removeAttr('disabled');
-		} else {
-			$('#maxZipInputSize').attr('disabled', 'disabled');
-		}
-	});
 });

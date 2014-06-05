@@ -146,7 +146,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "스토리지 & 데이터베이스",
 "Data folder" => "데이터 폴더",
 "Configure the database" => "데이터베이스 설정",
-"will be used" => "사용될 예정",
 "Database user" => "데이터베이스 사용자",
 "Database password" => "데이터베이스 암호",
 "Database name" => "데이터베이스 이름",

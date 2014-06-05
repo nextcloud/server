@@ -58,10 +58,8 @@ class Api {
 			return new \OC_OCS_Result(null, 404, 'could not get shares');
 		} else {
 			foreach ($shares as &$share) {
-				// file_target might not be set if the target user hasn't mounted
-				// the filesystem yet
-				if ($share['item_type'] === 'file' && isset($share['file_target'])) {
-					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				if ($share['item_type'] === 'file' && isset($share['path'])) {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['path']);
 				}
 				$newShares[] = $share;
 			}
@@ -156,7 +154,7 @@ class Api {
 			return $shares;
 		}
 
-		$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path` , `permissions`, `stime`, `expiration`, `token`, `storage`, `mail_send`, `mail_send`';
+		$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `file_source`, `path` , `*PREFIX*share`.`permissions`, `stime`, `expiration`, `token`, `storage`, `mail_send`, `mail_send`';
 		$getReshares = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE `*PREFIX*share`.`file_source` = ? AND `*PREFIX*share`.`item_type` IN (\'file\', \'folder\') AND `uid_owner` != ?');
 		$reshares = $getReshares->execute(array($itemSource, \OCP\User::getUser()))->fetchAll();
 
@@ -337,6 +335,7 @@ class Api {
 				return self::updatePublicUpload($share, $params);
 			}
 		} catch (\Exception $e) {
+
 			return new \OC_OCS_Result(null, 400, $e->getMessage());
 		}
 

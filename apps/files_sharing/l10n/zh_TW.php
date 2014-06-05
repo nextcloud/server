@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Shared by {owner}" => "由 {owner} 分享",
+"Shared by" => "由...分享",
 "This share is password-protected" => "這個分享有密碼保護",
 "The password is wrong. Try again." => "請檢查您的密碼並再試一次",
 "Password" => "密碼",
+"Name" => "名稱",
 "Sorry, this link doesn’t seem to work anymore." => "抱歉，此連結已經失效",
 "Reasons might be:" => "可能的原因：",
 "the item was removed" => "項目已經移除",

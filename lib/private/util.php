@@ -53,7 +53,7 @@ class OC_Util {
 
 		//if we aren't logged in, there is no use to set up the filesystem
 		if( $user != "" ) {
-			\OC\Files\Filesystem::addStorageWrapper(function($mountPoint, $storage){
+			\OC\Files\Filesystem::addStorageWrapper('oc_quota', function($mountPoint, $storage){
 				// set up quota for home storages, even for other users
 				// which can happen when using sharing
 
@@ -973,7 +973,7 @@ class OC_Util {
 		try {
 			// test PROPFIND
 			$client->propfind('', array('{DAV:}resourcetype'));
-		} catch (\Sabre_DAV_Exception_NotAuthenticated $e) {
+		} catch (\Sabre\DAV\Exception\NotAuthenticated $e) {
 			$return = true;
 		} catch (\Exception $e) {
 			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);

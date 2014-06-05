@@ -115,7 +115,6 @@ $TRANSLATIONS = array(
 "Password" => "Wagwoord",
 "Data folder" => "Data vouer",
 "Configure the database" => "Stel databasis op",
-"will be used" => "sal gebruik word",
 "Database user" => "Databasis-gebruiker",
 "Database password" => "Databasis-wagwoord",
 "Database name" => "Databasis naam",

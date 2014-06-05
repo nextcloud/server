@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 06:21+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,23 +46,23 @@ msgstr "Tietokanta ajan tasalla"
 msgid "Disabled incompatible apps: %s"
 msgstr "Yhteensopimattomat sovellukset poistettiin käytöstä: %s"
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "Kuvaa tai tiedostoa ei määritelty"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Tuntematon tiedostotyyppi"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Virhellinen kuva"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "Väliaikaista profiilikuvaa ei ole käytettävissä, yritä uudelleen"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "Puutteellinen tieto"
 
@@ -142,333 +142,341 @@ msgstr "marraskuu"
 msgid "December"
 msgstr "joulukuu"
 
-#: js/js.js:496
+#: js/js.js:501
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:596
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
-#: js/js.js:1220
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/js.js:1221
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minuutti sitten"
 msgstr[1] "%n minuuttia sitten"
 
-#: js/js.js:1222
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tunti sitten"
 msgstr[1] "%n tuntia sitten"
 
-#: js/js.js:1223
+#: js/js.js:1232
 msgid "today"
 msgstr "tänään"
 
-#: js/js.js:1224
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/js.js:1225
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päivä sitten"
 msgstr[1] "%n päivää sitten"
 
-#: js/js.js:1226
+#: js/js.js:1235
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/js.js:1227
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuukausi sitten"
 msgstr[1] "%n kuukautta sitten"
 
-#: js/js.js:1228
+#: js/js.js:1237
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/js.js:1229
+#: js/js.js:1238
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Kyllä"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Valitse"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Virhe ladatessa tiedostopohjia: {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Virhe ladatessa viestipohjaa: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} tiedoston ristiriita"
 msgstr[1] "{count} tiedoston ristiriita"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "Yhden tiedoston ristiriita"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "Uudet tiedostot"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "Jo olemassa olevat tiedostot"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "Mitkä tiedostot haluat säilyttää?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Jos valitset kummatkin versiot, kopioidun tiedoston nimeen lisätään numero."
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Peru"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Jatka"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(kaikki valittu)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({count} valittu)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr "Virhe ladatessa mallipohjaa"
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "Erittäin heikko salasana"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "Heikko salasana"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "Kohtalainen salasana"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "Hyvä salasana"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "Vahva salasana"
 
-#: js/share.js:69 js/share.js:84 js/share.js:127
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Jaettu"
 
-#: js/share.js:130
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Jaa"
 
-#: js/share.js:195 js/share.js:208 js/share.js:215 js/share.js:822
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Virhe"
 
-#: js/share.js:197 js/share.js:885
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
-#: js/share.js:208
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Virhe jakoa peruttaessa"
 
-#: js/share.js:215
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Virhe oikeuksia muuttaessa"
 
-#: js/share.js:225
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta"
 
-#: js/share.js:227
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Jaettu kanssasi käyttäjän {owner} toimesta"
 
-#: js/share.js:251
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr "Jaa käyttäjän tai ryhmän kanssa…"
 
-#: js/share.js:257
+#: js/share.js:334
 msgid "Share link"
 msgstr "Jaa linkki"
 
-#: js/share.js:263
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "Julkinen linkki vanhenee {days} päivän jälkeen sen luomisesta"
 
-#: js/share.js:265
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr "Oletuksena julkinen linkki vanhenee {days} päivässä"
 
-#: js/share.js:270
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:272
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr "Valitse salasana julkiselle linkille"
 
-#: js/share.js:278
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Salli julkinen lähetys"
 
-#: js/share.js:282
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Lähetä linkki sähköpostitse"
 
-#: js/share.js:283
+#: js/share.js:360
 msgid "Send"
 msgstr "Lähetä"
 
-#: js/share.js:288
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Aseta päättymispäivä"
 
-#: js/share.js:289
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Päättymispäivä"
 
-#: js/share.js:326
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Jaa sähköpostilla:"
 
-#: js/share.js:329
+#: js/share.js:407
 msgid "No people found"
 msgstr "Henkilöitä ei löytynyt"
 
-#: js/share.js:377 js/share.js:438
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "ryhmä"
 
-#: js/share.js:410
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Jakaminen uudelleen ei ole salittu"
 
-#: js/share.js:454
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "{item} on jaettu {user} kanssa"
 
-#: js/share.js:476
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: js/share.js:484
+#: js/share.js:570
 msgid "notify by email"
 msgstr "ilmoita sähköpostitse"
 
-#: js/share.js:487
+#: js/share.js:573
 msgid "can edit"
 msgstr "voi muokata"
 
-#: js/share.js:489
+#: js/share.js:575
 msgid "access control"
 msgstr "Pääsyn hallinta"
 
-#: js/share.js:492
+#: js/share.js:578
 msgid "create"
 msgstr "luo"
 
-#: js/share.js:495
+#: js/share.js:581
 msgid "update"
 msgstr "päivitä"
 
-#: js/share.js:498
+#: js/share.js:584
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:501
+#: js/share.js:587
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:803
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:822
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:843
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
-#: js/share.js:872
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Lähetetään..."
 
-#: js/share.js:883
+#: js/share.js:978
 msgid "Email sent"
 msgstr "Sähköposti lähetetty"
 
-#: js/share.js:907
+#: js/share.js:1002
 msgid "Warning"
 msgstr "Varoitus"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "The object type is not specified."
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr "Kirjoita uusi"
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Poista"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Lisää"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "Muokkaa tunnisteita"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr "Virhe ladatessa keskustelupohja: {error}"
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr "Tunnisteita ei valittu poistettavaksi."
 
@@ -518,12 +526,13 @@ msgstr "Pyyntö epäonnistui!<br>Olihan sähköpostiosoitteesi/käyttäjätunnuk
 msgid "You will receive a link to reset your password via Email."
 msgstr "Saat sähköpostitse linkin nollataksesi salasanan."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -531,11 +540,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Tiedostosi on salattu. Jos et ole ottanut palautusavainta käyttöön, et voi käyttää tiedostojasi enää salasanan nollauksen jälkeen. Jos et ole varma mitä tehdä, ota yhteys ylläpitoon ennen kuin jatkat. Haluatko varmasti jatkaa?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Kyllä, haluan nollata salasanani nyt"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "Nollaa salasana"
 
@@ -548,10 +557,11 @@ msgid "To login page"
 msgstr "Kirjautumissivulle"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Uusi salasana"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Palauta salasana"
 
@@ -685,51 +695,59 @@ msgstr "Lisätietoja palvelimen asetuksien määrittämisestä on saatavilla <a 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Luo <strong>ylläpitäjän tunnus</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Salasana"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr "Tallennus ja tietokanta"
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Datakansio"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Muokkaa tietokantaa"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "käytetään"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr "Vain %s on käytettävissä."
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Tietokannan käyttäjä"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Tietokannan salasana"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Tietokannan nimi"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Tietokannan taulukkotila"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Tietokantapalvelin"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr "SQLitea käytetään tietokantana. Laajoja asennuksia varten tämä asetus kannattaa muuttaa. "
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "Valmistellaan…"
 
@@ -749,41 +767,41 @@ msgstr "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan."
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "Automaattinen sisäänkirjautuminen hylättiin!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu."
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Vaihda salasanasi suojataksesi tilisi uudelleen."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Palvelimen puoleinen tunnistautuminen epäonnistui!"
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr "Ota yhteys ylläpitäjään."
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Vaihtoehtoiset kirjautumiset"
 

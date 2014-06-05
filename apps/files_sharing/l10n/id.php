@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Shared by {owner}" => "Dibagikan oleh {owner}",
+"Shared by" => "Dibagikan oleh",
 "This share is password-protected" => "Berbagi ini dilindungi sandi",
 "The password is wrong. Try again." => "Sandi salah. Coba lagi",
 "Password" => "Sandi",
+"Name" => "Nama",
 "Sorry, this link doesn’t seem to work anymore." => "Maaf, tautan ini tampaknya tidak berfungsi lagi.",
 "Reasons might be:" => "Alasan mungkin:",
 "the item was removed" => "item telah dihapus",

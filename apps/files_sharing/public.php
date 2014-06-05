@@ -160,17 +160,12 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 			$folder->assign('freeSpace', $freeSpace);
 			$folder->assign('uploadLimit', $uploadLimit); // PHP upload limit
-			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
 			$folder->assign('trash', false);
 			$tmpl->assign('folder', $folder->fetchPage());
-			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true);
-			$tmpl->assign('allowZipDownload', intval($allowZip));
-			$tmpl->assign('showDownloadButton', intval($allowZip));
 			$tmpl->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
-			$tmpl->assign('showDownloadButton', true);
 			$tmpl->assign('dir', $dir);
 
 			// Show file preview if viewer is available

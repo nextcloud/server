@@ -4,16 +4,16 @@
 # 
 # Translators:
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2014
-# bjamalaro <bjamalaro@yahoo.com.br>, 2013
+# Bruno Jamalaro <bjamalaro@yahoo.com.br>, 2013
 # Flávio Veras <flaviove@gmail.com>, 2013-2014
-# tuliouel, 2013
+# Tulio Simoes Martins Padilha, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-27 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 13:41+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -181,7 +181,7 @@ msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazia"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
@@ -197,73 +197,77 @@ msgstr "Não foi possível criar a pasta"
 msgid "Error fetching URL"
 msgstr "Erro ao buscar URL"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+msgid "Delete"
+msgstr "Excluir"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "Erro movendo o arquivo."
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Não foi possível renomear o arquivo"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Erro eliminando o arquivo."
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
 msgstr[1] "%n arquivos"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Enviando %n arquivo"
@@ -314,35 +318,19 @@ msgstr "%s não pode ser renomeado"
 msgid "Upload (max. %s)"
 msgstr "Envio (max. %s)"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Tratamento de Arquivo"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Tamanho máximo para carregar"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "max. possível:"
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Necessário para download de múltiplos arquivos e diretórios."
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "Habilitar ZIP-download"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 para ilimitado"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Tamanho máximo para arquivo ZIP"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Guardar"
 
@@ -393,28 +381,24 @@ msgstr "Você não tem permissão para carregar ou criar arquivos aqui"
 msgid "Nothing in here. Upload something!"
 msgstr "Nada aqui. Carrege alguma coisa!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Baixar"
 
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Excluir"
-
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "Upload muito grande"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Arquivos sendo escaneados, por favor aguarde."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr "Atualmente escaneando"

@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "Password" => "पासवर्ड",
 "Data folder" => "डाटा फोल्डर",
 "Configure the database" => "डेटाबेस कॉन्फ़िगर करें ",
-"will be used" => "उपयोग होगा",
 "Database user" => "डेटाबेस उपयोगकर्ता",
 "Database password" => "डेटाबेस पासवर्ड",
 "Database name" => "डेटाबेस का नाम",

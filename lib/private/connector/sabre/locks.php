@@ -21,10 +21,10 @@
  *
  */
 
-class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
+class OC_Connector_Sabre_Locks extends \Sabre\DAV\Locks\Backend\AbstractBackend {
 
 	/**
-	 * Returns a list of Sabre_DAV_Locks_LockInfo objects
+	 * Returns a list of \Sabre\DAV\Locks_LockInfo objects
 	 *
 	 * This method should return all the locks for a particular uri, including
 	 * locks that might be set on a parent uri.
@@ -93,7 +93,7 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 		$lockList = array();
 		while( $row = $result->fetchRow()) {
 
-			$lockInfo = new Sabre_DAV_Locks_LockInfo();
+			$lockInfo = new \Sabre\DAV\Locks\LockInfo();
 			$lockInfo->owner = $row['owner'];
 			$lockInfo->token = $row['token'];
 			$lockInfo->timeout = $row['timeout'];
@@ -113,10 +113,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 * Locks a uri
 	 *
 	 * @param string $uri
-	 * @param Sabre_DAV_Locks_LockInfo $lockInfo
+	 * @param \Sabre\DAV\Locks\LockInfo $lockInfo
 	 * @return bool
 	 */
-	public function lock($uri, Sabre_DAV_Locks_LockInfo $lockInfo) {
+	public function lock($uri, \Sabre\DAV\Locks\LockInfo $lockInfo) {
 
 		// We're making the lock timeout 5 minutes
 		$lockInfo->timeout = 300;
@@ -170,10 +170,10 @@ class OC_Connector_Sabre_Locks extends Sabre_DAV_Locks_Backend_Abstract {
 	 * Removes a lock from a uri
 	 *
 	 * @param string $uri
-	 * @param Sabre_DAV_Locks_LockInfo $lockInfo
+	 * @param \Sabre\DAV\Locks\LockInfo $lockInfo
 	 * @return bool
 	 */
-	public function unlock($uri, Sabre_DAV_Locks_LockInfo $lockInfo) {
+	public function unlock($uri, \Sabre\DAV\Locks\LockInfo $lockInfo) {
 
 		$sql = 'DELETE FROM `*PREFIX*locks` WHERE `userid` = ? AND `uri` = ? AND `token` = ?';
 		if (OC_Config::getValue( "dbtype") === 'oci') {

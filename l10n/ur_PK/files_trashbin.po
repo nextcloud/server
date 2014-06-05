@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-18 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 18:22+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: leostandards100 <mrshah_300@yahoo.com>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "بحال نہيں کيا جا سکتا %s"
 msgid "Deleted files"
 msgstr "حذف شدہ فائليں"
 
-#: js/app.js:53 templates/index.php:21 templates/index.php:23
+#: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr "بحال"
 

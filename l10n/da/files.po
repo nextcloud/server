@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sappe, 2013-2014
-# claus_chr <claus_chr@webspeed.dk>, 2013
-# lodahl <leiflodahl@gmail.com>, 2013
-# Amplificator, 2014
+# Anders J. Sørensen, 2013-2014
+# Claus Christensen <claus_chr@webspeed.dk>, 2013
+# Leif Lodahl <leiflodahl@gmail.com>, 2013
+# Martin L. R., 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -182,7 +182,7 @@ msgstr "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuler
 msgid "URL cannot be empty"
 msgstr "URL kan ikke være tom"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} eksisterer allerede"
 
@@ -198,73 +198,77 @@ msgstr "Kunne ikke oprette mappe"
 msgid "Error fetching URL"
 msgstr "Fejl ved URL"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Del"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Slet permanent"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+msgid "Delete"
+msgstr "Slet"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Omdøb"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Dit download forberedes. Dette kan tage lidt tid ved større filer."
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Afventer"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "Fejl ved flytning af fil"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Fejl ved flytning af fil"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Fejl"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Kunne ikke omdøbe filen"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Fejl ved sletnign af fil."
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Navn"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Ændret"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappe"
 msgstr[1] "%n mapper"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fil"
 msgstr[1] "%n filer"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Uploader %n fil"
@@ -315,35 +319,19 @@ msgstr "%s kunne ikke omdøbes"
 msgid "Upload (max. %s)"
 msgstr "Upload (max. %s)"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Filhåndtering"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Maksimal upload-størrelse"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "max. mulige: "
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Nødvendigt for at kunne downloade mapper og flere filer ad gangen."
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "Tillad ZIP-download"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 er ubegrænset"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Maksimal størrelse på ZIP filer"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Gem"
 
@@ -394,28 +382,24 @@ msgstr "Du har ikke tilladelse til at uploade eller oprette filer her"
 msgid "Nothing in here. Upload something!"
 msgstr "Her er tomt. Upload noget!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Download"
 
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Slet"
-
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "Upload er for stor"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Filerne bliver indlæst, vent venligst."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr ""

@@ -10,7 +10,9 @@
 
 /* global FileActions, Files */
 /* global dragOptions, folderDropOptions */
-OCA.Sharing = {};
+if (!OCA.Sharing) {
+	OCA.Sharing = {};
+}
 if (!OCA.Files) {
 	OCA.Files = {};
 }

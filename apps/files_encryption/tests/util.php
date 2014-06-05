@@ -306,18 +306,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->view->unlink($this->userId . '/files/' . $filename);
 	}
 
-	/**
-	 * @medium
-	 */
-	function testIsSharedPath() {
-		$sharedPath = '/user1/files/Shared/test';
-		$path = '/user1/files/test';
-
-		$this->assertTrue($this->util->isSharedPath($sharedPath));
-
-		$this->assertFalse($this->util->isSharedPath($path));
-	}
-
 	function testEncryptAll() {
 
 		$filename = "/encryptAll" . uniqid() . ".txt";

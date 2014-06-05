@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Francesco Capuano <francesco@capu.it>, 2013
+# francesco.capuano.587 <francesco@capu.it>, 2013
 # idetao <marcxosm@gmail.com>, 2014
 # Paolo Velati <paolo.velati@gmail.com>, 2013-2014
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-25 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 07:21+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,49 +21,49 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Stai accedendo al server da un dominio non affidabile."
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Contatta il tuo amministratore di sistema. Se sei un amministratore, configura l'impostazione \"trusted_domain\" in config/config.php. Un esempio di configurazione è disponibile in config/config.sample.php."
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "L'applicazione \"%s\" non può essere installata poiché non è compatibile con questa versione di ownCloud."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "Il nome dell'applicazione non è specificato"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Aiuto"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Personale"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Utenti"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Aggiornamento non riuscito \"%s\"."
@@ -79,28 +79,6 @@ msgstr "Immagine non valida"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "servizi web nelle tue mani"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "Lo scaricamento in formato ZIP è stato disabilitato."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "I file devono essere scaricati uno alla volta."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "Torna ai file"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "I  file selezionati sono troppo grandi per generare un file zip."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "Scarica i file separatamente in blocchi più piccoli o chiedi al tuo amministratore."
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -131,29 +109,29 @@ msgstr "L'applicazione non fornisce un file info.xml"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "L'applicazione non può essere installata a causa di codice non consentito al suo interno"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "L'applicazione non può essere installata poiché non è compatibile con questa versione di ownCloud"
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "L'applicazione non può essere installata poiché contiene il tag <shipped>true<shipped> che è consentito per le applicazioni native"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "L'applicazione non può essere installata poiché la versione in info.xml/version non è la stessa riportata dall'app store"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "La cartella dell'applicazione esiste già"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Impossibile creare la cartella dell'applicazione. Correggi i permessi. %s"
@@ -466,20 +444,25 @@ msgstr "anno scorso"
 msgid "years ago"
 msgstr "anni fa"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Solo i seguenti caratteri sono ammessi in un nome utente: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Deve essere fornito un nome utente valido"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Deve essere fornita una password valida"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Il nome utente è già utilizzato"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

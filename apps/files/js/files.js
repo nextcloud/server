@@ -279,13 +279,7 @@
 				}
 			}
 
-			$('#app-settings-header').on('click', function() {
-				var $settings = $('#app-settings');
-				$settings.toggleClass('opened');
-				if ($settings.hasClass('opened')) {
-					$settings.find('input').focus();
-				}
-			});
+
 			$('#webdavurl').on('click', function () {
 				$('#webdavurl').select();
 			});

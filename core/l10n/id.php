@@ -151,7 +151,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Penyimpanan & Basis data",
 "Data folder" => "Folder data",
 "Configure the database" => "Konfigurasikan basis data",
-"will be used" => "akan digunakan",
 "Database user" => "Pengguna basis data",
 "Database password" => "Sandi basis data",
 "Database name" => "Nama basis data",

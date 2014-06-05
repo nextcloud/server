@@ -101,7 +101,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "ឃ្លាំង​ផ្ទុក & មូលដ្ឋាន​ទិន្នន័យ",
 "Data folder" => "ថត​ទិន្នន័យ",
 "Configure the database" => "កំណត់​សណ្ឋាន​មូលដ្ឋាន​ទិន្នន័យ",
-"will be used" => "នឹង​ត្រូវ​បាន​ប្រើ",
 "Database user" => "អ្នក​ប្រើ​មូលដ្ឋាន​ទិន្នន័យ",
 "Database password" => "ពាក្យ​សម្ងាត់​មូលដ្ឋាន​ទិន្នន័យ",
 "Database name" => "ឈ្មោះ​មូលដ្ឋាន​ទិន្នន័យ",

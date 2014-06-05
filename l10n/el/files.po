@@ -5,19 +5,19 @@
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
-# gtsamis <gtsamis@yahoo.com>, 2013
+# Georgios Tsamis <gtsamis@yahoo.com>, 2013
 # ggoniotakis <ioannis.goniotakis@gmail.com>, 2014
-# frerisp <petrosfreris@gmail.com>, 2013
-# pe_ppe <peppe@cs.uoi.gr>, 2014
-# vkehayas <vkehayas@gmail.com>, 2013
+# Petros Freris (Πέτρος Φρέρης) <petrosfreris@gmail.com>, 2013
+# Spyros Melissovas <peppe@cs.uoi.gr>, 2014
+# Vassilis Kehayas <vkehayas@gmail.com>, 2013
 # Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-27 13:52+0000\n"
-"Last-Translator: pe_ppe <peppe@cs.uoi.gr>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,7 +185,7 @@ msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέ
 msgid "URL cannot be empty"
 msgstr "Η URL δεν πρέπει να είναι κενή"
 
-#: js/file-upload.js:559 js/filelist.js:1170
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} υπάρχει ήδη"
 
@@ -201,73 +201,77 @@ msgstr "Αδυναμία δημιουργίας φακέλου"
 msgid "Error fetching URL"
 msgstr "Σφάλμα φόρτωσης URL"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "Μόνιμη διαγραφή"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Η λήψη προετοιμάζεται. Αυτό μπορεί να πάρει ώρα εάν τα αρχεία έχουν μεγάλο μέγεθος."
 
-#: js/filelist.js:596 js/filelist.js:1665
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "Εκκρεμεί"
 
-#: js/filelist.js:1121
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "Σφάλμα κατά τη μετακίνηση του αρχείου."
 
-#: js/filelist.js:1129
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "Σφάλμα κατά τη μετακίνηση του αρχείου"
 
-#: js/filelist.js:1129
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/filelist.js:1207
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "Αδυναμία μετονομασίας αρχείου"
 
-#: js/filelist.js:1328
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "Σφάλμα διαγραφής αρχείου."
 
-#: js/filelist.js:1431 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/filelist.js:1432 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/filelist.js:1433 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/filelist.js:1443 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n φάκελος"
 msgstr[1] "%n φάκελοι"
 
-#: js/filelist.js:1449 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n αρχείο"
 msgstr[1] "%n αρχεία"
 
-#: js/filelist.js:1573 js/filelist.js:1612
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Ανέβασμα %n αρχείου"
@@ -318,35 +322,19 @@ msgstr "Αδυναμία μετονομασίας του %s"
 msgid "Upload (max. %s)"
 msgstr "Διαμοιρασμός (max. %s)"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "Διαχείριση αρχείων"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Μέγιστο μέγεθος αποστολής"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "μέγιστο δυνατό:"
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "Απαραίτητο για κατέβασμα πολλαπλών αρχείων και φακέλων"
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "Επιτρέπεται η λήψη ZIP"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0 για απεριόριστο"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "Μέγιστο μέγεθος για αρχεία ZIP"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -397,28 +385,24 @@ msgstr "Δεν έχετε δικαιώματα φόρτωσης ή δημιου�
 msgid "Nothing in here. Upload something!"
 msgstr "Δεν υπάρχει τίποτα εδώ. Ανεβάστε κάτι!"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "Διαγραφή"
-
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "Πολύ μεγάλο αρχείο προς αποστολή"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή."
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε."
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
 msgstr ""

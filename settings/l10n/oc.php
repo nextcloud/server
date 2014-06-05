@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "Groups" => "Grops",
 "Group Admin" => "Grop Admin",
 "Delete" => "Escafa",
+"never" => "jamai",
 "__language_name__" => "__language_name__",
 "Login" => "Login",
 "Security Warning" => "Avertiment de securitat",
@@ -46,7 +47,9 @@ $TRANSLATIONS = array(
 "Help translate" => "Ajuda a la revirada",
 "Login Name" => "Login",
 "Create" => "Crea",
+"Default Quota" => "Quota per defaut",
 "Other" => "Autres",
-"Username" => "Non d'usancièr"
+"Username" => "Non d'usancièr",
+"Quota" => "Quota"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

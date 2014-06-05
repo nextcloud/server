@@ -158,7 +158,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Lagring og database",
 "Data folder" => "Datamappe",
 "Configure the database" => "Konfigurer databasen",
-"will be used" => "vil bli brukt",
 "Database user" => "Databasebruker",
 "Database password" => "Databasepassord",
 "Database name" => "Databasenavn",

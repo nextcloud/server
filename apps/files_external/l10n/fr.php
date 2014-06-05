@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Amazon S3" => "Amazon S3",
 "Key" => "Clé",
 "Secret" => "Secret",
+"Bucket" => "Seau",
 "Amazon S3 and compliant" => "Compatible avec Amazon S3",
 "Access Key" => "Clé d'accès",
 "Secret Key" => "Clé secrète",

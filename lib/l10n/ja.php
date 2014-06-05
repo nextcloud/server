@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"You are accessing the server from an untrusted domain." => "あなたはサーバに、信用が付与されていないドメインからアクセスしています。",
+"You are accessing the server from an untrusted domain." => "信頼されていないドメインからサーバーにアクセスしています。",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "管理者に連絡してください。このサーバーの管理者の場合は、\"trusted_domain\" の設定を config/config.php に設定してください。config/config.sample.php にサンプルの設定方法が記載してあります。",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => " \"%s\" アプリは、このバージョンのownCloudと互換性がないためインストールできません。",
 "No app name specified" => "アプリ名が未指定",
@@ -13,11 +13,6 @@ $TRANSLATIONS = array(
 "Unknown filetype" => "不明なファイルタイプ",
 "Invalid image" => "無効な画像",
 "web services under your control" => "管理下のウェブサービス",
-"ZIP download is turned off." => "ZIPダウンロードは無効です。",
-"Files need to be downloaded one by one." => "ファイルは1つずつダウンロードする必要があります。",
-"Back to Files" => "ファイルに戻る",
-"Selected files too large to generate zip file." => "選択したファイルはZIPファイルの生成には大きすぎます。",
-"Please download the files separately in smaller chunks or kindly ask your administrator." => "少しずつに分けてファイルをダウンロードするか、管理者に問い合わせてください。",
 "No source specified when installing app" => "アプリインストール時のソースが未指定",
 "No href specified when installing app from http" => "アプリインストール時のhttpの URL が未指定",
 "No path specified when installing app from local file" => "アプリインストール時のローカルファイルのパスが未指定",
@@ -73,7 +68,7 @@ $TRANSLATIONS = array(
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "%s のバックエンドの共有には、OCP\\Share_Backend　インターフェースを実装しなければなりません。",
 "Sharing backend %s not found" => "共有バックエンド %s が見つかりません",
 "Sharing backend for %s not found" => "%s のための共有バックエンドが見つかりません",
-"Sharing %s failed, because the user %s is the original sharer" => "%s の共有に失敗しました。ユーザ %s が元々の共有者であるからです。",
+"Sharing %s failed, because the user %s is the original sharer" => "%s の共有に失敗しました。ユーザー %s が元々の共有者であるからです。",
 "Sharing %s failed, because the permissions exceed permissions granted to %s" => "%s の共有に失敗しました。%s に付与されている許可を超えているからです。",
 "Sharing %s failed, because resharing is not allowed" => "%s の共有に失敗しました。再共有が許されていないからです。",
 "Sharing %s failed, because the sharing backend for %s could not find its source" => "%s の共有に失敗しました。%s のバックエンド共有に必要なソースが見つかりませんでした。",
@@ -92,6 +87,6 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "ユーザー名で利用できる文字列は、次のものです： \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "有効なユーザー名を指定する必要があります",
 "A valid password must be provided" => "有効なパスワードを指定する必要があります",
-"The username is already being used" => "ユーザ名はすでに使われています"
+"The username is already being used" => "ユーザー名はすでに使われています"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

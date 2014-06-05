@@ -3,18 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# alpere <info@beyboo.de>, 2012
+# Alper <info@beyboo.de>, 2012
 # Necdet Yücel <necdetyucel@gmail.com>, 2012
-# atakan96 <tayancatakan@gmail.com>, 2013
-# volkangezer <volkangezer@gmail.com>, 2013-2014
-# KAT.RAT12 <spanish.katerina@gmail.com>, 2013
+# TayançKILIÇLI <tayancatakan@gmail.com>, 2013
+# Volkan Gezer <volkangezer@gmail.com>, 2013-2014
+# Αικατερίνη Χ. Καταπόδη <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-25 21:40+0000\n"
-"Last-Translator: volkangezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 12:11+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,8 +27,12 @@ msgid "WebDAV Authentication"
 msgstr "WebDAV Kimlik Doğrulaması"
 
 #: templates/settings.php:3
-msgid "Address: "
-msgstr "WebDAV Kimlik Doğrulaması"
+msgid "Address:"
+msgstr "Adres:"
+
+#: templates/settings.php:5
+msgid "Save"
+msgstr "Kaydet"
 
 #: templates/settings.php:6
 msgid ""

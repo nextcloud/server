@@ -4,20 +4,20 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
-# plazmism <gomidori@live.jp>, 2013-2014
-# iLikeIT <dj_dark_junglist@yahoo.com>, 2013
+# タカハシ <gomidori@live.jp>, 2013-2014
+# Jake G. <dj_dark_junglist@yahoo.com>, 2013
 # Koichi MATSUMOTO <mzch@me.com>, 2013
 # kuromabo <md81bird@hitaki.net>, 2014
-# mikako, 2014
-# pabook <inactive+pabook@transifex.com>, 2013
-# tt yn <tetuyano+transi@gmail.com>, 2013-2014
+# Mika Kobayashi, 2014
+# pabook_32 <inactive+pabook@transifex.com>, 2013
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 17:41+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,7 @@ msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使�
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
-msgstr "目標のフォルダは移動されたか、削除されました。"
+msgstr "対象のフォルダーは移動されたか、削除されました。"
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
@@ -185,7 +185,7 @@ msgstr "ファイル転送を実行中です。今このページから移動す
 msgid "URL cannot be empty"
 msgstr "URL は空にできません"
 
-#: js/file-upload.js:559 js/filelist.js:1176
+#: js/file-upload.js:559 js/filelist.js:1188
 msgid "{new_name} already exists"
 msgstr "{new_name} はすでに存在します"
 
@@ -201,71 +201,75 @@ msgstr "フォルダーを作成できませんでした"
 msgid "Error fetching URL"
 msgstr "URL取得エラー"
 
-#: js/fileactions.js:168
+#: js/fileactions.js:211
 msgid "Share"
 msgstr "共有"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:224
 msgid "Delete permanently"
 msgstr "完全に削除する"
 
-#: js/fileactions.js:221
+#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+msgid "Delete"
+msgstr "削除"
+
+#: js/fileactions.js:262
 msgid "Rename"
 msgstr "名前の変更"
 
-#: js/filelist.js:299
+#: js/filelist.js:314
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。"
 
-#: js/filelist.js:602 js/filelist.js:1671
+#: js/filelist.js:619 js/filelist.js:1691
 msgid "Pending"
 msgstr "中断"
 
-#: js/filelist.js:1127
+#: js/filelist.js:1139
 msgid "Error moving file."
 msgstr "ファイル移動でエラー"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error moving file"
 msgstr "ファイルの移動エラー"
 
-#: js/filelist.js:1135
+#: js/filelist.js:1147
 msgid "Error"
 msgstr "エラー"
 
-#: js/filelist.js:1213
+#: js/filelist.js:1225
 msgid "Could not rename file"
 msgstr "ファイルの名前変更ができませんでした"
 
-#: js/filelist.js:1334
+#: js/filelist.js:1346
 msgid "Error deleting file."
 msgstr "ファイルの削除エラー。"
 
-#: js/filelist.js:1437 templates/list.php:62
+#: js/filelist.js:1449 templates/list.php:62
 msgid "Name"
 msgstr "名前"
 
-#: js/filelist.js:1438 templates/list.php:75
+#: js/filelist.js:1450 templates/list.php:73
 msgid "Size"
 msgstr "サイズ"
 
-#: js/filelist.js:1439 templates/list.php:78
+#: js/filelist.js:1451 templates/list.php:76
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/filelist.js:1449 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 個のフォルダー"
 
-#: js/filelist.js:1455 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n 個のファイル"
 
-#: js/filelist.js:1579 js/filelist.js:1618
+#: js/filelist.js:1599 js/filelist.js:1638
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n 個のファイルをアップロード中"
@@ -315,35 +319,19 @@ msgstr "%sの名前を変更できませんでした"
 msgid "Upload (max. %s)"
 msgstr "アップロード ( 最大 %s )"
 
-#: templates/admin.php:4
+#: templates/admin.php:6
 msgid "File handling"
 msgstr "ファイル操作"
 
-#: templates/admin.php:6
+#: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "最大アップロードサイズ"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "最大容量: "
 
-#: templates/admin.php:14
-msgid "Needed for multi-file and folder downloads."
-msgstr "複数ファイルおよびフォルダーのダウンロードに必要"
-
-#: templates/admin.php:16
-msgid "Enable ZIP-download"
-msgstr "ZIP形式のダウンロードを有効にする"
-
-#: templates/admin.php:19
-msgid "0 is unlimited"
-msgstr "0を指定した場合は無制限"
-
-#: templates/admin.php:21
-msgid "Maximum input size for ZIP files"
-msgstr "ZIPファイルでの最大入力サイズ"
-
-#: templates/admin.php:25
+#: templates/admin.php:15
 msgid "Save"
 msgstr "保存"
 
@@ -394,28 +382,24 @@ msgstr "ここにファイルをアップロードもしくは作成する権限
 msgid "Nothing in here. Upload something!"
 msgstr "ここには何もありません。何かアップロードしてください。"
 
-#: templates/list.php:68
+#: templates/list.php:67
 msgid "Download"
 msgstr "ダウンロード"
 
-#: templates/list.php:80 templates/list.php:81
-msgid "Delete"
-msgstr "削除"
-
-#: templates/list.php:95
+#: templates/list.php:92
 msgid "Upload too large"
 msgstr "アップロードには大きすぎます。"
 
-#: templates/list.php:97
+#: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。"
 
-#: templates/list.php:102
+#: templates/list.php:99
 msgid "Files are being scanned, please wait."
 msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
-#: templates/list.php:105
+#: templates/list.php:102
 msgid "Currently scanning"
-msgstr ""
+msgstr "現在スキャン中"

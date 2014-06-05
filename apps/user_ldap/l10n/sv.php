@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Raderingen misslyckades",
 "Take over settings from recent server configuration?" => "Ta över inställningar från tidigare serverkonfiguration?",
 "Keep settings?" => "Behåll inställningarna?",
-"{nbServer}. Server" => "{nbServer}. Server",
 "Cannot add server configuration" => "Kunde inte lägga till serverinställning",
 "mappings cleared" => "mappningar rensade",
 "Success" => "Lyckat",

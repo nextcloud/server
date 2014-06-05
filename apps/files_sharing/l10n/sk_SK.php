@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Shared by {owner}" => "Zdieľa {owner}",
+"Shared by" => "Zdieľa",
 "This share is password-protected" => "Toto zdieľanie je chránené heslom",
 "The password is wrong. Try again." => "Heslo je chybné. Skúste to znova.",
 "Password" => "Heslo",
+"Name" => "Názov",
 "Sorry, this link doesn’t seem to work anymore." => "To je nepríjemné, ale tento odkaz už nie je funkčný.",
 "Reasons might be:" => "Možné dôvody:",
 "the item was removed" => "položka bola presunutá",

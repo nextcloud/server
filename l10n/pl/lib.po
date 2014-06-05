@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
-# hoek <hoek@hoek.pl>, 2014
-# bobie <maciej.przybecki@gmail.com>, 2013-2014
+# Dawid <hoek@hoek.pl>, 2014
+# Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-26 01:54-0400\n"
-"PO-Revision-Date: 2014-05-26 05:47+0000\n"
-"Last-Translator: hoek <hoek@hoek.pl>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,49 +20,49 @@ msgstr ""
 "Language: pl\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Dostajesz się do serwera z niezaufanej domeny."
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Proszę skontaktuj się z administratorem. Jeśli jesteś administratorem tej instancji, skonfiguruj parametr \"trusted_domain\" w pliku config/config.php. Przykładowa konfiguracja jest dostępna w pliku config/config.sample.php."
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Aplikacja \"%s\" nie może zostać zainstalowana, ponieważ nie jest zgodna z tą wersją ownCloud."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "Nie określono nazwy aplikacji"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Pomoc"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Osobiste"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Administrator"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Błąd przy aktualizacji \"%s\"."
@@ -78,28 +78,6 @@ msgstr "Błędne zdjęcie"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "Kontrolowane serwisy"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "Pobieranie ZIP jest wyłączone."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "Pliki muszą zostać pobrane pojedynczo."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "Wróć do plików"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "Wybrane pliki są zbyt duże, aby wygenerować plik zip."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "Proszę ściągać pliki osobno w mniejszych paczkach lub poprosić administratora."
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -130,29 +108,29 @@ msgstr "Aplikacja nie posiada pliku info.xml"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Aplikacja nie może być zainstalowany ponieważ nie dopuszcza kod w aplikacji"
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Aplikacja nie może zostać zainstalowana ponieważ jest niekompatybilna z tą wersja ownCloud"
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Aplikacja nie może być zainstalowana ponieważ true tag nie jest <shipped>true</shipped> , co nie jest dozwolone dla aplikacji nie wysłanych"
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Nie można zainstalować aplikacji, ponieważ w wersji info.xml/version nie jest taka sama, jak wersja z app store"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "Katalog aplikacji już isnieje"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Nie mogę utworzyć katalogu aplikacji. Proszę popraw uprawnienia. %s"
@@ -469,20 +447,25 @@ msgstr "w zeszłym roku"
 msgid "years ago"
 msgstr "lat temu"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "W nazwach użytkowników dozwolone są wyłącznie następujące znaki: \"a-z\", \"A-Z\", \"0-9\", oraz \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Należy podać prawidłową nazwę użytkownika"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Należy podać prawidłowe hasło"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Ta nazwa użytkownika jest już używana"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

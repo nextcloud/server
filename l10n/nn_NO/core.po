@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# unhammer <unhammer+dill@mm.st>, 2013
+# Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013
 # brekkjen <leif.brekke@oppstryn.no>, 2014
-# unhammer <unhammer+dill@mm.st>, 2013
-# unhammer <unhammer+dill@mm.st>, 2013
+# Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013
+# Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -47,23 +47,23 @@ msgstr "Database oppdatert"
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "Inga bilete eller fil gitt"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Ukjend filtype"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Ugyldig bilete"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "Inga midlertidig profilbilete tilgjengeleg, prøv igjen"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "Ingen beskjeringsdata gitt"
 
@@ -143,333 +143,341 @@ msgstr "November"
 msgid "December"
 msgstr "Desember"
 
-#: js/js.js:487
+#: js/js.js:501
 msgid "Settings"
 msgstr "Innstillingar"
 
-#: js/js.js:587
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Lagrar …"
 
-#: js/js.js:1211
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "sekund sidan"
 
-#: js/js.js:1212
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minutt sidan"
 msgstr[1] "%n minutt sidan"
 
-#: js/js.js:1213
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n time sidan"
 msgstr[1] "%n timar sidan"
 
-#: js/js.js:1214
+#: js/js.js:1232
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:1215
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1216
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag sidan"
 msgstr[1] "%n dagar sidan"
 
-#: js/js.js:1217
+#: js/js.js:1235
 msgid "last month"
 msgstr "førre månad"
 
-#: js/js.js:1218
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n månad sidan"
 msgstr[1] "%n månadar sidan"
 
-#: js/js.js:1219
+#: js/js.js:1237
 msgid "last year"
 msgstr "i fjor"
 
-#: js/js.js:1220
+#: js/js.js:1238
 msgid "years ago"
 msgstr "år sidan"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "Nei"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Vel"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Klarte ikkje å lasta filplukkarmal: {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "Greitt"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Klarte ikkje å lasta meldingsmal: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} filkonflikt"
 msgstr[1] "{count} filkonfliktar"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "Éin filkonflikt"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr ""
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "Kva filer vil du spara?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Viss du vel begge utgåvene, vil den kopierte fila få eit tal lagt til namnet."
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Gå vidare"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(alle valte)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({count} valte)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr "Klarte ikkje å lasta fil-finst-mal"
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr ""
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr ""
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr ""
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr ""
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr ""
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Delt"
 
-#: js/share.js:109
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Feil"
 
-#: js/share.js:175 js/share.js:863
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Feil ved deling"
 
-#: js/share.js:186
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Feil ved udeling"
 
-#: js/share.js:193
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Feil ved endring av tillatingar"
 
-#: js/share.js:203
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Delt med deg og gruppa {group} av {owner}"
 
-#: js/share.js:205
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Delt med deg av {owner}"
 
-#: js/share.js:229
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:235
+#: js/share.js:334
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:241
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:243
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:248
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Passordvern"
 
-#: js/share.js:250
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr ""
 
-#: js/share.js:256
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Tillat offentleg opplasting"
 
-#: js/share.js:260
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Send lenkja over e-post"
 
-#: js/share.js:261
+#: js/share.js:360
 msgid "Send"
 msgstr "Send"
 
-#: js/share.js:266
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Set utløpsdato"
 
-#: js/share.js:267
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Utløpsdato"
 
-#: js/share.js:304
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Del over e-post:"
 
-#: js/share.js:307
+#: js/share.js:407
 msgid "No people found"
 msgstr "Fann ingen personar"
 
-#: js/share.js:355 js/share.js:416
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "gruppe"
 
-#: js/share.js:388
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Vidaredeling er ikkje tillate"
 
-#: js/share.js:432
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {brukar}"
 
-#: js/share.js:454
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Udel"
 
-#: js/share.js:462
+#: js/share.js:570
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:465
+#: js/share.js:573
 msgid "can edit"
 msgstr "kan endra"
 
-#: js/share.js:467
+#: js/share.js:575
 msgid "access control"
 msgstr "tilgangskontroll"
 
-#: js/share.js:470
+#: js/share.js:578
 msgid "create"
 msgstr "lag"
 
-#: js/share.js:473
+#: js/share.js:581
 msgid "update"
 msgstr "oppdater"
 
-#: js/share.js:476
+#: js/share.js:584
 msgid "delete"
 msgstr "slett"
 
-#: js/share.js:479
+#: js/share.js:587
 msgid "share"
 msgstr "del"
 
-#: js/share.js:781
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Passordverna"
 
-#: js/share.js:800
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Klarte ikkje fjerna utløpsdato"
 
-#: js/share.js:821
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Klarte ikkje setja utløpsdato"
 
-#: js/share.js:850
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Sender …"
 
-#: js/share.js:861
+#: js/share.js:978
 msgid "Email sent"
 msgstr "E-post sendt"
 
-#: js/share.js:885
+#: js/share.js:1002
 msgid "Warning"
 msgstr "Åtvaring"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "Objekttypen er ikkje spesifisert."
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr ""
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Slett"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Legg til"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr ""
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr ""
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr ""
 
@@ -519,12 +527,13 @@ msgstr "Førespurnaden feila!<br>Er du viss på at du skreiv inn rett e-post/bru
 msgid "You will receive a link to reset your password via Email."
 msgstr "Du vil få ein e-post med ei lenkje for å nullstilla passordet."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Brukarnamn"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -532,11 +541,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Filene dine er krypterte. Viss du ikkje har skrudd på gjenopprettingsnøkkelen, finst det ingen måte å få tilbake dataa dine når passordet ditt er nullstilt. Viss du ikkje er sikker på kva du skal gjera bør du spørja administratoren din før du går vidare. Vil du verkeleg fortsetja?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Ja, eg vil nullstilla passordet mitt no"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr ""
 
@@ -549,10 +558,11 @@ msgid "To login page"
 msgstr "Til innloggingssida"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Nytt passord"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Nullstill passord"
 
@@ -686,51 +696,59 @@ msgstr "Ver venleg og les <a href=\"%s\" target=\"_blank\">dokumentasjonen</a> f
 msgid "Create an <strong>admin account</strong>"
 msgstr "Lag ein <strong>admin-konto</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Passord"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr ""
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Set opp databasen"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "vil verta nytta"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Databasebrukar"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Databasepassord"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Databasenamn"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Tabellnamnrom for database"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Databasetenar"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Fullfør oppsettet"
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr ""
 
@@ -750,41 +768,41 @@ msgstr "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer."
 msgid "Log out"
 msgstr "Logg ut"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "Automatisk innlogging avvist!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Viss du ikkje endra passordet ditt nyleg, så kan kontoen din vera kompromittert!"
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Ver venleg og endra passordet for å gjera kontoen din trygg igjen."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr ""
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "Gløymt passordet?"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "hugs"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Logg inn"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Alternative innloggingar"
 

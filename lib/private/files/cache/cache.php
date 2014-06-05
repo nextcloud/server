@@ -123,7 +123,7 @@ class Cache {
 			$params = array($file);
 		}
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-					   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
+					   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
 				FROM `*PREFIX*filecache` ' . $where;
 		$result = \OC_DB::executeAudited($sql, $params);
 		$data = $result->fetchRow();
@@ -153,6 +153,7 @@ class Cache {
 			if ($data['storage_mtime'] == 0) {
 				$data['storage_mtime'] = $data['mtime'];
 			}
+			$data['permissions'] = (int)$data['permissions'];
 		}
 
 		return $data;
@@ -178,7 +179,7 @@ class Cache {
 	public function getFolderContentsById($fileId) {
 		if ($fileId > -1) {
 			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`
+						   `storage_mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
 					FROM `*PREFIX*filecache` WHERE `parent` = ? ORDER BY `name` ASC';
 			$result = \OC_DB::executeAudited($sql,array($fileId));
 			$files = $result->fetchAll();
@@ -192,6 +193,7 @@ class Cache {
 					$file['encrypted_size'] = $file['size'];
 					$file['size'] = $file['unencrypted_size'];
 				}
+				$file['permissions'] = (int)$file['permissions'];
 			}
 			return $files;
 		} else {
@@ -277,7 +279,9 @@ class Cache {
 	 * @return array
 	 */
 	function buildParts(array $data) {
-		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted', 'unencrypted_size', 'etag');
+		$fields = array(
+			'path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'storage_mtime', 'encrypted', 'unencrypted_size',
+			'etag', 'permissions');
 		$params = array();
 		$queryParts = array();
 		foreach ($data as $name => $value) {
@@ -370,9 +374,6 @@ class Cache {
 		
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		\OC_DB::executeAudited($sql, array($entry['fileid']));
-
-		$permissionsCache = new Permissions($this->storageId);
-		$permissionsCache->remove($entry['fileid']);
 	}
 
 	/**
@@ -457,7 +458,7 @@ class Cache {
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
 
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
 				FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?';
 		$result = \OC_DB::executeAudited($sql, array($pattern, $this->getNumericStorageId()));
 		$files = array();
@@ -481,7 +482,7 @@ class Cache {
 		} else {
 			$where = '`mimepart` = ?';
 		}
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`, `permissions`
 				FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?';
 		$mimetype = $this->getMimetypeId($mimetype);
 		$result = \OC_DB::executeAudited($sql, array($mimetype, $this->getNumericStorageId()));

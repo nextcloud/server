@@ -130,7 +130,7 @@ class MDB2SchemaReader {
 	 * @throws \DomainException
 	 */
 	private function loadField($table, $xml) {
-		$options = array();
+		$options = array( 'notnull' => false );
 		foreach ($xml->children() as $child) {
 			/**
 			 * @var \SimpleXMLElement $child

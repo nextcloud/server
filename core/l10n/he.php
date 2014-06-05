@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Password" => "סיסמא",
 "Data folder" => "תיקיית נתונים",
 "Configure the database" => "הגדרת מסד הנתונים",
-"will be used" => "ינוצלו",
 "Database user" => "שם משתמש במסד הנתונים",
 "Database password" => "ססמת מסד הנתונים",
 "Database name" => "שם מסד הנתונים",

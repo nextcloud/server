@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "undo" => "dadwneud",
 "Groups" => "Grwpiau",
 "Delete" => "Dileu",
+"never" => "byth",
 "None" => "Dim",
 "Login" => "Mewngofnodi",
 "Security Warning" => "Rhybudd Diogelwch",

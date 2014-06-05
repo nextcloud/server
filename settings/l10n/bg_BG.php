@@ -24,6 +24,7 @@ $TRANSLATIONS = array(
 "undo" => "възтановяване",
 "Groups" => "Групи",
 "Delete" => "Изтриване",
+"never" => "никога",
 "add group" => "нова група",
 "__language_name__" => "__language_name__",
 "None" => "Няма",
@@ -56,11 +57,11 @@ $TRANSLATIONS = array(
 "Help translate" => "Помогнете с превода",
 "Login Name" => "Потребител",
 "Create" => "Създаване",
-"Default Storage" => "Хранилище по подразбиране",
+"Default Quota" => "Квота по подразбиране",
 "Unlimited" => "Неограничено",
 "Other" => "Други",
 "Username" => "Потребител",
-"Storage" => "Хранилище",
+"Quota" => "Квота",
 "Default" => "По подразбиране"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

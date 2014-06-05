@@ -365,7 +365,7 @@ class OC_User {
 			return $backend->getLogoutAttribute();
 		}
 
-		return 'href="' . link_to('', 'index.php') . '?logout=true"';
+		return 'href="' . link_to('', 'index.php') . '?logout=true&requesttoken=' . OC_Util::callRegister() . '"';
 	}
 
 	/**

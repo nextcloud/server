@@ -89,7 +89,6 @@ $TRANSLATIONS = array(
 "Password" => "কূটশব্দ",
 "Data folder" => "ডাটা ফোল্ডার ",
 "Configure the database" => "ডাটাবেচ কনফিগার করুন",
-"will be used" => "ব্যবহৃত হবে",
 "Database user" => "ডাটাবেজ ব্যবহারকারী",
 "Database password" => "ডাটাবেজ কূটশব্দ",
 "Database name" => "ডাটাবেজের নাম",

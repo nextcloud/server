@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# pisike.sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013-2014
 # Rivo Zängov <eraser@eraser.ee>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -45,23 +45,23 @@ msgstr "Uuendatud andmebaas"
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "Ühtegi pilti või faili pole pakutud"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Tundmatu failitüüp"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Vigane pilt"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "Ühtegi ajutist profiili pilti pole saadaval, proovi uuesti"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "Lõikeandmeid ei leitud"
 
@@ -141,333 +141,341 @@ msgstr "November"
 msgid "December"
 msgstr "Detsember"
 
-#: js/js.js:487
+#: js/js.js:501
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:587
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: js/js.js:1211
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:1212
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut tagasi"
 msgstr[1] "%n minutit tagasi"
 
-#: js/js.js:1213
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n tund tagasi"
 msgstr[1] "%n tundi tagasi"
 
-#: js/js.js:1214
+#: js/js.js:1232
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:1215
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:1216
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n päev tagasi"
 msgstr[1] "%n päeva tagasi"
 
-#: js/js.js:1217
+#: js/js.js:1235
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:1218
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n kuu tagasi"
 msgstr[1] "%n kuud tagasi"
 
-#: js/js.js:1219
+#: js/js.js:1237
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:1220
+#: js/js.js:1238
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Jah"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "Ei"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Vali"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Viga failivalija malli laadimisel:  {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Viga sõnumi malli laadimisel: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} failikonflikt"
 msgstr[1] "{count} failikonflikti"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "Üks failikonflikt"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "Uued failid"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "Juba olemasolevad failid"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "Milliseid faile sa soovid alles hoida?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Kui valid mõlemad versioonid, siis lisatakse kopeeritud faili nimele number."
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Loobu"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Jätka"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(kõik valitud)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({count} valitud)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr "Viga faili olemasolu malli laadimisel"
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "Väga nõrk parool"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "Nõrk parool"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "Enam-vähem sobiv parool"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "Hea parool"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "Väga hea parool"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Jagatud"
 
-#: js/share.js:109
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Jaga"
 
-#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Viga"
 
-#: js/share.js:175 js/share.js:863
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Viga jagamisel"
 
-#: js/share.js:186
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Viga jagamise lõpetamisel"
 
-#: js/share.js:193
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Viga õiguste muutmisel"
 
-#: js/share.js:203
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Jagatud sinu ja {group} grupiga {owner} poolt"
 
-#: js/share.js:205
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Sinuga jagas {owner}"
 
-#: js/share.js:229
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr "Jaga kasutaja või grupiga ..."
 
-#: js/share.js:235
+#: js/share.js:334
 msgid "Share link"
 msgstr "Jaga linki"
 
-#: js/share.js:241
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "Avalik link aegub mitte hiljem kui pärast {days} päeva selle loomist"
 
-#: js/share.js:243
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr "Avalik link aegub vaikimisi pärast {days} päeva"
 
-#: js/share.js:248
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:250
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr "Vali avaliku lingi jaoks parool"
 
-#: js/share.js:256
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Luba avalik üleslaadimine"
 
-#: js/share.js:260
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Saada link isikule e-postiga"
 
-#: js/share.js:261
+#: js/share.js:360
 msgid "Send"
 msgstr "Saada"
 
-#: js/share.js:266
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Määra aegumise kuupäev"
 
-#: js/share.js:267
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Aegumise kuupäev"
 
-#: js/share.js:304
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Jaga e-postiga:"
 
-#: js/share.js:307
+#: js/share.js:407
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/share.js:355 js/share.js:416
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "grupp"
 
-#: js/share.js:388
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Edasijagamine pole lubatud"
 
-#: js/share.js:432
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "Jagatud {item} kasutajaga {user}"
 
-#: js/share.js:454
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: js/share.js:462
+#: js/share.js:570
 msgid "notify by email"
 msgstr "teavita e-postiga"
 
-#: js/share.js:465
+#: js/share.js:573
 msgid "can edit"
 msgstr "saab muuta"
 
-#: js/share.js:467
+#: js/share.js:575
 msgid "access control"
 msgstr "ligipääsukontroll"
 
-#: js/share.js:470
+#: js/share.js:578
 msgid "create"
 msgstr "loo"
 
-#: js/share.js:473
+#: js/share.js:581
 msgid "update"
 msgstr "uuenda"
 
-#: js/share.js:476
+#: js/share.js:584
 msgid "delete"
 msgstr "kustuta"
 
-#: js/share.js:479
+#: js/share.js:587
 msgid "share"
 msgstr "jaga"
 
-#: js/share.js:781
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:800
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Viga aegumise kuupäeva eemaldamisel"
 
-#: js/share.js:821
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Viga aegumise kuupäeva määramisel"
 
-#: js/share.js:850
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Saatmine ..."
 
-#: js/share.js:861
+#: js/share.js:978
 msgid "Email sent"
 msgstr "E-kiri on saadetud"
 
-#: js/share.js:885
+#: js/share.js:1002
 msgid "Warning"
 msgstr "Hoiatus"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "Objekti tüüp pole määratletud."
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr "Sisesta uus"
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Kustuta"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Lisa"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "Muuda silte"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr "Viga dialoogi malli laadimisel: {error}"
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr "Kustutamiseks pole ühtegi silti valitud."
 
@@ -517,12 +525,13 @@ msgstr "Päring ebaõnnestus!<br>Oled sa veendunud, et e-post/kasutajanimi on õ
 msgid "You will receive a link to reset your password via Email."
 msgstr "Sinu parooli taastamise link saadetakse sulle e-postile."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Kasutajanimi"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -530,11 +539,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Sinu failid on krüpteeritud. Kui sa pole taastamise võtit veel määranud, siis pole präast parooli taastamist mingit võimalust sinu andmeid tagasi saada. Kui sa pole kindel, mida teha, siis palun väta enne jätkamist ühendust oma administaatoriga. Oled sa kindel, et sa soovid jätkata?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Jah, ma tõesti soovin oma parooli praegu taastada"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "Algseaded"
 
@@ -547,10 +556,11 @@ msgid "To login page"
 msgstr "Sisselogimise lehele"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Uus parool"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Nulli parool"
 
@@ -684,51 +694,59 @@ msgstr "Serveri korrektseks seadistuseks palun tutvu <a href=\"%s\" target=\"_bl
 msgid "Create an <strong>admin account</strong>"
 msgstr "Loo <strong>admini konto</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Parool"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr "Andmehoidla ja andmebaas"
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Andmete kaust"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Seadista andmebaasi"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "kasutatakse"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Andmebaasi kasutaja"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Andmebaasi parool"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Andmebasi nimi"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Andmebaasi tabeliruum"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Andmebaasi host"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Lõpeta seadistamine"
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "Lõpetamine ..."
 
@@ -748,41 +766,41 @@ msgstr "%s on saadaval. Vaata lähemalt kuidas uuendada."
 msgid "Log out"
 msgstr "Logi välja"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "Automaatne sisselogimine lükati tagasi!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Kui sa ei muutnud oma parooli hiljuti, siis võib su kasutajakonto olla ohustatud!"
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Serveripoolne autentimine ebaõnnestus!"
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr "Palun kontakteeru oma süsteemihalduriga."
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "Kaotasid oma parooli?"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "pea meeles"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Logi sisse"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Alternatiivsed sisselogimisviisid"
 

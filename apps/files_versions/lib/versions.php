@@ -54,31 +54,12 @@ class Storage {
 	 * get current size of all versions from a given user
 	 *
 	 * @param string $user user who owns the versions
-	 * @return mixed versions size or false if no versions size is stored
+	 * @return int versions size
 	 */
 	private static function getVersionsSize($user) {
-		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_versions` WHERE `user`=?');
-		$result = $query->execute(array($user))->fetchAll();
-
-		if ($result) {
-			return $result[0]['size'];
-		}
-		return false;
-	}
-
-	/**
-	 * write to the database how much space is in use for versions
-	 *
-	 * @param string $user owner of the versions
-	 * @param int $size size of the versions
-	 */
-	private static function setVersionsSize($user, $size) {
-		if ( self::getVersionsSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*files_versions` (`size`, `user`) VALUES (?, ?)');
-		}else {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*files_versions` SET `size`=? WHERE `user`=?');
-		}
-		$query->execute(array($size, $user));
+		$view = new \OC\Files\View('/' . $user);
+		$fileInfo = $view->getFileInfo('/files_versions');
+		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
 	}
 
 	/**
@@ -115,16 +96,13 @@ class Storage {
 			self::createMissingDirectories($filename, $users_view);
 
 			$versionsSize = self::getVersionsSize($uid);
-			if (  $versionsSize === false || $versionsSize < 0 ) {
-				$versionsSize = self::calculateSize($uid);
-			}
 
 			// assumption: we need filesize($filename) for the new version +
 			// some more free space for the modified file which might be
 			// 1.5 times as large as the current version -> 2.5
 			$neededSpace = $files_view->filesize($filename) * 2.5;
 
-			$versionsSize = self::expire($filename, $versionsSize, $neededSpace);
+			self::expire($filename, $versionsSize, $neededSpace);
 
 			// disable proxy to prevent multiple fopen calls
 			$proxyStatus = \OC_FileProxy::$enabled;
@@ -138,10 +116,6 @@ class Storage {
 
 			// reset proxy state
 			\OC_FileProxy::$enabled = $proxyStatus;
-
-			$versionsSize += $users_view->filesize('files'.$filename);
-
-			self::setVersionsSize($uid, $versionsSize);
 		}
 	}
 
@@ -173,17 +147,11 @@ class Storage {
 			$abs_path = $versions_fileview->getLocalFile($filename . '.v');
 			$versions = self::getVersions($uid, $filename);
 			if (!empty($versions)) {
-				$versionsSize = self::getVersionsSize($uid);
-				if ($versionsSize === false || $versionsSize < 0) {
-					$versionsSize = self::calculateSize($uid);
-				}
 				foreach ($versions as $v) {
 					\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $abs_path . $v['version']));
 					unlink($abs_path . $v['version']);
 					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $abs_path . $v['version']));
-					$versionsSize -= $v['size'];
 				}
-				self::setVersionsSize($uid, $versionsSize);
 			}
 		}
 		unset(self::$deletedFiles[$path]);
@@ -345,33 +313,6 @@ class Storage {
 	}
 
 	/**
-	 * get the size of all stored versions from a given user
-	 * @param string $uid id from the user
-	 * @return int size of versions
-	 */
-	private static function calculateSize($uid) {
-		if (\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED) == 'true') {
-			$view = new \OC\Files\View('/' . $uid . '/files_versions');
-
-			$size = 0;
-
-			$dirContent = $view->getDirectoryContent('/');
-
-			while (!empty($dirContent)) {
-				$path = reset($dirContent);
-				if ($path['type'] === 'dir') {
-					$dirContent = array_merge($dirContent, $view->getDirectoryContent(substr($path['path'], strlen('files_versions'))));
-				} else {
-					$size += $view->filesize(substr($path['path'], strlen('files_versions')));
-				}
-				unset($dirContent[key($dirContent)]);
-			}
-
-			return $size;
-		}
-	}
-
-	/**
 	 * returns all stored file versions from a given user
 	 * @param string $uid id of the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
@@ -500,9 +441,6 @@ class Storage {
 			// make sure that we have the current size of the version history
 			if ( $versionsSize === null ) {
 				$versionsSize = self::getVersionsSize($uid);
-				if (  $versionsSize === false || $versionsSize < 0 ) {
-					$versionsSize = self::calculateSize($uid);
-				}
 			}
 
 			// calculate available space for version history

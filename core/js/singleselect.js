@@ -2,7 +2,7 @@
 	$.fn.singleSelect = function () {
 		return this.each(function (i, select) {
 			var input = $('<input/>'),
-			    inputTooltip = $(select).attr('data-inputtitle');
+				inputTooltip = $(select).attr('data-inputtitle');
 			if (inputTooltip){
 				input.attr('title', inputTooltip);
 			}
@@ -84,5 +84,5 @@
 				}
 			});
 		});
-	}
+	};
 })(jQuery);

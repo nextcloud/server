@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-06-01 01:54-0400\n"
+"PO-Revision-Date: 2014-05-31 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Tidak dapat memulihkan %s"
 msgid "Deleted files"
 msgstr ""
 
-#: js/app.js:53 templates/index.php:21 templates/index.php:23
+#: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr "Pulihkan"
 

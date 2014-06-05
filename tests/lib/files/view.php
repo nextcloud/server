@@ -39,8 +39,6 @@ class View extends \PHPUnit_Framework_TestCase {
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
 			$ids = $cache->getAll();
-			$permissionsCache = $storage->getPermissionsCache();
-			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
 			$cache->clear();
 		}
 	}
@@ -52,14 +50,18 @@ class View extends \PHPUnit_Framework_TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
-		\OC\Files\Filesystem::mount($storage1, array(), '/');
-		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
-		\OC\Files\Filesystem::mount($storage3, array(), '/folder/anotherstorage');
+		$root = '/' . uniqid();
+		\OC\Files\Filesystem::mount($storage1, array(), $root . '/');
+		\OC\Files\Filesystem::mount($storage2, array(), $root . '/substorage');
+		\OC\Files\Filesystem::mount($storage3, array(), $root . '/folder/anotherstorage');
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
 		$storageSize = $textSize * 2 + $imageSize;
 
-		$rootView = new \OC\Files\View('');
+		$storageInfo = $storage3->getCache()->get('');
+		$this->assertEquals($storageSize, $storageInfo['size']);
+
+		$rootView = new \OC\Files\View($root);
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$this->assertEquals($textSize, $cachedData['size']);
@@ -110,7 +112,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('foo.png', $folderData[1]['name']);
 		$this->assertEquals('foo.txt', $folderData[2]['name']);
 
-		$folderView = new \OC\Files\View('/folder');
+		$folderView = new \OC\Files\View($root . '/folder');
 		$this->assertEquals($rootView->getFileInfo('/folder'), $folderView->getFileInfo('/'));
 
 		$cachedData = $rootView->getFileInfo('/foo.txt');
@@ -580,9 +582,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$longPath = '';
 		// 4000 is the maximum path length in file_cache.path
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$depth = (4000/57);
-		foreach (range(0, $depth-1) as $i) {
-			$longPath .= '/'.$folderName;
+		$depth = (4000 / 57);
+		foreach (range(0, $depth - 1) as $i) {
+			$longPath .= '/' . $folderName;
 			$result = $rootView->mkdir($longPath);
 			$this->assertTrue($result, "mkdir failed on $i - path length: " . strlen($longPath));
 
@@ -598,7 +600,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$scanner->scan('');
 
 		$longPath = $folderName;
-		foreach (range(0, $depth-1) as $i) {
+		foreach (range(0, $depth - 1) as $i) {
 			$cachedFolder = $cache->get($longPath);
 			$this->assertTrue(is_array($cachedFolder), "No cache entry for folder at $i");
 			$this->assertEquals($folderName, $cachedFolder['name'], "Wrong cache entry for folder at $i");
@@ -652,14 +654,14 @@ class View extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider tooLongPathDataProvider
 	 * @expectedException \OCP\Files\InvalidPathException
 	 */
-	public function testTooLongPath($operation, $param0 = NULL) {
+	public function testTooLongPath($operation, $param0 = null) {
 
 		$longPath = '';
 		// 4000 is the maximum path length in file_cache.path
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$depth = (4000/57);
-		foreach (range(0, $depth+1) as $i) {
-			$longPath .= '/'.$folderName;
+		$depth = (4000 / 57);
+		foreach (range(0, $depth + 1) as $i) {
+			$longPath .= '/' . $folderName;
 		}
 
 		$storage = new \OC\Files\Storage\Temporary(array());

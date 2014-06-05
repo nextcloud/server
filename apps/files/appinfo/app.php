@@ -12,8 +12,6 @@ OCP\App::addNavigationEntry(array("id" => "files_index",
 
 OC_Search::registerProvider('OC_Search_Provider_File');
 
-\OCP\BackgroundJob::addRegularTask('\OC\Files\Cache\BackgroundWatcher', 'checkNext');
-
 $templateManager = OC_Helper::getFileTemplateManager();
 $templateManager->registerTemplate('text/html', 'core/templates/filetemplates/template.html');
 $templateManager->registerTemplate('application/vnd.oasis.opendocument.presentation', 'core/templates/filetemplates/template.odp');

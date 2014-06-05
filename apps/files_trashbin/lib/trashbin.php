@@ -655,17 +655,12 @@ class Trashbin {
 	/**
 	 * deletes used space for trash bin in db if user was deleted
 	 *
-	 * @param type $uid id of deleted user
+	 * @param string $uid id of deleted user
 	 * @return bool result of db delete operation
 	 */
 	public static function deleteUser($uid) {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
-		$result = $query->execute(array($uid));
-		if ($result) {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trashsize` WHERE `user`=?');
-			return $query->execute(array($uid));
-		}
-		return false;
+		return $query->execute(array($uid));
 	}
 
 	/**
@@ -730,6 +725,8 @@ class Trashbin {
 	 */
 	private static function expire($trashbinSize, $user) {
 
+		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
+
 		// let the admin disable auto expire
 		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
 		if ($autoExpire === false) {
@@ -740,19 +737,18 @@ class Trashbin {
 		$availableSpace = self::calculateFreeSpace($trashbinSize);
 		$size = 0;
 
-		$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash` WHERE `user`=?');
-		$result = $query->execute(array($user))->fetchAll();
-
 		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation', self::DEFAULT_RETENTION_OBLIGATION);
 
 		$limit = time() - ($retention_obligation * 86400);
 
-		foreach ($result as $r) {
-			$timestamp = $r['timestamp'];
-			$filename = $r['id'];
-			if ($r['timestamp'] < $limit) {
+		$dirContent = $view->getDirectoryContent('/files');
+
+		foreach ($dirContent as $file) {
+			$timestamp = $file['mtime'];
+			$filename = pathinfo($file['name'], PATHINFO_FILENAME);
+			if ($timestamp < $limit) {
 				$size += self::delete($filename, $timestamp);
-				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" fom trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
+				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
 			}
 		}
 		$availableSpace += $size;
@@ -904,12 +900,12 @@ class Trashbin {
 	 * get current size of trash bin from a given user
 	 *
 	 * @param string $user user who owns the trash bin
-	 * @return mixed trash bin size or false if no trash bin size is stored
+	 * @return integer trash bin size
 	 */
 	private static function getTrashbinSize($user) {
 		$view = new \OC\Files\View('/' . $user);
 		$fileInfo = $view->getFileInfo('/files_trashbin');
-		return $fileInfo['size'];
+		return isset($fileInfo['size']) ? $fileInfo['size'] : 0;
 	}
 
 	/**

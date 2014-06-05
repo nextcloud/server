@@ -155,7 +155,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Система хранения данных & база данных",
 "Data folder" => "Директория с данными",
 "Configure the database" => "Настройка базы данных",
-"will be used" => "будет использовано",
 "Database user" => "Пользователь базы данных",
 "Database password" => "Пароль базы данных",
 "Database name" => "Название базы данных",
@@ -180,6 +179,7 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Это значит, что только администраторы могут использовать эту установку.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",
 "Thank you for your patience." => "Спасибо за терпение.",
+"Start update" => "Запустить обновление",
 "This ownCloud instance is currently being updated, which may take a while." => "Производится обновление ownCloud, это может занять некоторое время.",
 "Please reload this page after a short time to continue using ownCloud." => "Перезагрузите эту страницу через некоторое время чтобы продолжить использовать ownCloud."
 );

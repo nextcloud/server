@@ -16,8 +16,10 @@ OCP\Util::addStyle('lostpassword', 'lostpassword');
 				</p></div>
 			<?php endif; ?>
 			<div class="update"><?php print_unescaped($l->t('You will receive a link to reset your password via Email.')); ?></div>
-			<p class="infield">
-				<input type="text" name="user" id="user" placeholder="" value="" autocomplete="off" required autofocus />
+			<p>
+				<input type="text" name="user" id="user"
+					placeholder="<?php print_unescaped($l->t( 'Username' )); ?>"
+					value="" autocomplete="off" required autofocus />
 				<label for="user" class="infield"><?php print_unescaped($l->t( 'Username' )); ?></label>
 				<img class="svg" src="<?php print_unescaped(image_path('', 'actions/user.svg')); ?>" alt=""/>
 				<?php if ($_['isEncrypted']): ?>

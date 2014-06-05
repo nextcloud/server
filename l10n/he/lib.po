@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -17,49 +17,49 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr ""
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr ""
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "עזרה"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "אישי"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "הגדרות"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "משתמשים"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "מנהל"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
@@ -75,28 +75,6 @@ msgstr ""
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "שירותי רשת תחת השליטה שלך"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "הורדת ZIP כבויה"
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "יש להוריד את הקבצים אחד אחרי השני."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "חזרה לקבצים"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "הקבצים הנבחרים גדולים מידי ליצירת קובץ zip."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr ""
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -127,29 +105,29 @@ msgstr ""
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr ""
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr ""
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
@@ -462,20 +440,25 @@ msgstr "שנה שעברה"
 msgid "years ago"
 msgstr "שנים"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr ""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "יש לספק שם משתמש תקני"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "יש לספק ססמה תקנית"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
+msgstr ""
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
 msgstr ""

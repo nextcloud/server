@@ -67,7 +67,7 @@ describe('OCA.Sharing.App tests', function() {
 				expect(fileActions.actions.all).toBeDefined();
 				expect(fileActions.actions.all.Delete).toBeDefined();
 				expect(fileActions.actions.all.Rename).toBeDefined();
-				expect(fileActions.actions.file.Download).toBeDefined();
+				expect(fileActions.actions.all.Download).toBeDefined();
 
 				expect(fileActions.defaults.dir).toEqual('Open');
 			});
@@ -122,9 +122,7 @@ describe('OCA.Sharing.App tests', function() {
 				type: 'dir',
 				path: '/somewhere/inside/subdir',
 				counterParts: ['user2'],
-				shares: [{
-					ownerDisplayName: 'user2'
-				}]
+				shareOwner: 'user2'
 			}]);
 
 			fileListIn.findFileEl('testdir').find('td a.name').click();

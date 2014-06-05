@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AsavarTzeth <asavartzeth@gmail.com>, 2014
+# Patrik Nilsson <asavartzeth@gmail.com>, 2014
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
+# Juho Ojala, 2014
 # Magnus Höglund <magnus@linux.com>, 2013
 # Stefan Gagner <stefan@mei-ya.se>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -21,33 +22,41 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:32 js/app.js:32
+#: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Delat med dig"
 
-#: appinfo/app.php:41 js/app.js:51
+#: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Delat med andra"
 
-#: js/app.js:33
+#: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Inga filer har ännu delats med dig."
 
-#: js/app.js:52
+#: js/app.js:54
 msgid "You haven't shared any files yet."
+msgstr "Du har inte delat några filer ännu."
+
+#: js/settings-admin.js:10
+msgid "Could not load template"
 msgstr ""
 
-#: js/share.js:47 js/share.js:55
+#: js/settings-admin.js:45
+msgid "Saved"
+msgstr ""
+
+#: js/settings-admin.js:64 templates/settings-admin.php:33
+msgid "Reset"
+msgstr ""
+
+#: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Delad av {owner}"
 
-#: js/sharedfilelist.js:116
+#: js/sharedfilelist.js:123
 msgid "Shared by"
-msgstr ""
-
-#: js/sharedfilelist.js:220
-msgid "link"
-msgstr ""
+msgstr "Delad av"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -57,17 +66,17 @@ msgstr "Den här delningen är lösenordsskyddad"
 msgid "The password is wrong. Try again."
 msgstr "Lösenordet är fel. Försök igen."
 
-#: templates/authenticate.php:10
+#: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
 msgstr "Lösenord"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Namn"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Delningstid"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -93,15 +102,31 @@ msgstr "delning är inaktiverat"
 msgid "For more info, please ask the person who sent this link."
 msgstr "För mer information, kontakta den person som skickade den här länken."
 
-#: templates/public.php:21
+#: templates/public.php:20
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/public.php:52
+#: templates/public.php:50
 #, php-format
 msgid "Download %s"
 msgstr "Ladda ner %s"
 
-#: templates/public.php:56
+#: templates/public.php:54
 msgid "Direct link"
 msgstr "Direkt länk"
+
+#: templates/settings-admin.php:3
+msgid "Mail templates"
+msgstr ""
+
+#: templates/settings-admin.php:8
+msgid "Theme"
+msgstr ""
+
+#: templates/settings-admin.php:17
+msgid "Template"
+msgstr ""
+
+#: templates/settings-admin.php:35
+msgid "Save"
+msgstr ""

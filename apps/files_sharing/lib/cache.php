@@ -105,7 +105,7 @@ class Shared_Cache extends Cache {
 			}
 			$query = \OC_DB::prepare(
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
-				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`, `etag`'
+				. ' `size`, `mtime`, `encrypted`, `unencrypted_size`, `storage_mtime`, `etag`, `permissions`'
 				. ' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($sourceId));
 			$data = $result->fetchRow();
@@ -124,6 +124,7 @@ class Shared_Cache extends Cache {
 			} else {
 				$data['size'] = (int)$data['size'];
 			}
+			$data['permissions'] = (int)$data['permissions'];
 			if (!is_int($file) || $file === 0) {
 				$data['path'] = '';
 				$data['name'] = basename($this->storage->getMountPoint());

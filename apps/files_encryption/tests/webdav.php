@@ -49,7 +49,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	public $dataShort;
 	public $stateFilesTrashbin;
 
-	private static $storage;
+	private $storage;
 
 	public static function setUpBeforeClass() {
 		// reset backend
@@ -69,7 +69,6 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		// create test user
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1, true);
 
-		self::$storage = new \OC\Files\Storage\Temporary(array());
 	}
 
 	function setUp() {
@@ -83,7 +82,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
 		// init filesystem view
 		$this->view = new \OC\Files\View('/');
-
+		list($this->storage, $intPath) = $this->view->resolvePath('/');
 		// init short data
 		$this->dataShort = 'hats';
 
@@ -200,6 +199,9 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
 
+		// at the beginning the file should exist
+		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files' . $filename));
+
 		// handle webdav request
 		$content = $this->handleWebdavRequest();
 
@@ -230,21 +232,20 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
 		// Create ownCloud Dir
 		$root = '/' . $this->userId . '/files';
-		\OC\Files\Filesystem::mount(self::$storage, array(), $root);
 		$view = new \OC\Files\View($root);
 		$publicDir = new OC_Connector_Sabre_Directory($view, $view->getFileInfo(''));
 		$objectTree = new \OC\Connector\Sabre\ObjectTree();
 		$objectTree->init($publicDir, $view);
 
 		// Fire up server
-		$server = new Sabre_DAV_Server($publicDir);
+		$server = new \Sabre\DAV\Server($publicDir);
 		$server->httpRequest = $requestBackend;
 		$server->setBaseUri('/remote.php/webdav/');
 
 		// Load plugins
-		$server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
-		$server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
-		$server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
+		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
+		$server->addPlugin(new \Sabre\DAV\Locks\Plugin($lockBackend));
+		$server->addPlugin(new \Sabre\DAV\Browser\Plugin(false)); // Show something in the Browser, but no upload
 		$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
 		$server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
 		$server->debugExceptions = true;

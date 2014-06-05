@@ -1,7 +1,7 @@
 /**
  * Disable console output unless DEBUG mode is enabled.
  * Add
- *	define('DEBUG', true);
+ *      define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
@@ -23,7 +23,10 @@ if (typeof oc_webroot === "undefined") {
 		oc_webroot = oc_webroot.substr(0, oc_webroot.lastIndexOf('/'));
 	}
 }
-if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
+if (
+	oc_debug !== true || typeof console === "undefined" ||
+	typeof console.log === "undefined"
+) {
 	if (!window.console) {
 		window.console = {};
 	}
@@ -37,7 +40,8 @@ if (oc_debug !== true || typeof console === "undefined" || typeof console.log ==
 function initL10N(app) {
 	if (!( t.cache[app] )) {
 		$.ajax(OC.filePath('core', 'ajax', 'translations.php'), {
-			async: false,//todo a proper solution for this without sync ajax calls
+			// TODO a proper solution for this without sync ajax calls
+			async: false,
 			data: {'app': app},
 			type: 'POST',
 			success: function (jsondata) {
@@ -75,8 +79,8 @@ function initL10N(app) {
 			/* We used to use eval, but it seems IE has issues with it.
 			 * We now use "new Function", though it carries a slightly
 			 * bigger performance hit.
-			 var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
-			 Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
+			var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
+			Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
 			 */
 			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
 			t.plural_function[app] = new Function("n", code);
@@ -154,7 +158,7 @@ function n(app, text_singular, text_plural, count, vars) {
 * @return {string} Sanitized string
 */
 function escapeHTML(s) {
-	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('"').join('&quot;');
+	return s.toString().split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;').split('"').join('&quot;').split('\'').join('&#039;');
 }
 
 /**
@@ -183,7 +187,8 @@ var OC={
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
-	
+	menuSpeed: 100,
+
 	/**
 	 * Get an absolute url to a file in an app
 	 * @param {string} app the id of the app the file belongs to
@@ -528,10 +533,9 @@ var OC={
 	 */
 	registerMenu: function($toggle, $menuEl) {
 		$menuEl.addClass('menu');
-		$toggle.addClass('menutoggle');
 		$toggle.on('click.menu', function(event) {
 			if ($menuEl.is(OC._currentMenu)) {
-				$menuEl.hide();
+				$menuEl.slideUp(OC.menuSpeed);
 				OC._currentMenu = null;
 				OC._currentMenuToggle = null;
 				return false;
@@ -541,7 +545,7 @@ var OC={
 				// close it
 				OC._currentMenu.hide();
 			}
-			$menuEl.show();
+			$menuEl.slideToggle(OC.menuSpeed);
 			OC._currentMenu = $menuEl;
 			OC._currentMenuToggle = $toggle;
 			return false;
@@ -554,7 +558,7 @@ var OC={
 	unregisterMenu: function($toggle, $menuEl) {
 		// close menu if opened
 		if ($menuEl.is(OC._currentMenu)) {
-			$menuEl.hide();
+			$menuEl.slideUp(OC.menuSpeed);
 			OC._currentMenu = null;
 			OC._currentMenuToggle = null;
 		}
@@ -1034,11 +1038,6 @@ function initCore() {
 	setShowPassword($('#pass2'), $('label[for=personal-show]'));
 	setShowPassword($('#dbpass'), $('label[for=dbpassword]'));
 
-	//use infield labels
-	$("label.infield").inFieldLabels({
-		pollDuration: 100
-	});
-
 	var checkShowCredentials = function() {
 		var empty = false;
 		$('input#user, input#password').each(function() {
@@ -1068,7 +1067,7 @@ function initCore() {
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle(200);
+		$('#settings #expanddiv').slideToggle(OC.menuSpeed);
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
@@ -1076,7 +1075,7 @@ function initCore() {
 	});
 	//hide the user menu when clicking outside it
 	$(document).click(function(){
-		$('#settings #expanddiv').slideUp(200);
+		$('#settings #expanddiv').slideUp(OC.menuSpeed);
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
@@ -1087,6 +1086,7 @@ function initCore() {
 	$('a.action.delete').tipsy({gravity:'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
 	$('td .modified').tipsy({gravity:'s', fade:true, live:true});
+	$('td.lastLogin').tipsy({gravity:'s', fade:true, html:true});
 	$('input').tipsy({gravity:'w', fade:true});
 
 	// toggle for menus
@@ -1097,7 +1097,7 @@ function initCore() {
 			return false;
 		}
 		if (OC._currentMenu) {
-			OC._currentMenu.hide();
+			OC._currentMenu.slideUp(OC.menuSpeed);
 		}
 		OC._currentMenu = null;
 		OC._currentMenuToggle = null;
@@ -1110,45 +1110,27 @@ function initCore() {
 	 * If the screen is bigger, the main menu is not a toggle any more.
 	 */
 	function setupMainMenu() {
-		// toggle the navigation on mobile
-		if (!OC._matchMedia) {
-			return;
-		}
-		var mq = OC._matchMedia('(max-width: 768px)');
-		var lastMatch = mq.matches;
-		var $toggle = $('#header #owncloud');
+		// toggle the navigation
+		var $toggle = $('#header .menutoggle');
 		var $navigation = $('#navigation');
 
-		function updateMainMenu() {
-			// mobile mode ?
-			if (lastMatch && !$toggle.hasClass('menutoggle')) {
-				// init the menu
-				OC.registerMenu($toggle, $navigation);
-				$toggle.data('oldhref', $toggle.attr('href'));
-				$toggle.attr('href', '#');
-				$navigation.hide();
-			}
-			else {
-				OC.unregisterMenu($toggle, $navigation);
-				$toggle.attr('href', $toggle.data('oldhref'));
-				$navigation.show();
-			}
-		}
+		// init the menu
+		OC.registerMenu($toggle, $navigation);
+		$toggle.data('oldhref', $toggle.attr('href'));
+		$toggle.attr('href', '#');
+		$navigation.hide();
 
-		updateMainMenu();
-
-		// TODO: debounce this
-		$(window).resize(function() {
-			if (lastMatch !== mq.matches) {
-				lastMatch = mq.matches;
-				updateMainMenu();
+		// show loading feedback
+		$navigation.delegate('a', 'click', function(event) {
+			var $app = $(event.target);
+			if(!$app.is('a')) {
+				$app = $app.closest('a');
 			}
+			$app.addClass('app-loading');
 		});
 	}
 
-	if (window.matchMedia) {
-		setupMainMenu();
-	}
+	setupMainMenu();
 }
 
 $(document).ready(initCore);
@@ -1163,9 +1145,10 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 /**
  * Returns a human readable file size
  * @param {number} size Size in bytes
+ * @param {boolean} skipSmallSizes return '< 1 kB' for small files
  * @return {string}
  */
-function humanFileSize(size) {
+function humanFileSize(size, skipSmallSizes) {
 	var humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
 	// Calculate Log with base 1024: size = 1024 ** order
 	var order = size?Math.floor(Math.log(size) / Math.log(1024)):0;
@@ -1173,6 +1156,13 @@ function humanFileSize(size) {
 	order = Math.min(humanList.length - 1, order);
 	var readableFormat = humanList[order];
 	var relativeSize = (size / Math.pow(1024, order)).toFixed(1);
+	if(skipSmallSizes === true && order === 0) {
+		if(relativeSize !== "0.0"){
+			return '< 1 kB';
+		} else {
+			return '0 kB';
+		}
+	}
 	if(order < 2){
 		relativeSize = parseFloat(relativeSize).toFixed(0);
 	}

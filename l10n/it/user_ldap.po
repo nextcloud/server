@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-29 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 17:32+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 16:03+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -74,8 +74,8 @@ msgid "Keep settings?"
 msgstr "Vuoi mantenere le impostazioni?"
 
 #: js/settings.js:93
-msgid "{nbServer}. Server"
-msgstr "{nbServer}. server"
+msgid "{nthServer}. Server"
+msgstr "{nthServer}. server"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"

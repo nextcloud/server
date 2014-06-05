@@ -320,8 +320,7 @@ class OC {
 		OC_Util::addScript("jquery-migrate-1.2.1.min");
 		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
-		OC_Util::addScript("jquery.infieldlabel");
-		OC_Util::addScript("jquery.placeholder");
+		OC_Util::addScript("placeholders");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
 		OC_Util::addScript("underscore");
@@ -334,6 +333,7 @@ class OC {
 		//OC_Util::addScript( "multiselect" );
 		OC_Util::addScript('search', 'result');
 		OC_Util::addScript("oc-requesttoken");
+		OC_Util::addScript("apps");
 
 		// avatars
 		if (\OC_Config::getValue('enable_avatars', true) === true) {
@@ -344,8 +344,10 @@ class OC {
 		}
 
 		OC_Util::addStyle("styles");
+		OC_Util::addStyle("header");
 		OC_Util::addStyle("mobile");
 		OC_Util::addStyle("icons");
+		OC_Util::addStyle("fonts");
 		OC_Util::addStyle("apps");
 		OC_Util::addStyle("fixes");
 		OC_Util::addStyle("multiselect");
@@ -433,6 +435,9 @@ class OC {
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		self::$loader->registerPrefix('Pimple', '3rdparty/Pimple');
 		spl_autoload_register(array(self::$loader, 'load'));
+
+		// make a dummy session available as early as possible since error pages need it
+		self::$session = new \OC\Session\Memory('');
 
 		// set some stuff
 		//ob_start();
@@ -726,7 +731,7 @@ class OC {
 
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
-				if (!OC_Config::getValue('maintenance', false)) {
+				if (!OC_Config::getValue('maintenance', false) && !self::needUpgrade()) {
 					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
@@ -765,11 +770,20 @@ class OC {
 			return;
 		}
 
+		// Redirect to index if the logout link is accessed without valid session
+		// this is needed to prevent "Token expired" messages while login if a session is expired
+		// @see https://github.com/owncloud/core/pull/8443#issuecomment-42425583
+		if(isset($_GET['logout']) && !OC_User::isLoggedIn()) {
+			header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
+			return;
+		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			if (isset($_GET["logout"]) and ($_GET["logout"])) {
+				OC_JSON::callCheck();
 				if (isset($_COOKIE['oc_token'])) {
 					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				}
@@ -930,6 +944,7 @@ class OC {
 			return false;
 		}
 
+		OC_JSON::callCheck();
 		OC_App::loadApps();
 
 		//setup extra user backends

@@ -158,7 +158,6 @@ $TRANSLATIONS = array(
 "Storage & database" => "Opslag & database",
 "Data folder" => "Gegevensmap",
 "Configure the database" => "Configureer de database",
-"will be used" => "zal gebruikt worden",
 "Database user" => "Gebruiker database",
 "Database password" => "Wachtwoord database",
 "Database name" => "Naam database",

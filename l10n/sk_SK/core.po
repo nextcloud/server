@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mhh <marian.hvolka@stuba.sk>, 2013-2014
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013-2014
 # martin, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -45,23 +45,23 @@ msgstr "Databáza je aktualizovaná"
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:62
+#: avatar/controller.php:69
 msgid "No image or file provided"
 msgstr "Obrázok alebo súbor nebol zadaný"
 
-#: avatar/controller.php:81
+#: avatar/controller.php:86
 msgid "Unknown filetype"
 msgstr "Neznámy typ súboru"
 
-#: avatar/controller.php:85
+#: avatar/controller.php:90
 msgid "Invalid image"
 msgstr "Chybný obrázok"
 
-#: avatar/controller.php:115 avatar/controller.php:142
+#: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
 msgstr "Dočasný profilový obrázok nie je k dispozícii, skúste to znovu"
 
-#: avatar/controller.php:135
+#: avatar/controller.php:140
 msgid "No crop data provided"
 msgstr "Dáta pre orezanie neboli zadané"
 
@@ -141,338 +141,346 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:487
+#: js/js.js:501
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:587
+#: js/js.js:601
 msgid "Saving..."
 msgstr "Ukladám..."
 
-#: js/js.js:1211
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:1212
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minútou"
 msgstr[1] "pred %n minútami"
 msgstr[2] "pred %n minútami"
 
-#: js/js.js:1213
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n hodinou"
 msgstr[1] "pred %n hodinami"
 msgstr[2] "pred %n hodinami"
 
-#: js/js.js:1214
+#: js/js.js:1232
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:1215
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:1216
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dňom"
 msgstr[1] "pred %n dňami"
 msgstr[2] "pred %n dňami"
 
-#: js/js.js:1217
+#: js/js.js:1235
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:1218
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesiacom"
 msgstr[1] "pred %n mesiacmi"
 msgstr[2] "pred %n mesiacmi"
 
-#: js/js.js:1219
+#: js/js.js:1237
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:1220
+#: js/js.js:1238
 msgid "years ago"
 msgstr "pred rokmi"
 
-#: js/oc-dialogs.js:95 js/oc-dialogs.js:236
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
 msgstr "Áno"
 
-#: js/oc-dialogs.js:105 js/oc-dialogs.js:246
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
 msgid "No"
 msgstr "Nie"
 
-#: js/oc-dialogs.js:184
+#: js/oc-dialogs.js:198
 msgid "Choose"
 msgstr "Vybrať"
 
-#: js/oc-dialogs.js:210
+#: js/oc-dialogs.js:224
 msgid "Error loading file picker template: {error}"
 msgstr "Chyba pri nahrávaní šablóny výberu súborov: {error}"
 
-#: js/oc-dialogs.js:263
+#: js/oc-dialogs.js:277
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:283
+#: js/oc-dialogs.js:297
 msgid "Error loading message template: {error}"
 msgstr "Chyba pri nahrávaní šablóny správy: {error}"
 
-#: js/oc-dialogs.js:411
+#: js/oc-dialogs.js:425
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} konflikt súboru"
 msgstr[1] "{count} konflikty súboru"
 msgstr[2] "{count} konfliktov súboru"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:439
 msgid "One file conflict"
 msgstr "Jeden konflikt súboru"
 
-#: js/oc-dialogs.js:431
+#: js/oc-dialogs.js:445
 msgid "New Files"
 msgstr "Nové súbory"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:446
 msgid "Already existing files"
 msgstr "Už existujúce súbory"
 
-#: js/oc-dialogs.js:434
+#: js/oc-dialogs.js:448
 msgid "Which files do you want to keep?"
 msgstr "Ktoré súbory chcete ponechať?"
 
-#: js/oc-dialogs.js:435
+#: js/oc-dialogs.js:449
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Ak zvolíte obe verzie, názov nakopírovaného súboru bude doplnený o číslo."
 
-#: js/oc-dialogs.js:443
+#: js/oc-dialogs.js:457
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:467
 msgid "Continue"
 msgstr "Pokračovať"
 
-#: js/oc-dialogs.js:500 js/oc-dialogs.js:513
+#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
 msgid "(all selected)"
 msgstr "(všetko vybrané)"
 
-#: js/oc-dialogs.js:503 js/oc-dialogs.js:517
+#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
 msgid "({count} selected)"
 msgstr "({count} vybraných)"
 
-#: js/oc-dialogs.js:525
+#: js/oc-dialogs.js:539
 msgid "Error loading file exists template"
 msgstr "Chyba pri nahrávaní šablóny existencie súboru"
 
-#: js/setup.js:84
+#: js/setup.js:92
 msgid "Very weak password"
 msgstr "Veľmi slabé heslo"
 
-#: js/setup.js:85
+#: js/setup.js:93
 msgid "Weak password"
 msgstr "Slabé heslo"
 
-#: js/setup.js:86
+#: js/setup.js:94
 msgid "So-so password"
 msgstr "Priemerné heslo"
 
-#: js/setup.js:87
+#: js/setup.js:95
 msgid "Good password"
 msgstr "Dobré heslo"
 
-#: js/setup.js:88
+#: js/setup.js:96
 msgid "Strong password"
 msgstr "Silné heslo"
 
-#: js/share.js:51 js/share.js:66 js/share.js:106
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Zdieľané"
 
-#: js/share.js:109
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Zdieľať"
 
-#: js/share.js:173 js/share.js:186 js/share.js:193 js/share.js:800
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:175 js/share.js:863
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Chyba počas zdieľania"
 
-#: js/share.js:186
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Chyba počas ukončenia zdieľania"
 
-#: js/share.js:193
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Chyba počas zmeny oprávnení"
 
-#: js/share.js:203
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Zdieľané s vami a so skupinou {group} používateľom {owner}"
 
-#: js/share.js:205
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Zdieľané s vami používateľom {owner}"
 
-#: js/share.js:229
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr "Zdieľať s používateľom alebo skupinou ..."
 
-#: js/share.js:235
+#: js/share.js:334
 msgid "Share link"
 msgstr "Zdieľať linku"
 
-#: js/share.js:241
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:243
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:248
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:250
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr ""
 
-#: js/share.js:256
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Povoliť verejné nahrávanie"
 
-#: js/share.js:260
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Odoslať odkaz emailom"
 
-#: js/share.js:261
+#: js/share.js:360
 msgid "Send"
 msgstr "Odoslať"
 
-#: js/share.js:266
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Nastaviť dátum expirácie"
 
-#: js/share.js:267
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Dátum expirácie"
 
-#: js/share.js:304
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Zdieľať cez email:"
 
-#: js/share.js:307
+#: js/share.js:407
 msgid "No people found"
 msgstr "Používateľ nenájdený"
 
-#: js/share.js:355 js/share.js:416
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:388
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Zdieľanie už zdieľanej položky nie je povolené"
 
-#: js/share.js:432
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "Zdieľané v {item} s {user}"
 
-#: js/share.js:454
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Zrušiť zdieľanie"
 
-#: js/share.js:462
+#: js/share.js:570
 msgid "notify by email"
 msgstr "informovať emailom"
 
-#: js/share.js:465
+#: js/share.js:573
 msgid "can edit"
 msgstr "môže upraviť"
 
-#: js/share.js:467
+#: js/share.js:575
 msgid "access control"
 msgstr "prístupové práva"
 
-#: js/share.js:470
+#: js/share.js:578
 msgid "create"
 msgstr "vytvoriť"
 
-#: js/share.js:473
+#: js/share.js:581
 msgid "update"
 msgstr "aktualizovať"
 
-#: js/share.js:476
+#: js/share.js:584
 msgid "delete"
 msgstr "vymazať"
 
-#: js/share.js:479
+#: js/share.js:587
 msgid "share"
 msgstr "zdieľať"
 
-#: js/share.js:781
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Chránené heslom"
 
-#: js/share.js:800
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Chyba pri odstraňovaní dátumu expirácie"
 
-#: js/share.js:821
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Chyba pri nastavení dátumu expirácie"
 
-#: js/share.js:850
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Odosielam ..."
 
-#: js/share.js:861
+#: js/share.js:978
 msgid "Email sent"
 msgstr "Email odoslaný"
 
-#: js/share.js:885
+#: js/share.js:1002
 msgid "Warning"
 msgstr "Varovanie"
 
-#: js/tags.js:4
+#: js/tags.js:8
 msgid "The object type is not specified."
 msgstr "Nešpecifikovaný typ objektu."
 
-#: js/tags.js:13
+#: js/tags.js:19
 msgid "Enter new"
 msgstr "Zadať nový"
 
-#: js/tags.js:27
+#: js/tags.js:33
 msgid "Delete"
 msgstr "Zmazať"
 
-#: js/tags.js:31
+#: js/tags.js:43
 msgid "Add"
 msgstr "Pridať"
 
-#: js/tags.js:39
+#: js/tags.js:57
 msgid "Edit tags"
 msgstr "Upraviť štítky"
 
-#: js/tags.js:57
+#: js/tags.js:75
 msgid "Error loading dialog template: {error}"
 msgstr "Chyba pri načítaní šablóny dialógu: {error}"
 
-#: js/tags.js:264
+#: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr "Nie sú vybraté štítky na zmazanie."
 
@@ -522,12 +530,13 @@ msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že vaše používateľské meno
 msgid "You will receive a link to reset your password via Email."
 msgstr "Odkaz pre obnovenie hesla obdržíte emailom."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:32
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Meno používateľa"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -535,11 +544,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Vaše súbory sú šifrované. Ak nemáte povolený kľúč obnovy, nie je spôsob, ako získať po obnove hesla vaše dáta. Ak nie ste si istí tým, čo robíte, obráťte sa najskôr na administrátora. Naozaj chcete pokračovať?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Áno, želám si teraz obnoviť svoje heslo"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "Resetovať"
 
@@ -552,10 +561,11 @@ msgid "To login page"
 msgstr "Na prihlasovaciu stránku"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Nové heslo"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Obnovenie hesla"
 
@@ -689,51 +699,59 @@ msgstr "Pre informácie, ako správne nastaviť váš server, sa pozrite do <a h
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
-#: templates/installation.php:60 templates/login.php:40
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr "Úložislo & databáza"
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:94
-msgid "will be used"
-msgstr "bude použité"
+#: templates/installation.php:96
+#, php-format
+msgid "Only %s is available."
+msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Používateľ databázy"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
+msgid ""
+"SQLite will be used as database. For larger installations we recommend to "
+"change this."
+msgstr ""
+
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/installation.php:150
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "Dokončujem..."
 
@@ -753,41 +771,41 @@ msgstr "%s je dostupná. Získajte viac informácií o postupe aktualizácie."
 msgid "Log out"
 msgstr "Odhlásiť"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid "Automatic logon rejected!"
 msgstr "Automatické prihlásenie bolo zamietnuté!"
 
-#: templates/login.php:10
+#: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "V nedávnej dobe ste si nezmenili svoje heslo, váš účet môže byť kompromitovaný."
 
-#: templates/login.php:12
+#: templates/login.php:14
 msgid "Please change your password to secure your account again."
 msgstr "Prosím, zmeňte si svoje heslo pre opätovné zabezpečenie vášho účtu."
 
-#: templates/login.php:17
+#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Autentifikácia na serveri zlyhala!"
 
-#: templates/login.php:18
+#: templates/login.php:20
 msgid "Please contact your administrator."
 msgstr "Kontaktujte prosím vášho administrátora."
 
-#: templates/login.php:46
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:51
+#: templates/login.php:55
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:54
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
-#: templates/login.php:60
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Alternatívne prihlásenie"
 

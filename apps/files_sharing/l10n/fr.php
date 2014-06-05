@@ -1,9 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Shared with you" => "Partagé avec vous",
+"Shared with others" => "Partagé avec d'autres",
+"No files have been shared with you yet." => "Aucun fichier n'est partagé avec vous pour l'instant",
+"You haven't shared any files yet." => "Vous ne partagez pas de fichier pour l'instant",
 "Shared by {owner}" => "Partagé par {owner}",
+"Shared by" => "Partagé par",
 "This share is password-protected" => "Ce partage est protégé par un mot de passe",
 "The password is wrong. Try again." => "Le mot de passe est incorrect. Veuillez réessayer.",
 "Password" => "Mot de passe",
+"Name" => "Nom",
+"Share time" => "Date de partage",
 "Sorry, this link doesn’t seem to work anymore." => "Désolé, mais le lien semble ne plus fonctionner.",
 "Reasons might be:" => "Les raisons peuvent être :",
 "the item was removed" => "l'item a été supprimé",

@@ -38,7 +38,7 @@ $TRANSLATIONS = array(
 "Username as share" => "共有名",
 "URL" => "URL",
 "Secure https://" => "セキュア https://",
-"Remote subfolder" => "リモートサブフォルダ",
+"Remote subfolder" => "リモートサブフォルダー",
 "Access granted" => "アクセスは許可されました",
 "Error configuring Dropbox storage" => "Dropboxストレージの設定エラー",
 "Grant access" => "アクセスを許可",
@@ -63,7 +63,7 @@ $TRANSLATIONS = array(
 "Users" => "ユーザー",
 "Delete" => "削除",
 "Enable User External Storage" => "ユーザーの外部ストレージを有効にする",
-"Allow users to mount the following external storage" => "ユーザに以下の外部ストレージのマウントを許可する",
+"Allow users to mount the following external storage" => "ユーザーに以下の外部ストレージのマウントを許可する",
 "SSL root certificates" => "SSLルート証明書",
 "Import Root Certificate" => "ルート証明書をインポート"
 );

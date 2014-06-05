@@ -124,6 +124,17 @@ describe('Core base tests', function() {
 			expect(OC.dirname('/subdir/')).toEqual('/subdir');
 		});
 	});
+	describe('escapeHTML', function() {
+		it('Returns nothing if no string was given', function() {
+			expect(escapeHTML('')).toEqual('');
+		});
+		it('Returns a sanitized string if a string containing HTML is given', function() {
+			expect(escapeHTML('There needs to be a <script>alert(\"Unit\" + \'test\')</script> for it!')).toEqual('There needs to be a &lt;script&gt;alert(&quot;Unit&quot; + &#039;test&#039;)&lt;/script&gt; for it!');
+		});
+		it('Returns the string without modification if no potentially dangerous character is passed.', function() {
+			expect(escapeHTML('This is a good string without HTML.')).toEqual('This is a good string without HTML.');
+		});
+	});
 	describe('Link functions', function() {
 		var TESTAPP = 'testapp';
 		var TESTAPP_ROOT = OC.webroot + '/appsx/testapp';
@@ -182,24 +193,24 @@ describe('Core base tests', function() {
 				unicode: '汉字'
 			})).toEqual('unicode=%E6%B1%89%E5%AD%97');
 			expect(OC.buildQueryString({
-			   	b: 'spaace value',
-			   	'space key': 'normalvalue',
-			   	'slash/this': 'amp&ersand'
+				b: 'spaace value',
+				'space key': 'normalvalue',
+				'slash/this': 'amp&ersand'
 			})).toEqual('b=spaace%20value&space%20key=normalvalue&slash%2Fthis=amp%26ersand');
 		});
 		it('Encodes data types and empty values', function() {
 			expect(OC.buildQueryString({
 				'keywithemptystring': '',
-			   	'keywithnull': null,
-			   	'keywithundefined': null,
+				'keywithnull': null,
+				'keywithundefined': null,
 				something: 'else'
 			})).toEqual('keywithemptystring=&keywithnull&keywithundefined&something=else');
 			expect(OC.buildQueryString({
-			   	'booleanfalse': false,
+				'booleanfalse': false,
 				'booleantrue': true
 			})).toEqual('booleanfalse=false&booleantrue=true');
 			expect(OC.buildQueryString({
-			   	'number': 123
+				'number': 123
 			})).toEqual('number=123');
 		});
 	});
@@ -345,107 +356,37 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('Main menu mobile toggle', function() {
-		var oldMatchMedia;
+		var clock;
 		var $toggle;
 		var $navigation;
+		var clock;
 
 		beforeEach(function() {
-			oldMatchMedia = OC._matchMedia;
-			// a separate method was needed because window.matchMedia
-			// cannot be stubbed due to a bug in PhantomJS:
-			// https://github.com/ariya/phantomjs/issues/12069
-			OC._matchMedia = sinon.stub();
+			clock = sinon.useFakeTimers();
 			$('#testArea').append('<div id="header">' +
-				'<a id="owncloud" href="#"></a>' +
+				'<a class="menutoggle" href="#"></a>' +
 				'</div>' +
 				'<div id="navigation"></div>');
-			$toggle = $('#owncloud');
+			$toggle = $('#header').find('.menutoggle');
 			$navigation = $('#navigation');
 		});
-
 		afterEach(function() {
-			OC._matchMedia = oldMatchMedia;
+			clock.restore();
 		});
-		it('Sets up menu toggle in mobile mode', function() {
-			OC._matchMedia.returns({matches: true});
+		it('Sets up menu toggle', function() {
 			window.initCore();
-			expect($toggle.hasClass('menutoggle')).toEqual(true);
 			expect($navigation.hasClass('menu')).toEqual(true);
 		});
-		it('Does not set up menu toggle in desktop mode', function() {
-			OC._matchMedia.returns({matches: false});
-			window.initCore();
-			expect($toggle.hasClass('menutoggle')).toEqual(false);
-			expect($navigation.hasClass('menu')).toEqual(false);
-		});
-		it('Switches on menu toggle when mobile mode changes', function() {
-			var mq = {matches: false};
-			OC._matchMedia.returns(mq);
-			window.initCore();
-			expect($toggle.hasClass('menutoggle')).toEqual(false);
-			mq.matches = true;
-			$(window).trigger('resize');
-			expect($toggle.hasClass('menutoggle')).toEqual(true);
-		});
-		it('Switches off menu toggle when mobile mode changes', function() {
-			var mq = {matches: true};
-			OC._matchMedia.returns(mq);
-			window.initCore();
-			expect($toggle.hasClass('menutoggle')).toEqual(true);
-			mq.matches = false;
-			$(window).trigger('resize');
-			expect($toggle.hasClass('menutoggle')).toEqual(false);
-		});
-		it('Clicking menu toggle toggles navigation in mobile mode', function() {
-			OC._matchMedia.returns({matches: true});
+		it('Clicking menu toggle toggles navigation in', function() {
 			window.initCore();
 			$navigation.hide(); // normally done through media query triggered CSS
 			expect($navigation.is(':visible')).toEqual(false);
 			$toggle.click();
+			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(true);
 			$toggle.click();
+			clock.tick(1 * 1000);
 			expect($navigation.is(':visible')).toEqual(false);
-		});
-		it('Clicking menu toggle does not toggle navigation in desktop mode', function() {
-			OC._matchMedia.returns({matches: false});
-			window.initCore();
-			expect($navigation.is(':visible')).toEqual(true);
-			$toggle.click();
-			expect($navigation.is(':visible')).toEqual(true);
-		});
-		it('Switching to mobile mode hides navigation', function() {
-			var mq = {matches: false};
-			OC._matchMedia.returns(mq);
-			window.initCore();
-			expect($navigation.is(':visible')).toEqual(true);
-			mq.matches = true;
-			$(window).trigger('resize');
-			expect($navigation.is(':visible')).toEqual(false);
-		});
-		it('Switching to desktop mode shows navigation', function() {
-			var mq = {matches: true};
-			OC._matchMedia.returns(mq);
-			window.initCore();
-			expect($navigation.is(':visible')).toEqual(false);
-			mq.matches = false;
-			$(window).trigger('resize');
-			expect($navigation.is(':visible')).toEqual(true);
-		});
-		it('Switch to desktop with opened menu then back to mobile resets toggle', function() {
-			var mq = {matches: true};
-			OC._matchMedia.returns(mq);
-			window.initCore();
-			expect($navigation.is(':visible')).toEqual(false);
-			$toggle.click();
-			expect($navigation.is(':visible')).toEqual(true);
-			mq.matches = false;
-			$(window).trigger('resize');
-			expect($navigation.is(':visible')).toEqual(true);
-			mq.matches = true;
-			$(window).trigger('resize');
-			expect($navigation.is(':visible')).toEqual(false);
-			$toggle.click();
-			expect($navigation.is(':visible')).toEqual(true);
 		});
 	});
 	describe('SVG extension replacement', function() {
@@ -487,6 +428,19 @@ describe('Core base tests', function() {
 				];
 				for (var i = 0; i < data.length; i++) {
 					expect(OC.Util.humanFileSize(data[i][0])).toEqual(data[i][1]);
+				}
+			});
+			it('renders file sizes with the correct unit for small sizes', function() {
+				var data = [
+					[0, '0 kB'],
+					[125, '< 1 kB'],
+					[128000, '125 kB'],
+					[128000000, '122.1 MB'],
+					[128000000000, '119.2 GB'],
+					[128000000000000, '116.4 TB']
+				];
+				for (var i = 0; i < data.length; i++) {
+					expect(OC.Util.humanFileSize(data[i][0], true)).toEqual(data[i][1]);
 				}
 			});
 		});

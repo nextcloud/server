@@ -7,7 +7,12 @@
 
 /* fix height of select boxes for OS X */
 select {
-	min-height: 29px;
+	height: 32px;
+}
+
+/* reset typeface for IE8 because OpenSans renders too small */
+.ie8 body {
+    font-family: Frutiger, Calibri, 'Myriad Pro', Myriad, Arial, sans-serif;
 }
 
 .lte8 .delete-icon { background-image: url('../img/actions/delete.png'); }
@@ -42,10 +47,6 @@ select {
 	border-bottom: 1px solid lightgrey;
 	background-color: white; /* don't change background on hover */
 }
-.lte9 #body-login form label.infield {
-	background-color: white; /* don't change background on hover */
-	-ms-filter: "progid:DXImageTransform.Microsoft.Chroma(color='white')";
-}
 
 /* disable opacity of info text on gradient
    since we cannot set a good backround color to use the filter&background hack as with the input labels */
@@ -76,7 +77,7 @@ select {
 
 /* IE8 isn't able to display transparent background. So it is specified using a gradient */
 .ie8 #nojavascript {
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c320000', endColorstr='#4c320000'); /* IE */
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4c320000', endColorstr='#4c320000');
 }
 
 /* IE8 doesn't have rounded corners, so the strengthify bar should be wider */
@@ -84,3 +85,4 @@ select {
 	width: 271px;
 	left: 6px;
 }
+

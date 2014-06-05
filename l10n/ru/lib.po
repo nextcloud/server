@@ -5,18 +5,18 @@
 # Translators:
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # jekader <jekader@gmail.com>, 2013
-# tukos, 2014
-# eurekafag <rkfg@rkfg.me>, 2013
-# sk.avenger <sk.avenger@adygnet.ru>, 2013
-# unixoid <victor.ashirov@gmail.com>, 2013
-# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
-# Friktor <antonshramko@yandex.ru>, 2013
+# Kalyuzhniy Aleksey, 2014
+# Serge Shpikin <rkfg@rkfg.me>, 2013
+# Sk.Avenger <sk.avenger@adygnet.ru>, 2013
+# Victor Ashirov <victor.ashirov@gmail.com>, 2013
+# Yuriy Malyovaniy <yuriy.malyovaniy@gmail.com>, 2013
+# Антон <antonshramko@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-24 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -25,49 +25,49 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: base.php:695
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:696
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:236
+#: private/app.php:245
 #, php-format
 msgid ""
 "App \"%s\" can't be installed because it is not compatible with this version"
 " of ownCloud."
 msgstr "Приложение \"%s\" нельзя установить, так как оно не совместимо с текущей версией ownCloud."
 
-#: private/app.php:248
+#: private/app.php:261
 msgid "No app name specified"
 msgstr "Не выбрано имя приложения"
 
-#: private/app.php:353
+#: private/app.php:367
 msgid "Help"
 msgstr "Помощь"
 
-#: private/app.php:366
+#: private/app.php:380
 msgid "Personal"
 msgstr "Личное"
 
-#: private/app.php:377
+#: private/app.php:391
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: private/app.php:389
+#: private/app.php:403
 msgid "Users"
 msgstr "Пользователи"
 
-#: private/app.php:402
+#: private/app.php:416
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:880
+#: private/app.php:903
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Не смог обновить \"%s\"."
@@ -83,28 +83,6 @@ msgstr "Изображение повреждено"
 #: private/defaults.php:35
 msgid "web services under your control"
 msgstr "веб-сервисы под вашим управлением"
-
-#: private/files.php:235
-msgid "ZIP download is turned off."
-msgstr "ZIP-скачивание отключено."
-
-#: private/files.php:236
-msgid "Files need to be downloaded one by one."
-msgstr "Файлы должны быть загружены по одному."
-
-#: private/files.php:237 private/files.php:264
-msgid "Back to Files"
-msgstr "Назад к файлам"
-
-#: private/files.php:262
-msgid "Selected files too large to generate zip file."
-msgstr "Выбранные файлы слишком велики, чтобы создать zip файл."
-
-#: private/files.php:263
-msgid ""
-"Please download the files separately in smaller chunks or kindly ask your "
-"administrator."
-msgstr "Загрузите файлы раздельно маленькими частями или вежливо попросите вашего администратора."
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
@@ -135,29 +113,29 @@ msgstr "Приложение не имеет файла info.xml"
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Приложение невозможно установить. В нем содержится запрещенный код."
 
-#: private/installer.php:141
+#: private/installer.php:138
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Приложение невозможно установить. Не совместимо с текущей версией ownCloud."
 
-#: private/installer.php:147
+#: private/installer.php:144
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Приложение невозможно установить. Оно содержит параметр <shipped>true</shipped> который не допустим для приложений, не входящих в поставку."
 
-#: private/installer.php:160
+#: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Приложение невозможно установить. Версия в info.xml/version не совпадает с версией заявленной в магазине приложений"
 
-#: private/installer.php:170
+#: private/installer.php:167
 msgid "App directory already exists"
 msgstr "Папка приложения уже существует"
 
-#: private/installer.php:183
+#: private/installer.php:180
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Не удалось создать директорию. Исправьте права доступа. %s"
@@ -474,20 +452,25 @@ msgstr "в прошлом году"
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: private/user/manager.php:232
+#: private/user/manager.php:238
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Только следующие символы допускаются в имени пользователя: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-\""
 
-#: private/user/manager.php:237
+#: private/user/manager.php:243
 msgid "A valid username must be provided"
 msgstr "Укажите правильное имя пользователя"
 
-#: private/user/manager.php:241
+#: private/user/manager.php:247
 msgid "A valid password must be provided"
 msgstr "Укажите валидный пароль"
 
-#: private/user/manager.php:246
+#: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Имя пользователя уже используется"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

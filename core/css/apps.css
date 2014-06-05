@@ -10,7 +10,7 @@
 
 /* Navigation: folder like structure */
 #app-navigation {
-	width: 300px;
+	width: 230px;
 	height: 100%;
 	float: left;
 	-moz-box-sizing: border-box; box-sizing: border-box;
@@ -19,6 +19,7 @@
 	padding-bottom: 44px;
 }
 #app-navigation > ul {
+	position: relative;
 	height: 100%;
 	overflow: auto;
 	-moz-box-sizing: border-box; box-sizing: border-box;
@@ -167,6 +168,7 @@
 
 /* Part where the content will be loaded into */
 #app-content {
+	position: relative;
 	height: 100%;
 	overflow-y: auto;
 }
@@ -174,7 +176,7 @@
 /* settings area */
 #app-settings {
 	position: fixed;
-	width: 299px;
+	width: 229px;
 	bottom: 0;
 	border-top: 1px solid #ccc;
 }
@@ -276,4 +278,13 @@ button.loading {
 }
 .appear.transparent {
 	opacity: 0;
+}
+
+
+/* do not use italic typeface style, instead lighter color */
+em {
+	font-style: normal;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
 }

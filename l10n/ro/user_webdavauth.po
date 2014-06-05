@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimon Pockemon <>, 2013
-# lauraberindei <lauraagavriloae@yahoo.com>, 2014
-# laurentiucristescu <laur.cristescu@gmail.com>, 2012
+# Dumitru Ursu <>, 2013
+# laura berindei <lauraagavriloae@yahoo.com>, 2014
+# laur cristescu <laur.cristescu@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-07 01:55-0400\n"
-"PO-Revision-Date: 2014-05-05 14:49+0000\n"
-"Last-Translator: lauraberindei <lauraagavriloae@yahoo.com>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,8 +25,12 @@ msgid "WebDAV Authentication"
 msgstr "Autentificare WebDAV"
 
 #: templates/settings.php:3
-msgid "Address: "
-msgstr "Adresa :"
+msgid "Address:"
+msgstr ""
+
+#: templates/settings.php:5
+msgid "Save"
+msgstr "Salvează"
 
 #: templates/settings.php:6
 msgid ""
