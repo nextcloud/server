@@ -514,7 +514,6 @@ class OC_Installer{
 	 * @return boolean true for app is o.k. and false for app is not o.k.
 	 */
 	public static function checkCode($appname, $folder) {
-		return true;
 		$blacklist=array(
 			'exec(',
 			'eval(',
