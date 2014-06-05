@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "Invalid request" => "Fehlerhafte Anfrage",
 "Delete" => "Löschen",
+"never" => "niemals",
 "__language_name__" => "Deutsch (Österreich)",
 "Server address" => "Adresse des Servers",
 "Password" => "Passwort",

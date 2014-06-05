@@ -5,16 +5,16 @@
 # Translators:
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
 # Art O. Pal <artopal@fastmail.fm>, 2012
-# pggx999 <pggx999@gmail.com>, 2012
-# Rodrigo Rodríguez <roirobo@ubuntu.org.ni>, 2013
-# Rubén del Campo <yo@rubendelcampo.es>, 2013
-# saskarip <saskarip@gmail.com>, 2013
+# Pablo Gleisner <pggx999@gmail.com>, 2012
+# Rodrigo <roirobo@ubuntu.org.ni>, 2013
+# Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
+# Sam Askari <saskarip@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:55+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: templates/settings.php:5
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: templates/settings.php:6
 msgid ""

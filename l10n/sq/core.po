@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -149,51 +149,51 @@ msgstr "Parametra"
 msgid "Saving..."
 msgstr "Duke ruajtur..."
 
-#: js/js.js:1234
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "sekonda më parë"
 
-#: js/js.js:1235
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut më parë"
 msgstr[1] "%n minuta më parë"
 
-#: js/js.js:1236
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n orë më parë"
 msgstr[1] "%n orë më parë"
 
-#: js/js.js:1237
+#: js/js.js:1232
 msgid "today"
 msgstr "sot"
 
-#: js/js.js:1238
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "dje"
 
-#: js/js.js:1239
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ditë më parë"
 msgstr[1] "%n ditë më parë"
 
-#: js/js.js:1240
+#: js/js.js:1235
 msgid "last month"
 msgstr "muajin e shkuar"
 
-#: js/js.js:1241
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n muaj më parë"
 msgstr[1] "%n muaj më parë"
 
-#: js/js.js:1242
+#: js/js.js:1237
 msgid "last year"
 msgstr "vitin e shkuar"
 
-#: js/js.js:1243
+#: js/js.js:1238
 msgid "years ago"
 msgstr "vite më parë"
 
@@ -289,157 +289,165 @@ msgstr ""
 msgid "Strong password"
 msgstr ""
 
-#: js/share.js:79 js/share.js:96 js/share.js:152
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "Ndarë"
 
-#: js/share.js:155
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Nda"
 
-#: js/share.js:220 js/share.js:234 js/share.js:241 js/share.js:848
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Veprim i gabuar"
 
-#: js/share.js:222 js/share.js:911
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "Veprim i gabuar gjatë ndarjes"
 
-#: js/share.js:234
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "Veprim i gabuar gjatë heqjes së ndarjes"
 
-#: js/share.js:241
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "Veprim i gabuar gjatë ndryshimit të lejeve"
 
-#: js/share.js:251
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Ndarë me ju dhe me grupin {group} nga {owner}"
 
-#: js/share.js:253
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "Ndarë me ju nga {owner}"
 
-#: js/share.js:277
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:283
+#: js/share.js:334
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:289
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:291
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:296
+#: js/share.js:347
 msgid "Password protect"
 msgstr "Mbro me kod"
 
-#: js/share.js:298
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr ""
 
-#: js/share.js:304
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "Lejo Ngarkimin Publik"
 
-#: js/share.js:308
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "Dërgo email me lidhjen"
 
-#: js/share.js:309
+#: js/share.js:360
 msgid "Send"
 msgstr "Dërgo"
 
-#: js/share.js:314
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "Cakto datën e përfundimit"
 
-#: js/share.js:315
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "Data e përfundimit"
 
-#: js/share.js:352
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "Nda me email:"
 
-#: js/share.js:355
+#: js/share.js:407
 msgid "No people found"
 msgstr "Nuk u gjet asnjë person"
 
-#: js/share.js:403 js/share.js:464
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "grupi"
 
-#: js/share.js:436
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "Rindarja nuk lejohet"
 
-#: js/share.js:480
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "Ndarë në {item} me {user}"
 
-#: js/share.js:502
+#: js/share.js:562
 msgid "Unshare"
 msgstr "Hiq ndarjen"
 
-#: js/share.js:510
+#: js/share.js:570
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:513
+#: js/share.js:573
 msgid "can edit"
 msgstr "mund të ndryshosh"
 
-#: js/share.js:515
+#: js/share.js:575
 msgid "access control"
 msgstr "kontrollimi i hyrjeve"
 
-#: js/share.js:518
+#: js/share.js:578
 msgid "create"
 msgstr "krijo"
 
-#: js/share.js:521
+#: js/share.js:581
 msgid "update"
 msgstr "azhurno"
 
-#: js/share.js:524
+#: js/share.js:584
 msgid "delete"
 msgstr "elimino"
 
-#: js/share.js:527
+#: js/share.js:587
 msgid "share"
 msgstr "nda"
 
-#: js/share.js:829
+#: js/share.js:898
 msgid "Password protected"
 msgstr "Mbrojtur me kod"
 
-#: js/share.js:848
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "Veprim i gabuar gjatë heqjes së datës së përfundimit"
 
-#: js/share.js:869
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "Veprim i gabuar gjatë caktimit të datës së përfundimit"
 
-#: js/share.js:898
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "Duke dërguar..."
 
-#: js/share.js:909
+#: js/share.js:978
 msgid "Email sent"
 msgstr "Email-i u dërgua"
 
-#: js/share.js:933
+#: js/share.js:1002
 msgid "Warning"
 msgstr ""
 
@@ -517,12 +525,13 @@ msgstr "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i 
 msgid "You will receive a link to reset your password via Email."
 msgstr "Do t'iu vijë një email që përmban një lidhje për ta rivendosur kodin."
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:34
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Përdoruesi"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -530,11 +539,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Skedarët tuaj janë të kodifikuar. Nëqoftëse nuk keni aktivizuar çelësin e restaurimit, të dhënat tuaja nuk do të jenë të arritshme pasi të keni rivendosur kodin. Nëqoftëse nuk jeni i sigurt, ju lutemi kontaktoni administratorin tuaj para se të vazhdoni. Jeni i sigurt që dëshironi të vazhdoni?"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "Po, dua ta rivendos kodin tani"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr ""
 
@@ -547,10 +556,11 @@ msgid "To login page"
 msgstr "Tek faqja e hyrjes"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Kodi i ri"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "Rivendos kodin"
 
@@ -684,58 +694,59 @@ msgstr "Për më shumë informacion mbi konfigurimin e duhur të serverit tuaj, 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Krijo një <strong>llogari administruesi</strong>"
 
-#: templates/installation.php:60 templates/login.php:42
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "Kodi"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr ""
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "Emri i dosjes"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "Konfiguro database-in"
 
-#: templates/installation.php:94
+#: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
 msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "Përdoruesi i database-it"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "Kodi i database-it"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "Emri i database-it"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "Tablespace-i i database-it"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "Pozicioni (host) i database-it"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
 msgstr ""
 
-#: templates/installation.php:152
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "Mbaro setup-in"
 
-#: templates/installation.php:152
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr ""
 
@@ -777,19 +788,19 @@ msgstr ""
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:48
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "Ke humbur kodin?"
 
-#: templates/login.php:53
+#: templates/login.php:55
 msgid "remember"
 msgstr "kujto"
 
-#: templates/login.php:57
+#: templates/login.php:59
 msgid "Log in"
 msgstr "Hyrje"
 
-#: templates/login.php:63
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "Hyrje alternative"
 

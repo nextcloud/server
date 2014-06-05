@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# alicanbatur <alicanbatur@hotmail.com>, 2013
-# Emre Saracoglu <emresaracoglu@live.com>, 2014
-# ismail yenigül <ismail.yenigul@surgate.com>, 2013
-# tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013-2014
+# alican batur <alicanbatur@hotmail.com>, 2013
+# Emre Saraçoğlu <emresaracoglu@live.com>, 2014
+# ismail yenigul <ismail.yenigul@surgate.com>, 2013
+# Mustafa Tat, 2013
+# Volkan Gezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"

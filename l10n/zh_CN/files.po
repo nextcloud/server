@@ -5,15 +5,15 @@
 # Translators:
 # Martin Liu <liuzh66@gmail.com>, 2014
 # Mengz You <mengz.you@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2014
-# min zhang <zm1990s@gmail.com>, 2013
-# min zhang <zm1990s@gmail.com>, 2013
+# csslayer <wengxt@gmail.com>, 2014
+# zhangmin <zm1990s@gmail.com>, 2013
+# zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"

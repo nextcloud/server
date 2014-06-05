@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Groups" => "ក្រុ",
 "Group Admin" => "ក្រុម​អ្នក​គ្រប់គ្រង",
 "Delete" => "លុប",
+"never" => "មិនដែរ",
 "add group" => "បន្ថែម​ក្រុម",
 "A valid username must be provided" => "ត្រូវ​ផ្ដល់​ឈ្មោះ​អ្នក​ប្រើ​ឲ្យ​បាន​ត្រឹម​ត្រូវ",
 "Error creating user" => "មាន​កំហុស​ក្នុង​ការ​បង្កើត​អ្នក​ប្រើ",

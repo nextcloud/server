@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-01 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 06:12+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -18,33 +18,41 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: appinfo/app.php:32 js/app.js:32
+#: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
 msgstr ""
 
-#: appinfo/app.php:41 js/app.js:51
+#: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
 msgstr ""
 
-#: js/app.js:33
+#: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr ""
 
-#: js/app.js:52
+#: js/app.js:54
 msgid "You haven't shared any files yet."
 msgstr ""
 
-#: js/share.js:47 js/share.js:55
+#: js/settings-admin.js:10
+msgid "Could not load template"
+msgstr ""
+
+#: js/settings-admin.js:45
+msgid "Saved"
+msgstr ""
+
+#: js/settings-admin.js:64 templates/settings-admin.php:33
+msgid "Reset"
+msgstr ""
+
+#: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "مشاركة من طرف {owner}"
 
-#: js/sharedfilelist.js:116
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "تم مشاركتها بواسطة"
-
-#: js/sharedfilelist.js:220
-msgid "link"
-msgstr ""
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -54,7 +62,7 @@ msgstr "هذه المشاركة محمية بكلمة مرور"
 msgid "The password is wrong. Try again."
 msgstr "كلمة المرور خاطئة. حاول مرة أخرى"
 
-#: templates/authenticate.php:10
+#: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
 msgstr "كلمة المرور"
 
@@ -90,15 +98,31 @@ msgstr "المشاركة غير مفعلة"
 msgid "For more info, please ask the person who sent this link."
 msgstr "لمزيد من المعلومات، يرجى سؤال الشخص الذي أرسل هذا الرابط"
 
-#: templates/public.php:21
+#: templates/public.php:20
 msgid "Download"
 msgstr "تحميل"
 
-#: templates/public.php:52
+#: templates/public.php:50
 #, php-format
 msgid "Download %s"
 msgstr "تحميل %s"
 
-#: templates/public.php:56
+#: templates/public.php:54
 msgid "Direct link"
 msgstr "رابط مباشر"
+
+#: templates/settings-admin.php:3
+msgid "Mail templates"
+msgstr ""
+
+#: templates/settings-admin.php:8
+msgid "Theme"
+msgstr ""
+
+#: templates/settings-admin.php:17
+msgid "Template"
+msgstr ""
+
+#: templates/settings-admin.php:35
+msgid "Save"
+msgstr ""

@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Silme başarısız oldu",
 "Take over settings from recent server configuration?" => "Ayarlar son sunucu yapılandırmalarından devralınsın mı?",
 "Keep settings?" => "Ayarlar korunsun mu?",
+"{nthServer}. Server" => "{nthServer}. Sunucu",
 "Cannot add server configuration" => "Sunucu yapılandırması eklenemedi",
 "mappings cleared" => "eşleştirmeler temizlendi",
 "Success" => "Başarılı",

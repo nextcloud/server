@@ -5,18 +5,18 @@
 # Translators:
 # aoiob4305 <aoiob4305@gmail.com>, 2013
 # aoiob4305 <aoiob4305@gmail.com>, 2013
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
-# 남자사람 <cessnagi@gmail.com>, 2012
-# 남자사람 <cessnagi@gmail.com>, 2012
+# woosuk park <bjh13579@gmail.com>, 2013
+# youlmu <cessnagi@gmail.com>, 2012
+# youlmu <cessnagi@gmail.com>, 2012
 # Shinjo Park <kde@peremen.name>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# woosuk park <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:55+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +35,7 @@ msgstr ""
 
 #: templates/settings.php:5
 msgid "Save"
-msgstr ""
+msgstr "저장"
 
 #: templates/settings.php:6
 msgid ""

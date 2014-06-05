@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/owncloud/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -147,55 +147,55 @@ msgstr "Nastavenia"
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1234
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:1235
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:1236
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:1237
+#: js/js.js:1232
 msgid "today"
 msgstr ""
 
-#: js/js.js:1238
+#: js/js.js:1233
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:1239
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:1240
+#: js/js.js:1235
 msgid "last month"
 msgstr ""
 
-#: js/js.js:1241
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/js.js:1242
+#: js/js.js:1237
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1243
+#: js/js.js:1238
 msgid "years ago"
 msgstr ""
 
@@ -292,157 +292,165 @@ msgstr ""
 msgid "Strong password"
 msgstr ""
 
-#: js/share.js:79 js/share.js:96 js/share.js:152
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr ""
 
-#: js/share.js:155
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "Zdieľať"
 
-#: js/share.js:220 js/share.js:234 js/share.js:241 js/share.js:848
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:222 js/share.js:911
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr ""
 
-#: js/share.js:234
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:241
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:251
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:253
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:277
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:283
+#: js/share.js:334
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:289
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:291
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:296
+#: js/share.js:347
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:298
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr ""
 
-#: js/share.js:304
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:308
+#: js/share.js:359
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:309
+#: js/share.js:360
 msgid "Send"
 msgstr ""
 
-#: js/share.js:314
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:315
+#: js/share.js:366
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:352
+#: js/share.js:404
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:355
+#: js/share.js:407
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:403 js/share.js:464
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:436
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:480
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:502
+#: js/share.js:562
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:510
+#: js/share.js:570
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:513
+#: js/share.js:573
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:515
+#: js/share.js:575
 msgid "access control"
 msgstr ""
 
-#: js/share.js:518
+#: js/share.js:578
 msgid "create"
 msgstr ""
 
-#: js/share.js:521
+#: js/share.js:581
 msgid "update"
 msgstr ""
 
-#: js/share.js:524
+#: js/share.js:584
 msgid "delete"
 msgstr ""
 
-#: js/share.js:527
+#: js/share.js:587
 msgid "share"
 msgstr ""
 
-#: js/share.js:829
+#: js/share.js:898
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:848
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:869
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:898
+#: js/share.js:967
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:909
+#: js/share.js:978
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:933
+#: js/share.js:1002
 msgid "Warning"
 msgstr ""
 
@@ -520,12 +528,13 @@ msgstr ""
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:34
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -533,11 +542,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr ""
 
@@ -550,10 +559,11 @@ msgid "To login page"
 msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr ""
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr ""
 
@@ -687,58 +697,59 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:60 templates/login.php:42
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr ""
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr ""
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:94
+#: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
 msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:150
+#: templates/installation.php:157
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
 msgstr ""
 
-#: templates/installation.php:152
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr ""
 
-#: templates/installation.php:152
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr ""
 
@@ -780,19 +791,19 @@ msgstr ""
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:48
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:53
+#: templates/login.php:55
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:57
+#: templates/login.php:59
 msgid "Log in"
 msgstr ""
 
-#: templates/login.php:63
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr ""
 

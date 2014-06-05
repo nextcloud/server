@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Groups" => "Hópar",
 "Group Admin" => "Hópstjóri",
 "Delete" => "Eyða",
+"never" => "aldrei",
 "__language_name__" => "__nafn_tungumáls__",
 "None" => "Ekkert",
 "Security Warning" => "Öryggis aðvörun",

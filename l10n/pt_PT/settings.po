@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# bmgmatias <bmgmatias@gmail.com>, 2013
-# Mouxy <daniel@mouxy.net>, 2013
-# Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
+# Bruno Matias <bmgmatias@gmail.com>, 2013
+# Daniel Pinto <daniel@mouxy.net>, 2013
+# zedascouves <duartegrilo@gmail.com>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
-# jmruas <jmruas@gmail.com>, 2014
+# Jose Manuel Ruas <jmruas@gmail.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2013-2014
-# Drew Melim <nokostya.translation@gmail.com>, 2014
-# PapiMigas Migas <papimigas@gmail.com>, 2013
+# Andrew_Melim <nokostya.translation@gmail.com>, 2014
+# PapiMigas <papimigas@gmail.com>, 2013
 # sccosta <sonia.peres.costa@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -328,7 +328,7 @@ msgstr "Eliminar"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "nunca"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -750,7 +750,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -924,7 +924,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -936,7 +936,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Quota por padrão"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -956,7 +956,7 @@ msgstr "Nome de utilizador"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

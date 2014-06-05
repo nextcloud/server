@@ -4,17 +4,17 @@
 # 
 # Translators:
 # Alexander Shashkevych <alex@stunpix.com>, 2013
-# lord93 <lordakryl@gmail.com>, 2013
+# Andrew Batchmauga <lordakryl@gmail.com>, 2013
 # Denis <reg.transifex.net@demitel.ru>, 2013
 # adol <sharov3@gmail.com>, 2012
-# skoptev <skoptev@ukr.net>, 2012
+# Сергей Коптев <skoptev@ukr.net>, 2012
 # Victor Bravo <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:55+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: templates/settings.php:5
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: templates/settings.php:6
 msgid ""

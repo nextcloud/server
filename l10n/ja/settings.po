@@ -4,18 +4,18 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
-# plazmism <gomidori@live.jp>, 2013-2014
-# iLikeIT <dj_dark_junglist@yahoo.com>, 2013
+# タカハシ <gomidori@live.jp>, 2013-2014
+# Jake G. <dj_dark_junglist@yahoo.com>, 2013
 # kuromabo <md81bird@hitaki.net>, 2014
-# mikako, 2014
-# tt yn <tetuyano+transi@gmail.com>, 2013
+# Mika Kobayashi, 2014
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 17:41+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +34,7 @@ msgstr "保存されました"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr "eメール設定をテスト"
+msgstr "メール設定をテスト"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
@@ -289,11 +289,11 @@ msgstr "暗号化キーを復元する。"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete "
-msgstr ""
+msgstr "削除できません"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "グループの作成エラー"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
@@ -325,7 +325,7 @@ msgstr "削除"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "無し"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -604,7 +604,7 @@ msgstr "ユーザーにグループ内のユーザーとのみ共有を許可す
 
 #: templates/admin.php:294
 msgid "Allow users to send mail notification for shared files"
-msgstr "共有ファイルに関するメール通知の送信をユーザに許可する"
+msgstr "共有ファイルに関するメール通知の送信をユーザーに許可する"
 
 #: templates/admin.php:301
 msgid "Exclude groups from sharing"
@@ -649,7 +649,7 @@ msgstr "アドレスから"
 
 #: templates/admin.php:386
 msgid "mail"
-msgstr ""
+msgstr "メール"
 
 #: templates/admin.php:407
 msgid "Authentication required"
@@ -677,7 +677,7 @@ msgstr "SMTP パスワード"
 
 #: templates/admin.php:428
 msgid "Test email settings"
-msgstr "メールテスト設定"
+msgstr "メール設定をテスト"
 
 #: templates/admin.php:429
 msgid "Send email"
@@ -743,11 +743,11 @@ msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\">
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "特定のグループのみ有効に"
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "すべて"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -913,15 +913,15 @@ msgstr "パスワード変更時のユーザーのファイルを回復するた
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "ユーザーとグループを検索"
 
 #: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
 msgid "Add Group"
-msgstr ""
+msgstr "グループを追加"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "グループ"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -929,11 +929,11 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "管理者"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "デフォルトのクォータサイズ"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -953,15 +953,15 @@ msgstr "ユーザー名"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "クオータ"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "ストレージの場所"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "最終ログイン"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

@@ -5,18 +5,18 @@
 # Translators:
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # jekader <jekader@gmail.com>, 2013
-# tukos, 2014
-# eurekafag <rkfg@rkfg.me>, 2013
-# sk.avenger <sk.avenger@adygnet.ru>, 2013
-# unixoid <victor.ashirov@gmail.com>, 2013
-# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
-# Friktor <antonshramko@yandex.ru>, 2013
+# Kalyuzhniy Aleksey, 2014
+# Serge Shpikin <rkfg@rkfg.me>, 2013
+# Sk.Avenger <sk.avenger@adygnet.ru>, 2013
+# Victor Ashirov <victor.ashirov@gmail.com>, 2013
+# Yuriy Malyovaniy <yuriy.malyovaniy@gmail.com>, 2013
+# Антон <antonshramko@yandex.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +25,11 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: base.php:713
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:714
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -469,3 +469,8 @@ msgstr "Укажите валидный пароль"
 #: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Имя пользователя уже используется"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

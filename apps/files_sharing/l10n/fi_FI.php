@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Et ole jakanut yhtäkään tiedostoa vielä.",
 "Shared by {owner}" => "Jakanut {owner}",
 "Shared by" => "Jakanut",
-"link" => "linkki",
 "This share is password-protected" => "Tämä jako on suojattu salasanalla",
 "The password is wrong. Try again." => "Väärä salasana. Yritä uudelleen.",
 "Password" => "Salasana",

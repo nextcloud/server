@@ -31,6 +31,7 @@ $TRANSLATIONS = array(
 "Groups" => "ჯგუფები",
 "Group Admin" => "ჯგუფის ადმინისტრატორი",
 "Delete" => "წაშლა",
+"never" => "არასდროს",
 "add group" => "ჯგუფის დამატება",
 "A valid username must be provided" => "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",
 "Error creating user" => "შეცდომა მომხმარებლის შექმნისას",
@@ -72,6 +73,7 @@ $TRANSLATIONS = array(
 "Select an App" => "აირჩიეთ აპლიკაცია",
 "See application page at apps.owncloud.com" => "ნახეთ აპლიკაციის გვერდი apps.owncloud.com –ზე",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-ლიცენსირებულია <span class=\"author\"></span>",
+"All" => "ყველა",
 "Administrator Documentation" => "ადმინისტრატორის დოკუმენტაცია",
 "Online Documentation" => "ონლაინ დოკუმენტაცია",
 "Forum" => "ფორუმი",
@@ -93,9 +95,11 @@ $TRANSLATIONS = array(
 "Help translate" => "თარგმნის დახმარება",
 "Login Name" => "მომხმარებლის სახელი",
 "Create" => "შექმნა",
+"Default Quota" => "საწყისი ქვოტა",
 "Unlimited" => "ულიმიტო",
 "Other" => "სხვა",
 "Username" => "მომხმარებლის სახელი",
+"Quota" => "ქვოტა",
 "set new password" => "დააყენეთ ახალი პაროლი",
 "Default" => "საწყისი პარამეტრები"
 );

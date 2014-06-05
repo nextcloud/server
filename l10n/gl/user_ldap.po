@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mbouzada <mbouzada@gmail.com>, 2013
-# mbouzada <mbouzada@gmail.com>, 2014
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2013
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2014
 # Xosé M. Lamas <correo.xmgz@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:51+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,7 +75,7 @@ msgstr "Manter os axustes?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Servidor"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -579,7 +579,7 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr "Os nomes de usuario empreganse para almacenar e asignar (meta) datos. Coa fin de identificar con precisión e recoñecer aos usuarios, cada usuario LDAP terá un nome de usuario interno. Isto require unha asignación de ownCloud nome de usuario a usuario LDAP. O nome de usuario creado asignase ao UUID do usuario LDAP. Ademais o DN almacenase na caché, para así reducir a interacción do LDAP, mais non se utiliza para a identificación. Se o DN cambia, os cambios poden ser atopados polo ownCloud. O nome interno no ownCloud utilizase en todo o ownCloud. A limpeza das asignacións deixará rastros en todas partes. A limpeza das asignacións non é sensíbel á configuración, afecta a todas as configuracións de LDAP! Non limpar nunca as asignacións nun entorno de produción. Limpar as asignacións só en fases de proba ou experimentais."
+msgstr "Os nomes de usuario empréganse para almacenar e asignar (meta) datos. Coa fin de identificar con precisión e recoñecer aos usuarios, cada usuario LDAP terá un nome de usuario interno. Isto require unha asignación de ownCloud nome de usuario a usuario LDAP. O nome de usuario creado asignase ao UUID do usuario LDAP. Ademais o DN almacenase na caché, para así reducir a interacción do LDAP, mais non se utiliza para a identificación. Se o DN cambia, os cambios poden ser atopados polo ownCloud. O nome interno no ownCloud utilizase en todo o ownCloud. A limpeza das asignacións deixará rastros en todas partes. A limpeza das asignacións non é sensíbel á configuración, afecta a todas as configuracións de LDAP! Non limpar nunca as asignacións nun entorno de produción. Limpar as asignacións só en fases de proba ou experimentais."
 
 #: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"

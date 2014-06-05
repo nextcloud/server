@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mbouzada <mbouzada@gmail.com>, 2013
-# mbouzada <mbouzada@gmail.com>, 2014
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2013
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:713
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Esta accedendo desde un dominio non fiábel."
 
-#: base.php:714
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -117,7 +117,7 @@ msgstr "Non é posíbel instalar o aplicativo por non seren compatíbel  con est
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr "Non é posíbel instalar o aplicativo por conter a etiqueta\n<shipped>\n\ntrue\n</shipped>\nque non está permitida para os aplicativos non enviados"
+msgstr "Non é posíbel instalar o aplicativo por conter a etiqueta <shipped>true</shipped> que non está permitida para os aplicativos non expedidos"
 
 #: private/installer.php:157
 msgid ""
@@ -213,7 +213,7 @@ msgstr "Produciuse un erro na base de datos: «%s»"
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr "A orde ofensiva foi: «%s»"
+msgstr "A orde infractora foi: «%s»"
 
 #: private/setup/mysql.php:85
 #, php-format
@@ -244,7 +244,7 @@ msgstr "Nome de usuario e/ou contrasinal de Oracle incorrecto"
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr "A orde ofensiva foi: «%s», nome: %s, contrasinal: %s"
+msgstr "A orde infractora foi: «%s», nome: %s, contrasinal: %s"
 
 #: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
@@ -262,7 +262,7 @@ msgstr "Estabeleza un contrasinal de administrador"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar."
+msgstr "O seu servidor web aínda non está configurado axeidamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar."
 
 #: private/setup.php:165
 #, php-format
@@ -363,7 +363,7 @@ msgstr "Non se atopou a infraestrutura de compartición para %s"
 #: private/share/share.php:1388
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr "Fallou a compartición de %s, compartición orixinal é do usuario %s"
+msgstr "Fallou a compartición de %s, a compartición orixinal é do usuario %s"
 
 #: private/share/share.php:1397
 #, php-format
@@ -459,3 +459,8 @@ msgstr "Debe fornecer un contrasinal"
 #: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Este nome de usuario xa está a ser usado"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

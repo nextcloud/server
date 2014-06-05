@@ -4,14 +4,14 @@
 # 
 # Translators:
 # barbarak <barbarak@arnes.si>, 2013
-# mateju <>, 2013
+# Matej Urbančič <>, 2013
 # Peter Peroša <peter.perosa@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:55+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 #: templates/settings.php:5
 msgid "Save"
-msgstr ""
+msgstr "Shrani"
 
 #: templates/settings.php:6
 msgid ""

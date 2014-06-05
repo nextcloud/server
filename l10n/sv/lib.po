@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AsavarTzeth <asavartzeth@gmail.com>, 2014
+# Patrik Nilsson <asavartzeth@gmail.com>, 2014
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # enoch85 <enoch85@gmail.com>, 2014
-# henrikhjelm <mailto@henrikhjelm.se>, 2014
-# medialabs, 2013-2014
-# kallemooo <karl.h.thoren@gmail.com>, 2013
+# henrik hjelm <mailto@henrikhjelm.se>, 2014
+# Juho Ojala, 2013-2014
+# Karl Thorén <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
-# medialabs, 2013
+# Juho Ojala, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -25,11 +25,11 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:713
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Du ansluter till servern från en osäker domän."
 
-#: base.php:714
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -465,3 +465,8 @@ msgstr "Ett giltigt lösenord måste anges"
 #: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Användarnamnet används redan"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

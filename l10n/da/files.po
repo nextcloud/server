@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sappe, 2013-2014
-# claus_chr <claus_chr@webspeed.dk>, 2013
-# lodahl <leiflodahl@gmail.com>, 2013
-# Amplificator, 2014
+# Anders J. Sørensen, 2013-2014
+# Claus Christensen <claus_chr@webspeed.dk>, 2013
+# Leif Lodahl <leiflodahl@gmail.com>, 2013
+# Martin L. R., 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"

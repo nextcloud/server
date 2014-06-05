@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Delete" => "Odstrániť",
+"never" => "nikdy",
 "Cancel" => "Zrušiť",
 "Other" => "Ostatné"
 );

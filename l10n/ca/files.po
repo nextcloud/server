@@ -7,13 +7,13 @@
 # jmontane <joan@montane.cat>, 2013
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2013
 # mickymadsystems <micky@madsystems.cat>, 2014
-# black_star <peredelgrau@hotmail.com>, 2014
+# Peredelgrau <peredelgrau@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"

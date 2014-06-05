@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Select attributes" => "Esbillar atributos",
 "Connection test succeeded" => "Test de conexón esitosu",
 "Connection test failed" => "Falló'l test de conexón",
+"Confirm Deletion" => "Confirmar desaniciu",
 "_%s group found_::_%s groups found_" => array("%s grupu alcontráu","%s grupos alcontraos"),
 "_%s user found_::_%s users found_" => array("%s usuariu alcontráu","%s usuarios alcontraos"),
 "Could not find the desired feature" => "Nun pudo alcontrase la carauterística deseyada",

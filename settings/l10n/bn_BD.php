@@ -24,6 +24,7 @@ $TRANSLATIONS = array(
 "Groups" => "গোষ্ঠীসমূহ",
 "Group Admin" => "গোষ্ঠী প্রশাসক",
 "Delete" => "মুছে",
+"never" => "কখনোই নয়",
 "__language_name__" => "__language_name__",
 "None" => "কোনটিই নয়",
 "Login" => "প্রবেশ",

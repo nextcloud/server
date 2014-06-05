@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Du har inte delat några filer ännu.",
 "Shared by {owner}" => "Delad av {owner}",
 "Shared by" => "Delad av",
-"link" => "länk",
 "This share is password-protected" => "Den här delningen är lösenordsskyddad",
 "The password is wrong. Try again." => "Lösenordet är fel. Försök igen.",
 "Password" => "Lösenord",

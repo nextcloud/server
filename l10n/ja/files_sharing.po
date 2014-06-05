@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# plazmism <gomidori@live.jp>, 2014
+# タカハシ <gomidori@live.jp>, 2014
 # kuromabo <md81bird@hitaki.net>, 2014
-# tt yn <tetuyano+transi@gmail.com>, 2013
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-03 18:42+0000\n"
-"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,33 +21,41 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: appinfo/app.php:32 js/app.js:32
+#: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
 msgstr "あなたと共有"
 
-#: appinfo/app.php:41 js/app.js:51
+#: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
 msgstr "他人と共有"
 
-#: js/app.js:33
+#: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "まだ共有を行なっているファイルはありません。"
 
-#: js/app.js:52
+#: js/app.js:54
 msgid "You haven't shared any files yet."
 msgstr "まだ共有を行なっているファイルはありません。"
 
-#: js/share.js:47 js/share.js:55
+#: js/settings-admin.js:10
+msgid "Could not load template"
+msgstr ""
+
+#: js/settings-admin.js:45
+msgid "Saved"
+msgstr ""
+
+#: js/settings-admin.js:64 templates/settings-admin.php:33
+msgid "Reset"
+msgstr ""
+
+#: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "{owner} と共有中"
 
-#: js/sharedfilelist.js:116
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "共有者："
-
-#: js/sharedfilelist.js:220
-msgid "link"
-msgstr "リンク"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -57,7 +65,7 @@ msgstr "この共有はパスワードで保護されています"
 msgid "The password is wrong. Try again."
 msgstr "パスワードが間違っています。再試行してください。"
 
-#: templates/authenticate.php:10
+#: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
 msgstr "パスワード"
 
@@ -105,3 +113,19 @@ msgstr "%s をダウンロード"
 #: templates/public.php:54
 msgid "Direct link"
 msgstr "リンク"
+
+#: templates/settings-admin.php:3
+msgid "Mail templates"
+msgstr ""
+
+#: templates/settings-admin.php:8
+msgid "Theme"
+msgstr ""
+
+#: templates/settings-admin.php:17
+msgid "Template"
+msgstr ""
+
+#: templates/settings-admin.php:35
+msgid "Save"
+msgstr ""

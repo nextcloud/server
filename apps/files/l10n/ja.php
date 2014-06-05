@@ -5,7 +5,7 @@ $TRANSLATIONS = array(
 "File name cannot be empty." => "ファイル名を空にすることはできません。",
 "\"%s\" is an invalid file name." => "\"%s\" は無効なファイル名です。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
-"The target folder has been moved or deleted." => "目標のフォルダは移動されたか、削除されました。",
+"The target folder has been moved or deleted." => "対象のフォルダーは移動されたか、削除されました。",
 "The name %s is already used in the folder %s. Please choose a different name." => "%s はフォルダー %s ですでに使われています。別の名前を選択してください。",
 "Not a valid source" => "有効なソースではありません",
 "Server is not allowed to open URLs, please check the server configuration" => "サーバーは、URLを開くことは許されません。サーバーの設定をチェックしてください。",
@@ -84,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "ダウンロード",
 "Upload too large" => "アップロードには大きすぎます。",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
-"Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。"
+"Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
+"Currently scanning" => "現在スキャン中"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

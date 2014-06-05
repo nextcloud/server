@@ -4,23 +4,23 @@
 # 
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2013-2014
-# ggam <ggam@brainleakage.com>, 2013
-# japaol <japaol@gmail.com>, 2013
+# Guillermo G. <ggam@brainleakage.com>, 2013
+# Javi <japaol@gmail.com>, 2013
 # joses <jose_mari_s@hotmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013
-# mikelanabitarte <inactive+mikelanabitarte@transifex.com>, 2013
-# plaguna <laguna.sanchez@gmail.com>, 2014
+# mikel anabitarte <inactive+mikelanabitarte@transifex.com>, 2013
+# Pablo Laguna <laguna.sanchez@gmail.com>, 2014
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013-2014
-# qdneren <renanqd@yahoo.com.mx>, 2013
-# Rubén del Campo <yo@rubendelcampo.es>, 2013
-# saskarip <saskarip@gmail.com>, 2013
+# Renan Quezada <renanqd@yahoo.com.mx>, 2013
+# Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
+# Sam Askari <saskarip@gmail.com>, 2013
 # victormce <victormce@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"

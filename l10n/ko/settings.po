@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# woosuk park <bjh13579@gmail.com>, 2013
 # Harim Park <fofwisdom@gmail.com>, 2014
 # Park Shinjo <peremen@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# woosuk park <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr "삭제"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "없음"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -746,7 +746,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "모두"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -932,7 +932,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "기본 할당량"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -952,7 +952,7 @@ msgstr "사용자 이름"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "할당량"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "You haven't shared any files yet.",
 "Shared by {owner}" => "Shared by {owner}",
 "Shared by" => "Shared by",
-"link" => "link",
 "This share is password-protected" => "This share is password-protected",
 "The password is wrong. Try again." => "The password is wrong. Try again.",
 "Password" => "Password",

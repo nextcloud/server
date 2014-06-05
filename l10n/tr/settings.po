@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# DeeJaVu <ddejjavvu@gmail.com>, 2013
-# ismail yenigül <ismail.yenigul@surgate.com>, 2013
-# tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013-2014
+# fatih akgun <ddejjavvu@gmail.com>, 2013
+# ismail yenigul <ismail.yenigul@surgate.com>, 2013
+# Mustafa Tat, 2013
+# Volkan Gezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 12:11+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -287,15 +287,15 @@ msgstr "Şifreleme anahtarlarını geri yükle."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete "
-msgstr ""
+msgstr "Silinemeyen: "
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Grup oluşturulurken hata"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Geçerli bir grup adı mutlaka sağlanmalı"
 
 #: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
@@ -323,7 +323,7 @@ msgstr "Sil"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "asla"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -442,14 +442,14 @@ msgstr "Bu, muhtemelen Zend OPcache veya eAccelerator gibi bir önbellek/hızlan
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Veritabanı Başarım Bilgisi"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Veritabanı olarak SQLite kullanılacak. Daha büyük kurulumlar için bunu değiştirmenizi öneririz. Farklı bir veritabanına geçiş yapmak için komut satırı aracını kullanın: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -741,11 +741,11 @@ msgstr "<span class=\"licence\"></span> ile lisanslayan: <span class=\"author\">
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Sadece belirli gruplar için etkinleştir"
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Tümü"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -911,27 +911,27 @@ msgstr "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak içi
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Kullanıcı ve Grupları Ara"
 
 #: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
 msgid "Add Group"
-msgstr ""
+msgstr "Grup Ekle"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Herkes"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Yöneticiler"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Varsayılan Kota"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -951,15 +951,15 @@ msgstr "Kullanıcı Adı"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Kota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Depolama Konumu"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Son Giriş"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

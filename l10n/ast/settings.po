@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Iñigo Varela <ivarela@softastur.org>, 2014
-# Tornes Llume <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 10:41+0000\n"
+"Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -285,7 +285,7 @@ msgstr "Restaurar claves de cifráu."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete "
-msgstr ""
+msgstr "Nun pue desaniciase"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
@@ -321,7 +321,7 @@ msgstr "Desaniciar"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "enxamás"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -645,7 +645,7 @@ msgstr "Dende la direición"
 
 #: templates/admin.php:386
 msgid "mail"
-msgstr ""
+msgstr "corréu"
 
 #: templates/admin.php:407
 msgid "Authentication required"
@@ -743,7 +743,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Toos"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -913,19 +913,19 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
 msgid "Add Group"
-msgstr ""
+msgstr "Amestar grupu"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Grupu"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Toos"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Almins"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -957,7 +957,7 @@ msgstr ""
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Aniciu de sesión caberu"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

@@ -5,14 +5,14 @@
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
-# vkehayas <vkehayas@gmail.com>, 2013-2014
+# Vassilis Kehayas <vkehayas@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-01 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 17:12+0000\n"
-"Last-Translator: vkehayas <vkehayas@gmail.com>\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,33 +20,41 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:32 js/app.js:32
+#: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
 msgstr "Διαμοιρασμένο με εσάς"
 
-#: appinfo/app.php:41 js/app.js:51
+#: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
 msgstr "Διαμοιρασμένο με άλλους"
 
-#: js/app.js:33
+#: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "Κανένα αρχείο δνε έχει διαμοιραστεί ακόμα με εσάς."
 
-#: js/app.js:52
+#: js/app.js:54
 msgid "You haven't shared any files yet."
 msgstr "Δεν έχετε διαμοιραστεί κανένα αρχείο ακόμα."
 
-#: js/share.js:47 js/share.js:55
+#: js/settings-admin.js:10
+msgid "Could not load template"
+msgstr ""
+
+#: js/settings-admin.js:45
+msgid "Saved"
+msgstr ""
+
+#: js/settings-admin.js:64 templates/settings-admin.php:33
+msgid "Reset"
+msgstr ""
+
+#: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Διαμοιράστηκε από τον {owner}"
 
-#: js/sharedfilelist.js:116
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "Διαμοιράστηκε από"
-
-#: js/sharedfilelist.js:220
-msgid "link"
-msgstr "σύνδεσμος"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -56,7 +64,7 @@ msgstr "Αυτός ο κοινόχρηστος φάκελος προστατεύ
 msgid "The password is wrong. Try again."
 msgstr "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά."
 
-#: templates/authenticate.php:10
+#: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
@@ -92,15 +100,31 @@ msgstr "ο διαμοιρασμός απενεργοποιήθηκε"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Για περισσότερες πληροφορίες, παρακαλώ ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο."
 
-#: templates/public.php:21
+#: templates/public.php:20
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/public.php:52
+#: templates/public.php:50
 #, php-format
 msgid "Download %s"
 msgstr "Λήψη %s"
 
-#: templates/public.php:56
+#: templates/public.php:54
 msgid "Direct link"
 msgstr "Άμεσος σύνδεσμος"
+
+#: templates/settings-admin.php:3
+msgid "Mail templates"
+msgstr ""
+
+#: templates/settings-admin.php:8
+msgid "Theme"
+msgstr ""
+
+#: templates/settings-admin.php:17
+msgid "Template"
+msgstr ""
+
+#: templates/settings-admin.php:35
+msgid "Save"
+msgstr ""

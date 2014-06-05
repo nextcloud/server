@@ -64,7 +64,7 @@ $TRANSLATIONS = array(
 "Delete" => "Eliminar",
 "Enable User External Storage" => "Activar o almacenamento externo do usuario",
 "Allow users to mount the following external storage" => "Permitirlle aos usuarios montar o seguinte almacenamento externo",
-"SSL root certificates" => "Certificados SSL root",
-"Import Root Certificate" => "Importar o certificado root"
+"SSL root certificates" => "Certificados raíz SSL",
+"Import Root Certificate" => "Importar o certificado raíz"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

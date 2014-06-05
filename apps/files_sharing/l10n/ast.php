@@ -1,5 +1,9 @@
 <?php
 $TRANSLATIONS = array(
+"Shared with you" => "Compartío contigo",
+"Shared with others" => "Compartío con otros",
+"No files have been shared with you yet." => "Entá nun se compartieron ficheros contigo.",
+"You haven't shared any files yet." => "Entá nun compartiesti dengún ficheru.",
 "Shared by {owner}" => "Compartíu por {owner}",
 "Shared by" => "Compartíu por",
 "This share is password-protected" => "Esta compartición tien contraseña protexida",

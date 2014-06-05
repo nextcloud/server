@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "Groups" => "කණ්ඩායම්",
 "Group Admin" => "කාණ්ඩ පරිපාලක",
 "Delete" => "මකා දමන්න",
+"never" => "කවදාවත්",
 "None" => "කිසිවක් නැත",
 "Login" => "ප්‍රවිශ්ටය",
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",
@@ -51,7 +52,9 @@ $TRANSLATIONS = array(
 "Help translate" => "පරිවර්ථන සහය",
 "Login Name" => "ප්‍රවිශ්ටය",
 "Create" => "තනන්න",
+"Default Quota" => "සාමාන්‍ය සලාකය",
 "Other" => "වෙනත්",
-"Username" => "පරිශීලක නම"
+"Username" => "පරිශීලක නම",
+"Quota" => "සලාකය"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

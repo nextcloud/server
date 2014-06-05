@@ -3,9 +3,9 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mirodin <blobbyjj@ymail.com>, 2012
+# Tristan <blobbyjj@ymail.com>, 2012
 # Marcel Kühlhorn <tux93@opensuse.org>, 2013
-# Mario Siegmann <mario_siegmann@web.de>, 2013
+# Mario Siegmann <mario_siegmann@web.de>, 2013-2014
 # AndryXY <mibunrui@gmx.de>, 2013
 # Pwnicorn <pwnicorndev@gmail.com>, 2013
 # seeed <seeed@freenet.de>, 2012
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:55+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 07:01+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,11 +29,11 @@ msgstr "WebDAV Authentifikation"
 
 #: templates/settings.php:3
 msgid "Address:"
-msgstr ""
+msgstr "Adresse:"
 
 #: templates/settings.php:5
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: templates/settings.php:6
 msgid ""

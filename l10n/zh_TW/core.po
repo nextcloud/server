@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# chenanyeh <chnjsn1221@gmail.com>, 2013
-# pellaeon <nfsmwlin@gmail.com>, 2013
+# Chen-An Yeh <chnjsn1221@gmail.com>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -149,47 +149,47 @@ msgstr "設定"
 msgid "Saving..."
 msgstr "儲存中..."
 
-#: js/js.js:1234
+#: js/js.js:1229
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:1235
+#: js/js.js:1230
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分鐘前"
 
-#: js/js.js:1236
+#: js/js.js:1231
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小時前"
 
-#: js/js.js:1237
+#: js/js.js:1232
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:1238
+#: js/js.js:1233
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:1239
+#: js/js.js:1234
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: js/js.js:1240
+#: js/js.js:1235
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:1241
+#: js/js.js:1236
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 個月前"
 
-#: js/js.js:1242
+#: js/js.js:1237
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:1243
+#: js/js.js:1238
 msgid "years ago"
 msgstr "幾年前"
 
@@ -284,157 +284,165 @@ msgstr "好的密碼"
 msgid "Strong password"
 msgstr "很強的密碼"
 
-#: js/share.js:79 js/share.js:96 js/share.js:152
+#: js/share.js:109 js/share.js:199
 msgid "Shared"
 msgstr "已分享"
 
-#: js/share.js:155
+#: js/share.js:202
+msgid "Shared by {owner}"
+msgstr ""
+
+#: js/share.js:205
+msgid "Shared with {recipients}"
+msgstr ""
+
+#: js/share.js:211
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:220 js/share.js:234 js/share.js:241 js/share.js:848
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
 #: templates/installation.php:10
 msgid "Error"
 msgstr "錯誤"
 
-#: js/share.js:222 js/share.js:911
+#: js/share.js:273 js/share.js:980
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
-#: js/share.js:234
+#: js/share.js:285
 msgid "Error while unsharing"
 msgstr "取消分享時發生錯誤"
 
-#: js/share.js:241
+#: js/share.js:292
 msgid "Error while changing permissions"
 msgstr "修改權限時發生錯誤"
 
-#: js/share.js:251
+#: js/share.js:302
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "由 {owner} 分享給您和 {group}"
 
-#: js/share.js:253
+#: js/share.js:304
 msgid "Shared with you by {owner}"
 msgstr "{owner} 已經和您分享"
 
-#: js/share.js:277
+#: js/share.js:328
 msgid "Share with user or group …"
 msgstr "與用戶或群組分享"
 
-#: js/share.js:283
+#: js/share.js:334
 msgid "Share link"
 msgstr "分享連結"
 
-#: js/share.js:289
+#: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:291
+#: js/share.js:342
 msgid "By default the public link will expire after {days} days"
 msgstr ""
 
-#: js/share.js:296
+#: js/share.js:347
 msgid "Password protect"
 msgstr "密碼保護"
 
-#: js/share.js:298
+#: js/share.js:349
 msgid "Choose a password for the public link"
 msgstr ""
 
-#: js/share.js:304
+#: js/share.js:355
 msgid "Allow Public Upload"
 msgstr "允許任何人上傳"
 
-#: js/share.js:308
+#: js/share.js:359
 msgid "Email link to person"
 msgstr "將連結 email 給別人"
 
-#: js/share.js:309
+#: js/share.js:360
 msgid "Send"
 msgstr "寄出"
 
-#: js/share.js:314
+#: js/share.js:365
 msgid "Set expiration date"
 msgstr "指定到期日"
 
-#: js/share.js:315
+#: js/share.js:366
 msgid "Expiration date"
 msgstr "到期日"
 
-#: js/share.js:352
+#: js/share.js:404
 msgid "Share via email:"
 msgstr "透過電子郵件分享："
 
-#: js/share.js:355
+#: js/share.js:407
 msgid "No people found"
 msgstr "沒有找到任何人"
 
-#: js/share.js:403 js/share.js:464
+#: js/share.js:456 js/share.js:524
 msgid "group"
 msgstr "群組"
 
-#: js/share.js:436
+#: js/share.js:489
 msgid "Resharing is not allowed"
 msgstr "不允許重新分享"
 
-#: js/share.js:480
+#: js/share.js:540
 msgid "Shared in {item} with {user}"
 msgstr "已和 {user} 分享 {item}"
 
-#: js/share.js:502
+#: js/share.js:562
 msgid "Unshare"
 msgstr "取消分享"
 
-#: js/share.js:510
+#: js/share.js:570
 msgid "notify by email"
 msgstr "以 email 通知"
 
-#: js/share.js:513
+#: js/share.js:573
 msgid "can edit"
 msgstr "可編輯"
 
-#: js/share.js:515
+#: js/share.js:575
 msgid "access control"
 msgstr "存取控制"
 
-#: js/share.js:518
+#: js/share.js:578
 msgid "create"
 msgstr "建立"
 
-#: js/share.js:521
+#: js/share.js:581
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:524
+#: js/share.js:584
 msgid "delete"
 msgstr "刪除"
 
-#: js/share.js:527
+#: js/share.js:587
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:829
+#: js/share.js:898
 msgid "Password protected"
 msgstr "受密碼保護"
 
-#: js/share.js:848
+#: js/share.js:917
 msgid "Error unsetting expiration date"
 msgstr "取消到期日設定失敗"
 
-#: js/share.js:869
+#: js/share.js:938
 msgid "Error setting expiration date"
 msgstr "設定到期日發生錯誤"
 
-#: js/share.js:898
+#: js/share.js:967
 msgid "Sending ..."
 msgstr "正在傳送…"
 
-#: js/share.js:909
+#: js/share.js:978
 msgid "Email sent"
 msgstr "Email 已寄出"
 
-#: js/share.js:933
+#: js/share.js:1002
 msgid "Warning"
 msgstr "警告"
 
@@ -512,12 +520,13 @@ msgstr "請求失敗！<br>您確定填入的電子郵件地址或是帳號名�
 msgid "You will receive a link to reset your password via Email."
 msgstr "重設密碼的連結將會寄到您的電子郵件信箱。"
 
-#: lostpassword/templates/lostpassword.php:21 templates/installation.php:53
-#: templates/login.php:34
+#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "使用者名稱"
 
-#: lostpassword/templates/lostpassword.php:25
+#: lostpassword/templates/lostpassword.php:27
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -525,11 +534,11 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "您的檔案已加密，如果您沒有設定還原金鑰，未來重設密碼後將無法取回您的資料。如果您不確定該怎麼做，請洽詢系統管理員後再繼續。您確定要現在繼續嗎？"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:29
 msgid "Yes, I really want to reset my password now"
 msgstr "對，我現在想要重設我的密碼。"
 
-#: lostpassword/templates/lostpassword.php:30
+#: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
 msgstr "重設"
 
@@ -542,10 +551,11 @@ msgid "To login page"
 msgstr "至登入頁面"
 
 #: lostpassword/templates/resetpassword.php:8
+#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "新密碼"
 
-#: lostpassword/templates/resetpassword.php:11
+#: lostpassword/templates/resetpassword.php:13
 msgid "Reset password"
 msgstr "重設密碼"
 
@@ -679,58 +689,59 @@ msgstr "請參考<a href=\"%s\" target=\"_blank\">說明文件</a>以瞭解如�
 msgid "Create an <strong>admin account</strong>"
 msgstr "建立一個<strong>管理者帳號</strong>"
 
-#: templates/installation.php:60 templates/login.php:42
+#: templates/installation.php:59 templates/installation.php:62
+#: templates/login.php:41 templates/login.php:44
 msgid "Password"
 msgstr "密碼"
 
-#: templates/installation.php:70
+#: templates/installation.php:72
 msgid "Storage & database"
 msgstr ""
 
-#: templates/installation.php:77
+#: templates/installation.php:79
 msgid "Data folder"
 msgstr "資料儲存位置"
 
-#: templates/installation.php:90
+#: templates/installation.php:92
 msgid "Configure the database"
 msgstr "設定資料庫"
 
-#: templates/installation.php:94
+#: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
 msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
 msgstr "資料庫使用者"
 
-#: templates/installation.php:118
+#: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
 msgstr "資料庫密碼"
 
-#: templates/installation.php:123
+#: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
 msgstr "資料庫名稱"
 
-#: templates/installation.php:132
+#: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
 msgstr "資料庫 tablespace"
 
-#: templates/installation.php:140
+#: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
 msgstr "資料庫主機"
 
-#: templates/installation.php:150
+#: templates/installation.php:157
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
 msgstr ""
 
-#: templates/installation.php:152
+#: templates/installation.php:159
 msgid "Finish setup"
 msgstr "完成設定"
 
-#: templates/installation.php:152
+#: templates/installation.php:159
 msgid "Finishing …"
 msgstr "即將完成…"
 
@@ -772,19 +783,19 @@ msgstr "伺服器端認證失敗！"
 msgid "Please contact your administrator."
 msgstr "請聯絡系統管理員。"
 
-#: templates/login.php:48
+#: templates/login.php:50
 msgid "Lost your password?"
 msgstr "忘記密碼？"
 
-#: templates/login.php:53
+#: templates/login.php:55
 msgid "remember"
 msgstr "記住"
 
-#: templates/login.php:57
+#: templates/login.php:59
 msgid "Log in"
 msgstr "登入"
 
-#: templates/login.php:63
+#: templates/login.php:65
 msgid "Alternative Logins"
 msgstr "其他登入方法"
 

@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "Groups" => "Групи",
 "Group Admin" => "Адміністратор групи",
 "Delete" => "Видалити",
+"never" => "ніколи",
 "add group" => "додати групу",
 "A valid username must be provided" => "Потрібно задати вірне ім'я користувача",
 "Error creating user" => "Помилка при створенні користувача",
@@ -76,6 +77,7 @@ $TRANSLATIONS = array(
 "Select an App" => "Вибрати додаток",
 "See application page at apps.owncloud.com" => "Перегляньте сторінку програм на apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>",
+"All" => "Всі",
 "Administrator Documentation" => "Документація Адміністратора",
 "Online Documentation" => "Он-Лайн Документація",
 "Forum" => "Форум",
@@ -97,9 +99,11 @@ $TRANSLATIONS = array(
 "Help translate" => "Допомогти з перекладом",
 "Login Name" => "Ім'я Логіну",
 "Create" => "Створити",
+"Default Quota" => "Квота за замовчуванням",
 "Unlimited" => "Необмежено",
 "Other" => "Інше",
 "Username" => "Ім'я користувача",
+"Quota" => "Квота",
 "set new password" => "встановити новий пароль",
 "Default" => "За замовчуванням"
 );

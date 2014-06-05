@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -320,7 +320,7 @@ msgstr "Forigi"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "neniam"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -742,7 +742,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Ĉio"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -916,7 +916,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -928,7 +928,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Defaŭlta kvoto"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -948,7 +948,7 @@ msgstr "Uzantonomo"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Kvoto"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

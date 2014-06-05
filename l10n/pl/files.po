@@ -5,16 +5,16 @@
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # I Robot, 2013
-# bobie <maciej.przybecki@gmail.com>, 2013-2014
-# Mariusz Fik <fisiu@opensuse.org>, 2013
-# Michal Plichta <mplichta@gmail.com>, 2013
-# adbrand <pkwiecin@adbrand.pl>, 2013
+# Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
+# Mariusz <fisiu@opensuse.org>, 2013
+# Michał Plichta <mplichta@gmail.com>, 2013
+# Piotr Kwiecinski <pkwiecin@adbrand.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"

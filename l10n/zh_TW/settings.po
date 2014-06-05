@@ -4,13 +4,13 @@
 # 
 # Translators:
 # akong <akong@aspa.idv.tw>, 2014
-# pellaeon <nfsmwlin@gmail.com>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgstr "刪除"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "永不"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -743,7 +743,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "所有"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -929,7 +929,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "預設容量限制"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -949,7 +949,7 @@ msgstr "使用者名稱"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "容量限制"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
 "%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
 "Sharing %s failed, because the file does not exist" => "Kohteen %s jakaminen epäonnistui, koska tiedostoa ei ole olemassa",
+"You are not allowed to share %s" => "Oikeutesi eivät riitä kohteen %s jakamiseen.",
 "Sharing %s failed, because the user %s is the item owner" => "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s on kohteen omistaja",
 "Sharing %s failed, because the user %s does not exist" => "Kohteen %s jakaminen epäonnistui, koska käyttäjää %s ei ole olemassa",
 "Sharing %s failed, because this item is already shared with %s" => "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa",

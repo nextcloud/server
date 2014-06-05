@@ -41,6 +41,7 @@ $TRANSLATIONS = array(
 "Groups" => "Grupper",
 "Group Admin" => "Gruppestyrar",
 "Delete" => "Slett",
+"never" => "aldri",
 "add group" => "legg til gruppe",
 "A valid username must be provided" => "Du må oppgje eit gyldig brukarnamn",
 "Error creating user" => "Feil ved oppretting av brukar",
@@ -85,6 +86,7 @@ $TRANSLATIONS = array(
 "Select an App" => "Vel eit program",
 "See application page at apps.owncloud.com" => "Sjå programsida på apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "Lisensiert under <span class=\"licence\"></span> av <span class=\"author\"></span>",
+"All" => "Alle",
 "Administrator Documentation" => "Administratordokumentasjon",
 "Online Documentation" => "Dokumentasjon på nett",
 "Forum" => "Forum",
@@ -116,9 +118,11 @@ $TRANSLATIONS = array(
 "Create" => "Lag",
 "Admin Recovery Password" => "Gjenopprettingspassord for administrator",
 "Enter the recovery password in order to recover the users files during password change" => "Skriv inn gjenopprettingspassordet brukt for å gjenoppretta brukarfilene ved passordendring",
+"Group" => "Gruppe",
 "Unlimited" => "Ubegrensa",
 "Other" => "Anna",
 "Username" => "Brukarnamn",
+"Quota" => "Kvote",
 "set new password" => "lag nytt passord",
 "Default" => "Standard"
 );

@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Caner BAŞARAN <basaran.caner@gmail.com>, 2013
-# ismail yenigül <ismail.yenigul@surgate.com>, 2013
-# tridinebandim, 2013
-# volkangezer <volkangezer@gmail.com>, 2013-2014
+# Caner Başaran <basaran.caner@gmail.com>, 2013
+# ismail yenigul <ismail.yenigul@surgate.com>, 2013
+# Mustafa Tat, 2013
+# Volkan Gezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,11 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: base.php:713
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Sunucuya güvenilmeyen bir alan adından ulaşıyorsunuz."
 
-#: base.php:714
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -461,3 +461,8 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 #: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "Bu kullanıcı adı zaten kullanımda"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

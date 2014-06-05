@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Δεν έχετε διαμοιραστεί κανένα αρχείο ακόμα.",
 "Shared by {owner}" => "Διαμοιράστηκε από τον {owner}",
 "Shared by" => "Διαμοιράστηκε από",
-"link" => "σύνδεσμος",
 "This share is password-protected" => "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
 "The password is wrong. Try again." => "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",
 "Password" => "Κωδικός πρόσβασης",

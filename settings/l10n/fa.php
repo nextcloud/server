@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Groups" => "گروه ها",
 "Group Admin" => "گروه مدیران",
 "Delete" => "حذف",
+"never" => "هرگز",
 "add group" => "افزودن گروه",
 "A valid username must be provided" => "نام کاربری صحیح باید وارد شود",
 "Error creating user" => "خطا در ایجاد کاربر",
@@ -95,6 +96,7 @@ $TRANSLATIONS = array(
 "Select an App" => "یک برنامه انتخاب کنید",
 "See application page at apps.owncloud.com" => "صفحه این اٌپ را در apps.owncloud.com ببینید",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-مجاز از طرف <span class=\"author\"></span>",
+"All" => "همه",
 "Administrator Documentation" => "مستندات مدیر",
 "Online Documentation" => "مستندات آنلاین",
 "Forum" => "انجمن",
@@ -127,9 +129,11 @@ $TRANSLATIONS = array(
 "Create" => "ایجاد کردن",
 "Admin Recovery Password" => "مدیریت بازیابی رمز عبور",
 "Enter the recovery password in order to recover the users files during password change" => "در حین تغییر رمز عبور به منظور بازیابی فایل های کاربران، رمز عبور بازیابی را وارد کنید",
+"Default Quota" => "سهم پیش فرض",
 "Unlimited" => "نامحدود",
 "Other" => "دیگر",
 "Username" => "نام کاربری",
+"Quota" => "سهم",
 "set new password" => "تنظیم کلمه عبور جدید",
 "Default" => "پیش فرض"
 );

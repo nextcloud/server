@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Strong password" => "Contrasigno forte",
 "Groups" => "Gruppos",
 "Delete" => "Deler",
+"never" => "nunquam",
 "__language_name__" => "Interlingua",
 "Security Warning" => "Aviso de securitate",
 "Log" => "Registro",
@@ -31,7 +32,10 @@ $TRANSLATIONS = array(
 "Language" => "Linguage",
 "Help translate" => "Adjuta a traducer",
 "Create" => "Crear",
+"Group" => "Gruppo",
+"Default Quota" => "Quota predeterminate",
 "Other" => "Altere",
-"Username" => "Nomine de usator"
+"Username" => "Nomine de usator",
+"Quota" => "Quota"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

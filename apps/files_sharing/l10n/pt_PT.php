@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Shared with others" => "Partilhado com outros",
 "Shared by {owner}" => "Partilhado por {owner}",
 "Shared by" => "Partilhado por",
-"link" => "ligação",
 "This share is password-protected" => "Esta partilha está protegida por palavra-chave",
 "The password is wrong. Try again." => "Password errada, por favor tente de novo",
 "Password" => "Palavra-passe",

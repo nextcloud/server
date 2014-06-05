@@ -3,18 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Hydriz <admin@alphacorp.tk>, 2013
-# sy6614 <sy6614@yahoo.com.hk>, 2013
-# chenanyeh <chnjsn1221@gmail.com>, 2013
-# Hydriz <admin@alphacorp.tk>, 2013
-# pellaeon <nfsmwlin@gmail.com>, 2013
-# sofiasu <sofia168@livemail.tw>, 2012
+# Hydriz Scholz <admin@alphacorp.tk>, 2013
+# Andy Lam <sy6614@yahoo.com.hk>, 2013
+# Chen-An Yeh <chnjsn1221@gmail.com>, 2013
+# Hydriz Scholz <admin@alphacorp.tk>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
+# Sofia <sofia168@livemail.tw>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:55+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: templates/settings.php:5
 msgid "Save"
-msgstr ""
+msgstr "儲存"
 
 #: templates/settings.php:6
 msgid ""

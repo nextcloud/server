@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# arkascha <foss@christian-reiner.info>, 2013
-# a.tangemann <a.tangemann@web.de>, 2013
-# FlorianScholz <work@bgstyle.de>, 2013
-# FlorianScholz <work@bgstyle.de>, 2013
+# Christian Reiner <foss@christian-reiner.info>, 2013
+# Andreas Tangemann <a.tangemann@web.de>, 2013
+# Florian Scholz <work@bgstyle.de>, 2013
+# Florian Scholz <work@bgstyle.de>, 2013
 # I Robot, 2013
 # kabum <uu.kabum@gmail.com>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
-# Mirodin <blobbyjj@ymail.com>, 2013
+# Tristan <blobbyjj@ymail.com>, 2013
 # traductor, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -328,7 +328,7 @@ msgstr "Löschen"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "niemals"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -750,7 +750,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"

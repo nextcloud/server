@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Twiguard, 2013
-# Honza K. <honza889@gmail.com>, 2013
-# liska_, 2013
-# svetlemodry <jaroslav@lichtblau.cz>, 2014
-# cvanca <mrs.jenkins.oh.yeah@gmail.com>, 2013
-# m23 <black23@gmail.com>, 2014
-# pstast <petr@stastny.eu>, 2013-2014
+# Albion von Darx, 2013
+# Jan Kalina <honza889@gmail.com>, 2013
+# Jan Liska, 2013
+# Jaroslav Lichtblau <jaroslav@lichtblau.cz>, 2014
+# Lenka <mrs.jenkins.oh.yeah@gmail.com>, 2013
+# MICHAL D. <black23@gmail.com>, 2014
+# Petr Šťastný <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -327,7 +327,7 @@ msgstr "Smazat"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "nikdy"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -749,7 +749,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Vše"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -923,7 +923,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Skupina"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -935,7 +935,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Výchozí kvóta"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -955,7 +955,7 @@ msgstr "Uživatelské jméno"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Kvóta"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

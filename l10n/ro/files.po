@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mozguletz <__sashok@mail.ru>, 2014
+# Alex <__sashok@mail.ru>, 2014
 # andreiacob <andrei.iacob@y7mail.com>, 2014
-# roentgen <arthur.titeica@gmail.com>, 2014
+# Arthur Țițeică <arthur.titeica@gmail.com>, 2014
 # corneliu.e <corneliueva@yahoo.com>, 2013
-# dimaursu16 <dima@ceata.org>, 2013
-# inaina <ina.c.ina@gmail.com>, 2013
-# lauraberindei <lauraagavriloae@yahoo.com>, 2014
-# ripkid666 <ripkid666@gmail.com>, 2013
-# sergiu_sechel <sergiu.sechel@gmail.com>, 2013
+# Dumitru Ursu <dima@ceata.org>, 2013
+# ina <ina.c.ina@gmail.com>, 2013
+# laura berindei <lauraagavriloae@yahoo.com>, 2014
+# Popescu Ionut <ripkid666@gmail.com>, 2013
+# Sergiu Sechel <sergiu.sechel@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"

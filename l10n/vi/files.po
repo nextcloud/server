@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Nguyễn Tài <mattheu.9x@gmail.com>, 2014
-# namphongbody <tunglam062000@gmail.com>, 2014
+# Nguyễn Hữu Tài <mattheu.9x@gmail.com>, 2014
+# Nguyễn Tiến Trình <tunglam062000@gmail.com>, 2014
 # Sơn Nguyễn <sonnghit@gmail.com>, 2014
-# xtdv <truong.tx8@gmail.com>, 2013
+# Ta Xuan Truong <truong.tx8@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"

@@ -5,13 +5,13 @@
 # Translators:
 # Dr. ROX <to.dr.rox@gmail.com>, 2013
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013-2014
-# fizikiukas <fizikiukas@gmail.com>, 2013
+# Valentinas <fizikiukas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"

@@ -5,14 +5,14 @@
 # Translators:
 # André Koot <meneer@tken.net>, 2013-2014
 # helonaut, 2013
-# kwillems <kwillems@zonnet.nl>, 2013-2014
-# Len <lenny@weijl.org>, 2013
+# Koen Willems <kwillems@zonnet.nl>, 2013-2014
+# Lennart Weijl <lenny@weijl.org>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -323,7 +323,7 @@ msgstr "Verwijder"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "geen"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -745,7 +745,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -919,7 +919,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Groep"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -931,7 +931,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Standaard limiet"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -951,7 +951,7 @@ msgstr "Gebruikersnaam"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Limieten"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

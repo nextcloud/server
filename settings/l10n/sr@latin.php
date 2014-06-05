@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Cancel" => "Otkaži",
 "Language" => "Jezik",
 "Create" => "Napravi",
+"Group" => "Grupa",
 "Other" => "Drugo",
 "Username" => "Korisničko ime"
 );

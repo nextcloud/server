@@ -4,14 +4,14 @@
 # 
 # Translators:
 # ezidan <ezidan@live.com>, 2014
-# m.shehab <shehab.mahmood@gmail.com>, 2014
-# suliman <291101251@std.qu.edu.sa>, 2014
+# Mahmood Shehab <shehab.mahmood@gmail.com>, 2014
+# suliman al-ajlan <291101251@std.qu.edu.sa>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -322,7 +322,7 @@ msgstr "إلغاء"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "بتاتا"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -744,7 +744,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "الكل"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -918,7 +918,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "مجموعة"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -930,7 +930,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "الحصة النسبية الإفتراضية"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -950,7 +950,7 @@ msgstr "إسم المستخدم"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "حصه"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

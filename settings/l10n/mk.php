@@ -37,6 +37,7 @@ $TRANSLATIONS = array(
 "Groups" => "Групи",
 "Group Admin" => "Администратор на група",
 "Delete" => "Избриши",
+"never" => "никогаш",
 "add group" => "додади група",
 "A valid username must be provided" => "Мора да се обезбеди валидно корисничко име ",
 "Error creating user" => "Грешка при креирање на корисникот",
@@ -70,6 +71,7 @@ $TRANSLATIONS = array(
 "Select an App" => "Избери аппликација",
 "See application page at apps.owncloud.com" => "Види ја страницата со апликации на apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-лиценцирано од <span class=\"author\"></span>",
+"All" => "Сите",
 "Administrator Documentation" => "Администраторска документација",
 "Online Documentation" => "Документација на интернет",
 "Forum" => "Форум",
@@ -97,9 +99,11 @@ $TRANSLATIONS = array(
 "Decrypt all Files" => "Дешифрирај ги сите датотеки",
 "Login Name" => "Име за најава",
 "Create" => "Создај",
+"Default Quota" => "Предефинирана квота",
 "Unlimited" => "Неограничено",
 "Other" => "Останато",
 "Username" => "Корисничко име",
+"Quota" => "Квота",
 "set new password" => "постави нова лозинка",
 "Default" => "Предефиниран"
 );

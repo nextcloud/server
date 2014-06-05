@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Charlie Mak <makchamhim72@gmail.com>, 2013
-# peishi fang <fangpeishi@gmail.com>, 2014
+# fangpeishi <fangpeishi@gmail.com>, 2014
 # Martin Liu <liuzh66@gmail.com>, 2014
-# modokwang <modokwang@gmail.com>, 2013
-# Xuetian Weng <wengxt@gmail.com>, 2013-2014
+# wang <modokwang@gmail.com>, 2013
+# csslayer <wengxt@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:713
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "您正在访问来自不信任域名的服务器。"
 
-#: base.php:714
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -458,3 +458,8 @@ msgstr "必须提供合法的密码"
 #: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "用户名已被使用"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

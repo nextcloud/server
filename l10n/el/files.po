@@ -5,18 +5,18 @@
 # Translators:
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
-# gtsamis <gtsamis@yahoo.com>, 2013
+# Georgios Tsamis <gtsamis@yahoo.com>, 2013
 # ggoniotakis <ioannis.goniotakis@gmail.com>, 2014
-# frerisp <petrosfreris@gmail.com>, 2013
-# pe_ppe <peppe@cs.uoi.gr>, 2014
-# vkehayas <vkehayas@gmail.com>, 2013
+# Petros Freris (Πέτρος Φρέρης) <petrosfreris@gmail.com>, 2013
+# Spyros Melissovas <peppe@cs.uoi.gr>, 2014
+# Vassilis Kehayas <vkehayas@gmail.com>, 2013
 # Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"

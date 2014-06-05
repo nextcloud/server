@@ -4,21 +4,21 @@
 # 
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2014
-# Dharth <emilpg@gmail.com>, 2013
-# inye <j.contrerasferrada@gmail.com>, 2014
+# Emilio Plaza García <emilpg@gmail.com>, 2013
+# Javier Contreras <j.contrerasferrada@gmail.com>, 2014
 # joses <jose_mari_s@hotmail.com>, 2014
-# mreyesca <mreyesca@luthcueit.onmicrosoft.com>, 2014
-# pablomillaquen <pablomillaquen@gmail.com>, 2013
+# Miguel Reyes Canales <mreyesca@luthcueit.onmicrosoft.com>, 2014
+# Pablo Millaquen <pablomillaquen@gmail.com>, 2013
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013-2014
-# Rubén del Campo <yo@rubendelcampo.es>, 2013
+# Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
 # victormce <victormce@gmail.com>, 2014
 # xhiena <xhiena@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +27,11 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:713
+#: base.php:714
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Está accediendo al servidor desde un dominio inseguro."
 
-#: base.php:714
+#: base.php:715
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -467,3 +467,8 @@ msgstr "Se debe proporcionar una contraseña válida"
 #: private/user/manager.php:252
 msgid "The username is already being used"
 msgstr "El nombre de usuario ya está en uso"
+
+#: public/files/locknotacquiredexception.php:39
+#, php-format
+msgid "Could not obtain lock type %d on \"%s\"."
+msgstr ""

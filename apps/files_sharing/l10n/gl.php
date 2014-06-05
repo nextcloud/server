@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Aínda non compartiu ningún ficheiro.",
 "Shared by {owner}" => "Compartido por {owner}",
 "Shared by" => "Compartido por",
-"link" => "ligazón",
 "This share is password-protected" => "Esta compartición está protexida con contrasinal",
 "The password is wrong. Try again." => "O contrasinal é incorrecto. Ténteo de novo.",
 "Password" => "Contrasinal",

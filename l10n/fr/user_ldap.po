@@ -4,17 +4,17 @@
 # 
 # Translators:
 # Christophe Lherieau <skimpax@gmail.com>, 2013-2014
-# etiess <etiess@gmail.com>, 2013
+# Etienne <etiess@gmail.com>, 2013
 # Gauth <gauthier@openux.org>, 2014
-# ogre_sympathique, 2014
-# plachance <patlachance@gmail.com>, 2013
-# RyDroid <rydroid_trans@yahoo.fr>, 2014
+# Ogre Sympathique, 2014
+# Patrice LACHANCE <patlachance@gmail.com>, 2013
+# Spanti Nicola <rydroid_trans@yahoo.fr>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"

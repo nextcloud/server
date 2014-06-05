@@ -5,28 +5,28 @@
 # Translators:
 # Aleksey Grigoriev <alexvamp@gmail.com>, 2013
 # Alexander Shashkevych <alex@stunpix.com>, 2013
-# alfsoft <alfsoft@gmail.com>, 2013
-# lord93 <lordakryl@gmail.com>, 2013
-# Denis Plastinin <denispal@gmail.com>, 2014
-# Denis Plastinin <denispal@gmail.com>, 2014
-# Evgeniy Spitsyn <evgeniy@spitsyn.net>, 2013
+# Alf <alfsoft@gmail.com>, 2013
+# Andrew Batchmauga <lordakryl@gmail.com>, 2013
+# Denis <denispal@gmail.com>, 2014
+# Denis <denispal@gmail.com>, 2014
+# Evgenij Spitsyn <evgeniy@spitsyn.net>, 2013
 # jekader <jekader@gmail.com>, 2013
-# eurekafag <rkfg@rkfg.me>, 2013
+# Serge Shpikin <rkfg@rkfg.me>, 2013
 # anshibanov <shibanovan@yandex.ru>, 2014
-# stushev, 2014
-# unixoid <victor.ashirov@gmail.com>, 2013
-# vsapronov <vladimir.sapronov@gmail.com>, 2013
-# not_your_conscience <hex.void@gmail.com>, 2013
-# navigator666 <yuriy.malyovaniy@gmail.com>, 2013
-# hackproof <hackproof.ai@gmail.com>, 2013
-# Friktor <antonshramko@yandex.ru>, 2013
-# Иван Тюрин <wen89@inbox.ru>, 2013
+# Simon Tushev, 2014
+# Victor Ashirov <victor.ashirov@gmail.com>, 2013
+# Vladimir Sapronov <vladimir.sapronov@gmail.com>, 2013
+# Void Ayanami <hex.void@gmail.com>, 2013
+# Yuriy Malyovaniy <yuriy.malyovaniy@gmail.com>, 2013
+# Алексей <hackproof.ai@gmail.com>, 2013
+# Антон <antonshramko@yandex.ru>, 2013
+# Иван <wen89@inbox.ru>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -337,7 +337,7 @@ msgstr "Удалить"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "никогда"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -759,7 +759,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Все"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -933,7 +933,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Группа"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -945,7 +945,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Квота по умолчанию"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -965,7 +965,7 @@ msgstr "Имя пользователя"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Квота"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

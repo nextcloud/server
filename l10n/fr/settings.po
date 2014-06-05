@@ -5,24 +5,24 @@
 # Translators:
 # 2rock <hub2rock@free.fr>, 2014
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
-# AlainSanguinetti <alain@sanguinetti.eu>, 2014
+# Alain Sanguinetti <alain@sanguinetti.eu>, 2014
 # Christophe Lherieau <skimpax@gmail.com>, 2013-2014
-# etiess <etiess@gmail.com>, 2013
-# ptit_boogy <ptit.boogy@gmail.com>, 2014
+# Etienne <etiess@gmail.com>, 2013
+# Fabian Lemaître <ptit.boogy@gmail.com>, 2014
 # Gauth <gauthier@openux.org>, 2014
-# lyly95, 2013
-# Mystyle <maelvstyle@gmail.com>, 2013
-# ogre_sympathique, 2013-2014
-# red0ne <red-0ne@smarty-concept.com>, 2013
-# RyDroid <rydroid_trans@yahoo.fr>, 2013-2014
+# Lynda AMICHE, 2013
+# Mael <maelvstyle@gmail.com>, 2013
+# Ogre Sympathique, 2013-2014
+# Redouane Lakrache <red-0ne@smarty-concept.com>, 2013
+# Spanti Nicola <rydroid_trans@yahoo.fr>, 2013-2014
 # tcit <thomas.citharet@gmail.com>, 2014
-# PVince81 <PVince81@owncloud.com>, 2014
+# Vincent Petry <PVince81@owncloud.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -333,7 +333,7 @@ msgstr "Supprimer"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "jamais"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -755,7 +755,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Tous"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -929,7 +929,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Groupe"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -941,7 +941,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Quota par défaut"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -961,7 +961,7 @@ msgstr "Nom d'utilisateur"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Quota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

@@ -3,23 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AsavarTzeth <asavartzeth@gmail.com>, 2014
-# DanielMalmgren <daniel@kolefors.se>, 2013
+# Patrik Nilsson <asavartzeth@gmail.com>, 2014
+# Daniel Malmgren <daniel@kolefors.se>, 2013
 # Daniel Sandman <revoltism@gmail.com>, 2013
 # enoch85 <enoch85@gmail.com>, 2014
 # Gunnar Norin <blittan@xbmc.org>, 2013
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
-# henrikhjelm <mailto@henrikhjelm.se>, 2014
-# medialabs, 2013-2014
-# kallemooo <karl.h.thoren@gmail.com>, 2013
+# henrik hjelm <mailto@henrikhjelm.se>, 2014
+# Juho Ojala, 2013-2014
+# Karl Thorén <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
-# medialabs, 2013
+# Juho Ojala, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"

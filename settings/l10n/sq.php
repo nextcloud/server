@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "Groups" => "Grupet",
 "Group Admin" => "Grupi Admin",
 "Delete" => "Fshi",
+"never" => "asnjëherë",
 "add group" => "shto grup",
 "A valid username must be provided" => "Duhet të jepni një emër të vlefshëm përdoruesi",
 "Error creating user" => "Gabim gjatë krijimit të përdoruesit",

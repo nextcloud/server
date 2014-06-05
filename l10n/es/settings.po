@@ -5,27 +5,27 @@
 # Translators:
 # Art O. Pal <artopal@fastmail.fm>, 2013-2014
 # asaez <asaez@asaez.eu>, 2013
-# eadeprado <eadeprado@outlook.com>, 2013
-# ggam <ggam@brainleakage.com>, 2013
-# japaol <japaol@gmail.com>, 2013
-# Jose Luis Tirado <joseluis.tirado@gmail.com>, 2014
+# Esther Alvarez de Prado <eadeprado@outlook.com>, 2013
+# Guillermo G. <ggam@brainleakage.com>, 2013
+# Javi <japaol@gmail.com>, 2013
+# Jose Luis <joseluis.tirado@gmail.com>, 2014
 # joses <jose_mari_s@hotmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013-2014
-# mario.arranz <mario.arranz@gmail.com>, 2014
-# plaguna <laguna.sanchez@gmail.com>, 2014
-# pablomillaquen <pablomillaquen@gmail.com>, 2013
+# Mario Arranz Florencio <mario.arranz@gmail.com>, 2014
+# Pablo Laguna <laguna.sanchez@gmail.com>, 2014
+# Pablo Millaquen <pablomillaquen@gmail.com>, 2013
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013-2014
-# qdneren <renanqd@yahoo.com.mx>, 2013
-# Rubén del Campo <yo@rubendelcampo.es>, 2013
-# saskarip <saskarip@gmail.com>, 2013
-# scambra <sergio@programatica.es>, 2013
+# Renan Quezada <renanqd@yahoo.com.mx>, 2013
+# Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
+# Sam Askari <saskarip@gmail.com>, 2013
+# Sergio Cambra <sergio@programatica.es>, 2013
 # victormce <victormce@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -336,7 +336,7 @@ msgstr "Eliminar"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "nunca"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -758,7 +758,7 @@ msgstr ""
 
 #: templates/apps.php:60
 msgid "All"
-msgstr ""
+msgstr "Todos"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -932,7 +932,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Grupo"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
@@ -944,7 +944,7 @@ msgstr ""
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Cuota predeterminada"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -964,7 +964,7 @@ msgstr "Nombre de usuario"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Cuota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"

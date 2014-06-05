@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# bmgmatias <bmgmatias@gmail.com>, 2013
-# Carlos <crolidge@gmail.com>, 2014
-# FernandoMASilva, 2013
+# Bruno Matias <bmgmatias@gmail.com>, 2013
+# Carlos Moreira <crolidge@gmail.com>, 2014
+# Fernando Manuel Anjos Silva, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2014
-# Drew Melim <nokostya.translation@gmail.com>, 2014
+# Andrew_Melim <nokostya.translation@gmail.com>, 2014
 # sccosta <sonia.peres.costa@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-06-05 01:54-0400\n"
+"PO-Revision-Date: 2014-06-04 06:42+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
