@@ -283,8 +283,7 @@ input[type="submit"].enabled {
 }
 
 #emptycontent {
-	font-size: 1.5em;
-	font-weight: bold;
+	font-size: 16px;
 	color: #888;
 	position: absolute;
 	text-align: center;
