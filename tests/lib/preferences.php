@@ -97,6 +97,42 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('othervalue', $value);
 	}
 
+	public function testSetValueWithPreCondition() {
+		// remove existing key
+		$this->assertTrue(\OC_Preferences::deleteKey('Someuser', 'setvalueapp', 'newkey'));
+
+		// add new preference with pre-condition should fails
+		$this->assertFalse(\OC_Preferences::setValue('Someuser', 'setvalueapp', 'newkey', 'newvalue', 'preCondition'));
+		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?');
+		$result = $query->execute(array('Someuser', 'setvalueapp', 'newkey'));
+		$row = $result->fetchRow();
+		$this->assertFalse($row);
+
+		// add new preference without pre-condition should insert the new value
+		$this->assertTrue(\OC_Preferences::setValue('Someuser', 'setvalueapp', 'newkey', 'newvalue'));
+		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?');
+		$result = $query->execute(array('Someuser', 'setvalueapp', 'newkey'));
+		$row = $result->fetchRow();
+		$value = $row['configvalue'];
+		$this->assertEquals('newvalue', $value);
+
+		// wrong pre-condition, value should stay the same
+		$this->assertFalse(\OC_Preferences::setValue('Someuser', 'setvalueapp', 'newkey', 'othervalue', 'preCondition'));
+		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?');
+		$result = $query->execute(array('Someuser', 'setvalueapp', 'newkey'));
+		$row = $result->fetchRow();
+		$value = $row['configvalue'];
+		$this->assertEquals('newvalue', $value);
+
+		// correct pre-condition, value should change
+		$this->assertTrue(\OC_Preferences::setValue('Someuser', 'setvalueapp', 'newkey', 'othervalue', 'newvalue'));
+		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?');
+		$result = $query->execute(array('Someuser', 'setvalueapp', 'newkey'));
+		$row = $result->fetchRow();
+		$value = $row['configvalue'];
+		$this->assertEquals('othervalue', $value);
+	}
+
 	public function testDeleteKey() {
 		$this->assertTrue(\OC_Preferences::deleteKey('Deleteuser', 'deleteapp', 'deletekey'));
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?');
@@ -165,19 +201,11 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 					)
 				));
 		$connectionMock->expects($this->once())
-			->method('update')
-			->with($this->equalTo('*PREFIX*preferences'),
-				$this->equalTo(
-					array(
-						'configvalue' => 'v2',
-					)),
-				$this->equalTo(
-					array(
-						'userid' => 'grg',
-						'appid' => 'bar',
-						'configkey' => 'foo',
-					)
-				));
+			->method('executeUpdate')
+			->with($this->equalTo("UPDATE `*PREFIX*preferences` SET `configvalue` = ?"
+						. " WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?"),
+				$this->equalTo(array('v2', 'grg', 'bar', 'foo'))
+				);
 
 		$preferences = new OC\Preferences($connectionMock);
 		$preferences->setValue('grg', 'bar', 'foo', 'v1');

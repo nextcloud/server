@@ -530,8 +530,7 @@ class Hooks {
 	public static function preDisable($params) {
 		if ($params['app'] === 'files_encryption') {
 
-			$setMigrationStatus = \OC_DB::prepare('UPDATE `*PREFIX*encryption` SET `migration_status`=0');
-			$setMigrationStatus->execute();
+			\OC_Preferences::deleteAppFromAllUsers('files_encryption');
 
 			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);

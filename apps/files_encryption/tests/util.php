@@ -236,16 +236,14 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		// Record the value so we can return it to it's original state later
 		$enabled = $util->recoveryEnabledForUser();
 
-		$this->assertTrue($util->setRecoveryForUser(1));
+		$this->assertTrue($util->setRecoveryForUser(!$enabled));
 
-		$this->assertEquals(1, $util->recoveryEnabledForUser());
+		$this->assertEquals(!$enabled, $util->recoveryEnabledForUser());
 
-		$this->assertTrue($util->setRecoveryForUser(0));
-
-		$this->assertEquals(0, $util->recoveryEnabledForUser());
-
-		// Return the setting to it's previous state
 		$this->assertTrue($util->setRecoveryForUser($enabled));
+
+		$this->assertEquals($enabled, $util->recoveryEnabledForUser());
+
 
 	}
 
@@ -587,18 +585,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 * @return boolean
 	 */
 	private function setMigrationStatus($status, $user) {
-		$sql = 'UPDATE `*PREFIX*encryption` SET `migration_status` = ? WHERE `uid` = ?';
-		$args = array(
-			$status,
-			$user
-		);
-
-		$query = \OCP\DB::prepare($sql);
-		if ($query->execute($args)) {
-			return true;
-		} else {
-			return false;
-		}
+		return \OC_Preferences::setValue($user, 'files_encryption', 'migration_status', (string)$status);
 	}
 
 }
