@@ -230,7 +230,9 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 		$query->execute(array('AUser', 'testGetUsersForValue', 'somekey', 'somevalue'));
 
 		$preferences = new OC\Preferences(\OC_DB::getConnection());
-		$this->assertEquals(array('SomeUser', 'AUser'), $preferences->getUsersForValue('testGetUsersForValue', 'somekey', 'somevalue'));
+		$result = $preferences->getUsersForValue('testGetUsersForValue', 'somekey', 'somevalue');
+		sort($result);
+		$this->assertEquals(array('AUser', 'SomeUser'), $result);
 
 		// Clean DB after the test
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `appid` = ?');
