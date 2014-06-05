@@ -19,12 +19,48 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use OC\Files\Cache\Cache;
+use OC\Files\Storage\Storage;
+use OC\Files\View;
+
 require_once __DIR__ . '/base.php';
 
 class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 
+	/**
+	 * @var Storage
+	 */
 	private $sharedStorageRestrictedShare;
+
+	/**
+	 * @var Storage
+	 */
 	private $sharedCacheRestrictedShare;
+
+	/**
+	 * @var View
+	 */
+	private $secondView;
+
+	/**
+	 * @var Storage
+	 */
+	private $ownerStorage;
+
+	/**
+	 * @var Storage
+	 */
+	private $sharedStorage;
+
+	/**
+	 * @var Cache
+	 */
+	private $sharedCache;
+
+	/**
+	 * @var Cache
+	 */
+	private $ownerCache;
 
 	function setUp() {
 		parent::setUp();
