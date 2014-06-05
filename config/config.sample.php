@@ -291,6 +291,9 @@ $CONFIG = array(
  */
 'cache_path' => '',
 
+/* EXPERIMENTAL: option whether to include external storage in quota calculation, defaults to false */
+'quota_include_external_storage' => false,
+
 /*
  * specifies how often the filesystem is checked for changes made outside owncloud
  * 0 -> never check the filesystem for outside changes, provides a performance increase when it's certain that no changes are made directly to the filesystem
@@ -301,5 +304,4 @@ $CONFIG = array(
 
 /* If true, prevent owncloud from changing the cache due to changes in the filesystem for all storage */
 'filesystem_cache_readonly' => false,
-
 );
