@@ -254,7 +254,15 @@ class Preferences {
 
 		$query = 'SELECT `userid` '
 			. ' FROM `*PREFIX*preferences` '
-			. ' WHERE `appid` = ? AND `configkey` = ? AND `configvalue` = ?';
+			. ' WHERE `appid` = ? AND `configkey` = ? AND ';
+
+		if (\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
+			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
+			$query .= ' to_char(`configvalue`)= ?';
+		} else {
+			$query .= ' `configvalue` = ?';
+		}
+
 		$result = $this->conn->executeQuery($query, array($app, $key, $value));
 
 		while ($row = $result->fetch()) {
