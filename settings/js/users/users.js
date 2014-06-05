@@ -251,8 +251,8 @@ var UserList = {
 
 		//configure undo
 		OC.Notification.hide();
-		var msg = t('settings', 'deleted') + ' %oid <span class="undo">' +
-			t('settings', 'undo') + '</span>';
+		var msg = escapeHTML(t('settings', 'deleted {userName}', {userName: '%oid'})) + '<span class="undo">' +
+			escapeHTML(t('settings', 'undo')) + '</span>';
 		UserDeleteHandler.setNotification(OC.Notification, 'deleteuser', msg,
 										UserList.show);
 
