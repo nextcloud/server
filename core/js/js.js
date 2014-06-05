@@ -1131,6 +1131,21 @@ function initCore() {
 	}
 
 	setupMainMenu();
+
+	// App sidebar on mobile
+	var snapper = new Snap({
+		element: document.getElementById('app-content'),
+		disable: 'right',
+		maxPosition: 230
+	});
+	$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');
+	$('#app-navigation-toggle').click(function(){
+		if(snapper.state().state == 'left'){
+			snapper.close();
+		} else {
+			snapper.open('left');
+		}
+	});
 }
 
 $(document).ready(initCore);

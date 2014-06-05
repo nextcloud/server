@@ -60,4 +60,70 @@
 	box-sizing: border-box;
 }
 
+
+/* app sidebar toggle and swipe */
+#app-navigation,
+#app-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#app-navigation {
+	width: 230px !important;
+}
+
+#app-content {
+	width: 100% !important;
+	left: 0 !important;
+	background-color: #fff;
+	overflow: hidden;
+}
+
+#app-navigation-toggle {
+	position: absolute;
+	display: inline-block !important;
+	top: 0;
+	left: 0;
+	width: 44px;
+	height: 44px;
+	z-index: 149;
+	background-color: rgba(255, 255, 255, .7);
+	cursor: pointer;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+	filter: alpha(opacity=60);
+	opacity: .6;
+}
+#app-navigation-toggle:hover,
+#app-navigation-toggle:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
+
+/* fix controls bar for apps which don't use the standard */
+#body-user .app-files #controls,
+#user-controls {
+	left: 0 !important;
+	padding-left: 44px !important;
+}
+table.multiselect thead {
+	left: 0 !important;
+}
+
+/* fix controls bar jumping when navigation is slid out */
+.snapjs-left .app-files #controls,
+.snapjs-left #user-controls {
+	top: 0;
+}
+.snapjs-left table.multiselect thead {
+	top: 44px;
+}
+
+
+
+/* end of media query */
 }
