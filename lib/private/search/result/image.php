@@ -22,7 +22,7 @@ namespace OC\Search\Result;
 /**
  * A found image file
  */
-class Image extends \OC\Search\Result\File {
+class Image extends File {
 
 	/**
 	 * Type name; translated in templates

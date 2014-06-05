@@ -21,6 +21,7 @@
  */
 
 namespace OC;
+use OC\Search\Provider;
 
 /**
  * Provide an interface to all search providers
@@ -32,13 +33,14 @@ class Search {
 
 	/**
 	 * Search all providers for $query
-	 * @param string query
+	 * @param string $query
 	 * @return array An array of OC\Search\Result's
 	 */
 	public static function search($query) {
 		self::initProviders();
 		$results=array();
 		foreach(self::$providers as $provider) {
+			/** @var $provider Provider */
 			$results=array_merge($results, $provider->search($query));
 		}
 		return $results;
@@ -69,7 +71,8 @@ class Search {
 
 	/**
 	 * Register a new search provider to search with
-	 * @param string $provider class name of a OC\Search\Provider
+	 * @param string $class class name of a OC\Search\Provider
+	 * @param array $options optional
 	 */
 	public static function registerProvider($class, $options=array()) {
 		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);

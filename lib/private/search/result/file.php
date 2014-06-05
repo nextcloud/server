@@ -18,7 +18,7 @@
  */
 
 namespace OC\Search\Result;
-
+use \OC\Files\Filesystem;
 /**
  * A found file
  */
@@ -63,9 +63,6 @@ class File extends \OC\Search\Result {
 
 	/**
 	 * Create a new file search result
-	 * @param string $id unique identifier from application: '[app_name]/[item_identifier_in_app]'
-	 * @param string $name displayed text of result
-	 * @param string $link URL to the result within its app
 	 * @param array $data file data given by provider
 	 */
 	public function __construct(array $data = null) {
@@ -96,15 +93,15 @@ class File extends \OC\Search\Result {
 		$fileinfo = pathinfo($path);
 		$dir = $fileinfo['dirname'] . '/';
 		// add update permissions
-		if (\OC_Filesystem::isUpdatable($dir)) {
+		if (Filesystem::isUpdatable($dir)) {
 			$permissions |= \OCP\PERMISSION_UPDATE;
 		}
 		// add delete permissions
-		if (\OC_Filesystem::isDeletable($dir)) {
+		if (Filesystem::isDeletable($dir)) {
 			$permissions |= \OCP\PERMISSION_DELETE;
 		}
 		// add share permissions
-		if (\OC_Filesystem::isSharable($dir)) {
+		if (Filesystem::isSharable($dir)) {
 			$permissions |= \OCP\PERMISSION_SHARE;
 		}
 		// return

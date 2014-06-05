@@ -22,7 +22,7 @@ namespace OC\Search\Result;
 /**
  * A found audio file
  */
-class Audio extends \OC\Search\Result\File {
+class Audio extends File {
 
 	/**
 	 * Type name; translated in templates

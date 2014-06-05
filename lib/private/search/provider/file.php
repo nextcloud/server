@@ -18,6 +18,7 @@
  */
 
 namespace OC\Search\Provider;
+use OC\Files\Filesystem;
 
 /**
  * Provide search results from the 'files' app
@@ -30,7 +31,7 @@ class File extends \OC\Search\Provider {
 	 * @return \OC\Search\Result
 	 */
 	function search($query) {
-		$files = \OC\Files\Filesystem::search($query);
+		$files = Filesystem::search($query);
 		$results = array();
 		// edit results
 		foreach ($files as $fileData) {
