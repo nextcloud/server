@@ -10,7 +10,6 @@ $l = \OC_L10N::get('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';
-OC::$CLASSPATH['OC\Files\Storage\DAV'] = 'files_external/lib/webdav.php';
 OC::$CLASSPATH['OC\Files\Storage\OwnCloud'] = 'files_external/lib/owncloud.php';
 OC::$CLASSPATH['OC\Files\Storage\Google'] = 'files_external/lib/google.php';
 OC::$CLASSPATH['OC\Files\Storage\Swift'] = 'files_external/lib/swift.php';
