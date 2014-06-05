@@ -767,15 +767,12 @@ class OC_Util {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		if(isset($_REQUEST['redirect_url'])) {
 			$location = urldecode($_REQUEST['redirect_url']);
-		}
-		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
-			$location = $urlGenerator->getAbsoluteURL('/index.php/apps/'.OC::$REQUESTEDAPP.'/index.php');
 		} else {
 			$defaultPage = OC_Appconfig::getValue('core', 'defaultpage');
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$location = $urlGenerator->getAbsoluteURL('/index.php/files/index.php');
+				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/files');
 			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);

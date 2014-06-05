@@ -1,7 +1,6 @@
 <?php
 
 try {
-
 	require_once 'lib/base.php';
 	$path_info = OC_Request::getPathInfo();
 	if ($path_info === false || $path_info === '') {
@@ -24,6 +23,12 @@ try {
 
 	$parts=explode('/', $file, 2);
 	$app=$parts[0];
+
+	// Load all required applications
+	\OC::$REQUESTEDAPP = $app;
+	OC_App::loadApps(array('authentication'));
+	OC_App::loadApps(array('filesystem', 'logging'));
+
 	switch ($app) {
 		case 'core':
 			$file =  OC::$SERVERROOT .'/'. $file;
