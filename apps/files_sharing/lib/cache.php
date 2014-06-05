@@ -94,6 +94,7 @@ class Shared_Cache extends Cache {
 					$data['is_share_mount_point'] = true;
 				}
 				$data['uid_owner'] = $this->storage->getOwner($file);
+				$data['permissions'] = $data['permissions'] & $this->storage->getPermissions('');
 				return $data;
 			}
 		} else {
@@ -130,6 +131,7 @@ class Shared_Cache extends Cache {
 				$data['name'] = basename($this->storage->getMountPoint());
 				$data['is_share_mount_point'] = true;
 			}
+			$data['permissions'] = $data['permissions'] & $this->storage->getPermissions('');
 			return $data;
 		}
 		return false;
@@ -157,6 +159,7 @@ class Shared_Cache extends Cache {
 				$sourceFolderContent[$key]['path'] = $dir . $c['name'];
 				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
 				$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
+				$sourceFolderContent[$key]['permissions'] = $sourceFolderContent[$key]['permissions'] & $this->storage->getPermissions('');
 			}
 
 			return $sourceFolderContent;
