@@ -364,7 +364,7 @@ describe('Core base tests', function() {
 		beforeEach(function() {
 			clock = sinon.useFakeTimers();
 			$('#testArea').append('<div id="header">' +
-				'<a id="owncloud" href="#"></a>' +
+				'<a class="menutoggle" href="#"></a>' +
 				'</div>' +
 				'<div id="navigation"></div>');
 			$toggle = $('#header').find('.menutoggle');
