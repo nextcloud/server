@@ -1132,40 +1132,59 @@ function initCore() {
 
 	setupMainMenu();
 
+	// just add snapper for logged in users
+	if($('#body-login, #body-public').length === 0) {
 
-	// App sidebar on mobile
-	var snapper = new Snap({
-		element: document.getElementById('app-content'),
-		disable: 'right',
-		maxPosition: 250
-	});
-	$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');
-	$('#app-navigation-toggle').click(function(){
-		if(snapper.state().state == 'left'){
+		// App sidebar on mobile
+		var snapper = new Snap({
+			element: document.getElementById('app-content'),
+			disable: 'right',
+			maxPosition: 250
+		});
+		$('#app-content').prepend('<div id="app-navigation-toggle" class="icon-menu" style="display:none;"></div>');
+		$('#app-navigation-toggle').click(function(){
+			if(snapper.state().state == 'left'){
+				snapper.close();
+			} else {
+				snapper.open('left');
+			}
+		});
+		// close sidebar when switching navigation entry
+		var $appNavigation = $('#app-navigation');
+		$appNavigation.delegate('a', 'click', function(event) {
+			var $target = $(event.target);
+			// don't hide navigation when changing settings or adding things
+			if($target.is('.app-navigation-noclose') ||
+				$target.closest('.app-navigation-noclose').length) {
+				return;
+			}
+			if($target.is('.add-new') ||
+				$target.closest('.add-new').length) {
+				return;
+			}
+			if($target.is('#app-settings') ||
+				$target.closest('#app-settings').length) {
+				return;
+			}
 			snapper.close();
-		} else {
-			snapper.open('left');
-		}
-	});
-	// close sidebar when switching navigation entry
-	var $appNavigation = $('#app-navigation');
-	$appNavigation.delegate('a', 'click', function(event) {
-		var $target = $(event.target);
-		// don't hide navigation when changing settings or adding things
-		if($target.is('.app-navigation-noclose') ||
-			$target.closest('.app-navigation-noclose').length) {
-			return;
-		}
-		if($target.is('.add-new') ||
-			$target.closest('.add-new').length) {
-			return;
-		}
-		if($target.is('#app-settings') ||
-			$target.closest('#app-settings').length) {
-			return;
-		}
-		snapper.close();
-	});
+		});
+
+		var toggleSnapperOnSize = function() {
+			if($(window).width() > 768) {
+				snapper.close();
+				snapper.disable();
+			} else {
+				snapper.enable();
+			}
+		};
+
+		$(window).resize(toggleSnapperOnSize);
+
+		// initial call
+		toggleSnapperOnSize();
+
+	}
+
 }
 
 $(document).ready(initCore);
