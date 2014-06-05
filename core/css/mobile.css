@@ -79,13 +79,13 @@
 	width: 100% !important;
 	left: 0 !important;
 	background-color: #fff;
-	overflow: hidden;
+	overflow-x: hidden !important;
 }
 
 #app-navigation-toggle {
-	position: absolute;
+	position: fixed;
 	display: inline-block !important;
-	top: 0;
+	top: 45px;
 	left: 0;
 	width: 44px;
 	height: 44px;
@@ -114,7 +114,16 @@ table.multiselect thead {
 	left: 0 !important;
 }
 
+/* shorten elements for mobile */
+#uploadprogresswrapper {
+	width: 50px;
+}
+
+
 /* fix controls bar jumping when navigation is slid out */
+.snapjs-left #app-navigation-toggle {
+	top: 0;
+}
 .snapjs-left .app-files #controls,
 .snapjs-left #user-controls {
 	top: 0;
