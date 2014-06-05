@@ -58,10 +58,8 @@ class Api {
 			return new \OC_OCS_Result(null, 404, 'could not get shares');
 		} else {
 			foreach ($shares as &$share) {
-				// file_target might not be set if the target user hasn't mounted
-				// the filesystem yet
-				if ($share['item_type'] === 'file' && isset($share['file_target'])) {
-					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+				if ($share['item_type'] === 'file' && isset($share['path'])) {
+					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['path']);
 				}
 				$newShares[] = $share;
 			}
