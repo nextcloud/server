@@ -94,7 +94,11 @@ class Shared_Cache extends Cache {
 					$data['is_share_mount_point'] = true;
 				}
 				$data['uid_owner'] = $this->storage->getOwner($file);
-				$data['permissions'] = $data['permissions'] & $this->storage->getPermissions('');
+				if (isset($data['permissions'])) {
+					$data['permissions'] = $data['permissions'] & $this->storage->getPermissions('');
+				} else {
+					$data['permissions'] = $this->storage->getPermissions('');
+				}
 				return $data;
 			}
 		} else {
