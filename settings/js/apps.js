@@ -270,11 +270,11 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						// draw attention to the newly added app entry
 						// by flashing it twice
 						$('#header .menutoggle')
-							.animate({opacity: .5})
+							.animate({opacity: 0.5})
 							.animate({opacity: 1})
-							.animate({opacity: .5})
+							.animate({opacity: 0.5})
 							.animate({opacity: 1})
-							.animate({opacity: .75});
+							.animate({opacity: 0.75});
 
 						if (!SVGSupport() && entry.icon.match(/\.svg$/i)) {
 							$(img).addClass('svg');
