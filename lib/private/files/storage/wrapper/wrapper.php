@@ -432,4 +432,25 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	public function test() {
 		return $this->storage->test();
 	}
+
+	/**
+	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function instanceOfStorage($class) {
+		return is_a($this, $class) or $this->storage->instanceOfStorage($class);
+	}
+
+	/**
+	 * Pass any methods custom to specific storage implementations to the wrapped storage
+	 *
+	 * @param string $method
+	 * @param array $args
+	 * @return mixed
+	 */
+	public function __call($method, $args) {
+		return call_user_func_array(array($this->storage, $method), $args);
+	}
 }

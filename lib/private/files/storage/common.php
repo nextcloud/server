@@ -19,7 +19,6 @@ namespace OC\Files\Storage;
  * Some \OC\Files\Storage\Common methods call functions which are first defined
  * in classes which extend it, e.g. $this->stat() .
  */
-
 abstract class Common implements \OC\Files\Storage\Storage {
 	protected $cache;
 	protected $scanner;
@@ -369,5 +368,15 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 */
 	public function free_space($path) {
 		return \OC\Files\SPACE_UNKNOWN;
+	}
+
+	/**
+	 * Check if the storage is an instance of $class or is a wrapper for a storage that is an instance of $class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function instanceOfStorage($class) {
+		return is_a($this, $class);
 	}
 }

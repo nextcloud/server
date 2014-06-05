@@ -279,4 +279,10 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->instance->file_exists('folder/bar'));
 		$this->assertFalse($this->instance->file_exists('folder'));
 	}
+
+	public function testInstanceOfStorage() {
+		$this->assertTrue($this->instance->instanceOfStorage('\OCP\Files\Storage'));
+		$this->assertTrue($this->instance->instanceOfStorage(get_class($this->instance)));
+		$this->assertFalse($this->instance->instanceOfStorage('\OC'));
+	}
 }
