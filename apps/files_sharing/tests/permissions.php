@@ -141,16 +141,14 @@ class Test_Files_Sharing_Permissions extends Test_Files_Sharing_Base {
 		$this->assertEquals('subdir', $contents[0]['name']);
 		$this->assertEquals(31, $contents[0]['permissions']);
 		$this->assertEquals('textfile.txt', $contents[1]['name']);
-		$this->assertEquals(31, $contents[1]['permissions']);
+		// 27 is correct because create is reserved to folders only - requires more unit tests overall to ensure this
+		$this->assertEquals(27, $contents[1]['permissions']);
 		$contents = $this->secondView->getDirectoryContent('files/shareddirrestricted');
 		$this->assertEquals('subdir', $contents[0]['name']);
-		$this->assertEquals(7, $contents[0]['permissions']);
+		$this->assertEquals(7 | \OCP\PERMISSION_DELETE, $contents[0]['permissions']);
 		$this->assertEquals('textfile1.txt', $contents[1]['name']);
-		$this->assertEquals(7, $contents[1]['permissions']);
-
-		// the share mount point should always have delete permissions to allow the user
-		// to unmount it
-		$restrictedShare = $this->secondView->getFileInfo('files/shareddirrestricted');
-		$this->assertEquals(7 | \OCP\PERMISSION_DELETE, $restrictedShare['permissions']);
+		// 3 is correct because create is reserved to folders only
+		// delete permissions are added since mount points can always be deleted
+		$this->assertEquals(3 | \OCP\PERMISSION_DELETE, $contents[1]['permissions']);
 	}
 }
