@@ -389,16 +389,6 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	}
 
 	/**
-	 * get a permissions cache instance for the cache
-	 *
-	 * @param string $path
-	 * @return \OC\Files\Cache\Permissions
-	 */
-	public function getPermissionsCache($path = '') {
-		return $this->storage->getPermissionsCache($path);
-	}
-
-	/**
 	 * get a watcher instance for the cache
 	 *
 	 * @param string $path

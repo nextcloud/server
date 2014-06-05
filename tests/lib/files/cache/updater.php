@@ -328,35 +328,4 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($time, $cachedData['mtime']);
 	}
 
-	public function testUpdatePermissionsOnRescanOnlyForUpdatedFile() {
-		$permissionsCache = $this->storage->getPermissionsCache();
-		$scanner = $this->storage->getScanner();
-		$scanner->scan('');
-		$cache = $this->storage->getCache();
-		$loggedInUser = \OC_User::getUser();
-		\OC_User::setUserId(self::$user);
-		FileSystem::getDirectoryContent('/');
-		$past = time() - 600;
-		$cache->put('', array('storage_mtime' => $past));
-
-		$this->assertNotEquals(-1, $permissionsCache->get($cache->getId('foo.txt'), self::$user));
-		$this->assertNotEquals(-1, $permissionsCache->get($cache->getId('foo.png'), self::$user));
-
-		$permissionsCache->set($cache->getId('foo.png'), self::$user, 15);
-		FileSystem::file_put_contents('/foo.txt', 'asd');
-
-		$this->assertEquals(-1, $permissionsCache->get($cache->getId('foo.txt'), self::$user));
-		$this->assertEquals(15, $permissionsCache->get($cache->getId('foo.png'), self::$user));
-
-		FileSystem::getDirectoryContent('/');
-
-		$this->assertEquals(15, $permissionsCache->get($cache->getId('foo.png'), self::$user));
-
-		FileSystem::file_put_contents('/qwerty.txt', 'asd');
-		FileSystem::getDirectoryContent('/');
-
-		$this->assertEquals(15, $permissionsCache->get($cache->getId('foo.png'), self::$user));
-
-		\OC_User::setUserId($loggedInUser);
-	}
 }

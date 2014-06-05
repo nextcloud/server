@@ -351,7 +351,16 @@
 				<length>40</length>
 			</field>
 
-			<index>
+            <field>
+                <name>permissions</name>
+                <type>integer</type>
+                <default>0</default>
+                <notnull>false</notnull>
+                <length>4</length>
+            </field>
+
+
+            <index>
 				<name>fs_storage_path_hash</name>
 				<unique>true</unique>
 				<field>
@@ -412,58 +421,6 @@
 				</field>
 				<field>
 					<name>fileid</name>
-				</field>
-			</index>
-
-		</declaration>
-
-	</table>
-
-	<table>
-
-		<!--
-		Maps (fileid, user) to an integer which is a permission bitfield.
-		 - E.g. (4, admin) -> 27
-		-->
-		<name>*dbprefix*permissions</name>
-
-		<declaration>
-
-			<!-- Foreign Key filecache::fileid -->
-			<field>
-				<name>fileid</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>4</length>
-			</field>
-
-			<!-- Foreign Key users::uid -->
-			<field>
-				<name>user</name>
-				<type>text</type>
-				<default></default>
-				<notnull>false</notnull>
-				<length>64</length>
-			</field>
-
-			<field>
-				<name>permissions</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>4</length>
-			</field>
-
-			<index>
-				<name>id_user_index</name>
-				<field>
-					<name>fileid</name>
-					<sorting>ascending</sorting>
-				</field>
-				<field>
-					<name>user</name>
-					<sorting>ascending</sorting>
 				</field>
 			</index>
 

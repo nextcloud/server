@@ -33,8 +33,6 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	function tearDown() {
 		if ($this->cache) {
 			$ids = $this->cache->getAll();
-			$permissionsCache = $this->storage->getPermissionsCache();
-			$permissionsCache->removeMultiple($ids, \OC_User::getUser());
 			$this->cache->clear();
 		}
 	}
