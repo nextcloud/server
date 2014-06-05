@@ -19,7 +19,7 @@ if (!OCA.Files) {
 OCA.Sharing.PublicApp = {
 	_initialized: false,
 
-	initialize: function($el) {
+	initialize: function ($el) {
 		var self = this;
 		var fileActions;
 		if (this._initialized) {
@@ -65,7 +65,7 @@ OCA.Sharing.PublicApp = {
 		}
 
 		// dynamically load image previews
-		if (mimetype.substr(0, mimetype.indexOf('/')) === 'image' ) {
+		if (mimetype.substr(0, mimetype.indexOf('/')) === 'image') {
 
 			var params = {
 				x: $(document).width() * window.devicePixelRatio,
@@ -82,7 +82,7 @@ OCA.Sharing.PublicApp = {
 
 		if (this.fileList) {
 			// TODO: move this to a separate PublicFileList class that extends OCA.Files.FileList (+ unit tests)
-			this.fileList.getDownloadUrl = function(filename, dir) {
+			this.fileList.getDownloadUrl = function (filename, dir) {
 				if ($.isArray(filename)) {
 					filename = JSON.stringify(filename);
 				}
@@ -97,13 +97,13 @@ OCA.Sharing.PublicApp = {
 				return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
 			};
 
-			this.fileList.getAjaxUrl = function(action, params) {
+			this.fileList.getAjaxUrl = function (action, params) {
 				params = params || {};
 				params.t = $('#sharingToken').val();
 				return OC.filePath('files_sharing', 'ajax', action + '.php') + '?' + OC.buildQueryString(params);
 			};
 
-			this.fileList.linkTo = function(dir) {
+			this.fileList.linkTo = function (dir) {
 				var params = {
 					service: 'files',
 					t: $('#sharingToken').val(),
@@ -112,15 +112,15 @@ OCA.Sharing.PublicApp = {
 				return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
 			};
 
-			this.fileList.generatePreviewUrl = function(urlSpec) {
+			this.fileList.generatePreviewUrl = function (urlSpec) {
 				urlSpec.t = $('#dirToken').val();
 				return OC.generateUrl('/apps/files_sharing/ajax/publicpreview.php?') + $.param(urlSpec);
 			};
 
 			var file_upload_start = $('#file_upload_start');
-			file_upload_start.on('fileuploadadd', function(e, data) {
+			file_upload_start.on('fileuploadadd', function (e, data) {
 				var fileDirectory = '';
-				if(typeof data.files[0].relativePath !== 'undefined') {
+				if (typeof data.files[0].relativePath !== 'undefined') {
 					fileDirectory = data.files[0].relativePath;
 				}
 
@@ -143,7 +143,7 @@ OCA.Sharing.PublicApp = {
 			OC.Util.History.addOnPopStateHandler(_.bind(this._onUrlChanged, this));
 		}
 
-		$(document).on('click', '#directLink', function() {
+		$(document).on('click', '#directLink', function () {
 			$(this).focus();
 			$(this).select();
 		});
@@ -152,7 +152,7 @@ OCA.Sharing.PublicApp = {
 		window.FileList = this.fileList;
 	},
 
-	_onDirectoryChanged: function(e) {
+	_onDirectoryChanged: function (e) {
 		OC.Util.History.pushState({
 			service: 'files',
 			t: $('#sharingToken').val(),
@@ -161,21 +161,21 @@ OCA.Sharing.PublicApp = {
 		});
 	},
 
-	_onUrlChanged: function(params) {
+	_onUrlChanged: function (params) {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
 	}
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
 	var App = OCA.Sharing.PublicApp;
 	// defer app init, to give a chance to plugins to register file actions
-	_.defer(function() {
+	_.defer(function () {
 		App.initialize($('#preview'));
 	});
 
 	if (window.Files) {
 		// HACK: for oc-dialogs previews that depends on Files:
-		Files.lazyLoadPreview = function(path, mime, ready, width, height, etag) {
+		Files.lazyLoadPreview = function (path, mime, ready, width, height, etag) {
 			return App.fileList.lazyLoadPreview({
 				path: path,
 				mime: mime,
@@ -195,9 +195,10 @@ $(document).ready(function() {
 		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
 		var owner = $('#save').data('owner');
 		var name = $('#save').data('name');
+		var isProtected = $('#save').data('protected') ? 1 : 0;
 
 		var url = remote + '/index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
-			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) + "&name=" + encodeURIComponent(name);
+			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
 
 
 		if (remote.indexOf('://') > 0) {

@@ -16,7 +16,7 @@
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
 			<span id="details">
-				<span id="save" data-owner="<?php p($_['displayName'])?>" data-name="<?php p($_['filename'])?>">
+				<span id="save" data-protected="<?php p($_['protected'])?>" data-owner="<?php p($_['displayName'])?>" data-name="<?php p($_['filename'])?>">
 					<button><?php p($l->t('Save to ownCloud')) ?></button>
 					<form class="save-form hidden" action="#">
 						<input type="text" id="remote_address" placeholder="<?php p($l->t('example.com/owncloud')) ?>"/>

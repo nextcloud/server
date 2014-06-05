@@ -128,6 +128,7 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('dirToken', $linkItem['token']);
 		$tmpl->assign('sharingToken', $token);
+		$tmpl->assign('protected', isset($linkItem['share_with']) ? 'true' : 'false');
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
