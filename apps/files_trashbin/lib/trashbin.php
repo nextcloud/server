@@ -655,17 +655,12 @@ class Trashbin {
 	/**
 	 * deletes used space for trash bin in db if user was deleted
 	 *
-	 * @param type $uid id of deleted user
+	 * @param string $uid id of deleted user
 	 * @return bool result of db delete operation
 	 */
 	public static function deleteUser($uid) {
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
-		$result = $query->execute(array($uid));
-		if ($result) {
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trashsize` WHERE `user`=?');
-			return $query->execute(array($uid));
-		}
-		return false;
+		return $query->execute(array($uid));
 	}
 
 	/**

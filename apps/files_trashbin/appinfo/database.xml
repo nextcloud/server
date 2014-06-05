@@ -89,30 +89,4 @@
 
  </table>
 
- <table>
-
-  <name>*dbprefix*files_trashsize</name>
-
-  <declaration>
-
-   <field>
-    <name>user</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>64</length>
-   </field>
-
-   <field>
-    <name>size</name>
-    <type>text</type>
-    <default></default>
-    <notnull>true</notnull>
-    <length>50</length>
-   </field>
-
-  </declaration>
-
- </table>
-
 </database>
