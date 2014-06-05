@@ -44,3 +44,12 @@ OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		"name" => $l->t('Shared with others')
 	)
 );
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		"id" => 'sharinglinks',
+		"appname" => 'files_sharing',
+		"script" => 'list.php',
+		"order" => 20,
+		"name" => $l->t('Shared by link')
+	)
+);

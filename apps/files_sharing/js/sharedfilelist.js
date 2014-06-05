@@ -26,6 +26,7 @@
 		 * the files that the user shared with others (false).
 		 */
 		_sharedWithUser: false,
+		_linksOnly: false,
 
 		initialize: function($el, options) {
 			OCA.Files.FileList.prototype.initialize.apply(this, arguments);
@@ -33,8 +34,12 @@
 				return;
 			}
 
+			// TODO: consolidate both options
 			if (options && options.sharedWithUser) {
 				this._sharedWithUser = true;
+			}
+			if (options && options.linksOnly) {
+				this._linksOnly = true;
 			}
 		},
 
@@ -137,12 +142,20 @@
 		 * @return array of file info maps
 		 */
 		_makeFilesFromShares: function(data) {
+			/* jshint camelcase: false */
 			var self = this;
+			var files = data;
+
+			if (this._linksOnly) {
+				files = _.filter(data, function(share) {
+					return share.share_type === OC.Share.SHARE_TYPE_LINK;
+				});
+			}
+
 			// OCS API uses non-camelcased names
-			var files = _.chain(data)
+			files = _.chain(files)
 				// convert share data to file data
 				.map(function(share) {
-					/* jshint camelcase: false */
 					var file = {
 						id: share.file_source,
 						mimetype: share.mimetype
