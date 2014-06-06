@@ -140,6 +140,7 @@ describe('OCA.Files.FileActions tests', function() {
 			id: 18,
 			type: 'file',
 			name: 'testName.txt',
+			path: '/somepath/dir',
 			mimetype: 'text/plain',
 			size: '1234',
 			etag: 'a01234c',
@@ -151,6 +152,8 @@ describe('OCA.Files.FileActions tests', function() {
 		$tr.find('.action.delete').click();
 
 		expect(deleteStub.calledOnce).toEqual(true);
+		expect(deleteStub.getCall(0).args[0]).toEqual('testName.txt');
+		expect(deleteStub.getCall(0).args[1]).toEqual('/somepath/dir');
 		deleteStub.restore();
 	});
 	it('passes context to action handler', function() {

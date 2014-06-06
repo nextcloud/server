@@ -255,7 +255,7 @@
 			this.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
 				return OC.imagePath('core', 'actions/delete');
 			}, function (filename, context) {
-				context.fileList.do_delete(filename);
+				context.fileList.do_delete(filename, context.dir);
 				$('.tipsy').remove();
 			});
 

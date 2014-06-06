@@ -1215,7 +1215,7 @@
 						$.ajax({
 							url: OC.filePath('files','ajax','rename.php'),
 							data: {
-								dir : self.getCurrentDirectory(),
+								dir : tr.attr('data-path') || self.getCurrentDirectory(),
 								newname: newName,
 								file: oldname
 							},
