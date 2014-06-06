@@ -44,7 +44,10 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 			$expected[] = $row['userid'];
 		}
 
-		$this->assertEquals($expected, \OC_Preferences::getUsers());
+		sort($expected);
+		$users = \OC_Preferences::getUsers();
+		sort($users);
+		$this->assertEquals($expected, $users);
 	}
 
 	public function testGetApps() {
@@ -55,8 +58,10 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 			$expected[] = $row['appid'];
 		}
 
-		$this->assertEquals($expected, \OC_Preferences::getApps('Someuser'));
-	}
+		sort($expected);
+		$apps = \OC_Preferences::getApps('Someuser');
+		sort($apps);
+		$this->assertEquals($expected, $apps);	}
 
 	public function testGetKeys() {
 		$query = \OC_DB::prepare('SELECT DISTINCT `configkey` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?');
@@ -66,7 +71,10 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 			$expected[] = $row['configkey'];
 		}
 
-		$this->assertEquals($expected, \OC_Preferences::getKeys('Someuser', 'getkeysapp'));
+		sort($expected);
+		$keys = \OC_Preferences::getKeys('Someuser', 'getkeysapp');
+		sort($keys);
+		$this->assertEquals($expected, $keys);
 	}
 
 	public function testGetValue() {
