@@ -1178,7 +1178,7 @@ function initCore() {
 			}
 		};
 
-		$(window).resize(toggleSnapperOnSize);
+		$(window).resize(_.debounce(toggleSnapperOnSize, 250));
 
 		// initial call
 		toggleSnapperOnSize();
