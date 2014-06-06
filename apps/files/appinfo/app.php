@@ -10,7 +10,7 @@ OCP\App::addNavigationEntry(array("id" => "files_index",
 	"icon" => OCP\Util::imagePath("core", "places/files.svg"),
 	"name" => $l->t("Files")));
 
-OC_Search::registerProvider('OC_Search_Provider_File');
+\OC::$server->getSearch()->registerProvider('OC\Search\Provider\File');
 
 $templateManager = OC_Helper::getFileTemplateManager();
 $templateManager->registerTemplate('text/html', 'core/templates/filetemplates/template.html');

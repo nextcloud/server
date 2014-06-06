@@ -26,7 +26,7 @@ OC_JSON::checkLoggedIn();
 
 $query=(isset($_GET['query']))?$_GET['query']:'';
 if($query) {
-	$result=OC_Search::search($query);
+	$result = \OC::$server->getSearch()->search($query);
 	OC_JSON::encodedPrint($result);
 }
 else {
