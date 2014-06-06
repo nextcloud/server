@@ -16,6 +16,12 @@
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 				</div>
 			</th>
+			<th id="headerBackend" class="hidden column-backend">
+				<a class="backend sort columntitle" data-sort="backend"><span><?php p($l->t('Storage type')); ?></span><span class="sort-indicator"></span></a>
+			</th>
+			<th id="headerScope" class="hidden column-size">
+				<a class="scope sort columntitle" data-sort="scope"><span><?php p($l->t('Scope')); ?></span><span class="sort-indicator"></span></a>
+			</th>
 		</tr>
 	</thead>
 	<tbody id="fileList">

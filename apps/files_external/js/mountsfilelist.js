@@ -29,8 +29,16 @@
 		_createRow: function(fileData) {
 			// TODO: hook earlier and render the whole row here
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
+			var $scopeColumn = $('<td></td>');
+			var $backendColumn = $('<td></td>');
+			var scopeText = t('files_external', 'Personal');
+			if (fileData.scope === 'system') {
+				scopeText = t('files_external', 'System');
+			}
 			$tr.find('.filesize,.date').remove();
-			$tr.find('td.filename').after('<td></td>');
+			$scopeColumn.text(scopeText);
+			$backendColumn.text(fileData.backend);
+			$tr.find('td.filename').after($scopeColumn).after($backendColumn);
 			$tr.find('td.filename input:checkbox').remove();
 			return $tr;
 		},
