@@ -17,7 +17,7 @@
  *
  */
 
-class OC_Search_Result extends \OC\Search\Result {
+class OC_Search_Result extends \OCP\Search\Result {
     
 	/**
 	 * Create a new search result

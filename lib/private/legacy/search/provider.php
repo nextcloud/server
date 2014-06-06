@@ -17,6 +17,6 @@
  *
  */
 
-abstract class OC_Search_Provider extends \OC\Search\Provider {
+abstract class OC_Search_Provider extends \OCP\Search\Provider {
 
 }
