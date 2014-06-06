@@ -284,7 +284,7 @@
 				$('#webdavurl').select();
 			});
 
-			//scroll to and highlight preselected file
+			//FIXME scroll to and highlight preselected file
 			/*
 			if (getURLParameter('scrollto')) {
 				FileList.scrollTo(getURLParameter('scrollto'));

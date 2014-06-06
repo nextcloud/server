@@ -20,70 +20,77 @@
  *
  */
 
+namespace OC;
+use OCP\Search\Provider;
+use OCP\ISearch;
 
 /**
- * provides an interface to all search providers
+ * Provide an interface to all search providers
  */
-class OC_Search{
-	static private $providers=array();
-	static private $registeredProviders=array();
+class Search implements ISearch {
+
+	private $providers = array();
+	private $registeredProviders = array();
 
 	/**
-	 * remove all registered search providers
-	 */
-	public static function clearProviders() {
-		self::$providers=array();
-		self::$registeredProviders=array();
-	}
-
-	/**
-	 * register a new search provider to be used
-	 */
-	public static function registerProvider($class, $options=array()) {
-		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
-	}
-
-	/**
-	 * search all provider for $query
+	 * Search all providers for $query
 	 * @param string $query
-	 * @return array An array of OC_Search_Result's
+	 * @return array An array of OC\Search\Result's
 	 */
-	public static function search($query) {
-		self::initProviders();
-		$results=array();
-		foreach(self::$providers as $provider) {
-			$results=array_merge($results, $provider->search($query));
+	public function search($query) {
+		$this->initProviders();
+		$results = array();
+		foreach($this->providers as $provider) {
+			/** @var $provider Provider */
+			$results = array_merge($results, $provider->search($query));
 		}
 		return $results;
 	}
 
 	/**
-	 * remove an existing search provider
-	 * @param string $provider class name of a OC_Search_Provider
+	 * Remove all registered search providers
 	 */
-	public static function removeProvider($provider) {
-		self::$registeredProviders = array_filter(
-				self::$registeredProviders,
-				function ($element) use ($provider) {
-					return ($element['class'] != $provider);
-				}
-		);
-		// force regeneration of providers on next search
-		self::$providers=array();
+	public function clearProviders() {
+		$this->providers=array();
+		$this->registeredProviders=array();
 	}
-
 
 	/**
-	 * create instances of all the registered search providers
+	 * Remove one existing search provider
+	 * @param string $provider class name of a OC\Search\Provider
 	 */
-	private static function initProviders() {
-		if(count(self::$providers)>0) {
+	public function removeProvider($provider) {
+		$this->registeredProviders = array_filter(
+			$this->registeredProviders,
+			function ($element) use ($provider) {
+				return ($element['class'] != $provider);
+			}
+		);
+		// force regeneration of providers on next search
+		$this->providers=array();
+	}
+
+	/**
+	 * Register a new search provider to search with
+	 * @param string $class class name of a OC\Search\Provider
+	 * @param array $options optional
+	 */
+	public function registerProvider($class, $options=array()) {
+		$this->registeredProviders[]=array('class'=>$class, 'options'=>$options);
+	}
+
+	/**
+	 * Create instances of all the registered search providers
+	 */
+	private function initProviders() {
+		if(count($this->providers)>0) {
 			return;
 		}
-		foreach(self::$registeredProviders as $provider) {
-			$class=$provider['class'];
-			$options=$provider['options'];
-			self::$providers[]=new $class($options);
+		foreach($this->registeredProviders as $provider) {
+			$class = $provider['class'];
+			$options = $provider['options'];
+			$this->providers[]=new $class($options);
 		}
 	}
+
 }
