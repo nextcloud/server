@@ -22,6 +22,8 @@ class View extends \PHPUnit_Framework_TestCase {
 	private $storages = array();
 	private $user;
 
+	private $tempStorage;
+
 	public function setUp() {
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \OC_User_Dummy());
@@ -32,6 +34,8 @@ class View extends \PHPUnit_Framework_TestCase {
 		\OC_User::setUserId('test');
 
 		\OC\Files\Filesystem::clearMounts();
+
+		$this->tempStorage = null;
 	}
 
 	public function tearDown() {
@@ -40,6 +44,10 @@ class View extends \PHPUnit_Framework_TestCase {
 			$cache = $storage->getCache();
 			$ids = $cache->getAll();
 			$cache->clear();
+		}
+
+		if ($this->tempStorage && !\OC_Util::runningOnWindows()) {
+			system('rm -rf ' . escapeshellarg($this->tempStorage->getDataDir()));
 		}
 	}
 
@@ -665,6 +673,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 
 		$storage = new \OC\Files\Storage\Temporary(array());
+		$this->tempStorage = $storage; // for later hard cleanup
 		\OC\Files\Filesystem::mount($storage, array(), '/');
 
 		$rootView = new \OC\Files\View('');
@@ -679,10 +688,6 @@ class View extends \PHPUnit_Framework_TestCase {
 		}
 
 		call_user_func(array($rootView, $operation), $longPath, $param0);
-
-		if (!\OC_Util::runningOnWindows()) {
-			system('rm -rf ' . escapeshellarg($storage->getDataDir()));
-		}
 	}
 
 	public function tooLongPathDataProvider() {
