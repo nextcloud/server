@@ -190,6 +190,10 @@
 	overflow-y: auto;
 }
 
+
+
+/* APP-SETTINGS ---------------------------------------------------------------*/
+
 /* settings area */
 #app-settings {
 	position: fixed;
@@ -213,6 +217,11 @@
 	/* restrict height of settings and make scrollable */
 	max-height: 300px;
 	overflow-y: auto;
+}
+
+/* display input fields at full width */
+#app-settings-content input {
+	width: 93%;
 }
 
 .settings-button {
