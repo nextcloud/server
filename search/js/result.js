@@ -64,7 +64,7 @@ OC.search.showResults=function(results){
 					row.data('index',index);
 					
 					if (i === 0){
-						var typeName = typeid.charAt(0).toUpperCase() + typeid.slice(1);
+						var typeName = OC.search.resultTypes[typeid];
 						row.children('td.type').text(t('lib', typeName));
 					}
 					row.find('td.result div.name').text(type[i].name);
