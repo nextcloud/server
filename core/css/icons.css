@@ -90,6 +90,10 @@
 	background-image: url('../img/actions/mail.svg');
 }
 
+.icon-menu {
+	background-image: url('../img/actions/menu.svg');
+}
+
 .icon-more {
 	background-image: url('../img/actions/more.svg');
 }

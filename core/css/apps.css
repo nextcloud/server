@@ -1,4 +1,5 @@
-/* ---- APP STYLING ---- */
+/* APP STYLING -------------------------------------------------------------- */
+
 
 #app {
 	height: 100%;
@@ -8,15 +9,26 @@
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 
+
+
+
+
+/* APP-NAVIGATION ------------------------------------------------------------*/
+
+
 /* Navigation: folder like structure */
 #app-navigation {
-	width: 230px;
+	width: 250px;
 	height: 100%;
 	float: left;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	background-color: #f8f8f8;
 	border-right: 1px solid #ccc;
 	padding-bottom: 44px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 #app-navigation > ul {
 	position: relative;
@@ -166,6 +178,11 @@
 
 
 
+
+
+/* APP-CONTENT ---------------------------------------------------------------*/
+
+
 /* Part where the content will be loaded into */
 #app-content {
 	position: relative;
@@ -176,7 +193,7 @@
 /* settings area */
 #app-settings {
 	position: fixed;
-	width: 229px;
+	width: 249px;
 	bottom: 0;
 	border-top: 1px solid #ccc;
 }

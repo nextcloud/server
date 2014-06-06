@@ -122,10 +122,6 @@
 
 /* NAVIGATION --------------------------------------------------------------- */
 
-#content-wrapper {
-	padding-left: 0;
-}
-
 #navigation {
 	position: fixed;
 	top: 45px;
