@@ -173,7 +173,7 @@ class OC_Installer{
 		$basedir .= '/';
 		$basedir .= $info['id'];
 
-		if($currentDir !== null && is_writable($currentDir)) {
+		if($currentDir !== false && is_writable($currentDir)) {
 			$basedir = $currentDir;
 		}
 		if(is_dir($basedir)) {

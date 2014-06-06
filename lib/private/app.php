@@ -521,7 +521,7 @@ class OC_App {
 	 */
 	public static function isAppDirWritable($appid) {
 		$path = self::getAppPath($appid);
-		return is_writable($path);
+		return ($path !== false) ? is_writable($path) : false;
 	}
 
 	/**
@@ -544,7 +544,7 @@ class OC_App {
 	 */
 	public static function getAppVersion($appid) {
 		$file = self::getAppPath($appid);
-		return self::getAppVersionByPath($file);
+		return ($file !== false) ? self::getAppVersionByPath($file) : '0';
 	}
 
 	/**
