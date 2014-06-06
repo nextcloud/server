@@ -669,7 +669,6 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$rootView = new \OC\Files\View('');
 
-
 		if ($param0 === '@0') {
 			$param0 = $longPath;
 		}
@@ -681,6 +680,9 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		call_user_func(array($rootView, $operation), $longPath, $param0);
 
+		if (!\OC_Util::runningOnWindows()) {
+			system('rm -rf ' . escapeshellarg($storage->getDataDir()));
+		}
 	}
 
 	public function tooLongPathDataProvider() {
