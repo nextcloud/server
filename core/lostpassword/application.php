@@ -14,6 +14,8 @@ use \OCP\AppFramework\App;
 use OC\Core\LostPassword\Controller\LostController;
 
 class Application extends App {
+
+
 	public function __construct(array $urlParams=array()){
 		parent::__construct('core', $urlParams);
 
@@ -27,12 +29,16 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('ServerContainer')->getURLGenerator(),
-				'\OC_User',
+				$c->query('ServerContainer')->getUserManager(),
 				new \OC_Defaults(),
 				$c->query('ServerContainer')->getL10N('core'),
+				$c->query('ServerContainer')->getConfig(),
+				$c->query('ServerContainer')->getUserSession(),
 				\OCP\Util::getDefaultEmailAddress('lostpassword-noreply'),
 				\OC_App::isEnabled('files_encryption')
 			);
 		});
 	}
+
+
 }
