@@ -151,6 +151,12 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	protected function shareUserTestFileAsLink() {
+		OC_User::setUserId($this->user1);
+		$result = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, OCP\PERMISSION_READ);
+		$this->assertTrue(is_string($result));
+	}
+
 	/**
 	 * @param string $sharer
 	 * @param string $receiver
@@ -316,36 +322,35 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testShareWithUserExpirationExpired() {
-		$this->shareUserOneTestFileWithUserTwo();
-
 		OC_User::setUserId($this->user1);
+		$this->shareUserOneTestFileWithUserTwo();
+		$this->shareUserTestFileAsLink();
+
 		$this->assertTrue(
 			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast),
 			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
 		);
 
-		OC_User::setUserId($this->user2);
-		$this->assertSame(array(),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
-		);
+		$shares = OCP\Share::getItemsShared('test');
+		$this->assertSame(1, count($shares));
+		$share = reset($shares);
+		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share['share_type']);
 	}
 
 	public function testShareWithUserExpirationValid() {
-		$this->shareUserOneTestFileWithUserTwo();
-
 		OC_User::setUserId($this->user1);
+		$this->shareUserOneTestFileWithUserTwo();
+		$this->shareUserTestFileAsLink();
+
+
 		$this->assertTrue(
 			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture),
 			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
 		);
 
-		OC_User::setUserId($this->user2);
-		$this->assertEquals(
-			array('test.txt'),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 2 still has access to test.txt after expiration date has been set.'
-		);
+		$shares = OCP\Share::getItemsShared('test');
+		$this->assertSame(2, count($shares));
+
 	}
 
 	protected function shareUserOneTestFileWithGroupOne() {
@@ -514,52 +519,6 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
 		OC_User::setUserId($this->user3);
 		$this->assertEquals(array(), OCP\Share::getItemsShared('test'));
-	}
-
-	public function testShareWithGroupExpirationExpired() {
-		$this->shareUserOneTestFileWithGroupOne();
-
-		OC_User::setUserId($this->user1);
-		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast),
-			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
-		);
-
-		OC_User::setUserId($this->user2);
-		$this->assertSame(array(),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 2 no longer has access to test.txt after expiration.'
-		);
-
-		OC_User::setUserId($this->user3);
-		$this->assertSame(array(),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 3 no longer has access to test.txt after expiration.'
-		);
-	}
-
-	public function testShareWithGroupExpirationValid() {
-		$this->shareUserOneTestFileWithGroupOne();
-
-		OC_User::setUserId($this->user1);
-		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture),
-			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
-		);
-
-		OC_User::setUserId($this->user2);
-		$this->assertEquals(
-			array('test.txt'),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 2 still has access to test.txt after expiration date has been set.'
-		);
-
-		OC_User::setUserId($this->user3);
-		$this->assertEquals(
-			array('test.txt'),
-			OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
-			'Failed asserting that user 3 still has access to test.txt after expiration date has been set.'
-		);
 	}
 
 	/**

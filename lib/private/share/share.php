@@ -606,6 +606,7 @@ class Share extends \OC\Share\Constants {
 					$oldPermissions = $checkExists['permissions'];
 					//delete the old share
 					Helper::delete($checkExists['id']);
+					$updateExistingShare = true;
 				}
 
 				// Generate hash of password - same method as user passwords
@@ -626,6 +627,12 @@ class Share extends \OC\Share\Constants {
 					$message_t = $l->t('You need to provide a password to create a public link, only protected links are allowed');
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message_t);
+				}
+
+				if (!empty($updateExistingShare) &&
+						self::isDefaultExpireDateEnabled() &&
+						empty($expirationDate)) {
+					$expirationDate = Helper::calcExpireDate();
 				}
 
 				// Generate token
@@ -886,28 +893,33 @@ class Share extends \OC\Share\Constants {
 	 */
 	public static function setExpirationDate($itemType, $itemSource, $date) {
 		$user = \OC_User::getUser();
-		$items = self::getItems($itemType, $itemSource, null, null, $user, self::FORMAT_NONE, null, -1, false);
-		if (!empty($items)) {
-			if ($date == '') {
-				$date = null;
-			} else {
-				$date = new \DateTime($date);
-			}
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `id` = ?');
-			$query->bindValue(1, $date, 'datetime');
-			foreach ($items as $item) {
-				$query->bindValue(2, (int) $item['id']);
-				$query->execute();
-				\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', array(
-					'itemType' => $itemType,
-					'itemSource' => $itemSource,
-					'date' => $date,
-					'uidOwner' => $user
-				));
-			}
-			return true;
+
+		if ($date == '') {
+			$date = null;
+		} else {
+			$date = new \DateTime($date);
 		}
-		return false;
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `item_type` = ? AND `item_source` = ?  AND `uid_owner` = ? AND `share_type` = ?');
+		$query->bindValue(1, $date, 'datetime');
+		$query->bindValue(2, $itemType);
+		$query->bindValue(3, $itemSource);
+		$query->bindValue(4, $user);
+		$query->bindValue(5, \OCP\Share::SHARE_TYPE_LINK);
+
+		$result = $query->execute();
+
+		if ($result === 1) {
+			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'date' => $date,
+				'uidOwner' => $user
+			));
+		} else {
+			\OCP\Util::writeLog('sharing', "Couldn't set expire date'", \OCP\Util::ERROR);
+		}
+
+		return ($result === 1) ? true : false;
 	}
 
 	/**
@@ -917,29 +929,34 @@ class Share extends \OC\Share\Constants {
 	 */
 	protected static function expireItem(array $item) {
 
-		// calculate expire date
-		if (!empty($item['expiration'])) {
-			$userDefinedExpire = new \DateTime($item['expiration']);
-			$expires = $userDefinedExpire->getTimestamp();
-		} else {
-			$expires = null;
-		}
+		$result = false;
 
 		// only use default expire date for link shares
-		if((int)$item['share_type'] === self::SHARE_TYPE_LINK) {
+		if ((int) $item['share_type'] === self::SHARE_TYPE_LINK) {
+
+			// calculate expire date
+			if (!empty($item['expiration'])) {
+				$userDefinedExpire = new \DateTime($item['expiration']);
+				$expires = $userDefinedExpire->getTimestamp();
+			} else {
+				$expires = null;
+			}
+
+
 			// get default expire settings
 			$defaultSettings = Helper::getDefaultExpireSetting();
 			$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $expires);
-		}
 
-		if (is_int($expires)) {
-			$now = time();
-			if ($now > $expires) {
-				self::unshareItem($item);
-				return true;
+
+			if (is_int($expires)) {
+				$now = time();
+				if ($now > $expires) {
+					self::unshareItem($item);
+					$result = true;
+				}
 			}
 		}
-		return false;
+		return $result;
 	}
 
 	/**
@@ -1863,6 +1880,20 @@ class Share extends \OC\Share\Constants {
 	public static function shareWithGroupMembersOnly() {
 		$value = \OC_Appconfig::getValue('core', 'shareapi_only_share_with_group_members', 'no');
 		return ($value === 'yes') ? true : false;
+	}
+
+	public static function isDefaultExpireDateEnabled() {
+		$defaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		return ($defaultExpireDateEnabled === "yes") ? true : false;
+	}
+
+	public static function enforceDefaultExpireDate() {
+		$enforceDefaultExpireDate = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+		return ($enforceDefaultExpireDate === "yes") ? true : false;
+	}
+
+	public static function getExpireInterval() {
+		return (int)\OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
 	}
 
 }

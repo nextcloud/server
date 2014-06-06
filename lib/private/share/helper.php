@@ -200,6 +200,18 @@ class Helper extends \OC\Share\Constants {
 		return $defaultExpireSettings;
 	}
 
+	public static function calcExpireDate() {
+		$expireAfter = \OC\Share\Share::getExpireInterval() * 24 * 60 * 60;
+		$expireAt = time() + $expireAfter;
+		$date = new \DateTime();
+		$date->setTimestamp($expireAt);
+		$date->setTime(0, 0, 0);
+		//$dateString = $date->format('Y-m-d') . ' 00:00:00';
+
+		return $date;
+
+	}
+
 	/**
 	 * calculate expire date
 	 * @param array $defaultExpireSettings contains 'defaultExpireDateSet', 'enforceExpireDate', 'expireAfterDays'

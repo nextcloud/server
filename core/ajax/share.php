@@ -84,6 +84,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$date = new \DateTime($_POST['date']);
 				$today = new \DateTime('now');
 
+				
+
 				if ($date < $today) {
 					OC_JSON::error(array('data' => array('message' => $l->t('Expiration date is in the past.'))));
 					return;
