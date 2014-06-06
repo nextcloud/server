@@ -126,10 +126,6 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 		if ($sourceDir !== $destinationDir) {
-			// for a full move we need update privileges on sourcePath and sourceDir as well as destinationDir
-			if (ltrim($destinationDir, '/') === '') {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
 			if (!$this->fileView->isUpdatable($sourceDir)) {
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}

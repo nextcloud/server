@@ -31,6 +31,12 @@ class OC_Hook{
 			self::$registered[$signalclass][$signalname] = array();
 		}
 
+		// dont connect hooks twice
+		foreach (self::$registered[$signalclass][$signalname] as $hook) {
+			if ($hook['class'] === $slotclass and $hook['name'] === $slotname) {
+				return false;
+			}
+		}
 		// Connect the hook handler to the requested emitter
 		self::$registered[$signalclass][$signalname][] = array(
 				"class" => $slotclass,

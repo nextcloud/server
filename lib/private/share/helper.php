@@ -166,27 +166,6 @@ class Helper extends \OC\Share\Constants {
 			// Reset parents array, only go through loop again if items are found
 			$parents = array();
 			while ($item = $result->fetchRow()) {
-				// Search for a duplicate parent share, this occurs when an
-				// item is shared to the same user through a group and user or the
-				// same item is shared by different users
-				$userAndGroups = array_merge(array($item['uid_owner']), \OC_Group::getUserGroups($item['uid_owner']));
-				$query = \OC_DB::prepare('SELECT `id`, `permissions` FROM `*PREFIX*share`'
-					.' WHERE `item_type` = ?'
-					.' AND `item_target` = ?'
-					.' AND `share_type` IN (?,?,?)'
-					.' AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')'
-					.' AND `uid_owner` != ? AND `id` != ?');
-				$duplicateParent = $query->execute(array($item['item_type'], $item['item_target'],
-					self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique,
-					$item['uid_owner'], $item['parent']))->fetchRow();
-				if ($duplicateParent) {
-					// Change the parent to the other item id if share permission is granted
-					if ($duplicateParent['permissions'] & \OCP\PERMISSION_SHARE) {
-						$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `parent` = ? WHERE `id` = ?');
-						$query->execute(array($duplicateParent['id'], $item['id']));
-						continue;
-					}
-				}
 				$ids[] = $item['id'];
 				$parents[] = $item['id'];
 			}

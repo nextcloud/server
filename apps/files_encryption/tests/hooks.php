@@ -257,14 +257,14 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($result);
 
-		// now keys from user1s home should be gone
-		$this->assertFalse($this->rootView->file_exists(
+		// share key for user2 from user1s home should be gone, all other keys should still exists
+		$this->assertTrue($this->rootView->file_exists(
 			self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/share-keys/'
 			. $this->filename . '.' . \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1 . '.shareKey'));
 		$this->assertFalse($this->rootView->file_exists(
 				self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/share-keys/'
 				. $this->filename . '.' . \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2 . '.shareKey'));
-		$this->assertFalse($this->rootView->file_exists(
+		$this->assertTrue($this->rootView->file_exists(
 			self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keyfiles/' . $this->filename . '.key'));
 
 		// cleanup

@@ -1,6 +1,11 @@
 <?php
 
 $installedVersion = OCP\Config::getAppValue('files_sharing', 'installed_version');
+
+if (version_compare($installedVersion, '0.5', '<')) {
+	updateFilePermissions();
+}
+
 if (version_compare($installedVersion, '0.4', '<')) {
 	removeSharedFolder();
 }
@@ -10,6 +15,39 @@ if (version_compare($installedVersion, '0.3.5.6', '<')) {
 	\OC\Files\Cache\Shared_Updater::fixBrokenSharesOnAppUpdate();
 }
 
+
+/**
+ * it is no longer possible to share single files with delete permissions. User
+ * should only be able to unshare single files but never to delete them.
+ */
+function updateFilePermissions($chunkSize = 99) {
+	$query = OCP\DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `item_type` = ?');
+	$result = $query->execute(array('file'));
+
+	$updatedRows = array();
+
+	while ($row = $result->fetchRow()) {
+		if ($row['permissions'] & \OCP\PERMISSION_DELETE) {
+			$updatedRows[$row['id']] = (int)$row['permissions'] & ~\OCP\PERMISSION_DELETE;
+		}
+	}
+
+	$chunkedPermissionList = array_chunk($updatedRows, $chunkSize, true);
+
+	foreach ($chunkedPermissionList as $subList) {
+		$statement = "UPDATE `*PREFIX*share` SET `permissions` = CASE `id` ";
+		//update share table
+		$ids = implode(',', array_keys($subList));
+		foreach ($subList as $id => $permission) {
+			$statement .= "WHEN " . $id . " THEN " . $permission . " ";
+		}
+		$statement .= ' END WHERE `id` IN (' . $ids . ')';
+
+		$query = OCP\DB::prepare($statement);
+		$query->execute();
+	}
+
+}
 
 /**
  * update script for the removal of the logical "Shared" folder, we create physical "Shared" folder and
