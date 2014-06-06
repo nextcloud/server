@@ -230,13 +230,10 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$requestBackend = new OC_Connector_Sabre_Request();
 
 		// Create ownCloud Dir
-		$root = '/' . $this->userId . '/files';
-		$view = new \OC\Files\View($root);
-		$publicDir = new OC_Connector_Sabre_Directory($view);
-		$objectTree = new \OC\Connector\Sabre\ObjectTree($publicDir);
+		$publicDir = new OC_Connector_Sabre_Directory('');
 
 		// Fire up server
-		$server = new Sabre_DAV_Server($objectTree);
+		$server = new Sabre_DAV_Server($publicDir);
 		$server->httpRequest = $requestBackend;
 		$server->setBaseUri('/remote.php/webdav/');
 
