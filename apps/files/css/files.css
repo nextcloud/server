@@ -105,7 +105,6 @@
 /* this is mostly for file viewer apps, text editor, etc */
 #body-user .app-files.no-sidebar #controls {
 	left: 0px;
-	padding-left: 80px; /* main nav bar */
 }
 
 /* move Deleted Files to bottom of sidebar */

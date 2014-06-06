@@ -109,13 +109,20 @@
 	opacity: 1;
 }
 
-
 /* fix controls bar for apps which don't use the standard */
 #body-user .app-files #controls,
 #user-controls {
 	left: 0 !important;
 	padding-left: 44px !important;
 }
+/* .viewer-mode is when text editor, PDF viewer, etc is open */
+#body-user .app-files.viewer-mode #controls {
+	padding-left: 0 !important;
+}
+.app-files.viewer-mode #app-navigation-toggle {
+	display: none !important;
+}
+
 table.multiselect thead {
 	left: 0 !important;
 }
