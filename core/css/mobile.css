@@ -109,9 +109,14 @@
 #controls {
 	min-width: initial !important;
 	left: 0 !important;
-	padding-left: 44px !important;
+	padding-left: 0;
 	padding-right: 0 !important;
 }
+/* position controls for apps with app-navigation */
+#app-navigation+#app-content #controls {
+	padding-left: 44px;
+}
+
 /* .viewer-mode is when text editor, PDF viewer, etc is open */
 #body-user .app-files.viewer-mode #controls {
 	padding-left: 0 !important;
