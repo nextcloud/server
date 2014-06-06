@@ -243,14 +243,14 @@ input[type="submit"].enabled {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	position: fixed;
-	top:45px;
+	top: 45px;
 	right: 0;
-	left:0;
+	left: 0;
 	height: 44px;
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background: #eee;
+	background-color: rgba(235, 235, 235, .85);
 	border-bottom: 1px solid #e7e7e7;
 	z-index: 50;
 	-webkit-user-select: none;
@@ -258,6 +258,12 @@ input[type="submit"].enabled {
 	-ms-user-select: none;
 	user-select: none;
 }
+/* position controls for apps with app-navigation */
+#app-navigation+#app-content #controls {
+	left: 250px;
+	padding-right: 250px;
+}
+
 #controls .button,
 #controls button,
 #controls input[type='submit'],

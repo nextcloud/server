@@ -1140,7 +1140,7 @@ function initCore() {
 	setupMainMenu();
 
 	// just add snapper for logged in users
-	if($('#body-login, #body-public').length === 0) {
+	if($('#app-navigation').length) {
 
 		// App sidebar on mobile
 		var snapper = new Snap({
