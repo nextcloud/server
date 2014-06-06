@@ -27,26 +27,13 @@ namespace OCP\AppFramework;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\IResponseSerializer;
 
-
-class ToUpperCaseSerializer implements IResponseSerializer {
-	public function serialize($response) {
-		return array(strtoupper($response));
-	}
-}
 
 class ChildController extends Controller {
 	public function custom($in) {
 		$this->registerResponder('json', function ($response) {
 			return new JSONResponse(array(strlen($response)));
 		});
-
-		return $in;
-	}
-
-	public function serializer($in) {
-		$this->registerSerializer(new ToUpperCaseSerializer());
 
 		return $in;
 	}
@@ -170,16 +157,9 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 		$response = $this->controller->custom('hi');
 		$response = $this->controller->buildResponse($response, 'json');
 
-		$this->assertEquals(array(2), $response->getData());		
+		$this->assertEquals(array(2), $response->getData());
 	}
 
-
-	public function testCustomSerializer() {
-		$response = $this->controller->serializer('hi');
-		$response = $this->controller->buildResponse($response, 'json');
-
-		$this->assertEquals(array('HI'), $response->getData());	
-	}
 
 
 }

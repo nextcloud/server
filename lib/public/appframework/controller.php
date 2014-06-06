@@ -29,7 +29,6 @@ namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
-use OCP\AppFramework\Http\IResponseSerializer;
 use OCP\IRequest;
 
 
@@ -50,7 +49,6 @@ abstract class Controller {
 	 */
 	protected $request;
 
-	private $serializer;
 	private $responders;
 
 	/**
@@ -58,7 +56,7 @@ abstract class Controller {
 	 * @param string $appName the name of the app
 	 * @param IRequest $request an instance of the request
 	 */
-	public function __construct($appName, 
+	public function __construct($appName,
 	                            IRequest $request){
 		$this->appName = $appName;
 		$this->request = $request;
@@ -69,17 +67,6 @@ abstract class Controller {
 				return new JSONResponse($response);
 			}
 		);
-	}
-
-
-	/** 
-	 * Registers a serializer that is executed before a formatter is being 
-	 * called, useful for turning any data into PHP arrays that can be used
-	 * by a JSONResponse for instance
-	 * @param IResponseSerializer $serializer 
-	 */
-	protected function registerSerializer(IResponseSerializer $serializer) {
-		$this->serializer = $serializer;
 	}
 
 
@@ -104,16 +91,12 @@ abstract class Controller {
 	public function buildResponse($response, $format='json') {
 		if(array_key_exists($format, $this->responders)) {
 
-			if ($this->serializer) {
-				$response = $this->serializer->serialize($response);
-			}
-
 			$responder = $this->responders[$format];
-			
+
 			return $responder($response);
 
 		} else {
-			throw new \DomainException('No responder registered for format ' . 
+			throw new \DomainException('No responder registered for format ' .
 				$format . '!');
 		}
 	}
