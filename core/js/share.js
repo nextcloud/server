@@ -673,6 +673,9 @@ OC.Share={
 		});
 		if (oc_appconfig.core.defaultExpireDateEnforced) {
 			$('#expirationCheckbox').attr('disabled', true);
+			$.datepicker.setDefaults({
+				maxDate : new Date(date.replace(' 00:00:00', ''))
+			});
 		}
 		if(oc_appconfig.core.defaultExpireDateEnabled) {
 			$('#defaultExpireMessage').show('blind');
@@ -689,7 +692,8 @@ $(document).ready(function() {
 			dayNames: dayNames,
 			dayNamesMin: $.map(dayNames, function(v) { return v.slice(0,2); }),
 			dayNamesShort: $.map(dayNames, function(v) { return v.slice(0,3)+'.'; }),
-			firstDay: firstDay
+			firstDay: firstDay,
+			minDate : new Date()
 		});
 	}
 	$(document).on('click', 'a.share', function(event) {
