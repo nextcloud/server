@@ -903,6 +903,7 @@ class OC_Helper {
 		if ($used < 0) {
 			$used = 0;
 		}
+
 		$free = \OC\Files\Filesystem::free_space($path);
 		if ($free >= 0) {
 			$total = $free + $used;

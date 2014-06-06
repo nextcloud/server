@@ -48,6 +48,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	public $dataShort;
 	public $stateFilesTrashbin;
 
+	private $storage;
+
 	public static function setUpBeforeClass() {
 		// reset backend
 		\OC_User::clearBackends();
@@ -77,8 +79,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$this->pass = \Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1;
 
 		// init filesystem view
-		$this->view = new \OC_FilesystemView('/');
-
+		$this->view = new \OC\Files\View('/');
+		list($this->storage, $intPath) = $this->view->resolvePath('/');
 		// init short data
 		$this->dataShort = 'hats';
 
@@ -195,6 +197,9 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$_SERVER['REQUEST_URI'] = '/remote.php/webdav' . $filename;
 		$_SERVER['HTTP_AUTHORIZATION'] = 'Basic dGVzdC13ZWJkYXYtdXNlcjE6dGVzdC13ZWJkYXYtdXNlcjE=';
 		$_SERVER['PATH_INFO'] = '/webdav' . $filename;
+
+		// at the beginning the file should exist
+		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files' . $filename));
 
 		// handle webdav request
 		$content = $this->handleWebdavRequest();
