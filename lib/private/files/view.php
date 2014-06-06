@@ -1127,7 +1127,7 @@ class View {
 	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
 	 *
 	 * @param int $id
-	 * @return string
+	 * @return string|null
 	 */
 	public function getPath($id) {
 		$manager = Filesystem::getMountManager();
