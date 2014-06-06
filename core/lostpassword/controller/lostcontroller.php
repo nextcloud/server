@@ -71,6 +71,14 @@ class LostController extends Controller {
 		);
 	}
 
+	private function error($message, array $additional=array()) {
+		return array_combine(array('status' => 'error', 'msg' => $message), $additional);
+	}
+
+	private function success() {
+		return array('status'=>'success');
+	}
+
 	/**
 	 * @PublicPage
 	 *
@@ -82,39 +90,36 @@ class LostController extends Controller {
 		try {
 			$this->sendEmail($user, $proceed);
 		} catch (EncryptedDataException $e){
-			array('status' => 'error', 'encryption' => '1');
+			return $this->error('', array('encryption' => '1'));
 		} catch (\Exception $e){
-			return array('status' => 'error', 'msg' => $e->getMessage());
+			return $this->error($e->getMessage());
 		}
 
-		return array('status'=>'success');
+		return $this->success();
 	}
 
 
 	/**
 	 * @PublicPage
 	 */
-	public function setPassword($token, $uid, $password) {
+	public function setPassword($token, $userId, $password) {
 		try {
-			if (!$this->checkToken($uid, $token)) {
-				throw new \Exception();
-			}
+			$user = $this->userManager->get($userId);
 
-			$user = $this->userManager->get($uid);
-			if (!$user->setPassword($uid, $password)) {
-
+			if (!$this->checkToken($userId, $token) ||
+				!$user->setPassword($userId, $password)) {
 				throw new \Exception();
 			}
 
 			// FIXME: should be added to the all config at some point
-			\OC_Preferences::deleteKey($uid, 'owncloud', 'lostpassword');
+			\OC_Preferences::deleteKey($userId, 'owncloud', 'lostpassword');
 			$this->userSession->unsetMagicInCookie();
 
 		} catch (\Exception $e){
-			return array('status' => 'error','msg' => $e->getMessage());
+			return $this->error($e->getMessage());
 		}
 
-		return array('status'=>'success');
+		return $this->success();
 	}
 
 
@@ -153,6 +158,7 @@ class LostController extends Controller {
 		$msg = $tmpl->fetchPage();
 
 		try {
+			// FIXME: should be added to the container and injected in here
 			\OC_Mail::send($email, $user, $this->l10n->t(
 				'%s password reset',
 				array(
@@ -162,8 +168,9 @@ class LostController extends Controller {
 					$this->defaults->getName()
 				));
 		} catch (\Exception $e) {
-			throw new \Exception($this->l10n->t('Couldn’t send reset email. ' .
-				                                'Please contact your administrator.'));
+			throw new \Exception($this->l10n->t(
+				'Couldn’t send reset email. Please contact your administrator.'
+			));
 		}
 	}
 
@@ -174,6 +181,7 @@ class LostController extends Controller {
 			'uid' => $user
 		);
 		$link = $this->urlGenerator->linkToRoute($route, $parameters);
+
 		return $this->urlGenerator->getAbsoluteUrl($link);
 	}
 
@@ -183,5 +191,6 @@ class LostController extends Controller {
 			$user, 'owncloud', 'lostpassword'
 		) === hash('sha256', $token);
 	}
+
 
 }
