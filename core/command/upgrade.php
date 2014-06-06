@@ -12,6 +12,7 @@ use OC\Updater;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 class Upgrade extends Command {
 
@@ -19,12 +20,24 @@ class Upgrade extends Command {
 	const ERROR_NOT_INSTALLED = 1;
 	const ERROR_MAINTENANCE_MODE = 2;
 	const ERROR_UP_TO_DATE = 3;
+	const ERROR_INVALID_ARGUMENTS = 4;
 
 	protected function configure() {
 		$this
 			->setName('upgrade')
 			->setDescription('run upgrade routines')
-		;
+			->addOption(
+				'--skip-migration-test',
+				null,
+				InputOption::VALUE_NONE,
+				'skips the database schema migration simulation and update directly'
+			)
+			->addOption(
+				'--dry-run',
+				null,
+				InputOption::VALUE_NONE,
+				'only runs the database schema migration simulation, do not actually update'
+			);
 	}
 
 	/**
@@ -43,15 +56,41 @@ class Upgrade extends Command {
 			return self::ERROR_NOT_INSTALLED;
 		}
 
+		$simulateStepEnabled = true;
+		$updateStepEnabled = true;
+
+		if ($input->getOption('skip-migration-test')) {
+			$simulateStepEnabled = false;
+		}
+	   	if ($input->getOption('dry-run')) {
+			$updateStepEnabled = false;
+		}
+
+		if (!$simulateStepEnabled && !$updateStepEnabled) {
+			$output->writeln(
+				'<error>Only one of "--skip-migration-test" or "--dry-run" ' .
+				'can be specified at a time.</error>'
+			);
+			return self::ERROR_INVALID_ARGUMENTS;
+		}
+
 		if(\OC::checkUpgrade(false)) {
 			$updater = new Updater();
+
+			$updater->setSimulateStepEnabled($simulateStepEnabled);
+			$updater->setUpdateStepEnabled($updateStepEnabled);
 
 			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output) {
+			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output, $updateStepEnabled) {
 				$output->writeln('<info>Turned off maintenance mode</info>');
-				$output->writeln('<info>Update successful</info>');
+				if (!$updateStepEnabled) {
+					$output->writeln('<info>Update simulation successful</info>');
+				}
+				else {
+					$output->writeln('<info>Update successful</info>');
+				}
 			});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');

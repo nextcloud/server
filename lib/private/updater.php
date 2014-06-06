@@ -25,11 +25,38 @@ class Updater extends BasicEmitter {
 	 */
 	private $log;
 
+	private $simulateStepEnabled;
+
+	private $updateStepEnabled;
+
 	/**
 	 * @param \OC\Log $log
 	 */
 	public function __construct($log = null) {
 		$this->log = $log;
+		$this->simulateStepEnabled = true;
+		$this->updateStepEnabled = true;
+	}
+
+	/**
+	 * Sets whether the database migration simulation must
+	 * be enabled.
+	 * This can be set to false to skip this test.
+	 *
+	 * @param bool $flag true to enable simulation, false otherwise
+	 */
+	public function setSimulateStepEnabled($flag) {
+		$this->simulateStepEnabled = $flag;
+	}
+
+	/**
+	 * Sets whether the update must be performed.
+	 * This can be set to false to skip the actual update.
+	 *
+	 * @param bool $flag true to enable update, false otherwise
+	 */
+	public function setUpdateStepEnabled($flag) {
+		$this->updateStepEnabled = $flag;
 	}
 
 	/**
@@ -92,6 +119,8 @@ class Updater extends BasicEmitter {
 	/**
 	 * runs the update actions in maintenance mode, does not upgrade the source files
 	 * except the main .htaccess file
+	 *
+	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
 		\OC_DB::enableCaching(false);
@@ -128,27 +157,32 @@ class Updater extends BasicEmitter {
 		$canUpgrade = false;
 
 		// simulate DB upgrade
-		try {
-			// simulate core DB upgrade
-			\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+		if ($this->simulateStepEnabled) {
+			try {
+				// simulate core DB upgrade
+				\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 
-			// simulate apps DB upgrade
-			$version = \OC_Util::getVersion();
-			$apps = \OC_App::getEnabledApps();
-			foreach ($apps as $appId) {
-				$info = \OC_App::getAppInfo($appId);
-				if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
-					if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
-						\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
+				// simulate apps DB upgrade
+				$version = \OC_Util::getVersion();
+				$apps = \OC_App::getEnabledApps();
+				foreach ($apps as $appId) {
+					$info = \OC_App::getAppInfo($appId);
+					if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
+						if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
+							\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
+						}
 					}
 				}
+
+				$this->emit('\OC\Updater', 'dbSimulateUpgrade');
+
+				$canUpgrade = true;
+			} catch (\Exception $exception) {
+				$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 			}
-
-			$this->emit('\OC\Updater', 'dbSimulateUpgrade');
-
+		}
+		else {
 			$canUpgrade = true;
-		} catch (\Exception $exception) {
-			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 		}
 
 		// upgrade from OC6 to OC7
@@ -158,7 +192,7 @@ class Updater extends BasicEmitter {
 			\OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		}
 
-		if ($canUpgrade) {
+		if ($this->updateStepEnabled && $canUpgrade) {
 			// proceed with real upgrade
 			try {
 				// do the real upgrade
