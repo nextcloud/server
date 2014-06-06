@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:13+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -54,15 +54,15 @@ msgstr "邮件已发送"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "在发送测试邮件钱您需要设置您的用户电子邮件"
 
-#: admin/controller.php:116 templates/admin.php:357
+#: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
 msgstr "发送模式"
 
-#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
 msgstr "加密"
 
-#: admin/controller.php:120 templates/admin.php:394
+#: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
 msgstr "认证方法"
 
@@ -196,7 +196,7 @@ msgstr "后端不支持修改密码，但是用户的加密密码已成功更新
 msgid "Unable to change password"
 msgstr "不能更改密码"
 
-#: js/admin.js:129
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "正在发送..."
 
@@ -308,7 +308,7 @@ msgstr "已经删除"
 msgid "undo"
 msgstr "撤销"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:37 templates/admin.php:302
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -548,163 +548,147 @@ msgid "Sharing"
 msgstr "共享"
 
 #: templates/admin.php:240
-msgid "Enable Share API"
-msgstr "启用共享API"
-
-#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "允许应用软件使用共享API"
 
-#: templates/admin.php:248
-msgid "Allow links"
-msgstr "允许链接"
+#: templates/admin.php:247
+msgid "Allow users to share via link"
+msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:251
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:255
+#: templates/admin.php:254
 msgid "Allow public uploads"
 msgstr "允许公开上传"
 
-#: templates/admin.php:259
+#: templates/admin.php:258
 msgid "Set default expiration date"
 msgstr "设置默认过期日期"
 
-#: templates/admin.php:261
+#: templates/admin.php:260
 msgid "Expire after "
 msgstr "过期于"
 
-#: templates/admin.php:264
+#: templates/admin.php:263
 msgid "days"
 msgstr "天"
 
-#: templates/admin.php:267
+#: templates/admin.php:266
 msgid "Enforce expiration date"
 msgstr "强制过期日期"
 
-#: templates/admin.php:271
-msgid "Allow users to share items to the public with links"
-msgstr "允许用户使用连接公开共享项目"
-
-#: templates/admin.php:278
+#: templates/admin.php:276
 msgid "Allow resharing"
 msgstr "允许再次共享"
 
-#: templates/admin.php:279
-msgid "Allow users to share items shared with them again"
-msgstr "允许用户将共享给他们的项目再次共享"
-
 #: templates/admin.php:283
-msgid "Allow users to share with anyone"
-msgstr "允许用户向任何人共享"
+msgid "Restrict users to only share with users in their groups"
+msgstr ""
 
-#: templates/admin.php:286
-msgid "Allow users to only share with users in their groups"
-msgstr "允许用户只向同组用户共享"
-
-#: templates/admin.php:294
+#: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
 msgstr "允许用户发送共享文件的邮件通知"
 
-#: templates/admin.php:301
+#: templates/admin.php:297
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:312
+#: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:319
+#: templates/admin.php:315
 msgid "Security"
 msgstr "安全"
 
-#: templates/admin.php:332
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "强制使用 HTTPS"
 
-#: templates/admin.php:334
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "强制客户端通过加密连接连接到%s。"
 
-#: templates/admin.php:340
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "请经由HTTPS连接到这个%s 实例来启用或禁用强制SSL."
 
-#: templates/admin.php:352
+#: templates/admin.php:348
 msgid "Email Server"
 msgstr "电子邮件服务器"
 
-#: templates/admin.php:354
+#: templates/admin.php:350
 msgid "This is used for sending out notifications."
 msgstr "这被用于发送通知。"
 
-#: templates/admin.php:385
+#: templates/admin.php:381
 msgid "From address"
 msgstr "来自地址"
 
-#: templates/admin.php:386
+#: templates/admin.php:382
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Authentication required"
 msgstr "需要认证"
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Server address"
 msgstr "服务器地址"
 
-#: templates/admin.php:415
+#: templates/admin.php:411
 msgid "Port"
 msgstr "端口"
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "Credentials"
 msgstr "凭证"
 
-#: templates/admin.php:421
+#: templates/admin.php:417
 msgid "SMTP Username"
 msgstr "SMTP 用户名"
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "SMTP Password"
 msgstr "SMTP 密码"
 
-#: templates/admin.php:428
+#: templates/admin.php:424
 msgid "Test email settings"
 msgstr "测试电子邮件设置"
 
-#: templates/admin.php:429
+#: templates/admin.php:425
 msgid "Send email"
 msgstr "发送邮件"
 
-#: templates/admin.php:434
+#: templates/admin.php:430
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:435
+#: templates/admin.php:431
 msgid "Log level"
 msgstr "日志级别"
 
-#: templates/admin.php:467
+#: templates/admin.php:463
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:468
+#: templates/admin.php:464
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:474 templates/personal.php:196
+#: templates/admin.php:470 templates/personal.php:196
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:478 templates/personal.php:199
+#: templates/admin.php:474 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -916,7 +900,7 @@ msgstr "输入恢复密码来在更改密码的时候恢复用户文件"
 msgid "Search Users and Groups"
 msgstr ""
 
-#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+#: templates/users/part.grouplist.php:5
 msgid "Add Group"
 msgstr ""
 

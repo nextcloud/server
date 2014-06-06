@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +30,10 @@ msgstr "Mit Ihnen geteilt"
 msgid "Shared with others"
 msgstr "Von Ihnen geteilt"
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "Es wurden bis jetzt keine Dateien mit Ihnen geteilt."
@@ -38,23 +42,27 @@ msgstr "Es wurden bis jetzt keine Dateien mit Ihnen geteilt."
 msgid "You haven't shared any files yet."
 msgstr "Sie haben bis jetzt keine Dateien mit anderen geteilt."
 
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
+msgstr ""
+
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Vorlage kann nicht geladen werden"
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "Gespeichert"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
-msgstr ""
+msgstr "Zurücksetzen"
 
 #: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Geteilt von {owner}"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "Geteilt von"
 
@@ -117,16 +125,16 @@ msgstr "Direkte Verlinkung"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Mail-Vorlagen"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Theme"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Vorlage"
 
 #: templates/settings-admin.php:35
 msgid "Save"
-msgstr ""
+msgstr "Speichern"

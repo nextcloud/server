@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Kullanıcı adında sadece bu karakterlere izin verilmektedir: \"a-z\", \"A-Z\", \"0-9\", ve \"_.@-\"",
 "A valid username must be provided" => "Geçerli bir kullanıcı adı mutlaka sağlanmalı",
 "A valid password must be provided" => "Geçerli bir parola mutlaka sağlanmalı",
-"The username is already being used" => "Bu kullanıcı adı zaten kullanımda"
+"The username is already being used" => "Bu kullanıcı adı zaten kullanımda",
+"Could not obtain lock type %d on \"%s\"." => "\"%s\" üzerinde %d kilit türü edinilemedi."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

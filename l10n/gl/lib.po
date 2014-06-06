@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 09:02+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:714
+#: base.php:677
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Esta accedendo desde un dominio non fiábel."
 
-#: base.php:715
+#: base.php:678
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -61,7 +61,7 @@ msgstr "Usuarios"
 msgid "Admin"
 msgstr "Administración"
 
-#: private/app.php:903
+#: private/app.php:918
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Non foi posíbel anovar «%s»."
@@ -463,4 +463,4 @@ msgstr "Este nome de usuario xa está a ser usado"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Non foi posíbel obter un bloqueo do tipo %d en «%s»."

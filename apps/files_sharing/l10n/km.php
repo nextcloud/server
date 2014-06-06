@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "បាន​រក្សាទុក",
 "Shared by {owner}" => "{owner} បាន​ចែក​រំលែក",
 "Shared by" => "បាន​ចែក​រំលែក​ដោយ",
 "This share is password-protected" => "ការ​ចែករំលែក​នេះ​ត្រូវ​បាន​ការពារ​ដោយ​ពាក្យ​សម្ងាត់",
@@ -14,6 +15,7 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "សម្រាប់​ព័ត៌មាន​បន្ថែម សូម​សួរ​អ្នក​ដែល​ផ្ញើ​តំណ​នេះ។",
 "Download" => "ទាញយក",
 "Download %s" => "ទាញយក %s",
-"Direct link" => "តំណ​ផ្ទាល់"
+"Direct link" => "តំណ​ផ្ទាល់",
+"Save" => "រក្សាទុក"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

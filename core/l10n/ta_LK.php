@@ -37,6 +37,7 @@ $TRANSLATIONS = array(
 "Ok" => "சரி",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Cancel" => "இரத்து செய்க",
+"Shared by {owner}" => "பகிரப்பட்டது {சொந்தகாரர்}",
 "Share" => "பகிர்வு",
 "Error" => "வழு",
 "Error while sharing" => "பகிரும் போதான வழு",

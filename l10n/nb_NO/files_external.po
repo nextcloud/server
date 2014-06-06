@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Hans Nesse <>, 2013
-# dizzi90 <dizzi90@gmail.com>, 2014
+# Magnus Meyer Hustveit <dizzi90@gmail.com>, 2014
 # vidaren <news@vidartysse.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-31 01:54-0400\n"
-"PO-Revision-Date: 2014-05-30 19:31+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 06:13+0000\n"
 "Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -204,29 +204,29 @@ msgstr "Feil med konfigurering av Google Drive"
 msgid "Saved"
 msgstr "Lagret"
 
-#: lib/config.php:674
+#: lib/config.php:669
 msgid "<b>Note:</b> "
 msgstr "<b>Notat:</b> "
 
-#: lib/config.php:684
+#: lib/config.php:679
 msgid " and "
 msgstr "og"
 
-#: lib/config.php:706
+#: lib/config.php:701
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Merk:</b> Støtte for cURL i PHP er ikke aktivert eller installert. Montering av %s er ikke mulig. Be systemadministratoren om å installere det."
 
-#: lib/config.php:708
+#: lib/config.php:703
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Merk:</b> FTP støtte i PHP er ikke slått på eller innstallert. Kan ikke montere %s. Ta kontakt med din systemadministrator for å installere det."
 
-#: lib/config.php:710
+#: lib/config.php:705
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

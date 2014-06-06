@@ -1,11 +1,19 @@
 <?php
 $TRANSLATIONS = array(
+"Shared with you" => "Deelde met u",
+"Shared with others" => "Deelde met anderen",
+"No files have been shared with you yet." => "Er zijn nog geen bestanden met u gedeeld.",
+"You haven't shared any files yet." => "U hebt nog geen bestanden gedeeld.",
+"Could not load template" => "Kon sjabloon niet laden",
+"Saved" => "Bewaard",
+"Reset" => "Reset",
 "Shared by {owner}" => "Gedeeld door {owner}",
 "Shared by" => "Gedeeld door",
 "This share is password-protected" => "Deze share is met een wachtwoord beveiligd",
 "The password is wrong. Try again." => "Wachtwoord ongeldig. Probeer het nogmaals.",
 "Password" => "Wachtwoord",
 "Name" => "Naam",
+"Share time" => "Deel tijd",
 "Sorry, this link doesn’t seem to work anymore." => "Sorry, deze link lijkt niet meer in gebruik te zijn.",
 "Reasons might be:" => "Redenen kunnen zijn:",
 "the item was removed" => "bestand was verwijderd",
@@ -14,6 +22,10 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
 "Download" => "Downloaden",
 "Download %s" => "Download %s",
-"Direct link" => "Directe link"
+"Direct link" => "Directe link",
+"Mail templates" => "E-mailsjablonen",
+"Theme" => "Thema",
+"Template" => "Sjabloon",
+"Save" => "Bewaren"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

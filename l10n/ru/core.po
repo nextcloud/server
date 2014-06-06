@@ -8,6 +8,7 @@
 # Alf <alfsoft@gmail.com>, 2013
 # Andrew Batchmauga <lordakryl@gmail.com>, 2013
 # Andrey Gladilin <andrglad@mail.ru>, 2013
+# BuxarNET <buxarnet@gmail.com>, 2014
 # Evgenij Spitsyn <evgeniy@spitsyn.net>, 2013
 # Gennady <mxiru@mail.ru>, 2014
 # jekader <jekader@gmail.com>, 2013
@@ -27,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +59,11 @@ msgstr "Режим отладки отключён"
 msgid "Updated database"
 msgstr "База данных обновлена"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -163,59 +168,59 @@ msgstr "Декабрь"
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Сохранение..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n минуту назад"
 msgstr[1] "%n минуты назад"
 msgstr[2] "%n минут назад"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n час назад"
 msgstr[1] "%n часа назад"
 msgstr[2] "%n часов назад"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день назад"
 msgstr[1] "%n дня назад"
 msgstr[2] "%n дней назад"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n месяц назад"
 msgstr[1] "%n месяца назад"
 msgstr[2] "%n месяцев назад"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -318,7 +323,7 @@ msgstr "Общие"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Доступ открыл {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -607,7 +612,7 @@ msgstr "Личное"
 msgid "Users"
 msgstr "Пользователи"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Приложения"
 
@@ -737,7 +742,7 @@ msgstr "Настройка базы данных"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Только %s доступно."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -785,7 +790,7 @@ msgstr "Это приложение требует включённый JavaScri
 msgid "%s is available. Get more information on how to update."
 msgstr "%s доступно. Получить дополнительную информацию о порядке обновления."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Выйти"
 

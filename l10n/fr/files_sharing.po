@@ -8,12 +8,13 @@
 # Christophe Lherieau <skimpax@gmail.com>, 2013
 # Etienne <etiess@gmail.com>, 2013-2014
 # Ogre Sympathique, 2013
+# themen <themen2004@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +31,10 @@ msgstr "Partagé avec vous"
 msgid "Shared with others"
 msgstr "Partagé avec d'autres"
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "Aucun fichier n'est partagé avec vous pour l'instant"
@@ -38,23 +43,27 @@ msgstr "Aucun fichier n'est partagé avec vous pour l'instant"
 msgid "You haven't shared any files yet."
 msgstr "Vous ne partagez pas de fichier pour l'instant"
 
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
+msgstr ""
+
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Impossible de charger le modèle"
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "Sauvegarder"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
-msgstr ""
+msgstr "Réinitialiser"
 
 #: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Partagé par {owner}"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "Partagé par"
 
@@ -117,16 +126,16 @@ msgstr "Lien direct"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Modèles de courriels"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Thème"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Modèles"
 
 #: templates/settings-admin.php:35
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarder"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -25,12 +25,20 @@ msgstr ""
 msgid "Shared with others"
 msgstr ""
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr ""
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
+msgstr ""
+
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
 msgstr ""
 
 #: js/settings-admin.js:10
@@ -49,7 +57,7 @@ msgstr ""
 msgid "Shared by {owner}"
 msgstr ""
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr ""
 

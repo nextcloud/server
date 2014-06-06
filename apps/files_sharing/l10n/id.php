@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Disimpan",
+"Reset" => "Atur Ulang",
 "Shared by {owner}" => "Dibagikan oleh {owner}",
 "Shared by" => "Dibagikan oleh",
 "This share is password-protected" => "Berbagi ini dilindungi sandi",
@@ -13,6 +15,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "berbagi dinonaktifkan",
 "For more info, please ask the person who sent this link." => "Untuk info lebih lanjut, silakan tanyakan orang yang mengirim tautan ini.",
 "Download" => "Unduh",
-"Direct link" => "Tautan langsung"
+"Direct link" => "Tautan langsung",
+"Save" => "Simpan"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

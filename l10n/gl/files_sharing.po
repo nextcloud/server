@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,10 @@ msgstr "Compartido con vostede"
 msgid "Shared with others"
 msgstr "Compartido con outros"
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "Aínda non hai ficheiros compartidos con vostede."
@@ -35,23 +39,27 @@ msgstr "Aínda non hai ficheiros compartidos con vostede."
 msgid "You haven't shared any files yet."
 msgstr "Aínda non compartiu ningún ficheiro."
 
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
+msgstr ""
+
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Non foi posíbel cargar o modelo"
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "Gardado"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
-msgstr ""
+msgstr "Restabelecer"
 
 #: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Compartido por {owner}"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "Compartido por"
 
@@ -114,16 +122,16 @@ msgstr "Ligazón directa"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Modelos de correo"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Modelo"
 
 #: templates/settings-admin.php:35
 msgid "Save"
-msgstr ""
+msgstr "Gardar"

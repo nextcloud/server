@@ -5,14 +5,15 @@
 # Translators:
 # asaez <asaez@asaez.eu>, 2013
 # asieriko <asieriko@gmail.com>, 2013
+# Mikel Olasagasti Uranga <mikel@olasagasti.info>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 18:02+0000\n"
+"Last-Translator: Mikel Olasagasti Uranga <mikel@olasagasti.info>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,7 +82,7 @@ msgstr "Ezin izan da fitxategi hau deszifratu, ziurrenik elkarbanatutako fitxate
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Errore ezezaguna. Mesedez, egiaztatu zure sistemaren ezarpenak edo jarri zure administrariarekin kontaktuan."
 
 #: hooks/hooks.php:64
 msgid "Missing requirements."
@@ -94,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Mesedez ziurtatu PHP 5.3.3 edo berriago bat instalatuta dagoela eta OpenSSL PHP hedapenarekin gaitua eta ongi konfiguratuta dagoela. Oraingoz, enkriptazio aplikazioa desgaituta dago."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:298
 msgid "Following users are not set up for encryption:"
 msgstr "Hurrengo erabiltzaileak ez daude enktriptatzeko konfiguratutak:"
 
@@ -104,7 +105,7 @@ msgstr "Hasierako enkriptazioa hasi da... Honek denbora har dezake. Mesedez itxa
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "Hasierako enkriptaketa abian... mesedez, saiatu beranduago."
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "

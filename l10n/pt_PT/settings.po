@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:12+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -56,15 +56,15 @@ msgstr "E-mail enviado"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Você precisa de configurar o seu e-mail de usuário antes de ser capaz de enviar e-mails de teste"
 
-#: admin/controller.php:116 templates/admin.php:357
+#: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
 msgstr "Modo de envio"
 
-#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
 msgstr "Encriptação"
 
-#: admin/controller.php:120 templates/admin.php:394
+#: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
 msgstr "Método de autenticação"
 
@@ -198,7 +198,7 @@ msgstr "Não foi possível alterar a sua palavra-passe, mas a chave de encripta�
 msgid "Unable to change password"
 msgstr "Não foi possível alterar a sua password"
 
-#: js/admin.js:129
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "A enviar..."
 
@@ -310,7 +310,7 @@ msgstr "apagado"
 msgid "undo"
 msgstr "desfazer"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:37 templates/admin.php:302
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -550,163 +550,147 @@ msgid "Sharing"
 msgstr "Partilha"
 
 #: templates/admin.php:240
-msgid "Enable Share API"
-msgstr "Activar a API de partilha"
-
-#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "Permitir que os utilizadores usem a API de partilha"
 
-#: templates/admin.php:248
-msgid "Allow links"
-msgstr "Permitir links"
+#: templates/admin.php:247
+msgid "Allow users to share via link"
+msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:251
 msgid "Enforce password protection"
 msgstr "Forçar protecção da palavra passe"
 
-#: templates/admin.php:255
+#: templates/admin.php:254
 msgid "Allow public uploads"
 msgstr "Permitir Envios Públicos"
 
-#: templates/admin.php:259
+#: templates/admin.php:258
 msgid "Set default expiration date"
 msgstr "Especificar a data padrão de expiração"
 
-#: templates/admin.php:261
+#: templates/admin.php:260
 msgid "Expire after "
 msgstr "Expira após"
 
-#: templates/admin.php:264
+#: templates/admin.php:263
 msgid "days"
 msgstr "dias"
 
-#: templates/admin.php:267
+#: templates/admin.php:266
 msgid "Enforce expiration date"
 msgstr "Forçar a data de expiração"
 
-#: templates/admin.php:271
-msgid "Allow users to share items to the public with links"
-msgstr "Permitir que os utilizadores partilhem itens com o público utilizando um link."
-
-#: templates/admin.php:278
+#: templates/admin.php:276
 msgid "Allow resharing"
 msgstr "Permitir repartilha"
 
-#: templates/admin.php:279
-msgid "Allow users to share items shared with them again"
-msgstr "Permitir que os utilizadores partilhem itens partilhados com eles"
-
 #: templates/admin.php:283
-msgid "Allow users to share with anyone"
-msgstr "Permitir que os utilizadores partilhem com todos"
+msgid "Restrict users to only share with users in their groups"
+msgstr ""
 
-#: templates/admin.php:286
-msgid "Allow users to only share with users in their groups"
-msgstr "Permitir que os utilizadores partilhem somente com utilizadores do seu grupo"
-
-#: templates/admin.php:294
+#: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
 msgstr "Permita que o utilizador envie notificações por correio electrónico para ficheiros partilhados"
 
-#: templates/admin.php:301
+#: templates/admin.php:297
 msgid "Exclude groups from sharing"
 msgstr "Excluir grupos das partilhas"
 
-#: templates/admin.php:312
+#: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Estes grupos poderão receber partilhas, mas não poderão iniciá-las."
 
-#: templates/admin.php:319
+#: templates/admin.php:315
 msgid "Security"
 msgstr "Segurança"
 
-#: templates/admin.php:332
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "Forçar HTTPS"
 
-#: templates/admin.php:334
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forçar os clientes a ligar a %s através de uma ligação encriptada"
 
-#: templates/admin.php:340
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor ligue-se a %s através de uma ligação HTTPS para ligar/desligar o uso de ligação por SSL"
 
-#: templates/admin.php:352
+#: templates/admin.php:348
 msgid "Email Server"
 msgstr "Servidor de email"
 
-#: templates/admin.php:354
+#: templates/admin.php:350
 msgid "This is used for sending out notifications."
 msgstr "Isto é utilizado para enviar notificações"
 
-#: templates/admin.php:385
+#: templates/admin.php:381
 msgid "From address"
 msgstr "Do endereço"
 
-#: templates/admin.php:386
+#: templates/admin.php:382
 msgid "mail"
 msgstr "Correio"
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Authentication required"
 msgstr "Autenticação necessária"
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Server address"
 msgstr "Endereço do servidor"
 
-#: templates/admin.php:415
+#: templates/admin.php:411
 msgid "Port"
 msgstr "Porto"
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "Credentials"
 msgstr "Credenciais"
 
-#: templates/admin.php:421
+#: templates/admin.php:417
 msgid "SMTP Username"
 msgstr "Nome de utilizador SMTP"
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "SMTP Password"
 msgstr "Password SMTP"
 
-#: templates/admin.php:428
+#: templates/admin.php:424
 msgid "Test email settings"
 msgstr "Testar configurações de email"
 
-#: templates/admin.php:429
+#: templates/admin.php:425
 msgid "Send email"
 msgstr "Enviar email"
 
-#: templates/admin.php:434
+#: templates/admin.php:430
 msgid "Log"
 msgstr "Registo"
 
-#: templates/admin.php:435
+#: templates/admin.php:431
 msgid "Log level"
 msgstr "Nível do registo"
 
-#: templates/admin.php:467
+#: templates/admin.php:463
 msgid "More"
 msgstr "Mais"
 
-#: templates/admin.php:468
+#: templates/admin.php:464
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:474 templates/personal.php:196
+#: templates/admin.php:470 templates/personal.php:196
 msgid "Version"
 msgstr "Versão"
 
-#: templates/admin.php:478 templates/personal.php:199
+#: templates/admin.php:474 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -918,7 +902,7 @@ msgstr "Digite a senha de recuperação, a fim de recuperar os arquivos de usuá
 msgid "Search Users and Groups"
 msgstr ""
 
-#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+#: templates/users/part.grouplist.php:5
 msgid "Add Group"
 msgstr ""
 

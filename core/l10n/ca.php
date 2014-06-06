@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Good password" => "Contrasenya bona",
 "Strong password" => "Contrasenya forta",
 "Shared" => "Compartit",
+"Shared by {owner}" => "Compartits per {owner}",
 "Share" => "Comparteix",
 "Error" => "Error",
 "Error while sharing" => "Error en compartir",

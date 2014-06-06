@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-24 01:54-0400\n"
-"PO-Revision-Date: 2014-05-23 12:26+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 06:13+0000\n"
 "Last-Translator: Josep Torné <josep@substantiu.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -204,29 +204,29 @@ msgstr "Error en configurar l'emmagatzemament Google Drive"
 msgid "Saved"
 msgstr "Desat"
 
-#: lib/config.php:674
+#: lib/config.php:669
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b> "
 
-#: lib/config.php:684
+#: lib/config.php:679
 msgid " and "
 msgstr "i"
 
-#: lib/config.php:706
+#: lib/config.php:701
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El suport cURL no està activat o instal·lat a PHP. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:708
+#: lib/config.php:703
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El suport FTP per PHP no està activat o no està instal·lat. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:710
+#: lib/config.php:705
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

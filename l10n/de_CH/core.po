@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,11 @@ msgstr "Wartungsmodus ausgeschaltet"
 msgid "Updated database"
 msgstr "Datenbank aktualisiert"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -153,55 +157,55 @@ msgstr "Dezember"
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Vor %n Minute"
 msgstr[1] "Vor %n Minuten"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Vor %n Stunde"
 msgstr[1] "Vor %n Stunden"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Vor %n Tag"
 msgstr[1] "Vor %n Tagen"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Vor %n Monat"
 msgstr[1] "Vor %n Monaten"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -303,7 +307,7 @@ msgstr "Geteilt"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Geteilt von {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -592,7 +596,7 @@ msgstr "Persönlich"
 msgid "Users"
 msgstr "Benutzer"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Apps"
 
@@ -770,7 +774,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Abmelden"
 

@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din webserver er endnu ikke sat op til at tillade fil synkronisering fordi WebDAV grænsefladen virker ødelagt.",
 "Please double check the <a href='%s'>installation guides</a>." => "Dobbelttjek venligst <a href='%s'>installations vejledningerne</a>.",
 "%s shared »%s« with you" => "%s delte »%s« med sig",
+"You are not allowed to share %s" => "Du har ikke tilladelse til at dele %s",
 "Could not find category \"%s\"" => "Kunne ikke finde kategorien \"%s\"",
 "seconds ago" => "sekunder siden",
 "_%n minute ago_::_%n minutes ago_" => array("%n minut siden","%n minutter siden"),

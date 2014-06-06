@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:12+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +50,15 @@ msgstr "El correu electrónic s'ha enviat"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Heu d'establir un nom d'usuari abans de poder enviar correus de prova."
 
-#: admin/controller.php:116 templates/admin.php:357
+#: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
 msgstr "Mode d'enviament"
 
-#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
 msgstr "Xifrat"
 
-#: admin/controller.php:120 templates/admin.php:394
+#: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
 msgstr "Mètode d'autenticació"
 
@@ -192,7 +192,7 @@ msgstr "El dorsal no permet canviar la contrasenya, però la clau d'encripació 
 msgid "Unable to change password"
 msgstr "No es pot canviar la contrasenya"
 
-#: js/admin.js:129
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Enviant..."
 
@@ -304,7 +304,7 @@ msgstr "esborrat"
 msgid "undo"
 msgstr "desfés"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:37 templates/admin.php:302
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -544,163 +544,147 @@ msgid "Sharing"
 msgstr "Compartir"
 
 #: templates/admin.php:240
-msgid "Enable Share API"
-msgstr "Habilita l'API de compartir"
-
-#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "Permet que les aplicacions utilitzin l'API de compartir"
 
-#: templates/admin.php:248
-msgid "Allow links"
-msgstr "Permet enllaços"
+#: templates/admin.php:247
+msgid "Allow users to share via link"
+msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:251
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:255
+#: templates/admin.php:254
 msgid "Allow public uploads"
 msgstr "Permet pujada pública"
 
-#: templates/admin.php:259
+#: templates/admin.php:258
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:260
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:264
+#: templates/admin.php:263
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:267
+#: templates/admin.php:266
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:271
-msgid "Allow users to share items to the public with links"
-msgstr "Permet als usuaris compartir elements amb el públic amb enllaços"
-
-#: templates/admin.php:278
+#: templates/admin.php:276
 msgid "Allow resharing"
 msgstr "Permet compartir de nou"
 
-#: templates/admin.php:279
-msgid "Allow users to share items shared with them again"
-msgstr "Permet als usuaris compartir de nou elements ja compartits amb ells"
-
 #: templates/admin.php:283
-msgid "Allow users to share with anyone"
-msgstr "Permet compartir amb qualsevol"
+msgid "Restrict users to only share with users in their groups"
+msgstr ""
 
-#: templates/admin.php:286
-msgid "Allow users to only share with users in their groups"
-msgstr "Permet als usuaris compartir només amb els usuaris del seu grup"
-
-#: templates/admin.php:294
+#: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:301
+#: templates/admin.php:297
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:312
+#: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:319
+#: templates/admin.php:315
 msgid "Security"
 msgstr "Seguretat"
 
-#: templates/admin.php:332
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "Força HTTPS"
 
-#: templates/admin.php:334
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Força la connexió dels clients a %s a través d'una connexió encriptada."
 
-#: templates/admin.php:340
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Connecteu a %s a través de HTTPS per habilitar o inhabilitar l'accés SSL."
 
-#: templates/admin.php:352
+#: templates/admin.php:348
 msgid "Email Server"
 msgstr "Servidor de correu"
 
-#: templates/admin.php:354
+#: templates/admin.php:350
 msgid "This is used for sending out notifications."
 msgstr "S'usa per enviar notificacions."
 
-#: templates/admin.php:385
+#: templates/admin.php:381
 msgid "From address"
 msgstr "Des de l'adreça"
 
-#: templates/admin.php:386
+#: templates/admin.php:382
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Authentication required"
 msgstr "Es requereix autenticació"
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Server address"
 msgstr "Adreça del servidor"
 
-#: templates/admin.php:415
+#: templates/admin.php:411
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "Credentials"
 msgstr "Credencials"
 
-#: templates/admin.php:421
+#: templates/admin.php:417
 msgid "SMTP Username"
 msgstr "Nom d'usuari SMTP"
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "SMTP Password"
 msgstr "Contrasenya SMTP"
 
-#: templates/admin.php:428
+#: templates/admin.php:424
 msgid "Test email settings"
 msgstr "Prova l'arranjament del correu"
 
-#: templates/admin.php:429
+#: templates/admin.php:425
 msgid "Send email"
 msgstr "Envia correu"
 
-#: templates/admin.php:434
+#: templates/admin.php:430
 msgid "Log"
 msgstr "Registre"
 
-#: templates/admin.php:435
+#: templates/admin.php:431
 msgid "Log level"
 msgstr "Nivell de registre"
 
-#: templates/admin.php:467
+#: templates/admin.php:463
 msgid "More"
 msgstr "Més"
 
-#: templates/admin.php:468
+#: templates/admin.php:464
 msgid "Less"
 msgstr "Menys"
 
-#: templates/admin.php:474 templates/personal.php:196
+#: templates/admin.php:470 templates/personal.php:196
 msgid "Version"
 msgstr "Versió"
 
-#: templates/admin.php:478 templates/personal.php:199
+#: templates/admin.php:474 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -912,7 +896,7 @@ msgstr "Escriviu la contrasenya de recuperació per a poder recuperar els fitxer
 msgid "Search Users and Groups"
 msgstr ""
 
-#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+#: templates/users/part.grouplist.php:5
 msgid "Add Group"
 msgstr ""
 

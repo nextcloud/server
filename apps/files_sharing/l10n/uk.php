@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Reset" => "Перевстановити",
 "Shared by {owner}" => "Опублікував {owner}",
 "Shared by" => "Опубліковано",
 "This share is password-protected" => "Цей ресурс обміну захищений паролем",
@@ -13,6 +14,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "обмін заборонений",
 "For more info, please ask the person who sent this link." => "Для отримання додаткової інформації, будь ласка, зверніться до особи, яка надіслала це посилання.",
 "Download" => "Завантажити",
-"Direct link" => "Пряме посилання"
+"Direct link" => "Пряме посилання",
+"Save" => "Зберегти"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

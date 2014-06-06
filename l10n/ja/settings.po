@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 17:41+0000\n"
-"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,15 +53,15 @@ msgstr "メールを送信しました"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。"
 
-#: admin/controller.php:116 templates/admin.php:357
+#: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
 msgstr "送信モード"
 
-#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
 msgstr "暗号化"
 
-#: admin/controller.php:120 templates/admin.php:394
+#: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
 msgstr "認証方法"
 
@@ -195,7 +195,7 @@ msgstr "バックエンドはパスワード変更をサポートしていませ
 msgid "Unable to change password"
 msgstr "パスワードを変更できません"
 
-#: js/admin.js:129
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "送信中…"
 
@@ -307,7 +307,7 @@ msgstr "削除"
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:37 templates/admin.php:302
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -547,163 +547,147 @@ msgid "Sharing"
 msgstr "共有"
 
 #: templates/admin.php:240
-msgid "Enable Share API"
-msgstr "共有APIを有効にする"
-
-#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "アプリからの共有APIの利用を許可する"
 
-#: templates/admin.php:248
-msgid "Allow links"
-msgstr "リンクを許可する"
+#: templates/admin.php:247
+msgid "Allow users to share via link"
+msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:251
 msgid "Enforce password protection"
 msgstr "常にパスワード保護を有効にする"
 
-#: templates/admin.php:255
+#: templates/admin.php:254
 msgid "Allow public uploads"
 msgstr "パブリックなアップロードを許可"
 
-#: templates/admin.php:259
+#: templates/admin.php:258
 msgid "Set default expiration date"
 msgstr "有効期限の既定値を設定"
 
-#: templates/admin.php:261
+#: templates/admin.php:260
 msgid "Expire after "
 msgstr "無効になるまで"
 
-#: templates/admin.php:264
+#: templates/admin.php:263
 msgid "days"
 msgstr "日"
 
-#: templates/admin.php:267
+#: templates/admin.php:266
 msgid "Enforce expiration date"
 msgstr "有効期限を反映させる"
 
-#: templates/admin.php:271
-msgid "Allow users to share items to the public with links"
-msgstr "ユーザーがリンクによりアイテムを公開することを許可する"
-
-#: templates/admin.php:278
+#: templates/admin.php:276
 msgid "Allow resharing"
 msgstr "再共有を許可する"
 
-#: templates/admin.php:279
-msgid "Allow users to share items shared with them again"
-msgstr "ユーザーが共有しているアイテムの再共有を許可する"
-
 #: templates/admin.php:283
-msgid "Allow users to share with anyone"
-msgstr "ユーザーに誰とでも共有することを許可する"
+msgid "Restrict users to only share with users in their groups"
+msgstr ""
 
-#: templates/admin.php:286
-msgid "Allow users to only share with users in their groups"
-msgstr "ユーザーにグループ内のユーザーとのみ共有を許可する"
-
-#: templates/admin.php:294
+#: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
 msgstr "共有ファイルに関するメール通知の送信をユーザーに許可する"
 
-#: templates/admin.php:301
+#: templates/admin.php:297
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:312
+#: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:319
+#: templates/admin.php:315
 msgid "Security"
 msgstr "セキュリティ"
 
-#: templates/admin.php:332
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "常にHTTPSを使用する"
 
-#: templates/admin.php:334
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "クライアントから %sへの接続を常に暗号化します。"
 
-#: templates/admin.php:340
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "強制的なSSL接続を有効/無効にするには、HTTPS経由で %s へ接続してください。"
 
-#: templates/admin.php:352
+#: templates/admin.php:348
 msgid "Email Server"
 msgstr "メールサーバー"
 
-#: templates/admin.php:354
+#: templates/admin.php:350
 msgid "This is used for sending out notifications."
 msgstr "これは通知の送信に使われます。"
 
-#: templates/admin.php:385
+#: templates/admin.php:381
 msgid "From address"
 msgstr "アドレスから"
 
-#: templates/admin.php:386
+#: templates/admin.php:382
 msgid "mail"
 msgstr "メール"
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Authentication required"
 msgstr "要求される認証"
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Server address"
 msgstr "サーバーアドレス"
 
-#: templates/admin.php:415
+#: templates/admin.php:411
 msgid "Port"
 msgstr "ポート"
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "Credentials"
 msgstr "資格情報"
 
-#: templates/admin.php:421
+#: templates/admin.php:417
 msgid "SMTP Username"
 msgstr "SMTP ユーザー名"
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "SMTP Password"
 msgstr "SMTP パスワード"
 
-#: templates/admin.php:428
+#: templates/admin.php:424
 msgid "Test email settings"
 msgstr "メール設定をテスト"
 
-#: templates/admin.php:429
+#: templates/admin.php:425
 msgid "Send email"
 msgstr "メールを送信"
 
-#: templates/admin.php:434
+#: templates/admin.php:430
 msgid "Log"
 msgstr "ログ"
 
-#: templates/admin.php:435
+#: templates/admin.php:431
 msgid "Log level"
 msgstr "ログレベル"
 
-#: templates/admin.php:467
+#: templates/admin.php:463
 msgid "More"
 msgstr "もっと見る"
 
-#: templates/admin.php:468
+#: templates/admin.php:464
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:474 templates/personal.php:196
+#: templates/admin.php:470 templates/personal.php:196
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:478 templates/personal.php:199
+#: templates/admin.php:474 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -915,7 +899,7 @@ msgstr "パスワード変更時のユーザーのファイルを回復するた
 msgid "Search Users and Groups"
 msgstr "ユーザーとグループを検索"
 
-#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+#: templates/users/part.grouplist.php:5
 msgid "Add Group"
 msgstr "グループを追加"
 

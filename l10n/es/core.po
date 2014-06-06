@@ -22,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,11 @@ msgstr "Modo mantenimiento desactivado"
 msgid "Updated database"
 msgstr "Base de datos actualizada"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Aplicaciones incompatibles desactivadas: %s"
@@ -158,55 +162,55 @@ msgstr "Diciembre"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Guardando..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Hace %n minuto"
 msgstr[1] "hace %n minutos"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Hace %n hora"
 msgstr[1] "hace %n horas"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Hace %n día"
 msgstr[1] "hace %n días"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Hace %n mes"
 msgstr[1] "hace %n meses"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "hace años"
 
@@ -308,11 +312,11 @@ msgstr "Compartido"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Compartido por {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Compartido con {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -597,7 +601,7 @@ msgstr "Personal"
 msgid "Users"
 msgstr "Usuarios"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Aplicaciones"
 
@@ -727,7 +731,7 @@ msgstr "Configurar la base de datos"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Solo %s está disponible."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -753,7 +757,7 @@ msgstr "Host de la base de datos"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "Se usará SQLite como base de datos. Para instalaciones más grandes, es recomendable cambiar esto."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -775,7 +779,7 @@ msgstr "Esta aplicación requiere que se habilite JavaScript para su correcta op
 msgid "%s is available. Get more information on how to update."
 msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Salir"
 

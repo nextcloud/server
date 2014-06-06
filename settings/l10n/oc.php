@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Executa un prètfach amb cada pagina cargada",
 "Sharing" => "Al partejar",
-"Enable Share API" => "Activa API partejada",
 "Log" => "Jornal",
 "More" => "Mai d'aquò",
 "Add your App" => "Ajusta ton App",

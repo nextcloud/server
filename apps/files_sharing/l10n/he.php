@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Shared by" => "שותף על־ידי",
 "Password" => "סיסמא",
 "Name" => "שם",
-"Download" => "הורדה"
+"Download" => "הורדה",
+"Save" => "שמירה"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

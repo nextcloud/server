@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Reset" => "تنظیم مجدد",
 "Shared by {owner}" => "اشتراک گذارنده {owner}",
 "Shared by" => "اشتراک گذاشته شده به وسیله",
 "This share is password-protected" => "این اشتراک توسط رمز عبور محافظت می شود",
@@ -14,6 +15,7 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید.",
 "Download" => "دانلود",
 "Download %s" => "دانلود %s",
-"Direct link" => "پیوند مستقیم"
+"Direct link" => "پیوند مستقیم",
+"Save" => "ذخیره"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

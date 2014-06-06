@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Desat",
+"Reset" => "Estableix de nou",
 "Shared by {owner}" => "Compartits per {owner}",
 "Shared by" => "Compartit per",
 "This share is password-protected" => "Aquest compartit està protegit amb contrasenya",
@@ -14,6 +16,7 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Per més informació contacteu amb qui us ha enviat l'enllaç.",
 "Download" => "Baixa",
 "Download %s" => "Baixa %s",
-"Direct link" => "Enllaç directe"
+"Direct link" => "Enllaç directe",
+"Save" => "Desa"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

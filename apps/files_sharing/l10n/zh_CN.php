@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "已保存",
+"Reset" => "重置",
 "Shared by {owner}" => "由{owner}共享",
 "Shared by" => "共享人",
 "This share is password-protected" => "这是一个密码保护的共享",
@@ -14,6 +16,7 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "欲知详情，请联系发给你链接的人。",
 "Download" => "下载",
 "Download %s" => "下载 %s",
-"Direct link" => "直接链接"
+"Direct link" => "直接链接",
+"Save" => "保存"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

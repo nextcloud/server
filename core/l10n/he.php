@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "New Files" => "קבצים חדשים",
 "Cancel" => "ביטול",
 "Shared" => "שותף",
+"Shared by {owner}" => "שותף בידי {owner}",
 "Share" => "שתף",
 "Error" => "שגיאה",
 "Error while sharing" => "שגיאה במהלך השיתוף",

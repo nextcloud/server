@@ -8,13 +8,14 @@
 # Leif Lodahl <leiflodahl@gmail.com>, 2013
 # Martin L. R., 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
+# osos <osos@openeyes.dk>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:42+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 20:31+0000\n"
+"Last-Translator: osos <osos@openeyes.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -148,9 +149,9 @@ msgstr "Ugyldig mappe."
 msgid "Files"
 msgstr "Filer"
 
-#: appinfo/app.php:29
+#: appinfo/app.php:27
 msgid "All files"
-msgstr ""
+msgstr "Alle filer"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -402,4 +403,4 @@ msgstr "Filerne bliver indlæst, vent venligst."
 
 #: templates/list.php:102
 msgid "Currently scanning"
-msgstr ""
+msgstr "Indlæser"

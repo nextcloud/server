@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Elmentve",
+"Reset" => "Visszaállítás",
 "Shared by {owner}" => "Megosztotta: {owner}",
 "Shared by" => "Megosztotta Önnel",
 "This share is password-protected" => "Ez egy jelszóval védett megosztás",
@@ -13,6 +15,7 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "letiltásra került a megosztás",
 "For more info, please ask the person who sent this link." => "További információért forduljon ahhoz, aki ezt a linket küldte Önnek!",
 "Download" => "Letöltés",
-"Direct link" => "Közvetlen link"
+"Direct link" => "Közvetlen link",
+"Save" => "Mentés"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Igoerak huts egin du. Ezin izan da fitxategiaren informazioa eskuratu.",
 "Invalid directory." => "Baliogabeko karpeta.",
 "Files" => "Fitxategiak",
+"All files" => "Fitxategi guztiak",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Ezin da {filename} igo karpeta bat delako edo 0 byte dituelako",
 "Total file size {size1} exceeds upload limit {size2}" => "Fitxategiaren tamainak {size1} igotzeko muga {size2} gainditzen du",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Ez dago leku nahikorik, zu {size1} igotzen ari zara baina bakarrik {size2} libre dago",
@@ -83,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "Deskargatu",
 "Upload too large" => "Igoera handiegia da",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
-"Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez."
+"Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
+"Currently scanning" => "Eskaneatzen une honetan"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

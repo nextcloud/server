@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Só se permiten os seguintes caracteres no nome de usuario: «a-z», «A-Z», «0-9», e «_.@-»",
 "A valid username must be provided" => "Debe fornecer un nome de usuario",
 "A valid password must be provided" => "Debe fornecer un contrasinal",
-"The username is already being used" => "Este nome de usuario xa está a ser usado"
+"The username is already being used" => "Este nome de usuario xa está a ser usado",
+"Could not obtain lock type %d on \"%s\"." => "Non foi posíbel obter un bloqueo do tipo %d en «%s»."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Reset" => "Zurücksetzen",
 "Shared by {owner}" => "Geteilt von {owner}",
 "Shared by" => "Geteilt von",
 "The password is wrong. Try again." => "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
@@ -11,6 +12,7 @@ $TRANSLATIONS = array(
 "the link expired" => "Der Link ist abgelaufen",
 "sharing is disabled" => "Teilen ist deaktiviert",
 "For more info, please ask the person who sent this link." => "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen Link geschickt hat.",
-"Download" => "Herunterladen"
+"Download" => "Herunterladen",
+"Save" => "Speichern"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

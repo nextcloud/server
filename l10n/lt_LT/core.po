@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,11 @@ msgstr "Išjungta priežiūros veiksena"
 msgid "Updated database"
 msgstr "Atnaujinta duomenų bazė"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -148,59 +152,59 @@ msgstr "Gruodis"
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Saugoma..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " prieš %n minutę"
 msgstr[1] " prieš %n minučių"
 msgstr[2] " prieš %n minučių"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "prieš %n valandą"
 msgstr[1] "prieš %n valandų"
 msgstr[2] "prieš %n valandų"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "prieš %n dieną"
 msgstr[1] "prieš %n dienas"
 msgstr[2] "prieš %n dienų"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "prieš %n mėnesį"
 msgstr[1] "prieš %n mėnesius"
 msgstr[2] "prieš %n mėnesių"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "prieš metus"
 
@@ -303,7 +307,7 @@ msgstr "Dalinamasi"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Bendrina {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -592,7 +596,7 @@ msgstr "Asmeniniai"
 msgid "Users"
 msgstr "Vartotojai"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Programos"
 
@@ -770,7 +774,7 @@ msgstr "Šiai programai reikia įjungti  JavaScript, kad ji veiktų tvarkingai. 
 msgid "%s is available. Get more information on how to update."
 msgstr "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Atsijungti"
 

@@ -6,13 +6,14 @@
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 # タカハシ <gomidori@live.jp>, 2014
 # kuromabo <md81bird@hitaki.net>, 2014
+# Mika Kobayashi, 2014
 # YANO Tetsu <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +30,10 @@ msgstr "あなたと共有"
 msgid "Shared with others"
 msgstr "他人と共有"
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "まだ共有を行なっているファイルはありません。"
@@ -37,23 +42,27 @@ msgstr "まだ共有を行なっているファイルはありません。"
 msgid "You haven't shared any files yet."
 msgstr "まだ共有を行なっているファイルはありません。"
 
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
+msgstr ""
+
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "テンプレートを読み出せませんでした"
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "保存されました"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
-msgstr ""
+msgstr "リセット"
 
 #: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "{owner} と共有中"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "共有者："
 
@@ -75,7 +84,7 @@ msgstr "名前"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "共有時間"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -116,16 +125,16 @@ msgstr "リンク"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "メールテンプレート"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "テーマ"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "テンプレート"
 
 #: templates/settings-admin.php:35
 msgid "Save"
-msgstr ""
+msgstr "保存"

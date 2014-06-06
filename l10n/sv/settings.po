@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:13+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -60,15 +60,15 @@ msgstr "E-post skickat"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Du behöver ställa in din användares e-postadress före du kan skicka test e-post."
 
-#: admin/controller.php:116 templates/admin.php:357
+#: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
 msgstr "Sändningsläge"
 
-#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: admin/controller.php:120 templates/admin.php:394
+#: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
 msgstr "Autentiseringsmetod"
 
@@ -202,7 +202,7 @@ msgstr "Gränssnittet stödjer inte byte av lösenord, men användarnas krypteri
 msgid "Unable to change password"
 msgstr "Kunde inte ändra lösenord"
 
-#: js/admin.js:129
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "Skickar..."
 
@@ -296,15 +296,15 @@ msgstr "Återställ krypteringsnycklar"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete "
-msgstr ""
+msgstr "Kan inte radera"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Fel vid skapande av grupp"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Ett giltigt gruppnamn måste anges"
 
 #: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
@@ -314,7 +314,7 @@ msgstr "raderad"
 msgid "undo"
 msgstr "ångra"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:37 templates/admin.php:302
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -554,163 +554,147 @@ msgid "Sharing"
 msgstr "Dela"
 
 #: templates/admin.php:240
-msgid "Enable Share API"
-msgstr "Aktivera delat API"
-
-#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "Tillåt applikationer att använda delat API"
 
-#: templates/admin.php:248
-msgid "Allow links"
-msgstr "Tillåt länkar"
+#: templates/admin.php:247
+msgid "Allow users to share via link"
+msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:251
 msgid "Enforce password protection"
 msgstr "Tillämpa lösenordskydd"
 
-#: templates/admin.php:255
+#: templates/admin.php:254
 msgid "Allow public uploads"
 msgstr "Tillåt offentlig uppladdning"
 
-#: templates/admin.php:259
+#: templates/admin.php:258
 msgid "Set default expiration date"
 msgstr "Ställ in standardutgångsdatum"
 
-#: templates/admin.php:261
+#: templates/admin.php:260
 msgid "Expire after "
 msgstr "Förfaller efter"
 
-#: templates/admin.php:264
+#: templates/admin.php:263
 msgid "days"
 msgstr "dagar"
 
-#: templates/admin.php:267
+#: templates/admin.php:266
 msgid "Enforce expiration date"
 msgstr "Tillämpa förfallodatum"
 
-#: templates/admin.php:271
-msgid "Allow users to share items to the public with links"
-msgstr "Tillåt delning till allmänheten via publika länkar"
-
-#: templates/admin.php:278
+#: templates/admin.php:276
 msgid "Allow resharing"
 msgstr "Tillåt vidaredelning"
 
-#: templates/admin.php:279
-msgid "Allow users to share items shared with them again"
-msgstr "Tillåt användare att dela vidare filer som delats med dem"
-
 #: templates/admin.php:283
-msgid "Allow users to share with anyone"
-msgstr "Tillåt delning med alla"
+msgid "Restrict users to only share with users in their groups"
+msgstr ""
 
-#: templates/admin.php:286
-msgid "Allow users to only share with users in their groups"
-msgstr "Tillåt bara delning med användare i egna grupper"
-
-#: templates/admin.php:294
+#: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
 msgstr "Tillåt användare att skicka mailnotifieringar för delade filer"
 
-#: templates/admin.php:301
+#: templates/admin.php:297
 msgid "Exclude groups from sharing"
 msgstr "Exkludera grupp från att dela"
 
-#: templates/admin.php:312
+#: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Dessa grupper kommer fortfarande kunna ta emot delningar, men inte skapa delningar."
 
-#: templates/admin.php:319
+#: templates/admin.php:315
 msgid "Security"
 msgstr "Säkerhet"
 
-#: templates/admin.php:332
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "Kräv HTTPS"
 
-#: templates/admin.php:334
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Tvingar klienterna att ansluta till %s via en krypterad anslutning."
 
-#: templates/admin.php:340
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Anslut till din %s via HTTPS för att aktivera/deaktivera SSL"
 
-#: templates/admin.php:352
+#: templates/admin.php:348
 msgid "Email Server"
 msgstr "E-postserver"
 
-#: templates/admin.php:354
+#: templates/admin.php:350
 msgid "This is used for sending out notifications."
 msgstr "Detta används för att skicka ut notifieringar."
 
-#: templates/admin.php:385
+#: templates/admin.php:381
 msgid "From address"
 msgstr "Från adress"
 
-#: templates/admin.php:386
+#: templates/admin.php:382
 msgid "mail"
 msgstr "mail"
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Authentication required"
 msgstr "Autentisering krävs"
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Server address"
 msgstr "Serveradress"
 
-#: templates/admin.php:415
+#: templates/admin.php:411
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "Credentials"
 msgstr "Inloggningsuppgifter"
 
-#: templates/admin.php:421
+#: templates/admin.php:417
 msgid "SMTP Username"
 msgstr "SMTP användarnamn"
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "SMTP Password"
 msgstr "SMTP lösenord"
 
-#: templates/admin.php:428
+#: templates/admin.php:424
 msgid "Test email settings"
 msgstr "Testa e-post inställninggar"
 
-#: templates/admin.php:429
+#: templates/admin.php:425
 msgid "Send email"
 msgstr "Skicka e-post"
 
-#: templates/admin.php:434
+#: templates/admin.php:430
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:435
+#: templates/admin.php:431
 msgid "Log level"
 msgstr "Nivå på loggning"
 
-#: templates/admin.php:467
+#: templates/admin.php:463
 msgid "More"
 msgstr "Mer"
 
-#: templates/admin.php:468
+#: templates/admin.php:464
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:474 templates/personal.php:196
+#: templates/admin.php:470 templates/personal.php:196
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:478 templates/personal.php:199
+#: templates/admin.php:474 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -750,7 +734,7 @@ msgstr "<span class=\"licence\"></span>-licensierad av <span class=\"author\"></
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Aktivera endast för specifika grupper"
 
 #: templates/apps.php:60
 msgid "All"
@@ -920,11 +904,11 @@ msgstr "Enter the recovery password in order to recover the users files during p
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Sök Användare och Grupper"
 
-#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+#: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Lägg till Grupp"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -932,11 +916,11 @@ msgstr "Grupp"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Alla"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Administratörer"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -968,7 +952,7 @@ msgstr ""
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Senaste inloggning"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

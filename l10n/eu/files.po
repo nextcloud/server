@@ -4,14 +4,15 @@
 # 
 # Translators:
 # asieriko <asieriko@gmail.com>, 2013-2014
+# Mikel Olasagasti Uranga <mikel@olasagasti.info>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:42+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 18:02+0000\n"
+"Last-Translator: Mikel Olasagasti Uranga <mikel@olasagasti.info>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -145,9 +146,9 @@ msgstr "Baliogabeko karpeta."
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: appinfo/app.php:29
+#: appinfo/app.php:27
 msgid "All files"
-msgstr ""
+msgstr "Fitxategi guztiak"
 
 #: js/file-upload.js:257
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
@@ -399,4 +400,4 @@ msgstr "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 
 #: templates/list.php:102
 msgid "Currently scanning"
-msgstr ""
+msgstr "Eskaneatzen une honetan"

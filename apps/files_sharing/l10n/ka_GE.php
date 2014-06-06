@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Shared by" => "აზიარებს",
 "Password" => "პაროლი",
 "Name" => "სახელი",
-"Download" => "ჩამოტვირთვა"
+"Download" => "ჩამოტვირთვა",
+"Save" => "შენახვა"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

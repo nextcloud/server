@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Good password" => "Dobré heslo",
 "Strong password" => "Silné heslo",
 "Shared" => "Zdieľané",
+"Shared by {owner}" => "Zdieľa {owner}",
 "Share" => "Zdieľať",
 "Error" => "Chyba",
 "Error while sharing" => "Chyba počas zdieľania",

@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Alleen de volgende tekens zijn toegestaan in een gebruikersnaam: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "Er moet een geldige gebruikersnaam worden opgegeven",
 "A valid password must be provided" => "Er moet een geldig wachtwoord worden opgegeven",
-"The username is already being used" => "De gebruikersnaam bestaat al"
+"The username is already being used" => "De gebruikersnaam bestaat al",
+"Could not obtain lock type %d on \"%s\"." => "Kon geen lock type %d krijgen op \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -39,6 +39,7 @@ $TRANSLATIONS = array(
 "New Files" => "Jaunās datnes",
 "Cancel" => "Atcelt",
 "Shared" => "Kopīgs",
+"Shared by {owner}" => "Dalījās {owner}",
 "Share" => "Dalīties",
 "Error" => "Kļūda",
 "Error while sharing" => "Kļūda, daloties",

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,11 @@ msgstr "Tắt chế độ bảo trì"
 msgid "Updated database"
 msgstr "Cơ sở dữ liệu đã được cập nhật"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -147,51 +151,51 @@ msgstr "Tháng 12"
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Đang lưu..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n phút trước"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n giờ trước"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ngày trước"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n tháng trước"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "năm trước"
 
@@ -292,7 +296,7 @@ msgstr "Được chia sẻ"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Được chia sẽ bởi {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -581,7 +585,7 @@ msgstr "Cá nhân"
 msgid "Users"
 msgstr "Người dùng"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Ứng dụng"
 
@@ -759,7 +763,7 @@ msgstr "Ứng dụng này yêu cầu JavaScript để hoạt động. Vui lòng 
 msgid "%s is available. Get more information on how to update."
 msgstr "%s còn trống. Xem thêm thông tin cách cập nhật."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Đăng xuất"
 

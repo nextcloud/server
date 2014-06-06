@@ -6,14 +6,14 @@
 # BuxarNET <buxarnet@gmail.com>, 2014
 # anshibanov <shibanovan@yandex.ru>, 2014
 # Swab <swab@i.ua>, 2014
-# Алексей Выскубов <viskubov@gmail.com>, 2014
+# viskubov <viskubov@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-03 07:32+0000\n"
-"Last-Translator: Алексей Выскубов <viskubov@gmail.com>\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-05 06:13+0000\n"
+"Last-Translator: viskubov <viskubov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

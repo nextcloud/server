@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,11 @@ msgstr ""
 msgid "Updated database"
 msgstr "قاعدة بيانات المرفوعات"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -146,15 +150,15 @@ msgstr "كانون الاول"
 msgid "Settings"
 msgstr "إعدادات"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "جاري الحفظ..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "منذ ثواني"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
@@ -164,7 +168,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
@@ -174,15 +178,15 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "اليوم"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "يوم أمس"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
@@ -192,11 +196,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "الشهر الماضي"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
@@ -206,11 +210,11 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "السنةالماضية"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "سنة مضت"
 
@@ -316,7 +320,7 @@ msgstr "مشارك"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "مشاركة من طرف {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -605,7 +609,7 @@ msgstr "شخصي"
 msgid "Users"
 msgstr "المستخدمين"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "التطبيقات"
 
@@ -783,7 +787,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "الخروج"
 

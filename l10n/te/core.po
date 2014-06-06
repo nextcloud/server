@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Telugu (http://www.transifex.com/projects/p/owncloud/language/te/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,11 @@ msgstr ""
 msgid "Updated database"
 msgstr ""
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -144,55 +148,55 @@ msgstr "డిసెంబర్"
 msgid "Settings"
 msgstr "అమరికలు"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "క్షణాల క్రితం"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n నిమిషం క్రితం"
 msgstr[1] "%n నిమిషాల క్రితం"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n గంట క్రితం"
 msgstr[1] "%n గంటల క్రితం"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "ఈరోజు"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "నిన్న"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n రోజు క్రితం"
 msgstr[1] "%n రోజుల క్రితం"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "పోయిన నెల"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n నెల క్రితం"
 msgstr[1] "%n నెలల క్రితం"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "పోయిన సంవత్సరం"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "సంవత్సరాల క్రితం"
 
@@ -583,7 +587,7 @@ msgstr "వ్యక్తిగతం"
 msgid "Users"
 msgstr "వాడుకరులు"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr ""
 
@@ -761,7 +765,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "నిష్క్రమించు"
 

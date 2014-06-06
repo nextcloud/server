@@ -3,16 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# aramirez <aramirez@simonrodriguez.org.ve>, 2014
 # Art O. Pal <artopal@fastmail.fm>, 2013-2014
 # Dominique Couot <dcouot@hotmail.com>, 2013
+# Jose Luis <joseluis.tirado@gmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013
 # Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -29,6 +31,10 @@ msgstr "Compartido contigo"
 msgid "Shared with others"
 msgstr "Compartido con otros"
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr "Aún no han compartido contigo ningún archivo."
@@ -37,23 +43,27 @@ msgstr "Aún no han compartido contigo ningún archivo."
 msgid "You haven't shared any files yet."
 msgstr "Aún no has compartido ningún archivo."
 
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
+msgstr ""
+
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "No se cargó la plantilla"
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "Guardado"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
-msgstr ""
+msgstr "Reiniciar"
 
 #: js/share.js:55
 msgid "Shared by {owner}"
 msgstr "Compartido por {owner}"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "Compartido por"
 
@@ -75,7 +85,7 @@ msgstr "Nombre"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Compartir tiempo"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -116,16 +126,16 @@ msgstr "Enlace directo"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Plantillas para correo"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Plantilla"
 
 #: templates/settings-admin.php:35
 msgid "Save"
-msgstr ""
+msgstr "Guardar"

@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,11 @@ msgstr "Η κατάσταση συντήρησης απενεργοποιήθη�
 msgid "Updated database"
 msgstr "Ενημερωμένη βάση δεδομένων"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Απενεργοποιημένες μη συμβατές εφαρμογές: %s"
@@ -154,55 +158,55 @@ msgstr "Δεκέμβριος"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -304,11 +308,11 @@ msgstr "Κοινόχρηστα"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Διαμοιράστηκε από τον {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Διαμοιράστηκε με {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -593,7 +597,7 @@ msgstr "Προσωπικά"
 msgid "Users"
 msgstr "Χρήστες"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Εφαρμογές"
 
@@ -749,7 +753,7 @@ msgstr "Διακομιστής βάσης δεδομένων"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "Η SQLIte θα χρησιμοποιηθεί ως βάση δεδομένων. Για μεγαλύτερες εγκαταστάσεις σας συνιστούμε να το αλλάξετε."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -771,7 +775,7 @@ msgstr "Αυτή η εφαρμογή απαιτεί η JavaScript να είνα�
 msgid "%s is available. Get more information on how to update."
 msgstr "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

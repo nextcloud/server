@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "({count} selected)" => "({count} valte)",
 "Error loading file exists template" => "Klarte ikkje å lasta fil-finst-mal",
 "Shared" => "Delt",
+"Shared by {owner}" => "Delt av {owner}",
 "Share" => "Del",
 "Error" => "Feil",
 "Error while sharing" => "Feil ved deling",

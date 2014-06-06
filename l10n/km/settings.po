@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 06:13+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -49,15 +49,15 @@ msgstr "បាន​ផ្ញើ​អ៊ីមែល"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "អ្នក​ត្រូវ​តែ​កំណត់​អ៊ីមែល​របស់​អ្នក​មុន​នឹង​អាច​ផ្ញើ​អ៊ីមែល​សាកល្បង​បាន។"
 
-#: admin/controller.php:116 templates/admin.php:357
+#: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:370 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
 msgstr "កូដនីយកម្ម"
 
-#: admin/controller.php:120 templates/admin.php:394
+#: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 msgid "Unable to change password"
 msgstr ""
 
-#: js/admin.js:129
+#: js/admin.js:126
 msgid "Sending..."
 msgstr "កំពុង​ផ្ញើ..."
 
@@ -303,7 +303,7 @@ msgstr "បាន​លុប"
 msgid "undo"
 msgstr "មិន​ធ្វើ​វិញ"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:37 templates/admin.php:302
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -543,163 +543,147 @@ msgid "Sharing"
 msgstr "ការ​ចែក​រំលែក"
 
 #: templates/admin.php:240
-msgid "Enable Share API"
-msgstr "បើក API ចែក​រំលែក"
-
-#: templates/admin.php:241
 msgid "Allow apps to use the Share API"
 msgstr "អនុញ្ញាត​ឲ្យ​កម្មវិធី​ប្រើ API ចែក​រំលែក"
 
-#: templates/admin.php:248
-msgid "Allow links"
-msgstr "អនុញ្ញាត​តំណ"
+#: templates/admin.php:247
+msgid "Allow users to share via link"
+msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:251
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:255
+#: templates/admin.php:254
 msgid "Allow public uploads"
 msgstr "អនុញ្ញាត​ការ​ផ្ទុក​ឡើង​ជា​សាធារណៈ"
 
-#: templates/admin.php:259
+#: templates/admin.php:258
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:260
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:264
+#: templates/admin.php:263
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:267
+#: templates/admin.php:266
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:271
-msgid "Allow users to share items to the public with links"
-msgstr "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​របស់​ទៅ​សាធារណៈ​ជាមួយ​តំណ"
-
-#: templates/admin.php:278
+#: templates/admin.php:276
 msgid "Allow resharing"
 msgstr "អនុញ្ញាត​ការ​ចែក​រំលែក​ម្ដង​ទៀត"
 
-#: templates/admin.php:279
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
 #: templates/admin.php:283
-msgid "Allow users to share with anyone"
-msgstr "អនុញ្ញាត​ឲ្យ​អ្នក​ប្រើ​ចែក​រំលែក​ជាមួយ​នរណា​ម្នាក់"
-
-#: templates/admin.php:286
-msgid "Allow users to only share with users in their groups"
+msgid "Restrict users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:294
+#: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:301
+#: templates/admin.php:297
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:312
+#: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:319
+#: templates/admin.php:315
 msgid "Security"
 msgstr "សុវត្ថិភាព"
 
-#: templates/admin.php:332
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "បង្ខំ HTTPS"
 
-#: templates/admin.php:334
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:340
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:352
+#: templates/admin.php:348
 msgid "Email Server"
 msgstr "ម៉ាស៊ីន​បម្រើ​អ៊ីមែល"
 
-#: templates/admin.php:354
+#: templates/admin.php:350
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:385
+#: templates/admin.php:381
 msgid "From address"
 msgstr "ពី​អាសយដ្ឋាន"
 
-#: templates/admin.php:386
+#: templates/admin.php:382
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Server address"
 msgstr "អាសយដ្ឋាន​ម៉ាស៊ីន​បម្រើ"
 
-#: templates/admin.php:415
+#: templates/admin.php:411
 msgid "Port"
 msgstr "ច្រក"
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:421
+#: templates/admin.php:417
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:428
+#: templates/admin.php:424
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:429
+#: templates/admin.php:425
 msgid "Send email"
 msgstr "ផ្ញើ​អ៊ីមែល"
 
-#: templates/admin.php:434
+#: templates/admin.php:430
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:435
+#: templates/admin.php:431
 msgid "Log level"
 msgstr "កម្រិត Log"
 
-#: templates/admin.php:467
+#: templates/admin.php:463
 msgid "More"
 msgstr "ច្រើន​ទៀត"
 
-#: templates/admin.php:468
+#: templates/admin.php:464
 msgid "Less"
 msgstr "តិច"
 
-#: templates/admin.php:474 templates/personal.php:196
+#: templates/admin.php:470 templates/personal.php:196
 msgid "Version"
 msgstr "កំណែ"
 
-#: templates/admin.php:478 templates/personal.php:199
+#: templates/admin.php:474 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -911,7 +895,7 @@ msgstr ""
 msgid "Search Users and Groups"
 msgstr ""
 
-#: templates/users/part.grouplist.php:5 templates/users/part.grouplist.php:11
+#: templates/users/part.grouplist.php:5
 msgid "Add Group"
 msgstr ""
 

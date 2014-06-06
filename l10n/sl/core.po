@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,11 @@ msgstr "Vzdrževalni način je onemogočen"
 msgid "Updated database"
 msgstr "Posodobljena podatkovna zbirka"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -145,15 +149,15 @@ msgstr "december"
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -161,7 +165,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -169,15 +173,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -185,11 +189,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -197,11 +201,11 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "let nazaj"
 
@@ -305,7 +309,7 @@ msgstr "V souporabi"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Souporabo omogoča {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -594,7 +598,7 @@ msgstr "Osebno"
 msgid "Users"
 msgstr "Uporabniki"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Programi"
 
@@ -772,7 +776,7 @@ msgstr "Program zahteva omogočeno skriptno podporo. Za pravilno delovanje je tr
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je na voljo. Pridobite več podrobnosti za posodobitev."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odjava"
 

@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "({count} selected)" => "({count} одбраните)",
 "Error loading file exists template" => "Грешка при вчитување на датотеката, шаблонот постои ",
 "Shared" => "Споделен",
+"Shared by {owner}" => "Споделени од {owner}",
 "Share" => "Сподели",
 "Error" => "Грешка",
 "Error while sharing" => "Грешка при споделување",

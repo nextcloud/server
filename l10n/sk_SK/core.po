@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,11 @@ msgstr "Mód údržby e vypnutý"
 msgid "Updated database"
 msgstr "Databáza je aktualizovaná"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -145,59 +149,59 @@ msgstr "December"
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Ukladám..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minútou"
 msgstr[1] "pred %n minútami"
 msgstr[2] "pred %n minútami"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n hodinou"
 msgstr[1] "pred %n hodinami"
 msgstr[2] "pred %n hodinami"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dňom"
 msgstr[1] "pred %n dňami"
 msgstr[2] "pred %n dňami"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesiacom"
 msgstr[1] "pred %n mesiacmi"
 msgstr[2] "pred %n mesiacmi"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -300,7 +304,7 @@ msgstr "Zdieľané"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Zdieľa {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -589,7 +593,7 @@ msgstr "Osobné"
 msgid "Users"
 msgstr "Používatelia"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Aplikácie"
 
@@ -767,7 +771,7 @@ msgstr "Táto aplikácia vyžaduje JavaScript a tento musí byť povolený pre s
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získajte viac informácií o postupe aktualizácie."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásiť"
 

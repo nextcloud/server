@@ -61,6 +61,7 @@ $TRANSLATIONS = array(
 "Good password" => "좋은 암호",
 "Strong password" => "강력한 암호",
 "Shared" => "공유됨",
+"Shared by {owner}" => "{owner} 님이 공유함",
 "Share" => "공유",
 "Error" => "오류",
 "Error while sharing" => "공유하는 중 오류 발생",

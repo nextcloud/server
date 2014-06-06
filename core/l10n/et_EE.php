@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Good password" => "Hea parool",
 "Strong password" => "Väga hea parool",
 "Shared" => "Jagatud",
+"Shared by {owner}" => "Jagas {owner}",
 "Share" => "Jaga",
 "Error" => "Viga",
 "Error while sharing" => "Viga jagamisel",

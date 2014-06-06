@@ -75,6 +75,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Vain seuraavat merkit ovat sallittuja käyttäjätunnuksessa: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\"",
 "A valid username must be provided" => "Anna kelvollinen käyttäjätunnus",
 "A valid password must be provided" => "Anna kelvollinen salasana",
-"The username is already being used" => "Käyttäjätunnus on jo käytössä"
+"The username is already being used" => "Käyttäjätunnus on jo käytössä",
+"Could not obtain lock type %d on \"%s\"." => "Lukitustapaa %d ei saatu kohteelle \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

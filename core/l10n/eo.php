@@ -52,6 +52,7 @@ $TRANSLATIONS = array(
 "Good password" => "Bona pasvorto",
 "Strong password" => "Forta pasvorto",
 "Shared" => "Dividita",
+"Shared by {owner}" => "Kunhavigita de {owner}",
 "Share" => "Kunhavigi",
 "Error" => "Eraro",
 "Error while sharing" => "Eraro dum kunhavigo",

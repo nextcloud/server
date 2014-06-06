@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -41,10 +41,14 @@ msgstr "Mantenu modua desgaitu da"
 msgid "Updated database"
 msgstr "Datu basea eguneratu da"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Bateragarriak ez diren desgaitutako aplikazioak: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -146,55 +150,55 @@ msgstr "Abendua"
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Gordetzen..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "segundu"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "orain dela minutu %n"
 msgstr[1] "orain dela %n minutu"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "orain dela ordu %n"
 msgstr[1] "orain dela %n ordu"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "gaur"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "atzo"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "orain dela egun %n"
 msgstr[1] "orain dela %n egun"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "joan den hilabetean"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "orain dela hilabete %n"
 msgstr[1] "orain dela %n hilabete"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "joan den urtean"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "urte"
 
@@ -296,7 +300,7 @@ msgstr "Elkarbanatuta"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "{owner}-k partekatuta"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -354,7 +358,7 @@ msgstr "Babestu pasahitzarekin"
 
 #: js/share.js:349
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "Aukeratu pasahitz bat esteka publikorako"
 
 #: js/share.js:355
 msgid "Allow Public Upload"
@@ -490,7 +494,7 @@ msgstr "Mesedez birkargatu orria."
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "Eguneraketak ez du arrakasta izan."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -585,7 +589,7 @@ msgstr "Pertsonala"
 msgid "Users"
 msgstr "Erabiltzaileak"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Aplikazioak"
 
@@ -715,7 +719,7 @@ msgstr "Konfiguratu datu basea"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Soilik %s dago eskuragarri."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -763,7 +767,7 @@ msgstr "Aplikazio honek ongi funtzionatzeko JavaScript gaitua behar du. Mesedez 
 msgid "%s is available. Get more information on how to update."
 msgstr "%s erabilgarri dago. Eguneratzeaz argibide gehiago eskuratu."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Saioa bukatu"
 
@@ -833,16 +837,16 @@ msgstr "Milesker zure patzientziagatik."
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s %s bertsiora eguneratuko da."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "Ondorengo aplikazioak desgaituko dira:"
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "%s gaia desgaitu da."
 
 #: templates/update.admin.php:21
 msgid ""
@@ -852,7 +856,7 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Hasi eguneraketa"
 
 #: templates/update.user.php:3
 msgid ""

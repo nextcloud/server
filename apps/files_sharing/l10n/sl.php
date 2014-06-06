@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Shranjeno",
+"Reset" => "Ponastavi",
 "Shared by {owner}" => "Souporabo omogoča {owner}",
 "Shared by" => "V souporabi z",
 "This share is password-protected" => "To mesto je zaščiteno z geslom.",
@@ -14,6 +16,7 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Za več podrobnosti stopite v stik s pošiljateljem te povezave.",
 "Download" => "Prejmi",
 "Download %s" => "Prejmi %s",
-"Direct link" => "Neposredna povezava"
+"Direct link" => "Neposredna povezava",
+"Save" => "Shrani"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

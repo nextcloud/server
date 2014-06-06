@@ -64,6 +64,7 @@ $TRANSLATIONS = array(
 "Good password" => "Jó jelszó",
 "Strong password" => "Erős jelszó",
 "Shared" => "Megosztott",
+"Shared by {owner}" => "Megosztotta: {owner}",
 "Share" => "Megosztás",
 "Error" => "Hiba",
 "Error while sharing" => "Nem sikerült létrehozni a megosztást",

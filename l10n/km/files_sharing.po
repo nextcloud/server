@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +27,10 @@ msgstr ""
 msgid "Shared with others"
 msgstr ""
 
+#: appinfo/app.php:53 js/app.js:72
+msgid "Shared by link"
+msgstr ""
+
 #: js/app.js:35
 msgid "No files have been shared with you yet."
 msgstr ""
@@ -35,13 +39,17 @@ msgstr ""
 msgid "You haven't shared any files yet."
 msgstr ""
 
+#: js/app.js:73
+msgid "You haven't shared any files by link yet."
+msgstr ""
+
 #: js/settings-admin.js:10
 msgid "Could not load template"
 msgstr ""
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "បាន​រក្សាទុក"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
@@ -51,7 +59,7 @@ msgstr ""
 msgid "Shared by {owner}"
 msgstr "{owner} បាន​ចែក​រំលែក"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "បាន​ចែក​រំលែក​ដោយ"
 
@@ -126,4 +134,4 @@ msgstr ""
 
 #: templates/settings-admin.php:35
 msgid "Save"
-msgstr ""
+msgstr "រក្សាទុក"

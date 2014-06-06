@@ -65,6 +65,7 @@ $TRANSLATIONS = array(
 "Good password" => "Bra passord",
 "Strong password" => "Sterkt passord",
 "Shared" => "Delt",
+"Shared by {owner}" => "Delt av {owner}",
 "Share" => "Del",
 "Error" => "Feil",
 "Error while sharing" => "Feil under deling",

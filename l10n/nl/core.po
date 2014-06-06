@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,11 @@ msgstr "Onderhoudsmodus uitgeschakeld"
 msgid "Updated database"
 msgstr "Database bijgewerkt"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Gedeactiveerde incompatibele apps: %s"
@@ -146,55 +150,55 @@ msgstr "december"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "Opslaan"
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] "%n minuten geleden"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] "%n uur geleden"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] "%n dagen geleden"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] "%n maanden geleden"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -296,11 +300,11 @@ msgstr "Gedeeld"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Gedeeld door {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Gedeeld met {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -585,7 +589,7 @@ msgstr "Persoonlijk"
 msgid "Users"
 msgstr "Gebruikers"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Apps"
 
@@ -715,7 +719,7 @@ msgstr "Configureer de database"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Alleen %s is beschikbaar."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -741,7 +745,7 @@ msgstr "Databaseserver"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "SQLite wordt gebruikt als database. Voor grotere installaties adviseren we dit aan te passen."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -763,7 +767,7 @@ msgstr "Deze applicatie heeft JavaScript nodig om correct te functioneren.  <a h
 msgid "%s is available. Get more information on how to update."
 msgstr "%s is beschikbaar. Verkrijg meer informatie over het bijwerken."
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Afmelden"
 

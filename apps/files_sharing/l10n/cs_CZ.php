@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Uloženo",
+"Reset" => "Restartovat složku",
 "Shared by {owner}" => "Sdílí {owner}",
 "Shared by" => "Sdílí",
 "This share is password-protected" => "Toto sdílení je chráněno heslem",
@@ -14,6 +16,7 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Pro více informací kontaktujte osobu, která vám zaslala tento odkaz.",
 "Download" => "Stáhnout",
 "Download %s" => "Stáhnout %s",
-"Direct link" => "Přímý odkaz"
+"Direct link" => "Přímý odkaz",
+"Save" => "Uložit"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

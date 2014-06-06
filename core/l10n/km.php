@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "Good password" => "ពាក្យ​សម្ងាត់​ល្អ",
 "Strong password" => "ពាក្យ​សម្ងាត់​ខ្លាំង",
 "Shared" => "បាន​ចែក​រំលែក",
+"Shared by {owner}" => "{owner} បាន​ចែករំលែក",
 "Share" => "ចែក​រំលែក",
 "Error" => "កំហុស",
 "Error while sharing" => "កំហុស​ពេល​ចែក​រំលែក",

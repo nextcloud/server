@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-06 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,11 @@ msgstr "已停用維護模式"
 msgid "Updated database"
 msgstr "已更新資料庫"
 
-#: ajax/update.php:24
+#: ajax/update.php:19
+msgid "Checked database schema update"
+msgstr ""
+
+#: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
@@ -145,51 +149,51 @@ msgstr "十二月"
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:601
+#: js/js.js:600
 msgid "Saving..."
 msgstr "儲存中..."
 
-#: js/js.js:1229
+#: js/js.js:1210
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:1230
+#: js/js.js:1211
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分鐘前"
 
-#: js/js.js:1231
+#: js/js.js:1212
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 小時前"
 
-#: js/js.js:1232
+#: js/js.js:1213
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:1233
+#: js/js.js:1214
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:1234
+#: js/js.js:1215
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n 天前"
 
-#: js/js.js:1235
+#: js/js.js:1216
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:1236
+#: js/js.js:1217
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n 個月前"
 
-#: js/js.js:1237
+#: js/js.js:1218
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:1238
+#: js/js.js:1219
 msgid "years ago"
 msgstr "幾年前"
 
@@ -290,7 +294,7 @@ msgstr "已分享"
 
 #: js/share.js:202
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "由 {owner} 分享"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
@@ -579,7 +583,7 @@ msgstr "個人"
 msgid "Users"
 msgstr "使用者"
 
-#: strings.php:7 templates/layout.user.php:116
+#: strings.php:7 templates/layout.user.php:117
 msgid "Apps"
 msgstr "應用程式"
 
@@ -757,7 +761,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 已經釋出，瞭解更多資訊以進行更新。"
 
-#: templates/layout.user.php:74 templates/singleuser.user.php:8
+#: templates/layout.user.php:80 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "登出"
 
