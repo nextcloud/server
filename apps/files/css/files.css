@@ -186,7 +186,8 @@ table th#headerSize, table td.filesize {
 table table td.filesize {
 	padding: 0 16px;
 }
-table th#headerDate, table td.date {
+table th#headerDate, table td.date,
+table th.column-last, table td.column-last {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: relative;
@@ -237,9 +238,9 @@ table td.filename input.filename {
 	cursor: text;
 }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
-table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0; }
+table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:14px 0; }
 
-.modified {
+.modified, .column-last>span:first-child {
 	position: relative;
 	padding-left: 15px;
 	overflow: hidden;
@@ -247,8 +248,8 @@ table td.filename .nametext, .uploadtext, .modified { float:left; padding:14px 0
 	width: 90%;
 }
 /* ellipsize long modified dates to make room for showing delete button */
-#fileList tr:hover .modified,
-#fileList tr:focus .modified {
+#fileList tr:hover .modified, #fileList tr:hover .column-last>span:first-child,
+#fileList tr:focus .modified, #fileList tr:focus .column-last>span:first-child {
 	width: 75%;
 }
 

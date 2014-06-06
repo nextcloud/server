@@ -20,11 +20,22 @@ OC::$CLASSPATH['OC\Files\Storage\AmazonS3'] = 'files_external/lib/amazons3.php';
 OC::$CLASSPATH['OC\Files\Storage\Dropbox'] = 'files_external/lib/dropbox.php';
 OC::$CLASSPATH['OC\Files\Storage\SFTP'] = 'files_external/lib/sftp.php';
 OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
+OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
 OCP\App::registerAdmin('files_external', 'settings');
 if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
 	OCP\App::registerPersonal('files_external', 'personal');
 }
+
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		"id" => 'extstoragemounts',
+		"appname" => 'files_external',
+		"script" => 'list.php',
+		"order" => 30,
+		"name" => $l->t('External storage')
+	)
+);
 
 // connecting hooks
 OCP\Util::connectHook('OC_Filesystem', 'post_initMountPoints', '\OC_Mount_Config', 'initMountPointsHook');
@@ -164,3 +175,4 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 		'user' => (string)$l->t('Username'),
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Root'))));
+
