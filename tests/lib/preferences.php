@@ -6,7 +6,6 @@
  * later.
  * See the COPYING-README file.
  */
-
 class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 	public function testGetUsers()
 	{
