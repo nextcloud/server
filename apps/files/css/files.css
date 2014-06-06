@@ -113,10 +113,6 @@
 	bottom: 0;
 }
 
-.app-files #app-settings input {
-	width: 90%;
-}
-
 #filestable tbody tr { background-color:#fff; height:40px; }
 #filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
