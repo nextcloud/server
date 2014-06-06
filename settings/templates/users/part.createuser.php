@@ -1,4 +1,4 @@
-<div id="user-controls">
+<div id="controls">
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text"
 			placeholder="<?php p($l->t('Login Name'))?>"
