@@ -99,14 +99,12 @@
 		 * @return array of file info maps
 		 */
 		_makeFiles: function(data) {
-			var files = _.chain(data)
-				.map(function(fileData) {
-					fileData.icon = OC.imagePath('core', 'filetypes/folder-external');
-					return fileData;
-				})
-				// Sort by expected sort comparator
-				.sortBy(this._sortComparator)
-				.value();
+			var files = _.map(data, function(fileData) {
+				fileData.icon = OC.imagePath('core', 'filetypes/folder-external');
+				return fileData;
+			});
+
+			files.sort(this._sortComparator);
 
 			return files;
 		}
