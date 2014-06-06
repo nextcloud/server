@@ -7,7 +7,7 @@ if (version_compare(\OCP\Config::getSystemValue('version', '0.0.0'), '7.0.0', '<
 	\OCP\Config::deleteSystemValue('maxZipInputSize');
 }
 
-if (version_compare(\OCP\Config::getAppValue('files', 'installed_version'), '1.1.8', '<')) {
+if (version_compare(\OCP\Config::getAppValue('files', 'installed_version'), '1.1.9', '<')) {
 
 	// update wrong mimetypes
 	$wrongMimetypes = array(
