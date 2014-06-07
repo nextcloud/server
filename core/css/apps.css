@@ -220,7 +220,7 @@
 }
 
 /* display input fields at full width */
-#app-settings-content input {
+#app-settings-content input[type='text'] {
 	width: 93%;
 }
 
