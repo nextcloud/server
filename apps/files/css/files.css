@@ -285,7 +285,7 @@ table td.filename .nametext {
 	max-width: 800px;
 }
 
-table td.filename .nametext span:not(.extension) {
+table td.filename .nametext .innernametext {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	position: relative;
@@ -293,25 +293,25 @@ table td.filename .nametext span:not(.extension) {
 }
 
 @media only screen and (min-width: 1366px) {
-	table td.filename .nametext span:not(.extension) {
+	table td.filename .nametext .innernametext {
 		max-width: 650px;
 	}
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1366px) {
-	table td.filename .nametext span:not(.extension) {
+	table td.filename .nametext .innernametext {
 		max-width: 450px;
 	}
 }
 
 @media only screen and (min-width: 1000px) and (max-width: 1200px) {
-	table td.filename .nametext span:not(.extension) {
+	table td.filename .nametext .innernametext {
 		max-width: 270px;
 	}
 }
 
 @media only screen and (min-width: 900px) and (max-width: 1000px) {
-	table td.filename .nametext span:not(.extension) {
+	table td.filename .nametext .innernametext {
 		max-width: 210px;
 	}
 }
@@ -323,7 +323,7 @@ table td.filename .nametext span:not(.extension) {
 }
 
 @media only screen and (max-width: 768px) {
-	table td.filename .nametext span:not(.extension) {
+	table td.filename .nametext .innernametext {
 		max-width: 400px;
 	}
 }

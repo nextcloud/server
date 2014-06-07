@@ -597,7 +597,7 @@
 				extension = false;
 			}
 			var nameSpan=$('<span></span>').addClass('nametext');
-			var innernameSpan = $('<span></span>').text(basename);
+			var innernameSpan = $('<span></span>').addClass('innernametext').text(basename);
 			nameSpan.append(innernameSpan);
 			linkElem.append(nameSpan);
 			if (extension) {
