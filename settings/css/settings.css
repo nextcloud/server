@@ -68,7 +68,7 @@ li.active span.utils .delete:hover, li.active .rename:hover { opacity: 1; }
 span.utils .delete, .rename { display: none; }
 #app-navigation ul li.active > span.utils .delete,
 #app-navigation ul li.active > span.utils .rename { display: block; }
-#usersearchform { position: absolute; top: 4px; right: 10px; }
+#usersearchform { position: absolute; top: 2px; right: 250px; }
 #usersearchform label { font-weight: 700; }
 form { display:inline; }
 
