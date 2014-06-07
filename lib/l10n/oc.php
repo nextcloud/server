@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "Admin" => "Admin",
 "web services under your control" => "Services web jos ton contraròtle",
 "Authentication error" => "Error d'autentificacion",
-"Files" => "Fichièrs",
 "seconds ago" => "segonda a",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),

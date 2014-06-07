@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Kanpoko biltegiratzea",
 "Local" => "Bertakoa",
 "Location" => "Kokapena",
 "Amazon S3" => "Amazon S3",
@@ -20,7 +21,6 @@ $TRANSLATIONS = array(
 " and " => "eta",
 "External Storage" => "Kanpoko Biltegiratzea",
 "Folder name" => "Karpetaren izena",
-"External storage" => "Kanpoko biltegiratzea",
 "Configuration" => "Konfigurazioa",
 "Options" => "Aukerak",
 "Add storage" => "Gehitu biltegiratzea",

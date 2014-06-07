@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -23,11 +23,11 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: base.php:714
+#: base.php:678
 msgid "You are accessing the server from an untrusted domain."
 msgstr "信頼されていないドメインからサーバーにアクセスしています。"
 
-#: base.php:715
+#: base.php:679
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -65,7 +65,7 @@ msgstr "ユーザー"
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:903
+#: private/app.php:918
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" へのアップグレードに失敗しました。"
@@ -153,18 +153,6 @@ msgstr "トークンが無効になりました。ページを再読込してく
 #: private/json.php:74
 msgid "Unknown user"
 msgstr "不明なユーザー"
-
-#: private/search/provider/file.php:18 private/search/provider/file.php:36
-msgid "Files"
-msgstr "ファイル"
-
-#: private/search/provider/file.php:27 private/search/provider/file.php:34
-msgid "Text"
-msgstr "TTY TDD"
-
-#: private/search/provider/file.php:30
-msgid "Images"
-msgstr "画像"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
@@ -287,107 +275,107 @@ msgstr "%s の共有に失敗しました。そのようなファイルは存在
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "%s を共有することを許可されていません。"
 
-#: private/share/share.php:526
+#: private/share/share.php:531
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "%s の共有に失敗しました。ユーザー %s がアイテム所有者です。"
 
-#: private/share/share.php:532
+#: private/share/share.php:537
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "%s の共有に失敗しました。ユーザー %s が存在しません。"
 
-#: private/share/share.php:541
+#: private/share/share.php:546
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "%s の共有に失敗しました。ユーザー %s はどのグループにも属していません。%s は、??のメンバーです。"
 
-#: private/share/share.php:554 private/share/share.php:582
+#: private/share/share.php:559 private/share/share.php:587
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "%s の共有に失敗しました。このアイテムは既に %s で共有されています。"
 
-#: private/share/share.php:562
+#: private/share/share.php:567
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "%s の共有に失敗しました。グループ %s は存在しません。"
 
-#: private/share/share.php:569
+#: private/share/share.php:574
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "%s の共有に失敗しました。%s は、グループ %s のメンバーではありません。"
 
-#: private/share/share.php:621
+#: private/share/share.php:627
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr "公開用リンクの作成にはパスワードの設定が必要です"
 
-#: private/share/share.php:641
+#: private/share/share.php:653
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "%s の共有に失敗しました。リンクでの共有は許可されていません。"
 
-#: private/share/share.php:648
+#: private/share/share.php:660
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "%s の共有方法は、%s には適用できません。"
 
-#: private/share/share.php:787
+#: private/share/share.php:820
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "%s の権限設定に失敗しました。%s に許可されている権限を越えています。"
 
-#: private/share/share.php:848
+#: private/share/share.php:881
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "%s の権限設定に失敗しました。アイテムが存在しません。"
 
-#: private/share/share.php:959
+#: private/share/share.php:1002
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "%s のバックエンドの共有には、OCP\\Share_Backend　インターフェースを実装しなければなりません。"
 
-#: private/share/share.php:966
+#: private/share/share.php:1009
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "共有バックエンド %s が見つかりません"
 
-#: private/share/share.php:972
+#: private/share/share.php:1015
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "%s のための共有バックエンドが見つかりません"
 
-#: private/share/share.php:1388
+#: private/share/share.php:1431
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "%s の共有に失敗しました。ユーザー %s が元々の共有者であるからです。"
 
-#: private/share/share.php:1397
+#: private/share/share.php:1440
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "%s の共有に失敗しました。%s に付与されている許可を超えているからです。"
 
-#: private/share/share.php:1413
+#: private/share/share.php:1456
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "%s の共有に失敗しました。再共有が許されていないからです。"
 
-#: private/share/share.php:1425
+#: private/share/share.php:1468
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "%s の共有に失敗しました。%s のバックエンド共有に必要なソースが見つかりませんでした。"
 
-#: private/share/share.php:1439
+#: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -463,4 +451,4 @@ msgstr "ユーザー名はすでに使われています"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "\"%s\" で %d タイプのロックを取得できませんでした。"

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Almacenamiento externo",
 "Location" => "Ubicación",
 "Host" => "Servidor",
 "Username" => "Nombre de usuario",
@@ -13,7 +14,6 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "Error configurando el almacenamiento de Google Drive",
 "External Storage" => "Almacenamiento externo",
 "Folder name" => "Nombre de la carpeta",
-"External storage" => "Almacenamiento externo",
 "Configuration" => "Configuración",
 "Options" => "Opciones",
 "Add storage" => "Añadir almacenamiento",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 10:10+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "Compartilhados com outros"
 
 #: appinfo/app.php:53 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Compartilhado por link"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
@@ -40,7 +40,7 @@ msgstr "Você ainda não compartilhou nenhum arquivo."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Você ainda não compartilhou nenhum arquivo por link."
 
 #: js/settings-admin.js:10
 msgid "Could not load template"
@@ -54,7 +54,7 @@ msgstr "Salvo"
 msgid "Reset"
 msgstr "Resetar"
 
-#: js/share.js:55
+#: js/share.js:60
 msgid "Shared by {owner}"
 msgstr "Compartilhado por {owner}"
 

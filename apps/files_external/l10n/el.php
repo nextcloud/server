@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Εξωτερική αποθήκευση",
 "Local" => "Τοπικός",
 "Location" => "Τοποθεσία",
 "Amazon S3" => "Amazon S3",
@@ -50,7 +51,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Σημείωση:</b> Η επέκταση \"%s\" δεν είναι εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει.",
 "External Storage" => "Εξωτερικό Αποθηκευτικό Μέσο",
 "Folder name" => "Όνομα φακέλου",
-"External storage" => "Εξωτερική αποθήκευση",
 "Configuration" => "Ρυθμίσεις",
 "Options" => "Επιλογές",
 "Available for" => "Διαθέσιμο για",

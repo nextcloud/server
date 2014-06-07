@@ -7,6 +7,7 @@
 # Jan Kalina <honza889@gmail.com>, 2013
 # Jan Liska, 2013
 # Jaroslav Lichtblau <jaroslav@lichtblau.cz>, 2014
+# Josef Moravec <josef.moravec@gmail.com>, 2014
 # Lenka <mrs.jenkins.oh.yeah@gmail.com>, 2013
 # Petr Šťastný <petr@stastny.eu>, 2013-2014
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 10:10+0000\n"
+"Last-Translator: Josef Moravec <josef.moravec@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +80,7 @@ msgstr "Ponechat nastavení?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Server"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -175,7 +176,7 @@ msgstr "Nelze nalézt požadovanou vlastnost"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: settings.php:53
 msgid "User Filter"
@@ -263,12 +264,12 @@ msgstr "Určuje použitý filtr při pokusu o přihlášení. %%uid nahrazuje u�
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Server"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Server:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -276,7 +277,7 @@ msgstr "Přidat nastavení serveru"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Odstranit konfiguraci"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"

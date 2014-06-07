@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Turned on maintenance mode" => "Bakım kipi etkinleştirildi",
 "Turned off maintenance mode" => "Bakım kipi kapatıldı",
 "Updated database" => "Veritabanı güncellendi",
+"Checked database schema update" => "Veritabanı şema güncellemesi denetlendi",
 "Disabled incompatible apps: %s" => "Uyumsuz uygulamalar devre dışı bırakıldı: %s",
 "No image or file provided" => "Resim veya dosya belirtilmedi",
 "Unknown filetype" => "Bilinmeyen dosya türü",

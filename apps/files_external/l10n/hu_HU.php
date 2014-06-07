@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Külső tárolók",
 "Location" => "Hely",
 "Host" => "Kiszolgáló",
 "Username" => "Felhasználónév",
@@ -14,7 +15,6 @@ $TRANSLATIONS = array(
 "Saved" => "Elmentve",
 "External Storage" => "Külső tárolási szolgáltatások becsatolása",
 "Folder name" => "Mappanév",
-"External storage" => "Külső tárolók",
 "Configuration" => "Beállítások",
 "Options" => "Opciók",
 "Add storage" => "Tároló becsatolása",

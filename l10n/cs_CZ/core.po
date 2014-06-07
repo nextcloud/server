@@ -8,6 +8,7 @@
 # Jan Kalina <honza889@gmail.com>, 2013
 # Jan Liska, 2013
 # Jaroslav Lichtblau <jaroslav@lichtblau.cz>, 2014
+# Josef Moravec <josef.moravec@gmail.com>, 2014
 # Martin Skopal <fireball@atlas.cz>, 2013
 # MICHAL D. <black23@gmail.com>, 2014
 # Petr Šťastný <petr@stastny.eu>, 2013-2014
@@ -16,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -26,11 +27,11 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:90
 msgid "Expiration date is in the past."
 msgstr "Datum expirace je v minulosti."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebylo možné odeslat e-mail následujícím uživatelům: %s"
@@ -54,7 +55,7 @@ msgstr ""
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Zakázané nekompatibilní aplikace: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -76,79 +77,79 @@ msgstr "Dočasný profilový obrázek není k dispozici, zkuste to znovu"
 msgid "No crop data provided"
 msgstr "Nebyla poskytnuta data pro oříznutí obrázku"
 
-#: js/config.php:43
+#: js/config.php:45
 msgid "Sunday"
 msgstr "Neděle"
 
-#: js/config.php:44
+#: js/config.php:46
 msgid "Monday"
 msgstr "Pondělí"
 
-#: js/config.php:45
+#: js/config.php:47
 msgid "Tuesday"
 msgstr "Úterý"
 
-#: js/config.php:46
+#: js/config.php:48
 msgid "Wednesday"
 msgstr "Středa"
 
-#: js/config.php:47
+#: js/config.php:49
 msgid "Thursday"
 msgstr "Čtvrtek"
 
-#: js/config.php:48
+#: js/config.php:50
 msgid "Friday"
 msgstr "Pátek"
 
-#: js/config.php:49
+#: js/config.php:51
 msgid "Saturday"
 msgstr "Sobota"
 
-#: js/config.php:54
+#: js/config.php:56
 msgid "January"
 msgstr "Leden"
 
-#: js/config.php:55
+#: js/config.php:57
 msgid "February"
 msgstr "Únor"
 
-#: js/config.php:56
+#: js/config.php:58
 msgid "March"
 msgstr "Březen"
 
-#: js/config.php:57
+#: js/config.php:59
 msgid "April"
 msgstr "Duben"
 
-#: js/config.php:58
+#: js/config.php:60
 msgid "May"
 msgstr "Květen"
 
-#: js/config.php:59
+#: js/config.php:61
 msgid "June"
 msgstr "Červen"
 
-#: js/config.php:60
+#: js/config.php:62
 msgid "July"
 msgstr "Červenec"
 
-#: js/config.php:61
+#: js/config.php:63
 msgid "August"
 msgstr "Srpen"
 
-#: js/config.php:62
+#: js/config.php:64
 msgid "September"
 msgstr "Září"
 
-#: js/config.php:63
+#: js/config.php:65
 msgid "October"
 msgstr "Říjen"
 
-#: js/config.php:64
+#: js/config.php:66
 msgid "November"
 msgstr "Listopad"
 
-#: js/config.php:65
+#: js/config.php:67
 msgid "December"
 msgstr "Prosinec"
 
@@ -156,59 +157,75 @@ msgstr "Prosinec"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:600
+#: js/js.js:590
+msgid "File"
+msgstr ""
+
+#: js/js.js:591
+msgid "Folder"
+msgstr ""
+
+#: js/js.js:592
+msgid "Image"
+msgstr ""
+
+#: js/js.js:593
+msgid "Audio"
+msgstr ""
+
+#: js/js.js:607
 msgid "Saving..."
 msgstr "Ukládám..."
 
-#: js/js.js:1210
+#: js/js.js:1271
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:1211
+#: js/js.js:1272
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "před %n minutou"
 msgstr[1] "před %n minutami"
 msgstr[2] "před %n minutami"
 
-#: js/js.js:1212
+#: js/js.js:1273
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "před %n hodinou"
 msgstr[1] "před %n hodinami"
 msgstr[2] "před %n hodinami"
 
-#: js/js.js:1213
+#: js/js.js:1274
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:1214
+#: js/js.js:1275
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:1215
+#: js/js.js:1276
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "před %n dnem"
 msgstr[1] "před %n dny"
 msgstr[2] "před %n dny"
 
-#: js/js.js:1216
+#: js/js.js:1277
 msgid "last month"
 msgstr "minulý měsíc"
 
-#: js/js.js:1217
+#: js/js.js:1278
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "před %n měsícem"
 msgstr[1] "před %n měsíci"
 msgstr[2] "před %n měsíci"
 
-#: js/js.js:1218
+#: js/js.js:1279
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:1219
+#: js/js.js:1280
 msgid "years ago"
 msgstr "před lety"
 
@@ -321,12 +338,12 @@ msgstr ""
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:273 js/share.js:980
+#: js/share.js:273 js/share.js:999
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -443,27 +460,27 @@ msgstr "smazat"
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:898
+#: js/share.js:917
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:917
+#: js/share.js:936
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:938
+#: js/share.js:957
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:967
+#: js/share.js:986
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:978
+#: js/share.js:997
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
-#: js/share.js:1002
+#: js/share.js:1021
 msgid "Warning"
 msgstr "Varování"
 
@@ -497,7 +514,7 @@ msgstr "Žádné štítky nebyly vybrány ke smazání."
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "Aktualizuji {productName} na verzi {version}, Může to chvíli trvat."
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -505,7 +522,7 @@ msgstr "Načtěte stránku znovu, prosím."
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "Aktualizace selhala."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -600,7 +617,7 @@ msgstr "Osobní"
 msgid "Users"
 msgstr "Uživatelé"
 
-#: strings.php:7 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Aplikace"
 
@@ -848,11 +865,11 @@ msgstr "Děkuji za trpělivost."
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s bude aktualizován na verzi %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "Následující aplikace budou zakázány:"
 
 #: templates/update.admin.php:17
 #, php-format
@@ -867,7 +884,7 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Aktualizovat"
 
 #: templates/update.user.php:3
 msgid ""

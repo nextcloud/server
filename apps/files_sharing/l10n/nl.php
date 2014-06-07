@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Deelde met u",
 "Shared with others" => "Deelde met anderen",
+"Shared by link" => "Gedeeld via een link",
 "No files have been shared with you yet." => "Er zijn nog geen bestanden met u gedeeld.",
 "You haven't shared any files yet." => "U hebt nog geen bestanden gedeeld.",
+"You haven't shared any files by link yet." => "U hebt nog geen bestanden via een link gedeeld.",
 "Could not load template" => "Kon sjabloon niet laden",
 "Saved" => "Bewaard",
 "Reset" => "Reset",

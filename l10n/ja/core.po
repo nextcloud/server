@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,11 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:90
 msgid "Expiration date is in the past."
 msgstr "有効期限が切れています。"
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "次のユーザーにメールを送信できませんでした: %s"
@@ -47,12 +47,12 @@ msgstr "データベース更新完了"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "指定データベースのスキーマを更新"
 
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "無効化された非互換アプリ：%s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -74,79 +74,79 @@ msgstr "一時的なプロファイル用画像が利用できません。もう
 msgid "No crop data provided"
 msgstr "クロップデータは提供されません"
 
-#: js/config.php:43
+#: js/config.php:45
 msgid "Sunday"
 msgstr "日"
 
-#: js/config.php:44
+#: js/config.php:46
 msgid "Monday"
 msgstr "月"
 
-#: js/config.php:45
+#: js/config.php:47
 msgid "Tuesday"
 msgstr "火"
 
-#: js/config.php:46
+#: js/config.php:48
 msgid "Wednesday"
 msgstr "水"
 
-#: js/config.php:47
+#: js/config.php:49
 msgid "Thursday"
 msgstr "木"
 
-#: js/config.php:48
+#: js/config.php:50
 msgid "Friday"
 msgstr "金"
 
-#: js/config.php:49
+#: js/config.php:51
 msgid "Saturday"
 msgstr "土"
 
-#: js/config.php:54
+#: js/config.php:56
 msgid "January"
 msgstr "1月"
 
-#: js/config.php:55
+#: js/config.php:57
 msgid "February"
 msgstr "2月"
 
-#: js/config.php:56
+#: js/config.php:58
 msgid "March"
 msgstr "3月"
 
-#: js/config.php:57
+#: js/config.php:59
 msgid "April"
 msgstr "4月"
 
-#: js/config.php:58
+#: js/config.php:60
 msgid "May"
 msgstr "5月"
 
-#: js/config.php:59
+#: js/config.php:61
 msgid "June"
 msgstr "6月"
 
-#: js/config.php:60
+#: js/config.php:62
 msgid "July"
 msgstr "7月"
 
-#: js/config.php:61
+#: js/config.php:63
 msgid "August"
 msgstr "8月"
 
-#: js/config.php:62
+#: js/config.php:64
 msgid "September"
 msgstr "9月"
 
-#: js/config.php:63
+#: js/config.php:65
 msgid "October"
 msgstr "10月"
 
-#: js/config.php:64
+#: js/config.php:66
 msgid "November"
 msgstr "11月"
 
-#: js/config.php:65
+#: js/config.php:67
 msgid "December"
 msgstr "12月"
 
@@ -154,51 +154,67 @@ msgstr "12月"
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:600
+#: js/js.js:590
+msgid "File"
+msgstr ""
+
+#: js/js.js:591
+msgid "Folder"
+msgstr ""
+
+#: js/js.js:592
+msgid "Image"
+msgstr ""
+
+#: js/js.js:593
+msgid "Audio"
+msgstr ""
+
+#: js/js.js:607
 msgid "Saving..."
 msgstr "保存中..."
 
-#: js/js.js:1210
+#: js/js.js:1271
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:1211
+#: js/js.js:1272
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分前"
 
-#: js/js.js:1212
+#: js/js.js:1273
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 時間前"
 
-#: js/js.js:1213
+#: js/js.js:1274
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:1214
+#: js/js.js:1275
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:1215
+#: js/js.js:1276
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n日前"
 
-#: js/js.js:1216
+#: js/js.js:1277
 msgid "last month"
 msgstr "1ヶ月前"
 
-#: js/js.js:1217
+#: js/js.js:1278
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%nヶ月前"
 
-#: js/js.js:1218
+#: js/js.js:1279
 msgid "last year"
 msgstr "1年前"
 
-#: js/js.js:1219
+#: js/js.js:1280
 msgid "years ago"
 msgstr "数年前"
 
@@ -303,18 +319,18 @@ msgstr "{owner} と共有中"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "{recipients} と共有"
 
 #: js/share.js:211
 msgid "Share"
 msgstr "共有"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
 #: templates/installation.php:10
 msgid "Error"
 msgstr "エラー"
 
-#: js/share.js:273 js/share.js:980
+#: js/share.js:273 js/share.js:999
 msgid "Error while sharing"
 msgstr "共有でエラー発生"
 
@@ -431,27 +447,27 @@ msgstr "削除"
 msgid "share"
 msgstr "共有"
 
-#: js/share.js:898
+#: js/share.js:917
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:917
+#: js/share.js:936
 msgid "Error unsetting expiration date"
 msgstr "有効期限の未設定エラー"
 
-#: js/share.js:938
+#: js/share.js:957
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 
-#: js/share.js:967
+#: js/share.js:986
 msgid "Sending ..."
 msgstr "送信中..."
 
-#: js/share.js:978
+#: js/share.js:997
 msgid "Email sent"
 msgstr "メールを送信しました"
 
-#: js/share.js:1002
+#: js/share.js:1021
 msgid "Warning"
 msgstr "警告"
 
@@ -485,7 +501,7 @@ msgstr "削除するタグが選択されていません。"
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "{productName} を バージョン {version} に更新しています。しばらくお待ち下さい。"
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -588,7 +604,7 @@ msgstr "個人"
 msgid "Users"
 msgstr "ユーザー"
 
-#: strings.php:7 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
 msgid "Apps"
 msgstr "アプリ"
 
@@ -744,7 +760,7 @@ msgstr "データベースのホスト名"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "SQLite をデータベースとして利用します。大規模な運用では、利用しないことをお勧めします。"
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -840,18 +856,18 @@ msgstr "%s はバージョン %s にアップデートされました。"
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "以下のアプリは無効です："
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "テーマ %s が無効になっています。"
 
 #: templates/update.admin.php:21
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr ""
+msgstr "データベースを確認してください。実行前にconfig フォルダとdata フォルダをバックアップします。"
 
 #: templates/update.admin.php:23
 msgid "Start update"

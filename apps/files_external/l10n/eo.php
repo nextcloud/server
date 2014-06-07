@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Malena memorilo",
 "Local" => "Loka",
 "Location" => "Loko",
 "Amazon S3" => "Amazon S3",
@@ -40,7 +41,6 @@ $TRANSLATIONS = array(
 " and " => "kaj",
 "External Storage" => "Malena memorilo",
 "Folder name" => "Dosierujnomo",
-"External storage" => "Malena memorilo",
 "Configuration" => "Agordo",
 "Options" => "Malneproj",
 "Available for" => "Disponebla por",

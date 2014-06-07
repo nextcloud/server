@@ -9,13 +9,14 @@
 # Leif Lodahl <leiflodahl@gmail.com>, 2013
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
+# Johannes Hessellund <osos@openeyes.dk>, 2014
 # Peter Jespersen <flywheeldk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +25,11 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:90
 msgid "Expiration date is in the past."
 msgstr "Udløbsdatoen er overskredet."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kunne ikke sende mail til følgende brugere: %s"
@@ -47,12 +48,12 @@ msgstr "Opdaterede database"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Tjekket database schema opdatering"
 
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Deaktiverer inkombatible apps: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -74,79 +75,79 @@ msgstr "Intet midlertidigt profilbillede tilgængeligt, prøv igen"
 msgid "No crop data provided"
 msgstr "Ingen beskæringsdata give"
 
-#: js/config.php:43
+#: js/config.php:45
 msgid "Sunday"
 msgstr "Søndag"
 
-#: js/config.php:44
+#: js/config.php:46
 msgid "Monday"
 msgstr "Mandag"
 
-#: js/config.php:45
+#: js/config.php:47
 msgid "Tuesday"
 msgstr "Tirsdag"
 
-#: js/config.php:46
+#: js/config.php:48
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: js/config.php:47
+#: js/config.php:49
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: js/config.php:48
+#: js/config.php:50
 msgid "Friday"
 msgstr "Fredag"
 
-#: js/config.php:49
+#: js/config.php:51
 msgid "Saturday"
 msgstr "Lørdag"
 
-#: js/config.php:54
+#: js/config.php:56
 msgid "January"
 msgstr "Januar"
 
-#: js/config.php:55
+#: js/config.php:57
 msgid "February"
 msgstr "Februar"
 
-#: js/config.php:56
+#: js/config.php:58
 msgid "March"
 msgstr "Marts"
 
-#: js/config.php:57
+#: js/config.php:59
 msgid "April"
 msgstr "April"
 
-#: js/config.php:58
+#: js/config.php:60
 msgid "May"
 msgstr "Maj"
 
-#: js/config.php:59
+#: js/config.php:61
 msgid "June"
 msgstr "Juni"
 
-#: js/config.php:60
+#: js/config.php:62
 msgid "July"
 msgstr "Juli"
 
-#: js/config.php:61
+#: js/config.php:63
 msgid "August"
 msgstr "August"
 
-#: js/config.php:62
+#: js/config.php:64
 msgid "September"
 msgstr "September"
 
-#: js/config.php:63
+#: js/config.php:65
 msgid "October"
 msgstr "Oktober"
 
-#: js/config.php:64
+#: js/config.php:66
 msgid "November"
 msgstr "November"
 
-#: js/config.php:65
+#: js/config.php:67
 msgid "December"
 msgstr "December"
 
@@ -154,55 +155,71 @@ msgstr "December"
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:600
+#: js/js.js:590
+msgid "File"
+msgstr ""
+
+#: js/js.js:591
+msgid "Folder"
+msgstr ""
+
+#: js/js.js:592
+msgid "Image"
+msgstr ""
+
+#: js/js.js:593
+msgid "Audio"
+msgstr ""
+
+#: js/js.js:607
 msgid "Saving..."
 msgstr "Gemmer..."
 
-#: js/js.js:1210
+#: js/js.js:1271
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:1211
+#: js/js.js:1272
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n minut siden"
 msgstr[1] "%n minutter siden"
 
-#: js/js.js:1212
+#: js/js.js:1273
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n time siden"
 msgstr[1] "%n timer siden"
 
-#: js/js.js:1213
+#: js/js.js:1274
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:1214
+#: js/js.js:1275
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:1215
+#: js/js.js:1276
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n dag siden"
 msgstr[1] "%n dage siden"
 
-#: js/js.js:1216
+#: js/js.js:1277
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:1217
+#: js/js.js:1278
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n måned siden"
 msgstr[1] "%n måneder siden"
 
-#: js/js.js:1218
+#: js/js.js:1279
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:1219
+#: js/js.js:1280
 msgid "years ago"
 msgstr "år siden"
 
@@ -308,18 +325,18 @@ msgstr "Delt af {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Delt med {recipients}"
 
 #: js/share.js:211
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fejl"
 
-#: js/share.js:273 js/share.js:980
+#: js/share.js:273 js/share.js:999
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -350,11 +367,11 @@ msgstr "Del link"
 #: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
-msgstr ""
+msgstr "Det offentlige link udløber senest {days} dage efter det blev oprettet"
 
 #: js/share.js:342
 msgid "By default the public link will expire after {days} days"
-msgstr ""
+msgstr "Som standard udløber det offentlige link efter {days} dage"
 
 #: js/share.js:347
 msgid "Password protect"
@@ -362,7 +379,7 @@ msgstr "Beskyt med adgangskode"
 
 #: js/share.js:349
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "Vælg et kodeord til det offentlige link"
 
 #: js/share.js:355
 msgid "Allow Public Upload"
@@ -436,27 +453,27 @@ msgstr "slet"
 msgid "share"
 msgstr "del"
 
-#: js/share.js:898
+#: js/share.js:917
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:917
+#: js/share.js:936
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:938
+#: js/share.js:957
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:967
+#: js/share.js:986
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:978
+#: js/share.js:997
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
-#: js/share.js:1002
+#: js/share.js:1021
 msgid "Warning"
 msgstr "Advarsel"
 
@@ -490,7 +507,7 @@ msgstr "Ingen tags markeret til sletning."
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "Opdaterer {productName} til version {version}, det kan tage et stykke tid."
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -498,7 +515,7 @@ msgstr "Genindlæs venligst siden"
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "Opdateringen mislykkedes."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -593,7 +610,7 @@ msgstr "Personligt"
 msgid "Users"
 msgstr "Brugere"
 
-#: strings.php:7 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Apps"
 
@@ -723,7 +740,7 @@ msgstr "Konfigurer databasen"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Kun %s er tilgængelig."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -749,7 +766,7 @@ msgstr "Databasehost"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "SQLite bliver brugt som database. For større installationer anbefaler vi at ændre dette."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -841,26 +858,26 @@ msgstr "Tak for din tålmodighed."
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s vil blive opdateret til version %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "Følgende apps bliver deaktiveret:"
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "Temaet, %s, er blevet deaktiveret."
 
 #: templates/update.admin.php:21
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr ""
+msgstr "Venligst sikrer dig en backup af databasen, config-mappen og data-mappen inden vi fortsætter."
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Begynd opdatering"
 
 #: templates/update.user.php:3
 msgid ""

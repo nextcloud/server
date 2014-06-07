@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Stockage externe",
 "Local" => "Local",
 "Location" => "Emplacement",
 "Amazon S3" => "Amazon S3",
@@ -31,6 +32,7 @@ $TRANSLATIONS = array(
 "Tenantname (required for OpenStack Object Storage)" => "Nom du locataire (requis pour le stockage OpenStack)",
 "Password (required for OpenStack Object Storage)" => "Mot de passe (requis pour OpenStack Object Storage)",
 "Service Name (required for OpenStack Object Storage)" => "Nom du service (requit pour le stockage OpenStack)",
+"URL of identity endpoint (required for OpenStack Object Storage)" => "URL du point d'accès d'identité (requis pour le stockage OpenStack)",
 "Timeout of HTTP requests in seconds (optional)" => "Temps maximal de requête HTTP en seconde (facultatif)",
 "Share" => "Partager",
 "SMB / CIFS using OC login" => "SMB / CIFS utilise le nom d'utilisateur OC",
@@ -51,7 +53,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Attention : </b> \"%s\" n'est pas installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
 "External Storage" => "Stockage externe",
 "Folder name" => "Nom du dossier",
-"External storage" => "Stockage externe",
 "Configuration" => "Configuration",
 "Options" => "Options",
 "Available for" => "Disponible pour",

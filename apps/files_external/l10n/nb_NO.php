@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Ekstern lagringsplass",
 "Local" => "Lokal",
 "Location" => "Sted",
 "Amazon S3" => "Amazon S3",
@@ -52,7 +53,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>NB:</b> \"%s\" er ikke installert. Montering av %s er ikke mulig. Spør systemadministratoren om å installere det.",
 "External Storage" => "Ekstern lagring",
 "Folder name" => "Mappenavn",
-"External storage" => "Ekstern lagringsplass",
 "Configuration" => "Konfigurasjon",
 "Options" => "Innstillinger",
 "Available for" => "Tilgjengelig for",

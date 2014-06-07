@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Externí úložiště",
 "Local" => "Místní",
 "Location" => "Umístění",
 "Amazon S3" => "Amazon S3",
@@ -41,7 +42,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Poznámka:</b> \"%s\" není instalováno. Není možné připojení %s. Prosím požádejte svého správce systému o instalaci.",
 "External Storage" => "Externí úložiště",
 "Folder name" => "Název složky",
-"External storage" => "Externí úložiště",
 "Configuration" => "Nastavení",
 "Options" => "Možnosti",
 "Available for" => "Dostupné pro",

@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Jan Liska, 2013
+# Josef Moravec <josef.moravec@gmail.com>, 2014
 # MICHAL D. <black23@gmail.com>, 2014
 # Petr Šťastný <petr@stastny.eu>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 10:30+0000\n"
+"Last-Translator: Josef Moravec <josef.moravec@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,31 +23,31 @@ msgstr ""
 
 #: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Sdíleno s vámi"
 
 #: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Sdíleno s ostatními"
 
 #: appinfo/app.php:53 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Sdíleno pomocí odkazu"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Zatím s vámi nikdo žádné soubory nesdílel."
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Zatím jste nesdíleli žádné soubory."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Zatím jste nesdíleli pomocí odkazu žádný soubor."
 
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Šablonu nelze nahrát"
 
 #: js/settings-admin.js:45
 msgid "Saved"
@@ -56,7 +57,7 @@ msgstr "Uloženo"
 msgid "Reset"
 msgstr "Restartovat složku"
 
-#: js/share.js:55
+#: js/share.js:60
 msgid "Shared by {owner}"
 msgstr "Sdílí {owner}"
 
@@ -131,7 +132,7 @@ msgstr ""
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Šablona"
 
 #: templates/settings-admin.php:35
 msgid "Save"

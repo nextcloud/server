@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:90
 msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -69,79 +69,79 @@ msgstr ""
 msgid "No crop data provided"
 msgstr ""
 
-#: js/config.php:43
+#: js/config.php:45
 msgid "Sunday"
 msgstr "יום ראשון"
 
-#: js/config.php:44
+#: js/config.php:46
 msgid "Monday"
 msgstr "יום שני"
 
-#: js/config.php:45
+#: js/config.php:47
 msgid "Tuesday"
 msgstr "יום שלישי"
 
-#: js/config.php:46
+#: js/config.php:48
 msgid "Wednesday"
 msgstr "יום רביעי"
 
-#: js/config.php:47
+#: js/config.php:49
 msgid "Thursday"
 msgstr "יום חמישי"
 
-#: js/config.php:48
+#: js/config.php:50
 msgid "Friday"
 msgstr "יום שישי"
 
-#: js/config.php:49
+#: js/config.php:51
 msgid "Saturday"
 msgstr "שבת"
 
-#: js/config.php:54
+#: js/config.php:56
 msgid "January"
 msgstr "ינואר"
 
-#: js/config.php:55
+#: js/config.php:57
 msgid "February"
 msgstr "פברואר"
 
-#: js/config.php:56
+#: js/config.php:58
 msgid "March"
 msgstr "מרץ"
 
-#: js/config.php:57
+#: js/config.php:59
 msgid "April"
 msgstr "אפריל"
 
-#: js/config.php:58
+#: js/config.php:60
 msgid "May"
 msgstr "מאי"
 
-#: js/config.php:59
+#: js/config.php:61
 msgid "June"
 msgstr "יוני"
 
-#: js/config.php:60
+#: js/config.php:62
 msgid "July"
 msgstr "יולי"
 
-#: js/config.php:61
+#: js/config.php:63
 msgid "August"
 msgstr "אוגוסט"
 
-#: js/config.php:62
+#: js/config.php:64
 msgid "September"
 msgstr "ספטמבר"
 
-#: js/config.php:63
+#: js/config.php:65
 msgid "October"
 msgstr "אוקטובר"
 
-#: js/config.php:64
+#: js/config.php:66
 msgid "November"
 msgstr "נובמבר"
 
-#: js/config.php:65
+#: js/config.php:67
 msgid "December"
 msgstr "דצמבר"
 
@@ -149,55 +149,71 @@ msgstr "דצמבר"
 msgid "Settings"
 msgstr "הגדרות"
 
-#: js/js.js:600
+#: js/js.js:590
+msgid "File"
+msgstr ""
+
+#: js/js.js:591
+msgid "Folder"
+msgstr ""
+
+#: js/js.js:592
+msgid "Image"
+msgstr ""
+
+#: js/js.js:593
+msgid "Audio"
+msgstr ""
+
+#: js/js.js:607
 msgid "Saving..."
 msgstr "שמירה…"
 
-#: js/js.js:1210
+#: js/js.js:1271
 msgid "seconds ago"
 msgstr "שניות"
 
-#: js/js.js:1211
+#: js/js.js:1272
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "לפני %n דקה"
 msgstr[1] "לפני %n דקות"
 
-#: js/js.js:1212
+#: js/js.js:1273
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "לפני %n שעה"
 msgstr[1] "לפני %n שעות"
 
-#: js/js.js:1213
+#: js/js.js:1274
 msgid "today"
 msgstr "היום"
 
-#: js/js.js:1214
+#: js/js.js:1275
 msgid "yesterday"
 msgstr "אתמול"
 
-#: js/js.js:1215
+#: js/js.js:1276
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "לפני %n יום"
 msgstr[1] "לפני %n ימים"
 
-#: js/js.js:1216
+#: js/js.js:1277
 msgid "last month"
 msgstr "חודש שעבר"
 
-#: js/js.js:1217
+#: js/js.js:1278
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "לפני %n חודש"
 msgstr[1] "לפני %n חודשים"
 
-#: js/js.js:1218
+#: js/js.js:1279
 msgid "last year"
 msgstr "שנה שעברה"
 
-#: js/js.js:1219
+#: js/js.js:1280
 msgid "years ago"
 msgstr "שנים"
 
@@ -309,12 +325,12 @@ msgstr ""
 msgid "Share"
 msgstr "שתף"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
 #: templates/installation.php:10
 msgid "Error"
 msgstr "שגיאה"
 
-#: js/share.js:273 js/share.js:980
+#: js/share.js:273 js/share.js:999
 msgid "Error while sharing"
 msgstr "שגיאה במהלך השיתוף"
 
@@ -431,27 +447,27 @@ msgstr "מחיקה"
 msgid "share"
 msgstr "שיתוף"
 
-#: js/share.js:898
+#: js/share.js:917
 msgid "Password protected"
 msgstr "מוגן בססמה"
 
-#: js/share.js:917
+#: js/share.js:936
 msgid "Error unsetting expiration date"
 msgstr "אירעה שגיאה בביטול תאריך התפוגה"
 
-#: js/share.js:938
+#: js/share.js:957
 msgid "Error setting expiration date"
 msgstr "אירעה שגיאה בעת הגדרת תאריך התפוגה"
 
-#: js/share.js:967
+#: js/share.js:986
 msgid "Sending ..."
 msgstr "מתבצעת שליחה ..."
 
-#: js/share.js:978
+#: js/share.js:997
 msgid "Email sent"
 msgstr "הודעת הדוא״ל נשלחה"
 
-#: js/share.js:1002
+#: js/share.js:1021
 msgid "Warning"
 msgstr "אזהרה"
 
@@ -588,7 +604,7 @@ msgstr "אישי"
 msgid "Users"
 msgstr "משתמשים"
 
-#: strings.php:7 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
 msgid "Apps"
 msgstr "יישומים"
 

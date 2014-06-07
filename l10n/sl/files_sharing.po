@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Matej Urbančič <>, 2013-2014
+# Romana <romanaro@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 07:30+0000\n"
+"Last-Translator: Romana <romanaro@hotmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,31 +21,31 @@ msgstr ""
 
 #: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Deljen z vami"
 
 #: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Deljen z ostalimi"
 
 #: appinfo/app.php:53 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Souporaba preko povezave"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Nobene datoteka še niste dali v souporabo"
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Niste še delili datotek"
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Niste še delili datotek preko povezave"
 
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Predloge ni bilo mogoče naložiti"
 
 #: js/settings-admin.js:45
 msgid "Saved"
@@ -54,7 +55,7 @@ msgstr "Shranjeno"
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: js/share.js:55
+#: js/share.js:60
 msgid "Shared by {owner}"
 msgstr "Souporabo omogoča {owner}"
 
@@ -80,7 +81,7 @@ msgstr "Ime"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Čas souporabe"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -121,15 +122,15 @@ msgstr "Neposredna povezava"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Predloga elektronske pošte"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Predloga"
 
 #: templates/settings-admin.php:35
 msgid "Save"

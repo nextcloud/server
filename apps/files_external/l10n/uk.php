@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Зовнішнє сховище",
 "Location" => "Місце",
 "Host" => "Хост",
 "Username" => "Ім'я користувача",
@@ -13,7 +14,6 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "Помилка при налаштуванні сховища Google Drive",
 "External Storage" => "Зовнішні сховища",
 "Folder name" => "Ім'я теки",
-"External storage" => "Зовнішнє сховище",
 "Configuration" => "Налаштування",
 "Options" => "Опції",
 "Add storage" => "Додати сховище",

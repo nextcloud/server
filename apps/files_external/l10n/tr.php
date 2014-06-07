@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Harici depolama",
 "Local" => "Yerel",
 "Location" => "Konum",
 "Amazon S3" => "Amazon S3",
@@ -52,7 +53,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Not:</b> \"%s\" kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin.",
 "External Storage" => "Harici Depolama",
 "Folder name" => "Klasör ismi",
-"External storage" => "Harici depolama",
 "Configuration" => "Yapılandırma",
 "Options" => "Seçenekler",
 "Available for" => "Kullanabilenler",

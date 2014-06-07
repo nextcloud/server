@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "外部存储",
 "Local" => "本地",
 "Location" => "地点",
 "Amazon S3" => "Amazon S3",
@@ -28,7 +29,6 @@ $TRANSLATIONS = array(
 " and " => "和",
 "External Storage" => "外部存储",
 "Folder name" => "目录名称",
-"External storage" => "外部存储",
 "Configuration" => "配置",
 "Options" => "选项",
 "Available for" => "可用于",

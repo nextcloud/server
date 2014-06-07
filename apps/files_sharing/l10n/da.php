@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Delt med dig",
 "Shared with others" => "Delt med andre",
+"Shared by link" => "Delt via link",
 "No files have been shared with you yet." => "Endnu er ingen filer delt med dig.",
 "You haven't shared any files yet." => "Du har ikke delt nogen filer endnu.",
+"You haven't shared any files by link yet." => "Du har ikke delt nogen filer endnu.",
 "Could not load template" => "Kunne ikke indlæse skabelon",
 "Saved" => "Gemt",
 "Reset" => "Nulstil",

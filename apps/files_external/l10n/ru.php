@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Внешний носитель данных",
 "Local" => "Локально",
 "Location" => "Местоположение",
 "Amazon S3" => "Amazon S3",
@@ -31,7 +32,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Примечание:</b> Поддержка cURL в PHP не включена или не установлен модуль. Подключение %s невозможно. Обратитесь к вашему системному администратору.",
 "External Storage" => "Внешний носитель",
 "Folder name" => "Имя папки",
-"External storage" => "Внешний носитель данных",
 "Configuration" => "Конфигурация",
 "Options" => "Опции",
 "Available for" => "Доступно для",

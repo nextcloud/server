@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Extern lagring",
 "Local" => "Lokal",
 "Location" => "Plats",
 "Amazon S3" => "Amazon S3",
@@ -51,7 +52,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b> OBS: </ b> \"%s\" är inte installerat. Montering av %s är inte möjlig. Be din systemadministratör att installera det.",
 "External Storage" => "Extern lagring",
 "Folder name" => "Mappnamn",
-"External storage" => "Extern lagring",
 "Configuration" => "Konfiguration",
 "Options" => "Alternativ",
 "Available for" => "Tillgänglig för",

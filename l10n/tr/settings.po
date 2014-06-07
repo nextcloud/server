@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-06 13:00+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -550,7 +550,7 @@ msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Kullanıcıların bağlantı ile paylaşmasına izin ver"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
@@ -582,7 +582,7 @@ msgstr "Yeniden paylaşıma izin ver"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına sınırla"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"

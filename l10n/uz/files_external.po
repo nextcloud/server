@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-16 01:54-0400\n"
-"PO-Revision-Date: 2014-05-16 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Uzbek (http://www.transifex.com/projects/p/owncloud/language/uz/)\n"
 "MIME-Version: 1.0\n"
@@ -17,163 +17,167 @@ msgstr ""
 "Language: uz\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: appinfo/app.php:34
+#: appinfo/app.php:36 js/app.js:32 templates/settings.php:9
+msgid "External storage"
+msgstr ""
+
+#: appinfo/app.php:45
 msgid "Local"
 msgstr ""
 
-#: appinfo/app.php:36
+#: appinfo/app.php:48
 msgid "Location"
 msgstr ""
 
-#: appinfo/app.php:39
+#: appinfo/app.php:51
 msgid "Amazon S3"
 msgstr ""
 
-#: appinfo/app.php:41
+#: appinfo/app.php:54
 msgid "Key"
 msgstr ""
 
-#: appinfo/app.php:42
+#: appinfo/app.php:55
 msgid "Secret"
 msgstr ""
 
-#: appinfo/app.php:43 appinfo/app.php:51
+#: appinfo/app.php:56 appinfo/app.php:65
 msgid "Bucket"
 msgstr ""
 
-#: appinfo/app.php:47
+#: appinfo/app.php:60
 msgid "Amazon S3 and compliant"
 msgstr ""
 
-#: appinfo/app.php:49
+#: appinfo/app.php:63
 msgid "Access Key"
 msgstr ""
 
-#: appinfo/app.php:50
+#: appinfo/app.php:64
 msgid "Secret Key"
 msgstr ""
 
-#: appinfo/app.php:52
+#: appinfo/app.php:66
 msgid "Hostname (optional)"
 msgstr ""
 
-#: appinfo/app.php:53
+#: appinfo/app.php:67
 msgid "Port (optional)"
 msgstr ""
 
-#: appinfo/app.php:54
+#: appinfo/app.php:68
 msgid "Region (optional)"
 msgstr ""
 
-#: appinfo/app.php:55
+#: appinfo/app.php:69
 msgid "Enable SSL"
 msgstr ""
 
-#: appinfo/app.php:56
+#: appinfo/app.php:70
 msgid "Enable Path Style"
 msgstr ""
 
-#: appinfo/app.php:63
+#: appinfo/app.php:78
 msgid "App key"
 msgstr ""
 
-#: appinfo/app.php:64
+#: appinfo/app.php:79
 msgid "App secret"
 msgstr ""
 
-#: appinfo/app.php:73 appinfo/app.php:111 appinfo/app.php:121
-#: appinfo/app.php:151
+#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
+#: appinfo/app.php:174
 msgid "Host"
 msgstr ""
 
-#: appinfo/app.php:74 appinfo/app.php:112 appinfo/app.php:132
-#: appinfo/app.php:142 appinfo/app.php:152
+#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
+#: appinfo/app.php:164 appinfo/app.php:175
 msgid "Username"
 msgstr ""
 
-#: appinfo/app.php:75 appinfo/app.php:113 appinfo/app.php:133
-#: appinfo/app.php:143 appinfo/app.php:153
+#: appinfo/app.php:91 appinfo/app.php:132 appinfo/app.php:154
+#: appinfo/app.php:165 appinfo/app.php:176
 msgid "Password"
 msgstr ""
 
-#: appinfo/app.php:76 appinfo/app.php:115 appinfo/app.php:124
-#: appinfo/app.php:134 appinfo/app.php:154
+#: appinfo/app.php:92 appinfo/app.php:134 appinfo/app.php:144
+#: appinfo/app.php:155 appinfo/app.php:177
 msgid "Root"
 msgstr ""
 
-#: appinfo/app.php:77
+#: appinfo/app.php:93
 msgid "Secure ftps://"
 msgstr ""
 
-#: appinfo/app.php:84
+#: appinfo/app.php:101
 msgid "Client ID"
 msgstr ""
 
-#: appinfo/app.php:85
+#: appinfo/app.php:102
 msgid "Client secret"
 msgstr ""
 
-#: appinfo/app.php:92
+#: appinfo/app.php:109
 msgid "OpenStack Object Storage"
 msgstr ""
 
-#: appinfo/app.php:94
+#: appinfo/app.php:112
 msgid "Username (required)"
 msgstr ""
 
-#: appinfo/app.php:95
+#: appinfo/app.php:113
 msgid "Bucket (required)"
 msgstr ""
 
-#: appinfo/app.php:96
+#: appinfo/app.php:114
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:97
+#: appinfo/app.php:115
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr ""
 
-#: appinfo/app.php:98
+#: appinfo/app.php:116
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:99
+#: appinfo/app.php:117
 msgid "Password (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:100
+#: appinfo/app.php:118
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:101
+#: appinfo/app.php:119
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:102
+#: appinfo/app.php:120
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr ""
 
-#: appinfo/app.php:114 appinfo/app.php:123
+#: appinfo/app.php:133 appinfo/app.php:143
 msgid "Share"
 msgstr ""
 
-#: appinfo/app.php:119
+#: appinfo/app.php:138
 msgid "SMB / CIFS using OC login"
 msgstr ""
 
-#: appinfo/app.php:122
+#: appinfo/app.php:142
 msgid "Username as share"
 msgstr ""
 
-#: appinfo/app.php:131 appinfo/app.php:141
+#: appinfo/app.php:152 appinfo/app.php:163
 msgid "URL"
 msgstr ""
 
-#: appinfo/app.php:135 appinfo/app.php:145
+#: appinfo/app.php:156 appinfo/app.php:167
 msgid "Secure https://"
 msgstr ""
 
-#: appinfo/app.php:144
+#: appinfo/app.php:166
 msgid "Remote subfolder"
 msgstr ""
 
@@ -197,37 +201,61 @@ msgstr ""
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
+#: js/mountsfilelist.js:34
+msgid "Personal"
+msgstr ""
+
+#: js/mountsfilelist.js:36
+msgid "System"
+msgstr ""
+
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
 msgstr ""
 
-#: lib/config.php:589
+#: lib/config.php:703
 msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:599
+#: lib/config.php:713
 msgid " and "
 msgstr ""
 
-#: lib/config.php:621
+#: lib/config.php:735
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:623
+#: lib/config.php:737
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:625
+#: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
+msgstr ""
+
+#: templates/list.php:7
+msgid "You don't have any external storages"
+msgstr ""
+
+#: templates/list.php:16
+msgid "Name"
+msgstr ""
+
+#: templates/list.php:20
+msgid "Storage type"
+msgstr ""
+
+#: templates/list.php:23
+msgid "Scope"
 msgstr ""
 
 #: templates/settings.php:2
@@ -236,10 +264,6 @@ msgstr ""
 
 #: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
-msgstr ""
-
-#: templates/settings.php:9
-msgid "External storage"
 msgstr ""
 
 #: templates/settings.php:10

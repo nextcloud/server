@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: lt_LT\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:90
 msgid "Expiration date is in the past."
 msgstr ""
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nepavyko nusiųsti el. pašto šiems naudotojams: %s "
@@ -72,79 +72,79 @@ msgstr "Nėra laikino profilio paveikslėlio, bandykite dar kartą"
 msgid "No crop data provided"
 msgstr "Nenurodyti apkirpimo duomenys"
 
-#: js/config.php:43
+#: js/config.php:45
 msgid "Sunday"
 msgstr "Sekmadienis"
 
-#: js/config.php:44
+#: js/config.php:46
 msgid "Monday"
 msgstr "Pirmadienis"
 
-#: js/config.php:45
+#: js/config.php:47
 msgid "Tuesday"
 msgstr "Antradienis"
 
-#: js/config.php:46
+#: js/config.php:48
 msgid "Wednesday"
 msgstr "Trečiadienis"
 
-#: js/config.php:47
+#: js/config.php:49
 msgid "Thursday"
 msgstr "Ketvirtadienis"
 
-#: js/config.php:48
+#: js/config.php:50
 msgid "Friday"
 msgstr "Penktadienis"
 
-#: js/config.php:49
+#: js/config.php:51
 msgid "Saturday"
 msgstr "Šeštadienis"
 
-#: js/config.php:54
+#: js/config.php:56
 msgid "January"
 msgstr "Sausis"
 
-#: js/config.php:55
+#: js/config.php:57
 msgid "February"
 msgstr "Vasaris"
 
-#: js/config.php:56
+#: js/config.php:58
 msgid "March"
 msgstr "Kovas"
 
-#: js/config.php:57
+#: js/config.php:59
 msgid "April"
 msgstr "Balandis"
 
-#: js/config.php:58
+#: js/config.php:60
 msgid "May"
 msgstr "Gegužė"
 
-#: js/config.php:59
+#: js/config.php:61
 msgid "June"
 msgstr "Birželis"
 
-#: js/config.php:60
+#: js/config.php:62
 msgid "July"
 msgstr "Liepa"
 
-#: js/config.php:61
+#: js/config.php:63
 msgid "August"
 msgstr "Rugpjūtis"
 
-#: js/config.php:62
+#: js/config.php:64
 msgid "September"
 msgstr "Rugsėjis"
 
-#: js/config.php:63
+#: js/config.php:65
 msgid "October"
 msgstr "Spalis"
 
-#: js/config.php:64
+#: js/config.php:66
 msgid "November"
 msgstr "Lapkritis"
 
-#: js/config.php:65
+#: js/config.php:67
 msgid "December"
 msgstr "Gruodis"
 
@@ -152,59 +152,75 @@ msgstr "Gruodis"
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:600
+#: js/js.js:590
+msgid "File"
+msgstr ""
+
+#: js/js.js:591
+msgid "Folder"
+msgstr ""
+
+#: js/js.js:592
+msgid "Image"
+msgstr ""
+
+#: js/js.js:593
+msgid "Audio"
+msgstr ""
+
+#: js/js.js:607
 msgid "Saving..."
 msgstr "Saugoma..."
 
-#: js/js.js:1210
+#: js/js.js:1271
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:1211
+#: js/js.js:1272
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " prieš %n minutę"
 msgstr[1] " prieš %n minučių"
 msgstr[2] " prieš %n minučių"
 
-#: js/js.js:1212
+#: js/js.js:1273
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "prieš %n valandą"
 msgstr[1] "prieš %n valandų"
 msgstr[2] "prieš %n valandų"
 
-#: js/js.js:1213
+#: js/js.js:1274
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:1214
+#: js/js.js:1275
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:1215
+#: js/js.js:1276
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "prieš %n dieną"
 msgstr[1] "prieš %n dienas"
 msgstr[2] "prieš %n dienų"
 
-#: js/js.js:1216
+#: js/js.js:1277
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:1217
+#: js/js.js:1278
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "prieš %n mėnesį"
 msgstr[1] "prieš %n mėnesius"
 msgstr[2] "prieš %n mėnesių"
 
-#: js/js.js:1218
+#: js/js.js:1279
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:1219
+#: js/js.js:1280
 msgid "years ago"
 msgstr "prieš metus"
 
@@ -317,12 +333,12 @@ msgstr ""
 msgid "Share"
 msgstr "Dalintis"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Klaida"
 
-#: js/share.js:273 js/share.js:980
+#: js/share.js:273 js/share.js:999
 msgid "Error while sharing"
 msgstr "Klaida, dalijimosi metu"
 
@@ -439,27 +455,27 @@ msgstr "ištrinti"
 msgid "share"
 msgstr "dalintis"
 
-#: js/share.js:898
+#: js/share.js:917
 msgid "Password protected"
 msgstr "Apsaugota slaptažodžiu"
 
-#: js/share.js:917
+#: js/share.js:936
 msgid "Error unsetting expiration date"
 msgstr "Klaida nuimant galiojimo laiką"
 
-#: js/share.js:938
+#: js/share.js:957
 msgid "Error setting expiration date"
 msgstr "Klaida nustatant galiojimo laiką"
 
-#: js/share.js:967
+#: js/share.js:986
 msgid "Sending ..."
 msgstr "Siunčiama..."
 
-#: js/share.js:978
+#: js/share.js:997
 msgid "Email sent"
 msgstr "Laiškas išsiųstas"
 
-#: js/share.js:1002
+#: js/share.js:1021
 msgid "Warning"
 msgstr "Įspėjimas"
 
@@ -596,7 +612,7 @@ msgstr "Asmeniniai"
 msgid "Users"
 msgstr "Vartotojai"
 
-#: strings.php:7 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Programos"
 

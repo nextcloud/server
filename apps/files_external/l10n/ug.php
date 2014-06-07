@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "سىرتقى ساقلىغۇچ",
 "Location" => "ئورنى",
 "Host" => "باش ئاپپارات",
 "Username" => "ئىشلەتكۈچى ئاتى",
@@ -7,7 +8,6 @@ $TRANSLATIONS = array(
 "Share" => "ھەمبەھىر",
 "URL" => "URL",
 "Folder name" => "قىسقۇچ ئاتى",
-"External storage" => "سىرتقى ساقلىغۇچ",
 "Configuration" => "سەپلىمە",
 "Options" => "تاللانما",
 "Groups" => "گۇرۇپپا",

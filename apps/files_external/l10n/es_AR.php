@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Almacenamiento externo",
 "Location" => "Ubicación",
 "Host" => "Servidor",
 "Username" => "Nombre de usuario",
@@ -14,7 +15,6 @@ $TRANSLATIONS = array(
 "Saved" => "Guardado",
 "External Storage" => "Almacenamiento externo",
 "Folder name" => "Nombre de la carpeta",
-"External storage" => "Almacenamiento externo",
 "Configuration" => "Configuración",
 "Options" => "Opciones",
 "Add storage" => "Añadir almacenamiento",

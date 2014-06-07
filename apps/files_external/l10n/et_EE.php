@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Väline andmehoidla",
 "Local" => "Kohalik",
 "Location" => "Asukoht",
 "Amazon S3" => "Amazon S3",
@@ -39,7 +40,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Märkus:</b> \"%s\" pole paigaldatud. Hoidla %s ühendamine pole võimalik. Palu oma süsteemihalduril paigaldata vajalik tugi.",
 "External Storage" => "Väline salvestuskoht",
 "Folder name" => "Kausta nimi",
-"External storage" => "Väline andmehoidla",
 "Configuration" => "Seadistamine",
 "Options" => "Valikud",
 "Available for" => "Saadaval",

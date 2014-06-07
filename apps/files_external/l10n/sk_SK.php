@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Externé úložisko",
 "Local" => "Lokálny",
 "Location" => "Umiestnenie",
 "Host" => "Hostiteľ",
@@ -20,7 +21,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Poznámka:</b> \"%s\" nie je nainštalovaná. Pripojenie %s nie je možné. Požiadajte správcu systému, aby ju nainštaloval.",
 "External Storage" => "Externé úložisko",
 "Folder name" => "Názov priečinka",
-"External storage" => "Externé úložisko",
 "Configuration" => "Nastavenia",
 "Options" => "Možnosti",
 "Available for" => "K dispozícii pre",

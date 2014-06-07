@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Jaettu kanssasi",
 "Shared with others" => "Jaettu muiden kanssa",
+"Shared by link" => "Jaettu linkin kautta",
 "No files have been shared with you yet." => "Kukaan ei ole jakanut tiedostoja kanssasi vielä.",
 "You haven't shared any files yet." => "Et ole jakanut yhtäkään tiedostoa vielä.",
+"You haven't shared any files by link yet." => "Et ole vielä jakanut yhtäkään tiedostoa linkin kautta.",
 "Could not load template" => "Mallipohjan lataaminen epäonnistui",
 "Saved" => "Tallennettu",
 "Reset" => "Nollaa salasana",

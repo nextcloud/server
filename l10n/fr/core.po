@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:88
+#: ajax/share.php:90
 msgid "Expiration date is in the past."
 msgstr "La date d'expiration est dans le passé."
 
-#: ajax/share.php:120 ajax/share.php:162
+#: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Impossible d'envoyer un mail aux utilisateurs suivant : %s"
@@ -51,7 +51,7 @@ msgstr "Base de données mise à jour"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Mise à jour du schéma de la base de données vérifiée"
 
 #: ajax/update.php:27
 #, php-format
@@ -78,79 +78,79 @@ msgstr "Aucune image temporaire disponible pour le profil. Essayez à nouveau."
 msgid "No crop data provided"
 msgstr "Aucune donnée de culture fournie"
 
-#: js/config.php:43
+#: js/config.php:45
 msgid "Sunday"
 msgstr "Dimanche"
 
-#: js/config.php:44
+#: js/config.php:46
 msgid "Monday"
 msgstr "Lundi"
 
-#: js/config.php:45
+#: js/config.php:47
 msgid "Tuesday"
 msgstr "Mardi"
 
-#: js/config.php:46
+#: js/config.php:48
 msgid "Wednesday"
 msgstr "Mercredi"
 
-#: js/config.php:47
+#: js/config.php:49
 msgid "Thursday"
 msgstr "Jeudi"
 
-#: js/config.php:48
+#: js/config.php:50
 msgid "Friday"
 msgstr "Vendredi"
 
-#: js/config.php:49
+#: js/config.php:51
 msgid "Saturday"
 msgstr "Samedi"
 
-#: js/config.php:54
+#: js/config.php:56
 msgid "January"
 msgstr "janvier"
 
-#: js/config.php:55
+#: js/config.php:57
 msgid "February"
 msgstr "février"
 
-#: js/config.php:56
+#: js/config.php:58
 msgid "March"
 msgstr "mars"
 
-#: js/config.php:57
+#: js/config.php:59
 msgid "April"
 msgstr "avril"
 
-#: js/config.php:58
+#: js/config.php:60
 msgid "May"
 msgstr "mai"
 
-#: js/config.php:59
+#: js/config.php:61
 msgid "June"
 msgstr "juin"
 
-#: js/config.php:60
+#: js/config.php:62
 msgid "July"
 msgstr "juillet"
 
-#: js/config.php:61
+#: js/config.php:63
 msgid "August"
 msgstr "août"
 
-#: js/config.php:62
+#: js/config.php:64
 msgid "September"
 msgstr "septembre"
 
-#: js/config.php:63
+#: js/config.php:65
 msgid "October"
 msgstr "octobre"
 
-#: js/config.php:64
+#: js/config.php:66
 msgid "November"
 msgstr "novembre"
 
-#: js/config.php:65
+#: js/config.php:67
 msgid "December"
 msgstr "décembre"
 
@@ -158,55 +158,71 @@ msgstr "décembre"
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:600
+#: js/js.js:590
+msgid "File"
+msgstr ""
+
+#: js/js.js:591
+msgid "Folder"
+msgstr ""
+
+#: js/js.js:592
+msgid "Image"
+msgstr ""
+
+#: js/js.js:593
+msgid "Audio"
+msgstr ""
+
+#: js/js.js:607
 msgid "Saving..."
 msgstr "Enregistrement..."
 
-#: js/js.js:1210
+#: js/js.js:1271
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: js/js.js:1211
+#: js/js.js:1272
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "il y a %n minute"
 msgstr[1] "il y a %n minutes"
 
-#: js/js.js:1212
+#: js/js.js:1273
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Il y a %n heure"
 msgstr[1] "Il y a %n heures"
 
-#: js/js.js:1213
+#: js/js.js:1274
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/js.js:1214
+#: js/js.js:1275
 msgid "yesterday"
 msgstr "hier"
 
-#: js/js.js:1215
+#: js/js.js:1276
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "il y a %n jour"
 msgstr[1] "il y a %n jours"
 
-#: js/js.js:1216
+#: js/js.js:1277
 msgid "last month"
 msgstr "le mois dernier"
 
-#: js/js.js:1217
+#: js/js.js:1278
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Il y a %n mois"
 msgstr[1] "Il y a %n mois"
 
-#: js/js.js:1218
+#: js/js.js:1279
 msgid "last year"
 msgstr "l'année dernière"
 
-#: js/js.js:1219
+#: js/js.js:1280
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
@@ -318,12 +334,12 @@ msgstr "Partagé avec {recipients}"
 msgid "Share"
 msgstr "Partager"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:917
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erreur"
 
-#: js/share.js:273 js/share.js:980
+#: js/share.js:273 js/share.js:999
 msgid "Error while sharing"
 msgstr "Erreur lors de la mise en partage"
 
@@ -440,27 +456,27 @@ msgstr "supprimer"
 msgid "share"
 msgstr "partager"
 
-#: js/share.js:898
+#: js/share.js:917
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
-#: js/share.js:917
+#: js/share.js:936
 msgid "Error unsetting expiration date"
 msgstr "Une erreur est survenue pendant la suppression de la date d'expiration"
 
-#: js/share.js:938
+#: js/share.js:957
 msgid "Error setting expiration date"
 msgstr "Erreur lors de la spécification de la date d'expiration"
 
-#: js/share.js:967
+#: js/share.js:986
 msgid "Sending ..."
 msgstr "En cours d'envoi ..."
 
-#: js/share.js:978
+#: js/share.js:997
 msgid "Email sent"
 msgstr "Email envoyé"
 
-#: js/share.js:1002
+#: js/share.js:1021
 msgid "Warning"
 msgstr "Attention"
 
@@ -597,7 +613,7 @@ msgstr "Personnel"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: strings.php:7 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
 msgid "Apps"
 msgstr "Applications"
 

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
 "Location" => "ទីតាំង",
 "Host" => "ម៉ាស៊ីន​ផ្ទុក",
 "Username" => "ឈ្មោះ​អ្នកប្រើ",
@@ -12,7 +13,6 @@ $TRANSLATIONS = array(
 "Saved" => "បាន​រក្សាទុក",
 "External Storage" => "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
 "Folder name" => "ឈ្មោះ​ថត",
-"External storage" => "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
 "Configuration" => "ការ​កំណត់​សណ្ឋាន",
 "Options" => "ជម្រើស",
 "Add storage" => "បន្ថែម​ឃ្លាំងផ្ទុក",

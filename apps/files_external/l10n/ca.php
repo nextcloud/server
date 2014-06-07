@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Emmagatzemament extern",
 "Local" => "Local",
 "Location" => "Ubicació",
 "Amazon S3" => "Amazon S3",
@@ -32,7 +33,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Nota:</b> %s no està instal·lat. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li.",
 "External Storage" => "Emmagatzemament extern",
 "Folder name" => "Nom de la carpeta",
-"External storage" => "Emmagatzemament extern",
 "Configuration" => "Configuració",
 "Options" => "Options",
 "Available for" => "Disponible per",

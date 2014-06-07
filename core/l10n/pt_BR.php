@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Turned on maintenance mode" => "Ativar modo de manutenção",
 "Turned off maintenance mode" => "Desligar o modo de manutenção",
 "Updated database" => "Atualizar o banco de dados",
+"Checked database schema update" => "Verificado atualização do esquema de banco de dados",
 "Disabled incompatible apps: %s" => "Desabilitar aplicativos incompatíveis : %s",
 "No image or file provided" => "Nenhuma imagem ou arquivo fornecido",
 "Unknown filetype" => "Tipo de arquivo desconhecido",

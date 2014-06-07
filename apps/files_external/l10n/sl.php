@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Zunanja shramba",
 "Local" => "Krajevno",
 "Location" => "Mesto",
 "Amazon S3" => "Amazon S3",
@@ -42,7 +43,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Opomba:</b> Program \"%s\" ni nameščen. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika.",
 "External Storage" => "Zunanja podatkovna shramba",
 "Folder name" => "Ime mape",
-"External storage" => "Zunanja shramba",
 "Configuration" => "Nastavitve",
 "Options" => "Možnosti",
 "Available for" => "Na voljo za",

@@ -1,5 +1,12 @@
 <?php
 $TRANSLATIONS = array(
+"Shared with you" => "Sdíleno s vámi",
+"Shared with others" => "Sdíleno s ostatními",
+"Shared by link" => "Sdíleno pomocí odkazu",
+"No files have been shared with you yet." => "Zatím s vámi nikdo žádné soubory nesdílel.",
+"You haven't shared any files yet." => "Zatím jste nesdíleli žádné soubory.",
+"You haven't shared any files by link yet." => "Zatím jste nesdíleli pomocí odkazu žádný soubor.",
+"Could not load template" => "Šablonu nelze nahrát",
 "Saved" => "Uloženo",
 "Reset" => "Restartovat složku",
 "Shared by {owner}" => "Sdílí {owner}",
@@ -17,6 +24,7 @@ $TRANSLATIONS = array(
 "Download" => "Stáhnout",
 "Download %s" => "Stáhnout %s",
 "Direct link" => "Přímý odkaz",
+"Template" => "Šablona",
 "Save" => "Uložit"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

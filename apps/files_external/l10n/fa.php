@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "حافظه خارجی",
 "Location" => "محل",
 "Host" => "میزبانی",
 "Username" => "نام کاربری",
@@ -13,7 +14,6 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "خطا به هنگام تنظیم فضای Google Drive",
 "External Storage" => "حافظه خارجی",
 "Folder name" => "نام پوشه",
-"External storage" => "حافظه خارجی",
 "Configuration" => "پیکربندی",
 "Options" => "تنظیمات",
 "Add storage" => "اضافه کردن حافظه",

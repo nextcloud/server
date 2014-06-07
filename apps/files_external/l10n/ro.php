@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Stocare externă",
 "Location" => "Locație",
 "Host" => "Gazdă",
 "Username" => "Nume utilizator",
@@ -14,7 +15,6 @@ $TRANSLATIONS = array(
 "Saved" => "Salvat",
 "External Storage" => "Stocare externă",
 "Folder name" => "Denumire director",
-"External storage" => "Stocare externă",
 "Configuration" => "Configurație",
 "Options" => "Opțiuni",
 "Add storage" => "Adauga stocare",

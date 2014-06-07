@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Eksternt lager",
 "Local" => "Lokal",
 "Location" => "Placering",
 "Amazon S3" => "Amazon S3",
@@ -27,7 +28,6 @@ $TRANSLATIONS = array(
 " and " => "og",
 "External Storage" => "Ekstern opbevaring",
 "Folder name" => "Mappenavn",
-"External storage" => "Eksternt lager",
 "Configuration" => "Opsætning",
 "Options" => "Valgmuligheder",
 "Available for" => "Tilgængelig for",

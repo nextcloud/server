@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Pošiljanje je spodletelo. Ni mogoče pridobiti podrobnosti datoteke.",
 "Invalid directory." => "Neveljavna mapa.",
 "Files" => "Datoteke",
+"All files" => "Vse datoteke",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Ni mogoče poslati datoteke {filename}, saj je to ali mapa ali pa je velikost datoteke 0 bajtov.",
 "Total file size {size1} exceeds upload limit {size2}" => "Skupna velikost {size1} presega omejitev velikosti {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Na voljo ni dovolj prostora. Velikost poslane datoteke je {size1}, na voljo pa je je {size2}.",
@@ -83,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "Prejmi",
 "Upload too large" => "Prekoračenje omejitve velikosti",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
-"Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ..."
+"Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
+"Currently scanning" => "Trenutno preverjam"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

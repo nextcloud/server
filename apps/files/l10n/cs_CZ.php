@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Nahrávání selhalo. Nepodařilo se získat informace o souboru.",
 "Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
+"All files" => "Všechny soubory",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Nelze nahrát soubor {filename}, protože je to buď adresář nebo má velikost 0 bytů",
 "Total file size {size1} exceeds upload limit {size2}" => "Celková velikost souboru {size1} překračuje povolenou velikost pro nahrávání {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Není dostatek místa pro uložení, velikost souboru je {size1}, zbývá pouze {size2}",
@@ -83,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "Stáhnout",
 "Upload too large" => "Odesílaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
-"Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte."
+"Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
+"Currently scanning" => "Prohledává se"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

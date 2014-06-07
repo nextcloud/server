@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Archiviazione esterna",
 "Local" => "Locale",
 "Location" => "Posizione",
 "Amazon S3" => "Amazon S3",
@@ -52,7 +53,6 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Nota:</b> \"%s\" non è installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo.",
 "External Storage" => "Archiviazione esterna",
 "Folder name" => "Nome della cartella",
-"External storage" => "Archiviazione esterna",
 "Configuration" => "Configurazione",
 "Options" => "Opzioni",
 "Available for" => "Disponibile per",

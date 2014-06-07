@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-05 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 05:54+0000\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:714
+#: base.php:678
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Sa kasutad serverit usalduseta asukohast"
 
-#: base.php:715
+#: base.php:679
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -61,7 +61,7 @@ msgstr "Kasutajad"
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:903
+#: private/app.php:918
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ebaõnnestunud uuendus \"%s\"."
@@ -149,18 +149,6 @@ msgstr "Kontrollkood aegus. Paelun lae leht uuesti."
 #: private/json.php:74
 msgid "Unknown user"
 msgstr "Tundmatu kasutaja"
-
-#: private/search/provider/file.php:18 private/search/provider/file.php:36
-msgid "Files"
-msgstr "Failid"
-
-#: private/search/provider/file.php:27 private/search/provider/file.php:34
-msgid "Text"
-msgstr "Tekst"
-
-#: private/search/provider/file.php:30
-msgid "Images"
-msgstr "Pildid"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
@@ -285,105 +273,105 @@ msgstr "%s jagamine ebaõnnestus, kuna faili pole olemas"
 msgid "You are not allowed to share %s"
 msgstr "Sul pole lubatud %s jagada"
 
-#: private/share/share.php:526
+#: private/share/share.php:531
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "%s jagamine ebaõnnestus, kuna kuna kasutaja %s on üksuse omanik"
 
-#: private/share/share.php:532
+#: private/share/share.php:537
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "%s jagamine ebaõnnestus, kuna kasutajat %s pole olemas"
 
-#: private/share/share.php:541
+#: private/share/share.php:546
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "%s jagamine ebaõnnestus, kuna kasutaja %s pole ühegi grupi liige, millede liige on %s"
 
-#: private/share/share.php:554 private/share/share.php:582
+#: private/share/share.php:559 private/share/share.php:587
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s"
 
-#: private/share/share.php:562
+#: private/share/share.php:567
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "%s jagamine ebaõnnestus, kuna gruppi %s pole olemas"
 
-#: private/share/share.php:569
+#: private/share/share.php:574
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "%s jagamine ebaõnnestus, kuna %s pole grupi %s liige"
 
-#: private/share/share.php:621
+#: private/share/share.php:627
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr ""
 
-#: private/share/share.php:641
+#: private/share/share.php:653
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "%s jagamine ebaõnnestus, kuna linkidega jagamine pole lubatud"
 
-#: private/share/share.php:648
+#: private/share/share.php:660
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Jagamise tüüp %s ei ole õige %s jaoks"
 
-#: private/share/share.php:787
+#: private/share/share.php:820
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Lubade seadistus %s jaoks ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi"
 
-#: private/share/share.php:848
+#: private/share/share.php:881
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Lubade seadistus %s jaoks ebaõnnestus, kuna üksust ei leitud"
 
-#: private/share/share.php:959
+#: private/share/share.php:1002
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Jagamise tagarakend %s peab kasutusele võtma OCP\\Share_Backend liidese"
 
-#: private/share/share.php:966
+#: private/share/share.php:1009
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Jagamise tagarakendit %s ei leitud"
 
-#: private/share/share.php:972
+#: private/share/share.php:1015
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Jagamise tagarakendit %s jaoks ei leitud"
 
-#: private/share/share.php:1388
+#: private/share/share.php:1431
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "%s jagamine ebaõnnestus, kuna kasutaja %s on algne jagaja"
 
-#: private/share/share.php:1397
+#: private/share/share.php:1440
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "%s jagamine ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi"
 
-#: private/share/share.php:1413
+#: private/share/share.php:1456
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "%s jagamine ebaõnnestus, kuna edasijagamine pole lubatud"
 
-#: private/share/share.php:1425
+#: private/share/share.php:1468
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "%s jagamine ebaõnnestus, kuna jagamise tagarakend ei suutnud leida %s jaoks lähteallikat"
 
-#: private/share/share.php:1439
+#: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

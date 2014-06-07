@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Ārējā krātuve",
 "Location" => "Vieta",
 "Host" => "Resursdators",
 "Username" => "Lietotājvārds",
@@ -13,7 +14,6 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "Kļūda, konfigurējot Google Drive krātuvi",
 "External Storage" => "Ārējā krātuve",
 "Folder name" => "Mapes nosaukums",
-"External storage" => "Ārējā krātuve",
 "Configuration" => "Konfigurācija",
 "Options" => "Opcijas",
 "Add storage" => "Pievienot krātuvi",

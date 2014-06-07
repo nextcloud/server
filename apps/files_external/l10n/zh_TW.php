@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "外部儲存",
 "Local" => "本地",
 "Location" => "地點",
 "Host" => "主機",
@@ -15,7 +16,6 @@ $TRANSLATIONS = array(
 "Saved" => "已儲存",
 "External Storage" => "外部儲存",
 "Folder name" => "資料夾名稱",
-"External storage" => "外部儲存",
 "Configuration" => "設定",
 "Options" => "選項",
 "Add storage" => "增加儲存區",

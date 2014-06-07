@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "Lưu trữ ngoài",
 "Location" => "Vị trí",
 "Host" => "Máy chủ",
 "Username" => "Tên đăng nhập",
@@ -13,7 +14,6 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "Lỗi cấu hình lưu trữ Google Drive",
 "External Storage" => "Lưu trữ ngoài",
 "Folder name" => "Tên thư mục",
-"External storage" => "Lưu trữ ngoài",
 "Configuration" => "Cấu hình",
 "Options" => "Tùy chọn",
 "Add storage" => "Thêm bộ nhớ",

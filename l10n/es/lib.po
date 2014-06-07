@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 17:31+0000\n"
-"Last-Translator: aramirez <aramirez@simonrodriguez.org.ve>\n"
+"POT-Creation-Date: 2014-06-07 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +28,11 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:677
+#: base.php:678
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Está accediendo al servidor desde un dominio inseguro."
 
-#: base.php:678
+#: base.php:679
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -159,18 +159,6 @@ msgstr "Token expirado. Por favor, recarga la página."
 msgid "Unknown user"
 msgstr "Usuario desconocido"
 
-#: private/search/provider/file.php:18 private/search/provider/file.php:36
-msgid "Files"
-msgstr "Archivos"
-
-#: private/search/provider/file.php:27 private/search/provider/file.php:34
-msgid "Text"
-msgstr "Texto"
-
-#: private/search/provider/file.php:30
-msgid "Images"
-msgstr "Imágenes"
-
 #: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
@@ -294,105 +282,105 @@ msgstr "No se pudo compartir %s porque el archivo no existe"
 msgid "You are not allowed to share %s"
 msgstr "Usted no está autorizado para compartir %s"
 
-#: private/share/share.php:526
+#: private/share/share.php:531
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr "Compartiendo %s ha fallado, ya que el usuario %s es el dueño del elemento"
 
-#: private/share/share.php:532
+#: private/share/share.php:537
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr "Compartiendo %s ha fallado, ya que el usuario %s no existe"
 
-#: private/share/share.php:541
+#: private/share/share.php:546
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
 msgstr "Compartiendo %s ha fallado, ya que el usuario %s no es miembro de algún grupo que %s es miembro"
 
-#: private/share/share.php:554 private/share/share.php:582
+#: private/share/share.php:559 private/share/share.php:587
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr "Compartiendo %s ha fallado, ya que este elemento ya está compartido con %s"
 
-#: private/share/share.php:562
+#: private/share/share.php:567
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr "Compartiendo %s ha fallado, ya que el grupo %s no existe"
 
-#: private/share/share.php:569
+#: private/share/share.php:574
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Compartiendo %s ha fallado, ya que %s no es miembro del grupo %s"
 
-#: private/share/share.php:621
+#: private/share/share.php:627
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr "Es necesario definir una contraseña para crear un enlace publico. Solo los enlaces protegidos están permitidos"
 
-#: private/share/share.php:641
+#: private/share/share.php:653
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Compartiendo %s ha fallado, ya que compartir con enlaces no está permitido"
 
-#: private/share/share.php:648
+#: private/share/share.php:660
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Compartir tipo %s no es válido para %s"
 
-#: private/share/share.php:787
+#: private/share/share.php:820
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Configuración de permisos para %s ha fallado, ya que los permisos superan los permisos dados a %s"
 
-#: private/share/share.php:848
+#: private/share/share.php:881
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Configuración de permisos para %s ha fallado, ya que el elemento no fue encontrado"
 
-#: private/share/share.php:959
+#: private/share/share.php:1002
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "El motor compartido %s debe implementar la interfaz OCP\\Share_Backend"
 
-#: private/share/share.php:966
+#: private/share/share.php:1009
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "El motor compartido %s no se ha encontrado"
 
-#: private/share/share.php:972
+#: private/share/share.php:1015
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Motor compartido para %s no encontrado"
 
-#: private/share/share.php:1388
+#: private/share/share.php:1431
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Compartiendo %s ha fallado, ya que el usuario %s es el compartidor original"
 
-#: private/share/share.php:1397
+#: private/share/share.php:1440
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Compartiendo %s ha fallado, ya que los permisos superan los permisos otorgados a %s"
 
-#: private/share/share.php:1413
+#: private/share/share.php:1456
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Compartiendo %s ha fallado, ya que volver a compartir no está permitido"
 
-#: private/share/share.php:1425
+#: private/share/share.php:1468
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Compartir %s falló porque el motor compartido para %s podría no encontrar su origen"
 
-#: private/share/share.php:1439
+#: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

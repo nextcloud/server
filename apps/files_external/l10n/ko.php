@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "외부 저장소",
 "Location" => "장소",
 "Amazon S3" => "Amazon S3",
 "Host" => "호스트",
@@ -15,7 +16,6 @@ $TRANSLATIONS = array(
 "Saved" => "저장됨",
 "External Storage" => "외부 저장소",
 "Folder name" => "폴더 이름",
-"External storage" => "외부 저장소",
 "Configuration" => "설정",
 "Options" => "옵션",
 "Add storage" => "저장소 추가",

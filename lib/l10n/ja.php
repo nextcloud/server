@@ -29,9 +29,6 @@ $TRANSLATIONS = array(
 "Authentication error" => "認証エラー",
 "Token expired. Please reload page." => "トークンが無効になりました。ページを再読込してください。",
 "Unknown user" => "不明なユーザー",
-"Files" => "ファイル",
-"Text" => "TTY TDD",
-"Images" => "画像",
 "%s enter the database username." => "%s のデータベースのユーザー名を入力してください。",
 "%s enter the database name." => "%s のデータベース名を入力してください。",
 "%s you may not use dots in the database name" => "%s ではデータベース名にドットを利用できないかもしれません。",
@@ -54,6 +51,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>インストールガイド</a>をよく確認してください。",
 "%s shared »%s« with you" => "%sが あなたと »%s«を共有しました",
 "Sharing %s failed, because the file does not exist" => "%s の共有に失敗しました。そのようなファイルは存在しないからです。",
+"You are not allowed to share %s" => "%s を共有することを許可されていません。",
 "Sharing %s failed, because the user %s is the item owner" => "%s の共有に失敗しました。ユーザー %s がアイテム所有者です。",
 "Sharing %s failed, because the user %s does not exist" => "%s の共有に失敗しました。ユーザー %s が存在しません。",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "%s の共有に失敗しました。ユーザー %s はどのグループにも属していません。%s は、??のメンバーです。",
@@ -87,6 +85,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "ユーザー名で利用できる文字列は、次のものです： \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "有効なユーザー名を指定する必要があります",
 "A valid password must be provided" => "有効なパスワードを指定する必要があります",
-"The username is already being used" => "ユーザー名はすでに使われています"
+"The username is already being used" => "ユーザー名はすでに使われています",
+"Could not obtain lock type %d on \"%s\"." => "\"%s\" で %d タイプのロックを取得できませんでした。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

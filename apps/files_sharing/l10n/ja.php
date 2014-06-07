@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "あなたと共有",
 "Shared with others" => "他人と共有",
+"Shared by link" => "URLリンクで共有済",
 "No files have been shared with you yet." => "まだ共有を行なっているファイルはありません。",
 "You haven't shared any files yet." => "まだ共有を行なっているファイルはありません。",
+"You haven't shared any files by link yet." => "まだURLリンクで共有を行なっているファイルはありません。",
 "Could not load template" => "テンプレートを読み出せませんでした",
 "Saved" => "保存されました",
 "Reset" => "リセット",

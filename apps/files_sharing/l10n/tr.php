@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Sizinle paylaşılmış",
 "Shared with others" => "Diğerleri ile paylaşılmış",
+"Shared by link" => "Bağlantı ile paylaşılmış",
 "No files have been shared with you yet." => "Henüz sizinle paylaşılan bir dosya yok.",
 "You haven't shared any files yet." => "Henüz hiçbir dosya paylaşmadınız.",
+"You haven't shared any files by link yet." => "Bağlantı ile henüz hiçbir dosya paylaşmadınız.",
 "Could not load template" => "Şablon yüklenemedi",
 "Saved" => "Kaydedildi",
 "Reset" => "Sıfırla",

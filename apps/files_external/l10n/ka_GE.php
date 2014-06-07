@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"External storage" => "ექსტერნალ საცავი",
 "Location" => "ადგილმდებარეობა",
 "Host" => "ჰოსტი",
 "Username" => "მომხმარებლის სახელი",
@@ -13,7 +14,6 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "შეცდომა Google Drive საცავის კონფიგურირების დროს",
 "External Storage" => "ექსტერნალ საცავი",
 "Folder name" => "ფოლდერის სახელი",
-"External storage" => "ექსტერნალ საცავი",
 "Configuration" => "კონფიგურაცია",
 "Options" => "ოფცია",
 "Add storage" => "საცავის დამატება",
