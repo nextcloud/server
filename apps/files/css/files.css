@@ -286,12 +286,48 @@ table td.filename .nametext {
 }
 
 table td.filename .nametext span:not(.extension) {
-	max-width: 300px;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	position: relative;
 	display: inline-block;
 }
+
+@media only screen and (min-width: 1366px) {
+	table td.filename .nametext span:not(.extension) {
+		max-width: 650px;
+	}
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1366px) {
+	table td.filename .nametext span:not(.extension) {
+		max-width: 450px;
+	}
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1200px) {
+	table td.filename .nametext span:not(.extension) {
+		max-width: 270px;
+	}
+}
+
+@media only screen and (min-width: 900px) and (max-width: 1000px) {
+	table td.filename .nametext span:not(.extension) {
+		max-width: 210px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 900px) {
+	table td.filename .nametext span:not(.extension) {
+		max-width: 200px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	table td.filename .nametext span:not(.extension) {
+		max-width: 400px;
+	}
+}
+
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
 table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
