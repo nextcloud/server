@@ -140,9 +140,7 @@ span.extension {
 	-moz-transition: opacity 300ms;
 	-o-transition: opacity 300ms;
 	transition: opacity 300ms;
-	position: relative;
-	top:-5px;
-	left:-2px;
+	vertical-align: top;
 }
 tr:hover span.extension {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
