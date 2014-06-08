@@ -5,6 +5,8 @@ $TRANSLATIONS = array(
 "Password" => "پاسورڈ",
 "Share" => "تقسیم",
 "URL" => "یو ار ایل",
+"Personal" => "شخصی",
+"Name" => "اسم",
 "Users" => "یوزرز",
 "Delete" => "حذف کریں"
 );

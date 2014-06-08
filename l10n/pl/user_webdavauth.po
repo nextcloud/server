@@ -5,14 +5,15 @@
 # Translators:
 # Bartek Krawczyk <bbartlomiej@gmail.com>, 2013
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013
+# Maciej Przybecki <maciej.przybecki@gmail.com>, 2014
 # Marcin Małecki <gerber@tkdami.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 07:20+0000\n"
+"Last-Translator: Maciej Przybecki <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr "Uwierzytelnienie WebDAV"
 
 #: templates/settings.php:3
 msgid "Address:"
-msgstr ""
+msgstr "Adres:"
 
 #: templates/settings.php:5
 msgid "Save"

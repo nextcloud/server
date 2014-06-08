@@ -86,6 +86,6 @@ $TRANSLATIONS = array(
 "A valid username must be provided" => "Geçerli bir kullanıcı adı mutlaka sağlanmalı",
 "A valid password must be provided" => "Geçerli bir parola mutlaka sağlanmalı",
 "The username is already being used" => "Bu kullanıcı adı zaten kullanımda",
-"Could not obtain lock type %d on \"%s\"." => "\"%s\" üzerinde %d kilit türü edinilemedi."
+"Could not obtain lock type %d on \"%s\"." => "\"%s\" üzerinde %d kilit türü alınamadı."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

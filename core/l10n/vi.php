@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "November" => "Tháng 11",
 "December" => "Tháng 12",
 "Settings" => "Cài đặt",
+"Folder" => "Thư mục",
 "Saving..." => "Đang lưu...",
 "seconds ago" => "vài giây trước",
 "_%n minute ago_::_%n minutes ago_" => array("%n phút trước"),

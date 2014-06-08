@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 16:40+0000\n"
+"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "Κάδος"
 
 #: appinfo/app.php:60
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 και συμμορφούμενα"
 
 #: appinfo/app.php:63
 msgid "Access Key"
@@ -144,7 +144,7 @@ msgstr "Κλειδί API (απαιτείται για αρχεία Rackspace Clo
 
 #: appinfo/app.php:116
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Όνομα ενοίκου (απαιτείται για την Αποθήκευση Αντικειμένων OpenStack)"
 
 #: appinfo/app.php:117
 msgid "Password (required for OpenStack Object Storage)"
@@ -208,11 +208,11 @@ msgstr "Σφάλμα ρυθμίζωντας αποθήκευση Google Drive "
 
 #: js/mountsfilelist.js:34
 msgid "Personal"
-msgstr ""
+msgstr "Προσωπικά"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "Σύστημα"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
@@ -249,19 +249,19 @@ msgstr "<b>Σημείωση:</b> Η επέκταση \"%s\" δεν είναι ε
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Δεν έχετε κανέναν εξωτερικό αποθηκευτικό χώρο"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Όνομα"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Τύπος αποθηκευτικού χώρου"
 
 #: templates/list.php:23
 msgid "Scope"
-msgstr ""
+msgstr "Εύρος"
 
 #: templates/settings.php:2
 msgid "External Storage"

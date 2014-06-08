@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"You are accessing the server from an untrusted domain." => "Olet yhteydessä palvelimeen epäluotettavasta verkko-osoitteesta.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Ota yhteys ylläpitäjään. Jos olet tämän ownCloudin ylläpitäjä, määritä \"trusted_domain\"-asetus tiedostossa config/config.php. Esimerkkimääritys on nähtävillä tiedostossa config/config.sample.php.",
 "App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Sovellusta \"%s\" ei voi asentaa, koska se ei ole yhteensopiva käytössä olevan ownCloud-version kanssa.",
 "No app name specified" => "Sovelluksen nimeä ei määritelty",
 "Help" => "Ohje",

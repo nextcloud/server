@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Usunięcie nie powiodło się",
 "Take over settings from recent server configuration?" => "Przejmij ustawienia z ostatnich konfiguracji serwera?",
 "Keep settings?" => "Zachować ustawienia?",
+"{nthServer}. Server" => "{nthServer}. Serwer",
 "Cannot add server configuration" => "Nie można dodać konfiguracji serwera",
 "mappings cleared" => "Mapoanie wyczyszczone",
 "Success" => "Sukces",

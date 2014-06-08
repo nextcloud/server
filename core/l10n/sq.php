@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "November" => "Nëntor",
 "December" => "Dhjetor",
 "Settings" => "Parametra",
+"Folder" => "Dosje",
 "Saving..." => "Duke ruajtur...",
 "seconds ago" => "sekonda më parë",
 "_%n minute ago_::_%n minutes ago_" => array("%n minut më parë","%n minuta më parë"),

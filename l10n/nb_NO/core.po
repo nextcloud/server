@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 08:10+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +44,7 @@ msgstr "Oppdaterte databasen"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Sjekket oppdatering av databaseskjema"
 
 #: ajax/update.php:27
 #, php-format
@@ -153,19 +153,19 @@ msgstr "Innstillinger"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: js/js.js:591
 msgid "Folder"
-msgstr ""
+msgstr "Mappe"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Bilde"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -321,7 +321,7 @@ msgstr "Delt av {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Delt med {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -391,7 +391,7 @@ msgstr "Send"
 
 #: js/share.js:365
 msgid "Set expiration date"
-msgstr "Set utløpsdato"
+msgstr "Sett utløpsdato"
 
 #: js/share.js:366
 msgid "Expiration date"
@@ -736,7 +736,7 @@ msgstr "Konfigurer databasen"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Kun %s er tilgjengelig."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -762,7 +762,7 @@ msgstr "Databasevert"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "SQLite vil bli brukt som database. For større installasjoner anbefaler vi å endre dette."
 
 #: templates/installation.php:159
 msgid "Finish setup"

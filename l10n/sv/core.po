@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -158,15 +158,15 @@ msgstr "Inställningar"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "Fil"
 
 #: js/js.js:591
 msgid "Folder"
-msgstr ""
+msgstr "Mapp"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Bild"
 
 #: js/js.js:593
 msgid "Audio"

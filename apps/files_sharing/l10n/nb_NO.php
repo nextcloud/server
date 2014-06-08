@@ -2,8 +2,11 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Delt med deg",
 "Shared with others" => "Delt med andre",
+"Shared by link" => "Delt med lenke",
 "No files have been shared with you yet." => "Ingen filer er delt med deg ennå.",
 "You haven't shared any files yet." => "Du har ikke delt noen filer ennå.",
+"You haven't shared any files by link yet." => "Du har ikke delt noen filer med lenke ennå.",
+"Could not load template" => "Klarte ikke å laste mal",
 "Saved" => "Lagret",
 "Reset" => "Nullstill",
 "Shared by {owner}" => "Delt av {owner}",
@@ -22,6 +25,9 @@ $TRANSLATIONS = array(
 "Download" => "Last ned",
 "Download %s" => "Last ned %s",
 "Direct link" => "Direkte lenke",
+"Mail templates" => "Epost-maler",
+"Theme" => "Tema",
+"Template" => "Mal",
 "Save" => "Lagre"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

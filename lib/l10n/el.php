@@ -85,6 +85,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Μόνο οι παρακάτων χαρακτήρες επιτρέπονται σε ένα όνομα χρήστη: \"a-z\", \"A-Z\", \"0-9\" και \"_.@-\"",
 "A valid username must be provided" => "Πρέπει να δοθεί έγκυρο όνομα χρήστη",
 "A valid password must be provided" => "Πρέπει να δοθεί έγκυρο συνθηματικό",
-"The username is already being used" => "Το όνομα χρήστη είναι κατειλημμένο"
+"The username is already being used" => "Το όνομα χρήστη είναι κατειλημμένο",
+"Could not obtain lock type %d on \"%s\"." => "Αδυναμία ανάκτησης τύπου κλειδιού %d στο \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

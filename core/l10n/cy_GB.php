@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "Tachwedd",
 "December" => "Rhagfyr",
 "Settings" => "Gosodiadau",
+"Folder" => "Plygell",
 "Saving..." => "Yn cadw...",
 "seconds ago" => "eiliad yn ôl",
 "_%n minute ago_::_%n minutes ago_" => array("","","",""),

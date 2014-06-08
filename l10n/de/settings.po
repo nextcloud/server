@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 11:50+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -556,7 +556,7 @@ msgstr "Erlaubt Apps die Nutzung der Share-API"
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Erlaube Nutzern, mithilfe von Links zu teilen"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
@@ -588,7 +588,7 @@ msgstr "Erlaubt erneutes Teilen"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "c"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"

@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Mit Ihnen geteilt",
 "Shared with others" => "Von Ihnen geteilt",
+"Shared by link" => "Geteilt über einen Link",
 "No files have been shared with you yet." => "Es wurden bis jetzt keine Dateien mit Ihnen geteilt.",
 "You haven't shared any files yet." => "Sie haben bis jetzt keine Dateien mit anderen geteilt.",
+"You haven't shared any files by link yet." => "Sie haben bis jetzt keine Dateien über einen Link mit anderen geteilt.",
 "Could not load template" => "Vorlage kann nicht geladen werden",
 "Saved" => "Gespeichert",
 "Reset" => "Zurücksetzen",

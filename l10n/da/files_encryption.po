@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Sappe, 2013-2014
-# claus_chr <claus_chr@webspeed.dk>, 2013
-# lodahl <leiflodahl@gmail.com>, 2013
+# Anders J. Sørensen, 2013-2014
+# Claus Christensen <claus_chr@webspeed.dk>, 2013
+# Leif Lodahl <leiflodahl@gmail.com>, 2013
+# Ole Holm Frandsen <froksen@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 11:30+0000\n"
+"Last-Translator: Ole Holm Frandsen <froksen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,20 +82,20 @@ msgstr "Kan ikke kryptere denne fil, sandsynligvis fordi felen er delt. Bed venl
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Ukendt fejl. Venligst tjek dine systemindstillinger eller kontakt din systemadministrator"
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "Manglende betingelser."
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Sørg for at PHP 5.3.3 eller nyere er installeret og at OpenSSL sammen med PHP-udvidelsen er aktiveret og korrekt konfigureret. Indtil videre er krypteringsprogrammet deaktiveret."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "Følgende brugere er ikke sat op til kryptering:"
 

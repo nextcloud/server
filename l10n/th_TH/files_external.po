@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -203,7 +203,7 @@ msgstr "เกิดข้อผิดพลาดในการกำหนด
 
 #: js/mountsfilelist.js:34
 msgid "Personal"
-msgstr ""
+msgstr "ส่วนตัว"
 
 #: js/mountsfilelist.js:36
 msgid "System"
@@ -248,7 +248,7 @@ msgstr ""
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "ชื่อ"
 
 #: templates/list.php:20
 msgid "Storage type"

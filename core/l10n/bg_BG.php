@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "Ноември",
 "December" => "Декември",
 "Settings" => "Настройки",
+"Folder" => "Папка",
 "Saving..." => "Записване...",
 "seconds ago" => "преди секунди",
 "_%n minute ago_::_%n minutes ago_" => array("",""),

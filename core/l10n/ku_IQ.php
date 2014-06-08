@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Settings" => "ده‌ستكاری",
+"Folder" => "بوخچه",
 "Saving..." => "پاشکه‌وتده‌کات...",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Gabilondo <alexgabi@openmailbox.org>, 2014
 # asieriko <asieriko@gmail.com>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 12:20+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +91,7 @@ msgstr ""
 #: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
 #: appinfo/app.php:174
 msgid "Host"
-msgstr "Hostalaria"
+msgstr "Ostalaria"
 
 #: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
 #: appinfo/app.php:164 appinfo/app.php:175
@@ -201,11 +202,11 @@ msgstr "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua"
 
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
-msgstr "Errore bat egon da Google Drive biltegiratzea konfiguratzean"
+msgstr "Errore bat egon da Google Drive konfiguratzean"
 
 #: js/mountsfilelist.js:34
 msgid "Personal"
-msgstr ""
+msgstr "Pertsonala"
 
 #: js/mountsfilelist.js:36
 msgid "System"
@@ -228,7 +229,7 @@ msgstr "eta"
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Oharra:</b> :PHPko cURL euskarria ez dago instalatuta edo gaitua. Ezinezko da %s muntatzea. Mesedez eskatu sistema administratzaleari instala dezan. "
 
 #: lib/config.php:737
 #, php-format
@@ -250,7 +251,7 @@ msgstr ""
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Izena"
 
 #: templates/list.php:20
 msgid "Storage type"
@@ -262,7 +263,7 @@ msgstr ""
 
 #: templates/settings.php:2
 msgid "External Storage"
-msgstr "Kanpoko Biltegiratzea"
+msgstr "Kanpoko biltegiratzea"
 
 #: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
@@ -278,7 +279,7 @@ msgstr "Aukerak"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "Hauentzat eskuragarri"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -307,7 +308,7 @@ msgstr "Ezabatu"
 
 #: templates/settings.php:132
 msgid "Enable User External Storage"
-msgstr "Gaitu erabiltzaileentzako Kanpo Biltegiratzea"
+msgstr "Gaitu erabiltzaileentzako kanpo biltegiratzea"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
@@ -319,4 +320,4 @@ msgstr "SSL erro ziurtagiriak"
 
 #: templates/settings.php:168
 msgid "Import Root Certificate"
-msgstr "Inportatu Erro Ziurtagiria"
+msgstr "Inportatu erro ziurtagiria"

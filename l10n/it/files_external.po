@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 07:10+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -207,11 +207,11 @@ msgstr "Errore durante la configurazione dell'archivio Google Drive"
 
 #: js/mountsfilelist.js:34
 msgid "Personal"
-msgstr ""
+msgstr "Personale"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
@@ -248,19 +248,19 @@ msgstr "<b>Nota:</b> \"%s\" non è installato. Impossibile montare %s. Chiedi al
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Non è disponibile alcuna archiviazione esterna"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Tipo di archiviazione"
 
 #: templates/list.php:23
 msgid "Scope"
-msgstr ""
+msgstr "Ambito"
 
 #: templates/settings.php:2
 msgid "External Storage"

@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
-# plazmism <gomidori@live.jp>, 2013
+# タカハシ <gomidori@live.jp>, 2013
 # kuromabo <md81bird@hitaki.net>, 2014
-# tt yn <tetuyano+transi@gmail.com>, 2013
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-01 01:54-0400\n"
-"PO-Revision-Date: 2014-05-31 06:12+0000\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "復元"
 msgid "Error"
 msgstr "エラー"
 
-#: lib/trashbin.php:861 lib/trashbin.php:863
+#: lib/trashbin.php:857 lib/trashbin.php:859
 msgid "restored"
 msgstr "復元済"
 

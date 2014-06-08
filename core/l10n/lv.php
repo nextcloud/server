@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "Novembris",
 "December" => "Decembris",
 "Settings" => "Iestatījumi",
+"Folder" => "Mape",
 "Saving..." => "Saglabā...",
 "seconds ago" => "sekundes atpakaļ",
 "_%n minute ago_::_%n minutes ago_" => array("Tagad, %n minūtes","Pirms %n minūtes","Pirms %n minūtēm"),

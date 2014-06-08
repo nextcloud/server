@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "November" => "November",
 "December" => "Desember",
 "Settings" => "Innstillingar",
+"Folder" => "Mappe",
 "Saving..." => "Lagrar …",
 "seconds ago" => "sekund sidan",
 "_%n minute ago_::_%n minutes ago_" => array("%n minutt sidan","%n minutt sidan"),

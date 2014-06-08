@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "November" => "十一月",
 "December" => "十二月",
 "Settings" => "設定",
+"Folder" => "資料夾",
 "Saving..." => "儲存中...",
 "seconds ago" => "幾秒前",
 "_%n minute ago_::_%n minutes ago_" => array("%n 分鐘前"),

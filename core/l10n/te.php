@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "November" => "నవంబర్",
 "December" => "డిసెంబర్",
 "Settings" => "అమరికలు",
+"Folder" => "సంచయం",
 "seconds ago" => "క్షణాల క్రితం",
 "_%n minute ago_::_%n minutes ago_" => array("%n నిమిషం క్రితం","%n నిమిషాల క్రితం"),
 "_%n hour ago_::_%n hours ago_" => array("%n గంట క్రితం","%n గంటల క్రితం"),

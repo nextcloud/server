@@ -84,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "Λήψη",
 "Upload too large" => "Πολύ μεγάλο αρχείο προς αποστολή",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
-"Files are being scanned, please wait." => "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε."
+"Files are being scanned, please wait." => "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε.",
+"Currently scanning" => "Σάρωση σε εξέλιξη"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

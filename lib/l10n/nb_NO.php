@@ -85,6 +85,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Bare disse tegnene tillates i et brukernavn: \"a-z\", \"A-Z\", \"0-9\" og \"_.@-\"",
 "A valid username must be provided" => "Oppgi et gyldig brukernavn",
 "A valid password must be provided" => "Oppgi et gyldig passord",
-"The username is already being used" => "Brukernavnet er allerede i bruk"
+"The username is already being used" => "Brukernavnet er allerede i bruk",
+"Could not obtain lock type %d on \"%s\"." => "Klarte ikke å låse med type %d på \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# beth borin <borovin38@gmail.com>, 2014
 # Sovichet Tep, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-05 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 08:20+0000\n"
+"Last-Translator: beth borin <borovin38@gmail.com>\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -325,7 +326,7 @@ msgstr ""
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
-msgstr ""
+msgstr "ត្រឡប់ក្រោយ"
 
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"

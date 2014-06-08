@@ -2,8 +2,11 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Współdzielony z Tobą",
 "Shared with others" => "Współdzielony z innymi",
+"Shared by link" => "Współdzielony linkiem",
 "No files have been shared with you yet." => "Nie ma jeszcze żadnych plików współdzielonych z Tobą",
 "You haven't shared any files yet." => "Nie współdzielisz jeszcze żadnych plików.",
+"You haven't shared any files by link yet." => "Nie współdzielisz jeszcze żadnych plików linkiem",
+"Could not load template" => "Nie można załadować szablonu",
 "Saved" => "Zapisano",
 "Reset" => "Resetuj",
 "Shared by {owner}" => "Udostępnione przez {owner}",
@@ -22,6 +25,9 @@ $TRANSLATIONS = array(
 "Download" => "Pobierz",
 "Download %s" => "Pobierz %s",
 "Direct link" => "Bezpośredni link",
+"Mail templates" => "Szablony maili",
+"Theme" => "Motyw",
+"Template" => "Szablon",
 "Save" => "Zapisz"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

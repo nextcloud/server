@@ -9,16 +9,16 @@
 # Spyros Melissovas <peppe@cs.uoi.gr>, 2014
 # Theodore Grammenos <theodorewii121@hotmail.com>, 2013
 # Theodore Grammenos <theodorewii121@hotmail.com>, 2013
-# Vassilis Kehayas <vkehayas@gmail.com>, 2013
+# Vassilis Kehayas <vkehayas@gmail.com>, 2013-2014
 # Αικατερίνη Χ. Καταπόδη <spanish.katerina@gmail.com>, 2013
 # Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 17:00+0000\n"
+"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -300,7 +300,7 @@ msgstr "Σφάλμα δημιουργίας ομάδας"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Πρέπει να δοθεί ένα έγκυρο όνομα ομάδας"
 
 #: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
@@ -437,24 +437,24 @@ msgstr "Ελέγξτε ξανά τις <a href=\"%s\">οδηγίες εγκατ�
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "Ο PHP φαίνεται να είναι ρυθμισμένος ώστε να αφαιρεί μπλοκ εσωτερικών κειμένων (inline doc). Αυτό θα καταστήσει κύριες εφαρμογές μη-διαθέσιμες."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Αυτό πιθανόν προκλήθηκε από προσωρινή μνήμη (cache)/επιταχυντή όπως τη Zend OPcache ή τον eAccelerator."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Πληροφορίες Επίδοσης Βάσης Δεδομένων"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Ως βάση δεδομένων χρησιμοποιείται η SQLite. Για μεγαλύτερες εγκαταστάσεις συνιστούμε να την αλλάξετε. Για να μετακινηθείτε σε μια άλλη βάση δεδομένων χρησιμοποιείστε το εργαλείο γραμμής εντολών: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -555,7 +555,7 @@ msgstr "Επιτρέπει την χρήση του API διαμοιρασμού
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μέσω συνδέσμου"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
@@ -587,7 +587,7 @@ msgstr "Επιτρέπεται ο επαναδιαμοιρασμός"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Να επιτρέπεται σε χρήστες ο διαμοιρασμός μόνο με χρήστες που ανήκουν στις ομάδες τους"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
@@ -912,7 +912,7 @@ msgstr "Ομάδα"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Όλοι"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
@@ -944,7 +944,7 @@ msgstr "Σύνολο Χώρου"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Τοποθεσία αποθηκευτικού χώρου"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"

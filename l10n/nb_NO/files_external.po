@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-08 01:54-0400\n"
+"PO-Revision-Date: 2014-06-07 08:10+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokm√•l (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -206,11 +206,11 @@ msgstr "Feil med konfigurering av Google Drive"
 
 #: js/mountsfilelist.js:34
 msgid "Personal"
-msgstr ""
+msgstr "Personlig"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
@@ -247,19 +247,19 @@ msgstr "<b>NB:</b> \"%s\" er ikke installert. Montering av %s er ikke mulig. Sp√
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Du har ingen eksterne lagre"
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Lagringstype"
 
 #: templates/list.php:23
 msgid "Scope"
-msgstr ""
+msgstr "Omfang"
 
 #: templates/settings.php:2
 msgid "External Storage"
