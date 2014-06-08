@@ -406,6 +406,8 @@ class OC_Helper {
 	static function rmdirr($dir) {
 		if (is_dir($dir)) {
 			$files = scandir($dir);
+			// FIXME: use flat array instead of recursion to avoid
+			// too many levels
 			foreach ($files as $file) {
 				if ($file !== '' && $file !== "." && $file !== "..") {
 					self::rmdirr("$dir/$file");
