@@ -95,7 +95,7 @@ class Shared_Cache extends Cache {
 				}
 				$data['uid_owner'] = $this->storage->getOwner($file);
 				if (isset($data['permissions'])) {
-					$data['permissions'] = $data['permissions'] & $this->storage->getPermissions('');
+					$data['permissions'] &= $this->storage->getPermissions('');
 				} else {
 					$data['permissions'] = $this->storage->getPermissions('');
 				}
@@ -135,7 +135,7 @@ class Shared_Cache extends Cache {
 				$data['name'] = basename($this->storage->getMountPoint());
 				$data['is_share_mount_point'] = true;
 			}
-			$data['permissions'] = $data['permissions'] & $this->storage->getPermissions('');
+			$data['permissions'] &= $this->storage->getPermissions('');
 			return $data;
 		}
 		return false;
