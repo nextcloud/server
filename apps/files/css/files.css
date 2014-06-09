@@ -121,6 +121,7 @@ span.extension {
 	-moz-transition: opacity 300ms;
 	-o-transition: opacity 300ms;
 	transition: opacity 300ms;
+	vertical-align: top;
 }
 tr:hover span.extension {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -263,6 +264,56 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 	max-width: 800px;
 }
+
+table td.filename .nametext .innernametext {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	position: relative;
+	display: inline-block;
+}
+
+@media only screen and (min-width: 1366px) {
+	table td.filename .nametext .innernametext {
+		max-width: 760px;
+	}
+
+	table tr:hover td.filename .nametext .innernametext {
+		max-width: 480px;
+	}
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1366px) {
+	table td.filename .nametext .innernametext {
+		max-width: 600px;
+	}
+
+	table tr:hover td.filename .nametext .innernametext {
+		max-width: 320px;
+	}
+}
+
+@media only screen and (min-width: 1000px) and (max-width: 1200px) {
+	table td.filename .nametext .innernametext {
+		max-width: 400px;
+	}
+
+	table tr:hover td.filename .nametext .innernametext {
+		max-width: 120px;
+	}
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1000px) {
+	table td.filename .nametext .innernametext {
+		max-width: 320px;
+	}
+
+	table tr:hover td.filename .nametext .innernametext {
+		max-width: 40px;
+	}
+}
+
+/* for smaller resolutions - see mobile.css */
+
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
 table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
@@ -383,6 +434,8 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 #fileList a.action[data-action="Rename"] {
 	padding:18px 14px !important;
+	position: relative;
+	top: -6px;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
