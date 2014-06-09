@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Miroslav Jovanovic <jmiroslav@softhome.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 21:10+0000\n"
+"Last-Translator: Miroslav Jovanovic <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,39 +20,39 @@ msgstr ""
 
 #: appinfo/app.php:35 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Споделено со тебе"
 
 #: appinfo/app.php:44 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Сподели со останатите"
 
 #: appinfo/app.php:53 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Споделено со врска"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Ниту една датотека сеуште не била споделена со вас."
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Вие досега немате споделено ниту една датотека."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Сеуште немате споделено датотека со врска."
 
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Не можам да го вчитам шаблонот"
 
 #: js/settings-admin.js:45
 msgid "Saved"
-msgstr ""
+msgstr "Снимено"
 
 #: js/settings-admin.js:64 templates/settings-admin.php:33
 msgid "Reset"
-msgstr ""
+msgstr "Поништи"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -63,11 +64,11 @@ msgstr "Споделено од"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Ова споделување е заштитено со лозинка"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "Лозинката е грешна. Обиди се повторно."
 
 #: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
@@ -79,31 +80,31 @@ msgstr "Име"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Сподели време"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Извенете, но овој линк изгледа дека повеќе не функционира."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Причината може да биде:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "предметот беше одстранет"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "времетраењето на линкот е изминато"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "споделувањето не е дозволено"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "За повеќе информации, прашајте го лицето кое ви ја испратила врската."
 
 #: templates/public.php:20
 msgid "Download"
@@ -112,23 +113,23 @@ msgstr "Преземи"
 #: templates/public.php:50
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "Преземи %s"
 
 #: templates/public.php:54
 msgid "Direct link"
-msgstr ""
+msgstr "Директна врска"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Шаблони за електронска пошта"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Теми"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Шаблон"
 
 #: templates/settings-admin.php:35
 msgid "Save"

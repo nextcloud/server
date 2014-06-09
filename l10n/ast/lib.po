@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Iñigo Varela <ivarela@softastur.org>, 2014
 # Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
 # Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 15:50+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Por favor, contauta col alministrador. Si yes l'alministrador, configura l'axuste \"trusted_domain\" en config/config.php. Hai un exemplu en config/config.sample.php."
 
 #: private/app.php:245
 #, php-format
@@ -39,7 +40,7 @@ msgstr "Nun pue instalase l'aplicación \"%s\" porque nun ye compatible con esta
 
 #: private/app.php:261
 msgid "No app name specified"
-msgstr ""
+msgstr "Nun s'especificó nome de l'aplicación"
 
 #: private/app.php:367
 msgid "Help"
@@ -80,24 +81,24 @@ msgstr "servicios web baxo'l to control"
 
 #: private/installer.php:64
 msgid "No source specified when installing app"
-msgstr ""
+msgstr "Nun s'especificó nenguna fonte al instalar app"
 
 #: private/installer.php:71
 msgid "No href specified when installing app from http"
-msgstr ""
+msgstr "Nun s'especificó href al instalar la app dende http"
 
 #: private/installer.php:76
 msgid "No path specified when installing app from local file"
-msgstr ""
+msgstr "Nun s'especificó camín dende un ficheru llocal al instalar l'aplicación"
 
 #: private/installer.php:90
 #, php-format
 msgid "Archives of type %s are not supported"
-msgstr ""
+msgstr "Los ficheros de triba %s nun tán sofitaos"
 
 #: private/installer.php:104
 msgid "Failed to open archive when installing app"
-msgstr ""
+msgstr "Falló al abrir el ficheru al instalar l'aplicación"
 
 #: private/installer.php:126
 msgid "App does not provide an info.xml file"
@@ -105,7 +106,7 @@ msgstr "L'aplicación nun apurre un ficheru info.xml"
 
 #: private/installer.php:132
 msgid "App can't be installed because of not allowed code in the App"
-msgstr ""
+msgstr "Nun pue instalase l'aplicación por causa d'un códigu non permitíu na App"
 
 #: private/installer.php:138
 msgid ""
@@ -117,17 +118,17 @@ msgstr "Nun pue instalase l'aplicación porque nun ye compatible con esta versi�
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr ""
+msgstr "L'aplicación nun pue instalase porque contién la etiqueta <shipped>true</shipped> que nun ta permitida p'aplicaciones non distribuyíes"
 
 #: private/installer.php:157
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr ""
+msgstr "Nun pue instalase l'aplicación porque'l númberu de versión en info.xml/version nun ye'l mesmu que la versión qu'apaez na app store"
 
 #: private/installer.php:167
 msgid "App directory already exists"
-msgstr ""
+msgstr "El direutoriu de l'aplicación yá esiste"
 
 #: private/installer.php:180
 #, php-format
@@ -144,7 +145,7 @@ msgstr "Fallu d'autenticación"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Token caducáu. Recarga la páxina."
 
 #: private/json.php:74
 msgid "Unknown user"
@@ -153,32 +154,32 @@ msgstr "Usuariu desconocíu"
 #: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s introducir l'usuariu de la base de datos."
 
 #: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s introducir nome de la base de datos."
 
 #: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s nun pues usar puntos nel nome de la base de datos"
 
 #: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Nome d'usuariu o contraseña MS SQL non válidos: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
 #: private/setup/oci.php:114 private/setup/postgresql.php:31
 #: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Tienes d'inxertar una cuenta esistente o la del alministrador."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "Nome d'usuariu o contraseña MySQL/MariaDB non válidos"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:54
 #: private/setup/oci.php:121 private/setup/oci.php:144
@@ -190,7 +191,7 @@ msgstr ""
 #: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Fallu BD: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
 #: private/setup/oci.php:122 private/setup/oci.php:145
@@ -201,16 +202,16 @@ msgstr ""
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Comandu infractor: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "usuariu MySQL/MariaDB '%s'@'localhost' yá esiste."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Desaniciar esti usuariu de MySQL/MariaDB"
 
 #: private/setup/mysql.php:91
 #, php-format
@@ -219,7 +220,7 @@ msgstr "Yá esiste l'usuariu de MySQL/MariaDB '%s'@'%%'"
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Desaniciar esti usuariu de MySQL/MariaDB"
 
 #: private/setup/oci.php:34
 msgid "Oracle connection could not be established"
@@ -227,16 +228,16 @@ msgstr "Nun pudo afitase la conexón d'Oracle"
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Nome d'usuariu o contraseña d'Oracle non válidos"
 
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "El comandu infractor foi: \"%s\", nome: %s, contraseña: %s"
 
 #: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Nome d'usuariu o contraseña PostgreSQL non válidos"
 
 #: private/setup.php:28
 msgid "Set an admin username."
@@ -255,7 +256,7 @@ msgstr "El to sirvidor web entá nun ta configuráu afayadizamente pa permitir l
 #: private/setup.php:165
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Por favor, comprueba les <a href='%s'>guíes d'instalación</a>."
 
 #: private/share/mailnotifications.php:91
 #: private/share/mailnotifications.php:137
@@ -266,44 +267,44 @@ msgstr "%s compartió »%s« contigo"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Compartir %s falló, porque'l ficheru nun esiste"
 
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Nun tienes permisu pa compartir %s"
 
 #: private/share/share.php:531
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "Compartir %s falló, yá que l'usuariu %s ye'l dueñu del elementu"
 
 #: private/share/share.php:537
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "Compartir %s falló, yá que l'usuariu %s nun esiste"
 
 #: private/share/share.php:546
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
-msgstr ""
+msgstr "Compartir %s falló, yá que l'usuariu %s nun ye miembru de nengún de los grupos de los que ye miembru %s"
 
 #: private/share/share.php:559 private/share/share.php:587
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "Compartir %s falló, porque esti elementu yá ta compartiéndose con %s"
 
 #: private/share/share.php:567
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "Compartir %s falló, porque'l grupu %s nun esiste"
 
 #: private/share/share.php:574
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr ""
+msgstr "Compartir %s falló, porque %s nun ye miembru del grupu %s"
 
 #: private/share/share.php:627
 msgid ""
@@ -314,7 +315,7 @@ msgstr "Necesites apurrir una contraseña pa crear un enllaz públicu, namái ta
 #: private/share/share.php:653
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "Compartir %s falló, porque nun se permite compartir con enllaces"
 
 #: private/share/share.php:660
 #, php-format
@@ -326,17 +327,17 @@ msgstr "La triba de compartición %s nun ye válida pa %s"
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Falló dar permisos a %s, porque los permisos son mayores que los otorgaos a %s"
 
 #: private/share/share.php:881
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Falló dar permisos a %s, porque l'elementu nun s'atopó"
 
 #: private/share/share.php:1002
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "El motor compartíu %s tien d'implementar la interfaz OCP\\Share_Backend"
 
 #: private/share/share.php:1009
 #, php-format
@@ -351,31 +352,31 @@ msgstr "Nun s'alcontró'l botón de partición pa %s"
 #: private/share/share.php:1431
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Compartir %s falló, yá que l'usuariu %s ye'l compartidor orixinal"
 
 #: private/share/share.php:1440
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "Compartir %s falló, porque los permisos perpasen los otorgaos a %s"
 
 #: private/share/share.php:1456
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Compartir %s falló, porque nun se permite la re-compartición"
 
 #: private/share/share.php:1468
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "Compartir %s falló porque'l motor compartíu pa %s podría nun atopar el so orixe"
 
 #: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Compartir %s falló, yá que'l ficheru nun pudo atopase na caché de ficheru"
 
 #: private/tags.php:183
 #, php-format
@@ -451,4 +452,4 @@ msgstr "El nome d'usuariu yá ta usándose"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Nun pudo facese'l bloquéu %d en \"%s\"."

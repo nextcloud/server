@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"No app name specified" => "Не е специфицирано име на апликацијата",
 "Help" => "Помош",
 "Personal" => "Лично",
 "Settings" => "Подесувања",
@@ -11,6 +12,17 @@ $TRANSLATIONS = array(
 "Application is not enabled" => "Апликацијата не е овозможена",
 "Authentication error" => "Грешка во автентикација",
 "Token expired. Please reload page." => "Жетонот е истечен. Ве молам превчитајте ја страницата.",
+"Unknown user" => "Непознат корисник",
+"%s enter the database username." => "%s внеси го корисничкото име за базата.",
+"%s enter the database name." => "%s внеси го името на базата.",
+"%s you may not use dots in the database name" => "%s не можеш да користиш точки во името на базата",
+"DB Error: \"%s\"" => "DB грешка: \"%s\"",
+"Offending command was: \"%s\"" => "Навредувшката команда беше: \"%s\"",
+"Oracle username and/or password not valid" => "Oracle корисничкото име и/или лозинката не се валидни",
+"PostgreSQL username and/or password not valid" => "PostgreSQL корисничкото име и/или лозинка не се валидни",
+"Set an admin username." => "Постави администраторско корисничко име",
+"Set an admin password." => "Постави администраторска лозинка.",
+"%s shared »%s« with you" => "%s споделено »%s« со вас",
 "Could not find category \"%s\"" => "Не можам да најдам категорија „%s“",
 "seconds ago" => "пред секунди",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
@@ -23,6 +35,7 @@ $TRANSLATIONS = array(
 "last year" => "минатата година",
 "years ago" => "пред години",
 "A valid username must be provided" => "Мора да се обезбеди валидно корисничко име ",
-"A valid password must be provided" => "Мора да се обезбеди валидна лозинка"
+"A valid password must be provided" => "Мора да се обезбеди валидна лозинка",
+"The username is already being used" => "Корисничкото име е веќе во употреба"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

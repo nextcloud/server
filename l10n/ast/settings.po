@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 15:00+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "Desaniciaes dafechu les claves de cifráu"
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr "Nun pudieron desaniciase dafechu les tos claves d'encriptación, por favor comprueba'l to owncloud.log o entruga a un alministrador"
+msgstr "Nun pudieron desaniciase dafechu les tos claves de cifráu, por favor comprueba'l to owncloud.log o entruga a un alministrador"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -128,13 +128,13 @@ msgstr "Nun pudo desaniciase l'usuariu"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Copia de seguridá restaurada"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr "Nun pudieron restaurase dafechu les tos claves d'encriptación, por favor comprueba'l to owncloud.log o entruga a un alministrador"
+msgstr "Nun pudieron restaurase dafechu les tos claves de cifráu, por favor comprueba'l to owncloud.log o entruga a un alministrador"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -277,7 +277,7 @@ msgstr "Descifrando ficheros... Espera por favor, esto pue llevar daqué de tiem
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr "Desanciar dafechu les claves de cifráu."
+msgstr "Desaniciar dafechu les claves de cifráu."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
@@ -289,11 +289,11 @@ msgstr "Nun pue desaniciase"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Fallu creando grupu"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Hai d'escribir un nome de grupu válidu"
 
 #: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
@@ -430,24 +430,24 @@ msgstr "Por favor, vuelvi a comprobar les <a href=\"%s\">guíes de instalación<
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP ta aparentemente configuráu pa desaniciar bloques de documentos en llinia. Esto va facer que delles aplicaciones principales nun tean accesibles."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Dablemente esto seya culpa d'un caché o acelerador, como por exemplu Zend OPcache o eAccelerator."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Información de rindimienti de la base de datos"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Ta usándose SQLite como base de datos. Pa instalaciones más grandes, recomendamos cambiar esto. Pa migrar a otra base de datos, usa la ferramienta de llinia de comandos: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -548,11 +548,11 @@ msgstr "Permitir a les aplicaciones usar la API de Compartición"
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Permitir a los usuarios compartir vía enllaz"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Ameyora la proteición por contraseña."
 
 #: templates/admin.php:254
 msgid "Allow public uploads"
@@ -580,7 +580,7 @@ msgstr "Permitir re-compartición"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Restrinxir a los usuarios a compartir namái con otros usuarios nos sos grupos"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
@@ -588,12 +588,12 @@ msgstr "Permitir a los usuarios unviar mensaxes de notificación pa ficheros com
 
 #: templates/admin.php:297
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Esclúi grupos de compartir"
 
 #: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Estos grupos van poder siguir recibiendo conteníos compartíos, pero nun van poder anicialos"
 
 #: templates/admin.php:315
 msgid "Security"
@@ -723,7 +723,7 @@ msgstr "<span class=\"licence\"></span>-llicencia otorgada por <span class=\"aut
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Habilitar namái pa grupos específicos"
 
 #: templates/apps.php:60
 msgid "All"
@@ -862,7 +862,7 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Les claves de cifráu van guardase nuna llocalización segura. D'esta miente, en casu de que daqué saliere mal, vas poder recuperar les claves. Desanicia dafechu les claves de cifráu namái si tas seguru de que los ficheros descifráronse correcho."
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
@@ -893,7 +893,7 @@ msgstr "Introduz la contraseña de recuperación col envís de recuperar los fic
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Guetar Usuarios y Grupos"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
@@ -913,7 +913,7 @@ msgstr "Almins"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
-msgstr ""
+msgstr "Cuota predeterminada"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
@@ -933,15 +933,15 @@ msgstr "Nome d'usuariu"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
-msgstr ""
+msgstr "Cuota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Llocalización d'almacenamientu"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr "Aniciu de sesión caberu"
+msgstr "Caberu aniciu de sesión"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

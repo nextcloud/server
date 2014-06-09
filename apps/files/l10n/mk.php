@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "New" => "Ново",
 "Text file" => "Текстуална датотека",
+"New folder" => "Нова папка",
 "Folder" => "Папка",
 "From link" => "Од врска",
 "Cancel upload" => "Откажи прикачување",

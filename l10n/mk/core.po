@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 21:10+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -290,23 +290,23 @@ msgstr "Грешка при вчитување на датотеката, шаб
 
 #: js/setup.js:92
 msgid "Very weak password"
-msgstr ""
+msgstr "Многу слаба лозинка"
 
 #: js/setup.js:93
 msgid "Weak password"
-msgstr ""
+msgstr "Слаба лозинка"
 
 #: js/setup.js:94
 msgid "So-so password"
-msgstr ""
+msgstr "Така така лозинка"
 
 #: js/setup.js:95
 msgid "Good password"
-msgstr ""
+msgstr "Добра лозинка"
 
 #: js/setup.js:96
 msgid "Strong password"
-msgstr ""
+msgstr "Јака лозинка"
 
 #: js/share.js:109 js/share.js:199
 msgid "Shared"
@@ -564,7 +564,7 @@ msgstr "Да, јас сега навистина сакам да ја пониш
 
 #: lostpassword/templates/lostpassword.php:32
 msgid "Reset"
-msgstr ""
+msgstr "Поништи"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"

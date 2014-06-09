@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Miroslav Jovanovic <jmiroslav@softhome.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 20:50+0000\n"
+"Last-Translator: Miroslav Jovanovic <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr ""
 
 #: private/app.php:261
 msgid "No app name specified"
-msgstr ""
+msgstr "Не е специфицирано име на апликацијата"
 
 #: private/app.php:367
 msgid "Help"
@@ -146,22 +147,22 @@ msgstr "Жетонот е истечен. Ве молам превчитајте
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Непознат корисник"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s внеси го корисничкото име за базата."
 
 #: private/setup/abstractdatabase.php:29
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s внеси го името на базата."
 
 #: private/setup/abstractdatabase.php:32
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s не можеш да користиш точки во името на базата"
 
 #: private/setup/mssql.php:20
 #, php-format
@@ -188,7 +189,7 @@ msgstr ""
 #: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB грешка: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:55
 #: private/setup/oci.php:122 private/setup/oci.php:145
@@ -199,7 +200,7 @@ msgstr ""
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Навредувшката команда беше: \"%s\""
 
 #: private/setup/mysql.php:85
 #, php-format
@@ -225,7 +226,7 @@ msgstr ""
 
 #: private/setup/oci.php:41 private/setup/oci.php:113
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle корисничкото име и/или лозинката не се валидни"
 
 #: private/setup/oci.php:170 private/setup/oci.php:202
 #, php-format
@@ -234,15 +235,15 @@ msgstr ""
 
 #: private/setup/postgresql.php:30 private/setup/postgresql.php:83
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL корисничкото име и/или лозинка не се валидни"
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "Постави администраторско корисничко име"
 
 #: private/setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "Постави администраторска лозинка."
 
 #: private/setup.php:164
 msgid ""
@@ -259,7 +260,7 @@ msgstr ""
 #: private/share/mailnotifications.php:137
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s споделено »%s« со вас"
 
 #: private/share/share.php:494
 #, php-format
@@ -444,7 +445,7 @@ msgstr "Мора да се обезбеди валидна лозинка"
 
 #: private/user/manager.php:252
 msgid "The username is already being used"
-msgstr ""
+msgstr "Корисничкото име е веќе во употреба"
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

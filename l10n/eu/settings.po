@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-08 05:54+0000\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 06:00+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -551,7 +551,7 @@ msgstr "Baimendu aplikazioak partekatzeko APIa erabiltzeko"
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Baimendu erabiltzaileak esteken bidez partekatzea"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
@@ -583,7 +583,7 @@ msgstr "Baimendu birpartekatzea"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Mugatu partekatzeak taldeko erabiltzaileetara"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"

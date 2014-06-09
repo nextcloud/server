@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "File" => "Fitxategia",
 "Folder" => "Karpeta",
 "Image" => "Irudia",
+"Audio" => "Audio",
 "Saving..." => "Gordetzen...",
 "seconds ago" => "segundu",
 "_%n minute ago_::_%n minutes ago_" => array("orain dela minutu %n","orain dela %n minutu"),

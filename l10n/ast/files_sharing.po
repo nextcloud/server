@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 15:20+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "Compartío con otros"
 
 #: appinfo/app.php:53 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Compartíu por enllaz"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
@@ -42,11 +42,11 @@ msgstr "Entá nun compartiesti dengún ficheru."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Entá nun compartiesti nengún ficheru por enllaz."
 
 #: js/settings-admin.js:10
 msgid "Could not load template"
-msgstr ""
+msgstr "Nun pudo cargase la plantía"
 
 #: js/settings-admin.js:45
 msgid "Saved"
@@ -82,7 +82,7 @@ msgstr "Nome"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Compartir hora"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -123,15 +123,15 @@ msgstr "Enllaz direutu"
 
 #: templates/settings-admin.php:3
 msgid "Mail templates"
-msgstr ""
+msgstr "Plantíes de corréu"
 
 #: templates/settings-admin.php:8
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: templates/settings-admin.php:17
 msgid "Template"
-msgstr ""
+msgstr "Plantía"
 
 #: templates/settings-admin.php:35
 msgid "Save"

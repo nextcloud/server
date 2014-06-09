@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Miroslav Jovanovic <jmiroslav@softhome.net>, 2013
+# Miroslav Jovanovic <jmiroslav@softhome.net>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-09 01:54-0400\n"
+"PO-Revision-Date: 2014-06-08 20:50+0000\n"
+"Last-Translator: Miroslav Jovanovic <jmiroslav@softhome.net>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,15 +21,15 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Неправилна вредност е доставена за %s"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Снимено"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "провери ги нагодувањата за електронска пошта"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
@@ -50,7 +50,7 @@ msgstr ""
 
 #: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
-msgstr ""
+msgstr "Мод на испраќање"
 
 #: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
 msgid "Encryption"
@@ -58,7 +58,7 @@ msgstr "Енкрипција"
 
 #: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
-msgstr ""
+msgstr "Метод на автентификација"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -71,11 +71,11 @@ msgstr "Грешка во автентикација"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Вашето целосно име е променето."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Не можам да го променам целото име"
 
 #: ajax/creategroup.php:11
 msgid "Group already exists"
@@ -87,7 +87,7 @@ msgstr "Неможе да додадам група"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Датотектие се успешно декриптирани"
 
 #: ajax/decryptall.php:33
 msgid ""
@@ -101,7 +101,7 @@ msgstr ""
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Енкрипциските клучеви се трајно избришани"
 
 #: ajax/deletekeys.php:16
 msgid ""
@@ -127,7 +127,7 @@ msgstr "Неможам да избришам корисник"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Бекапите се успешно реставрирани"
 
 #: ajax/restorekeys.php:23
 msgid ""
@@ -192,7 +192,7 @@ msgstr "Вашата лозинка неможе да се смени"
 
 #: js/admin.js:126
 msgid "Sending..."
-msgstr ""
+msgstr "Испраќам..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
@@ -200,7 +200,7 @@ msgstr "Корисничка документација"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Админстраторска документација"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -252,23 +252,23 @@ msgstr "Одбери фотографија за профилот"
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "Многу слаба лозинка"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "Слаба лозинка"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "Така така лозинка"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "Добра лозинка"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "Јака лозинка"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
@@ -276,23 +276,23 @@ msgstr ""
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Трајно бришење на енкрипциските клучеви."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Поврати ги енкрипцисиките клучеви."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete "
-msgstr ""
+msgstr "Не можам да избришам"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Грешка при креирање на група"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Мора да се обезбеди валидно име на група"
 
 #: js/users/groups.js:205 js/users/users.js:254
 msgid "deleted"
@@ -352,19 +352,19 @@ msgstr ""
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Информации, предупредувања, грешки и фатални работи"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Предупредувања, грешки и фатални работи"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Грешки и фатални работи"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Само фатални работи"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
@@ -376,19 +376,19 @@ msgstr "Најава"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Чиста"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Менаџер"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -439,7 +439,7 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Информација за перформансите на базата на податоци"
 
 #: templates/admin.php:108
 msgid ""
@@ -460,7 +460,7 @@ msgstr ""
 
 #: templates/admin.php:133
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Вашаа верзија на PHP е застарена"
 
 #: templates/admin.php:136
 msgid ""
@@ -492,7 +492,7 @@ msgstr ""
 
 #: templates/admin.php:172
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Интернет врската не работи"
 
 #: templates/admin.php:175
 msgid ""
@@ -505,7 +505,7 @@ msgstr ""
 
 #: templates/admin.php:189
 msgid "Cron"
-msgstr ""
+msgstr "Крон"
 
 #: templates/admin.php:196
 #, php-format
@@ -525,7 +525,7 @@ msgstr ""
 
 #: templates/admin.php:213
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Изврши по една задача со секоја вчитана страница"
 
 #: templates/admin.php:221
 msgid ""
@@ -547,11 +547,11 @@ msgstr "Дозволете апликациите да го користат API
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Допушти корисниците да споделуваат со линкови"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Наметни заштита на лозинка"
 
 #: templates/admin.php:254
 msgid "Allow public uploads"
@@ -559,19 +559,19 @@ msgstr "Дозволи јавен аплоуд"
 
 #: templates/admin.php:258
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Постави основен датум на истекување"
 
 #: templates/admin.php:260
 msgid "Expire after "
-msgstr ""
+msgstr "Истекува по"
 
 #: templates/admin.php:263
 msgid "days"
-msgstr ""
+msgstr "денови"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Наметни датум на траење"
 
 #: templates/admin.php:276
 msgid "Allow resharing"
@@ -579,7 +579,7 @@ msgstr "Овозможи повторно споделување"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Ограничи корисниците да споделуваат со корисници во своите групи"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
@@ -587,7 +587,7 @@ msgstr ""
 
 #: templates/admin.php:297
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Исклучи групи од споделување"
 
 #: templates/admin.php:308
 msgid ""
@@ -616,23 +616,23 @@ msgstr ""
 
 #: templates/admin.php:348
 msgid "Email Server"
-msgstr ""
+msgstr "Сервер за електронска пошта"
 
 #: templates/admin.php:350
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Ова се користи за испраќање на известувања."
 
 #: templates/admin.php:381
 msgid "From address"
-msgstr ""
+msgstr "Од адреса"
 
 #: templates/admin.php:382
 msgid "mail"
-msgstr ""
+msgstr "Електронска пошта"
 
 #: templates/admin.php:403
 msgid "Authentication required"
-msgstr ""
+msgstr "Потребна е автентификација"
 
 #: templates/admin.php:407
 msgid "Server address"
@@ -644,23 +644,23 @@ msgstr "Порта"
 
 #: templates/admin.php:416
 msgid "Credentials"
-msgstr ""
+msgstr "Акредитиви"
 
 #: templates/admin.php:417
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP корисничко име"
 
 #: templates/admin.php:420
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP лозинка"
 
 #: templates/admin.php:424
 msgid "Test email settings"
-msgstr ""
+msgstr "Провери ги нагодувањаа за електронска пошта"
 
 #: templates/admin.php:425
 msgid "Send email"
-msgstr ""
+msgstr "Испрати пошта"
 
 #: templates/admin.php:430
 msgid "Log"
@@ -706,7 +706,7 @@ msgstr "Избери аппликација"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Документација:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -714,7 +714,7 @@ msgstr "Види ја страницата со апликации на apps.own
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Види го веб сајтот на апликацијата"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -722,7 +722,7 @@ msgstr "<span class=\"licence\"></span>-лиценцирано од <span class=
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Овозможи само на специфицирани групи"
 
 #: templates/apps.php:60
 msgid "All"
@@ -742,7 +742,7 @@ msgstr "Форум"
 
 #: templates/help.php:33
 msgid "Bugtracker"
-msgstr ""
+msgstr "Тракер на грешки"
 
 #: templates/help.php:40
 msgid "Commercial Support"
@@ -754,7 +754,7 @@ msgstr "Преземете апликации за синхронизирање 
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Прикажи го повторно волшебникот при првото стартување"
 
 #: templates/personal.php:27
 #, php-format
@@ -788,7 +788,7 @@ msgstr "Смени лозинка"
 
 #: templates/personal.php:61 templates/users/part.userlist.php:8
 msgid "Full Name"
-msgstr ""
+msgstr "Цело име"
 
 #: templates/personal.php:76
 msgid "Email"
@@ -826,7 +826,7 @@ msgstr "Мора де биде png или jpg. Идеално квадрат, н
 
 #: templates/personal.php:100
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Вашиот аватар е креиран со вашата оригинална сметка"
 
 #: templates/personal.php:104
 msgid "Cancel"
@@ -865,11 +865,11 @@ msgstr ""
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Обнови ги енкрипциските клучеви"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Избриши ги енкрипцисиките клучеви"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -881,7 +881,7 @@ msgstr "Создај"
 
 #: templates/users/part.createuser.php:26
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Обновување на Admin лозинката"
 
 #: templates/users/part.createuser.php:27
 #: templates/users/part.createuser.php:28
@@ -892,23 +892,23 @@ msgstr ""
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Барај корисници и групи"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Додади група"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Група"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Секој"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Администратори"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -916,7 +916,7 @@ msgstr "Предефинирана квота"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Ве молам внесете квота за просторот (нпр: \"512 MB\" или \"12 GB\")"
 
 #: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
 msgid "Unlimited"
@@ -936,15 +936,15 @@ msgstr "Квота"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Локација на сториџот"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Последна најава"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"
-msgstr ""
+msgstr "промена на целото име"
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"
