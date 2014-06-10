@@ -70,6 +70,30 @@ abstract class Controller {
 	}
 
 
+    /**
+     * Parses an HTTP accept header and returns the supported responder type
+     * @param string $acceptHeader
+     * @return string the responder type
+     */
+    public function getResponderByHTTPHeader($acceptHeader) {
+        $headers = explode(',', $acceptHeader);
+
+        // return the first matching responder
+        foreach ($headers as $header) {
+            $header = trim($header);
+
+            $responder = str_replace('application/', '', $header);
+
+            if (array_key_exists($responder, $this->responders)) {
+                return $responder;
+            }
+        }
+
+        // no matching header defaults to json
+        return 'json';
+    }
+
+
 	/**
 	 * Registers a formatter for a type
 	 * @param string $format
