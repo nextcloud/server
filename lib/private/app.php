@@ -1107,6 +1107,8 @@ class OC_App {
 	/**
 	 * @param mixed $app
 	 * @return bool
+	 * @throws Exception if app is not compatible with this version of ownCloud
+	 * @throws Exception if no app-name was specified
 	 */
 	public static function installApp($app) {
 		$l = OC_L10N::get('core');
