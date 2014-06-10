@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "File" => "ファイル",
 "Folder" => "フォルダー",
 "Image" => "画像",
+"Audio" => "オーディオ",
 "Saving..." => "保存中...",
 "seconds ago" => "数秒前",
 "_%n minute ago_::_%n minutes ago_" => array("%n 分前"),

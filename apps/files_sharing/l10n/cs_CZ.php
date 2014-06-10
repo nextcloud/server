@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Heslo není správné. Zkuste to znovu.",
 "Password" => "Heslo",
 "Name" => "Název",
+"Share time" => "Čas sdílení",
 "Sorry, this link doesn’t seem to work anymore." => "Je nám líto, ale tento odkaz již není funkční.",
 "Reasons might be:" => "Možné důvody:",
 "the item was removed" => "položka byla odebrána",
@@ -24,6 +25,8 @@ $TRANSLATIONS = array(
 "Download" => "Stáhnout",
 "Download %s" => "Stáhnout %s",
 "Direct link" => "Přímý odkaz",
+"Mail templates" => "E-mailové šablony",
+"Theme" => "Vzhled",
 "Template" => "Šablona",
 "Save" => "Uložit"
 );

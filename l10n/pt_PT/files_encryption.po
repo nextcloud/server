@@ -3,18 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mouxy <daniel@mouxy.net>, 2013
-# Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
-# moura232 <moura232@gmail.com>, 2013
+# Daniel Pinto <daniel@mouxy.net>, 2013
+# zedascouves <duartegrilo@gmail.com>, 2013
+# Fernando Moura <moura232@gmail.com>, 2013-2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
-# Drew Melim <nokostya.translation@gmail.com>, 2014
+# Andrew_Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-10 01:54-0400\n"
+"PO-Revision-Date: 2014-06-09 16:20+0000\n"
+"Last-Translator: Fernando Moura <moura232@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "Não foi possivel alterar a password. Possivelmente a password antiga n�
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
-msgstr ""
+msgstr "Password da chave privada atualizada com sucesso. "
 
 #: ajax/updatePrivateKeyPassword.php:54
 msgid ""
@@ -63,7 +63,7 @@ msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
-msgstr ""
+msgstr "Aplicativo de criptografia não foi inicializado! Talvez o aplicativo de criptografia tenha sido reativado durante essa sessão. Por favor, tente fazer logoff e login novamente para inicializar o aplicativo de criptografia. "
 
 #: files/error.php:16
 #, php-format
@@ -71,7 +71,7 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr ""
+msgstr "Chave privada não é válida! Provavelmente password foi alterada fora do %s (por exemplo, seu diretório corporativo). Pode atualizar password da chave privada nas definições pessoais para recuperar o acesso aos seus ficheiros criptografados. "
 
 #: files/error.php:19
 msgid ""
@@ -83,20 +83,20 @@ msgstr "Não foi possível desencriptar este ficheiro, possivelmente é um fiche
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Erro desconhecido. Por favor, verifique as configurações do sistema ou entre em contacto com o administrador "
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "Faltam alguns requisitos."
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Por favor, certifique-se que PHP 5.3.3 ou mais recente está instalado e que  OpenSSL juntamente com a extensão  PHP está ativada e corretamente configurada. Por agora, a aplicação de  encriptação está desactivada."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "Os utilizadores seguintes não estão marcados para cifragem:"
 
@@ -106,7 +106,7 @@ msgstr "A encriptação inicial começou... Pode demorar algum tempo. Aguarde, p
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "Criptografia inicial em execução ... Por favor, tente novamente mais tarde. "
 
 #: templates/invalid_private_key.php:8
 msgid "Go directly to your "
@@ -163,17 +163,17 @@ msgstr "Mudar a Password"
 
 #: templates/settings-personal.php:8
 msgid "Your private key password no longer match your log-in password:"
-msgstr ""
+msgstr "Password da sua chave privada não coincide com password do login: "
 
 #: templates/settings-personal.php:11
 msgid "Set your old private key password to your current log-in password."
-msgstr ""
+msgstr "Alter password antiga da chave privada para nova password do login. "
 
 #: templates/settings-personal.php:13
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
-msgstr ""
+msgstr "Se não se lembra da antiga password pode pedir ao administrador que recupere seus ficheiros. "
 
 #: templates/settings-personal.php:21
 msgid "Old log-in password"
@@ -185,7 +185,7 @@ msgstr "Password actual da conta"
 
 #: templates/settings-personal.php:32
 msgid "Update Private Key Password"
-msgstr ""
+msgstr "Atualizar password da chave privada "
 
 #: templates/settings-personal.php:41
 msgid "Enable password recovery:"

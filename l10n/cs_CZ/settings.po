@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 10:10+0000\n"
-"Last-Translator: Josef Moravec <josef.moravec@gmail.com>\n"
+"POT-Creation-Date: 2014-06-10 01:54-0400\n"
+"PO-Revision-Date: 2014-06-09 15:30+0000\n"
+"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -292,7 +292,7 @@ msgstr "Obnovit šifrovací klíče"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete "
-msgstr ""
+msgstr "Nelze smazat"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
@@ -447,7 +447,7 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Informace o výkonu databáze"
 
 #: templates/admin.php:108
 msgid ""
@@ -636,7 +636,7 @@ msgstr "Adresa odesílatele"
 
 #: templates/admin.php:382
 msgid "mail"
-msgstr ""
+msgstr "e-mail"
 
 #: templates/admin.php:403
 msgid "Authentication required"
@@ -730,7 +730,7 @@ msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></sp
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Povolit pouze pro vybrané skupiny"
 
 #: templates/apps.php:60
 msgid "All"
@@ -900,7 +900,7 @@ msgstr "Zadejte heslo obnovy pro obnovení souborů uživatele při změně hesl
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Prohledat Užiatele a Skupiny"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
@@ -912,11 +912,11 @@ msgstr "Skupina"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Všichni"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Administrátoři"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"

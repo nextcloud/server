@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-07 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 05:50+0000\n"
-"Last-Translator: YANO Tetsu <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2014-06-10 01:54-0400\n"
+"PO-Revision-Date: 2014-06-10 03:00+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,11 +76,11 @@ msgstr "認証エラー"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr "フルネームを変更しました。"
+msgstr "名前を変更しました。"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr "フルネームを変更できません"
+msgstr "名前を変更できません"
 
 #: ajax/creategroup.php:11
 msgid "Group already exists"
@@ -781,11 +781,11 @@ msgstr "パスワードを変更することができません"
 
 #: templates/personal.php:42
 msgid "Current password"
-msgstr "Current password"
+msgstr "現在のパスワード"
 
 #: templates/personal.php:45
 msgid "New password"
-msgstr "新しいパスワードを入力"
+msgstr "新しいパスワード"
 
 #: templates/personal.php:49
 msgid "Change password"
@@ -949,7 +949,7 @@ msgstr "最終ログイン"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"
-msgstr "フルネームを変更"
+msgstr "名前を変更"
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"

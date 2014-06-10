@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "mappings cleared" => "mapování zrušeno",
 "Success" => "Úspěch",
 "Error" => "Chyba",
+"Please specify the port" => "Prosím zadej port",
 "Configuration OK" => "Konfigurace v pořádku",
 "Configuration incorrect" => "Nesprávná konfigurace",
 "Configuration incomplete" => "Nekompletní konfigurace",
