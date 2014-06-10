@@ -51,9 +51,15 @@ class Proxy extends \OC_FileProxy {
 	 */
 	private function isExcludedPath($path, $uid) {
 
+		$view = new \OC\Files\View();
+
 		// files outside of the files-folder are excluded
 		if(strpos($path, '/' . $uid . '/files') !== 0) {
 			return true;
+		}
+
+		if (!$view->file_exists($path)) {
+			$path = dirname($path);
 		}
 
 		// we don't encrypt server-to-server shares
