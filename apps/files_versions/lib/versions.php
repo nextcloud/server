@@ -302,17 +302,6 @@ class Storage {
 	}
 
 	/**
-	 * deletes used space for files versions in db if user was deleted
-	 *
-	 * @param string $uid id of deleted user
-	 * @return \OC_DB_StatementWrapper of db delete operation
-	 */
-	public static function deleteUser($uid) {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_versions` WHERE `user`=?');
-		return $query->execute(array($uid));
-	}
-
-	/**
 	 * returns all stored file versions from a given user
 	 * @param string $uid id of the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename

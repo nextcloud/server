@@ -14,5 +14,3 @@ OCP\Util::connectHook('OC_Filesystem', 'write', "OCA\Files_Versions\Hooks", "wri
 OCP\Util::connectHook('OC_Filesystem', 'post_delete', "OCA\Files_Versions\Hooks", "remove_hook");
 OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Files_Versions\Hooks", "pre_remove_hook");
 OCP\Util::connectHook('OC_Filesystem', 'rename', "OCA\Files_Versions\Hooks", "rename_hook");
-//Listen to delete user signal
-OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Versions\Hooks", "deleteUser_hook");
