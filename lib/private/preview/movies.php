@@ -41,14 +41,22 @@ if (!\OC_Util::runningOnWindows()) {
 
 			public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 				// TODO: use proc_open() and stream the source file ?
-				$absPath = \OC_Helper::tmpFile();
 
-				$handle = $fileview->fopen($path, 'rb');
+				$fileInfo = $fileview->getFileInfo($path);
+				$useFileDirectly = (!$fileInfo->isEncrypted() && !$fileInfo->isMounted());
 
-				// we better use 5MB (1024 * 1024 * 5 = 5242880) instead of 1MB.
-				// in some cases 1MB was no enough to generate thumbnail
-				$firstmb = stream_get_contents($handle, 5242880);
-				file_put_contents($absPath, $firstmb);
+				if ($useFileDirectly) {
+					$absPath = $fileview->getLocalFile($path);
+				} else {
+					$absPath = \OC_Helper::tmpFile();
+
+					$handle = $fileview->fopen($path, 'rb');
+
+					// we better use 5MB (1024 * 1024 * 5 = 5242880) instead of 1MB.
+					// in some cases 1MB was no enough to generate thumbnail
+					$firstmb = stream_get_contents($handle, 5242880);
+					file_put_contents($absPath, $firstmb);
+				}
 
 				$result = $this->generateThumbNail($maxX, $maxY, $absPath, 5);
 				if ($result === false) {
@@ -58,8 +66,9 @@ if (!\OC_Util::runningOnWindows()) {
 					}
 				}
 
-				unlink($absPath);
-
+				if (!$useFileDirectly) {
+					unlink($absPath);
+				}
 
 				return $result;
 			}
