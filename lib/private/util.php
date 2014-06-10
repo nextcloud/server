@@ -329,7 +329,7 @@ class OC_Util {
 		$errors = array();
 		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
 
-		if (!\OC::needUpgrade() && OC_Config::getValue('installed', false)) {
+		if (!self::needUpgrade() && OC_Config::getValue('installed', false)) {
 			// this check needs to be done every time
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
@@ -1355,5 +1355,20 @@ class OC_Util {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Check whether the instance needs to preform an upgrade
+	 *
+	 * @return bool
+	 */
+	public static function needUpgrade() {
+		if (OC_Config::getValue('installed', false)) {
+			$installedVersion = OC_Config::getValue('version', '0.0.0');
+			$currentVersion = implode('.', OC_Util::getVersion());
+			return version_compare($currentVersion, $installedVersion, '>');
+		} else {
+			return false;
+		}
 	}
 }

@@ -516,4 +516,13 @@ class Util {
 	public static function isPublicLinkPasswordRequired() {
 		return \OC_Util::isPublicLinkPasswordRequired();
 	}
+
+	/**
+	 * Checks whether the current version needs upgrade.
+	 *
+	 * @return bool true if upgrade is needed, false otherwise
+	 */
+	public static function needUpgrade() {
+		return \OC_Util::needUpgrade();
+	}
 }

@@ -262,15 +262,10 @@ class OC {
 	 * check if the instance needs to preform an upgrade
 	 *
 	 * @return bool
+	 * @deprecated use \OCP\Util::needUpgrade instead
 	 */
 	public static function needUpgrade() {
-		if (OC_Config::getValue('installed', false)) {
-			$installedVersion = OC_Config::getValue('version', '0.0.0');
-			$currentVersion = implode('.', OC_Util::getVersion());
-			return version_compare($currentVersion, $installedVersion, '>');
-		} else {
-			return false;
-		}
+		return \OCP\Util::needUpgrade();
 	}
 
 	/**
@@ -279,7 +274,7 @@ class OC {
 	 * @return bool|void
 	 */
 	public static function checkUpgrade($showTemplate = true) {
-		if (self::needUpgrade()) {
+		if (\OCP\Util::needUpgrade()) {
 			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 				$version = OC_Util::getVersion();
 				$oldTheme = OC_Config::getValue('theme');
@@ -595,7 +590,7 @@ class OC {
 	 * register hooks for the cache
 	 */
 	public static function registerCacheHooks() {
-		if (OC_Config::getValue('installed', false) && !self::needUpgrade()) { //don't try to do this before we are properly setup
+		if (OC_Config::getValue('installed', false) && !\OCP\Util::needUpgrade()) { //don't try to do this before we are properly setup
 			\OCP\BackgroundJob::registerJob('OC\Cache\FileGlobalGC');
 
 			// NOTE: This will be replaced to use OCP
@@ -608,7 +603,7 @@ class OC {
 	 * register hooks for the cache
 	 */
 	public static function registerLogRotate() {
-		if (OC_Config::getValue('installed', false) && OC_Config::getValue('log_rotate_size', false) && !self::needUpgrade()) {
+		if (OC_Config::getValue('installed', false) && OC_Config::getValue('log_rotate_size', false) && !\OCP\Util::needUpgrade()) {
 			//don't try to do this before we are properly setup
 			//use custom logfile path if defined, otherwise use default of owncloud.log in data directory
 			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue('logfile', OC_Config::getValue("datadirectory", OC::$SERVERROOT . '/data') . '/owncloud.log'));
@@ -695,10 +690,9 @@ class OC {
 
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
-				if (!OC_Config::getValue('maintenance', false) && !self::needUpgrade()) {
+				if (!OC_Config::getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('authentication'));
 					OC_App::loadApps(array('filesystem', 'logging'));
-					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
 				OC::$server->getRouter()->match(OC_Request::getRawPathInfo());
