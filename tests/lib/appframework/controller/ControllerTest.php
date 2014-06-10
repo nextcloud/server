@@ -185,4 +185,13 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testResponderAcceptHeaderParsedUpperCase() {
+		$responder = $this->controller->getResponderByHTTPHeader(
+			'*/*, apPlication/ToM, application/json'
+		);
+
+		$this->assertEquals('tom', $responder);
+	}
+
+
 }
