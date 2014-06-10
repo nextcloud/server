@@ -52,9 +52,9 @@ class Dispatcher {
 	 * @param IRequest $request the incoming request
 	 */
 	public function __construct(Http $protocol,
-	                            MiddlewareDispatcher $middlewareDispatcher,
-	                            ControllerMethodReflector $reflector,
-	                            IRequest $request) {
+								MiddlewareDispatcher $middlewareDispatcher,
+								ControllerMethodReflector $reflector,
+								IRequest $request) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -162,9 +162,9 @@ class Dispatcher {
 
 			// if none is given try the first Accept header
 			if($format === null) {
-                $headers = $this->request->getHeader('Accept');
-                $format = $controller->getResponderByHTTPHeader($headers);
-            }
+				$headers = $this->request->getHeader('Accept');
+				$format = $controller->getResponderByHTTPHeader($headers);
+			}
 
 			$response = $controller->buildResponse($response, $format);
 		}
