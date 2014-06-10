@@ -64,7 +64,10 @@ class Proxy extends \OC_FileProxy {
 
 		// we don't encrypt server-to-server shares
 		list($storage, ) = \OC\Files\Filesystem::resolvePath($path);
-		if ($storage instanceof OCA\Files_Sharing\External\Storage) {
+		/**
+		 * @var \OCP\Files\Storage $storage
+		 */
+		if ($storage->instanceOfStorage('OCA\Files_Sharing\External\Storage')) {
 			return true;
 		}
 
