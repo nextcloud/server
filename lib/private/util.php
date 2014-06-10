@@ -74,7 +74,7 @@ class OC_Util {
 
 		//check if we are using an object storage
 		$object_storage = OC_Config::getValue( 'object_storage' );
-		if ( isset( $object_storage ) ) {
+		if ( isset( $object_storage ) && OC_App::isEnabled('objectstore') ) {
 			self::initObjectStorageRootFS($object_storage);
 		} else {
 			self::initLocalStorageRootFS();
@@ -96,10 +96,12 @@ class OC_Util {
 				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
 					|| $storage->instanceOfStorage('\OCA\ObjectStore\AbstractObjectStore') // FIXME introduce interface \OC\Files\Storage\HomeStorage? or add method?
 				) {
-					$user = $storage->getUser()->getUID();
-					$quota = OC_Util::getUserQuota($user);
-					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
+					if (is_object($storage->getUser())) {
+						$user = $storage->getUser()->getUID();
+						$quota = OC_Util::getUserQuota($user);
+						if ($quota !== \OC\Files\SPACE_UNLIMITED) {
+							return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
+						}
 					}
 				}
 
