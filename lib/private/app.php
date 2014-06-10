@@ -265,10 +265,8 @@ class OC_App {
 	}
 
 	/**
-	 * disables an app
-	 * @param string $app app
-	 *
 	 * This function set an app as disabled in appconfig.
+	 * @param string $app app
 	 */
 	public static function disable($app) {
 		self::$enabledAppsCache = array(); // flush
