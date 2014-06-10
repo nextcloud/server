@@ -227,10 +227,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 
 		// verify cache content
 		$newData0 = $this->cache->get('folder/bar.txt');
-		$newData1 = $this->cache->get('folder');
-		$newData2 = $this->cache->get('');
+		$this->assertInternalType('string', $newData0['etag']);
 		$this->assertNotEmpty($newData0['etag']);
-		$this->assertNotEquals($data1['etag'], $newData1['etag']);
-		$this->assertNotEquals($data2['etag'], $newData2['etag']);
 	}
 }
