@@ -110,6 +110,8 @@ class Scanner extends BasicEmitter {
 					$parent = '';
 				}
 				$parentId = $this->cache->getId($parent);
+
+				// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
 				if ($file and $parentId === -1) {
 					$parentData = $this->scanFile($parent);
 					$parentId = $parentData['fileid'];
