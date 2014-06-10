@@ -1140,7 +1140,7 @@ function initCore() {
 	setupMainMenu();
 
 	// just add snapper for logged in users
-	if($('#app-navigation').length) {
+	if($('#app-navigation').length && !$('html').hasClass('lte9')) {
 
 		// App sidebar on mobile
 		var snapper = new Snap({
