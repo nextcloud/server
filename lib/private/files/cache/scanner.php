@@ -89,10 +89,9 @@ class Scanner extends BasicEmitter {
 	 *
 	 * @param string $file
 	 * @param int $reuseExisting
-	 * @param bool $parentExistsInCache
 	 * @return array an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentExistsInCache = false) {
+	public function scanFile($file, $reuseExisting = 0) {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
@@ -242,7 +241,7 @@ class Scanner extends BasicEmitter {
 					if (!Filesystem::isIgnoredDir($file)) {
 						$newChildren[] = $file;
 						try {
-							$data = $this->scanFile($child, $reuse, true);
+							$data = $this->scanFile($child, $reuse);
 							if ($data) {
 								if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
 									$childQueue[] = $child;
