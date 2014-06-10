@@ -1163,7 +1163,7 @@ class OC_App {
 			OC_DB::updateDbFromStructure(self::getAppPath($appid) . '/appinfo/database.xml');
 		}
 		if (!self::isEnabled($appid)) {
-			return;
+			return false;
 		}
 		if (file_exists(self::getAppPath($appid) . '/appinfo/update.php')) {
 			self::loadApp($appid);
