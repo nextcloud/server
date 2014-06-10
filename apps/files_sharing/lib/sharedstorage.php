@@ -23,12 +23,13 @@
 
 namespace OC\Files\Storage;
 use OC\Files\Filesystem;
+use OCA\Files_Sharing\ISharedStorage;
 use OCA\Files_Sharing\SharedMount;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class Shared extends \OC\Files\Storage\Common {
+class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	private $share;   // the shared resource
 	private $files = array();

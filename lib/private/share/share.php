@@ -508,9 +508,9 @@ class Share extends \OC\Share\Constants {
 		if ($itemType === 'folder') {
 			$path = '/' . $uidOwner . '/files' . \OC\Files\Filesystem::getPath($itemSource) . '/';
 			$mountManager = \OC\Files\Filesystem::getMountManager();
-			$mounts = $mountManager->getAll();
-			foreach ($mounts as $mountPoint => $mount) {
-				if ($mount->getStorage() instanceof \OCA\Files_Sharing\ISharedStorage && strpos($mountPoint, $path) === 0) {
+			$mounts = $mountManager->findIn($path);
+			foreach ($mounts as $mount) {
+				if ($mount->getStorage()->instanceOfStorage('\OCA\Files_Sharing\ISharedStorage')) {
 					$message = 'Sharing "' . $itemSourceName . '" failed, because it contains files shared with you!';
 					\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 					throw new \Exception($message);
