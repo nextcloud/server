@@ -347,6 +347,21 @@ class OC_Installer{
 	 * The function will check if an update for a version is available
 	 */
 	public static function isUpdateAvailable( $app ) {
+		static $isInstanceReadyForUpdates = null;
+
+		if ($isInstanceReadyForUpdates === null) {
+			$installPath = OC_App::getInstallPath();
+			if ($installPath === false || $installPath === null) {
+				$isInstanceReadyForUpdates = false;
+			} else {
+				$isInstanceReadyForUpdates = true;
+			}
+		}
+
+		if ($isInstanceReadyForUpdates === false) {
+			return false;
+		}
+
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
 		if($ocsid<>'') {
