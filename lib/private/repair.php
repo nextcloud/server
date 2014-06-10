@@ -11,51 +11,72 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 
 class Repair extends BasicEmitter {
-	private $stepClasses;
+	/**
+	 * @var array
+	 **/
+	private $repairSteps;
 
 	/**
 	 * Creates a new repair step runner
 	 *
-	 * @param array $stepClasses optional list of step classes
+	 * @param array $repairSteps array of RepairStep instances
 	 */
-	public function __construct($stepClasses = array()) {
-		$this->stepClasses = $stepClasses;
+	public function __construct($repairSteps = array()) {
+		$this->repairSteps = $repairSteps;
 	}
 
 	/**
 	 * Run a series of repair steps for common problems
 	 */
 	public function run() {
-		$steps = array();
-
-		// instantiate all classes, just to make
-		// sure they all exist before starting
-		foreach ($this->stepClasses as $className) {
-			$steps[] = new $className();
-		}
-
 		$self = $this;
+		if (count($this->repairSteps) === 0) {
+			$this->emit('\OC\Repair', 'info', array('No repair steps available'));
+			return;
+		}
 		// run each repair step
-		foreach ($steps as $step) {
+		foreach ($this->repairSteps as $step) {
 			$this->emit('\OC\Repair', 'step', array($step->getName()));
 
-			$step->listen('\OC\Repair', 'error', function ($description) use ($self) {
-				$self->emit('\OC\Repair', 'error', array($description));
-			});
-			$step->listen('\OC\Repair', 'info', function ($description) use ($self) {
-				$self->emit('\OC\Repair', 'info', array($description));
-			});
+			if ($step instanceof BasicEmitter) {
+				$step->listen('\OC\Repair', 'warning', function ($description) use ($self) {
+					$self->emit('\OC\Repair', 'warning', array($description));
+				});
+				$step->listen('\OC\Repair', 'info', function ($description) use ($self) {
+					$self->emit('\OC\Repair', 'info', array($description));
+				});
+			}
+
 			$step->run();
 		}
 	}
 
 	/**
-	 * Add repair step class
+	 * Add repair step
 	 *
-	 * @param string $className name of a repair step class
+	 * @param RepairStep $repairStep repair step
 	 */
-	public function addStep($className) {
-		$this->stepClasses[] = $className;
+	public function addStep($repairStep) {
+		$this->repairSteps[] = $repairStep;
 	}
 
+	/**
+	 * Returns the default repair steps to be run on the
+	 * command line or after an upgrade.
+	 *
+	 * @return array of RepairStep instances
+	 */
+	public static function getRepairSteps() {
+		return array();
+	}
+
+	/**
+	 * Returns the repair steps to be run before an
+	 * upgrade.
+	 *
+	 * @return array of RepairStep instances
+	 */
+	public static function getBeforeUpgradeRepairSteps() {
+		return array();
+	}
 }

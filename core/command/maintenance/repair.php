@@ -20,9 +20,11 @@ class Repair extends Command {
 
 	/**
 	 * @param \OC\Repair $repair
+	 * @param \OC\Config $config
 	 */
-	public function __construct($repair) {
+	public function __construct(\OC\Repair $repair, \OC\Config $config) {
 		$this->repair = $repair;
+		$this->config = $config;
 		parent::__construct();
 	}
 
@@ -33,9 +35,12 @@ class Repair extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		\OC_DB::enableCaching(false);
-		$maintenanceMode = \OC_Config::getValue('maintenance', false);
-		\OC_Config::setValue('maintenance', true);
+		// TODO: inject DB connection/factory when possible
+		$connection = \OC_DB::getConnection();
+		$connection->disableQueryStatementCaching();
+
+		$maintenanceMode = $this->config->getValue('maintenance', false);
+		$this->config->setValue('maintenance', true);
 
 		$this->repair->listen('\OC\Repair', 'step', function ($description) use ($output) {
 			$output->writeln(' - ' . $description);
@@ -49,6 +54,6 @@ class Repair extends Command {
 
 		$this->repair->run();
 
-		\OC_Config::setValue('maintenance', $maintenanceMode);
+		$this->config->setValue('maintenance', $maintenanceMode);
 	}
 }
