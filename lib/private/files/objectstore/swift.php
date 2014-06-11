@@ -63,11 +63,22 @@ class Swift extends AbstractObjectStore {
 		parent::__construct($params);
 	}
 
+	/**
+	 * @param string $urn Unified Resource Name
+	 * @return void
+	 * @throws Exception from openstack lib when something goes wrong
+	 */
 	protected function deleteObject($urn) {
 		$object = $this->container->getObject($urn);
 		$object->delete();
 	}
-	
+
+	/**
+	 * @param string $urn Unified Resource Name
+	 * @param string $tmpFile
+	 * @return void
+	 * @throws Exception from openstack lib when something goes wrong
+	 */
 	protected function getObject($urn, $tmpFile) {
 		$object = $this->container->getObject($urn);
 
@@ -78,7 +89,13 @@ class Swift extends AbstractObjectStore {
 		$stream = $objectContent->getStream();
 		file_put_contents($tmpFile, $stream);
 	}
-	
+
+	/**
+	 * @param string $urn Unified Resource Name
+	 * @param string $tmpFile
+	 * @return void
+	 * @throws Exception from openstack lib when something goes wrong
+	 */
 	protected function createObject($urn, $tmpFile = null) {
 		$fileData = '';
 		if ($tmpFile) {

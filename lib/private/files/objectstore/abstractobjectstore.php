@@ -23,6 +23,31 @@ namespace OC\Files\ObjectStore;
 abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 
 	/**
+	 * @param string $urn the unified resource name used to identify the object
+	 * @return void
+	 * @throws Exception when something goes wrong, message will be logged
+	 */
+	abstract protected function deleteObject($urn);
+
+	/**
+	 * @param string $urn the unified resource name used to identify the object
+	 * @param string $tmpFile path to the local temporary file that should be
+	 *        used to store the object
+	 * @return void
+	 * @throws Exception when something goes wrong, message will be logged
+	 */
+	abstract protected function getObject($urn, $tmpFile);
+
+	/**
+	 * @param string $urn the unified resource name used to identify the object
+	 * @param string $tmpFile path to the local temporary file that the object
+	 *        should be loaded from
+	 * @return void
+	 * @throws Exception when something goes wrong, message will be logged
+	 */
+	abstract protected function createObject($urn, $tmpFile = null);
+
+	/**
 	 * @var \OC\User\User $user
 	 */
 	protected $user;
@@ -33,6 +58,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	private static $tmpFiles = array();
 
 	/**
+	 * @param string $path
 	 * @return \OC\Files\Cache\Cache
 	 */
 	public function getCache($path = '') {
@@ -45,6 +71,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	/**
 	 * Object Stores use a NoopScanner because metadata is directly stored in
 	 * the file cache and cannot really scan the filesystem
+	 * @param string $path
 	 * @return \OC\Files\ObjectStore\NoopScanner
 	 */
 	public function getScanner($path = '') {
@@ -58,7 +85,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	 * get the owner of a path
 	 *
 	 * @param string $path The path to get the owner
-	 * @return string uid or false
+	 * @return false|string uid
 	 */
 	public function getOwner($path) {
 		if (is_object($this->user)) {
@@ -66,6 +93,11 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		}
 		return false;
 	}
+
+	/**
+	 * @param string $path, optional
+	 * @return \OC\User\User
+	 */
 	public function getUser($path = null) {
 		return $this->user;
 	}
@@ -119,21 +151,21 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$dirname = dirname($path);
-		$parentExists = $this->is_dir($dirname);
+		$dirName = dirname($path);
+		$parentExists = $this->is_dir($dirName);
 
 		$mtime = time();
 
-		if ($dirname === '.' && ! $parentExists ) {
+		if ($dirName === '.' && ! $parentExists ) {
 			//create root on the fly
 
 			$data = array(
-				'etag' => $this->getETag($dirname),
-				'mimetype' => "httpd/unix-directory",
+				'etag' => $this->getETag($dirName),
+				'mimetype' => 'httpd/unix-directory',
 				'size' => 0,
 				'mtime' => $mtime,
 				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_CREATE,
+				'permissions' => \OCP\PERMISSION_ALL,
 			);
 			$this->getCache()->put('', $data);
 			$parentExists = true;
@@ -144,11 +176,11 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 
 			$data = array(
 				'etag' => $this->getETag($path),
-				'mimetype' => "httpd/unix-directory",
+				'mimetype' => 'httpd/unix-directory',
 				'size' => 0,
 				'mtime' => $mtime,
 				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_CREATE,
+				'permissions' => \OCP\PERMISSION_ALL,
 			);
 
 			$this->getCache()->put($path, $data);
@@ -163,6 +195,16 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		return (bool)$this->stat($path);
 	}
 
+	private function rmObjects($path) {
+		$children = $this->getCache()->getFolderContents($path);
+		foreach ($children as $child) {
+			if ($child['mimetype'] === 'httpd/unix-directory') {
+				$this->rmObjects($child['path']);
+			} else {
+				$this->unlink($child['path']);
+			}
+		}
+	}
 
 	public function rmdir($path) {
 		$path = $this->normalizePath($path);
@@ -171,9 +213,9 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			return false;
 		}
 
+		$this->rmObjects($path);
+
 		$this->getCache()->remove($path);
-		
-		//TODO recursively delete files in s3
 
 		return true;
 	}
@@ -194,10 +236,10 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 				$files[] = $file['name'];
 			}
 			
-			\OC\Files\Stream\Dir::register('s3' . $path, $files);
+			\OC\Files\Stream\Dir::register('objstore' . $path, $files);
 
-			return opendir('fakedir://s3' . $path);
-		} catch (S3Exception $e) {
+			return opendir('fakedir://objstore' . $path);
+		} catch (Exception $e) {
 			\OCP\Util::writeLog('objectstore', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
@@ -220,28 +262,26 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		}
 	}
 
-	abstract protected function deleteObject($urn);
 	
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
 		$stat = $this->stat($path);
 
 		if ($stat && isset($stat['fileid'])) {
-			//TODO use exception handling?
-			$this->deleteObject($this->getURN($stat['fileid']));
+			if ($stat['mimetype'] === 'httpd/unix-directory') {
+				return $this->rmdir($path);
+			}
+			try {
+				$this->deleteObject($this->getURN($stat['fileid']));
+			} catch (\Exception $ex) {
+				\OCP\Util::writeLog('objectstore', 'Could not delete object: '.$ex->getMessage(), \OCP\Util::ERROR);
+				return false;
+			}
 			$this->getCache()->remove($path);
 			return true;
 		}
 		return false;
 	}
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that should be
-	 *        used to store the object
-	 * @return null|string
-	 */
-	abstract protected function getObject($urn, $tmpFile);
 	
 	public function fopen($path, $mode) {
 		$path = $this->normalizePath($path);
@@ -253,8 +293,12 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 				if (is_array($stat)) {
 					$tmpFile = \OC_Helper::tmpFile();
 					self::$tmpFiles[$tmpFile] = $path;
-					$this->getObject($this->getURN($stat['fileid']), $tmpFile);
-
+					try {
+						$this->getObject($this->getURN($stat['fileid']), $tmpFile);
+					} catch (\Exception $ex) {
+						\OCP\Util::writeLog('objectstore', 'Could not get object: '.$ex->getMessage(), \OCP\Util::ERROR);
+						return false;
+					}
 					return fopen($tmpFile, 'r');
 				} else {
 					return false;
@@ -326,14 +370,6 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			return false;
 		}
 	}
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that the object
-	 *        should be loaded from
-	 * @return null|string
-	 */
-	abstract protected function createObject($urn, $tmpFile = null);
 	
 	public function touch($path, $mtime = null) {
 		if (is_null($mtime)) {
@@ -341,8 +377,8 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		}
 
 		$path = $this->normalizePath($path);
-		$dirname = dirname($path);
-		$parentExists = $this->is_dir($dirname);
+		$dirName = dirname($path);
+		$parentExists = $this->is_dir($dirName);
 		if (!$parentExists) {
 			return false;
 		}
@@ -353,29 +389,34 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			$stat['mtime'] = $mtime;
 			$this->getCache()->update($stat['fileid'], $stat);
 		} else {
-			$mimetype = \OC_Helper::getFileNameMimeType($path);
+			$mimeType = \OC_Helper::getFileNameMimeType($path);
 			// create new file
 			$stat = array(
 				'etag' => $this->getETag($path),
-				'mimetype' => $mimetype,
+				'mimetype' => $mimeType,
 				'size' => 0,
 				'mtime' => $mtime,
 				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_CREATE,
+				'permissions' => \OCP\PERMISSION_ALL,
 			);
-			$fileid = $this->getCache()->put($path, $stat);
-			$this->createObject($this->getURN($fileid));
+			$fileId = $this->getCache()->put($path, $stat);
+			try {
+				$this->createObject($this->getURN($fileId));
+			} catch (\Exception $ex) {
+				\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
+				return false;
+			}
 		}
 		return true;
 	}
 
 	/**
-	 * @param int $fileid the fileid
+	 * @param int $fileId the fileid
 	 * @return null|string
 	 */
-	protected function getURN($fileid) {
-		if (is_numeric($fileid)) {
-			return 'urn:oid:'.$fileid;
+	protected function getURN($fileId) {
+		if (is_numeric($fileId)) {
+			return 'urn:oid:'.$fileId;
 		}
 		return null;
 	}
@@ -386,7 +427,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		}
 
 		$path = self::$tmpFiles[$tmpFile];
-		$mimetype = \OC_Helper::getMimeType($tmpFile);
+		$mimeType = \OC_Helper::getMimeType($tmpFile);
 		$size = filesize($tmpFile);
 		$mtime = time();
 		$stat = $this->stat($path);
@@ -394,20 +435,26 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			// update existing db entry
 			$stat['size'] = $size;
 			$stat['mtime'] = $mtime;
-			$stat['mimetype'] = $mimetype;
+			$stat['mimetype'] = $mimeType;
 		} else {
 			// create new file
 			$stat = array(
 				'etag' => $this->getETag($path),
-				'mimetype' => $mimetype,
 				'size' => $size,
 				'mtime' => $mtime,
+				'mimetype' => $mimeType,
 				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_CREATE,
+				'permissions' => \OCP\PERMISSION_ALL,
 			);
 		}
-		$fileid = $this->getCache()->put($path, $stat);
-		$this->createObject($this->getURN($fileid), $tmpFile);
+		$fileId = $this->getCache()->put($path, $stat);
+		try {
+			$this->createObject($this->getURN($fileId), $tmpFile);
+		} catch (\Exception $ex) {
+			\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
+			return false;
+		}
+		return true;
 	}
 
 }
