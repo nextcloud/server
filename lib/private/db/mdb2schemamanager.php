@@ -24,8 +24,6 @@ class MDB2SchemaManager {
 	 */
 	public function __construct($conn) {
 		$this->conn = $conn;
-		$this->conn->close();
-		$this->conn->connect();
 	}
 
 	/**
@@ -150,6 +148,10 @@ class MDB2SchemaManager {
 			$this->conn->query($sql);
 		}
 		$this->conn->commit();
+
+		if ($this->conn->getDatabasePlatform() instanceof SqlitePlatform) {
+			\OC_DB::reconnect();
+		}
 		return true;
 	}
 }
