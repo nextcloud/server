@@ -3,10 +3,10 @@
 // We only can count up. The 4. digit is only for the internal patchlevel to trigger DB upgrades
 // between betas, final and RCs. This is _not_ the public version number. Reset minor/patchlevel
 // when updating major/minor version number.
-$OC_Version=array(6, 90, 0, 4);
+$OC_Version=array(7, 0, 0, 0);
 
 // The human readable string
-$OC_VersionString='7.0 pre alpha';
+$OC_VersionString='7.0 alpha 1';
 
 // The ownCloud edition
 $OC_Edition='';
