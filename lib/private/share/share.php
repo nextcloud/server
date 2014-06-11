@@ -1211,6 +1211,7 @@ class Share extends \OC\Share\Constants {
 			}
 		} else {
 			$queryLimit = null;
+			$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
 		}
 		$select = self::createSelectStatement($format, $fileDependent, $uidOwner);
 		$root = strlen($root);
