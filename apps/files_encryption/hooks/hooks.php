@@ -490,7 +490,7 @@ class Hooks {
 
 			// create destination folder if not exists
 			if (!$view->file_exists(dirname($newShareKeyPath))) {
-				$view->mkdir(dirname($newShareKeyPath), 0750, true);
+				mkdir($view->getLocalFile($newShareKeyPath), 0750, true);
 			}
 
 			$view->rename($oldShareKeyPath, $newShareKeyPath);
@@ -501,7 +501,7 @@ class Hooks {
 
 			// create destination folder if not exists
 			if (!$view->file_exists(dirname($newKeyfilePath))) {
-				$view->mkdir(dirname($newKeyfilePath), 0750, true);
+				mkdir(dirname($view->getLocalFile($newKeyfilePath)), 0750, true);
 			}
 
 			$view->rename($oldKeyfilePath, $newKeyfilePath);
