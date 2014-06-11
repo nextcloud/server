@@ -861,8 +861,12 @@ class View {
 			}
 
 			if ($data and isset($data['fileid'])) {
+				if ($data['permissions'] === 0) {
+					$data['permissions'] = $storage->getPermissions($data['path']);
+					$cache->update($data['fileid'], array('permissions' => $data['permissions']));
+				}
 				if ($includeMountPoints and $data['mimetype'] === 'httpd/unix-directory') {
-					//add the sizes of other mountpoints to the folder
+					//add the sizes of other mount points to the folder
 					$extOnly = ($includeMountPoints === 'ext');
 					$mountPoints = Filesystem::getMountPoints($path);
 					foreach ($mountPoints as $mountPoint) {
@@ -917,21 +921,17 @@ class View {
 			}
 
 			$folderId = $cache->getId($internalPath);
+			/**
+			 * @var \OC\Files\FileInfo[] $files
+			 */
 			$files = array();
 			$contents = $cache->getFolderContents($internalPath, $folderId); //TODO: mimetype_filter
 			foreach ($contents as $content) {
-				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
-			}
-
-			$ids = array();
-			foreach ($files as $i => $file) {
-				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-				$ids[] = $file['fileid'];
-
-				if (!isset($permissions[$file['fileid']])) {
-					$permissions[$file['fileid']] = $storage->getPermissions($file['path']);
+				if ($content['permissions'] === 0) {
+					$content['permissions'] = $storage->getPermissions($content['path']);
+					$cache->update($content['fileid'], array('permissions' => $content['permissions']));
 				}
-				$files[$i]['permissions'] = $permissions[$file['fileid']];
+				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
