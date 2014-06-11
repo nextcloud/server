@@ -65,8 +65,8 @@ class ChangePropagator extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($newInfo2->getMTime(), $time);
 		$this->assertEquals($newInfo3->getMTime(), $time);
 
-		$this->assertNotEquals($oldInfo1->getEtag(), $newInfo1->getEtag());
-		$this->assertNotEquals($oldInfo2->getEtag(), $newInfo2->getEtag());
-		$this->assertNotEquals($oldInfo3->getEtag(), $newInfo3->getEtag());
+		$this->assertNotSame($oldInfo1->getEtag(), $newInfo1->getEtag());
+		$this->assertNotSame($oldInfo2->getEtag(), $newInfo2->getEtag());
+		$this->assertNotSame($oldInfo3->getEtag(), $newInfo3->getEtag());
 	}
 }
