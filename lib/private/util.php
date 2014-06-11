@@ -29,7 +29,7 @@ class OC_Util {
 	 * TODO make home storage aware of this and use the object storage instead of local disk access
 	 * @param array $config containing 'class' and optional 'arguments'
 	 */
-	private static function initObjectStorageRootFS($config) {
+	private static function initObjectStoreRootFS($config) {
 		// check misconfiguration
 		if (empty($config['class'])) {
 			//FIXME log error?
@@ -73,9 +73,9 @@ class OC_Util {
 		}
 
 		//check if we are using an object storage
-		$object_storage = OC_Config::getValue( 'object_storage' );
-		if ( isset( $object_storage ) && OC_App::isEnabled('objectstore') ) {
-			self::initObjectStorageRootFS($object_storage);
+		$root_storage = OC_Config::getValue( 'root_storage' );
+		if ( isset( $root_storage ) ) {
+			self::initObjectStoreRootFS($root_storage);
 		} else {
 			self::initLocalStorageRootFS();
 		}
@@ -94,7 +94,7 @@ class OC_Util {
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
 				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
-					|| $storage->instanceOfStorage('\OCA\ObjectStore\AbstractObjectStore') // FIXME introduce interface \OC\Files\Storage\HomeStorage? or add method?
+					|| $storage->instanceOfStorage('\OC\Files\ObjectStore\AbstractObjectStore')
 				) {
 					if (is_object($storage->getUser())) {
 						$user = $storage->getUser()->getUID();
@@ -109,12 +109,17 @@ class OC_Util {
 			});
 
 			$userDir = '/'.$user.'/files';
-			$userRoot = OC_User::getHome($user);
-			$userDirectory = $userRoot . '/files';
-			if( !is_dir( $userDirectory )) {
-				mkdir( $userDirectory, 0755, true );
-				OC_Util::copySkeleton($userDirectory);
+
+			//autocreate users "home" directory for local storage only
+			if ( ! isset( $root_storage ) ) {
+				$userRoot = OC_User::getHome($user);
+				$userDirectory = $userRoot . '/files';
+				if( !is_dir( $userDirectory )) {
+					mkdir( $userDirectory, 0755, true );
+					OC_Util::copySkeleton($userDirectory);
+				}
 			}
+
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
 
