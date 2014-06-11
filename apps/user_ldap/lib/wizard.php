@@ -63,6 +63,27 @@ class Wizard extends LDAPUtility {
 		}
 	}
 
+	/**
+	 * counts entries in the LDAP directory
+	 * @param string $filter the LDAP search filter
+	 * @param string $type a string being either 'users' or 'groups';
+	 * @return int|bool
+	 */
+	public function countEntries($filter, $type) {
+		$con = new Connection($this->ldap, '', null);
+		$con->setConfiguration($this->configuration->getConfiguration());
+		$ldapAccess = new Access($con, $this->ldap);
+		if($type === 'groups') {
+			$result =  $ldapAccess->countGroups($filter);
+		} else if($type === 'users') {
+			$result = $ldapAccess->countUsers($filter);
+		} else {
+			throw new \Excpetion('internal error: invald object type');
+		}
+
+		return $result;
+	}
+
 	public function countGroups() {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
@@ -73,26 +94,18 @@ class Wizard extends LDAPUtility {
 
 		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapGroupFilter;
-		\OCP\Util::writeLog('user_ldap', 'Wiz: g filter '. print_r($filter, true), \OCP\Util::DEBUG);
 		$l = \OC_L10N::get('user_ldap');
+
 		if(empty($filter)) {
 			$output = $l->n('%s group found', '%s groups found', 0, array(0));
 			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
-		$cr = $this->getConnection();
-		if(!$cr) {
-			throw new \Exception('Could not connect to LDAP');
-		}
-		$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
-		if(!$this->ldap->isResource($rr)) {
-			return false;
-		}
-		$entries = $this->ldap->countEntries($cr, $rr);
-		$entries = ($entries !== false) ? $entries : 0;
-		$output = $l->n('%s group found', '%s groups found', $entries, $entries);
-		$this->result->addChange('ldap_group_count', $output);
 
+		$groupsTotal = $this->countEntries($filter, 'groups');
+		$groupsTotal = ($groupsTotal !== false) ? $groupsTotal : 0;
+		$output = $l->n('%s group found', '%s groups found', $groupsTotal, $groupsTotal);
+		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
 	}
 
@@ -105,23 +118,14 @@ class Wizard extends LDAPUtility {
 			return  false;
 		}
 
-		$cr = $this->getConnection();
-		if(!$cr) {
-			throw new \Exception('Could not connect to LDAP');
-		}
-
 		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapUserFilter;
-		$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
-		if(!$this->ldap->isResource($rr)) {
-			return false;
-		}
-		$entries = $this->ldap->countEntries($cr, $rr);
-		$entries = ($entries !== false) ? $entries : 0;
-		$l = \OC_L10N::get('user_ldap');
-		$output = $l->n('%s user found', '%s users found', $entries, $entries);
-		$this->result->addChange('ldap_user_count', $output);
 
+		$usersTotal = $this->countEntries($filter, 'users');
+		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
+		$l = \OC_L10N::get('user_ldap');
+		$output = $l->n('%s user found', '%s users found', $usersTotal, $usersTotal);
+		$this->result->addChange('ldap_user_count', $output);
 		return $this->result;
 	}
 
