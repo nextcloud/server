@@ -55,8 +55,13 @@ class ControllerMethodReflector {
 
 		// extract type parameter information
 		preg_match_all('/@param (?<type>\w+) \$(?<var>\w+)/', $docs, $matches);
-		$this->types = array_combine($matches['var'], $matches['type']);
-
+		// this is just a fix for PHP 5.3 (array_combine raises warning if called with
+		// two empty arrays
+		if($matches['var'] === array() && $matches['type'] === array()) {
+			$this->types = array();
+		} else {
+			$this->types = array_combine($matches['var'], $matches['type']);
+		}
 		// get method parameters
 		foreach ($reflection->getParameters() as $param) {
 			if($param->isOptional()) {
