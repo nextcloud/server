@@ -127,7 +127,7 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 
 		# The following expectations are the real test #
 		$filters = array('f1', 'f2', '*');
-		$wizard->cumulativeSearchOnAttribute($filters, 'cn', true, 5);
+		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 5);
 		unset($uidnumber);
 	}
 
@@ -203,7 +203,7 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 
 		# The following expectations are the real test #
 		$filters = array('f1', 'f2', '*');
-		$wizard->cumulativeSearchOnAttribute($filters, 'cn', true, 0);
+		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		unset($uidnumber);
 	}
 
