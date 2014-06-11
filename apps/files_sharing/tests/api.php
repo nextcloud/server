@@ -1166,7 +1166,6 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$query = \OCP\DB::prepare($statement);
 		$result = $query->execute(array($shareCreated, \OCP\Share::SHARE_TYPE_LINK));
 		$this->assertSame(1, $result);
-		$statement = "UPDATE `*PREFIX*share` SET `stime` = ? WHERE `share_type` = ?";
 		$query = \OCP\DB::prepare($statement);
 		$result = $query->execute(array($shareCreated, \OCP\Share::SHARE_TYPE_USER));
 		$this->assertSame(1, $result);
