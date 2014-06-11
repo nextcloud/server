@@ -43,8 +43,9 @@ class Connection extends LDAPUtility {
 
 	/**
 	 * @brief Constructor
-	 * @param $configPrefix a string with the prefix for the configkey column (appconfig table)
-	 * @param $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
+	 * @param \OCA\user_ldap\lib\ILDAPWrapper $ldap
+	 * @param string $configPrefix a string with the prefix for the configkey column (appconfig table)
+	 * @param string|null $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
 	 */
 	public function __construct(ILDAPWrapper $ldap, $configPrefix = '', $configID = 'user_ldap') {
 		parent::__construct($ldap);
