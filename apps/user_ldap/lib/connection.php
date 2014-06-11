@@ -41,6 +41,8 @@ class Connection extends LDAPUtility {
 
 	protected $doNotValidate = false;
 
+	protected $ignoreValidation = false;
+
 	/**
 	 * @brief Constructor
 	 * @param \OCA\user_ldap\lib\ILDAPWrapper $ldap
@@ -106,6 +108,16 @@ class Connection extends LDAPUtility {
 			}
 			$this->validateConfiguration();
 		}
+	}
+
+	/**
+	 * sets whether the result of the configuration validation shall
+	 * be ignored when establishing the connection. Used by the Wizard
+	 * in early configuration state.
+	 * @param bool $state
+	 */
+	public function setIgnoreValidation($state) {
+		$this->ignoreValidation = (bool)$state;
 	}
 
 	/**
@@ -441,7 +453,7 @@ class Connection extends LDAPUtility {
 		if(!$phpLDAPinstalled) {
 			return false;
 		}
-		if(!$this->configured) {
+		if(!$this->ignoreValidation && !$this->configured) {
 			\OCP\Util::writeLog('user_ldap',
 								'Configuration is invalid, cannot connect',
 								\OCP\Util::WARN);

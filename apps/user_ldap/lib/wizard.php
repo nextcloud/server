@@ -1072,6 +1072,8 @@ class Wizard extends LDAPUtility {
 	private function getAccess() {
 		$con = new Connection($this->ldap, '', null);
 		$con->setConfiguration($this->configuration->getConfiguration());
+		$con->ldapConfigurationActive = true;
+		$con->setIgnoreValidation(true);
 		$ldapAccess = new Access($con, $this->ldap);
 		return $ldapAccess;
 	}
