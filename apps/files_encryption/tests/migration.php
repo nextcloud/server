@@ -50,10 +50,44 @@ class Test_Migration extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function testDataMigration() {
+	public function checkLastIndexId() {
+		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
+			.' `item_type`, `item_source`, `item_target`, `share_type`,'
+			.' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`,'
+			.' `file_target`, `token`, `parent`, `expiration`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
+		$query->bindValue(1, 'file');
+		$query->bindValue(2, 949);
+		$query->bindValue(3, '/949');
+		$query->bindValue(4, 0);
+		$query->bindValue(5, 'migrate-test-user');
+		$query->bindValue(6, 'migrate-test-owner');
+		$query->bindValue(7, 23);
+		$query->bindValue(8, 1402493312);
+		$query->bindValue(9, 0);
+		$query->bindValue(10, '/migration.txt');
+		$query->bindValue(11, null);
+		$query->bindValue(12, null);
+		$query->bindValue(13, null);
+		$this->assertEquals(1, $query->execute());
 
-		//FIXME fix this test so that we can enable it again
-		$this->markTestIncomplete('Disabled, because of this tests a lot of other tests fail at the moment');
+		$this->assertNotEquals('0', \OC_DB::insertid('*PREFIX*share'));
+
+		// cleanup
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `file_target` = ?');
+		$query->bindValue(1, '/migration.txt');
+		$this->assertEquals(1, $query->execute());
+
+	}
+
+	public function testBrokenLastIndexId() {
+
+		// create test table
+		$this->checkLastIndexId();
+		OC_DB::createDbFromStructure(__DIR__ . '/encryption_table.xml');
+		$this->checkLastIndexId();
+	}
+
+	public function testDataMigration() {
 
 		$this->assertTableNotExist('encryption_test');
 
@@ -79,9 +113,6 @@ class Test_Migration extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testDuplicateDataMigration() {
-
-		//FIXME fix this test so that we can enable it again
-		$this->markTestIncomplete('Disabled, because of this tests a lot of other tests fail at the moment');
 
 		// create test table
 		OC_DB::createDbFromStructure(__DIR__ . '/encryption_table.xml');

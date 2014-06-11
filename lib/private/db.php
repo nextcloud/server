@@ -106,6 +106,16 @@ class OC_DB {
 	}
 
 	/**
+	 * The existing database connection is closed and connected again
+	 */
+	public static function reconnect() {
+		if(self::$connection) {
+			self::$connection->close();
+			self::$connection->connect();
+		}
+	}
+
+	/**
 	 * @return \OC\DB\Connection
 	 */
 	static public function getConnection() {
