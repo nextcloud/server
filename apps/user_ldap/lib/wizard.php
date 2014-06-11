@@ -78,9 +78,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Requirements not met', 400);
 		}
 
-		$con = new Connection($this->ldap, '', null);
-		$con->setConfiguration($this->configuration->getConfiguration());
-		$ldapAccess = new Access($con, $this->ldap);
+		$ldapAccess = $this->getAccess();
 		if($type === 'groups') {
 			$result =  $ldapAccess->countGroups($filter);
 		} else if($type === 'users') {
@@ -257,8 +255,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 
-		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', '*');
-		$this->determineFeature($obclasses, 'cn', $dbkey, $confkey);
+		$this->fetchGroups($dbkey, $confkey);
 
 		if($testMemberOf) {
 			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
@@ -269,6 +266,48 @@ class Wizard extends LDAPUtility {
 		}
 
 		return $this->result;
+	}
+
+	/**
+	 * fetches all groups from LDAP
+	 * @param string $dbKey
+	 * @param string $confKey
+	 */
+	public function fetchGroups($dbKey, $confKey) {
+		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
+		$ldapAccess = $this->getAccess();
+
+		foreach($obclasses as $obclass) {
+			$filterParts[] = 'objectclass='.$obclass;
+		}
+		//we filter for everything
+		//- that looks like a group and
+		//- has the group display name set
+		$filter = $ldapAccess->combineFilterWithOr($filterParts);
+		$filter = $ldapAccess->combineFilterWithAnd(array($filter, 'cn=*'));
+
+		$limit = 400;
+		$offset = 0;
+		do {
+			$result = $ldapAccess->searchGroups($filter, array('cn'), $limit, $offset);
+			foreach($result as $item) {
+				$groups[] = $item[0];
+			}
+			$offset += $limit;
+		} while (count($groups) > 0 && count($groups) % $limit === 0);
+
+		if(count($groups) > 0) {
+			natsort($groups);
+			$this->result->addOptions($dbKey, array_values($groups));
+		} else {
+			throw new \Exception(self::$l->t('Could not find the desired feature'));
+		}
+
+		$setFeatures = $this->configuration->$confKey;
+		if(is_array($setFeatures) && !empty($setFeatures)) {
+			//something is already configured? pre-select it.
+			$this->result->addChange($dbKey, $setFeatures);
+		}
 	}
 
 	public function determineGroupMemberAssoc() {
@@ -1024,6 +1063,17 @@ class Wizard extends LDAPUtility {
 		} else {
 			return self::LRESULT_PROCESSED_SKIP;
 		}
+	}
+
+	/**
+	 * creates and returns an Access instance
+	 * @return \OCA\user_ldap\lib\Access
+	 */
+	private function getAccess() {
+		$con = new Connection($this->ldap, '', null);
+		$con->setConfiguration($this->configuration->getConfiguration());
+		$ldapAccess = new Access($con, $this->ldap);
+		return $ldapAccess;
 	}
 
 	private function getConnection() {
