@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Very weak password" => "Parolă foarte slabă",
 "Weak password" => "Parolă slabă",
 "Decrypting files... Please wait, this can take some time." => "Decriptare fișiere... Te rog așteaptă, poate dura ceva timp.",
-"deleted" => "șters",
 "undo" => "Anulează ultima acțiune",
 "Groups" => "Grupuri",
 "Group Admin" => "Grupul Admin ",

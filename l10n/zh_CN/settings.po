@@ -7,6 +7,7 @@
 # mozillazg <opensource.mozillazg@gmail.com>, 2014
 # Star Brilliant <m13253@hotmail.com>, 2013
 # waterone <suiy02@gmail.com>, 2013-2014
+# phy <transifex@phy25.com>, 2014
 # wang <modokwang@gmail.com>, 2013
 # csslayer <wengxt@gmail.com>, 2013-2014
 # zhangmin <zm1990s@gmail.com>, 2013
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-11 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +53,7 @@ msgstr "邮件已发送"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr "在发送测试邮件钱您需要设置您的用户电子邮件"
+msgstr "在发送测试邮件前您需要设置您的用户电子邮件。"
 
 #: admin/controller.php:116 templates/admin.php:353
 msgid "Send mode"
@@ -89,7 +90,7 @@ msgstr "已存在该组"
 
 #: ajax/creategroup.php:20
 msgid "Unable to add group"
-msgstr "无法添加组"
+msgstr "无法增加组"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
@@ -156,7 +157,7 @@ msgstr "管理员不能将自己移出管理组。"
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "无法把用户添加到组 %s"
+msgstr "无法把用户增加到组 %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
@@ -289,7 +290,7 @@ msgid "Restore encryption keys."
 msgstr ""
 
 #: js/users/deleteHandler.js:166
-msgid "Unable to delete "
+msgid "Unable to delete {objName}"
 msgstr ""
 
 #: js/users/groups.js:73 js/users/groups.js:178
@@ -300,9 +301,9 @@ msgstr ""
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205 js/users/users.js:254
-msgid "deleted"
-msgstr "已经删除"
+#: js/users/groups.js:205
+msgid "deleted {groupName}"
+msgstr ""
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -328,9 +329,13 @@ msgstr "删除"
 msgid "never"
 msgstr "从不"
 
+#: js/users/users.js:254
+msgid "deleted {userName}"
+msgstr ""
+
 #: js/users/users.js:371
 msgid "add group"
-msgstr "添加组"
+msgstr "增加组"
 
 #: js/users/users.js:568
 msgid "A valid username must be provided"
@@ -700,7 +705,7 @@ msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社
 
 #: templates/apps.php:14
 msgid "Add your App"
-msgstr "添加应用"
+msgstr "增加应用"
 
 #: templates/apps.php:31
 msgid "More Apps"

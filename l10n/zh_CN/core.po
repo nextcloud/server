@@ -6,6 +6,7 @@
 # hanfeng <appweb.cn@gmail.com>, 2013
 # jsgang <jsgang9@gmail.com>, 2014
 # Smartree <smartree@gmail.com>, 2014
+# phy <transifex@phy25.com>, 2014
 # csslayer <wengxt@gmail.com>, 2013-2014
 # zhangmin <zm1990s@gmail.com>, 2013
 # zhangmin <zm1990s@gmail.com>, 2013
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-11 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 04:00+0000\n"
+"Last-Translator: phy <transifex@phy25.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -266,7 +267,7 @@ msgstr "想要保留哪一个文件呢？"
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr "如果同时选择了连个版本，复制的文件名将会添加上一个数字。"
+msgstr "如果同时选择了两个版本，复制的文件名将会增加上一个数字。"
 
 #: js/oc-dialogs.js:457
 msgid "Cancel"
@@ -629,7 +630,7 @@ msgstr "删除标签(s)时出错"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr "添加标签时出错"
+msgstr "增加标签时出错"
 
 #: tags/controller.php:86
 msgid "Error untagging"

@@ -62,7 +62,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "A desencriptar os ficheiros... Por favor aguarde, esta operação pode demorar algum tempo.",
 "Delete encryption keys permanently." => "Excluir as chaves encriptadas de forma permanente.",
 "Restore encryption keys." => "Restaurar chaves encriptadas.",
-"deleted" => "apagado",
 "undo" => "desfazer",
 "Groups" => "Grupos",
 "Group Admin" => "Grupo Administrador",

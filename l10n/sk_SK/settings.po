@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-11 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr "Súbory sú úspešne dešifrované"
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoj owncloud.log alebo požiadajte o pomoc správcu"
+msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoj owncloud.log alebo požiadajte o pomoc adminstrátora"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
@@ -102,13 +102,13 @@ msgstr "Nemožno dešifrovať vaše súbory, skontrolujte svoje heslo a skúste 
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Šifrovacie kľúče sú trvale vymazané"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Nebolo možné natrvalo vymazať vaše šifrovacie kľúče, skontrolujte si prosím owncloud.log alebo kontaktujte svojho správcu"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -128,13 +128,13 @@ msgstr "Nie je možné odstrániť používateľa"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Zálohy boli úspešne obnovené"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Nebolo možné obnoviť vaše šifrovacie kľúče, skontrolujte si prosím owncloud.log alebo kontaktujte svojho správcu"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -201,7 +201,7 @@ msgstr "Príručka používateľa"
 
 #: js/apps.js:50
 msgid "Admin Documentation"
-msgstr "Príručka správcu"
+msgstr "Príručka administrátora"
 
 #: js/apps.js:67
 msgid "Update to {appversion}"
@@ -277,27 +277,27 @@ msgstr "Dešifrujem súbory ... Počkajte prosím, môže to chvíľu trvať."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Natrvalo vymazať šifrovacie kľúče."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Obnoviť šifrovacie kľúče."
 
 #: js/users/deleteHandler.js:166
-msgid "Unable to delete "
+msgid "Unable to delete {objName}"
 msgstr ""
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Chyba pri vytváraní skupiny"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Musíte zadať platný názov skupiny"
 
-#: js/users/groups.js:205 js/users/users.js:254
-msgid "deleted"
-msgstr "zmazané"
+#: js/users/groups.js:205
+msgid "deleted {groupName}"
+msgstr ""
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -322,6 +322,10 @@ msgstr "Zmazať"
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "nikdy"
+
+#: js/users/users.js:254
+msgid "deleted {userName}"
+msgstr ""
 
 #: js/users/users.js:371
 msgid "add group"
@@ -413,7 +417,7 @@ msgstr "Váš priečinok s dátami aj vaše súbory sú pravdepodobne prístupn�
 
 #: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
-msgstr "Nastavenia oznámení"
+msgstr "Nastavenia oznámení a upozornení"
 
 #: templates/admin.php:78
 msgid ""
@@ -440,14 +444,14 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Informácie o výkone databázy"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Ako databáza je použitá SQLite. Pre väčšie inštalácie vám to odporúčame zmeniť. Na prenos do inej databázy použite nástroj príkazového riadka: \"occ db:convert-typ\""
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -511,14 +515,14 @@ msgstr "Cron"
 #: templates/admin.php:196
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Posledný cron bol spustený %s."
 
 #: templates/admin.php:199
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Posledný cron bol spustený %s. To je viac ako pred hodinou. Zdá sa, že niečo nie je vporiadku."
 
 #: templates/admin.php:203
 msgid "Cron was not executed yet!"
@@ -548,11 +552,11 @@ msgstr "Povoliť aplikáciám používať API na zdieľanie"
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Povoliť používateľom zdieľanie pomocou odkazov"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Vynútiť ochranu heslom"
 
 #: templates/admin.php:254
 msgid "Allow public uploads"
@@ -560,11 +564,11 @@ msgstr "Povoliť verejné nahrávanie súborov"
 
 #: templates/admin.php:258
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Nastaviť predvolený dátum expirácie"
 
 #: templates/admin.php:260
 msgid "Expire after "
-msgstr "Platnosť"
+msgstr "Platnosť do"
 
 #: templates/admin.php:263
 msgid "days"
@@ -572,7 +576,7 @@ msgstr "dni"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Vynútiť dátum expirácie"
 
 #: templates/admin.php:276
 msgid "Allow resharing"
@@ -580,7 +584,7 @@ msgstr "Povoliť zdieľanie ďalej"
 
 #: templates/admin.php:283
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Povoliť používateľom zdieľanie len medzi nimi v rámci skupiny"
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
@@ -588,12 +592,12 @@ msgstr "Povoliť používateľom zasielať emailom oznámenie o zdieľaní súbo
 
 #: templates/admin.php:297
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Vybrať skupiny zo zdieľania"
 
 #: templates/admin.php:308
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Tieto skupiny budú môcť stále zdieľať, ale sami nemôžu zdieľať ostatným."
 
 #: templates/admin.php:315
 msgid "Security"
@@ -629,7 +633,7 @@ msgstr "Z adresy"
 
 #: templates/admin.php:382
 msgid "mail"
-msgstr ""
+msgstr "email"
 
 #: templates/admin.php:403
 msgid "Authentication required"
@@ -723,7 +727,7 @@ msgstr "<span class=\"licence\"></span>-licencované <span class=\"author\"></sp
 
 #: templates/apps.php:58
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Povoliť len pre vybrané skupiny"
 
 #: templates/apps.php:60
 msgid "All"
@@ -751,7 +755,7 @@ msgstr "Komerčná podpora"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Získať aplikácie na synchronizáciu Vašich súborov"
+msgstr "Získať aplikácie na synchronizáciu vašich súborov"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
@@ -803,7 +807,7 @@ msgstr "Vaša emailová adresa"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Zadajte emailovú adresu pre umožnenie obnovy zabudnutého hesla a pre prijímanie upozornení a oznámení"
 
 #: templates/personal.php:89
 msgid "Profile picture"
@@ -862,15 +866,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Vaše šifrovacie kľúče boli zazálohované. Ak by sa niečo nepodarilo, dajú sa znovu obnoviť. Natrvalo ich vymažte len ak ste si istí, že sú všetky súbory bezchybne dešifrované."
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Obnoviť šifrovacie kľúče"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Vymazať šifrovacie kľúče"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -893,11 +897,11 @@ msgstr "Zadajte heslo pre obnovenie súborov používateľa pri zmene hesla"
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Prehľadať používateľov a skupiny"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Pridať skupinu"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -905,11 +909,11 @@ msgstr "Skupina"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Všetci"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Administrátori"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -937,11 +941,11 @@ msgstr "Kvóta"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Umiestnenie úložiska"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Posledné prihlásenie"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

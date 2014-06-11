@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Updated" => "Actualizado",
 "Select a profile picture" => "Seleccionar una imagen de perfil",
 "Decrypting files... Please wait, this can take some time." => "Descifrando archivos... Espere por favor, esto puede llevar algo de tiempo.",
-"deleted" => "eliminado",
 "undo" => "deshacer",
 "Groups" => "Grupos",
 "Group Admin" => "Administrador del Grupo",

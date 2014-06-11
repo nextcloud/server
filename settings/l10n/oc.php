@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Disable" => "Desactiva",
 "Enable" => "Activa",
 "Error" => "Error",
-"deleted" => "escafat",
 "undo" => "defar",
 "Groups" => "Grops",
 "Group Admin" => "Grop Admin",

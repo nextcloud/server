@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Updated" => "Atnaujinta",
 "Select a profile picture" => "Pažymėkite profilio paveikslėlį",
 "Decrypting files... Please wait, this can take some time." => "Iššifruojami failai... Prašome palaukti, tai gali užtrukti.",
-"deleted" => "ištrinta",
 "undo" => "anuliuoti",
 "Groups" => "Grupės",
 "Group Admin" => "Grupės administratorius",

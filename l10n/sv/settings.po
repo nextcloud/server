@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-11 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -295,8 +295,8 @@ msgid "Restore encryption keys."
 msgstr "Återställ krypteringsnycklar"
 
 #: js/users/deleteHandler.js:166
-msgid "Unable to delete "
-msgstr "Kan inte radera"
+msgid "Unable to delete {objName}"
+msgstr ""
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
@@ -306,9 +306,9 @@ msgstr "Fel vid skapande av grupp"
 msgid "A valid group name must be provided"
 msgstr "Ett giltigt gruppnamn måste anges"
 
-#: js/users/groups.js:205 js/users/users.js:254
-msgid "deleted"
-msgstr "raderad"
+#: js/users/groups.js:205
+msgid "deleted {groupName}"
+msgstr ""
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -333,6 +333,10 @@ msgstr "Radera"
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "aldrig"
+
+#: js/users/users.js:254
+msgid "deleted {userName}"
+msgstr ""
 
 #: js/users/users.js:371
 msgid "add group"

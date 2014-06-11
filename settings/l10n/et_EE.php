@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "Good password" => "Hea parool",
 "Strong password" => "Väga hea parool",
 "Decrypting files... Please wait, this can take some time." => "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega.",
-"deleted" => "kustutatud",
 "undo" => "tagasi",
 "Groups" => "Grupid",
 "Group Admin" => "Grupi admin",

@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "Error" => "خاتالىق",
 "Update" => "يېڭىلا",
 "Updated" => "يېڭىلاندى",
-"deleted" => "ئۆچۈرۈلگەن",
 "undo" => "يېنىۋال",
 "Groups" => "گۇرۇپپا",
 "Group Admin" => "گۇرۇپپا باشقۇرغۇچى",

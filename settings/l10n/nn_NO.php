@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Updated" => "Oppdatert",
 "Select a profile picture" => "Vel eit profilbilete",
 "Decrypting files... Please wait, this can take some time." => "Dekrypterer filer … Ver venleg og vent, dette kan ta ei stund.",
-"deleted" => "sletta",
 "undo" => "angra",
 "Groups" => "Grupper",
 "Group Admin" => "Gruppestyrar",

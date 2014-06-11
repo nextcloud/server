@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "Good password" => "Godt kodeord",
 "Strong password" => "Stærkt kodeord",
 "Decrypting files... Please wait, this can take some time." => "Dekryptere filer... Vent venligst, dette kan tage lang tid. ",
-"deleted" => "Slettet",
 "undo" => "fortryd",
 "Groups" => "Grupper",
 "Group Admin" => "Gruppe Administrator",

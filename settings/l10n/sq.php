@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "Error" => "Gabim",
 "Update" => "Përditësim",
 "Updated" => "I përditësuar",
-"deleted" => "fshirë",
 "undo" => "anullo veprimin",
 "Groups" => "Grupet",
 "Group Admin" => "Grupi Admin",

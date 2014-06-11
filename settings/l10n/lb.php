@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "Enable" => "Aschalten",
 "Error" => "Fehler",
 "Update" => "Update",
-"deleted" => "geläscht",
 "undo" => "réckgängeg man",
 "Groups" => "Gruppen",
 "Group Admin" => "Gruppen Admin",

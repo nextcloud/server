@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Good password" => "좋은 암호",
 "Strong password" => "강력한 암호",
 "Decrypting files... Please wait, this can take some time." => "파일 복호화 중... 시간이 걸릴 수도 있으니 기다려 주십시오.",
-"deleted" => "삭제됨",
 "undo" => "실행 취소",
 "Groups" => "그룹",
 "Group Admin" => "그룹 관리자",

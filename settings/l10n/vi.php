@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "Error" => "Lỗi",
 "Update" => "Cập nhật",
 "Updated" => "Đã cập nhật",
-"deleted" => "đã xóa",
 "undo" => "lùi lại",
 "Groups" => "Nhóm",
 "Group Admin" => "Nhóm quản trị",

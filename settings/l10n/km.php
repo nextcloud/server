@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "So-so password" => "ពាក្យ​សម្ងាត់​ធម្មតា",
 "Good password" => "ពាក្យ​សម្ងាត់​ល្អ",
 "Strong password" => "ពាក្យ​សម្ងាត់​ខ្លាំង",
-"deleted" => "បាន​លុប",
 "undo" => "មិន​ធ្វើ​វិញ",
 "Groups" => "ក្រុ",
 "Group Admin" => "ក្រុម​អ្នក​គ្រប់គ្រង",

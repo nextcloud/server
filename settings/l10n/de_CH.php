@@ -29,7 +29,6 @@ $TRANSLATIONS = array(
 "Update" => "Update durchführen",
 "Updated" => "Aktualisiert",
 "Decrypting files... Please wait, this can take some time." => "Entschlüssel Dateien ... Bitte warten Sie, denn dieser Vorgang kann einige Zeit beanspruchen.",
-"deleted" => "gelöscht",
 "undo" => "rückgängig machen",
 "Groups" => "Gruppen",
 "Group Admin" => "Gruppenadministrator",

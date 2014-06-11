@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "URL" => "URL-i",
 "Personal" => "Personale",
 "Name" => "Emri",
+"Folder name" => "Emri i Skedarit",
 "Groups" => "Grupet",
 "Users" => "Përdoruesit",
 "Delete" => "Elimino"

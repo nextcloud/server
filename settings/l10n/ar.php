@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Good password" => "كلمة السر جيدة",
 "Strong password" => "كلمة السر قوية",
 "Decrypting files... Please wait, this can take some time." => "فك تشفير الملفات... يرجى الانتظار, من الممكن ان ياخذ بعض الوقت.",
-"deleted" => "تم الحذف",
 "undo" => "تراجع",
 "Groups" => "مجموعات",
 "Group Admin" => "مدير المجموعة",

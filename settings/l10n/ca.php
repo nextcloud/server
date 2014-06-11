@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "Good password" => "Contrasenya bona",
 "Strong password" => "Contrasenya forta",
 "Decrypting files... Please wait, this can take some time." => "Desencriptant fitxers... Espereu, això pot trigar una estona.",
-"deleted" => "esborrat",
 "undo" => "desfés",
 "Groups" => "Grups",
 "Group Admin" => "Grup Admin",

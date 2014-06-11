@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Enable" => "Aktif",
 "Error" => "Ralat",
 "Update" => "Kemaskini",
-"deleted" => "dihapus",
 "Groups" => "Kumpulan",
 "Delete" => "Padam",
 "never" => "jangan",

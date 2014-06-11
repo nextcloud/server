@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Good password" => "رمز عبور خوب",
 "Strong password" => "رمز عبور قوی",
 "Decrypting files... Please wait, this can take some time." => "در حال بازگشایی رمز فایل‌ها... لطفاً صبر نمایید. این امر ممکن است مدتی زمان ببرد.",
-"deleted" => "حذف شده",
 "undo" => "بازگشت",
 "Groups" => "گروه ها",
 "Group Admin" => "گروه مدیران",

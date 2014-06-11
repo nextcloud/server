@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Error" => "Грешка",
 "Update" => "Ажурирај",
 "Updated" => "Ажурирано",
-"deleted" => "обрисано",
 "undo" => "опозови",
 "Groups" => "Групе",
 "Group Admin" => "Управник групе",

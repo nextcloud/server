@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Error" => "ข้อผิดพลาด",
 "Update" => "อัพเดท",
 "Updated" => "อัพเดทแล้ว",
-"deleted" => "ลบแล้ว",
 "undo" => "เลิกทำ",
 "Groups" => "กลุ่ม",
 "Group Admin" => "ผู้ดูแลกลุ่ม",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-06 01:54-0400\n"
-"PO-Revision-Date: 2014-06-06 05:54+0000\n"
+"POT-Creation-Date: 2014-06-11 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -282,7 +282,7 @@ msgid "Restore encryption keys."
 msgstr ""
 
 #: js/users/deleteHandler.js:166
-msgid "Unable to delete "
+msgid "Unable to delete {objName}"
 msgstr ""
 
 #: js/users/groups.js:73 js/users/groups.js:178
@@ -293,8 +293,8 @@ msgstr ""
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205 js/users/users.js:254
-msgid "deleted"
+#: js/users/groups.js:205
+msgid "deleted {groupName}"
 msgstr ""
 
 #: js/users/groups.js:206 js/users/users.js:255
@@ -320,6 +320,10 @@ msgstr "Deler"
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "nunquam"
+
+#: js/users/users.js:254
+msgid "deleted {userName}"
+msgstr ""
 
 #: js/users/users.js:371
 msgid "add group"

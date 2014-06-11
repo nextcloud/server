@@ -20,7 +20,6 @@ $TRANSLATIONS = array(
 "Error" => "Грешка",
 "Update" => "Обновяване",
 "Updated" => "Обновено",
-"deleted" => "изтрито",
 "undo" => "възтановяване",
 "Groups" => "Групи",
 "Delete" => "Изтриване",

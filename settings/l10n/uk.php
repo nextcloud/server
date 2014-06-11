@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Weak password" => "Слабкий пароль",
 "Good password" => "Добрий пароль",
 "Strong password" => "Надійний пароль",
-"deleted" => "видалені",
 "undo" => "відмінити",
 "Groups" => "Групи",
 "Group Admin" => "Адміністратор групи",

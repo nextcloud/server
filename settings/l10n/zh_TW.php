@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "Good password" => "好的密碼",
 "Strong password" => "很強的密碼",
 "Decrypting files... Please wait, this can take some time." => "檔案解密中，請稍候。",
-"deleted" => "已刪除",
 "undo" => "復原",
 "Groups" => "群組",
 "Group Admin" => "群組管理員",

@@ -54,7 +54,6 @@ $TRANSLATIONS = array(
 "Good password" => "Buena contraseña. ",
 "Strong password" => "Contraseña fuerte.",
 "Decrypting files... Please wait, this can take some time." => "Desencriptando archivos... Por favor espere, esto puede tardar.",
-"deleted" => "borrado",
 "undo" => "deshacer",
 "Groups" => "Grupos",
 "Group Admin" => "Grupo Administrador",

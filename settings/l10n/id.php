@@ -43,7 +43,6 @@ $TRANSLATIONS = array(
 "Good password" => "Sandi baik",
 "Strong password" => "Sandi kuat",
 "Decrypting files... Please wait, this can take some time." => "Mendeskripsi berkas... Modon tunggu, ini memerlukan beberapa saat.",
-"deleted" => "dihapus",
 "undo" => "urungkan",
 "Groups" => "Grup",
 "Group Admin" => "Admin Grup",

@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Strong password" => "Forta pasvorto",
 "Delete encryption keys permanently." => "Forigi ĉifroklavojn por ĉiam.",
 "Restore encryption keys." => "Restaŭri ĉifroklavojn.",
-"deleted" => "forigita",
 "undo" => "malfari",
 "Groups" => "Grupoj",
 "Group Admin" => "Grupadministranto",

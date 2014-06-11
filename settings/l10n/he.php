@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Error" => "שגיאה",
 "Update" => "עדכון",
 "Updated" => "מעודכן",
-"deleted" => "נמחק",
 "undo" => "ביטול",
 "Groups" => "קבוצות",
 "Group Admin" => "מנהל הקבוצה",

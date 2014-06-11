@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Good password" => "Jó jelszó",
 "Strong password" => "Erős jelszó",
 "Decrypting files... Please wait, this can take some time." => "File-ok kititkosítása folyamatban... Kérlek várj, ez hosszabb ideig is eltarthat ...",
-"deleted" => "törölve",
 "undo" => "visszavonás",
 "Groups" => "Csoportok",
 "Group Admin" => "Csoportadminisztrátor",

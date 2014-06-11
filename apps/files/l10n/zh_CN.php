@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "上传失败。不能获取文件信息。",
 "Invalid directory." => "无效文件夹。",
 "Files" => "文件",
+"All files" => "全部文件",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "不能上传文件 {filename} ，由于它是一个目录或者为0字节",
 "Total file size {size1} exceeds upload limit {size2}" => "总文件大小 {size1} 超过上传限制 {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "没有足够的可用空间，您正在上传 {size1} 的文件但是只有 {size2} 可用。",
@@ -74,7 +75,7 @@ $TRANSLATIONS = array(
 "New" => "新建",
 "New text file" => "创建文本文件",
 "Text file" => "文本文件",
-"New folder" => "添加文件夹",
+"New folder" => "增加文件夹",
 "Folder" => "文件夹",
 "From link" => "来自链接",
 "Cancel upload" => "取消上传",
@@ -83,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "下载",
 "Upload too large" => "上传文件过大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您正尝试上传的文件超过了此服务器可以上传的最大容量限制",
-"Files are being scanned, please wait." => "文件正在被扫描，请稍候。"
+"Files are being scanned, please wait." => "文件正在被扫描，请稍候。",
+"Currently scanning" => "正在扫描"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

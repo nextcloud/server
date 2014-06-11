@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-09 01:54-0400\n"
-"PO-Revision-Date: 2014-06-08 15:00+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-06-11 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -284,8 +284,8 @@ msgid "Restore encryption keys."
 msgstr "Restaurar claves de cifráu."
 
 #: js/users/deleteHandler.js:166
-msgid "Unable to delete "
-msgstr "Nun pue desaniciase"
+msgid "Unable to delete {objName}"
+msgstr ""
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
@@ -295,9 +295,9 @@ msgstr "Fallu creando grupu"
 msgid "A valid group name must be provided"
 msgstr "Hai d'escribir un nome de grupu válidu"
 
-#: js/users/groups.js:205 js/users/users.js:254
-msgid "deleted"
-msgstr "desaniciáu"
+#: js/users/groups.js:205
+msgid "deleted {groupName}"
+msgstr ""
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -322,6 +322,10 @@ msgstr "Desaniciar"
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "enxamás"
+
+#: js/users/users.js:254
+msgid "deleted {userName}"
+msgstr ""
 
 #: js/users/users.js:371
 msgid "add group"

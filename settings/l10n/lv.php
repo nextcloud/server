@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "Update" => "Atjaunināt",
 "Updated" => "Atjaunināta",
 "Decrypting files... Please wait, this can take some time." => "Atšifrēju failus... Uzgaidiet tas var ilgt kādu laiku.",
-"deleted" => "izdzests",
 "undo" => "atsaukt",
 "Groups" => "Grupas",
 "Group Admin" => "Grupas administrators",

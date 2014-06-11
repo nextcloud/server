@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Disable" => "Isključi",
 "Enable" => "Uključi",
 "Error" => "Greška",
-"deleted" => "izbrisano",
 "undo" => "vrati",
 "Groups" => "Grupe",
 "Group Admin" => "Grupa Admin",

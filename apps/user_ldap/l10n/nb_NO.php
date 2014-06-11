@@ -52,7 +52,7 @@ $TRANSLATIONS = array(
 "LDAP Username:" => "LDAP-brukernavn:",
 "LDAP Email Address:" => "LDAP-epostadresse:",
 "Other Attributes:" => "Andre attributter:",
-"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" => "Definerer filteret som skal brukes når innlogging forsøkes. %%uid erstatter brukernavnet i innloggingshandlingen. Eksempel: \"uid=%%uid\"",
+"Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" => "Definerer filteret som skal brukes når noen prøver å logge inn. %%uid erstatter brukernavnet i innloggingen. Eksempel: \"uid=%%uid\"",
 "1. Server" => "1. server",
 "%s. Server:" => "%s. server:",
 "Add Server Configuration" => "Legg til tjener-konfigurasjon",

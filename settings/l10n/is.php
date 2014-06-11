@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "Error" => "Villa",
 "Update" => "Uppfæra",
 "Updated" => "Uppfært",
-"deleted" => "eytt",
 "undo" => "afturkalla",
 "Groups" => "Hópar",
 "Group Admin" => "Hópstjóri",
