@@ -326,14 +326,16 @@ class Filesystem {
 
 		if (!is_null($userObject)) {
 			$homeStorage = \OC_Config::getValue( 'home_storage', array(
+				//default home storage configuration:
 				'class' => '\OC\Files\Storage\Home',
 				'arguments' => array()
 			));
-			if (empty($config['class'])) {
-				//FIXME log error? or fallback to '\OC\Files\Storage\Home'?
+			// sanity checks
+			if (empty($homeStorage['class'])) {
+				\OCP\Util::writeLog('files', 'No class given for home_storage', \OCP\Util::ERROR);
 			}
-			if (!isset($config['arguments'])) {
-				$config['arguments'] = array();
+			if (!isset($homeStorage['arguments'])) {
+				$homeStorage['arguments'] = array();
 			}
 			$homeStorage['arguments']['user'] = $userObject;
 			// check for legacy home id (<= 5.0.12)
