@@ -1028,11 +1028,11 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief combines the input filters with AND
+	 * combines the input filters with OR
 	 * @param $filters array, the filters to connect
 	 * @returns the combined filter
 	 *
-	 * Combines Filter arguments with AND
+	 * Combines Filter arguments with OR
 	 */
 	public function combineFilterWithOr($filters) {
 		return $this->combineFilter($filters, '|');
