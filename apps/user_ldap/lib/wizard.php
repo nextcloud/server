@@ -70,6 +70,14 @@ class Wizard extends LDAPUtility {
 	 * @return int|bool
 	 */
 	public function countEntries($filter, $type) {
+		$reqs = array('ldapHost', 'ldapPort', 'ldapBase');
+		if($type === 'users') {
+			$reqs[] = 'ldapUserFilter';
+		}
+		if(!$this->checkRequirements($reqs)) {
+			throw new \Exception('Requirements not met', 400);
+		}
+
 		$con = new Connection($this->ldap, '', null);
 		$con->setConfiguration($this->configuration->getConfiguration());
 		$ldapAccess = new Access($con, $this->ldap);
@@ -78,53 +86,44 @@ class Wizard extends LDAPUtility {
 		} else if($type === 'users') {
 			$result = $ldapAccess->countUsers($filter);
 		} else {
-			throw new \Excpetion('internal error: invald object type');
+			throw new \Exception('internal error: invald object type', 500);
 		}
 
 		return $result;
 	}
 
 	public function countGroups() {
-		if(!$this->checkRequirements(array('ldapHost',
-										   'ldapPort',
-										   'ldapBase',
-										   ))) {
-			return  false;
-		}
-
 		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapGroupFilter;
-		$l = \OC_L10N::get('user_ldap');
 
 		if(empty($filter)) {
-			$output = $l->n('%s group found', '%s groups found', 0, array(0));
+			$output = self::$l->n('%s group found', '%s groups found', 0, array(0));
 			$this->result->addChange('ldap_group_count', $output);
 			return $this->result;
 		}
 
-		$groupsTotal = $this->countEntries($filter, 'groups');
+		try {
+			$groupsTotal = $this->countEntries($filter, 'groups');
+		} catch (\Exception $e) {
+			//400 can be ignored, 500 is forwarded
+			if($e->getCode() === 500) {
+				throw $e;
+			}
+			return false;
+		}
 		$groupsTotal = ($groupsTotal !== false) ? $groupsTotal : 0;
-		$output = $l->n('%s group found', '%s groups found', $groupsTotal, $groupsTotal);
+		$output = self::$l->n('%s group found', '%s groups found', $groupsTotal, $groupsTotal);
 		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
 	}
 
 	public function countUsers() {
-		if(!$this->checkRequirements(array('ldapHost',
-										   'ldapPort',
-										   'ldapBase',
-										   'ldapUserFilter',
-										   ))) {
-			return  false;
-		}
-
 		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapUserFilter;
 
 		$usersTotal = $this->countEntries($filter, 'users');
 		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
-		$l = \OC_L10N::get('user_ldap');
-		$output = $l->n('%s user found', '%s users found', $usersTotal, $usersTotal);
+		$output = self::$l->n('%s user found', '%s users found', $usersTotal, $usersTotal);
 		$this->result->addChange('ldap_user_count', $output);
 		return $this->result;
 	}
