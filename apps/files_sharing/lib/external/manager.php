@@ -9,7 +9,6 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
-use OC\Files\Mount\Mount;
 
 class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
@@ -83,13 +82,18 @@ class Manager {
 		}
 	}
 
+	protected function stripPath($path) {
+		$prefix = '/' . $this->userSession->getUser()->getUID() . '/files';
+		return rtrim(substr($path, strlen($prefix)), '/');
+	}
+
 	/**
 	 * @param array $data
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
 		$mountPoint = '/' . $this->userSession->getUser()->getUID() . '/files' . $data['mountpoint'];
-		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this->storageLoader);
+		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 		$this->mountManager->addMount($mount);
 		return $mount;
 	}
@@ -107,22 +111,21 @@ class Manager {
 	 * @return bool
 	 */
 	public function setMountPoint($source, $target) {
+		$source = $this->stripPath($source);
+		$target = $this->stripPath($target);
 		$sourceHash = md5($source);
 		$targetHash = md5($target);
 
 		$query = $this->connection->prepare('UPDATE *PREFIX*share_external SET
 			`mountpoint` = ?, `mountpoint_hash` = ? WHERE `mountpoint_hash` = ?');
-		$query->execute(array($target, $targetHash, $sourceHash));
+		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash));
 
-		$mount = $this->mountManager->find($source);
-		$mount->setMountPoint($target . '/');
-		$this->mountManager->addMount($mount);
-		$this->mountManager->removeMount($source . '/');
+		return $result;
 	}
 
 	public function removeShare($mountPoint) {
 		$hash = md5($mountPoint);
 		$query = $this->connection->prepare('DELETE FROM *PREFIX*share_external WHERE `mountpoint_hash` = ?');
-		$query->execute(array($hash));
+		return (bool)$query->execute(array($hash));
 	}
 }

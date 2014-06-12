@@ -9,9 +9,10 @@
 namespace OCA\Files_Sharing\External;
 
 use OC\Files\Filesystem;
+use OC\Files\Storage\DAV;
 use OCA\Files_Sharing\ISharedStorage;
 
-class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
+class Storage extends DAV implements ISharedStorage {
 	/**
 	 * @var string
 	 */
@@ -100,35 +101,5 @@ class Storage extends \OC\Files\Storage\DAV implements ISharedStorage {
 			$this->scanner = new Scanner($this);
 		}
 		return $this->scanner;
-	}
-
-	public function rename($path1, $path2) {
-		// if we renamed the mount point we need to adjust the mountpoint in the database
-		if (Filesystem::normalizePath($this->mountPoint) === Filesystem::normalizePath($path1)) {
-			$this->manager->setMountPoint($path1, $path2);
-			$this->mountPoint = $path2;
-			return true;
-		} else {
-			// read only shares
-			return false;
-		}
-	}
-
-	public function unlink($path) {
-		if ($path === '' || $path === false) {
-			$this->manager->removeShare($this->mountPoint);
-			return true;
-		} else {
-			return parent::unlink($path);
-		}
-	}
-
-	public function rmdir($path) {
-		if ($path === '' || $path === false) {
-			$this->manager->removeShare($this->mountPoint);
-			return true;
-		} else {
-			return parent::rmdir($path);
-		}
 	}
 }
