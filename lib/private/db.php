@@ -78,12 +78,12 @@ class OC_DB {
 				// Host variable may carry a port or socket.
 				list($host, $portOrSocket) = explode(':', $host, 2);
 				if (ctype_digit($portOrSocket)) {
+					$connectionParams['host'] = $host;
 					$connectionParams['port'] = $portOrSocket;
 				} else {
 					$connectionParams['unix_socket'] = $portOrSocket;
 				}
 			}
-			$connectionParams['host'] = $host;
 			$connectionParams['dbname'] = $name;
 		}
 
