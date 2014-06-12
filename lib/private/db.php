@@ -63,11 +63,6 @@ class OC_DB {
 		$user = OC_Config::getValue( "dbuser", "" );
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if(strpos($host, ':')) {
-			list($host, $socket)=explode(':', $host, 2);
-		} else {
-			$socket=FALSE;
-		}
 
 		$factory = new \OC\DB\ConnectionFactory();
 		if (!$factory->isValidType($type)) {
@@ -83,15 +78,17 @@ class OC_DB {
 			$datadir = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data');
 			$connectionParams['path'] = $datadir.'/'.$name.'.db';
 		} else {
-			$connectionParams['host'] = $host;
-			$connectionParams['dbname'] = $name;
-			if ($socket) {
+			if (strpos($host, ':')) {
+				// Host variable may carry a port or socket.
+				list($host, $socket) = explode(':', $host, 2);
 				if (ctype_digit($socket) && $socket <= 65535) {
 					$connectionParams['port'] = $socket;
 				} else {
 					$connectionParams['unix_socket'] = $socket;
 				}
 			}
+			$connectionParams['host'] = $host;
+			$connectionParams['dbname'] = $name;
 		}
 
 		$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_');
