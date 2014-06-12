@@ -91,7 +91,6 @@ class Wizard extends LDAPUtility {
 	}
 
 	public function countGroups() {
-		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapGroupFilter;
 
 		if(empty($filter)) {
@@ -116,7 +115,6 @@ class Wizard extends LDAPUtility {
 	}
 
 	public function countUsers() {
-		$base = $this->configuration->ldapBase[0];
 		$filter = $this->configuration->ldapUserFilter;
 
 		$usersTotal = $this->countEntries($filter, 'users');
@@ -277,6 +275,7 @@ class Wizard extends LDAPUtility {
 		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
 		$ldapAccess = $this->getAccess();
 
+		$filterParts = array();
 		foreach($obclasses as $obclass) {
 			$filterParts[] = 'objectclass='.$obclass;
 		}
