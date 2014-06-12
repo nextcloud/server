@@ -469,7 +469,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		//if group really still exists, we will be able to read its objectclass
-		$objcs = $this->access->readAttribute($dn, 'objectclass');
+		$objcs = $this->access->readAttribute($dn, '');
 		if(!$objcs || empty($objcs)) {
 			$this->access->connection->writeToCache('groupExists'.$gid, false);
 			return false;
