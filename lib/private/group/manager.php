@@ -189,7 +189,7 @@ class Manager extends PublicEmitter {
 	public function getUserGroupIds($user) {
 		$groupIds = array();
 		foreach ($this->backends as $backend) {
-			$groupIds = array_merge($groupIds,$backend->getUserGroups($user->getUID()));
+			$groupIds = array_merge($groupIds, $backend->getUserGroups($user->getUID()));
 			
 		}
 		return $groupIds;
