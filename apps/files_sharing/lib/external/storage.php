@@ -85,8 +85,8 @@ class Storage extends DAV implements ISharedStorage {
 		return 'shared::' . md5($this->token . '@' . $this->remote);
 	}
 
-	public function getCache($path = '') {
-		if (!isset($this->cache)) {
+	public function getCache($path = '', $storage = null) {
+		if (!$storage) {
 			$this->cache = new Cache($this, $this->remote, $this->remoteUser);
 		}
 		return $this->cache;
@@ -94,11 +94,15 @@ class Storage extends DAV implements ISharedStorage {
 
 	/**
 	 * @param string $path
+	 * @param \OC\Files\Storage\Storage $storage
 	 * @return \OCA\Files_Sharing\External\Scanner
 	 */
-	public function getScanner($path = '') {
+	public function getScanner($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->scanner)) {
-			$this->scanner = new Scanner($this);
+			$this->scanner = new Scanner($storage);
 		}
 		return $this->scanner;
 	}

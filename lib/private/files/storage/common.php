@@ -287,31 +287,43 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->filemtime($path) > $time;
 	}
 
-	public function getCache($path = '') {
+	public function getCache($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\Cache($this);
+			$this->cache = new \OC\Files\Cache\Cache($storage);
 		}
 		return $this->cache;
 	}
 
-	public function getScanner($path = '') {
+	public function getScanner($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->scanner)) {
-			$this->scanner = new \OC\Files\Cache\Scanner($this);
+			$this->scanner = new \OC\Files\Cache\Scanner($storage);
 		}
 		return $this->scanner;
 	}
 
-	public function getWatcher($path = '') {
+	public function getWatcher($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->watcher)) {
-			$this->watcher = new \OC\Files\Cache\Watcher($this);
+			$this->watcher = new \OC\Files\Cache\Watcher($storage);
 			$this->watcher->setPolicy(\OC::$server->getConfig()->getSystemValue('filesystem_check_changes', Watcher::CHECK_ONCE));
 		}
 		return $this->watcher;
 	}
 
-	public function getStorageCache() {
+	public function getStorageCache($storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->storageCache)) {
-			$this->storageCache = new \OC\Files\Cache\Storage($this);
+			$this->storageCache = new \OC\Files\Cache\Storage($storage);
 		}
 		return $this->storageCache;
 	}
