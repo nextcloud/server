@@ -17,7 +17,7 @@ class AdminSettingsController extends ApiController {
 	 * @param string $template
 	 * @return \OCA\Files_Sharing\Http\MailTemplateResponse
 	 */
-	public function render( $theme, $template ) {
+	public function renderRaw( $theme, $template ) {
 		try {
 			$template = new \OCA\Files_Sharing\MailTemplate( $theme, $template );
 			return $template->getResponse();
