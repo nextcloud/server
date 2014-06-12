@@ -77,7 +77,7 @@ class OC_DB {
 			if (strpos($host, ':')) {
 				// Host variable may carry a port or socket.
 				list($host, $socket) = explode(':', $host, 2);
-				if (ctype_digit($socket) && $socket <= 65535) {
+				if (ctype_digit($socket)) {
 					$connectionParams['port'] = $socket;
 				} else {
 					$connectionParams['unix_socket'] = $socket;
