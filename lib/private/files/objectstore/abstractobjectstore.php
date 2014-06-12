@@ -126,7 +126,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	}
 
 	public function __construct($params) {
-		if (is_object($params['user'])) {
+		if (isset($params['user']) && is_object($params['user'])) {
 			$this->user = $params['user'];
 		} else {
 			$this->user = null;
@@ -136,7 +136,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			$this->mkdir('/');
 		}
 
-		if (is_object($params['user'])) {
+		if (isset($params['user']) && is_object($params['user'])) {
 			//create the files folder in the cache when mounting the objectstore for a user
 			if ( ! $this->is_dir('files') ) {
 				$this->mkdir('files');
@@ -154,37 +154,26 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		$dirName = dirname($path);
 		$parentExists = $this->is_dir($dirName);
 
-		$mtime = time();
+		$mTime = time();
+
+		$data = array(
+			'mimetype' => 'httpd/unix-directory',
+			'size' => 0,
+			'mtime' => $mTime,
+			'storage_mtime' => $mTime,
+			'permissions' => \OCP\PERMISSION_ALL,
+		);
 
 		if ($dirName === '.' && ! $parentExists ) {
 			//create root on the fly
-
-			$data = array(
-				'etag' => $this->getETag($dirName),
-				'mimetype' => 'httpd/unix-directory',
-				'size' => 0,
-				'mtime' => $mtime,
-				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_ALL,
-			);
+			$data['etag'] = $this->getETag($dirName);
 			$this->getCache()->put('', $data);
 			$parentExists = true;
-
 		}
 
 		if ($parentExists) {
-
-			$data = array(
-				'etag' => $this->getETag($path),
-				'mimetype' => 'httpd/unix-directory',
-				'size' => 0,
-				'mtime' => $mtime,
-				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_ALL,
-			);
-
+			$data['etag'] = $this->getETag($path);
 			$this->getCache()->put($path, $data);
-
 			return true;
 		}
 		return false;
@@ -274,8 +263,12 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			try {
 				$this->deleteObject($this->getURN($stat['fileid']));
 			} catch (\Exception $ex) {
-				\OCP\Util::writeLog('objectstore', 'Could not delete object: '.$ex->getMessage(), \OCP\Util::ERROR);
-				return false;
+				if ($ex->getCode() !== 404) {
+					\OCP\Util::writeLog('objectstore', 'Could not delete object: '.$ex->getMessage(), \OCP\Util::ERROR);
+					return false;
+				} else {
+					//removing from cache is ok as it does not exist in the objectstore anyway
+				}
 			}
 			$this->getCache()->remove($path);
 			return true;
@@ -403,6 +396,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			try {
 				$this->createObject($this->getURN($fileId));
 			} catch (\Exception $ex) {
+				$this->getCache()->remove($path);
 				\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
 				return false;
 			}
@@ -430,30 +424,27 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		}
 
 		$path = self::$tmpFiles[$tmpFile];
-		$mimeType = \OC_Helper::getMimeType($tmpFile);
-		$size = filesize($tmpFile);
-		$mtime = time();
 		$stat = $this->stat($path);
-		if (is_array($stat)) {
-			// update existing db entry
-			$stat['size'] = $size;
-			$stat['mtime'] = $mtime;
-			$stat['mimetype'] = $mimeType;
-		} else {
+		if (empty($stat)) {
 			// create new file
 			$stat = array(
 				'etag' => $this->getETag($path),
-				'size' => $size,
-				'mtime' => $mtime,
-				'mimetype' => $mimeType,
-				'storage_mtime' => $mtime,
 				'permissions' => \OCP\PERMISSION_ALL,
 			);
 		}
+		// update stat with new data
+		$mTime = time();
+		$stat['size'] = filesize($tmpFile);
+		$stat['mtime'] = $mTime;
+		$stat['storage_mtime'] = $mTime;
+		$stat['mimetype'] = \OC_Helper::getMimeType($tmpFile);
+
 		$fileId = $this->getCache()->put($path, $stat);
 		try {
+			//upload to object storage
 			$this->createObject($this->getURN($fileId), $tmpFile);
 		} catch (\Exception $ex) {
+			$this->getCache()->remove($path);
 			\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
