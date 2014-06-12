@@ -52,9 +52,9 @@ class Dispatcher {
 	 * @param IRequest $request the incoming request
 	 */
 	public function __construct(Http $protocol,
-	                            MiddlewareDispatcher $middlewareDispatcher,
-	                            ControllerMethodReflector $reflector,
-	                            IRequest $request) {
+								MiddlewareDispatcher $middlewareDispatcher,
+								ControllerMethodReflector $reflector,
+								IRequest $request) {
 		$this->protocol = $protocol;
 		$this->middlewareDispatcher = $middlewareDispatcher;
 		$this->reflector = $reflector;
@@ -75,7 +75,7 @@ class Dispatcher {
 		$out = array(null, array(), null);
 
 		try {
-			// prefill reflector with everything thats needed for the 
+			// prefill reflector with everything thats needed for the
 			// middlewares
 			$this->reflector->reflect($controller, $methodName);
 
@@ -132,14 +132,14 @@ class Dispatcher {
 			// it to the type annotated in the @param annotation
 			$value = $this->request->getParam($param, $default);
 			$type = $this->reflector->getType($param);
-			
-			// if this is submitted using GET or a POST form, 'false' should be 
+
+			// if this is submitted using GET or a POST form, 'false' should be
 			// converted to false
 			if(($type === 'bool' || $type === 'boolean') &&
-				$value === 'false' && 
+				$value === 'false' &&
 				(
 					$this->request->method === 'GET' ||
-					strpos($this->request->getHeader('Content-Type'), 
+					strpos($this->request->getHeader('Content-Type'),
 						'application/x-www-form-urlencoded') !== false
 				)
 			) {
@@ -148,7 +148,7 @@ class Dispatcher {
 			} elseif(in_array($type, $types)) {
 				settype($value, $type);
 			}
-			
+
 			$arguments[] = $value;
 		}
 
@@ -156,21 +156,14 @@ class Dispatcher {
 
 		// format response if not of type response
 		if(!($response instanceof Response)) {
-			
+
 			// get format from the url format or request format parameter
 			$format = $this->request->getParam('format');
-			
+
 			// if none is given try the first Accept header
 			if($format === null) {
-				$header = $this->request->getHeader('Accept');
-				$formats = explode(',', $header);
-
-				if($header !== null && count($formats) > 0) {
-					$accept = strtolower(trim($formats[0]));
-					$format = str_replace('application/', '', $accept);
-				} else {
-					$format = 'json';
-				}
+				$headers = $this->request->getHeader('Accept');
+				$format = $controller->getResponderByHTTPHeader($headers);
 			}
 
 			$response = $controller->buildResponse($response, $format);

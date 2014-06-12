@@ -30,6 +30,14 @@ use OCP\AppFramework\Http\JSONResponse;
 
 
 class ChildController extends Controller {
+
+	public function __construct($appName, $request) {
+		parent::__construct($appName, $request);
+		$this->registerResponder('tom', function ($respone) {
+			return 'hi';
+		});
+	}
+
 	public function custom($in) {
 		$this->registerResponder('json', function ($response) {
 			return new JSONResponse(array(strlen($response)));
@@ -160,6 +168,30 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(2), $response->getData());
 	}
 
+
+	public function testDefaultResponderToJSON() {
+		$responder = $this->controller->getResponderByHTTPHeader('*/*');
+
+		$this->assertEquals('json', $responder);
+	}
+
+
+	public function testResponderAcceptHeaderParsed() {
+		$responder = $this->controller->getResponderByHTTPHeader(
+			'*/*, application/tom, application/json'
+		);
+
+		$this->assertEquals('tom', $responder);
+	}
+
+
+	public function testResponderAcceptHeaderParsedUpperCase() {
+		$responder = $this->controller->getResponderByHTTPHeader(
+			'*/*, apPlication/ToM, application/json'
+		);
+
+		$this->assertEquals('tom', $responder);
+	}
 
 
 }
