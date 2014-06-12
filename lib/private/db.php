@@ -76,11 +76,11 @@ class OC_DB {
 			$host = OC_Config::getValue('dbhost', '');
 			if (strpos($host, ':')) {
 				// Host variable may carry a port or socket.
-				list($host, $socket) = explode(':', $host, 2);
-				if (ctype_digit($socket)) {
-					$connectionParams['port'] = $socket;
+				list($host, $portOrSocket) = explode(':', $host, 2);
+				if (ctype_digit($portOrSocket)) {
+					$connectionParams['port'] = $portOrSocket;
 				} else {
-					$connectionParams['unix_socket'] = $socket;
+					$connectionParams['unix_socket'] = $portOrSocket;
 				}
 			}
 			$connectionParams['host'] = $host;
