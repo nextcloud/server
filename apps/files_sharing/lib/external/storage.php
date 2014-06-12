@@ -82,7 +82,7 @@ class Storage extends DAV implements ISharedStorage {
 	 * @return string
 	 */
 	public function getId() {
-		return 'shared::' . md5($this->user . '@' . $this->remote);
+		return 'shared::' . md5($this->token . '@' . $this->remote);
 	}
 
 	public function getCache($path = '') {
