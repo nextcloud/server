@@ -124,6 +124,7 @@ class Manager {
 	}
 
 	public function removeShare($mountPoint) {
+		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
 		$query = $this->connection->prepare('DELETE FROM *PREFIX*share_external WHERE `mountpoint_hash` = ?');
 		return (bool)$query->execute(array($hash));
