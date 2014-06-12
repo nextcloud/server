@@ -74,20 +74,17 @@ class OC_DB {
 			return false;
 		}
 
+		$connectionParams = array(
+			'user' => $user,
+			'password' => $pass,
+		);
+
 		if ($factory->normalizeType($type) === 'sqlite3') {
 			$datadir = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data');
-			$connectionParams = array(
-				'user' => $user,
-				'password' => $pass,
-				'path' => $datadir.'/'.$name.'.db',
-			);
+			$connectionParams['path'] = $datadir.'/'.$name.'.db';
 		} else {
-			$connectionParams = array(
-				'user' => $user,
-				'password' => $pass,
-				'host' => $host,
-				'dbname' => $name,
-			);
+			$connectionParams['host'] = $host;
+			$connectionParams['dbname'] = $name;
 			if ($socket) {
 				if (ctype_digit($socket) && $socket <= 65535) {
 					$connectionParams['port'] = $socket;
