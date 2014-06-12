@@ -904,14 +904,12 @@ class Wizard extends LDAPUtility {
 	 * specified attribute
 	 * @param $filters array, the filters that shall be used in the search
 	 * @param $attr the attribute of which a list of values shall be returned
-	 * @param $lfw bool, whether the last filter is a wildcard which shall not
-	 * be processed if there were already findings, defaults to true
 	 * @param $maxF string. if not null, this variable will have the filter that
 	 * yields most result entries
 	 * @return mixed, an array with the values on success, false otherwise
 	 *
 	 */
-	public function cumulativeSearchOnAttribute($filters, $attr, $lfw = true, $dnReadLimit = 3, &$maxF = null) {
+	public function cumulativeSearchOnAttribute($filters, $attr, $dnReadLimit = 3, &$maxF = null) {
 		$dnRead = array();
 		$foundItems = array();
 		$maxEntries = 0;
@@ -929,7 +927,7 @@ class Wizard extends LDAPUtility {
 			$lastFilter = $filters[count($filters)-1];
 		}
 		foreach($filters as $filter) {
-			if($lfw && $lastFilter === $filter && count($foundItems) > 0) {
+			if($lastFilter === $filter && count($foundItems) > 0) {
 				//skip when the filter is a wildcard and results were found
 				continue;
 			}
@@ -998,16 +996,11 @@ class Wizard extends LDAPUtility {
 
 		//how deep to dig?
 		//When looking for objectclasses, testing few entries is sufficient,
-		//when looking for group we need to get all names, though.
-		if(strtolower($attr) === 'objectclass') {
-			$dig = 3;
-		} else {
-			$dig = 0;
-		}
+		$dig = 3;
 
 		$availableFeatures =
 			$this->cumulativeSearchOnAttribute($objectclasses, $attr,
-											   true, $dig, $maxEntryObjC);
+											   $dig, $maxEntryObjC);
 		if(is_array($availableFeatures)
 		   && count($availableFeatures) > 0) {
 			natcasesort($availableFeatures);
