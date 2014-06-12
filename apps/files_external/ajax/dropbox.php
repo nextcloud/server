@@ -5,6 +5,7 @@ require_once __DIR__ . '/../3rdparty/Dropbox/autoload.php';
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+$l = OC_L10N::get('files_external');
 
 if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 	$oauth = new Dropbox_OAuth_Curl($_POST['app_key'], $_POST['app_secret']);
@@ -23,7 +24,7 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 															'request_token_secret' => $token['token_secret'])));
 				} catch (Exception $exception) {
 					OCP\JSON::error(array('data' => array('message' =>
-						'Fetching request tokens failed. Verify that your Dropbox app key and secret are correct.')
+						$l->t('Fetching request tokens failed. Verify that your Dropbox app key and secret are correct.'))
 						));
 				}
 				break;
@@ -36,7 +37,7 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 												'access_token_secret' => $token['token_secret']));
 					} catch (Exception $exception) {
 						OCP\JSON::error(array('data' => array('message' =>
-							'Fetching access tokens failed. Verify that your Dropbox app key and secret are correct.')
+							$l->t('Fetching access tokens failed. Verify that your Dropbox app key and secret are correct.'))
 							));
 					}
 				}
@@ -44,5 +45,5 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 		}
 	}
 } else {
-	OCP\JSON::error(array('data' => array('message' => 'Please provide a valid Dropbox app key and secret.')));
+	OCP\JSON::error(array('data' => array('message' => $l->t('Please provide a valid Dropbox app key and secret.'))));
 }
