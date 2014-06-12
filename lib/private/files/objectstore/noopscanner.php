@@ -19,34 +19,13 @@
  */
 
 namespace OC\Files\ObjectStore;
+use \OC\Files\Cache\Scanner;
+use \OC\Files\Storage\Storage;
 
-class NoopScanner extends \OC\Files\Cache\Scanner {
+class NoopScanner extends Scanner {
 
-	/**
-	 * get all the metadata of a file or folder
-	 * *
-	 *
-	 * @param string $path
-	 * @return array with metadata of the file
-	 */
-	public function getData($path) {
-		if (!$this->storage->isReadable($path)) {
-			//cant read, nothing we can do
-			\OCP\Util::writeLog('OC\Files\ObjectStore\NoopScanner', "!!! Path '$path' is not readable !!!", \OCP\Util::DEBUG);
-			return null;
-		}
-		$data = array();
-		$data['mimetype'] = $this->storage->getMimeType($path);
-		$data['mtime'] = $this->storage->filemtime($path);
-		if ($data['mimetype'] == 'httpd/unix-directory') {
-			$data['size'] = -1; //unknown
-		} else {
-			$data['size'] = $this->storage->filesize($path);
-		}
-		$data['etag'] = $this->storage->getETag($path);
-		$data['storage_mtime'] = $data['mtime'];
-		$data['permissions'] = $this->storage->getPermissions($path);
-		return $data;
+	public function __construct(Storage $storage) {
+		//we don't need the storage, so do nothing here
 	}
 
 	/**
@@ -81,7 +60,7 @@ class NoopScanner extends \OC\Files\Cache\Scanner {
 	 * @param int $reuse
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
-	public function scanChildren($path, $recursive = \OC\Files\Storage\Storage::SCAN_RECURSIVE, $reuse = -1) {
+	public function scanChildren($path, $recursive = Storage::SCAN_RECURSIVE, $reuse = -1) {
 		$size = 0;
 		return $size;
 	}

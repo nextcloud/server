@@ -24,10 +24,12 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
+	 * @param string $tmpFile path to the local temporary file that the object
+	 *        should be loaded from
 	 * @return void
 	 * @throws Exception when something goes wrong, message will be logged
 	 */
-	abstract protected function deleteObject($urn);
+	abstract protected function createObject($urn, $tmpFile = null);
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
@@ -40,12 +42,10 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that the object
-	 *        should be loaded from
 	 * @return void
 	 * @throws Exception when something goes wrong, message will be logged
 	 */
-	abstract protected function createObject($urn, $tmpFile = null);
+	abstract protected function deleteObject($urn);
 
 	/**
 	 * @var \OC\User\User $user
@@ -411,8 +411,11 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	 * Override this method if you need a different unique resource identifier for your object storage implementation.
+	 * The default implementations just appends the fileId to 'urn:oid:'. Make sure the URN is unique over all users.
+	 * You may need a mapping table to store your URN if it cannot be generated from the fileid.
 	 * @param int $fileId the fileid
-	 * @return null|string
+	 * @return null|string the unified resource name used to identify the object
 	 */
 	protected function getURN($fileId) {
 		if (is_numeric($fileId)) {
