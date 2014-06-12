@@ -89,10 +89,9 @@ class Scanner extends BasicEmitter {
 	 *
 	 * @param string $file
 	 * @param int $reuseExisting
-	 * @param bool $parentExistsInCache
 	 * @return array an array of metadata of the scanned file
 	 */
-	public function scanFile($file, $reuseExisting = 0, $parentExistsInCache = false) {
+	public function scanFile($file, $reuseExisting = 0) {
 		if (!self::isPartialFile($file)
 			and !Filesystem::isFileBlacklisted($file)
 		) {
@@ -100,45 +99,49 @@ class Scanner extends BasicEmitter {
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
 			if ($data) {
-				if ($file and !$parentExistsInCache) {
-					$parent = dirname($file);
-					if ($parent === '.' or $parent === '/') {
-						$parent = '';
-					}
-					if (!$this->cache->inCache($parent)) {
-						$this->scanFile($parent);
-					}
+				$parent = dirname($file);
+				if ($parent === '.' or $parent === '/') {
+					$parent = '';
 				}
-				$newData = $data;
+				$parentId = $this->cache->getId($parent);
+
+				// scan the parent if it's not in the cache (id -1) and the current file is not the root folder
+				if ($file and $parentId === -1) {
+					$parentData = $this->scanFile($parent);
+					$parentId = $parentData['fileid'];
+				}
+				if ($parent) {
+					$data['parent'] = $parentId;
+				}
 				$cacheData = $this->cache->get($file);
-				if ($cacheData) {
-					if ($reuseExisting) {
-						// prevent empty etag
-						if (empty($cacheData['etag'])) {
-							$etag = $data['etag'];
-						} else {
-							$etag = $cacheData['etag'];
+				if ($cacheData and $reuseExisting) {
+					// prevent empty etag
+					if (empty($cacheData['etag'])) {
+						$etag = $data['etag'];
+					} else {
+						$etag = $cacheData['etag'];
+					}
+					// only reuse data if the file hasn't explicitly changed
+					if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
+						$data['mtime'] = $cacheData['mtime'];
+						if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
+							$data['size'] = $cacheData['size'];
 						}
-						// only reuse data if the file hasn't explicitly changed
-						if (isset($data['storage_mtime']) && isset($cacheData['storage_mtime']) && $data['storage_mtime'] === $cacheData['storage_mtime']) {
-							$data['mtime'] = $cacheData['mtime'];
-							if (($reuseExisting & self::REUSE_SIZE) && ($data['size'] === -1)) {
-								$data['size'] = $cacheData['size'];
-							}
-							if ($reuseExisting & self::REUSE_ETAG) {
-								$data['etag'] = $etag;
-							}
-						}
-						// Only update metadata that has changed
-						$newData = array_diff_assoc($data, $cacheData);
-						if (isset($newData['etag'])) {
-							$cacheDataString = print_r($cacheData, true);
-							$dataString = print_r($data, true);
-							\OCP\Util::writeLog('OC\Files\Cache\Scanner',
-								"!!! No reuse of etag for '$file' !!! \ncache: $cacheDataString \ndata: $dataString",
-								\OCP\Util::DEBUG);
+						if ($reuseExisting & self::REUSE_ETAG) {
+							$data['etag'] = $etag;
 						}
 					}
+					// Only update metadata that has changed
+					$newData = array_diff_assoc($data, $cacheData);
+					if (isset($newData['etag'])) {
+						$cacheDataString = print_r($cacheData, true);
+						$dataString = print_r($data, true);
+						\OCP\Util::writeLog('OC\Files\Cache\Scanner',
+							"!!! No reuse of etag for '$file' !!! \ncache: $cacheDataString \ndata: $dataString",
+							\OCP\Util::DEBUG);
+					}
+				} else {
+					$newData = $data;
 				}
 				if (!empty($newData)) {
 					$data['fileid'] = $this->addToCache($file, $newData);
@@ -238,7 +241,7 @@ class Scanner extends BasicEmitter {
 					if (!Filesystem::isIgnoredDir($file)) {
 						$newChildren[] = $file;
 						try {
-							$data = $this->scanFile($child, $reuse, true);
+							$data = $this->scanFile($child, $reuse);
 							if ($data) {
 								if ($data['mimetype'] === 'httpd/unix-directory' and $recursive === self::SCAN_RECURSIVE) {
 									$childQueue[] = $child;
