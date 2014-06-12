@@ -14,6 +14,10 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	 */
 	protected $storage;
 
+	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
+		$this->scanAll();
+	}
+
 	public function scanAll() {
 		$remote = $this->storage->getRemote();
 		$token = $this->storage->getToken();

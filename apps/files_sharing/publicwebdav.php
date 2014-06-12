@@ -37,7 +37,15 @@ $server->addPlugin(new OC_Connector_Sabre_ExceptionLoggerPlugin('webdav'));
 $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $authBackend) {
 	$share = $authBackend->getShare();
 	$owner = $share['uid_owner'];
+	$isWritable = $share['permissions'];
 	$fileId = $share['file_source'];
+
+	if (!$isWritable) {
+		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
+			return new \OCA\Files_Sharing\ReadOnlyWrapper(array('storage' => $storage));
+		});
+	}
+
 	OC_Util::setupFS($owner);
 	$ownerView = \OC\Files\Filesystem::getView();
 	$path = $ownerView->getPath($fileId);
