@@ -86,3 +86,8 @@ select {
 	left: 6px;
 }
 
+/* fix background of navigation popup in IE8 */
+.ie8 #navigation {
+	background-color: #24282F;
+}
+
