@@ -19,7 +19,6 @@
 *
 */
 
-/* global OC */
 describe('Core base tests', function() {
 	describe('Base values', function() {
 		it('Sets webroots', function() {
@@ -235,10 +234,12 @@ describe('Core base tests', function() {
 		});
 		afterEach(function() {
 			clock.restore();
+			/* jshint camelcase: false */
 			window.oc_config = oldConfig;
 			routeStub.restore();
 		});
 		it('sends heartbeat half the session lifetime when heartbeat enabled', function() {
+			/* jshint camelcase: false */
 			window.oc_config = {
 				session_keepalive: true,
 				session_lifetime: 300
@@ -265,6 +266,7 @@ describe('Core base tests', function() {
 			expect(counter).toEqual(2);
 		});
 		it('does no send heartbeat when heartbeat disabled', function() {
+			/* jshint camelcase: false */
 			window.oc_config = {
 				session_keepalive: false,
 				session_lifetime: 300
@@ -278,6 +280,26 @@ describe('Core base tests', function() {
 
 			// still nothing
 			expect(counter).toEqual(0);
+		});
+		it('limits the heartbeat between one minute and one day', function() {
+			/* jshint camelcase: false */
+			var setIntervalStub = sinon.stub(window, 'setInterval');
+			window.oc_config = {
+				session_keepalive: true,
+				session_lifetime: 5
+			};
+			window.initCore();
+			expect(setIntervalStub.getCall(0).args[1]).toEqual(60 * 1000);
+			setIntervalStub.reset();
+
+			window.oc_config = {
+				session_keepalive: true,
+				session_lifetime: 48 * 3600
+			};
+			window.initCore();
+			expect(setIntervalStub.getCall(0).args[1]).toEqual(24 * 3600 * 1000);
+
+			setIntervalStub.restore();
 		});
 	});
 	describe('Parse query string', function() {
