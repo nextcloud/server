@@ -187,7 +187,12 @@ class OC_Group {
 	public static function getUserGroups($uid) {
 		$user = self::$userManager->get($uid);
 		if ($user) {
-			return self::getManager()->getUserGroupIds($user);
+			$groups = self::getManager()->getUserGroups($user);
+			$groupIds = array();
+			foreach ($groups as $group) {
+				$groupIds[] = $group->getGID();
+			}
+			return $groupIds;
 		} else {
 			return array();
 		}
