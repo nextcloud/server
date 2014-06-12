@@ -9,6 +9,7 @@
 namespace OC;
 
 use OC\Hooks\BasicEmitter;
+use OC\Hooks\Emitter;
 
 class Repair extends BasicEmitter {
 	/**
@@ -38,7 +39,7 @@ class Repair extends BasicEmitter {
 		foreach ($this->repairSteps as $step) {
 			$this->emit('\OC\Repair', 'step', array($step->getName()));
 
-			if ($step instanceof BasicEmitter) {
+			if ($step instanceof Emitter) {
 				$step->listen('\OC\Repair', 'warning', function ($description) use ($self) {
 					$self->emit('\OC\Repair', 'warning', array($description));
 				});
