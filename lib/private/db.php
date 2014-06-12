@@ -57,27 +57,23 @@ class OC_DB {
 			return true;
 		}
 
-		// The global data we need
-		$name = OC_Config::getValue( "dbname", "owncloud" );
-		$host = OC_Config::getValue( "dbhost", "" );
-		$user = OC_Config::getValue( "dbuser", "" );
-		$pass = OC_Config::getValue( "dbpassword", "" );
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-
+		$type = OC_Config::getValue('dbtype', 'sqlite');
 		$factory = new \OC\DB\ConnectionFactory();
 		if (!$factory->isValidType($type)) {
 			return false;
 		}
 
 		$connectionParams = array(
-			'user' => $user,
-			'password' => $pass,
+			'user' => OC_Config::getValue('dbuser', ''),
+			'password' => OC_Config::getValue('dbpassword', ''),
 		);
+		$name = OC_Config::getValue('dbname', 'owncloud');
 
 		if ($factory->normalizeType($type) === 'sqlite3') {
 			$datadir = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data');
 			$connectionParams['path'] = $datadir.'/'.$name.'.db';
 		} else {
+			$host = OC_Config::getValue('dbhost', '');
 			if (strpos($host, ':')) {
 				// Host variable may carry a port or socket.
 				list($host, $socket) = explode(':', $host, 2);
