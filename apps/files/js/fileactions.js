@@ -163,13 +163,18 @@ var FileActions = {
 };
 
 $(document).ready(function () {
+	var hasDownloadAction = false;
+	var downloadScope;
 	if ($('#allowZipDownload').val() == 1) {
-		var downloadScope = 'all';
+		downloadScope = 'all';
 	} else {
-		var downloadScope = 'file';
+		downloadScope = 'file';
 	}
 
-	if (typeof disableDownloadActions == 'undefined' || !disableDownloadActions) {
+	hasDownloadAction = FileActions.actions[downloadScope] && FileActions.actions[downloadScope].Download;
+
+	// do not override download action if it exists (might have been registered by an app already)
+	if ((typeof disableDownloadActions == 'undefined' || !disableDownloadActions) && !hasDownloadAction) {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
 		}, function (filename) {
