@@ -156,6 +156,7 @@ $TRANSLATIONS = array(
 "Admin Recovery Password" => "Administrator gendannelse kodeord",
 "Enter the recovery password in order to recover the users files during password change" => "Indtast et gendannelse kodeord for, at kunne gendanne brugerens filer ved ændring af kodeord",
 "Group" => "Gruppe",
+"Everyone" => "Alle",
 "Default Quota" => "Standard kvote",
 "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" => "Indtast venligst lagerkvote (f.eks. \"512 MB\" eller \"12 GB\")",
 "Unlimited" => "Ubegrænset",

@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-11 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-12 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 20:40+0000\n"
+"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -292,7 +292,7 @@ msgstr "Obnovit šifrovací klíče"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Nelze smazat {objName}"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
@@ -304,7 +304,7 @@ msgstr "Musíte zadat platný název skupiny"
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "smazána {groupName}"
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -332,7 +332,7 @@ msgstr "nikdy"
 
 #: js/users/users.js:254
 msgid "deleted {userName}"
-msgstr ""
+msgstr "smazán {userName}"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -458,7 +458,7 @@ msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Je použita databáze SQLite. Pro větší instalace doporučujeme toto změnit. Pro migraci na jiný typ databáze lze použít příkaz: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"

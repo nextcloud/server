@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-11 01:54-0400\n"
-"PO-Revision-Date: 2014-06-10 12:57+0000\n"
+"POT-Creation-Date: 2014-06-12 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 06:40+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +58,7 @@ msgstr "Käyttäjät"
 
 #: private/app.php:416
 msgid "Admin"
-msgstr "Ylläpitäjä"
+msgstr "Ylläpito"
 
 #: private/app.php:918
 #, php-format
@@ -340,37 +340,37 @@ msgstr ""
 #: private/share/share.php:1009
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Jakamisen taustaosaa %s ei löytynyt"
 
 #: private/share/share.php:1015
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Jakamisen taustaosaa kohteelle %s ei löytynyt"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s on alkuperäinen jakaja"
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Kohteen %s jakaminen epäonnistui, koska jakaminen uudelleen ei ole sallittu"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

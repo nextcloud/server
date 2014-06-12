@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-12 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 07:10+0000\n"
+"Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,14 +21,14 @@ msgstr ""
 
 #: base.php:678
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Pristupujete na server v nedôveryhodnej doméne."
 
 #: base.php:679
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Kontaktujte administrátora. Ak ste administrátorom tejto inštancie, nakonfigurujte správne nastavenie \"trusted_domain\" v config/config.php. Vzorová konfigurácia je uvedená v config/config.sample.php."
 
 #: private/app.php:245
 #, php-format
@@ -271,7 +271,7 @@ msgstr "Zdieľanie %s zlyhalo, pretože súbor neexistuje"
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Nemôžete zdieľať %s"
 
 #: private/share/share.php:531
 #, php-format
@@ -309,7 +309,7 @@ msgstr "Zdieľanie %s zlyhalo, pretože %s nie je členom skupiny %s"
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Musíte zadať heslo ak chcete vytvoriť verejný odkaz, lebo iba odkazy chránené heslom sú povolené"
 
 #: private/share/share.php:653
 #, php-format
@@ -348,34 +348,34 @@ msgstr ""
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Zdieľanie %s zlyhalo, pretože používateľ %s je pôvodcom zdieľania"
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "Zdieľanie %s zlyhalo, pretože povolenia prekračujú povolenia udelené %s"
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Zdieľanie %s zlyhalo, pretože zdieľanie ďalším nie je povolené"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Zdieľanie %s zlyhalo, pretože súbor sa nenašiel vo vyrovnávacej pamäti súborov"
 
 #: private/tags.php:183
 #, php-format

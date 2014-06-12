@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-12 01:54-0400\n"
+"PO-Revision-Date: 2014-06-11 18:32+0000\n"
+"Last-Translator: Anders J. Sørensen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,15 +45,15 @@ msgstr "Hemmelighed"
 
 #: appinfo/app.php:56 appinfo/app.php:65
 msgid "Bucket"
-msgstr ""
+msgstr "Bucket"
 
 #: appinfo/app.php:60
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 og kompatible"
 
 #: appinfo/app.php:63
 msgid "Access Key"
-msgstr ""
+msgstr "Adgangsnøgle"
 
 #: appinfo/app.php:64
 msgid "Secret Key"
@@ -61,19 +61,19 @@ msgstr "Hemmelig Nøgle "
 
 #: appinfo/app.php:66
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "Værtsnavn (valgfri)"
 
 #: appinfo/app.php:67
 msgid "Port (optional)"
-msgstr ""
+msgstr "Port (valgfri)"
 
 #: appinfo/app.php:68
 msgid "Region (optional)"
-msgstr ""
+msgstr "Region (valgfri)"
 
 #: appinfo/app.php:69
 msgid "Enable SSL"
-msgstr ""
+msgstr "Aktiver SSL"
 
 #: appinfo/app.php:70
 msgid "Enable Path Style"
@@ -81,11 +81,11 @@ msgstr ""
 
 #: appinfo/app.php:78
 msgid "App key"
-msgstr ""
+msgstr "App-nøgle"
 
 #: appinfo/app.php:79
 msgid "App secret"
-msgstr ""
+msgstr "App-hemmelighed"
 
 #: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
 #: appinfo/app.php:174
@@ -125,31 +125,31 @@ msgstr "OpenStack Object Storage"
 
 #: appinfo/app.php:112
 msgid "Username (required)"
-msgstr ""
+msgstr "Brugernavn (påkrævet)"
 
 #: appinfo/app.php:113
 msgid "Bucket (required)"
-msgstr ""
+msgstr "Bucket (påkrævet)"
 
 #: appinfo/app.php:114
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Region (valgfri for OpenStack Object Storage)"
 
 #: appinfo/app.php:115
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "API-nøgle (påkrævet for Rackspace Cloud Files)"
 
 #: appinfo/app.php:116
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Lejers navn (påkrævet for OpenStack Object Storage)"
 
 #: appinfo/app.php:117
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Adgangskode (påkrævet for OpenStack Object Storage)"
 
 #: appinfo/app.php:118
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Service Navn (påkrævet for OpenStack Object Storage)"
 
 #: appinfo/app.php:119
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
@@ -157,7 +157,7 @@ msgstr ""
 
 #: appinfo/app.php:120
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Timeout på HTTP forespørgsler i sekunder (valgfri)"
 
 #: appinfo/app.php:133 appinfo/app.php:143
 msgid "Share"
@@ -165,7 +165,7 @@ msgstr "Del"
 
 #: appinfo/app.php:138
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS med OC-login"
 
 #: appinfo/app.php:142
 msgid "Username as share"
@@ -209,7 +209,7 @@ msgstr "Personligt"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: js/settings.js:318 js/settings.js:325
 msgid "Saved"
@@ -228,21 +228,21 @@ msgstr "og"
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Bemærk:</b>  cURL understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det."
 
 #: lib/config.php:737
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Bemærk:</b>  FTP understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det."
 
 #: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Bemærk:</b>  \"%s\" er ikke installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det."
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
@@ -254,7 +254,7 @@ msgstr "Navn"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Lagertype"
 
 #: templates/list.php:23
 msgid "Scope"

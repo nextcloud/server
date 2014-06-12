@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Poznámka:</b> \"%s\" nie je nainštalovaná. Pripojenie %s nie je možné. Požiadajte správcu systému, aby ju nainštaloval.",
 "You don't have any external storages" => "Nemáte žiadne externé úložisko",
 "Name" => "Názov",
+"Storage type" => "Typ úložiska",
 "External Storage" => "Externé úložisko",
 "Folder name" => "Názov priečinka",
 "Configuration" => "Nastavenia",
