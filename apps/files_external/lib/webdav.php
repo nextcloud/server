@@ -404,7 +404,7 @@ class DAV extends \OC\Files\Storage\Common {
 		$this->init();
 		$response = $this->client->propfind($this->encodePath($path), array('{http://owncloud.org/ns}permissions'));
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
-			$permissions = 0;
+			$permissions = \OCP\PERMISSION_READ;
 			$permissionsString = $response['{http://owncloud.org/ns}permissions'];
 			if (strpos($permissionsString, 'R') !== false) {
 				$permissions |= \OCP\PERMISSION_SHARE;
