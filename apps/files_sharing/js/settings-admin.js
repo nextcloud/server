@@ -7,7 +7,7 @@ $(document).ready(function() {
 		).done(function( result ) {
 			$( '#mailTemplateSettings textarea' ).val(result);
 		}).fail(function( result ) {
-			OC.dialogs.alert(result.message, t('files_sharing', 'Could not load template'));
+			OC.dialogs.alert(result.responseJSON.message, t('files_sharing', 'Could not load template'));
 		});
 	};
 
