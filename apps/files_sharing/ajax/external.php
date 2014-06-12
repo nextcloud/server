@@ -9,6 +9,14 @@
 OCP\JSON::callCheck();
 OCP\JSON::checkLoggedIn();
 
+$l = OC_L10N::get('files_sharing');
+
+// check if server admin allows to mount public links from other servers
+if (OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Server to server sharing is not enabled on this server'))));
+	exit();
+}
+
 $token = $_POST['token'];
 $remote = $_POST['remote'];
 $owner = $_POST['owner'];
@@ -32,6 +40,8 @@ $storage = $mount->getStorage();
 $result = $storage->file_exists('');
 if($result){
 	$storage->getScanner()->scanAll();
+	\OCP\JSON::success();
+} else {
+	$externalManager->removeShare($mount->getMountPoint());
+	\OCP\JSON::error(array('data' => array('message' => $l->t("Couldn't add remote share"))));
 }
-
-echo json_encode($result);

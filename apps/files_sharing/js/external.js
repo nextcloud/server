@@ -22,10 +22,10 @@ $(document).ready(function () {
 			password = password || '';
 			if (add) {
 				addExternalShare(remote, token, owner, name, password).then(function (result) {
-					if (result && result !== 'false') {
-						FileList.reload();
+					if (result.status === 'error') {
+						OC.Notification.show(result.data.message);
 					} else {
-						OC.dialogs.alert('Error adding ' + name, 'Error adding share');
+						FileList.reload();
 					}
 				});
 			}

@@ -12,6 +12,8 @@ OC::$CLASSPATH['OCA\Files\Share\Api'] = 'files_sharing/lib/api.php';
 OC::$CLASSPATH['OCA\Files\Share\Maintainer'] = 'files_sharing/lib/maintainer.php';
 OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
 
+\OCP\App::registerAdmin('files_sharing', 'settings-admin');
+
 $externalManager = new \OCA\Files_Sharing\External\Manager(
 	\OC::$server->getDatabaseConnection(),
 	\OC\Files\Filesystem::getMountManager(),

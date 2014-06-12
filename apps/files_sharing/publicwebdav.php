@@ -6,6 +6,10 @@
  * See the COPYING-README file.
  */
 
+if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false) {
+	return false;
+}
+
 // load needed apps
 $RUNTIME_APPTYPES = array('filesystem', 'authentication', 'logging');
 
