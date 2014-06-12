@@ -64,14 +64,10 @@ class OC_DB {
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
 		if(strpos($host, ':')) {
-			list($host, $port)=explode(':', $host, 2);
-			if(!is_int($port)||$port<1||$port>65535) {
-				$socket=true;
-			} else {
-				$socket=false;
-			}
+			list($host, $socket)=explode(':', $host, 2);
+			$port = ctype_digit($socket) && $socket<=65535;
 		} else {
-			$port=false;
+			$socket=FALSE;
 		}
 
 		$factory = new \OC\DB\ConnectionFactory();
@@ -93,11 +89,11 @@ class OC_DB {
 				'host' => $host,
 				'dbname' => $name,
 			);
-			if (!empty($port)) {
-				if ($socket) {
-					$connectionParams['unix_socket'] = $port;
+			if ($socket) {
+				if ($port) {
+					$connectionParams['port'] = $socket;
 				} else {
-					$connectionParams['port'] = $port;
+					$connectionParams['unix_socket'] = $socket;
 				}
 			}
 		}
