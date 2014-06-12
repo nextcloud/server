@@ -21,9 +21,6 @@ OCP\Util::addScript('files_sharing', 'share');
 \OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
 \OC_Hook::connect('OC_Appconfig', 'post_set_value', '\OCA\Files\Share\Maintainer', 'configChangeHook');
 
-// Register settings scripts for mail template editing
-OCP\App::registerAdmin('files_sharing', 'settings-admin');
-
 OC_FileProxy::register(new OCA\Files\Share\Proxy());
 
 \OCA\Files\App::getNavigationManager()->add(
