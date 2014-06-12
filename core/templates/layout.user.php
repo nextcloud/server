@@ -52,7 +52,7 @@
 				<div class="header-appname">
 					<?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
 				</div>
-				<div class="icon-caret"></div>
+				<div class="icon-caret svg"></div>
 			</a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
