@@ -968,6 +968,8 @@ function initCore() {
 	 * time out
 	 */
 	function initSessionHeartBeat(){
+		// max interval in seconds set to 24 hours
+		var maxInterval = 24 * 3600;
 		// interval in seconds
 		var interval = 900;
 		if (oc_config.session_lifetime) {
@@ -976,6 +978,9 @@ function initCore() {
 		// minimum one minute
 		if (interval < 60) {
 			interval = 60;
+		}
+		if (interval > maxInterval) {
+			interval = maxInterval;
 		}
 		var url = OC.generateUrl('/heartbeat');
 		setInterval(function(){
