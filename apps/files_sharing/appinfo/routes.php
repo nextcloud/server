@@ -12,7 +12,7 @@ $app = new Sharing();
 $app->registerRoutes($this, array('routes' => array(
 
 	// mailTemplate settings
-	array('name' => 'admin_settings#render', 'url' => '/settings/mailtemplate', 'verb' => 'GET'),
+	array('name' => 'admin_settings#render_raw', 'url' => '/settings/mailtemplate', 'verb' => 'GET'),
 
 	array('name' => 'admin_settings#update', 'url' => '/settings/mailtemplate', 'verb' => 'POST'),
 
