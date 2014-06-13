@@ -33,15 +33,9 @@ class Storage extends DAV implements ISharedStorage {
 	 */
 	private $token;
 
-	/**
-	 * @var \OCA\Files_Sharing\External\Manager
-	 */
-	private $manager;
-
 	public function __construct($options) {
 		$this->remote = $options['remote'];
 		$this->remoteUser = $options['owner'];
-		$this->manager = $options['manager'];
 		list($protocol, $remote) = explode('://', $this->remote);
 		list($host, $root) = explode('/', $remote);
 		$secure = $protocol === 'https';
