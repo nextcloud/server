@@ -25,13 +25,17 @@ $(document).ready(function() {
 				window.location = $(tr).find('a.name').attr('href');
 			}
 		});
-		FileActions.register('file', 'Download', OC.PERMISSION_READ, '', function(filename) {
+		FileActions.register('file', 'Download', OC.PERMISSION_READ, function() {
+			return OC.imagePath('core', 'actions/download');
+		}, function(filename) {
 			var tr = FileList.findFileEl(filename);
 			if (tr.length > 0) {
 				window.location = $(tr).find('a.name').attr('href');
 			}
 		});
-		FileActions.register('dir', 'Download', OC.PERMISSION_READ, '', function(filename) {
+		FileActions.register('dir', 'Download', OC.PERMISSION_READ, function() {
+			return OC.imagePath('core', 'actions/download');
+		}, function(filename) {
 			var tr = FileList.findFileEl(filename);
 			if (tr.length > 0) {
 				window.location = $(tr).find('a.name').attr('href')+'&download';
