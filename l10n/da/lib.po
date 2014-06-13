@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 20:00+0000\n"
+"Last-Translator: Anders J. Sørensen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -351,30 +351,30 @@ msgstr ""
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -449,7 +449,7 @@ msgstr "En gyldig adgangskode skal angives"
 
 #: private/user/manager.php:252
 msgid "The username is already being used"
-msgstr ""
+msgstr "Brugernavnet er allerede i brug"
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

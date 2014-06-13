@@ -61,6 +61,7 @@ $TRANSLATIONS = array(
 "last year" => "sidste år",
 "years ago" => "år siden",
 "A valid username must be provided" => "Et gyldigt brugernavn skal angives",
-"A valid password must be provided" => "En gyldig adgangskode skal angives"
+"A valid password must be provided" => "En gyldig adgangskode skal angives",
+"The username is already being used" => "Brugernavnet er allerede i brug"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-12 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 18:16+0000\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 19:50+0000\n"
 "Last-Translator: Anders J. Sørensen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -61,7 +61,7 @@ msgstr "Kryptering"
 
 #: admin/controller.php:120 templates/admin.php:390
 msgid "Authentication method"
-msgstr ""
+msgstr "Godkendelsesmetode"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -90,21 +90,21 @@ msgstr "Gruppen kan ikke oprettes"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Filer dekrypteret med succes"
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Dine filer kunne ikke dekrypteres. Gennemse din owncloud log eller spørg din administrator"
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Dine filer kunne ikke dekrypteres. Check din adgangskode og forsøg igen"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Krypteringsnøgle slettet permanent"
 
 #: ajax/deletekeys.php:16
 msgid ""
@@ -279,27 +279,27 @@ msgstr "Dekryptere filer... Vent venligst, dette kan tage lang tid. "
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Slet krypteringsnøgler permanent."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Genopret krypteringsnøgler."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Kunne ikke slette {objName}"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Fejl ved oprettelse af gruppe"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Et gyldigt gruppenavn skal angives "
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "slettede {groupName}"
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -327,7 +327,7 @@ msgstr "aldrig"
 
 #: js/users/users.js:254
 msgid "deleted {userName}"
-msgstr ""
+msgstr "slettede {userName}"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -446,7 +446,7 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Database Performance Oplysninger"
 
 #: templates/admin.php:108
 msgid ""
@@ -517,18 +517,18 @@ msgstr "Cron"
 #: templates/admin.php:196
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Seneste 'cron' blev kørt %s."
 
 #: templates/admin.php:199
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Seneste 'cron' blev kørt %s. Dette er over en time siden - noget må være galt."
 
 #: templates/admin.php:203
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron har ikke kørt endnu!"
 
 #: templates/admin.php:213
 msgid "Execute one task with each page loaded"
@@ -566,7 +566,7 @@ msgstr "Tillad offentlig upload"
 
 #: templates/admin.php:258
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Vælg standard udløbsdato"
 
 #: templates/admin.php:260
 msgid "Expire after "
@@ -578,7 +578,7 @@ msgstr "dage"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Påtving udløbsdato"
 
 #: templates/admin.php:276
 msgid "Allow resharing"
@@ -590,11 +590,11 @@ msgstr ""
 
 #: templates/admin.php:290
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Tillad brugere at sende mail underretninger for delte filer"
 
 #: templates/admin.php:297
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Ekskluder grupper fra at dele"
 
 #: templates/admin.php:308
 msgid ""
@@ -635,7 +635,7 @@ msgstr "Fra adresse"
 
 #: templates/admin.php:382
 msgid "mail"
-msgstr ""
+msgstr "mail"
 
 #: templates/admin.php:403
 msgid "Authentication required"
@@ -872,11 +872,11 @@ msgstr ""
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Genopret Krypteringsnøgler"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Slet Krypteringsnøgler"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -903,7 +903,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Tilføj Gruppe"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"

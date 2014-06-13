@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 19:40+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,12 +44,12 @@ msgstr "Az adatbázis frissítése megtörtént"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Az adatbázis séma frissítését ellenőrztük"
 
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Letiltásra került inkompatibilis alkalmazások: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -161,61 +161,61 @@ msgstr "Mappa"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Kép"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Hang"
 
 #: js/js.js:607
 msgid "Saving..."
 msgstr "Mentés..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "pár másodperce"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n perccel ezelőtt"
 msgstr[1] "%n perccel ezelőtt"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n órával ezelőtt"
 msgstr[1] "%n órával ezelőtt"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n nappal ezelőtt"
 msgstr[1] "%n nappal ezelőtt"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n hónappal ezelőtt"
 msgstr[1] "%n hónappal ezelőtt"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "több éve"
 
@@ -321,7 +321,7 @@ msgstr "Megosztotta: {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Megosztva ővelük: {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -503,7 +503,7 @@ msgstr "Nincs törlésre kijelölt címke."
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr " {productName} frissítése zajlik erre a verzióra: {version}. Ez eltarthat egy darabig."
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -511,7 +511,7 @@ msgstr "Kérjük frissítse az oldalt!"
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "A frissítés nem sikerült."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -736,7 +736,7 @@ msgstr "Adatbázis konfigurálása"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Csak %s érhető el."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -762,7 +762,7 @@ msgstr "Adatbázis szerver"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "Adatbázisként az SQLite-ot fogjuk használni. Nagyobb telepítések esetén javasoljuk, hogy változtassa meg ezt a beállítást."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -854,26 +854,26 @@ msgstr "Köszönjük a türelmét."
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s frissítődni fog erre a verzióra: %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "A következő alkalmazások lesznek letiltva:"
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "Ez a smink: %s letiltásra került."
 
 #: templates/update.admin.php:21
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr ""
+msgstr "Kérjük gondoskodjon róla, hogy elmentse az adatbázist, a konfigurációs mappa és az adatamappa tartalmát, mielőtt folytatja."
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "A frissítés megkezdése"
 
 #: templates/update.user.php:3
 msgid ""

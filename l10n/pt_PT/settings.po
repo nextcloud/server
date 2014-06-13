@@ -6,6 +6,7 @@
 # Bruno Matias <bmgmatias@gmail.com>, 2013
 # Daniel Pinto <daniel@mouxy.net>, 2013
 # zedascouves <duartegrilo@gmail.com>, 2013
+# Fernando Moura <moura232@gmail.com>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Jose Manuel Ruas <jmruas@gmail.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2013-2014
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-11 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 11:43+0000\n"
+"Last-Translator: Fernando Moura <moura232@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -296,15 +297,15 @@ msgstr ""
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Erro ao criar grupo"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Um nome válido do grupo tem de ser fornecido"
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "apagar {Nome do grupo}"
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
@@ -332,7 +333,7 @@ msgstr "nunca"
 
 #: js/users/users.js:254
 msgid "deleted {userName}"
-msgstr ""
+msgstr "apagar{utilizador}"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -451,7 +452,7 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Informação sobre desempenho da Base de Dados"
 
 #: templates/admin.php:108
 msgid ""
@@ -559,7 +560,7 @@ msgstr "Permitir que os utilizadores usem a API de partilha"
 
 #: templates/admin.php:247
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem através do link"
 
 #: templates/admin.php:251
 msgid "Enforce password protection"
@@ -908,7 +909,7 @@ msgstr ""
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Adicionar grupo"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -916,11 +917,11 @@ msgstr "Grupo"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Para todos"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Administrador"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 12:10+0000\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 18:30+0000\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -112,7 +112,7 @@ msgstr "Güvenli ftps://"
 
 #: appinfo/app.php:101
 msgid "Client ID"
-msgstr "İstemci Kimliğ"
+msgstr "İstemci kimliği"
 
 #: appinfo/app.php:102
 msgid "Client secret"
@@ -192,7 +192,7 @@ msgstr "Dropbox depo yapılandırma hatası"
 
 #: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
-msgstr "Erişim sağlandı"
+msgstr "Erişimi sağla"
 
 #: js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."

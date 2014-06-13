@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-12 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 18:32+0000\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 19:00+0000\n"
 "Last-Translator: Anders J. Sørensen\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -246,7 +246,7 @@ msgstr "<b>Bemærk:</b>  \"%s\" er ikke installeret. Montering af %s er ikke mul
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Du har ingen eksterne lagre"
 
 #: templates/list.php:16
 msgid "Name"

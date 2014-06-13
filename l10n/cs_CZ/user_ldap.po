@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-10 01:54-0400\n"
-"PO-Revision-Date: 2014-06-10 05:01+0000\n"
+"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"PO-Revision-Date: 2014-06-12 18:20+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -180,11 +180,11 @@ msgstr "Server"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Uživatelský Filtr"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Přihlašovací Filtr"
 
 #: settings.php:55
 msgid "Group Filter"

@@ -49,6 +49,7 @@ $TRANSLATIONS = array(
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Bemærk:</b>  cURL understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det.",
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Bemærk:</b>  FTP understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det.",
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Bemærk:</b>  \"%s\" er ikke installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det.",
+"You don't have any external storages" => "Du har ingen eksterne lagre",
 "Name" => "Navn",
 "Storage type" => "Lagertype",
 "External Storage" => "Ekstern opbevaring",

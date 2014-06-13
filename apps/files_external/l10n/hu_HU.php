@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "External storage" => "Külső tárolók",
+"Local" => "Helyi",
 "Location" => "Hely",
 "Host" => "Kiszolgáló",
 "Username" => "Felhasználónév",

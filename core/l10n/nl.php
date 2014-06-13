@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "File" => "Bestand",
 "Folder" => "Map",
 "Image" => "Afbeelding",
+"Audio" => "Audio",
 "Saving..." => "Opslaan",
 "seconds ago" => "seconden geleden",
 "_%n minute ago_::_%n minutes ago_" => array("","%n minuten geleden"),
