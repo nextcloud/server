@@ -344,7 +344,7 @@ if (!$_['internetconnectionworking']) {
 	</table>
 </div>
 
-<div class="section"><form  id="mail_settings">
+<div class="section"><form id="mail_settings">
 	<h2><?php p($l->t('Email Server'));?></h2>
 
 	<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
