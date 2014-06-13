@@ -131,17 +131,6 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		} else {
 			$this->user = null;
 		}
-		//initialize cache with root directory in cache
-		if ( ! $this->is_dir('/') ) {
-			$this->mkdir('/');
-		}
-
-		if (isset($params['user']) && is_object($params['user'])) {
-			//create the files folder in the cache when mounting the objectstore for a user
-			if ( ! $this->is_dir('files') ) {
-				$this->mkdir('files');
-			}
-		}
 	}
 
 	public function mkdir($path) {

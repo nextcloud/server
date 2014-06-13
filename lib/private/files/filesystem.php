@@ -343,6 +343,14 @@ class Filesystem {
 				$homeStorage['arguments']['legacy'] = true;
 			}
 			self::mount($homeStorage['class'], $homeStorage['arguments'], $user);
+
+			$home = \OC\Files\Filesystem::getStorage($user);
+			if ( $home->instanceOfStorage('\OC\Files\ObjectStore\AbstractObjectStore') ) {
+				//create the files folder in the cache when mounting the objectstore for a user
+				if ( ! $home->is_dir('files') ) {
+					$home->mkdir('files');
+				}
+			}
 		}
 		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
