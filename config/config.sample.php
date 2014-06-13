@@ -304,4 +304,27 @@ $CONFIG = array(
 
 /* If true, prevent owncloud from changing the cache due to changes in the filesystem for all storage */
 'filesystem_cache_readonly' => false,
+
+/*
+ * The example below shows how to configure ownCloud to store all files in a swift object storage
+ *
+ * It is important to note that ownCloud in object store mode will expect exclusive access
+ * to the object store container because it only stores the binary data for each file. The
+ * metadata is currently kept in the local database for performance reasons.
+ *
+ * To test apply for a trystack account at http://trystack.org/
+ */
+'objectstore' => array(
+	'class' => 'OC\\Files\\ObjectStore\\Swift',
+	'arguments' => array(
+		'username' => 'facebook100000123456789', // trystack will user your facebook id as the user name
+		'password' => 'Secr3tPaSSWoRdt7', // in the trystack dashboard go to user -> settings -> API Password to generate a password
+		'container' => 'owncloud', // must already exist in the objectstore, name can be different
+		'region' => 'RegionOne', //required, dev-/trystack defaults to 'RegionOne'
+		'url' => 'http://8.21.28.222:5000/v2.0', // The Identity / Keystone endpoint
+		'tenantName' => 'facebook100000123456789', // required on dev-/trystack
+		'serviceName' => 'swift', //dev-/trystack uses swift by default, the lib defaults to 'cloudFiles' if omitted
+	),
+),
+
 );
