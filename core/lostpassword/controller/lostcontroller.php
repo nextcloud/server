@@ -130,7 +130,7 @@ class LostController extends Controller {
 
 		if (!$this->userManager->userExists($user)) {
 			throw new \Exception(
-				$this->l10n->t('Couldn’t send reset email. Please make sure '.
+				$this->l10n->t('Couldn\'t send reset email. Please make sure '.
 				               'your username is correct.'));
 		}
 
@@ -145,7 +145,7 @@ class LostController extends Controller {
 
 		if (empty($email)) {
 			throw new \Exception(
-				$this->l10n->t('Couldn’t send reset email because there is no '.
+				$this->l10n->t('Couldn\'t send reset email because there is no '.
 				               'email address for this username. Please ' .
 				               'contact your administrator.')
 			);
@@ -169,7 +169,7 @@ class LostController extends Controller {
 			);
 		} catch (\Exception $e) {
 			throw new \Exception($this->l10n->t(
-				'Couldn’t send reset email. Please contact your administrator.'
+				'Couldn\'t send reset email. Please contact your administrator.'
 			));
 		}
 	}
