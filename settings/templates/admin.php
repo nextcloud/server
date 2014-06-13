@@ -313,35 +313,31 @@ if (!$_['internetconnectionworking']) {
 
 <div class="section" id="security">
 	<h2><?php p($l->t('Security'));?></h2>
-	<table>
-		<tr>
-			<td id="enable">
-				<input type="checkbox" name="forcessl"  id="forcessl"
-					<?php if ($_['enforceHTTPSEnabled']) {
-						print_unescaped('checked="checked" ');
-						print_unescaped('value="false"');
-					}  else {
-						print_unescaped('value="true"');
-					}
-					?>
-					<?php if (!$_['isConnectedViaHTTPS']) p('disabled'); ?> />
-				<label for="forcessl"><?php p($l->t('Enforce HTTPS'));?></label><br/>
-				<em><?php p($l->t(
-					'Forces the clients to connect to %s via an encrypted connection.',
-					$theme->getName()
-				)); ?></em>
-				<?php if (!$_['isConnectedViaHTTPS']) {
-					print_unescaped("<br/><em>");
-					p($l->t(
-						'Please connect to your %s via HTTPS to enable or disable the SSL enforcement.',
-						$theme->getName()
-					));
-					print_unescaped("</em>");
-				}
-				?>
-			</td>
-		</tr>
-	</table>
+	<p>
+		<input type="checkbox" name="forcessl"  id="forcessl"
+			<?php if ($_['enforceHTTPSEnabled']) {
+				print_unescaped('checked="checked" ');
+				print_unescaped('value="false"');
+			}  else {
+				print_unescaped('value="true"');
+			}
+			?>
+			<?php if (!$_['isConnectedViaHTTPS']) p('disabled'); ?> />
+		<label for="forcessl"><?php p($l->t('Enforce HTTPS'));?></label><br/>
+		<em><?php p($l->t(
+			'Forces the clients to connect to %s via an encrypted connection.',
+			$theme->getName()
+		)); ?></em>
+		<?php if (!$_['isConnectedViaHTTPS']) {
+			print_unescaped("<br/><em>");
+			p($l->t(
+				'Please connect to your %s via HTTPS to enable or disable the SSL enforcement.',
+				$theme->getName()
+			));
+			print_unescaped("</em>");
+		}
+		?>
+	</p>
 </div>
 
 <div id="mail_settings" class="section">
