@@ -325,14 +325,14 @@ class Filesystem {
 		$userObject = \OC_User::getManager()->get($user);
 
 		if (!is_null($userObject)) {
-			$homeStorage = \OC_Config::getValue( 'home_storage', array(
+			$homeStorage = \OC_Config::getValue( 'objectstore', array(
 				//default home storage configuration:
 				'class' => '\OC\Files\Storage\Home',
 				'arguments' => array()
 			));
 			// sanity checks
 			if (empty($homeStorage['class'])) {
-				\OCP\Util::writeLog('files', 'No class given for home_storage', \OCP\Util::ERROR);
+				\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
 			}
 			if (!isset($homeStorage['arguments'])) {
 				$homeStorage['arguments'] = array();

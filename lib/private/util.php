@@ -73,9 +73,9 @@ class OC_Util {
 		}
 
 		//check if we are using an object storage
-		$root_storage = OC_Config::getValue( 'root_storage' );
-		if ( isset( $root_storage ) ) {
-			self::initObjectStoreRootFS($root_storage);
+		$objectStore = OC_Config::getValue( 'objectstore' );
+		if ( isset( $objectStore ) ) {
+			self::initObjectStoreRootFS($objectStore);
 		} else {
 			self::initLocalStorageRootFS();
 		}
@@ -108,10 +108,8 @@ class OC_Util {
 				return $storage;
 			});
 
-			$userDir = '/'.$user.'/files';
-
 			// copy skeleton for local storage only
-			if ( ! isset( $root_storage ) ) {
+			if ( ! isset( $objectStore ) ) {
 				$userRoot = OC_User::getHome($user);
 				$userDirectory = $userRoot . '/files';
 				if( !is_dir( $userDirectory )) {
@@ -119,6 +117,8 @@ class OC_Util {
 					OC_Util::copySkeleton($userDirectory);
 				}
 			}
+
+			$userDir = '/'.$user.'/files';
 
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
