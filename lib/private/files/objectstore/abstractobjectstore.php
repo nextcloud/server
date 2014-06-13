@@ -57,6 +57,18 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	 */
 	private static $tmpFiles = array();
 
+	public function __construct($params) {
+		if (isset($params['user']) && is_object($params['user'])) {
+			$this->user = $params['user'];
+		} else {
+			$this->user = null;
+		}
+		//initialize cache with root directory in cache
+		if ( ! $this->is_dir('/') ) {
+			$this->mkdir('/');
+		}
+	}
+
 	/**
 	 * @param string $path
 	 * @return \OC\Files\Cache\Cache
@@ -123,14 +135,6 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			return 'objstore::user:' . $this->user->getUID();
 		}
 		return 'objstore::root';
-	}
-
-	public function __construct($params) {
-		if (isset($params['user']) && is_object($params['user'])) {
-			$this->user = $params['user'];
-		} else {
-			$this->user = null;
-		}
 	}
 
 	public function mkdir($path) {

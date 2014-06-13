@@ -110,17 +110,8 @@ class OC_Util {
 
 			$userDir = '/'.$user.'/files';
 
-			//autocreate users "home" directory
-			if ( isset( $root_storage ) ) {
-				$root = \OC\Files\Filesystem::getStorage('/');
-				if ( $root->instanceOfStorage('\OC\Files\ObjectStore\AbstractObjectStore') ) {
-					//initialize cache with root directory in cache
-					if ( ! $root->is_dir('/') ) {
-						$root->mkdir('/');
-					}
-				}
-			} else {
-				//copy skeleton for local storage only
+			// copy skeleton for local storage only
+			if ( ! isset( $root_storage ) ) {
 				$userRoot = OC_User::getHome($user);
 				$userDirectory = $userRoot . '/files';
 				if( !is_dir( $userDirectory )) {

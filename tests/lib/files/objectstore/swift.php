@@ -35,7 +35,6 @@ class Swift extends PHPUnit_Framework_TestCase {
 		
 		\OC_App::disable('files_sharing');
 		\OC_App::disable('files_versions');
-		\OC_App::enable('objectstore');
 
 		// reset backend
 		\OC_User::clearBackends();
