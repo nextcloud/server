@@ -344,7 +344,7 @@ if (!$_['internetconnectionworking']) {
 	</table>
 </div>
 
-<div id="mail_settings" class="section">
+<div class="section"><form  id="mail_settings">
 	<h2><?php p($l->t('Email Server'));?></h2>
 
 	<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
@@ -424,7 +424,7 @@ if (!$_['internetconnectionworking']) {
 	<em><?php p($l->t( 'Test email settings' )); ?></em>
 	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t( 'Send email' )); ?>"/>
 	<span id="sendtestmail_msg" class="msg"></span>
-</div>
+</form></div>
 
 <div class="section">
 	<h2><?php p($l->t('Log'));?></h2>
