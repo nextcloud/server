@@ -232,20 +232,18 @@ if (!$_['internetconnectionworking']) {
 
 <div class="section" id="shareAPI">
 	<h2><?php p($l->t('Sharing'));?></h2>
-	<table class="shareAPI">
-		<tr>
-			<td id="enable">
-				<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
-					   value="1" <?php if ($_['shareAPIEnabled'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="shareAPIEnabled"><?php p($l->t('Allow apps to use the Share API'));?></label><br/>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
-					   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowLinks"><?php p($l->t('Allow users to share via link'));?></label><br/>
-				<div <?php ($_['allowLinks'] === 'yes') ? print_unescaped('class="indent"') : print_unescaped('class="hidden indent"');?> id="publicLinkSettings">
+		<p id="enable">
+			<input type="checkbox" name="shareapi_enabled" id="shareAPIEnabled"
+				   value="1" <?php if ($_['shareAPIEnabled'] === 'yes') print_unescaped('checked="checked"'); ?> />
+			<label for="shareAPIEnabled"><?php p($l->t('Allow apps to use the Share API'));?></label><br/>
+		</p>
+		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
+			<input type="checkbox" name="shareapi_allow_links" id="allowLinks"
+				   value="1" <?php if ($_['allowLinks'] === 'yes') print_unescaped('checked="checked"'); ?> />
+			<label for="allowLinks"><?php p($l->t('Allow users to share via link'));?></label><br/>
+		</p>
+
+			<p id="publicLinkSettings" class="indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
 				<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword"
 						   value="1" <?php if ($_['enforceLinkPassword']) print_unescaped('checked="checked"'); ?> />
 				<label for="enforceLinkPassword"><?php p($l->t('Enforce password protection'));?></label><br/>
@@ -256,46 +254,38 @@ if (!$_['internetconnectionworking']) {
 				<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate"
 				       value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="shareapiDefaultExpireDate"><?php p($l->t('Set default expiration date'));?></label><br/>
-				<div id="setDefaultExpireDate" <?php ($_['shareDefaultExpireDateSet'] === 'no') ? print_unescaped('class="hidden indent"') : print_unescaped('class="indent"');?>>
+
+			</p>
+				<p id="setDefaultExpireDate" class="double-indent <?php if ($_['allowLinks'] !== 'yes' || $_['shareDefaultExpireDateSet'] === 'no' || $_['shareAPIEnabled'] === 'no') p('hidden');?>">
 					<?php p($l->t( 'Expire after ' )); ?>
 					<input type="text" name='shareapi_expire_after_n_days' id="shareapiExpireAfterNDays" placeholder="<?php p('7')?>"
 						   value='<?php p($_['shareExpireAfterNDays']) ?>' />
 					<?php p($l->t( 'days' )); ?>
 					<input type="checkbox" name="shareapi_enforce_expire_date" id="shareapiEnforceExpireDate"
-						   value="1" <?php if ($_['shareEnforceExpireDate'] == 'yes') print_unescaped('checked="checked"'); ?> />
+						   value="1" <?php if ($_['shareEnforceExpireDate'] === 'yes') print_unescaped('checked="checked"'); ?> />
 					<label for="shareapiEnforceExpireDate"><?php p($l->t('Enforce expiration date'));?></label><br/>
-				</div>
-
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
-					   value="1" <?php if ($_['allowResharing'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowResharing"><?php p($l->t('Allow resharing'));?></label><br/>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="checkbox" name="shareapi_only_share_with_group_members" id="onlyShareWithGroupMembers"
-					   value="1" <?php if ($_['onlyShareWithGroupMembers']) print_unescaped('checked="checked"'); ?> />
-				<label for="onlyShareWithGroupMembers"><?php p($l->t('Restrict users to only share with users in their groups'));?></label><br/>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
-					   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
-				<label for="allowMailNotification"><?php p($l->t('Allow users to send mail notification for shared files'));?></label><br/>
-			</td>
-		</tr>
-		<tr>
-			<td <?php if ($_['shareAPIEnabled'] === 'no') print_unescaped('class="hidden"');?>>
-				<input type="checkbox" name="shareapi_exclude_groups" id="shareapiExcludeGroups"
-				       value="1" <?php if ($_['shareExcludeGroups']) print_unescaped('checked="checked"'); ?> />
-				<label for="shareapiExcludeGroups"><?php p($l->t('Exclude groups from sharing'));?></label><br/>
-				<div id="selectExcludedGroups" class="<?php ($_['shareExcludeGroups']) ? p('indent') : p('hidden indent'); ?>">
+				</p>
+		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
+			<input type="checkbox" name="shareapi_allow_resharing" id="allowResharing"
+				   value="1" <?php if ($_['allowResharing'] === 'yes') print_unescaped('checked="checked"'); ?> />
+			<label for="allowResharing"><?php p($l->t('Allow resharing'));?></label><br/>
+		</p>
+		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
+			<input type="checkbox" name="shareapi_only_share_with_group_members" id="onlyShareWithGroupMembers"
+				   value="1" <?php if ($_['onlyShareWithGroupMembers']) print_unescaped('checked="checked"'); ?> />
+			<label for="onlyShareWithGroupMembers"><?php p($l->t('Restrict users to only share with users in their groups'));?></label><br/>
+		</p>
+		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
+			<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
+				   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
+			<label for="allowMailNotification"><?php p($l->t('Allow users to send mail notification for shared files'));?></label><br/>
+		</p>
+		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
+			<input type="checkbox" name="shareapi_exclude_groups" id="shareapiExcludeGroups"
+			       value="1" <?php if ($_['shareExcludeGroups']) print_unescaped('checked="checked"'); ?> />
+			<label for="shareapiExcludeGroups"><?php p($l->t('Exclude groups from sharing'));?></label><br/>
+		</p>
+			<p id="selectExcludedGroups" class="indent <?php if (!$_['shareExcludeGroups'] || $_['shareAPIEnabled'] === 'no') p('hidden'); ?>">
 				<select
 					class="groupsselect"
 					id="excludedGroups" data-placeholder="groups"
@@ -306,10 +296,7 @@ if (!$_['internetconnectionworking']) {
 				</select>
 				<br />
 				<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
-				</div>
-			</td>
-		</tr>
-	</table>
+			</p>
 </div>
 
 <div class="section" id="security">

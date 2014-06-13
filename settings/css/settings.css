@@ -166,9 +166,14 @@ span.securitywarning, span.connectionwarning {
 	color:#C33;
 	font-weight:bold;
 }
-table.shareAPI td { padding-bottom: 0.8em; }
-table.shareAPI input#shareapiExpireAfterNDays {width: 25px;}
-table.shareAPI .indent { padding-left: 2em; }
+#shareAPI p { padding-bottom: 0.8em; }
+#shareAPI input#shareapiExpireAfterNDays {width: 25px;}
+#shareAPI .indent {
+	padding-left: 28px;
+}
+#shareAPI .double-indent {
+	padding-left: 56px;
+}
 
 #mail_settings p label:first-child {
 	display: inline-block;

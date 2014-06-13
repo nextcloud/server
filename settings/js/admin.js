@@ -60,7 +60,7 @@ $(document).ready(function(){
 	});
 
 	$('#shareAPIEnabled').change(function() {
-		$('.shareAPI td:not(#enable)').toggle();
+		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
 	});
 
 	$('#shareAPI input').change(function() {
@@ -82,6 +82,7 @@ $(document).ready(function(){
 
 	$('#allowLinks').change(function() {
 		$("#publicLinkSettings").toggleClass('hidden', !this.checked);
+		$('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked));
 	});
 
 	$('#security').change(function(){
