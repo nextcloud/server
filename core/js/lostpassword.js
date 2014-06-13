@@ -57,7 +57,8 @@ OC.Lostpassword = {
 			
 	sendLinkSuccess : function(msg){
 		var node = OC.Lostpassword.getSendStatusNode();
-		node.addClass('success').css({width:'auto'});
+		// update is the better success message styling
+		node.addClass('update').css({width:'auto'});
 		node.html(OC.Lostpassword.sendSuccessMsg);
 	},
 			
