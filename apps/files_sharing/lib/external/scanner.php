@@ -28,10 +28,8 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_POST, 1);
-		if ($password) {
-			curl_setopt($ch, CURLOPT_POSTFIELDS,
-				http_build_query(array('password' => $password)));
-		}
+		curl_setopt($ch, CURLOPT_POSTFIELDS,
+			http_build_query(array('password' => $password)));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 		$result = curl_exec($ch);
