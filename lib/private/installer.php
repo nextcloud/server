@@ -140,6 +140,8 @@ class OC_Installer{
 
 	/**
 	 * @brief Update an application
+	 * @param array $info
+	 * @param bool $isShipped
 	 *
 	 * This function installs an app. All information needed are passed in the
 	 * associative array $data.
@@ -164,9 +166,9 @@ class OC_Installer{
 	 * upgrade.php can determine the current installed version of the app using
 	 * "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
-	public static function updateApp( $info=array() ) {
+	public static function updateApp( $info=array(), $isShipped=false) {
 		list($extractDir, $path) = self::downloadApp($info);
-		$info = self::checkAppsIntegrity($info, $extractDir, $path);
+		$info = self::checkAppsIntegrity($info, $extractDir, $path, $isShipped);
 
 		$currentDir = OC_App::getAppPath($info['id']);
 		$basedir  = OC_App::getInstallPath();
@@ -195,10 +197,11 @@ class OC_Installer{
 	/**
 	 * update an app by it's id
 	 * @param integer $ocsid
+	 * @param bool $isShipped
 	 * @return bool
 	 * @throws Exception
 	 */
-	public static function updateAppByOCSId($ocsid) {
+	public static function updateAppByOCSId($ocsid, $isShipped=false) {
 		$appdata = OC_OCSClient::getApplication($ocsid);
 		$download = OC_OCSClient::getApplicationDownload($ocsid, 1);
 
@@ -278,10 +281,11 @@ class OC_Installer{
 	 * check an app's integrity
 	 * @param array $data
 	 * @param string $extractDir
+	 * @param bool $isShipped
 	 * @return array
 	 * @throws \Exception
 	 */
-	public static function checkAppsIntegrity($data = array(), $extractDir, $path) {
+	public static function checkAppsIntegrity($data = array(), $extractDir, $path, $isShipped=false) {
 		$l = \OC_L10N::get('lib');
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')) {
@@ -306,7 +310,7 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
 		// check the code for not allowed calls
-		if(!OC_Installer::checkCode($info['id'], $extractDir)) {
+		if(!$isShipped && !OC_Installer::checkCode($info['id'], $extractDir)) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because of not allowed code in the App"));
 		}
@@ -318,7 +322,7 @@ class OC_Installer{
 		}
 
 		// check if shipped tag is set which is only allowed for apps that are shipped with ownCloud
-		if(isset($info['shipped']) and ($info['shipped']=='true')) {
+		if(!$isShipped && isset($info['shipped']) && ($info['shipped']=='true')) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps"));
 		}

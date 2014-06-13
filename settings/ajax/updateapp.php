@@ -19,6 +19,7 @@ $appId = $_POST['appid'];
 
 if (!is_numeric($appId)) {
 	$appId = OC_Appconfig::getValue($appId, 'ocsid', null);
+	$isShipped = OC_App::isShipped($appId);
 
 	if ($appId === null) {
 		OCP\JSON::error(array(
@@ -26,11 +27,13 @@ if (!is_numeric($appId)) {
 		));
 		exit;
 	}
+} else {
+	$isShipped = false;
 }
 
 $appId = OC_App::cleanAppId($appId);
 
-$result = OC_Installer::updateAppByOCSId($appId);
+$result = OC_Installer::updateAppByOCSId($appId, $isShipped);
 if($result !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appId)));
 } else {
