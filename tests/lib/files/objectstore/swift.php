@@ -53,11 +53,14 @@ class Swift extends PHPUnit_Framework_TestCase {
 		\OC_User::setUserId('');
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId('test');
-		
+
+		$testContainer = 'oc-test-container-'.substr( md5(rand()), 0, 7);
+
 		$params = array(
 			'username' => 'facebook100000330192569',
 			'password' => 'Dbdj1sXnRSHxIGc4',
-			'container' => 'owncloud',
+			'container' => $testContainer,
+			'autocreate' => true,
 			'region' => 'RegionOne', //required, trystack defaults to 'RegionOne'
 			'url' => 'http://8.21.28.222:5000/v2.0', // The Identity / Keystone endpoint
 			'tenantName' => 'facebook100000330192569', // required on trystack
@@ -71,6 +74,7 @@ class Swift extends PHPUnit_Framework_TestCase {
 		if (is_null($this->storage)) {
 			return;
 		}
+		$this->storage->deleteContainer(true);
 		$this->storage->getCache()->clear();
 		//TODO how do I clear hooks?
 	}

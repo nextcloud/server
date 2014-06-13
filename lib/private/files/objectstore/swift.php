@@ -20,10 +20,15 @@
 
 namespace OC\Files\ObjectStore;
 
+use Guzzle\Http\Exception\ClientErrorResponseException;
 use OpenCloud\OpenStack;
 
 class Swift extends AbstractObjectStore {
 
+	/**
+	 * @var \OpenCloud\ObjectStore\Service
+	 */
+	private $objectStoreService;
 	
 	/**
 	 * @var \OpenCloud\ObjectStore\Resource\Container
@@ -33,6 +38,13 @@ class Swift extends AbstractObjectStore {
 	public function __construct($params) {
 		if (!isset($params['username']) || !isset($params['password']) ) {
 			throw new \Exception("Access Key and Secret have to be configured.");
+		}
+		if (!isset($params['container'])) {
+			$params['container'] = 'owncloud';
+		}
+		if (!isset($params['autocreate'])) {
+			// should only be true for tests
+			$params['autocreate'] = false;
 		}
 
 		$secret = array(
@@ -54,10 +66,18 @@ class Swift extends AbstractObjectStore {
 
 		$client = new OpenStack($params['url'], $secret);
 
-		/** @var $objectStoreService \OpenCloud\ObjectStore\Service **/
-		$objectStoreService = $client->objectStoreService($serviceName, $params['region']);
+		$this->objectStoreService = $client->objectStoreService($serviceName, $params['region']);
 
-		$this->container = $objectStoreService->getContainer($params['container']);
+		try {
+			$this->container = $this->objectStoreService->getContainer($params['container']);
+		} catch (ClientErrorResponseException $ex) {
+			// if the container does not exist and autocreate is true try to create the container on the fly
+			if (isset($params['autocreate']) && $params['autocreate'] === true) {
+				$this->container = $this->objectStoreService->createContainer($params['container']);
+			} else {
+				throw $ex;
+			}
+		}
 
 		//set the user via parent constructor, also initializes the root of the filecache
 		parent::__construct($params);
@@ -103,6 +123,10 @@ class Swift extends AbstractObjectStore {
 		}
 
 		$this->container->uploadObject($urn, $fileData);
+	}
+
+	public function deleteContainer($recursive = false) {
+		$this->container->delete($recursive);
 	}
 
 }

@@ -320,6 +320,7 @@ $CONFIG = array(
 		'username' => 'facebook100000123456789', // trystack will user your facebook id as the user name
 		'password' => 'Secr3tPaSSWoRdt7', // in the trystack dashboard go to user -> settings -> API Password to generate a password
 		'container' => 'owncloud', // must already exist in the objectstore, name can be different
+		'autocreate' => true, // create the container if it does not exist. default is false
 		'region' => 'RegionOne', //required, dev-/trystack defaults to 'RegionOne'
 		'url' => 'http://8.21.28.222:5000/v2.0', // The Identity / Keystone endpoint
 		'tenantName' => 'facebook100000123456789', // required on dev-/trystack
