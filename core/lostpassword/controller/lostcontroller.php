@@ -57,15 +57,15 @@ class LostController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $token
-	 * @param string $uid
+	 * @param string $userId
 	 */
-	public function resetform($token, $uid) {
+	public function resetform($token, $userId) {
 		return new TemplateResponse(
 			'core/lostpassword',
 			'resetpassword',
 			array(
 				'isEncrypted' => $this->isDataEncrypted,
-				'link' => $this->getLink('core.lost.setPassword', $uid, $token),
+				'link' => $this->getLink('core.lost.setPassword', $userId, $token),
 			),
 			'guest'
 		);
@@ -178,7 +178,7 @@ class LostController extends Controller {
 	protected function getLink($route, $user, $token){
 		$parameters = array(
 			'token' => $token,
-			'uid' => $user
+			'userId' => $user
 		);
 		$link = $this->urlGenerator->linkToRoute($route, $parameters);
 

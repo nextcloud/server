@@ -11,8 +11,8 @@ use OC\Core\LostPassword\Application;
 $application = new Application();
 $application->registerRoutes($this, array('routes' => array(
 		array('name' => 'lost#email', 'url' => '/lostpassword/email', 'verb' => 'POST'),
-		array('name' => 'lost#resetform', 'url' => '/lostpassword/reset/form/{token}/{uid}', 'verb' => 'GET'),
-		array('name' => 'lost#setPassword', 'url' => '/lostpassword/set/{token}/{uid}', 'verb' => 'POST'),
+		array('name' => 'lost#resetform', 'url' => '/lostpassword/reset/form/{token}/{userId}', 'verb' => 'GET'),
+		array('name' => 'lost#setPassword', 'url' => '/lostpassword/set/{token}/{userId}', 'verb' => 'POST'),
 	)
 ));
 
