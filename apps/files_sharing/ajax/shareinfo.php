@@ -56,12 +56,14 @@ function getChildInfo($dir, $view) {
 		if ($child->getType() === 'dir') {
 			$formated['children'] = getChildInfo($child, $view);
 		}
+		$formated['mtime'] = $formated['mtime'] / 1000;
 		$result[] = $formated;
 	}
 	return $result;
 }
 
 $result = \OCA\Files\Helper::formatFileInfo($rootInfo);
+$result['mtime'] = $result['mtime'] / 1000;
 if ($rootInfo->getType() === 'dir') {
 	$result['children'] = getChildInfo($rootInfo, $rootView);
 }
