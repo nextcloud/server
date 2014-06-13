@@ -26,7 +26,7 @@ $CONFIG = array(
 /* Password to access the ownCloud database */
 "dbpassword" => "",
 
-/* Host running the ownCloud database */
+/* Host running the ownCloud database. To specify a port use "HOSTNAME:####"; to specify a unix sockets use "localhost:/path/to/socket". */
 "dbhost" => "",
 
 /* Prefix for the ownCloud tables in the database */
