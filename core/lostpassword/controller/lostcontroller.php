@@ -72,7 +72,7 @@ class LostController extends Controller {
 	}
 
 	private function error($message, array $additional=array()) {
-		return array_combine(array('status' => 'error', 'msg' => $message), $additional);
+		return array_merge(array('status' => 'error', 'msg' => $message), $additional);
 	}
 
 	private function success() {
