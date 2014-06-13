@@ -68,6 +68,12 @@ class Manager {
 	}
 
 	public function setup() {
+		// don't setup server-to-server shares if the file_external app is disabled
+		// FIXME no longer needed if we use the webdav implementation from  core
+		if (\OC_App::isEnabled('files_external') === false) {
+			return false;
+		}
+
 		$user = $this->userSession->getUser();
 		if ($user) {
 			$query = $this->connection->prepare('SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
