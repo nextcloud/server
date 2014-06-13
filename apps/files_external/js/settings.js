@@ -310,7 +310,9 @@ $(document).ready(function() {
 		OC.msg.startSaving('#userMountingMsg');
 		if (this.checked) {
 			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
+			$('input[name="allowUserMountingBackends\\[\\]"]').prop('checked', true);
 			$('#userMountingBackups').removeClass('hidden');
+			$($('input[name="allowUserMountingBackends\\[\\]"]')[0]).trigger('change');
 		} else {
 			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
 			$('#userMountingBackups').addClass('hidden');
@@ -323,6 +325,13 @@ $(document).ready(function() {
 		var user_mounting_backends = $('input[name="allowUserMountingBackends\\[\\]"]:checked').map(function(){return $(this).val();}).get();
 		OC.AppConfig.setValue('files_external', 'user_mounting_backends', user_mounting_backends.join());
 		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('settings', 'Saved')}});
+
+		// disable allowUserMounting
+		if(user_mounting_backends.length === 0) {
+			$('#allowUserMounting').prop('checked', false);
+			$('#allowUserMounting').trigger('change');
+
+		}
 	});
 });
 
