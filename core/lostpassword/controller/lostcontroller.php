@@ -106,8 +106,11 @@ class LostController extends Controller {
 		try {
 			$user = $this->userManager->get($userId);
 
-			if (!$this->checkToken($userId, $token) ||
-				!$user->setPassword($userId, $password)) {
+			if (!$this->checkToken($userId, $token)) {
+				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
+			}
+
+			if (!$user->setPassword($userId, $password)) {
 				throw new \Exception();
 			}
 
