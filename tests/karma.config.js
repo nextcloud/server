@@ -56,6 +56,16 @@ module.exports = function(config) {
 					'apps/files_sharing/js/share.js'
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
+			},
+			{
+				name: 'files_external',
+				srcFiles: [
+					// only test these files, others are not ready and mess
+					// up with the global namespace/classes/state
+					'apps/files_external/js/app.js',
+					'apps/files_external/js/mountsfilelist.js'
+				],
+				testFiles: ['apps/files_external/tests/js/*.js']
 			}];
 	}
 
