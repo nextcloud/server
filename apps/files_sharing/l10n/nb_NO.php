@@ -6,9 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Ingen filer er delt med deg ennå.",
 "You haven't shared any files yet." => "Du har ikke delt noen filer ennå.",
 "You haven't shared any files by link yet." => "Du har ikke delt noen filer med lenke ennå.",
-"Could not load template" => "Klarte ikke å laste mal",
-"Saved" => "Lagret",
-"Reset" => "Nullstill",
 "Shared by {owner}" => "Delt av {owner}",
 "Shared by" => "Delt av",
 "This share is password-protected" => "Denne delingen er passordbeskyttet",
@@ -24,10 +21,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "For mer informasjon, spør personen som sendte lenken.",
 "Download" => "Last ned",
 "Download %s" => "Last ned %s",
-"Direct link" => "Direkte lenke",
-"Mail templates" => "Epost-maler",
-"Theme" => "Tema",
-"Template" => "Mal",
-"Save" => "Lagre"
+"Direct link" => "Direkte lenke"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

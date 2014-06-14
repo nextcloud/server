@@ -1,7 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "Salvestatud",
-"Reset" => "Algseaded",
 "Shared by {owner}" => "Jagas {owner}",
 "Shared by" => "Jagas",
 "This share is password-protected" => "See jagamine on parooliga kaitstud",
@@ -16,7 +14,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Täpsema info saamiseks palun pöördu lingi saatnud isiku poole.",
 "Download" => "Lae alla",
 "Download %s" => "Laadi alla %s",
-"Direct link" => "Otsene link",
-"Save" => "Salvesta"
+"Direct link" => "Otsene link"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

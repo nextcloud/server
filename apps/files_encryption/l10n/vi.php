@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "Không thể đổi mật khẩu. Có lẽ do mật khẩu cũ không đúng.",
 "Private key password successfully updated." => "Cập nhật thành công mật khẩu khóa cá nhân",
 "Could not update the private key password. Maybe the old password was not correct." => "Không thể cập nhật mật khẩu khóa cá nhân. Có thể mật khẩu cũ không đúng",
-"personal settings" => "Thiết lập cá nhân",
 "Encryption" => "Mã hóa",
 "Enabled" => "Bật",
 "Disabled" => "Tắt",

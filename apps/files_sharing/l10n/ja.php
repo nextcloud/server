@@ -6,9 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "まだ共有を行なっているファイルはありません。",
 "You haven't shared any files yet." => "まだ共有を行なっているファイルはありません。",
 "You haven't shared any files by link yet." => "まだURLリンクで共有を行なっているファイルはありません。",
-"Could not load template" => "テンプレートを読み出せませんでした",
-"Saved" => "保存されました",
-"Reset" => "リセット",
 "Shared by {owner}" => "{owner} と共有中",
 "Shared by" => "共有者：",
 "This share is password-protected" => "この共有はパスワードで保護されています",
@@ -24,10 +21,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "不明な点は、こちらのリンクの提供者に確認をお願いします。",
 "Download" => "ダウンロード",
 "Download %s" => "%s をダウンロード",
-"Direct link" => "リンク",
-"Mail templates" => "メールテンプレート",
-"Theme" => "テーマ",
-"Template" => "テンプレート",
-"Save" => "保存"
+"Direct link" => "リンク"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

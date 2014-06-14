@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 16:40+0000\n"
-"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +20,15 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:35 js/app.js:34
+#: appinfo/app.php:32 js/app.js:34
 msgid "Shared with you"
 msgstr "Διαμοιρασμένο με εσάς"
 
-#: appinfo/app.php:44 js/app.js:53
+#: appinfo/app.php:41 js/app.js:53
 msgid "Shared with others"
 msgstr "Διαμοιρασμένο με άλλους"
 
-#: appinfo/app.php:53 js/app.js:72
+#: appinfo/app.php:50 js/app.js:72
 msgid "Shared by link"
 msgstr "Διαμοιρασμένο μέσω συνδέσμου"
 
@@ -43,18 +43,6 @@ msgstr "Δεν έχετε διαμοιραστεί κανένα αρχείο α�
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
 msgstr "Δεν έχετε διαμοιραστεί κανένα αρχείο μέσω συνδέσμου ακόμα."
-
-#: js/settings-admin.js:10
-msgid "Could not load template"
-msgstr "Αδυναμία φόρτωσης προτύπου"
-
-#: js/settings-admin.js:45
-msgid "Saved"
-msgstr "Αποθηκεύτηκαν"
-
-#: js/settings-admin.js:64 templates/settings-admin.php:33
-msgid "Reset"
-msgstr "Επαναφορά"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -120,19 +108,3 @@ msgstr "Λήψη %s"
 #: templates/public.php:54
 msgid "Direct link"
 msgstr "Άμεσος σύνδεσμος"
-
-#: templates/settings-admin.php:3
-msgid "Mail templates"
-msgstr "Πρότυπα αλληλογραφίας"
-
-#: templates/settings-admin.php:8
-msgid "Theme"
-msgstr "Θέμα"
-
-#: templates/settings-admin.php:17
-msgid "Template"
-msgstr "Πρότυπο"
-
-#: templates/settings-admin.php:35
-msgid "Save"
-msgstr "Αποθήκευση"

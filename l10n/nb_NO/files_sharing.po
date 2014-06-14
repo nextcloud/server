@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 07:10+0000\n"
-"Last-Translator: vidaren <news@vidartysse.net>\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,15 +19,15 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:35 js/app.js:34
+#: appinfo/app.php:32 js/app.js:34
 msgid "Shared with you"
 msgstr "Delt med deg"
 
-#: appinfo/app.php:44 js/app.js:53
+#: appinfo/app.php:41 js/app.js:53
 msgid "Shared with others"
 msgstr "Delt med andre"
 
-#: appinfo/app.php:53 js/app.js:72
+#: appinfo/app.php:50 js/app.js:72
 msgid "Shared by link"
 msgstr "Delt med lenke"
 
@@ -42,18 +42,6 @@ msgstr "Du har ikke delt noen filer ennå."
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
 msgstr "Du har ikke delt noen filer med lenke ennå."
-
-#: js/settings-admin.js:10
-msgid "Could not load template"
-msgstr "Klarte ikke å laste mal"
-
-#: js/settings-admin.js:45
-msgid "Saved"
-msgstr "Lagret"
-
-#: js/settings-admin.js:64 templates/settings-admin.php:33
-msgid "Reset"
-msgstr "Nullstill"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -119,19 +107,3 @@ msgstr "Last ned %s"
 #: templates/public.php:54
 msgid "Direct link"
 msgstr "Direkte lenke"
-
-#: templates/settings-admin.php:3
-msgid "Mail templates"
-msgstr "Epost-maler"
-
-#: templates/settings-admin.php:8
-msgid "Theme"
-msgstr "Tema"
-
-#: templates/settings-admin.php:17
-msgid "Template"
-msgstr "Mal"
-
-#: templates/settings-admin.php:35
-msgid "Save"
-msgstr "Lagre"

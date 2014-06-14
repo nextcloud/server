@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# woosuk park <bjh13579@gmail.com>, 2013
 # Park Shinjo <peremen@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
-# 책읽는달팽 <bjh13579@gmail.com>, 2013
+# woosuk park <bjh13579@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -84,18 +84,18 @@ msgid ""
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "요구 사항이 부족합니다."
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "PHP 5.3.3 이상 설치 여부, PHP의 OpenSSL 확장 기능 활성화 및 설정 여부를 확인하십시오. 암호화 앱이 비활성화 되었습니다."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "다음 사용자는 암호화를 사용할 수 없습니다:"
 
@@ -108,12 +108,9 @@ msgid "Initial encryption running... Please try again later."
 msgstr ""
 
 #: templates/invalid_private_key.php:8
-msgid "Go directly to your "
-msgstr "다음으로 바로 가기: "
-
-#: templates/invalid_private_key.php:8
-msgid "personal settings"
-msgstr "개인 설정"
+#, php-format
+msgid "Go directly to your %spersonal settings%s."
+msgstr ""
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

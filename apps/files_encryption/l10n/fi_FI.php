@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Seuraavat käyttäjät eivät ole määrittäneet salausta:",
 "Initial encryption started... This can take some time. Please wait." => "Ensimmäinen salauskerta käynnistetty... Tämä saattaa kestää hetken.",
 "Initial encryption running... Please try again later." => "Ensimmäinen salauskerta on meneillään... Yritä myöhemmin uudelleen.",
-"personal settings" => "henkilökohtaiset asetukset",
 "Encryption" => "Salaus",
 "Recovery key password" => "Palautusavaimen salasana",
 "Enabled" => "Käytössä",

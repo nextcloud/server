@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
-# maxxx <maxxxrally@gmail.com>, 2014
-# bobie <maciej.przybecki@gmail.com>, 2013-2014
+# Krzysztof Łojowski <maxxxrally@gmail.com>, 2014
+# Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-02 11:31+0000\n"
-"Last-Translator: bobie <maciej.przybecki@gmail.com>\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -83,18 +83,18 @@ msgid ""
 "administrator"
 msgstr "Nieznany błąd. Proszę sprawdzić ustawienia systemowe lub skontaktować się z administratorem"
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "Brak wymagań."
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Proszę upewnić się, że PHP 5.3.3 lub nowszy jest zainstalowany i że OpenSSL oraz rozszerzenie PHP jest włączone i poprawnie skonfigurowane. Obecnie szyfrowanie aplikacji zostało wyłączone."
 
-#: hooks/hooks.php:296
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "Następujący użytkownicy nie mają skonfigurowanego szyfrowania:"
 
@@ -107,12 +107,9 @@ msgid "Initial encryption running... Please try again later."
 msgstr "Trwa szyfrowanie początkowe...Spróbuj ponownie."
 
 #: templates/invalid_private_key.php:8
-msgid "Go directly to your "
-msgstr "Przejdź bezpośrednio do"
-
-#: templates/invalid_private_key.php:8
-msgid "personal settings"
-msgstr "Ustawienia osobiste"
+#, php-format
+msgid "Go directly to your %spersonal settings%s."
+msgstr ""
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

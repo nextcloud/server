@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Reset" => "Reiniciar",
 "Shared by {owner}" => "Compartido por {owner}",
 "Shared by" => "Compartido por",
 "This share is password-protected" => "Este elemento compartido esta protegido por contraseña",
@@ -14,7 +13,6 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "compartir está desactivado",
 "For more info, please ask the person who sent this link." => "Para mayor información, contacte a la persona que le envió el enlace.",
 "Download" => "Descargar",
-"Direct link" => "Enlace directo",
-"Save" => "Guardar"
+"Direct link" => "Enlace directo"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

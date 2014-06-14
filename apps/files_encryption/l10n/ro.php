@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Could not change the password. Maybe the old password was not correct." => "Parola nu a putut fi schimbata. Poate ca parola veche este incorecta.",
 "Private key password successfully updated." => "Cheia privata a fost actualizata cu succes",
 "Could not update the private key password. Maybe the old password was not correct." => "Nu am putut actualiza parola pentru cheia privata. Poate ca parola veche este incorecta.",
-"personal settings" => "setari personale",
 "Encryption" => "Încriptare",
 "Enabled" => "Activat",
 "Disabled" => "Dezactivat",

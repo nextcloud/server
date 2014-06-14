@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +23,15 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: appinfo/app.php:35 js/app.js:34
+#: appinfo/app.php:32 js/app.js:34
 msgid "Shared with you"
 msgstr "Partagé avec vous"
 
-#: appinfo/app.php:44 js/app.js:53
+#: appinfo/app.php:41 js/app.js:53
 msgid "Shared with others"
 msgstr "Partagé avec d'autres"
 
-#: appinfo/app.php:53 js/app.js:72
+#: appinfo/app.php:50 js/app.js:72
 msgid "Shared by link"
 msgstr "Partagé par lien"
 
@@ -46,18 +46,6 @@ msgstr "Vous ne partagez pas de fichier pour l'instant"
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
 msgstr "Vous ne partagez aucun de fichier par lien pour l'instant."
-
-#: js/settings-admin.js:10
-msgid "Could not load template"
-msgstr "Impossible de charger le modèle"
-
-#: js/settings-admin.js:45
-msgid "Saved"
-msgstr "Sauvegarder"
-
-#: js/settings-admin.js:64 templates/settings-admin.php:33
-msgid "Reset"
-msgstr "Réinitialiser"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -123,19 +111,3 @@ msgstr "Télécharger %s"
 #: templates/public.php:54
 msgid "Direct link"
 msgstr "Lien direct"
-
-#: templates/settings-admin.php:3
-msgid "Mail templates"
-msgstr "Modèles de courriels"
-
-#: templates/settings-admin.php:8
-msgid "Theme"
-msgstr "Thème"
-
-#: templates/settings-admin.php:17
-msgid "Template"
-msgstr "Modèles"
-
-#: templates/settings-admin.php:35
-msgid "Save"
-msgstr "Sauvegarder"

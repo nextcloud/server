@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-13 01:54-0400\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -103,11 +103,8 @@ msgid "Initial encryption running... Please try again later."
 msgstr ""
 
 #: templates/invalid_private_key.php:8
-msgid "Go directly to your "
-msgstr ""
-
-#: templates/invalid_private_key.php:8
-msgid "personal settings"
+#, php-format
+msgid "Go directly to your %spersonal settings%s."
 msgstr ""
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2

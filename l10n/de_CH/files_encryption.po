@@ -4,8 +4,8 @@
 # 
 # Translators:
 # ako84 <a0306265@unet.univie.ac.at>, 2013
-# FlorianScholz <work@bgstyle.de>, 2013
-# FlorianScholz <work@bgstyle.de>, 2013
+# Florian Scholz <work@bgstyle.de>, 2013
+# Florian Scholz <work@bgstyle.de>, 2013
 # JamFX <niko@nik-o-mat.de>, 2013
 # Mario Siegmann <mario_siegmann@web.de>, 2013
 # traductor, 2013
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -86,18 +86,18 @@ msgid ""
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "Fehlende Voraussetzungen"
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert und das OpenSSL zusammen mit der PHP-Erweiterung aktiviert und richtig konfiguriert ist. Zur Zeit ist die Verschlüsselungs-App deaktiviert."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:"
 
@@ -110,12 +110,9 @@ msgid "Initial encryption running... Please try again later."
 msgstr ""
 
 #: templates/invalid_private_key.php:8
-msgid "Go directly to your "
+#, php-format
+msgid "Go directly to your %spersonal settings%s."
 msgstr ""
-
-#: templates/invalid_private_key.php:8
-msgid "personal settings"
-msgstr "Persönliche Einstellungen"
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

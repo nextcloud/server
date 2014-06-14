@@ -6,9 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Aucun fichier n'est partagé avec vous pour l'instant",
 "You haven't shared any files yet." => "Vous ne partagez pas de fichier pour l'instant",
 "You haven't shared any files by link yet." => "Vous ne partagez aucun de fichier par lien pour l'instant.",
-"Could not load template" => "Impossible de charger le modèle",
-"Saved" => "Sauvegarder",
-"Reset" => "Réinitialiser",
 "Shared by {owner}" => "Partagé par {owner}",
 "Shared by" => "Partagé par",
 "This share is password-protected" => "Ce partage est protégé par un mot de passe",
@@ -24,10 +21,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Pour plus d'informations, veuillez contacter la personne qui a envoyé ce lien.",
 "Download" => "Télécharger",
 "Download %s" => "Télécharger %s",
-"Direct link" => "Lien direct",
-"Mail templates" => "Modèles de courriels",
-"Theme" => "Thème",
-"Template" => "Modèles",
-"Save" => "Sauvegarder"
+"Direct link" => "Lien direct"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

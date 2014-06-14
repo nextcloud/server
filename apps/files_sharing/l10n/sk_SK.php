@@ -6,9 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Zatiaľ s vami nikto žiadne súbory nezdieľal.",
 "You haven't shared any files yet." => "Zatiaľ ste nezdieľali žiadne súbory.",
 "You haven't shared any files by link yet." => "Zatiaľ ste pomocou odkazu nezdieľali žiaden súbor.",
-"Could not load template" => "Šablónu nemožno nahrať",
-"Saved" => "Uložené",
-"Reset" => "Resetovať",
 "Shared by {owner}" => "Zdieľa {owner}",
 "Shared by" => "Zdieľa",
 "This share is password-protected" => "Toto zdieľanie je chránené heslom",
@@ -24,10 +21,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz.",
 "Download" => "Sťahovanie",
 "Download %s" => "Stiahnuť %s",
-"Direct link" => "Priama linka",
-"Mail templates" => "Emailové šablóny",
-"Theme" => "Téma",
-"Template" => "Šablóna",
-"Save" => "Uložiť"
+"Direct link" => "Priama linka"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

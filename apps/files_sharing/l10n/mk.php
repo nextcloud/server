@@ -6,9 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Ниту една датотека сеуште не била споделена со вас.",
 "You haven't shared any files yet." => "Вие досега немате споделено ниту една датотека.",
 "You haven't shared any files by link yet." => "Сеуште немате споделено датотека со врска.",
-"Could not load template" => "Не можам да го вчитам шаблонот",
-"Saved" => "Снимено",
-"Reset" => "Поништи",
 "Shared by {owner}" => "Споделени од {owner}",
 "Shared by" => "Споделено од",
 "This share is password-protected" => "Ова споделување е заштитено со лозинка",
@@ -24,10 +21,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "За повеќе информации, прашајте го лицето кое ви ја испратила врската.",
 "Download" => "Преземи",
 "Download %s" => "Преземи %s",
-"Direct link" => "Директна врска",
-"Mail templates" => "Шаблони за електронска пошта",
-"Theme" => "Теми",
-"Template" => "Шаблон",
-"Save" => "Сними"
+"Direct link" => "Директна врска"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;";

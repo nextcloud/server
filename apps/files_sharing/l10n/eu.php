@@ -1,7 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "Gordeta",
-"Reset" => "Berrezarri",
 "Shared by {owner}" => "{owner}-k partekatuta",
 "Shared by" => "Honek elkarbanatuta",
 "This share is password-protected" => "Elkarbanatutako hau pasahitzarekin babestuta dago",
@@ -16,7 +14,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Informazio gehiagorako, mesedez eskatu lotura hau bidali zuen pertsonari",
 "Download" => "Deskargatu",
 "Download %s" => "Deskargatu %s",
-"Direct link" => "Lotura zuzena",
-"Save" => "Gorde"
+"Direct link" => "Lotura zuzena"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "Konservita",
 "Shared by {owner}" => "Kunhavigita de {owner}",
 "Shared by" => "Kunhavigita de",
 "This share is password-protected" => "Ĉi tiu kunhavigo estas protektata per pasvorto",
@@ -13,7 +12,6 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "kunhavigo malkapablas",
 "For more info, please ask the person who sent this link." => "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
 "Download" => "Elŝuti",
-"Direct link" => "Direkta ligilo",
-"Save" => "Konservi"
+"Direct link" => "Direkta ligilo"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-28 01:54-0400\n"
-"PO-Revision-Date: 2014-05-28 05:54+0000\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Mexico) (http://www.transifex.com/projects/p/owncloud/language/es_MX/)\n"
 "MIME-Version: 1.0\n"
@@ -80,18 +80,18 @@ msgid ""
 "administrator"
 msgstr ""
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "Requisitos incompletos."
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "Los siguientes usuarios no han sido configurados para el cifrado:"
 
@@ -104,12 +104,9 @@ msgid "Initial encryption running... Please try again later."
 msgstr ""
 
 #: templates/invalid_private_key.php:8
-msgid "Go directly to your "
-msgstr "Ir directamente a su"
-
-#: templates/invalid_private_key.php:8
-msgid "personal settings"
-msgstr "opciones personales"
+#, php-format
+msgid "Go directly to your %spersonal settings%s."
+msgstr ""
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

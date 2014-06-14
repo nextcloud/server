@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ант По <du6egub@gmail.com>, 2013
-# alfsoft <alfsoft@gmail.com>, 2013
-# lord93 <lordakryl@gmail.com>, 2013
+# Alexander Poberezhsky <du6egub@gmail.com>, 2013
+# Alf <alfsoft@gmail.com>, 2013
+# Andrew Batchmauga <lordakryl@gmail.com>, 2013
 # Gennady <mxiru@mail.ru>, 2014
 # jekader <jekader@gmail.com>, 2013
-# eurekafag <rkfg@rkfg.me>, 2013
+# Serge Shpikin <rkfg@rkfg.me>, 2013
 # Swab <swab@i.ua>, 2014
 # Victor Bravo <>, 2013
-# vsapronov <vladimir.sapronov@gmail.com>, 2013
+# Vladimir Sapronov <vladimir.sapronov@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-30 01:54-0400\n"
-"PO-Revision-Date: 2014-05-29 08:11+0000\n"
-"Last-Translator: Gennady <mxiru@mail.ru>\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -89,18 +89,18 @@ msgid ""
 "administrator"
 msgstr "Неизвестная ошибка. Пожалуйста, проверьте системные настройки или свяжитесь с администратором"
 
-#: hooks/hooks.php:64
+#: hooks/hooks.php:66
 msgid "Missing requirements."
 msgstr "Требования отсутствуют."
 
-#: hooks/hooks.php:65
+#: hooks/hooks.php:67
 msgid ""
 "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL "
 "together with the PHP extension is enabled and configured properly. For now,"
 " the encryption app has been disabled."
 msgstr "Пожалуйста, убедитесь, что версия PHP 5.3.3 или новее, а также, что OpenSSL и соответствующее расширение PHP включены и правильно настроены. На данный момент приложение шифрования отключено."
 
-#: hooks/hooks.php:299
+#: hooks/hooks.php:300
 msgid "Following users are not set up for encryption:"
 msgstr "Для следующих пользователей шифрование не настроено:"
 
@@ -113,12 +113,9 @@ msgid "Initial encryption running... Please try again later."
 msgstr "Работает первоначальное шифрование... Пожалуйста, повторите попытку позже."
 
 #: templates/invalid_private_key.php:8
-msgid "Go directly to your "
-msgstr "Перейти прямо в"
-
-#: templates/invalid_private_key.php:8
-msgid "personal settings"
-msgstr "персональные настройки"
+#, php-format
+msgid "Go directly to your %spersonal settings%s."
+msgstr ""
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

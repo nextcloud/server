@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-14 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: appinfo/app.php:35 js/app.js:34
+#: appinfo/app.php:32 js/app.js:34
 msgid "Shared with you"
 msgstr ""
 
-#: appinfo/app.php:44 js/app.js:53
+#: appinfo/app.php:41 js/app.js:53
 msgid "Shared with others"
 msgstr ""
 
-#: appinfo/app.php:53 js/app.js:72
+#: appinfo/app.php:50 js/app.js:72
 msgid "Shared by link"
 msgstr ""
 
@@ -39,18 +39,6 @@ msgstr ""
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
-
-#: js/settings-admin.js:10
-msgid "Could not load template"
-msgstr ""
-
-#: js/settings-admin.js:45
-msgid "Saved"
-msgstr ""
-
-#: js/settings-admin.js:64 templates/settings-admin.php:33
-msgid "Reset"
 msgstr ""
 
 #: js/share.js:60
@@ -117,19 +105,3 @@ msgstr ""
 #: templates/public.php:54
 msgid "Direct link"
 msgstr ""
-
-#: templates/settings-admin.php:3
-msgid "Mail templates"
-msgstr ""
-
-#: templates/settings-admin.php:8
-msgid "Theme"
-msgstr ""
-
-#: templates/settings-admin.php:17
-msgid "Template"
-msgstr ""
-
-#: templates/settings-admin.php:35
-msgid "Save"
-msgstr "บันทึก"

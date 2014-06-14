@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Password" => "Senhal",
 "Name" => "Nom",
-"Download" => "Avalcarga",
-"Save" => "Enregistra"
+"Download" => "Avalcarga"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

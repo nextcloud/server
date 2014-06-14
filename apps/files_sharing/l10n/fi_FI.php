@@ -6,9 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Kukaan ei ole jakanut tiedostoja kanssasi vielä.",
 "You haven't shared any files yet." => "Et ole jakanut yhtäkään tiedostoa vielä.",
 "You haven't shared any files by link yet." => "Et ole vielä jakanut yhtäkään tiedostoa linkin kautta.",
-"Could not load template" => "Mallipohjan lataaminen epäonnistui",
-"Saved" => "Tallennettu",
-"Reset" => "Nollaa salasana",
 "Shared by {owner}" => "Jakanut {owner}",
 "Shared by" => "Jakanut",
 "This share is password-protected" => "Tämä jako on suojattu salasanalla",
@@ -24,10 +21,6 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "Kysy lisätietoja henkilöltä, jolta sait linkin.",
 "Download" => "Lataa",
 "Download %s" => "Lataa %s",
-"Direct link" => "Suora linkki",
-"Mail templates" => "Sähköpostimallit",
-"Theme" => "Teema",
-"Template" => "Mallit",
-"Save" => "Tallenna"
+"Direct link" => "Suora linkki"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
