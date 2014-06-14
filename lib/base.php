@@ -734,27 +734,40 @@ class OC {
 		self::handleLogin();
 	}
 
+	/**
+	 * @deprecated This function will be removed in ownCloud 8 - use proper routing instead
+	 * @param $param
+	 * @return bool Whether the file has been found
+	 */
 	public static function loadAppScriptFile($param) {
 		OC_App::loadApps();
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
 		$file = $app_path . '/' . $file;
-		unset($app, $app_path);
-		if (file_exists($file)) {
-			require_once $file;
-			return true;
+
+		if (OC_App::isEnabled($app) && $app_path !== false && OC_Helper::issubdirectory($file, $app_path)) {
+			unset($app, $app_path);
+			if (file_exists($file)) {
+				require_once $file;
+				return true;
+			}
 		}
 		return false;
 	}
 
+	/**
+	 * @deprecated This function is removed since ownCloud 7
+	 * @param $param
+	 */
 	public static function loadCSSFile($param) {
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
-		if (file_exists($app_path . '/' . $file)) {
-			$app_web_path = OC_App::getAppWebPath($app);
-			$filepath = $app_web_path . '/' . $file;
+		$app_web_path = OC_App::getAppWebPath($app);
+		$filepath = $app_web_path . '/' . $file;
+
+		if (file_exists($app_path . '/' . $file) && OC_Helper::issubdirectory($app_path . '/' . $file, $app_path)) {
 			$minimizer = new OC_Minimizer_CSS();
 			$info = array($app_path, $app_web_path, $file);
 			$minimizer->output(array($info), $filepath);
