@@ -199,10 +199,10 @@ OC.Share={
 			message = t('core', 'Shared');
 			// even if reshared, only show "Shared by"
 			if (owner) {
-				message = t('files_sharing', 'Shared by {owner}', {owner: owner});
+				message = t('files_sharing', 'Shared by {owner}', {owner: escapeHTML(owner)});
 			}
 			else if (recipients) {
-				message = t('core', 'Shared with {recipients}', {recipients: recipients});
+				message = t('core', 'Shared with {recipients}', {recipients: escapeHTML(recipients)});
 			}
 			action.html(' <span>'+ message + '</span>').prepend(img);
 		}
@@ -337,9 +337,9 @@ OC.Share={
 				var defaultExpireMessage = '';
 				if ((itemType === 'folder' || itemType === 'file') && oc_appconfig.core.defaultExpireDateEnabled) {
 					if (oc_appconfig.core.defaultExpireDateEnforced) {
-						defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': oc_appconfig.core.defaultExpireDate}) + '<br/>';
+						defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
 					} else {
-						defaultExpireMessage = t('core', 'By default the public link will expire after {days} days', {'days': oc_appconfig.core.defaultExpireDate}) + '<br/>';
+						defaultExpireMessage = t('core', 'By default the public link will expire after {days} days', {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
 					}
 				}
 
@@ -537,7 +537,7 @@ OC.Share={
 			if (collectionList.length > 0) {
 				$(collectionList).append(', '+shareWithDisplayName);
 			} else {
-				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWithDisplayName})+'</li>';
+				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': escapeHTML(item), user: escapeHTML(shareWithDisplayName)})+'</li>';
 				$('#shareWithList').prepend(html);
 			}
 		} else {
