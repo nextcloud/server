@@ -38,3 +38,6 @@ Options -Indexes
 <IfModule pagespeed_module>
         ModPagespeed Off
 </IfModule>
+
+ErrorDocument 403 /core/core/templates/403.php
+ErrorDocument 404 /core/core/templates/404.php

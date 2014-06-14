@@ -785,14 +785,18 @@ class OC {
 	 * Load a PHP file belonging to the specified application
 	 * @param array $param The application and file to load
 	 * @return bool Whether the file has been found (will return 404 and false if not)
+	 * @deprecated This function will be removed in ownCloud 8 - use proper routing instead
+	 * @param $param
+	 * @return bool Whether the file has been found (will return 404 and false if not)
 	 */
 	public static function loadAppScriptFile($param) {
 		OC_App::loadApps();
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
-		if (OC_App::isEnabled($app) && $app_path !== false) {
-			$file = $app_path . '/' . $file;
+		$file = $app_path . '/' . $file;
+
+		if (OC_App::isEnabled($app) && $app_path !== false && OC_Helper::issubdirectory($file, $app_path)) {
 			unset($app, $app_path);
 			if (file_exists($file)) {
 				require_once $file;
