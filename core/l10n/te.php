@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Users" => "వాడుకరులు",
 "Help" => "సహాయం",
 "Password" => "సంకేతపదం",
-"Log out" => "నిష్క్రమించు",
-"Lost your password?" => "మీ సంకేతపదం పోయిందా?"
+"Log out" => "నిష్క్రమించు"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -171,49 +171,80 @@ msgstr ""
 msgid "Saving..."
 msgstr "Đang lưu..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n phút trước"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n giờ trước"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ngày trước"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n tháng trước"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "năm trước"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Khôi phục mật khẩu"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -512,43 +543,40 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Cập nhật thành công .Hệ thống sẽ đưa bạn tới ownCloud."
 
-#: lostpassword/controller.php:70
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
+msgid ""
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
 msgstr "%s thiết lập lại mật khẩu"
-
-#: lostpassword/controller.php:72
-msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
-msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "Liên kết tạo lại mật khẩu đã được gửi tới hộp thư của bạn.<br>Nếu bạn không thấy nó sau một khoảng thời gian, vui lòng kiểm tra trong thư mục Spam/Rác.<br>Nếu vẫn không thấy, vui lòng hỏi người quản trị hệ thống."
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Yêu cầu thất bại!<br>Bạn có chắc là email/tên đăng nhập của bạn chính xác?"
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Tên đăng nhập"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -556,30 +584,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Tập tin của bạn được mã hóa. Nếu bạn chưa kích hoạt khoá phục hồi, sẽ không có cách nào để lấy lại được dữ liệu sau khi thiết lập lại mật khẩu. Nếu bạn không biết phải làm gì, xin vui lòng liên hệ với quản trị viên trước khi tiếp tục. Bạn có muốn tiếp tục?"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "Vâng, tôi muốn thiết lập lại mật khẩu ngay."
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr "Khởi động lại"
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Mật khẩu của bạn đã được khôi phục"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "Trang đăng nhập"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Mật khẩu mới"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Khôi phục mật khẩu"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -806,8 +825,8 @@ msgid "Please contact your administrator."
 msgstr "Vui lòng liên hệ với quản trị viên."
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Bạn quên mật khẩu ?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

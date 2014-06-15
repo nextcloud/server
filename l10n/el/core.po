@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-09 01:54-0400\n"
-"PO-Revision-Date: 2014-06-08 16:30+0000\n"
-"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,53 +178,84 @@ msgstr "Ήχος"
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n λεπτό πριν"
 msgstr[1] "%n λεπτά πριν"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n ώρα πριν"
 msgstr[1] "%n ώρες πριν"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n ημέρα πριν"
 msgstr[1] "%n ημέρες πριν"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n μήνας πριν"
 msgstr[1] "%n μήνες πριν"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "χρόνια πριν"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Επαναφορά συνθηματικού"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -524,43 +555,40 @@ msgstr "Η ενημέρωση δεν ήταν επιτυχής."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud."
 
-#: lostpassword/controller.php:70
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
+msgid ""
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
 msgstr "%s επαναφορά κωδικού πρόσβασης"
-
-#: lostpassword/controller.php:72
-msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
-msgstr "Παρουσιάστηκε σφάλμα κατά την αποστολή email, παρακαλώ επικοινωνήστε με τον διαχειριστή."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "Ο σύνδεσμος για να επανακτήσετε τον κωδικό σας έχει σταλεί στο email <br>αν δεν το λάβετε μέσα σε ορισμένο διάστημα, ελέγξετε τους φακελλους σας spam/junk <br> αν δεν είναι εκεί ρωτήστε τον τοπικό σας διαχειριστή "
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Η αίτηση απέτυχε! Βεβαιωθηκατε ότι το email σας / username ειναι σωστο? "
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω ηλεκτρονικού ταχυδρομείου."
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -568,30 +596,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Τα αρχεία σας είναι κρυπτογραφημένα. Εάν δεν έχετε ενεργοποιήσει το κλειδί ανάκτησης, δεν υπάρχει περίπτωση να έχετε πρόσβαση στα δεδομένα σας μετά την επαναφορά του συνθηματικού. Εάν δεν είστε σίγουροι τι να κάνετε, παρακαλώ επικοινωνήστε με τον διαχειριστή πριν συνεχίσετε. Θέλετε να συνεχίσετε;"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "Ναι, θέλω να επαναφέρω το συνθηματικό μου τώρα."
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr "Επαναφορά"
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Ο κωδικός πρόσβασής σας επαναφέρθηκε"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "Σελίδα εισόδου"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Νέο συνθηματικό"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Επαναφορά συνθηματικού"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -818,8 +837,8 @@ msgid "Please contact your administrator."
 msgstr "Παρακαλώ επικοινωνήστε με τον διαχειριστή."
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Ξεχάσατε το συνθηματικό σας;"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

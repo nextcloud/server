@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -167,48 +167,79 @@ msgstr ""
 msgid "Saving..."
 msgstr "Simpan..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr ""
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr ""
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
+msgstr ""
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Penetapan semula kata laluan"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
 msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
@@ -508,43 +539,40 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:70
-#, php-format
-msgid "%s password reset"
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller.php:72
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
 msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
+#, php-format
+msgid "%s password reset"
 msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Anda akan menerima pautan untuk menetapkan semula kata laluan anda melalui emel"
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Nama pengguna"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -552,30 +580,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr ""
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Kata laluan anda telah diset semula"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "Ke halaman log masuk"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Kata laluan baru"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Penetapan semula kata laluan"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -802,8 +821,8 @@ msgid "Please contact your administrator."
 msgstr ""
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Hilang kata laluan?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

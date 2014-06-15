@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -169,57 +169,88 @@ msgstr ""
 msgid "Saving..."
 msgstr "Зберігаю..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n хвилину тому"
 msgstr[1] "%n хвилини тому"
 msgstr[2] "%n хвилин тому"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n годину тому"
 msgstr[1] "%n години тому"
 msgstr[2] "%n годин тому"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n день тому"
 msgstr[1] "%n дні тому"
 msgstr[2] "%n днів тому"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%n місяць тому"
 msgstr[1] "%n місяці тому"
 msgstr[2] "%n місяців тому"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "роки тому"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Скинути пароль"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -520,43 +551,40 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud."
 
-#: lostpassword/controller.php:70
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
+msgid ""
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
 msgstr "%s пароль скинуто"
-
-#: lostpassword/controller.php:72
-msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
-msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Використовуйте наступне посилання для скидання пароля: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "Посилання для того, щоб скинути ваш пароль було надіслано на ваший Email.<br>Якщо ви не отримали його найближчим часом, перевірте ваший спам каталог.<br>Якщо і там немає, спитайте вашого місцевого Адміністратора."
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Запит завершився невдало !<br>Ви переконані, що ваша адреса Email/ім'я користувача вірні ?"
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту."
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -564,30 +592,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Ваші файли зашифровані. Якщо ви не зробили придатний ключ відновлення, не буде ніякої можливості отримати дані назад після того, як ваш пароль буде скинутий. Якщо ви не знаєте, що робити, будь ласка, зверніться до адміністратора, щоб продовжити. Ви дійсно хочете продовжити?"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "Так, я справді бажаю скинути мій пароль зараз"
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr "Перевстановити"
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Ваш пароль був скинутий"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "До сторінки входу"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Новий пароль"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Скинути пароль"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -814,8 +833,8 @@ msgid "Please contact your administrator."
 msgstr "Будь ласка, зверніться до вашого Адміністратора."
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Забули пароль?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

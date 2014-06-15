@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-10 01:54-0400\n"
-"PO-Revision-Date: 2014-06-09 15:30+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 09:40+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -331,7 +331,7 @@ msgstr "Sdílení typu %s není korektní pro %s"
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Nastavení oprávnění pro %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla povolena pro %s"
 
 #: private/share/share.php:881
 #, php-format
@@ -346,41 +346,41 @@ msgstr ""
 #: private/share/share.php:1009
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Podpůrná vrstva sdílení %s nenalezena"
 
 #: private/share/share.php:1015
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Podpůrná vrstva sdílení pro %s nenalezena"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první."
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "Sdílení položky %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla %s povolena."
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Sdílení položky %s selhalo, protože sdílení dále není povoleno"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "Sdílení položky %s selhalo, protože podpůrná vrstva sdílení nenalezla zdrojový %s"
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Sdílení položky %s selhalo, protože soubor nebyl nalezen v dočasném úložišti"
 
 #: private/tags.php:183
 #, php-format

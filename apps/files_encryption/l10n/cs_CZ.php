@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Následující uživatelé nemají nastavené šifrování:",
 "Initial encryption started... This can take some time. Please wait." => "Počáteční šifrování zahájeno... Toto může chvíli trvat. Počkejte prosím.",
 "Initial encryption running... Please try again later." => "Probíhá počáteční šifrování... Zkuste to prosím znovu později.",
+"Go directly to your %spersonal settings%s." => "Přejít přímo do svého %sosobního nastaveni%s.",
 "Encryption" => "Šifrování",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Povolit klíč pro obnovu (umožňuje obnovu uživatelských souborů v případě ztráty hesla)",
 "Recovery key password" => "Heslo klíče pro obnovu",

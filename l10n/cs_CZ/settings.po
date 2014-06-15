@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-12 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 20:40+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 09:50+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -56,15 +56,15 @@ msgstr "E-mail odeslán"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Pro možnost odeslání zkušebních e-mailů musíte nejprve nastavit svou e-mailovou adresu."
 
-#: admin/controller.php:116 templates/admin.php:353
+#: admin/controller.php:116 templates/admin.php:349
 msgid "Send mode"
 msgstr "Mód odesílání"
 
-#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:362 templates/personal.php:144
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: admin/controller.php:120 templates/admin.php:390
+#: admin/controller.php:120 templates/admin.php:386
 msgid "Authentication method"
 msgstr "Metoda ověření"
 
@@ -441,13 +441,13 @@ msgstr "Zkontrolujte prosím znovu <a href=\"%s\">instalační příručku</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP je patrně nastaveno tak, aby odstraňovalo vnitřní části dokumentů. Toto bude mít za následek množsví nedostupných hlavních aplikací."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
@@ -610,91 +610,91 @@ msgstr "Těmto skupinám bude stále možno sdílet, nemohou ale sami sdílet os
 msgid "Security"
 msgstr "Zabezpečení"
 
-#: templates/admin.php:328
+#: templates/admin.php:326
 msgid "Enforce HTTPS"
 msgstr "Vynutit HTTPS"
 
-#: templates/admin.php:330
+#: templates/admin.php:328
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Vynutí připojování klientů k %s šifrovaným spojením."
 
-#: templates/admin.php:336
+#: templates/admin.php:334
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Připojte se k %s skrze HTTPS pro povolení nebo zakázání vynucování SSL."
 
-#: templates/admin.php:348
+#: templates/admin.php:344
 msgid "Email Server"
 msgstr "E-mailový server"
 
-#: templates/admin.php:350
+#: templates/admin.php:346
 msgid "This is used for sending out notifications."
 msgstr "Toto se používá pro odesílání upozornění."
 
-#: templates/admin.php:381
+#: templates/admin.php:377
 msgid "From address"
 msgstr "Adresa odesílatele"
 
-#: templates/admin.php:382
+#: templates/admin.php:378
 msgid "mail"
 msgstr "e-mail"
 
-#: templates/admin.php:403
+#: templates/admin.php:399
 msgid "Authentication required"
 msgstr "Vyžadováno ověření"
 
-#: templates/admin.php:407
+#: templates/admin.php:403
 msgid "Server address"
 msgstr "Adresa serveru"
 
-#: templates/admin.php:411
+#: templates/admin.php:407
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:416
+#: templates/admin.php:412
 msgid "Credentials"
 msgstr "Přihlašovací údaje"
 
-#: templates/admin.php:417
+#: templates/admin.php:413
 msgid "SMTP Username"
 msgstr "SMTP uživatelské jméno "
 
-#: templates/admin.php:420
+#: templates/admin.php:416
 msgid "SMTP Password"
 msgstr "SMTP heslo"
 
-#: templates/admin.php:424
+#: templates/admin.php:420
 msgid "Test email settings"
 msgstr "Otestovat nastavení e-mailu"
 
-#: templates/admin.php:425
+#: templates/admin.php:421
 msgid "Send email"
 msgstr "Odeslat e-mail"
 
-#: templates/admin.php:430
+#: templates/admin.php:426
 msgid "Log"
 msgstr "Záznam"
 
-#: templates/admin.php:431
+#: templates/admin.php:427
 msgid "Log level"
 msgstr "Úroveň zaznamenávání"
 
-#: templates/admin.php:463
+#: templates/admin.php:459
 msgid "More"
 msgstr "Více"
 
-#: templates/admin.php:464
+#: templates/admin.php:460
 msgid "Less"
 msgstr "Méně"
 
-#: templates/admin.php:470 templates/personal.php:196
+#: templates/admin.php:466 templates/personal.php:196
 msgid "Version"
 msgstr "Verze"
 
-#: templates/admin.php:474 templates/personal.php:199
+#: templates/admin.php:470 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

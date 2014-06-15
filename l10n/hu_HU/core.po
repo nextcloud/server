@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-13 01:54-0400\n"
-"PO-Revision-Date: 2014-06-12 19:40+0000\n"
-"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -218,6 +218,37 @@ msgstr "tavaly"
 #: js/js.js:1285
 msgid "years ago"
 msgstr "több éve"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Jelszó-visszaállítás"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -517,43 +548,40 @@ msgstr "A frissítés nem sikerült."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatáshoz."
 
-#: lostpassword/controller.php:70
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
+msgid ""
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
 msgstr "%s jelszó visszaállítás"
-
-#: lostpassword/controller.php:72
-msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
-msgstr "Hiba történt e-mail küldése közben. Érdemes az adminisztrátort értesíteni."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Használja ezt a linket a jelszó ismételt beállításához: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "Emailben fog kapni egy linket, amivel új jelszót tud majd beállítani magának. <br>Ha a levél nem jött meg, holott úgy érzi, hogy már meg kellett volna érkeznie, akkor ellenőrizze a spam/levélszemét mappáját. <br>Ha ott sincsen, akkor érdeklődjön a rendszergazdánál."
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "A kérést nem sikerült teljesíteni! <br>Biztos, hogy jó emailcímet/felhasználónevet adott meg?"
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Egy emailben fog értesítést kapni a jelszóbeállítás módjáról."
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Felhasználónév"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -561,30 +589,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Az Ön állományai titkosítva vannak. Ha nem engedélyezte korábban az adatok visszanyeréséhez szükséges kulcs használatát, akkor a jelszó megváltoztatását követően nem fog hozzáférni az adataihoz. Ha nem biztos abban, hogy mit kellene tennie, akkor kérdezze meg a rendszergazdát, mielőtt továbbmenne. Biztos, hogy folytatni kívánja?"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "Igen, tényleg meg akarom változtatni a jelszavam"
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr "Visszaállítás"
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "A jelszava megváltozott"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "A bejelentkező ablakhoz"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Az új jelszó"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Jelszó-visszaállítás"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -811,8 +830,8 @@ msgid "Please contact your administrator."
 msgstr "Kérjük, lépjen kapcsolatba a rendszergazdával."
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Elfelejtette a jelszavát?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

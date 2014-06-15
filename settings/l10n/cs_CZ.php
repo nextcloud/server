@@ -95,6 +95,8 @@ $TRANSLATIONS = array(
 "Setup Warning" => "Upozornění nastavení",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV se zdá nefunkční.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Zkontrolujte prosím znovu <a href=\"%s\">instalační příručku</a>.",
+"PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." => "PHP je patrně nastaveno tak, aby odstraňovalo vnitřní části dokumentů. Toto bude mít za následek množsví nedostupných hlavních aplikací.",
+"This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." => "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator.",
 "Database Performance Info" => "Informace o výkonu databáze",
 "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" => "Je použita databáze SQLite. Pro větší instalace doporučujeme toto změnit. Pro migraci na jiný typ databáze lze použít příkaz: 'occ db:convert-type'",
 "Module 'fileinfo' missing" => "Schází modul 'fileinfo'",

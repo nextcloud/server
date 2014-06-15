@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -169,53 +169,84 @@ msgstr ""
 msgid "Saving..."
 msgstr "שמירה…"
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "שניות"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "לפני %n דקה"
 msgstr[1] "לפני %n דקות"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "לפני %n שעה"
 msgstr[1] "לפני %n שעות"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "היום"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "אתמול"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "לפני %n יום"
 msgstr[1] "לפני %n ימים"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "חודש שעבר"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "לפני %n חודש"
 msgstr[1] "לפני %n חודשים"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "שנה שעברה"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "שנים"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "איפוס ססמה"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -515,43 +546,40 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "תהליך העדכון הסתיים בהצלחה. עכשיו מנתב אותך אל ownCloud."
 
-#: lostpassword/controller.php:70
-#, php-format
-msgid "%s password reset"
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller.php:72
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
 msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
+#, php-format
+msgid "%s password reset"
 msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "יש להשתמש בקישור הבא כדי לאפס את הססמה שלך: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "הקישור לאיפוס הססמה שלך נשלח אליך בדוא״ל.<br>אם לא קיבלת את הקישור תוך זמן סביר, מוטב לבדוק את תיבת הזבל שלך.<br>אם ההודעה לא שם, כדאי לשאול את מנהל הרשת שלך ."
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "הבקשה נכשלה!<br>האם כתובת הדוא״ל/שם המשתמש שלך נכונים?"
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "יישלח לתיבת הדוא״ל שלך קישור לאיפוס הססמה."
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "שם משתמש"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -559,30 +587,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "כן, אני רוצה לאפס את הסיסמה שלי עכשיו."
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr ""
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "הססמה שלך אופסה"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "לדף הכניסה"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "ססמה חדשה"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "איפוס ססמה"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -809,8 +828,8 @@ msgid "Please contact your administrator."
 msgstr ""
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "שכחת את ססמתך?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

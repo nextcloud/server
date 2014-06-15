@@ -40,8 +40,6 @@ $TRANSLATIONS = array(
 "Add" => "ပေါင်းထည့်",
 "You will receive a link to reset your password via Email." => "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။",
 "Username" => "သုံးစွဲသူအမည်",
-"Your password was reset" => "သင်၏စကားဝှက်ကိုပြန်ဖော်ပြီးပါပြီ။",
-"To login page" => "ဝင်ရောက်သည့်စာမျက်နှာသို့",
 "New password" => "စကားဝှက်အသစ်",
 "Users" => "သုံးစွဲသူ",
 "Apps" => "Apps",
@@ -56,7 +54,6 @@ $TRANSLATIONS = array(
 "Database password" => "Database စကားဝှက်",
 "Database name" => "Database အမည်",
 "Finish setup" => "တပ်ဆင်ခြင်းပြီးပါပြီ။",
-"Lost your password?" => "သင်၏စကားဝှက်ပျောက်သွားပြီလား။",
 "remember" => "မှတ်မိစေသည်",
 "Log in" => "ဝင်ရောက်ရန်"
 );

@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "You don't have any external storages" => "Nemáte žádná externí úložiště",
 "Name" => "Název",
 "Storage type" => "Typ úložiště",
+"Scope" => "Záběr",
 "External Storage" => "Externí úložiště",
 "Folder name" => "Název složky",
 "Configuration" => "Nastavení",

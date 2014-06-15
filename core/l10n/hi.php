@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Use the following link to reset your password: {link}" => "आगे दिये गये लिंक का उपयोग पासवर्ड बदलने के लिये किजीये: {link}",
 "You will receive a link to reset your password via Email." => "पासवर्ड बदलने कि लिंक आपको ई-मेल द्वारा भेजी जायेगी|",
 "Username" => "प्रयोक्ता का नाम",
-"Your password was reset" => "आपका पासवर्ड बदला गया है",
 "New password" => "नया पासवर्ड",
 "Personal" => "यक्तिगत",
 "Users" => "उपयोगकर्ता",

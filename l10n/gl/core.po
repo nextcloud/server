@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-12 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 08:02+0000\n"
-"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,53 +169,84 @@ msgstr "Son"
 msgid "Saving..."
 msgstr "Gardando..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "hai %n minuto"
 msgstr[1] "vai %n minutos"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "hai %n hora"
 msgstr[1] "vai %n horas"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "hai %n día"
 msgstr[1] "vai %n días"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "hai %n mes"
 msgstr[1] "vai %n meses"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "anos atrás"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Restabelecer o contrasinal"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -515,43 +546,40 @@ msgstr "A actualización foi satisfactoria."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 
-#: lostpassword/controller.php:70
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
+msgid ""
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
 msgstr "Restabelecer o contrasinal %s"
-
-#: lostpassword/controller.php:72
-msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
-msgstr "Produciuse un problema ao mesmo tempo que enviaba o correo, póñase en contacto co administrador."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Usa a seguinte ligazón para restabelecer o contrasinal: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "Envióuselle ao seu correo unha ligazón para restabelecer o seu contrasinal.<br>Se non o recibe nun prazo razoábel de tempo, revise o seu cartafol de correo lixo ou de non desexados.<br> Se non o atopa aí pregúntelle ao seu administrador local.."
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Non foi posíbel facer a petición!<br>Asegúrese de que o seu enderezo de correo ou nome de usuario é correcto."
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Recibirá unha ligazón por correo para restabelecer o contrasinal"
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Nome de usuario"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -559,30 +587,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Os ficheiros están cifrados. Se aínda non activou a chave de recuperación non haberá xeito de recuperar os datos unha vez que se teña restabelecido o contrasinal. Se non ten certeza do que ten que facer, póñase en contacto co administrador antes de continuar. Confirma que quere continuar?"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "Si, confirmo que quero restabelecer agora o meu contrasinal"
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr "Restabelecer"
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "O contrasinal foi restabelecido"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "A páxina de conexión"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Novo contrasinal"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Restabelecer o contrasinal"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -809,8 +828,8 @@ msgid "Please contact your administrator."
 msgstr "Contacte co administrador."
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Perdeu o contrasinal?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

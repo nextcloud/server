@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -169,11 +169,11 @@ msgstr ""
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:1271
+#: js/js.js:1276
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:1272
+#: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -181,7 +181,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:1273
+#: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -189,15 +189,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:1274
+#: js/js.js:1279
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:1275
+#: js/js.js:1280
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:1276
+#: js/js.js:1281
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -205,11 +205,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:1277
+#: js/js.js:1282
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:1278
+#: js/js.js:1283
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -217,13 +217,44 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1279
+#: js/js.js:1284
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1280
+#: js/js.js:1285
 msgid "years ago"
 msgstr "let nazaj"
+
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+msgid "Couldn't send reset email. Please contact your administrator."
+msgstr ""
+
+#: js/lostpassword.js:5
+msgid ""
+"The link to reset your password has been sent to your email. If you do not "
+"receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator."
+msgstr ""
+
+#: js/lostpassword.js:7
+msgid ""
+"Your files are encrypted. If you haven't enabled the recovery key, there "
+"will be no way to get your data back after your password is reset.<br />If "
+"you are not sure what to do, please contact your administrator before you "
+"continue. <br />Do you really want to continue?"
+msgstr ""
+
+#: js/lostpassword.js:10
+msgid "I know what I'm doing"
+msgstr ""
+
+#: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
+msgid "Reset password"
+msgstr "Ponastavi geslo"
+
+#: js/lostpassword.js:16
+msgid "Password can not be changed. Please contact your administrator."
+msgstr ""
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -525,43 +556,40 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud."
 
-#: lostpassword/controller.php:70
+#: lostpassword/controller/lostcontroller.php:110
+msgid "Couldn't reset password because the token is invalid"
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:136
+msgid "Couldn't send reset email. Please make sure your username is correct."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:151
+msgid ""
+"Couldn't send reset email because there is no email address for this "
+"username. Please contact your administrator."
+msgstr ""
+
+#: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
 msgstr "Ponastavitev gesla %s"
-
-#: lostpassword/controller.php:72
-msgid ""
-"A problem has occurred whilst sending the email, please contact your "
-"administrator."
-msgstr "Prišlo je do napake med pošiljanjem elektronskega sporočila. Stopite v stik s skrbnikom sistema."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
 msgstr "Za ponastavitev gesla uporabite povezavo: {link}"
 
-#: lostpassword/templates/lostpassword.php:7
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "Povezava za ponastavitev gesla je bila poslana na elektronski naslov.<br>V kolikor sporočila ne prejmete v doglednem času, preverite tudi mape vsiljene pošte.<br>Če ne bo niti tam, stopite v stik s skrbnikom."
-
-#: lostpassword/templates/lostpassword.php:15
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Zahteva je spodletela!<br>Ali sta elektronski naslov oziroma uporabniško ime navedena pravilno?"
-
-#: lostpassword/templates/lostpassword.php:18
+#: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
 msgstr "Na elektronski naslov boste prejeli povezavo za ponovno nastavitev gesla."
 
-#: lostpassword/templates/lostpassword.php:21
-#: lostpassword/templates/lostpassword.php:23 templates/installation.php:51
+#: lostpassword/templates/lostpassword.php:8
+#: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
 msgstr "Uporabniško ime"
 
-#: lostpassword/templates/lostpassword.php:27
+#: lostpassword/templates/lostpassword.php:13
 msgid ""
 "Your files are encrypted. If you haven't enabled the recovery key, there "
 "will be no way to get your data back after your password is reset. If you "
@@ -569,30 +597,21 @@ msgid ""
 "continue. Do you really want to continue?"
 msgstr "Datoteke so šifrirane. Če niste omogočili ključa za obnovitev, žal podatkov ne bo mogoče pridobiti nazaj, ko boste geslo enkrat spremenili. Če niste prepričani, kaj storiti, se obrnite na skrbnika storitve. Ali ste prepričani, da želite nadaljevati?"
 
-#: lostpassword/templates/lostpassword.php:29
+#: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
 msgstr "Da, potrjujem ponastavitev gesla"
 
-#: lostpassword/templates/lostpassword.php:32
+#: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
 msgstr "Ponastavi"
 
-#: lostpassword/templates/resetpassword.php:4
-msgid "Your password was reset"
-msgstr "Geslo je ponovno nastavljeno"
-
 #: lostpassword/templates/resetpassword.php:5
-msgid "To login page"
-msgstr "Na prijavno stran"
-
-#: lostpassword/templates/resetpassword.php:8
-#: lostpassword/templates/resetpassword.php:10
 msgid "New password"
 msgstr "Novo geslo"
 
-#: lostpassword/templates/resetpassword.php:13
-msgid "Reset password"
-msgstr "Ponastavi geslo"
+#: lostpassword/templates/resetpassword.php:6
+msgid "New Password"
+msgstr ""
 
 #: setup/controller.php:140
 #, php-format
@@ -819,8 +838,8 @@ msgid "Please contact your administrator."
 msgstr "Stopite v stik s skrbnikom sistema."
 
 #: templates/login.php:50
-msgid "Lost your password?"
-msgstr "Ali ste pozabili geslo?"
+msgid "Forgot your password? Reset it!"
+msgstr ""
 
 #: templates/login.php:55
 msgid "remember"

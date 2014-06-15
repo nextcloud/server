@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Aşağıdaki kullanıcılar şifreleme için ayarlanmamış:",
 "Initial encryption started... This can take some time. Please wait." => "İlk şifreleme başladı... Bu biraz zaman alabilir. Lütfen bekleyin.",
 "Initial encryption running... Please try again later." => "İlk şifreleme çalışıyor... Lütfen daha sonra tekrar deneyin.",
+"Go directly to your %spersonal settings%s." => "Doğrudan %skişisel ayarlarınıza%s gidin.",
 "Encryption" => "Şifreleme",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Kurtarma anahtarını etkinleştir (parola kaybı durumunda kullanıcı dosyalarının kurtarılmasına izin verir):",
 "Recovery key password" => "Kurtarma anahtarı parolası",

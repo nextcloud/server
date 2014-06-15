@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-10 01:54-0400\n"
-"PO-Revision-Date: 2014-06-09 15:30+0000\n"
+"POT-Creation-Date: 2014-06-15 01:54-0400\n"
+"PO-Revision-Date: 2014-06-14 09:22+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -259,7 +259,7 @@ msgstr "Typ úložiště"
 
 #: templates/list.php:23
 msgid "Scope"
-msgstr ""
+msgstr "Záběr"
 
 #: templates/settings.php:2
 msgid "External Storage"
