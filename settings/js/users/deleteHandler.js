@@ -93,8 +93,8 @@ DeleteHandler.prototype.showNotification = function() {
 			this.hideNotification();
 		}
 		$('#notification').data(this.notificationDataID, true);
-		var msg = this.notificationMessage.replace(this.notificationPlaceholder,
-											escapeHTML(this.oidToDelete));
+		var msg = this.notificationMessage.replace(
+			this.notificationPlaceholder, escapeHTML(this.oidToDelete));
 		this.notifier.showHtml(msg);
 	}
 };
