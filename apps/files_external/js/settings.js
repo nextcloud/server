@@ -311,11 +311,11 @@ $(document).ready(function() {
 		if (this.checked) {
 			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'yes');
 			$('input[name="allowUserMountingBackends\\[\\]"]').prop('checked', true);
-			$('#userMountingBackups').removeClass('hidden');
+			$('#userMountingBackends').removeClass('hidden');
 			$($('input[name="allowUserMountingBackends\\[\\]"]')[0]).trigger('change');
 		} else {
 			OC.AppConfig.setValue('files_external', 'allow_user_mounting', 'no');
-			$('#userMountingBackups').addClass('hidden');
+			$('#userMountingBackends').addClass('hidden');
 		}
 		OC.msg.finishedSaving('#userMountingMsg', {status: 'success', data: {message: t('settings', 'Saved')}});
 	});
