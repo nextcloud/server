@@ -70,17 +70,6 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	}
 
 	/**
-	 * @param string $path
-	 * @return \OC\Files\Cache\Cache
-	 */
-	public function getCache($path = '') {
-		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\Cache($this);
-		}
-		return $this->cache;
-	}
-
-	/**
 	 * Object Stores use a NoopScanner because metadata is directly stored in
 	 * the file cache and cannot really scan the filesystem
 	 * @param string $path
