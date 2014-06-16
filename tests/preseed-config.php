@@ -7,7 +7,7 @@ $CONFIG = array (
     array (
       'path' => OC::$SERVERROOT.'/apps',
       'url' => '/apps',
-      'writable' => false,
+      'writable' => true,
     ),
     1 =>
     array (
