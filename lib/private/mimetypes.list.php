@@ -74,6 +74,7 @@ return array(
 	'jpg' => array('image/jpeg', null),
 	'js' => array('application/javascript', 'text/plain'),
 	'json' => array('application/json', 'text/plain'),
+	'key' => array('application/x-iwork-keynote-sffkey', null),
 	'keynote' => array('application/x-iwork-keynote-sffkey', null),
 	'kra' => array('application/x-krita', null),
 	'm2t' => array('video/mp2t', null),
