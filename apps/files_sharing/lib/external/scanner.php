@@ -45,7 +45,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 
 	private function addResult($data, $path) {
 		$this->cache->put($path, $data);
-		if ($data['children']) {
+		if (isset($data['children'])) {
 			foreach ($data['children'] as $child) {
 				$this->addResult($child, ltrim($path . '/' . $child['name'], '/'));
 			}
