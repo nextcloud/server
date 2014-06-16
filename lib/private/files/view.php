@@ -836,11 +836,10 @@ class View {
 			return $data;
 		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
-		/**
-		 * @var \OC\Files\Storage\Storage $storage
-		 * @var string $internalPath
-		 */
-		list($storage, $internalPath) = Filesystem::resolvePath($path);
+
+		$mount = Filesystem::getMountManager()->find($path);
+		$storage = $mount->getStorage();
+		$internalPath = $mount->getInternalPath($path);
 		$data = null;
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
@@ -886,6 +885,10 @@ class View {
 		}
 		if (!$data) {
 			return false;
+		}
+
+		if ($mount instanceof MoveableMount) {
+			$data['permissions'] |= \OCP\PERMISSION_DELETE | \OCP\PERMISSION_UPDATE;
 		}
 
 		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
