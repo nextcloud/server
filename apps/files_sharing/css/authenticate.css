@@ -14,3 +14,11 @@ input[type='submit'] {
 	position: absolute;
 	top: 0px;
 }
+
+fieldset > p {
+	position: relative;
+}
+
+#password-icon {
+	top: 20px;
+}
