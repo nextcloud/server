@@ -304,8 +304,9 @@ if (!$_['internetconnectionworking']) {
 						<option value="<?php p($group['gid'])?>" <?php if($group['excluded']) { p('selected="selected"'); }?>><?php p($group['gid']);?></option>
 					<?php endforeach;?>
 				</select>
-				</div>
+				<br />
 				<em><?php p($l->t('These groups will still be able to receive shares, but not to initiate them.')); ?></em>
+				</div>
 			</td>
 		</tr>
 	</table>
