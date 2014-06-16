@@ -125,6 +125,7 @@ class Updater extends BasicEmitter {
 	public function upgrade() {
 		\OC_DB::enableCaching(false);
 		\OC_Config::setValue('maintenance', true);
+
 		$installedVersion = \OC_Config::getValue('version', '0.0.0');
 		$currentVersion = implode('.', \OC_Util::getVersion());
 		if ($this->log) {
@@ -132,6 +133,26 @@ class Updater extends BasicEmitter {
 		}
 		$this->emit('\OC\Updater', 'maintenanceStart');
 
+		try {
+			$this->doUpgrade($currentVersion, $installedVersion);
+		} catch (\Exception $exception) {
+			$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
+		}
+
+		\OC_Config::setValue('maintenance', false);
+		$this->emit('\OC\Updater', 'maintenanceEnd');
+	}
+
+	/**
+	 * runs the update actions in maintenance mode, does not upgrade the source files
+	 * except the main .htaccess file
+	 *
+	 * @param string $currentVersion current version to upgrade to
+	 * @param string $installedVersion previous version from which to upgrade from
+	 *
+	 * @return bool true if the operation succeeded, false otherwise
+	 */
+	private function doUpgrade($currentVersion, $installedVersion) {
 		// Update htaccess files for apache hosts
 		if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 			\OC_Setup::updateHtaccess();
@@ -155,35 +176,28 @@ class Updater extends BasicEmitter {
 		 * STOP CONFIG CHANGES FOR OLDER VERSIONS
 		 */
 
-		$canUpgrade = false;
+		// pre-upgrade repairs
+		$repair = new \OC\Repair(\OC\Repair::getBeforeUpgradeRepairSteps());
+		$repair->run();
 
 		// simulate DB upgrade
 		if ($this->simulateStepEnabled) {
-			try {
-				// simulate core DB upgrade
-				\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+			// simulate core DB upgrade
+			\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 
-				// simulate apps DB upgrade
-				$version = \OC_Util::getVersion();
-				$apps = \OC_App::getEnabledApps();
-				foreach ($apps as $appId) {
-					$info = \OC_App::getAppInfo($appId);
-					if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
-						if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
-							\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
-						}
+			// simulate apps DB upgrade
+			$version = \OC_Util::getVersion();
+			$apps = \OC_App::getEnabledApps();
+			foreach ($apps as $appId) {
+				$info = \OC_App::getAppInfo($appId);
+				if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
+					if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
+						\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
 					}
 				}
-
-				$this->emit('\OC\Updater', 'dbSimulateUpgrade');
-
-				$canUpgrade = true;
-			} catch (\Exception $exception) {
-				$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
 			}
-		}
-		else {
-			$canUpgrade = true;
+
+			$this->emit('\OC\Updater', 'dbSimulateUpgrade');
 		}
 
 		// upgrade from OC6 to OC7
@@ -193,17 +207,11 @@ class Updater extends BasicEmitter {
 			\OC_Appconfig::setValue('core', 'shareapi_only_share_with_group_members', 'yes');
 		}
 
-		if ($this->updateStepEnabled && $canUpgrade) {
-			// proceed with real upgrade
-			try {
-				// do the real upgrade
-				\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
-				$this->emit('\OC\Updater', 'dbUpgrade');
+		if ($this->updateStepEnabled) {
+			// do the real upgrade
+			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+			$this->emit('\OC\Updater', 'dbUpgrade');
 
-			} catch (\Exception $exception) {
-				$this->emit('\OC\Updater', 'failure', array($exception->getMessage()));
-				return false;
-			}
 			// TODO: why not do this at the end ?
 			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
 			$disabledApps = \OC_App::checkAppsRequirements();
@@ -213,18 +221,13 @@ class Updater extends BasicEmitter {
 			// load all apps to also upgrade enabled apps
 			\OC_App::loadApps();
 
-			$repair = new Repair();
+			// post-upgrade repairs
+			$repair = new \OC\Repair(\OC\Repair::getRepairSteps());
 			$repair->run();
 
 			//Invalidate update feed
 			\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		}
-
-		\OC_Config::setValue('maintenance', false);
-		$this->emit('\OC\Updater', 'maintenanceEnd');
-
-		return $canUpgrade;
 	}
-
 }
 

@@ -9,13 +9,75 @@
 namespace OC;
 
 use OC\Hooks\BasicEmitter;
+use OC\Hooks\Emitter;
 
 class Repair extends BasicEmitter {
 	/**
-	 * run a series of repair steps for common problems
-	 * progress can be reported by emitting \OC\Repair::step events
+	 * @var array
+	 **/
+	private $repairSteps;
+
+	/**
+	 * Creates a new repair step runner
+	 *
+	 * @param array $repairSteps array of RepairStep instances
+	 */
+	public function __construct($repairSteps = array()) {
+		$this->repairSteps = $repairSteps;
+	}
+
+	/**
+	 * Run a series of repair steps for common problems
 	 */
 	public function run() {
-		$this->emit('\OC\Repair', 'step', array('No repair steps configured at the moment'));
+		$self = $this;
+		if (count($this->repairSteps) === 0) {
+			$this->emit('\OC\Repair', 'info', array('No repair steps available'));
+			return;
+		}
+		// run each repair step
+		foreach ($this->repairSteps as $step) {
+			$this->emit('\OC\Repair', 'step', array($step->getName()));
+
+			if ($step instanceof Emitter) {
+				$step->listen('\OC\Repair', 'warning', function ($description) use ($self) {
+					$self->emit('\OC\Repair', 'warning', array($description));
+				});
+				$step->listen('\OC\Repair', 'info', function ($description) use ($self) {
+					$self->emit('\OC\Repair', 'info', array($description));
+				});
+			}
+
+			$step->run();
+		}
+	}
+
+	/**
+	 * Add repair step
+	 *
+	 * @param RepairStep $repairStep repair step
+	 */
+	public function addStep($repairStep) {
+		$this->repairSteps[] = $repairStep;
+	}
+
+	/**
+	 * Returns the default repair steps to be run on the
+	 * command line or after an upgrade.
+	 *
+	 * @return array of RepairStep instances
+	 */
+	public static function getRepairSteps() {
+		return array();
+	}
+
+	/**
+	 * Returns the repair steps to be run before an
+	 * upgrade.
+	 *
+	 * @return array of RepairStep instances
+	 */
+	public static function getBeforeUpgradeRepairSteps() {
+		return array();
 	}
 }
