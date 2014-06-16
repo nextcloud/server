@@ -25,3 +25,7 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 #externalStorage td.status .success {
 	border-radius: 50%;
 }
+
+#userMountingBackends {
+	padding-left: 25px;
+}
