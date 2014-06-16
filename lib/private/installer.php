@@ -310,7 +310,7 @@ class OC_Installer{
 		}
 		$info=OC_App::getAppInfo($extractDir.'/appinfo/info.xml', true);
 		// check the code for not allowed calls
-		if(!OC_Installer::checkCode($info['id'], $extractDir)) {
+		if(!$isShipped && !OC_Installer::checkCode($info['id'], $extractDir)) {
 			OC_Helper::rmdirr($extractDir);
 			throw new \Exception($l->t("App can't be installed because of not allowed code in the App"));
 		}
