@@ -57,7 +57,7 @@
 									' data-action="Share-Notification" href="#" original-title="">' +
 									' <img class="svg" src="' + OC.imagePath('core', 'actions/share') + '"></img>';
 							$tr.find('.fileactions').append(function() {
-								var shareBy = t('files_sharing', 'Shared by {owner}', {owner: fileData.shareOwner});
+								var shareBy = t('files_sharing', 'Shared by {owner}', {owner: escapeHTML(fileData.shareOwner)});
 								var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
 								$result.on('click', function() {
 									return false;
