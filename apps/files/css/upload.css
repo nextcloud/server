@@ -37,22 +37,26 @@
 	overflow: hidden;
 }
 
-#uploadprogresswrapper {
+#uploadprogresswrapper, #uploadprogresswrapper * {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+#uploadprogresswrapper {
 	display: inline-block;
 	vertical-align: top;
 	height: 36px;
+	margin-left: 3px;
 }
 #uploadprogresswrapper > input[type='button'] {
 	height: 36px;
+	margin-left: 3px;
 }
 #uploadprogressbar {
 	position:relative;
 	float: left;
-	margin-left: 12px;
-	width: 100%;
+	width: 200px;
 	height: 36px;
 	display:inline-block;
 }

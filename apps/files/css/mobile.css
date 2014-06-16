@@ -62,4 +62,9 @@ table td.filename .nametext .innernametext {
 	display: -webkit-flex;
 	display: flex;
 }
+
+/* shorten elements for mobile */
+#uploadprogressbar {
+	width: 50px;
+}
 }
