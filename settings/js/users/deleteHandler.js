@@ -94,7 +94,7 @@ DeleteHandler.prototype.showNotification = function() {
 		}
 		$('#notification').data(this.notificationDataID, true);
 		var msg = this.notificationMessage.replace(this.notificationPlaceholder,
-											this.oidToDelete);
+											escapeHTML(this.oidToDelete));
 		this.notifier.showHtml(msg);
 	}
 };
