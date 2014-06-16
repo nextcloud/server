@@ -162,8 +162,10 @@ table.grid td.date{
 }
 
 /* ADMIN */
-span.securitywarning {color:#C33; font-weight:bold; }
-span.connectionwarning {color:#933; font-weight:bold; }
+span.securitywarning, span.connectionwarning {
+	color:#C33;
+	font-weight:bold;
+}
 table.shareAPI td { padding-bottom: 0.8em; }
 table.shareAPI input#shareapiExpireAfterNDays {width: 25px;}
 table.shareAPI .indent { padding-left: 2em; }
