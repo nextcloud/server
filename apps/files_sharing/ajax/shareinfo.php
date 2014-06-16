@@ -6,9 +6,7 @@
  * See the COPYING-README file.
  */
 
-if (!\OC_App::isEnabled('files_sharing')) {
-	exit;
-}
+OCP\JSON::checkAppEnabled('files_sharing');
 
 if (!isset($_GET['t'])) {
 	\OC_Response::setStatus(400); //400 Bad Request

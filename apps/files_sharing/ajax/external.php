@@ -8,6 +8,7 @@
 
 OCP\JSON::callCheck();
 OCP\JSON::checkLoggedIn();
+OCP\JSON::checkAppEnabled('files_sharing');
 
 $l = OC_L10N::get('files_sharing');
 

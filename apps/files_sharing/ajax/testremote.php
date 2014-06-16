@@ -6,12 +6,16 @@
  * See the COPYING-README file.
  */
 
+OCP\JSON::checkAppEnabled('files_sharing');
+OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 $remote = $_GET['remote'];
 
 if (file_get_contents('https://' . $remote . '/status.php')) {
 	echo 'https';
 } elseif (file_get_contents('http://' . $remote . '/status.php')) {
 	echo 'http';
-}else{
+} else {
 	echo 'false';
 }
