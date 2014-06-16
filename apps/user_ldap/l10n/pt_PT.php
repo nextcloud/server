@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Deletion failed" => "Erro ao apagar",
 "Take over settings from recent server configuration?" => "Assumir as configurações da configuração do servidor mais recente?",
 "Keep settings?" => "Manter as definições?",
+"{nthServer}. Server" => "{nthServer}. Servidor",
 "Cannot add server configuration" => "Não foi possível adicionar as configurações do servidor.",
 "mappings cleared" => "Mapas limpos",
 "Success" => "Sucesso",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 17:40+0000\n"
+"Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -223,14 +223,14 @@ msgstr "pred rokmi"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Nemožno poslať email pre obnovu. Kontaktujte prosím vášho administrátora."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Odkaz na obnovu hesla bol odoslaný na váš email. Pokiaľ ho neobdržíte v primeranom čase, skontrolujte spam / priečinok nevyžiadanej pošty. <br> Ak tam nie je, kontaktujte svojho administrátora."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -238,11 +238,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Súbory sú zašifrované. Ak ste nepovolili kľúč pre obnovenie, neexistuje žiadny spôsob, ako obnoviť vaše dáta po obnovení vášho hesla. <br /> Ak si nie ste istí čo urobiť, prosím skôr než budete pokračovať, obráťte sa na administrátora. <br /> Naozaj chcete pokračovať?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Viem, čo robím"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -250,7 +250,7 @@ msgstr "Obnovenie hesla"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -553,17 +553,17 @@ msgstr "Aktualizácia bola úspešná. Presmerovávam vás na prihlasovaciu str�
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Nemožno zmeniť heslo pre neplatnosť tokenu."
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Nemožno poslať email pre obnovu. Uistite sa, či vkladáte správne používateľské meno."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Nemožno poslať email pre obnovu hesla, pretože pre tohoto používateľa nie je uvedená žiadna emailová adresa. Prosím, obráťte sa na administrátora."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -606,7 +606,7 @@ msgstr "Nové heslo"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nové heslo"
 
 #: setup/controller.php:140
 #, php-format
@@ -834,7 +834,7 @@ msgstr "Kontaktujte prosím vášho administrátora."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Zabudli ste heslo? Obnovte si ho!"
 
 #: templates/login.php:55
 msgid "remember"

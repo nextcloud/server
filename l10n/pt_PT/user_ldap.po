@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-10 01:54-0400\n"
-"PO-Revision-Date: 2014-06-10 05:01+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-16 01:40+0000\n"
+"Last-Translator: Andrew_Melim <nokostya.translation@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,7 +77,7 @@ msgstr "Manter as definições?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Servidor"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"

@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 16:10+0000\n"
+"Last-Translator: joses <jose_mari_s@hotmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,7 +233,7 @@ msgstr "hace años"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "El mail de reset no pudo ser enviado. Por favor, contacte con su administrador."
 
 #: js/lostpassword.js:5
 msgid ""
@@ -252,7 +252,7 @@ msgstr ""
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Yo soy consciente de lo que estoy haciendo"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -260,7 +260,7 @@ msgstr "Restablecer contraseña"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "La contraseña no se puede cambiar. Por favor, contacte con su administrador."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -615,7 +615,7 @@ msgstr "Nueva contraseña"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nueva contraseña"
 
 #: setup/controller.php:140
 #, php-format
@@ -843,7 +843,7 @@ msgstr "Por favor, contacte con el administrador."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "¿Olvidó su contraseña? Reseteela!"
 
 #: templates/login.php:55
 msgid "remember"

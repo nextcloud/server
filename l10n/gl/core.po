@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 17:10+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -219,14 +219,14 @@ msgstr "anos atrás"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Non foi posíbel enviar o coreo do restablecemento. Póñase en contacto co administrador."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "A ligazón para restabelecer o seu contrasinal foi enviada ao seu correo. Se non a recibe nun prazo razoábel de tempo, vexa o seu cartafol de correo lixo. <br> Se non está ali pregúntelle ao administrador local."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -234,11 +234,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Os seus ficheiros están cifrados. Se non activou a chave de recuperación, non haberá maneira de recuperar os datos após o restabelecemento do contrasinal. <br />Se non está seguro de que facer, póñase en contacto co administrador antes de continuar. <br /> Confirma que quere?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Sei o estou a facer"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -246,7 +246,7 @@ msgstr "Restabelecer o contrasinal"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Non é posíbel cambiar o contrasinal. Póñase en contacto co administrador."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -548,17 +548,17 @@ msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownClo
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "No, foi posíbel restabelecer o contrasinal, a marca non é correcta"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Non foi posíbel enviar o coreo do restablecemento. Asegúrese de que o nome de usuario é o correcto."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Non foi posíbel enviar o coreo do restablecemento. Semella que este correo non corresponde con este nome de usuario. Póñase en contacto co administrador."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -601,7 +601,7 @@ msgstr "Novo contrasinal"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Novo contrasinal"
 
 #: setup/controller.php:140
 #, php-format
@@ -829,7 +829,7 @@ msgstr "Contacte co administrador."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Esqueceu o contrasinal? Restabelézao!"
 
 #: templates/login.php:55
 msgid "remember"

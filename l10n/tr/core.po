@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 11:20+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -221,14 +221,14 @@ msgstr "yıllar önce"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Sıfırlama e-postası gönderilemedi. Lütfen yöneticiniz ile iletişime geçin."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Parolanızı değiştirme bağlantısı e-posta adresinize gönderildi. Makul bir süre içerisinde almadıysanız spam/gereksiz klasörlerini kontrol ediniz.<br>Bu konumlarda da yoksa yerel sistem yöneticinize sorunuz."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -236,11 +236,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Dosyalarınız şifrelenmiş. Kurtarma anahtarını etkinleştirmemişseniz, parola sıfırlama işleminden sonra verilerinize erişmeniz imkansız olacak.<br />Ne yaptığınızdan emin değilseniz, devam etmeden önce sistem yöneticiniz ile iletişime geçin.<br />Gerçekten devam etmek istiyor musunuz?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Ne yaptığımı biliyorum"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -248,7 +248,7 @@ msgstr "Parolayı sıfırla"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Parola değiştirilemedi. Lütfen yöneticiniz ile iletişime geçin."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -550,17 +550,17 @@ msgstr "Güncelleme başarılı. Şimdi ownCloud'a yönlendiriliyorsunuz."
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Belirteç geçersiz olduğundan parola sıfırlanamadı"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Sıfırlama e-postası gönderilemedi. Lütfen kullanıcı adınızın doğru olduğundan emin olun."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Sıfırlama e-postası, bu kullanıcı için bir e-posta adresi olmadığından gönderilemedi. Lütfen yöneticiniz ile iletişime geçin."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -603,7 +603,7 @@ msgstr "Yeni parola"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Yeni Parola"
 
 #: setup/controller.php:140
 #, php-format
@@ -831,7 +831,7 @@ msgstr "Lütfen sistem yöneticiniz ile iletişime geçin."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Parolanızı mı unuttunuz? Sıfırlayın!"
 
 #: templates/login.php:55
 msgid "remember"

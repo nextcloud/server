@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-09 01:54-0400\n"
-"PO-Revision-Date: 2014-06-08 15:50+0000\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 10:30+0000\n"
 "Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -349,30 +349,30 @@ msgstr "Nun s'alcontró'l botón de compartición %s"
 msgid "Sharing backend for %s not found"
 msgstr "Nun s'alcontró'l botón de partición pa %s"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Compartir %s falló, yá que l'usuariu %s ye'l compartidor orixinal"
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Compartir %s falló, porque los permisos perpasen los otorgaos a %s"
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Compartir %s falló, porque nun se permite la re-compartición"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Compartir %s falló porque'l motor compartíu pa %s podría nun atopar el so orixe"
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

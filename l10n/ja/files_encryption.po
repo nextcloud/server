@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013-2014
 # タカハシ <gomidori@live.jp>, 2013-2014
 # kuromabo <md81bird@hitaki.net>, 2014
 # YANO Tetsu <tetuyano+transi@gmail.com>, 2013
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-16 04:10+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -110,7 +110,7 @@ msgstr "初期暗号化実行中... 後でもう一度お試しください。"
 #: templates/invalid_private_key.php:8
 #, php-format
 msgid "Go directly to your %spersonal settings%s."
-msgstr ""
+msgstr "直接 %s個人設定%s に進む。"
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

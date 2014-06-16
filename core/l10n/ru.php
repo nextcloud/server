@@ -127,6 +127,7 @@ $TRANSLATIONS = array(
 "Yes, I really want to reset my password now" => "Да, я действительно хочу сбросить свой пароль",
 "Reset" => "Сброс",
 "New password" => "Новый пароль",
+"New Password" => "Новый пароль",
 "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " => "Mac OS X не поддерживается и %s не будет работать правильно на этой платформе. Используйте ее на свой страх и риск!",
 "For the best results, please consider using a GNU/Linux server instead." => "Для достижения наилучших результатов, пожалуйста, рассмотрите возможность использовать взамен GNU/Linux сервер.",
 "Personal" => "Личное",

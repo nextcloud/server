@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-16 01:54-0400\n"
+"PO-Revision-Date: 2014-06-15 10:30+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,19 +173,19 @@ msgstr "Guardando..."
 
 #: js/js.js:1276
 msgid "seconds ago"
-msgstr "fai segundos"
+msgstr "hai segundos"
 
 #: js/js.js:1277
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "fai %n minutu"
-msgstr[1] "fai %n minutos"
+msgstr[1] "hai %n minutos"
 
 #: js/js.js:1278
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "fai %n hora"
-msgstr[1] "fai %n hores"
+msgstr[1] "hai %n hores"
 
 #: js/js.js:1279
 msgid "today"
@@ -199,7 +199,7 @@ msgstr "ayeri"
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "fai %n día"
-msgstr[1] "fai %n díes"
+msgstr[1] "hai %n díes"
 
 #: js/js.js:1282
 msgid "last month"
@@ -209,7 +209,7 @@ msgstr "mes caberu"
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "fai %n mes"
-msgstr[1] "fai %n meses"
+msgstr[1] "hai %n meses"
 
 #: js/js.js:1284
 msgid "last year"
@@ -217,18 +217,18 @@ msgstr "añu caberu"
 
 #: js/js.js:1285
 msgid "years ago"
-msgstr "fai años"
+msgstr "hai años"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Nun pudo unviase'l corréu de reaniciu. Por favor, contauta col alministrador."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Unviósete al corréu l'enllaz pa reaniciar la to contraseña. Si nun lu recibes nuna cantidá razonable de tiempu, comprueba les tos carpetes de corréu puxarra. <br>Si nun ta ehí, entruga al to alministrador llocal"
 
 #: js/lostpassword.js:7
 msgid ""
@@ -236,11 +236,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Los tos ficheros tán crifraos. Si nun habilitesti la clave de recuperación, nun habrá forma de recuperar los tos datos dempués de que se reanicie la to contraseña.<br />Si nun tas seguru de qué facer, por favor contauta col to alministrador enantes que sigas. <br />¿De xuru quies siguir?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Sé lo que toi faciendo"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -248,7 +248,7 @@ msgstr "Restablecer contraseña"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Nun pue camudase la contraseña. Por favor, contauta col alministrador."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -550,17 +550,17 @@ msgstr "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud."
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Nun pudo reaniciase la contraseña porque'l token ye inválidu"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Nun pudo unviase'l corréu. Por favor, asegurate que'l to nome d'usuariu seya correutu"
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Nun pudo unviase'l corréu porque nun hai direición de corréu pa esti nome d'usuariu. Por favor, contauta col alministrador"
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -603,7 +603,7 @@ msgstr "Contraseña nueva"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Contraseña nueva"
 
 #: setup/controller.php:140
 #, php-format
@@ -831,7 +831,7 @@ msgstr "Por favor, contauta col to alministrador"
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "¿Escaeciesti la to contraseña? ¡Reaníciala!"
 
 #: templates/login.php:55
 msgid "remember"
