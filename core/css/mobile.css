@@ -129,11 +129,6 @@ table.multiselect thead {
 	left: 0 !important;
 }
 
-/* shorten elements for mobile */
-#uploadprogresswrapper {
-	width: 50px;
-}
-
 
 /* fix controls bar jumping when navigation is slid out */
 .snapjs-left #app-navigation-toggle,
