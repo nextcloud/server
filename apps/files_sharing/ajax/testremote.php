@@ -7,7 +7,6 @@
  */
 
 OCP\JSON::checkAppEnabled('files_sharing');
-OCP\JSON::checkLoggedIn();
 
 $remote = $_GET['remote'];
 
