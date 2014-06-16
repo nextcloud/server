@@ -696,6 +696,8 @@ class OC {
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!OC_Config::getValue('maintenance', false) && !self::needUpgrade()) {
+					OC_App::loadApps(array('authentication'));
+					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
