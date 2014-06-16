@@ -112,7 +112,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('/foo', '/foo/folder', '/foo/folder/bar.txt', '/foo/foo.txt'), $changes);
 		$this->assertEquals(array('/', '/foo', '/foo/folder'), $parents);
 
-		$cache->put('foo.txt', array('mtime' => time() - 50));
+		$cache->put('foo.txt', array('storage_mtime' => time() - 50));
 
 		$propagator = $this->getMock('\OC\Files\Cache\ChangePropagator', array('propagateChanges'), array(), '', false);
 		$scanner->setPropagator($propagator);
@@ -128,7 +128,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$scanner->setPropagator($originalPropagator);
 
 		$oldInfo = $cache->get('');
-		$cache->put('foo.txt', array('mtime' => time() - 70));
+		$cache->put('foo.txt', array('storage_mtime' => time() - 70));
 		$storage->file_put_contents('foo.txt', 'asdasd');
 
 		$scanner->scan('');
