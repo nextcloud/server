@@ -8,13 +8,18 @@
 
 OCP\JSON::checkAppEnabled('files_sharing');
 OCP\JSON::checkLoggedIn();
-OCP\JSON::callCheck();
 
 $remote = $_GET['remote'];
 
-if (file_get_contents('https://' . $remote . '/status.php')) {
+function testUrl($url) {
+	$result = file_get_contents($url);
+	$data = json_decode($result);
+	return is_object($data) and !empty($data->version);
+}
+
+if (testUrl('https://' . $remote . '/status.php')) {
 	echo 'https';
-} elseif (file_get_contents('http://' . $remote . '/status.php')) {
+} elseif (testUrl('http://' . $remote . '/status.php')) {
 	echo 'http';
 } else {
 	echo 'false';
