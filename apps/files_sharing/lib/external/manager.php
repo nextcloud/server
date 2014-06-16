@@ -117,22 +117,24 @@ class Manager {
 	 * @return bool
 	 */
 	public function setMountPoint($source, $target) {
+		$user = $this->userSession->getUser();
 		$source = $this->stripPath($source);
 		$target = $this->stripPath($target);
 		$sourceHash = md5($source);
 		$targetHash = md5($target);
 
 		$query = $this->connection->prepare('UPDATE *PREFIX*share_external SET
-			`mountpoint` = ?, `mountpoint_hash` = ? WHERE `mountpoint_hash` = ?');
-		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash));
+			`mountpoint` = ?, `mountpoint_hash` = ? WHERE `mountpoint_hash` = ? AND `user` = ?');
+		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash, $user->getUID()));
 
 		return $result;
 	}
 
 	public function removeShare($mountPoint) {
+		$user = $this->userSession->getUser();
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
-		$query = $this->connection->prepare('DELETE FROM *PREFIX*share_external WHERE `mountpoint_hash` = ?');
-		return (bool)$query->execute(array($hash));
+		$query = $this->connection->prepare('DELETE FROM *PREFIX*share_external WHERE `mountpoint_hash` = ? AND `user` = ?');
+		return (bool)$query->execute(array($hash, $user->getUID()));
 	}
 }

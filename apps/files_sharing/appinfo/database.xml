@@ -82,6 +82,10 @@
 				<name>sh_external_mp</name>
 				<unique>true</unique>
 				<field>
+					<name>user</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
 					<name>mountpoint_hash</name>
 					<sorting>ascending</sorting>
 				</field>
