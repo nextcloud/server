@@ -207,4 +207,82 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 		unset($uidnumber);
 	}
 
+	public function testCumulativeSearchOnAttributeSkipReadDN() {
+		// tests that there is no infinite loop, when skipping already processed
+		// DNs (they can be returned multiple times for multiple filters )
+		list($wizard, $configuration, $ldap) = $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function($name) {
+					if($name === 'ldapBase') {
+						return array('base');
+					}
+					return null;
+			   }));
+
+		$this->prepareLdapWrapperForConnections($ldap);
+
+		$ldap->expects($this->any())
+			->method('isResource')
+			->will($this->returnCallback(function($res) {
+				return (bool)$res;
+			}));
+
+		$ldap->expects($this->any())
+			->method('search')
+			//dummy value, usually invalid
+			->will($this->returnValue(true));
+
+		$ldap->expects($this->any())
+			->method('countEntries')
+			//an is_resource check will follow, so we need to return a dummy resource
+			->will($this->returnValue(7));
+
+		//5 DNs per filter means 2x firstEntry and 8x nextEntry
+		$ldap->expects($this->any())
+			->method('firstEntry')
+			//dummy value, usually invalid
+			->will($this->returnValue(1));
+
+		global $mark;
+		$mark = false;
+		// entries return order: 1, 2, 3, 4, 4, 5, 6
+		$ldap->expects($this->any())
+			->method('nextEntry')
+			//dummy value, usually invalid
+			->will($this->returnCallback(function($a, $prev){
+				$current = $prev + 1;
+				if($current === 7) {
+					return false;
+				}
+				global $mark;
+				if($prev === 4 && !$mark) {
+					$mark = true;
+					return 4;
+				}
+				return $current;
+			}));
+
+		$ldap->expects($this->any())
+			->method('getAttributes')
+			//dummy value, usually invalid
+			->will($this->returnCallback(function($a, $entry) {
+				return array('cn' => array($entry), 'count' => 1);
+			}));
+
+		$ldap->expects($this->any())
+			->method('getDN')
+			//dummy value, usually invalid
+			->will($this->returnCallback(function($a, $b) {
+				return $b;
+			}));
+
+		# The following expectations are the real test #
+		$filters = array('f1', 'f2', '*');
+		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', true, 0);
+		$this->assertSame(6, count($resultArray));
+		unset($mark);
+	}
+
 }
