@@ -725,8 +725,6 @@ class Trashbin {
 	 */
 	private static function expire($trashbinSize, $user) {
 
-		$view = new \OC\Files\View('/' . $user . '/files_trashbin');
-
 		// let the admin disable auto expire
 		$autoExpire = \OC_Config::getValue('trashbin_auto_expire', true);
 		if ($autoExpire === false) {
@@ -741,34 +739,69 @@ class Trashbin {
 
 		$limit = time() - ($retention_obligation * 86400);
 
-		$dirContent = $view->getDirectoryContent('/files');
+		$dirContent = Helper::getTrashFiles('/', 'mtime');
 
-		foreach ($dirContent as $file) {
-			$timestamp = $file['mtime'];
-			$filename = pathinfo($file['name'], PATHINFO_FILENAME);
-			if ($timestamp < $limit) {
-				$size += self::delete($filename, $timestamp);
-				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
-			}
-		}
+		// delete all files older then $retention_obligation
+		list($delSize, $count) = self::deleteExpiredFiles($dirContent, $limit, $retention_obligation);
+
+		$size += $delSize;
 		$availableSpace += $size;
-		// if size limit for trash bin reached, delete oldest files in trash bin
-		if ($availableSpace < 0) {
-			$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash`'
-				. ' WHERE `user`=? ORDER BY `timestamp` ASC');
-			$result = $query->execute(array($user))->fetchAll();
-			$length = count($result);
-			$i = 0;
-			while ($i < $length && $availableSpace < 0) {
-				$tmp = self::delete($result[$i]['id'], $result[$i]['timestamp']);
-				\OC_Log::write('files_trashbin', 'remove "' . $result[$i]['id'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
-				$availableSpace += $tmp;
-				$size += $tmp;
-				$i++;
-			}
-		}
+
+		// delete files from trash until we meet the trash bin size limit again
+		$size += self::deleteFiles(array_slice($dirContent, $count), $availableSpace);
 
 		return $size;
+	}
+
+	/**
+	 * if the size limit for the trash bin is reached, we delete the oldest
+	 * files in the trash bin until we meet the limit again
+	 * @param array $files
+	 * @param init $availableSpace available disc space
+	 * @return int size of deleted files
+	 */
+	protected function deleteFiles($files, $availableSpace) {
+		$size = 0;
+
+		if ($availableSpace < 0) {
+			foreach ($files as $file) {
+				if ($availableSpace < 0) {
+					$tmp = self::delete($file['name'], $file['mtime']);
+					\OC_Log::write('files_trashbin', 'remove "' . $file['name'] . '" (' . $tmp . 'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
+					$availableSpace += $tmp;
+					$size += $tmp;
+				} else {
+					break;
+				}
+			}
+		}
+		return $size;
+	}
+
+	/**
+	 * delete files older then max storage time
+	 *
+	 * @param array $files list of files sorted by mtime
+	 * @param int $limit files older then limit should be deleted
+	 * @param int $retention_obligation max age of file in days
+	 * @return array size of deleted files and number of deleted files
+	 */
+	protected static function deleteExpiredFiles($files, $limit, $retention_obligation) {
+		$size = 0;
+		$count = 0;
+		foreach ($files as $file) {
+			$timestamp = $file['mtime'];
+			$filename = $file['name'];
+			if ($timestamp < $limit) {
+				$count++;
+				$size += self::delete($filename, $timestamp);
+				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
+			} else {
+				break;
+			}
+		}
+
+		return array($size, $count);
 	}
 
 	/**
