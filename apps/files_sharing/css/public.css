@@ -101,3 +101,23 @@ thead {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 }
+
+/* within #save */
+#remote_address {
+	margin: 0;
+	height: 14px;
+	line-height: 16px;
+	padding: 6px;
+}
+
+#save button {
+	margin: 0 5px;
+	height: 28px;
+	padding-bottom: 4px;
+}
+
+#save .save-form [type="submit"] {
+	margin: 0 5px;
+	height: 28px;
+	padding-bottom: 4px;
+}
