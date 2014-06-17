@@ -114,6 +114,7 @@ thead {
 	margin: 0 5px;
 	height: 28px;
 	padding-bottom: 4px;
+	line-height: 14px;
 }
 
 #save .save-form [type="submit"] {
