@@ -88,7 +88,7 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Filesystem::unlink('file3.txt');
 
 		//make sure that files are in the trash bin
-		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/');
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
 		$this->assertSame(3, count($filesInTrash));
 
 		$manipulatedList = $this->manipulateDeleteTime($filesInTrash, $expiredDate);
@@ -106,7 +106,7 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 		$this->assertSame('file2.txt', $remainingFile['name']);
 
 		// check that file1.txt and file3.txt was really deleted
-		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/');
+		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
 		$this->assertSame(1, count($newTrashContent));
 		$element = reset($newTrashContent);
 		$this->assertSame('file2.txt', $element['name']);
@@ -147,7 +147,7 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Filesystem::unlink('file1.txt');
 
 		//make sure that files are in the trash bin
-		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', 'mtime');
+		$filesInTrash = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1, 'mtime');
 		$this->assertSame(3, count($filesInTrash));
 
 		$testClass = new TrashbinForTesting();
@@ -156,7 +156,7 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 		// the two oldest files (file3.txt and file2.txt) should be deleted
 		$this->assertSame(10, $sizeOfDeletedFiles);
 
-		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/');
+		$newTrashContent = OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_TRASHBIN_USER1);
 		$this->assertSame(1, count($newTrashContent));
 		$element = reset($newTrashContent);
 		$this->assertSame('file1.txt', $element['name']);
@@ -189,10 +189,10 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 class TrashbinForTesting extends Files_Trashbin\Trashbin {
 	public function dummyDeleteExpiredFiles($files, $limit) {
 		// dummy value for $retention_obligation because it is not needed here
-		return parent::deleteExpiredFiles($files, $limit, 0);
+		return parent::deleteExpiredFiles($files, \Test_Trashbin::TEST_TRASHBIN_USER1, $limit, 0);
 	}
 
 	public function dummyDeleteFiles($files, $availableSpace) {
-		return parent::deleteFiles($files, $availableSpace);
+		return parent::deleteFiles($files, \Test_Trashbin::TEST_TRASHBIN_USER1, $availableSpace);
 	}
 }

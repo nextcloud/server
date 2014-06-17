@@ -37,7 +37,7 @@ foreach ($list as $file) {
 		$timestamp = null;
 	}
 
-	OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp);
+	OCA\Files_Trashbin\Trashbin::delete($filename, \OCP\User::getUser(), $timestamp);
 	if (OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
 		$error[] = $filename;
 		OC_Log::write('trashbin','can\'t delete ' . $filename . ' permanently.', OC_Log::ERROR);
