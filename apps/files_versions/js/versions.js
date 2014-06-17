@@ -70,9 +70,9 @@ function revertFile(file, revision) {
 				OC.Notification.show( t('files_version', 'Failed to revert {file} to revision {timestamp}.', {file:file, timestamp:formatDate(revision * 1000)}) );
 			} else {
 				$('#dropdown').hide('blind', function() {
+					$('#dropdown').closest('tr').find('.modified:first').html(relative_modified_date(revision));
 					$('#dropdown').remove();
 					$('tr').removeClass('mouseOver');
-					// TODO also update the modified time in the web ui
 				});
 			}
 		}
