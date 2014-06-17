@@ -9,13 +9,13 @@
 namespace OC\Files\Storage;
 
 class DAV extends \OC\Files\Storage\Common {
-	private $password;
-	private $user;
-	private $host;
-	private $secure;
-	private $root;
-	private $certPath;
-	private $ready;
+	protected $password;
+	protected $user;
+	protected $host;
+	protected $secure;
+	protected $root;
+	protected $certPath;
+	protected $ready;
 	/**
 	 * @var \Sabre\DAV\Client
 	 */
@@ -355,6 +355,9 @@ class DAV extends \OC\Files\Storage\Common {
 	 * @param string $path
 	 */
 	public function cleanPath($path) {
+		if ($path === "") {
+			return $path;
+		}
 		$path = \OC\Files\Filesystem::normalizePath($path);
 		// remove leading slash
 		return substr($path, 1);
@@ -397,11 +400,27 @@ class DAV extends \OC\Files\Storage\Common {
 		}
 	}
 
+	public function isUpdatable($path) {
+		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_UPDATE);
+	}
+
+	public function isCreatable($path) {
+		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_CREATE);
+	}
+
+	public function isSharable($path) {
+		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_SHARE);
+	}
+
+	public function isDeletable($path) {
+		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_DELETE);
+	}
+
 	public function getPermissions($path) {
 		$this->init();
 		$response = $this->client->propfind($this->encodePath($path), array('{http://owncloud.org/ns}permissions'));
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
-			$permissions = 0;
+			$permissions = \OCP\PERMISSION_READ;
 			$permissionsString = $response['{http://owncloud.org/ns}permissions'];
 			if (strpos($permissionsString, 'R') !== false) {
 				$permissions |= \OCP\PERMISSION_SHARE;
@@ -416,8 +435,12 @@ class DAV extends \OC\Files\Storage\Common {
 				$permissions |= \OCP\PERMISSION_CREATE;
 			}
 			return $permissions;
+		} else if ($this->is_dir($path)) {
+			return \OCP\PERMISSION_ALL;
+		} else if ($this->file_exists($path)) {
+			return \OCP\PERMISSION_ALL - \OCP\PERMISSION_CREATE;
 		} else {
-			return parent::getPermissions($path);
+			return 0;
 		}
 	}
 }

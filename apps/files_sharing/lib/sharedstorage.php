@@ -23,12 +23,13 @@
 
 namespace OC\Files\Storage;
 use OC\Files\Filesystem;
+use OCA\Files_Sharing\ISharedStorage;
 use OCA\Files_Sharing\SharedMount;
 
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class Shared extends \OC\Files\Storage\Common {
+class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	private $share;   // the shared resource
 	private $files = array();
@@ -488,16 +489,25 @@ class Shared extends \OC\Files\Storage\Common {
 		return $this->filemtime($path) > $time;
 	}
 
-	public function getCache($path = '') {
-		return new \OC\Files\Cache\Shared_Cache($this);
+	public function getCache($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		return new \OC\Files\Cache\Shared_Cache($storage);
 	}
 
-	public function getScanner($path = '') {
-		return new \OC\Files\Cache\Scanner($this);
+	public function getScanner($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		return new \OC\Files\Cache\Scanner($storage);
 	}
 
-	public function getWatcher($path = '') {
-		return new \OC\Files\Cache\Shared_Watcher($this);
+	public function getWatcher($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		return new \OC\Files\Cache\Shared_Watcher($storage);
 	}
 
 	public function getOwner($path) {

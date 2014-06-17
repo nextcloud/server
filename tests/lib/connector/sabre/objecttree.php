@@ -110,7 +110,8 @@ class ObjectTree extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(false));
 
 		/** @var $objectTree \OC\Connector\Sabre\ObjectTree */
-		$objectTree->init($rootDir, $view);
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$objectTree->init($rootDir, $view, $mountManager);
 		$objectTree->move($source, $dest);
 	}
 

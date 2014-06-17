@@ -161,7 +161,34 @@ class View {
 		return $this->basicOperation('mkdir', $path, array('create', 'write'));
 	}
 
+	protected function removeMount($mount, $path){
+		if ($mount instanceof MoveableMount) {
+			\OC_Hook::emit(
+				Filesystem::CLASSNAME, "umount",
+				array(Filesystem::signal_param_path => $path)
+			);
+			$result = $mount->removeMount();
+			if ($result) {
+				\OC_Hook::emit(
+					Filesystem::CLASSNAME, "post_umount",
+					array(Filesystem::signal_param_path => $path)
+				);
+			}
+			return $result;
+		} else {
+			// do not allow deleting the storage's root / the mount point
+			// because for some storages it might delete the whole contents
+			// but isn't supposed to work that way
+			return false;
+		}
+	}
+
 	public function rmdir($path) {
+		$absolutePath= $this->getAbsolutePath($path);
+		$mount = Filesystem::getMountManager()->find($absolutePath);
+		if ($mount->getInternalPath($absolutePath) === '') {
+			return $this->removeMount($mount, $path);
+		}
 		if ($this->is_dir($path)) {
 			return $this->basicOperation('rmdir', $path, array('delete'));
 		} else {
@@ -360,25 +387,7 @@ class View {
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
 		if ($mount->getInternalPath($absolutePath) === '') {
-			if ($mount instanceof MoveableMount) {
-				\OC_Hook::emit(
-						Filesystem::CLASSNAME, "umount",
-						array(Filesystem::signal_param_path => $path)
-						);
-				$result = $mount->removeMount();
-				if ($result) {
-					\OC_Hook::emit(
-							Filesystem::CLASSNAME, "post_umount",
-							array(Filesystem::signal_param_path => $path)
-							);
-				}
-				return $result;
-			} else {
-				// do not allow deleting the storage's root / the mount point
-				// because for some storages it might delete the whole contents
-				// but isn't supposed to work that way
-				return false;
-			}
+			return $this->removeMount($mount, $path);
 		}
 		return $this->basicOperation('unlink', $path, array('delete'));
 	}
@@ -836,11 +845,10 @@ class View {
 			return $data;
 		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
-		/**
-		 * @var \OC\Files\Storage\Storage $storage
-		 * @var string $internalPath
-		 */
-		list($storage, $internalPath) = Filesystem::resolvePath($path);
+
+		$mount = Filesystem::getMountManager()->find($path);
+		$storage = $mount->getStorage();
+		$internalPath = $mount->getInternalPath($path);
 		$data = null;
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
@@ -886,6 +894,10 @@ class View {
 		}
 		if (!$data) {
 			return false;
+		}
+
+		if ($mount instanceof MoveableMount) {
+			$data['permissions'] |= \OCP\PERMISSION_DELETE | \OCP\PERMISSION_UPDATE;
 		}
 
 		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);

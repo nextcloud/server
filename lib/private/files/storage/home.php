@@ -49,9 +49,12 @@ class Home extends Local {
 	/**
 	 * @return \OC\Files\Cache\HomeCache
 	 */
-	public function getCache($path = '') {
+	public function getCache($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->cache)) {
-			$this->cache = new \OC\Files\Cache\HomeCache($this);
+			$this->cache = new \OC\Files\Cache\HomeCache($storage);
 		}
 		return $this->cache;
 	}

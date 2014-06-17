@@ -6,6 +6,10 @@
  * See the COPYING-README file.
  */
 
+if (OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled() === false) {
+	return false;
+}
+
 // load needed apps
 $RUNTIME_APPTYPES = array('filesystem', 'authentication', 'logging');
 
@@ -37,7 +41,15 @@ $server->addPlugin(new OC_Connector_Sabre_ExceptionLoggerPlugin('webdav'));
 $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $authBackend) {
 	$share = $authBackend->getShare();
 	$owner = $share['uid_owner'];
+	$isWritable = $share['permissions'] & (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_CREATE);
 	$fileId = $share['file_source'];
+
+	if (!$isWritable) {
+		\OC\Files\Filesystem::addStorageWrapper('readonly', function ($mountPoint, $storage) {
+			return new \OCA\Files_Sharing\ReadOnlyWrapper(array('storage' => $storage));
+		});
+	}
+
 	OC_Util::setupFS($owner);
 	$ownerView = \OC\Files\Filesystem::getView();
 	$path = $ownerView->getPath($fileId);
@@ -47,8 +59,13 @@ $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $
 	$rootInfo = $view->getFileInfo('');
 
 	// Create ownCloud Dir
-	$rootDir = new OC_Connector_Sabre_Directory($view, $rootInfo);
-	$objectTree->init($rootDir, $view);
+	if ($rootInfo->getType() === 'dir') {
+		$root = new OC_Connector_Sabre_Directory($view, $rootInfo);
+	} else {
+		$root = new OC_Connector_Sabre_File($view, $rootInfo);
+	}
+	$mountManager = \OC\Files\Filesystem::getMountManager();
+	$objectTree->init($root, $view, $mountManager);
 
 	$server->addPlugin(new OC_Connector_Sabre_AbortedUploadDetectionPlugin($view));
 	$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
