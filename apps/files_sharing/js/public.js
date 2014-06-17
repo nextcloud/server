@@ -148,6 +148,24 @@ OCA.Sharing.PublicApp = {
 			$(this).select();
 		});
 
+		$('.save-form').submit(function (event) {
+			event.preventDefault();
+
+			var remote = $(this).find('input[type="text"]').val();
+			var token = $('#sharingToken').val();
+			var owner = $('#save').data('owner');
+			var name = $('#save').data('name');
+			var isProtected = $('#save').data('protected') ? 1 : 0;
+			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, name, isProtected);
+		});
+
+		$('#save > button').click(function () {
+			$(this).hide();
+			$('.header-right').addClass('active');
+			$('.save-form').css('display', 'inline');
+			$('#remote_address').focus();
+		});
+
 		// legacy
 		window.FileList = this.fileList;
 	},
@@ -163,6 +181,29 @@ OCA.Sharing.PublicApp = {
 
 	_onUrlChanged: function (params) {
 		this.fileList.changeDirectory(params.path || params.dir, false, true);
+	},
+
+	_saveToOwnCloud: function(remote, token, owner, name, isProtected) {
+		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
+
+		var url = remote + '/index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
+			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
+
+
+		if (remote.indexOf('://') > 0) {
+			OC.redirect(url);
+		} else {
+			// if no protocol is specified, we automatically detect it by testing https and http
+			// this check needs to happen on the server due to the Content Security Policy directive
+			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
+				if (protocol !== 'http' && protocol !== 'https') {
+					OC.dialogs.alert(t('files_sharing', 'No ownCloud installation found at {remote}', {remote: remote}),
+						t('files_sharing', 'Invalid ownCloud url'));
+				} else {
+					OC.redirect(protocol + '://' + url);
+				}
+			});
+		}
 	}
 };
 
@@ -186,42 +227,5 @@ $(document).ready(function () {
 			});
 		};
 	}
-
-	$('.save-form').submit(function (event) {
-		event.preventDefault();
-
-		var remote = $(this).find('input[type="text"]').val();
-		var token = $('#sharingToken').val();
-		var location = window.location.protocol + '//' + window.location.host + OC.webroot;
-		var owner = $('#save').data('owner');
-		var name = $('#save').data('name');
-		var isProtected = $('#save').data('protected') ? 1 : 0;
-
-		var url = remote + '/index.php/apps/files#' + 'remote=' + encodeURIComponent(location) // our location is the remote for the other server
-			+ "&token=" + encodeURIComponent(token) + "&owner=" + encodeURIComponent(owner) + "&name=" + encodeURIComponent(name) + "&protected=" + isProtected;
-
-
-		if (remote.indexOf('://') > 0) {
-			window.location = url;
-		} else {
-			// if no protocol is specified, we automatically detect it by testing https and http
-			// this check needs to happen on the server due to the Content Security Policy directive
-			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
-				if (protocol !== 'http' && protocol !== 'https') {
-					OC.dialogs.alert(t('files_sharing', 'No ownCloud installation found at {remote}', {remote: remote}),
-						t('files_sharing', 'Invalid ownCloud url'));
-				} else {
-					window.location = protocol + '://' + url;
-				}
-			});
-		}
-	});
-
-	$('#save > button').click(function () {
-		$(this).hide();
-		$('.header-right').addClass('active');
-		$('.save-form').css('display', 'inline');
-		$('#remote_address').focus();
-	});
 });
 
