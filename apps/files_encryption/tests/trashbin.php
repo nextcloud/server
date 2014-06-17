@@ -282,7 +282,7 @@ class Test_Encryption_Trashbin extends \PHPUnit_Framework_TestCase {
 		$timestamp = str_replace('d', '', $trashFileSuffix);
 
 		// delete file forever
-		$this->assertGreaterThan(0, \OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp));
+		$this->assertGreaterThan(0, \OCA\Files_Trashbin\Trashbin::delete($filename, $this->userId, $timestamp));
 
 		// check if key for admin not exists
 		$this->assertFalse($this->view->file_exists(
