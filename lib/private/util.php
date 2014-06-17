@@ -32,11 +32,17 @@ class OC_Util {
 	private static function initObjectStoreRootFS($config) {
 		// check misconfiguration
 		if (empty($config['class'])) {
-			//FIXME log error?
+			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
 		}
 		if (!isset($config['arguments'])) {
 			$config['arguments'] = array();
 		}
+
+		// instantiate object store implementation
+		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
+		// mount with plain / root object store implementation
+		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
+
 		// mount object storage as root
 		\OC\Files\Filesystem::initMounts();
 		if(!self::$rootMounted) {
@@ -94,7 +100,7 @@ class OC_Util {
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
 				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
-					|| $storage->instanceOfStorage('\OC\Files\ObjectStore\AbstractObjectStore')
+					|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
 				) {
 					if (is_object($storage->getUser())) {
 						$user = $storage->getUser()->getUID();

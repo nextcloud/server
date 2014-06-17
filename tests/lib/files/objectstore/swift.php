@@ -20,6 +20,7 @@
 
 namespace OCA\ObjectStore\Tests\Unit;
 
+use OC\Files\ObjectStore\ObjectStoreStorage;
 use OC\Files\ObjectStore\Swift as ObjectStoreToTest;
 
 use PHPUnit_Framework_TestCase;
@@ -30,6 +31,8 @@ class Swift extends PHPUnit_Framework_TestCase {
 	 * @var \OC\Files\ObjectStore\Swift $storage
 	 */
 	private $storage;
+
+	private $objectStorage;
 	
 	public function setUp() {
 		
@@ -67,14 +70,16 @@ class Swift extends PHPUnit_Framework_TestCase {
 			'serviceName' => 'swift', //trystack uses swift by default, the lib defaults to 'cloudFiles' if omitted
 			'user' => \OC_User::getManager()->get($userName)
 		);
-		$this->storage = new ObjectStoreToTest($params);
+		$this->objectStorage = new ObjectStoreToTest($params);
+		$params['objectstore'] = $this->objectStorage;
+		$this->storage = new ObjectStoreStorage($params);
 	}
 
 	public function tearDown() {
 		if (is_null($this->storage)) {
 			return;
 		}
-		$this->storage->deleteContainer(true);
+		$this->objectStorage->deleteContainer(true);
 		$this->storage->getCache()->clear();
 		//TODO how do I clear hooks?
 	}

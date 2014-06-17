@@ -20,32 +20,14 @@
 
 namespace OC\Files\ObjectStore;
 
-abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
+use OCP\Files\ObjectStore\IObjectStore;
+
+class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that the object
-	 *        should be loaded from
-	 * @return void
-	 * @throws Exception when something goes wrong, message will be logged
+	 * @var \OCP\Files\ObjectStore\IObjectStore $objectStore
 	 */
-	abstract protected function createObject($urn, $tmpFile = null);
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that should be
-	 *        used to store the object
-	 * @return void
-	 * @throws Exception when something goes wrong, message will be logged
-	 */
-	abstract protected function getObject($urn, $tmpFile);
-
-	/**
-	 * @param string $urn the unified resource name used to identify the object
-	 * @return void
-	 * @throws Exception when something goes wrong, message will be logged
-	 */
-	abstract protected function deleteObject($urn);
+	protected $objectStore;
 
 	/**
 	 * @var \OC\User\User $user
@@ -58,10 +40,15 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 	private static $tmpFiles = array();
 
 	public function __construct($params) {
-		if (isset($params['user']) && is_object($params['user'])) {
+		if (isset($params['user']) && $params['user'] instanceof \OC\User\User) {
 			$this->user = $params['user'];
 		} else {
 			$this->user = null;
+		}
+		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
+			$this->objectStore = $params['objectstore'];
+		} else {
+			throw new \Exception('missing IObjectStore instance');
 		}
 		//initialize cache with root directory in cache
 		if ( ! $this->is_dir('/') ) {
@@ -243,7 +230,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 				return $this->rmdir($path);
 			}
 			try {
-				$this->deleteObject($this->getURN($stat['fileid']));
+				$this->objectStore->deleteObject($this->getURN($stat['fileid']));
 			} catch (\Exception $ex) {
 				if ($ex->getCode() !== 404) {
 					\OCP\Util::writeLog('objectstore', 'Could not delete object: '.$ex->getMessage(), \OCP\Util::ERROR);
@@ -269,7 +256,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 					$tmpFile = \OC_Helper::tmpFile();
 					self::$tmpFiles[$tmpFile] = $path;
 					try {
-						$this->getObject($this->getURN($stat['fileid']), $tmpFile);
+						$this->objectStore->getObject($this->getURN($stat['fileid']), $tmpFile);
 					} catch (\Exception $ex) {
 						\OCP\Util::writeLog('objectstore', 'Could not get object: '.$ex->getMessage(), \OCP\Util::ERROR);
 						return false;
@@ -376,7 +363,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 			);
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
-				$this->createObject($this->getURN($fileId));
+				$this->objectStore->updateObject($this->getURN($fileId));
 			} catch (\Exception $ex) {
 				$this->getCache()->remove($path);
 				\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
@@ -424,7 +411,7 @@ abstract class AbstractObjectStore extends \OC\Files\Storage\Common {
 		$fileId = $this->getCache()->put($path, $stat);
 		try {
 			//upload to object storage
-			$this->createObject($this->getURN($fileId), $tmpFile);
+			$this->objectStore->updateObject($this->getURN($fileId), $tmpFile);
 		} catch (\Exception $ex) {
 			$this->getCache()->remove($path);
 			\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);

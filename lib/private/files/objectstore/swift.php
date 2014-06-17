@@ -23,7 +23,7 @@ namespace OC\Files\ObjectStore;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use OpenCloud\OpenStack;
 
-class Swift extends AbstractObjectStore {
+class Swift implements \OCP\Files\ObjectStore\IObjectStore {
 
 	/**
 	 * @var \OpenCloud\ObjectStore\Service
@@ -78,19 +78,22 @@ class Swift extends AbstractObjectStore {
 				throw $ex;
 			}
 		}
-
-		//set the user via parent constructor, also initializes the root of the filecache
-		parent::__construct($params);
 	}
+
 
 	/**
 	 * @param string $urn Unified Resource Name
+	 * @param string $tmpFile
 	 * @return void
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
-	protected function deleteObject($urn) {
-		$object = $this->container->getObject($urn);
-		$object->delete();
+	public function updateObject($urn, $tmpFile = null) {
+		$fileData = '';
+		if ($tmpFile) {
+			$fileData = fopen($tmpFile, 'r');
+		}
+
+		$this->container->uploadObject($urn, $fileData);
 	}
 
 	/**
@@ -99,7 +102,7 @@ class Swift extends AbstractObjectStore {
 	 * @return void
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
-	protected function getObject($urn, $tmpFile) {
+	public function getObject($urn, $tmpFile) {
 		$object = $this->container->getObject($urn);
 
 		/** @var $objectContent \Guzzle\Http\EntityBody **/
@@ -112,17 +115,12 @@ class Swift extends AbstractObjectStore {
 
 	/**
 	 * @param string $urn Unified Resource Name
-	 * @param string $tmpFile
 	 * @return void
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
-	protected function createObject($urn, $tmpFile = null) {
-		$fileData = '';
-		if ($tmpFile) {
-			$fileData = fopen($tmpFile, 'r');
-		}
-
-		$this->container->uploadObject($urn, $fileData);
+	public function deleteObject($urn) {
+		$object = $this->container->getObject($urn);
+		$object->delete();
 	}
 
 	public function deleteContainer($recursive = false) {
