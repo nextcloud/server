@@ -724,6 +724,18 @@ class Access extends LDAPUtility {
 	}
 
 	/**
+	 * returns the number of available groups
+	 * @param string $filter the LDAP search filter
+	 * @param string[] $attr optional
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * @return int|bool
+	 */
+	public function countGroups($filter, $attr = array('dn'), $limit = null, $offset = null) {
+		return $this->count($filter, $this->connection->ldapBaseGroups, $attr, $limit, $offset);
+	}
+
+	/**
 	 * @brief prepares and executes an LDAP search operation
 	 * @param $filter the LDAP filter for the search
 	 * @param $base an array containing the LDAP subtree(s) that shall be searched
@@ -1016,11 +1028,11 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief combines the input filters with AND
+	 * combines the input filters with OR
 	 * @param $filters array, the filters to connect
 	 * @returns the combined filter
 	 *
-	 * Combines Filter arguments with AND
+	 * Combines Filter arguments with OR
 	 */
 	public function combineFilterWithOr($filters) {
 		return $this->combineFilter($filters, '|');
