@@ -11,9 +11,13 @@ OCP\JSON::checkAppEnabled('files_sharing');
 $remote = $_GET['remote'];
 
 function testUrl($url) {
-	$result = file_get_contents($url);
-	$data = json_decode($result);
-	return is_object($data) and !empty($data->version);
+	try {
+		$result = file_get_contents($url);
+		$data = json_decode($result);
+		return is_object($data) and !empty($data->version);
+	} catch (Exception $e) {
+		return false;
+	}
 }
 
 if (testUrl('https://' . $remote . '/status.php')) {
