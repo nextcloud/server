@@ -760,7 +760,7 @@ class Trashbin {
 	 * @param int $availableSpace available disc space
 	 * @return int size of deleted files
 	 */
-	protected function deleteFiles($files, $user, $availableSpace) {
+	protected static function deleteFiles($files, $user, $availableSpace) {
 		$size = 0;
 
 		if ($availableSpace < 0) {
