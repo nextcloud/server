@@ -64,7 +64,8 @@ $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $
 	} else {
 		$root = new OC_Connector_Sabre_File($view, $rootInfo);
 	}
-	$objectTree->init($root, $view);
+	$mountManager = \OC\Files\Filesystem::getMountManager();
+	$objectTree->init($root, $view, $mountManager);
 
 	$server->addPlugin(new OC_Connector_Sabre_AbortedUploadDetectionPlugin($view));
 	$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));

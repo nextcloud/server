@@ -235,7 +235,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$view = new \OC\Files\View($root);
 		$publicDir = new OC_Connector_Sabre_Directory($view, $view->getFileInfo(''));
 		$objectTree = new \OC\Connector\Sabre\ObjectTree();
-		$objectTree->init($publicDir, $view);
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$objectTree->init($publicDir, $view, $mountManager);
 
 		// Fire up server
 		$server = new \Sabre\DAV\Server($publicDir);

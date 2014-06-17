@@ -10,6 +10,7 @@ namespace OC\Connector\Sabre;
 
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
+use OC\Files\Mount\MoveableMount;
 
 class ObjectTree extends \Sabre\DAV\ObjectTree {
 
@@ -17,6 +18,11 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 	 * @var \OC\Files\View
 	 */
 	protected $fileView;
+
+	/**
+	 * @var \OC\Files\Mount\Manager
+	 */
+	protected $mountManager;
 
 	/**
 	 * Creates the object
@@ -29,10 +35,12 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 	/**
 	 * @param \Sabre\DAV\ICollection $rootNode
 	 * @param \OC\Files\View $view
+	 * @param \OC\Files\Mount\Manager $mountManager
 	 */
-	public function init(\Sabre\DAV\ICollection $rootNode, \OC\Files\View $view) {
+	public function init(\Sabre\DAV\ICollection $rootNode, \OC\Files\View $view, \OC\Files\Mount\Manager $mountManager) {
 		$this->rootNode = $rootNode;
 		$this->fileView = $view;
+		$this->mountManager = $mountManager;
 	}
 
 	/**
@@ -115,14 +123,15 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 		list($sourceDir,) = \Sabre\DAV\URLUtil::splitPath($sourcePath);
 		list($destinationDir,) = \Sabre\DAV\URLUtil::splitPath($destinationPath);
 
-		$isShareMountPoint = false;
-		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath( '/' . \OCP\User::getUser() . '/files/' . $sourcePath);
-		if ($storage instanceof \OCA\Files_Sharing\ISharedStorage && !$internalPath) {
-			$isShareMountPoint = true;
+		$isMovableMount = false;
+		$sourceMount = $this->mountManager->find($this->fileView->getAbsolutePath($sourcePath));
+		$internalPath = $sourceMount->getInternalPath($this->fileView->getAbsolutePath($sourcePath));
+		if ($sourceMount instanceof MoveableMount && $internalPath === '') {
+			$isMovableMount = true;
 		}
 
 		// check update privileges
-		if (!$this->fileView->isUpdatable($sourcePath) && !$isShareMountPoint) {
+		if (!$this->fileView->isUpdatable($sourcePath) && !$isMovableMount) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 		if ($sourceDir !== $destinationDir) {
@@ -132,7 +141,7 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			if (!$this->fileView->isUpdatable($destinationDir)) {
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
-			if (!$this->fileView->isDeletable($sourcePath)) {
+			if (!$this->fileView->isDeletable($sourcePath) && !$isMovableMount) {
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		}
