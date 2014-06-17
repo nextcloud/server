@@ -1,11 +1,11 @@
 <?php
 $TRANSLATIONS = array(
-"No app name specified" => "Не е специфицирано име на апликацијата",
 "Help" => "Помош",
 "Personal" => "Лично",
 "Settings" => "Подесувања",
 "Users" => "Корисници",
 "Admin" => "Админ",
+"No app name specified" => "Не е специфицирано име на апликацијата",
 "Unknown filetype" => "Непознат тип на датотека",
 "Invalid image" => "Невалидна фотографија",
 "web services under your control" => "веб сервиси под Ваша контрола",

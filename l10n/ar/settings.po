@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-11 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 05:54+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -50,15 +50,15 @@ msgstr "تم ارسال البريد الالكتروني"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:353
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "وضعية الإرسال"
 
-#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "التشفير"
 
-#: admin/controller.php:120 templates/admin.php:390
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "أسلوب التطابق"
 
@@ -111,6 +111,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr ""
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "تم حفظ البريد الإلكتروني"
@@ -159,7 +163,7 @@ msgstr "فشل إضافة المستخدم الى المجموعة %s"
 msgid "Unable to remove user from group %s"
 msgstr "فشل إزالة المستخدم من المجموعة %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "تعذر تحديث التطبيق."
 
@@ -200,53 +204,69 @@ msgstr "جاري الارسال ..."
 msgid "User Documentation"
 msgstr "كتاب توثيق المستخدم"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr ""
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "تم التحديث الى "
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "إيقاف"
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "تفعيل"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "الرجاء الانتظار ..."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "خطا عند تعطيل البرنامج"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "خطا عند تفعيل البرنامج "
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "جاري التحديث ..."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "حصل خطأ أثناء تحديث التطبيق"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "خطأ"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "حدث"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "تم التحديث بنجاح"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -600,95 +620,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "حماية"
 
-#: templates/admin.php:328
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "فرض HTTPS"
 
-#: templates/admin.php:330
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "اجبار العميل للاتصال بـ %s عن طريق اتصال مشفر"
 
-#: templates/admin.php:336
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "يرجى الاتصال بـ %s عن طريق HTTPS لتفعيل او تعطيل SSL enforcement."
 
-#: templates/admin.php:348
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "خادم البريد الالكتروني"
 
-#: templates/admin.php:350
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:381
+#: templates/admin.php:378
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:382
+#: templates/admin.php:379
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:403
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:407
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "عنوان الخادم"
 
-#: templates/admin.php:411
+#: templates/admin.php:408
 msgid "Port"
 msgstr "المنفذ"
 
-#: templates/admin.php:416
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:417
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:420
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:424
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:425
+#: templates/admin.php:422
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:430
+#: templates/admin.php:427
 msgid "Log"
 msgstr "سجل"
 
-#: templates/admin.php:431
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "مستوى السجل"
 
-#: templates/admin.php:463
+#: templates/admin.php:460
 msgid "More"
 msgstr "المزيد"
 
-#: templates/admin.php:464
+#: templates/admin.php:461
 msgid "Less"
 msgstr "أقل"
 
-#: templates/admin.php:470 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "إصدار"
 
-#: templates/admin.php:474 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -726,11 +746,11 @@ msgstr ""
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ترخيص من قبل <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr ""
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "الكل"
 

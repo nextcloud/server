@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-13 01:54-0400\n"
-"PO-Revision-Date: 2014-06-12 11:43+0000\n"
-"Last-Translator: Fernando Moura <moura232@gmail.com>\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,15 +57,15 @@ msgstr "E-mail enviado"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Você precisa de configurar o seu e-mail de usuário antes de ser capaz de enviar e-mails de teste"
 
-#: admin/controller.php:116 templates/admin.php:353
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "Modo de envio"
 
-#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "Encriptação"
 
-#: admin/controller.php:120 templates/admin.php:390
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "Método de autenticação"
 
@@ -118,6 +118,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr "Não foi possível excluir permanentemente a sua chave de encriptação. Verifique a sua owncloud.log ou pergunte ao seu administrador"
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Email guardado"
@@ -166,7 +170,7 @@ msgstr "Impossível acrescentar utilizador ao grupo %s"
 msgid "Unable to remove user from group %s"
 msgstr "Impossível apagar utilizador do grupo %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "Não foi possível actualizar a aplicação."
 
@@ -207,53 +211,69 @@ msgstr "A enviar..."
 msgid "User Documentation"
 msgstr "Documentação de Utilizador"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr "Documentação de administrador."
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "Actualizar para a versão {appversion}"
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "Activar"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "Por favor aguarde..."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "Erro enquanto desactivava a aplicação"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "Erro enquanto activava a aplicação"
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "A Actualizar..."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "Erro enquanto actualizava a aplicação"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "Erro"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "Actualizar"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "Actualizado"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -607,95 +627,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Estes grupos poderão receber partilhas, mas não poderão iniciá-las."
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "Segurança"
 
-#: templates/admin.php:328
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "Forçar HTTPS"
 
-#: templates/admin.php:330
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forçar os clientes a ligar a %s através de uma ligação encriptada"
 
-#: templates/admin.php:336
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor ligue-se a %s através de uma ligação HTTPS para ligar/desligar o uso de ligação por SSL"
 
-#: templates/admin.php:348
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "Servidor de email"
 
-#: templates/admin.php:350
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr "Isto é utilizado para enviar notificações"
 
-#: templates/admin.php:381
+#: templates/admin.php:378
 msgid "From address"
 msgstr "Do endereço"
 
-#: templates/admin.php:382
+#: templates/admin.php:379
 msgid "mail"
 msgstr "Correio"
 
-#: templates/admin.php:403
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr "Autenticação necessária"
 
-#: templates/admin.php:407
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "Endereço do servidor"
 
-#: templates/admin.php:411
+#: templates/admin.php:408
 msgid "Port"
 msgstr "Porto"
 
-#: templates/admin.php:416
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr "Credenciais"
 
-#: templates/admin.php:417
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr "Nome de utilizador SMTP"
 
-#: templates/admin.php:420
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr "Password SMTP"
 
-#: templates/admin.php:424
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr "Testar configurações de email"
 
-#: templates/admin.php:425
+#: templates/admin.php:422
 msgid "Send email"
 msgstr "Enviar email"
 
-#: templates/admin.php:430
+#: templates/admin.php:427
 msgid "Log"
 msgstr "Registo"
 
-#: templates/admin.php:431
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "Nível do registo"
 
-#: templates/admin.php:463
+#: templates/admin.php:460
 msgid "More"
 msgstr "Mais"
 
-#: templates/admin.php:464
+#: templates/admin.php:461
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:470 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "Versão"
 
-#: templates/admin.php:474 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -733,11 +753,11 @@ msgstr "Ver site da aplicação"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr ""
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "Todos"
 

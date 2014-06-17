@@ -6,14 +6,15 @@
 # Daniel Pinto <daniel@mouxy.net>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2014
 # Jose Manuel Ruas <jmruas@gmail.com>, 2014
+# Manuela Silva <manuela.silva@sky.com>, 2014
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-16 19:03+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +64,7 @@ msgstr "Chave Secreta"
 
 #: appinfo/app.php:66
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "Nome do Hospedeiro (opcional)"
 
 #: appinfo/app.php:67
 msgid "Port (optional)"
@@ -79,7 +80,7 @@ msgstr "Activar SSL"
 
 #: appinfo/app.php:70
 msgid "Enable Path Style"
-msgstr ""
+msgstr "Ativar Estilo do Caminho"
 
 #: appinfo/app.php:78
 msgid "App key"
@@ -135,7 +136,7 @@ msgstr ""
 
 #: appinfo/app.php:114
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Região (opcional para OpenStack Object Storage)"
 
 #: appinfo/app.php:115
 msgid "API Key (required for Rackspace Cloud Files)"
@@ -147,11 +148,11 @@ msgstr ""
 
 #: appinfo/app.php:117
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Senha (necessária para OpenStack Object Storage)"
 
 #: appinfo/app.php:118
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Nome do Serviço (necessário para OpenStack Object Storage)"
 
 #: appinfo/app.php:119
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
@@ -167,7 +168,7 @@ msgstr "Partilhar"
 
 #: appinfo/app.php:138
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS utilizando o início de sessão OC"
 
 #: appinfo/app.php:142
 msgid "Username as share"
@@ -211,9 +212,9 @@ msgstr "Pessoal"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Guardado"
 
@@ -248,7 +249,7 @@ msgstr "<b>Aviso:</b> O cliente\"%s\" não está instalado. Não é possível mo
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Não possui quaisquer armazenamentos externos"
 
 #: templates/list.php:16
 msgid "Name"
@@ -256,7 +257,7 @@ msgstr "Nome"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Tipo de Armazenamento"
 
 #: templates/list.php:23
 msgid "Scope"

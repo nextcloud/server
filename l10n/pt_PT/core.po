@@ -8,17 +8,19 @@
 # Carlos Moreira <crolidge@gmail.com>, 2014
 # Daniel Pinto <daniel@mouxy.net>, 2013
 # zedascouves <duartegrilo@gmail.com>, 2013
+# Fernando Moura <moura232@gmail.com>, 2014
 # Goncalo Baiao <goncalo.baiao@gmail.com>, 2013
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
+# Manuela Silva <manuela.silva@sky.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2014
 # sccosta <sonia.peres.costa@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-16 19:03+0000\n"
+"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,7 +56,7 @@ msgstr ""
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Apps incompatíveis desativadas: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -170,7 +172,7 @@ msgstr "Imagem"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -539,7 +541,7 @@ msgstr "Não foram escolhidas etiquetas para apagar."
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "A atualizar {productName} para a versão {version}, isto poderá demorar algum tempo."
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -547,7 +549,7 @@ msgstr "Por favor recarregue a página."
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "Não foi possível atualizar."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -878,16 +880,16 @@ msgstr "Obrigado pela sua paciência."
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "O %s irá ser atualizado para a versão %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "As seguintes apps irão ser desativadas:"
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "O tema %s foi desativado."
 
 #: templates/update.admin.php:21
 msgid ""

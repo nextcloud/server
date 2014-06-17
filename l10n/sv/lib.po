@@ -11,12 +11,13 @@
 # Karl Thorén <karl.h.thoren@gmail.com>, 2013
 # Magnus Höglund <magnus@linux.com>, 2013
 # Juho Ojala, 2013
+# Stefan Gagner <stefan@mei-ya.se>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -36,41 +37,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr "Vänligen kontakta din administratör. Om du är en administratör, konfigurera inställningen \"trusted_domain\" i  config/config.php. En exempelkonfiguration finns i tillgänglig i config/config.sample.php."
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "Appen \"%s\" kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud."
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "Inget appnamn angivet"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "Hjälp"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "Personligt"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "Inställningar"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "Användare"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Misslyckades med att uppgradera \"%s\"."
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "Inget appnamn angivet"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -84,61 +85,61 @@ msgstr "Ogiltig bild"
 msgid "web services under your control"
 msgstr "webbtjänster under din kontroll"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "Appens mapp finns redan"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Kan inte skapa appens mapp. Var god åtgärda rättigheterna. %s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "Ingen källa angiven vid installation av app "
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "Ingen href angiven vid installation av app från http"
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "Ingen sökväg angiven vid installation av app från lokal fil"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arkiv av typen %s stöds ej"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "Kunde inte öppna arkivet när appen skulle installeras"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "Appen har ingen info.xml fil"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Appen kan inte installeras eftersom att den innehåller otillåten kod"
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Appen kan inte installeras eftersom att den inte är kompatibel med denna version av ownCloud"
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Appen kan inte installeras eftersom att den innehåller etiketten <shipped>true</shipped> vilket inte är tillåtet för icke inkluderade appar"
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Appen kan inte installeras eftersom versionen i info.xml inte är samma som rapporteras från app store"
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "Appens mapp finns redan"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Kan inte skapa appens mapp. Var god åtgärda rättigheterna. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -354,30 +355,30 @@ msgstr "Delningsgränssnittet %s hittades inte"
 msgid "Sharing backend for %s not found"
 msgstr "Delningsgränssnittet för %s hittades inte"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Delning %s misslyckades därför att användaren %s är den som delade objektet först"
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Delning %s misslyckades därför att rättigheterna överskrider de rättigheter som är tillåtna för %s"
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Delning %s misslyckades därför att vidaredelning inte är tillåten"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Delning %s misslyckades därför att delningsgränsnittet för %s inte kunde hitta sin källa"
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -457,4 +458,4 @@ msgstr "Användarnamnet används redan"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Kan inte hämta låstyp %d på \"%s\"."

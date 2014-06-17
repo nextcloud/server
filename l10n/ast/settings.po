@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-16 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 10:23+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,15 +49,15 @@ msgstr "Corréu-e unviáu"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Tienes de configurar la direición de corréu-e enantes de poder unviar mensaxes de prueba."
 
-#: admin/controller.php:116 templates/admin.php:349
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "Mou d'unviu"
 
-#: admin/controller.php:118 templates/admin.php:362 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "Cifráu"
 
-#: admin/controller.php:120 templates/admin.php:386
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "Métodu d'autenticación"
 
@@ -110,6 +110,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr "Nun pudieron desaniciase dafechu les tos claves de cifráu, por favor comprueba'l to owncloud.log o entruga a un alministrador"
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Corréu-e guardáu"
@@ -158,7 +162,7 @@ msgstr "Nun pudo amestase l'usuariu al grupu %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nun pudo desaniciase al usuariu del grupu %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "Nun pudo anovase l'aplicación."
 
@@ -199,53 +203,69 @@ msgstr "Unviando..."
 msgid "User Documentation"
 msgstr "Documentación d'usuariu"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr "Documentación p'alministradores"
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "Anovar a {appversion}"
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "Activar"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "Espera, por favor...."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "Fallu mientres se desactivaba l'aplicación"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "Fallu mientres s'activaba l'aplicación"
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "Anovando...."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "Fallu mientres s'anovaba l'aplicación"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "Fallu"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "Anovar"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "Anováu"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -599,95 +619,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Estos grupos van poder siguir recibiendo conteníos compartíos, pero nun van poder anicialos"
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "Seguridá"
 
-#: templates/admin.php:326
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "Forciar HTTPS"
 
-#: templates/admin.php:328
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forciar a los veceros a coneutase a %s per duana d'una conexón cifrada."
 
-#: templates/admin.php:334
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor, conéutate a %s al traviés de HTTPS p'habilitar o deshabilitar l'aplicación de SSL."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "Sirvidor de corréu-e"
 
-#: templates/admin.php:346
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr "Esto úsase pa unviar notificaciones."
 
-#: templates/admin.php:377
+#: templates/admin.php:378
 msgid "From address"
 msgstr "Dende la direición"
 
-#: templates/admin.php:378
+#: templates/admin.php:379
 msgid "mail"
 msgstr "corréu"
 
-#: templates/admin.php:399
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr "Necesítase autenticación"
 
-#: templates/admin.php:403
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "Direición del sirvidor"
 
-#: templates/admin.php:407
+#: templates/admin.php:408
 msgid "Port"
 msgstr "Puertu"
 
-#: templates/admin.php:412
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr "Credenciales"
 
-#: templates/admin.php:413
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr "Nome d'usuariu SMTP"
 
-#: templates/admin.php:416
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr "Contraseña SMTP"
 
-#: templates/admin.php:420
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr "Probar configuración de corréu electrónicu"
 
-#: templates/admin.php:421
+#: templates/admin.php:422
 msgid "Send email"
 msgstr "Unviar mensaxe"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "Log"
 msgstr "Rexistru"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "Nivel de rexistru"
 
-#: templates/admin.php:459
+#: templates/admin.php:460
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:460
+#: templates/admin.php:461
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:466 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:470 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -725,11 +745,11 @@ msgstr "Ver sitiu web de l'aplicación"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-llicencia otorgada por <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr "Habilitar namái pa grupos específicos"
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "Toos"
 

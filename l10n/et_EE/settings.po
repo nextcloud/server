@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-11 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 05:54+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -49,15 +49,15 @@ msgstr "E-kiri on saadetud"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Pead seadistama oma e-postienne kui on võimalik saata test-kirju."
 
-#: admin/controller.php:116 templates/admin.php:353
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "Saatmise viis"
 
-#: admin/controller.php:118 templates/admin.php:366 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
-#: admin/controller.php:120 templates/admin.php:390
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "Autentimise meetod"
 
@@ -110,6 +110,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr ""
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Kiri on salvestatud"
@@ -158,7 +162,7 @@ msgstr "Kasutajat ei saa lisada gruppi %s"
 msgid "Unable to remove user from group %s"
 msgstr "Kasutajat ei saa eemaldada grupist %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "Rakenduse uuendamine ebaõnnestus."
 
@@ -199,53 +203,69 @@ msgstr "Saadan..."
 msgid "User Documentation"
 msgstr "Kasutaja dokumentatsioon"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr "Admin dokumentatsioon"
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "Uuenda versioonile {appversion}"
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "Lülita sisse"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "Palun oota..."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "Viga rakenduse keelamisel"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "Viga rakenduse lubamisel"
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "Uuendamine..."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "Viga rakenduse uuendamisel"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "Viga"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "Uuenda"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "Uuendatud"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -599,95 +619,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "Turvalisus"
 
-#: templates/admin.php:328
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "Sunni peale HTTPS-i kasutamine"
 
-#: templates/admin.php:330
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Sunnib kliente %s ühenduma krüpteeritult."
 
-#: templates/admin.php:336
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Palun ühendu oma %s üle HTTPS või keela SSL kasutamine."
 
-#: templates/admin.php:348
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "Postiserver"
 
-#: templates/admin.php:350
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr "Seda kasutatakse teadete välja saatmiseks."
 
-#: templates/admin.php:381
+#: templates/admin.php:378
 msgid "From address"
 msgstr "Saatja aadress"
 
-#: templates/admin.php:382
+#: templates/admin.php:379
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:403
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr "Autentimine on vajalik"
 
-#: templates/admin.php:407
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "Serveri aadress"
 
-#: templates/admin.php:411
+#: templates/admin.php:408
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:416
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr "Kasutajatunnused"
 
-#: templates/admin.php:417
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr "SMTP kasutajatunnus"
 
-#: templates/admin.php:420
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr "SMTP parool"
 
-#: templates/admin.php:424
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr "Testi e-posti seadeid"
 
-#: templates/admin.php:425
+#: templates/admin.php:422
 msgid "Send email"
 msgstr "Saada kiri"
 
-#: templates/admin.php:430
+#: templates/admin.php:427
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:431
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "Logi tase"
 
-#: templates/admin.php:463
+#: templates/admin.php:460
 msgid "More"
 msgstr "Rohkem"
 
-#: templates/admin.php:464
+#: templates/admin.php:461
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:470 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:474 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -725,11 +745,11 @@ msgstr "Vaata rakendi veebilehte"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr ""
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "Kõik"
 

@@ -1,13 +1,12 @@
 <?php
 $TRANSLATIONS = array(
-"App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "មិន​អាច​ដំឡើង​កម្មវិធី \"%s\" បាន ព្រោះ​តែ​វា​មិន​ត្រូវ​គ្នា​នឹង​កំណែ ownCloud នេះ​ទេ។",
-"No app name specified" => "មិន​បាន​បញ្ជាក់​ឈ្មោះ​កម្មវិធី",
 "Help" => "ជំនួយ",
 "Personal" => "ផ្ទាល់​ខ្លួន",
 "Settings" => "ការកំណត់",
 "Users" => "អ្នកប្រើ",
 "Admin" => "អ្នក​គ្រប់​គ្រង",
 "Failed to upgrade \"%s\"." => "បរាជ័យ​ការធ្វើការបន្ទាន់សម័យ\"%s\".",
+"No app name specified" => "មិន​បាន​បញ្ជាក់​ឈ្មោះ​កម្មវិធី",
 "Unknown filetype" => "មិន​ស្គាល់​ប្រភេទ​ឯកសារ",
 "Invalid image" => "រូបភាព​មិន​ត្រឹម​ត្រូវ",
 "web services under your control" => "សេវាកម្ម​វេប​ក្រោម​ការ​ការ​បញ្ជា​របស់​អ្នក",

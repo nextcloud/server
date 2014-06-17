@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -33,41 +33,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "App “%s” 无法安装，因为它和当前 ownCloud 版本不兼容。"
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "没有指定的 App 名称"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "帮助"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "个人"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "设置"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "用户"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" 升级失败。"
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "没有指定的 App 名称"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -81,61 +81,61 @@ msgstr "无效的图像"
 msgid "web services under your control"
 msgstr "您控制的web服务"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "应用程序目录已存在"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "无法创建应用程序文件夹。请修正权限。%s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "安装 App 时未指定来源"
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "从 http 安装 App 时未指定链接"
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "从本地文件安装 App 时未指定路径"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "不支持 %s 的压缩格式"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "安装 App 是打开归档失败"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "应用未提供 info.xml 文件"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "App 无法安装，因为 App 中有非法代码 "
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "App 无法安装，因为和当前 ownCloud 版本不兼容"
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "App 无法安装，因为 App 包含不允许在非内置 App 中使用的 <shipped>true</shipped> 标签"
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "App 无法安装因为 info.xml/version 中的版本和 App 商店版本不同"
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "应用程序目录已存在"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "无法创建应用程序文件夹。请修正权限。%s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -351,30 +351,30 @@ msgstr "未找到共享后端 %s"
 msgid "Sharing backend for %s not found"
 msgstr "%s 的共享后端未找到"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "共享 %s 失败，因为用户 %s 不是原始共享者"
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "共享 %s 失败，因为权限超过了 %s 已有权限"
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "共享 %s 失败，因为不允许二次共享"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "共享 %s 失败，因为 %s 使用的共享后端未找到它的来源"
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

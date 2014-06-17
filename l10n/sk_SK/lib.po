@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-16 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 17:20+0000\n"
-"Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,41 +30,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr "Kontaktujte administrátora. Ak ste administrátorom tejto inštancie, nakonfigurujte správne nastavenie \"trusted_domain\" v config/config.php. Vzorová konfigurácia je uvedená v config/config.sample.php."
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "Aplikácia \"%s\" nemôže byť nainštalovaná kvôli nekompatibilite z touto verziou ownCloudu."
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "Nešpecifikované meno aplikácie"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "Pomoc"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "Osobné"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "Používatelia"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "Administrátor"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Zlyhala aktualizácia \"%s\"."
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "Nešpecifikované meno aplikácie"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -78,61 +78,61 @@ msgstr "Chybný obrázok"
 msgid "web services under your control"
 msgstr "webové služby pod Vašou kontrolou"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "Aplikačný priečinok už existuje"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Nemožno vytvoriť aplikačný priečinok. Prosím upravte povolenia. %s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "Nešpecifikovaný zdroj pri inštalácii aplikácie"
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "Nešpecifikovaný atribút \"href\" pri inštalácii aplikácie pomocou protokolu \"http\""
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "Nešpecifikovaná cesta pri inštalácii aplikácie z lokálneho súboru"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Tento typ archívu %s nie je podporovaný"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "Zlyhanie pri otváraní archívu počas inštalácie aplikácie"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "Aplikácia neposkytuje súbor info.xml"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Aplikácia nemôže byť nainštalovaná pre nepovolený kód v aplikácii"
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Aplikácia nemôže byť nainštalovaná pre nekompatibilitu z touto verziou ownCloudu"
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Aplikácia nemôže byť nainštalovaná pretože obsahuje <shipped>pravý</shipped> štítok, ktorý nie je povolený pre zaslané \"shipped\" aplikácie"
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Aplikácia nemôže byť nainštalovaná pretože verzia v info.xml/version nezodpovedá verzii špecifikovanej v obchode s aplikáciami"
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "Aplikačný priečinok už existuje"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Nemožno vytvoriť aplikačný priečinok. Prosím upravte povolenia. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"

@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 09:50+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,15 +56,15 @@ msgstr "E-mail odeslán"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Pro možnost odeslání zkušebních e-mailů musíte nejprve nastavit svou e-mailovou adresu."
 
-#: admin/controller.php:116 templates/admin.php:349
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "Mód odesílání"
 
-#: admin/controller.php:118 templates/admin.php:362 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "Šifrování"
 
-#: admin/controller.php:120 templates/admin.php:386
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "Metoda ověření"
 
@@ -117,6 +117,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr "Nebylo možno trvale smazat vaše šifrovací klíče, zkontrolujte prosím owncloud.log nebo kontaktujte svého administrátora"
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "E-mail uložen"
@@ -165,7 +169,7 @@ msgstr "Nelze přidat uživatele do skupiny %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nelze odebrat uživatele ze skupiny %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "Nelze aktualizovat aplikaci."
 
@@ -206,53 +210,69 @@ msgstr "Odesílání..."
 msgid "User Documentation"
 msgstr "Uživatelská dokumentace"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr "Dokumentace pro administrátory"
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "Aktualizovat na {appversion}"
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "Zakázat"
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "Povolit"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "Čekejte prosím..."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "Chyba při zakazování aplikace"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "Chyba při povolování aplikace"
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "Aktualizuji..."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "Chyba při aktualizaci aplikace"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "Chyba"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "Aktualizovat"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "Aktualizováno"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -606,95 +626,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Těmto skupinám bude stále možno sdílet, nemohou ale sami sdílet ostatním."
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "Zabezpečení"
 
-#: templates/admin.php:326
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "Vynutit HTTPS"
 
-#: templates/admin.php:328
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Vynutí připojování klientů k %s šifrovaným spojením."
 
-#: templates/admin.php:334
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Připojte se k %s skrze HTTPS pro povolení nebo zakázání vynucování SSL."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "E-mailový server"
 
-#: templates/admin.php:346
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr "Toto se používá pro odesílání upozornění."
 
-#: templates/admin.php:377
+#: templates/admin.php:378
 msgid "From address"
 msgstr "Adresa odesílatele"
 
-#: templates/admin.php:378
+#: templates/admin.php:379
 msgid "mail"
 msgstr "e-mail"
 
-#: templates/admin.php:399
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr "Vyžadováno ověření"
 
-#: templates/admin.php:403
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "Adresa serveru"
 
-#: templates/admin.php:407
+#: templates/admin.php:408
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:412
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr "Přihlašovací údaje"
 
-#: templates/admin.php:413
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr "SMTP uživatelské jméno "
 
-#: templates/admin.php:416
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr "SMTP heslo"
 
-#: templates/admin.php:420
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr "Otestovat nastavení e-mailu"
 
-#: templates/admin.php:421
+#: templates/admin.php:422
 msgid "Send email"
 msgstr "Odeslat e-mail"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "Log"
 msgstr "Záznam"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "Úroveň zaznamenávání"
 
-#: templates/admin.php:459
+#: templates/admin.php:460
 msgid "More"
 msgstr "Více"
 
-#: templates/admin.php:460
+#: templates/admin.php:461
 msgid "Less"
 msgstr "Méně"
 
-#: templates/admin.php:466 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "Verze"
 
-#: templates/admin.php:470 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -732,11 +752,11 @@ msgstr "Prohlédněte si webovou stránku aplikace"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr "Povolit pouze pro vybrané skupiny"
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "Vše"
 

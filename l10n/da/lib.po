@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-13 01:54-0400\n"
-"PO-Revision-Date: 2014-06-12 20:00+0000\n"
-"Last-Translator: Anders J. Sørensen\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,41 +33,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "App'en \"%s\" kan ikke blive installeret, da den ikke er kompatibel med denne version af ownCloud."
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "Intet app-navn angivet"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "Hjælp"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "Personligt"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "Brugere"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Upgradering af \"%s\" fejlede"
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "Intet app-navn angivet"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -81,61 +81,61 @@ msgstr "Ugyldigt billede"
 msgid "web services under your control"
 msgstr "Webtjenester under din kontrol"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "App-mappe findes allerede"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Kan ikke oprette app-mappe. Ret tilladelser. %s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "Ingen kilde angivet under installation af app"
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "Ingen href angivet under installation af app via http"
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "Ingen sti angivet under installation af app fra lokal fil"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arkiver af type %s understøttes ikke"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "Kunne ikke åbne arkiv under installation af appen"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "Der følger ingen info.xml-fil med appen"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Appen kan ikke installeres, da den indeholder ikke-tilladt kode"
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Appen kan ikke installeres, da den ikke er kompatibel med denne version af ownCloud."
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Appen kan ikke installeres, da den indeholder taget\n<shipped>\n\ntrue\n</shipped>\n\nhvilket ikke er tilladt for ikke-medfølgende apps"
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "App kan ikke installeres, da versionen i info.xml/version ikke er den samme som versionen rapporteret fra app-storen"
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "App-mappe findes allerede"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Kan ikke oprette app-mappe. Ret tilladelser. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"

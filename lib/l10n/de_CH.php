@@ -1,16 +1,15 @@
 <?php
 $TRANSLATIONS = array(
-"App \"%s\" can't be installed because it is not compatible with this version of ownCloud." => "Anwendung \"%s\" kann nicht installiert werden, da sie mit dieser Version von ownCloud nicht kompatibel ist.",
-"No app name specified" => "Kein App-Name spezifiziert",
 "Help" => "Hilfe",
 "Personal" => "Persönlich",
 "Settings" => "Einstellungen",
 "Users" => "Benutzer",
 "Admin" => "Administrator",
 "Failed to upgrade \"%s\"." => "Konnte \"%s\" nicht aktualisieren.",
+"No app name specified" => "Kein App-Name spezifiziert",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
-"App can't be installed because of not allowed code in the App" => "Anwendung kann wegen nicht erlaubten Codes nicht installiert werden",
 "App directory already exists" => "Anwendungsverzeichnis existiert bereits",
+"App can't be installed because of not allowed code in the App" => "Anwendung kann wegen nicht erlaubten Codes nicht installiert werden",
 "Application is not enabled" => "Die Anwendung ist nicht aktiviert",
 "Authentication error" => "Authentifizierungs-Fehler",
 "Token expired. Please reload page." => "Token abgelaufen. Bitte laden Sie die Seite neu.",

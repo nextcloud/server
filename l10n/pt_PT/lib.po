@@ -5,14 +5,15 @@
 # Translators:
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Jose Manuel Ruas <jmruas@gmail.com>, 2014
+# Manuela Silva <manuela.silva@sky.com>, 2014
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
 # PapiMigas <papimigas@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: base.php:678
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Está a aceder ao servidor a partir de um domínio que não é de confiança."
 
 #: base.php:679
 msgid ""
@@ -32,41 +33,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "A aplicação \"%s\" não pode ser instaladas por não ser compatível com esta versão da ownCloud."
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "O nome da aplicação não foi especificado"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "Ajuda"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "Pessoal"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "Configurações"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "Utilizadores"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "A actualização \"%s\" falhou."
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "O nome da aplicação não foi especificado"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -80,61 +81,61 @@ msgstr "Imagem inválida"
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "A directoria da aplicação já existe"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Não foi possível criar a pasta da aplicação. Por favor verifique as permissões. %s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "Não foi especificada uma fonte de instalação desta aplicação"
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "Não foi especificada uma href http para instalar esta aplicação"
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "Não foi especificado o caminho de instalação desta aplicação"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arquivos do tipo %s não são suportados"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "Ocorreu um erro ao abrir o ficheiro de instalação desta aplicação"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "A aplicação não disponibiliza um ficheiro info.xml"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação"
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "A aplicação não pode ser instalada por não ser compatível com esta versão do ownCloud"
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Esta aplicação não pode ser instalada por que contém o tag <shipped>true</shipped> que só é permitido para aplicações nativas"
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Esta aplicação não pode ser instalada porque a versão no info.xml/version não coincide com a reportada na loja de aplicações"
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "A directoria da aplicação já existe"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Não foi possível criar a pasta da aplicação. Por favor verifique as permissões. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -268,12 +269,12 @@ msgstr "%s partilhado »%s« consigo"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "A partilha de %s falhou, porque o ficheiro não existe"
 
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Não está autorizado a partilhar %s"
 
 #: private/share/share.php:531
 #, php-format
@@ -350,30 +351,30 @@ msgstr ""
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -453,4 +454,4 @@ msgstr "O nome de utilizador já está a ser usado"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Não foi possível obter o tipo de bloqueio %d em \"%s\"."

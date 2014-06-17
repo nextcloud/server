@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -30,41 +30,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "Programa \"%s\" ni mogoče namestiti, ker ni skladen s trenutno nameščeno različico oblaka ownCloud."
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "Ni podanega imena programa"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "Pomoč"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "Osebno"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "Nastavitve"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "Uporabniki"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "Skrbništvo"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Posodabljanje \"%s\" je spodletelo."
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "Ni podanega imena programa"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -78,61 +78,61 @@ msgstr "Neveljavna slika"
 msgid "web services under your control"
 msgstr "spletne storitve pod vašim nadzorom"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "Programska mapa že obstaja"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Programske mape ni mogoče ustvariti. Ni ustreznih dovoljenj. %s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "Ni podanega vira med nameščenjem programa"
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "Ni podanega podatka naslova HREF med nameščenjem programa preko protokola HTTP."
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "Ni podane poti med nameščenjem programa iz krajevne datoteke"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arhivi vrste %s niso podprti"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "Odpiranje arhiva je med nameščanjem spodletelo"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "Program je brez datoteke info.xml"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Programa ni mogoče namestiti zaradi nedovoljene programske kode."
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Programa ni mogoče namestiti, ker ni skladen z trenutno nameščeno različico oblaka ownCloud."
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Programa ni mogoče namestiti, ker vsebuje oznako <shipped>potrditve</shipped>, ki pa ni dovoljena za javne programe."
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Program ni mogoče namestiti zaradi neustrezne različice datoteke info.xml. Ta ni enaka različici programa."
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "Programska mapa že obstaja"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Programske mape ni mogoče ustvariti. Ni ustreznih dovoljenj. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -348,30 +348,30 @@ msgstr "Ozadnjega programa %s za souporabo ni mogoče najti"
 msgid "Sharing backend for %s not found"
 msgstr "Ozadnjega programa za souporabo za %s ni mogoče najti"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

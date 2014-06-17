@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -30,41 +30,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr "Palun võta ühendust oma saidi administraatoriga. Kui sa oled ise administraator, siis seadista failis config/config.php sätet \"trusted_domain\". Näidis seadistused leiad failist config/config.sample.php."
 
-#: private/app.php:245
-#, php-format
-msgid ""
-"App \"%s\" can't be installed because it is not compatible with this version"
-" of ownCloud."
-msgstr "Rakendit \"%s\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga."
-
-#: private/app.php:261
-msgid "No app name specified"
-msgstr "Ühegi rakendi nime pole määratletud"
-
-#: private/app.php:367
+#: private/app.php:361
 msgid "Help"
 msgstr "Abiinfo"
 
-#: private/app.php:380
+#: private/app.php:374
 msgid "Personal"
 msgstr "Isiklik"
 
-#: private/app.php:391
+#: private/app.php:385
 msgid "Settings"
 msgstr "Seaded"
 
-#: private/app.php:403
+#: private/app.php:397
 msgid "Users"
 msgstr "Kasutajad"
 
-#: private/app.php:416
+#: private/app.php:410
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:918
+#: private/app.php:978
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ebaõnnestunud uuendus \"%s\"."
+
+#: private/app.php:1135
+#, php-format
+msgid ""
+"App \\\"%s\\\" can't be installed because it is not compatible with this "
+"version of ownCloud."
+msgstr ""
+
+#: private/app.php:1147
+msgid "No app name specified"
+msgstr "Ühegi rakendi nime pole määratletud"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -78,61 +78,61 @@ msgstr "Vigane pilt"
 msgid "web services under your control"
 msgstr "veebitenused sinu kontrolli all"
 
-#: private/installer.php:64
+#: private/installer.php:77
+msgid "App directory already exists"
+msgstr "Rakendi kataloog on juba olemas"
+
+#: private/installer.php:90
+#, php-format
+msgid "Can't create app folder. Please fix permissions. %s"
+msgstr "Ei saa luua rakendi kataloogi. Palun korrigeeri õigusi. %s"
+
+#: private/installer.php:231
 msgid "No source specified when installing app"
 msgstr "Ühegi lähteallikat pole rakendi paigalduseks määratletud"
 
-#: private/installer.php:71
+#: private/installer.php:238
 msgid "No href specified when installing app from http"
 msgstr "Ühtegi aadressi pole määratletud rakendi paigalduseks veebist"
 
-#: private/installer.php:76
+#: private/installer.php:243
 msgid "No path specified when installing app from local file"
 msgstr "Ühtegi teed pole määratletud paigaldamaks rakendit kohalikust failist"
 
-#: private/installer.php:90
+#: private/installer.php:257
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "%s tüüpi arhiivid pole toetatud"
 
-#: private/installer.php:104
+#: private/installer.php:271
 msgid "Failed to open archive when installing app"
 msgstr "Arhiivi avamine ebaõnnestus rakendi paigalduse käigus"
 
-#: private/installer.php:126
+#: private/installer.php:309
 msgid "App does not provide an info.xml file"
 msgstr "Rakend ei paku ühtegi info.xml faili"
 
-#: private/installer.php:132
+#: private/installer.php:315
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Rakendit ei saa paigaldada, kuna sisaldab lubamatud koodi"
 
-#: private/installer.php:138
+#: private/installer.php:321
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Rakendit ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga."
 
-#: private/installer.php:144
+#: private/installer.php:327
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Rakendit ei saa paigaldada, kuna see sisaldab \n<shipped>\n\ntrue\n</shipped>\nmärgendit, mis pole lubatud mitte veetud (non shipped) rakendites"
 
-#: private/installer.php:157
+#: private/installer.php:340
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
 msgstr "Rakendit ei saa paigaldada, kuna selle versioon info.xml/version pole sama, mis on märgitud rakendite laos."
-
-#: private/installer.php:167
-msgid "App directory already exists"
-msgstr "Rakendi kataloog on juba olemas"
-
-#: private/installer.php:180
-#, php-format
-msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Ei saa luua rakendi kataloogi. Palun korrigeeri õigusi. %s"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -348,30 +348,30 @@ msgstr "Jagamise tagarakendit %s ei leitud"
 msgid "Sharing backend for %s not found"
 msgstr "Jagamise tagarakendit %s jaoks ei leitud"
 
-#: private/share/share.php:1431
+#: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "%s jagamine ebaõnnestus, kuna kasutaja %s on algne jagaja"
 
-#: private/share/share.php:1440
+#: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "%s jagamine ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi"
 
-#: private/share/share.php:1456
+#: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "%s jagamine ebaõnnestus, kuna edasijagamine pole lubatud"
 
-#: private/share/share.php:1468
+#: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "%s jagamine ebaõnnestus, kuna jagamise tagarakend ei suutnud leida %s jaoks lähteallikat"
 
-#: private/share/share.php:1482
+#: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

@@ -48,6 +48,7 @@ $TRANSLATIONS = array(
 "last year" => "el año pasado",
 "years ago" => "hace años",
 "Couldn't send reset email. Please contact your administrator." => "El mail de reset no pudo ser enviado. Por favor, contacte con su administrador.",
+"The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." => "Un enlace para reestablecer su contraseña ha sido enviado a su email. Si usted no lo recibe en un tiempo razonable, revise tu carpeta spam/correo no deseado.<br>Si no lo encuentra, pregunte a su administrador local.",
 "I know what I'm doing" => "Yo soy consciente de lo que estoy haciendo",
 "Reset password" => "Restablecer contraseña",
 "Password can not be changed. Please contact your administrator." => "La contraseña no se puede cambiar. Por favor, contacte con su administrador.",

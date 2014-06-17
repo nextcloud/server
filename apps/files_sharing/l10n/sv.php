@@ -2,8 +2,10 @@
 $TRANSLATIONS = array(
 "Shared with you" => "Delat med dig",
 "Shared with others" => "Delat med andra",
+"Shared by link" => "Delad som länk",
 "No files have been shared with you yet." => "Inga filer har ännu delats med dig.",
 "You haven't shared any files yet." => "Du har inte delat några filer ännu.",
+"You haven't shared any files by link yet." => "Du har inte delat några filer som länk ännu.",
 "Shared by {owner}" => "Delad av {owner}",
 "Shared by" => "Delad av",
 "This share is password-protected" => "Den här delningen är lösenordsskyddad",

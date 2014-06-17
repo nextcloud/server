@@ -8,13 +8,14 @@
 # henrik hjelm <mailto@henrikhjelm.se>, 2014
 # Juho Ojala, 2014
 # Juho Ojala, 2013
+# Stefan Gagner <stefan@mei-ya.se>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-16 10:20+0000\n"
+"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,7 +157,7 @@ msgstr "Tjänstens namn (krävs för OpenStack Object Storage)"
 
 #: appinfo/app.php:119
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "URL för identitetens slutpunkt (krävs för OpenStack Object Storage)"
 
 #: appinfo/app.php:120
 msgid "Timeout of HTTP requests in seconds (optional)"
@@ -212,9 +213,9 @@ msgstr "Personligt"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "System"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Sparad"
 
@@ -249,7 +250,7 @@ msgstr "<b> OBS: </ b> \"%s\" är inte installerat. Montering av %s är inte mö
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Du har ingen extern extern lagring"
 
 #: templates/list.php:16
 msgid "Name"
@@ -257,11 +258,11 @@ msgstr "Namn"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Lagringstyp"
 
 #: templates/list.php:23
 msgid "Scope"
-msgstr ""
+msgstr "Scope"
 
 #: templates/settings.php:2
 msgid "External Storage"

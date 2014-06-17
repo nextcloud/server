@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-16 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 10:30+0000\n"
-"Last-Translator: vidaren <news@vidartysse.net>\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "E-post sendt"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Du må sette e-postadressen for brukeren din før du kan teste sending av e-post."
 
-#: admin/controller.php:116 templates/admin.php:349
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "Sendemodus"
 
-#: admin/controller.php:118 templates/admin.php:362 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: admin/controller.php:120 templates/admin.php:386
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "Autentiseringsmetode"
 
@@ -112,6 +112,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr "Kunne ikke slette krypteringsnøklene dine permanent. Sjekk owncloud.log eller spør administratoren"
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Epost lagret"
@@ -160,7 +164,7 @@ msgstr "Kan ikke legge bruker til gruppen %s"
 msgid "Unable to remove user from group %s"
 msgstr "Kan ikke slette bruker fra gruppen %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "Kunne ikke oppdatere app."
 
@@ -201,53 +205,69 @@ msgstr "Sender..."
 msgid "User Documentation"
 msgstr "Brukerdokumentasjon"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr "Admin-dokumentasjon"
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "Oppdater til {appversion}"
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "Deaktiver "
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "Aktiver"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "Vennligst vent..."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "Deaktivering av app feilet"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "Aktivering av app feilet"
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "Oppdaterer..."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "Feil ved oppdatering av app"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "Feil"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "Oppdater"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "Oppdatert"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -601,95 +621,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Disse gruppene vil fremdeles kunne motta delinger men ikke lage dem."
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "Sikkerhet"
 
-#: templates/admin.php:326
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "Tving HTTPS"
 
-#: templates/admin.php:328
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Tvinger klientene til å koble til %s via en kryptert forbindelse."
 
-#: templates/admin.php:334
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Vennligst koble til din %s via HTTPS for å aktivere eller deaktivere tvungen SSL."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "E-postserver"
 
-#: templates/admin.php:346
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr "Dette brukes for utsending av varsler."
 
-#: templates/admin.php:377
+#: templates/admin.php:378
 msgid "From address"
 msgstr "Fra adresse"
 
-#: templates/admin.php:378
+#: templates/admin.php:379
 msgid "mail"
 msgstr "e-post"
 
-#: templates/admin.php:399
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr "Autentisering kreves"
 
-#: templates/admin.php:403
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "Server-adresse"
 
-#: templates/admin.php:407
+#: templates/admin.php:408
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:412
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr "Påloggingsdetaljer"
 
-#: templates/admin.php:413
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr "SMTP-brukernavn"
 
-#: templates/admin.php:416
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr "SMTP-passord"
 
-#: templates/admin.php:420
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr "Test innstillinger for e-post"
 
-#: templates/admin.php:421
+#: templates/admin.php:422
 msgid "Send email"
 msgstr "Send e-post"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "Log"
 msgstr "Logg"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "Loggnivå"
 
-#: templates/admin.php:459
+#: templates/admin.php:460
 msgid "More"
 msgstr "Mer"
 
-#: templates/admin.php:460
+#: templates/admin.php:461
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:466 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "Versjon"
 
-#: templates/admin.php:470 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -727,11 +747,11 @@ msgstr "Vis applikasjonens nettsted"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisensiert av <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr "Aktiver kun for visse grupper"
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "Alle"
 

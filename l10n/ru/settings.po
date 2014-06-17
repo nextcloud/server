@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-16 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 19:40+0000\n"
-"Last-Translator: Alexander Savchenko <a.v.savchenko@mail.ru>\n"
+"POT-Creation-Date: 2014-06-17 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,15 +66,15 @@ msgstr "Письмо отправлено"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Вы должны настроить свой e-mail пользователя прежде чем отправлять тестовые сообщения."
 
-#: admin/controller.php:116 templates/admin.php:349
+#: admin/controller.php:116 templates/admin.php:350
 msgid "Send mode"
 msgstr "Отправить сообщение"
 
-#: admin/controller.php:118 templates/admin.php:362 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: admin/controller.php:120 templates/admin.php:386
+#: admin/controller.php:120 templates/admin.php:387
 msgid "Authentication method"
 msgstr "Метод проверки подлинности"
 
@@ -127,6 +127,10 @@ msgid ""
 "owncloud.log or ask your administrator"
 msgstr ""
 
+#: ajax/installapp.php:18 ajax/uninstallapp.php:18
+msgid "Couldn't remove app."
+msgstr ""
+
 #: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Email сохранен"
@@ -175,7 +179,7 @@ msgstr "Невозможно добавить пользователя в гру
 msgid "Unable to remove user from group %s"
 msgstr "Невозможно удалить пользователя из группы %s"
 
-#: ajax/updateapp.php:14
+#: ajax/updateapp.php:41
 msgid "Couldn't update app."
 msgstr "Невозможно обновить приложение"
 
@@ -216,53 +220,69 @@ msgstr "Отправляется ..."
 msgid "User Documentation"
 msgstr "Пользовательская документация"
 
-#: js/apps.js:50
+#: js/apps.js:54
 msgid "Admin Documentation"
 msgstr "Документация администратора"
 
-#: js/apps.js:67
+#: js/apps.js:82
 msgid "Update to {appversion}"
 msgstr "Обновить до {версия приложения}"
 
-#: js/apps.js:73 js/apps.js:135 js/apps.js:168
+#: js/apps.js:90
+msgid "Uninstall App"
+msgstr ""
+
+#: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
 msgstr "Выключить"
 
-#: js/apps.js:73 js/apps.js:144 js/apps.js:161 js/apps.js:192
+#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
 msgstr "Включить"
 
-#: js/apps.js:124
+#: js/apps.js:147
 msgid "Please wait...."
 msgstr "Подождите..."
 
-#: js/apps.js:132 js/apps.js:133 js/apps.js:159
+#: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
 msgstr "Ошибка отключения приложения"
 
-#: js/apps.js:158 js/apps.js:187 js/apps.js:188
+#: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
 msgstr "Ошибка включения приложения"
 
-#: js/apps.js:197
+#: js/apps.js:220
 msgid "Updating...."
 msgstr "Обновление..."
 
-#: js/apps.js:200
+#: js/apps.js:223
 msgid "Error while updating app"
 msgstr "Ошибка при обновлении приложения"
 
-#: js/apps.js:200
+#: js/apps.js:223 js/apps.js:236
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/apps.js:201 templates/apps.php:55
+#: js/apps.js:224 templates/apps.php:55
 msgid "Update"
 msgstr "Обновить"
 
-#: js/apps.js:204
+#: js/apps.js:227
 msgid "Updated"
 msgstr "Обновлено"
+
+#: js/apps.js:233
+msgid "Uninstalling ...."
+msgstr ""
+
+#: js/apps.js:236
+msgid "Error while uninstalling app"
+msgstr ""
+
+#: js/apps.js:237 templates/apps.php:56
+msgid "Uninstall"
+msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -616,95 +636,95 @@ msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:315
+#: templates/admin.php:316
 msgid "Security"
 msgstr "Безопасность"
 
-#: templates/admin.php:326
+#: templates/admin.php:327
 msgid "Enforce HTTPS"
 msgstr "Принудить к HTTPS"
 
-#: templates/admin.php:328
+#: templates/admin.php:329
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Принудить клиентов подключаться к %s через шифрованное соединение."
 
-#: templates/admin.php:334
+#: templates/admin.php:335
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Пожалуйста, подключитесь к %s используя HTTPS чтобы включить или отключить принудительное SSL."
 
-#: templates/admin.php:344
+#: templates/admin.php:345
 msgid "Email Server"
 msgstr "Сервер почты"
 
-#: templates/admin.php:346
+#: templates/admin.php:347
 msgid "This is used for sending out notifications."
 msgstr "Используется для отправки уведомлений."
 
-#: templates/admin.php:377
+#: templates/admin.php:378
 msgid "From address"
 msgstr "Адрес отправителя"
 
-#: templates/admin.php:378
+#: templates/admin.php:379
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:399
+#: templates/admin.php:400
 msgid "Authentication required"
 msgstr "Требуется аутентификация "
 
-#: templates/admin.php:403
+#: templates/admin.php:404
 msgid "Server address"
 msgstr "Адрес сервера"
 
-#: templates/admin.php:407
+#: templates/admin.php:408
 msgid "Port"
 msgstr "Порт"
 
-#: templates/admin.php:412
+#: templates/admin.php:413
 msgid "Credentials"
 msgstr "Полномочия"
 
-#: templates/admin.php:413
+#: templates/admin.php:414
 msgid "SMTP Username"
 msgstr "Имя пользователя"
 
-#: templates/admin.php:416
+#: templates/admin.php:417
 msgid "SMTP Password"
 msgstr "Пароль"
 
-#: templates/admin.php:420
+#: templates/admin.php:421
 msgid "Test email settings"
 msgstr "Тест настроек"
 
-#: templates/admin.php:421
+#: templates/admin.php:422
 msgid "Send email"
 msgstr "Отправить сообщение"
 
-#: templates/admin.php:426
+#: templates/admin.php:427
 msgid "Log"
 msgstr "Журнал"
 
-#: templates/admin.php:427
+#: templates/admin.php:428
 msgid "Log level"
 msgstr "Уровень детализации журнала"
 
-#: templates/admin.php:459
+#: templates/admin.php:460
 msgid "More"
 msgstr "Больше"
 
-#: templates/admin.php:460
+#: templates/admin.php:461
 msgid "Less"
 msgstr "Меньше"
 
-#: templates/admin.php:466 templates/personal.php:196
+#: templates/admin.php:467 templates/personal.php:196
 msgid "Version"
 msgstr "Версия"
 
-#: templates/admin.php:470 templates/personal.php:199
+#: templates/admin.php:471 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -742,11 +762,11 @@ msgstr "См. сайт приложений"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span> лицензия. Автор <span class=\"author\"></span>"
 
-#: templates/apps.php:58
+#: templates/apps.php:59
 msgid "Enable only for specific groups"
 msgstr ""
 
-#: templates/apps.php:60
+#: templates/apps.php:61
 msgid "All"
 msgstr "Все"
 
