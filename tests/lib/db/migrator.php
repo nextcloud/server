@@ -119,4 +119,25 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 			$this->assertTrue(true);
 		}
 	}
+
+	public function testAddingPrimaryKeyWithAutoIncrement() {
+		$startSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer');
+		$table->addColumn('name', 'string');
+
+		$endSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', array('autoincrement' => true));
+		$table->addColumn('name', 'string');
+		$table->setPrimaryKey(array('id'));
+
+		$migrator = $this->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->checkMigrate($endSchema);
+		$migrator->migrate($endSchema);
+
+		$this->assertTrue(true);
+	}
 }
