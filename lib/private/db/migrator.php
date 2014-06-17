@@ -128,7 +128,13 @@ class Migrator {
 		$indexes = $table->getIndexes();
 		$newIndexes = array();
 		foreach ($indexes as $index) {
-			$indexName = 'oc_' . uniqid(); // avoid conflicts in index names
+			if ($index->isPrimary()) {
+				// do not rename primary key
+				$indexName = $index->getName();
+			} else {
+				// avoid conflicts in index names
+				$indexName = 'oc_' . uniqid();
+			}
 			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
 
