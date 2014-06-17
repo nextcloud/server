@@ -50,6 +50,12 @@ class OC_Setup {
 		$username = htmlspecialchars_decode($options['adminlogin']);
 		$password = htmlspecialchars_decode($options['adminpass']);
 		$datadir = htmlspecialchars_decode($options['directory']);
+		if(    isset($options['trusted_domains'])
+		    && is_array($options['trusted_domains'])) {
+			$trustedDomains = $options['trusted_domains'];
+		} else {
+			$trustedDomains = array(OC_Request::serverHost());
+		}
 
 		if (OC_Util::runningOnWindows()) {
 			$datadir = rtrim(realpath($datadir), '\\');
@@ -65,7 +71,7 @@ class OC_Setup {
 		OC_Config::setValue('passwordsalt', $salt);
 
 		//write the config file
-		OC_Config::setValue('trusted_domains', array(OC_Request::serverHost())); 
+		OC_Config::setValue('trusted_domains', $trustedDomains);
 		OC_Config::setValue('datadirectory', $datadir);
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
