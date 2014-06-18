@@ -11,14 +11,14 @@ class Helper
 	 *
 	 * @param string $dir path to the directory inside the trashbin
 	 * or empty to retrieve the root of the trashbin
+	 * @param string $user
 	 * @param string $sortAttribute attribute to sort on or empty to disable sorting
 	 * @param bool $sortDescending true for descending sort, false otherwise
 	 * @return \OCP\Files\FileInfo[]
 	 */
-	public static function getTrashFiles($dir, $sortAttribute = '', $sortDescending = false){
+	public static function getTrashFiles($dir, $user, $sortAttribute = '', $sortDescending = false){
 		$result = array();
 		$timestamp = null;
-		$user = \OCP\User::getUser();
 
 		$view = new \OC\Files\View('/' . $user . '/files_trashbin/files');
 
