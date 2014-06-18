@@ -346,7 +346,7 @@ OC.Upload = {
 						// noone set update parameters, we set the minimum
 						data.formData = {
 							requesttoken: oc_requesttoken,
-							dir: FileList.getCurrentDirectory(),
+							dir: data.targetDir || FileList.getCurrentDirectory(),
 							file_directory: fileDirectory
 						};
 					}

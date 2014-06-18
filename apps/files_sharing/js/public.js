@@ -128,7 +128,7 @@ OCA.Sharing.PublicApp = {
 				data.formData = {
 					requesttoken: $('#publicUploadRequestToken').val(),
 					dirToken: $('#dirToken').val(),
-					subdir: self.fileList.getCurrentDirectory(),
+					subdir: data.targetDir || self.fileList.getCurrentDirectory(),
 					file_directory: fileDirectory
 				};
 			});

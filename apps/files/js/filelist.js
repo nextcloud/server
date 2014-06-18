@@ -1561,17 +1561,12 @@
 						dir = dropTarget.data('dir') || '/';
 					}
 
-					// update folder in form
-					data.formData = function() {
-						return [
-							{name: 'dir', value: dir},
-							{name: 'requesttoken', value: oc_requesttoken},
-							{name: 'file_directory', value: data.files[0].relativePath}
-						];
-					};
+					// add target dir
+					data.targetDir = dir;
 				} else {
 					// we are dropping somewhere inside the file list, which will
 					// upload the file to the current directory
+					data.targetDir = self.getCurrentDirectory();
 
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
