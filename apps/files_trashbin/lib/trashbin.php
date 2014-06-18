@@ -510,7 +510,7 @@ class Trashbin {
 					$sharingEnabled = \OCP\Share::isEnabled();
 
 					// get users sharing this file
-					$usersSharing = $util->getSharingUsersArray($sharingEnabled, $target, $user);
+					$usersSharing = $util->getSharingUsersArray($sharingEnabled, $target);
 
 					// Attempt to set shareKey
 					$util->setSharedFileKeyfiles($session, $usersSharing, $target);

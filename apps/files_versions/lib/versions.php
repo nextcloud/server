@@ -309,6 +309,7 @@ class Storage {
 	private static function getAllVersions($uid) {
 		$view = new \OC\Files\View('/' . $uid . '/');
 		$dirs = array(self::VERSIONS_ROOT);
+		$versions = array();
 
 		while (!empty($dirs)) {
 			$dir = array_pop($dirs);

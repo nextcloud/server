@@ -8,8 +8,6 @@
  */
 
 $(document).ready(function(){
-	// Trigger ajax on recoveryAdmin status change
-	var enabledStatus = $('#adminEnableRecovery').val();
 
 	$('input:password[name="encryptionRecoveryPassword"]').keyup(function(event) {
 		var recoveryPassword = $( '#encryptionRecoveryPassword' ).val();
