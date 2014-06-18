@@ -40,15 +40,15 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	private static $tmpFiles = array();
 
 	public function __construct($params) {
-		if (isset($params['user']) && $params['user'] instanceof \OC\User\User) {
-			$this->user = $params['user'];
-		} else {
-			$this->user = null;
-		}
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
 			$this->objectStore = $params['objectstore'];
 		} else {
 			throw new \Exception('missing IObjectStore instance');
+		}
+		if (isset($params['storageid'])) {
+			$this->id = 'object::store:'.$params['storageid'];
+		} else {
+			$this->id = 'object::store:'.$this->objectStore->getStorageId();
 		}
 		//initialize cache with root directory in cache
 		if ( ! $this->is_dir('/') ) {
@@ -58,38 +58,21 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	/**
 	 * Object Stores use a NoopScanner because metadata is directly stored in
-	 * the file cache and cannot really scan the filesystem
+	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
 	 * @param string $path
+	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
 	 * @return \OC\Files\ObjectStore\NoopScanner
 	 */
-	public function getScanner($path = '') {
+	public function getScanner($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
 		if (!isset($this->scanner)) {
-			$this->scanner = new NoopScanner($this);
+			$this->scanner = new NoopScanner($storage);
 		}
 		return $this->scanner;
 	}
-	
-	/**
-	 * get the owner of a path
-	 *
-	 * @param string $path The path to get the owner
-	 * @return false|string uid
-	 */
-	public function getOwner($path) {
-		if (is_object($this->user)) {
-			return $this->user->getUID();
-		}
-		return false;
-	}
 
-	/**
-	 * @param string $path, optional
-	 * @return \OC\User\User
-	 */
-	public function getUser($path = null) {
-		return $this->user;
-	}
-	
 	/**
 	 * @param string $path
 	 * @return string
@@ -107,10 +90,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function getId () {
-		if (is_object($this->user)) {
-			return 'objstore::user:' . $this->user->getUID();
-		}
-		return 'objstore::root';
+		return $this->id;
 	}
 
 	public function mkdir($path) {
@@ -363,7 +343,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			);
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
-				$this->objectStore->updateObject($this->getURN($fileId));
+				$this->objectStore->writeObject($this->getURN($fileId));
 			} catch (\Exception $ex) {
 				$this->getCache()->remove($path);
 				\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
@@ -411,7 +391,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$fileId = $this->getCache()->put($path, $stat);
 		try {
 			//upload to object storage
-			$this->objectStore->updateObject($this->getURN($fileId), $tmpFile);
+			$this->objectStore->writeObject($this->getURN($fileId), $tmpFile);
 		} catch (\Exception $ex) {
 			$this->getCache()->remove($path);
 			\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);

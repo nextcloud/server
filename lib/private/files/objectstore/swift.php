@@ -80,6 +80,9 @@ class Swift implements \OCP\Files\ObjectStore\IObjectStore {
 		}
 	}
 
+	public function getStorageId() {
+		return $this->container->name;
+	}
 
 	/**
 	 * @param string $urn Unified Resource Name
@@ -87,7 +90,7 @@ class Swift implements \OCP\Files\ObjectStore\IObjectStore {
 	 * @return void
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
-	public function updateObject($urn, $tmpFile = null) {
+	public function writeObject($urn, $tmpFile = null) {
 		$fileData = '';
 		if ($tmpFile) {
 			$fileData = fopen($tmpFile, 'r');
