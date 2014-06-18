@@ -263,6 +263,10 @@ input[type="submit"].enabled {
 	left: 250px;
 	padding-right: 250px;
 }
+.viewer-mode #app-navigation+#app-content #controls {
+	left: 0;
+	padding-right: 0;
+}
 
 #controls .button,
 #controls button,
