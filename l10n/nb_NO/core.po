@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 23:30+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -221,14 +221,14 @@ msgstr "årevis siden"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Klarte ikke å sende e-post for tilbakestilling. Kontakt administratoren."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Lenken for tilbakestilling av passordet ditt er sendt til din e-postadresse. Hvis du ikke mottar den innen rimelig tid, sjekk mappen for søppelpost.<br>Hvis du ikke finner den der, kontakt din lokale administrator."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -236,11 +236,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Filene dine er kryptert. Hvis du ikke har aktivert gjenopprettingsnøkkelen, vil det være helt umulig å få tilbake dataene dine etter at pasordet ditt er tilbakestilt.<br />Hvis du er usikker på hva du skal gjøre, kontakt administratoren din før du fortsetter. <br />Vil du virkelig fortsette?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Jeg vet hva jeg gjør"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -248,7 +248,7 @@ msgstr "Tilbakestill passord"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Passordet kan ikke endres. Kontakt administratoren din."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:250
 msgid "Yes"
@@ -442,7 +442,7 @@ msgstr "gruppe"
 
 #: js/share.js:489
 msgid "Resharing is not allowed"
-msgstr "Videredeling er ikke tillatt"
+msgstr "Videre deling er ikke tillatt"
 
 #: js/share.js:540
 msgid "Shared in {item} with {user}"
@@ -550,22 +550,22 @@ msgstr "Oppdateringen var vellykket. Du omdirigeres nå til ownCloud."
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Klarte ikke å tilbakestille passordet fordi token er ugyldig."
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Klarte ikke å sende e-post for tilbakestilling av passord. Sjekk at brukernavnet ditt er korrekt."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Klarte ikke å sende e-post for tilbakestilling av passord fordi det ikke finnes noen e-postadresse for dette brukernavnet. Kontakt administratoren din."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
-msgstr "%s nullstilling av passord"
+msgstr "%s tilbakestilling av passord"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -587,15 +587,15 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr "Filene dine er kryptert. Hvis du ikke har aktivert gjenopprettingsnøkkelen, vil det være helt umulig å få tilbake dataene dine etter at passordet ditt er nullstilt. Hvis du er usikker på hva du skal gjøre, kontakt administratoren din før du fortsetter. Vil du virkelig fortsette?"
+msgstr "Filene dine er kryptert. Hvis du ikke har aktivert gjenopprettingsnøkkelen, vil det være helt umulig å få tilbake dataene dine etter at passordet ditt er tilbakestilt. Hvis du er usikker på hva du skal gjøre, kontakt administratoren din før du fortsetter. Vil du virkelig fortsette?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
-msgstr "Ja, jeg vil virkelig nullstille passordet mitt nå"
+msgstr "Ja, jeg vil virkelig tilbakestille passordet mitt nå"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
-msgstr "Nullstill"
+msgstr "Tilbakestill"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "New password"
@@ -603,7 +603,7 @@ msgstr "Nytt passord"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nytt passord"
 
 #: setup/controller.php:140
 #, php-format
@@ -716,7 +716,7 @@ msgstr "Ingen sikker slumptallsgenerator er tilgjengelig. Vennligst aktiver PHP 
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Uten en sikker slumptallsgenerator er det mulig at en angriper kan forutse passordnullstilling-tokens og ta over kontoen din."
+msgstr "Uten en sikker slumptallsgenerator er det mulig at en angriper kan forutse tokens for tilbakestilling av passord og ta over kontoen din."
 
 #: templates/installation.php:40
 msgid ""
@@ -831,7 +831,7 @@ msgstr "Vennligst kontakt administratoren din."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Glemt passordet ditt? Tilbakestill det!"
 
 #: templates/login.php:55
 msgid "remember"
@@ -877,7 +877,7 @@ msgstr "%s vil bli oppdatert til versjon %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr "Følgende apps vil bli deaktivert:"
+msgstr "Følgende apper vil bli deaktivert:"
 
 #: templates/update.admin.php:17
 #, php-format

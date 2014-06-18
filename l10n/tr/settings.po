@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 18:10+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "E-posta gönderildi"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Sınama e-postaları göndermeden önce kullanıcı e-postasını ayarlamanız gerekiyor."
 
-#: admin/controller.php:116 templates/admin.php:350
+#: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
 msgstr "Gönderme kipi"
 
-#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
 msgid "Encryption"
 msgstr "Şifreleme"
 
-#: admin/controller.php:120 templates/admin.php:387
+#: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
 msgstr "Kimlik doğrulama yöntemi"
 
@@ -114,7 +114,7 @@ msgstr "Şifreleme anahtarlarınız kalıcı olarak silinemedi, lütfen owncloud
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Uygulama kaldırılamadı."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -197,7 +197,7 @@ msgstr "Arka uç parola değişimini desteklemiyor ancak kullanıcı şifreleme 
 msgid "Unable to change password"
 msgstr "Parola değiştirilemiyor"
 
-#: js/admin.js:126
+#: js/admin.js:127
 msgid "Sending..."
 msgstr "Gönderiliyor..."
 
@@ -215,7 +215,7 @@ msgstr "{appversion} sürümüne güncelle"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Uygulamayı Kaldır"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -259,15 +259,15 @@ msgstr "Güncellendi"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Kaldırılıyor ...."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Uygulama kaldırılırken hata"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Kaldır"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -325,7 +325,7 @@ msgstr "{groupName} silindi"
 msgid "undo"
 msgstr "geri al"
 
-#: js/users/users.js:37 templates/admin.php:302
+#: js/users/users.js:37 templates/admin.php:292
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -568,23 +568,23 @@ msgstr "cron.php dosyasını her 15 dakikada bir çağırmak için sistem cron h
 msgid "Sharing"
 msgstr "Paylaşım"
 
-#: templates/admin.php:240
+#: templates/admin.php:238
 msgid "Allow apps to use the Share API"
 msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
-#: templates/admin.php:247
+#: templates/admin.php:243
 msgid "Allow users to share via link"
 msgstr "Kullanıcıların bağlantı ile paylaşmasına izin ver"
 
-#: templates/admin.php:251
+#: templates/admin.php:249
 msgid "Enforce password protection"
 msgstr "Parola korumasını zorla"
 
-#: templates/admin.php:254
+#: templates/admin.php:252
 msgid "Allow public uploads"
 msgstr "Herkes tarafından yüklemeye izin ver"
 
-#: templates/admin.php:258
+#: templates/admin.php:256
 msgid "Set default expiration date"
 msgstr "Öntanımlı son kullanma tarihini ayarla"
 
@@ -600,116 +600,116 @@ msgstr "gün sonra dolsun"
 msgid "Enforce expiration date"
 msgstr "Son kullanma tarihini zorla"
 
-#: templates/admin.php:276
+#: templates/admin.php:271
 msgid "Allow resharing"
 msgstr "Yeniden paylaşıma izin ver"
 
-#: templates/admin.php:283
+#: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
 msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına sınırla"
 
-#: templates/admin.php:290
+#: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
 msgstr "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver"
 
-#: templates/admin.php:297
+#: templates/admin.php:286
 msgid "Exclude groups from sharing"
 msgstr "Grupları paylaşma eyleminden hariç tut"
 
-#: templates/admin.php:308
+#: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Bu gruplar hala paylaşımları alabilecek, ancak başlatamayacaktır."
 
-#: templates/admin.php:316
+#: templates/admin.php:303
 msgid "Security"
 msgstr "Güvenlik"
 
-#: templates/admin.php:327
+#: templates/admin.php:314
 msgid "Enforce HTTPS"
 msgstr "HTTPS bağlantısına zorla"
 
-#: templates/admin.php:329
+#: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
-#: templates/admin.php:335
+#: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen %s'a HTTPS ile bağlanın."
 
-#: templates/admin.php:345
+#: templates/admin.php:332
 msgid "Email Server"
 msgstr "E-Posta Sunucusu"
 
-#: templates/admin.php:347
+#: templates/admin.php:334
 msgid "This is used for sending out notifications."
 msgstr "Bu, bildirimler gönderilirken kullanılır."
 
-#: templates/admin.php:378
+#: templates/admin.php:365
 msgid "From address"
 msgstr "Kimden adresi"
 
-#: templates/admin.php:379
+#: templates/admin.php:366
 msgid "mail"
 msgstr "posta"
 
-#: templates/admin.php:400
+#: templates/admin.php:387
 msgid "Authentication required"
 msgstr "Kimlik doğrulama gerekli"
 
-#: templates/admin.php:404
+#: templates/admin.php:391
 msgid "Server address"
 msgstr "Sunucu adresi"
 
-#: templates/admin.php:408
+#: templates/admin.php:395
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:413
+#: templates/admin.php:400
 msgid "Credentials"
 msgstr "Kimlik Bilgileri"
 
-#: templates/admin.php:414
+#: templates/admin.php:401
 msgid "SMTP Username"
 msgstr "SMTP Kullanıcı Adı"
 
-#: templates/admin.php:417
+#: templates/admin.php:404
 msgid "SMTP Password"
 msgstr "SMTP Parolası"
 
-#: templates/admin.php:421
+#: templates/admin.php:408
 msgid "Test email settings"
 msgstr "E-posta ayarlarını sına"
 
-#: templates/admin.php:422
+#: templates/admin.php:409
 msgid "Send email"
 msgstr "E-posta gönder"
 
-#: templates/admin.php:427
+#: templates/admin.php:414
 msgid "Log"
 msgstr "Günlük"
 
-#: templates/admin.php:428
+#: templates/admin.php:415
 msgid "Log level"
 msgstr "Günlük seviyesi"
 
-#: templates/admin.php:460
+#: templates/admin.php:447
 msgid "More"
 msgstr "Daha fazla"
 
-#: templates/admin.php:461
+#: templates/admin.php:448
 msgid "Less"
 msgstr "Daha az"
 
-#: templates/admin.php:467 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:196
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/admin.php:471 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -19,15 +19,23 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:32 js/app.js:34
+#: ajax/external.php:20
+msgid "Server to server sharing is not enabled on this server"
+msgstr ""
+
+#: ajax/external.php:50
+msgid "Couldn't add remote share"
+msgstr ""
+
+#: appinfo/app.php:46 js/app.js:34
 msgid "Shared with you"
 msgstr "Delt med deg"
 
-#: appinfo/app.php:41 js/app.js:53
+#: appinfo/app.php:55 js/app.js:53
 msgid "Shared with others"
 msgstr "Delt med andre"
 
-#: appinfo/app.php:50 js/app.js:72
+#: appinfo/app.php:64 js/app.js:72
 msgid "Shared by link"
 msgstr "Delt med lenke"
 
@@ -42,6 +50,18 @@ msgstr "Du har ikke delt noen filer ennå."
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
 msgstr "Du har ikke delt noen filer med lenke ennå."
+
+#: js/external.js:43 js/external.js:46
+msgid "Add {name} from {owner}@{remote}"
+msgstr ""
+
+#: js/public.js:200
+msgid "No ownCloud installation found at {remote}"
+msgstr ""
+
+#: js/public.js:201
+msgid "Invalid ownCloud url"
+msgstr ""
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -96,14 +116,38 @@ msgid "For more info, please ask the person who sent this link."
 msgstr "For mer informasjon, spør personen som sendte lenken."
 
 #: templates/public.php:20
+msgid "Save to ownCloud"
+msgstr ""
+
+#: templates/public.php:22
+msgid "example.com/owncloud"
+msgstr ""
+
+#: templates/public.php:23
+msgid "Save"
+msgstr ""
+
+#: templates/public.php:28
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/public.php:50
+#: templates/public.php:59
 #, php-format
 msgid "Download %s"
 msgstr "Last ned %s"
 
-#: templates/public.php:54
+#: templates/public.php:63
 msgid "Direct link"
 msgstr "Direkte lenke"
+
+#: templates/settings-admin.php:3
+msgid "File Sharing"
+msgstr ""
+
+#: templates/settings-admin.php:7
+msgid "Allow other instances to mount public links shared from this server"
+msgstr ""
+
+#: templates/settings-admin.php:11
+msgid "Allow users to mount public link shares"
+msgstr ""

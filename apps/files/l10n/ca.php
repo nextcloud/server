@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "La pujada ha fallat. No s'ha pogut obtenir informació del fitxer.",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
+"All files" => "Tots els fitxers",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "No es pot pujar {filename} perquè és una carpeta o té 0 bytes",
 "Total file size {size1} exceeds upload limit {size2}" => "Mida total del fitxer {size1} excedeix el límit de pujada {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "No hi ha prou espai lliure, està carregant {size1} però només pot {size2}",
@@ -64,6 +65,7 @@ $TRANSLATIONS = array(
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "L'encriptació s'ha desactivat però els vostres fitxers segueixen encriptats. Aneu a la vostra configuració personal per desencriptar els vostres fitxers.",
 "{dirs} and {files}" => "{dirs} i {files}",
 "%s could not be renamed" => "%s no es pot canviar el nom",
+"Upload (max. %s)" => "Pujada (màx. %s)",
 "File handling" => "Gestió de fitxers",
 "Maximum upload size" => "Mida màxima de pujada",
 "max. possible: " => "màxim possible:",
@@ -82,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "Baixa",
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
-"Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu"
+"Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
+"Currently scanning" => "Actualment escanejant"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

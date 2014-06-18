@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 16:40+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,15 +50,15 @@ msgstr "El correu electrónic s'ha enviat"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Heu d'establir un nom d'usuari abans de poder enviar correus de prova."
 
-#: admin/controller.php:116 templates/admin.php:350
+#: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
 msgstr "Mode d'enviament"
 
-#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
 msgid "Encryption"
 msgstr "Xifrat"
 
-#: admin/controller.php:120 templates/admin.php:387
+#: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
 msgstr "Mètode d'autenticació"
 
@@ -103,17 +103,17 @@ msgstr "No s'han pogut desencriptar els fitxers, comproveu la contrasenya i prov
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Les claus d'encriptació s'han esborrat permanentment"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "No es poden esborrar les claus d'encriptació. Comproveu owncloud.log o demaneu-ho a l'administrador."
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "No s'ha pogut eliminar l'aplicació"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -133,13 +133,13 @@ msgstr "No es pot eliminar l'usuari"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Les còpies de seguretat s'han restablert correctament"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "No es poden restablir les claus d'encriptació. Comproveu owncloud.log o demaneu-ho a l'administrador."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -196,7 +196,7 @@ msgstr "El dorsal no permet canviar la contrasenya, però la clau d'encripació 
 msgid "Unable to change password"
 msgstr "No es pot canviar la contrasenya"
 
-#: js/admin.js:126
+#: js/admin.js:127
 msgid "Sending..."
 msgstr "Enviant..."
 
@@ -214,7 +214,7 @@ msgstr "Actualitza a {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Desinstal·la l'aplicació"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -258,15 +258,15 @@ msgstr "Actualitzada"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Desintal·lant ..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Error en desinstal·lar l'aplicació"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Desinstal·la"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -298,33 +298,33 @@ msgstr "Desencriptant fitxers... Espereu, això pot trigar una estona."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Esborra les claus d'encriptació permanentment."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Esborra les claus d'encripació."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "No es pot eliminar {objName}"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Error en crear el grup"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Heu de facilitar un nom de grup vàlid"
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "eliminat {groupName}"
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
 msgstr "desfés"
 
-#: js/users/users.js:37 templates/admin.php:302
+#: js/users/users.js:37 templates/admin.php:292
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -346,7 +346,7 @@ msgstr "mai"
 
 #: js/users/users.js:254
 msgid "deleted {userName}"
-msgstr ""
+msgstr "eliminat {userName}"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -455,24 +455,24 @@ msgstr "Comproveu les <a href='%s'>guies d'instal·lació</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "Aparentment PHP està configurat per mostrar blocs en línia de documentació. Això farà que algunes aplicacions core siguin inaccessibles."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Això probablement està provocat per una cau/accelerador com Zend OPcache o eAccelerator."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Informació del rendiment de la base de dades"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "S'utilitza SQLite com a base de dades. Per instal·lacions grans recomanem que la canvieu. per migrar a una altra base de dades useu l'eina d'intèrpret d'ordres 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -567,148 +567,148 @@ msgstr "Utilitza el servei cron del sistema per fer una crida al fitxer cron.php
 msgid "Sharing"
 msgstr "Compartir"
 
-#: templates/admin.php:240
+#: templates/admin.php:238
 msgid "Allow apps to use the Share API"
 msgstr "Permet que les aplicacions utilitzin l'API de compartir"
 
-#: templates/admin.php:247
+#: templates/admin.php:243
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Permet als usuaris compartir a través d'enllaços"
 
-#: templates/admin.php:251
+#: templates/admin.php:249
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Reforça la protecció amb contrasenya"
 
-#: templates/admin.php:254
+#: templates/admin.php:252
 msgid "Allow public uploads"
 msgstr "Permet pujada pública"
 
-#: templates/admin.php:258
+#: templates/admin.php:256
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Estableix la data de venciment"
 
 #: templates/admin.php:260
 msgid "Expire after "
-msgstr ""
+msgstr "Venciment després de"
 
 #: templates/admin.php:263
 msgid "days"
-msgstr ""
+msgstr "dies"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Força la data de venciment"
 
-#: templates/admin.php:276
+#: templates/admin.php:271
 msgid "Allow resharing"
 msgstr "Permet compartir de nou"
 
-#: templates/admin.php:283
+#: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Permet als usuaris compartir només amb usuaris del seu grup"
 
-#: templates/admin.php:290
+#: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Permet als usuaris enviar notificacions de fitxers compartits per correu "
 
-#: templates/admin.php:297
+#: templates/admin.php:286
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Exclou grups de compartició"
 
-#: templates/admin.php:308
+#: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Aquests fitxers encara podran rebre compartits, però no podran iniciar-los."
 
-#: templates/admin.php:316
+#: templates/admin.php:303
 msgid "Security"
 msgstr "Seguretat"
 
-#: templates/admin.php:327
+#: templates/admin.php:314
 msgid "Enforce HTTPS"
 msgstr "Força HTTPS"
 
-#: templates/admin.php:329
+#: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Força la connexió dels clients a %s a través d'una connexió encriptada."
 
-#: templates/admin.php:335
+#: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Connecteu a %s a través de HTTPS per habilitar o inhabilitar l'accés SSL."
 
-#: templates/admin.php:345
+#: templates/admin.php:332
 msgid "Email Server"
 msgstr "Servidor de correu"
 
-#: templates/admin.php:347
+#: templates/admin.php:334
 msgid "This is used for sending out notifications."
 msgstr "S'usa per enviar notificacions."
 
-#: templates/admin.php:378
+#: templates/admin.php:365
 msgid "From address"
 msgstr "Des de l'adreça"
 
-#: templates/admin.php:379
+#: templates/admin.php:366
 msgid "mail"
-msgstr ""
+msgstr "correu electrònic"
 
-#: templates/admin.php:400
+#: templates/admin.php:387
 msgid "Authentication required"
 msgstr "Es requereix autenticació"
 
-#: templates/admin.php:404
+#: templates/admin.php:391
 msgid "Server address"
 msgstr "Adreça del servidor"
 
-#: templates/admin.php:408
+#: templates/admin.php:395
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:413
+#: templates/admin.php:400
 msgid "Credentials"
 msgstr "Credencials"
 
-#: templates/admin.php:414
+#: templates/admin.php:401
 msgid "SMTP Username"
 msgstr "Nom d'usuari SMTP"
 
-#: templates/admin.php:417
+#: templates/admin.php:404
 msgid "SMTP Password"
 msgstr "Contrasenya SMTP"
 
-#: templates/admin.php:421
+#: templates/admin.php:408
 msgid "Test email settings"
 msgstr "Prova l'arranjament del correu"
 
-#: templates/admin.php:422
+#: templates/admin.php:409
 msgid "Send email"
 msgstr "Envia correu"
 
-#: templates/admin.php:427
+#: templates/admin.php:414
 msgid "Log"
 msgstr "Registre"
 
-#: templates/admin.php:428
+#: templates/admin.php:415
 msgid "Log level"
 msgstr "Nivell de registre"
 
-#: templates/admin.php:460
+#: templates/admin.php:447
 msgid "More"
 msgstr "Més"
 
-#: templates/admin.php:461
+#: templates/admin.php:448
 msgid "Less"
 msgstr "Menys"
 
-#: templates/admin.php:467 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:196
 msgid "Version"
 msgstr "Versió"
 
-#: templates/admin.php:471 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -748,7 +748,7 @@ msgstr "<span class=\"licence\"></span>-propietat de <span class=\"author\"></sp
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Activa només per grups específics"
 
 #: templates/apps.php:61
 msgid "All"
@@ -887,15 +887,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Les claus d'encriptació s'han mogut a una còpia de seguretat. Si alguna cosa va malament les podreu restablir. Esborreu-les permanentment només si esteu segur que tots els fitxers es desencripten correctament."
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Restableix les claus d'encriptació"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Esborra les claus d'encriptació"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -918,11 +918,11 @@ msgstr "Escriviu la contrasenya de recuperació per a poder recuperar els fitxer
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Cerca usuaris i grups"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Afegeix grup"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -930,11 +930,11 @@ msgstr "Grup"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Tothom"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Administradors"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -962,11 +962,11 @@ msgstr "Quota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Ubicació de l'emmagatzemament"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Últim accés"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

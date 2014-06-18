@@ -48,11 +48,11 @@ $TRANSLATIONS = array(
 "Personal" => "Personlig",
 "System" => "System",
 "Saved" => "Lagret",
-"<b>Note:</b> " => "<b>Notat:</b> ",
-" and " => "og",
+"<b>Note:</b> " => "<b>Merk:</b> ",
+" and " => " og ",
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Merk:</b> Støtte for cURL i PHP er ikke aktivert eller installert. Montering av %s er ikke mulig. Be systemadministratoren om å installere det.",
-"<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Merk:</b> FTP støtte i PHP er ikke slått på eller innstallert. Kan ikke montere %s. Ta kontakt med din systemadministrator for å installere det.",
-"<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>NB:</b> \"%s\" er ikke installert. Montering av %s er ikke mulig. Spør systemadministratoren om å installere det.",
+"<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Merk:</b> FTP-støtte i PHP er ikke slått på eller innstallert. Kan ikke montere %s. Ta kontakt med din systemadministrator for å installere det.",
+"<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." => "<b>Merk:</b> \"%s\" er ikke installert. Montering av %s er ikke mulig. Spør systemadministratoren om å installere det.",
 "You don't have any external storages" => "Du har ingen eksterne lagre",
 "Name" => "Navn",
 "Storage type" => "Lagringstype",
@@ -70,7 +70,7 @@ $TRANSLATIONS = array(
 "Delete" => "Slett",
 "Enable User External Storage" => "Aktiver ekstern lagring for bruker",
 "Allow users to mount the following external storage" => "Tillat brukere å montere følgende eksterne lagring",
-"SSL root certificates" => "SSL root-sertifikater",
-"Import Root Certificate" => "Importer root-sertifikat"
+"SSL root certificates" => "SSL rotsertifikater",
+"Import Root Certificate" => "Importer rotsertifikat"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -8,7 +8,7 @@
 # Αικατερίνη Χ. Καταπόδη <spanish.katerina@gmail.com>, 2013
 # Spyros Melissovas <peppe@cs.uoi.gr>, 2014
 # Theodore Grammenos <theodorewii121@hotmail.com>, 2013
-# Theodore Grammenos <theodorewii121@hotmail.com>, 2013
+# Theodore Grammenos <theodorewii121@hotmail.com>, 2013-2014
 # Vassilis Kehayas <vkehayas@gmail.com>, 2013-2014
 # Wasilis Mandratzis <inactive+Wasilis@transifex.com>, 2013
 # Wasilis Mandratzis <inactive+Wasilis@transifex.com>, 2013
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 19:01+0000\n"
+"Last-Translator: Theodore Grammenos <theodorewii121@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -610,7 +610,7 @@ msgstr "Νέο συνθηματικό"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Νέος Κωδικός"
 
 #: setup/controller.php:140
 #, php-format

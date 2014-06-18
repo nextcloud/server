@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Følgende brukere er ikke satt opp for kryptering:",
 "Initial encryption started... This can take some time. Please wait." => "Førstegangs kryptering startet... Dette kan ta litt tid. Vennligst vent.",
 "Initial encryption running... Please try again later." => "Førstegangs kryptering kjører... Prøv igjen senere.",
+"Go directly to your %spersonal settings%s." => "Gå direkte til dine %spersonlige innstillinger%s.",
 "Encryption" => "Kryptering",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Aktiver gjenopprettingsnøkkel (tillat å gjenopprette brukerfiler i tilfelle tap av passord):",
 "Recovery key password" => "Passord for gjenopprettingsnøkkel",

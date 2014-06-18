@@ -129,6 +129,7 @@ $TRANSLATIONS = array(
 "Yes, I really want to reset my password now" => "Ναι, θέλω να επαναφέρω το συνθηματικό μου τώρα.",
 "Reset" => "Επαναφορά",
 "New password" => "Νέο συνθηματικό",
+"New Password" => "Νέος Κωδικός",
 "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " => "Το Mac OS X δεν υποστηρίζεται και το %s δεν θα λειτουργήσει σωστά σε αυτή την πλατφόρμα. Χρησιμοποιείτε με δική σας ευθύνη!",
 "For the best results, please consider using a GNU/Linux server instead." => "Για καλύτερα αποτελέσματα, παρακαλούμε εξετάστε την μετατροπή σε έναν διακομιστή GNU/Linux.",
 "Personal" => "Προσωπικά",

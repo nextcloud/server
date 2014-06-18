@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-16 12:17+0000\n"
-"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,15 +22,23 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:32 js/app.js:34
+#: ajax/external.php:20
+msgid "Server to server sharing is not enabled on this server"
+msgstr ""
+
+#: ajax/external.php:50
+msgid "Couldn't add remote share"
+msgstr ""
+
+#: appinfo/app.php:46 js/app.js:34
 msgid "Shared with you"
 msgstr "Delat med dig"
 
-#: appinfo/app.php:41 js/app.js:53
+#: appinfo/app.php:55 js/app.js:53
 msgid "Shared with others"
 msgstr "Delat med andra"
 
-#: appinfo/app.php:50 js/app.js:72
+#: appinfo/app.php:64 js/app.js:72
 msgid "Shared by link"
 msgstr "Delad som länk"
 
@@ -45,6 +53,18 @@ msgstr "Du har inte delat några filer ännu."
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
 msgstr "Du har inte delat några filer som länk ännu."
+
+#: js/external.js:43 js/external.js:46
+msgid "Add {name} from {owner}@{remote}"
+msgstr ""
+
+#: js/public.js:200
+msgid "No ownCloud installation found at {remote}"
+msgstr ""
+
+#: js/public.js:201
+msgid "Invalid ownCloud url"
+msgstr ""
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -99,14 +119,38 @@ msgid "For more info, please ask the person who sent this link."
 msgstr "För mer information, kontakta den person som skickade den här länken."
 
 #: templates/public.php:20
+msgid "Save to ownCloud"
+msgstr ""
+
+#: templates/public.php:22
+msgid "example.com/owncloud"
+msgstr ""
+
+#: templates/public.php:23
+msgid "Save"
+msgstr ""
+
+#: templates/public.php:28
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/public.php:50
+#: templates/public.php:59
 #, php-format
 msgid "Download %s"
 msgstr "Ladda ner %s"
 
-#: templates/public.php:54
+#: templates/public.php:63
 msgid "Direct link"
 msgstr "Direkt länk"
+
+#: templates/settings-admin.php:3
+msgid "File Sharing"
+msgstr ""
+
+#: templates/settings-admin.php:7
+msgid "Allow other instances to mount public links shared from this server"
+msgstr ""
+
+#: templates/settings-admin.php:11
+msgid "Allow users to mount public link shares"
+msgstr ""

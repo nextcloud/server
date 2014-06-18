@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Users" => "Usuarios",
 "Admin" => "Administración",
 "Failed to upgrade \"%s\"." => "Non foi posíbel anovar «%s».",
+"App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "Non é posíbel instalar o aplicativo «%s» por non seren compatíbel con esta versión do ownCloud.",
 "No app name specified" => "Non se especificou o nome do aplicativo",
 "Unknown filetype" => "Tipo de ficheiro descoñecido",
 "Invalid image" => "Imaxe incorrecta",

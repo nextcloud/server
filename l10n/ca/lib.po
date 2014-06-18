@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-18 01:54-0400\n"
+"PO-Revision-Date: 2014-06-17 16:20+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,14 +20,14 @@ msgstr ""
 
 #: base.php:678
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Esteu accedint el servidor des d'un domini no fiable"
 
 #: base.php:679
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Contacteu amb l'administrador. Si sou un administrador d'aquesta instància, configureu el paràmetre \"trusted_domain\" a config/config.php. Hi ha un exemple de configuració a config/config.sampe.php"
 
 #: private/app.php:361
 msgid "Help"
@@ -59,7 +59,7 @@ msgstr "Ha fallat l'actualització \"%s\"."
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr ""
+msgstr "L'aplicació \\\"%s\\\" no es pot instal·lar perquè no es compatible amb aquesta versió de ownCloud."
 
 #: private/app.php:1147
 msgid "No app name specified"
@@ -265,116 +265,116 @@ msgstr "%s ha compartit »%s« amb tu"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè el fitxer no existeix"
 
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "No se us permet compartir %s"
 
 #: private/share/share.php:531
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè l'usuari %s és el propietari de l'element"
 
 #: private/share/share.php:537
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè l'usuari %s no existeix"
 
 #: private/share/share.php:546
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè l'usuari %s no és membre de cap grup dels que %s és membre"
 
 #: private/share/share.php:559 private/share/share.php:587
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè l'element ja està compartit amb %s"
 
 #: private/share/share.php:567
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè el grup %s no existeix"
 
 #: private/share/share.php:574
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè %s no és membre del grup %s"
 
 #: private/share/share.php:627
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Heu de proporcionar una contrasenya per crear un enllaç públic. Només es permeten enllaços segurs."
 
 #: private/share/share.php:653
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè no es permet compartir amb enllaços"
 
 #: private/share/share.php:660
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "La compartició tipus %s no és vàlida per %s"
 
 #: private/share/share.php:820
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Ha fallat en establir els permisos per %s perquè aquests excedeixen els permesos per a %s"
 
 #: private/share/share.php:881
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Ha fallat en establir els permisos per %s, perquè no s'ha trobat l'element"
 
 #: private/share/share.php:1002
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "El rerefons de compartició %s ha d'implementar la interfície OCP\\Share_Backend"
 
 #: private/share/share.php:1009
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "El rerefons de compartició %s no s'ha trobat"
 
 #: private/share/share.php:1015
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "El rerefons de compartició per a %s no s'ha trobat"
 
 #: private/share/share.php:1432
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Ha fallat en compartir %s perquè l'usuari %s és qui comparteix inicialment"
 
 #: private/share/share.php:1441
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "Ha fallat en compartir %s perquè els permisos excedeixen els permesos per a %s"
 
 #: private/share/share.php:1457
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè no es permet compartir de nou"
 
 #: private/share/share.php:1469
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè el rerefons de compartir per %s no pot trobar la seva font"
 
 #: private/share/share.php:1483
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Ha fallat en compartir %s, perquè el fitxer no s'ha trobat en el fitxer cau"
 
 #: private/tags.php:183
 #, php-format
@@ -450,4 +450,4 @@ msgstr "El nom d'usuari ja està en ús"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "No s'ha pogut obtenir un bloqueig tipus %d a \"%s\"."
