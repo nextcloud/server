@@ -505,7 +505,7 @@ class Keymanager {
 					'Could not delete shareKey; does not exist: "' . $ma . '"', \OCP\Util::ERROR);
 			}
 		}
-		$subdirs = $directories = glob($escapedDir . '/*', GLOB_ONLYDIR);
+		$subdirs = glob($escapedDir . '/*', GLOB_ONLYDIR);
 		foreach ($subdirs as $subdir) {
 			self::recursiveDelShareKeys($subdir, $userIds);
 		}

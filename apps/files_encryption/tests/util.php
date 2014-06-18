@@ -164,8 +164,8 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($util->isEncryptedPath($this->userId . '/files/' . $encryptedFile));
 
 		// cleanup
-		$this->view->unlink($this->userId . '/files/' . $unencryptedFile, $this->dataShort);
-		$this->view->unlink($this->userId . '/files/' . $encryptedFile, $this->dataShort);
+		$this->view->unlink($this->userId . '/files/' . $unencryptedFile);
+		$this->view->unlink($this->userId . '/files/' . $encryptedFile);
 
 	}
 
@@ -341,8 +341,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
 		$userdir = $datadir . '/' . $this->userId . '/files/';
 
-		$util = new Encryption\Util($this->view, $this->userId);
-
 		$this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
 
 		$fileInfoEncrypted = $this->view->getFileInfo($this->userId . '/files/' . $filename);
@@ -438,7 +436,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved');
 
 		// decrypt all encrypted files
-		$result = $util->decryptAll('/' . $this->userId . '/' . 'files');
+		$result = $util->decryptAll();
 
 		$this->assertFalse($result);
 
@@ -461,7 +459,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key');
 
 		// try again to decrypt all encrypted files
-		$result = $util->decryptAll('/' . $this->userId . '/' . 'files');
+		$result = $util->decryptAll();
 
 		$this->assertTrue($result);
 

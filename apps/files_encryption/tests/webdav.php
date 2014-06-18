@@ -82,7 +82,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 
 		// init filesystem view
 		$this->view = new \OC\Files\View('/');
-		list($this->storage, $intPath) = $this->view->resolvePath('/');
+		list($this->storage, ) = $this->view->resolvePath('/');
 		// init short data
 		$this->dataShort = 'hats';
 

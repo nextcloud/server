@@ -406,7 +406,6 @@ class Hooks {
 		// otherwise we perform a stream copy, so we get a new set of keys
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
-		list($storage1, ) = Filesystem::resolvePath($params['oldpath']);
 
 		if ($mp1 === $mp2) {
 			self::$renamedFiles[$params['oldpath']] = array(
