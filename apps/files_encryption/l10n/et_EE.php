@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Järgmised kasutajad pole seadistatud krüpteeringuks:",
 "Initial encryption started... This can take some time. Please wait." => "Algne krüpteerimine käivitati... See võib võtta natuke aega. Palun oota.",
 "Initial encryption running... Please try again later." => "Toimub esmane krüpteerimine... Palun proovi hiljem uuesti.",
+"Go directly to your %spersonal settings%s." => "Liigi otse oma %s isiklike seadete %s juurde.",
 "Encryption" => "Krüpteerimine",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Luba taastevõti (võimalda kasutaja failide taastamine parooli kaotuse puhul):",
 "Recovery key password" => "Taastevõtme parool",

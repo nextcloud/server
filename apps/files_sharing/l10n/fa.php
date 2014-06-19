@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "the link expired" => "این پیوند منقضی شده است",
 "sharing is disabled" => "قابلیت اشتراک گذاری غیرفعال است",
 "For more info, please ask the person who sent this link." => "برای اطلاعات بیشتر، لطفا از شخصی که این پیوند را ارسال کرده سوال بفرمایید.",
+"Save" => "ذخیره",
 "Download" => "دانلود",
 "Download %s" => "دانلود %s",
 "Direct link" => "پیوند مستقیم"

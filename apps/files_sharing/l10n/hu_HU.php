@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "the link expired" => "lejárt a link érvényességi ideje",
 "sharing is disabled" => "letiltásra került a megosztás",
 "For more info, please ask the person who sent this link." => "További információért forduljon ahhoz, aki ezt a linket küldte Önnek!",
+"Save" => "Mentés",
 "Download" => "Letöltés",
 "Direct link" => "Közvetlen link"
 );

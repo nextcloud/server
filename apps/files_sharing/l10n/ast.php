@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "the link expired" => "l'enllaz caducó",
 "sharing is disabled" => "la compartición ta deshabilitada",
 "For more info, please ask the person who sent this link." => "Pa más información, entrúga-y a la persona qu'unvió esti enllaz",
+"Save" => "Guardar",
 "Download" => "Baxar",
 "Download %s" => "Descargar %s",
 "Direct link" => "Enllaz direutu"

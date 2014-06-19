@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-19 05:42+0000\n"
+"Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,15 +49,15 @@ msgstr "Email odoslaný"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Musíte nastaviť svoj po​​užívateľský email, než budete môcť odoslať testovací email."
 
-#: admin/controller.php:116 templates/admin.php:350
+#: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
 msgstr "Mód odosielania"
 
-#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
 msgid "Encryption"
 msgstr "Šifrovanie"
 
-#: admin/controller.php:120 templates/admin.php:387
+#: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
 msgstr "Autentifikačná metóda"
 
@@ -112,7 +112,7 @@ msgstr "Nebolo možné natrvalo vymazať vaše šifrovacie kľúče, skontrolujt
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Nemožno odstrániť aplikáciu."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -195,7 +195,7 @@ msgstr "Úložisko nepodporuje zmenu hesla, ale šifrovací kľúč používate�
 msgid "Unable to change password"
 msgstr "Zmena hesla sa nepodarila"
 
-#: js/admin.js:126
+#: js/admin.js:127
 msgid "Sending..."
 msgstr "Odosielam..."
 
@@ -213,7 +213,7 @@ msgstr "Aktualizovať na {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Odinštalovanie aplikácie"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -257,15 +257,15 @@ msgstr "Aktualizované"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Prebieha odinštalovanie..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Chyba pri odinštalovaní aplikácie"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Odinštalácia"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -323,7 +323,7 @@ msgstr "vymazaná {groupName}"
 msgid "undo"
 msgstr "vrátiť"
 
-#: js/users/users.js:37 templates/admin.php:302
+#: js/users/users.js:37 templates/admin.php:292
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -566,23 +566,23 @@ msgstr "Použite systémovú službu cron, ktorá zavolá súbor cron.php každ�
 msgid "Sharing"
 msgstr "Zdieľanie"
 
-#: templates/admin.php:240
+#: templates/admin.php:238
 msgid "Allow apps to use the Share API"
 msgstr "Povoliť aplikáciám používať API na zdieľanie"
 
-#: templates/admin.php:247
+#: templates/admin.php:243
 msgid "Allow users to share via link"
 msgstr "Povoliť používateľom zdieľanie pomocou odkazov"
 
-#: templates/admin.php:251
+#: templates/admin.php:249
 msgid "Enforce password protection"
 msgstr "Vynútiť ochranu heslom"
 
-#: templates/admin.php:254
+#: templates/admin.php:252
 msgid "Allow public uploads"
 msgstr "Povoliť verejné nahrávanie súborov"
 
-#: templates/admin.php:258
+#: templates/admin.php:256
 msgid "Set default expiration date"
 msgstr "Nastaviť predvolený dátum expirácie"
 
@@ -598,116 +598,116 @@ msgstr "dni"
 msgid "Enforce expiration date"
 msgstr "Vynútiť dátum expirácie"
 
-#: templates/admin.php:276
+#: templates/admin.php:271
 msgid "Allow resharing"
 msgstr "Povoliť zdieľanie ďalej"
 
-#: templates/admin.php:283
+#: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
 msgstr "Povoliť používateľom zdieľanie len medzi nimi v rámci skupiny"
 
-#: templates/admin.php:290
+#: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
 msgstr "Povoliť používateľom zasielať emailom oznámenie o zdieľaní súborov"
 
-#: templates/admin.php:297
+#: templates/admin.php:286
 msgid "Exclude groups from sharing"
 msgstr "Vybrať skupiny zo zdieľania"
 
-#: templates/admin.php:308
+#: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Tieto skupiny budú môcť stále zdieľať, ale sami nemôžu zdieľať ostatným."
 
-#: templates/admin.php:316
+#: templates/admin.php:303
 msgid "Security"
 msgstr "Zabezpečenie"
 
-#: templates/admin.php:327
+#: templates/admin.php:314
 msgid "Enforce HTTPS"
 msgstr "Vynútiť HTTPS"
 
-#: templates/admin.php:329
+#: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Vynúti pripájanie klientov k %s šifrovaným pripojením."
 
-#: templates/admin.php:335
+#: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Pripojte sa k %s cez HTTPS pre povolenie alebo zakázanie vynútenia SSL."
 
-#: templates/admin.php:345
+#: templates/admin.php:332
 msgid "Email Server"
 msgstr "Email server"
 
-#: templates/admin.php:347
+#: templates/admin.php:334
 msgid "This is used for sending out notifications."
 msgstr "Používa sa na odosielanie upozornení."
 
-#: templates/admin.php:378
+#: templates/admin.php:365
 msgid "From address"
 msgstr "Z adresy"
 
-#: templates/admin.php:379
+#: templates/admin.php:366
 msgid "mail"
 msgstr "email"
 
-#: templates/admin.php:400
+#: templates/admin.php:387
 msgid "Authentication required"
 msgstr "Vyžaduje sa overenie"
 
-#: templates/admin.php:404
+#: templates/admin.php:391
 msgid "Server address"
 msgstr "Adresa servera"
 
-#: templates/admin.php:408
+#: templates/admin.php:395
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:413
+#: templates/admin.php:400
 msgid "Credentials"
 msgstr "Prihlasovanie údaje"
 
-#: templates/admin.php:414
+#: templates/admin.php:401
 msgid "SMTP Username"
 msgstr "SMTP používateľské meno"
 
-#: templates/admin.php:417
+#: templates/admin.php:404
 msgid "SMTP Password"
 msgstr "SMTP heslo"
 
-#: templates/admin.php:421
+#: templates/admin.php:408
 msgid "Test email settings"
 msgstr "Nastavenia testovacieho emailu"
 
-#: templates/admin.php:422
+#: templates/admin.php:409
 msgid "Send email"
 msgstr "Odoslať email"
 
-#: templates/admin.php:427
+#: templates/admin.php:414
 msgid "Log"
 msgstr "Záznam"
 
-#: templates/admin.php:428
+#: templates/admin.php:415
 msgid "Log level"
 msgstr "Úroveň záznamu"
 
-#: templates/admin.php:460
+#: templates/admin.php:447
 msgid "More"
 msgstr "Viac"
 
-#: templates/admin.php:461
+#: templates/admin.php:448
 msgid "Less"
 msgstr "Menej"
 
-#: templates/admin.php:467 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:196
 msgid "Version"
 msgstr "Verzia"
 
-#: templates/admin.php:471 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

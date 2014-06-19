@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 08:41+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,11 +24,11 @@ msgstr ""
 
 #: ajax/external.php:20
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "Der Server für die Serverfreigabe ist auf diesem Server nicht aktiviert"
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Entfernte Freigabe kann nicht hinzu gefügt werden"
 
 #: appinfo/app.php:46 js/app.js:34
 msgid "Shared with you"
@@ -56,15 +56,15 @@ msgstr "Sie haben bis jetzt keine Dateien über einen Link mit anderen geteilt."
 
 #: js/external.js:43 js/external.js:46
 msgid "Add {name} from {owner}@{remote}"
-msgstr ""
+msgstr "{name} wird von {owner}@{remote} hinzugefügt"
 
 #: js/public.js:200
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Keine OwnCloud-Installation auf {remote} gefunden"
 
 #: js/public.js:201
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Ungültige OwnCloud-URL"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -120,15 +120,15 @@ msgstr "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen L
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "In OwnCloud speichern"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr ""
+msgstr "beispiel.com/owncloud"
 
 #: templates/public.php:23
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: templates/public.php:28
 msgid "Download"
@@ -145,12 +145,12 @@ msgstr "Direkte Verlinkung"
 
 #: templates/settings-admin.php:3
 msgid "File Sharing"
-msgstr ""
+msgstr "Datei-Freigabe"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "Andere Instanzen zum Hinzufügen von öffentlichen Links, die über diesen Server Freigegeben werden, erlauben"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Erlaube Nutzern das Hinzufügen von freigegebenen öffentlichen Links"

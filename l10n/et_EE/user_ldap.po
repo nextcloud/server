@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-10 01:54-0400\n"
-"PO-Revision-Date: 2014-06-10 05:01+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 08:10+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +74,7 @@ msgstr "Säilitada seadistused?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Server"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -476,14 +476,14 @@ msgstr "Sisse lülitamisel on toetatakse gruppe sisaldavad gruppe. (Toimib, kui 
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Kutsungi pataka suurus"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "Pataka suurust kasutatakse LDAPi kutsungite kaupa otsingute puhul, mis võivad väljastada pikki kasutajate või gruppide loetelusid. (Määrates suuruseks 0, keelatakse LDAP patakate kaupa otsing taolistes situatsioonides)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -179,7 +179,7 @@ msgstr "Faili üleslaadimine on töös. Lehelt lahkumine katkestab selle ülesla
 msgid "URL cannot be empty"
 msgstr "URL ei saa olla tühi"
 
-#: js/file-upload.js:559 js/filelist.js:1188
+#: js/file-upload.js:559 js/filelist.js:1190
 msgid "{new_name} already exists"
 msgstr "{new_name} on juba olemas"
 
@@ -217,55 +217,55 @@ msgid ""
 "big."
 msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. "
 
-#: js/filelist.js:619 js/filelist.js:1691
+#: js/filelist.js:621 js/filelist.js:1693
 msgid "Pending"
 msgstr "Ootel"
 
-#: js/filelist.js:1139
+#: js/filelist.js:1141
 msgid "Error moving file."
 msgstr "Viga faili liigutamisel."
 
-#: js/filelist.js:1147
+#: js/filelist.js:1149
 msgid "Error moving file"
 msgstr "Viga faili eemaldamisel"
 
-#: js/filelist.js:1147
+#: js/filelist.js:1149
 msgid "Error"
 msgstr "Viga"
 
-#: js/filelist.js:1225
+#: js/filelist.js:1227
 msgid "Could not rename file"
 msgstr "Ei suuda faili ümber nimetada"
 
-#: js/filelist.js:1346
+#: js/filelist.js:1348
 msgid "Error deleting file."
 msgstr "Viga faili kustutamisel."
 
-#: js/filelist.js:1449 templates/list.php:62
+#: js/filelist.js:1451 templates/list.php:62
 msgid "Name"
 msgstr "Nimi"
 
-#: js/filelist.js:1450 templates/list.php:73
+#: js/filelist.js:1452 templates/list.php:73
 msgid "Size"
 msgstr "Suurus"
 
-#: js/filelist.js:1451 templates/list.php:76
+#: js/filelist.js:1453 templates/list.php:76
 msgid "Modified"
 msgstr "Muudetud"
 
-#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1463 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n kataloog"
 msgstr[1] "%n kataloogi"
 
-#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1469 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fail"
 msgstr[1] "%n faili"
 
-#: js/filelist.js:1599 js/filelist.js:1638
+#: js/filelist.js:1601 js/filelist.js:1640
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Laadin üles %n faili"

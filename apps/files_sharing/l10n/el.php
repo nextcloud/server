@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "the link expired" => "ο σύνδεσμος έληξε",
 "sharing is disabled" => "ο διαμοιρασμός απενεργοποιήθηκε",
 "For more info, please ask the person who sent this link." => "Για περισσότερες πληροφορίες, παρακαλώ ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο.",
+"Save" => "Αποθήκευση",
 "Download" => "Λήψη",
 "Download %s" => "Λήψη %s",
 "Direct link" => "Άμεσος σύνδεσμος"

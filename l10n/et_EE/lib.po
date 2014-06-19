@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 06:20+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +60,7 @@ msgstr "Ebaõnnestunud uuendus \"%s\"."
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr ""
+msgstr "Rakendit \\\"%s\\\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga."
 
 #: private/app.php:1147
 msgid "No app name specified"
@@ -309,7 +309,7 @@ msgstr "%s jagamine ebaõnnestus, kuna %s pole grupi %s liige"
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Avaliku viite tekitamiseks pead sisestama parooli, ainult kaitstud viited on lubatud"
 
 #: private/share/share.php:653
 #, php-format
@@ -451,4 +451,4 @@ msgstr "Kasutajanimi on juba kasutuses"
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Ei suutnud hankida %d tüüpi lukustust \"%s\"."

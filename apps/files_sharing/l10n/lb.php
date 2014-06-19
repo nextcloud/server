@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "The password is wrong. Try again." => "Den Passwuert ass incorrect. Probeier ed nach eng keier.",
 "Password" => "Passwuert",
 "Name" => "Numm",
+"Save" => "Späicheren",
 "Download" => "Download"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

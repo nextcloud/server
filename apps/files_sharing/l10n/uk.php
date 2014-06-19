@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "the link expired" => "посилання застаріло",
 "sharing is disabled" => "обмін заборонений",
 "For more info, please ask the person who sent this link." => "Для отримання додаткової інформації, будь ласка, зверніться до особи, яка надіслала це посилання.",
+"Save" => "Зберегти",
 "Download" => "Завантажити",
 "Direct link" => "Пряме посилання"
 );

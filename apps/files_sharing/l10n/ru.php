@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "the link expired" => "срок действия ссылки истёк",
 "sharing is disabled" => "доступ к информации заблокирован",
 "For more info, please ask the person who sent this link." => "Для получения дополнительной информации, пожалуйста, свяжитесь с тем, кто отправил Вам эту ссылку.",
+"Save" => "Сохранить",
 "Download" => "Скачать",
 "Download %s" => "Скачать %s",
 "Direct link" => "Прямая ссылка"

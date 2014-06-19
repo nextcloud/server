@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "the link expired" => "lotura iraungi da",
 "sharing is disabled" => "elkarbanatzea ez dago gaituta",
 "For more info, please ask the person who sent this link." => "Informazio gehiagorako, mesedez eskatu lotura hau bidali zuen pertsonari",
+"Save" => "Gorde",
 "Download" => "Deskargatu",
 "Download %s" => "Deskargatu %s",
 "Direct link" => "Lotura zuzena"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 06:50+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,15 +49,15 @@ msgstr "E-kiri on saadetud"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Pead seadistama oma e-postienne kui on võimalik saata test-kirju."
 
-#: admin/controller.php:116 templates/admin.php:350
+#: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
 msgstr "Saatmise viis"
 
-#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
 msgid "Encryption"
 msgstr "Krüpteerimine"
 
-#: admin/controller.php:120 templates/admin.php:387
+#: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
 msgstr "Autentimise meetod"
 
@@ -102,17 +102,17 @@ msgstr "Ei suutnud failde dekrüpteerida, kontrolli parooli ja proovi uuesti"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Krüpteerimisvõtmed kustutatud lõplikult"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Ei suutnud lõplikult kustutada sinu krüpteerimisvõtmeid, palun vaata owncloud.log-i või pöördu oma süsteemihalduri poole."
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Ei suutnud rakendit eemaldada."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -132,13 +132,13 @@ msgstr "Kasutaja kustutamine ebaõnnestus"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Varukoopiad taastatud edukalt."
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Ei suutnud taastada sinu krüpteerimisvõtmeid, palun vaata owncloud.log-i või  pöördu oma süsteemihalduri poole."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -195,7 +195,7 @@ msgstr "Tagarakend ei toeta parooli vahetust, kuid kasutaja krüptimisvõti uuen
 msgid "Unable to change password"
 msgstr "Ei suuda parooli muuta"
 
-#: js/admin.js:126
+#: js/admin.js:127
 msgid "Sending..."
 msgstr "Saadan..."
 
@@ -213,7 +213,7 @@ msgstr "Uuenda versioonile {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Eemada rakend"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -257,15 +257,15 @@ msgstr "Uuendatud"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Eemaldan..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Viga rakendi eemaldamisel"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Eemalda"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -297,33 +297,33 @@ msgstr "Dekrüpteerin faile... Palun oota, see võib võtta veidi aega."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Kustuta krüpteerimisvõtmed lõplikult"
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Taasta krüpteerimisvõtmed."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Ei suuda kustutada {objName}"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "Viga grupi loomisel"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Sisesta nõuetele vastav grupi nimi"
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "kustutatud {groupName}"
 
 #: js/users/groups.js:206 js/users/users.js:255
 msgid "undo"
 msgstr "tagasi"
 
-#: js/users/users.js:37 templates/admin.php:302
+#: js/users/users.js:37 templates/admin.php:292
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -345,7 +345,7 @@ msgstr "mitte kunagi"
 
 #: js/users/users.js:254
 msgid "deleted {userName}"
-msgstr ""
+msgstr "kustutatud {userName}"
 
 #: js/users/users.js:371
 msgid "add group"
@@ -454,24 +454,24 @@ msgstr "Palun kontrolli uuesti <a href=\"%s\">paigaldusjuhendeid</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP on seadistatud eemaldama \"inline\" dokumendi blokke. See muudab mõned rakendid kasutamatuteks."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "See on tõenäoliselt põhjustatud puhver/kiirendist nagu Zend OPcache või eAccelerator."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Andmebaasi toimimise info"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Andmebaasina kasutatakse SQLite-t. Suuremate paigalduste puhul me soovitame seda muuta. Migreerimaks teisele andmebaasile kasuta seda käsurea vahendit: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -566,25 +566,25 @@ msgstr "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti
 msgid "Sharing"
 msgstr "Jagamine"
 
-#: templates/admin.php:240
+#: templates/admin.php:238
 msgid "Allow apps to use the Share API"
 msgstr "Luba rakendustel kasutada Share API-t"
 
-#: templates/admin.php:247
+#: templates/admin.php:243
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Luba kasutajatel lingiga jagamist "
 
-#: templates/admin.php:251
+#: templates/admin.php:249
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Sunni parooliga kaitsmist"
 
-#: templates/admin.php:254
+#: templates/admin.php:252
 msgid "Allow public uploads"
 msgstr "Luba avalikud üleslaadimised"
 
-#: templates/admin.php:258
+#: templates/admin.php:256
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Määra vaikimisi aegumise kuupäev"
 
 #: templates/admin.php:260
 msgid "Expire after "
@@ -596,118 +596,118 @@ msgstr "päeva"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Sunnitud aegumise kuupäev"
 
-#: templates/admin.php:276
+#: templates/admin.php:271
 msgid "Allow resharing"
 msgstr "Luba edasijagamine"
 
-#: templates/admin.php:283
+#: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Luba kasutajatel jagada kasutajatega ainult oma grupi piires"
 
-#: templates/admin.php:290
+#: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
 msgstr "Luba kasutajatel saata e-posti teavitusi jagatud failide kohta"
 
-#: templates/admin.php:297
+#: templates/admin.php:286
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Eemalda grupid jagamisest"
 
-#: templates/admin.php:308
+#: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa."
 
-#: templates/admin.php:316
+#: templates/admin.php:303
 msgid "Security"
 msgstr "Turvalisus"
 
-#: templates/admin.php:327
+#: templates/admin.php:314
 msgid "Enforce HTTPS"
 msgstr "Sunni peale HTTPS-i kasutamine"
 
-#: templates/admin.php:329
+#: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Sunnib kliente %s ühenduma krüpteeritult."
 
-#: templates/admin.php:335
+#: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Palun ühendu oma %s üle HTTPS või keela SSL kasutamine."
 
-#: templates/admin.php:345
+#: templates/admin.php:332
 msgid "Email Server"
 msgstr "Postiserver"
 
-#: templates/admin.php:347
+#: templates/admin.php:334
 msgid "This is used for sending out notifications."
 msgstr "Seda kasutatakse teadete välja saatmiseks."
 
-#: templates/admin.php:378
+#: templates/admin.php:365
 msgid "From address"
 msgstr "Saatja aadress"
 
-#: templates/admin.php:379
+#: templates/admin.php:366
 msgid "mail"
-msgstr ""
+msgstr "e-mail"
 
-#: templates/admin.php:400
+#: templates/admin.php:387
 msgid "Authentication required"
 msgstr "Autentimine on vajalik"
 
-#: templates/admin.php:404
+#: templates/admin.php:391
 msgid "Server address"
 msgstr "Serveri aadress"
 
-#: templates/admin.php:408
+#: templates/admin.php:395
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:413
+#: templates/admin.php:400
 msgid "Credentials"
 msgstr "Kasutajatunnused"
 
-#: templates/admin.php:414
+#: templates/admin.php:401
 msgid "SMTP Username"
 msgstr "SMTP kasutajatunnus"
 
-#: templates/admin.php:417
+#: templates/admin.php:404
 msgid "SMTP Password"
 msgstr "SMTP parool"
 
-#: templates/admin.php:421
+#: templates/admin.php:408
 msgid "Test email settings"
 msgstr "Testi e-posti seadeid"
 
-#: templates/admin.php:422
+#: templates/admin.php:409
 msgid "Send email"
 msgstr "Saada kiri"
 
-#: templates/admin.php:427
+#: templates/admin.php:414
 msgid "Log"
 msgstr "Logi"
 
-#: templates/admin.php:428
+#: templates/admin.php:415
 msgid "Log level"
 msgstr "Logi tase"
 
-#: templates/admin.php:460
+#: templates/admin.php:447
 msgid "More"
 msgstr "Rohkem"
 
-#: templates/admin.php:461
+#: templates/admin.php:448
 msgid "Less"
 msgstr "Vähem"
 
-#: templates/admin.php:467 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:196
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:471 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -747,7 +747,7 @@ msgstr "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Luba ainult kindlad grupid"
 
 #: templates/apps.php:61
 msgid "All"
@@ -886,15 +886,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Sinu krüpteerimisvõtmed on tõstetud varukoopiasse. Kui midagi läheb valesti, siis saad võtmed taastada. Kustuta lõplikult ainult juhul kui oled kindel, et failid on dekrüteeritud korrektselt."
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Taasta krüpteerimisvõtmed"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Kustuta krüpteerimisvõtmed"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -917,11 +917,11 @@ msgstr "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käig
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Otsi kasutajaid ja gruppe"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Lisa grupp"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -929,11 +929,11 @@ msgstr "Grupp"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Igaüks"
 
 #: templates/users/part.grouplist.php:29
 msgid "Admins"
-msgstr ""
+msgstr "Haldurid"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -961,11 +961,11 @@ msgstr "Mahupiir"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Mahu asukoht"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Viimane sisselogimine"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

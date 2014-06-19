@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 07:00+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +49,7 @@ msgstr "Korv"
 
 #: appinfo/app.php:60
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 ja ühilduv"
 
 #: appinfo/app.php:63
 msgid "Access Key"
@@ -77,7 +77,7 @@ msgstr "SSL-i kasutamine"
 
 #: appinfo/app.php:70
 msgid "Enable Path Style"
-msgstr ""
+msgstr "Luba otsingtee stiilis"
 
 #: appinfo/app.php:78
 msgid "App key"
@@ -105,7 +105,7 @@ msgstr "Parool"
 #: appinfo/app.php:92 appinfo/app.php:134 appinfo/app.php:144
 #: appinfo/app.php:155 appinfo/app.php:177
 msgid "Root"
-msgstr ""
+msgstr "Juur"
 
 #: appinfo/app.php:93
 msgid "Secure ftps://"
@@ -121,7 +121,7 @@ msgstr "Kliendi salasõna"
 
 #: appinfo/app.php:109
 msgid "OpenStack Object Storage"
-msgstr ""
+msgstr "OpenStack Object Storage"
 
 #: appinfo/app.php:112
 msgid "Username (required)"
@@ -133,31 +133,31 @@ msgstr "Korv (kohustuslik)"
 
 #: appinfo/app.php:114
 msgid "Region (optional for OpenStack Object Storage)"
-msgstr ""
+msgstr "Regioon (valikuline OpenStack Object Storage puhul)"
 
 #: appinfo/app.php:115
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "API võti (vajalik Rackspace Cloud Files puhul)"
 
 #: appinfo/app.php:116
 msgid "Tenantname (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Rendinimi (tenantname , vajalik OpenStack Object Storage puhul)"
 
 #: appinfo/app.php:117
 msgid "Password (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Parool (vajalik OpenStack Object Storage puhul)"
 
 #: appinfo/app.php:118
 msgid "Service Name (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Teenuse nimi (vajalik OpenStack Object Storage puhul)"
 
 #: appinfo/app.php:119
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
-msgstr ""
+msgstr "Tuvastuse URL lõpp-punkt (vajalik OpenStack Object Storage puhul)"
 
 #: appinfo/app.php:120
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "HTTP päringu aegumine sekundites (valikuline)"
 
 #: appinfo/app.php:133 appinfo/app.php:143
 msgid "Share"
@@ -165,11 +165,11 @@ msgstr "Jaga"
 
 #: appinfo/app.php:138
 msgid "SMB / CIFS using OC login"
-msgstr ""
+msgstr "SMB / CIFS kasutades OC logimist"
 
 #: appinfo/app.php:142
 msgid "Username as share"
-msgstr ""
+msgstr "Kasutajanimi kui jagamine"
 
 #: appinfo/app.php:152 appinfo/app.php:163
 msgid "URL"
@@ -209,9 +209,9 @@ msgstr "Isiklik"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "Süsteem"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Salvestatud"
 
@@ -246,7 +246,7 @@ msgstr "<b>Märkus:</b> \"%s\" pole paigaldatud. Hoidla %s ühendamine pole või
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "Sul pole ühtegi välist andmehoidlat"
 
 #: templates/list.php:16
 msgid "Name"
@@ -254,11 +254,11 @@ msgstr "Nimi"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Andmehoidla tüüp"
 
 #: templates/list.php:23
 msgid "Scope"
-msgstr ""
+msgstr "Skoop"
 
 #: templates/settings.php:2
 msgid "External Storage"

@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "the link expired" => "la ligilo eksvalidiĝis",
 "sharing is disabled" => "kunhavigo malkapablas",
 "For more info, please ask the person who sent this link." => "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilon.",
+"Save" => "Konservi",
 "Download" => "Elŝuti",
 "Direct link" => "Direkta ligilo"
 );

@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "the link expired" => "A hiperligação expirou",
 "sharing is disabled" => "a partilha está desativada",
 "For more info, please ask the person who sent this link." => "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação.",
+"Save" => "Guardar",
 "Download" => "Transferir",
 "Download %s" => "Transferir %s",
 "Direct link" => "Hiperligação direta"

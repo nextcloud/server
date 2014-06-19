@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Shared by" => "Chia sẻ bởi",
 "Password" => "Mật khẩu",
 "Name" => "Tên",
+"Save" => "Lưu",
 "Download" => "Tải về"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

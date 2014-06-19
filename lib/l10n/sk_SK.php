@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Users" => "Používatelia",
 "Admin" => "Administrátor",
 "Failed to upgrade \"%s\"." => "Zlyhala aktualizácia \"%s\".",
+"App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "Aplikáciu \\\"%s\\\" nemožno nainštalovať, pretože nie je kompatibilná s touto verziou systému ownCloud.",
 "No app name specified" => "Nešpecifikované meno aplikácie",
 "Unknown filetype" => "Neznámy typ súboru",
 "Invalid image" => "Chybný obrázok",

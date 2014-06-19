@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Users" => "Kasutajad",
 "Admin" => "Admin",
 "Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
+"App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "Rakendit \\\"%s\\\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga.",
 "No app name specified" => "Ühegi rakendi nime pole määratletud",
 "Unknown filetype" => "Tundmatu failitüüp",
 "Invalid image" => "Vigane pilt",
@@ -57,6 +58,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "%s jagamine ebaõnnestus, kuna see üksus on juba jagatud %s",
 "Sharing %s failed, because the group %s does not exist" => "%s jagamine ebaõnnestus, kuna gruppi %s pole olemas",
 "Sharing %s failed, because %s is not a member of the group %s" => "%s jagamine ebaõnnestus, kuna %s pole grupi %s liige",
+"You need to provide a password to create a public link, only protected links are allowed" => "Avaliku viite tekitamiseks pead sisestama parooli, ainult kaitstud viited on lubatud",
 "Sharing %s failed, because sharing with links is not allowed" => "%s jagamine ebaõnnestus, kuna linkidega jagamine pole lubatud",
 "Share type %s is not valid for %s" => "Jagamise tüüp %s ei ole õige %s jaoks",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Lubade seadistus %s jaoks ebaõnnestus, kuna antud õigused ületavad %s jaoks määratud õigusi",
@@ -83,6 +85,7 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Kasutajanimes on lubatud ainult järgnevad tähemärgid: \"a-z\", \"A-Z\", \"0-9\" ja \"_.@-\"",
 "A valid username must be provided" => "Sisesta nõuetele vastav kasutajatunnus",
 "A valid password must be provided" => "Sisesta nõuetele vastav parool",
-"The username is already being used" => "Kasutajanimi on juba kasutuses"
+"The username is already being used" => "Kasutajanimi on juba kasutuses",
+"Could not obtain lock type %d on \"%s\"." => "Ei suutnud hankida %d tüüpi lukustust \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

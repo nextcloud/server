@@ -1,11 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Server to server sharing is not enabled on this server" => "Sunucudan sunucuya paylaşım bu sunucuda etkin değil",
+"Couldn't add remote share" => "Uzak paylaşım eklenemedi",
 "Shared with you" => "Sizinle paylaşılmış",
 "Shared with others" => "Diğerleri ile paylaşılmış",
 "Shared by link" => "Bağlantı ile paylaşılmış",
 "No files have been shared with you yet." => "Henüz sizinle paylaşılan bir dosya yok.",
 "You haven't shared any files yet." => "Henüz hiçbir dosya paylaşmadınız.",
 "You haven't shared any files by link yet." => "Bağlantı ile henüz hiçbir dosya paylaşmadınız.",
+"Add {name} from {owner}@{remote}" => "{name} paylaşımını {owner}@{remote} konumundan ekle",
+"No ownCloud installation found at {remote}" => "{remote} üzerinde ownCloud kurulumu bulunamadı",
+"Invalid ownCloud url" => "Geçersiz ownCloud adresi",
 "Shared by {owner}" => "{owner} tarafından paylaşılmış",
 "Shared by" => "Paylaşan",
 "This share is password-protected" => "Bu paylaşım parola korumalı",
@@ -19,8 +24,14 @@ $TRANSLATIONS = array(
 "the link expired" => "bağlantı süresi dolmuş",
 "sharing is disabled" => "paylaşım devre dışı",
 "For more info, please ask the person who sent this link." => "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin.",
+"Save to ownCloud" => "ownCloud'a kaydet",
+"example.com/owncloud" => "örnek.com/owncloud",
+"Save" => "Kaydet",
 "Download" => "İndir",
 "Download %s" => "İndir: %s",
-"Direct link" => "Doğrudan bağlantı"
+"Direct link" => "Doğrudan bağlantı",
+"File Sharing" => "Dosya Paylaşımı",
+"Allow other instances to mount public links shared from this server" => "Diğer örneklerin, bu sunucudan paylaşılmış herkese açık bağlantıları bağlamasına izin ver",
+"Allow users to mount public link shares" => "Kullanıcıların herkese açık bağlantı paylaşımlarını bağlamasına izin ver"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

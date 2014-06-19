@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "the link expired" => "giltighet för länken har gått ut",
 "sharing is disabled" => "delning är inaktiverat",
 "For more info, please ask the person who sent this link." => "För mer information, kontakta den person som skickade den här länken.",
+"Save" => "Spara",
 "Download" => "Ladda ner",
 "Download %s" => "Ladda ner %s",
 "Direct link" => "Direkt länk"

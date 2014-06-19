@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 15:21+0000\n"
+"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"PO-Revision-Date: 2014-06-18 10:11+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr "Não é possível alterar o nome completo"
 
 #: ajax/creategroup.php:11
 msgid "Group already exists"
-msgstr "Grupo já existe"
+msgstr "O Grupo já existe"
 
 #: ajax/creategroup.php:20
 msgid "Unable to add group"
@@ -151,7 +151,7 @@ msgstr "Pedido inválido"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Admins não podem ser removidos do grupo admin"
+msgstr "Administradores não pode remover a si mesmos do grupo de administração"
 
 #: ajax/togglegroups.php:30
 #, php-format
@@ -282,7 +282,7 @@ msgstr "Senha fraca"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr "So-so senha"
+msgstr "Senha mais ou menos"
 
 #: js/personal.js:290
 msgid "Good password"
@@ -370,7 +370,7 @@ msgstr "Aviso: O diretório home para o usuário \"{user}\" já existe"
 
 #: personal.php:50 personal.php:51
 msgid "__language_name__"
-msgstr "Português (Brasil)"
+msgstr "__language_name__"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
@@ -472,7 +472,7 @@ msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr "SQLite é usada como base de dados. Para instalações grandes instalações recomendamos mudar isso. Para migrar para outro banco de dados usar a ferramenta de linha de comando: 'occ db: converter-type'"
+msgstr "SQLite é usada como base de dados. Para grandes instalações recomendamos mudar isso. Para migrar para outro banco de dados usar a ferramenta de linha de comando: 'occ db: converter-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -514,7 +514,7 @@ msgstr "Isso significa que pode haver problemas com certos caracteres nos nomes 
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr "Nós sugerimos para instalar os pacotes necessários no seu sistema para suportar uma das seguintes localidades: %s."
+msgstr "Nós fortemente sugerimos instalar os pacotes necessários no seu sistema para suportar uma das seguintes localidades: %s."
 
 #: templates/admin.php:172
 msgid "Internet connection not working"
@@ -543,7 +543,7 @@ msgstr "Último cron foi executado em %s."
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr "Última cron foi executado em %s. Isso é, mais do que uma hora atrás, algo parece errado."
+msgstr "Última cron foi executado em %s. Isso é, mais de uma hora atrás, algo parece errado."
 
 #: templates/admin.php:203
 msgid "Cron was not executed yet!"
@@ -776,11 +776,11 @@ msgstr "Suporte Comercial"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Faça com que os apps sincronize seus arquivos"
+msgstr "Faça com que os apps sincronizem seus arquivos"
 
 #: templates/personal.php:19
 msgid "Show First Run Wizard again"
-msgstr "Mostrar este Assistente de novo"
+msgstr "Mostrar Assistente de Primeira Execução novamente"
 
 #: templates/personal.php:27
 #, php-format
@@ -880,7 +880,7 @@ msgstr "Senha de login"
 
 #: templates/personal.php:161
 msgid "Decrypt all Files"
-msgstr "Decripti todos os Arquivos"
+msgstr "Descriptografar todos os Arquivos"
 
 #: templates/personal.php:174
 msgid ""
@@ -922,7 +922,7 @@ msgstr "Pesquisar Usuários e Grupos"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr "Adicionar grupo"
+msgstr "Adicionar Grupo"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
