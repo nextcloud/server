@@ -189,6 +189,7 @@ class Manager extends PublicEmitter {
 	 * @return array with group names
 	 */
 	public function getUserGroupIds($user) {
+		$uid = $user->getUID();
 		if (isset($this->cachedUserGroups[$uid])) {
 			return array_keys($this->cachedUserGroups[$uid]);
 		}
