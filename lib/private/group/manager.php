@@ -182,10 +182,10 @@ class Manager extends PublicEmitter {
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getUserGroups($uid);
 			foreach ($groupIds as $groupId) {
-				$groups[] = $this->get($groupId);
+				$groups[$groupId] = $this->get($groupId);
 			}
 		}
-		$this->cachedUserGroups[$uid] = $groups;
+		$this->cachedUserGroups[$uid] = array_values($groups);
 		return $this->cachedUserGroups[$uid];
 	}
 	
