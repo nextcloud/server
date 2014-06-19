@@ -48,6 +48,12 @@ class Manager extends PublicEmitter {
 	private $cachedUserGroups = array();
 
 	/**
+	 * @var string[]
+	 */
+	private $cachedUserGroupIds = array();
+
+
+	/**
 	 * @param \OC\User\Manager $userManager
 	 */
 	public function __construct($userManager) {
@@ -176,7 +182,7 @@ class Manager extends PublicEmitter {
 		foreach ($this->backends as $backend) {
 			$groupIds = $backend->getUserGroups($uid);
 			foreach ($groupIds as $groupId) {
-				$groups[$groupId] = $this->get($groupId);
+				$groups[] = $this->get($groupId);
 			}
 		}
 		$this->cachedUserGroups[$uid] = $groups;
@@ -186,18 +192,28 @@ class Manager extends PublicEmitter {
 	/**
 	 * get a list of group ids for a user
 	 * @param \OC\User\User $user
-	 * @return array with group names
+	 * @return array with group ids
 	 */
 	public function getUserGroupIds($user) {
-		$uid = $user->getUID();
-		if (isset($this->cachedUserGroups[$uid])) {
-			return array_keys($this->cachedUserGroups[$uid]);
-		}
 		$groupIds = array();
-		foreach ($this->backends as $backend) {
-			$groupIds = array_merge($groupIds, $backend->getUserGroups($user->getUID()));
+		$userId = $user->getUID();
+		if (isset($this->cachedUserGroupIds[$userId])) {
+			return $this->cachedUserGroupIds[$userId];
 		}
-		return $groupIds;
+		if (isset($this->cachedUserGroups[$userId])) {
+			foreach($this->cachedUserGroups[$userId] as $group)
+			{
+				$groupIds[] = $group->getGID();
+			}
+		}
+		else
+		{
+			foreach ($this->backends as $backend) {
+				$groupIds = array_merge($groupIds, $backend->getUserGroups($userId));
+			}
+		}
+		$this->cachedUserGroupIds[$userId] = $groupIds;
+		return $this->cachedUserGroupIds[$userId];
 	}
 
 	/**
