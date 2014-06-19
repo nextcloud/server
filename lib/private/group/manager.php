@@ -182,7 +182,9 @@ class Manager extends PublicEmitter {
 		$this->cachedUserGroups[$uid] = $groups;
 		return $this->cachedUserGroups[$uid];
 	}
+	
 	/**
+	 * get a list of group ids for a user
 	 * @param \OC\User\User $user
 	 * @return array with group names
 	 */
@@ -193,7 +195,6 @@ class Manager extends PublicEmitter {
 		$groupIds = array();
 		foreach ($this->backends as $backend) {
 			$groupIds = array_merge($groupIds, $backend->getUserGroups($user->getUID()));
-			
 		}
 		return $groupIds;
 	}
