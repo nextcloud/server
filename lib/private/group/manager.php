@@ -179,7 +179,7 @@ class Manager extends PublicEmitter {
 				$groups[$groupId] = $this->get($groupId);
 			}
 		}
-		$this->cachedUserGroups[$uid] = array_values($groups);
+		$this->cachedUserGroups[$uid] = $groups;
 		return $this->cachedUserGroups[$uid];
 	}
 	/**
@@ -187,6 +187,9 @@ class Manager extends PublicEmitter {
 	 * @return array with group names
 	 */
 	public function getUserGroupIds($user) {
+		if (isset($this->cachedUserGroups[$uid])) {
+			return array_keys($this->cachedUserGroups[$uid]);
+		}
 		$groupIds = array();
 		foreach ($this->backends as $backend) {
 			$groupIds = array_merge($groupIds, $backend->getUserGroups($user->getUID()));
