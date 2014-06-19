@@ -48,6 +48,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 */
 	private $cachedUserGroups = array();
 
+
 	/**
 	 * @param \OC\User\Manager $userManager
 	 */
@@ -180,18 +181,24 @@ class Manager extends PublicEmitter implements IGroupManager {
 				$groups[$groupId] = $this->get($groupId);
 			}
 		}
-		$this->cachedUserGroups[$uid] = array_values($groups);
+		$this->cachedUserGroups[$uid] = $groups;
 		return $this->cachedUserGroups[$uid];
 	}
+	
 	/**
+	 * get a list of group ids for a user
 	 * @param \OC\User\User $user
-	 * @return array with group names
+	 * @return array with group ids
 	 */
 	public function getUserGroupIds($user) {
 		$groupIds = array();
-		foreach ($this->backends as $backend) {
-			$groupIds = array_merge($groupIds, $backend->getUserGroups($user->getUID()));
-			
+		$userId = $user->getUID();
+		if (isset($this->cachedUserGroups[$userId])) {
+			return array_keys($this->cachedUserGroups[$userId]);
+		} else {
+			foreach ($this->backends as $backend) {
+				$groupIds = array_merge($groupIds, $backend->getUserGroups($userId));
+			}
 		}
 		return $groupIds;
 	}
