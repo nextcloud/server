@@ -1730,20 +1730,6 @@ describe('OCA.Files.FileList tests', function() {
 				return ev;
 			}
 
-			/**
-			 * Convert form data to a flat list
-			 * 
-			 * @param formData form data array as used by jquery.upload
-			 * @return map based on the array's key values
-			 */
-			function decodeFormData(data) {
-				var map = {};
-				_.each(data.formData(), function(entry) {
-					map[entry.name] = entry.value;
-				});
-				return map;
-			}
-
 			beforeEach(function() {
 				// simulate data structure from jquery.upload
 				uploadData = {
@@ -1803,11 +1789,7 @@ describe('OCA.Files.FileList tests', function() {
 				ev = dropOn(fileList.findFileEl('somedir').find('td:eq(2)'), uploadData);
 
 				expect(ev.result).not.toEqual(false);
-				expect(uploadData.formData).toBeDefined();
-				formData = decodeFormData(uploadData);
-				expect(formData.dir).toEqual('/subdir/somedir');
-				expect(formData.file_directory).toEqual('fileToUpload.txt');
-				expect(formData.requesttoken).toBeDefined();
+				expect(uploadData.targetDir).toEqual('/subdir/somedir');
 			});
 			it('drop on a breadcrumb inside the table triggers upload to target folder', function() {
 				var ev, formData;
@@ -1815,11 +1797,7 @@ describe('OCA.Files.FileList tests', function() {
 				ev = dropOn(fileList.$el.find('.crumb:eq(2)'), uploadData);
 
 				expect(ev.result).not.toEqual(false);
-				expect(uploadData.formData).toBeDefined();
-				formData = decodeFormData(uploadData);
-				expect(formData.dir).toEqual('/a/b');
-				expect(formData.file_directory).toEqual('fileToUpload.txt');
-				expect(formData.requesttoken).toBeDefined();
+				expect(uploadData.targetDir).toEqual('/a/b');
 			});
 		});
 	});
