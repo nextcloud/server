@@ -96,13 +96,13 @@
 			<?php
 			if($user["lastLogin"] === 0) {
 				$lastLogin = $l->t('never');
-				$lastLoginDate = '';
+				$lastLoginDate = $lastLogin;
 			} else {
 				$lastLogin = relative_modified_date($user["lastLogin"]);
 				$lastLoginDate = \OC_Util::formatDate($user["lastLogin"]);
 			}
 			?>
-			<td class="lastLogin" title="<?php p('<span style="white-space: nowrap;">'.$lastLoginDate.'</span>'); ?>"><?php p($lastLogin); ?></td>
+			<td class="lastLogin" title="<?php p('<span class="usersLastLoginTooltip">'.$lastLoginDate.'</span>'); ?>"><?php p($lastLogin); ?></td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
