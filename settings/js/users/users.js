@@ -80,13 +80,23 @@ var UserList = {
 			}
 		}
 		$tr.find('td.storageLocation').text(storageLocation);
+
 		if(lastLogin === 0) {
-			lastLogin = t('settings', 'never');
+			var lastLoginRel = t('settings', 'never');
+			var lastLoginAbs = lastLoginRel;
 		} else {
 			lastLogin = new Date(lastLogin * 1000);
-			lastLogin = relative_modified_date(lastLogin.getTime() / 1000);
+			var lastLoginRel = relative_modified_date(lastLogin.getTime() / 1000);
+			var lastLoginAbs = formatDate(lastLogin.getTime());
 		}
-		$tr.find('td.lastLogin').text(lastLogin);
+		$tdLastLogin = $tr.find('td.lastLogin');
+		$tdLastLogin.text(lastLoginRel);
+		//tooltip makes it complicated … to not insert new HTML, we adjust the 
+		//original title. We use a temporary div to get back the html that we 
+		//can pass later. It is also required to initialise tipsy.
+		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
+		$tdLastLogin.tipsy({gravity:'s', fade:true, html:true});
+		$tdLastLogin.attr('title', tooltip);
 		$tr.appendTo($userList);
 		if(UserList.isEmpty === true) {
 			//when the list was emptied, one row was left, necessary to keep

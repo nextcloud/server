@@ -83,6 +83,7 @@ td.name, td.password { padding-left:.8em; }
 td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
 td.password>span, td.quota>span, rd.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
+span.usersLastLoginTooltip { white-space: nowrap; }
 
 td.remove { width:1em; padding-right:1em; }
 tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
