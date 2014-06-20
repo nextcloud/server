@@ -1561,17 +1561,12 @@
 						dir = dropTarget.data('dir') || '/';
 					}
 
-					// update folder in form
-					data.formData = function() {
-						return [
-							{name: 'dir', value: dir},
-							{name: 'requesttoken', value: oc_requesttoken},
-							{name: 'file_directory', value: data.files[0].relativePath}
-						];
-					};
+					// add target dir
+					data.targetDir = dir;
 				} else {
 					// we are dropping somewhere inside the file list, which will
 					// upload the file to the current directory
+					data.targetDir = self.getCurrentDirectory();
 
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
@@ -1654,15 +1649,34 @@
 						data.context.find('td.filesize').text(humanFileSize(size));
 					} else {
 						// only append new file if uploaded into the current folder
-						if (file.directory !== '/' && file.directory !== self.getCurrentDirectory()) {
+						if (file.directory !== self.getCurrentDirectory()) {
+							// Uploading folders actually uploads a list of files
+							// for which the target directory (file.directory) might lie deeper
+							// than the current directory
 
-							var fileDirectory = file.directory.replace('/','').replace(/\/$/, "").split('/');
+							var fileDirectory = file.directory.replace('/','').replace(/\/$/, "");
+							var currentDirectory = self.getCurrentDirectory().replace('/','').replace(/\/$/, "") + '/';
 
-							if (fileDirectory.length === 1) {
+							if (currentDirectory !== '/') {
+								// abort if fileDirectory does not start with current one
+								if (fileDirectory.indexOf(currentDirectory) !== 0) {
+									return;
+								}
+
+								// remove the current directory part
+								fileDirectory = fileDirectory.substr(currentDirectory.length);
+							}
+
+							// only take the first section of the path
+							fileDirectory = fileDirectory.split('/');
+
+							var fd;
+							// if the first section exists / is a subdir
+							if (fileDirectory.length) {
 								fileDirectory = fileDirectory[0];
 
-								// Get the directory
-								var fd = self.findFileEl(fileDirectory);
+								// See whether it is already in the list
+								fd = self.findFileEl(fileDirectory);
 								if (fd.length === 0) {
 									var dir = {
 										name: fileDirectory,
@@ -1672,19 +1686,15 @@
 										size: 0,
 										id: file.parentId
 									};
-									self.add(dir, {insert: true});
+									fd = self.add(dir, {insert: true});
 								}
-							} else {
-								fileDirectory = fileDirectory[0];
+
+								// update folder size
+								size = parseInt(fd.attr('data-size'), 10);
+								size += parseInt(file.size, 10);
+								fd.attr('data-size', size);
+								fd.find('td.filesize').text(OC.Util.humanFileSize(size));
 							}
-
-							fileDirectory = self.findFileEl(fileDirectory);
-
-							// update folder size
-							size = parseInt(fileDirectory.attr('data-size'), 10);
-							size += parseInt(file.size, 10);
-							fileDirectory.attr('data-size', size);
-							fileDirectory.find('td.filesize').text(humanFileSize(size));
 
 							return;
 						}

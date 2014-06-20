@@ -26,7 +26,7 @@ if (empty($_POST['dirToken'])) {
 
 	// return only read permissions for public upload
 	$allowedPermissions = OCP\PERMISSION_READ;
-	$public_directory = !empty($_POST['subdir']) ? $_POST['subdir'] : '/';
+	$publicDirectory = !empty($_POST['subdir']) ? $_POST['subdir'] : '/';
 
 	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
 	if ($linkItem === false) {
@@ -50,13 +50,15 @@ if (empty($_POST['dirToken'])) {
 		$dir = sprintf(
 			"/%s/%s",
 			$path,
-			$public_directory
+			$publicDirectory
 		);
 
 		if (!$dir || empty($dir) || $dir === false) {
 			OCP\JSON::error(array('data' => array_merge(array('message' => $l->t('Unable to set upload directory.')))));
 			die();
 		}
+
+		$dir = rtrim($dir, '/');
 	}
 }
 
@@ -113,33 +115,33 @@ if ($maxUploadFileSize >= 0 and $totalSize > $maxUploadFileSize) {
 }
 
 $result = array();
-$directory = '';
 if (strpos($dir, '..') === false) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
 
-		// Get the files directory
-		if(isset($_POST['file_directory']) === true) {
-			$directory = '/'.$_POST['file_directory'];
+		// target directory for when uploading folders
+		$relativePath = '';
+		if(!empty($_POST['file_directory'])) {
+			$relativePath = '/'.$_POST['file_directory'];
 		}
 
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
 		if (isset($_POST['resolution']) && $_POST['resolution']==='autorename') {
 			// append a number in brackets like 'filename (2).ext'
-			$target = OCP\Files::buildNotExistingFileName(stripslashes($dir.$directory), $files['name'][$i]);
+			$target = OCP\Files::buildNotExistingFileName(stripslashes($dir . $relativePath), $files['name'][$i]);
 		} else {
-			$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir.$directory).'/'.$files['name'][$i]);
+			$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir . $relativePath).'/'.$files['name'][$i]);
 		}
-		
-		if(empty($directory) === true)
-		{
-			$directory = \OC\Files\Filesystem::normalizePath(stripslashes($dir));
-			if (isset($public_directory)) {
-				// If we are uploading from the public app,
-				// we want to send the relative path in the ajax request.
-				$directory = $public_directory;
-			}
+
+		// relative dir to return to the client
+		if (isset($publicDirectory)) {
+			// path relative to the public root
+			$returnedDir = $publicDirectory . $relativePath;
+		} else {
+			// full path
+			$returnedDir = $dir . $relativePath;
 		}
+		$returnedDir = \OC\Files\Filesystem::normalizePath($returnedDir);
 
 		if ( ! \OC\Files\Filesystem::file_exists($target)
 			|| (isset($_POST['resolution']) && $_POST['resolution']==='replace')
@@ -163,7 +165,7 @@ if (strpos($dir, '..') === false) {
 						$data['uploadMaxFilesize'] = $maxUploadFileSize;
 						$data['maxHumanFilesize'] = $maxHumanFileSize;
 						$data['permissions'] = $meta['permissions'] & $allowedPermissions;
-						$data['directory'] = $directory;
+						$data['directory'] = $returnedDir;
 						$result[] = $data;
 					}
 
@@ -187,7 +189,7 @@ if (strpos($dir, '..') === false) {
 				$data['uploadMaxFilesize'] = $maxUploadFileSize;
 				$data['maxHumanFilesize'] = $maxHumanFileSize;
 				$data['permissions'] = $meta['permissions'] & $allowedPermissions;
-				$data['directory'] = $directory;
+				$data['directory'] = $returnedDir;
 				$result[] = $data;
 			}
 		}
