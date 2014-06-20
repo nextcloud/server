@@ -209,8 +209,14 @@ class DAV extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				if ($this->file_exists($path)) {
+					if (!$this->isUpdatable($path)) {
+						return false;
+					}
 					$tmpFile = $this->getCachedFile($path);
 				} else {
+					if (!$this->isCreatable(dirname($path))) {
+						return false;
+					}
 					$tmpFile = \OCP\Files::tmpFile($ext);
 				}
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
