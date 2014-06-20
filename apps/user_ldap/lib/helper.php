@@ -159,7 +159,8 @@ class Helper {
 			return false;
 		}
 
-		if(strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false) {
+		$dbtype = \OCP\Config::getSystemValue('dbtype');
+		if(strpos($dbtype, 'sqlite') !== false || $dbtype === 'oci') {
 			$query = \OCP\DB::prepare('DELETE FROM '.$table);
 		} else {
 			$query = \OCP\DB::prepare('TRUNCATE '.$table);

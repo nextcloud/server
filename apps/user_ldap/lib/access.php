@@ -607,7 +607,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 		$sqlAdjustment = '';
 		$dbType = \OCP\Config::getSystemValue('dbtype');
-		if($dbType === 'mysql') {
+		if($dbType === 'mysql' || $dbType == 'oci') {
 			$sqlAdjustment = 'FROM DUAL';
 		}
 
