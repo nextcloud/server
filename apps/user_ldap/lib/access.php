@@ -638,7 +638,7 @@ class Access extends LDAPUtility {
 
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
-		if($dbtype === 'mysql') {
+		if($dbtype === 'mysql' || $dbtype == 'oci') {
 			$sqlAdjustment = 'FROM DUAL';
 		}
 
@@ -866,7 +866,7 @@ class Access extends LDAPUtility {
 	private function countEntriesInSearchResults($searchResults, $limit,
 																&$hasHitLimit) {
 		$cr = $this->connection->getConnectionResource();
-		$count = 0;
+		$counter = 0;
 
 		foreach($searchResults as $res) {
 			$count = intval($this->ldap->countEntries($cr, $res));
