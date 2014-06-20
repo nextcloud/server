@@ -11,21 +11,17 @@ interface IObjectStore {
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that should be
-	 *        used to store the object
-	 * @return void
+	 * @return resource stream with the read data
 	 * @throws Exception when something goes wrong, message will be logged
 	 */
-	function getObject($urn, $tmpFile);
+	function readObject($urn);
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object
-	 * @param string $tmpFile path to the local temporary file that the object
-	 *        should be loaded from
-	 * @return void
+	 * @param resource $stream stream with the data to write
 	 * @throws Exception when something goes wrong, message will be logged
 	 */
-	function writeObject($urn, $tmpFile = null);
+	function writeObject($urn, $stream);
 
 	/**
 	 * @param string $urn the unified resource name used to identify the object

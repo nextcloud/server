@@ -21,23 +21,24 @@
 namespace OC\Files\ObjectStore;
 
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use OCP\Files\ObjectStore\IObjectStore;
 use OpenCloud\OpenStack;
 
-class Swift implements \OCP\Files\ObjectStore\IObjectStore {
+class Swift implements IObjectStore {
 
 	/**
 	 * @var \OpenCloud\ObjectStore\Service
 	 */
 	private $objectStoreService;
-	
+
 	/**
 	 * @var \OpenCloud\ObjectStore\Resource\Container
 	 */
 	private $container;
 
 	public function __construct($params) {
-		if (!isset($params['username']) || !isset($params['password']) ) {
-			throw new \Exception("Access Key and Secret have to be configured.");
+		if (!isset($params['username']) || !isset($params['password'])) {
+			throw new \Exception('Access Key and Secret have to be configured.');
 		}
 		if (!isset($params['container'])) {
 			$params['container'] = 'owncloud';
@@ -80,40 +81,42 @@ class Swift implements \OCP\Files\ObjectStore\IObjectStore {
 		}
 	}
 
+	/**
+	 * @return string the container name where objects are stored
+	 */
 	public function getStorageId() {
 		return $this->container->name;
 	}
 
 	/**
-	 * @param string $urn Unified Resource Name
-	 * @param string $tmpFile
-	 * @return void
+	 * @param string $urn the unified resource name used to identify the object
+	 * @param resource $stream stream with the data to write
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
-	public function writeObject($urn, $tmpFile = null) {
-		$fileData = '';
-		if ($tmpFile) {
-			$fileData = fopen($tmpFile, 'r');
-		}
-
-		$this->container->uploadObject($urn, $fileData);
+	public function writeObject($urn, $stream) {
+		$this->container->uploadObject($urn, $stream);
 	}
 
 	/**
-	 * @param string $urn Unified Resource Name
-	 * @param string $tmpFile
-	 * @return void
+	 * @param string $urn the unified resource name used to identify the object
+	 * @return resource stream with the read data
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
-	public function getObject($urn, $tmpFile) {
+	public function readObject($urn) {
 		$object = $this->container->getObject($urn);
 
-		/** @var $objectContent \Guzzle\Http\EntityBody **/
+		// we need to keep a reference to objectContent or
+		// the stream will be closed before we can do anything with it
+		/** @var $objectContent \Guzzle\Http\EntityBody * */
 		$objectContent = $object->getContent();
-
 		$objectContent->rewind();
-		$stream = $objectContent->getStream();
-		file_put_contents($tmpFile, $stream);
+
+		// directly returning the object stream does not work because the GC seems to collect it, so we need a copy
+		$tmpStream = fopen('php://temp', 'r+');
+		stream_copy_to_stream($objectContent->getStream(), $tmpStream);
+		rewind($tmpStream);
+
+		return $tmpStream;
 	}
 
 	/**

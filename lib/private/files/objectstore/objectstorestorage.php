@@ -25,19 +25,17 @@ use OCP\Files\ObjectStore\IObjectStore;
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	/**
+	 * @var array
+	 */
+	private static $tmpFiles = array();
+	/**
 	 * @var \OCP\Files\ObjectStore\IObjectStore $objectStore
 	 */
 	protected $objectStore;
-
 	/**
 	 * @var \OC\User\User $user
 	 */
 	protected $user;
-
-	/**
-	 * @var array
-	 */
-	private static $tmpFiles = array();
 
 	public function __construct($params) {
 		if (isset($params['objectstore']) && $params['objectstore'] instanceof IObjectStore) {
@@ -46,31 +44,49 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			throw new \Exception('missing IObjectStore instance');
 		}
 		if (isset($params['storageid'])) {
-			$this->id = 'object::store:'.$params['storageid'];
+			$this->id = 'object::store:' . $params['storageid'];
 		} else {
-			$this->id = 'object::store:'.$this->objectStore->getStorageId();
+			$this->id = 'object::store:' . $this->objectStore->getStorageId();
 		}
 		//initialize cache with root directory in cache
-		if ( ! $this->is_dir('/') ) {
+		if (!$this->is_dir('/')) {
 			$this->mkdir('/');
 		}
 	}
 
-	/**
-	 * Object Stores use a NoopScanner because metadata is directly stored in
-	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
-	 * @param string $path
-	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
-	 * @return \OC\Files\ObjectStore\NoopScanner
-	 */
-	public function getScanner($path = '', $storage = null) {
-		if (!$storage) {
-			$storage = $this;
+	public function mkdir($path) {
+		$path = $this->normalizePath($path);
+
+		if ($this->is_dir($path)) {
+			return false;
 		}
-		if (!isset($this->scanner)) {
-			$this->scanner = new NoopScanner($storage);
+
+		$dirName = dirname($path);
+		$parentExists = $this->is_dir($dirName);
+
+		$mTime = time();
+
+		$data = array(
+			'mimetype' => 'httpd/unix-directory',
+			'size' => 0,
+			'mtime' => $mTime,
+			'storage_mtime' => $mTime,
+			'permissions' => \OCP\PERMISSION_ALL,
+		);
+
+		if ($dirName === '.' && !$parentExists) {
+			//create root on the fly
+			$data['etag'] = $this->getETag($dirName);
+			$this->getCache()->put('', $data);
+			$parentExists = true;
 		}
-		return $this->scanner;
+
+		if ($parentExists) {
+			$data['etag'] = $this->getETag($path);
+			$this->getCache()->put($path, $data);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -89,59 +105,26 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
-	public function getId () {
+	/**
+	 * Object Stores use a NoopScanner because metadata is directly stored in
+	 * the file cache and cannot really scan the filesystem. The storage passed in is not used anywhere.
+	 *
+	 * @param string $path
+	 * @param \OC\Files\Storage\Storage (optional) the storage to pass to the scanner
+	 * @return \OC\Files\ObjectStore\NoopScanner
+	 */
+	public function getScanner($path = '', $storage = null) {
+		if (!$storage) {
+			$storage = $this;
+		}
+		if (!isset($this->scanner)) {
+			$this->scanner = new NoopScanner($storage);
+		}
+		return $this->scanner;
+	}
+
+	public function getId() {
 		return $this->id;
-	}
-
-	public function mkdir($path) {
-		$path = $this->normalizePath($path);
-
-		if($this->is_dir($path)) {
-			return false;
-		}
-
-		$dirName = dirname($path);
-		$parentExists = $this->is_dir($dirName);
-
-		$mTime = time();
-
-		$data = array(
-			'mimetype' => 'httpd/unix-directory',
-			'size' => 0,
-			'mtime' => $mTime,
-			'storage_mtime' => $mTime,
-			'permissions' => \OCP\PERMISSION_ALL,
-		);
-
-		if ($dirName === '.' && ! $parentExists ) {
-			//create root on the fly
-			$data['etag'] = $this->getETag($dirName);
-			$this->getCache()->put('', $data);
-			$parentExists = true;
-		}
-
-		if ($parentExists) {
-			$data['etag'] = $this->getETag($path);
-			$this->getCache()->put($path, $data);
-			return true;
-		}
-		return false;
-	}
-
-	public function file_exists($path) {
-		$path = $this->normalizePath($path);
-		return (bool)$this->stat($path);
-	}
-
-	private function rmObjects($path) {
-		$children = $this->getCache()->getFolderContents($path);
-		foreach ($children as $child) {
-			if ($child['mimetype'] === 'httpd/unix-directory') {
-				$this->rmObjects($child['path']);
-			} else {
-				$this->unlink($child['path']);
-			}
-		}
 	}
 
 	public function rmdir($path) {
@@ -158,9 +141,63 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	private function rmObjects($path) {
+		$children = $this->getCache()->getFolderContents($path);
+		foreach ($children as $child) {
+			if ($child['mimetype'] === 'httpd/unix-directory') {
+				$this->rmObjects($child['path']);
+			} else {
+				$this->unlink($child['path']);
+			}
+		}
+	}
+
+	public function unlink($path) {
+		$path = $this->normalizePath($path);
+		$stat = $this->stat($path);
+
+		if ($stat && isset($stat['fileid'])) {
+			if ($stat['mimetype'] === 'httpd/unix-directory') {
+				return $this->rmdir($path);
+			}
+			try {
+				$this->objectStore->deleteObject($this->getURN($stat['fileid']));
+			} catch (\Exception $ex) {
+				if ($ex->getCode() !== 404) {
+					\OCP\Util::writeLog('objectstore', 'Could not delete object: ' . $ex->getMessage(), \OCP\Util::ERROR);
+					return false;
+				} else {
+					//removing from cache is ok as it does not exist in the objectstore anyway
+				}
+			}
+			$this->getCache()->remove($path);
+			return true;
+		}
+		return false;
+	}
+
+	public function stat($path) {
+		return $this->getCache()->get($path);
+	}
+
+	/**
+	 * Override this method if you need a different unique resource identifier for your object storage implementation.
+	 * The default implementations just appends the fileId to 'urn:oid:'. Make sure the URN is unique over all users.
+	 * You may need a mapping table to store your URN if it cannot be generated from the fileid.
+	 *
+	 * @param int $fileId the fileid
+	 * @return null|string the unified resource name used to identify the object
+	 */
+	protected function getURN($fileId) {
+		if (is_numeric($fileId)) {
+			return 'urn:oid:' . $fileId;
+		}
+		return null;
+	}
+
 	public function opendir($path) {
 		$path = $this->normalizePath($path);
-		
+
 		if ($path === '.') {
 			$path = '';
 		} else if ($path) {
@@ -173,7 +210,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			foreach ($folderContents as $file) {
 				$files[] = $file['name'];
 			}
-			
+
 			\OC\Files\Stream\Dir::register('objstore' . $path, $files);
 
 			return opendir('fakedir://objstore' . $path);
@@ -181,10 +218,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			\OCP\Util::writeLog('objectstore', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
-	}
-
-	public function stat($path) {
-		return $this->getCache()->get($path);
 	}
 
 	public function filetype($path) {
@@ -200,31 +233,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		}
 	}
 
-	
-	public function unlink($path) {
-		$path = $this->normalizePath($path);
-		$stat = $this->stat($path);
-
-		if ($stat && isset($stat['fileid'])) {
-			if ($stat['mimetype'] === 'httpd/unix-directory') {
-				return $this->rmdir($path);
-			}
-			try {
-				$this->objectStore->deleteObject($this->getURN($stat['fileid']));
-			} catch (\Exception $ex) {
-				if ($ex->getCode() !== 404) {
-					\OCP\Util::writeLog('objectstore', 'Could not delete object: '.$ex->getMessage(), \OCP\Util::ERROR);
-					return false;
-				} else {
-					//removing from cache is ok as it does not exist in the objectstore anyway
-				}
-			}
-			$this->getCache()->remove($path);
-			return true;
-		}
-		return false;
-	}
-	
 	public function fopen($path, $mode) {
 		$path = $this->normalizePath($path);
 
@@ -233,15 +241,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			case 'rb':
 				$stat = $this->stat($path);
 				if (is_array($stat)) {
-					$tmpFile = \OC_Helper::tmpFile();
-					self::$tmpFiles[$tmpFile] = $path;
 					try {
-						$this->objectStore->getObject($this->getURN($stat['fileid']), $tmpFile);
+						return $this->objectStore->readObject($this->getURN($stat['fileid']));
 					} catch (\Exception $ex) {
-						\OCP\Util::writeLog('objectstore', 'Could not get object: '.$ex->getMessage(), \OCP\Util::ERROR);
+						\OCP\Util::writeLog('objectstore', 'Could not get object: ' . $ex->getMessage(), \OCP\Util::ERROR);
 						return false;
 					}
-					return fopen($tmpFile, 'r');
 				} else {
 					return false;
 				}
@@ -275,6 +280,11 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return false;
 	}
 
+	public function file_exists($path) {
+		$path = $this->normalizePath($path);
+		return (bool)$this->stat($path);
+	}
+
 	public function rename($path1, $path2) {
 		$path1 = $this->normalizePath($path1);
 		$path2 = $this->normalizePath($path2);
@@ -297,12 +307,12 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			} else {
 				return false;
 			}
-			
+
 		} else {
 			return false;
 		}
 	}
-	
+
 	public function getMimeType($path) {
 		$path = $this->normalizePath($path);
 		$stat = $this->stat($path);
@@ -312,7 +322,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			return false;
 		}
 	}
-	
+
 	public function touch($path, $mtime = null) {
 		if (is_null($mtime)) {
 			$mtime = time();
@@ -343,28 +353,15 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			);
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
-				$this->objectStore->writeObject($this->getURN($fileId));
+				//read an empty file from memory
+				$this->objectStore->writeObject($this->getURN($fileId), fopen('php://memory', 'r'));
 			} catch (\Exception $ex) {
 				$this->getCache()->remove($path);
-				\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
+				\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
 				return false;
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Override this method if you need a different unique resource identifier for your object storage implementation.
-	 * The default implementations just appends the fileId to 'urn:oid:'. Make sure the URN is unique over all users.
-	 * You may need a mapping table to store your URN if it cannot be generated from the fileid.
-	 * @param int $fileId the fileid
-	 * @return null|string the unified resource name used to identify the object
-	 */
-	protected function getURN($fileId) {
-		if (is_numeric($fileId)) {
-			return 'urn:oid:'.$fileId;
-		}
-		return null;
 	}
 
 	public function writeBack($tmpFile) {
@@ -391,10 +388,10 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$fileId = $this->getCache()->put($path, $stat);
 		try {
 			//upload to object storage
-			$this->objectStore->writeObject($this->getURN($fileId), $tmpFile);
+			$this->objectStore->writeObject($this->getURN($fileId), fopen($tmpFile, 'r'));
 		} catch (\Exception $ex) {
 			$this->getCache()->remove($path);
-			\OCP\Util::writeLog('objectstore', 'Could not create object: '.$ex->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 		return true;
