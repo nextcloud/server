@@ -144,7 +144,13 @@ var OCdialogs = {
 	*/
 	filepicker:function(title, callback, multiselect, mimetypeFilter, modal) {
 		var self = this;
+		// avoid opening the picker twice
+		if (this.filepicker.loading) {
+			return;
+		}
+		this.filepicker.loading = true;
 		$.when(this._getFilePickerTemplate()).then(function($tmpl) {
+			self.filepicker.loading = false;
 			var dialogName = 'oc-dialog-filepicker-content';
 			if(self.$filePicker) {
 				self.$filePicker.ocdialog('close');
@@ -220,6 +226,7 @@ var OCdialogs = {
 		.fail(function(status, error) {
 			// If the method is called while navigating away
 			// from the page, it is probably not needed ;)
+			self.filepicker.loading = false;
 			if(status !== 0) {
 				alert(t('core', 'Error loading file picker template: {error}', {error: error}));
 			}
