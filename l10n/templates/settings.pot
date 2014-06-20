@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
+"POT-Creation-Date: 2014-06-20 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -316,7 +316,7 @@ msgstr ""
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:255
+#: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
 msgstr ""
 
@@ -336,31 +336,31 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:85 templates/users/part.userlist.php:98
 msgid "never"
 msgstr ""
 
-#: js/users/users.js:254
+#: js/users/users.js:264
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:371
+#: js/users/users.js:381
 msgid "add group"
 msgstr ""
 
-#: js/users/users.js:568
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr ""
 
-#: js/users/users.js:574
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr ""
 
-#: js/users/users.js:598
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
