@@ -60,24 +60,32 @@ class Manager extends PublicEmitter {
 		$this->userManager = $userManager;
 		$cachedGroups = & $this->cachedGroups;
 		$cachedUserGroups = & $this->cachedUserGroups;
-		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
+		$cachedUserGroupIds = & $this->cachedUserGroupIds;
+		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups, &$cachedUserGroupIds) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			unset($cachedGroups[$group->getGID()]);
 			$cachedUserGroups = array();
+			$Position = array_search($group->getGID(), $cachedUserGroupIds);
+			if($Position !== false)
+			{
+				unset($cachedUserGroupIds[$Position]);
+			}
 		});
-		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
+		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups, &$cachedUserGroupIds) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			$cachedUserGroups = array();
+			$cachedUserGroupIds = array();
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
+		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups, &$cachedUserGroupIds) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			$cachedUserGroups = array();
+			$cachedUserGroupIds = array();
 		});
 	}
 
