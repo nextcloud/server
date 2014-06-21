@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Nicolas North, 2014
 # Paolo Velati <paolo.velati@gmail.com>, 2013-2014
 # Vincenzo Reale <vinx.reale@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-21 01:54-0400\n"
+"PO-Revision-Date: 2014-06-20 14:50+0000\n"
+"Last-Translator: Nicolas North\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: ajax/external.php:20
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "La condivisione da server a server non è abilitata su questo server"
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Aggiunta della condivisione remota non riuscita"
 
 #: appinfo/app.php:46 js/app.js:34
 msgid "Shared with you"
@@ -53,15 +54,15 @@ msgstr "Non hai ancora condiviso alcun file tramite collegamento."
 
 #: js/external.js:43 js/external.js:46
 msgid "Add {name} from {owner}@{remote}"
-msgstr ""
+msgstr "Aggiungi {name} da {owner}@{remote}"
 
 #: js/public.js:200
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Nessuna installazione di ownCloud trovata su {remote}"
 
 #: js/public.js:201
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "URL di ownCloud non valido"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -117,11 +118,11 @@ msgstr "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il col
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "Salva su ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr ""
+msgstr "example.com/owncloud"
 
 #: templates/public.php:23
 msgid "Save"
@@ -142,12 +143,12 @@ msgstr "Collegamento diretto"
 
 #: templates/settings-admin.php:3
 msgid "File Sharing"
-msgstr ""
+msgstr "Condivisione di File"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "Permetti ad altre istanze di montare link pubblici condivisi da questo server"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Permetti agli utenti di montare condivisioni con link pubblico"

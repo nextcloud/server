@@ -28,6 +28,7 @@ $TRANSLATIONS = array(
 "Upload failed. Could not get file info." => "Încărcare eșuată. Nu se pot obține informații despre fișier.",
 "Invalid directory." => "Dosar nevalid.",
 "Files" => "Fișiere",
+"All files" => "Toate fișierele.",
 "Unable to upload {filename} as it is a directory or has 0 bytes" => "Nu se poate încărca {filename} deoarece este un director sau are mărimea de 0 octeți",
 "Total file size {size1} exceeds upload limit {size2}" => "Mărimea fișierului este {size1} ce depășește limita de incarcare de {size2}",
 "Not enough free space, you are uploading {size1} but only {size2} is left" => "Spațiu liber insuficient, încărcați {size1} însă doar {size2} disponibil rămas",
@@ -83,6 +84,7 @@ $TRANSLATIONS = array(
 "Download" => "Descarcă",
 "Upload too large" => "Fișierul încărcat este prea mare",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",
-"Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteaptă."
+"Files are being scanned, please wait." => "Fișierele sunt scanate, te rog așteaptă.",
+"Currently scanning" => "Acum scaneaza"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));";

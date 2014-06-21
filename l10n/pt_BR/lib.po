@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 15:11+0000\n"
+"POT-Creation-Date: 2014-06-21 01:54-0400\n"
+"PO-Revision-Date: 2014-06-20 23:56+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Pessoal"
 
 #: private/app.php:385
 msgid "Settings"
-msgstr "Ajustes"
+msgstr "Configurações"
 
 #: private/app.php:397
 msgid "Users"
@@ -93,7 +93,7 @@ msgstr "Nenhuma fonte foi especificada enquanto instalava o aplicativo"
 
 #: private/installer.php:238
 msgid "No href specified when installing app from http"
-msgstr "Nenhuma href foi especificada enquanto instalava o aplicativo de httml"
+msgstr "Nenhuma href foi especificada enquanto instalava o aplicativo de http"
 
 #: private/installer.php:243
 msgid "No path specified when installing app from local file"
@@ -132,7 +132,7 @@ msgstr "O aplicativo não pode ser instalado porque ele contém a marca <shipped
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr "O aplicativo não pode ser instalado porque a versão em info.xml /versão não é a mesma que a versão relatada na App Store"
+msgstr "O aplicativo não pode ser instalado porque a versão em info.xml/versão não é a mesma que a versão relatada na App Store"
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -174,7 +174,7 @@ msgstr "Nome de usuário e/ou senha MS SQL inválido(s): %s"
 #: private/setup/oci.php:114 private/setup/postgresql.php:31
 #: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Você precisa inserir uma conta existente ou o administrador."
+msgstr "Você precisa inserir uma conta existente ou a do administrador."
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
@@ -240,7 +240,7 @@ msgstr "Nome de usuário e/ou senha PostgreSQL inválido(s)"
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr "Defina um nome de usuário de administrador."
+msgstr "Defina um nome do usuário administrador."
 
 #: private/setup.php:31
 msgid "Set an admin password."
@@ -250,7 +250,7 @@ msgstr "Defina uma senha de administrador."
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Seu servidor web não está configurado corretamente para permitir sincronização de arquivos porque a interface WebDAV parece estar quebrada."
+msgstr "Seu servidor web não está configurado corretamente para permitir sincronização de arquivos porque a interface WebDAV parece não estar funcionando."
 
 #: private/setup.php:165
 #, php-format
