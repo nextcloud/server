@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 23:40+0000\n"
+"POT-Creation-Date: 2014-06-22 01:54-0400\n"
+"PO-Revision-Date: 2014-06-21 13:55+0000\n"
 "Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgstr "Et gyldig gruppenavn må oppgis"
 msgid "deleted {groupName}"
 msgstr "slettet {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:255
+#: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
 msgstr "angre"
 
@@ -341,31 +341,31 @@ msgstr "Gruppeadministrator"
 msgid "Delete"
 msgstr "Slett"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:85 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "aldri"
 
-#: js/users/users.js:254
+#: js/users/users.js:264
 msgid "deleted {userName}"
 msgstr "slettet {userName}"
 
-#: js/users/users.js:371
+#: js/users/users.js:381
 msgid "add group"
 msgstr "legg til gruppe"
 
-#: js/users/users.js:568
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Oppgi et gyldig brukernavn"
 
-#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Feil ved oppretting av bruker"
 
-#: js/users/users.js:574
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Oppgi et gyldig passord"
 
-#: js/users/users.js:598
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Advarsel: Hjemmemappe for bruker \"{user}\" eksisterer allerede"
 
@@ -466,7 +466,7 @@ msgstr "Dette forårsakes sannsynligvis av en bufrer/akselerator, som f.eks. Zen
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr "Info om databaseytelse"
+msgstr "Info om database-ytelse"
 
 #: templates/admin.php:108
 msgid ""

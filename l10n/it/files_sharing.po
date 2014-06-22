@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-21 01:54-0400\n"
-"PO-Revision-Date: 2014-06-20 14:50+0000\n"
-"Last-Translator: Nicolas North\n"
+"POT-Creation-Date: 2014-06-22 01:54-0400\n"
+"PO-Revision-Date: 2014-06-21 09:41+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 
 #: ajax/external.php:20
 msgid "Server to server sharing is not enabled on this server"
-msgstr "La condivisione da server a server non è abilitata su questo server"
+msgstr "La condivisione tra server non è abilitata su questo server"
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
-msgstr "Aggiunta della condivisione remota non riuscita"
+msgstr "Impossibile aggiungere la condivisione remota"
 
 #: appinfo/app.php:46 js/app.js:34
 msgid "Shared with you"
@@ -122,7 +122,7 @@ msgstr "Salva su ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr "example.com/owncloud"
+msgstr "esempio.com/owncloud"
 
 #: templates/public.php:23
 msgid "Save"
@@ -143,12 +143,12 @@ msgstr "Collegamento diretto"
 
 #: templates/settings-admin.php:3
 msgid "File Sharing"
-msgstr "Condivisione di File"
+msgstr "Condivisione file"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr "Permetti ad altre istanze di montare link pubblici condivisi da questo server"
+msgstr "Permetti ad altre istanze di montare collegamenti pubblici condivisi da questo server"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr "Permetti agli utenti di montare condivisioni con link pubblico"
+msgstr "Permetti agli utenti di montare condivisioni con collegamento pubblico"

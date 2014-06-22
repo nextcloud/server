@@ -102,7 +102,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href=\"%s\">installation guides</a>." => "Vennligst dobbeltsjekk <a href=\"%s\">installasjonsveilederne</a>.",
 "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." => "Det ser ut for at PHP er satt opp til å fjerne innebygde doc blocks. Dette gjør at flere av kjerneapplikasjonene blir utilgjengelige.",
 "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." => "Dette forårsakes sannsynligvis av en bufrer/akselerator, som f.eks. Zend OPcache eller eAccelerator.",
-"Database Performance Info" => "Info om databaseytelse",
+"Database Performance Info" => "Info om database-ytelse",
 "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" => "SQLite brukes som database. For større installasjoner anbefaler vi å endre dette. For å migrere til en annen database, bruk kommandolinjeverktøyet: 'occ db:convert-type'",
 "Module 'fileinfo' missing" => "Modulen 'fileinfo' mangler",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP modulen 'fileinfo' mangler. Vi anbefaler at du aktiverer denne modulen for å kunne detektere mime-typen korrekt.",

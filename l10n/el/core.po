@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 19:01+0000\n"
-"Last-Translator: Theodore Grammenos <theodorewii121@hotmail.com>\n"
+"POT-Creation-Date: 2014-06-22 01:54-0400\n"
+"PO-Revision-Date: 2014-06-21 16:27+0000\n"
+"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -228,14 +228,14 @@ msgstr "χρόνια πριν"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς. Παρακαλώ επικοινωνήστε με το διαχειριστή σας."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Ο σύνδεσμος για την επαναφορά του κωδικού πρόσβασής σας απεστάλη στο ηλ. ταχυδρομείο σας. Εάν δεν το παραλάβετε μέσα σε ένα εύλογο χρονικό διάστημα, ελέγξτε το φάκελο ανεπιθύμητων μηνυμάτων σας. <br>Εάν δεν βρίσκεται εκεί ρωτήστε τον τοπικό διαχειριστή σας."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -243,11 +243,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Τα αρχεία σας είναι κρυπτογραφημένα. Εάν δεν έχετε ενεργοποιήσει το κλειδί επαναφοράς, δεν θα υπάρχει τρόπος να ανακτήσετε τα δεδομένα σας μετά την επαναφορά του κωδικού πρόσβασής σας.<br />Εάν δεν είστε σίγουροι για το τι θα θέλατε να κάνετε, παρακαλώ επικοινωνήστε με το διαχειριστή σας πριν συνεχίσετε. <br />Θέλετε στ' αλήθεια να συνεχίσετε;"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Γνωρίζω τι κάνω"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -255,77 +255,77 @@ msgstr "Επαναφορά συνθηματικού"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Ο κωδικός πρόσβασης δεν μπορεί να αλλάξει. Παρακαλώ επικοινωνήστε με το διαχειριστή σας."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Ναι"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Όχι"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Επιλέξτε"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Σφάλμα κατά την φόρτωση προτύπου επιλογέα αρχείων: {σφάλμα}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Οκ"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Σφάλμα φόρτωσης προτύπου μηνυμάτων: {σφάλμα}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} αρχείο διαφέρει"
 msgstr[1] "{count} αρχεία διαφέρουν"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Ένα αρχείο διαφέρει"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Νέα Αρχεία"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Ήδη υπάρχοντα αρχεία"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Ποια αρχεία θέλετε να κρατήσετε;"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Εάν επιλέξετε και τις δυο εκδοχές, ένας αριθμός θα προστεθεί στο αντιγραφόμενο αρχείο."
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Συνέχεια"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(όλα τα επιλεγμένα)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} επιλέχθησαν)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Σφάλμα κατά την φόρτωση του προτύπου ύπαρξης αρχείου"
 
@@ -557,17 +557,17 @@ msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Αδυναμία επαναφοράς κωδικού πρόσβασης καθώς το τεκμήριο είναι άκυρο"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς. Παρακαλώ ελέγξτε ότι το όνομα χρήστη σας είναι ορθό."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς καθώς δεν αντιστοιχεί καμμία διεύθυνση ηλ. ταχυδρομείου σε αυτό το όνομα χρήστη. Παρακαλώ επικοινωνήστε με το διαχειριστή σας."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -838,7 +838,7 @@ msgstr "Παρακαλώ επικοινωνήστε με τον διαχειρι
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Ξεχάσατε τον κωδικό πρόσβασής σας; Επαναφέρετέ τον!"
 
 #: templates/login.php:55
 msgid "remember"

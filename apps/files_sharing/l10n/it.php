@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Server to server sharing is not enabled on this server" => "La condivisione da server a server non è abilitata su questo server",
-"Couldn't add remote share" => "Aggiunta della condivisione remota non riuscita",
+"Server to server sharing is not enabled on this server" => "La condivisione tra server non è abilitata su questo server",
+"Couldn't add remote share" => "Impossibile aggiungere la condivisione remota",
 "Shared with you" => "Condiviso con te",
 "Shared with others" => "Condiviso con altri",
 "Shared by link" => "Condiviso tramite collegamento",
@@ -25,13 +25,13 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "la condivisione è disabilitata",
 "For more info, please ask the person who sent this link." => "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
 "Save to ownCloud" => "Salva su ownCloud",
-"example.com/owncloud" => "example.com/owncloud",
+"example.com/owncloud" => "esempio.com/owncloud",
 "Save" => "Salva",
 "Download" => "Scarica",
 "Download %s" => "Scarica %s",
 "Direct link" => "Collegamento diretto",
-"File Sharing" => "Condivisione di File",
-"Allow other instances to mount public links shared from this server" => "Permetti ad altre istanze di montare link pubblici condivisi da questo server",
-"Allow users to mount public link shares" => "Permetti agli utenti di montare condivisioni con link pubblico"
+"File Sharing" => "Condivisione file",
+"Allow other instances to mount public links shared from this server" => "Permetti ad altre istanze di montare collegamenti pubblici condivisi da questo server",
+"Allow users to mount public link shares" => "Permetti agli utenti di montare condivisioni con collegamento pubblico"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
