@@ -418,6 +418,7 @@ class OC_Helper {
 					unlink($fileInfo->getRealPath());
 				}
 			}
+			rmdir($dir);
 		} elseif (file_exists($dir)) {
 			unlink($dir);
 		}
