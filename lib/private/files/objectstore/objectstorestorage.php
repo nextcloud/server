@@ -211,9 +211,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$files[] = $file['name'];
 			}
 
-			\OC\Files\Stream\Dir::register('objstore' . $path, $files);
+			\OC\Files\Stream\Dir::register('object' . $path, $files);
 
-			return opendir('fakedir://objstore' . $path);
+			return opendir('fakedir://object' . $path);
 		} catch (Exception $e) {
 			\OCP\Util::writeLog('objectstore', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
