@@ -68,8 +68,7 @@ class Manager extends PublicEmitter {
 			unset($cachedGroups[$group->getGID()]);
 			$cachedUserGroups = array();
 			$Position = array_search($group->getGID(), $cachedUserGroupIds);
-			if($Position !== false)
-			{
+			if($Position !== false) {
 				unset($cachedUserGroupIds[$Position]);
 			}
 		});
@@ -194,6 +193,7 @@ class Manager extends PublicEmitter {
 			}
 		}
 		$this->cachedUserGroups[$uid] = array_values($groups);
+		$this->cachedUserGroupIds[$uid] = array_keys($groups);
 		return $this->cachedUserGroups[$uid];
 	}
 	
@@ -209,13 +209,10 @@ class Manager extends PublicEmitter {
 			return $this->cachedUserGroupIds[$userId];
 		}
 		if (isset($this->cachedUserGroups[$userId])) {
-			foreach($this->cachedUserGroups[$userId] as $group)
-			{
+			foreach($this->cachedUserGroups[$userId] as $group) {
 				$groupIds[] = $group->getGID();
 			}
-		}
-		else
-		{
+		} else {
 			foreach ($this->backends as $backend) {
 				$groupIds = array_merge($groupIds, $backend->getUserGroups($userId));
 			}
