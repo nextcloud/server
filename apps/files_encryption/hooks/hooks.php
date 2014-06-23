@@ -574,19 +574,19 @@ class Hooks {
 			$oldKeyfilePath .= '.key';
 			$newKeyfilePath .= '.key';
 
-			// handle share-keys
+			// create destination folder if not exists
 			$localKeyPath = $view->getLocalFile($oldShareKeyPath);
-			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
-			$matches = glob($escapedPath . '*.shareKey');
+			$newLocalKeyPath = \OC\Files\Filesystem::normalizePath(str_replace($pathOld, $pathNew, $localKeyPath));
+			if (!file_exists(dirname($newLocalKeyPath))) {
+				mkdir(dirname($newLocalKeyPath), 0750, true);
+			}
+
+
+			// handle share-keys
+			$matches = Helper::findShareKeys($oldShareKeyPath, $view);
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($pathOld, $pathNew, $src));
-
-				// create destination folder if not exists
-				if (!file_exists(dirname($dst))) {
-					mkdir(dirname($dst), 0750, true);
-				}
-
-				rename($src, $dst);
+				$view->rename($src, $dst);
 			}
 
 		} else {

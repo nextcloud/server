@@ -430,6 +430,31 @@ class Helper {
 	}
 
 	/**
+	 * find all share keys for a given file
+	 * @param string $path to the file
+	 * @param \OC\Files\View $view view, relative to data/
+	 * @return array list of files, path relative to data/
+	 */
+	public static function findShareKeys($path, $view) {
+		$result = array();
+		$pathinfo = pathinfo($path);
+		$dirContent = $view->opendir($pathinfo['dirname']);
+
+		if (is_resource($dirContent)) {
+			while (($file = readdir($dirContent)) !== false) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					if (preg_match("/" . $pathinfo['filename'] . ".(.*).shareKey/", $file)) {
+						$result[] = $pathinfo['dirname'] . '/' . $file;
+					}
+				}
+			}
+			closedir($dirContent);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * @brief remember from which file the tmp file (getLocalFile() call) was created
 	 * @param string $tmpFile path of tmp file
 	 * @param string $originalFile path of the original file relative to data/
