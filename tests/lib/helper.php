@@ -454,4 +454,28 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('http://localhost/owncloud/public.php?service=files', $result);
 	}
 
+	/**
+	 * Tests recursive folder deletion with rmdirr()
+	 */
+	public function testRecursiveFolderDeletion() {
+		$baseDir = \OC_Helper::tmpFolder() . '/';
+		mkdir($baseDir . 'a/b/c/d/e', 0777, true);
+		mkdir($baseDir . 'a/b/c1/d/e', 0777, true);
+		mkdir($baseDir . 'a/b/c2/d/e', 0777, true);
+		mkdir($baseDir . 'a/b1/c1/d/e', 0777, true);
+		mkdir($baseDir . 'a/b2/c1/d/e', 0777, true);
+		mkdir($baseDir . 'a/b3/c1/d/e', 0777, true);
+		mkdir($baseDir . 'a1/b', 0777, true);
+		mkdir($baseDir . 'a1/c', 0777, true);
+		file_put_contents($baseDir . 'a/test.txt', 'Hello file!');
+		file_put_contents($baseDir . 'a/b1/c1/test one.txt', 'Hello file one!');
+		file_put_contents($baseDir . 'a1/b/test two.txt', 'Hello file two!');
+		\OC_Helper::rmdirr($baseDir . 'a');
+
+		$this->assertFalse(file_exists($baseDir . 'a'));
+		$this->assertTrue(file_exists($baseDir . 'a1'));
+
+		\OC_Helper::rmdirr($baseDir);
+		$this->assertFalse(file_exists($baseDir));
+	}
 }
