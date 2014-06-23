@@ -19,7 +19,9 @@
 			</span>
 		</a>
 		<span class="utils">
-			<span class="usercount"></span>
+			<span class="usercount">
+				<?php p($_["usercount"]); ?>
+			</span>
 		</span>
 	</li>
 

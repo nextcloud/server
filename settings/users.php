@@ -81,6 +81,7 @@ $tmpl->assign( 'groups', $groups );
 $tmpl->assign( 'adminGroup', $adminGroup );
 $tmpl->assign( 'isAdmin', (int) $isAdmin);
 $tmpl->assign( 'subadmins', $subadmins);
+$tmpl->assign('usercount', count($users));
 $tmpl->assign( 'numofgroups', count($groups) + count($adminGroup));
 $tmpl->assign( 'quota_preset', $quotaPreset);
 $tmpl->assign( 'default_quota', $defaultQuota);
