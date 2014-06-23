@@ -6,15 +6,16 @@
 # Bruno Martins <inactive+skorzen@transifex.com>, 2013
 # Carlos Moreira <crolidge@gmail.com>, 2014
 # Daniel Pinto <daniel@mouxy.net>, 2013
+# Fernando Moura <moura232@gmail.com>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: Andrew_Melim <nokostya.translation@gmail.com>\n"
+"POT-Creation-Date: 2014-06-23 01:54-0400\n"
+"PO-Revision-Date: 2014-06-22 18:11+0000\n"
+"Last-Translator: Fernando Moura <moura232@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -133,11 +134,11 @@ msgstr "Selecionar atributos"
 
 #: js/settings.js:848
 msgid "Connection test succeeded"
-msgstr "Teste de conecção passado com sucesso."
+msgstr "Teste de ligação com sucesso."
 
 #: js/settings.js:855
 msgid "Connection test failed"
-msgstr "Erro no teste de conecção."
+msgstr "Erro no teste de ligação."
 
 #: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
@@ -200,7 +201,7 @@ msgstr "Ajuda"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Grupos que satisfazerem estes critérios estão disponíveis em %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -236,7 +237,7 @@ msgstr "grupos encontrados"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Utilizadores entrar com este atributo:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -405,7 +406,7 @@ msgstr "Desligar a validação de certificado SSL."
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Não recomendado, use-o somente para teste! ligação só funciona com esta opção, importar o certificado SSL do servidor LDAP para o seu servidor %s."
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
@@ -469,24 +470,24 @@ msgstr "Associar utilizador ao grupo."
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Grupos agrupados"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Quando habilitado os grupos, os grupos são suportados. (Só funciona se o atributo de membro de grupo contém DNs.)"
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Bloco de paginação"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "Tamanho do bloco usado para pesquisas LDAP paginados que podem retornar resultados volumosos como utilizador ou grupo de enumeração. (Defini-lo 0 desactiva paginada das pesquisas LDAP nessas situações.)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"
