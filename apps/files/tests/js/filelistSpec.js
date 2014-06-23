@@ -485,7 +485,9 @@ describe('OCA.Files.FileList tests', function() {
 			var $input, request;
 
 			for (var i = 0; i < testFiles.length; i++) {
-				fileList.add(testFiles[i], {silent: true});
+				var file = testFiles[i];
+				file.path = '/some/subdir';
+				fileList.add(file, {silent: true});
 			}
 
 			// trigger rename prompt
@@ -498,7 +500,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fakeServer.requests.length).toEqual(1);
 			request = fakeServer.requests[0];
 			expect(request.url.substr(0, request.url.indexOf('?'))).toEqual(OC.webroot + '/index.php/apps/files/ajax/rename.php');
-			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/subdir', newname: 'Tu_after_three.txt', file: 'One.txt'});
+			expect(OC.parseQueryString(request.url)).toEqual({'dir': '/some/subdir', newname: 'Tu_after_three.txt', file: 'One.txt'});
 		}
 		it('Inserts renamed file entry at correct position if rename ajax call suceeded', function() {
 			doRename();
