@@ -133,7 +133,7 @@ class Keymanager {
 			$basePath = '/' . $owner . '/files_encryption/keyfiles';
 		}
 
-		$targetPath = self::keySetPreparation($view, $filename, $basePath, $owner);
+		$targetPath = self::keySetPreparation($view, $filename, $basePath);
 
 		if (!$view->is_dir($basePath . '/' . $targetPath)) {
 
@@ -281,8 +281,9 @@ class Keymanager {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		if (!$view->file_exists(''))
+		if (!$view->file_exists('')) {
 			$view->mkdir('');
+		}
 
 		$result = $view->file_put_contents($user . '.private.key', $key);
 
@@ -340,7 +341,7 @@ class Keymanager {
 			$basePath = '/' . $owner . '/files_encryption/share-keys';
 		}
 
-		$shareKeyPath = self::keySetPreparation($view, $filename, $basePath, $owner);
+		$shareKeyPath = self::keySetPreparation($view, $filename, $basePath);
 
 		$result = true;
 
@@ -466,8 +467,7 @@ class Keymanager {
 
 		if ($view->is_dir($shareKeyPath)) {
 
-			$localPath = \OC\Files\Filesystem::normalizePath($view->getLocalFolder($shareKeyPath));
-			self::recursiveDelShareKeys($localPath, $userIds);
+			self::recursiveDelShareKeys($shareKeyPath, $userIds, $view);
 
 		} else {
 
@@ -491,30 +491,32 @@ class Keymanager {
 	 * @param string $dir directory
 	 * @param array $userIds user ids for which the share keys should be deleted
 	 */
-	private static function recursiveDelShareKeys($dir, $userIds) {
-		foreach ($userIds as $userId) {
-			$extension = '.' . $userId . '.shareKey';
-			$escapedDir = Helper::escapeGlobPattern($dir);
-			$escapedExtension = Helper::escapeGlobPattern($extension);
-			$matches = glob($escapedDir . '/*' . $escapedExtension);
-		}
-		/** @var $matches array */
-		foreach ($matches as $ma) {
-			if (!unlink($ma)) {
-				\OCP\Util::writeLog('Encryption library',
-					'Could not delete shareKey; does not exist: "' . $ma . '"', \OCP\Util::ERROR);
+	private static function recursiveDelShareKeys($dir, $userIds, $view) {
+
+		$dirContent = $view->opendir($dir);
+
+		if (is_resource($dirContent)) {
+			while (($file = readdir($dirContent)) !== false) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					if ($view->is_dir($dir . '/' . $file)) {
+						self::recursiveDelShareKeys($dir . '/' . $file, $userIds, $view);
+					} else {
+						foreach ($userIds as $userId) {
+							if (preg_match("/(.*)." . $userId . ".shareKey/", $file)) {
+								$view->unlink($dir . '/' . $file);
+							}
+						}
+					}
+				}
 			}
-		}
-		$subdirs = $directories = glob($escapedDir . '/*', GLOB_ONLYDIR);
-		foreach ($subdirs as $subdir) {
-			self::recursiveDelShareKeys($subdir, $userIds);
+			closedir($dirContent);
 		}
 	}
 
 	/**
 	 * @brief Make preparations to vars and filesystem for saving a keyfile
 	 */
-	public static function keySetPreparation(\OC_FilesystemView $view, $path, $basePath, $userId) {
+	public static function keySetPreparation(\OC_FilesystemView $view, $path, $basePath) {
 
 		$targetPath = ltrim($path, '/');
 
