@@ -597,6 +597,47 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
 			expect(fileList.$fileList.find('form').length).toEqual(0);
 		});
+		it('Validates the file name', function() {
+			var $input, $tr;
+
+			for (var i = 0; i < testFiles.length; i++) {
+				fileList.add(testFiles[i], {silent: true});
+			}
+
+			// trigger rename prompt
+			fileList.rename('One.txt');
+			$input = fileList.$fileList.find('input.filename');
+			$input.val('Two.jpg');
+
+			// simulate key to trigger validation
+			$input.trigger(new $.Event('keyup', {keyCode: 97}));
+
+			// input is still there with error
+			expect(fileList.$fileList.find('input.filename').length).toEqual(1);
+			expect(fileList.$fileList.find('input.filename').hasClass('error')).toEqual(true);
+
+			// trigger submit does not send server request
+			$input.closest('form').trigger('submit');
+			expect(fakeServer.requests.length).toEqual(0);
+
+			// simulate escape key
+			$input.trigger(new $.Event('keyup', {keyCode: 27}));
+
+			// element is added back with the correct name
+			$tr = fileList.findFileEl('One.txt');
+			expect($tr.length).toEqual(1);
+			expect($tr.find('a .nametext').text().trim()).toEqual('One.txt');
+			expect($tr.find('a.name').is(':visible')).toEqual(true);
+
+			$tr = fileList.findFileEl('Two.jpg');
+			expect($tr.length).toEqual(1);
+			expect($tr.find('a .nametext').text().trim()).toEqual('Two.jpg');
+			expect($tr.find('a.name').is(':visible')).toEqual(true);
+
+			// input and form are gone
+			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
+			expect(fileList.$fileList.find('form').length).toEqual(0);
+		});
 	});
 	describe('Moving files', function() {
 		beforeEach(function() {

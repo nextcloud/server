@@ -1195,9 +1195,20 @@
 				return true;
 			};
 
+			function restore() {
+				input.tipsy('hide');
+				tr.data('renaming',false);
+				form.remove();
+				td.children('a.name').show();
+			}
+
 			form.submit(function(event) {
 				event.stopPropagation();
 				event.preventDefault();
+				if (input.hasClass('error')) {
+					return;
+				}
+
 				try {
 					var newName = input.val();
 					input.tipsy('hide');
@@ -1267,10 +1278,7 @@
 					input.addClass('error');
 				}
 				if (event.keyCode === 27) {
-					input.tipsy('hide');
-					tr.data('renaming',false);
-					form.remove();
-					td.children('a.name').show();
+					restore();
 				}
 			});
 			input.click(function(event) {
