@@ -47,11 +47,6 @@ class Manager extends PublicEmitter {
 	 */
 	private $cachedUserGroups = array();
 
-	/**
-	 * @var string[]
-	 */
-	private $cachedUserGroupIds = array();
-
 
 	/**
 	 * @param \OC\User\Manager $userManager
@@ -60,31 +55,24 @@ class Manager extends PublicEmitter {
 		$this->userManager = $userManager;
 		$cachedGroups = & $this->cachedGroups;
 		$cachedUserGroups = & $this->cachedUserGroups;
-		$cachedUserGroupIds = & $this->cachedUserGroupIds;
-		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups, &$cachedUserGroupIds) {
+		$this->listen('\OC\Group', 'postDelete', function ($group) use (&$cachedGroups, &$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			unset($cachedGroups[$group->getGID()]);
 			$cachedUserGroups = array();
-			$Position = array_search($group->getGID(), $cachedUserGroupIds);
-			if($Position !== false) {
-				unset($cachedUserGroupIds[$Position]);
-			}
 		});
-		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups, &$cachedUserGroupIds) {
+		$this->listen('\OC\Group', 'postAddUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			$cachedUserGroups = array();
-			$cachedUserGroupIds = array();
 		});
-		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups, &$cachedUserGroupIds) {
+		$this->listen('\OC\Group', 'postRemoveUser', function ($group) use (&$cachedUserGroups) {
 			/**
 			 * @var \OC\Group\Group $group
 			 */
 			$cachedUserGroups = array();
-			$cachedUserGroupIds = array();
 		});
 	}
 
@@ -192,8 +180,7 @@ class Manager extends PublicEmitter {
 				$groups[$groupId] = $this->get($groupId);
 			}
 		}
-		$this->cachedUserGroups[$uid] = array_values($groups);
-		$this->cachedUserGroupIds[$uid] = array_keys($groups);
+		$this->cachedUserGroups[$uid] = $groups;
 		return $this->cachedUserGroups[$uid];
 	}
 	
@@ -205,20 +192,14 @@ class Manager extends PublicEmitter {
 	public function getUserGroupIds($user) {
 		$groupIds = array();
 		$userId = $user->getUID();
-		if (isset($this->cachedUserGroupIds[$userId])) {
-			return $this->cachedUserGroupIds[$userId];
-		}
 		if (isset($this->cachedUserGroups[$userId])) {
-			foreach($this->cachedUserGroups[$userId] as $group) {
-				$groupIds[] = $group->getGID();
-			}
+			return array_keys($this->cachedUserGroups[$userId]);
 		} else {
 			foreach ($this->backends as $backend) {
 				$groupIds = array_merge($groupIds, $backend->getUserGroups($userId));
 			}
 		}
-		$this->cachedUserGroupIds[$userId] = $groupIds;
-		return $this->cachedUserGroupIds[$userId];
+		return $groupIds;
 	}
 
 	/**
