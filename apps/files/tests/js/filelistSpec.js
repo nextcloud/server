@@ -1368,7 +1368,8 @@ describe('OCA.Files.FileList tests', function() {
 						"Content-Type": "application/json"
 					},
 					JSON.stringify(data)
-			]);
+				]
+			);
 			fileList.changeDirectory('/');
 			fakeServer.respond();
 			expect($('.select-all').prop('checked')).toEqual(false);
@@ -1385,6 +1386,37 @@ describe('OCA.Files.FileList tests', function() {
 			selectedFiles = _.pluck(fileList.getSelectedFiles(), 'name');
 
 			expect(selectedFiles.length).toEqual(41);
+		});
+		describe('clearing the selection', function() {
+			it('clears selected files selected individually calling setFiles()', function() {
+				var selectedFiles;
+
+				fileList.setFiles(generateFiles(0, 41));
+				fileList.$fileList.find('tr:eq(5) input:checkbox:first').click();
+				fileList.$fileList.find('tr:eq(7) input:checkbox:first').click();
+
+				selectedFiles = _.pluck(fileList.getSelectedFiles(), 'name');
+				expect(selectedFiles.length).toEqual(2);
+
+				fileList.setFiles(generateFiles(0, 2));
+
+				selectedFiles = _.pluck(fileList.getSelectedFiles(), 'name');
+				expect(selectedFiles.length).toEqual(0);
+			});
+			it('clears selected files selected with select all when calling setFiles()', function() {
+				var selectedFiles;
+
+				fileList.setFiles(generateFiles(0, 41));
+				$('.select-all').click();
+
+				selectedFiles = _.pluck(fileList.getSelectedFiles(), 'name');
+				expect(selectedFiles.length).toEqual(42);
+
+				fileList.setFiles(generateFiles(0, 2));
+
+				selectedFiles = _.pluck(fileList.getSelectedFiles(), 'name');
+				expect(selectedFiles.length).toEqual(0);
+			});
 		});
 		describe('Selection overlay', function() {
 			it('show delete action according to directory permissions', function() {
