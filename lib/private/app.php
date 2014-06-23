@@ -174,6 +174,7 @@ class OC_App {
 		}
 		$appConfig = \OC::$server->getAppConfig();
 		$appStatus = $appConfig->getValues(false, 'enabled');
+		$user = \OC_User::getUser();
 		foreach ($appStatus as $app => $enabled) {
 			if ($app === 'files') {
 				continue;
@@ -181,7 +182,6 @@ class OC_App {
 			if ($enabled === 'yes') {
 				$apps[] = $app;
 			} else if ($enabled !== 'no') {
-				$user = \OC_User::getUser();
 				$groups = json_decode($enabled);
 				if (is_array($groups)) {
 					foreach ($groups as $group) {
@@ -195,7 +195,12 @@ class OC_App {
 		}
 		sort($apps);
 		array_unshift($apps, 'files');
-		self::$enabledAppsCache = $apps;
+		// Only cache the app list, when the user is logged in.
+		// Otherwise we cache the list with disabled apps, although
+		// the apps are enabled for the user after he logged in.
+		if ($user) {
+			self::$enabledAppsCache = $apps;
+		}
 		return $apps;
 	}
 
