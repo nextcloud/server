@@ -11,6 +11,8 @@
 /* global scanFiles, escapeHTML, formatDate */
 $(document).ready(function(){
 
+	// TODO: namespace all this as OCA.FileVersions
+
 	if ($('#isPublic').val()){
 		// no versions actions in public mode
 		// beware of https://github.com/owncloud/core/issues/4545

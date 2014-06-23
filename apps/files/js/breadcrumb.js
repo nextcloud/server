@@ -19,10 +19,17 @@
 *
 */
 
-/* global OC */
 (function() {
 	/**
-	 * Creates an breadcrumb element in the given container
+	 * @class BreadCrumb
+	 * @memberof OCA.Files
+	 * @classdesc Breadcrumbs that represent the current path.
+	 *
+	 * @param {Object} [options] options
+	 * @param {Function} [options.onClick] click event handler
+	 * @param {Function} [options.onDrop] drop event handler
+	 * @param {Function} [options.getCrumbUrl] callback that returns
+	 * the URL of a given breadcrumb
 	 */
 	var BreadCrumb = function(options){
 		this.$el = $('<div class="breadcrumb"></div>');
@@ -37,12 +44,17 @@
 			this.getCrumbUrl = options.getCrumbUrl;
 		}
 	};
+	/**
+	 * @memberof OCA.Files
+	 */
 	BreadCrumb.prototype = {
 		$el: null,
 		dir: null,
 
 		/**
 		 * Total width of all breadcrumbs
+		 * @type int
+		 * @private
 		 */
 		totalWidth: 0,
 		breadcrumbs: [],
@@ -64,8 +76,9 @@
 
 		/**
 		 * Returns the full URL to the given directory
-		 * @param part crumb data as map
-		 * @param index crumb index
+		 *
+		 * @param {Object.<String, String>} part crumb data as map
+		 * @param {int} index crumb index
 		 * @return full URL
 		 */
 		getCrumbUrl: function(part, index) {
@@ -121,8 +134,9 @@
 
 		/**
 		 * Makes a breadcrumb structure based on the given path
-		 * @param dir path to split into a breadcrumb structure
-		 * @return array of map {dir: path, name: displayName}
+		 *
+		 * @param {String} dir path to split into a breadcrumb structure
+		 * @return {Object.<String, String>} map of {dir: path, name: displayName}
 		 */
 		_makeCrumbs: function(dir) {
 			var crumbs = [];
@@ -166,6 +180,8 @@
 
 		/**
 		 * Show/hide breadcrumbs to fit the given width
+		 * 
+		 * @param {int} availableWidth available width
 		 */
 		setMaxWidth: function (availableWidth) {
 			if (this.availableWidth !== availableWidth) {

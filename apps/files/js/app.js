@@ -15,12 +15,34 @@
 (function() {
 
 	if (!OCA.Files) {
+		/**
+		 * Namespace for the files app
+		 * @namespace OCA.Files
+		 */
 		OCA.Files = {};
 	}
 
-	var App = {
+	/**
+	 * @namespace OCA.Files.App
+	 */
+	OCA.Files.App = {
+		/**
+		 * Navigation control
+		 *
+		 * @member {OCA.Files.Navigation}
+		 */
 		navigation: null,
 
+		/**
+		 * File list for the "All files" section.
+		 *
+		 * @member {OCA.Files.FileList}
+		 */
+		fileList: null,
+
+		/**
+		 * Initializes the files app
+		 */
 		initialize: function() {
 			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
 
@@ -191,7 +213,6 @@
 			OC.Util.History.pushState(params);
 		}
 	};
-	OCA.Files.App = App;
 })();
 
 $(document).ready(function() {

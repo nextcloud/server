@@ -14,8 +14,8 @@
 	 * Convert a file name in the format filename.d12345 to the real file name.
 	 * This will use basename.
 	 * The name will not be changed if it has no ".d12345" suffix.
-	 * @param name file name
-	 * @return converted file name
+	 * @param {String} name file name
+	 * @return {String} converted file name
 	 */
 	function getDeletedFileName(name) {
 		name = OC.basename(name);
@@ -26,13 +26,26 @@
 		return name;
 	}
 
+	/**
+	 * @class OCA.Trashbin.FileList
+	 * @augments OCA.Files.FileList
+	 * @classdesc List of deleted files
+	 *
+	 * @param $el container element with existing markup for the #controls
+	 * and a table
+	 * @param [options] map of options
+	 */
 	var FileList = function($el, options) {
 		this.initialize($el, options);
 	};
-	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype, {
+	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
+		/** @lends OCA.Trashbin.FileList.prototype */ {
 		id: 'trashbin',
 		appName: t('files_trashbin', 'Deleted files'),
 
+		/**
+		 * @private
+		 */
 		initialize: function() {
 			var result = OCA.Files.FileList.prototype.initialize.apply(this, arguments);
 			this.$el.find('.undelete').click('click', _.bind(this._onClickRestoreSelected, this));

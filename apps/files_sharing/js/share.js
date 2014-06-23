@@ -12,7 +12,19 @@
 	if (!OCA.Sharing) {
 		OCA.Sharing = {};
 	}
+	/**
+	 * @namespace
+	 */
 	OCA.Sharing.Util = {
+		/**
+		 * Initialize the sharing app overrides of the default
+		 * file list.
+		 *
+		 * Registers the "Share" file action and adds additional
+		 * DOM attributes for the sharing file info.
+		 *
+		 * @param {OCA.Files.FileActions} fileActions file actions to extend
+		 */
 		initialize: function(fileActions) {
 			if (OCA.Files.FileList) {
 				var oldCreateRow = OCA.Files.FileList.prototype._createRow;
@@ -160,9 +172,9 @@
 		 * other ones will be shown as "+x" where "x" is the number of
 		 * remaining recipients.
 		 *
-		 * @param recipients recipients array
-		 * @param count optional total recipients count (in case the array was shortened)
-		 * @return formatted recipients display text
+		 * @param {Array.<String>} recipients recipients array
+		 * @param {int} count optional total recipients count (in case the array was shortened)
+		 * @return {String} formatted recipients display text
 		 */
 		formatRecipients: function(recipients, count) {
 			var maxRecipients = 4;

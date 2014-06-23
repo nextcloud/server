@@ -9,8 +9,14 @@
  */
 
 if (!OCA.External) {
+	/**
+	 * @namespace
+	 */
 	OCA.External = {};
 }
+/**
+ * @namespace
+ */
 OCA.External.App = {
 
 	fileList: null,

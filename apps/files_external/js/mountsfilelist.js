@@ -10,15 +10,29 @@
 (function() {
 
 	/**
-	 * External storage file list
-	 */
+	 * @class OCA.External.FileList
+	 * @augments OCA.Files.FileList
+	 *
+	 * @classdesc External storage file list.
+	 *
+	 * Displays a list of mount points visible
+	 * for the current user.
+	 *
+	 * @param $el container element with existing markup for the #controls
+	 * and a table
+	 * @param [options] map of options, see other parameters
+	 **/
 	var FileList = function($el, options) {
 		this.initialize($el, options);
 	};
 
-	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype, {
+	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
+		/** @lends OCA.External.FileList.prototype */ {
 		appName: 'External storage',
 
+		/**
+		 * @private
+		 */
 		initialize: function($el, options) {
 			OCA.Files.FileList.prototype.initialize.apply(this, arguments);
 			if (this.initialized) {
@@ -26,6 +40,9 @@
 			}
 		},
 
+		/**
+		 * @param {OCA.External.MountPointInfo} fileData
+		 */
 		_createRow: function(fileData) {
 			// TODO: hook earlier and render the whole row here
 			var $tr = OCA.Files.FileList.prototype._createRow.apply(this, arguments);
@@ -113,6 +130,16 @@
 			return files;
 		}
 	});
+
+	/**
+	 * Mount point info attributes.
+	 *
+	 * @typedef {Object} OCA.External.MountPointInfo
+	 *
+	 * @property {String} name mount point name
+	 * @property {String} scope mount point scope "personal" or "system"
+	 * @property {String} backend external storage backend name
+	 */
 
 	OCA.External.FileList = FileList;
 })();

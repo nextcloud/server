@@ -10,15 +10,25 @@
 (function() {
 
 	/**
-	 * Sharing file list
+	 * @class OCA.Sharing.FileList
+	 * @augments OCA.Files.FileList
 	 *
+	 * @classdesc Sharing file list.
 	 * Contains both "shared with others" and "shared with you" modes.
+	 *
+	 * @param $el container element with existing markup for the #controls
+	 * and a table
+	 * @param [options] map of options, see other parameters
+	 * @param {boolean} [options.sharedWithUser] true to return files shared with
+	 * the current user, false to return files that the user shared with others.
+	 * Defaults to false.
+	 * @param {boolean} [options.linksOnly] true to return only link shares
 	 */
 	var FileList = function($el, options) {
 		this.initialize($el, options);
 	};
-
-	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype, {
+	FileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
+		/** @lends OCA.Sharing.FileList.prototype */ {
 		appName: 'Shares',
 
 		/**
@@ -27,9 +37,11 @@
 		 */
 		_sharedWithUser: false,
 		_linksOnly: false,
-
 		_clientSideSort: true,
 
+		/**
+		 * @private
+		 */
 		initialize: function($el, options) {
 			OCA.Files.FileList.prototype.initialize.apply(this, arguments);
 			if (this.initialized) {
@@ -138,8 +150,8 @@
 		/**
 		 * Converts the OCS API share response data to a file info
 		 * list
-		 * @param OCS API share array
-		 * @return array of file info maps
+		 * @param {Array} data OCS API share array
+		 * @return {Array.<OCA.Sharing.SharedFileInfo>} array of shared file info
 		 */
 		_makeFilesFromShares: function(data) {
 			/* jshint camelcase: false */
@@ -258,6 +270,34 @@
 			return files.sort(this._sortComparator);
 		}
 	});
+
+	/**
+	 * Share info attributes.
+	 *
+	 * @typedef {Object} OCA.Sharing.ShareInfo
+	 *
+	 * @property {int} id share ID
+	 * @property {int} type share type
+	 * @property {String} target share target, either user name or group name
+	 * @property {int} stime share timestamp in milliseconds
+	 * @property {String} [targetDisplayName] display name of the recipient
+	 * (only when shared with others)
+	 *
+	 */
+
+	/**
+	 * Shared file info attributes.
+	 *
+	 * @typedef {OCA.Files.FileInfo} OCA.Sharing.SharedFileInfo
+	 *
+	 * @property {Array.<OCA.Sharing.ShareInfo>} shares array of shares for
+	 * this file
+	 * @property {int} mtime most recent share time (if multiple shares)
+	 * @property {String} shareOwner name of the share owner
+	 * @property {Array.<String>} recipients name of the first 4 recipients
+	 * (this is mostly for display purposes)
+	 * @property {String} recipientsDisplayName display name
+	 */
 
 	OCA.Sharing.FileList = FileList;
 })();
