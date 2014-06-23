@@ -88,7 +88,7 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->backend->inGroup($user2, $group1));
 		$this->assertFalse($this->backend->inGroup($user1, $group2));
 		$this->assertFalse($this->backend->inGroup($user2, $group2));
-		
+
 		$this->assertFalse($this->backend->addToGroup($user1, $group1));
 
 		$this->assertEquals(array($user1), $this->backend->usersInGroup($group1));
@@ -102,4 +102,41 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $this->backend->usersInGroup($group1));
 		$this->assertFalse($this->backend->inGroup($user1, $group1));
 	}
+
+	public function testSearchGroups() {
+		$name1 = 'foobarbaz';
+		$name2 = 'bazbarfoo';
+		$name3 = 'notme';
+
+		$this->backend->createGroup($name1);
+		$this->backend->createGroup($name2);
+		$this->backend->createGroup($name3);
+
+		$result = $this->backend->getGroups('bar');
+		$this->assertSame(2, count($result));
+
+		$result = $this->backend->getDisplayNames('bar');
+		$this->assertSame(2, count($result));
+	}
+
+	public function testSearchUsers() {
+		$group = $this->getGroupName();
+		$this->backend->createGroup($group);
+
+		$name1 = 'foobarbaz';
+		$name2 = 'bazbarfoo';
+		$name3 = 'notme';
+
+		$this->backend->addToGroup($group, $name1);
+		$this->backend->addToGroup($group, $name2);
+		$this->backend->addToGroup($group, $name3);
+
+		$result = $this->backend->usersInGroup($group, 'bar');
+		$this->assertSame(2, count($result));
+
+		$result = $this->backend->countUsersInGroup($group, 'bar');
+		$this->assertSame(2, $result);
+	}
+
+
 }

@@ -32,6 +32,9 @@ class Test_User_Database extends Test_User_Backend {
 	}
 	
 	public function tearDown() {
+		if(!isset($this->users)) {
+			return;
+		}
 		foreach($this->users as $user) {
 			$this->backend->deleteUser($user);
 		}
