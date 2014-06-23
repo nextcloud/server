@@ -67,7 +67,7 @@ class Manager {
 		}
 	}
 
-	public function setup() {
+	private function setupMounts() {
 		// don't setup server-to-server shares if the file_external app is disabled
 		// FIXME no longer needed if we use the webdav implementation from  core
 		if (\OC_App::isEnabled('files_external') === false) {
@@ -86,6 +86,16 @@ class Manager {
 				$this->mountShare($row);
 			}
 		}
+	}
+
+	public static function setup() {
+		$externalManager = new \OCA\Files_Sharing\External\Manager(
+			\OC::$server->getDatabaseConnection(),
+			\OC\Files\Filesystem::getMountManager(),
+			\OC\Files\Filesystem::getLoader(),
+			\OC::$server->getUserSession()
+		);
+		$externalManager->setupMounts();
 	}
 
 	protected function stripPath($path) {

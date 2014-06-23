@@ -14,15 +14,8 @@ OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
 
 \OCP\App::registerAdmin('files_sharing', 'settings-admin');
 
-$externalManager = new \OCA\Files_Sharing\External\Manager(
-	\OC::$server->getDatabaseConnection(),
-	\OC\Files\Filesystem::getMountManager(),
-	\OC\Files\Filesystem::getLoader(),
-	\OC::$server->getUserSession()
-);
-$externalManager->setup();
-
 OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+OCP\Util::connectHook('OC_Filesystem', 'setup', '\OCA\Files_Sharing\External\Manager', 'setup');
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 
