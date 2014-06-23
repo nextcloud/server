@@ -411,7 +411,7 @@ class OC_Helper {
 			);
 
 			foreach ($files as $fileInfo) {
-				/** @var FilesystemIterator $fileInfo */
+				/** @var SplFileInfo $fileInfo */
 				if ($fileInfo->isDir()) {
 					rmdir($fileInfo->getRealPath());
 				} else {
