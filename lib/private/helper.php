@@ -405,12 +405,17 @@ class OC_Helper {
 	 */
 	static function rmdirr($dir) {
 		if (is_dir($dir)) {
-			$files = scandir($dir);
-			// FIXME: use flat array instead of recursion to avoid
-			// too many levels
-			foreach ($files as $file) {
-				if ($file !== '' && $file !== "." && $file !== "..") {
-					self::rmdirr("$dir/$file");
+			$files = new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::CHILD_FIRST
+			);
+
+			foreach ($files as $fileInfo) {
+				/** @var SplFileInfo $fileInfo */
+				if ($fileInfo->isDir()) {
+					rmdir($fileInfo->getRealPath());
+				} else {
+					unlink($fileInfo->getRealPath());
 				}
 			}
 			rmdir($dir);
