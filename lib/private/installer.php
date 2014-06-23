@@ -143,8 +143,12 @@ class OC_Installer{
 	 * @param array $info
 	 * @param bool $isShipped
 	 *
+	 * This function could work like described below, but currently it disables and then
+	 * enables the app again. This does result in an updated app.
+	 *
+	 *
 	 * This function installs an app. All information needed are passed in the
-	 * associative array $data.
+	 * associative array $info.
 	 * The following keys are required:
 	 *   - source: string, can be "path" or "http"
 	 *
