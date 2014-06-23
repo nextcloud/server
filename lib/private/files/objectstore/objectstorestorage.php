@@ -20,6 +20,7 @@
 
 namespace OC\Files\ObjectStore;
 
+use OC\Files\Filesystem;
 use OCP\Files\ObjectStore\IObjectStore;
 
 class ObjectStoreStorage extends \OC\Files\Storage\Common {
@@ -177,6 +178,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
+		$path = $this->normalizePath($path);
 		return $this->getCache()->get($path);
 	}
 
@@ -200,8 +202,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 		if ($path === '.') {
 			$path = '';
-		} else if ($path) {
-			$path .= '/';
 		}
 
 		try {
@@ -211,9 +211,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				$files[] = $file['name'];
 			}
 
-			\OC\Files\Stream\Dir::register('object' . $path, $files);
+			\OC\Files\Stream\Dir::register('objectstore' . $path . '/', $files);
 
-			return opendir('fakedir://object' . $path);
+			return opendir('fakedir://objectstore' . $path . '/');
 		} catch (Exception $e) {
 			\OCP\Util::writeLog('objectstore', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
@@ -285,32 +285,41 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return (bool)$this->stat($path);
 	}
 
-	public function rename($path1, $path2) {
-		$path1 = $this->normalizePath($path1);
-		$path2 = $this->normalizePath($path2);
-		$stat1 = $this->stat($path1);
-		if (is_array($stat1)) {
-			$parent = $this->stat(dirname($path2));
-			if (is_array($parent)) {
-				$stat2 = $this->stat($path2);
-				if (is_array($stat2)) {
-					$this->unlink($path2);
+	public function rename($source, $target) {
+		$source = $this->normalizePath($source);
+		$target = $this->normalizePath($target);
+		$stat1 = $this->stat($source);
+		if (isset($stat1['mimetype']) && $stat1['mimetype'] === 'httpd/unix-directory') {
+			$this->remove($target);
+			$dir = $this->opendir($source);
+			$this->mkdir($target);
+			while ($file = readdir($dir)) {
+				if (!Filesystem::isIgnoredDir($file)) {
+					if (!$this->rename($source . '/' . $file, $target . '/' . $file)) {
+						return false;
+					}
 				}
-				$stat1['parent'] = $parent['fileid'];
-				$stat1['path'] = $path2;
-				$stat1['path_hash'] = md5($path2);
-				$stat1['name'] = \OC_Util::basename($path2);
-				$stat1['mtime'] = time();
-				$stat1['etag'] = $this->getETag($path2);
-				$this->getCache()->update($stat1['fileid'], $stat1);
-				return true;
-			} else {
-				return false;
 			}
-
+			closedir($dir);
+			$this->remove($source);
+			return true;
 		} else {
-			return false;
+			if (is_array($stat1)) {
+				$parent = $this->stat(dirname($target));
+				if (is_array($parent)) {
+					$this->remove($target);
+					$stat1['parent'] = $parent['fileid'];
+					$stat1['path'] = $target;
+					$stat1['path_hash'] = md5($target);
+					$stat1['name'] = \OC_Util::basename($target);
+					$stat1['mtime'] = time();
+					$stat1['etag'] = $this->getETag($target);
+					$this->getCache()->update($stat1['fileid'], $stat1);
+					return true;
+				}
+			}
 		}
+		return false;
 	}
 
 	public function getMimeType($path) {
