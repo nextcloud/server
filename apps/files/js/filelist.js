@@ -512,6 +512,8 @@
 
 			this.fileSummary.calculate(filesArray);
 
+			this._selectedFiles = {};
+			this._selectionSummary.clear();
 			this.updateSelectionSummary();
 			$(window).scrollTop(0);
 
