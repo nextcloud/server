@@ -312,7 +312,11 @@ $CONFIG = array(
  * to the object store container because it only stores the binary data for each file. The
  * metadata is currently kept in the local database for performance reasons.
  *
- * To test apply for a trystack account at http://trystack.org/
+ * WARNING: The current implementation is incompatible with any app that uses direct file IO and circumvents our
+ * virtual filesystem. That includes Encryption and Gallery. Gallery will store thumbnails directly in the filesystem
+ * and encryption will cause severe overhead because key files need to be fetched in addition to any requested file.
+ *
+ * One way to test is applying for a trystack account at http://trystack.org/
  */
 'objectstore' => array(
 	'class' => 'OC\\Files\\ObjectStore\\Swift',
