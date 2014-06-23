@@ -158,7 +158,7 @@ class OC_User_Database extends OC_User_Backend {
 		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
 			. ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
 			. 'LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
-		$result = $query->execute(array($search . '%', $search . '%'));
+		$result = $query->execute(array('%' . $search . '%', '%' . $search . '%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
 			$displayNames[$row['uid']] = $row['displayname'];
@@ -232,7 +232,7 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
 		$query = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
-		$result = $query->execute(array($search . '%'));
+		$result = $query->execute(array('%' . $search . '%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
 			$users[] = $row['uid'];
