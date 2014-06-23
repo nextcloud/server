@@ -206,43 +206,44 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	 */
 	function testRecursiveDelShareKeys() {
 
-		// generate filename
-		$filename = '/tmp-' . uniqid() . '.txt';
-
 		// create folder structure
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder');
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder/subsubfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder');
 
-		// enable encryption proxy
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = true;
+		// create some dummy share keys
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user2.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user3.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/file2.user3.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file1.user1.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user2.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user3.shareKey', 'data');
 
-		// save file with content
-		$cryptedFile = file_put_contents('crypt:///'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/subfolder/subsubfolder' . $filename, $this->dataShort);
+		// recursive delete share keys from user1 and user2
+		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2'), '/folder1/');
 
-		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
-
-		// change encryption proxy to previous state
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		// recursive delete keys
-		Encryption\Keymanager::delShareKey($this->view, array('admin'), '/folder1/');
-
-		// check if share key not exists
+		// check if share keys from user1 and user2 are deleted
 		$this->assertFalse($this->view->file_exists(
-			'/admin/files_encryption/share-keys/folder1/subfolder/subsubfolder/' . $filename . '.admin.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.shareKey'));
+		$this->assertFalse($this->view->file_exists(
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user2.shareKey'));
+		$this->assertFalse($this->view->file_exists(
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file1.user1.shareKey'));
+		$this->assertFalse($this->view->file_exists(
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user2.shareKey'));
 
-		// enable encryption proxy
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = true;
+		// check if share keys from user3 still exists
+		$this->assertTrue($this->view->file_exists(
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user3.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user3.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/file2.user3.shareKey'));
 
 		// cleanup
-		$this->view->deleteAll('/admin/files/folder1');
+		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys');
 
-		// change encryption proxy to previous state
-		\OC_FileProxy::$enabled = $proxyStatus;
 	}
 
 	function testKeySetPreperation() {
@@ -283,6 +284,6 @@ class TestProtectedKeymanagerMethods extends \OCA\Encryption\Keymanager {
 	 * @param string $basePath
 	 */
 	public static function testKeySetPreperation($view, $path, $basePath) {
-		return self::keySetPreparation($view, $path, $basePath, '');
+		return self::keySetPreparation($view, $path, $basePath);
 	}
 }

@@ -430,18 +430,10 @@ class Helper {
 	}
 
 	/**
-	 * glob uses different pattern than regular expressions, escape glob pattern only
-	 * @param string $path unescaped path
-	 * @return string path
-	 */
-	public static function escapeGlobPattern($path) {
-		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
-	}
-
-	/**
 	 * find all share keys for a given file
 	 * @param string $path to the file
 	 * @param \OC\Files\View $view view, relative to data/
+	 * @return array list of files, path relative to data/
 	 */
 	public static function findShareKeys($path, $view) {
 		$result = array();
