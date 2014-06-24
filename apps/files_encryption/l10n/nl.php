@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "De volgende gebruikers hebben geen configuratie voor encryptie:",
 "Initial encryption started... This can take some time. Please wait." => "initiële versleuteling gestart... Dit kan even duren, geduld a.u.b.",
 "Initial encryption running... Please try again later." => "Initiële versleuteling bezig... Probeer het later opnieuw.",
+"Go directly to your %spersonal settings%s." => "Ga direct naar uw %spersoonlijke instellingen%s.",
 "Encryption" => "Versleuteling",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):",
 "Recovery key password" => "Wachtwoord herstelsleulel",

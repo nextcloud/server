@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-24 01:54-0400\n"
+"PO-Revision-Date: 2014-06-24 05:38+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,15 +51,15 @@ msgstr "E-mail verzonden"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "U moet uw e-mailadres instellen voordat u testberichten kunt versturen."
 
-#: admin/controller.php:116 templates/admin.php:350
+#: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
 msgstr "Verstuurmodus"
 
-#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
 msgid "Encryption"
 msgstr "Versleuteling"
 
-#: admin/controller.php:120 templates/admin.php:387
+#: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
 msgstr "Authenticatiemethode"
 
@@ -114,7 +114,7 @@ msgstr "Kom uw cryptosleutels niet permanent verwijderen. Controleer uw owncloud
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Kon app niet verwijderen."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -197,7 +197,7 @@ msgstr "De Back-end ondersteunt geen wachtwoordwijzigingen, maar de cryptosleute
 msgid "Unable to change password"
 msgstr "Kan wachtwoord niet wijzigen"
 
-#: js/admin.js:126
+#: js/admin.js:127
 msgid "Sending..."
 msgstr "Versturen..."
 
@@ -215,7 +215,7 @@ msgstr "Bijwerken naar {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "De-installeren app"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -259,15 +259,15 @@ msgstr "Bijgewerkt"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "De-installeren ..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Fout bij de-installeren app"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "De-installeren"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -321,11 +321,11 @@ msgstr "Er moet een geldige groepsnaam worden opgegeven"
 msgid "deleted {groupName}"
 msgstr "verwijderd {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:255
+#: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
 msgstr "ongedaan maken"
 
-#: js/users/users.js:37 templates/admin.php:302
+#: js/users/users.js:37 templates/admin.php:292
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -341,31 +341,31 @@ msgstr "Groep beheerder"
 msgid "Delete"
 msgstr "Verwijder"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:85 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "geen"
 
-#: js/users/users.js:254
+#: js/users/users.js:264
 msgid "deleted {userName}"
 msgstr "verwijderd {userName}"
 
-#: js/users/users.js:371
+#: js/users/users.js:381
 msgid "add group"
 msgstr "toevoegen groep"
 
-#: js/users/users.js:568
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Er moet een geldige gebruikersnaam worden opgegeven"
 
-#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Fout bij aanmaken gebruiker"
 
-#: js/users/users.js:574
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Er moet een geldig wachtwoord worden opgegeven"
 
-#: js/users/users.js:598
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Waarschuwing: Home directory voor gebruiker \"{user}\" bestaat al"
 
@@ -568,23 +568,23 @@ msgstr "Gebruik de systeem cron service om cron.php elke 15 minuten aan te roepe
 msgid "Sharing"
 msgstr "Delen"
 
-#: templates/admin.php:240
+#: templates/admin.php:238
 msgid "Allow apps to use the Share API"
 msgstr "Apps toestaan de Share API te gebruiken"
 
-#: templates/admin.php:247
+#: templates/admin.php:243
 msgid "Allow users to share via link"
 msgstr "Sta gebruikers toe om te delen via een link"
 
-#: templates/admin.php:251
+#: templates/admin.php:249
 msgid "Enforce password protection"
 msgstr "Dwing wachtwoordbeveiliging af"
 
-#: templates/admin.php:254
+#: templates/admin.php:252
 msgid "Allow public uploads"
 msgstr "Sta publieke uploads toe"
 
-#: templates/admin.php:258
+#: templates/admin.php:256
 msgid "Set default expiration date"
 msgstr "Stel standaard vervaldatum in"
 
@@ -600,116 +600,116 @@ msgstr "dagen"
 msgid "Enforce expiration date"
 msgstr "Verplicht de vervaldatum"
 
-#: templates/admin.php:276
+#: templates/admin.php:271
 msgid "Allow resharing"
 msgstr "Toestaan opnieuw delen"
 
-#: templates/admin.php:283
+#: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
 msgstr "Laat gebruikers alleen delen met andere gebruikers in hun groepen"
 
-#: templates/admin.php:290
+#: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
 msgstr "Sta gebruikers toe om e-mailnotificaties  te versturen voor gedeelde bestanden"
 
-#: templates/admin.php:297
+#: templates/admin.php:286
 msgid "Exclude groups from sharing"
 msgstr "Sluit groepen uit van delen"
 
-#: templates/admin.php:308
+#: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Deze groepen kunnen gedeelde mappen bestanden ontvangen, maar kunnen ze niet starten."
 
-#: templates/admin.php:316
+#: templates/admin.php:303
 msgid "Security"
 msgstr "Beveiliging"
 
-#: templates/admin.php:327
+#: templates/admin.php:314
 msgid "Enforce HTTPS"
 msgstr "Afdwingen HTTPS"
 
-#: templates/admin.php:329
+#: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Dwingt de clients om een versleutelde verbinding te maken met %s"
 
-#: templates/admin.php:335
+#: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Maak verbinding naar uw %s via HTTPS om een geforceerde versleutelde verbinding in- of uit te schakelen."
 
-#: templates/admin.php:345
+#: templates/admin.php:332
 msgid "Email Server"
 msgstr "E-mailserver"
 
-#: templates/admin.php:347
+#: templates/admin.php:334
 msgid "This is used for sending out notifications."
 msgstr "Dit wordt gestuurd voor het verzenden van meldingen."
 
-#: templates/admin.php:378
+#: templates/admin.php:365
 msgid "From address"
 msgstr "Afzenderadres"
 
-#: templates/admin.php:379
+#: templates/admin.php:366
 msgid "mail"
 msgstr "e-mail"
 
-#: templates/admin.php:400
+#: templates/admin.php:387
 msgid "Authentication required"
 msgstr "Authenticatie vereist"
 
-#: templates/admin.php:404
+#: templates/admin.php:391
 msgid "Server address"
 msgstr "Server adres"
 
-#: templates/admin.php:408
+#: templates/admin.php:395
 msgid "Port"
 msgstr "Poort"
 
-#: templates/admin.php:413
+#: templates/admin.php:400
 msgid "Credentials"
 msgstr "Inloggegevens"
 
-#: templates/admin.php:414
+#: templates/admin.php:401
 msgid "SMTP Username"
 msgstr "SMTP gebruikersnaam"
 
-#: templates/admin.php:417
+#: templates/admin.php:404
 msgid "SMTP Password"
 msgstr "SMTP wachtwoord"
 
-#: templates/admin.php:421
+#: templates/admin.php:408
 msgid "Test email settings"
 msgstr "Test e-mailinstellingen"
 
-#: templates/admin.php:422
+#: templates/admin.php:409
 msgid "Send email"
 msgstr "Versturen e-mail"
 
-#: templates/admin.php:427
+#: templates/admin.php:414
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:428
+#: templates/admin.php:415
 msgid "Log level"
 msgstr "Log niveau"
 
-#: templates/admin.php:460
+#: templates/admin.php:447
 msgid "More"
 msgstr "Meer"
 
-#: templates/admin.php:461
+#: templates/admin.php:448
 msgid "Less"
 msgstr "Minder"
 
-#: templates/admin.php:467 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:196
 msgid "Version"
 msgstr "Versie"
 
-#: templates/admin.php:471 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

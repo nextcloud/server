@@ -6,6 +6,8 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Er zijn nog geen bestanden met u gedeeld.",
 "You haven't shared any files yet." => "U hebt nog geen bestanden gedeeld.",
 "You haven't shared any files by link yet." => "U hebt nog geen bestanden via een link gedeeld.",
+"Add {name} from {owner}@{remote}" => "Toevoegen {name} van {owner}@{remote}",
+"Invalid ownCloud url" => "Ongeldige ownCloud url",
 "Shared by {owner}" => "Gedeeld door {owner}",
 "Shared by" => "Gedeeld door",
 "This share is password-protected" => "Deze share is met een wachtwoord beveiligd",
@@ -19,9 +21,12 @@ $TRANSLATIONS = array(
 "the link expired" => "de link is verlopen",
 "sharing is disabled" => "delen is uitgeschakeld",
 "For more info, please ask the person who sent this link." => "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
+"Save to ownCloud" => "Bewaren in ownCloud",
+"example.com/owncloud" => "example.com/owncloud",
 "Save" => "Bewaren",
 "Download" => "Downloaden",
 "Download %s" => "Download %s",
-"Direct link" => "Directe link"
+"Direct link" => "Directe link",
+"File Sharing" => "Bestand delen"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

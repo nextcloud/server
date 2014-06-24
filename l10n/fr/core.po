@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-24 01:54-0400\n"
+"PO-Revision-Date: 2014-06-23 13:32+0000\n"
+"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -172,7 +172,7 @@ msgstr "Image"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -228,14 +228,14 @@ msgstr "il y a plusieurs années"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Impossible d'envoyer l’émail de réinitialisation. Veuillez contacter votre administrateur."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Le lien permettant de réinitialiser votre mot de passe vous a été transmis à votre adresse email.<br>Si vous ne le recevez pas dans un délai raisonnable, vérifier votre boîte de pourriels.<br>Au besoin, contactez votre administrateur local."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -243,11 +243,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Vos fichiers sont chiffrés. Si vous n'avez pas activé la clef de récupération, il n'y aura plus aucun moyen de récupérer vos données une fois le mot de passe réinitialisé. Si vous n'êtes pas sûr de ce que vous faites, veuillez contacter votre administrateur avant de continuer. Voulez-vous vraiment continuer ?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Je sais ce que je fais"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -255,77 +255,77 @@ msgstr "Réinitialiser le mot de passe"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Le mot de passe ne peut être modifié. Veuillez contacter votre administrateur."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Oui"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Non"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Choisir"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Erreur de chargement du modèle de sélectionneur de fichiers : {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Erreur de chargement du modèle de message : {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} fichier en conflit"
 msgstr[1] "{count} fichiers en conflit"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Un conflit de fichier"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Nouveaux fichiers"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Fichiers déjà existants"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Quels fichiers désirez-vous garder ?"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Si vous sélectionnez les deux versions, un nombre sera ajouté au nom du fichier copié."
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Annuler"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Poursuivre"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(tous sélectionnés)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} sélectionnés)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Erreur de chargement du modèle de fichier existant"
 
@@ -557,17 +557,17 @@ msgstr "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Impossible de réinitialiser le mot de passe car le jeton est invalide."
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Impossible d'envoyer l’émail de réinitialisation. Veuillez vérifier que votre nom d'utilisateur est correct."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Impossible d'envoyer l'email de réinitialisation car il n'y a aucune adresse email pour cet utilisateur. Veuillez contacter votre administrateur."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -610,7 +610,7 @@ msgstr "Nouveau mot de passe"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nouveau mot de passe"
 
 #: setup/controller.php:140
 #, php-format
@@ -838,7 +838,7 @@ msgstr "Veuillez contacter votre administrateur."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Mot de passe perdu ? Réinitialisez-le !"
 
 #: templates/login.php:55
 msgid "remember"

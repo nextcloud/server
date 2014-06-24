@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-23 01:54-0400\n"
+"POT-Creation-Date: 2014-06-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app.php:361
+#: app.php:366
 msgid "Help"
 msgstr ""
 
-#: app.php:374
+#: app.php:379
 msgid "Personal"
 msgstr ""
 
-#: app.php:385
+#: app.php:390
 msgid "Settings"
 msgstr ""
 
-#: app.php:397
+#: app.php:402
 msgid "Users"
 msgstr ""
 
-#: app.php:410
+#: app.php:415
 msgid "Admin"
 msgstr ""
 
-#: app.php:978
+#: app.php:983
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: app.php:1135
+#: app.php:1140
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: app.php:1147
+#: app.php:1152
 msgid "No app name specified"
 msgstr ""
 
@@ -75,48 +75,48 @@ msgstr ""
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
-#: installer.php:231
+#: installer.php:235
 msgid "No source specified when installing app"
 msgstr ""
 
-#: installer.php:238
+#: installer.php:242
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: installer.php:243
+#: installer.php:247
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: installer.php:257
+#: installer.php:261
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: installer.php:271
+#: installer.php:275
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: installer.php:309
+#: installer.php:313
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: installer.php:315
+#: installer.php:319
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: installer.php:321
+#: installer.php:325
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: installer.php:327
+#: installer.php:331
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: installer.php:340
+#: installer.php:344
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -227,13 +227,13 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: setup.php:164
+#: setup.php:170
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:165
+#: setup.php:171
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
