@@ -406,4 +406,14 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		return true;
 	}
 
+	/**
+	 * external changes are not supported
+	 *
+	 * @param string $path
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path, $time) {
+		return false;
+	}
 }
