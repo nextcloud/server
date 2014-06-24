@@ -884,7 +884,7 @@ class View {
 							if ($extOnly && $subStorage instanceof \OC\Files\Storage\Shared) {
 								continue;
 							}
-							$subCache = $subStorage->getCache($internalPath);
+							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get($internalPath);
 							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
 						}
