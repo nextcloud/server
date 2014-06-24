@@ -104,18 +104,15 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSearchGroups() {
-		$name1 = 'foobarbaz';
-		$name2 = 'bazbarfoo';
-		$name3 = 'notme';
+		$name1 = $this->getGroupName('foobarbaz');
+		$name2 = $this->getGroupName('bazbarfoo');
+		$name3 = $this->getGroupName('notme');
 
 		$this->backend->createGroup($name1);
 		$this->backend->createGroup($name2);
 		$this->backend->createGroup($name3);
 
 		$result = $this->backend->getGroups('bar');
-		$this->assertSame(2, count($result));
-
-		$result = $this->backend->getDisplayNames('bar');
 		$this->assertSame(2, count($result));
 	}
 
@@ -127,9 +124,9 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 		$name2 = 'bazbarfoo';
 		$name3 = 'notme';
 
-		$this->backend->addToGroup($group, $name1);
-		$this->backend->addToGroup($group, $name2);
-		$this->backend->addToGroup($group, $name3);
+		$this->backend->addToGroup($name1, $group);
+		$this->backend->addToGroup($name2, $group);
+		$this->backend->addToGroup($name3, $group);
 
 		$result = $this->backend->usersInGroup($group, 'bar');
 		$this->assertSame(2, count($result));
