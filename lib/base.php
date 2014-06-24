@@ -693,6 +693,7 @@ class OC {
 				if (!OC_Config::getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('authentication'));
 					OC_App::loadApps(array('filesystem', 'logging'));
+					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
 				OC::$server->getRouter()->match(OC_Request::getRawPathInfo());
