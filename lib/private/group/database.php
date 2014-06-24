@@ -221,7 +221,11 @@ class OC_Group_Database extends OC_Group_Backend {
 	public function countUsersInGroup($gid, $search = '') {
 		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?');
 		$result = $stmt->execute(array($gid, '%' . $search . '%'));
-		return $result->fetchOne();
+		$count = $result->fetchOne();
+		if($count !== false) {
+			$count = intval($count);
+		}
+		return $count;
 	}
 
 }
