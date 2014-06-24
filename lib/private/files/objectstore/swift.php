@@ -26,6 +26,15 @@ use OpenCloud\OpenStack;
 use OpenCloud\Rackspace;
 
 class Swift implements IObjectStore {
+	/**
+	 * @var \OpenCloud\OpenStack
+	 */
+	private $client;
+
+	/**
+	 * @var array
+	 */
+	private $params;
 
 	/**
 	 * @var \OpenCloud\ObjectStore\Service
@@ -46,26 +55,33 @@ class Swift implements IObjectStore {
 			$params['autocreate'] = false;
 		}
 
+		if (isset($params['apiKey'])) {
+			$this->client = new Rackspace($params['url'], $params);
+		} else {
+			$this->client = new OpenStack($params['url'], $params);
+		}
+		$this->params = $params;
+	}
+
+	protected function init() {
+		if ($this->container) {
+			return;
+		}
+
 		// the OpenCloud client library will default to 'cloudFiles' if $serviceName is null
 		$serviceName = null;
-		if ($params['serviceName']) {
-			$serviceName = $params['serviceName'];
+		if ($this->params['serviceName']) {
+			$serviceName = $this->params['serviceName'];
 		}
 
-		if (isset($params['apiKey'])) {
-			$client = new Rackspace($params['url'], $params);
-		} else {
-			$client = new OpenStack($params['url'], $params);
-		}
-
-		$this->objectStoreService = $client->objectStoreService($serviceName, $params['region']);
+		$this->objectStoreService = $this->client->objectStoreService($serviceName, $this->params['region']);
 
 		try {
-			$this->container = $this->objectStoreService->getContainer($params['container']);
+			$this->container = $this->objectStoreService->getContainer($this->params['container']);
 		} catch (ClientErrorResponseException $ex) {
 			// if the container does not exist and autocreate is true try to create the container on the fly
 			if (isset($params['autocreate']) && $params['autocreate'] === true) {
-				$this->container = $this->objectStoreService->createContainer($params['container']);
+				$this->container = $this->objectStoreService->createContainer($this->params['container']);
 			} else {
 				throw $ex;
 			}
@@ -76,7 +92,7 @@ class Swift implements IObjectStore {
 	 * @return string the container name where objects are stored
 	 */
 	public function getStorageId() {
-		return $this->container->name;
+		return $this->params['container'];
 	}
 
 	/**
@@ -85,6 +101,7 @@ class Swift implements IObjectStore {
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
 	public function writeObject($urn, $stream) {
+		$this->init();
 		$this->container->uploadObject($urn, $stream);
 	}
 
@@ -94,6 +111,7 @@ class Swift implements IObjectStore {
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
 	public function readObject($urn) {
+		$this->init();
 		$object = $this->container->getObject($urn);
 
 		// we need to keep a reference to objectContent or
@@ -116,11 +134,13 @@ class Swift implements IObjectStore {
 	 * @throws Exception from openstack lib when something goes wrong
 	 */
 	public function deleteObject($urn) {
+		$this->init();
 		$object = $this->container->getObject($urn);
 		$object->delete();
 	}
 
 	public function deleteContainer($recursive = false) {
+		$this->init();
 		$this->container->delete($recursive);
 	}
 
