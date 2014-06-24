@@ -190,7 +190,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$groups = $manager->search('1');
 		$this->assertEquals(1, count($groups));
-		$group1 = $groups[0];
+		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
@@ -229,8 +229,8 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$groups = $manager->search('1');
 		$this->assertEquals(2, count($groups));
-		$group1 = $groups[0];
-		$group12 = $groups[1];
+		$group1 = reset($groups);
+		$group12 = next($groups);
 		$this->assertEquals('group1', $group1->getGID());
 		$this->assertEquals('group12', $group12->getGID());
 	}
@@ -270,8 +270,8 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$groups = $manager->search('1', 2, 1);
 		$this->assertEquals(2, count($groups));
-		$group1 = $groups[0];
-		$group12 = $groups[1];
+		$group1 = reset($groups);
+		$group12 = next($groups);
 		$this->assertEquals('group1', $group1->getGID());
 		$this->assertEquals('group12', $group12->getGID());
 	}
@@ -300,7 +300,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$groups = $manager->getUserGroups(new User('user1', $userBackend));
 		$this->assertEquals(1, count($groups));
-		$group1 = $groups[0];
+		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
@@ -340,8 +340,8 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$groups = $manager->getUserGroups(new User('user1', $userBackend));
 		$this->assertEquals(2, count($groups));
-		$group1 = $groups[0];
-		$group2 = $groups[1];
+		$group1 = reset($groups);
+		$group2 = next($groups);
 		$this->assertEquals('group1', $group1->getGID());
 		$this->assertEquals('group2', $group2->getGID());
 	}
@@ -439,7 +439,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		// check result
 		$groups = $manager->getUserGroups($user1);
 		$this->assertEquals(1, count($groups));
-		$group1 = $groups[0];
+		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 	}
 
@@ -480,7 +480,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$user1 = new User('user1', null);
 		$groups = $manager->getUserGroups($user1);
 		$this->assertEquals(1, count($groups));
-		$group1 = $groups[0];
+		$group1 = reset($groups);
 		$this->assertEquals('group1', $group1->getGID());
 
 		// remove user
