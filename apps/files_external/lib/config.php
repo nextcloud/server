@@ -107,6 +107,10 @@ class OC_Mount_Config {
 		$loader = \OC\Files\Filesystem::getLoader();
 		$manager = \OC\Files\Filesystem::getMountManager();
 		foreach ($mountPoints as $mountPoint => $options) {
+			if (isset($options['options']['objectstore'])) {
+				$objectClass = $options['options']['objectstore']['class'];
+				$options['options']['objectstore'] = new $objectClass($options['options']['objectstore']);
+			}
 			if ($options['personal']){
 				$mount = new \OCA\Files_External\PersonalMount($options['class'], $mountPoint, $options['options'], $loader);
 			} else{
