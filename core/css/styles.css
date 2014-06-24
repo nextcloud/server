@@ -261,11 +261,9 @@ input[type="submit"].enabled {
 /* position controls for apps with app-navigation */
 #app-navigation+#app-content #controls {
 	left: 250px;
-	padding-right: 250px;
 }
 .viewer-mode #app-navigation+#app-content #controls {
 	left: 0;
-	padding-right: 0;
 }
 
 #controls .button,
