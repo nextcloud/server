@@ -516,7 +516,7 @@ class Keymanager {
 	 * @param string|boolean $path
 	 * @param string $basePath
 	 */
-	public static function keySetPreparation(\OC\Files\View $view, $path, $basePath, $userId) {
+	protected static function keySetPreparation(\OC\Files\View $view, $path, $basePath, $userId) {
 
 		$targetPath = ltrim($path, '/');
 
