@@ -166,4 +166,35 @@ class Test_Files_Sharing_Storage extends Test_Files_Sharing_Base {
 		$this->assertTrue($result);
 	}
 
+	function testGetPermissions() {
+		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+
+		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 1);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue(\OC\Files\Filesystem::is_dir($this->folder));
+
+		// for the share root we expect:
+		// the shared permissions (1)
+		// the delete permission (8), to enable unshare
+		// the update permission (2), to allow renaming of the mount point
+		$rootInfo = \OC\Files\Filesystem::getFileInfo($this->folder);
+		$this->assertSame(11, $rootInfo->getPermissions());
+
+		// for the file within the shared folder we expect:
+		// the shared permissions (1)
+		$subfileInfo = \OC\Files\Filesystem::getFileInfo($this->folder . $this->filename);
+		$this->assertSame(1, $subfileInfo->getPermissions());
+
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
 }
