@@ -23,6 +23,7 @@ namespace OC\Files\ObjectStore;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use OCP\Files\ObjectStore\IObjectStore;
 use OpenCloud\OpenStack;
+use OpenCloud\Rackspace;
 
 class Swift implements IObjectStore {
 
@@ -37,9 +38,6 @@ class Swift implements IObjectStore {
 	private $container;
 
 	public function __construct($params) {
-		if (!isset($params['username']) || !isset($params['password'])) {
-			throw new \Exception('Access Key and Secret have to be configured.');
-		}
 		if (!isset($params['container'])) {
 			$params['container'] = 'owncloud';
 		}
@@ -48,24 +46,17 @@ class Swift implements IObjectStore {
 			$params['autocreate'] = false;
 		}
 
-		$secret = array(
-			'username' => $params['username'],
-			'password' => $params['password']
-		);
-		if (isset($params['tenantName'])) {
-			$secret['tenantName'] = $params['tenantName'];
-		}
-		if (isset($params['tenantId'])) {
-			$secret['tenantId'] = $params['tenantId'];
-		}
-
 		// the OpenCloud client library will default to 'cloudFiles' if $serviceName is null
 		$serviceName = null;
 		if ($params['serviceName']) {
 			$serviceName = $params['serviceName'];
 		}
 
-		$client = new OpenStack($params['url'], $secret);
+		if (isset($params['apiKey'])) {
+			$client = new Rackspace($params['url'], $params);
+		} else {
+			$client = new OpenStack($params['url'], $params);
+		}
 
 		$this->objectStoreService = $client->objectStoreService($serviceName, $params['region']);
 
