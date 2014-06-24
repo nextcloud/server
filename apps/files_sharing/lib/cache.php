@@ -95,9 +95,9 @@ class Shared_Cache extends Cache {
 				}
 				$data['uid_owner'] = $this->storage->getOwner($file);
 				if (isset($data['permissions'])) {
-					$data['permissions'] &= $this->storage->getPermissions('');
+					$data['permissions'] &= $this->storage->getPermissions($file);
 				} else {
-					$data['permissions'] = $this->storage->getPermissions('');
+					$data['permissions'] = $this->storage->getPermissions($file);
 				}
 				return $data;
 			}
@@ -163,7 +163,7 @@ class Shared_Cache extends Cache {
 				$sourceFolderContent[$key]['path'] = $dir . $c['name'];
 				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
 				$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
-				$sourceFolderContent[$key]['permissions'] = $sourceFolderContent[$key]['permissions'] & $this->storage->getPermissions('');
+				$sourceFolderContent[$key]['permissions'] = $sourceFolderContent[$key]['permissions'] & $this->storage->getPermissions($dir . $c['name']);
 			}
 
 			return $sourceFolderContent;
