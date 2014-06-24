@@ -516,7 +516,7 @@ class Keymanager {
 	 * @param string|boolean $path
 	 * @param string $basePath
 	 */
-	public static function keySetPreparation(\OC\Files\View $view, $path, $basePath, $userId) {
+	protected static function keySetPreparation(\OC\Files\View $view, $path, $basePath, $userId) {
 
 		$targetPath = ltrim($path, '/');
 
@@ -527,7 +527,7 @@ class Keymanager {
 			isset($path_parts['dirname'])
 			&& !$view->file_exists($basePath . '/' . $path_parts['dirname'])
 		) {
-			$sub_dirs = explode(DIRECTORY_SEPARATOR, $basePath . '/' . $path_parts['dirname']);
+			$sub_dirs = explode('/', $basePath . '/' . $path_parts['dirname']);
 			$dir = '';
 			foreach ($sub_dirs as $sub_dir) {
 				$dir .= '/' . $sub_dir;

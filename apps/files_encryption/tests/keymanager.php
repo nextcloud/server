@@ -239,10 +239,29 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = true;
 
 		// cleanup
-		$this->view->unlink('/admin/files/folder1');
+		$this->view->deleteAll('/admin/files/folder1');
 
 		// change encryption proxy to previous state
 		\OC_FileProxy::$enabled = $proxyStatus;
+	}
+
+	function testKeySetPreperation() {
+		$basePath = '/'.Test_Encryption_Keymanager::TEST_USER.'/files';
+		$path = '/folder1/subfolder/subsubfolder';
+
+		$this->assertFalse($this->view->is_dir($basePath . '/testKeySetPreperation'));
+
+		$result = TestProtectedKeymanagerMethods::testKeySetPreperation($this->view, $path, $basePath);
+
+		// return path without leading slash
+		$this->assertSame('folder1/subfolder/subsubfolder', $result);
+
+		// check if directory structure was created
+		$this->assertTrue($this->view->is_dir($basePath . '/folder1/subfolder/subsubfolder'));
+
+		// cleanup
+		$this->view->deleteAll($basePath . '/folder1');
+
 	}
 }
 
@@ -256,5 +275,14 @@ class TestProtectedKeymanagerMethods extends \OCA\Encryption\Keymanager {
 	 */
 	public static function testGetFilenameFromShareKey($sharekey) {
 		return self::getFilenameFromShareKey($sharekey);
+	}
+
+	/**
+	 * @param \OC\Files\View $view relative to data/
+	 * @param string $path
+	 * @param string $basePath
+	 */
+	public static function testKeySetPreperation($view, $path, $basePath) {
+		return self::keySetPreparation($view, $path, $basePath, '');
 	}
 }
