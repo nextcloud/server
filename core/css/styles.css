@@ -622,6 +622,12 @@ label.infield {
 	cursor: pointer;
 }
 
+/* fixes for update page TODO should be fixed some time in a proper way */
+/* this is just for an error while updating the ownCloud instance */
+#body-login .updateProgress .error {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
 
 /* Alternative Logins */
 #alternative-logins legend { margin-bottom:10px; }
