@@ -133,6 +133,68 @@ class Shared_Updater {
 	}
 
 	/**
+	 * update etags if a file was shared
+	 * @param array $params
+	 */
+	static public function postShareHook($params) {
+
+		if ($params['itemType'] === 'folder' || $params['itemType'] === 'file') {
+
+			$shareWith = $params['shareWith'];
+			$shareType = $params['shareType'];
+
+			if ($shareType === \OCP\Share::SHARE_TYPE_USER) {
+				self::correctUsersFolder($shareWith, '/');
+			} elseif ($shareType === \OCP\Share::SHARE_TYPE_GROUP) {
+				foreach (\OC_Group::usersInGroup($shareWith) as $user) {
+					self::correctUsersFolder($user, '/');
+				}
+			}
+		}
+	}
+
+	/**
+	 * update etags if a file was unshared
+	 *
+	 * @param array $params
+	 */
+	static public function postUnshareHook($params) {
+
+		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+
+			$deletedShares = isset($params['deletedShares']) ? $params['deletedShares'] : array();
+
+			foreach ($deletedShares as $share) {
+				if ($share['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
+					foreach (\OC_Group::usersInGroup($share['shareWith']) as $user) {
+						self::correctUsersFolder($user, dirname($share['fileTarget']));
+					}
+				} else {
+					self::correctUsersFolder($share['shareWith'], dirname($share['fileTarget']));
+				}
+			}
+		}
+	}
+
+	/**
+	 * update etags if file was unshared from self
+	 * @param array $params
+	 */
+	static public function postUnshareFromSelfHook($params) {
+		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+			foreach ($params['unsharedItems'] as $item) {
+				if ($item['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
+					foreach (\OC_Group::usersInGroup($item['shareWith']) as $user) {
+						self::correctUsersFolder($user, dirname($item['fileTarget']));
+					}
+				} else {
+					self::correctUsersFolder($item['shareWith'], dirname($item['fileTarget']));
+				}
+			}
+		}
+	}
+
+	/**
 	 * clean up oc_share table from files which are no longer exists
 	 *
 	 * This fixes issues from updates from files_sharing < 0.3.5.6 (ownCloud 4.5)

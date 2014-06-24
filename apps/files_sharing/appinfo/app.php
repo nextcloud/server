@@ -28,6 +28,10 @@ OCP\Util::addScript('files_sharing', 'external');
 \OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
 \OC_Hook::connect('OC_Appconfig', 'post_set_value', '\OCA\Files\Share\Maintainer', 'configChangeHook');
 
+\OCP\Util::connectHook('OCP\Share', 'post_shared', '\OC\Files\Cache\Shared_Updater', 'postShareHook');
+\OCP\Util::connectHook('OCP\Share', 'post_unshare', '\OC\Files\Cache\Shared_Updater', 'postUnshareHook');
+\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', '\OC\Files\Cache\Shared_Updater', 'postUnshareFromSelfHook');
+
 OC_FileProxy::register(new OCA\Files\Share\Proxy());
 
 \OCA\Files\App::getNavigationManager()->add(
