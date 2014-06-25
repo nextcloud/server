@@ -25,6 +25,10 @@ class TestDoubleFileView extends \OC\Files\View{
 		return $this->updatables[$path];
 	}
 
+	public function isCreatable($path) {
+		return $this->updatables[$path];
+	}
+
 	public function isDeletable($path) {
 		return $this->deletables[$path];
 	}

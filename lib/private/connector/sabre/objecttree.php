@@ -135,10 +135,7 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 		if ($sourceDir !== $destinationDir) {
-			if (!$this->fileView->isUpdatable($sourceDir)) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
-			if (!$this->fileView->isUpdatable($destinationDir)) {
+			if (!$this->fileView->isCreatable($destinationDir)) {
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 			if (!$this->fileView->isDeletable($sourcePath) && !$isMovableMount) {
