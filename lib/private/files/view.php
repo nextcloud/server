@@ -885,7 +885,7 @@ class View {
 								continue;
 							}
 							$subCache = $subStorage->getCache('');
-							$rootEntry = $subCache->get($internalPath);
+							$rootEntry = $subCache->get('');
 							$data['size'] += isset($rootEntry['size']) ? $rootEntry['size'] : 0;
 						}
 					}
