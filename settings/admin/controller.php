@@ -86,7 +86,7 @@ class Controller {
 			$defaults = new \OC_Defaults();
 
 			try {
-				\OC_Mail::send($email, $_POST['user'],
+				\OC_Mail::send($email, \OC_User::getDisplayName(),
 					$l->t('test email settings'),
 					$l->t('If you received this email, the settings seem to be correct.'),
 					\OCP\Util::getDefaultEmailAddress('no-reply'), $defaults->getName());

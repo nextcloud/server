@@ -123,10 +123,10 @@ $(document).ready(function(){
 		});
 	});
 
-	$('#sendtestemail').click(function(){
+	$('#sendtestemail').click(function(event){
+		event.preventDefault();
 		OC.msg.startAction('#sendtestmail_msg', t('settings', 'Sending...'));
-		var post = $( "#sendtestemail" ).serialize();
-		$.post(OC.generateUrl('/settings/admin/mailtest'), post, function(data){
+		$.post(OC.generateUrl('/settings/admin/mailtest'), '', function(data){
 			OC.msg.finishedAction('#sendtestmail_msg', data);
 		});
 	});
