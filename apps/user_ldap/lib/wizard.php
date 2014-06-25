@@ -129,6 +129,69 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
+	 * counts users with a specified attribute
+	 * @param string $attr
+	 * @return int|bool
+	 */
+	public function countUsersWithAttribute($attr) {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+
+		$access = $this->getAccess();
+		$filter = $access->combineFilterWithAnd(array(
+			$this->configuration->ldapUserFilter,
+			$attr . '=*'
+		));
+
+		return $access->countUsers($filter);
+	}
+
+	/**
+	 * detects the most often used email attribute for users applying to the
+	 * user list filter. If a setting is already present that returns at least
+	 * one hit, the detection will be canceled.
+	 * @return bool
+	 */
+	public function detectEmailAttribute() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+
+		$attr = $this->configuration->ldapEmailAttribute;
+		if(!empty($attr)) {
+			$count = intval($this->countUsersWithAttribute($attr));
+			if($count > 0) {
+				return false;
+			}
+		}
+
+		$emailAttributes = array('mail', 'mailPrimaryAddress');
+		$winner = '';
+		$maxUsers = 0;
+		foreach($emailAttributes as $attr) {
+			$count = $this->countUsersWithAttribute($attr);
+			if($count > $maxUsers) {
+				$maxUsers = $count;
+				$winner = $attr;
+			}
+		}
+
+		if($winner !== '') {
+			$this->result->addChange('ldap_email_attr', $winner);
+		}
+
+	}
+
+	/**
 	 * @return WizardResult
 	 * @throws \Exception
 	 */
@@ -749,6 +812,7 @@ class Wizard extends LDAPUtility {
 				if(empty($filter)) {
 					$filter = '(objectclass=*)';
 				}
+				$this->detectEmailAttribute();
 				break;
 
 			case self::LFILTER_GROUP_LIST:
