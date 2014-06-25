@@ -1,11 +1,14 @@
 <?php
 $TRANSLATIONS = array(
+"Server to server sharing is not enabled on this server" => "Compartir entre servidores no está habilitado en este servidor",
+"Couldn't add remote share" => "No se puede añadir un compartido remoto",
 "Shared with you" => "Compartido contigo",
 "Shared with others" => "Compartido con otros",
 "Shared by link" => "Compartido por medio de enlaces",
 "No files have been shared with you yet." => "Aún no han compartido contigo ningún archivo.",
 "You haven't shared any files yet." => "Aún no has compartido ningún archivo.",
 "You haven't shared any files by link yet." => "Usted todavía no ha compartido ningún archivo por medio de enlaces.",
+"Add {name} from {owner}@{remote}" => "Añadir {name} desde {owner}@{remote}",
 "No ownCloud installation found at {remote}" => "No se encontró una instalación de ownCloud en {remote}",
 "Invalid ownCloud url" => "URL de ownCloud inválido",
 "Shared by {owner}" => "Compartido por {owner}",
@@ -27,6 +30,8 @@ $TRANSLATIONS = array(
 "Download" => "Descargar",
 "Download %s" => "Descargar %s",
 "Direct link" => "Enlace directo",
-"File Sharing" => "Compartir archivos"
+"File Sharing" => "Compartir archivos",
+"Allow other instances to mount public links shared from this server" => "Permitir a otros montar enlaces publicos compartidos de este servidor",
+"Allow users to mount public link shares" => "Permitir a los usuarios montar enlaces publicos compartidos"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-25 06:33-0400\n"
+"PO-Revision-Date: 2014-06-24 14:02+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -144,7 +144,7 @@ msgstr "Ali res želite izbrisati trenutne nastavitve strežnika?"
 msgid "Confirm Deletion"
 msgstr "Potrdi brisanje"
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
@@ -153,7 +153,7 @@ msgstr[1] "%s najdeni skupini"
 msgstr[2] "%s najdene skupine"
 msgstr[3] "%s najdenih skupin"
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
@@ -162,25 +162,25 @@ msgstr[1] "%s najdena uporabnika"
 msgstr[2] "%s najdeni uporabniki"
 msgstr[3] "%s najdenih uporabnikov"
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
-msgstr "Neveljaven gostitelj"
-
-#: lib/wizard.php:1025
+#: lib/wizard.php:317 lib/wizard.php:1051
 msgid "Could not find the desired feature"
 msgstr "Želene zmožnosti ni mogoče najti"
 
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
+msgstr "Neveljaven gostitelj"
+
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Strežnik"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Uporabniški filter"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Filter prijave"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -273,7 +273,7 @@ msgstr "Dodaj nastavitve strežnika"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Izbriši nastavitve"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"

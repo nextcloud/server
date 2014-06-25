@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-23 01:54-0400\n"
-"PO-Revision-Date: 2014-06-22 10:31+0000\n"
-"Last-Translator: YANO Tetsu <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2014-06-25 06:33-0400\n"
+"PO-Revision-Date: 2014-06-24 13:54+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -338,7 +338,7 @@ msgstr "グループ"
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "削除"
@@ -933,9 +933,9 @@ msgstr "グループ"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr "全ての人"
+msgstr "すべてのユーザー"
 
-#: templates/users/part.grouplist.php:29
+#: templates/users/part.grouplist.php:31
 msgid "Admins"
 msgstr "管理者"
 
@@ -945,7 +945,7 @@ msgstr "デフォルトのクォータサイズ"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr "ストレージの割り当てを入力してください (例: \"512MB\" や \"12 GB\")"
+msgstr "ストレージのクォータを入力してください (例: \"512MB\" や \"12 GB\")"
 
 #: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
 msgid "Unlimited"
@@ -957,7 +957,7 @@ msgstr "その他"
 
 #: templates/users/part.userlist.php:7
 msgid "Username"
-msgstr "ユーザー名"
+msgstr "ユーザーID"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
@@ -965,7 +965,7 @@ msgstr "クオータ"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr "ストレージの場所"
+msgstr "データの保存場所"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"

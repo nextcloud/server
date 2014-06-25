@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-23 01:54-0400\n"
-"PO-Revision-Date: 2014-06-22 10:21+0000\n"
-"Last-Translator: YANO Tetsu <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2014-06-25 06:33-0400\n"
+"PO-Revision-Date: 2014-06-24 13:54+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -392,19 +392,19 @@ msgstr "URLで共有"
 #: js/share.js:340
 msgid ""
 "The public link will expire no later than {days} days after it is created"
-msgstr "公開用リンクは、作成してから {days} 日以内に有効期限切れになります"
+msgstr "URLによる共有は、作成してから {days} 日以内に有効期限切れになります"
 
 #: js/share.js:342
 msgid "By default the public link will expire after {days} days"
-msgstr "デフォルトの設定では、公開用リンクは {days} 日後に有効期限切れになります"
+msgstr "デフォルトの設定では、URLによる共有は {days} 日後に有効期限切れになります"
 
 #: js/share.js:347
 msgid "Password protect"
-msgstr "パスワード保護"
+msgstr "パスワード保護を有効化"
 
 #: js/share.js:349
 msgid "Choose a password for the public link"
-msgstr "公開用リンクのパスワードを選択"
+msgstr "URLによる共有のパスワードを入力"
 
 #: js/share.js:355
 msgid "Allow Public Upload"

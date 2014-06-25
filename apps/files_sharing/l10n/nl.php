@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Server to server sharing is not enabled on this server" => "Server met server delen is niet geactiveerd op deze server",
+"Couldn't add remote share" => "Kon geen externe share toevoegen",
 "Shared with you" => "Deelde met u",
 "Shared with others" => "Deelde met anderen",
 "Shared by link" => "Gedeeld via een link",
@@ -7,6 +9,7 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "U hebt nog geen bestanden gedeeld.",
 "You haven't shared any files by link yet." => "U hebt nog geen bestanden via een link gedeeld.",
 "Add {name} from {owner}@{remote}" => "Toevoegen {name} van {owner}@{remote}",
+"No ownCloud installation found at {remote}" => "Geen ownCloud installatie gevonden op {remote}",
 "Invalid ownCloud url" => "Ongeldige ownCloud url",
 "Shared by {owner}" => "Gedeeld door {owner}",
 "Shared by" => "Gedeeld door",
@@ -27,6 +30,8 @@ $TRANSLATIONS = array(
 "Download" => "Downloaden",
 "Download %s" => "Download %s",
 "Direct link" => "Directe link",
-"File Sharing" => "Bestand delen"
+"File Sharing" => "Bestand delen",
+"Allow other instances to mount public links shared from this server" => "Toestaan dat andere oanClouds openbaar gedeelde links mounten vanaf deze server",
+"Allow users to mount public link shares" => "Toestaan dat gebruikers openbaar gedeelde links mounten"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

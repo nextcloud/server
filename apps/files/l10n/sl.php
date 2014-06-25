@@ -71,7 +71,7 @@ $TRANSLATIONS = array(
 "max. possible: " => "največ mogoče:",
 "Save" => "Shrani",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Uporabite naslov <a href=\"%s\" target=\"_blank\"> za dostop do datotek rpeko sistema WebDAV</a>.",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Uporabite naslov <a href=\"%s\" target=\"_blank\"> za dostop do datotek peko sistema WebDAV</a>.",
 "New" => "Novo",
 "New text file" => "Nova besedilna datoteka",
 "Text file" => "Besedilna datoteka",
@@ -85,6 +85,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Prekoračenje omejitve velikosti",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
 "Files are being scanned, please wait." => "Poteka preučevanje datotek, počakajte ...",
-"Currently scanning" => "Trenutno preverjam"
+"Currently scanning" => "Poteka preverjanje"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

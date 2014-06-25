@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Pellaeon Lin <nfsmwlin@gmail.com>, 2013
+# Flymok <transifex@flymok.net>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-25 06:33-0400\n"
+"PO-Revision-Date: 2014-06-25 03:20+0000\n"
+"Last-Translator: Flymok <transifex@flymok.net>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,15 +33,15 @@ msgstr "地點"
 
 #: appinfo/app.php:51
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:54
 msgid "Key"
-msgstr ""
+msgstr "鑰"
 
 #: appinfo/app.php:55
 msgid "Secret"
-msgstr ""
+msgstr "密"
 
 #: appinfo/app.php:56 appinfo/app.php:65
 msgid "Bucket"
@@ -56,23 +57,23 @@ msgstr ""
 
 #: appinfo/app.php:64
 msgid "Secret Key"
-msgstr ""
+msgstr "密鑰"
 
 #: appinfo/app.php:66
 msgid "Hostname (optional)"
-msgstr ""
+msgstr "主機名稱 (選填)"
 
 #: appinfo/app.php:67
 msgid "Port (optional)"
-msgstr ""
+msgstr "埠號 (選填)"
 
 #: appinfo/app.php:68
 msgid "Region (optional)"
-msgstr ""
+msgstr "區域 (選填)"
 
 #: appinfo/app.php:69
 msgid "Enable SSL"
-msgstr ""
+msgstr "啟用 SSL"
 
 #: appinfo/app.php:70
 msgid "Enable Path Style"
@@ -124,7 +125,7 @@ msgstr ""
 
 #: appinfo/app.php:112
 msgid "Username (required)"
-msgstr ""
+msgstr "使用者名稱 (必填)"
 
 #: appinfo/app.php:113
 msgid "Bucket (required)"
@@ -208,44 +209,44 @@ msgstr "個人"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "系統"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "已儲存"
 
 #: lib/config.php:703
 msgid "<b>Note:</b> "
-msgstr ""
+msgstr "<b>警告:</b> "
 
 #: lib/config.php:713
 msgid " and "
-msgstr ""
+msgstr "與"
 
 #: lib/config.php:735
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>警告:</b> PHP 並未啓用 Curl 的支援，因此無法掛載 %s 。請洽您的系統管理員將其安裝並啓用。"
 
 #: lib/config.php:737
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>警告</b>：PHP 並未啓用 FTP 的支援，因此無法掛載 %s，請洽您的系統管理員將其安裝並啓用。"
 
 #: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
-msgstr ""
+msgstr "<b>警告</b>並未安裝 \"%s\"，因此無法掛載 %s。請洽您的系統管理員將其安裝並啓用。"
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "您沒有任何外部儲存"
 
 #: templates/list.php:16
 msgid "Name"
@@ -277,7 +278,7 @@ msgstr "選項"
 
 #: templates/settings.php:12
 msgid "Available for"
-msgstr ""
+msgstr "可用的"
 
 #: templates/settings.php:32
 msgid "Add storage"
@@ -285,7 +286,7 @@ msgstr "增加儲存區"
 
 #: templates/settings.php:92
 msgid "No user or group"
-msgstr ""
+msgstr "沒有使用者或群組"
 
 #: templates/settings.php:95
 msgid "All Users"
@@ -310,7 +311,7 @@ msgstr "啓用使用者外部儲存"
 
 #: templates/settings.php:135
 msgid "Allow users to mount the following external storage"
-msgstr ""
+msgstr "允許使用者自行掛載以下的外部儲存"
 
 #: templates/settings.php:150
 msgid "SSL root certificates"

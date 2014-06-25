@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-25 06:33-0400\n"
+"PO-Revision-Date: 2014-06-24 13:44+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -220,14 +220,14 @@ msgstr "jaar geleden"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Kon herstel e-mail niet versturen. Neem contact op met uw beheerder."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "De link om uw wachtwoord te herstellen is per e-mail naar u verstuurd. Als u dit bericht niet binnen redelijke tijd hebt ontvangen, controleer dan uw spammapje. <br>Als het daar niet in zit, neem dan contact op met uw beheerder."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -235,11 +235,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Uw bestanden zijn versleuteld. Als u de herstelsleutel niet hebt geactiveerd, dan is er geen mogelijk om uw gegevens terug te krijgen nadat uw wachtwoord is hersteld. <br>Als u niet weet wat u moet doen, neem dan eerst contact op met uw beheerder. <br>Wilt u echt verder gaan?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Ik weet wat ik doe"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -247,77 +247,77 @@ msgstr "Reset wachtwoord"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Het wachtwoord kan niet worden gewijzigd. Neem contact op met uw beheerder."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Nee"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Kies"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Fout bij laden bestandenselecteur sjabloon: {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Fout bij laden berichtensjabloon: {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} bestandsconflict"
 msgstr[1] "{count} bestandsconflicten"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Een bestandsconflict"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Nieuwe bestanden"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Al aanwezige bestanden"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Welke bestanden wilt u bewaren?"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Als u beide versies selecteerde, zal het gekopieerde bestand een nummer aan de naam toegevoegd krijgen."
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Verder"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(alles geselecteerd)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} geselecteerd)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Fout bij laden bestand bestaat al sjabloon"
 
@@ -549,17 +549,17 @@ msgstr "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud."
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Kon het wachtwoord niet herstellen omdat het token ongeldig is"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Kon e-mail niet versturen. Verifieer of uw gebruikersnaam correct is."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Kon wachtwoordherstel e-mailbericht niet versturen, omdat er geen e-mailadres bekend is voor deze gebruikersnaam. Neem contact op met uw beheerder."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -602,7 +602,7 @@ msgstr "Nieuw wachtwoord"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nieuw wachtwoord"
 
 #: setup/controller.php:140
 #, php-format
@@ -830,7 +830,7 @@ msgstr "Neem contact op met uw systeembeheerder."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Wachtwoord vergeten? Herstel het!"
 
 #: templates/login.php:55
 msgid "remember"

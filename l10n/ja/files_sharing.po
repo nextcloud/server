@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-24 01:54-0400\n"
-"PO-Revision-Date: 2014-06-23 11:00+0000\n"
+"POT-Creation-Date: 2014-06-25 06:33-0400\n"
+"PO-Revision-Date: 2014-06-24 13:54+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -32,27 +32,27 @@ msgstr "リモート共有を追加できませんでした"
 
 #: appinfo/app.php:39 js/app.js:34
 msgid "Shared with you"
-msgstr "あなたと共有"
+msgstr "他ユーザーがあなたと共有中"
 
 #: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
-msgstr "他人と共有"
+msgstr "他ユーザーと共有中"
 
 #: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
-msgstr "URLリンクで共有済"
+msgstr "URLリンクで共有中"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr "まだ共有を行なっているファイルはありません。"
+msgstr "他のユーザーがあなたと共有しているファイルはありません。"
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr "まだ共有を行なっているファイルはありません。"
+msgstr "他のユーザーと共有しているファイルはありません。"
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr "まだURLリンクで共有を行なっているファイルはありません。"
+msgstr "URLリンクで共有しているファイルはありません。"
 
 #: js/external.js:43 js/external.js:46
 msgid "Add {name} from {owner}@{remote}"
@@ -112,7 +112,7 @@ msgstr "リンクの期限が切れています"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr "共有が無効になっています"
+msgstr "共有は無効になっています"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
@@ -149,8 +149,8 @@ msgstr "ファイル共有"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr "このサーバの公開共有リンクを他のインスタンスからマウントできるようにする"
+msgstr "このサーバにおけるURLでの共有を他のインスタンスからマウントできるようにする"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr "ユーザが公開共有リンクをマウントできるようにする"
+msgstr "ユーザーがURLでの共有をマウントできるようにする"
