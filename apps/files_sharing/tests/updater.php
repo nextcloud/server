@@ -28,14 +28,19 @@ require_once __DIR__ . '/base.php';
  */
 class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 
-	const TEST_FOLDER_NAME = '/folder_share_api_test';
+	const TEST_FOLDER_NAME = '/folder_share_updater_test';
+
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+		\OCA\Files_Sharing\Helper::registerHooks();
+	}
 
 	function setUp() {
 		parent::setUp();
 
 		$this->folder = self::TEST_FOLDER_NAME;
 
-		$this->filename = '/share-api-test.txt';
+		$this->filename = '/share-updater-test.txt';
 
 		// save file with content
 		$this->view->file_put_contents($this->filename, $this->data);
