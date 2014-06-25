@@ -509,6 +509,10 @@ class OC_App {
 	 * @return string|false
 	 */
 	public static function getAppPath($appid) {
+		if ($appid === null || trim($appid) === '') {
+			return false;
+		}
+
 		if (($dir = self::findAppInDirectories($appid)) != false) {
 			return $dir['path'] . '/' . $appid;
 		}
