@@ -248,14 +248,14 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	function testKeySetPreperation() {
 		$basePath = '/'.Test_Encryption_Keymanager::TEST_USER.'/files';
-		$path = '/folder1/subfolder/subsubfolder';
+		$path = '/folder1/subfolder/subsubfolder/file.txt';
 
 		$this->assertFalse($this->view->is_dir($basePath . '/testKeySetPreperation'));
 
 		$result = TestProtectedKeymanagerMethods::testKeySetPreperation($this->view, $path, $basePath);
 
 		// return path without leading slash
-		$this->assertSame('folder1/subfolder/subsubfolder', $result);
+		$this->assertSame('folder1/subfolder/subsubfolder/file.txt', $result);
 
 		// check if directory structure was created
 		$this->assertTrue($this->view->is_dir($basePath . '/folder1/subfolder/subsubfolder'));
