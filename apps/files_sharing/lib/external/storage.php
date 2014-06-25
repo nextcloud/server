@@ -37,9 +37,9 @@ class Storage extends DAV implements ISharedStorage {
 		$this->remote = $options['remote'];
 		$this->remoteUser = $options['owner'];
 		list($protocol, $remote) = explode('://', $this->remote);
-		list($host, $root) = explode('/', $remote);
+		list($host, $root) = explode('/', $remote, 2);
 		$secure = $protocol === 'https';
-		$root .= '/public.php/webdav';
+		$root = rtrim($root, '/') . '/public.php/webdav';
 		$this->mountPoint = $options['mountpoint'];
 		$this->token = $options['token'];
 		parent::__construct(array(
