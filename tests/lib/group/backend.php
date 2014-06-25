@@ -31,8 +31,12 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	 * test cases can override this in order to clean up created groups
 	 * @return string
 	 */
-	public function getGroupName() {
-		return uniqid('test_');
+	public function getGroupName($name = null) {
+		if(is_null($name)) {
+			return uniqid('test_');
+		} else {
+			return $name;
+		}
 	}
 
 	/**
