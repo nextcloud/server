@@ -340,6 +340,14 @@ var LdapWizard = {
 		LdapWizard._countThings('countUsers');
 	},
 
+	detectEmailAttribute: function() {
+		param = 'action=detectEmailAttribute'+
+				'&ldap_serverconfig_chooser='+
+				encodeURIComponent($('#ldap_serverconfig_chooser').val());
+		//runs in the background, no callbacks necessary
+		LdapWizard.ajax(param, LdapWizard.applyChanges, function(){});
+	},
+
 	detectGroupMemberAssoc: function() {
 		param = 'action=determineGroupMemberAssoc'+
 				'&ldap_serverconfig_chooser='+
@@ -577,7 +585,7 @@ var LdapWizard = {
 	postInitUserFilter: function() {
 		if(LdapWizard.userFilterObjectClassesHasRun &&
 			LdapWizard.userFilterAvailableGroupsHasRun) {
-			LdapWizard.userFilter.compose();
+			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
 			LdapWizard.countUsers();
 		}
 	},
@@ -619,6 +627,7 @@ var LdapWizard = {
 
 		if(triggerObj.id == 'ldap_userlist_filter') {
 			LdapWizard.countUsers();
+			LdapWizard.detectEmailAttribute();
 		} else if(triggerObj.id == 'ldap_group_filter') {
 			LdapWizard.countGroups();
 			LdapWizard.detectGroupMemberAssoc();
@@ -656,9 +665,12 @@ var LdapWizard = {
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
 		if(originalObj == 'ldap_userfilter_objectclass'
 		   || originalObj == 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose();
+			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
+			if(!LdapWizard.loginFilter) {
+				LdapWizard.initLoginFilter();
+			}
 			LdapWizard.loginFilter.compose();
 		} else if(originalObj == 'ldap_loginfilter_attributes') {
 			LdapWizard.loginFilter.compose();
@@ -720,7 +732,7 @@ var LdapWizard = {
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
 			if(moc.indexOf('user') >= 0) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
-				LdapWizard.userFilter.compose();
+				LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
 			} else {
 				LdapWizard.blacklistRemove('ldap_group_filter');
 				LdapWizard.groupFilter.compose();

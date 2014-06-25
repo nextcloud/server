@@ -14,7 +14,7 @@ function LdapFilter(target)  {
 	}
 }
 
-LdapFilter.prototype.compose = function() {
+LdapFilter.prototype.compose = function(callback) {
 	var action;
 
 	if(this.locked) {
@@ -49,6 +49,9 @@ LdapFilter.prototype.compose = function() {
 			} else if(filter.target === 'Group') {
 				LdapWizard.countGroups();
 				LdapWizard.detectGroupMemberAssoc();
+			}
+			if(typeof callback !== 'undefined') {
+				callback();
 			}
 		},
 		function () {

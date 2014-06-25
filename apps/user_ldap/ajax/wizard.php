@@ -61,6 +61,7 @@ $wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
 switch($action) {
 	case 'guessPortAndTLS':
 	case 'guessBaseDN':
+	case 'detectEmailAttribute':
 	case 'determineGroupMemberAssoc':
 	case 'determineUserObjectClasses':
 	case 'determineGroupObjectClasses':

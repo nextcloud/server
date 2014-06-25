@@ -274,8 +274,9 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 				var_dump($filter);
 			}));
 
-		$resultAttribute = $wizard->detectEmailAttribute();
-		$this->assertSame('mailPrimaryAddress', $resultAttribute);
+		$result = $wizard->detectEmailAttribute()->getResultArray();
+		$this->assertSame('mailPrimaryAddress',
+			$result['changes']['ldap_email_attr']);
 	}
 
 	public function testDetectEmailAttributeFind() {
@@ -312,8 +313,9 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 				var_dump($filter);
 			}));
 
-		$resultAttribute = $wizard->detectEmailAttribute();
-		$this->assertSame('mailPrimaryAddress', $resultAttribute);
+		$result = $wizard->detectEmailAttribute()->getResultArray();
+		$this->assertSame('mailPrimaryAddress',
+			$result['changes']['ldap_email_attr']);
 	}
 
 	public function testDetectEmailAttributeFindNothing() {
@@ -350,8 +352,8 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 				var_dump($filter);
 			}));
 
-		$resultAttribute = $wizard->detectEmailAttribute();
-		$this->assertSame('', $resultAttribute);
+		$result = $wizard->detectEmailAttribute();
+		$this->assertSame(false, $result->hasChanges());
 	}
 
 	public function testCumulativeSearchOnAttributeSkipReadDN() {
