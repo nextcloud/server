@@ -172,6 +172,9 @@ class Wizard extends LDAPUtility {
 			if($count > 0) {
 				return false;
 			}
+			$writeLog = true;
+		} else {
+			$writeLog = false;
 		}
 
 		$emailAttributes = array('mail', 'mailPrimaryAddress');
@@ -187,6 +190,11 @@ class Wizard extends LDAPUtility {
 
 		if($winner !== '') {
 			$this->result->addChange('ldap_email_attr', $winner);
+			if($writeLog) {
+				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
+					'automatically been reset, because the original value ' .
+					'did not return any results.', \OCP\Util::INFO);
+			}
 		}
 
 		return $winner;
