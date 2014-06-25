@@ -135,8 +135,8 @@ class Swift implements IObjectStore {
 	 */
 	public function deleteObject($urn) {
 		$this->init();
-		$object = $this->container->getObject($urn);
-		$object->delete();
+		// see https://github.com/rackspace/php-opencloud/issues/243#issuecomment-30032242
+		$this->container->dataObject()->setName($urn)->delete();
 	}
 
 	public function deleteContainer($recursive = false) {
