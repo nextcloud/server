@@ -43,16 +43,29 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function getWizardAndMocks() {
-		static $conMethods;
+		static $confMethods;
+		static $connMethods;
+		static $accMethods;
 
-		if(is_null($conMethods)) {
-			$conMethods = get_class_methods('\OCA\user_ldap\lib\Configuration');
+		if(is_null($confMethods)) {
+			$confMethods = get_class_methods('\OCA\user_ldap\lib\Configuration');
+			$connMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
+			$accMethods  = get_class_methods('\OCA\user_ldap\lib\Access');
 		}
 		$lw   = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$conf = $this->getMock('\OCA\user_ldap\lib\Configuration',
-							   $conMethods,
+							   $confMethods,
 							   array($lw, null, null));
-		return array(new Wizard($conf, $lw), $conf, $lw);
+
+		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
+			$connMethods, array($lw, null, null));
+		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
+					->disableOriginalConstructor()
+					->getMock();
+		$access = $this->getMock('\OCA\user_ldap\lib\Access',
+			$accMethods, array($connector, $lw, $um));
+
+		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}
 
 	private function prepareLdapWrapperForConnections(&$ldap) {
@@ -205,6 +218,144 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 		$filters = array('f1', 'f2', '*');
 		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		unset($uidnumber);
+	}
+
+	public function testDetectEmailAttributeAlreadySet() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(42));
+
+		$wizard->detectEmailAttribute();
+	}
+
+	public function testDetectEmailAttributeOverrideSet() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function ($filterParts) {
+				return str_replace('=*', '', array_pop($filterParts));
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('countUsers')
+			->will($this->returnCallback(function ($filter) {
+				if($filter === 'myEmailAttribute') {
+					return 0;
+				} else if($filter === 'mail') {
+					return 3;
+				} else if($filter === 'mailPrimaryAddress') {
+					return 17;
+				}
+				var_dump($filter);
+			}));
+
+		$result = $wizard->detectEmailAttribute()->getResultArray();
+		$this->assertSame('mailPrimaryAddress',
+			$result['changes']['ldap_email_attr']);
+	}
+
+	public function testDetectEmailAttributeFind() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return '';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->exactly(2))
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function ($filterParts) {
+				return str_replace('=*', '', array_pop($filterParts));
+			}));
+
+		$access->expects($this->exactly(2))
+			->method('countUsers')
+			->will($this->returnCallback(function ($filter) {
+				if($filter === 'myEmailAttribute') {
+					return 0;
+				} else if($filter === 'mail') {
+					return 3;
+				} else if($filter === 'mailPrimaryAddress') {
+					return 17;
+				}
+				var_dump($filter);
+			}));
+
+		$result = $wizard->detectEmailAttribute()->getResultArray();
+		$this->assertSame('mailPrimaryAddress',
+			$result['changes']['ldap_email_attr']);
+	}
+
+	public function testDetectEmailAttributeFindNothing() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function ($filterParts) {
+				return str_replace('=*', '', array_pop($filterParts));
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('countUsers')
+			->will($this->returnCallback(function ($filter) {
+				if($filter === 'myEmailAttribute') {
+					return 0;
+				} else if($filter === 'mail') {
+					return 0;
+				} else if($filter === 'mailPrimaryAddress') {
+					return 0;
+				}
+				var_dump($filter);
+			}));
+
+		$result = $wizard->detectEmailAttribute();
+		$this->assertSame(false, $result->hasChanges());
 	}
 
 	public function testCumulativeSearchOnAttributeSkipReadDN() {
