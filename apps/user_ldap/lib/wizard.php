@@ -1107,7 +1107,15 @@ class Wizard extends LDAPUtility {
 		$con->setConfiguration($this->configuration->getConfiguration());
 		$con->ldapConfigurationActive = true;
 		$con->setIgnoreValidation(true);
-		$ldapAccess = new Access($con, $this->ldap);
+
+		$userManager = new user\Manager(
+			\OC::$server->getConfig(),
+			new FilesystemHelper(),
+			new LogWrapper(),
+			\OC::$server->getAvatarManager(),
+			new \OCP\Image());
+
+		$ldapAccess = new Access($con, $this->ldap, $userManager);
 		return $ldapAccess;
 	}
 

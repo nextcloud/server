@@ -835,7 +835,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
 
 		if(is_null($limit)) {
-			$limit = $this->connection->ldapPagingSize;
+			$limit = intval($this->connection->ldapPagingSize);
 		}
 
 		$counter = 0;
