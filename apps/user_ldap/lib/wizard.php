@@ -25,6 +25,7 @@ namespace OCA\user_ldap\lib;
 
 class Wizard extends LDAPUtility {
 	static protected $l;
+	protected $access;
 	protected $cr;
 	protected $configuration;
 	protected $result;
@@ -48,12 +49,13 @@ class Wizard extends LDAPUtility {
 	 * @param Configuration $configuration an instance of Configuration
 	 * @param ILDAPWrapper $ldap an instance of ILDAPWrapper
 	 */
-	public function __construct(Configuration $configuration, ILDAPWrapper $ldap) {
+	public function __construct(Configuration $configuration, ILDAPWrapper $ldap, Access $access) {
 		parent::__construct($ldap);
 		$this->configuration = $configuration;
 		if(is_null(Wizard::$l)) {
 			Wizard::$l = \OC_L10N::get('user_ldap');
 		}
+		$this->access = $access;
 		$this->result = new WizardResult;
 	}
 
@@ -78,11 +80,10 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Requirements not met', 400);
 		}
 
-		$ldapAccess = $this->getAccess();
 		if($type === 'groups') {
-			$result =  $ldapAccess->countGroups($filter);
+			$result =  $this->access->countGroups($filter);
 		} else if($type === 'users') {
-			$result = $ldapAccess->countUsers($filter);
+			$result = $this->access->countUsers($filter);
 		} else {
 			throw new \Exception('internal error: invald object type', 500);
 		}
@@ -142,13 +143,12 @@ class Wizard extends LDAPUtility {
 			return  false;
 		}
 
-		$access = $this->getAccess();
-		$filter = $access->combineFilterWithAnd(array(
+		$filter = $this->access->combineFilterWithAnd(array(
 			$this->configuration->ldapUserFilter,
 			$attr . '=*'
 		));
 
-		return $access->countUsers($filter);
+		return $this->access->countUsers($filter);
 	}
 
 	/**
@@ -352,7 +352,6 @@ class Wizard extends LDAPUtility {
 	 */
 	public function fetchGroups($dbKey, $confKey) {
 		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
-		$ldapAccess = $this->getAccess();
 
 		$filterParts = array();
 		foreach($obclasses as $obclass) {
@@ -361,15 +360,15 @@ class Wizard extends LDAPUtility {
 		//we filter for everything
 		//- that looks like a group and
 		//- has the group display name set
-		$filter = $ldapAccess->combineFilterWithOr($filterParts);
-		$filter = $ldapAccess->combineFilterWithAnd(array($filter, 'cn=*'));
+		$filter = $this->access->combineFilterWithOr($filterParts);
+		$filter = $this->access->combineFilterWithAnd(array($filter, 'cn=*'));
 
 		$groupNames = array();
 		$groupEntries = array();
 		$limit = 400;
 		$offset = 0;
 		do {
-			$result = $ldapAccess->searchGroups($filter, array('cn','dn'), $limit, $offset);
+			$result = $this->access->searchGroups($filter, array('cn'), $limit, $offset);
 			foreach($result as $item) {
 				$groupNames[] = $item['cn'];
 				$groupEntries[] = $item;
@@ -1166,27 +1165,6 @@ class Wizard extends LDAPUtility {
 		} else {
 			return self::LRESULT_PROCESSED_SKIP;
 		}
-	}
-
-	/**
-	 * creates and returns an Access instance
-	 * @return \OCA\user_ldap\lib\Access
-	 */
-	private function getAccess() {
-		$con = new Connection($this->ldap, '', null);
-		$con->setConfiguration($this->configuration->getConfiguration());
-		$con->ldapConfigurationActive = true;
-		$con->setIgnoreValidation(true);
-
-		$userManager = new user\Manager(
-			\OC::$server->getConfig(),
-			new FilesystemHelper(),
-			new LogWrapper(),
-			\OC::$server->getAvatarManager(),
-			new \OCP\Image());
-
-		$ldapAccess = new Access($con, $this->ldap, $userManager);
-		return $ldapAccess;
 	}
 
 	/**

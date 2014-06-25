@@ -46,13 +46,24 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 		static $conMethods;
 
 		if(is_null($conMethods)) {
-			$conMethods = get_class_methods('\OCA\user_ldap\lib\Configuration');
+			$confMethods = get_class_methods('\OCA\user_ldap\lib\Configuration');
+			$connMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
+			$accMethods  = get_class_methods('\OCA\user_ldap\lib\Access');
 		}
 		$lw   = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$conf = $this->getMock('\OCA\user_ldap\lib\Configuration',
-							   $conMethods,
+							   $confMethods,
 							   array($lw, null, null));
-		return array(new Wizard($conf, $lw), $conf, $lw);
+
+		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
+			$connMethods, array($lw, null, null));
+		$um = $this->getMockBuilder('\OCA\user_ldap\lib\user\Manager')
+					->disableOriginalConstructor()
+					->getMock();
+		$access = $this->getMock('\OCA\user_ldap\lib\Access',
+			$accMethods, array($connector, $lw, $um));
+
+		return array(new Wizard($conf, $lw, $access), $conf, $lw);
 	}
 
 	private function prepareLdapWrapperForConnections(&$ldap) {

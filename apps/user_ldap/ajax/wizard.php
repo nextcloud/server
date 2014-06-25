@@ -39,9 +39,24 @@ if(!isset($_POST['ldap_serverconfig_chooser'])) {
 }
 $prefix = $_POST['ldap_serverconfig_chooser'];
 
-$ldapWrapper = new OCA\user_ldap\lib\LDAP();
+$ldapWrapper = new \OCA\user_ldap\lib\LDAP();
 $configuration = new \OCA\user_ldap\lib\Configuration($prefix);
-$wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper);
+
+$con = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);
+$con->setConfiguration($configuration->getConfiguration());
+$con->ldapConfigurationActive = true;
+$con->setIgnoreValidation(true);
+
+$userManager = new \OCA\user_ldap\lib\user\Manager(
+	\OC::$server->getConfig(),
+	new \OCA\user_ldap\lib\FilesystemHelper(),
+	new \OCA\user_ldap\lib\LogWrapper(),
+	\OC::$server->getAvatarManager(),
+	new \OCP\Image());
+
+$access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
+
+$wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
 
 switch($action) {
 	case 'guessPortAndTLS':
