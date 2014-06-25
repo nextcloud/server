@@ -896,7 +896,7 @@ class View {
 			return false;
 		}
 
-		if ($mount instanceof MoveableMount) {
+		if ($mount instanceof MoveableMount && $internalPath === '') {
 			$data['permissions'] |= \OCP\PERMISSION_DELETE | \OCP\PERMISSION_UPDATE;
 		}
 
