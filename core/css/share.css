@@ -35,6 +35,8 @@
 
 #shareWithList label input[type=checkbox]{
 	margin-left: 0;
+	top: 3px;
+	position: relative;
 }
 #shareWithList .username{
 	padding-right: 8px;
