@@ -92,6 +92,52 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 			)
 		);
 	}
+
+	/**
+	 * Test renaming and splitting old office mime types when
+	 * new ones already exist
+	 */
+	public function testRenameOfficeMimeTypesWhenExist() {
+		$this->addEntries(
+			array(
+				array('test.doc', 'application/msword'),
+				array('test.docx', 'application/msword'),
+				array('test.xls', 'application/msexcel'),
+				array('test.xlsx', 'application/msexcel'),
+				array('test.ppt', 'application/mspowerpoint'),
+				array('test.pptx', 'application/mspowerpoint'),
+				// make it so that the new mimetypes already exist
+				array('bogus.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+				array('bogus.xlsx', 'application/vnd.ms-excel'),
+				array('bogus.pptx', 'application/vnd.ms-powerpoint'),
+				array('bogus2.docx', 'application/wrong'),
+				array('bogus2.xlsx', 'application/wrong'),
+				array('bogus2.pptx', 'application/wrong'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.doc', 'application/msword'),
+				array('test.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+				array('test.xls', 'application/msexcel'),
+				array('test.xlsx', 'application/vnd.ms-excel'),
+				array('test.ppt', 'application/mspowerpoint'),
+				array('test.pptx', 'application/vnd.ms-powerpoint'),
+				array('bogus.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+				array('bogus.xlsx', 'application/vnd.ms-excel'),
+				array('bogus.pptx', 'application/vnd.ms-powerpoint'),
+				array('bogus2.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+				array('bogus2.xlsx', 'application/vnd.ms-excel'),
+				array('bogus2.pptx', 'application/vnd.ms-powerpoint'),
+			)
+		);
+	}
 }
 
 /**
