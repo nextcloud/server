@@ -155,7 +155,7 @@ class Wizard extends LDAPUtility {
 	 * detects the most often used email attribute for users applying to the
 	 * user list filter. If a setting is already present that returns at least
 	 * one hit, the detection will be canceled.
-	 * @return bool
+	 * @return bool|string
 	 */
 	public function detectEmailAttribute() {
 		if(!$this->checkRequirements(array('ldapHost',
@@ -189,6 +189,7 @@ class Wizard extends LDAPUtility {
 			$this->result->addChange('ldap_email_attr', $winner);
 		}
 
+		return $winner;
 	}
 
 	/**

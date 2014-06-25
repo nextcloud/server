@@ -63,7 +63,7 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 			$accMethods, array($connector, $lw, $um));
 
-		return array(new Wizard($conf, $lw, $access), $conf, $lw);
+		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
 	}
 
 	private function prepareLdapWrapperForConnections(&$ldap) {
@@ -216,6 +216,142 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 		$filters = array('f1', 'f2', '*');
 		$wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		unset($uidnumber);
+	}
+
+	public function testDetectEmailAttributeAlreadySet() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(42));
+
+		$wizard->detectEmailAttribute();
+	}
+
+	public function testDetectEmailAttributeOverrideSet() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function ($filterParts) {
+				return str_replace('=*', '', array_pop($filterParts));
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('countUsers')
+			->will($this->returnCallback(function ($filter) {
+				if($filter === 'myEmailAttribute') {
+					return 0;
+				} else if($filter === 'mail') {
+					return 3;
+				} else if($filter === 'mailPrimaryAddress') {
+					return 17;
+				}
+				var_dump($filter);
+			}));
+
+		$resultAttribute = $wizard->detectEmailAttribute();
+		$this->assertSame('mailPrimaryAddress', $resultAttribute);
+	}
+
+	public function testDetectEmailAttributeFind() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return '';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->exactly(2))
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function ($filterParts) {
+				return str_replace('=*', '', array_pop($filterParts));
+			}));
+
+		$access->expects($this->exactly(2))
+			->method('countUsers')
+			->will($this->returnCallback(function ($filter) {
+				if($filter === 'myEmailAttribute') {
+					return 0;
+				} else if($filter === 'mail') {
+					return 3;
+				} else if($filter === 'mailPrimaryAddress') {
+					return 17;
+				}
+				var_dump($filter);
+			}));
+
+		$resultAttribute = $wizard->detectEmailAttribute();
+		$this->assertSame('mailPrimaryAddress', $resultAttribute);
+	}
+
+	public function testDetectEmailAttributeFindNothing() {
+		list($wizard, $configuration, $ldap, $access)
+			= $this->getWizardAndMocks();
+
+		$configuration->expects($this->any())
+			->method('__get')
+			->will($this->returnCallback(function ($name) {
+				if($name === 'ldapEmailAttribute') {
+					return 'myEmailAttribute';
+				} else {
+					//for requirement checks
+					return 'let me pass';
+				}
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('combineFilterWithAnd')
+			->will($this->returnCallback(function ($filterParts) {
+				return str_replace('=*', '', array_pop($filterParts));
+			}));
+
+		$access->expects($this->exactly(3))
+			->method('countUsers')
+			->will($this->returnCallback(function ($filter) {
+				if($filter === 'myEmailAttribute') {
+					return 0;
+				} else if($filter === 'mail') {
+					return 0;
+				} else if($filter === 'mailPrimaryAddress') {
+					return 0;
+				}
+				var_dump($filter);
+			}));
+
+		$resultAttribute = $wizard->detectEmailAttribute();
+		$this->assertSame('', $resultAttribute);
 	}
 
 	public function testCumulativeSearchOnAttributeSkipReadDN() {
