@@ -38,14 +38,15 @@ class Swift extends Storage {
 	public function tearDown() {
 		if ($this->instance) {
 			$connection = $this->instance->getConnection();
-			$container = $connection->Container($this->config['swift']['bucket']);
+			$container = $connection->getContainer($this->config['swift']['bucket']);
 
-			$objects = $container->ObjectList();
-			while($object = $objects->Next()) {
-				$object->Delete();
+			$objects = $container->objectList();
+			while($object = $objects->next()) {
+				$object->setName(str_replace('#','%23',$object->getName()));
+				$object->delete();
 			}
 
-			$container->Delete();
+			$container->delete();
 		}
 	}
 }
