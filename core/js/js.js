@@ -1411,6 +1411,10 @@ OC.Util.History = {
 		if (pos >= 0) {
 			return hash.substr(pos + 1);
 		}
+		if (hash.length) {
+			// remove hash sign
+			return hash.substr(1);
+		}
 		return '';
 	},
 

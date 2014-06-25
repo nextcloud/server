@@ -8,13 +8,6 @@
  *
  */
 (function () {
-	var getParameterByName = function (query, name) {
-		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-		var regex = new RegExp("[\\#&]" + name + "=([^&#]*)"),
-			results = regex.exec(query);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	};
-
 	var addExternalShare = function (remote, token, owner, name, password) {
 		return $.post(OC.generateUrl('apps/files_sharing/external'), {
 			remote: remote,
@@ -25,7 +18,16 @@
 		});
 	};
 
-	var showAddExternalDialog = function (remote, token, owner, name, passwordProtected) {
+	/**
+	 * Shows "add external share" dialog.
+	 *
+	 * @param {String} remote remote server URL
+	 * @param {String} owner owner name
+	 * @param {String} name name of the shared folder
+	 * @param {String} token authentication token
+	 * @param {bool} passwordProtected true if the share is password protected
+	 */
+	OCA.Sharing.showAddExternalDialog = function (remote, token, owner, name, passwordProtected) {
 		var remoteClean = (remote.substr(0, 8) === 'https://') ? remote.substr(8) : remote.substr(7);
 		var callback = function (add, password) {
 			password = password || '';
@@ -47,25 +49,23 @@
 				, 'Add Share', callback, true, 'Password', true);
 		}
 	};
-
-	OCA.Sharing.showAddExternalDialog = function (hash) {
-		var remote = getParameterByName(hash, 'remote');
-		var owner = getParameterByName(hash, 'owner');
-		var name = getParameterByName(hash, 'name');
-		var token = getParameterByName(hash, 'token');
-		var passwordProtected = parseInt(getParameterByName(hash, 'protected'), 10);
-
-		if (remote && token && owner && name) {
-			showAddExternalDialog(remote, token, owner, name, passwordProtected);
-		}
-	};
 })();
 
 $(document).ready(function () {
 	// FIXME: HACK: do not init when running unit tests, need a better way
 	if (!window.TESTING && OCA.Files) {// only run in the files app
-		var hash = location.hash;
-		location.hash = '';
-		OCA.Sharing.showAddExternalDialog(hash);
+		var params = OC.Util.History.parseUrlQuery();
+		if (params.remote && params.token && params.owner && params.name) {
+			// clear hash, it is unlikely that it contain any extra parameters
+			location.hash = '';
+			params.passwordProtected = parseInt(params.passwordProtected, 10) === 1;
+			OCA.Sharing.showAddExternalDialog(
+				params.remote,
+				params.token,
+				params.owner,
+				params.name,
+				params.passwordProtected
+			);
+		}
 	}
 });
