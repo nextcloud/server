@@ -13,7 +13,7 @@ use OC\Hooks\Emitter;
 
 class Repair extends BasicEmitter {
 	/**
-	 * @var array
+	 * @var RepairStep[]
 	 **/
 	private $repairSteps;
 
@@ -79,5 +79,14 @@ class Repair extends BasicEmitter {
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		return array();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * Redeclared as public to allow invocation from within the closure above in php 5.3
+	 */
+	public function emit($scope, $method, $arguments = array()) {
+		parent::emit($scope, $method, $arguments);
 	}
 }
