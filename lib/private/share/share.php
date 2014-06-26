@@ -738,11 +738,24 @@ class Share extends \OC\Share\Constants {
 
 		$shares = $result->fetchAll();
 
+		$listOfUnsharedItems = array();
+
 		$itemUnshared = false;
 		foreach ($shares as $share) {
 			if ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_USER &&
 					$share['share_with'] === $uid) {
-				Helper::delete($share['id']);
+				$deletedShares = Helper::delete($share['id']);
+				$shareTmp = array(
+					'id' => $share['id'],
+					'shareWith' => $share['share_with'],
+					'itemTarget' => $share['item_target'],
+					'itemType' => $share['item_type'],
+					'shareType' => (int)$share['share_type'],
+				);
+				if (isset($share['file_target'])) {
+					$shareTmp['fileTarget'] = $share['file_target'];
+				}
+				$listOfUnsharedItems = array_merge($listOfUnsharedItems, $deletedShares, array($shareTmp));
 				$itemUnshared = true;
 				break;
 			} elseif ((int)$share['share_type'] === \OCP\Share::SHARE_TYPE_GROUP) {
@@ -764,11 +777,38 @@ class Share extends \OC\Share\Constants {
 				$groupShare['id'], self::$shareTypeGroupUserUnique,
 				\OC_User::getUser(), $groupShare['uid_owner'], 0, $groupShare['stime'], $groupShare['file_source'],
 				$groupShare['file_target']));
+			$shareTmp = array(
+				'id' => $groupShare['id'],
+				'shareWith' => $groupShare['share_with'],
+				'itemTarget' => $groupShare['item_target'],
+				'itemType' => $groupShare['item_type'],
+				'shareType' => (int)$groupShare['share_type'],
+				);
+			if (isset($groupShare['file_target'])) {
+				$shareTmp['fileTarget'] = $groupShare['file_target'];
+			}
+			$listOfUnsharedItems = array_merge($listOfUnsharedItems, array($groupShare));
 			$itemUnshared = true;
 		} elseif (!$itemUnshared && isset($uniqueGroupShare)) {
 			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `permissions` = ? WHERE `id` = ?');
 			$query->execute(array(0, $uniqueGroupShare['id']));
+			$shareTmp = array(
+				'id' => $uniqueGroupShare['id'],
+				'shareWith' => $uniqueGroupShare['share_with'],
+				'itemTarget' => $uniqueGroupShare['item_target'],
+				'itemType' => $uniqueGroupShare['item_type'],
+				'shareType' => (int)$uniqueGroupShare['share_type'],
+				);
+			if (isset($uniqueGroupShare['file_target'])) {
+				$shareTmp['fileTarget'] = $uniqueGroupShare['file_target'];
+			}
+			$listOfUnsharedItems = array_merge($listOfUnsharedItems, array($uniqueGroupShare));
 			$itemUnshared = true;
+		}
+
+		if ($itemUnshared) {
+			\OC_Hook::emit('OCP\Share', 'post_unshareFromSelf',
+					array('unsharedItems' => $listOfUnsharedItems, 'itemType' => $itemType));
 		}
 
 		return $itemUnshared;
@@ -967,19 +1007,23 @@ class Share extends \OC\Share\Constants {
 	protected static function unshareItem(array $item) {
 		// Pass all the vars we have for now, they may be useful
 		$hookParams = array(
+			'id'            => $item['id'],
 			'itemType'      => $item['item_type'],
 			'itemSource'    => $item['item_source'],
-			'fileSource'    => $item['file_source'],
-			'shareType'     => $item['share_type'],
+			'shareType'     => (int)$item['share_type'],
 			'shareWith'     => $item['share_with'],
 			'itemParent'    => $item['parent'],
 			'uidOwner'      => $item['uid_owner'],
 		);
+		if($item['item_type'] === 'file' || $item['item_type'] === 'folder') {
+			$hookParams['fileSource'] = $item['file_source'];
+			$hookParams['fileTarget'] = $item['file_target'];
+		}
 
-		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams + array(
-			'fileSource'	=> $item['file_source'],
-		));
-		Helper::delete($item['id']);
+		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
+		$deletedShares = Helper::delete($item['id']);
+		$deletedShares[] = $hookParams;
+		$hookParams['deletedShares'] = $deletedShares;
 		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
 	}
 
@@ -1788,7 +1832,7 @@ class Share extends \OC\Share\Constants {
 			if (isset($uidOwner)) {
 				if ($fileDependent) {
 					$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `*PREFIX*share`.`parent`,'
-							. ' `share_type`, `share_with`, `file_source`, `path`, `*PREFIX*share`.`permissions`, `stime`,'
+							. ' `share_type`, `share_with`, `file_source`, `file_target`, `path`, `*PREFIX*share`.`permissions`, `stime`,'
 							. ' `expiration`, `token`, `storage`, `mail_send`, `uid_owner`';
 				} else {
 					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `*PREFIX*share`.`permissions`,'

@@ -149,17 +149,18 @@ class Helper extends \OC\Share\Constants {
 	 */
 	public static function delete($parent, $excludeParent = false, $uidOwner = null) {
 		$ids = array($parent);
+		$deletedItems = array();
 		$parents = array($parent);
 		while (!empty($parents)) {
 			$parents = "'".implode("','", $parents)."'";
 			// Check the owner on the first search of reshares, useful for
 			// finding and deleting the reshares by a single user of a group share
 			if (count($ids) == 1 && isset($uidOwner)) {
-				$query = \OC_DB::prepare('SELECT `id`, `uid_owner`, `item_type`, `item_target`, `parent`'
+				$query = \OC_DB::prepare('SELECT `id`, `share_with`, `item_type`, `share_type`, `item_target`, `file_target`, `parent`'
 					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
 				$result = $query->execute(array($uidOwner));
 			} else {
-				$query = \OC_DB::prepare('SELECT `id`, `item_type`, `item_target`, `parent`, `uid_owner`'
+				$query = \OC_DB::prepare('SELECT `id`, `share_with`, `item_type`, `share_type`, `item_target`, `file_target`, `parent`, `uid_owner`'
 					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.')');
 				$result = $query->execute();
 			}
@@ -168,16 +169,29 @@ class Helper extends \OC\Share\Constants {
 			while ($item = $result->fetchRow()) {
 				$ids[] = $item['id'];
 				$parents[] = $item['id'];
+				$tmpItem = array(
+					'id' => $item['id'],
+					'shareWith' => $item['share_with'],
+					'itemTarget' => $item['item_target'],
+					'itemType' => $item['item_type'],
+					'shareType' => (int)$item['share_type'],
+				);
+				if (isset($item['file_target'])) {
+					$tmpItem['fileTarget'] = $item['file_target'];
+				}
+				$deletedItems[] = $tmpItem;
 			}
 		}
 		if ($excludeParent) {
 			unset($ids[0]);
 		}
 		if (!empty($ids)) {
-			$ids = "'".implode("','", $ids)."'";
-			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `id` IN ('.$ids.')');
+			$idList = "'".implode("','", $ids)."'";
+			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `id` IN ('.$idList.')');
 			$query->execute();
 		}
+
+		return $deletedItems;
 	}
 
 	/**
