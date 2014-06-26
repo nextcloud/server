@@ -140,9 +140,8 @@ table.multiselect th a {
 	color: #000;
 }
 table th .columntitle {
-	display: inline-block;
+	display: block;
 	padding: 15px;
-	width: 100%;
 	height: 50px;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -150,8 +149,8 @@ table th .columntitle {
 }
 table th .columntitle.name {
 	padding-left: 5px;
+	padding-right: 80px;
 	margin-left: 50px;
-	max-width: 300px;
 }
 /* hover effect on sortable column */
 table th a.columntitle:hover {
@@ -165,6 +164,7 @@ table th .sort-indicator {
 }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td {
+	padding: 0 15px;
 	border-bottom: 1px solid #eee;
 	font-style: normal;
 	background-position: 8px center;
@@ -180,12 +180,7 @@ table th#headerName {
 	height: 50px;
 }
 table th#headerSize, table td.filesize {
-	min-width: 48px;
 	text-align: right;
-	padding: 0;
-}
-table table td.filesize {
-	padding: 0 16px;
 }
 table th#headerDate, table td.date,
 table th.column-last, table td.column-last {
@@ -227,23 +222,22 @@ table td.filename a.name {
 	box-sizing: border-box;
 	display: block;
 	height: 50px;
-	vertical-align: middle;
+	line-height: 50px;
 	padding: 0;
 }
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
 table td.filename input.filename {
 	width: 80%;
 	font-size: 14px;
-	margin-top: 8px;
+	margin-top: 0;
 	margin-left: 2px;
 	cursor: text;
 }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
-table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:14px 0; }
+table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-child { float:left; padding:15px 0; }
 
 .modified, .column-last>span:first-child {
 	position: relative;
-	padding-left: 15px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: 90%;
@@ -257,7 +251,6 @@ table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-chi
 /* TODO fix usability bug (accidental file/folder selection) */
 table td.filename .nametext {
 	position: absolute;
-	top: 16px;
 	left: 55px;
 	padding: 0;
 	overflow: hidden;
@@ -315,7 +308,7 @@ table td.filename .nametext .innernametext {
 /* for smaller resolutions - see mobile.css */
 
 table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
-table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
+table td.filename form { font-size:14px; margin-left:46px; height: 40px; padding-top: 10px}
 
 .ie8 input[type="checkbox"]{
 	padding: 0;
@@ -369,7 +362,9 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 
 
 #fileList tr td.filename {
-	position:relative; width:100%;
+	position: relative;
+	width: 100%;
+	padding-left: 0;
 	-webkit-transition:background-image 500ms; -moz-transition:background-image 500ms; -o-transition:background-image 500ms; transition:background-image 500ms;
 }
 
@@ -384,7 +379,6 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 /* File actions */
 .fileactions {
 	position: absolute;
-	top: 14px;
 	right: 0;
 	font-size: 11px;
 }
@@ -393,39 +387,49 @@ table td.filename form { font-size:14px; margin-left:48px; margin-right:48px; }
 #fileList a.action.delete {
 	position: absolute;
 	right: 0;
-	padding: 28px 14px 19px !important;
+	padding: 17px 14px;
 }
 
 #fileList .action.action-share-notification span, #fileList a {
 	cursor: default !important;
 }
 
-a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
+a.action>img {
+	max-height:16px;
+	max-width:16px;
+	vertical-align:text-bottom;
+	margin-bottom: -1px;
+}
 
 /* Actions for selected files */
 .selectedActions {
 	position: absolute;
-	top: -1px;
+	top: 0;
 	right: 0;
-	padding: 15px 8px;
 }
 .selectedActions a {
 	display: inline;
-	padding: 17px 5px;
+	font-size: 11px;
+	line-height: 50px;
+	padding: 18px 5px;
+}
+.selectedActions a.delete-selected {
+	padding-right: 15px;
 }
 .selectedActions a.hidden {
 	display: none;
 }
 .selectedActions a img {
 	position:relative;
-	top:5px;
+	vertical-align: text-bottom;
+	margin-bottom: -1px;
 }
 
 
 #fileList a.action {
 	display: inline;
-	margin: -8px 0;
 	padding: 18px 8px;
+	line-height: 50px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	opacity: 0;

@@ -18,6 +18,11 @@ table td.date {
 	display: none;
 }
 
+/* remove padding to let border bottom fill the whole width*/
+table td {
+	padding: 0;
+}
+
 /* remove shift for multiselect bar to account for missing navigation */
 table.multiselect thead {
 	padding-left: 0;
