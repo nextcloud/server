@@ -51,6 +51,7 @@ class Helper
 			$i['name'] = $r['id'];
 			$i['date'] = \OCP\Util::formatDate($r['timestamp']);
 			$i['timestamp'] = $r['timestamp'];
+			$i['etag'] = $i['timestamp']; // dummy etag
 			$i['mimetype'] = $r['mime'];
 			$i['type'] = $r['type'];
 			if ($i['type'] === 'file') {
