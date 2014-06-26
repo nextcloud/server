@@ -26,7 +26,7 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 
 	public function tearDown() {
 		$this->storage->getCache()->clear();
-		$sql = 'DELETE FROM `*PREFIX*storages` WHERE id = ?';
+		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
 		\OC_DB::executeAudited($sql, array($this->storage->getId()));
 		$this->clearMimeTypes();
 
@@ -66,7 +66,7 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 	 * if it does not exist.
 	 */
 	private function getMimeTypeIdFromDB($mimeType) {
-		$sql = 'SELECT `id` FROM `*PREFIX*mimetypes` WHERE mimetype = ?';
+		$sql = 'SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?';
 		$results = \OC_DB::executeAudited($sql, array($mimeType));
 		$result = $results->fetchOne();
 		if ($result) {
