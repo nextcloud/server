@@ -421,12 +421,28 @@ class Helper {
 	}
 
 	/**
-	 * @brief glob uses different pattern than regular expressions, escape glob pattern only
-	 * @param unescaped path
-	 * @return escaped path
+	 * find all share keys for a given file
+	 * @param string $path to the file
+	 * @param \OC\Files\View $view view, relative to data/
+	 * @return array list of files, path relative to data/
 	 */
-	public static function escapeGlobPattern($path) {
-		return preg_replace('/(\*|\?|\[)/', '[$1]', $path);
+	public static function findShareKeys($path, $view) {
+		$result = array();
+		$pathinfo = pathinfo($path);
+		$dirContent = $view->opendir($pathinfo['dirname']);
+
+		if (is_resource($dirContent)) {
+			while (($file = readdir($dirContent)) !== false) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					if (preg_match("/" . $pathinfo['filename'] . ".(.*).shareKey/", $file)) {
+						$result[] = $pathinfo['dirname'] . '/' . $file;
+					}
+				}
+			}
+			closedir($dirContent);
+		}
+
+		return $result;
 	}
 
 	/**

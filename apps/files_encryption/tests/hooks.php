@@ -296,7 +296,7 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($this->rootView->is_dir('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder . '/' . $this->folder));
 
-		// move the file out of the shared folder
+		// move the file to the sub-subfolder
 		$root = $this->rootView->getRoot();
 		$this->rootView->chroot('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/');
 		$this->rootView->rename($this->filename, '/' . $this->folder . '/' . $this->folder . '/' . $this->filename);
