@@ -78,14 +78,14 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 	{
 		$routes = array('resources' => array('account' => array('url' => '/accounts')));
 
-		$this->assertResource($routes, 'account', '/accounts', 'AccountController', 'accountId');
+		$this->assertResource($routes, 'account', '/accounts', 'AccountController', 'id');
 	}
 
 	public function testResourceWithUnderScoreName()
 	{
 		$routes = array('resources' => array('admin_accounts' => array('url' => '/admin/accounts')));
 
-		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'adminAccountsId');
+		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'id');
 	}
 
 	/**
