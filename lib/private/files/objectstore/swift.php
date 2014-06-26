@@ -80,7 +80,7 @@ class Swift implements IObjectStore {
 			$this->container = $this->objectStoreService->getContainer($this->params['container']);
 		} catch (ClientErrorResponseException $ex) {
 			// if the container does not exist and autocreate is true try to create the container on the fly
-			if (isset($params['autocreate']) && $params['autocreate'] === true) {
+			if (isset($this->params['autocreate']) && $this->params['autocreate'] === true) {
 				$this->container = $this->objectStoreService->createContainer($this->params['container']);
 			} else {
 				throw $ex;
