@@ -161,7 +161,6 @@ OCA.Sharing.PublicApp = {
 
 		$('#save > button').click(function () {
 			$(this).hide();
-			$('.header-right').addClass('active');
 			$('.save-form').css('display', 'inline');
 			$('#remote_address').focus();
 		});
