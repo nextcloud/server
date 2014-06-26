@@ -6,7 +6,7 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\routing\RouteConfig;
 
 
-class RouteConfigTest extends \PHPUnit_Framework_TestCase
+class RoutingTest extends \PHPUnit_Framework_TestCase
 {
 
 	public function testSimpleRoute()
@@ -76,16 +76,16 @@ class RouteConfigTest extends \PHPUnit_Framework_TestCase
 
 	public function testResource()
 	{
-		$routes = array('resources' => array('accounts' => array('url' => '/accounts')));
+		$routes = array('resources' => array('account' => array('url' => '/accounts')));
 
-		$this->assertResource($routes, 'accounts', '/accounts', 'AccountsController', 'accountId');
+		$this->assertResource($routes, 'account', '/accounts', 'AccountController', 'accountId');
 	}
 
 	public function testResourceWithUnderScoreName()
 	{
 		$routes = array('resources' => array('admin_accounts' => array('url' => '/admin/accounts')));
 
-		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'adminAccountId');
+		$this->assertResource($routes, 'admin_accounts', '/admin/accounts', 'AdminAccountsController', 'adminAccountsId');
 	}
 
 	/**

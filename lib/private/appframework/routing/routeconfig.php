@@ -88,7 +88,7 @@ class RouteConfig {
 							->method($verb)
 							->action($handler);
 
-			// optionally register requirements for route. This is used to 
+			// optionally register requirements for route. This is used to
 			// tell the route parser how url parameters should be matched
 			if(array_key_exists('requirements', $simpleRoute)) {
 				$router->requirements($simpleRoute['requirements']);
@@ -174,7 +174,7 @@ class RouteConfig {
 	 * @return string
 	 */
 	private function buildResourceId($resource) {
-		return '{'.$this->underScoreToCamelCase(rtrim($resource, 's')).'Id}';
+		return '{' . $this->underScoreToCamelCase($resource) . 'Id}';
 	}
 
 	/**
