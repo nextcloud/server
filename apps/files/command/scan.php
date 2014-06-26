@@ -63,6 +63,11 @@ class Scan extends Command {
 			$users = $input->getArgument('user_id');
 		}
 
+		if (count($users) === 0) {
+			$output->writeln("<error>Please specify the user id to scan or \"--all\" to scan for all users</error>");
+			return;
+		}
+
 		foreach ($users as $user) {
 			if (is_object($user)) {
 				$user = $user->getUID();
