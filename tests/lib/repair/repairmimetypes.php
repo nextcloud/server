@@ -62,6 +62,20 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Returns the id of a given mime type or null
+	 * if it does not exist.
+	 */
+	private function getMimeTypeIdFromDB($mimeType) {
+		$sql = 'SELECT `id` FROM `*PREFIX*mimetypes` WHERE mimetype = ?';
+		$results = \OC_DB::executeAudited($sql, array($mimeType));
+		$result = $results->fetchOne();
+		if ($result) {
+			return $result['id'];
+		}
+		return null;
+	}
+
+	/**
 	 * Test renaming and splitting old office mime types
 	 */
 	public function testRenameOfficeMimeTypes() {
@@ -79,16 +93,17 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 		$this->repair->run();
 
 		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
 		$this->storage->getCache()->loadMimeTypes();
 
 		$this->checkEntries(
 			array(
 				array('test.doc', 'application/msword'),
 				array('test.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
-				array('test.xls', 'application/msexcel'),
-				array('test.xlsx', 'application/vnd.ms-excel'),
-				array('test.ppt', 'application/mspowerpoint'),
-				array('test.pptx', 'application/vnd.ms-powerpoint'),
+				array('test.xls', 'application/vnd.ms-excel'),
+				array('test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+				array('test.ppt', 'application/vnd.ms-powerpoint'),
+				array('test.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
 			)
 		);
 	}
@@ -119,22 +134,61 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 		$this->repair->run();
 
 		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
 		$this->storage->getCache()->loadMimeTypes();
 
 		$this->checkEntries(
 			array(
 				array('test.doc', 'application/msword'),
 				array('test.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
-				array('test.xls', 'application/msexcel'),
-				array('test.xlsx', 'application/vnd.ms-excel'),
-				array('test.ppt', 'application/mspowerpoint'),
-				array('test.pptx', 'application/vnd.ms-powerpoint'),
+				array('test.xls', 'application/vnd.ms-excel'),
+				array('test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+				array('test.ppt', 'application/vnd.ms-powerpoint'),
+				array('test.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
 				array('bogus.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
-				array('bogus.xlsx', 'application/vnd.ms-excel'),
-				array('bogus.pptx', 'application/vnd.ms-powerpoint'),
+				array('bogus.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+				array('bogus.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
 				array('bogus2.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
-				array('bogus2.xlsx', 'application/vnd.ms-excel'),
-				array('bogus2.pptx', 'application/vnd.ms-powerpoint'),
+				array('bogus2.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+				array('bogus2.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+			)
+		);
+
+		// wrong mimetypes are gone
+		$this->assertNull($this->getMimeTypeIdFromDB('application/msexcel'));
+		$this->assertNull($this->getMimeTypeIdFromDB('application/mspowerpoint'));
+	}
+
+	/**
+	 * Test that nothing happens and no error happens when all mimetypes are
+	 * already correct and no old ones exist..
+	 */
+	public function testDoNothingWhenOnlyNewFiles() {
+		$this->addEntries(
+			array(
+				array('test.doc', 'application/msword'),
+				array('test.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+				array('test.xls', 'application/vnd.ms-excel'),
+				array('test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+				array('test.ppt', 'application/vnd.ms-powerpoint'),
+				array('test.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.doc', 'application/msword'),
+				array('test.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+				array('test.xls', 'application/vnd.ms-excel'),
+				array('test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
+				array('test.ppt', 'application/vnd.ms-powerpoint'),
+				array('test.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
 			)
 		);
 	}
