@@ -25,7 +25,7 @@ table.multiselect thead {
 
 /* restrict length of displayed filename to prevent overflow */
 table td.filename .nametext {
-	max-width: 75% !important;
+	width: 100%;
 }
 
 /* always show actions on mobile, not only on hover */
@@ -51,7 +51,7 @@ table td.filename .nametext {
 
 /* ellipsis on file names */
 table td.filename .nametext .innernametext {
-	max-width: 75%;
+	max-width: 50%;
 }
 
 /* proper notification area for multi line messages */
