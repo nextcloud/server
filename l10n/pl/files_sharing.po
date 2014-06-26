@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-26 01:54-0400\n"
+"PO-Revision-Date: 2014-06-25 10:51+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,17 +25,17 @@ msgstr ""
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Nie można dodać zdalnego folderu"
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:39 js/app.js:34
 msgid "Shared with you"
 msgstr "Współdzielony z Tobą"
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
 msgstr "Współdzielony z innymi"
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
 msgstr "Współdzielony linkiem"
 
@@ -51,17 +51,17 @@ msgstr "Nie współdzielisz jeszcze żadnych plików."
 msgid "You haven't shared any files by link yet."
 msgstr "Nie współdzielisz jeszcze żadnych plików linkiem"
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
-msgstr ""
+msgstr "Dodaj {name} z {owner}@{remote}"
 
 #: js/public.js:200
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Nie znaleziono instalacji ownCloud na {remote}"
 
 #: js/public.js:201
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Błędny adres URL"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -117,11 +117,11 @@ msgstr "Aby uzyskać więcej informacji proszę poprosić osobę, która wysła�
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "Zapis do ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr ""
+msgstr "mojastrona.pl/owncloud"
 
 #: templates/public.php:23
 msgid "Save"
@@ -142,7 +142,7 @@ msgstr "Bezpośredni link"
 
 #: templates/settings-admin.php:3
 msgid "File Sharing"
-msgstr ""
+msgstr "Udostępnione pliki"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
@@ -150,4 +150,4 @@ msgstr ""
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Zezwalaj użytkownikom na montowanie publicznych linków"

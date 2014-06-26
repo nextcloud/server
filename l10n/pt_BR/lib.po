@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-21 01:54-0400\n"
-"PO-Revision-Date: 2014-06-20 23:56+0000\n"
+"POT-Creation-Date: 2014-06-26 01:54-0400\n"
+"PO-Revision-Date: 2014-06-25 15:01+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -19,50 +19,50 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: base.php:678
+#: base.php:673
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Você está acessando o servidor a partir de um domínio não confiável."
 
-#: base.php:679
+#: base.php:674
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Por favor, contate o administrador. Se você é um administrador desta instância, configurre o \"trusted_domain\" em config/config.php. Um exemplo de configuração é fornecido em config/config.sample.php."
 
-#: private/app.php:361
+#: private/app.php:366
 msgid "Help"
 msgstr "Ajuda"
 
-#: private/app.php:374
+#: private/app.php:379
 msgid "Personal"
 msgstr "Pessoal"
 
-#: private/app.php:385
+#: private/app.php:390
 msgid "Settings"
 msgstr "Configurações"
 
-#: private/app.php:397
+#: private/app.php:402
 msgid "Users"
 msgstr "Usuários"
 
-#: private/app.php:410
+#: private/app.php:415
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:978
+#: private/app.php:983
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Falha na atualização de \"%s\"."
 
-#: private/app.php:1135
+#: private/app.php:1140
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Aplicação \\\"%s\\\" não pode ser instalada porque não é compatível com esta versão do ownCloud."
 
-#: private/app.php:1147
+#: private/app.php:1152
 msgid "No app name specified"
 msgstr "O nome do aplicativo não foi especificado."
 
@@ -87,48 +87,48 @@ msgstr "Diretório App  já existe"
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Não é possível criar pasta app. Corrija as permissões. %s"
 
-#: private/installer.php:231
+#: private/installer.php:235
 msgid "No source specified when installing app"
 msgstr "Nenhuma fonte foi especificada enquanto instalava o aplicativo"
 
-#: private/installer.php:238
+#: private/installer.php:242
 msgid "No href specified when installing app from http"
 msgstr "Nenhuma href foi especificada enquanto instalava o aplicativo de http"
 
-#: private/installer.php:243
+#: private/installer.php:247
 msgid "No path specified when installing app from local file"
 msgstr "Nenhum caminho foi especificado enquanto instalava o aplicativo do arquivo local"
 
-#: private/installer.php:257
+#: private/installer.php:261
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arquivos do tipo %s não são suportados"
 
-#: private/installer.php:271
+#: private/installer.php:275
 msgid "Failed to open archive when installing app"
 msgstr "Falha para abrir o arquivo enquanto instalava o aplicativo"
 
-#: private/installer.php:309
+#: private/installer.php:313
 msgid "App does not provide an info.xml file"
 msgstr "O aplicativo não fornece um arquivo info.xml"
 
-#: private/installer.php:315
+#: private/installer.php:319
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "O aplicativo não pode ser instalado por causa do código não permitido no Aplivativo"
 
-#: private/installer.php:321
+#: private/installer.php:325
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "O aplicativo não pode ser instalado porque não é compatível com esta versão do ownCloud"
 
-#: private/installer.php:327
+#: private/installer.php:331
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "O aplicativo não pode ser instalado porque ele contém a marca <shipped>verdadeiro</shipped> que não é permitido para aplicações não embarcadas"
 
-#: private/installer.php:340
+#: private/installer.php:344
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -246,13 +246,13 @@ msgstr "Defina um nome do usuário administrador."
 msgid "Set an admin password."
 msgstr "Defina uma senha de administrador."
 
-#: private/setup.php:164
+#: private/setup.php:170
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Seu servidor web não está configurado corretamente para permitir sincronização de arquivos porque a interface WebDAV parece não estar funcionando."
 
-#: private/setup.php:165
+#: private/setup.php:171
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor, confira os <a href='%s'>guias de instalação</a>."

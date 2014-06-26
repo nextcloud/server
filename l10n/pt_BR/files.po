@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 10:21+0000\n"
+"POT-Creation-Date: 2014-06-26 01:54-0400\n"
+"PO-Revision-Date: 2014-06-25 15:21+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgid ""
 "allowed."
 msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:159
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr "A pasta de destino foi movida ou excluída."
@@ -92,54 +92,54 @@ msgstr "Impossível configurar o diretório de upload"
 msgid "Invalid Token"
 msgstr "Token inválido"
 
-#: ajax/upload.php:75
+#: ajax/upload.php:77
 msgid "No file was uploaded. Unknown error"
 msgstr "Nenhum arquivo foi enviado. Erro desconhecido"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:84
 msgid "There is no error, the file uploaded with success"
 msgstr "Sem erros, o arquivo foi enviado com sucesso"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: "
 
-#: ajax/upload.php:85
+#: ajax/upload.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "O arquivo carregado excede o argumento MAX_FILE_SIZE especificado no formulário HTML"
 
-#: ajax/upload.php:86
+#: ajax/upload.php:88
 msgid "The uploaded file was only partially uploaded"
 msgstr "O arquivo foi parcialmente enviado"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:89
 msgid "No file was uploaded"
 msgstr "Nenhum arquivo enviado"
 
-#: ajax/upload.php:88
+#: ajax/upload.php:90
 msgid "Missing a temporary folder"
 msgstr "Pasta temporária não encontrada"
 
-#: ajax/upload.php:89
+#: ajax/upload.php:91
 msgid "Failed to write to disk"
 msgstr "Falha ao escrever no disco"
 
-#: ajax/upload.php:109
+#: ajax/upload.php:111
 msgid "Not enough storage available"
 msgstr "Espaço de armazenamento insuficiente"
 
-#: ajax/upload.php:171
+#: ajax/upload.php:173
 msgid "Upload failed. Could not find uploaded file"
 msgstr "Falha no envio. Não foi possível encontrar o arquivo enviado"
 
-#: ajax/upload.php:181
+#: ajax/upload.php:183
 msgid "Upload failed. Could not get file info."
 msgstr "Falha no envio. Não foi possível obter informações do arquivo."
 
-#: ajax/upload.php:196
+#: ajax/upload.php:198
 msgid "Invalid directory."
 msgstr "Diretório inválido."
 
@@ -181,7 +181,7 @@ msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazia"
 
-#: js/file-upload.js:559 js/filelist.js:1190
+#: js/file-upload.js:559 js/filelist.js:1192
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
@@ -197,19 +197,19 @@ msgstr "Não foi possível criar a pasta"
 msgid "Error fetching URL"
 msgstr "Erro ao buscar URL"
 
-#: js/fileactions.js:211
+#: js/fileactions.js:213
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/fileactions.js:224
+#: js/fileactions.js:226
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:228 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "Excluir"
 
-#: js/fileactions.js:262
+#: js/fileactions.js:264
 msgid "Rename"
 msgstr "Renomear"
 
@@ -219,55 +219,55 @@ msgid ""
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/filelist.js:621 js/filelist.js:1693
+#: js/filelist.js:623 js/filelist.js:1713
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:1141
+#: js/filelist.js:1143
 msgid "Error moving file."
 msgstr "Erro movendo o arquivo."
 
-#: js/filelist.js:1149
+#: js/filelist.js:1151
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/filelist.js:1149
+#: js/filelist.js:1151
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1227
+#: js/filelist.js:1240
 msgid "Could not rename file"
 msgstr "Não foi possível renomear o arquivo"
 
-#: js/filelist.js:1348
+#: js/filelist.js:1358
 msgid "Error deleting file."
 msgstr "Erro eliminando o arquivo."
 
-#: js/filelist.js:1451 templates/list.php:62
+#: js/filelist.js:1461 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1452 templates/list.php:73
+#: js/filelist.js:1462 templates/list.php:73
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1453 templates/list.php:76
+#: js/filelist.js:1463 templates/list.php:76
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1463 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1473 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:1469 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1479 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
 msgstr[1] "%n arquivos"
 
-#: js/filelist.js:1601 js/filelist.js:1640
+#: js/filelist.js:1606 js/filelist.js:1645
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Enviando %n arquivo"

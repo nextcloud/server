@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 10:21+0000\n"
+"POT-Creation-Date: 2014-06-26 01:54-0400\n"
+"PO-Revision-Date: 2014-06-25 15:21+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Tomar parámetros de recente configuração de servidor?"
 
 #: js/settings.js:84
 msgid "Keep settings?"
-msgstr "Manter ajustes?"
+msgstr "Manter configurações?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
@@ -144,27 +144,27 @@ msgstr "Você quer realmente deletar as atuais Configurações de Servidor?"
 msgid "Confirm Deletion"
 msgstr "Confirmar Exclusão"
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "grupo% s encontrado"
 msgstr[1] "grupos% s encontrado"
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "usuário %s encontrado"
 msgstr[1] "usuários %s encontrados"
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
-msgstr "Host inválido"
-
-#: lib/wizard.php:1025
+#: lib/wizard.php:317 lib/wizard.php:1051
 msgid "Could not find the desired feature"
 msgstr "Não foi possível encontrar a função desejada"
+
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
+msgstr "Host Inválido"
 
 #: settings.php:52
 msgid "Server"
@@ -184,7 +184,7 @@ msgstr "Filtro de Grupo"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
-msgstr "Guardar"
+msgstr "Salvar"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
@@ -207,7 +207,7 @@ msgstr "apenas essas classes de objetos:"
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr "apenas a partir dos grupos:"
+msgstr "apenas desses grupos:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-loginfilter.php:32
@@ -245,14 +245,14 @@ msgstr "LDAP Endereço de E-mail:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr "Outros atributos:"
+msgstr "Outros Atributos:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr "Define o filtro a ser aplicado, o login é feito. %%uid substitui o nome do usuário na ação de login. Exemplo: \"uid=%%uid\""
+msgstr "Define o filtro a ser aplicado, quando o login for feito. %%uid substitui o nome do usuário na ação de login. Exemplo: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
@@ -273,7 +273,7 @@ msgstr "Excluir Configuração"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
-msgstr "Servidor"
+msgstr "Host"
 
 #: templates/part.wizard-server.php:31
 msgid ""
@@ -361,7 +361,7 @@ msgstr "Configurações de Conexão"
 
 #: templates/settings.php:22
 msgid "Configuration Active"
-msgstr "Configuração ativa"
+msgstr "Configuração Ativa"
 
 #: templates/settings.php:22
 msgid "When unchecked, this configuration will be skipped."
@@ -369,7 +369,7 @@ msgstr "Quando não marcada, esta configuração será ignorada."
 
 #: templates/settings.php:23
 msgid "Backup (Replica) Host"
-msgstr "Servidor de Backup (Réplica)"
+msgstr "Host de Backup (Réplica)"
 
 #: templates/settings.php:23
 msgid ""

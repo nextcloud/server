@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # Krzysztof Łojowski <maxxxrally@gmail.com>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-26 01:54-0400\n"
+"PO-Revision-Date: 2014-06-25 10:51+0000\n"
+"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,7 +109,7 @@ msgstr "Trwa szyfrowanie początkowe...Spróbuj ponownie."
 #: templates/invalid_private_key.php:8
 #, php-format
 msgid "Go directly to your %spersonal settings%s."
-msgstr ""
+msgstr "Przejdź bezpośrednio do %spersonal settings%s."
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"
