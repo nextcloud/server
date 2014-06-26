@@ -11,6 +11,7 @@ namespace OC\Files\Utils;
 use OC\Files\View;
 use OC\Files\Cache\ChangePropagator;
 use OC\Files\Filesystem;
+use OC\ForbiddenException;
 use OC\Hooks\PublicEmitter;
 
 /**
@@ -104,6 +105,7 @@ class Scanner extends PublicEmitter {
 
 	/**
 	 * @param string $dir
+	 * @throws \OC\ForbiddenException
 	 */
 	public function scan($dir) {
 		$mounts = $this->getMounts($dir);
@@ -111,7 +113,14 @@ class Scanner extends PublicEmitter {
 			if (is_null($mount->getStorage())) {
 				continue;
 			}
-			$scanner = $mount->getStorage()->getScanner();
+			$storage = $mount->getStorage();
+			// if the home storage isn't writable then the scanner is run as the wrong user
+			if ($storage->instanceOfStorage('\OC\Files\Storage\Home') and
+				(!$storage->isCreatable('') or !$storage->isCreatable('files'))
+			) {
+				throw new ForbiddenException();
+			}
+			$scanner = $storage->getScanner();
 			$this->attachListener($mount);
 			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 		}

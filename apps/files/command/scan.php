@@ -9,6 +9,7 @@
 
 namespace OCA\Files\Command;
 
+use OC\ForbiddenException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -32,28 +33,32 @@ class Scan extends Command {
 			->setName('files:scan')
 			->setDescription('rescan filesystem')
 			->addArgument(
-					'user_id',
-					InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
-					'will rescan all files of the given user(s)'
-				     )
+				'user_id',
+				InputArgument::OPTIONAL | InputArgument::IS_ARRAY,
+				'will rescan all files of the given user(s)'
+			)
 			->addOption(
-					'all',
-					null,
-					InputOption::VALUE_NONE,
-					'will rescan all files of all known users'
-				   )
-		;
+				'all',
+				null,
+				InputOption::VALUE_NONE,
+				'will rescan all files of all known users'
+			);
 	}
 
 	protected function scanFiles($user, OutputInterface $output) {
 		$scanner = new \OC\Files\Utils\Scanner($user);
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 			$output->writeln("Scanning <info>$path</info>");
 		});
-		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function($path) use ($output) {
+		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
 			$output->writeln("Scanning <info>$path</info>");
 		});
-		$scanner->scan('');
+		try {
+			$scanner->scan('');
+		} catch (ForbiddenException $e) {
+			$output->writeln("<error>Home storage for user $user not writable</error>");
+			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
+		}
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
