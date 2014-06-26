@@ -174,23 +174,41 @@ class Manager extends PublicEmitter {
 		if(is_null($group)) {
 			return array();
 		}
-		// only user backends have the capability to do a complex search for users
-		$groupUsers  = $group->searchUsers('', $limit, $offset);
+
 		$search = trim($search);
+		$groupUsers = array();
+
 		if(!empty($search)) {
-			//TODO: for OC 7 earliest: user backend should get a method to check selected users against a pattern
-			$filteredUsers = $this->userManager->search($search);
-			$testUsers = true;
+			// only user backends have the capability to do a complex search for users
+			$searchOffset = 0;
+			if($limit === -1) {
+				$searchLimit = $group->count('');
+			} else {
+				$searchLimit = $limit * 2;
+			}
+
+			do {
+				$filteredUsers = $this->userManager->search($search, $searchLimit, $searchOffset);
+				foreach($filteredUsers as $filteredUser) {
+					if($group->inGroup($filteredUser)) {
+						$groupUsers[]= $filteredUser;
+					}
+				}
+				$searchOffset += $searchLimit;
+			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) === $searchLimit);
+
+			if($limit === -1) {
+				$groupUsers = array_slice($groupUsers, $offset);
+			} else {
+				$groupUsers = array_slice($groupUsers, $offset, $limit);
+			}
 		} else {
-			$filteredUsers = array();
-			$testUsers = false;
+			$groupUsers = $group->searchUsers('', $limit, $offset);
 		}
 
 		$matchingUsers = array();
-		foreach($groupUsers as $user) {
-			if(!$testUsers || isset($filteredUsers[$user->getUID()])) {
-				$matchingUsers[$user->getUID()] = $user->getDisplayName();
-			}
+		foreach($groupUsers as $groupUser) {
+			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}
