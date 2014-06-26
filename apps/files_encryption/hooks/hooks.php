@@ -464,61 +464,44 @@ class Hooks {
 			$newShareKeyPath = $ownerNew . '/files_encryption/share-keys/' . $pathNew;
 		}
 
-		// add key ext if this is not an folder
+		// create new key folders if it doesn't exists
+		if (!$view->file_exists(dirname($newShareKeyPath))) {
+				$view->mkdir(dirname($newShareKeyPath));
+		}
+		if (!$view->file_exists(dirname($newKeyfilePath))) {
+			$view->mkdir(dirname($newKeyfilePath));
+		}
+
+		// handle share keys
 		if (!$view->is_dir($oldKeyfilePath)) {
 			$oldKeyfilePath .= '.key';
 			$newKeyfilePath .= '.key';
 
 			// handle share-keys
-			$localKeyPath = $view->getLocalFile($oldShareKeyPath);
-			$escapedPath = Helper::escapeGlobPattern($localKeyPath);
-			$matches = glob($escapedPath . '*.shareKey');
+			$matches = Helper::findShareKeys($oldShareKeyPath, $view);
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($pathOld, $pathNew, $src));
-
-				// create destination folder if not exists
-				if (!file_exists(dirname($dst))) {
-					mkdir(dirname($dst), 0750, true);
-				}
-
-				rename($src, $dst);
+				$view->rename($src, $dst);
 			}
 
 		} else {
 			// handle share-keys folders
-
-			// create destination folder if not exists
-			if (!$view->file_exists(dirname($newShareKeyPath))) {
-				mkdir($view->getLocalFile($newShareKeyPath), 0750, true);
-			}
-
 			$view->rename($oldShareKeyPath, $newShareKeyPath);
 		}
 
 		// Rename keyfile so it isn't orphaned
 		if ($view->file_exists($oldKeyfilePath)) {
-
-			// create destination folder if not exists
-			if (!$view->file_exists(dirname($newKeyfilePath))) {
-				mkdir(dirname($view->getLocalFile($newKeyfilePath)), 0750, true);
-			}
-
 			$view->rename($oldKeyfilePath, $newKeyfilePath);
 		}
 
-		// build the path to the file
-		$newPath = '/' . $ownerNew . '/files' . $pathNew;
+		// update share keys
+		$sharingEnabled = \OCP\Share::isEnabled();
 
-		if ($util->fixFileSize($newPath)) {
-			// get sharing app state
-			$sharingEnabled = \OCP\Share::isEnabled();
+		// get users
+		$usersSharing = $util->getSharingUsersArray($sharingEnabled, $pathNew);
 
-			// get users
-			$usersSharing = $util->getSharingUsersArray($sharingEnabled, $pathNew);
-
-			// update sharing-keys
-			$util->setSharedFileKeyfiles($session, $usersSharing, $pathNew);
-		}
+		// update sharing-keys
+		$util->setSharedFileKeyfiles($session, $usersSharing, $pathNew);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 	}
