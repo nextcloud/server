@@ -22,8 +22,6 @@
 
 require_once __DIR__ . '/base.php';
 
-require_once __DIR__ . '/../../files_external/lib/webdav.php';
-
 /**
  * Tests for the external Storage class for remote shares.
  */
