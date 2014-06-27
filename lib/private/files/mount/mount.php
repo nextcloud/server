@@ -93,7 +93,12 @@ class Mount {
 			try {
 				return $this->loader->load($this->mountPoint, $this->class, $this->arguments);
 			} catch (\Exception $exception) {
-				\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
+				if ($this->mountPoint === '/') {
+					// the root storage could not be initialized, show the user!
+					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
+				} else {
+					\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
+				}
 				return null;
 			}
 		} else {

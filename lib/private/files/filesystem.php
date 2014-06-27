@@ -325,13 +325,36 @@ class Filesystem {
 		$userObject = \OC_User::getManager()->get($user);
 
 		if (!is_null($userObject)) {
+			$homeStorage = \OC_Config::getValue( 'objectstore' );
+			if (!empty($homeStorage)) {
+				// sanity checks
+				if (empty($homeStorage['class'])) {
+					\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+				}
+				if (!isset($homeStorage['arguments'])) {
+					$homeStorage['arguments'] = array();
+				}
+				// instantiate object store implementation
+				$homeStorage['arguments']['objectstore'] = new $homeStorage['class']($homeStorage['arguments']);
+				// mount with home object store implementation
+				$homeStorage['class'] = '\OC\Files\ObjectStore\HomeObjectStoreStorage';
+			} else {
+				$homeStorage = array(
+					//default home storage configuration:
+					'class' => '\OC\Files\Storage\Home',
+					'arguments' => array()
+				);
+			}
+			$homeStorage['arguments']['user'] = $userObject;
+
 			// check for legacy home id (<= 5.0.12)
 			if (\OC\Files\Cache\Storage::exists('local::' . $root . '/')) {
-				self::mount('\OC\Files\Storage\Home', array('user' => $userObject, 'legacy' => true), $user);
+				$homeStorage['arguments']['legacy'] = true;
 			}
-			else {
-				self::mount('\OC\Files\Storage\Home', array('user' => $userObject), $user);
-			}
+
+			self::mount($homeStorage['class'], $homeStorage['arguments'], $user);
+
+			$home = \OC\Files\Filesystem::getStorage($user);
 		}
 		else {
 			self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);

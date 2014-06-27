@@ -12,6 +12,45 @@ class OC_Util {
 	private static $rootMounted=false;
 	private static $fsSetup=false;
 
+	private static function initLocalStorageRootFS() {
+		// mount local file backend as root
+		$configDataDirectory = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
+		//first set up the local "root" storage
+		\OC\Files\Filesystem::initMounts();
+		if(!self::$rootMounted) {
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$configDataDirectory), '/');
+			self::$rootMounted = true;
+		}
+	}
+	
+	/**
+	 * mounting an object storage as the root fs will in essence remove the
+	 * necessity of a data folder being present.
+	 * TODO make home storage aware of this and use the object storage instead of local disk access
+	 * @param array $config containing 'class' and optional 'arguments'
+	 */
+	private static function initObjectStoreRootFS($config) {
+		// check misconfiguration
+		if (empty($config['class'])) {
+			\OCP\Util::writeLog('files', 'No class given for objectstore', \OCP\Util::ERROR);
+		}
+		if (!isset($config['arguments'])) {
+			$config['arguments'] = array();
+		}
+
+		// instantiate object store implementation
+		$config['arguments']['objectstore'] = new $config['class']($config['arguments']);
+		// mount with plain / root object store implementation
+		$config['class'] = '\OC\Files\ObjectStore\ObjectStoreStorage';
+
+		// mount object storage as root
+		\OC\Files\Filesystem::initMounts();
+		if(!self::$rootMounted) {
+			\OC\Files\Filesystem::mount($config['class'], $config['arguments'], '/');
+			self::$rootMounted = true;
+		}
+	}
+	
 	/**
 	 * Can be set up
 	 * @param string $user
@@ -39,12 +78,12 @@ class OC_Util {
 			self::$fsSetup=true;
 		}
 
-		$configDataDirectory = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		//first set up the local "root" storage
-		\OC\Files\Filesystem::initMounts();
-		if(!self::$rootMounted) {
-			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$configDataDirectory), '/');
-			self::$rootMounted = true;
+		//check if we are using an object storage
+		$objectStore = OC_Config::getValue( 'objectstore' );
+		if ( isset( $objectStore ) ) {
+			self::initObjectStoreRootFS($objectStore);
+		} else {
+			self::initLocalStorageRootFS();
 		}
 
 		if ($user != '' && !OCP\User::userExists($user)) {
@@ -60,24 +99,33 @@ class OC_Util {
 				/**
 				 * @var \OC\Files\Storage\Storage $storage
 				 */
-				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')) {
-					$user = $storage->getUser()->getUID();
-					$quota = OC_Util::getUserQuota($user);
-					if ($quota !== \OC\Files\SPACE_UNLIMITED) {
-						return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
+				if ($storage->instanceOfStorage('\OC\Files\Storage\Home')
+					|| $storage->instanceOfStorage('\OC\Files\ObjectStore\HomeObjectStoreStorage')
+				) {
+					if (is_object($storage->getUser())) {
+						$user = $storage->getUser()->getUID();
+						$quota = OC_Util::getUserQuota($user);
+						if ($quota !== \OC\Files\SPACE_UNLIMITED) {
+							return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
+						}
 					}
 				}
 
 				return $storage;
 			});
 
-			$userDir = '/'.$user.'/files';
-			$userRoot = OC_User::getHome($user);
-			$userDirectory = $userRoot . '/files';
-			if( !is_dir( $userDirectory )) {
-				mkdir( $userDirectory, 0755, true );
-				OC_Util::copySkeleton($userDirectory);
+			// copy skeleton for local storage only
+			if ( ! isset( $objectStore ) ) {
+				$userRoot = OC_User::getHome($user);
+				$userDirectory = $userRoot . '/files';
+				if( !is_dir( $userDirectory )) {
+					mkdir( $userDirectory, 0755, true );
+					OC_Util::copySkeleton($userDirectory);
+				}
 			}
+
+			$userDir = '/'.$user.'/files';
+
 			//jail the user into his "home" directory
 			\OC\Files\Filesystem::init($user, $userDir);
 
