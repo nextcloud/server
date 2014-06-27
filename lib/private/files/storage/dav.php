@@ -449,5 +449,24 @@ class DAV extends \OC\Files\Storage\Common {
 			return 0;
 		}
 	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 *
+	 * @param string $path
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path, $time) {
+		$this->init();
+		$response = $this->client->propfind($this->encodePath($path), array('{DAV:}getlastmodified', '{DAV:}getetag'));
+		if (isset($response['{DAV:}getetag'])) {
+			$cachedData = $this->getCache()->get($path);
+			return $cachedData['etag'] !== $response['{DAV:}getetag'];
+		} else {
+			$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
+			return $remoteMtime > $time;
+		}
+	}
 }
 
