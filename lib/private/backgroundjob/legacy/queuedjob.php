@@ -13,6 +13,8 @@ class QueuedJob extends \OC\BackgroundJob\QueuedJob {
 		$class = $argument['klass'];
 		$method = $argument['method'];
 		$parameters = $argument['parameters'];
-		call_user_func(array($class, $method), $parameters);
+		if (is_callable(array($class, $method))) {
+			call_user_func(array($class, $method), $parameters);
+		}
 	}
 }
