@@ -111,7 +111,8 @@ class Storage extends DAV implements ISharedStorage {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
-		// since we check updates for the entire storage at once, we only need to check once per request
+		// since for owncloud webdav servers we can rely on etag propagation we only need to check the root of the storage
+		// because of that we only do one check for the entire storage per request
 		if ($this->updateChecked) {
 			return false;
 		}
