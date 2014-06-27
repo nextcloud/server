@@ -43,10 +43,10 @@
 		};
 		if (!passwordProtected) {
 			OC.dialogs.confirm(t('files_sharing', 'Add {name} from {owner}@{remote}', {name: name, owner: owner, remote: remoteClean})
-				, 'Add Share', callback, true);
+				, t('files_sharing','Add Share'), callback, true);
 		} else {
 			OC.dialogs.prompt(t('files_sharing', 'Add {name} from {owner}@{remote}', {name: name, owner: owner, remote: remoteClean})
-				, 'Add Share', callback, true, 'Password', true);
+				, t('files_sharing','Add Share'), callback, true, t('files_sharing','Password'), true);
 		}
 	};
 })();
