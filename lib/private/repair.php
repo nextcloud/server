@@ -68,7 +68,9 @@ class Repair extends BasicEmitter {
 	 * @return array of RepairStep instances
 	 */
 	public static function getRepairSteps() {
-		return array();
+		return array(
+			new \OC\Repair\RepairMimeTypes()
+		);
 	}
 
 	/**
@@ -78,7 +80,8 @@ class Repair extends BasicEmitter {
 	 * @return array of RepairStep instances
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		return array();
+		return array(
+		);
 	}
 
 	/**
