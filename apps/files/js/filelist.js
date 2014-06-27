@@ -517,7 +517,6 @@
 		 * This will refresh the file actions on the list.
 		 */
 		_onFileActionsUpdated: function() {
-			console.log('onFileActionsUpdated');
 			var self = this;
 			this.$fileList.find('tr td.filename').each(function() {
 				self.fileActions.display($(this), true, self);
