@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "create" => "შექმნა",
 "update" => "განახლება",
 "delete" => "წაშლა",
-"share" => "გაზიარება",
 "Password protected" => "პაროლით დაცული",
 "Error unsetting expiration date" => "შეცდომა ვადის გასვლის მოხსნის დროს",
 "Error setting expiration date" => "შეცდომა ვადის გასვლის მითითების დროს",

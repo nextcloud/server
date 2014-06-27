@@ -105,7 +105,6 @@ $TRANSLATIONS = array(
 "create" => "luo",
 "update" => "päivitä",
 "delete" => "poista",
-"share" => "jaa",
 "Password protected" => "Salasanasuojattu",
 "Error unsetting expiration date" => "Virhe purettaessa eräpäivää",
 "Error setting expiration date" => "Virhe päättymispäivää asettaessa",

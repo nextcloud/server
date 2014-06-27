@@ -62,7 +62,6 @@ $TRANSLATIONS = array(
 "create" => "mynda",
 "update" => "uppfæra",
 "delete" => "eyða",
-"share" => "deila",
 "Password protected" => "Verja með lykilorði",
 "Error unsetting expiration date" => "Villa við að aftengja gildistíma",
 "Error setting expiration date" => "Villa við að setja gildistíma",

@@ -3,17 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Savchenko <a.v.savchenko@mail.ru>, 2014
 # BuxarNET <buxarnet@gmail.com>, 2014
 # anshibanov <shibanovan@yandex.ru>, 2014
 # Swab <swab@i.ua>, 2014
 # viskubov <viskubov@gmail.com>, 2014
+# Михаил Маслиёв <misha.masliev@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-26 15:02+0000\n"
+"Last-Translator: Михаил Маслиёв <misha.masliev@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +45,7 @@ msgstr "Ключ"
 
 #: appinfo/app.php:55
 msgid "Secret"
-msgstr ""
+msgstr "Секрет"
 
 #: appinfo/app.php:56 appinfo/app.php:65
 msgid "Bucket"
@@ -213,7 +215,7 @@ msgstr "Личное"
 msgid "System"
 msgstr ""
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Сохранено"
 
@@ -237,18 +239,18 @@ msgstr "<b>Примечание:</b> Поддержка cURL в PHP не вкл�
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Обратите внимание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору."
 
 #: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
 " ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Обратите внимание:</b> \"%s\" не установлен. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору."
 
 #: templates/list.php:7
 msgid "You don't have any external storages"
-msgstr ""
+msgstr "У вас нет внешних хранилищ"
 
 #: templates/list.php:16
 msgid "Name"
@@ -256,7 +258,7 @@ msgstr "Имя"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Тип хранилища"
 
 #: templates/list.php:23
 msgid "Scope"

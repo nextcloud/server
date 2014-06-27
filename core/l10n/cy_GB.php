@@ -63,7 +63,6 @@ $TRANSLATIONS = array(
 "create" => "creu",
 "update" => "diweddaru",
 "delete" => "dileu",
-"share" => "rhannu",
 "Password protected" => "Diogelwyd â chyfrinair",
 "Error unsetting expiration date" => "Gwall wrth ddad-osod dyddiad dod i ben",
 "Error setting expiration date" => "Gwall wrth osod dyddiad dod i ben",

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -249,74 +249,74 @@ msgstr "重置密码"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr ""
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "是"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "否"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "选择(&C)..."
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "加载文件分拣模板出错: {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "好"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "加载消息模板出错: {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} 个文件冲突"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "1个文件冲突"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "新文件"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "已经存在的文件"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "想要保留哪一个文件呢？"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "如果同时选择了两个版本，复制的文件名将会增加上一个数字。"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "取消"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "继续"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(选中全部)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "(选择了{count}个)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "加载文件存在性模板失败"
 
@@ -455,28 +455,28 @@ msgid "notify by email"
 msgstr "以邮件通知"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "删除"
-
-#: js/share.js:587
-msgid "share"
-msgstr "共享"
 
 #: js/share.js:917
 msgid "Password protected"

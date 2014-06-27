@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Your private key password no longer match your log-in password:" => "La pasvorto de via malpublika klavo ne plu kongruas kun via ensaluta pasvorto:",
 "Old log-in password" => "Malnova ensaluta pasvorto",
 "Current log-in password" => "Nuna ensaluta pasvorto",
-"Update Private Key Password" => "Ĝisdatigi la pasvorton de la malpublika klavo"
+"Update Private Key Password" => "Ĝisdatigi la pasvorton de la malpublika klavo",
+"Enable password recovery:" => "Kapabligi restaŭron de pasvorto:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

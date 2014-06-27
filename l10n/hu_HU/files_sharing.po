@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -26,15 +26,15 @@ msgstr ""
 msgid "Couldn't add remote share"
 msgstr ""
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
 msgstr ""
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
 msgstr ""
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
 msgstr ""
 
@@ -50,7 +50,7 @@ msgstr ""
 msgid "You haven't shared any files by link yet."
 msgstr ""
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
 msgstr ""
 
@@ -140,7 +140,7 @@ msgid "Direct link"
 msgstr "Közvetlen link"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
+msgid "Remote Shares"
 msgstr ""
 
 #: templates/settings-admin.php:7

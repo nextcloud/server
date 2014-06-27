@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "Last ned",
 "Download %s" => "Last ned %s",
 "Direct link" => "Direkte lenke",
-"File Sharing" => "Fildeling",
 "Allow other instances to mount public links shared from this server" => "Tillat at andre instanser monterer offentlige lenker som er delt fra denne serveren",
 "Allow users to mount public link shares" => "Tillat at brukere monterer offentlige lenke-delinger"
 );

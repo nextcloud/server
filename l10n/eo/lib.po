@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-26 14:21+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,50 +18,50 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:678
+#: base.php:673
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:679
+#: base.php:674
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:361
+#: private/app.php:366
 msgid "Help"
 msgstr "Helpo"
 
-#: private/app.php:374
+#: private/app.php:379
 msgid "Personal"
 msgstr "Persona"
 
-#: private/app.php:385
+#: private/app.php:390
 msgid "Settings"
 msgstr "Agordo"
 
-#: private/app.php:397
+#: private/app.php:402
 msgid "Users"
 msgstr "Uzantoj"
 
-#: private/app.php:410
+#: private/app.php:415
 msgid "Admin"
 msgstr "Administranto"
 
-#: private/app.php:978
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
-msgstr ""
+msgstr "Malsukcesis ĝisdatigo de “%s”."
 
-#: private/app.php:1135
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr ""
+msgstr "La aplikaĵo “%s” ne povas instaliĝi ĉar ĝi ne kongruas kun ĉi tiu eldono de ownCloud."
 
-#: private/app.php:1147
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr ""
 
@@ -79,55 +79,55 @@ msgstr "TTT-servoj regataj de vi"
 
 #: private/installer.php:77
 msgid "App directory already exists"
-msgstr ""
+msgstr "La dosierujo de la aplikaĵo jam ekzistas"
 
 #: private/installer.php:90
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
-#: private/installer.php:231
+#: private/installer.php:235
 msgid "No source specified when installing app"
 msgstr ""
 
-#: private/installer.php:238
+#: private/installer.php:242
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: private/installer.php:243
+#: private/installer.php:247
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: private/installer.php:257
+#: private/installer.php:261
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: private/installer.php:271
+#: private/installer.php:275
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: private/installer.php:309
+#: private/installer.php:313
 msgid "App does not provide an info.xml file"
-msgstr ""
+msgstr "La aplikaĵo ne provizas dosieron info.xml"
 
-#: private/installer.php:315
+#: private/installer.php:319
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:321
+#: private/installer.php:325
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr ""
+msgstr "La aplikaĵo ne povas instaliĝi ĉar ĝi ne kongruas kun ĉi tiu eldono de ownCloud"
 
-#: private/installer.php:327
+#: private/installer.php:331
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:340
+#: private/installer.php:344
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -147,7 +147,7 @@ msgstr "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon."
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Nekonata uzanto"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
@@ -245,13 +245,13 @@ msgstr "Starigi administran uzantonomon."
 msgid "Set an admin password."
 msgstr "Starigi administran pasvorton."
 
-#: private/setup.php:164
+#: private/setup.php:170
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita."
 
-#: private/setup.php:165
+#: private/setup.php:171
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>."
@@ -320,57 +320,57 @@ msgstr ""
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:820
+#: private/share/share.php:860
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:881
+#: private/share/share.php:921
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:1002
+#: private/share/share.php:1046
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:1009
+#: private/share/share.php:1053
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:1015
+#: private/share/share.php:1059
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1432
+#: private/share/share.php:1476
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1441
+#: private/share/share.php:1485
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1457
+#: private/share/share.php:1501
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1469
+#: private/share/share.php:1513
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1483
+#: private/share/share.php:1527
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

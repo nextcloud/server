@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "create" => "ustvari",
 "update" => "posodobi",
 "delete" => "izbriše",
-"share" => "določi souporabo",
 "Password protected" => "Zaščiteno z geslom",
 "Error unsetting expiration date" => "Napaka brisanja datuma preteka",
 "Error setting expiration date" => "Napaka nastavljanja datuma preteka",

@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "create" => "සදන්න",
 "update" => "යාවත්කාලීන කරන්න",
 "delete" => "මකන්න",
-"share" => "බෙදාහදාගන්න",
 "Password protected" => "මුර පදයකින් ආරක්ශාකර ඇත",
 "Error unsetting expiration date" => "කල් ඉකුත් දිනය ඉවත් කිරීමේ දෝෂයක්",
 "Error setting expiration date" => "කල් ඉකුත් දිනය ස්ථාපනය කිරීමේ දෝෂයක්",

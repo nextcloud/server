@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "create" => "skep",
 "update" => "opdateer",
 "delete" => "uitvee",
-"share" => "deel",
 "Password protected" => "Beskerm met wagwoord",
 "Error unsetting expiration date" => "Fout met skrapping van verval datum",
 "Error setting expiration date" => "Fout met opstel van verval datum",

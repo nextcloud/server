@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 05:54+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -250,75 +250,75 @@ msgstr "Berrezarri pasahitza"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr ""
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Bai"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Ez"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Aukeratu"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Errorea fitxategi hautatzaile txantiloiak kargatzerakoan: {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Ados"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Errorea mezu txantiloia kargatzean: {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "fitxategi {count}ek konfliktua sortu du"
 msgstr[1] "{count} fitxategik konfliktua sortu dute"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Fitxategi batek konfliktua sortu du"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Fitxategi Berriak"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Dagoeneko existitzen diren fitxategiak"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Ze fitxategi mantendu nahi duzu?"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Bi bertsioak hautatzen badituzu, kopiatutako fitxategiaren izenean zenbaki bat atxikituko zaio."
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Ezeztatu"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Jarraitu"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(denak hautatuta)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} hautatuta)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Errorea fitxategia existitzen da txantiloiak kargatzerakoan"
 
@@ -457,28 +457,28 @@ msgid "notify by email"
 msgstr "jakinarazi eposta bidez"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "editatu dezake"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "sarrera kontrola"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "sortu"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "eguneratu"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "ezabatu"
-
-#: js/share.js:587
-msgid "share"
-msgstr "elkarbanatu"
 
 #: js/share.js:917
 msgid "Password protected"

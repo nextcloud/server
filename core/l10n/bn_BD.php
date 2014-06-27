@@ -62,7 +62,6 @@ $TRANSLATIONS = array(
 "create" => "তৈরী করুন",
 "update" => "পরিবর্ধন কর",
 "delete" => "মুছে ফেল",
-"share" => "ভাগাভাগি কর",
 "Password protected" => "কূটশব্দদ্বারা সুরক্ষিত",
 "Error unsetting expiration date" => "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ বাতিল করতে সমস্যা দেখা দিয়েছে",
 "Error setting expiration date" => "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করতে সমস্যা দেখা দিয়েছে",

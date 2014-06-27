@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-26 18:31+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -150,7 +150,7 @@ msgstr "Opravdu si přejete smazat současné nastavení serveru?"
 msgid "Confirm Deletion"
 msgstr "Potvrdit smazání"
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
@@ -158,7 +158,7 @@ msgstr[0] "nalezena %s skupina"
 msgstr[1] "nalezeny %s skupiny"
 msgstr[2] "nalezeno %s skupin"
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
@@ -166,13 +166,13 @@ msgstr[0] "nalezen %s uživatel"
 msgstr[1] "nalezeni %s uživatelé"
 msgstr[2] "nalezeno %s uživatelů"
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
-msgstr "Neplatný hostitel"
-
-#: lib/wizard.php:1025
+#: lib/wizard.php:317 lib/wizard.php:1051
 msgid "Could not find the desired feature"
 msgstr "Nelze nalézt požadovanou vlastnost"
+
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
+msgstr "Neplatný hostitel"
 
 #: settings.php:52
 msgid "Server"
@@ -180,11 +180,11 @@ msgstr "Server"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr "Uživatelský Filtr"
+msgstr "Uživatelský filtr"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr "Přihlašovací Filtr"
+msgstr "Přihlašovací filtr"
 
 #: settings.php:55
 msgid "Group Filter"

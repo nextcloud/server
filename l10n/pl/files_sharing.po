@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-26 01:54-0400\n"
-"PO-Revision-Date: 2014-06-25 10:51+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,15 +27,15 @@ msgstr ""
 msgid "Couldn't add remote share"
 msgstr "Nie można dodać zdalnego folderu"
 
-#: appinfo/app.php:39 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
 msgstr "Współdzielony z Tobą"
 
-#: appinfo/app.php:48 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
 msgstr "Współdzielony z innymi"
 
-#: appinfo/app.php:57 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
 msgstr "Współdzielony linkiem"
 
@@ -141,8 +141,8 @@ msgid "Direct link"
 msgstr "Bezpośredni link"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
-msgstr "Udostępnione pliki"
+msgid "Remote Shares"
+msgstr ""
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"

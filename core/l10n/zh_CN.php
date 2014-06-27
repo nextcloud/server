@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "create" => "创建",
 "update" => "更新",
 "delete" => "删除",
-"share" => "共享",
 "Password protected" => "密码已受保护",
 "Error unsetting expiration date" => "取消设置过期日期时出错",
 "Error setting expiration date" => "设置过期日期时出错",

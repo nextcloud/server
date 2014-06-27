@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "Sťahovanie",
 "Download %s" => "Stiahnuť %s",
 "Direct link" => "Priama linka",
-"File Sharing" => "Zdieľanie súborov",
 "Allow other instances to mount public links shared from this server" => "Povoliť ďalším inštanciám pripojiť verejné odkazy zdieľané z tohto servera",
 "Allow users to mount public link shares" => "Povoliť používateľom pripojiť sa na zdieľané verejné odkazy"
 );

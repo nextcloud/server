@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "create" => "sortu",
 "update" => "eguneratu",
 "delete" => "ezabatu",
-"share" => "elkarbanatu",
 "Password protected" => "Pasahitzarekin babestuta",
 "Error unsetting expiration date" => "Errorea izan da muga data kentzean",
 "Error setting expiration date" => "Errore bat egon da muga data ezartzean",

@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "loo",
 "update" => "uuenda",
 "delete" => "kustuta",
-"share" => "jaga",
 "Password protected" => "Parooliga kaitstud",
 "Error unsetting expiration date" => "Viga aegumise kuupäeva eemaldamisel",
 "Error setting expiration date" => "Viga aegumise kuupäeva määramisel",

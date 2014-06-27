@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "create" => "krei",
 "update" => "ĝisdatigi",
 "delete" => "forigi",
-"share" => "kunhavigi",
 "Password protected" => "Protektita per pasvorto",
 "Error unsetting expiration date" => "Eraro dum malagordado de limdato",
 "Error setting expiration date" => "Eraro dum agordado de limdato",

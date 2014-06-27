@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "create" => "新增",
 "update" => "更新",
 "delete" => "刪除",
-"share" => "分享",
 "Password protected" => "密碼保護",
 "Sending ..." => "傳送中",
 "Email sent" => "郵件已傳",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 15:50+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,15 +26,15 @@ msgstr "La compartició entre servidors no està activat en aquest servidor"
 msgid "Couldn't add remote share"
 msgstr "No s'ha pogut afegir una compartició remota"
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
 msgstr "Compartit per vós"
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
 msgstr "Compartit amb altres"
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
 msgstr "Compartit amb enllaç"
 
@@ -50,7 +50,7 @@ msgstr "Encara no heu compartit cap fitxer."
 msgid "You haven't shared any files by link yet."
 msgstr "Encara no heu compartit cap fitxer amb enllaç."
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
 msgstr "Afegiu {name} de {owner}@{remote}"
 
@@ -140,8 +140,8 @@ msgid "Direct link"
 msgstr "Enllaç directe"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
-msgstr "Compartició de fitxers"
+msgid "Remote Shares"
+msgstr ""
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"

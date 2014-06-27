@@ -51,6 +51,7 @@ $TRANSLATIONS = array(
 "Your storage is almost full ({usedSpacePercent}%)" => "Via memoro preskaŭ plenas ({usedSpacePercent}%)",
 "{dirs} and {files}" => "{dirs} kaj {files}",
 "%s could not be renamed" => "%s ne povis alinomiĝi",
+"Upload (max. %s)" => "Alŝuti (maks. %s)",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",
 "max. possible: " => "maks. ebla: ",

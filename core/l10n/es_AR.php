@@ -94,7 +94,6 @@ $TRANSLATIONS = array(
 "create" => "crear",
 "update" => "actualizar",
 "delete" => "borrar",
-"share" => "compartir",
 "Password protected" => "Protegido por contraseña",
 "Error unsetting expiration date" => "Error al remover la fecha de vencimiento",
 "Error setting expiration date" => "Error al asignar fecha de vencimiento",

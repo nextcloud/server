@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-26 01:54-0400\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -49,19 +49,19 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:983
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: private/app.php:1140
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1152
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr ""
 
@@ -320,57 +320,57 @@ msgstr ""
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:820
+#: private/share/share.php:860
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:881
+#: private/share/share.php:921
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:1002
+#: private/share/share.php:1046
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:1009
+#: private/share/share.php:1053
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:1015
+#: private/share/share.php:1059
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1432
+#: private/share/share.php:1476
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1441
+#: private/share/share.php:1485
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1457
+#: private/share/share.php:1501
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1469
+#: private/share/share.php:1513
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1483
+#: private/share/share.php:1527
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

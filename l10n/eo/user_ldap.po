@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mariano <mstreet@kde.org.ar>, 2013
+# Mariano <mstreet@kde.org.ar>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-26 15:02+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,7 +73,7 @@ msgstr "Ĉu daŭrigi la agordon?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Servilo"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -105,15 +105,15 @@ msgstr ""
 
 #: js/settings.js:780
 msgid "Configuration OK"
-msgstr ""
+msgstr "La agordaro ĝustas"
 
 #: js/settings.js:789
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "La agordaro malĝustas"
 
 #: js/settings.js:798
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "La agordaro neplenas"
 
 #: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
@@ -143,39 +143,39 @@ msgstr ""
 msgid "Confirm Deletion"
 msgstr "Konfirmi forigon"
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s grupo troviĝis"
 msgstr[1] "%s grupoj troviĝis"
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s uzanto troviĝis"
 msgstr[1] "%s uzanto troviĝis"
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
-msgstr "Nevalida gastigo"
-
-#: lib/wizard.php:1025
+#: lib/wizard.php:317 lib/wizard.php:1051
 msgid "Could not find the desired feature"
 msgstr ""
 
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
+msgstr "Nevalida gastigo"
+
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Servilo"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Filtrilo de uzanto"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Ensaluta filtrilo"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -232,7 +232,7 @@ msgstr "grupoj trovitaj"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Uzantoj ensalutas kun ĉi tiu atributo:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -255,12 +255,12 @@ msgstr ""
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Servilo"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Servilo:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -268,7 +268,7 @@ msgstr "Aldoni agordon de servilo"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Forigi agordaron"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -335,7 +335,7 @@ msgstr ""
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Sperta"
 
 #: templates/settings.php:8
 msgid "Advanced"
@@ -413,7 +413,7 @@ msgstr "sekunde. Ajna ŝanĝo malplenigas la kaŝmemoron."
 
 #: templates/settings.php:30
 msgid "Directory Settings"
-msgstr ""
+msgstr "Agordo de dosierujo"
 
 #: templates/settings.php:32
 msgid "User Display Name Field"
@@ -433,7 +433,7 @@ msgstr ""
 
 #: templates/settings.php:34
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Atributoj de serĉo de uzanto"
 
 #: templates/settings.php:34 templates/settings.php:37
 msgid "Optional; one attribute per line"

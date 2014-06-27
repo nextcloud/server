@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "create" => "สร้าง",
 "update" => "อัพเดท",
 "delete" => "ลบ",
-"share" => "แชร์",
 "Password protected" => "ใส่รหัสผ่านไว้",
 "Error unsetting expiration date" => "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ",
 "Error setting expiration date" => "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ",

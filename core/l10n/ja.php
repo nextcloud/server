@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "作成",
 "update" => "アップデート",
 "delete" => "削除",
-"share" => "共有",
 "Password protected" => "パスワード保護",
 "Error unsetting expiration date" => "有効期限の未設定エラー",
 "Error setting expiration date" => "有効期限の設定でエラー発生",

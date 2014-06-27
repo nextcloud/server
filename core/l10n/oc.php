@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "create" => "crea",
 "update" => "met a jorn",
 "delete" => "escafa",
-"share" => "parteja",
 "Password protected" => "Parat per senhal",
 "Error unsetting expiration date" => "Error al metre de la data d'expiracion",
 "Error setting expiration date" => "Error setting expiration date",

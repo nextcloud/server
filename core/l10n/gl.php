@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "crear",
 "update" => "actualizar",
 "delete" => "eliminar",
-"share" => "compartir",
 "Password protected" => "Protexido con contrasinal",
 "Error unsetting expiration date" => "Produciuse un erro ao retirar a data de caducidade",
 "Error setting expiration date" => "Produciuse un erro ao definir a data de caducidade",

@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "δημιουργία",
 "update" => "ενημέρωση",
 "delete" => "διαγραφή",
-"share" => "διαμοιρασμός",
 "Password protected" => "Προστασία με συνθηματικό",
 "Error unsetting expiration date" => "Σφάλμα κατά την διαγραφή της ημ. λήξης",
 "Error setting expiration date" => "Σφάλμα κατά τον ορισμό ημ. λήξης",

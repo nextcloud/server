@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "oluştur",
 "update" => "güncelle",
 "delete" => "sil",
-"share" => "paylaş",
 "Password protected" => "Parola korumalı",
 "Error unsetting expiration date" => "Son kullanma tarihi kaldırma hatası",
 "Error setting expiration date" => "Son kullanma tarihi ayarlama hatası",

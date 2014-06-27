@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 07:45+0000\n"
-"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,15 +27,15 @@ msgstr "Serverist serverisse jagamine pole antud serveris lubatud"
 msgid "Couldn't add remote share"
 msgstr "Ei suutnud lisada kaugjagamist"
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
 msgstr "Sinuga jagatud"
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
 msgstr "Teistega jagatud"
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
 msgstr "Jagatud lingiga"
 
@@ -51,7 +51,7 @@ msgstr "Sa pole jaganud veel ühtegi faili."
 msgid "You haven't shared any files by link yet."
 msgstr "Sa pole lingiga jaganud veel ühtegi faili."
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
 msgstr "Lisa {name} kohast {owner}@{remote}"
 
@@ -141,8 +141,8 @@ msgid "Direct link"
 msgstr "Otsene link"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
-msgstr "Faili jagamine"
+msgid "Remote Shares"
+msgstr ""
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"

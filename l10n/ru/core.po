@@ -12,7 +12,7 @@
 # BuxarNET <buxarnet@gmail.com>, 2014
 # Evgenij Spitsyn <evgeniy@spitsyn.net>, 2013
 # Gennady <mxiru@mail.ru>, 2014
-# jekader <jekader@gmail.com>, 2013
+# jekader <jekader@gmail.com>, 2013-2014
 # Kalinkin Alex <insider.junk@gmail.com>, 2013
 # Pavel P. Zabortsev <ppz2001@mail.ru>, 2014
 # Simon Tushev, 2013
@@ -27,13 +27,14 @@
 # Вячеслав <s@neola.ru>, 2013
 # Денис <denstarr@mail.md>, 2013
 # Дмитрий <langaru@gmail.com>, 2013
+# Михаил Маслиёв <misha.masliev@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 23:30+0000\n"
-"Last-Translator: Vladimir Sapronov <vladimir.sapronov@gmail.com>\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,7 +65,7 @@ msgstr "База данных обновлена"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Проверено обновление схемы БД"
 
 #: ajax/update.php:27
 #, php-format
@@ -193,7 +194,7 @@ msgstr "Сохранение..."
 
 #: js/js.js:1276
 msgid "seconds ago"
-msgstr "несколько секунд назад"
+msgstr "только что"
 
 #: js/js.js:1277
 msgid "%n minute ago"
@@ -226,7 +227,7 @@ msgstr[2] "%n дней назад"
 
 #: js/js.js:1282
 msgid "last month"
-msgstr "в прошлом месяце"
+msgstr "месяц назад"
 
 #: js/js.js:1283
 msgid "%n month ago"
@@ -237,7 +238,7 @@ msgstr[2] "%n месяцев назад"
 
 #: js/js.js:1284
 msgid "last year"
-msgstr "в прошлом году"
+msgstr "год назад"
 
 #: js/js.js:1285
 msgid "years ago"
@@ -252,7 +253,7 @@ msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Ссылка для восстановления пароля была отправлена на вашу почту. Если вы не получили её, проверьте папку спама.<br>Если там письма со ссылкой нет, то обратитесь к локальному администратору."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -260,7 +261,7 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Ваши файлы зашифрованы. Если вы не включили ключ восстановления, то ваши данные будут недоступны после сброса пароля.<br />Если вы не уверены что делать дальше - обратитесь к локальному администратору.<br />Вытдействительно хотите продолжить?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
@@ -274,76 +275,76 @@ msgstr "Сбросить пароль"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr "Пароль не может быть изменён. Пожалуйста, свяжитесь с вашим администратором."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Да"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Нет"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Выбрать"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Ошибка при загрузке шаблона выбора файлов: {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Ок"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Ошибка загрузки шаблона сообщений: {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} конфликт в файлах"
 msgstr[1] "{count} конфликта в файлах"
 msgstr[2] "{count} конфликтов в файлах"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Один конфликт в файлах"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Новые файлы"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Существующие файлы"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Какие файлы вы хотите сохранить?"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "При выборе обоих версий,  к названию копируемого файла будет добавлена цифра"
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Отменить"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Продолжить"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(выбраны все)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} выбрано)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Ошибка при загрузке шаблона существующего файла"
 
@@ -377,7 +378,7 @@ msgstr "Доступ открыл {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Доступ открыт {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -482,28 +483,28 @@ msgid "notify by email"
 msgstr "уведомить по почте"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "может редактировать"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "контроль доступа"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "создать"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "обновить"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "удалить"
-
-#: js/share.js:587
-msgid "share"
-msgstr "открыть доступ"
 
 #: js/share.js:917
 msgid "Password protected"
@@ -575,7 +576,7 @@ msgstr "Обновление прошло успешно. Перенаправл
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Невозможно сбросить пароль потому, что ключ неправильный"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
@@ -585,7 +586,7 @@ msgstr "Не удалось отправить письмо для сброса 
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Невозможно отправить письмо для сброса пароля, т.к. у вашего аккаунта не прописан адрес почты. Пожалуйста, свяжитесь с администратором."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format

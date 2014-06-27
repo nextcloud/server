@@ -10,6 +10,7 @@
 # zedascouves <duartegrilo@gmail.com>, 2013
 # Fernando Moura <moura232@gmail.com>, 2014
 # Goncalo Baiao <goncalo.baiao@gmail.com>, 2013
+# Gonçalo Ferreira <goncalo.ferreira@semcabo.pt>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Manuela Silva <manuela.silva@sky.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2014
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-16 19:03+0000\n"
-"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +52,7 @@ msgstr "Base de dados actualizada"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Atualização do esquema da base de dados verificada."
 
 #: ajax/update.php:27
 #, php-format
@@ -228,14 +229,14 @@ msgstr "anos atrás"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Ocorreu um problema com o envio do e-mail, por favor contactar o administrador."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "O link para fazer reset à sua password foi enviado para o seu e-mail. <br> Se não o recebeu dentro um espaço de tempo aceitável, por favor verifique a sua pasta de SPAM.<br> Se não o encontrar, por favor contacte o seu administrador."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -243,11 +244,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Os seus ficheiros estão encriptados. Se não activou a chave de recuperação, não vai ser possível recuperar os seus dados no caso da sua password ser reinicializada. Se não tem a certeza do que precisa de fazer, por favor contacte o seu administrador antes de continuar. Tem a certeza que quer continuar?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Tenho a certeza"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -255,77 +256,77 @@ msgstr "Repor password"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "A password não pode ser alterada. Contacte o seu administrador."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Sim"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Escolha"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Erro ao carregar o modelo de selecionador de ficheiro: {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Erro ao carregar o template: {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflicto de ficheiro"
 msgstr[1] "{count} conflitos de ficheiro"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Um conflito no ficheiro"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Ficheiros Novos"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Ficheiro já existente"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Quais os ficheiros que pretende manter?"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Se escolher ambas as versões, o ficheiro copiado irá ter um número adicionado ao seu nome."
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(todos seleccionados)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} seleccionados)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Erro ao carregar o modelo de existências do ficheiro"
 
@@ -359,7 +360,7 @@ msgstr "Partilhado por {owner}"
 
 #: js/share.js:205
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Partilhado com {recipients}"
 
 #: js/share.js:211
 msgid "Share"
@@ -464,28 +465,28 @@ msgid "notify by email"
 msgstr "Notificar por email"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "Controlo de acesso"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "apagar"
-
-#: js/share.js:587
-msgid "share"
-msgstr "partilhar"
 
 #: js/share.js:917
 msgid "Password protected"
@@ -557,17 +558,17 @@ msgstr "A actualização foi concluída com sucesso. Vai ser redireccionado para
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "É impossível efetuar reset à password. "
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Ocorreu um problema com o envio do e-mail, por favor confirme o seu utilizador."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Ocorreu um problema com o envio do e-mail, por favor contacte o administrador."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -610,7 +611,7 @@ msgstr "Nova palavra-chave"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nova password"
 
 #: setup/controller.php:140
 #, php-format
@@ -762,7 +763,7 @@ msgstr "Configure a base de dados"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Apenas %s está disponível."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -788,7 +789,7 @@ msgstr "Anfitrião da base de dados"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "Será usado SQLite como base de dados. Para instalações maiores é recomendável a sua alteração."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -838,7 +839,7 @@ msgstr "Por favor contacte o administrador."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Esqueceu-se da password? Recupere-a!"
 
 #: templates/login.php:55
 msgid "remember"
@@ -895,11 +896,11 @@ msgstr "O tema %s foi desativado."
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr ""
+msgstr "Por favor garanta a cópia de segurança da base de dados e das pastas 'config' e 'data' antes de prosseguir."
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Iniciar atualização"
 
 #: templates/update.user.php:3
 msgid ""

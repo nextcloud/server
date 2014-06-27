@@ -101,7 +101,6 @@ $TRANSLATIONS = array(
 "create" => "skapa",
 "update" => "uppdatera",
 "delete" => "radera",
-"share" => "dela",
 "Password protected" => "Lösenordsskyddad",
 "Error unsetting expiration date" => "Fel vid borttagning av utgångsdatum",
 "Error setting expiration date" => "Fel vid sättning av utgångsdatum",

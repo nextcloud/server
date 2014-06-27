@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "create" => "létrehoz",
 "update" => "szerkeszt",
 "delete" => "töröl",
-"share" => "megoszt",
 "Password protected" => "Jelszóval van védve",
 "Error unsetting expiration date" => "Nem sikerült a lejárati időt törölni",
 "Error setting expiration date" => "Nem sikerült a lejárati időt beállítani",

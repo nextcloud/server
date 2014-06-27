@@ -92,7 +92,6 @@ $TRANSLATIONS = array(
 "create" => "생성",
 "update" => "업데이트",
 "delete" => "삭제",
-"share" => "공유",
 "Password protected" => "암호로 보호됨",
 "Error unsetting expiration date" => "만료 날짜 해제 오류",
 "Error setting expiration date" => "만료 날짜 설정 오류",

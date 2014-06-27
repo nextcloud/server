@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "create" => "sukurti",
 "update" => "atnaujinti",
 "delete" => "ištrinti",
-"share" => "dalintis",
 "Password protected" => "Apsaugota slaptažodžiu",
 "Error unsetting expiration date" => "Klaida nuimant galiojimo laiką",
 "Error setting expiration date" => "Klaida nustatant galiojimo laiką",

@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "create" => "izveidot",
 "update" => "atjaunināt",
 "delete" => "dzēst",
-"share" => "dalīties",
 "Password protected" => "Aizsargāts ar paroli",
 "Error unsetting expiration date" => "Kļūda, noņemot termiņa datumu",
 "Error setting expiration date" => "Kļūda, iestatot termiņa datumu",

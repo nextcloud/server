@@ -11,13 +11,14 @@
 # Victor Ashirov <victor.ashirov@gmail.com>, 2013
 # Yuriy Malyovaniy <yuriy.malyovaniy@gmail.com>, 2013
 # Антон <antonshramko@yandex.ru>, 2013
+# Михаил Маслиёв <misha.masliev@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-26 17:51+0000\n"
+"Last-Translator: Михаил Маслиёв <misha.masliev@yandex.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,50 +26,50 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: base.php:678
+#: base.php:673
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Вы пытаетесь получить доступ к серверу с неподтверждённого домена."
 
-#: base.php:679
+#: base.php:674
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Пожалуйста, свяжитесь с администратором. Если вы администратор этого хранилища, сконфигурируйте \"trusted_domain\" в config/config.php. Пример настройки можно найти в /config/config.sample.php."
 
-#: private/app.php:361
+#: private/app.php:366
 msgid "Help"
 msgstr "Помощь"
 
-#: private/app.php:374
+#: private/app.php:379
 msgid "Personal"
 msgstr "Личное"
 
-#: private/app.php:385
+#: private/app.php:390
 msgid "Settings"
 msgstr "Конфигурация"
 
-#: private/app.php:397
+#: private/app.php:402
 msgid "Users"
 msgstr "Пользователи"
 
-#: private/app.php:410
+#: private/app.php:415
 msgid "Admin"
-msgstr "Admin"
+msgstr "Администрирование"
 
-#: private/app.php:978
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Не смог обновить \"%s\"."
 
-#: private/app.php:1135
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr ""
+msgstr "Невозможно установить приложение \\\"%s\\\", т.к. оно несовместимо с этой версией ownCloud."
 
-#: private/app.php:1147
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr "Не выбрано имя приложения"
 
@@ -93,48 +94,48 @@ msgstr "Папка приложения уже существует"
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr "Не удалось создать директорию. Исправьте права доступа. %s"
 
-#: private/installer.php:231
+#: private/installer.php:235
 msgid "No source specified when installing app"
 msgstr "Не указан источник при установке приложения"
 
-#: private/installer.php:238
+#: private/installer.php:242
 msgid "No href specified when installing app from http"
 msgstr "Не указан атрибут href при установке приложения через http"
 
-#: private/installer.php:243
+#: private/installer.php:247
 msgid "No path specified when installing app from local file"
 msgstr "Не указан путь при установке приложения из локального файла"
 
-#: private/installer.php:257
+#: private/installer.php:261
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Архивы %s не поддерживаются"
 
-#: private/installer.php:271
+#: private/installer.php:275
 msgid "Failed to open archive when installing app"
 msgstr "Не возможно открыть архив при установке приложения"
 
-#: private/installer.php:309
+#: private/installer.php:313
 msgid "App does not provide an info.xml file"
 msgstr "Приложение не имеет файла info.xml"
 
-#: private/installer.php:315
+#: private/installer.php:319
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Приложение невозможно установить. В нем содержится запрещенный код."
 
-#: private/installer.php:321
+#: private/installer.php:325
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Приложение невозможно установить. Не совместимо с текущей версией ownCloud."
 
-#: private/installer.php:327
+#: private/installer.php:331
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Приложение невозможно установить. Оно содержит параметр <shipped>true</shipped> который не допустим для приложений, не входящих в поставку."
 
-#: private/installer.php:340
+#: private/installer.php:344
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -252,13 +253,13 @@ msgstr "Установить имя пользователя для admin."
 msgid "Set an admin password."
 msgstr "становит пароль для admin."
 
-#: private/setup.php:164
+#: private/setup.php:170
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV."
 
-#: private/setup.php:165
+#: private/setup.php:171
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
@@ -272,12 +273,12 @@ msgstr "%s поделился »%s« с вами"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Публикация %s неудачна, т.к. файл не существует"
 
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Вам запрещено публиковать %s"
 
 #: private/share/share.php:531
 #, php-format
@@ -315,7 +316,7 @@ msgstr "Не удалось установить общий доступ для 
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Вам нужно задать пароль для создания публичной ссылки. Разрешены только защищённые ссылки"
 
 #: private/share/share.php:653
 #, php-format
@@ -327,57 +328,57 @@ msgstr "Не удалось установить общий доступ для 
 msgid "Share type %s is not valid for %s"
 msgstr "Такой втд общего доступа как %s не допустим для %s"
 
-#: private/share/share.php:820
+#: private/share/share.php:860
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Настройка прав доступа для %s невозможна, поскольку права доступа превышают предоставленные права доступа %s"
 
-#: private/share/share.php:881
+#: private/share/share.php:921
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Не удалось произвести настройку прав доступа для %s , элемент не был найден."
 
-#: private/share/share.php:1002
+#: private/share/share.php:1046
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:1009
+#: private/share/share.php:1053
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Бэкэнд для общего доступа %s не найден"
 
-#: private/share/share.php:1015
+#: private/share/share.php:1059
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Бэкэнд для общего доступа к %s не найден"
 
-#: private/share/share.php:1432
+#: private/share/share.php:1476
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Публикация %s неудачна, т.к. пользователь %s - публикатор оригинала файла"
 
-#: private/share/share.php:1441
+#: private/share/share.php:1485
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1457
+#: private/share/share.php:1501
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Публикация %s неудачна, т.к републикация запрещена"
 
-#: private/share/share.php:1469
+#: private/share/share.php:1513
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1483
+#: private/share/share.php:1527
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

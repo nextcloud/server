@@ -106,7 +106,6 @@ $TRANSLATIONS = array(
 "create" => "utwórz",
 "update" => "uaktualnij",
 "delete" => "usuń",
-"share" => "współdziel",
 "Password protected" => "Zabezpieczone hasłem",
 "Error unsetting expiration date" => "Błąd podczas usuwania daty wygaśnięcia",
 "Error setting expiration date" => "Błąd podczas ustawiania daty wygaśnięcia",

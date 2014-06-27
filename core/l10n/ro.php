@@ -74,7 +74,6 @@ $TRANSLATIONS = array(
 "create" => "creare",
 "update" => "actualizare",
 "delete" => "ștergere",
-"share" => "partajare",
 "Password protected" => "Protejare cu parolă",
 "Error unsetting expiration date" => "Eroare la anularea datei de expirare",
 "Error setting expiration date" => "Eroare la specificarea datei de expirare",

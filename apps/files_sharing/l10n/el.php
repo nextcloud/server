@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "Λήψη",
 "Download %s" => "Λήψη %s",
 "Direct link" => "Άμεσος σύνδεσμος",
-"File Sharing" => "Διαμοιρασμός Αρχείων",
 "Allow other instances to mount public links shared from this server" => "Να επιτρέπεται σε άλλες εγκαταστάσεις να επιθέτουν δημόσιους συνδέσμους που έχουν διαμοιραστεί από αυτόν το διακομιστή",
 "Allow users to mount public link shares" => "Να επιτρέπεται στους χρήστες να επιθέτουν κοινόχρηστους φακέλους με δημόσιους συνδέσμους"
 );

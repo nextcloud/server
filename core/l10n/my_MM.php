@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "can edit" => "ပြင်ဆင်နိုင်",
 "create" => "ဖန်တီးမည်",
 "delete" => "ဖျက်မည်",
-"share" => "ဝေမျှမည်",
 "Password protected" => "စကားဝှက်ဖြင့်ကာကွယ်ထားသည်",
 "Add" => "ပေါင်းထည့်",
 "You will receive a link to reset your password via Email." => "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။",

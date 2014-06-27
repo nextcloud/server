@@ -4,6 +4,7 @@
 # 
 # Translators:
 # zedascouves <duartegrilo@gmail.com>, 2013
+# Gonçalo Ferreira <goncalo.ferreira@semcabo.pt>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Manuela Silva <manuela.silva@sky.com>, 2014
 # Manuel Oliveira <manuel.oliveira@gmail.com>, 2013
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -25,21 +26,21 @@ msgstr ""
 
 #: ajax/external.php:20
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "A partilha entre servidores não se encontra disponível"
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Ocorreu um erro ao adicionar a partilha remota"
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
 msgstr "Partilhado consigo "
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
 msgstr "Partilhado com outros"
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
 msgstr "Partilhado pela hiperligação"
 
@@ -55,17 +56,17 @@ msgstr "Ainda não partilhou quaisquer ficheiros."
 msgid "You haven't shared any files by link yet."
 msgstr "Ainda não partilhou quaisquer ficheiros por hiperligação."
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
-msgstr ""
+msgstr "Adicionar {name} de {owner}@{remote}"
 
 #: js/public.js:200
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Não foi encontrada uma instalação em {remote}"
 
 #: js/public.js:201
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Endereço errado"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -121,11 +122,11 @@ msgstr "Para mais informação, por favor, pergunte à pessoa que lhe enviou est
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "Guardar na ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr ""
+msgstr "exemplo.pt/owncloud"
 
 #: templates/public.php:23
 msgid "Save"
@@ -145,13 +146,13 @@ msgid "Direct link"
 msgstr "Hiperligação direta"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
+msgid "Remote Shares"
 msgstr ""
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "Permitir que outras instâncias mapeiem endereços partilhados deste servidor"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Permitir mapeamentos de endereços partilhados aos utilizadores"

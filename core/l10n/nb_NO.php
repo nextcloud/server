@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "opprett",
 "update" => "oppdater",
 "delete" => "slett",
-"share" => "del",
 "Password protected" => "Passordbeskyttet",
 "Error unsetting expiration date" => "Feil ved nullstilling av utløpsdato",
 "Error setting expiration date" => "Kan ikke sette utløpsdato",

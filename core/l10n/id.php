@@ -95,7 +95,6 @@ $TRANSLATIONS = array(
 "create" => "buat",
 "update" => "perbarui",
 "delete" => "hapus",
-"share" => "bagikan",
 "Password protected" => "Sandi dilindungi",
 "Error unsetting expiration date" => "Galat ketika menghapus tanggal kedaluwarsa",
 "Error setting expiration date" => "Galat ketika mengatur tanggal kedaluwarsa",

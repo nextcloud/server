@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "ダウンロード",
 "Download %s" => "%s をダウンロード",
 "Direct link" => "リンク",
-"File Sharing" => "ファイル共有",
 "Allow other instances to mount public links shared from this server" => "このサーバにおけるURLでの共有を他のインスタンスからマウントできるようにする",
 "Allow users to mount public link shares" => "ユーザーがURLでの共有をマウントできるようにする"
 );

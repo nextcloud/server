@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-25 06:33-0400\n"
-"PO-Revision-Date: 2014-06-25 03:41+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -450,28 +450,28 @@ msgid "notify by email"
 msgstr "以 email 通知"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "可編輯"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "存取控制"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "建立"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "刪除"
-
-#: js/share.js:587
-msgid "share"
-msgstr "分享"
 
 #: js/share.js:917
 msgid "Password protected"

@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "Descargar",
 "Download %s" => "Descargar %s",
 "Direct link" => "Enlace directo",
-"File Sharing" => "Compartir archivos",
 "Allow other instances to mount public links shared from this server" => "Permitir a otros montar enlaces publicos compartidos de este servidor",
 "Allow users to mount public link shares" => "Permitir a los usuarios montar enlaces publicos compartidos"
 );

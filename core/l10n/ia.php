@@ -85,7 +85,6 @@ $TRANSLATIONS = array(
 "create" => "crear",
 "update" => "actualisar",
 "delete" => "deler",
-"share" => "compartir",
 "Password protected" => "Proteger con contrasigno",
 "Error unsetting expiration date" => "Error quando on levava le data de expiration",
 "Error setting expiration date" => "Error quando on fixava le data de expiration",

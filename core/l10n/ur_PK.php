@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "create" => "نیا بنائیں",
 "update" => "اپ ڈیٹ",
 "delete" => "ختم کریں",
-"share" => "شئیر کریں",
 "Password protected" => "پاسورڈ سے محفوظ کیا گیا ہے",
 "Error unsetting expiration date" => "خرابی غیر تصحیح تاریخ معیاد",
 "Error setting expiration date" => "خرابی  تصحیح تاریخ معیاد",

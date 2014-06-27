@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mariano <mstreet@kde.org.ar>, 2013
+# Mariano <mstreet@kde.org.ar>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -20,47 +20,47 @@ msgstr ""
 
 #: ajax/external.php:20
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "Interservila kunhavo ne kapabliĝis en ĉi tiu servilo"
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
 msgstr ""
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Kunhavata kun vi"
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Kunhavata kun aliaj"
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Kunhavata per ligilo"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Neniu dosiero kunhaviĝis kun vi ankoraŭ."
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Vi kunhavigis neniun dosieron ankoraŭ."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Vi kunhavigis neniun dosieron per ligilo ankoraŭ."
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
-msgstr ""
+msgstr "Aldoni {name} el {owner}@{remote}"
 
 #: js/public.js:200
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Ne troviĝis instalo de ownCloud ĉe {remote}"
 
 #: js/public.js:201
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Nevalidas URL de ownCloud"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -76,7 +76,7 @@ msgstr "Ĉi tiu kunhavigo estas protektata per pasvorto"
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "La pasvorto malĝustas. Provu denove."
 
 #: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
@@ -116,11 +116,11 @@ msgstr "Por plia informo, bonvolu peti al la persono, kiu sendis ĉi tiun ligilo
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "Konservi en ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr ""
+msgstr "example.com/owncloud"
 
 #: templates/public.php:23
 msgid "Save"
@@ -133,14 +133,14 @@ msgstr "Elŝuti"
 #: templates/public.php:59
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "Elŝuti %s"
 
 #: templates/public.php:63
 msgid "Direct link"
 msgstr "Direkta ligilo"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
+msgid "Remote Shares"
 msgstr ""
 
 #: templates/settings-admin.php:7

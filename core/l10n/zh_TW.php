@@ -93,7 +93,6 @@ $TRANSLATIONS = array(
 "create" => "建立",
 "update" => "更新",
 "delete" => "刪除",
-"share" => "分享",
 "Password protected" => "受密碼保護",
 "Error unsetting expiration date" => "取消到期日設定失敗",
 "Error setting expiration date" => "設定到期日發生錯誤",

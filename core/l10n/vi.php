@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "create" => "tạo",
 "update" => "cập nhật",
 "delete" => "xóa",
-"share" => "chia sẻ",
 "Password protected" => "Mật khẩu bảo vệ",
 "Error unsetting expiration date" => "Lỗi không thiết lập ngày kết thúc",
 "Error setting expiration date" => "Lỗi cấu hình ngày kết thúc",

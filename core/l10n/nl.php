@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "creëer",
 "update" => "bijwerken",
 "delete" => "verwijderen",
-"share" => "deel",
 "Password protected" => "Wachtwoord beveiligd",
 "Error unsetting expiration date" => "Fout tijdens het verwijderen van de vervaldatum",
 "Error setting expiration date" => "Fout tijdens het instellen van de vervaldatum",

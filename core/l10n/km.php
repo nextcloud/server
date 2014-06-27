@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "create" => "បង្កើត",
 "update" => "ធ្វើ​បច្ចុប្បន្នភាព",
 "delete" => "លុប",
-"share" => "ចែក​រំលែក",
 "Password protected" => "បាន​ការ​ពារ​ដោយ​ពាក្យ​សម្ងាត់",
 "Sending ..." => "កំពុង​ផ្ញើ ...",
 "Email sent" => "បាន​ផ្ញើ​អ៊ីមែល",

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 19:50+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-26 18:31+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -220,7 +220,7 @@ msgstr "Aktualizovat na {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr "Odinstalovat Aplikaci"
+msgstr "Odinstalovat aplikaci"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -326,7 +326,7 @@ msgstr "Musíte zadat platný název skupiny"
 msgid "deleted {groupName}"
 msgstr "smazána {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:255
+#: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
 msgstr "vrátit zpět"
 
@@ -341,36 +341,36 @@ msgstr "Skupiny"
 msgid "Group Admin"
 msgstr "Správa skupiny"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Smazat"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:85 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "nikdy"
 
-#: js/users/users.js:254
+#: js/users/users.js:264
 msgid "deleted {userName}"
 msgstr "smazán {userName}"
 
-#: js/users/users.js:371
+#: js/users/users.js:381
 msgid "add group"
 msgstr "přidat skupinu"
 
-#: js/users/users.js:568
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Musíte zadat platné uživatelské jméno"
 
-#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Chyba při vytváření užiatele"
 
-#: js/users/users.js:574
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Musíte zadat platné heslo"
 
-#: js/users/users.js:598
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Varování: Osobní složka uživatele \"{user}\" již existuje."
 
@@ -897,11 +897,11 @@ msgstr "Vaše šifrovací klíče byly zálohovány. Pokud se něco pokazilo, da
 
 #: templates/personal.php:178
 msgid "Restore Encryption Keys"
-msgstr "Obnovit Šifrovací Klíče"
+msgstr "Obnovit šifrovací klíče"
 
 #: templates/personal.php:182
 msgid "Delete Encryption Keys"
-msgstr "Smazat Šifrovací Klíče"
+msgstr "Smazat šifrovací klíče"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -924,7 +924,7 @@ msgstr "Zadejte heslo obnovy pro obnovení souborů uživatele při změně hesl
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr "Prohledat Užiatele a Skupiny"
+msgstr "Prohledat uživatele a skupiny"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
@@ -938,7 +938,7 @@ msgstr "Skupina"
 msgid "Everyone"
 msgstr "Všichni"
 
-#: templates/users/part.grouplist.php:29
+#: templates/users/part.grouplist.php:31
 msgid "Admins"
 msgstr "Administrátoři"
 

@@ -10,12 +10,13 @@
 # Victor Bravo <>, 2013
 # Void Ayanami <hex.void@gmail.com>, 2013
 # Денис <denstarr@mail.md>, 2013
+# Михаил Маслиёв <misha.masliev@yandex.ru>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -32,21 +33,21 @@ msgstr ""
 msgid "Couldn't add remote share"
 msgstr ""
 
-#: appinfo/app.php:46 js/app.js:34
+#: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Опубликованы вами"
 
-#: appinfo/app.php:55 js/app.js:53
+#: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Опубликованы другими"
 
-#: appinfo/app.php:64 js/app.js:72
+#: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
 msgstr ""
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Вы ещё не опубликовали файлы"
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
@@ -56,7 +57,7 @@ msgstr ""
 msgid "You haven't shared any files by link yet."
 msgstr ""
 
-#: js/external.js:43 js/external.js:46
+#: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
 msgstr ""
 
@@ -94,7 +95,7 @@ msgstr "Имя"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Дата публикации"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -146,7 +147,7 @@ msgid "Direct link"
 msgstr "Прямая ссылка"
 
 #: templates/settings-admin.php:3
-msgid "File Sharing"
+msgid "Remote Shares"
 msgstr ""
 
 #: templates/settings-admin.php:7

@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "create" => "יצירה",
 "update" => "עדכון",
 "delete" => "מחיקה",
-"share" => "שיתוף",
 "Password protected" => "מוגן בססמה",
 "Error unsetting expiration date" => "אירעה שגיאה בביטול תאריך התפוגה",
 "Error setting expiration date" => "אירעה שגיאה בעת הגדרת תאריך התפוגה",

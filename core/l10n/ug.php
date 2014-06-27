@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "group" => "گۇرۇپپا",
 "Unshare" => "ھەمبەھىرلىمە",
 "delete" => "ئۆچۈر",
-"share" => "ھەمبەھىر",
 "Warning" => "ئاگاھلاندۇرۇش",
 "Delete" => "ئۆچۈر",
 "Add" => "قوش",

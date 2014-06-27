@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-24 01:54-0400\n"
-"PO-Revision-Date: 2014-06-23 13:32+0000\n"
-"Last-Translator: Christophe Lherieau <skimpax@gmail.com>\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -464,28 +464,28 @@ msgid "notify by email"
 msgstr "Notifier par email"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "édition autorisée"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "contrôle des accès"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "créer"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "mettre à jour"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "supprimer"
-
-#: js/share.js:587
-msgid "share"
-msgstr "partager"
 
 #: js/share.js:917
 msgid "Password protected"

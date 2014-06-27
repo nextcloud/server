@@ -61,7 +61,6 @@ $TRANSLATIONS = array(
 "create" => "உருவவாக்கல்",
 "update" => "இற்றைப்படுத்தல்",
 "delete" => "நீக்குக",
-"share" => "பகிர்தல்",
 "Password protected" => "கடவுச்சொல் பாதுகாக்கப்பட்டது",
 "Error unsetting expiration date" => "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு",
 "Error setting expiration date" => "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு",

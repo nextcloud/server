@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "create" => "krijo",
 "update" => "azhurno",
 "delete" => "elimino",
-"share" => "nda",
 "Password protected" => "Mbrojtur me kod",
 "Error unsetting expiration date" => "Veprim i gabuar gjatë heqjes së datës së përfundimit",
 "Error setting expiration date" => "Veprim i gabuar gjatë caktimit të datës së përfundimit",

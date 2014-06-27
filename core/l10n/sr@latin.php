@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "create" => "napravi",
 "update" => "ažuriranje",
 "delete" => "brisanje",
-"share" => "deljenje",
 "Password protected" => "Zaštćeno lozinkom",
 "Error unsetting expiration date" => "Greška u uklanjanju datuma isteka",
 "Error setting expiration date" => "Greška u postavljanju datuma isteka",

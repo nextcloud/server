@@ -77,7 +77,6 @@ $TRANSLATIONS = array(
 "create" => "erstellen",
 "update" => "aktualiséieren",
 "delete" => "läschen",
-"share" => "deelen",
 "Password protected" => "Passwuertgeschützt",
 "Error unsetting expiration date" => "Feeler beim Läsche vum Verfallsdatum",
 "Error setting expiration date" => "Feeler beim Setze vum Verfallsdatum",

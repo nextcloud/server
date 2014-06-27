@@ -74,7 +74,6 @@ $TRANSLATIONS = array(
 "create" => "ایجاد",
 "update" => "به روز",
 "delete" => "پاک کردن",
-"share" => "به اشتراک گذاشتن",
 "Password protected" => "نگهداری از رمز عبور",
 "Error unsetting expiration date" => "خطا در تنظیم نکردن تاریخ انقضا ",
 "Error setting expiration date" => "خطا در تنظیم تاریخ انقضا",

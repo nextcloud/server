@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "vytvoriť",
 "update" => "aktualizovať",
 "delete" => "vymazať",
-"share" => "zdieľať",
 "Password protected" => "Chránené heslom",
 "Error unsetting expiration date" => "Chyba pri odstraňovaní dátumu expirácie",
 "Error setting expiration date" => "Chyba pri nastavení dátumu expirácie",

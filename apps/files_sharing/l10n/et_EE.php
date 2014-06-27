@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "Lae alla",
 "Download %s" => "Laadi alla %s",
 "Direct link" => "Otsene link",
-"File Sharing" => "Faili jagamine",
 "Allow other instances to mount public links shared from this server" => "Luba teistel instantsidel ühendada sellest serverist jagatud avalikke linke",
 "Allow users to mount public link shares" => "Luba kasutajatel ühendada jagatud avalikke linke"
 );

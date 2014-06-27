@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "create" => "crea",
 "update" => "actualitza",
 "delete" => "elimina",
-"share" => "comparteix",
 "Password protected" => "Protegeix amb contrasenya",
 "Error unsetting expiration date" => "Error en eliminar la data de venciment",
 "Error setting expiration date" => "Error en establir la data de venciment",

@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Download" => "Lataa",
 "Download %s" => "Lataa %s",
 "Direct link" => "Suora linkki",
-"File Sharing" => "Tiedostonjako",
 "Allow other instances to mount public links shared from this server" => "Salli muiden instanssien liittää tältä palvelimelta jaettuja julkisia linkkejä",
 "Allow users to mount public link shares" => "Salli käyttäjien liittää julkisia linkkijakoja"
 );

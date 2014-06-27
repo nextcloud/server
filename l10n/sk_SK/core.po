@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-16 19:53+0000\n"
-"Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
+"POT-Creation-Date: 2014-06-27 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -252,76 +252,76 @@ msgstr "Obnovenie hesla"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr "Heslo nemožno zmeniť. Kontaktujte prosím vášho administrátora."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:250
+#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
 msgstr "Áno"
 
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:260
+#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
 msgid "No"
 msgstr "Nie"
 
-#: js/oc-dialogs.js:198
+#: js/oc-dialogs.js:204
 msgid "Choose"
 msgstr "Vybrať"
 
-#: js/oc-dialogs.js:224
+#: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
 msgstr "Chyba pri nahrávaní šablóny výberu súborov: {error}"
 
-#: js/oc-dialogs.js:277
+#: js/oc-dialogs.js:284
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:297
+#: js/oc-dialogs.js:304
 msgid "Error loading message template: {error}"
 msgstr "Chyba pri nahrávaní šablóny správy: {error}"
 
-#: js/oc-dialogs.js:425
+#: js/oc-dialogs.js:432
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} konflikt súboru"
 msgstr[1] "{count} konflikty súboru"
 msgstr[2] "{count} konfliktov súboru"
 
-#: js/oc-dialogs.js:439
+#: js/oc-dialogs.js:446
 msgid "One file conflict"
 msgstr "Jeden konflikt súboru"
 
-#: js/oc-dialogs.js:445
+#: js/oc-dialogs.js:452
 msgid "New Files"
 msgstr "Nové súbory"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:453
 msgid "Already existing files"
 msgstr "Už existujúce súbory"
 
-#: js/oc-dialogs.js:448
+#: js/oc-dialogs.js:455
 msgid "Which files do you want to keep?"
 msgstr "Ktoré súbory chcete ponechať?"
 
-#: js/oc-dialogs.js:449
+#: js/oc-dialogs.js:456
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Ak zvolíte obe verzie, názov nakopírovaného súboru bude doplnený o číslo."
 
-#: js/oc-dialogs.js:457
+#: js/oc-dialogs.js:464
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: js/oc-dialogs.js:467
+#: js/oc-dialogs.js:474
 msgid "Continue"
 msgstr "Pokračovať"
 
-#: js/oc-dialogs.js:514 js/oc-dialogs.js:527
+#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
 msgid "(all selected)"
 msgstr "(všetko vybrané)"
 
-#: js/oc-dialogs.js:517 js/oc-dialogs.js:531
+#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
 msgid "({count} selected)"
 msgstr "({count} vybraných)"
 
-#: js/oc-dialogs.js:539
+#: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
 msgstr "Chyba pri nahrávaní šablóny existencie súboru"
 
@@ -460,28 +460,28 @@ msgid "notify by email"
 msgstr "informovať emailom"
 
 #: js/share.js:573
+msgid "can share"
+msgstr ""
+
+#: js/share.js:576
 msgid "can edit"
 msgstr "môže upraviť"
 
-#: js/share.js:575
+#: js/share.js:578
 msgid "access control"
 msgstr "prístupové práva"
 
-#: js/share.js:578
+#: js/share.js:581
 msgid "create"
 msgstr "vytvoriť"
 
-#: js/share.js:581
+#: js/share.js:584
 msgid "update"
 msgstr "aktualizovať"
 
-#: js/share.js:584
+#: js/share.js:587
 msgid "delete"
 msgstr "vymazať"
-
-#: js/share.js:587
-msgid "share"
-msgstr "zdieľať"
 
 #: js/share.js:917
 msgid "Password protected"
