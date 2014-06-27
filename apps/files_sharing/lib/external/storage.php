@@ -33,6 +33,8 @@ class Storage extends DAV implements ISharedStorage {
 	 */
 	private $token;
 
+	private $updateChecked = false;
+
 	public function __construct($options) {
 		$this->remote = $options['remote'];
 		$this->remoteUser = $options['owner'];
@@ -99,5 +101,22 @@ class Storage extends DAV implements ISharedStorage {
 			$this->scanner = new Scanner($storage);
 		}
 		return $this->scanner;
+	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 *
+	 * @param string $path
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path, $time) {
+		// since for owncloud webdav servers we can rely on etag propagation we only need to check the root of the storage
+		// because of that we only do one check for the entire storage per request
+		if ($this->updateChecked) {
+			return false;
+		}
+		$this->updateChecked = true;
+		return parent::hasUpdated('', $time);
 	}
 }
