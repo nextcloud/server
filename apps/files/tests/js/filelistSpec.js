@@ -1628,6 +1628,38 @@ describe('OCA.Files.FileList tests', function() {
 			expect(context.fileActions).toBeDefined();
 			expect(context.dir).toEqual('/subdir');
 		});
+		it('redisplays actions when new actions have been registered', function() {
+			var actionStub = sinon.stub();
+			var clock = sinon.useFakeTimers();
+			var debounceStub = sinon.stub(_, 'debounce', function(callback) {
+				return function() {
+					// defer instead of debounce, to make it work with clock
+					_.defer(callback);
+				};
+			});
+			// need to reinit the list to make the debounce call
+			fileList.destroy();
+			fileList = new OCA.Files.FileList($('#app-content-files'));
+
+			fileList.setFiles(testFiles);
+			fileList.fileActions.register(
+				'text/plain',
+				'Test',
+				OC.PERMISSION_ALL,
+				function() {
+					// Specify icon for hitory button
+					return OC.imagePath('core','actions/history');
+				},
+				actionStub
+			);
+			var $tr = fileList.findFileEl('One.txt');
+			expect($tr.find('.action-test').length).toEqual(0);
+			// update is delayed
+			clock.tick(100);
+			expect($tr.find('.action-test').length).toEqual(1);
+			clock.restore();
+			debounceStub.restore();
+		});
 	});
 	describe('Sorting files', function() {
 		it('Sorts by name by default', function() {

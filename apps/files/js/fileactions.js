@@ -22,9 +22,51 @@
 		defaults: {},
 		icons: {},
 		currentFile: null,
+
+		/**
+		 * List of handlers to be notified whenever a register() or
+		 * setDefault() was called.
+		 */
+		_updateListeners: [],
+
 		initialize: function() {
 			this.clear();
 		},
+
+		/**
+		 * Adds an update listener to be notified whenever register()
+		 * or setDefault() has been called.
+		 *
+		 * @param Function callback
+		 */
+		addUpdateListener: function(callback) {
+			if (!_.isFunction(callback)) {
+				throw 'Argument passed to FileActions.addUpdateListener must be a function';
+			}
+			this._updateListeners.push(callback);
+		},
+
+		/**
+		 * Removes an update listener.
+		 *
+		 * @param Function callback
+		 */
+		removeUpdateListener: function(callback) {
+			if (!_.isFunction(callback)) {
+				throw 'Argument passed to FileActions.removeUpdateListener must be a function';
+			}
+			this._updateListeners = _.without(this._updateListeners, callback);
+		},
+
+		/**
+		 * Notifies the registered update listeners
+		 */
+		_notifyUpdateListeners: function() {
+			for (var i = 0; i < this._updateListeners.length; i++) {
+				this._updateListeners[i](this);
+			}
+		},
+
 		/**
 		 * Merges the actions from the given fileActions into
 		 * this instance.
@@ -59,15 +101,18 @@
 			this.actions[mime][name]['permissions'] = permissions;
 			this.actions[mime][name]['displayName'] = displayName;
 			this.icons[name] = icon;
+			this._notifyUpdateListeners();
 		},
 		clear: function() {
 			this.actions = {};
 			this.defaults = {};
 			this.icons = {};
 			this.currentFile = null;
+			this._updateListeners = [];
 		},
 		setDefault: function (mime, name) {
 			this.defaults[mime] = name;
+			this._notifyUpdateListeners();
 		},
 		get: function (mime, type, permissions) {
 			var actions = this.getActions(mime, type, permissions);
@@ -133,8 +178,7 @@
 		display: function (parent, triggerEvent, fileList) {
 			if (!fileList) {
 				console.warn('FileActions.display() MUST be called with a OCA.Files.FileList instance');
-				// using default list instead, which could be wrong
-				fileList = OCA.Files.App.fileList;
+				return;
 			}
 			this.currentFile = parent;
 			var self = this;
@@ -309,9 +353,10 @@
 				window.FileActions, mime, name, permissions, icon, action, displayName
 		);
 	};
-	window.FileActions.setDefault = function (mime, name) {
-		console.warn('FileActions.setDefault() is deprecated, please use OCA.Files.fileActions.setDefault() instead', mime, name);
-		OCA.Files.FileActions.prototype.setDefault.call(window.FileActions, mime, name);
+	window.FileActions.display = function (parent, triggerEvent, fileList) {
+		fileList = fileList || OCA.Files.App.fileList;
+		console.warn('FileActions.display() is deprecated, please use OCA.Files.fileActions.register() which automatically redisplays actions', mime, name);
+		OCA.Files.FileActions.prototype.display.call(window.FileActions, parent, triggerEvent, fileList);
 	};
 })();
 

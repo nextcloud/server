@@ -167,12 +167,22 @@
 			this.$container.on('scroll', _.bind(this._onScroll, this));
 		},
 
+		/**
+		 * Destroy / uninitialize this instance.
+		 */
+		destroy: function() {
+			// TODO: also unregister other event handlers
+			this.fileActions.removeUpdateListener(this._onFileActionsUpdated);
+		},
+
 		_initFileActions: function(fileActions) {
 			this.fileActions = fileActions;
 			if (!this.fileActions) {
 				this.fileActions = new OCA.Files.FileActions();
 				this.fileActions.registerDefaultActions();
 			}
+			this._onFileActionsUpdated = _.debounce(_.bind(this._onFileActionsUpdated, this), 100);
+			this.fileActions.addUpdateListener(this._onFileActionsUpdated);
 		},
 
 		/**
@@ -500,6 +510,18 @@
 					}
 				}, 0);
 			}
+		},
+
+		/**
+		 * Event handler for when file actions were updated.
+		 * This will refresh the file actions on the list.
+		 */
+		_onFileActionsUpdated: function() {
+			console.log('onFileActionsUpdated');
+			var self = this;
+			this.$fileList.find('tr td.filename').each(function() {
+				self.fileActions.display($(this), true, self);
+			});
 		},
 
 		/**

@@ -96,6 +96,7 @@ describe('OCA.Trashbin.FileList tests', function() {
 	});
 	afterEach(function() {
 		testFiles = undefined;
+		fileList.destroy();
 		fileList = undefined;
 
 		$('#dir').remove();
