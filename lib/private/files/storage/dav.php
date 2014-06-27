@@ -426,21 +426,7 @@ class DAV extends \OC\Files\Storage\Common {
 		$this->init();
 		$response = $this->client->propfind($this->encodePath($path), array('{http://owncloud.org/ns}permissions'));
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
-			$permissions = \OCP\PERMISSION_READ;
-			$permissionsString = $response['{http://owncloud.org/ns}permissions'];
-			if (strpos($permissionsString, 'R') !== false) {
-				$permissions |= \OCP\PERMISSION_SHARE;
-			}
-			if (strpos($permissionsString, 'D') !== false) {
-				$permissions |= \OCP\PERMISSION_DELETE;
-			}
-			if (strpos($permissionsString, 'W') !== false) {
-				$permissions |= \OCP\PERMISSION_UPDATE;
-			}
-			if (strpos($permissionsString, 'C') !== false) {
-				$permissions |= \OCP\PERMISSION_CREATE;
-			}
-			return $permissions;
+			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 		} else if ($this->is_dir($path)) {
 			return \OCP\PERMISSION_ALL;
 		} else if ($this->file_exists($path)) {
@@ -448,6 +434,27 @@ class DAV extends \OC\Files\Storage\Common {
 		} else {
 			return 0;
 		}
+	}
+
+	/**
+	 * @param string $permissionsString
+	 * @return int
+	 */
+	protected function parsePermissions($permissionsString) {
+		$permissions = \OCP\PERMISSION_READ;
+		if (strpos($permissionsString, 'R') !== false) {
+			$permissions |= \OCP\PERMISSION_SHARE;
+		}
+		if (strpos($permissionsString, 'D') !== false) {
+			$permissions |= \OCP\PERMISSION_DELETE;
+		}
+		if (strpos($permissionsString, 'W') !== false) {
+			$permissions |= \OCP\PERMISSION_UPDATE;
+		}
+		if (strpos($permissionsString, 'C') !== false) {
+			$permissions |= \OCP\PERMISSION_CREATE;
+		}
+		return $permissions;
 	}
 
 	/**
@@ -459,10 +466,22 @@ class DAV extends \OC\Files\Storage\Common {
 	 */
 	public function hasUpdated($path, $time) {
 		$this->init();
-		$response = $this->client->propfind($this->encodePath($path), array('{DAV:}getlastmodified', '{DAV:}getetag'));
+		$response = $this->client->propfind($this->encodePath($path), array(
+			'{DAV:}getlastmodified',
+			'{DAV:}getetag',
+			'{http://owncloud.org/ns}permissions'
+		));
 		if (isset($response['{DAV:}getetag'])) {
 			$cachedData = $this->getCache()->get($path);
-			return $cachedData['etag'] !== $response['{DAV:}getetag'];
+			$etag = trim($response['{DAV:}getetag'], '"');
+			if ($cachedData['etag'] !== $etag) {
+				return true;
+			} else if (isset($response['{http://owncloud.org/ns}permissions'])) {
+				$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
+				return $permissions !== $cachedData['permissions'];
+			} else {
+				return false;
+			}
 		} else {
 			$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
 			return $remoteMtime > $time;
