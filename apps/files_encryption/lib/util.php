@@ -1769,10 +1769,11 @@ class Util {
 	 * @return boolean
 	 */
 	public function isSystemWideMountPoint($path) {
+		$normalizedPath = ltrim($path, '/');
 		if (\OCP\App::isEnabled("files_external")) {
 			$mount = \OC_Mount_Config::getSystemMountPoints();
 			foreach ($mount as $mountPoint => $data) {
-				if ($mountPoint == substr($path, 1, strlen($mountPoint))) {
+				if ($mountPoint == substr($normalizedPath, 0, strlen($mountPoint))) {
 					return true;
 				}
 			}
