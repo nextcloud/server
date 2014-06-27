@@ -24,7 +24,7 @@ function updatePrivateKeyPasswd() {
 $(document).ready(function(){
 
 	// Trigger ajax on recoveryAdmin status change
-	$( 'input:radio[name="userEnableRecovery"]' ).change( 
+	$( 'input:radio[name="userEnableRecovery"]' ).change(
 		function() {
 			
 			// Hide feedback messages in case they're already visible
@@ -33,7 +33,7 @@ $(document).ready(function(){
 			
 			var recoveryStatus = $( this ).val();
 			
-			$.post( 
+			$.post(
 				OC.filePath( 'files_encryption', 'ajax', 'userrecovery.php' )
 				, { userEnableRecovery: recoveryStatus }
 				,  function( data ) {
@@ -49,7 +49,7 @@ $(document).ready(function(){
 		}
 	);
 	
-	$("#encryptAll").click( 
+	$("#encryptAll").click(
 		function(){
 			
 			// Hide feedback messages in case they're already visible
@@ -59,7 +59,7 @@ $(document).ready(function(){
 			var userPassword = $( '#userPassword' ).val();
 			var encryptAll = $( '#encryptAll' ).val();
 
-			$.post( 
+			$.post(
 				OC.filePath( 'files_encryption', 'ajax', 'encryptall.php' )
 				, { encryptAll: encryptAll, userPassword: userPassword }
 				,  function( data ) {
