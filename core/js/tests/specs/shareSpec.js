@@ -96,7 +96,6 @@ describe('OC.Share tests', function() {
 		describe('Share with link', function() {
 			// TODO: test ajax calls
 			// TODO: test password field visibility (whenever enforced or not)
-			// TODO: check public upload visibility based on config
 			it('shows share with link checkbox when allowed', function() {
 				$('#allowShareWithLink').val('yes');
 				OC.Share.showDropDown(
@@ -120,6 +119,151 @@ describe('OC.Share tests', function() {
 					'shared_file_name.txt'
 				);
 				expect($('#dropdown #linkCheckbox').length).toEqual(0);
+			});
+			it('shows populated link share when a link share exists', function() {
+				loadItemStub.returns({
+					reshare: [],
+					/* jshint camelcase: false */
+					shares: [{
+						displayname_owner: 'root',
+						expiration: null,
+						file_source: 123,
+						file_target: '/folder',
+						id: 20,
+						item_source: '123',
+						item_type: 'folder',
+						mail_send: '0',
+						parent: null,
+						path: '/folder',
+						permissions: OC.PERMISSION_READ,
+						share_type: OC.Share.SHARE_TYPE_LINK,
+						share_with: null,
+						stime: 1403884258,
+						storage: 1,
+						token: 'tehtoken',
+						uid_owner: 'root'
+					}]
+				});
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'folder'
+				);
+				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(true);
+				// this is how the OC.Share class does it...
+				var link = parent.location.protocol + '//' + location.host +
+					OC.linkTo('', 'public.php')+'?service=files&t=tehtoken';
+				expect($('#dropdown #linkText').val()).toEqual(link);
+			});
+			it('does not show populated link share when a link share exists for a different file', function() {
+				loadItemStub.returns({
+					reshare: [],
+					/* jshint camelcase: false */
+					shares: [{
+						displayname_owner: 'root',
+						expiration: null,
+						file_source: 123,
+						file_target: '/folder',
+						id: 20,
+						item_source: '123',
+						item_type: 'folder',
+						mail_send: '0',
+						parent: null,
+						path: '/folder',
+						permissions: OC.PERMISSION_READ,
+						share_type: OC.Share.SHARE_TYPE_LINK,
+						share_with: null,
+						stime: 1403884258,
+						storage: 1,
+						token: 'tehtoken',
+						uid_owner: 'root'
+					}]
+				});
+				OC.Share.showDropDown(
+					'file',
+					456, // another file
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'folder'
+				);
+				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(false);
+			});
+			it('shows correct link share when a nest link share exists along with parent one', function() {
+				loadItemStub.returns({
+					reshare: [],
+					/* jshint camelcase: false */
+					shares: [{
+						displayname_owner: 'root',
+						expiration: null,
+						file_source: 123,
+						file_target: '/folder',
+						id: 20,
+						item_source: '123',
+						item_type: 'file',
+						mail_send: '0',
+						parent: null,
+						path: '/folder',
+						permissions: OC.PERMISSION_READ,
+						share_type: OC.Share.SHARE_TYPE_LINK,
+						share_with: null,
+						stime: 1403884258,
+						storage: 1,
+						token: 'tehtoken',
+						uid_owner: 'root'
+					}, {
+						displayname_owner: 'root',
+						expiration: null,
+						file_source: 456,
+						file_target: '/file_in_folder.txt',
+						id: 21,
+						item_source: '456',
+						item_type: 'file',
+						mail_send: '0',
+						parent: null,
+						path: '/folder/file_in_folder.txt',
+						permissions: OC.PERMISSION_READ,
+						share_type: OC.Share.SHARE_TYPE_LINK,
+						share_with: null,
+						stime: 1403884509,
+						storage: 1,
+						token: 'anothertoken',
+						uid_owner: 'root'
+					}]
+				});
+
+				// parent one
+				OC.Share.showDropDown(
+					'folder',
+					123,
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'folder'
+				);
+				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(true);
+				// this is how the OC.Share class does it...
+				var link = parent.location.protocol + '//' + location.host +
+					OC.linkTo('', 'public.php')+'?service=files&t=tehtoken';
+				expect($('#dropdown #linkText').val()).toEqual(link);
+
+				// nested one
+				OC.Share.showDropDown(
+					'file',
+					456,
+					$container,
+					'http://localhost/dummylink',
+					31,
+					'file_in_folder.txt'
+				);
+				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(true);
+				// this is how the OC.Share class does it...
+				link = parent.location.protocol + '//' + location.host +
+					OC.linkTo('', 'public.php')+'?service=files&t=anothertoken';
+				expect($('#dropdown #linkText').val()).toEqual(link);
 			});
 		});
 		describe('"sharesChanged" event', function() {

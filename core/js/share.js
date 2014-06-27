@@ -620,6 +620,7 @@ OC.Share={
 				var file = $('#dir').val() + '/' + filename;
 			}
 			file = '/'+OC.currentUser+'/files'+file;
+			// TODO: use oc webroot ?
 			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
 		} else {
 			//TODO add path param when showing a link to file in a subfolder of a public link share
@@ -630,6 +631,7 @@ OC.Share={
 				service=linkSharetype;
 			}
 
+			// TODO: use oc webroot ?
 			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
 
 		}
