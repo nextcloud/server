@@ -374,7 +374,7 @@ OC.Share={
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
 					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
-						if ( !('file_target' in share) ) {
+						if (itemSource === share.file_source || itemSource === share.item_source) {
 							OC.Share.showLink(share.token, share.share_with, itemSource);
 						}
 					} else {
