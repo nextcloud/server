@@ -179,9 +179,20 @@ OC.Upload = {
 		callbacks.onNoConflicts(selection);
 	},
 
+	_hideProgressBar: function() {
+		$('#uploadprogresswrapper input.stop').fadeOut();
+		$('#uploadprogressbar').fadeOut(function() {
+			$('#file_upload_start').trigger(new $.Event('resized'));
+		});
+	},
+
+	_showProgressBar: function() {
+		$('#uploadprogressbar').fadeIn();
+		$('#file_upload_start').trigger(new $.Event('resized'));
+	},
+
 	init: function() {
 		if ( $('#file_upload_start').exists() ) {
-
 			var file_upload_param = {
 				dropZone: $('#content'), // restrict dropZone to content div
 				autoUpload: false,
@@ -444,7 +455,7 @@ OC.Upload = {
 					OC.Upload.log('progress handle fileuploadstart', e, data);
 					$('#uploadprogresswrapper input.stop').show();
 					$('#uploadprogressbar').progressbar({value: 0});
-					$('#uploadprogressbar').fadeIn();
+					OC.Upload._showProgressBar();
 				});
 				fileupload.on('fileuploadprogress', function(e, data) {
 					OC.Upload.log('progress handle fileuploadprogress', e, data);
@@ -458,15 +469,13 @@ OC.Upload = {
 				fileupload.on('fileuploadstop', function(e, data) {
 					OC.Upload.log('progress handle fileuploadstop', e, data);
 
-					$('#uploadprogresswrapper input.stop').fadeOut();
-					$('#uploadprogressbar').fadeOut();
+					OC.Upload._hideProgressBar();
 				});
 				fileupload.on('fileuploadfail', function(e, data) {
 					OC.Upload.log('progress handle fileuploadfail', e, data);
 					//if user pressed cancel hide upload progress bar and cancel button
 					if (data.errorThrown === 'abort') {
-						$('#uploadprogresswrapper input.stop').fadeOut();
-						$('#uploadprogressbar').fadeOut();
+						OC.Upload._hideProgressBar();
 					}
 				});
 
@@ -649,7 +658,7 @@ OC.Upload = {
 							//IE < 10 does not fire the necessary events for the progress bar.
 							if ($('html.lte9').length === 0) {
 								$('#uploadprogressbar').progressbar({value: 0});
-								$('#uploadprogressbar').fadeIn();
+								OC.Upload._showProgressBar();
 							}
 
 							var eventSource = new OC.EventSource(
@@ -668,12 +677,12 @@ OC.Upload = {
 							});
 							eventSource.listen('success', function(data) {
 								var file = data;
-								$('#uploadprogressbar').fadeOut();
+								OC.Upload._hideProgressBar();
 
 								FileList.add(file, {hidden: hidden, animate: true});
 							});
 							eventSource.listen('error', function(error) {
-								$('#uploadprogressbar').fadeOut();
+								OC.Upload._hideProgressBar();
 								var message = (error && error.message) || t('core', 'Error fetching URL');
 								OC.Notification.show(message);
 								//hide notification after 10 sec

@@ -110,7 +110,6 @@
 	min-width: initial !important;
 	left: 0 !important;
 	padding-left: 0;
-	padding-right: 0 !important;
 }
 /* position controls for apps with app-navigation */
 #app-navigation+#app-content #controls {

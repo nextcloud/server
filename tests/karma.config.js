@@ -110,15 +110,16 @@ module.exports = function(config) {
 	// core mocks
 	files.push(corePath + 'tests/specHelper.js');
 
+	var srcFile, i;
 	// add core library files
-	for ( var i = 0; i < coreModule.libraries.length; i++ ) {
-		var srcFile = corePath + coreModule.libraries[i];
+	for ( i = 0; i < coreModule.libraries.length; i++ ) {
+		srcFile = corePath + coreModule.libraries[i];
 		files.push(srcFile);
 	}
 
 	// add core modules files
-	for ( var i = 0; i < coreModule.modules.length; i++ ) {
-		var srcFile = corePath + coreModule.modules[i];
+	for ( i = 0; i < coreModule.modules.length; i++ ) {
+		srcFile = corePath + coreModule.modules[i];
 		files.push(srcFile);
 		if (enableCoverage) {
 			preprocessors[srcFile] = 'coverage';
@@ -155,12 +156,15 @@ module.exports = function(config) {
 	}
 
 	// add source files for apps to test
-	for ( var i = 0; i < appsToTest.length; i++ ) {
+	for ( i = 0; i < appsToTest.length; i++ ) {
 		addApp(appsToTest[i]);
 	}
 
 	// serve images to avoid warnings
 	files.push({pattern: 'core/img/**/*', watched: false, included: false, served: true});
+	
+	// include core CSS
+	files.push({pattern: 'core/css/*.css', watched: true, included: true, served: true});
 
 	config.set({
 
@@ -180,7 +184,9 @@ module.exports = function(config) {
 
 		proxies: {
 			// prevent warnings for images
-			'/context.html//core/img/': 'http://localhost:9876/base/core/img/'
+			'/context.html//core/img/': 'http://localhost:9876/base/core/img/',
+			'/context.html//core/css/': 'http://localhost:9876/base/core/css/',
+			'/context.html//core/fonts/': 'http://localhost:9876/base/core/fonts/'
 		},
 
 		// test results reporter to use

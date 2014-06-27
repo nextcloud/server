@@ -85,7 +85,7 @@ window.Snap.prototype = {
 	beforeEach(function() {
 		// test area for elements that need absolute selector access or measure widths/heights
 		// which wouldn't work for detached or hidden elements
-		$testArea = $('<div id="testArea" style="position: absolute; width: 1280px; height: 800px; top: -3000px; left: -3000px;"></div>');
+		$testArea = $('<div id="testArea" style="position: absolute; width: 1280px; height: 800px; top: -3000px; left: -3000px; opacity: 0;"></div>');
 		$('body').append($testArea);
 		// enforce fake XHR, tests should not depend on the server and
 		// must use fake responses for expected calls

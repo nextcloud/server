@@ -41,8 +41,9 @@
 		$el: null,
 		dir: null,
 
-		lastWidth: 0,
-		hiddenBreadcrumbs: 0,
+		/**
+		 * Total width of all breadcrumbs
+		 */
 		totalWidth: 0,
 		breadcrumbs: [],
 		onClick: null,
@@ -116,7 +117,6 @@
 			}
 
 			this._updateTotalWidth();
-			this.resize($(window).width(), true);
 		},
 
 		/**
@@ -150,93 +150,93 @@
 			return crumbs;
 		},
 
+		/**
+		 * Calculate the total breadcrumb width when
+		 * all crumbs are expanded
+		 */
 		_updateTotalWidth: function () {
-			var self = this;
-
-			this.lastWidth = 0;
-
-			// initialize with some extra space
-			this.totalWidth = 64;
-			// FIXME: this class should not know about global elements
-			if ( $('#navigation').length ) {
-				this.totalWidth += $('#navigation').outerWidth();
-			}
-
-			if ( $('#app-navigation').length && !$('#app-navigation').hasClass('hidden')) {
-				this.totalWidth += $('#app-navigation').outerWidth();
-			}
-			this.hiddenBreadcrumbs = 0;
-
+			this.totalWidth = 0;
 			for (var i = 0; i < this.breadcrumbs.length; i++ ) {
-				this.totalWidth += $(this.breadcrumbs[i]).get(0).offsetWidth;
+				var $crumb = $(this.breadcrumbs[i]);
+				$crumb.data('real-width', $crumb.width());
+				this.totalWidth += $crumb.width();
 			}
-
-			$.each($('#controls .actions'), function(index, action) {
-				self.totalWidth += $(action).outerWidth();
-			});
-
+			this._resize();
 		},
 
 		/**
 		 * Show/hide breadcrumbs to fit the given width
 		 */
-		resize: function (width, firstRun) {
-			var i, $crumb;
+		setMaxWidth: function (availableWidth) {
+			if (this.availableWidth !== availableWidth) {
+				this.availableWidth = availableWidth;
+				this._resize();
+			}
+		},
 
-			if (width === this.lastWidth) {
+		_resize: function() {
+			var i, $crumb, $ellipsisCrumb;
+
+			if (!this.availableWidth) {
+				this.availableWidth = this.$el.width();
+			}
+
+			if (this.breadcrumbs.length <= 1) {
 				return;
 			}
 
-			// window was shrinked since last time or first run ?
-			if ((width < this.lastWidth || firstRun) && width < this.totalWidth) {
-				if (this.hiddenBreadcrumbs === 0 && this.breadcrumbs.length > 1) {
-					// start by hiding the first breadcrumb after home,
-					// that one will have extra three dots displayed
-					$crumb = this.breadcrumbs[1];
-					this.totalWidth -= $crumb.get(0).offsetWidth;
-					$crumb.find('a').addClass('hidden');
-					$crumb.append('<span class="ellipsis">...</span>');
-					this.totalWidth += $crumb.get(0).offsetWidth;
-					this.hiddenBreadcrumbs = 2;
-				}
-				i = this.hiddenBreadcrumbs;
-				// hide subsequent breadcrumbs if the space is still not enough
-				while (width < this.totalWidth && i > 1 && i < this.breadcrumbs.length - 1) {
-					$crumb = this.breadcrumbs[i];
-					this.totalWidth -= $crumb.get(0).offsetWidth;
-					$crumb.addClass('hidden');
-					this.hiddenBreadcrumbs = i;
-					i++;
-				}
-			// window is bigger than last time
-			} else if (width > this.lastWidth && this.hiddenBreadcrumbs > 0) {
-				i = this.hiddenBreadcrumbs;
-				while (width > this.totalWidth && i > 0) {
-					if (this.hiddenBreadcrumbs === 1) {
-						// special handling for last one as it has the three dots
-						$crumb = this.breadcrumbs[1];
-						if ($crumb) {
-							this.totalWidth -= $crumb.get(0).offsetWidth;
-							$crumb.find('.ellipsis').remove();
-							$crumb.find('a').removeClass('hidden');
-							this.totalWidth += $crumb.get(0).offsetWidth;
-						}
-					} else {
-						$crumb = this.breadcrumbs[i];
-						$crumb.removeClass('hidden');
-						this.totalWidth += $crumb.get(0).offsetWidth;
-						if (this.totalWidth > width) {
-							this.totalWidth -= $crumb.get(0).offsetWidth;
-							$crumb.addClass('hidden');
-							break;
-						}
-					}
-					i--;
-					this.hiddenBreadcrumbs = i;
-				}
+			// reset crumbs
+			this.$el.find('.crumb.ellipsized').remove();
+
+			// unhide all
+			this.$el.find('.crumb.hidden').removeClass('hidden');
+
+			if (this.totalWidth <= this.availableWidth) {
+				// no need to compute breadcrumbs, there is enough space
+				return;
 			}
 
-			this.lastWidth = width;
+			// running width, considering the hidden crumbs
+			var currentTotalWidth = $(this.breadcrumbs[0]).data('real-width');
+			var firstHidden = true;
+
+			// insert ellipsis after root part (root part is always visible)
+			$ellipsisCrumb = $('<div class="crumb ellipsized svg"><span class="ellipsis">...</span></div>');
+			$(this.breadcrumbs[0]).after($ellipsisCrumb);
+			currentTotalWidth += $ellipsisCrumb.width();
+
+			i = this.breadcrumbs.length - 1;
+
+			// find the first section that would cause the overflow
+			// then hide everything in front of that
+			//
+			// this ensures that the last crumb section stays visible
+			// for most of the cases and is always the last one to be
+			// hidden when the screen becomes very narrow
+			while (i > 0) {
+				$crumb = $(this.breadcrumbs[i]);
+				// if the current breadcrumb would cause overflow
+				if (!firstHidden || currentTotalWidth + $crumb.data('real-width') > this.availableWidth) {
+					// hide it
+					$crumb.addClass('hidden');
+					if (firstHidden) {
+						// set the path of this one as title for the ellipsis
+						this.$el.find('.crumb.ellipsized')
+							.attr('title', $crumb.attr('data-dir'))
+							.tipsy();
+					}
+					// and all the previous ones (going backwards)
+					firstHidden = false;
+				} else {
+					// add to total width
+					currentTotalWidth += $crumb.data('real-width');
+				}
+				i--;
+			}
+
+			if (!OC.Util.hasSVGSupport()) {
+				OC.Util.replaceSVG(this.$el);
+			}
 		}
 	};
 

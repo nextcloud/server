@@ -21,6 +21,7 @@
 
 describe('OCA.Files.FileList tests', function() {
 	var testFiles, alertStub, notificationStub, fileList;
+	var bcResizeStub;
 
 	/**
 	 * Generate test file data
@@ -52,6 +53,9 @@ describe('OCA.Files.FileList tests', function() {
 	beforeEach(function() {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
 		notificationStub = sinon.stub(OC.Notification, 'show');
+		// prevent resize algo to mess up breadcrumb order while
+		// testing
+		bcResizeStub = sinon.stub(OCA.Files.BreadCrumb.prototype, '_resize');
 
 		// init parameters and test table elements
 		$('#testArea').append(
@@ -125,6 +129,7 @@ describe('OCA.Files.FileList tests', function() {
 
 		notificationStub.restore();
 		alertStub.restore();
+		bcResizeStub.restore();
 	});
 	describe('Getters', function() {
 		it('Returns the current directory', function() {

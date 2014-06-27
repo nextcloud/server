@@ -150,11 +150,10 @@
 
 			this.$el.find('thead th .columntitle').click(_.bind(this._onClickHeader, this));
 
-			$(window).resize(function() {
-				// TODO: debounce this ?
-				var width = $(this).width();
-				self.breadcrumb.resize(width, false);
-			});
+			this._onResize = _.debounce(_.bind(this._onResize, this), 100);
+			$(window).resize(this._onResize);
+
+			this.$el.on('show', this._onResize);
 
 			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
 			this.$fileList.on('change', 'td.filename>input:checkbox', _.bind(this._onClickFileCheckbox, this));
@@ -174,6 +173,22 @@
 				this.fileActions = new OCA.Files.FileActions();
 				this.fileActions.registerDefaultActions();
 			}
+		},
+
+		/**
+		 * Event handler for when the window size changed
+		 */
+		_onResize: function() {
+			var containerWidth = this.$el.width();
+			var actionsWidth = 0;
+			$.each(this.$el.find('#controls .actions'), function(index, action) {
+				actionsWidth += $(action).outerWidth();
+			});
+
+			// substract app navigation toggle when visible
+			containerWidth -= $('#app-navigation-toggle').width();
+
+			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
 		},
 
 		/**
@@ -1537,6 +1552,9 @@
 
 			// handle upload events
 			var fileUploadStart = this.$el.find('#file_upload_start');
+
+			// detect the progress bar resize
+			fileUploadStart.on('resized', this._onResize);
 
 			fileUploadStart.on('fileuploaddrop', function(e, data) {
 				OC.Upload.log('filelist handle fileuploaddrop', e, data);
