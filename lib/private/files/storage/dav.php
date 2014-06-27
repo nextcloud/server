@@ -451,8 +451,9 @@ class DAV extends \OC\Files\Storage\Common {
 		if (strpos($permissionsString, 'W') !== false) {
 			$permissions |= \OCP\PERMISSION_UPDATE;
 		}
-		if (strpos($permissionsString, 'C') !== false) {
+		if (strpos($permissionsString, 'CK') !== false) {
 			$permissions |= \OCP\PERMISSION_CREATE;
+			$permissions |= \OCP\PERMISSION_UPDATE;
 		}
 		return $permissions;
 	}
