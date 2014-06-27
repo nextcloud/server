@@ -279,6 +279,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	/**
 	 * check if a file or folder has been updated since $time
 	 *
+	 * The method is only used to check if the cache needs to be updated. Storage backends that don't support checking
+	 * the mtime should always return false here. As a result storage implementations that always return false expect
+	 * exclusive access to the backend and will not pick up files that have been added in a way that circumvents
+	 * ownClouds filesystem.
+	 *
 	 * @param string $path
 	 * @param int $time
 	 * @return bool

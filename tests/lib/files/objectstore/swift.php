@@ -77,7 +77,30 @@ class Swift extends \Test\Files\Storage\Storage {
 		}
 		$this->objectStorage->deleteContainer(true);
 		$this->instance->getCache()->clear();
-		//TODO how do I clear hooks?
+	}
+
+	public function testStat() {
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$ctimeStart = time();
+		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
+		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
+		$ctimeEnd = time();
+		$mTime = $this->instance->filemtime('/lorem.txt');
+
+		// check that ($ctimeStart - 5) <= $mTime <= ($ctimeEnd + 1)
+		$this->assertGreaterThanOrEqual(($ctimeStart - 5), $mTime);
+		$this->assertLessThanOrEqual(($ctimeEnd + 1), $mTime);
+		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
+
+		$stat = $this->instance->stat('/lorem.txt');
+		//only size and mtime are required in the result
+		$this->assertEquals($stat['size'], $this->instance->filesize('/lorem.txt'));
+		$this->assertEquals($stat['mtime'], $mTime);
+
+		if ($this->instance->touch('/lorem.txt', 100) !== false) {
+			$mTime = $this->instance->filemtime('/lorem.txt');
+			$this->assertEquals($mTime, 100);
+		}
 	}
 
 }
