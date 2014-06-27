@@ -21,7 +21,7 @@
 
 describe('OCA.Files.FileActions tests', function() {
 	var $filesTable, fileList;
-	var FileActions; 
+	var FileActions;
 
 	beforeEach(function() {
 		// init horrible parameters
@@ -36,6 +36,7 @@ describe('OCA.Files.FileActions tests', function() {
 	});
 	afterEach(function() {
 		FileActions = null;
+		fileList.destroy();
 		fileList = undefined;
 		$('#dir, #permissions, #filestable').remove();
 	});
@@ -191,5 +192,55 @@ describe('OCA.Files.FileActions tests', function() {
 		$tr.find('.action-test').click();
 		context = actionStub.getCall(0).args[1];
 		expect(context.dir).toEqual('/somepath');
+	});
+	describe('events', function() {
+		var clock;
+		beforeEach(function() {
+			clock = sinon.useFakeTimers();
+		});
+		afterEach(function() {
+			clock.restore();
+		});
+		it('notifies update event handlers once after multiple changes', function() {
+			var actionStub = sinon.stub();
+			var handler = sinon.stub();
+			FileActions.addUpdateListener(handler);
+			FileActions.register(
+					'all',
+					'Test',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub
+			);
+			FileActions.register(
+					'all',
+					'Test2',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub
+			);
+			expect(handler.calledTwice).toEqual(true);
+		});
+		it('does not notifies update event handlers after unregistering', function() {
+			var actionStub = sinon.stub();
+			var handler = sinon.stub();
+			FileActions.addUpdateListener(handler);
+			FileActions.removeUpdateListener(handler);
+			FileActions.register(
+					'all',
+					'Test',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub
+			);
+			FileActions.register(
+					'all',
+					'Test2',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub
+			);
+			expect(handler.notCalled).toEqual(true);
+		});
 	});
 });

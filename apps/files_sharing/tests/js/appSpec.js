@@ -47,6 +47,8 @@ describe('OCA.Sharing.App tests', function() {
 	afterEach(function() {
 		App._inFileList = null;
 		App._outFileList = null;
+		fileListIn.destroy();
+		fileListOut.destroy();
 		fileListIn = null;
 		fileListOut = null;
 	});

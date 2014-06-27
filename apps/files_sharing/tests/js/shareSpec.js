@@ -70,6 +70,8 @@ describe('OCA.Sharing.Util tests', function() {
 		OCA.Files.FileList.prototype = oldFileListPrototype;
 		delete OCA.Sharing.sharesLoaded;
 		delete OC.Share.droppedDown;
+		fileList.destroy();
+		fileList = null;
 		OC.Share.statuses = {};
 		OC.Share.currentShares = {};
 	});

@@ -55,6 +55,7 @@ describe('OCA.Sharing.FileList tests', function() {
 	afterEach(function() {
 		OCA.Files.FileList.prototype = oldFileListPrototype;
 		testFiles = undefined;
+		fileList.destroy();
 		fileList = undefined;
 		fileActions = undefined;
 

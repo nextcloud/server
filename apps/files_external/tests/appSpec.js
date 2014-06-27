@@ -42,6 +42,7 @@ describe('OCA.External.App tests', function() {
 	});
 	afterEach(function() {
 		App.fileList = null;
+		fileList.destroy();
 		fileList = null;
 	});
 

@@ -32,6 +32,10 @@
 			// regular actions
 			fileActions.merge(OCA.Files.fileActions);
 
+			// in case apps would decide to register file actions later,
+			// replace the global object with this one
+			OCA.Files.fileActions = fileActions;
+
 			this.files = OCA.Files.Files;
 
 			// TODO: ideally these should be in a separate class / app (the embedded "all files" app)
