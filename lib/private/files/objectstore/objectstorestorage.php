@@ -62,7 +62,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$dirName = dirname($path);
+		$dirName = $this->normalizePath(dirname($path));
 		$parentExists = $this->is_dir($dirName);
 
 		$mTime = time();
@@ -75,11 +75,16 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			'permissions' => \OCP\PERMISSION_ALL,
 		);
 
-		if ($dirName === '.' && !$parentExists) {
+		if ($dirName === '' && !$parentExists) {
 			//create root on the fly
-			$data['etag'] = $this->getETag($dirName);
+			$data['etag'] = $this->getETag('');
 			$this->getCache()->put('', $data);
 			$parentExists = true;
+
+			// we are done when the root folder was meant to be created
+			if  ($dirName === $path) {
+				return true;
+			}
 		}
 
 		if ($parentExists) {
@@ -99,8 +104,9 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		//FIXME why do we sometimes get a path like 'files//username'?
 		$path = str_replace('//', '/', $path);
 
-		if (!$path) {
-			$path = '.';
+		// dirname('/folder') returns '.' but internally (in the cache) we store the root as ''
+		if (!$path || $path === '.') {
+			$path = '';
 		}
 
 		return $path;
@@ -199,10 +205,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function opendir($path) {
 		$path = $this->normalizePath($path);
-
-		if ($path === '.') {
-			$path = '';
-		}
 
 		try {
 			$files = array();
