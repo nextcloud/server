@@ -40,6 +40,12 @@ table td.filename .nametext {
 	opacity: .2 !important;
 	display: inline !important;
 }
+/* show share action of shared items darker to distinguish from non-shared */
+#fileList a.action.permanent {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)" !important;
+	filter: alpha(opacity=70) !important;
+	opacity: .7 !important;
+}
 /* do not show Rename or Versions on mobile */
 #fileList .action.action-rename,
 #fileList .action.action-versions {
