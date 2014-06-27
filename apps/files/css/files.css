@@ -437,9 +437,9 @@ a.action>img {
 }
 
 #fileList a.action[data-action="Rename"] {
-	padding:18px 14px !important;
+	padding: 16px 14px 17px !important;
 	position: relative;
-	top: -6px;
+	top: -21px;
 }
 #fileList tr:hover a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
