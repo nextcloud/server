@@ -179,20 +179,22 @@ class OC {
 	}
 
 	public static function checkConfig() {
+		$l = OC_L10N::get('lib');
 		if (file_exists(self::$configDir . "/config.php")
 			and !is_writable(self::$configDir . "/config.php")
 		) {
 			if (self::$CLI) {
-				echo "Can't write into config directory!\n";
-				echo "This can usually be fixed by giving the webserver write access to the config directory\n";
+				echo $l->t('Cannot write into "config" directory!')."\n";
+				echo $l->t('This can usually be fixed by giving the webserver write access to the config directory')."\n";
 				echo "\n";
-				echo "See " . \OC_Helper::linkToDocs('admin-dir_permissions') . "\n";
+				echo $l->t('See %s', array(\OC_Helper::linkToDocs('admin-dir_permissions')))."\n";
 				exit;
 			} else {
 				OC_Template::printErrorPage(
-					"Can't write into config directory!",
-					'This can usually be fixed by '
-					. '<a href="' . \OC_Helper::linkToDocs('admin-dir_permissions') . '" target="_blank">giving the webserver write access to the config directory</a>.'
+					$l->t('Cannot write into "config" directory!'),
+					$l->t('This can usually be fixed by '
+					. '%sgiving the webserver write access to the config directory%s.',
+					 array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'))
 				);
 			}
 		}

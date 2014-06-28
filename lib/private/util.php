@@ -374,6 +374,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
+		$l = OC_L10N::get('lib');
 		$errors = array();
 		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -394,24 +395,24 @@ class OC_Util {
 			and !is_callable('pg_connect')
 			and !is_callable('oci_connect')) {
 			$errors[] = array(
-				'error'=>'No database drivers (sqlite, mysql, or postgresql) installed.',
+				'error'=> $l->t('No database drivers (sqlite, mysql, or postgresql) installed.'),
 				'hint'=>'' //TODO: sane hint
 			);
 			$webServerRestart = true;
 		}
 
 		//common hint for all file permissions error messages
-		$permissionsHint = 'Permissions can usually be fixed by '
-			.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
-			.'" target="_blank">giving the webserver write access to the root directory</a>.';
+		$permissionsHint = $l->t('Permissions can usually be fixed by '
+			.'%sgiving the webserver write access to the root directory%s.',
+			array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'));
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$configDir) or !is_readable(OC::$configDir)) {
 			$errors[] = array(
-				'error' => "Can't write into config directory",
-				'hint' => 'This can usually be fixed by '
-					.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
-					.'" target="_blank">giving the webserver write access to the config directory</a>.'
+				'error' => $l->t('Cannot write into "config" directory'),
+				'hint' => $l->t('This can usually be fixed by '
+					  .'%sgiving the webserver write access to the config directory%s.',
+					  array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'))
 				);
 		}
 
@@ -421,11 +422,11 @@ class OC_Util {
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath()) ) {
 				$errors[] = array(
-					'error' => "Can't write into apps directory",
-					'hint' => 'This can usually be fixed by '
-						.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
-						.'" target="_blank">giving the webserver write access to the apps directory</a> '
-						.'or disabling the appstore in the config file.'
+					'error' => $l->t('Cannot write into "apps" directory'),
+					'hint' => $l->t('This can usually be fixed by '
+						  .'%sgiving the webserver write access to the apps directory%s'
+						  .' or disabling the appstore in the config file.',
+						  array('<a href="'.\OC_Helper::linkToDocs('admin-dir_permissions').'" target="_blank">', '</a>'))
 					);
 			}
 		}
@@ -436,11 +437,11 @@ class OC_Util {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			} else {
 				$errors[] = array(
-					'error' => "Can't create data directory (".$CONFIG_DATADIRECTORY.")",
-					'hint' => 'This can usually be fixed by '
-					.'<a href="' . OC_Helper::linkToDocs('admin-dir_permissions')
-					.'" target="_blank">giving the webserver write access to the root directory</a>.'
-				);
+					'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
+					'hint' => $l->t('This can usually be fixed by '
+						  .'<a href="%s" target="_blank">giving the webserver write access to the root directory</a>.',
+						  array(OC_Helper::linkToDocs('admin-dir_permissions')))
+					);
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[] = array(
@@ -453,30 +454,32 @@ class OC_Util {
 
 		if(!OC_Util::isSetLocaleWorking()) {
 			$errors[] = array(
-				'error' => 'Setting locale to en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8 failed',
-				'hint' => 'Please install one of theses locales on your system and restart your webserver.'
+				'error' => $l->t('Setting locale to %s failed',
+				array('en_US.UTF-8/fr_FR.UTF-8/es_ES.UTF-8/de_DE.UTF-8/ru_RU.UTF-8/'
+				     .'pt_BR.UTF-8/it_IT.UTF-8/ja_JP.UTF-8/zh_CN.UTF-8')),
+				'hint' => $l->t('Please install one of theses locales on your system and restart your webserver.')
 			);
 		}
 
-		$moduleHint = "Please ask your server administrator to install the module.";
+		$moduleHint = $l->t('Please ask your server administrator to install the module.');
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
 			$errors[] = array(
-				'error'=>'PHP module zip not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('zip')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(!class_exists('DOMDocument')) {
 			$errors[] = array(
-				'error' => 'PHP module dom not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('dom')),
 				'hint' => $moduleHint
 			);
 			$webServerRestart =true;
 		}
 		if(!function_exists('xml_parser_create')) {
 			$errors[] = array(
-				'error' => 'PHP module libxml not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('libxml')),
 				'hint' => $moduleHint
 			);
 			$webServerRestart = true;
@@ -490,57 +493,57 @@ class OC_Util {
 		}
 		if(!function_exists('ctype_digit')) {
 			$errors[] = array(
-				'error'=>'PHP module ctype is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('ctype')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(!function_exists('json_encode')) {
 			$errors[] = array(
-				'error'=>'PHP module JSON is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('JSON')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
 			$errors[] = array(
-				'error'=>'PHP module GD is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('GD')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(!function_exists('gzencode')) {
 			$errors[] = array(
-				'error'=>'PHP module zlib is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('zlib')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(!function_exists('iconv')) {
 			$errors[] = array(
-				'error'=>'PHP module iconv is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('iconv')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(!function_exists('simplexml_load_string')) {
 			$errors[] = array(
-				'error'=>'PHP module SimpleXML is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('SimpleXML')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
 		}
 		if(version_compare(phpversion(), '5.3.3', '<')) {
 			$errors[] = array(
-				'error'=>'PHP 5.3.3 or higher is required.',
-				'hint'=>'Please ask your server administrator to update PHP to the latest version.'
-					.' Your PHP version is no longer supported by ownCloud and the PHP community.'
+				'error'=> $l->t('PHP %s or higher is required.', '5.3.3'),
+				'hint'=> $l->t('Please ask your server administrator to update PHP to the latest version.'
+					.' Your PHP version is no longer supported by ownCloud and the PHP community.')
 			);
 			$webServerRestart = true;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
 			$errors[] = array(
-				'error'=>'PHP PDO module is not installed.',
+				'error'=> $l->t('PHP module %s not installed.', array('PDO')),
 				'hint'=>$moduleHint
 			);
 			$webServerRestart = true;
@@ -550,17 +553,17 @@ class OC_Util {
 			|| (strtolower(@ini_get('safe_mode')) == 'true')
 			|| (ini_get("safe_mode") == 1 ))) {
 			$errors[] = array(
-				'error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.',
-				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. '
-					.'Please ask your server administrator to disable it in php.ini or in your webserver config.'
+				'error'=> $l->t('PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.'),
+				'hint'=> $l->t('PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. '
+					.'Please ask your server administrator to disable it in php.ini or in your webserver config.')
 			);
 			$webServerRestart = true;
 		}
 		if (get_magic_quotes_gpc() == 1 ) {
 			$errors[] = array(
-				'error'=>'Magic Quotes is enabled. ownCloud requires that it is disabled to work properly.',
-				'hint'=>'Magic Quotes is a deprecated and mostly useless setting that should be disabled. '
-					.'Please ask your server administrator to disable it in php.ini or in your webserver config.'
+				'error'=> $l->t('Magic Quotes is enabled. ownCloud requires that it is disabled to work properly.'),
+				'hint'=> $l->t('Magic Quotes is a deprecated and mostly useless setting that should be disabled. '
+					.'Please ask your server administrator to disable it in php.ini or in your webserver config.')
 			);
 			$webServerRestart = true;
 		}
@@ -573,8 +576,8 @@ class OC_Util {
 
 		if($webServerRestart) {
 			$errors[] = array(
-				'error'=>'PHP modules have been installed, but they are still listed as missing?',
-				'hint'=>'Please ask your server administrator to restart the web server.'
+				'error'=> $l->t('PHP modules have been installed, but they are still listed as missing?'),
+				'hint'=> $l->t('Please ask your server administrator to restart the web server.')
 			);
 		}
 
@@ -591,6 +594,7 @@ class OC_Util {
 	 * @return array errors array
 	 */
 	public static function checkDatabaseVersion() {
+		$l = OC_L10N::get('lib');
 		$errors = array();
 		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
@@ -602,16 +606,17 @@ class OC_Util {
 					$version = $data['server_version'];
 					if (version_compare($version, '9.0.0', '<')) {
 						$errors[] = array(
-							'error' => 'PostgreSQL >= 9 required',
-							'hint' => 'Please upgrade your database version'
+							'error' => $l->t('PostgreSQL >= 9 required'),
+							'hint' => $l->t('Please upgrade your database version')
 						);
 					}
 				}
 			} catch (\Doctrine\DBAL\DBALException $e) {
 				\OCP\Util::logException('core', $e);
 				$errors[] = array(
-					'error' => 'Error occurred while checking PostgreSQL version',
-					'hint' => 'Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error'
+					'error' => $l->t('Error occurred while checking PostgreSQL version'),
+					'hint' => $l->t('Please make sure you have PostgreSQL >= 9 or'
+							.' check the logs for more information about the error')
 				);
 			}
 		}
@@ -667,12 +672,13 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
+		$l = OC_L10N::get('lib');
 		$errors = array();
 		if (self::runningOnWindows()) {
 			//TODO: permissions checks for windows hosts
 		} else {
-			$permissionsModHint = 'Please change the permissions to 0770 so that the directory'
-				.' cannot be listed by other users.';
+			$permissionsModHint = $l->t('Please change the permissions to 0770 so that the directory'
+				.' cannot be listed by other users.');
 			$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 			if (substr($perms, -1) != '0') {
 				chmod($dataDirectory, 0770);
@@ -680,7 +686,7 @@ class OC_Util {
 				$perms = substr(decoct(@fileperms($dataDirectory)), -3);
 				if (substr($perms, 2, 1) != '0') {
 					$errors[] = array(
-						'error' => 'Data directory ('.$dataDirectory.') is readable for other users',
+						'error' => $l->t('Data directory (%s) is readable by other users', array($dataDirectory)),
 						'hint' => $permissionsModHint
 					);
 				}
@@ -697,12 +703,13 @@ class OC_Util {
 	 * @return bool true if the data directory is valid, false otherwise
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
+		$l = OC_L10N::get('lib');
 		$errors = array();
 		if (!file_exists($dataDirectory.'/.ocdata')) {
 			$errors[] = array(
-				'error' => 'Data directory (' . $dataDirectory . ') is invalid',
-				'hint' => 'Please check that the data directory contains a file' .
-					' ".ocdata" in its root.'
+				'error' => $l->t('Data directory (%s) is invalid', array($dataDirectory)),
+				'hint' => $l->t('Please check that the data directory contains a file' .
+					' ".ocdata" in its root.')
 			);
 		}
 		return $errors;
