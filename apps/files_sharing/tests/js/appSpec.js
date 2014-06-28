@@ -55,7 +55,7 @@ describe('OCA.Sharing.App tests', function() {
 
 	describe('initialization', function() {
 		it('inits sharing-in list on show', function() {
-			expect(fileListIn._sharedWithUser).toEqual(true);		
+			expect(fileListIn._sharedWithUser).toEqual(true);
 		});
 		it('inits sharing-out list on show', function() {
 			expect(fileListOut._sharedWithUser).toBeFalsy();
