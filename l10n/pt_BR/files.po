@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-26 01:54-0400\n"
-"PO-Revision-Date: 2014-06-25 15:21+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 12:41+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +86,7 @@ msgstr "Erro ao criar a pasta"
 
 #: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
-msgstr "Impossível configurar o diretório de upload"
+msgstr "Impossível configurar o diretório de envio"
 
 #: ajax/upload.php:33
 msgid "Invalid Token"
@@ -151,123 +151,123 @@ msgstr "Arquivos"
 msgid "All files"
 msgstr "Todos os arquivos"
 
-#: js/file-upload.js:257
+#: js/file-upload.js:268
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "Incapaz de fazer o envio de {filename}, pois é um diretório ou tem 0 bytes"
 
-#: js/file-upload.js:270
+#: js/file-upload.js:281
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr "O tamanho total do arquivo {size1} excede o limite de envio {size2}"
 
-#: js/file-upload.js:281
+#: js/file-upload.js:292
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr "Não há espaço suficiente, você está enviando {size1} mas resta apenas {size2}"
 
-#: js/file-upload.js:358
+#: js/file-upload.js:369
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/file-upload.js:404
+#: js/file-upload.js:415
 msgid "Could not get result from server."
 msgstr "Não foi possível obter o resultado do servidor."
 
-#: js/file-upload.js:490
+#: js/file-upload.js:499
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do envio."
+msgstr "Envio de arquivo em andamento. Sair da página agora resultará no cancelamento do envio."
 
-#: js/file-upload.js:555
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazia"
 
-#: js/file-upload.js:559 js/filelist.js:1192
+#: js/file-upload.js:568 js/filelist.js:1228
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
-#: js/file-upload.js:614
+#: js/file-upload.js:623
 msgid "Could not create file"
 msgstr "Não foi possível criar o arquivo"
 
-#: js/file-upload.js:630
+#: js/file-upload.js:639
 msgid "Could not create folder"
 msgstr "Não foi possível criar a pasta"
 
-#: js/file-upload.js:677
+#: js/file-upload.js:686
 msgid "Error fetching URL"
 msgstr "Erro ao buscar URL"
 
-#: js/fileactions.js:213
+#: js/fileactions.js:257
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/fileactions.js:226
+#: js/fileactions.js:270
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:228 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:78 templates/list.php:79
 msgid "Delete"
 msgstr "Excluir"
 
-#: js/fileactions.js:264
+#: js/fileactions.js:308
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:314
+#: js/filelist.js:339
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/filelist.js:623 js/filelist.js:1713
+#: js/filelist.js:659 js/filelist.js:1752
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:1143
+#: js/filelist.js:1179
 msgid "Error moving file."
 msgstr "Erro movendo o arquivo."
 
-#: js/filelist.js:1151
+#: js/filelist.js:1187
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/filelist.js:1151
+#: js/filelist.js:1187
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1240
+#: js/filelist.js:1276
 msgid "Could not rename file"
 msgstr "Não foi possível renomear o arquivo"
 
-#: js/filelist.js:1358
+#: js/filelist.js:1394
 msgid "Error deleting file."
 msgstr "Erro eliminando o arquivo."
 
-#: js/filelist.js:1461 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:62
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1462 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:73
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1463 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:76
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1473 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1509 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:1479 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1515 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
 msgstr[1] "%n arquivos"
 
-#: js/filelist.js:1606 js/filelist.js:1645
+#: js/filelist.js:1645 js/filelist.js:1684
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Enviando %n arquivo"
@@ -289,20 +289,20 @@ msgstr "Seu armazenamento está quase cheio ({usedSpacePercent}%)"
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr "App de encriptação está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente"
+msgstr "App de criptografia está ativado, mas as chaves não estão inicializadas, por favor log-out e faça login novamente"
 
 #: js/files.js:144
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr "Chave do App de Encriptação é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados."
+msgstr "Chave do App de Criptografia é inválida. Por favor, atualize sua senha de chave privada em suas configurações pessoais para recuperar o acesso a seus arquivos criptografados."
 
 #: js/files.js:148
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr "Encriptação foi desabilitada mas seus arquivos continuam encriptados. Por favor vá a suas configurações pessoais para descriptar seus arquivos."
+msgstr "Criptografia foi desabilitada mas seus arquivos continuam criptografados. Por favor vá a suas configurações pessoais para descriptar seus arquivos."
 
 #: js/filesummary.js:182
 msgid "{dirs} and {files}"
@@ -324,7 +324,7 @@ msgstr "Tratamento de Arquivo"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Tamanho máximo para carregar"
+msgstr "Tamanho máximo para envio"
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -332,7 +332,7 @@ msgstr "max. possível:"
 
 #: templates/admin.php:15
 msgid "Save"
-msgstr "Guardar"
+msgstr "Salvar"
 
 #: templates/appnavigation.php:12
 msgid "WebDAV"
@@ -371,11 +371,11 @@ msgstr "Do link"
 
 #: templates/list.php:42
 msgid "Cancel upload"
-msgstr "Cancelar upload"
+msgstr "Cancelar envio"
 
 #: templates/list.php:48
 msgid "You don’t have permission to upload or create files here"
-msgstr "Você não tem permissão para carregar ou criar arquivos aqui"
+msgstr "Você não tem permissão para enviar ou criar arquivos aqui"
 
 #: templates/list.php:53
 msgid "Nothing in here. Upload something!"
@@ -387,13 +387,13 @@ msgstr "Baixar"
 
 #: templates/list.php:92
 msgid "Upload too large"
-msgstr "Upload muito grande"
+msgstr "Arquivo muito grande para envio"
 
 #: templates/list.php:94
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor."
+msgstr "Os arquivos que você está tentando enviar excedeu o tamanho máximo para arquivos no servidor."
 
 #: templates/list.php:99
 msgid "Files are being scanned, please wait."

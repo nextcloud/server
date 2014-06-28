@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "Download" => "İndir",
 "Download %s" => "İndir: %s",
 "Direct link" => "Doğrudan bağlantı",
+"Remote Shares" => "Uzak Paylaşımlar",
 "Allow other instances to mount public links shared from this server" => "Diğer örneklerin, bu sunucudan paylaşılmış herkese açık bağlantıları bağlamasına izin ver",
 "Allow users to mount public link shares" => "Kullanıcıların herkese açık bağlantı paylaşımlarını bağlamasına izin ver"
 );

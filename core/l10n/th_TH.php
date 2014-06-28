@@ -61,6 +61,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "ไม่อนุญาตให้แชร์ข้อมูลซ้ำได้",
 "Shared in {item} with {user}" => "ได้แชร์ {item} ให้กับ {user}",
 "Unshare" => "ยกเลิกการแชร์",
+"can share" => "สามารถแชร์ได้",
 "can edit" => "สามารถแก้ไข",
 "access control" => "ระดับควบคุมการเข้าใช้งาน",
 "create" => "สร้าง",

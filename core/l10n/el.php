@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Διαμοιρασμός του {item} με τον {user}",
 "Unshare" => "Διακοπή διαμοιρασμού",
 "notify by email" => "ειδοποίηση με email",
+"can share" => "δυνατότητα διαμοιρασμού",
 "can edit" => "δυνατότητα αλλαγής",
 "access control" => "έλεγχος πρόσβασης",
 "create" => "δημιουργία",

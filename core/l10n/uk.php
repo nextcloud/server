@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Опубліковано {item} для {user}",
 "Unshare" => "Закрити доступ",
 "notify by email" => "повідомити по Email",
+"can share" => "можна поділитися",
 "can edit" => "може редагувати",
 "access control" => "контроль доступу",
 "create" => "створити",

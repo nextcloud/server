@@ -72,6 +72,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Gedeelt an {item} mat {user}",
 "Unshare" => "Net méi deelen",
 "notify by email" => "via e-mail Bescheed ginn",
+"can share" => "kann deelen",
 "can edit" => "kann änneren",
 "access control" => "Zougrëffskontroll",
 "create" => "erstellen",

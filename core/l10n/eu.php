@@ -98,6 +98,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "{user}ekin {item}-n elkarbanatuta",
 "Unshare" => "Ez elkarbanatu",
 "notify by email" => "jakinarazi eposta bidez",
+"can share" => "elkarbana dezake",
 "can edit" => "editatu dezake",
 "access control" => "sarrera kontrola",
 "create" => "sortu",

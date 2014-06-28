@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -363,12 +363,12 @@ msgstr "Delt med {recipients}"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:938
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fejl"
 
-#: js/share.js:273 js/share.js:999
+#: js/share.js:273 js/share.js:1001
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -463,7 +463,7 @@ msgstr "Giv besked med mail"
 
 #: js/share.js:573
 msgid "can share"
-msgstr ""
+msgstr "kan dele"
 
 #: js/share.js:576
 msgid "can edit"
@@ -485,27 +485,27 @@ msgstr "opdater"
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:917
+#: js/share.js:919
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:936
+#: js/share.js:938
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:957
+#: js/share.js:959
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:986
+#: js/share.js:988
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:997
+#: js/share.js:999
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
-#: js/share.js:1021
+#: js/share.js:1023
 msgid "Warning"
 msgstr "Advarsel"
 

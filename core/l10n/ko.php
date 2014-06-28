@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "{user} 님과 {item}에서 공유 중",
 "Unshare" => "공유 해제",
 "notify by email" => "이메일로 알림",
+"can share" => "공유 가능",
 "can edit" => "편집 가능",
 "access control" => "접근 제어",
 "create" => "생성",

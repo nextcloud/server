@@ -71,6 +71,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "មិន​អនុញ្ញាត​ឲ្យ​មាន​ការ​ចែក​រំលែក​ឡើង​វិញ",
 "Shared in {item} with {user}" => "បាន​ចែក​រំលែក​ក្នុង {item} ជាមួយ {user}",
 "Unshare" => "លែង​ចែក​រំលែក",
+"can share" => "អាច​ចែក​រំលែក",
 "can edit" => "អាច​កែប្រែ",
 "access control" => "សិទ្ធិ​បញ្ជា",
 "create" => "បង្កើត",

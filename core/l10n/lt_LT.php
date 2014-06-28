@@ -82,6 +82,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Pasidalino {item} su {user}",
 "Unshare" => "Nebesidalinti",
 "notify by email" => "pranešti el. paštu",
+"can share" => "gali dalintis",
 "can edit" => "gali redaguoti",
 "access control" => "priėjimo kontrolė",
 "create" => "sukurti",

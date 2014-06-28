@@ -98,6 +98,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Megosztva {item}-ben {user}-rel",
 "Unshare" => "A megosztás visszavonása",
 "notify by email" => "email értesítés",
+"can share" => "megosztható",
 "can edit" => "módosíthat",
 "access control" => "jogosultság",
 "create" => "létrehoz",

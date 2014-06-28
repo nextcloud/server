@@ -78,6 +78,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Kunhavigita en {item} kun {user}",
 "Unshare" => "Malkunhavigi",
 "notify by email" => "avizi per retpoŝto",
+"can share" => "kunhavebla",
 "can edit" => "povas redakti",
 "access control" => "alirkontrolo",
 "create" => "krei",

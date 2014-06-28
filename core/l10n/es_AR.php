@@ -89,6 +89,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Compartido en {item} con {user}",
 "Unshare" => "Dejar de compartir",
 "notify by email" => "notificar por correo",
+"can share" => "puede compartir",
 "can edit" => "podés editar",
 "access control" => "control de acceso",
 "create" => "crear",

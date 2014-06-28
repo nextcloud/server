@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "Share" => "Freigeben",
 "group" => "Gruppe",
 "Unshare" => "Teilung zurücknehmen",
+"can share" => "Kann teilen",
 "can edit" => "kann bearbeiten",
 "Delete" => "Löschen",
 "Personal" => "Persönlich",

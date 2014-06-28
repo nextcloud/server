@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-15 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 17:30+0000\n"
+"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 12:21+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -180,7 +180,7 @@ msgstr "Senha de login atual"
 
 #: templates/settings-personal.php:32
 msgid "Update Private Key Password"
-msgstr "Atualizar senha de chave privada"
+msgstr "Atualizar Senha de Chave Privada"
 
 #: templates/settings-personal.php:41
 msgid "Enable password recovery:"

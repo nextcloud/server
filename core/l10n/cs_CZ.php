@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Sdíleno v {item} s {user}",
 "Unshare" => "Zrušit sdílení",
 "notify by email" => "upozornit e-mailem",
+"can share" => "může sdílet",
 "can edit" => "lze upravovat",
 "access control" => "řízení přístupu",
 "create" => "vytvořit",

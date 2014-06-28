@@ -69,6 +69,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "لا يسمح بعملية إعادة المشاركة",
 "Shared in {item} with {user}" => "شورك في {item} مع {user}",
 "Unshare" => "إلغاء مشاركة",
+"can share" => "يمكن المشاركة",
 "can edit" => "التحرير مسموح",
 "access control" => "ضبط الوصول",
 "create" => "إنشاء",

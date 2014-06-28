@@ -101,6 +101,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Delt i {item} med {user}",
 "Unshare" => "Fjern deling",
 "notify by email" => "Giv besked med mail",
+"can share" => "kan dele",
 "can edit" => "kan redigere",
 "access control" => "Adgangskontrol",
 "create" => "opret",

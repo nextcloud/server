@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "Download" => "Downloaden",
 "Download %s" => "Download %s",
 "Direct link" => "Directe link",
+"Remote Shares" => "Externe shares",
 "Allow other instances to mount public links shared from this server" => "Toestaan dat andere oanClouds openbaar gedeelde links mounten vanaf deze server",
 "Allow users to mount public link shares" => "Toestaan dat gebruikers openbaar gedeelde links mounten"
 );

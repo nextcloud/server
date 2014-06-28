@@ -60,6 +60,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "אסור לעשות שיתוף מחדש",
 "Shared in {item} with {user}" => "שותף תחת {item} עם {user}",
 "Unshare" => "הסר שיתוף",
+"can share" => "ניתן לשתף",
 "can edit" => "ניתן לערוך",
 "access control" => "בקרת גישה",
 "create" => "יצירה",

@@ -62,6 +62,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Rindarja nuk lejohet",
 "Shared in {item} with {user}" => "Ndarë në {item} me {user}",
 "Unshare" => "Hiq ndarjen",
+"can share" => "mund të ndajnë",
 "can edit" => "mund të ndryshosh",
 "access control" => "kontrollimi i hyrjeve",
 "create" => "krijo",

@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "{item} 内で {user} と共有中",
 "Unshare" => "共有解除",
 "notify by email" => "メールで通知",
+"can share" => "共有可",
 "can edit" => "編集を許可",
 "access control" => "アクセス権限",
 "create" => "作成",

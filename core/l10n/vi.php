@@ -82,6 +82,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Đã được chia sẽ trong {item} với {user}",
 "Unshare" => "Bỏ chia sẻ",
 "notify by email" => "Thông báo qua email",
+"can share" => "có thể chia sẽ",
 "can edit" => "có thể chỉnh sửa",
 "access control" => "quản lý truy cập",
 "create" => "tạo",

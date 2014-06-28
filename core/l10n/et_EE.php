@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Jagatud {item} kasutajaga {user}",
 "Unshare" => "Lõpeta jagamine",
 "notify by email" => "teavita e-postiga",
+"can share" => "saab jagada",
 "can edit" => "saab muuta",
 "access control" => "ligipääsukontroll",
 "create" => "loo",

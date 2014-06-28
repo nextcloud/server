@@ -100,6 +100,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "{item} on jaettu {user} kanssa",
 "Unshare" => "Peru jakaminen",
 "notify by email" => "ilmoita sähköpostitse",
+"can share" => "jaa",
 "can edit" => "voi muokata",
 "access control" => "Pääsyn hallinta",
 "create" => "luo",

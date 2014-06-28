@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -356,12 +356,12 @@ msgstr ""
 msgid "Share"
 msgstr "Nda"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:938
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Veprim i gabuar"
 
-#: js/share.js:273 js/share.js:999
+#: js/share.js:273 js/share.js:1001
 msgid "Error while sharing"
 msgstr "Veprim i gabuar gjatë ndarjes"
 
@@ -456,7 +456,7 @@ msgstr ""
 
 #: js/share.js:573
 msgid "can share"
-msgstr ""
+msgstr "mund të ndajnë"
 
 #: js/share.js:576
 msgid "can edit"
@@ -478,27 +478,27 @@ msgstr "azhurno"
 msgid "delete"
 msgstr "elimino"
 
-#: js/share.js:917
+#: js/share.js:919
 msgid "Password protected"
 msgstr "Mbrojtur me kod"
 
-#: js/share.js:936
+#: js/share.js:938
 msgid "Error unsetting expiration date"
 msgstr "Veprim i gabuar gjatë heqjes së datës së përfundimit"
 
-#: js/share.js:957
+#: js/share.js:959
 msgid "Error setting expiration date"
 msgstr "Veprim i gabuar gjatë caktimit të datës së përfundimit"
 
-#: js/share.js:986
+#: js/share.js:988
 msgid "Sending ..."
 msgstr "Duke dërguar..."
 
-#: js/share.js:997
+#: js/share.js:999
 msgid "Email sent"
 msgstr "Email-i u dërgua"
 
-#: js/share.js:1021
+#: js/share.js:1023
 msgid "Warning"
 msgstr ""
 

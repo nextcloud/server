@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "已和 {user} 分享 {item}",
 "Unshare" => "取消分享",
 "notify by email" => "以 email 通知",
+"can share" => "可分享",
 "can edit" => "可編輯",
 "access control" => "存取控制",
 "create" => "建立",

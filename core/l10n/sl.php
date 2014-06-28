@@ -93,6 +93,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "V souporabi v {item} z uporabnikom {user}",
 "Unshare" => "Prekliči souporabo",
 "notify by email" => "obvesti po elektronski pošti",
+"can share" => "lahko omogoči souporabo",
 "can edit" => "lahko ureja",
 "access control" => "nadzor dostopa",
 "create" => "ustvari",

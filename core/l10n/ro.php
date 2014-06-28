@@ -69,6 +69,7 @@ $TRANSLATIONS = array(
 "Resharing is not allowed" => "Repartajarea nu este permisă",
 "Shared in {item} with {user}" => "Distribuie in {item} si {user}",
 "Unshare" => "Anulare partajare",
+"can share" => "se poate partaja",
 "can edit" => "poate edita",
 "access control" => "control acces",
 "create" => "creare",

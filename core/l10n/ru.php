@@ -103,6 +103,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "Общий доступ к {item} с {user}",
 "Unshare" => "Закрыть общий доступ",
 "notify by email" => "уведомить по почте",
+"can share" => "можно дать доступ",
 "can edit" => "может редактировать",
 "access control" => "контроль доступа",
 "create" => "создать",

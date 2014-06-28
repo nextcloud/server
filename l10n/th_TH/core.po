@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"PO-Revision-Date: 2014-06-27 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -349,12 +349,12 @@ msgstr ""
 msgid "Share"
 msgstr "แชร์"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
+#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:938
 #: templates/installation.php:10
 msgid "Error"
 msgstr "ข้อผิดพลาด"
 
-#: js/share.js:273 js/share.js:999
+#: js/share.js:273 js/share.js:1001
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
@@ -449,7 +449,7 @@ msgstr ""
 
 #: js/share.js:573
 msgid "can share"
-msgstr ""
+msgstr "สามารถแชร์ได้"
 
 #: js/share.js:576
 msgid "can edit"
@@ -471,27 +471,27 @@ msgstr "อัพเดท"
 msgid "delete"
 msgstr "ลบ"
 
-#: js/share.js:917
+#: js/share.js:919
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:936
+#: js/share.js:938
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:957
+#: js/share.js:959
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:986
+#: js/share.js:988
 msgid "Sending ..."
 msgstr "กำลังส่ง..."
 
-#: js/share.js:997
+#: js/share.js:999
 msgid "Email sent"
 msgstr "ส่งอีเมล์แล้ว"
 
-#: js/share.js:1021
+#: js/share.js:1023
 msgid "Warning"
 msgstr "คำเตือน"
 

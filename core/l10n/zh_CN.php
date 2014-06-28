@@ -94,6 +94,7 @@ $TRANSLATIONS = array(
 "Shared in {item} with {user}" => "在 {item} 与 {user} 共享。",
 "Unshare" => "取消共享",
 "notify by email" => "以邮件通知",
+"can share" => "可共享",
 "can edit" => "可以修改",
 "access control" => "访问控制",
 "create" => "创建",
