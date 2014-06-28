@@ -813,7 +813,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>255</length>
+				<length>64</length>
 			</field>
 
 			<!-- Foreign Key share::id or NULL -->
@@ -1226,7 +1226,7 @@
 			<type>text</type>
 			<default></default>
 			<notnull>true</notnull>
-			<length>255</length>
+			<length>64</length>
 		</field>
 
 		<field>
