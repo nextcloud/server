@@ -521,7 +521,8 @@ class Cache {
 				WHERE `storage` = ? AND ';
 		if(\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
 			//remove starting and ending % from the pattern
-			$pattern = trim($pattern, '%');
+			$pattern = preg_quote($pattern);
+			$pattern = '^'.str_replace('%', '.*', $pattern).'$';
 			$sql .= 'REGEXP_LIKE(`name`, ?, \'i\')';
 		} else {
 			$sql .= '`name` LIKE ?';
