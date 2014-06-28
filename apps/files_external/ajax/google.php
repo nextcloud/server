@@ -6,6 +6,7 @@ require_once 'Google_Client.php';
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+$l = OC_L10N::get('files_external');
 
 if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST['redirect'])) {
 	$client = new Google_Client();
@@ -23,7 +24,7 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 				)));
 			} catch (Exception $exception) {
 				OCP\JSON::error(array('data' => array(
-					'message' => 'Step 1 failed. Exception: '.$exception->getMessage()
+					'message' => $l->t('Step 1 failed. Exception: %s', array($exception->getMessage()))
 				)));
 			}
 		} else if ($step == 2 && isset($_POST['code'])) {
@@ -34,7 +35,7 @@ if (isset($_POST['client_id']) && isset($_POST['client_secret']) && isset($_POST
 				)));
 			} catch (Exception $exception) {
 				OCP\JSON::error(array('data' => array(
-					'message' => 'Step 2 failed. Exception: '.$exception->getMessage()
+					'message' => $l->t('Step 2 failed. Exception: %s', array($exception->getMessage()))
 				)));
 			}
 		}
