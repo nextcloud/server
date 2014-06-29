@@ -8,15 +8,41 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 11:41+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ajax/dropbox.php:27
+msgid ""
+"Fetching request tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:40
+msgid ""
+"Fetching access tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:48 js/dropbox.js:102
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Por favor forneça uma chave de aplicativo e segurança válidos para o Dropbox"
+
+#: ajax/google.php:27
+#, php-format
+msgid "Step 1 failed. Exception: %s"
+msgstr ""
+
+#: ajax/google.php:38
+#, php-format
+msgid "Step 2 failed. Exception: %s"
+msgstr ""
 
 #: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"
@@ -193,10 +219,6 @@ msgstr "Erro ao configurar armazenamento do Dropbox"
 #: js/dropbox.js:68 js/google.js:89
 msgid "Grant access"
 msgstr "Permitir acesso"
-
-#: js/dropbox.js:102
-msgid "Please provide a valid Dropbox app key and secret."
-msgstr "Por favor forneça uma chave de aplicativo e segurança válidos para o Dropbox"
 
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"

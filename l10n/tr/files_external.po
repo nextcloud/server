@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-13 01:54-0400\n"
-"PO-Revision-Date: 2014-06-12 18:30+0000\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,167 +18,193 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: appinfo/app.php:36 js/app.js:32 templates/settings.php:9
+#: ajax/dropbox.php:27
+msgid ""
+"Fetching request tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:40
+msgid ""
+"Fetching access tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:48 js/dropbox.js:102
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Lütfen Dropbox app key ve secret temin ediniz"
+
+#: ajax/google.php:27
+#, php-format
+msgid "Step 1 failed. Exception: %s"
+msgstr ""
+
+#: ajax/google.php:38
+#, php-format
+msgid "Step 2 failed. Exception: %s"
+msgstr ""
+
+#: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"
 msgstr "Harici depolama"
 
-#: appinfo/app.php:45
+#: appinfo/app.php:44
 msgid "Local"
 msgstr "Yerel"
 
-#: appinfo/app.php:48
+#: appinfo/app.php:47
 msgid "Location"
 msgstr "Konum"
 
-#: appinfo/app.php:51
+#: appinfo/app.php:50
 msgid "Amazon S3"
 msgstr "Amazon S3"
 
-#: appinfo/app.php:54
+#: appinfo/app.php:53
 msgid "Key"
 msgstr "Anahtar"
 
-#: appinfo/app.php:55
+#: appinfo/app.php:54
 msgid "Secret"
 msgstr "Parola"
 
-#: appinfo/app.php:56 appinfo/app.php:65
+#: appinfo/app.php:55 appinfo/app.php:64
 msgid "Bucket"
 msgstr "Bucket"
 
-#: appinfo/app.php:60
+#: appinfo/app.php:59
 msgid "Amazon S3 and compliant"
 msgstr "Amazon S3 ve uyumlu olanlar"
 
-#: appinfo/app.php:63
+#: appinfo/app.php:62
 msgid "Access Key"
 msgstr "Erişim Anahtarı"
 
-#: appinfo/app.php:64
+#: appinfo/app.php:63
 msgid "Secret Key"
 msgstr "Gizli Anahtar"
 
-#: appinfo/app.php:66
+#: appinfo/app.php:65
 msgid "Hostname (optional)"
 msgstr "Makine Adı (isteğe bağlı)"
 
-#: appinfo/app.php:67
+#: appinfo/app.php:66
 msgid "Port (optional)"
 msgstr "Bağl. Nok. (isteğe bağlı)"
 
-#: appinfo/app.php:68
+#: appinfo/app.php:67
 msgid "Region (optional)"
 msgstr "Bölge (isteğe bağlı)"
 
-#: appinfo/app.php:69
+#: appinfo/app.php:68
 msgid "Enable SSL"
 msgstr "SSL'yi Etkinleştir"
 
-#: appinfo/app.php:70
+#: appinfo/app.php:69
 msgid "Enable Path Style"
 msgstr "Yol Biçemini Etkinleştir"
 
-#: appinfo/app.php:78
+#: appinfo/app.php:77
 msgid "App key"
 msgstr "Uyg. anahtarı"
 
-#: appinfo/app.php:79
+#: appinfo/app.php:78
 msgid "App secret"
 msgstr "Uyg. parolası"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
-#: appinfo/app.php:174
+#: appinfo/app.php:88 appinfo/app.php:129 appinfo/app.php:140
+#: appinfo/app.php:173
 msgid "Host"
 msgstr "Sunucu"
 
-#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
-#: appinfo/app.php:164 appinfo/app.php:175
+#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
+#: appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: appinfo/app.php:91 appinfo/app.php:132 appinfo/app.php:154
-#: appinfo/app.php:165 appinfo/app.php:176
+#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
+#: appinfo/app.php:164 appinfo/app.php:175
 msgid "Password"
 msgstr "Parola"
 
-#: appinfo/app.php:92 appinfo/app.php:134 appinfo/app.php:144
-#: appinfo/app.php:155 appinfo/app.php:177
+#: appinfo/app.php:91 appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:176
 msgid "Root"
 msgstr "Kök"
 
-#: appinfo/app.php:93
+#: appinfo/app.php:92
 msgid "Secure ftps://"
 msgstr "Güvenli ftps://"
 
-#: appinfo/app.php:101
+#: appinfo/app.php:100
 msgid "Client ID"
 msgstr "İstemci kimliği"
 
-#: appinfo/app.php:102
+#: appinfo/app.php:101
 msgid "Client secret"
 msgstr "İstemci parolası"
 
-#: appinfo/app.php:109
+#: appinfo/app.php:108
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Nesne Depolama"
 
-#: appinfo/app.php:112
+#: appinfo/app.php:111
 msgid "Username (required)"
 msgstr "Kullanıcı adı (gerekli)"
 
-#: appinfo/app.php:113
+#: appinfo/app.php:112
 msgid "Bucket (required)"
 msgstr "Bucket (gerekli)"
 
-#: appinfo/app.php:114
+#: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Bölge (OpenStack Nesne Depolaması için isteğe bağlı)"
 
-#: appinfo/app.php:115
+#: appinfo/app.php:114
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr "API Anahtarı (Rackspace Bulut Dosyaları için gerekli)"
 
-#: appinfo/app.php:116
+#: appinfo/app.php:115
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr "Kiracı Adı (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:117
+#: appinfo/app.php:116
 msgid "Password (required for OpenStack Object Storage)"
 msgstr "Parola (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:118
+#: appinfo/app.php:117
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr "Hizmet Adı (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:119
+#: appinfo/app.php:118
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "Kimlik uç nokta adresi (OpenStack Nesne Depolaması için gerekli)"
 
-#: appinfo/app.php:120
+#: appinfo/app.php:119
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr "Saniye cinsinden HTTP istek zaman aşımı (isteğe bağlı)"
 
-#: appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
 msgstr "Paylaş"
 
-#: appinfo/app.php:138
+#: appinfo/app.php:137
 msgid "SMB / CIFS using OC login"
 msgstr "OC oturumu kullanarak SMB / CIFS"
 
-#: appinfo/app.php:142
+#: appinfo/app.php:141
 msgid "Username as share"
 msgstr "Paylaşım olarak kullanıcı adı"
 
-#: appinfo/app.php:152 appinfo/app.php:163
+#: appinfo/app.php:151 appinfo/app.php:162
 msgid "URL"
 msgstr "URL"
 
-#: appinfo/app.php:156 appinfo/app.php:167
+#: appinfo/app.php:155 appinfo/app.php:166
 msgid "Secure https://"
 msgstr "Güvenli https://"
 
-#: appinfo/app.php:166
+#: appinfo/app.php:165
 msgid "Remote subfolder"
 msgstr "Uzak alt klasör"
 
@@ -194,10 +220,6 @@ msgstr "Dropbox depo yapılandırma hatası"
 msgid "Grant access"
 msgstr "Erişimi sağla"
 
-#: js/dropbox.js:102
-msgid "Please provide a valid Dropbox app key and secret."
-msgstr "Lütfen Dropbox app key ve secret temin ediniz"
-
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Google Drive depo yapılandırma hatası"
@@ -210,33 +232,33 @@ msgstr "Kişisel"
 msgid "System"
 msgstr "Sistem"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Kaydedildi"
 
-#: lib/config.php:703
+#: lib/config.php:707
 msgid "<b>Note:</b> "
 msgstr "<b>Not:</b> "
 
-#: lib/config.php:713
+#: lib/config.php:717
 msgid " and "
 msgstr "ve"
 
-#: lib/config.php:735
+#: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Not:</b> PHP'de cURL desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin."
 
-#: lib/config.php:737
+#: lib/config.php:741
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Not:</b> PHP'de FTP desteği etkin veya kurulu değil. %s bağlaması mümkün olmayacak. Lütfen kurulumu için sistem yöneticilerinizle iletişime geçin."
 
-#: lib/config.php:739
+#: lib/config.php:743
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

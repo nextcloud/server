@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Prezintă te rog o cheie de Dropbox validă și parola",
 "External storage" => "Stocare externă",
 "Location" => "Locație",
 "Host" => "Gazdă",
@@ -10,7 +11,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Acces permis",
 "Error configuring Dropbox storage" => "Eroare la configurarea mediului de stocare Dropbox",
 "Grant access" => "Permite accesul",
-"Please provide a valid Dropbox app key and secret." => "Prezintă te rog o cheie de Dropbox validă și parola",
 "Error configuring Google Drive storage" => "Eroare la configurarea mediului de stocare Google Drive",
 "Personal" => "Personal",
 "Saved" => "Salvat",

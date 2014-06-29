@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alexander Savchenko <a.v.savchenko@mail.ru>, 2014
+# BuxarNET <buxarnet@gmail.com>, 2014
 # jekader <jekader@gmail.com>, 2014
 # mogarych <mogarych@mail.ru>, 2014
 # Pavel P. Zabortsev <ppz2001@mail.ru>, 2014
@@ -15,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +44,7 @@ msgstr "Опубликованы другими"
 
 #: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Доступно по ссылке"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
@@ -51,7 +52,7 @@ msgstr "Вы ещё не опубликовали файлы"
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Вы не имеете файлов в открытом доступе"
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
@@ -59,15 +60,24 @@ msgstr ""
 
 #: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
+msgstr "Добавить {name} из {owner}@{remote}"
+
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
 msgstr ""
 
-#: js/public.js:200
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "Пароль"
+
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr ""
 
-#: js/public.js:201
+#: js/public.js:205
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Не верный ownCloud адрес"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -84,10 +94,6 @@ msgstr "Для доступа к информации необходимо вв�
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "Неверный пароль. Попробуйте еще раз."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "Пароль"
 
 #: templates/list.php:16
 msgid "Name"
@@ -123,7 +129,7 @@ msgstr "Для получения дополнительной информац�
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "Сохранить в ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"

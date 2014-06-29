@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Password" => "סיסמא",
 "Shared by {owner}" => "שותף בידי {owner}",
 "Shared by" => "שותף על־ידי",
-"Password" => "סיסמא",
 "Name" => "שם",
 "Save" => "שמירה",
 "Download" => "הורדה"

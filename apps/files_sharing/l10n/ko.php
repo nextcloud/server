@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Password" => "암호",
 "Shared by {owner}" => "{owner} 님이 공유함",
 "Shared by" => "공유한 사용자:",
 "This share is password-protected" => "이 공유는 암호로 보호되어 있습니다",
 "The password is wrong. Try again." => "암호가 잘못되었습니다. 다시 입력해 주십시오.",
-"Password" => "암호",
 "Name" => "이름",
 "Sorry, this link doesn’t seem to work anymore." => "죄송합니다. 이 링크는 더 이상 작동하지 않습니다.",
 "Reasons might be:" => "이유는 다음과 같을 수 있습니다:",

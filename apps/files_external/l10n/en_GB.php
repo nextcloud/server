@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Please provide a valid Dropbox app key and secret.",
 "External storage" => "External storage",
 "Local" => "Local",
 "Location" => "Location",
@@ -43,7 +44,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Access granted",
 "Error configuring Dropbox storage" => "Error configuring Dropbox storage",
 "Grant access" => "Grant access",
-"Please provide a valid Dropbox app key and secret." => "Please provide a valid Dropbox app key and secret.",
 "Error configuring Google Drive storage" => "Error configuring Google Drive storage",
 "Personal" => "Personal",
 "System" => "System",

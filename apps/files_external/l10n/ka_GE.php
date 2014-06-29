@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "გთხოვთ მიუთითოთ Dropbox აპლიკაციის გასაღები და კოდი.",
 "External storage" => "ექსტერნალ საცავი",
 "Location" => "ადგილმდებარეობა",
 "Host" => "ჰოსტი",
@@ -10,7 +11,6 @@ $TRANSLATIONS = array(
 "Access granted" => "დაშვება მინიჭებულია",
 "Error configuring Dropbox storage" => "შეცდომა Dropbox საცავის კონფიგურირების დროს",
 "Grant access" => "დაშვების მინიჭება",
-"Please provide a valid Dropbox app key and secret." => "გთხოვთ მიუთითოთ Dropbox აპლიკაციის გასაღები და კოდი.",
 "Error configuring Google Drive storage" => "შეცდომა Google Drive საცავის კონფიგურირების დროს",
 "Personal" => "პირადი",
 "Name" => "სახელი",

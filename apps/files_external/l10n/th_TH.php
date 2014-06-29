@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "กรุณากรอกรหัส app key ของ Dropbox และรหัสลับ",
 "Location" => "ตำแหน่งที่อยู่",
 "Host" => "โฮสต์",
 "Username" => "ชื่อผู้ใช้งาน",
@@ -9,7 +10,6 @@ $TRANSLATIONS = array(
 "Access granted" => "การเข้าถึงได้รับอนุญาตแล้ว",
 "Error configuring Dropbox storage" => "เกิดข้อผิดพลาดในการกำหนดค่าพื้นที่จัดเก็บข้อมูล Dropbox",
 "Grant access" => "อนุญาตให้เข้าถึงได้",
-"Please provide a valid Dropbox app key and secret." => "กรุณากรอกรหัส app key ของ Dropbox และรหัสลับ",
 "Error configuring Google Drive storage" => "เกิดข้อผิดพลาดในการกำหนดค่าการจัดเก็บข้อมูลในพื้นที่ของ Google Drive",
 "Personal" => "ส่วนตัว",
 "Name" => "ชื่อ",

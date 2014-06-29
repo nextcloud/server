@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 17:02+0000\n"
-"Last-Translator: Paolo Velati <paolo.velati@gmail.com>\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,6 +56,15 @@ msgstr "Non hai ancora condiviso alcun file tramite collegamento."
 msgid "Add {name} from {owner}@{remote}"
 msgstr "Aggiungi {name} da {owner}@{remote}"
 
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "Password"
+
 #: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Nessuna installazione di ownCloud trovata su {remote}"
@@ -79,10 +88,6 @@ msgstr "Questa condivione è protetta da password"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "La password è errata. Prova ancora."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "Password"
 
 #: templates/list.php:16
 msgid "Name"
@@ -143,7 +148,7 @@ msgstr "Collegamento diretto"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr "Condivisioni Remote"
+msgstr "Condivisioni remote"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"

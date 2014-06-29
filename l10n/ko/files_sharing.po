@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +56,20 @@ msgstr ""
 msgid "Add {name} from {owner}@{remote}"
 msgstr ""
 
-#: js/public.js:200
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "암호"
+
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr ""
 
-#: js/public.js:201
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr ""
 
@@ -79,10 +88,6 @@ msgstr "이 공유는 암호로 보호되어 있습니다"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "암호가 잘못되었습니다. 다시 입력해 주십시오."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "암호"
 
 #: templates/list.php:16
 msgid "Name"

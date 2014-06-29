@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Por favor, proporciona una clave válida de l'app Dropbox y una clave secreta.",
 "External storage" => "Almacenamientu esternu",
 "Local" => "Llocal",
 "Location" => "Llocalización",
@@ -43,7 +44,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Accesu concedíu",
 "Error configuring Dropbox storage" => "Fallu configurando l'almacenamientu de Dropbox",
 "Grant access" => "Conceder accesu",
-"Please provide a valid Dropbox app key and secret." => "Por favor, proporciona una clave válida de l'app Dropbox y una clave secreta.",
 "Error configuring Google Drive storage" => "Fallu configurando l'almacenamientu de Google Drive",
 "Personal" => "Personal",
 "System" => "Sistema",

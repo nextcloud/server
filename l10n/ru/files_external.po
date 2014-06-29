@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-26 15:02+0000\n"
-"Last-Translator: Михаил Маслиёв <misha.masliev@yandex.ru>\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,169 +23,195 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: appinfo/app.php:36 js/app.js:32 templates/settings.php:9
+#: ajax/dropbox.php:27
+msgid ""
+"Fetching request tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:40
+msgid ""
+"Fetching access tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:48 js/dropbox.js:102
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Пожалуйста, предоставьте действующий ключ Dropbox и пароль."
+
+#: ajax/google.php:27
+#, php-format
+msgid "Step 1 failed. Exception: %s"
+msgstr ""
+
+#: ajax/google.php:38
+#, php-format
+msgid "Step 2 failed. Exception: %s"
+msgstr ""
+
+#: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"
 msgstr "Внешний носитель данных"
 
-#: appinfo/app.php:45
+#: appinfo/app.php:44
 msgid "Local"
 msgstr "Локально"
 
-#: appinfo/app.php:48
+#: appinfo/app.php:47
 msgid "Location"
 msgstr "Местоположение"
 
-#: appinfo/app.php:51
+#: appinfo/app.php:50
 msgid "Amazon S3"
 msgstr "Amazon S3"
 
-#: appinfo/app.php:54
+#: appinfo/app.php:53
 msgid "Key"
 msgstr "Ключ"
 
-#: appinfo/app.php:55
+#: appinfo/app.php:54
 msgid "Secret"
 msgstr "Секрет"
 
-#: appinfo/app.php:56 appinfo/app.php:65
+#: appinfo/app.php:55 appinfo/app.php:64
 msgid "Bucket"
 msgstr ""
 
-#: appinfo/app.php:60
+#: appinfo/app.php:59
 msgid "Amazon S3 and compliant"
-msgstr ""
+msgstr "Amazon S3 и совместимый"
 
-#: appinfo/app.php:63
+#: appinfo/app.php:62
 msgid "Access Key"
 msgstr "Ключ доступа"
 
-#: appinfo/app.php:64
+#: appinfo/app.php:63
 msgid "Secret Key"
 msgstr "Секретный ключ"
 
-#: appinfo/app.php:66
+#: appinfo/app.php:65
 msgid "Hostname (optional)"
 msgstr "Хост (опц.)"
 
-#: appinfo/app.php:67
+#: appinfo/app.php:66
 msgid "Port (optional)"
 msgstr "Порт (опц.)"
 
-#: appinfo/app.php:68
+#: appinfo/app.php:67
 msgid "Region (optional)"
 msgstr "Регион (опционально)"
 
-#: appinfo/app.php:69
+#: appinfo/app.php:68
 msgid "Enable SSL"
 msgstr "Включить SSL"
 
-#: appinfo/app.php:70
+#: appinfo/app.php:69
 msgid "Enable Path Style"
 msgstr ""
 
-#: appinfo/app.php:78
+#: appinfo/app.php:77
 msgid "App key"
 msgstr "Ключ приложения"
 
-#: appinfo/app.php:79
+#: appinfo/app.php:78
 msgid "App secret"
 msgstr ""
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
-#: appinfo/app.php:174
+#: appinfo/app.php:88 appinfo/app.php:129 appinfo/app.php:140
+#: appinfo/app.php:173
 msgid "Host"
 msgstr "Сервер"
 
-#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
-#: appinfo/app.php:164 appinfo/app.php:175
+#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
+#: appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: appinfo/app.php:91 appinfo/app.php:132 appinfo/app.php:154
-#: appinfo/app.php:165 appinfo/app.php:176
+#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
+#: appinfo/app.php:164 appinfo/app.php:175
 msgid "Password"
 msgstr "Пароль"
 
-#: appinfo/app.php:92 appinfo/app.php:134 appinfo/app.php:144
-#: appinfo/app.php:155 appinfo/app.php:177
+#: appinfo/app.php:91 appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:176
 msgid "Root"
 msgstr ""
 
-#: appinfo/app.php:93
+#: appinfo/app.php:92
 msgid "Secure ftps://"
 msgstr "Безопасный ftps://"
 
-#: appinfo/app.php:101
+#: appinfo/app.php:100
 msgid "Client ID"
 msgstr "Идентификатор клиента"
 
-#: appinfo/app.php:102
+#: appinfo/app.php:101
 msgid "Client secret"
 msgstr ""
 
-#: appinfo/app.php:109
+#: appinfo/app.php:108
 msgid "OpenStack Object Storage"
 msgstr ""
 
-#: appinfo/app.php:112
+#: appinfo/app.php:111
 msgid "Username (required)"
 msgstr "Имя пользователя (обяз.)"
 
-#: appinfo/app.php:113
+#: appinfo/app.php:112
 msgid "Bucket (required)"
 msgstr ""
 
-#: appinfo/app.php:114
+#: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:115
+#: appinfo/app.php:114
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr ""
 
-#: appinfo/app.php:116
+#: appinfo/app.php:115
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:117
+#: appinfo/app.php:116
 msgid "Password (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:118
+#: appinfo/app.php:117
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:119
+#: appinfo/app.php:118
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:120
+#: appinfo/app.php:119
 msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr ""
+msgstr "Тайм-аут HTTP запросов в секундах (опционально)"
 
-#: appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: appinfo/app.php:138
+#: appinfo/app.php:137
 msgid "SMB / CIFS using OC login"
 msgstr ""
 
-#: appinfo/app.php:142
+#: appinfo/app.php:141
 msgid "Username as share"
-msgstr ""
+msgstr "Имя для открытого доступа"
 
-#: appinfo/app.php:152 appinfo/app.php:163
+#: appinfo/app.php:151 appinfo/app.php:162
 msgid "URL"
 msgstr "Ссылка"
 
-#: appinfo/app.php:156 appinfo/app.php:167
+#: appinfo/app.php:155 appinfo/app.php:166
 msgid "Secure https://"
 msgstr "Безопасный https://"
 
-#: appinfo/app.php:166
+#: appinfo/app.php:165
 msgid "Remote subfolder"
-msgstr ""
+msgstr "Удаленный подкаталог"
 
 #: js/dropbox.js:7 js/dropbox.js:29 js/google.js:8 js/google.js:40
 msgid "Access granted"
@@ -199,10 +225,6 @@ msgstr "Ошибка при настройке хранилища Dropbox"
 msgid "Grant access"
 msgstr "Предоставление доступа"
 
-#: js/dropbox.js:102
-msgid "Please provide a valid Dropbox app key and secret."
-msgstr "Пожалуйста, предоставьте действующий ключ Dropbox и пароль."
-
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Ошибка при настройке хранилища Google Drive"
@@ -213,35 +235,35 @@ msgstr "Личное"
 
 #: js/mountsfilelist.js:36
 msgid "System"
-msgstr ""
+msgstr "Система"
 
 #: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Сохранено"
 
-#: lib/config.php:703
+#: lib/config.php:707
 msgid "<b>Note:</b> "
 msgstr "<b>Примечание:</b> "
 
-#: lib/config.php:713
+#: lib/config.php:717
 msgid " and "
 msgstr "и"
 
-#: lib/config.php:735
+#: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Примечание:</b> Поддержка cURL в PHP не включена или не установлен модуль. Подключение %s невозможно. Обратитесь к вашему системному администратору."
 
-#: lib/config.php:737
+#: lib/config.php:741
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Обратите внимание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору."
 
-#: lib/config.php:739
+#: lib/config.php:743
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Shared by" => "سے اشتراک شدہ",
 "Password" => "پاسورڈ",
+"Shared by" => "سے اشتراک شدہ",
 "Name" => "اسم",
 "Save" => "حفظ",
 "Download" => "ڈاؤن لوڈ،"

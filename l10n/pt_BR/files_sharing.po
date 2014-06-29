@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 12:31+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,6 +54,15 @@ msgstr "Você ainda não compartilhou nenhum arquivo por link."
 msgid "Add {name} from {owner}@{remote}"
 msgstr "Adicionar {name} de {owner}@{remote}"
 
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "Senha"
+
 #: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Nenhuma instalação ownCloud encontrada em {remote}"
@@ -77,10 +86,6 @@ msgstr "Este compartilhamento esta protegido por senha"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "Senha incorreta. Tente novamente."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "Senha"
 
 #: templates/list.php:16
 msgid "Name"

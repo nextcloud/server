@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 16:40+0000\n"
-"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,167 +22,193 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:36 js/app.js:32 templates/settings.php:9
+#: ajax/dropbox.php:27
+msgid ""
+"Fetching request tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:40
+msgid ""
+"Fetching access tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:48 js/dropbox.js:102
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό."
+
+#: ajax/google.php:27
+#, php-format
+msgid "Step 1 failed. Exception: %s"
+msgstr ""
+
+#: ajax/google.php:38
+#, php-format
+msgid "Step 2 failed. Exception: %s"
+msgstr ""
+
+#: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"
 msgstr "Εξωτερική αποθήκευση"
 
-#: appinfo/app.php:45
+#: appinfo/app.php:44
 msgid "Local"
 msgstr "Τοπικός"
 
-#: appinfo/app.php:48
+#: appinfo/app.php:47
 msgid "Location"
 msgstr "Τοποθεσία"
 
-#: appinfo/app.php:51
+#: appinfo/app.php:50
 msgid "Amazon S3"
 msgstr "Amazon S3"
 
-#: appinfo/app.php:54
+#: appinfo/app.php:53
 msgid "Key"
 msgstr "Κλειδί"
 
-#: appinfo/app.php:55
+#: appinfo/app.php:54
 msgid "Secret"
 msgstr "Μυστικό"
 
-#: appinfo/app.php:56 appinfo/app.php:65
+#: appinfo/app.php:55 appinfo/app.php:64
 msgid "Bucket"
 msgstr "Κάδος"
 
-#: appinfo/app.php:60
+#: appinfo/app.php:59
 msgid "Amazon S3 and compliant"
 msgstr "Amazon S3 και συμμορφούμενα"
 
-#: appinfo/app.php:63
+#: appinfo/app.php:62
 msgid "Access Key"
 msgstr "Κλειδί πρόσβασης"
 
-#: appinfo/app.php:64
+#: appinfo/app.php:63
 msgid "Secret Key"
 msgstr "Μυστικό κλειδί"
 
-#: appinfo/app.php:66
+#: appinfo/app.php:65
 msgid "Hostname (optional)"
 msgstr "Όνομα μηχανήματος (προαιρετικά)"
 
-#: appinfo/app.php:67
+#: appinfo/app.php:66
 msgid "Port (optional)"
 msgstr "Πόρτα (προαιρετικά)"
 
-#: appinfo/app.php:68
+#: appinfo/app.php:67
 msgid "Region (optional)"
 msgstr "Περιοχή (προαιρετικά)"
 
-#: appinfo/app.php:69
+#: appinfo/app.php:68
 msgid "Enable SSL"
 msgstr "Ενεργοποίηση SSL"
 
-#: appinfo/app.php:70
+#: appinfo/app.php:69
 msgid "Enable Path Style"
 msgstr "Ενεργοποίηση μορφής διαδρομής"
 
-#: appinfo/app.php:78
+#: appinfo/app.php:77
 msgid "App key"
 msgstr "Κλειδί εφαρμογής"
 
-#: appinfo/app.php:79
+#: appinfo/app.php:78
 msgid "App secret"
 msgstr "Μυστικό εφαρμογής"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
-#: appinfo/app.php:174
+#: appinfo/app.php:88 appinfo/app.php:129 appinfo/app.php:140
+#: appinfo/app.php:173
 msgid "Host"
 msgstr "Διακομιστής"
 
-#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
-#: appinfo/app.php:164 appinfo/app.php:175
+#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
+#: appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
-#: appinfo/app.php:91 appinfo/app.php:132 appinfo/app.php:154
-#: appinfo/app.php:165 appinfo/app.php:176
+#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
+#: appinfo/app.php:164 appinfo/app.php:175
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
-#: appinfo/app.php:92 appinfo/app.php:134 appinfo/app.php:144
-#: appinfo/app.php:155 appinfo/app.php:177
+#: appinfo/app.php:91 appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:176
 msgid "Root"
 msgstr "Root"
 
-#: appinfo/app.php:93
+#: appinfo/app.php:92
 msgid "Secure ftps://"
 msgstr "Ασφαλής ftps://"
 
-#: appinfo/app.php:101
+#: appinfo/app.php:100
 msgid "Client ID"
 msgstr "ID πελάτη"
 
-#: appinfo/app.php:102
+#: appinfo/app.php:101
 msgid "Client secret"
 msgstr "Μυστικό πελάτη"
 
-#: appinfo/app.php:109
+#: appinfo/app.php:108
 msgid "OpenStack Object Storage"
 msgstr "Αποθήκη αντικειμένων OpenStack"
 
-#: appinfo/app.php:112
+#: appinfo/app.php:111
 msgid "Username (required)"
 msgstr "Όνομα χρήστη (απαιτείται)"
 
-#: appinfo/app.php:113
+#: appinfo/app.php:112
 msgid "Bucket (required)"
 msgstr "Κάδος (απαιτείται)"
 
-#: appinfo/app.php:114
+#: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Περιοχή (προαιρετικά για την αποθήκευση αντικειμένων OpenStack)"
 
-#: appinfo/app.php:115
+#: appinfo/app.php:114
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr "Κλειδί API (απαιτείται για αρχεία Rackspace Cloud)"
 
-#: appinfo/app.php:116
+#: appinfo/app.php:115
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr "Όνομα ενοίκου (απαιτείται για την Αποθήκευση Αντικειμένων OpenStack)"
 
-#: appinfo/app.php:117
+#: appinfo/app.php:116
 msgid "Password (required for OpenStack Object Storage)"
 msgstr "Μυστικός κωδικός (απαιτείται για την αποθήκευση αντικειμένων OpenStack)"
 
-#: appinfo/app.php:118
+#: appinfo/app.php:117
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr "Όνομα υπηρεσίας (απαιτείται για την αποθήκευση αντικειμένων OpenStack)"
 
-#: appinfo/app.php:119
+#: appinfo/app.php:118
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "Διεύθυνση URL της ταυτότητας τελικού σημείου (απαιτείται για την αποθήκευση αντικειμένων OpenStack)"
 
-#: appinfo/app.php:120
+#: appinfo/app.php:119
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr "Χρονικό όριο των αιτήσεων HTTP σε δευτερόλεπτα (προαιρετικά)"
 
-#: appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
 msgstr "Διαμοιράστε"
 
-#: appinfo/app.php:138
+#: appinfo/app.php:137
 msgid "SMB / CIFS using OC login"
 msgstr "SMB / CIFS χρησιμοποιώντας λογαριασμό OC"
 
-#: appinfo/app.php:142
+#: appinfo/app.php:141
 msgid "Username as share"
 msgstr "Όνομα χρήστη ως διαμοιραζόμενος φάκελος"
 
-#: appinfo/app.php:152 appinfo/app.php:163
+#: appinfo/app.php:151 appinfo/app.php:162
 msgid "URL"
 msgstr "URL"
 
-#: appinfo/app.php:156 appinfo/app.php:167
+#: appinfo/app.php:155 appinfo/app.php:166
 msgid "Secure https://"
 msgstr "Ασφαλής σύνδεση https://"
 
-#: appinfo/app.php:166
+#: appinfo/app.php:165
 msgid "Remote subfolder"
 msgstr "Απομακρυσμένος υποφάκελος"
 
@@ -198,10 +224,6 @@ msgstr "Σφάλμα ρυθμίζωντας αποθήκευση Dropbox "
 msgid "Grant access"
 msgstr "Παροχή πρόσβασης"
 
-#: js/dropbox.js:102
-msgid "Please provide a valid Dropbox app key and secret."
-msgstr "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό."
-
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Σφάλμα ρυθμίζωντας αποθήκευση Google Drive "
@@ -214,33 +236,33 @@ msgstr "Προσωπικά"
 msgid "System"
 msgstr "Σύστημα"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Αποθηκεύτηκαν"
 
-#: lib/config.php:703
+#: lib/config.php:707
 msgid "<b>Note:</b> "
 msgstr "<b>Σημείωση:</b> "
 
-#: lib/config.php:713
+#: lib/config.php:717
 msgid " and "
 msgstr "και"
 
-#: lib/config.php:735
+#: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Σημείωση:</b> Η υποστήριξη cURL στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει."
 
-#: lib/config.php:737
+#: lib/config.php:741
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Σημείωση:</b> Η υποστήριξη FTP στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση του %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει."
 
-#: lib/config.php:739
+#: lib/config.php:743
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

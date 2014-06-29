@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Alain Sanguinetti <alain@sanguinetti.eu>, 2014
+# Alexandre G. <alexandre.grignon@gmail.com>, 2014
 # square <benben390-390@yahoo.fr>, 2013
 # Christophe Lherieau <skimpax@gmail.com>, 2013-2014
 # Etienne <etiess@gmail.com>, 2013-2014
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -59,11 +60,20 @@ msgstr "Vous ne partagez aucun de fichier par lien pour l'instant."
 msgid "Add {name} from {owner}@{remote}"
 msgstr "Ajouter {name} de {owner}@{remote}"
 
-#: js/public.js:200
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "Mot de passe"
+
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Aucune installation ownCloud n'a été trouvée sur {remote}"
 
-#: js/public.js:201
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "URL ownCloud invalide"
 
@@ -82,10 +92,6 @@ msgstr "Ce partage est protégé par un mot de passe"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "Le mot de passe est incorrect. Veuillez réessayer."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "Mot de passe"
 
 #: templates/list.php:16
 msgid "Name"
@@ -146,7 +152,7 @@ msgstr "Lien direct"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr ""
+msgstr "Partages Distants"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"

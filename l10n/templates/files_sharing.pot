@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,6 +53,15 @@ msgstr ""
 msgid "Add {name} from {owner}@{remote}"
 msgstr ""
 
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr ""
+
 #: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr ""
@@ -75,10 +84,6 @@ msgstr ""
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
 msgstr ""
 
 #: templates/list.php:16

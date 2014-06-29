@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Anna kelvollinen Dropbox-sovellusavain ja salainen vastaus.",
 "External storage" => "Ulkoinen tallennustila",
 "Local" => "Paikallinen",
 "Location" => "Sijainti",
@@ -21,7 +22,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Pääsy sallittu",
 "Error configuring Dropbox storage" => "Virhe Dropbox levyn asetuksia tehtäessä",
 "Grant access" => "Salli pääsy",
-"Please provide a valid Dropbox app key and secret." => "Anna kelvollinen Dropbox-sovellusavain ja salainen vastaus.",
 "Error configuring Google Drive storage" => "Virhe Google Drive levyn asetuksia tehtäessä",
 "Personal" => "Henkilökohtainen",
 "System" => "Järjestelmä",

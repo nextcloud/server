@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "المستخدمين التاليين لم يتم تعيين لهم التشفيير:",
 "Initial encryption started... This can take some time. Please wait." => "بدأ التشفير... من الممكن ان ياخذ بعض الوقت. يرجى الانتظار.",
 "Initial encryption running... Please try again later." => "جاري تفعيل التشفير المبدئي ، الرجاء المحاولة لاحقا",
+"Go directly to your %spersonal settings%s." => "  .%spersonal settings%s إنتقل مباشرة إلى ",
 "Encryption" => "التشفير",
 "Enable recovery key (allow to recover users files in case of password loss):" => "تفعيل استعادة المفتاح (سوف يمكنك من استعادة ملفات المستخدمين في حال فقدان كلمة المرور):",
 "Recovery key password" => "استعادة كلمة مرور المفتاح",

@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-28 13:31+0000\n"
+"Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -170,7 +170,7 @@ msgstr "Bild"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Ljud"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -226,14 +226,14 @@ msgstr "år sedan"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Kunde inte skicka återställningsmail. Vänligen kontakta din administratör."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Länken för att återställa ditt lösenord har skickats till din e-mail. Om du inte mottar något inom kort, kontrollera spam/skräpkorgen.<br>Om det inte finns något där, vänligen kontakta din lokala administratör."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -241,11 +241,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Dina filer är krypterade. Om du inte angett någon återställningsnyckel, kommer det att vara omöjligt att få tillbaka dina data efter att lösenordet är återställt..<br />Om du är osäker på vad du ska göra, vänligen kontakta din administratör innan du fortsätter.<br />Är du verkligen helt säker på att du vill fortsätta?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Jag är säker på vad jag gör"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -253,7 +253,7 @@ msgstr "Återställ lösenordet"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Lösenordet kan inte ändras. Vänligen kontakta din administratör."
 
 #: js/oc-dialogs.js:109 js/oc-dialogs.js:257
 msgid "Yes"
@@ -555,17 +555,17 @@ msgstr "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud."
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Kunde inte återställa lösenordet på grund av felaktig token"
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Kunde inte skicka återställningsmail. Vänligen kontrollera att ditt användarnamn är korrekt."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Kunde inte skicka något återställningsmail därför att det inte finns någon e-mailadress kopplad till detta användarnamn. Vänligen kontakta din administratör."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
@@ -608,7 +608,7 @@ msgstr "Nytt lösenord"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nytt lösenord"
 
 #: setup/controller.php:140
 #, php-format
@@ -836,7 +836,7 @@ msgstr "Kontakta din administratör."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Glömt ditt lösenord? Återställ det!"
 
 #: templates/login.php:55
 msgid "remember"

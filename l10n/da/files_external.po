@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-13 01:54-0400\n"
-"PO-Revision-Date: 2014-06-12 19:00+0000\n"
-"Last-Translator: Anders J. Sørensen\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,167 +19,193 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: appinfo/app.php:36 js/app.js:32 templates/settings.php:9
+#: ajax/dropbox.php:27
+msgid ""
+"Fetching request tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:40
+msgid ""
+"Fetching access tokens failed. Verify that your Dropbox app key and secret "
+"are correct."
+msgstr ""
+
+#: ajax/dropbox.php:48 js/dropbox.js:102
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Angiv venligst en valid Dropbox app nøgle og hemmelighed"
+
+#: ajax/google.php:27
+#, php-format
+msgid "Step 1 failed. Exception: %s"
+msgstr ""
+
+#: ajax/google.php:38
+#, php-format
+msgid "Step 2 failed. Exception: %s"
+msgstr ""
+
+#: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"
 msgstr "Eksternt lager"
 
-#: appinfo/app.php:45
+#: appinfo/app.php:44
 msgid "Local"
 msgstr "Lokal"
 
-#: appinfo/app.php:48
+#: appinfo/app.php:47
 msgid "Location"
 msgstr "Placering"
 
-#: appinfo/app.php:51
+#: appinfo/app.php:50
 msgid "Amazon S3"
 msgstr "Amazon S3"
 
-#: appinfo/app.php:54
+#: appinfo/app.php:53
 msgid "Key"
 msgstr "Nøgle"
 
-#: appinfo/app.php:55
+#: appinfo/app.php:54
 msgid "Secret"
 msgstr "Hemmelighed"
 
-#: appinfo/app.php:56 appinfo/app.php:65
+#: appinfo/app.php:55 appinfo/app.php:64
 msgid "Bucket"
 msgstr "Bucket"
 
-#: appinfo/app.php:60
+#: appinfo/app.php:59
 msgid "Amazon S3 and compliant"
 msgstr "Amazon S3 og kompatible"
 
-#: appinfo/app.php:63
+#: appinfo/app.php:62
 msgid "Access Key"
 msgstr "Adgangsnøgle"
 
-#: appinfo/app.php:64
+#: appinfo/app.php:63
 msgid "Secret Key"
 msgstr "Hemmelig Nøgle "
 
-#: appinfo/app.php:66
+#: appinfo/app.php:65
 msgid "Hostname (optional)"
 msgstr "Værtsnavn (valgfri)"
 
-#: appinfo/app.php:67
+#: appinfo/app.php:66
 msgid "Port (optional)"
 msgstr "Port (valgfri)"
 
-#: appinfo/app.php:68
+#: appinfo/app.php:67
 msgid "Region (optional)"
 msgstr "Region (valgfri)"
 
-#: appinfo/app.php:69
+#: appinfo/app.php:68
 msgid "Enable SSL"
 msgstr "Aktiver SSL"
 
-#: appinfo/app.php:70
+#: appinfo/app.php:69
 msgid "Enable Path Style"
 msgstr ""
 
-#: appinfo/app.php:78
+#: appinfo/app.php:77
 msgid "App key"
 msgstr "App-nøgle"
 
-#: appinfo/app.php:79
+#: appinfo/app.php:78
 msgid "App secret"
 msgstr "App-hemmelighed"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:141
-#: appinfo/app.php:174
+#: appinfo/app.php:88 appinfo/app.php:129 appinfo/app.php:140
+#: appinfo/app.php:173
 msgid "Host"
 msgstr "Host"
 
-#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
-#: appinfo/app.php:164 appinfo/app.php:175
+#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
+#: appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Brugernavn"
 
-#: appinfo/app.php:91 appinfo/app.php:132 appinfo/app.php:154
-#: appinfo/app.php:165 appinfo/app.php:176
+#: appinfo/app.php:90 appinfo/app.php:131 appinfo/app.php:153
+#: appinfo/app.php:164 appinfo/app.php:175
 msgid "Password"
 msgstr "Kodeord"
 
-#: appinfo/app.php:92 appinfo/app.php:134 appinfo/app.php:144
-#: appinfo/app.php:155 appinfo/app.php:177
+#: appinfo/app.php:91 appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:154 appinfo/app.php:176
 msgid "Root"
 msgstr "Root"
 
-#: appinfo/app.php:93
+#: appinfo/app.php:92
 msgid "Secure ftps://"
 msgstr "Sikker ftps://"
 
-#: appinfo/app.php:101
+#: appinfo/app.php:100
 msgid "Client ID"
 msgstr "Klient ID"
 
-#: appinfo/app.php:102
+#: appinfo/app.php:101
 msgid "Client secret"
 msgstr "Klient hemmelighed"
 
-#: appinfo/app.php:109
+#: appinfo/app.php:108
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Object Storage"
 
-#: appinfo/app.php:112
+#: appinfo/app.php:111
 msgid "Username (required)"
 msgstr "Brugernavn (påkrævet)"
 
-#: appinfo/app.php:113
+#: appinfo/app.php:112
 msgid "Bucket (required)"
 msgstr "Bucket (påkrævet)"
 
-#: appinfo/app.php:114
+#: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Region (valgfri for OpenStack Object Storage)"
 
-#: appinfo/app.php:115
+#: appinfo/app.php:114
 msgid "API Key (required for Rackspace Cloud Files)"
 msgstr "API-nøgle (påkrævet for Rackspace Cloud Files)"
 
-#: appinfo/app.php:116
+#: appinfo/app.php:115
 msgid "Tenantname (required for OpenStack Object Storage)"
 msgstr "Lejers navn (påkrævet for OpenStack Object Storage)"
 
-#: appinfo/app.php:117
+#: appinfo/app.php:116
 msgid "Password (required for OpenStack Object Storage)"
 msgstr "Adgangskode (påkrævet for OpenStack Object Storage)"
 
-#: appinfo/app.php:118
+#: appinfo/app.php:117
 msgid "Service Name (required for OpenStack Object Storage)"
 msgstr "Service Navn (påkrævet for OpenStack Object Storage)"
 
-#: appinfo/app.php:119
+#: appinfo/app.php:118
 msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr ""
 
-#: appinfo/app.php:120
+#: appinfo/app.php:119
 msgid "Timeout of HTTP requests in seconds (optional)"
 msgstr "Timeout på HTTP forespørgsler i sekunder (valgfri)"
 
-#: appinfo/app.php:133 appinfo/app.php:143
+#: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
 msgstr "Del"
 
-#: appinfo/app.php:138
+#: appinfo/app.php:137
 msgid "SMB / CIFS using OC login"
 msgstr "SMB / CIFS med OC-login"
 
-#: appinfo/app.php:142
+#: appinfo/app.php:141
 msgid "Username as share"
 msgstr ""
 
-#: appinfo/app.php:152 appinfo/app.php:163
+#: appinfo/app.php:151 appinfo/app.php:162
 msgid "URL"
 msgstr "URL"
 
-#: appinfo/app.php:156 appinfo/app.php:167
+#: appinfo/app.php:155 appinfo/app.php:166
 msgid "Secure https://"
 msgstr "Sikker https://"
 
-#: appinfo/app.php:166
+#: appinfo/app.php:165
 msgid "Remote subfolder"
 msgstr ""
 
@@ -195,10 +221,6 @@ msgstr "Fejl ved konfiguration af Dropbox plads"
 msgid "Grant access"
 msgstr "Godkend adgang"
 
-#: js/dropbox.js:102
-msgid "Please provide a valid Dropbox app key and secret."
-msgstr "Angiv venligst en valid Dropbox app nøgle og hemmelighed"
-
 #: js/google.js:45 js/google.js:122
 msgid "Error configuring Google Drive storage"
 msgstr "Fejl ved konfiguration af Google Drive plads"
@@ -211,33 +233,33 @@ msgstr "Personligt"
 msgid "System"
 msgstr "System"
 
-#: js/settings.js:318 js/settings.js:325
+#: js/settings.js:320 js/settings.js:327
 msgid "Saved"
 msgstr "Gemt"
 
-#: lib/config.php:703
+#: lib/config.php:707
 msgid "<b>Note:</b> "
 msgstr "<b>Note:</b> "
 
-#: lib/config.php:713
+#: lib/config.php:717
 msgid " and "
 msgstr "og"
 
-#: lib/config.php:735
+#: lib/config.php:739
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Bemærk:</b>  cURL understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det."
 
-#: lib/config.php:737
+#: lib/config.php:741
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Bemærk:</b>  FTP understøttelsen i PHP er enten ikke aktiveret eller installeret. Montering af %s er ikke muligt. Anmod din systemadministrator om at installere det."
 
-#: lib/config.php:739
+#: lib/config.php:743
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

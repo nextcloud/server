@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Amharic (Ethiopia) (http://www.transifex.com/projects/p/owncloud/language/am_ET/)\n"
 "MIME-Version: 1.0\n"
@@ -17,50 +17,72 @@ msgstr ""
 "Language: am_ET\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:678
+#: base.php:187 base.php:194
+msgid "Cannot write into \"config\" directory!"
+msgstr ""
+
+#: base.php:188
+msgid ""
+"This can usually be fixed by giving the webserver write access to the config"
+" directory"
+msgstr ""
+
+#: base.php:190
+#, php-format
+msgid "See %s"
+msgstr ""
+
+#: base.php:195 private/util.php:413
+#, php-format
+msgid ""
+"This can usually be fixed by %sgiving the webserver write access to the "
+"config directory%s."
+msgstr ""
+
+#: base.php:675
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:679
+#: base.php:676
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:361
+#: private/app.php:366
 msgid "Help"
 msgstr ""
 
-#: private/app.php:374
+#: private/app.php:379
 msgid "Personal"
 msgstr ""
 
-#: private/app.php:385
+#: private/app.php:390
 msgid "Settings"
 msgstr ""
 
-#: private/app.php:397
+#: private/app.php:402
 msgid "Users"
 msgstr ""
 
-#: private/app.php:410
+#: private/app.php:415
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:978
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: private/app.php:1135
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1147
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr ""
 
@@ -72,7 +94,7 @@ msgstr ""
 msgid "Invalid image"
 msgstr ""
 
-#: private/defaults.php:35
+#: private/defaults.php:38
 msgid "web services under your control"
 msgstr ""
 
@@ -85,48 +107,48 @@ msgstr ""
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
-#: private/installer.php:231
+#: private/installer.php:235
 msgid "No source specified when installing app"
 msgstr ""
 
-#: private/installer.php:238
+#: private/installer.php:242
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: private/installer.php:243
+#: private/installer.php:247
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: private/installer.php:257
+#: private/installer.php:261
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: private/installer.php:271
+#: private/installer.php:275
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: private/installer.php:309
+#: private/installer.php:313
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: private/installer.php:315
+#: private/installer.php:319
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:321
+#: private/installer.php:325
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: private/installer.php:327
+#: private/installer.php:331
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:340
+#: private/installer.php:344
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -244,13 +266,13 @@ msgstr ""
 msgid "Set an admin password."
 msgstr ""
 
-#: private/setup.php:164
+#: private/setup.php:170
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: private/setup.php:165
+#: private/setup.php:171
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
@@ -319,57 +341,57 @@ msgstr ""
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:820
+#: private/share/share.php:860
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:881
+#: private/share/share.php:921
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:1002
+#: private/share/share.php:1046
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:1009
+#: private/share/share.php:1053
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:1015
+#: private/share/share.php:1059
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1432
+#: private/share/share.php:1476
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1441
+#: private/share/share.php:1485
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1457
+#: private/share/share.php:1501
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1469
+#: private/share/share.php:1513
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1483
+#: private/share/share.php:1527
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -444,6 +466,152 @@ msgstr ""
 
 #: private/user/manager.php:252
 msgid "The username is already being used"
+msgstr ""
+
+#: private/util.php:398
+msgid "No database drivers (sqlite, mysql, or postgresql) installed."
+msgstr ""
+
+#: private/util.php:405
+#, php-format
+msgid ""
+"Permissions can usually be fixed by %sgiving the webserver write access to "
+"the root directory%s."
+msgstr ""
+
+#: private/util.php:412
+msgid "Cannot write into \"config\" directory"
+msgstr ""
+
+#: private/util.php:425
+msgid "Cannot write into \"apps\" directory"
+msgstr ""
+
+#: private/util.php:426
+#, php-format
+msgid ""
+"This can usually be fixed by %sgiving the webserver write access to the apps"
+" directory%s or disabling the appstore in the config file."
+msgstr ""
+
+#: private/util.php:440
+#, php-format
+msgid "Cannot create \"data\" directory (%s)"
+msgstr ""
+
+#: private/util.php:441
+#, php-format
+msgid ""
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
+"webserver write access to the root directory</a>."
+msgstr ""
+
+#: private/util.php:457
+#, php-format
+msgid "Setting locale to %s failed"
+msgstr ""
+
+#: private/util.php:460
+msgid ""
+"Please install one of theses locales on your system and restart your "
+"webserver."
+msgstr ""
+
+#: private/util.php:464
+msgid "Please ask your server administrator to install the module."
+msgstr ""
+
+#: private/util.php:468 private/util.php:475 private/util.php:482
+#: private/util.php:496 private/util.php:503 private/util.php:510
+#: private/util.php:517 private/util.php:524 private/util.php:531
+#: private/util.php:546
+#, php-format
+msgid "PHP module %s not installed."
+msgstr ""
+
+#: private/util.php:538
+#, php-format
+msgid "PHP %s or higher is required."
+msgstr ""
+
+#: private/util.php:539
+msgid ""
+"Please ask your server administrator to update PHP to the latest version. "
+"Your PHP version is no longer supported by ownCloud and the PHP community."
+msgstr ""
+
+#: private/util.php:556
+msgid ""
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
+"properly."
+msgstr ""
+
+#: private/util.php:557
+msgid ""
+"PHP Safe Mode is a deprecated and mostly useless setting that should be "
+"disabled. Please ask your server administrator to disable it in php.ini or "
+"in your webserver config."
+msgstr ""
+
+#: private/util.php:564
+msgid ""
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work "
+"properly."
+msgstr ""
+
+#: private/util.php:565
+msgid ""
+"Magic Quotes is a deprecated and mostly useless setting that should be "
+"disabled. Please ask your server administrator to disable it in php.ini or "
+"in your webserver config."
+msgstr ""
+
+#: private/util.php:579
+msgid "PHP modules have been installed, but they are still listed as missing?"
+msgstr ""
+
+#: private/util.php:580
+msgid "Please ask your server administrator to restart the web server."
+msgstr ""
+
+#: private/util.php:609
+msgid "PostgreSQL >= 9 required"
+msgstr ""
+
+#: private/util.php:610
+msgid "Please upgrade your database version"
+msgstr ""
+
+#: private/util.php:617
+msgid "Error occurred while checking PostgreSQL version"
+msgstr ""
+
+#: private/util.php:618
+msgid ""
+"Please make sure you have PostgreSQL >= 9 or check the logs for more "
+"information about the error"
+msgstr ""
+
+#: private/util.php:680
+msgid ""
+"Please change the permissions to 0770 so that the directory cannot be listed"
+" by other users."
+msgstr ""
+
+#: private/util.php:689
+#, php-format
+msgid "Data directory (%s) is readable by other users"
+msgstr ""
+
+#: private/util.php:710
+#, php-format
+msgid "Data directory (%s) is invalid"
+msgstr ""
+
+#: private/util.php:711
+msgid ""
+"Please check that the data directory contains a file \".ocdata\" in its "
+"root."
 msgstr ""
 
 #: public/files/locknotacquiredexception.php:39

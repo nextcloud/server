@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Ве молам доставите валиден Dropbox клуч и тајна лозинка.",
 "Local" => "Локален",
 "Location" => "Локација",
 "Host" => "Домаќин",
@@ -10,7 +11,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Пристапот е дозволен",
 "Error configuring Dropbox storage" => "Грешка при конфигурација на Dropbox",
 "Grant access" => "Дозволи пристап",
-"Please provide a valid Dropbox app key and secret." => "Ве молам доставите валиден Dropbox клуч и тајна лозинка.",
 "Error configuring Google Drive storage" => "Грешка при конфигурација на Google Drive",
 "Personal" => "Лично",
 "Saved" => "Снимено",

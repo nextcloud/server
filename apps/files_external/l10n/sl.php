@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Vpisati je treba veljaven ključ programa in kodo za Dropbox",
 "External storage" => "Zunanja shramba",
 "Local" => "Krajevno",
 "Location" => "Mesto",
@@ -33,7 +34,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Dostop je odobren",
 "Error configuring Dropbox storage" => "Napaka nastavljanja shrambe Dropbox",
 "Grant access" => "Odobri dostop",
-"Please provide a valid Dropbox app key and secret." => "Vpisati je treba veljaven ključ programa in kodo za Dropbox",
 "Error configuring Google Drive storage" => "Napaka nastavljanja shrambe Google Drive",
 "Personal" => "Osebno",
 "Saved" => "Shranjeno",

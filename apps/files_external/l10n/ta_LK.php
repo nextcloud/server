@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "தயவுசெய்து ஒரு செல்லுபடியான Dropbox செயலி சாவி மற்றும் இரகசியத்தை வழங்குக. ",
 "Location" => "இடம்",
 "Host" => "ஓம்புனர்",
 "Username" => "பயனாளர் பெயர்",
@@ -9,7 +10,6 @@ $TRANSLATIONS = array(
 "Access granted" => "அனுமதி வழங்கப்பட்டது",
 "Error configuring Dropbox storage" => "Dropbox சேமிப்பை தகவமைப்பதில் வழு",
 "Grant access" => "அனுமதியை வழங்கல்",
-"Please provide a valid Dropbox app key and secret." => "தயவுசெய்து ஒரு செல்லுபடியான Dropbox செயலி சாவி மற்றும் இரகசியத்தை வழங்குக. ",
 "Error configuring Google Drive storage" => "Google இயக்க சேமிப்பகத்தை தகமைப்பதில் வழு",
 "Personal" => "தனிப்பட்ட",
 "Name" => "பெயர்",

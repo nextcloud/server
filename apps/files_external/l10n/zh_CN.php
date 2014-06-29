@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "请提供有效的Dropbox应用key和secret",
 "External storage" => "外部存储",
 "Local" => "本地",
 "Location" => "地点",
@@ -22,7 +23,6 @@ $TRANSLATIONS = array(
 "Access granted" => "权限已授予。",
 "Error configuring Dropbox storage" => "配置Dropbox存储时出错",
 "Grant access" => "授权",
-"Please provide a valid Dropbox app key and secret." => "请提供有效的Dropbox应用key和secret",
 "Error configuring Google Drive storage" => "配置Google Drive存储时出错",
 "Personal" => "个人",
 "Saved" => "已保存",

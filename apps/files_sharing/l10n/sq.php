@@ -1,9 +1,9 @@
 <?php
 $TRANSLATIONS = array(
+"Password" => "Kodi",
 "Shared by" => "Ndarë nga",
 "This share is password-protected" => "Kjo pjesë është e mbrojtur me fjalëkalim",
 "The password is wrong. Try again." => "Kodi është i gabuar. Provojeni përsëri.",
-"Password" => "Kodi",
 "Name" => "Emri",
 "Sorry, this link doesn’t seem to work anymore." => "Ju kërkojmë ndjesë, kjo lidhje duket sikur nuk punon më.",
 "Reasons might be:" => "Arsyet mund të jenë:",

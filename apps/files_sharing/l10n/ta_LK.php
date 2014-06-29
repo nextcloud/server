@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Shared by {owner}" => "பகிரப்பட்டது {சொந்தகாரர்}",
 "Password" => "கடவுச்சொல்",
+"Shared by {owner}" => "பகிரப்பட்டது {சொந்தகாரர்}",
 "Name" => "பெயர்",
 "Save" => "சேமிக்க ",
 "Download" => "பதிவிறக்குக"

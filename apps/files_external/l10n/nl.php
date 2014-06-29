@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Geef een geldige Dropbox key en secret.",
 "External storage" => "Externe opslag",
 "Local" => "Lokaal",
 "Location" => "Locatie",
@@ -43,7 +44,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Toegang toegestaan",
 "Error configuring Dropbox storage" => "Fout tijdens het configureren van Dropbox opslag",
 "Grant access" => "Sta toegang toe",
-"Please provide a valid Dropbox app key and secret." => "Geef een geldige Dropbox key en secret.",
 "Error configuring Google Drive storage" => "Fout tijdens het configureren van Google Drive opslag",
 "Personal" => "Persoonlijk",
 "System" => "Systeem",

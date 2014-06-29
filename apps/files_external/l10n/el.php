@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό.",
 "External storage" => "Εξωτερική αποθήκευση",
 "Local" => "Τοπικός",
 "Location" => "Τοποθεσία",
@@ -43,7 +44,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Προσβαση παρασχέθηκε",
 "Error configuring Dropbox storage" => "Σφάλμα ρυθμίζωντας αποθήκευση Dropbox ",
 "Grant access" => "Παροχή πρόσβασης",
-"Please provide a valid Dropbox app key and secret." => "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό.",
 "Error configuring Google Drive storage" => "Σφάλμα ρυθμίζωντας αποθήκευση Google Drive ",
 "Personal" => "Προσωπικά",
 "System" => "Σύστημα",

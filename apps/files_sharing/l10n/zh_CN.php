@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Password" => "密码",
 "Shared by {owner}" => "由{owner}共享",
 "Shared by" => "共享人",
 "This share is password-protected" => "这是一个密码保护的共享",
 "The password is wrong. Try again." => "用户名或密码错误！请重试",
-"Password" => "密码",
 "Name" => "名称",
 "Sorry, this link doesn’t seem to work anymore." => "抱歉，此链接已失效",
 "Reasons might be:" => "可能原因是：",

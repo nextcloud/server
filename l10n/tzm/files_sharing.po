@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Central Atlas Tamazight (http://www.transifex.com/projects/p/owncloud/language/tzm/)\n"
 "MIME-Version: 1.0\n"
@@ -53,11 +53,20 @@ msgstr ""
 msgid "Add {name} from {owner}@{remote}"
 msgstr ""
 
-#: js/public.js:200
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr ""
+
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr ""
 
-#: js/public.js:201
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr ""
 
@@ -75,10 +84,6 @@ msgstr ""
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
 msgstr ""
 
 #: templates/list.php:16

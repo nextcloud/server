@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Invalid image"
 msgstr ""
 
-#: defaults.php:35
+#: defaults.php:38
 msgid "web services under your control"
 msgstr ""
 
@@ -426,4 +426,154 @@ msgstr ""
 
 #: user/manager.php:252
 msgid "The username is already being used"
+msgstr ""
+
+#: util.php:398
+msgid "No database drivers (sqlite, mysql, or postgresql) installed."
+msgstr ""
+
+#: util.php:405
+#, php-format
+msgid ""
+"Permissions can usually be fixed by %sgiving the webserver write access to "
+"the root directory%s."
+msgstr ""
+
+#: util.php:412
+msgid "Cannot write into \"config\" directory"
+msgstr ""
+
+#: util.php:413
+#, php-format
+msgid ""
+"This can usually be fixed by %sgiving the webserver write access to the "
+"config directory%s."
+msgstr ""
+
+#: util.php:425
+msgid "Cannot write into \"apps\" directory"
+msgstr ""
+
+#: util.php:426
+#, php-format
+msgid ""
+"This can usually be fixed by %sgiving the webserver write access to the apps "
+"directory%s or disabling the appstore in the config file."
+msgstr ""
+
+#: util.php:440
+#, php-format
+msgid "Cannot create \"data\" directory (%s)"
+msgstr ""
+
+#: util.php:441
+#, php-format
+msgid ""
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
+"webserver write access to the root directory</a>."
+msgstr ""
+
+#: util.php:457
+#, php-format
+msgid "Setting locale to %s failed"
+msgstr ""
+
+#: util.php:460
+msgid ""
+"Please install one of theses locales on your system and restart your "
+"webserver."
+msgstr ""
+
+#: util.php:464
+msgid "Please ask your server administrator to install the module."
+msgstr ""
+
+#: util.php:468 util.php:475 util.php:482 util.php:496 util.php:503
+#: util.php:510 util.php:517 util.php:524 util.php:531 util.php:546
+#, php-format
+msgid "PHP module %s not installed."
+msgstr ""
+
+#: util.php:538
+#, php-format
+msgid "PHP %s or higher is required."
+msgstr ""
+
+#: util.php:539
+msgid ""
+"Please ask your server administrator to update PHP to the latest version. "
+"Your PHP version is no longer supported by ownCloud and the PHP community."
+msgstr ""
+
+#: util.php:556
+msgid ""
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
+"properly."
+msgstr ""
+
+#: util.php:557
+msgid ""
+"PHP Safe Mode is a deprecated and mostly useless setting that should be "
+"disabled. Please ask your server administrator to disable it in php.ini or "
+"in your webserver config."
+msgstr ""
+
+#: util.php:564
+msgid ""
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work "
+"properly."
+msgstr ""
+
+#: util.php:565
+msgid ""
+"Magic Quotes is a deprecated and mostly useless setting that should be "
+"disabled. Please ask your server administrator to disable it in php.ini or "
+"in your webserver config."
+msgstr ""
+
+#: util.php:579
+msgid "PHP modules have been installed, but they are still listed as missing?"
+msgstr ""
+
+#: util.php:580
+msgid "Please ask your server administrator to restart the web server."
+msgstr ""
+
+#: util.php:609
+msgid "PostgreSQL >= 9 required"
+msgstr ""
+
+#: util.php:610
+msgid "Please upgrade your database version"
+msgstr ""
+
+#: util.php:617
+msgid "Error occurred while checking PostgreSQL version"
+msgstr ""
+
+#: util.php:618
+msgid ""
+"Please make sure you have PostgreSQL >= 9 or check the logs for more "
+"information about the error"
+msgstr ""
+
+#: util.php:680
+msgid ""
+"Please change the permissions to 0770 so that the directory cannot be listed "
+"by other users."
+msgstr ""
+
+#: util.php:689
+#, php-format
+msgid "Data directory (%s) is readable by other users"
+msgstr ""
+
+#: util.php:710
+#, php-format
+msgid "Data directory (%s) is invalid"
+msgstr ""
+
+#: util.php:711
+msgid ""
+"Please check that the data directory contains a file \".ocdata\" in its root."
 msgstr ""

@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Patrik Nilsson <asavartzeth@gmail.com>, 2014
+# enoch85 <enoch85@gmail.com>, 2014
 # Gustav Smedberg <shadow.elf@hotmail.com>, 2013
 # Juho Ojala, 2014
 # Magnus Höglund <magnus@linux.com>, 2013
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: ajax/external.php:20
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "Server-till-server-delning är inte aktiverat på denna server"
 
 #: ajax/external.php:50
 msgid "Couldn't add remote share"
@@ -56,15 +57,24 @@ msgstr "Du har inte delat några filer som länk ännu."
 
 #: js/external.js:45 js/external.js:48
 msgid "Add {name} from {owner}@{remote}"
+msgstr "Lägg till {name} från {owner}@{remote}"
+
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
 msgstr ""
 
-#: js/public.js:200
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "Lösenord"
+
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Ingen ownCloudinstallation funnen på {remote}"
 
-#: js/public.js:201
+#: js/public.js:205
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Felaktig ownCloud url"
 
 #: js/share.js:60
 msgid "Shared by {owner}"
@@ -81,10 +91,6 @@ msgstr "Den här delningen är lösenordsskyddad"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "Lösenordet är fel. Försök igen."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "Lösenord"
 
 #: templates/list.php:16
 msgid "Name"
@@ -120,11 +126,11 @@ msgstr "För mer information, kontakta den person som skickade den här länken.
 
 #: templates/public.php:20
 msgid "Save to ownCloud"
-msgstr ""
+msgstr "Spara till ownCloud"
 
 #: templates/public.php:22
 msgid "example.com/owncloud"
-msgstr ""
+msgstr "example.com/owncloud"
 
 #: templates/public.php:23
 msgid "Save"

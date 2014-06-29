@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Lūdzu, norādiet derīgu Dropbox lietotnes atslēgu un noslēpumu.",
 "External storage" => "Ārējā krātuve",
 "Location" => "Vieta",
 "Host" => "Resursdators",
@@ -10,7 +11,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Piešķirta pieeja",
 "Error configuring Dropbox storage" => "Kļūda, konfigurējot Dropbox krātuvi",
 "Grant access" => "Piešķirt pieeju",
-"Please provide a valid Dropbox app key and secret." => "Lūdzu, norādiet derīgu Dropbox lietotnes atslēgu un noslēpumu.",
 "Error configuring Google Drive storage" => "Kļūda, konfigurējot Google Drive krātuvi",
 "Personal" => "Personīgi",
 "Name" => "Nosaukums",

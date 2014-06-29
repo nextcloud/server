@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -54,11 +54,20 @@ msgstr "Vi kunhavigis neniun dosieron per ligilo ankoraŭ."
 msgid "Add {name} from {owner}@{remote}"
 msgstr "Aldoni {name} el {owner}@{remote}"
 
-#: js/public.js:200
+#: js/external.js:46 js/external.js:49
+msgid "Add Share"
+msgstr ""
+
+#: js/external.js:49 templates/authenticate.php:10
+#: templates/authenticate.php:12
+msgid "Password"
+msgstr "Pasvorto"
+
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Ne troviĝis instalo de ownCloud ĉe {remote}"
 
-#: js/public.js:201
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "Nevalidas URL de ownCloud"
 
@@ -77,10 +86,6 @@ msgstr "Ĉi tiu kunhavigo estas protektata per pasvorto"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "La pasvorto malĝustas. Provu denove."
-
-#: templates/authenticate.php:10 templates/authenticate.php:12
-msgid "Password"
-msgstr "Pasvorto"
 
 #: templates/list.php:16
 msgid "Name"

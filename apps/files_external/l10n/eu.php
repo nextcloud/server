@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua",
 "External storage" => "Kanpoko biltegiratzea",
 "Local" => "Bertakoa",
 "Location" => "Kokapena",
@@ -17,7 +18,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Sarrera baimendua",
 "Error configuring Dropbox storage" => "Errore bat egon da Dropbox biltegiratzea konfiguratzean",
 "Grant access" => "Baimendu sarrera",
-"Please provide a valid Dropbox app key and secret." => "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua",
 "Error configuring Google Drive storage" => "Errore bat egon da Google Drive konfiguratzean",
 "Personal" => "Pertsonala",
 "System" => "Sistema",

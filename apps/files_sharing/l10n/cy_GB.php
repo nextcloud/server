@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Shared by" => "Rhannwyd gan",
 "Password" => "Cyfrinair",
+"Shared by" => "Rhannwyd gan",
 "Name" => "Enw",
 "Save" => "Cadw",
 "Download" => "Llwytho i lawr"

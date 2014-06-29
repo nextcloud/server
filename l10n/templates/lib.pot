@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
+"POT-Creation-Date: 2014-06-29 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: base.php:673
+#: base.php:187 base.php:194
+msgid "Cannot write into \"config\" directory!"
+msgstr ""
+
+#: base.php:188
+msgid ""
+"This can usually be fixed by giving the webserver write access to the config "
+"directory"
+msgstr ""
+
+#: base.php:190
+#, php-format
+msgid "See %s"
+msgstr ""
+
+#: base.php:195 private/util.php:413
+#, php-format
+msgid ""
+"This can usually be fixed by %sgiving the webserver write access to the "
+"config directory%s."
+msgstr ""
+
+#: base.php:675
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:674
+#: base.php:676
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -73,7 +95,7 @@ msgstr ""
 msgid "Invalid image"
 msgstr ""
 
-#: private/defaults.php:35
+#: private/defaults.php:38
 msgid "web services under your control"
 msgstr ""
 
@@ -445,6 +467,151 @@ msgstr ""
 
 #: private/user/manager.php:252
 msgid "The username is already being used"
+msgstr ""
+
+#: private/util.php:398
+msgid "No database drivers (sqlite, mysql, or postgresql) installed."
+msgstr ""
+
+#: private/util.php:405
+#, php-format
+msgid ""
+"Permissions can usually be fixed by %sgiving the webserver write access to "
+"the root directory%s."
+msgstr ""
+
+#: private/util.php:412
+msgid "Cannot write into \"config\" directory"
+msgstr ""
+
+#: private/util.php:425
+msgid "Cannot write into \"apps\" directory"
+msgstr ""
+
+#: private/util.php:426
+#, php-format
+msgid ""
+"This can usually be fixed by %sgiving the webserver write access to the apps "
+"directory%s or disabling the appstore in the config file."
+msgstr ""
+
+#: private/util.php:440
+#, php-format
+msgid "Cannot create \"data\" directory (%s)"
+msgstr ""
+
+#: private/util.php:441
+#, php-format
+msgid ""
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
+"webserver write access to the root directory</a>."
+msgstr ""
+
+#: private/util.php:457
+#, php-format
+msgid "Setting locale to %s failed"
+msgstr ""
+
+#: private/util.php:460
+msgid ""
+"Please install one of theses locales on your system and restart your "
+"webserver."
+msgstr ""
+
+#: private/util.php:464
+msgid "Please ask your server administrator to install the module."
+msgstr ""
+
+#: private/util.php:468 private/util.php:475 private/util.php:482
+#: private/util.php:496 private/util.php:503 private/util.php:510
+#: private/util.php:517 private/util.php:524 private/util.php:531
+#: private/util.php:546
+#, php-format
+msgid "PHP module %s not installed."
+msgstr ""
+
+#: private/util.php:538
+#, php-format
+msgid "PHP %s or higher is required."
+msgstr ""
+
+#: private/util.php:539
+msgid ""
+"Please ask your server administrator to update PHP to the latest version. "
+"Your PHP version is no longer supported by ownCloud and the PHP community."
+msgstr ""
+
+#: private/util.php:556
+msgid ""
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
+"properly."
+msgstr ""
+
+#: private/util.php:557
+msgid ""
+"PHP Safe Mode is a deprecated and mostly useless setting that should be "
+"disabled. Please ask your server administrator to disable it in php.ini or "
+"in your webserver config."
+msgstr ""
+
+#: private/util.php:564
+msgid ""
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work "
+"properly."
+msgstr ""
+
+#: private/util.php:565
+msgid ""
+"Magic Quotes is a deprecated and mostly useless setting that should be "
+"disabled. Please ask your server administrator to disable it in php.ini or "
+"in your webserver config."
+msgstr ""
+
+#: private/util.php:579
+msgid "PHP modules have been installed, but they are still listed as missing?"
+msgstr ""
+
+#: private/util.php:580
+msgid "Please ask your server administrator to restart the web server."
+msgstr ""
+
+#: private/util.php:609
+msgid "PostgreSQL >= 9 required"
+msgstr ""
+
+#: private/util.php:610
+msgid "Please upgrade your database version"
+msgstr ""
+
+#: private/util.php:617
+msgid "Error occurred while checking PostgreSQL version"
+msgstr ""
+
+#: private/util.php:618
+msgid ""
+"Please make sure you have PostgreSQL >= 9 or check the logs for more "
+"information about the error"
+msgstr ""
+
+#: private/util.php:680
+msgid ""
+"Please change the permissions to 0770 so that the directory cannot be listed "
+"by other users."
+msgstr ""
+
+#: private/util.php:689
+#, php-format
+msgid "Data directory (%s) is readable by other users"
+msgstr ""
+
+#: private/util.php:710
+#, php-format
+msgid "Data directory (%s) is invalid"
+msgstr ""
+
+#: private/util.php:711
+msgid ""
+"Please check that the data directory contains a file \".ocdata\" in its root."
 msgstr ""
 
 #: public/files/locknotacquiredexception.php:39

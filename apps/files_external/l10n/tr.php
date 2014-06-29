@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "Lütfen Dropbox app key ve secret temin ediniz",
 "External storage" => "Harici depolama",
 "Local" => "Yerel",
 "Location" => "Konum",
@@ -43,7 +44,6 @@ $TRANSLATIONS = array(
 "Access granted" => "Giriş kabul edildi",
 "Error configuring Dropbox storage" => "Dropbox depo yapılandırma hatası",
 "Grant access" => "Erişimi sağla",
-"Please provide a valid Dropbox app key and secret." => "Lütfen Dropbox app key ve secret temin ediniz",
 "Error configuring Google Drive storage" => "Google Drive depo yapılandırma hatası",
 "Personal" => "Kişisel",
 "System" => "Sistem",

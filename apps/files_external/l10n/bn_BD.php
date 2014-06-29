@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Please provide a valid Dropbox app key and secret." => "দয়া করে সঠিক এবং বৈধ Dropbox app key and secret প্রদান করুন।",
 "Location" => "াবস্থান",
 "Host" => "হোস্ট",
 "Username" => "ব্যবহারকারী",
@@ -9,7 +10,6 @@ $TRANSLATIONS = array(
 "Access granted" => "অধিগমনের  অনুমতি প্রদান করা হলো",
 "Error configuring Dropbox storage" => "Dropbox সংরক্ষণাগার নির্ধারণ করতে সমস্যা ",
 "Grant access" => "অধিগমনের  অনুমতি প্রদান কর",
-"Please provide a valid Dropbox app key and secret." => "দয়া করে সঠিক এবং বৈধ Dropbox app key and secret প্রদান করুন।",
 "Error configuring Google Drive storage" => "Google Drive সংরক্ষণাগার নির্ধারণ করতে সমস্যা ",
 "Personal" => "ব্যক্তিগত",
 "Name" => "রাম",
