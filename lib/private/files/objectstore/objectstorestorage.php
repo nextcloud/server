@@ -385,7 +385,6 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if (empty($stat)) {
 			// create new file
 			$stat = array(
-				'etag' => $this->getETag($path),
 				'permissions' => \OCP\PERMISSION_ALL,
 			);
 		}
@@ -395,6 +394,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		$stat['mtime'] = $mTime;
 		$stat['storage_mtime'] = $mTime;
 		$stat['mimetype'] = \OC_Helper::getMimeType($tmpFile);
+		$stat['etag'] = $this->getETag($path);
 
 		$fileId = $this->getCache()->put($path, $stat);
 		try {
