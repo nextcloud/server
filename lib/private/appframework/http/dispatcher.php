@@ -145,7 +145,7 @@ class Dispatcher {
 			) {
 				$value = false;
 
-			} elseif(in_array($type, $types)) {
+			} elseif($value !== null && in_array($type, $types)) {
 				settype($value, $type);
 			}
 
