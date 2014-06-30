@@ -13,10 +13,7 @@ OCP\JSON::checkAppEnabled('files_sharing');
 $l = OC_L10N::get('files_sharing');
 
 // check if server admin allows to mount public links from other servers
-// check if files_external is enabled
-// FIXME file_external check no longer needed if we use the webdav implementation from core
-if (OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false ||
-		\OC_App::isEnabled('files_external') === false) {
+if (OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
 	\OCP\JSON::error(array('data' => array('message' => $l->t('Server to server sharing is not enabled on this server'))));
 	exit();
 }
