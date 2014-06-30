@@ -11,6 +11,7 @@ namespace OC\Connector\Sabre;
 use OC\Files\FileInfo;
 use OC\Files\Filesystem;
 use OC\Files\Mount\MoveableMount;
+use OCP\Files\StorageNotAvailableException;
 
 class ObjectTree extends \Sabre\DAV\ObjectTree {
 
@@ -83,7 +84,11 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			}
 		} else {
 			// read from cache
-			$info = $this->fileView->getFileInfo($path);
+			try {
+				$info = $this->fileView->getFileInfo($path);
+			} catch (StorageNotAvailableException $e) {
+				throw new \Sabre\DAV\Exception\ServiceUnavailable('Storage not available');
+			}
 		}
 
 		if (!$info) {
