@@ -241,21 +241,23 @@ class Keymanager {
 		}
 
 		$result = false;
+		$fileExists = $view->file_exists('/' . $userId . '/files/' . $trimmed);
 
-		if ($view->is_dir($keyPath) && !$view->file_exists('/' . $userId . '/files/' . $trimmed)) {
+		if ($view->is_dir($keyPath) && !$fileExists) {
 			\OCP\Util::writeLog('files_encryption', 'deleteFileKey: delete file key: ' . $keyPath, \OCP\Util::DEBUG);
 			$result = $view->unlink($keyPath);
-		} elseif ($view->file_exists($keyPath . '.key') && !$view->file_exists('/' . $userId . '/files/' . $trimmed)) {
+		} elseif ($view->file_exists($keyPath . '.key') && !$fileExists) {
 			\OCP\Util::writeLog('files_encryption', 'deleteFileKey: delete file key: ' . $keyPath, \OCP\Util::DEBUG);
 			$result = $view->unlink($keyPath . '.key');
 
 		}
 
-		if (!$result) {
-
+		if ($fileExists) {
 			\OCP\Util::writeLog('Encryption library',
-				'Could not delete keyfile; does not exist: "' . $keyPath, \OCP\Util::ERROR);
-
+					'Did not delete the file key, file still exists: ' . '/' . $userId . '/files/' . $trimmed, \OCP\Util::ERROR);
+		} elseif (!$result) {
+			\OCP\Util::writeLog('Encryption library',
+					'Could not delete keyfile; does not exist: "' . $keyPath, \OCP\Util::ERROR);
 		}
 
 		return $result;
@@ -521,7 +523,6 @@ class Keymanager {
 						$realFile = $realFileDir . self::getFilenameFromShareKey($file);
 						foreach ($userIds as $userId) {
 							if (preg_match("/(.*)." . $userId . ".shareKey/", $file)) {
-								//TODO from $dir I need to strip /user/files_encryption/share-keys
 								if ($userId === $owner &&
 										$view->file_exists($realFile)) {
 									\OCP\Util::writeLog('files_encryption', 'original file still exists, keep owners share key!', \OCP\Util::ERROR);
