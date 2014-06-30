@@ -364,7 +364,7 @@ OC.Share={
 			html += '<div id="expiration">';
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
 			html += '<input id="expirationDate" type="text" placeholder="'+t('core', 'Expiration date')+'" style="display:none; width:90%;" />';
-			html += '<div id="defaultExpireMessage">'+defaultExpireMessage+'</div>';
+			html += '<em id="defaultExpireMessage">'+defaultExpireMessage+'</em>';
 			html += '</div>';
 			dropDownEl = $(html);
 			dropDownEl = dropDownEl.appendTo(appendTo);
