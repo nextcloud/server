@@ -23,6 +23,14 @@
 
 require_once '../lib/base.php';
 
+if (\OCP\Util::needUpgrade()) {
+	// since the behavior of apps or remotes are unpredictable during
+	// an upgrade, return a 503 directly
+	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+	OC_Template::printErrorPage('Service unavailable');
+	exit;
+}
+
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 
