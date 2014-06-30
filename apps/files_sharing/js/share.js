@@ -107,7 +107,7 @@
 				var appendTo = $tr.find('td.filename');
 				// Check if drop down is already visible for a different file
 				if (OC.Share.droppedDown) {
-					if ($tr.data('id') !== $('#dropdown').attr('data-item-source')) {
+					if ($tr.attr('data-id') !== $('#dropdown').attr('data-item-source')) {
 						OC.Share.hideDropDown(function () {
 							$tr.addClass('mouseOver');
 							OC.Share.showDropDown(itemType, $tr.data('id'), appendTo, true, possiblePermissions, filename);
