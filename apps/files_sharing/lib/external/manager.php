@@ -68,9 +68,8 @@ class Manager {
 	}
 
 	private function setupMounts() {
-		// don't setup server-to-server shares if the file_external app is disabled
-		// FIXME no longer needed if we use the webdav implementation from  core
-		if (\OC_App::isEnabled('files_external') === false) {
+		// don't setup server-to-server shares if the admin disabled it
+		if (\OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {
 			return false;
 		}
 
