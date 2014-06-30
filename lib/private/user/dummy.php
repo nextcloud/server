@@ -109,7 +109,7 @@ class OC_User_Dummy extends OC_User_Backend {
 			return array_keys($this->users);
 		}
 		$result = array();
-		foreach($this->users as $user) {
+		foreach(array_keys($this->users) as $user) {
 			if(stripos($user, $search) !== false) {
 				$result[] = $user;
 			}
