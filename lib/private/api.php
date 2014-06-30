@@ -301,7 +301,7 @@ class OC_API {
 	 * @param OC_OCS_Result $result
 	 * @param string $format the format xml|json
 	 */
-	private static function respond($result, $format='xml') {
+	public static function respond($result, $format='xml') {
 		// Send 401 headers if unauthorised
 		if($result->getStatusCode() === self::RESPOND_UNAUTHORISED) {
 			header('WWW-Authenticate: Basic realm="Authorisation Required"');
