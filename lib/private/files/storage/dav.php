@@ -8,6 +8,9 @@
 
 namespace OC\Files\Storage;
 
+use OCP\Files\StorageNotAvailableException;
+use Sabre\DAV\Exception;
+
 class DAV extends \OC\Files\Storage\Common {
 	protected $password;
 	protected $user;
@@ -463,29 +466,36 @@ class DAV extends \OC\Files\Storage\Common {
 	 *
 	 * @param string $path
 	 * @param int $time
+	 * @throws \OCP\Files\StorageNotAvailableException
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
 		$this->init();
-		$response = $this->client->propfind($this->encodePath($path), array(
-			'{DAV:}getlastmodified',
-			'{DAV:}getetag',
-			'{http://owncloud.org/ns}permissions'
-		));
-		if (isset($response['{DAV:}getetag'])) {
-			$cachedData = $this->getCache()->get($path);
-			$etag = trim($response['{DAV:}getetag'], '"');
-			if ($cachedData['etag'] !== $etag) {
-				return true;
-			} else if (isset($response['{http://owncloud.org/ns}permissions'])) {
-				$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
-				return $permissions !== $cachedData['permissions'];
+		try {
+			$response = $this->client->propfind($this->encodePath($path), array(
+				'{DAV:}getlastmodified',
+				'{DAV:}getetag',
+				'{http://owncloud.org/ns}permissions'
+			));
+			if (isset($response['{DAV:}getetag'])) {
+				$cachedData = $this->getCache()->get($path);
+				$etag = trim($response['{DAV:}getetag'], '"');
+				if ($cachedData['etag'] !== $etag) {
+					return true;
+				} else if (isset($response['{http://owncloud.org/ns}permissions'])) {
+					$permissions = $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
+					return $permissions !== $cachedData['permissions'];
+				} else {
+					return false;
+				}
 			} else {
-				return false;
+				$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
+				return $remoteMtime > $time;
 			}
-		} else {
-			$remoteMtime = strtotime($response['{DAV:}getlastmodified']);
-			return $remoteMtime > $time;
+		} catch (Exception\NotFound $e) {
+			return false;
+		} catch (Exception $e) {
+			throw new StorageNotAvailableException();
 		}
 	}
 }
