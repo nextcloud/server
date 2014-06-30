@@ -104,6 +104,7 @@ a.showCruds:hover,a.unshare:hover {
 	opacity:1;
 }
 
+#defaultExpireMessage, /* fix expire message going out of box */
 .reshare { /* fix shared by text going out of box */
 	white-space:normal;
 }
