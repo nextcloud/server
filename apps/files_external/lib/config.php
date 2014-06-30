@@ -156,6 +156,7 @@ class OC_Mount_Config {
 				if ( (!isset($mountPoints[$mountPoint]))
 					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority']) ) {
 					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
+					$options['backend'] = $backends[$options['class']]['backend'];
 					$mountPoints[$mountPoint] = $options;
 				}
 			}
@@ -177,6 +178,7 @@ class OC_Mount_Config {
 				if ( (!isset($mountPoints[$mountPoint]))
 					|| ($options['priority'] >= $mountPoints[$mountPoint]['priority']) ) {
 					$options['priority_type'] = self::MOUNT_TYPE_GLOBAL;
+					$options['backend'] = $backends[$options['class']]['backend'];
 					$mountPoints[$mountPoint] = $options;
 				}
 			}
@@ -201,6 +203,7 @@ class OC_Mount_Config {
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
 							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_GROUP) ) {
 							$options['priority_type'] = self::MOUNT_TYPE_GROUP;
+							$options['backend'] = $backends[$options['class']]['backend'];
 							$mountPoints[$mountPoint] = $options;
 						}
 					}
@@ -227,6 +230,7 @@ class OC_Mount_Config {
 							|| ($options['priority'] >= $mountPoints[$mountPoint]['priority'])
 							|| ($mountPoints[$mountPoint]['priority_type'] !== self::MOUNT_TYPE_USER) ) {
 							$options['priority_type'] = self::MOUNT_TYPE_USER;
+							$options['backend'] = $backends[$options['class']]['backend'];
 							$mountPoints[$mountPoint] = $options;
 						}
 					}
@@ -243,6 +247,7 @@ class OC_Mount_Config {
 
 				// Always override previous config
 				$options['priority_type'] = self::MOUNT_TYPE_PERSONAL;
+				$options['backend'] = $backends[$options['class']]['backend'];
 				$mountPoints[$mountPoint] = $options;
 			}
 		}
