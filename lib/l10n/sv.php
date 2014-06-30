@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Kan inte skriva till \"config\" katalogen!",
+"This can usually be fixed by giving the webserver write access to the config directory" => "Detta kan vanligtvis åtgärdas genom att ge skrivrättigheter till config katalgogen",
+"See %s" => "Se %s",
 "You are accessing the server from an untrusted domain." => "Du ansluter till servern från en osäker domän.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Vänligen kontakta din administratör. Om du är en administratör, konfigurera inställningen \"trusted_domain\" i  config/config.php. En exempelkonfiguration finns i tillgänglig i config/config.sample.php.",
 "Help" => "Hjälp",
@@ -86,6 +89,26 @@ $TRANSLATIONS = array(
 "A valid username must be provided" => "Ett giltigt användarnamn måste anges",
 "A valid password must be provided" => "Ett giltigt lösenord måste anges",
 "The username is already being used" => "Användarnamnet används redan",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "Inga databasdrivrutiner (sqlite, mysql, eller postgresql) installerade.",
+"Cannot write into \"config\" directory" => "Kan inte skriva till \"config\" katalogen",
+"Cannot write into \"apps\" directory" => "Kan inte skriva till \"apps\" katalogen!",
+"Cannot create \"data\" directory (%s)" => "Kan inte skapa \"data\" katalog (%s)",
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Detta kan vanligtvis åtgärdas genom att ge <a href=\"%s\" target=\"_blank\">webservern skrivrättigheter till rootkatalogen</a>.",
+"Please ask your server administrator to install the module." => "Vänligen be din administratör att installera modulen.",
+"PHP module %s not installed." => "PHP modulen %s är inte installerad.",
+"PHP %s or higher is required." => "PHP %s eller högre krävs.",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Vänligen be serveradministratören uppdatera PHP till den senaste versionen. Din PHP-version stöds inte längre av ownCloud.",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "PHP Safe Mode är aktiverat. ownCloud kräver att det är deaktiverat för att fungera korrekt.",
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work properly." => "Magic Quotes är aktiverat. ownCloud kräver att det är deaktiverat för att fungera korrekt.",
+"Please ask your server administrator to restart the web server." => "Vänligen be din serveradministratör att starta om webservern.",
+"PostgreSQL >= 9 required" => "PostgreSQL >= 9 krävs",
+"Please upgrade your database version" => "Vänligen uppgradera din databas-version",
+"Error occurred while checking PostgreSQL version" => "Ett fel inträffade vid kontroll utav PostgreSQL-version",
+"Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "Vänligen säkerställ att du har PostgreSQL >= 9 eller kolla loggarna för mer information om felet",
+"Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Vänligen ändra rättigheterna till 0770 så att katalogen inte kan listas utav andra användare.",
+"Data directory (%s) is readable by other users" => "Datakatalogen (%s) kan läsas av andra användare",
+"Data directory (%s) is invalid" => "Datakatlogen (%s) är ogiltig",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Vänligen kontrollera att datakatalogen innehåller filen \".ocdata\" i rooten.",
 "Could not obtain lock type %d on \"%s\"." => "Kan inte hämta låstyp %d på \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

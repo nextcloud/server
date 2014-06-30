@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Du har ikke delt noen filer ennå.",
 "You haven't shared any files by link yet." => "Du har ikke delt noen filer med lenke ennå.",
 "Add {name} from {owner}@{remote}" => "Legg til {name} fra {owner}@{remote}",
+"Add Share" => "Ny deling",
 "Password" => "Passord",
 "No ownCloud installation found at {remote}" => "Ingen ownCloud-installasjon funnet på {remote}",
 "Invalid ownCloud url" => "Ugyldig ownCloud-url",
@@ -30,7 +31,8 @@ $TRANSLATIONS = array(
 "Download" => "Last ned",
 "Download %s" => "Last ned %s",
 "Direct link" => "Direkte lenke",
-"Allow other instances to mount public links shared from this server" => "Tillat at andre instanser monterer offentlige lenker som er delt fra denne serveren",
-"Allow users to mount public link shares" => "Tillat at brukere monterer offentlige lenke-delinger"
+"Remote Shares" => "Ekstern deling",
+"Allow other instances to mount public links shared from this server" => "Tillat at andre servere kobler opp offentlige lenker som er delt fra denne serveren",
+"Allow users to mount public link shares" => "Tillat at brukere kobler opp offentlige lenke-delinger"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

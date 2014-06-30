@@ -2,7 +2,7 @@
 $TRANSLATIONS = array(
 "Couldn't delete %s permanently" => "Αδύνατη η μόνιμη διαγραφή του %s",
 "Couldn't restore %s" => "Αδυναμία επαναφοράς %s",
-"Deleted files" => "Διαγραμμένα αρχεία",
+"Deleted files" => "Διεγραμμένα αρχεία",
 "Restore" => "Επαναφορά",
 "Error" => "Σφάλμα",
 "restored" => "επαναφέρθηκαν",

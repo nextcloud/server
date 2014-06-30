@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# asieriko <asieriko@gmail.com>, 2013
+# asieriko <asieriko@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 21:31+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,7 +73,7 @@ msgstr "Mantendu ezarpenak?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Zerbitzaria"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -93,15 +93,15 @@ msgstr "Errorea"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Mesdez zehaztu Base DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "Ezin izan da zehaztu Base DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Mesdez zehaztu portua"
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -143,39 +143,39 @@ msgstr "Ziur zaude Zerbitzariaren Konfigurazioa ezabatu nahi duzula?"
 msgid "Confirm Deletion"
 msgstr "Baieztatu Ezabatzea"
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "Talde %s aurkitu da"
 msgstr[1] "%s talde aurkitu dira"
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "Erabiltzaile %s aurkitu da"
 msgstr[1] "%s erabiltzaile aurkitu dira"
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
-msgstr "Baliogabeko hostalaria"
-
-#: lib/wizard.php:1025
+#: lib/wizard.php:317 lib/wizard.php:1051
 msgid "Could not find the desired feature"
 msgstr "Ezin izan da nahi zen ezaugarria aurkitu"
 
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
+msgstr "Baliogabeko hostalaria"
+
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Zerbitzaria"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Erabiltzaileen iragazkia"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Saioa hasteko Iragazkia"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -255,12 +255,12 @@ msgstr ""
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Zerbitzaria"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Zerbitzaria:"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -268,7 +268,7 @@ msgstr "Gehitu Zerbitzariaren Konfigurazioa"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Ezabatu Konfigurazioa"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -335,7 +335,7 @@ msgstr "Jarraitu"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Aditua"
 
 #: templates/settings.php:8
 msgid "Advanced"

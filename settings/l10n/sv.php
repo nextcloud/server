@@ -100,6 +100,7 @@ $TRANSLATIONS = array(
 "Setup Warning" => "Installationsvarning",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din webbserver är inte korrekt konfigurerad för att tillåta filsynkronisering eftersom WebDAV inte verkar fungera.",
 "Please double check the <a href=\"%s\">installation guides</a>." => "Vänligen dubbelkolla igenom <a href=\"%s\">installationsguiden</a>.",
+"SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" => "SQLite används som databas. För större installationer rekommenderar vi att ändra på detta. För att migrera till en annan databas, använd kommandoverktyget: 'occ db:convert-type'",
 "Module 'fileinfo' missing" => "Modulen \"fileinfo\" saknas",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den här modulen för att kunna upptäcka korrekt mime-typ.",
 "Your PHP version is outdated" => "Din PHP version är föråldrad",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Hakemistoon \"config\" kirjoittaminen ei onnistu!",
 "You are accessing the server from an untrusted domain." => "Olet yhteydessä palvelimeen epäluotettavasta verkko-osoitteesta.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Ota yhteys ylläpitäjään. Jos olet tämän ownCloudin ylläpitäjä, määritä \"trusted_domain\"-asetus tiedostossa config/config.php. Esimerkkimääritys on nähtävillä tiedostossa config/config.sample.php.",
 "Help" => "Ohje",
@@ -77,6 +78,21 @@ $TRANSLATIONS = array(
 "A valid username must be provided" => "Anna kelvollinen käyttäjätunnus",
 "A valid password must be provided" => "Anna kelvollinen salasana",
 "The username is already being used" => "Käyttäjätunnus on jo käytössä",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "Tietokanta-ajureita (sqlite, mysql tai postgresql) ei ole asennettu.",
+"Cannot write into \"config\" directory" => "Hakemistoon \"config\" kirjoittaminen ei onnistu",
+"Cannot write into \"apps\" directory" => "Hakemistoon \"apps\" kirjoittaminen ei onnistu",
+"Setting locale to %s failed" => "Maa-asetuksen %s asettaminen epäonnistui",
+"Please ask your server administrator to install the module." => "Pyydä palvelimen ylläpitäjää asentamaan moduulin.",
+"PHP module %s not installed." => "PHP-moduulia %s ei ole asennettu.",
+"PHP %s or higher is required." => "PHP %s tai sitä uudempi vaaditaan.",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Pyydä palvelimen ylläpitäjää päivittämään PHP uusimpaan versioon. Käyttämäsi PHP-versio ei ole enää tuettu ownCloud- ja PHP-yhteisön toimesta.",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "PHP:n \"Safe Mode\" on käytössä. ownCloud vaatii toimiakseen \"Safe Moden\" poistamisen käytöstä.",
+"PHP modules have been installed, but they are still listed as missing?" => "PHP-moduulit on asennettu, mutta ovatko ne vieläkin listattu puuttuviksi?",
+"Please ask your server administrator to restart the web server." => "Pyydä palvelimen ylläpitäjää käynnistämään web-palvelin uudelleen.",
+"PostgreSQL >= 9 required" => "PostgreSQL >= 9 vaaditaan",
+"Please upgrade your database version" => "Päivitä tietokantasi versio",
+"Error occurred while checking PostgreSQL version" => "Virhe PostgreSQL:n versiota tarkistaessa",
+"Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "Varmista, että käytössäsi on PostgreSQL >= 9 tai tarkista lokit saadaksesi lisätietoja virheestä",
 "Could not obtain lock type %d on \"%s\"." => "Lukitustapaa %d ei saatu kohteelle \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

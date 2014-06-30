@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-22 01:54-0400\n"
-"PO-Revision-Date: 2014-06-21 13:55+0000\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 09:00+0000\n"
 "Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -336,7 +336,7 @@ msgstr "Grupper"
 msgid "Group Admin"
 msgstr "Gruppeadministrator"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Slett"
@@ -498,7 +498,7 @@ msgstr "PHP-versjonen din er utdatert. Vi anbefaler på det sterkeste at du oppd
 
 #: templates/admin.php:147
 msgid "Locale not working"
-msgstr "Språk virker ikke"
+msgstr "Nasjonale innstillinger virker ikke"
 
 #: templates/admin.php:152
 msgid "System locale can not be set to a one which supports UTF-8."
@@ -933,7 +933,7 @@ msgstr "Gruppe"
 msgid "Everyone"
 msgstr "Alle"
 
-#: templates/users/part.grouplist.php:29
+#: templates/users/part.grouplist.php:31
 msgid "Admins"
 msgstr "Administratorer"
 

@@ -1,6 +1,8 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Fornisci chiave di applicazione e segreto di Dropbox validi.",
+"Step 1 failed. Exception: %s" => "Fase 1 non riuscita. Eccezione: %s",
+"Step 2 failed. Exception: %s" => "Fase 2 non riuscita. Eccezione: %s",
 "External storage" => "Archiviazione esterna",
 "Local" => "Locale",
 "Location" => "Posizione",

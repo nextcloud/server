@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 12:30+0000\n"
+"Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -327,7 +327,7 @@ msgstr "({count} επιλέχθησαν)"
 
 #: js/oc-dialogs.js:546
 msgid "Error loading file exists template"
-msgstr "Σφάλμα κατά την φόρτωση του προτύπου ύπαρξης αρχείου"
+msgstr "Σφάλμα κατά την φόρτωση του προτύπου \"αρχείο υπάρχει\""
 
 #: js/setup.js:92
 msgid "Very weak password"

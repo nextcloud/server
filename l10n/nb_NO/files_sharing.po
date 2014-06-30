@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 19:51+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "Legg til {name} fra {owner}@{remote}"
 
 #: js/external.js:46 js/external.js:49
 msgid "Add Share"
-msgstr ""
+msgstr "Ny deling"
 
 #: js/external.js:49 templates/authenticate.php:10
 #: templates/authenticate.php:12
@@ -147,12 +147,12 @@ msgstr "Direkte lenke"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr ""
+msgstr "Ekstern deling"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr "Tillat at andre instanser monterer offentlige lenker som er delt fra denne serveren"
+msgstr "Tillat at andre servere kobler opp offentlige lenker som er delt fra denne serveren"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr "Tillat at brukere monterer offentlige lenke-delinger"
+msgstr "Tillat at brukere kobler opp offentlige lenke-delinger"

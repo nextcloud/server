@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 17:11+0000\n"
+"Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,18 +28,18 @@ msgstr ""
 
 #: base.php:187 base.php:194
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Kan inte skriva till \"config\" katalogen!"
 
 #: base.php:188
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "Detta kan vanligtvis åtgärdas genom att ge skrivrättigheter till config katalgogen"
 
 #: base.php:190
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Se %s"
 
 #: base.php:195 private/util.php:413
 #, php-format
@@ -479,7 +479,7 @@ msgstr "Användarnamnet används redan"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Inga databasdrivrutiner (sqlite, mysql, eller postgresql) installerade."
 
 #: private/util.php:405
 #, php-format
@@ -490,11 +490,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Kan inte skriva till \"config\" katalogen"
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Kan inte skriva till \"apps\" katalogen!"
 
 #: private/util.php:426
 #, php-format
@@ -506,14 +506,14 @@ msgstr ""
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Kan inte skapa \"data\" katalog (%s)"
 
 #: private/util.php:441
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Detta kan vanligtvis åtgärdas genom att ge <a href=\"%s\" target=\"_blank\">webservern skrivrättigheter till rootkatalogen</a>."
 
 #: private/util.php:457
 #, php-format
@@ -528,7 +528,7 @@ msgstr ""
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Vänligen be din administratör att installera modulen."
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -536,24 +536,24 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "PHP modulen %s är inte installerad."
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "PHP %s eller högre krävs."
 
 #: private/util.php:539
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "Vänligen be serveradministratören uppdatera PHP till den senaste versionen. Din PHP-version stöds inte längre av ownCloud."
 
 #: private/util.php:556
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "PHP Safe Mode är aktiverat. ownCloud kräver att det är deaktiverat för att fungera korrekt."
 
 #: private/util.php:557
 msgid ""
@@ -566,7 +566,7 @@ msgstr ""
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Magic Quotes är aktiverat. ownCloud kräver att det är deaktiverat för att fungera korrekt."
 
 #: private/util.php:565
 msgid ""
@@ -581,47 +581,47 @@ msgstr ""
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Vänligen be din serveradministratör att starta om webservern."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "PostgreSQL >= 9 krävs"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Vänligen uppgradera din databas-version"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "Ett fel inträffade vid kontroll utav PostgreSQL-version"
 
 #: private/util.php:618
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Vänligen säkerställ att du har PostgreSQL >= 9 eller kolla loggarna för mer information om felet"
 
 #: private/util.php:680
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "Vänligen ändra rättigheterna till 0770 så att katalogen inte kan listas utav andra användare."
 
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Datakatalogen (%s) kan läsas av andra användare"
 
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Datakatlogen (%s) är ogiltig"
 
 #: private/util.php:711
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Vänligen kontrollera att datakatalogen innehåller filen \".ocdata\" i rooten."
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

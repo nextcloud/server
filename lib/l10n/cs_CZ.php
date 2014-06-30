@@ -1,5 +1,9 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Nelze zapisovat do adresáře \"config\"!",
+"This can usually be fixed by giving the webserver write access to the config directory" => "To bývá obyčejně vyřešeno povolením webovému serveru zapisovat do konfiguračního adresáře.",
+"See %s" => "Viz %s",
+"This can usually be fixed by %sgiving the webserver write access to the config directory%s." => "To bývá obyčeně vyřešeno, když %s povolí webovému serveru zápis do konfiguračního adresáře %s.",
 "You are accessing the server from an untrusted domain." => "Přistupujete na server z nedůvěryhodné domény.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Kontaktujte prosím správce. Pokud jste správce této instalace, nastavte \"trusted_domain\" v souboru config/config.php. Příklad konfigurace najdete v souboru config/config.sample.php.",
 "Help" => "Nápověda",
@@ -84,6 +88,32 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\" a \"_.@-\"",
 "A valid username must be provided" => "Musíte zadat platné uživatelské jméno",
 "A valid password must be provided" => "Musíte zadat platné heslo",
-"The username is already being used" => "Uživatelské jméno je již využíváno"
+"The username is already being used" => "Uživatelské jméno je již využíváno",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "Nejsou instalovány ovladače databází (sqlite, mysql nebo postresql).",
+"Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." => "Oprávnění bývají obvykle napravena, když %s povolí webovému serveru zápis do kořenového adresáře %s.",
+"Cannot write into \"config\" directory" => "Nelze zapisovat do adresáře \"config\"",
+"Cannot write into \"apps\" directory" => "Nelze zapisovat do adresáře \"apps\"",
+"This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." => "To bývá obyčeně vyřešeno, když %s povolí webovému serveru zápis do apps adresáře%s nebo vypnutím položky appstore v konfiguračním souboru.",
+"Cannot create \"data\" directory (%s)" => "Nelze vytvořit \"data\" adresář (%s)",
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "To bývá obvykle vyřešeno, když <a href=\"%s\" target=\"_blank\"> povolí webovému serveru zápis do kořenového adresáře</a>.",
+"Setting locale to %s failed" => "Nastavení jazyka na %s selhalo",
+"Please install one of theses locales on your system and restart your webserver." => "Prosím nainstalujte alespon jeden z těchto jazyků do vašeho systému a restartujte webový server.",
+"Please ask your server administrator to install the module." => "Požádejte svého administrátora, ať nainstaluje příslušný modul.",
+"PHP module %s not installed." => "PHP modul %s není nainstalován.",
+"PHP %s or higher is required." => "Je vyžadováno PHP %s nebo vyšší.",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Požádejte svého administrátora, aby provedl aktualizaci PHP na nejvyšší verzi. Vaše verze PHP již není podporována komunitami ownCloud a PHP.",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "Je zapnut PHP Safe Mode. Pro správnou funkčnost ownCloud je třeba toto vypnout.",
+"PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "PHP Safe Mode je zastaralé a víceméně zbytečné nastavení, které je třeba vypnout. Požádejte prosím svého administrátora, ať toto provede v php.ini nebo v nastavení konfigurace webového serveru.",
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work properly." => "Je povoleno nastavení Magic Quotes. Pro správnou funkčnost ownCloud je třeba toto vypnout.",
+"Magic Quotes is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Magic Quotes je zastaralé a víceméně zbytečné nastavení, které je třeba vypnout. Požádejte prosím svého administrátora, ať toto provede v php.ini nebo v nastavení konfigurace webového serveru.",
+"PHP modules have been installed, but they are still listed as missing?" => "PHP moduly jsou nainstalovány, ale stále vykázány jako chybějící?",
+"Please ask your server administrator to restart the web server." => "Požádejte svého administrátora, ať restartuje webový server.",
+"PostgreSQL >= 9 required" => "Je třeba PostgreSQL >= 9",
+"Please upgrade your database version" => "Aktualizujte prosím verzi své databáze",
+"Error occurred while checking PostgreSQL version" => "Při zjišťování verze PostgreSQL došlo k chybě",
+"Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "Zajistěte prosím PostgreSQL >=9 nebo zkontrolujte logy pro více informací o chybě.",
+"Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Změntě prosím práva na 0770, aby adresář nemohl být otevřen ostatními uživateli.",
+"Data directory (%s) is readable by other users" => "Data adresář (%s) je čitelný i ostatními uživateli",
+"Data directory (%s) is invalid" => "Data adresář (%s) je neplatný"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

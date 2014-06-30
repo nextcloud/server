@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Hurrengo erabiltzaileak ez daude enktriptatzeko konfiguratutak:",
 "Initial encryption started... This can take some time. Please wait." => "Hasierako enkriptazioa hasi da... Honek denbora har dezake. Mesedez itxaron.",
 "Initial encryption running... Please try again later." => "Hasierako enkriptaketa abian... mesedez, saiatu beranduago.",
+"Go directly to your %spersonal settings%s." => "Joan zuzenean zure %sezarpen pertsonaletara%s.",
 "Encryption" => "Enkriptazioa",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Gaitu berreskurapen gakoa (erabiltzaileen fitxategiak berreskuratzea ahalbidetzen du pasahitza galtzen badute ere):",
 "Recovery key password" => "Berreskuratze gako pasahitza",

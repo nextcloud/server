@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 09:31+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: base.php:187 base.php:194
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Hakemistoon \"config\" kirjoittaminen ei onnistu!"
 
 #: base.php:188
 msgid ""
@@ -471,7 +471,7 @@ msgstr "Käyttäjätunnus on jo käytössä"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Tietokanta-ajureita (sqlite, mysql tai postgresql) ei ole asennettu."
 
 #: private/util.php:405
 #, php-format
@@ -482,11 +482,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Hakemistoon \"config\" kirjoittaminen ei onnistu"
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Hakemistoon \"apps\" kirjoittaminen ei onnistu"
 
 #: private/util.php:426
 #, php-format
@@ -510,7 +510,7 @@ msgstr ""
 #: private/util.php:457
 #, php-format
 msgid "Setting locale to %s failed"
-msgstr ""
+msgstr "Maa-asetuksen %s asettaminen epäonnistui"
 
 #: private/util.php:460
 msgid ""
@@ -520,7 +520,7 @@ msgstr ""
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Pyydä palvelimen ylläpitäjää asentamaan moduulin."
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -528,24 +528,24 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "PHP-moduulia %s ei ole asennettu."
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "PHP %s tai sitä uudempi vaaditaan."
 
 #: private/util.php:539
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "Pyydä palvelimen ylläpitäjää päivittämään PHP uusimpaan versioon. Käyttämäsi PHP-versio ei ole enää tuettu ownCloud- ja PHP-yhteisön toimesta."
 
 #: private/util.php:556
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "PHP:n \"Safe Mode\" on käytössä. ownCloud vaatii toimiakseen \"Safe Moden\" poistamisen käytöstä."
 
 #: private/util.php:557
 msgid ""
@@ -569,29 +569,29 @@ msgstr ""
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "PHP-moduulit on asennettu, mutta ovatko ne vieläkin listattu puuttuviksi?"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Pyydä palvelimen ylläpitäjää käynnistämään web-palvelin uudelleen."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "PostgreSQL >= 9 vaaditaan"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Päivitä tietokantasi versio"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "Virhe PostgreSQL:n versiota tarkistaessa"
 
 #: private/util.php:618
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Varmista, että käytössäsi on PostgreSQL >= 9 tai tarkista lokit saadaksesi lisätietoja virheestä"
 
 #: private/util.php:680
 msgid ""

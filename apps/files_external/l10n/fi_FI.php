@@ -1,6 +1,8 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Anna kelvollinen Dropbox-sovellusavain ja salainen vastaus.",
+"Step 1 failed. Exception: %s" => "Vaihe 1 epäonnistui. Poikkeus: %s",
+"Step 2 failed. Exception: %s" => "Vaihe 2 epäonnistui. Poikkeus: %s",
 "External storage" => "Ulkoinen tallennustila",
 "Local" => "Paikallinen",
 "Location" => "Sijainti",

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Server-till-server-delning är inte aktiverat på denna server",
+"Couldn't add remote share" => "Kunde inte lägga till fjärrutdelning",
 "Shared with you" => "Delat med dig",
 "Shared with others" => "Delat med andra",
 "Shared by link" => "Delad som länk",
@@ -8,6 +9,7 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Du har inte delat några filer ännu.",
 "You haven't shared any files by link yet." => "Du har inte delat några filer som länk ännu.",
 "Add {name} from {owner}@{remote}" => "Lägg till {name} från {owner}@{remote}",
+"Add Share" => "Lägg till delning",
 "Password" => "Lösenord",
 "No ownCloud installation found at {remote}" => "Ingen ownCloudinstallation funnen på {remote}",
 "Invalid ownCloud url" => "Felaktig ownCloud url",
@@ -28,6 +30,9 @@ $TRANSLATIONS = array(
 "Save" => "Spara",
 "Download" => "Ladda ner",
 "Download %s" => "Ladda ner %s",
-"Direct link" => "Direkt länk"
+"Direct link" => "Direkt länk",
+"Remote Shares" => "Fjärrutdelningar",
+"Allow other instances to mount public links shared from this server" => "Tillåt andra instanser vidaredelning utav publika länkar delade från denna servern",
+"Allow users to mount public link shares" => "Tillåt användare att montera publika länkar"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

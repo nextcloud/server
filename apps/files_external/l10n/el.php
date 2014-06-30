@@ -1,6 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." => "Η λήψη των τεκμηρίων αιτήματος απέτυχε. Βεβαιώστε ότι το κλειδί εφαρμογής και το μυστικό του Dropbox είναι ορθά",
+"Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." => "Η λήψη των τεκμηρίων πρόσβασης απέτυχε. Βεβαιώστε ότι το κλειδί εφαρμογής και το μυστικό του Dropbox είναι ορθά.",
 "Please provide a valid Dropbox app key and secret." => "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό.",
+"Step 1 failed. Exception: %s" => "Το βήμα 1 απέτυχε. Εξαίρεση: %s",
+"Step 2 failed. Exception: %s" => "Το βήμα 2 απέτυχε. Εξαίρεση: %s",
 "External storage" => "Εξωτερική αποθήκευση",
 "Local" => "Τοπικός",
 "Location" => "Τοποθεσία",

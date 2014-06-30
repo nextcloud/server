@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Alexander Gabilondo <alexgabi@openmailbox.org>, 2014
-# asieriko <asieriko@gmail.com>, 2013
+# asieriko <asieriko@gmail.com>, 2013-2014
 # @atzerritik, 2013
 # Mikel Olasagasti Uranga <mikel@olasagasti.info>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-06-30 01:54-0400\n"
+"PO-Revision-Date: 2014-06-29 20:10+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,15 +52,15 @@ msgstr "Eposta bidalia"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Epostaren erabiltzailea zehaztu behar duzu probako eposta bidali aurretik."
 
-#: admin/controller.php:116 templates/admin.php:350
+#: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
 msgstr "Bidaltzeko modua"
 
-#: admin/controller.php:118 templates/admin.php:363 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
 msgid "Encryption"
 msgstr "Enkriptazioa"
 
-#: admin/controller.php:120 templates/admin.php:387
+#: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
 msgstr "Autentifikazio metodoa"
 
@@ -115,7 +115,7 @@ msgstr "Ezin izan dira zure enkriptatze gakoak behin betiko ezabatu, egiaztatu z
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Ezin izan da aplikazioa ezabatu.."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -198,7 +198,7 @@ msgstr "Atzeko prozesuak ez du pasahitz aldaketa onartzen, baina erabiltzaileare
 msgid "Unable to change password"
 msgstr "Ezin izan da pasahitza aldatu"
 
-#: js/admin.js:126
+#: js/admin.js:127
 msgid "Sending..."
 msgstr "Bidaltzen..."
 
@@ -216,7 +216,7 @@ msgstr "Eguneratu {appversion}-ra"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Desinstalatu aplikazioa"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -260,15 +260,15 @@ msgstr "Eguneratuta"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Desinstalatzen ..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Erroea izan da aplikazioa desinstalatzerakoan"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Desinstalatu"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -308,7 +308,7 @@ msgstr "Leheneratu enkriptatze gakoak"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Ezin izan da {objName} ezabatu"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
@@ -320,13 +320,13 @@ msgstr "Baliozko talde izena eman behar da"
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "{groupName} ezbatuta"
 
-#: js/users/groups.js:206 js/users/users.js:255
+#: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
 msgstr "desegin"
 
-#: js/users/users.js:37 templates/admin.php:302
+#: js/users/users.js:37 templates/admin.php:292
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -337,36 +337,36 @@ msgstr "Taldeak"
 msgid "Group Admin"
 msgstr "Talde administradorea"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:85 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "inoiz"
 
-#: js/users/users.js:254
+#: js/users/users.js:264
 msgid "deleted {userName}"
-msgstr ""
+msgstr "{userName} ezabatuta"
 
-#: js/users/users.js:371
+#: js/users/users.js:381
 msgid "add group"
 msgstr "gehitu taldea"
 
-#: js/users/users.js:568
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Baliozko erabiltzaile izena eman behar da"
 
-#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Errore bat egon da erabiltzailea sortzean"
 
-#: js/users/users.js:574
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Baliozko pasahitza eman behar da"
 
-#: js/users/users.js:598
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Abisua: \"{user}\" erabiltzailearen Home karpeta dagoeneko exisititzen da"
 
@@ -569,23 +569,23 @@ msgstr "Erabili sistemaren cron zerbitzua cron.php fitxategia 15 minuturo deitze
 msgid "Sharing"
 msgstr "Partekatzea"
 
-#: templates/admin.php:240
+#: templates/admin.php:238
 msgid "Allow apps to use the Share API"
 msgstr "Baimendu aplikazioak partekatzeko APIa erabiltzeko"
 
-#: templates/admin.php:247
+#: templates/admin.php:243
 msgid "Allow users to share via link"
 msgstr "Baimendu erabiltzaileak esteken bidez partekatzea"
 
-#: templates/admin.php:251
+#: templates/admin.php:249
 msgid "Enforce password protection"
 msgstr "Betearazi pasahitzaren babesa"
 
-#: templates/admin.php:254
+#: templates/admin.php:252
 msgid "Allow public uploads"
 msgstr "Baimendu igoera publikoak"
 
-#: templates/admin.php:258
+#: templates/admin.php:256
 msgid "Set default expiration date"
 msgstr "Ezarri muga data lehenetsia"
 
@@ -601,116 +601,116 @@ msgstr "egun"
 msgid "Enforce expiration date"
 msgstr "Muga data betearazi"
 
-#: templates/admin.php:276
+#: templates/admin.php:271
 msgid "Allow resharing"
 msgstr "Baimendu birpartekatzea"
 
-#: templates/admin.php:283
+#: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
 msgstr "Mugatu partekatzeak taldeko erabiltzaileetara"
 
-#: templates/admin.php:290
+#: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
 msgstr "Baimendu erabiltzaileak epostako jakinarazpenak bidaltzen partekatutako fitxategientzat"
 
-#: templates/admin.php:297
+#: templates/admin.php:286
 msgid "Exclude groups from sharing"
 msgstr "Baztertu taldeak partekatzean"
 
-#: templates/admin.php:308
+#: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Talde hauek oraindik jaso ahal izango dute partekatzeak, baina ezingo dute partekatu"
 
-#: templates/admin.php:316
+#: templates/admin.php:303
 msgid "Security"
 msgstr "Segurtasuna"
 
-#: templates/admin.php:327
+#: templates/admin.php:314
 msgid "Enforce HTTPS"
 msgstr "Behartu HTTPS"
 
-#: templates/admin.php:329
+#: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Bezeroak %s-ra konexio enkriptatu baten bidez konektatzera behartzen ditu."
 
-#: templates/admin.php:335
+#: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Mesedez konektatu zure %s-ra HTTPS bidez SSL zehaztapenak aldatzeko."
 
-#: templates/admin.php:345
+#: templates/admin.php:332
 msgid "Email Server"
 msgstr "Eposta zerbitzaria"
 
-#: templates/admin.php:347
+#: templates/admin.php:334
 msgid "This is used for sending out notifications."
 msgstr "Hau jakinarazpenak bidaltzeko erabiltzen da."
 
-#: templates/admin.php:378
+#: templates/admin.php:365
 msgid "From address"
 msgstr "Helbidetik"
 
-#: templates/admin.php:379
+#: templates/admin.php:366
 msgid "mail"
 msgstr "posta"
 
-#: templates/admin.php:400
+#: templates/admin.php:387
 msgid "Authentication required"
 msgstr "Autentikazioa beharrezkoa"
 
-#: templates/admin.php:404
+#: templates/admin.php:391
 msgid "Server address"
 msgstr "Zerbitzariaren helbidea"
 
-#: templates/admin.php:408
+#: templates/admin.php:395
 msgid "Port"
 msgstr "Portua"
 
-#: templates/admin.php:413
+#: templates/admin.php:400
 msgid "Credentials"
 msgstr "Kredentzialak"
 
-#: templates/admin.php:414
+#: templates/admin.php:401
 msgid "SMTP Username"
 msgstr "SMTP erabiltzaile-izena"
 
-#: templates/admin.php:417
+#: templates/admin.php:404
 msgid "SMTP Password"
 msgstr "SMTP pasahitza"
 
-#: templates/admin.php:421
+#: templates/admin.php:408
 msgid "Test email settings"
 msgstr "Probatu eposta ezarpenak"
 
-#: templates/admin.php:422
+#: templates/admin.php:409
 msgid "Send email"
 msgstr "Bidali eposta"
 
-#: templates/admin.php:427
+#: templates/admin.php:414
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:428
+#: templates/admin.php:415
 msgid "Log level"
 msgstr "Erregistro maila"
 
-#: templates/admin.php:460
+#: templates/admin.php:447
 msgid "More"
 msgstr "Gehiago"
 
-#: templates/admin.php:461
+#: templates/admin.php:448
 msgid "Less"
 msgstr "Gutxiago"
 
-#: templates/admin.php:467 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:196
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/admin.php:471 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:199
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -934,7 +934,7 @@ msgstr "Taldea"
 msgid "Everyone"
 msgstr "Edonor"
 
-#: templates/users/part.grouplist.php:29
+#: templates/users/part.grouplist.php:31
 msgid "Admins"
 msgstr "Administratzaileak"
 
