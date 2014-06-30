@@ -307,8 +307,10 @@ table td.filename .nametext .innernametext {
 
 /* for smaller resolutions - see mobile.css */
 
-table td.filename .uploadtext { font-weight:normal; margin-left:8px; }
-table td.filename form { font-size:14px; margin-left:46px; height: 40px; padding-top: 10px}
+table td.filename .uploadtext {
+	font-weight: normal;
+	margin-left: 8px;
+}
 
 .ie8 input[type="checkbox"]{
 	padding: 0;
