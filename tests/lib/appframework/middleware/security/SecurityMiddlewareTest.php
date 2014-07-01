@@ -313,7 +313,8 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	public function testAfterExceptionReturnsRedirect(){
 		$this->request = new Request(
 			array('server' =>
-				array('HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8')
+				array('HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+					'REQUEST_URI' => 'owncloud/index.php/apps/specialapp')
 			)
 		);
 		$this->middleware = $this->getMiddleware(true, true);
@@ -321,6 +322,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 				$this->secException);
 
 		$this->assertTrue($response instanceof RedirectResponse);
+		$this->assertEquals('?redirect_url=owncloud%2Findex.php%2Fapps%2Fspecialapp', $response->getRedirectURL());
 	}
 
 
