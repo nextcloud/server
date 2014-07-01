@@ -827,9 +827,17 @@ class OC_Util {
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$defaultApp = \OCP\Config::getSystemValue('defaultapp', 'files');
-				$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
-				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $defaultApp);
+				$appId = 'files';
+				$defaultApps = explode(',', \OCP\Config::getSystemValue('defaultapp', 'files'));
+				// find the first app that is enabled for the current user
+				foreach ($defaultApps as $defaultApp) {
+					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
+					if (OC_App::isEnabled($defaultApp)) {
+						$appId = $defaultApp;
+						break;
+					}
+				}
+				$location = $urlGenerator->linkTo($appId, 'index.php');
 			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
