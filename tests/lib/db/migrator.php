@@ -138,4 +138,26 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(true);
 	}
+
+	public function testReservedKeywords() {
+		$startSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', array('autoincrement' => true));
+		$table->addColumn('user', 'string', array('length' => 255));
+		$table->setPrimaryKey(array('id'));
+
+		$endSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', array('autoincrement' => true));
+		$table->addColumn('user', 'string', array('length' => 64));
+		$table->setPrimaryKey(array('id'));
+
+		$migrator = $this->manager->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->checkMigrate($endSchema);
+		$migrator->migrate($endSchema);
+
+		$this->assertTrue(true);
+	}
 }
