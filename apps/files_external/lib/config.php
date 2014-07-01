@@ -111,7 +111,7 @@ class OC_Mount_Config {
 				$objectClass = $options['options']['objectstore']['class'];
 				$options['options']['objectstore'] = new $objectClass($options['options']['objectstore']);
 			}
-			if ($options['personal']){
+			if (isset($options['personal']) && $options['personal']) {
 				$mount = new \OCA\Files_External\PersonalMount($options['class'], $mountPoint, $options['options'], $loader);
 			} else{
 				$mount = new \OC\Files\Mount\Mount($options['class'], $mountPoint, $options['options'], $loader);
