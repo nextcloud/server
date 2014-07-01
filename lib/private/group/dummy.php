@@ -143,7 +143,16 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * @return array an array of group names
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
-		return array_keys($this->groups);
+		if(empty($search)) {
+			return array_keys($this->groups);
+		}
+		$result = array();
+		foreach(array_keys($this->groups) as $group) {
+			if(stripos($group, $search) !== false) {
+				$result[] = $group;
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -156,7 +165,16 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {
-			return $this->groups[$gid];
+			if(empty($search)) {
+				return $this->groups[$gid];
+			}
+			$result = array();
+			foreach($this->groups[$gid] as $user) {
+				if(stripos($user, $search) !== false) {
+					$result[] = $user;
+				}
+			}
+			return $result;
 		}else{
 			return array();
 		}
@@ -172,7 +190,16 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function countUsersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {
-			return count($this->groups[$gid]);
+			if(empty($search)) {
+				return count($this->groups[$gid]);
+			}
+			$count = 0;
+			foreach($this->groups[$gid] as $user) {
+				if(stripos($user, $search) !== false) {
+					$count++;
+				}
+			}
+			return $count;
 		}
 	}
 
