@@ -827,7 +827,9 @@ class OC_Util {
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/files');
+				$defaultApp = \OCP\Config::getSystemValue('defaultapp', 'files');
+				$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
+				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $defaultApp);
 			}
 		}
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
