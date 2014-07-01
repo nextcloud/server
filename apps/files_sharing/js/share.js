@@ -36,54 +36,34 @@
 					}
 					return tr;
 				};
-
-				var oldRenderRow = OCA.Files.FileList.prototype._renderRow;
-				OCA.Files.FileList.prototype._renderRow = function(fileData) {
-					var $tr = oldRenderRow.apply(this, arguments);
-					// if the statuses are loaded already, use them for the icon
-					// (needed when scrolling to the next page)
-					var shareStatus = OC.Share.statuses[fileData.id];
-					if (fileData.shareOwner || fileData.recipientsDisplayName || shareStatus) {
-						var permissions = $tr.data('permissions');
-						var hasLink = !!(shareStatus && shareStatus.link);
-						if (permissions & OC.PERMISSION_SHARE) {
-							OC.Share.markFileAsShared($tr, true, hasLink);
-						} else {
-							// if no share action exists because the admin disabled sharing for this user
-							// we create a share notification action to inform the user about files
-							// shared with him otherwise we just update the existing share action.
-							// TODO: make this work like/with OC.Share.markFileAsShared()
-							var shareNotification = '<a class="action action-share-notification permanent"' +
-									' data-action="Share-Notification" href="#" original-title="">' +
-									' <img class="svg" src="' + OC.imagePath('core', 'actions/share') + '"></img>';
-							$tr.find('.fileactions').append(function() {
-								var shareBy = t('files_sharing', 'Shared by {owner}', {owner: escapeHTML(fileData.shareOwner)});
-								var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
-								$result.on('click', function() {
-									return false;
-								});
-								return $result;
-							});
-						}
-					}
-					return $tr;
-				};
 			}
 
 			// use delegate to catch the case with multiple file lists
-			$('#content').delegate('#fileList', 'fileActionsReady',function(ev){
+			$('#content').delegate('#fileList', 'fileActionsReady', function(ev){
 				var fileList = ev.fileList;
+				var $files = ev.$files;
+
+				function updateIcons($files) {
+					if (!$files) {
+						// if none specified, update all
+						$files = fileList.$fileList.find('tr');
+					}
+					_.each($files, function(file) {
+						OCA.Sharing.Util.updateFileActionIcon($(file));
+					});
+				}
+
 				if (!OCA.Sharing.sharesLoaded){
-					OC.Share.loadIcons('file', fileList);
+					OC.Share.loadIcons('file', fileList, function() {
+						// since we don't know which files are affected, just refresh them all
+						updateIcons();
+					});
 					// assume that we got all shares, so switching directories
 					// will not invalidate that list
 					OCA.Sharing.sharesLoaded = true;
 				}
 				else{
-					// this will update the icons for all the currently visible elements
-					// additionally added elements when scrolling down will be
-					// updated in the _renderRow override
-					OC.Share.updateIcons('file', fileList);
+					updateIcons($files);
 				}
 			});
 
@@ -138,6 +118,40 @@
 					}
 				});
 			});
+		},
+
+		/**
+		 * Update the file action share icon for the given file
+		 *
+		 * @param $tr file element of the file to update
+		 */
+		updateFileActionIcon: function($tr) {
+			// if the statuses are loaded already, use them for the icon
+			// (needed when scrolling to the next page)
+			var shareStatus = OC.Share.statuses[$tr.data('id')];
+			if (shareStatus || $tr.attr('data-share-recipients') || $tr.attr('data-share-owner')) {
+				var permissions = $tr.data('permissions');
+				var hasLink = !!(shareStatus && shareStatus.link);
+				OC.Share.markFileAsShared($tr, true, hasLink);
+				if ((permissions & OC.PERMISSION_SHARE) === 0) {
+					// if no share action exists because the admin disabled sharing for this user
+					// we create a share notification action to inform the user about files
+					// shared with him otherwise we just update the existing share action.
+					// TODO: make this work like/with OC.Share.markFileAsShared()
+					$tr.find('.fileactions .action-share-notification').remove();
+					var shareNotification = '<a class="action action-share-notification permanent"' +
+							' data-action="Share-Notification" href="#" original-title="">' +
+							' <img class="svg" src="' + OC.imagePath('core', 'actions/share') + '"></img>';
+					$tr.find('.fileactions').append(function() {
+						var shareBy = t('files_sharing', 'Shared by {owner}', {owner: escapeHTML($tr.attr('data-share-owner'))});
+						var $result = $(shareNotification + '<span> ' + shareBy + '</span></span>');
+						$result.on('click', function() {
+							return false;
+						});
+						return $result;
+					});
+				}
+			}
 		},
 
 		/**

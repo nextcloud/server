@@ -29,10 +29,13 @@ OC.Share={
 	 * files "Share" icon to "Shared" according to their share status and
 	 * share type.
 	 *
+	 * If a callback is specified, the update step is skipped.
+	 *
 	 * @param itemType item type
 	 * @param fileList file list instance, defaults to OCA.Files.App.fileList
+	 * @param callback function to call after the shares were loaded
 	 */
-	loadIcons:function(itemType, fileList) {
+	loadIcons:function(itemType, fileList, callback) {
 		// Load all share icons
 		$.get(
 			OC.filePath('core', 'ajax', 'share.php'),
@@ -45,7 +48,11 @@ OC.Share={
 					$.each(result.data, function(item, data) {
 						OC.Share.statuses[item] = data;
 					});
-					OC.Share.updateIcons(itemType, fileList);
+					if (_.isFunction(callback)) {
+						callback(OC.Share.statuses);
+					} else {
+						OC.Share.updateIcons(itemType, fileList);
+					}
 				}
 			}
 		);

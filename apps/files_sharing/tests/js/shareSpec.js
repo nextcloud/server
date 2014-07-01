@@ -80,6 +80,14 @@ describe('OCA.Sharing.Util tests', function() {
 		// TODO: test data-permissions, data-share-owner, etc
 	});
 	describe('Share action icon', function() {
+		beforeEach(function() {
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
+			OCA.Sharing.sharesLoaded = true;
+		});
+		afterEach(function() {
+			OC.Share.statuses = {};
+			OCA.Sharing.sharesLoaded = false;
+		});
 		it('do not shows share text when not shared', function() {
 			var $action, $tr;
 			OC.Share.statuses = {};

@@ -473,6 +473,7 @@
 		/**
 		 * Appends the next page of files into the table
 		 * @param animate true to animate the new elements
+		 * @return array of DOM elements of the newly added files
 		 */
 		_nextPage: function(animate) {
 			var index = this.$fileList.children().length,
@@ -483,7 +484,7 @@
 				isAllSelected = this.isAllSelected();
 
 			if (index >= this.files.length) {
-				return;
+				return false;
 			}
 
 			while (count > 0 && index < this.files.length) {
@@ -496,10 +497,15 @@
 				}
 				if (animate) {
 					tr.addClass('appear transparent');
-					newTrs.push(tr);
 				}
+				newTrs.push(tr);
 				index++;
 				count--;
+			}
+
+			// trigger event for newly added rows
+			if (newTrs.length > 0) {
+				this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: newTrs}));
 			}
 
 			if (animate) {
@@ -510,6 +516,7 @@
 					}
 				}, 0);
 			}
+			return newTrs;
 		},
 
 		/**
@@ -518,10 +525,16 @@
 		 */
 		_onFileActionsUpdated: function() {
 			var self = this;
-			this.$fileList.find('tr td.filename').each(function() {
-				self.fileActions.display($(this), false, self);
+			var $files = this.$fileList.find('tr');
+			if (!$files.length) {
+				return;
+			}
+
+			$files.each(function() {
+				self.fileActions.display($(this).find('td.filename'), false, self);
 			});
-			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this}));
+			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this, $files: $files}));
+
 		},
 
 		/**
@@ -533,7 +546,6 @@
 			// detach to make adding multiple rows faster
 			this.files = filesArray;
 
-			this.$fileList.detach();
 			this.$fileList.empty();
 
 			// clear "Select all" checkbox
@@ -542,10 +554,7 @@
 			this.isEmpty = this.files.length === 0;
 			this._nextPage();
 
-			this.$el.find('thead').after(this.$fileList);
-
 			this.updateEmptyContent();
-			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this}));
 
 			this.fileSummary.calculate(filesArray);
 
@@ -1283,16 +1292,16 @@
 								// reinsert row
 								self.files.splice(tr.index(), 1);
 								tr.remove();
-								self.add(fileInfo, {updateSummary: false, silent: true});
-								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self}));
+								tr = self.add(fileInfo, {updateSummary: false, silent: true});
+								self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
 							}
 						});
 					} else {
 						// add back the old file info when cancelled
 						self.files.splice(tr.index(), 1);
 						tr.remove();
-						self.add(oldFileInfo, {updateSummary: false, silent: true});
-						self.$fileList.trigger($.Event('fileActionsReady', {fileList: self}));
+						tr = self.add(oldFileInfo, {updateSummary: false, silent: true});
+						self.$fileList.trigger($.Event('fileActionsReady', {fileList: self, $files: $(tr)}));
 					}
 				} catch (error) {
 					input.attr('title', error);
