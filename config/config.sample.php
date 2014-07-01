@@ -74,7 +74,11 @@ $CONFIG = array(
 /* URL to the parent directory of the 3rdparty directory, as seen by the browser */
 "3rdpartyurl" => "",
 
-/* Default app to load on login */
+/* Default app to open on login.
+ * This can be a comma-separated list of app ids.
+ * If the first app is not enabled for the current user,
+ * it will try with the second one and so on. If no enabled app could be found,
+ * the "files" app will be displayed instead. */
 "defaultapp" => "files",
 
 /* Enable the help menu item in the settings */

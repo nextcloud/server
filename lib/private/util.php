@@ -815,10 +815,13 @@ class OC_Util {
 	}
 
 	/**
-	 * Redirect to the user default page
-	 * @return void
+	 * Returns the URL of the default page
+	 * based on the system configuration and
+	 * the apps visible for the current user
+	 *
+	 * @return string URL
 	 */
-	public static function redirectToDefaultPage() {
+	public static function getDefaultPageUrl() {
 		$urlGenerator = \OC::$server->getURLGenerator();
 		if(isset($_REQUEST['redirect_url'])) {
 			$location = urldecode($_REQUEST['redirect_url']);
@@ -827,11 +830,30 @@ class OC_Util {
 			if ($defaultPage) {
 				$location = $urlGenerator->getAbsoluteURL($defaultPage);
 			} else {
-				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/files');
+				$appId = 'files';
+				$defaultApps = explode(',', \OCP\Config::getSystemValue('defaultapp', 'files'));
+				// find the first app that is enabled for the current user
+				foreach ($defaultApps as $defaultApp) {
+					$defaultApp = OC_App::cleanAppId(strip_tags($defaultApp));
+					if (OC_App::isEnabled($defaultApp)) {
+						$appId = $defaultApp;
+						break;
+					}
+				}
+				$location = $urlGenerator->getAbsoluteURL('/index.php/apps/' . $appId . '/');
 			}
 		}
+		return $location;
+	}
+
+	/**
+	 * Redirect to the user default page
+	 * @return void
+	 */
+	public static function redirectToDefaultPage() {
+		$location = self::getDefaultPageUrl();
 		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
-		header( 'Location: '.$location );
+		header('Location: '.$location);
 		exit();
 	}
 
