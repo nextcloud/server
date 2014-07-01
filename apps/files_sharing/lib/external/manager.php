@@ -50,8 +50,11 @@ class Manager {
 	public function addShare($remote, $token, $password, $name, $owner) {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$query = $this->connection->prepare('INSERT INTO *PREFIX*share_external(`remote`, `share_token`, `password`,
-				`name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)');
+			$query = $this->connection->prepare('
+				INSERT INTO `*PREFIX*share_external`
+					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+			');
 			$mountPoint = Filesystem::normalizePath('/' . $name);
 			$hash = md5($mountPoint);
 			$query->execute(array($remote, $token, $password, $name, $owner, $user->getUID(), $mountPoint, $hash));
@@ -75,8 +78,11 @@ class Manager {
 
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$query = $this->connection->prepare('SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
-			FROM *PREFIX*share_external WHERE `user` = ?');
+			$query = $this->connection->prepare('
+				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
+				FROM `*PREFIX*share_external`
+				WHERE `user` = ?
+			');
 			$query->execute(array($user->getUID()));
 
 			while ($row = $query->fetch()) {
@@ -132,8 +138,12 @@ class Manager {
 		$sourceHash = md5($source);
 		$targetHash = md5($target);
 
-		$query = $this->connection->prepare('UPDATE *PREFIX*share_external SET
-			`mountpoint` = ?, `mountpoint_hash` = ? WHERE `mountpoint_hash` = ? AND `user` = ?');
+		$query = $this->connection->prepare('
+			UPDATE `*PREFIX*share_external`
+			SET `mountpoint` = ?, `mountpoint_hash` = ?
+			WHERE `mountpoint_hash` = ?
+			AND `user` = ?
+		');
 		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash, $user->getUID()));
 
 		return $result;
@@ -143,7 +153,11 @@ class Manager {
 		$user = $this->userSession->getUser();
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
-		$query = $this->connection->prepare('DELETE FROM *PREFIX*share_external WHERE `mountpoint_hash` = ? AND `user` = ?');
+		$query = $this->connection->prepare('
+			DELETE FROM `*PREFIX*share_external`
+			WHERE `mountpoint_hash` = ?
+			AND `user` = ?
+		');
 		return (bool)$query->execute(array($hash, $user->getUID()));
 	}
 }
