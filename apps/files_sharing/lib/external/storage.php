@@ -39,7 +39,13 @@ class Storage extends DAV implements ISharedStorage {
 
 	private $updateChecked = false;
 
+	/**
+	 * @var \OCA\Files_Sharing\External\Manager
+	 */
+	private $manager;
+
 	public function __construct($options) {
+		$this->manager = $options['manager'];
 		$this->remote = $options['remote'];
 		$this->remoteUser = $options['owner'];
 		list($protocol, $remote) = explode('://', $this->remote);
@@ -134,7 +140,8 @@ class Storage extends DAV implements ISharedStorage {
 				if ($this->testRemote()) {
 					// valid ownCloud instance means that the public share no longer exists
 					// since this is permanent (re-sharing the file will create a new token)
-					// we mark the storage as invalid
+					// we remove the invalid storage
+					$this->manager->removeShare($this->mountPoint);
 					throw new StorageInvalidException();
 				} else {
 					// ownCloud instance is gone, likely to be a temporary server configuration error
