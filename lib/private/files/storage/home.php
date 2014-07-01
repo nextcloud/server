@@ -11,7 +11,7 @@ namespace OC\Files\Storage;
 /**
  * Specialized version of Local storage for home directory usage
  */
-class Home extends Local {
+class Home extends Local implements \OCP\Files\IHomeStorage {
 	/**
 	 * @var string
 	 */
