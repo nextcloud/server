@@ -27,17 +27,23 @@ class Api {
 	/**
 	 * Formats the given mount config to a mount entry.
 	 * 
-	 * @param bool $isSystemMount true for system mount, false
-	 * for personal mount
+	 * @param string $mountPoint mount point name, relative to the data dir
+	 * @param array $mountConfig mount config to format
 	 *
 	 * @return array entry
 	 */
-	private static function formatMount($mountConfig, $isSystemMount = false) {
-		// split user name from mount point
-		$path = dirname($mountConfig['mountpoint']);
+	private static function formatMount($mountPoint, $mountConfig) {
+		// strip "/$user/files" from mount point
+		$mountPoint = explode('/', trim($mountPoint, '/'), 3);
+		$mountPoint = $mountPoint[2];
+
+		// split path from mount point
+		$path = dirname($mountPoint);
 		if ($path === '.') {
 			$path = '';
 		}
+
+		$isSystemMount = !$mountConfig['personal'];
 
 		$permissions = \OCP\PERMISSION_READ;
 		// personal mounts can be deleted
@@ -45,9 +51,8 @@ class Api {
 			$permissions |= \OCP\PERMISSION_DELETE;
 		}
 
-		// TODO: add storageType, might need to use another OC_Mount_Config method
 		$entry = array(
-			'name' => basename($mountConfig['mountpoint']),
+			'name' => basename($mountPoint),
 			'path' => $path,
 			'type' => 'dir',
 			'backend' => $mountConfig['backend'],
@@ -67,15 +72,9 @@ class Api {
 		$entries = array();
 		$user = \OC_User::getUser();
 
-		$personalMounts = \OC_Mount_Config::getPersonalMountPoints();
-		$systemMounts = \OC_Mount_Config::getSystemMountPoints();
-
-		foreach ($systemMounts as $mountConfig) {
-			$entries[] = self::formatMount($mountConfig, true);
-		}
-
-		foreach ($personalMounts as $mountConfig) {
-			$entries[] = self::formatMount($mountConfig, false);
+		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($user);
+		foreach($mounts as $mountPoint => $mount) {
+			$entries[] = self::formatMount($mountPoint, $mount);
 		}
 
 		return new \OC_OCS_Result($entries);
