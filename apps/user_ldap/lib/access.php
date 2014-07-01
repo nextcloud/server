@@ -28,6 +28,9 @@ namespace OCA\user_ldap\lib;
  * @package OCA\user_ldap\lib
  */
 class Access extends LDAPUtility implements user\IUserTools {
+	/**
+	 * @var \OCA\user_ldap\lib\Connection
+	 */
 	public $connection;
 	public $userManager;
 	//never ever check this var directly, always use getPagedSearchResultState
@@ -61,8 +64,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * reads a given attribute for an LDAP record identified by a DN
-	 * @param $dn the record in question
-	 * @param $attr the attribute that shall be retrieved
+	 * @param string $dn the record in question
+	 * @param string $attr the attribute that shall be retrieved
 	 *        if empty, just check the record's existence
 	 * @param string $filter
 	 * @return array|false an array of values on success or an empty
@@ -178,6 +181,33 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;
+	}
+
+	/**
+	 * returns a DN-string that is cleaned from not domain parts, e.g.
+	 * cn=foo,cn=bar,dc=foobar,dc=server,dc=org
+	 * becomes dc=foobar,dc=server,dc=org
+	 * @param string $dn
+	 * @return string
+	 */
+	public function getDomainDNFromDN($dn) {
+		$allParts = $this->ldap->explodeDN($dn, 0);
+		if($allParts === false) {
+			//not a valid DN
+			return '';
+		}
+		$domainParts = array();
+		$dcFound = false;
+		foreach($allParts as $part) {
+			if(!$dcFound && strpos($part, 'dc=') === 0) {
+				$dcFound = true;
+			}
+			if($dcFound) {
+				$domainParts[] = $part;
+			}
+		}
+		$domainDN = implode(',', $domainParts);
+		return $domainDN;
 	}
 
 	/**
@@ -534,7 +564,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 			if(!\OC_Group::groupExists($altName)) {
 				return $altName;
 			}
-			$altName = $name . '_' . $lastNo + $attempts;
+			$altName = $name . '_' . ($lastNo + $attempts);
 			$attempts++;
 		}
 		return false;
@@ -581,6 +611,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * @param boolean $isUsers
+	 * @return array
 	 */
 	private function mappedComponents($isUsers) {
 		$table = $this->getMapTable($isUsers);
@@ -834,7 +865,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
 
-		if(is_null($limit)) {
+		if(is_null($limit) || $limit <= 0) {
 			$limit = intval($this->connection->ldapPagingSize);
 		}
 
@@ -894,6 +925,10 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @return array with the search result
 	 */
 	private function search($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
+		if($limit <= 0) {
+			//otherwise search will fail
+			$limit = null;
+		}
 		$search = $this->executeSearch($filter, $base, $attr, $limit, $offset);
 		if($search === false) {
 			return array();
@@ -908,7 +943,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 			$this->processPagedSearchStatus($sr, $filter, $base, 1, $limit,
 											$offset, $pagedSearchOK,
 											$skipHandling);
-			return;
+			return array();
 		}
 
 		// Do the server-side sorting
@@ -1230,6 +1265,55 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 20);
 
 		return strtoupper($hex_guid_to_guid_str);
+	}
+
+	/**
+	 * gets a SID of the domain of the given dn
+	 * @param string $dn
+	 * @return string|bool
+	 */
+	public function getSID($dn) {
+		$domainDN = $this->getDomainDNFromDN($dn);
+		$cacheKey = 'getSID-'.$domainDN;
+		if($this->connection->isCached($cacheKey)) {
+			return $this->connection->getFromCache($cacheKey);
+		}
+
+		$objectSid = $this->readAttribute($domainDN, 'objectsid');
+		if(!is_array($objectSid) || empty($objectSid)) {
+			$this->connection->writeToCache($cacheKey, false);
+			return false;
+		}
+		$domainObjectSid = $this->convertSID2Str($objectSid[0]);
+		$this->connection->writeToCache($cacheKey, $domainObjectSid);
+
+		return $domainObjectSid;
+	}
+
+	/**
+	 * converts a binary SID into a string representation
+	 * @param string $sid
+	 * @return string
+	 * @link http://blogs.freebsdish.org/tmclaugh/2010/07/21/finding-a-users-primary-group-in-ad/#comment-2855
+	 */
+	public function convertSID2Str($sid) {
+		try {
+			$srl = ord($sid[0]);
+			$numberSubID = ord($sid[1]);
+			$x = substr($sid, 2, 6);
+			$h = unpack('N', "\x0\x0" . substr($x,0,2));
+			$l = unpack('N', substr($x,2,6));
+			$iav = bcadd(bcmul($h[1], bcpow(2,32)), $l[1]);
+			$subIDs = array();
+			for ($i=0; $i<$numberSubID; $i++) {
+				$subID = unpack('V', substr($sid, 8+4*$i, 4));
+				$subIDs[] = $subID[1];
+			}
+		} catch (\Exception $e) {
+			return '';
+		}
+
+		return sprintf('S-%d-%d-%s', $srl, $iav, implode('-', $subIDs));
 	}
 
 	/**

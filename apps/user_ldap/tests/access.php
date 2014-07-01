@@ -77,4 +77,54 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 		$expected = 'foo\\\\*bar';
 		$this->assertTrue($expected === $access->escapeFilterPart($input));
 	}
+
+	public function testConvertSID2StrSuccess() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$sidBinary = file_get_contents(__DIR__ . '/data/sid.dat');
+		$sidExpected = 'S-1-5-21-249921958-728525901-1594176202';
+
+		$this->assertSame($sidExpected, $access->convertSID2Str($sidBinary));
+	}
+
+	public function testConvertSID2StrInputError() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$sidIllegal = 'foobar';
+		$sidExpected = '';
+
+		$this->assertSame($sidExpected, $access->convertSID2Str($sidIllegal));
+	}
+
+	public function testGetDomainDNFromDNSuccess() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$inputDN = 'uid=zaphod,cn=foobar,dc=my,dc=server,dc=com';
+		$domainDN = 'dc=my,dc=server,dc=com';
+
+		$lw->expects($this->once())
+			->method('explodeDN')
+			->with($inputDN, 0)
+			->will($this->returnValue(explode(',', $inputDN)));
+
+		$this->assertSame($domainDN, $access->getDomainDNFromDN($inputDN));
+	}
+
+	public function testGetDomainDNFromDNError() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$inputDN = 'foobar';
+		$expected = '';
+
+		$lw->expects($this->once())
+			->method('explodeDN')
+			->with($inputDN, 0)
+			->will($this->returnValue(false));
+
+		$this->assertSame($expected, $access->getDomainDNFromDN($inputDN));
+	}
 }
