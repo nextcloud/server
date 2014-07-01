@@ -1,12 +1,14 @@
 <?php
 
-try {
-	OCP\JSON::checkLoggedIn();
-	\OC::$session->close();
+OCP\JSON::checkLoggedIn();
+\OC::$session->close();
+$l = OC_L10N::get('files');
 
-	// Load the files
-	$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
-	$dir = \OC\Files\Filesystem::normalizePath($dir);
+// Load the files
+$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
+$dir = \OC\Files\Filesystem::normalizePath($dir);
+
+try {
 	$dirInfo = \OC\Files\Filesystem::getFileInfo($dir);
 	if (!$dirInfo || !$dirInfo->getType() === 'dir') {
 		header("HTTP/1.0 404 Not Found");
@@ -30,11 +32,24 @@ try {
 
 	OCP\JSON::success(array('data' => $data));
 } catch (\OCP\Files\StorageNotAvailableException $e) {
-	$l = OC_L10N::get('files');
 	OCP\JSON::error(array(
 		'data' => array(
 			'exception' => '\OCP\Files\StorageNotAvailableException',
 			'message' => $l->t('Storage not available')
+		)
+	));
+} catch (\OCP\Files\StorageInvalidException $e) {
+	OCP\JSON::error(array(
+		'data' => array(
+			'exception' => '\OCP\Files\StorageInvalidException',
+			'message' => $l->t('Storage invalid')
+		)
+	));
+} catch (\Exception $e) {
+	OCP\JSON::error(array(
+		'data' => array(
+			'exception' => '\Exception',
+			'message' => $l->t('Unknown error')
 		)
 	));
 }
