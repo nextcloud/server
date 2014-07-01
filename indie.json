@@ -1,0 +1,92 @@
+{
+    "name": "ownCloud",
+    "icons": [
+        {
+            "src": "https://raw.githubusercontent.com/owncloud/www/master/assets/img/common/owncloud-square-logo.png",
+            "sizes": "500x500",
+            "type": "image/png",
+            "density": "1"
+        },
+        {
+            "src": "core/img/favicon-touch.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "density": "1"
+        },
+        {
+            "src": "core/img/favicon.png",
+            "sizes": "32x32",
+            "type": "image/png",
+            "density": "1"
+        }
+    ],
+    "start_url": "/",
+    "display": "fullscreen",
+    "orientation": "landscape",
+    "short_description": "sync & share your stuff",
+    "description": "ownCloud gives you web services under your control. It is a self-hosted open source platform with file sync & sharing at its core and available clients for desktop and mobile. The web frontend has apps for Pictures, Calendar, Contacts, News/RSS, Bookmarks, Notes, Music and much more via an open app platform.",
+    "license": "AGPLv3",
+    "license_url": "https://raw.githubusercontent.com/owncloud/core/master/COPYING-AGPL",
+    "source_url": "https://github.com/owncloud/core",
+    "version": "7.0.0",
+    "developer": {
+        "name": "ownCloud Inc.",
+        "url": "https://owncloud.org"
+    },
+    "wikipedia_url": "https://wikipedia.org/wiki/ownCloud",
+    "default_locale": "en",
+    "protocols": [
+        "SSL/TLS",
+        "WebDAV",
+        "CalDAV",
+        "CardDAV",
+        "Ampache",
+        "RSS"
+    ],
+    "categories": [
+        {
+            "name": "BSD",
+            "subcategories": [
+                "Files",
+                "Sync",
+                "Calendar",
+                "Contacts",
+                "News",
+                "Notes"
+            ]
+        },
+        {
+            "name": "GNU/Linux",
+            "subcategories": [
+                "Files",
+                "Sync",
+                "Calendar",
+                "Contacts",
+                "News",
+                "Notes"
+            ]
+        },
+        {
+            "name": "OS X",
+            "subcategories": [
+                "Files",
+                "Sync",
+                "Calendar",
+                "Contacts",
+                "News",
+                "Notes"
+            ]
+        },
+        {
+            "name": "Windows",
+            "subcategories": [
+                "Files",
+                "Sync",
+                "Calendar",
+                "Contacts",
+                "News",
+                "Notes"
+            ]
+        }
+    ]
+}
