@@ -37,6 +37,13 @@ interface IRouter {
 	public function useCollection($name);
 
 	/**
+	 * returns the current collection name in use for adding routes
+	 *
+	 * @return string the collection name
+	 */
+	public function getCurrentCollection();
+
+	/**
 	 * Create a \OCP\Route\IRoute.
 	 *
 	 * @param string $name Name of the route to create.

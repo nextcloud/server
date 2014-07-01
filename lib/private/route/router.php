@@ -26,6 +26,11 @@ class Router implements IRouter {
 	protected $collection = null;
 
 	/**
+	 * @var string
+	 */
+	protected $collectionName = null;
+
+	/**
 	 * @var \Symfony\Component\Routing\RouteCollection
 	 */
 	protected $root = null;
@@ -160,7 +165,18 @@ class Router implements IRouter {
 	 */
 	public function useCollection($name) {
 		$this->collection = $this->getCollection($name);
+		$this->collectionName = $name;
 	}
+
+	/**
+	 * returns the current collection name in use for adding routes
+	 *
+	 * @return string the collection name
+	 */
+	public function getCurrentCollection() {
+		return $this->collectionName;
+	}
+
 
 	/**
 	 * Create a \OC\Route\Route.
