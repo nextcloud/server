@@ -72,6 +72,7 @@ class OC_API {
 				->requirements($requirements)
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
+			OC::$server->getRouter()->useCollection('root');
 		}
 		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
 	}
