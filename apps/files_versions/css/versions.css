@@ -52,5 +52,8 @@
 #found_versions .revertVersion {
 	cursor: pointer;
 	float: right;
+	max-width: 130px;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
