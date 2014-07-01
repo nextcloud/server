@@ -8,10 +8,8 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\Filesystem;
 use OC\Files\Mount\Mount;
 use OC\Files\Mount\MoveableMount;
-use OC\Files\Storage\Shared;
 
 /**
  * Shared mount points can be moved by the user
@@ -119,14 +117,6 @@ class SharedMount extends Mount implements MoveableMount {
 	 * @return bool
 	 */
 	public function moveMount($target) {
-		// it shouldn't be possible to move a Shared storage into another one
-		list($targetStorage,) = Filesystem::resolvePath($target);
-		if ($targetStorage instanceof Shared) {
-			\OCP\Util::writeLog('file sharing',
-				'It is not allowed to move one mount point into another one',
-				\OCP\Util::DEBUG);
-			return false;
-		}
 
 		$relTargetPath = $this->stripUserFilesPath($target);
 		$share = $this->storage->getShare();
