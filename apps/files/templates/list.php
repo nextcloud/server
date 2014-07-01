@@ -38,9 +38,8 @@
 			</div>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
-				<input type="button" class="stop" style="display:none"
-					value="<?php p($l->t('Cancel upload'));?>"
-				/>
+				<input type="button" class="stop icon-close"
+					style="display:none" value="" />
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
