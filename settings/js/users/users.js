@@ -282,6 +282,7 @@ var UserList = {
 		if (UserList.updating) {
 			return;
 		}
+		$userList.css('display', 'none');
 		$userList.siblings('.loading').css('visibility', 'visible');
 		UserList.updating = true;
 		if(gid === undefined) {
@@ -310,6 +311,7 @@ var UserList = {
 					});
 					if (result.data.length > 0) {
 						UserList.doSort();
+						$userList.css('display', 'block');
 						$userList.siblings('.loading').css('visibility', 'hidden');
 					}
 					else {
