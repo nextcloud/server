@@ -290,4 +290,72 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 			array(array('g1', 'g2', 'g3'), array('g1', 'g2'), array('g1', 'g2', 'g3'), true),
         );
     }
+
+	/**
+	 * Test default apps
+	 *
+	 * @dataProvider defaultAppsProvider
+	 */
+	function testDefaultApps($defaultAppConfig, $expectedPath, $enabledApps) {
+		$oldDefaultApps = \OCP\Config::getSystemValue('core', 'defaultapp', '');
+		// CLI is doing messy stuff with the webroot, so need to work it around
+		$oldWebRoot = \OC::$WEBROOT;
+		\OC::$WEBROOT = '';
+
+		Dummy_OC_App::setEnabledApps($enabledApps);
+		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
+		$this->assertEquals('http://localhost/' . $expectedPath, \OC_Util::getDefaultPageUrl());
+
+		// restore old state
+		\OC::$WEBROOT = $oldWebRoot;
+		Dummy_OC_App::restore();
+		\OCP\Config::setSystemValue('defaultapp', $oldDefaultApps);
+	}
+
+	function defaultAppsProvider() {
+		return array(
+			// none specified, default to files
+			array(
+				'',
+				'index.php/apps/files/',
+				array('files'),
+			),
+			// unexisting or inaccessible app specified, default to files
+			array(
+				'unexist',
+				'index.php/apps/files/',
+				array('files'),
+			),
+			// non-standard app
+			array(
+				'calendar',
+				'index.php/apps/calendar/',
+				array('files', 'calendar'),
+			),
+			// non-standard app with fallback
+			array(
+				'contacts,calendar',
+				'index.php/apps/calendar/',
+				array('files', 'calendar'),
+			),
+		);
+	}
+
+}
+
+/**
+ * Dummy OC Apps class to make it possible to override
+ * enabled apps
+ */
+class Dummy_OC_App extends OC_App {
+	private static $enabledAppsCacheBackup;
+
+	public static function setEnabledApps($enabledApps) {
+		self::$enabledAppsCacheBackup = self::$enabledAppsCache;
+		self::$enabledAppsCache = $enabledApps;
+	}
+
+	public static function restore() {
+		self::$enabledAppsCache = self::$enabledAppsCacheBackup;
+	}
 }

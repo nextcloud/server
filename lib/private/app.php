@@ -163,7 +163,7 @@ class OC_App {
 	/**
 	 * get all enabled apps
 	 */
-	private static $enabledAppsCache = array();
+	protected static $enabledAppsCache = array();
 
 	public static function getEnabledApps($forceRefresh = false) {
 		if (!OC_Config::getValue('installed', false)) {
