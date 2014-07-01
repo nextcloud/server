@@ -99,6 +99,17 @@ class LDAP implements ILDAPWrapper {
 	}
 
 	/**
+	 * Splits DN into its component parts
+	 * @param string $dn
+	 * @param int @withAttrib
+	 * @return array|false
+	 * @link http://www.php.net/manual/en/function.ldap-explode-dn.php
+	 */
+	public function explodeDN($dn, $withAttrib) {
+		return $this->invokeLDAPMethod('ldap_explode_dn', $dn, $withAttrib);
+	}
+
+	/**
 	 * @param LDAP $link
 	 * @param LDAP $result
 	 * @return mixed

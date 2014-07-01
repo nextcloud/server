@@ -90,6 +90,15 @@ interface ILDAPWrapper {
 	public function error($link);
 
 	/**
+	 * Splits DN into its component parts
+	 * @param string $dn
+	 * @param int @withAttrib
+	 * @return array|false
+	 * @link http://www.php.net/manual/en/function.ldap-explode-dn.php
+	 */
+	public function explodeDN($dn, $withAttrib);
+
+	/**
 	 * Return first result id
 	 * @param resource $link LDAP link resource
 	 * @param resource $result LDAP result resource
