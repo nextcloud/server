@@ -125,6 +125,28 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(4, count($result->fetchAll()));
 	}
 
+	public function testInsertIfNotExistNull() {
+		$categoryentries = array(
+			array('addressbookid' => 123, 'fullname' => null, 'expectedResult' => 1),
+			array('addressbookid' => 123, 'fullname' => null, 'expectedResult' => 0),
+			array('addressbookid' => 123, 'fullname' => 'test', 'expectedResult' => 1),
+		);
+
+		foreach($categoryentries as $entry) {
+			$result = OC_DB::insertIfNotExist('*PREFIX*'.$this->table2,
+				array(
+					'addressbookid' => $entry['addressbookid'],
+					'fullname' => $entry['fullname'],
+				));
+			$this->assertEquals($entry['expectedResult'], $result);
+		}
+
+		$query = OC_DB::prepare('SELECT * FROM `*PREFIX*'.$this->table2.'`');
+		$result = $query->execute();
+		$this->assertTrue((bool)$result);
+		$this->assertEquals(2, count($result->fetchAll()));
+	}
+
 	public function testinsertIfNotExistDontOverwrite() {
 		$fullname = 'fullname test';
 		$uri = 'uri_1';
