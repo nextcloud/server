@@ -109,6 +109,13 @@ a.showCruds:hover,a.unshare:hover {
 	white-space:normal;
 }
 
+#defaultExpireMessage { /* show message on new line */
+	display: block;
+	padding-left: 4px;
+	/* TODO: style the dropdown in a proper way - border-box, etc. */
+	width: 90%;
+}
+
 .ui-autocomplete { /* limit dropdown height to 4 1/2 entries */
 	max-height:103px;
 	overflow-y:auto;
