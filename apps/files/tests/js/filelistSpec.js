@@ -1630,6 +1630,7 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('redisplays actions when new actions have been registered', function() {
 			var actionStub = sinon.stub();
+			var readyHandler = sinon.stub();
 			var clock = sinon.useFakeTimers();
 			var debounceStub = sinon.stub(_, 'debounce', function(callback) {
 				return function() {
@@ -1637,11 +1638,15 @@ describe('OCA.Files.FileList tests', function() {
 					_.defer(callback);
 				};
 			});
+
 			// need to reinit the list to make the debounce call
 			fileList.destroy();
 			fileList = new OCA.Files.FileList($('#app-content-files'));
 
 			fileList.setFiles(testFiles);
+
+			fileList.$fileList.on('fileActionsReady', readyHandler);
+
 			fileList.fileActions.register(
 				'text/plain',
 				'Test',
@@ -1654,9 +1659,13 @@ describe('OCA.Files.FileList tests', function() {
 			);
 			var $tr = fileList.findFileEl('One.txt');
 			expect($tr.find('.action-test').length).toEqual(0);
+			expect(readyHandler.notCalled).toEqual(true);
+
 			// update is delayed
 			clock.tick(100);
 			expect($tr.find('.action-test').length).toEqual(1);
+			expect(readyHandler.calledOnce).toEqual(true);
+
 			clock.restore();
 			debounceStub.restore();
 		});

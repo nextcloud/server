@@ -519,8 +519,9 @@
 		_onFileActionsUpdated: function() {
 			var self = this;
 			this.$fileList.find('tr td.filename').each(function() {
-				self.fileActions.display($(this), true, self);
+				self.fileActions.display($(this), false, self);
 			});
+			this.$fileList.trigger($.Event('fileActionsReady', {fileList: this}));
 		},
 
 		/**
