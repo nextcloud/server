@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "他のユーザーと共有しているファイルはありません。",
 "You haven't shared any files by link yet." => "URLリンクで共有しているファイルはありません。",
 "Add {name} from {owner}@{remote}" => "{owner}@{remote} から {name} を追加",
+"Add Share" => "共有を追加",
 "Password" => "パスワード",
 "No ownCloud installation found at {remote}" => "{remote} には ownCloud がインストールされていません",
 "Invalid ownCloud url" => "無効な ownCloud URL です",
@@ -30,6 +31,7 @@ $TRANSLATIONS = array(
 "Download" => "ダウンロード",
 "Download %s" => "%s をダウンロード",
 "Direct link" => "リンク",
+"Remote Shares" => "リモート共有",
 "Allow other instances to mount public links shared from this server" => "このサーバにおけるURLでの共有を他のインスタンスからマウントできるようにする",
 "Allow users to mount public link shares" => "ユーザーがURLでの共有をマウントできるようにする"
 );

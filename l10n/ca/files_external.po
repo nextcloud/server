@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-01 01:54-0400\n"
+"PO-Revision-Date: 2014-06-30 07:41+0000\n"
+"Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,13 +24,13 @@ msgstr ""
 msgid ""
 "Fetching request tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "Ha fallat en obtenir els testimonis de la petició. Verifiqueu que la clau i la contrasenya de l'aplicació Dropbox són correctes."
 
 #: ajax/dropbox.php:40
 msgid ""
 "Fetching access tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "Ha fallat en obtenir els testimonis de la petició. Verifiqueu que la clau i la contrasenya de l'aplicació Dropbox són correctes."
 
 #: ajax/dropbox.php:48 js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
@@ -39,12 +39,12 @@ msgstr "Proporcioneu una clau d'aplicació i secret vàlids per a Dropbox"
 #: ajax/google.php:27
 #, php-format
 msgid "Step 1 failed. Exception: %s"
-msgstr ""
+msgstr "El pas 1 ha fallat. Excepció: %s"
 
 #: ajax/google.php:38
 #, php-format
 msgid "Step 2 failed. Exception: %s"
-msgstr ""
+msgstr "El pas 2 ha fallat. Excepció: %s"
 
 #: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"

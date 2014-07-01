@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-01 01:54-0400\n"
+"PO-Revision-Date: 2014-07-01 01:50+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,25 +25,25 @@ msgstr ""
 
 #: base.php:187 base.php:194
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "\"config\" ディレクトリに書き込みができません！"
 
 #: base.php:188
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "多くの場合、これはWEBサーバーに config ディレクトリへの書き込み権限を付与することで解決が可能です。"
 
 #: base.php:190
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "%s を閲覧"
 
 #: base.php:195 private/util.php:413
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr ""
+msgstr "多くの場合、これは %sWEBサーバーに config ディレクトリへの書き込み権限を付与%s することで解決が可能です。"
 
 #: base.php:675
 msgid "You are accessing the server from an untrusted domain."
@@ -472,56 +472,56 @@ msgstr "ユーザー名はすでに使われています"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "データベースドライバー (sqlite, mysql, postgresql) がインストールされていません。"
 
 #: private/util.php:405
 #, php-format
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr ""
+msgstr "多くの場合、パーミッションは %sWEBサーバーにルートディレクトリへの書き込み権限を付与%s することで解決が可能です。"
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "\"config\" ディレクトリに書き込みができません"
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "\"apps\" ディレクトリに書き込みができません"
 
 #: private/util.php:426
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
-msgstr ""
+msgstr "多くの場合、これは %sWEBサーバーに apps ディレクトリへの書き込み権限を付与%s するか、設定ファイルでアプリストアを無効化することで解決が可能です。"
 
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "\"data\" ディレクトリ (%s) を作成できません"
 
 #: private/util.php:441
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "多くの場合、これは<a href=\"%s\" target=\"_blank\">WEBサーバーにルートディレクトリへの書き込み権限を付与</a>することで解決が可能です。"
 
 #: private/util.php:457
 #, php-format
 msgid "Setting locale to %s failed"
-msgstr ""
+msgstr "ロケールを %s に設定できませんでした"
 
 #: private/util.php:460
 msgid ""
 "Please install one of theses locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "これらのロケールのいずれかをシステムにインストールし、WEBサーバーを再起動してください。"
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "サーバー管理者にモジュールのインストールを依頼してください。"
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -529,92 +529,92 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "PHP のモジュール %s がインストールされていません。"
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "PHP %s 以上が必要です。"
 
 #: private/util.php:539
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "PHPを最新バージョンに更新するようサーバー管理者に依頼してください。現在のPHPのバージョンは、ownCloud および PHP コミュニティでサポートされていません。"
 
 #: private/util.php:556
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "PHPセーフモードは有効です。ownCloud を適切に動作させるには無効化する必要があります。"
 
 #: private/util.php:557
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "PHPセーフモードは多くの場合において役に立たない設定のため、無効化すべきです。サーバー管理者に php.ini もしくはWEBサーバー設定で無効化するよう依頼してください。"
 
 #: private/util.php:564
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "マジッククォートは有効です。ownCloud を適切に動作させるには無効化する必要があります。"
 
 #: private/util.php:565
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "マジッククォートは多くの場合において役に立たない設定のため、無効化すべきです。サーバー管理者に php.ini もしくはWEBサーバー設定で無効化するよう依頼してください。"
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "PHP モジュールはインストールされていますが、まだ一覧に表示されていますか？"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "サーバー管理者にWEBサーバーを再起動するよう依頼してください。"
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "PostgreSQL >= 9 が必要です"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "新しいバージョンのデータベースにアップグレードしてください"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "PostgreSQL のバージョンチェック中にエラーが発生しました"
 
 #: private/util.php:618
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "PostgreSQL >= 9 がインストールされているかどうか確認して下さい。もしくは、ログからエラーに関する詳細な情報を確認して下さい。"
 
 #: private/util.php:680
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "ディレクトリが他のユーザーから見えないように、パーミッションを 0770 に変更してください。"
 
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "データディレクトリ (%s) は他のユーザーも閲覧することができます"
 
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "データディレクトリ (%s) は無効です"
 
 #: private/util.php:711
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "データディレクトリに \".ocdata\" ファイルが含まれていることを確認して下さい。"
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

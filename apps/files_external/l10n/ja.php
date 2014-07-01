@@ -1,6 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." => "リクエストトークンの取得に失敗しました。Dropboxアプリのキーとパスワードが正しいかどうかを確認して下さい。",
+"Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." => "アクセストークンの取得に失敗しました。Dropboxアプリのキーとパスワードが正しいかどうかを確認して下さい。",
 "Please provide a valid Dropbox app key and secret." => "有効なDropboxアプリのキーとパスワードを入力してください。",
+"Step 1 failed. Exception: %s" => "ステップ 1 の実行に失敗しました。例外: %s",
+"Step 2 failed. Exception: %s" => "ステップ 2 の実行に失敗しました。例外: %s",
 "External storage" => "外部ストレージ",
 "Local" => "ローカル",
 "Location" => "位置",

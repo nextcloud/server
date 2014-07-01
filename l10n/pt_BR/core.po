@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-01 01:54-0400\n"
+"PO-Revision-Date: 2014-06-30 11:14+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,7 +63,7 @@ msgstr "Imagem inválida"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
-msgstr "Sem imagem no perfil temporário disponível, tente novamente"
+msgstr "Nenhuma imagem temporária disponível no perfil, tente novamente"
 
 #: avatar/controller.php:140
 msgid "No crop data provided"
@@ -99,55 +99,55 @@ msgstr "Sábado"
 
 #: js/config.php:56
 msgid "January"
-msgstr "janeiro"
+msgstr "Janeiro"
 
 #: js/config.php:57
 msgid "February"
-msgstr "fevereiro"
+msgstr "Fevereiro"
 
 #: js/config.php:58
 msgid "March"
-msgstr "março"
+msgstr "Março"
 
 #: js/config.php:59
 msgid "April"
-msgstr "abril"
+msgstr "Abril"
 
 #: js/config.php:60
 msgid "May"
-msgstr "maio"
+msgstr "Maio"
 
 #: js/config.php:61
 msgid "June"
-msgstr "junho"
+msgstr "Junho"
 
 #: js/config.php:62
 msgid "July"
-msgstr "julho"
+msgstr "Julho"
 
 #: js/config.php:63
 msgid "August"
-msgstr "agosto"
+msgstr "Agosto"
 
 #: js/config.php:64
 msgid "September"
-msgstr "setembro"
+msgstr "Setembro"
 
 #: js/config.php:65
 msgid "October"
-msgstr "outubro"
+msgstr "Outubro"
 
 #: js/config.php:66
 msgid "November"
-msgstr "novembro"
+msgstr "Novembro"
 
 #: js/config.php:67
 msgid "December"
-msgstr "dezembro"
+msgstr "Dezembro"
 
 #: js/js.js:501
 msgid "Settings"
-msgstr "Ajustes"
+msgstr "Configurações"
 
 #: js/js.js:590
 msgid "File"
@@ -258,7 +258,7 @@ msgstr "Não"
 
 #: js/oc-dialogs.js:204
 msgid "Choose"
-msgstr "Escolha"
+msgstr "Escolher"
 
 #: js/oc-dialogs.js:231
 msgid "Error loading file picker template: {error}"
@@ -330,7 +330,7 @@ msgstr "Senha fraca"
 
 #: js/setup.js:94
 msgid "So-so password"
-msgstr "So-so senha"
+msgstr "Senha mais ou menos"
 
 #: js/setup.js:95
 msgid "Good password"
@@ -408,7 +408,7 @@ msgstr "Escolha uma senha para o link público"
 
 #: js/share.js:355
 msgid "Allow Public Upload"
-msgstr "Permitir upload público"
+msgstr "Permitir Envio Público"
 
 #: js/share.js:359
 msgid "Email link to person"
@@ -524,7 +524,7 @@ msgstr "Editar etiqueta"
 
 #: js/tags.js:75
 msgid "Error loading dialog template: {error}"
-msgstr "Erro carregando diálogo de formatação:{error}"
+msgstr "Erro carregando diálogo de formatação: {error}"
 
 #: js/tags.js:288
 msgid "No tags selected for deletion."
@@ -641,7 +641,7 @@ msgstr " Erro carregando etiqueta"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr "tiqueta já existe"
+msgstr "Etiqueta já existe"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
@@ -653,11 +653,11 @@ msgstr "Erro etiquetando"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr "Erro retirando etiquetando"
+msgstr "Erro retirando etiqueta"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr "Erro colocando no favoritos"
+msgstr "Erro colocando nos favoritos"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
@@ -679,7 +679,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Olá,\n\ngostaria que você soubesse que %s compartilhou %s com vecê.\nVeja isto: %s\n\n"
+msgstr "Olá,\n\ngostaria que você soubesse que %s compartilhou %s com você.\nVeja isto: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -794,7 +794,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr "Esta aplicação reque JavaScript habilidado para correta operação.\nPor favor <a href=\"http://enable-javascript.com/\" target=\"_blank\">habilite JavaScript</a> e recarregue esta esta interface."
+msgstr "Esta aplicação requer JavaScript habilidado para correta operação.\nPor favor <a href=\"http://enable-javascript.com/\" target=\"_blank\">habilite o JavaScript</a> e recarregue esta intercace."
 
 #: templates/layout.user.php:44
 #, php-format
@@ -841,7 +841,7 @@ msgstr "Fazer login"
 
 #: templates/login.php:65
 msgid "Alternative Logins"
-msgstr "Logins alternativos"
+msgstr "Logins Alternativos"
 
 #: templates/mail.php:15
 #, php-format
@@ -856,7 +856,7 @@ msgstr "Nesta instância ownCloud está em modo de usuário único."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr "Isso significa que apenas os administradores podem usar o exemplo."
+msgstr "Isso significa que apenas os administradores podem usar esta instância."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""

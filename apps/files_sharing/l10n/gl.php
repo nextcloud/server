@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Aínda non compartiu ningún ficheiro.",
 "You haven't shared any files by link yet." => "Aínda non compartiu ningún ficheiro por ligazón.",
 "Add {name} from {owner}@{remote}" => "Engadir {name} desde {owner}@{remote}",
+"Add Share" => "Engadir compartición",
 "Password" => "Contrasinal",
 "No ownCloud installation found at {remote}" => "Non se atopou unha instalación do ownCloud en {remote}",
 "Invalid ownCloud url" => "URL incorrecta do ownCloud",

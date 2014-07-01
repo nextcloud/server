@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "You haven't shared any files yet." => "Encara no heu compartit cap fitxer.",
 "You haven't shared any files by link yet." => "Encara no heu compartit cap fitxer amb enllaç.",
 "Add {name} from {owner}@{remote}" => "Afegiu {name} de {owner}@{remote}",
+"Add Share" => "Comparteix",
 "Password" => "Contrasenya",
 "No ownCloud installation found at {remote}" => "No s'ha trobat cap instal·lació ownCloud a {remote}",
 "Invalid ownCloud url" => "La url d'ownCloud no és vàlida",
@@ -30,6 +31,7 @@ $TRANSLATIONS = array(
 "Download" => "Baixa",
 "Download %s" => "Baixa %s",
 "Direct link" => "Enllaç directe",
+"Remote Shares" => "Compartició remota",
 "Allow other instances to mount public links shared from this server" => "Permet que altres instàncies muntin enllaços públics compartits des d'aqeust servidor",
 "Allow users to mount public link shares" => "Permet que usuaris muntin compartits amb enllaços públics"
 );
