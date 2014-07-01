@@ -16,7 +16,7 @@
 namespace OCP\Files;
 
 /**
- * Storage is temporarily not available
+ * Storage has invalid configuration
  */
-class StorageNotAvailableException extends \Exception {
+class StorageInvalidException extends \Exception {
 }
