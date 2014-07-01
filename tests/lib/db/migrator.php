@@ -19,6 +19,11 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 	 */
 	private $connection;
 
+	/**
+	 * @var \OC\DB\MDB2SchemaManager
+	 */
+	private $manager;
+
 	private $tableName;
 
 	public function setUp() {
@@ -26,6 +31,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 		if ($this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\OCI8\Driver) {
 			$this->markTestSkipped('DB migration tests arent supported on OCI');
 		}
+		$this->manager = new \OC\DB\MDB2SchemaManager($this->connection);
 		$this->tableName = 'test_' . uniqid();
 	}
 
@@ -62,14 +68,6 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 		return $this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\PDOSqlite\Driver;
 	}
 
-	private function getMigrator() {
-		if ($this->isSQLite()) {
-			return new \OC\DB\SQLiteMigrator($this->connection);
-		} else {
-			return new \OC\DB\Migrator($this->connection);
-		}
-	}
-
 	/**
 	 * @expectedException \OC\DB\MigrationException
 	 */
@@ -78,7 +76,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 			$this->markTestSkipped('sqlite doesnt throw errors when creating a new key on existing data');
 		}
 		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
-		$migrator = $this->getMigrator();
+		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
@@ -91,7 +89,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	public function testUpgrade() {
 		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
-		$migrator = $this->getMigrator();
+		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$this->connection->insert($this->tableName, array('id' => 1, 'name' => 'foo'));
@@ -105,7 +103,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	public function testInsertAfterUpgrade() {
 		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
-		$migrator = $this->getMigrator();
+		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$migrator->migrate($endSchema);
@@ -132,7 +130,29 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 		$table->addColumn('name', 'string');
 		$table->setPrimaryKey(array('id'));
 
-		$migrator = $this->getMigrator();
+		$migrator = $this->manager->getMigrator();
+		$migrator->migrate($startSchema);
+
+		$migrator->checkMigrate($endSchema);
+		$migrator->migrate($endSchema);
+
+		$this->assertTrue(true);
+	}
+
+	public function testReservedKeywords() {
+		$startSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $startSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', array('autoincrement' => true));
+		$table->addColumn('user', 'string', array('length' => 255));
+		$table->setPrimaryKey(array('id'));
+
+		$endSchema = new Schema(array(), array(), $this->getSchemaConfig());
+		$table = $endSchema->createTable($this->tableName);
+		$table->addColumn('id', 'integer', array('autoincrement' => true));
+		$table->addColumn('user', 'string', array('length' => 64));
+		$table->setPrimaryKey(array('id'));
+
+		$migrator = $this->manager->getMigrator();
 		$migrator->migrate($startSchema);
 
 		$migrator->checkMigrate($endSchema);

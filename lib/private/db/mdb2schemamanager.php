@@ -58,7 +58,7 @@ class MDB2SchemaManager {
 	/**
 	 * @return \OC\DB\Migrator
 	 */
-	protected function getMigrator() {
+	public function getMigrator() {
 		$platform = $this->conn->getDatabasePlatform();
 		if ($platform instanceof SqlitePlatform) {
 			return new SQLiteMigrator($this->conn);
