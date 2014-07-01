@@ -84,7 +84,7 @@ class Migrator {
 	 * @return string
 	 */
 	protected function generateTemporaryTableName($name) {
-		return 'oc_' . $name . '_' . uniqid();
+		return 'oc_' . $name . '_' . \OCP\Util::generateRandomBytes(13);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Migrator {
 				$indexName = $index->getName();
 			} else {
 				// avoid conflicts in index names
-				$indexName = 'oc_' . uniqid();
+				$indexName = 'oc_' . \OCP\Util::generateRandomBytes(13);
 			}
 			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
