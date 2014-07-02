@@ -11,8 +11,10 @@
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
-		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
-		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
+		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
+			title="" id="owncloud">
+			<div class="logo-icon svg"></div>
+		</a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
 			<span id="details">
