@@ -82,6 +82,11 @@
 	background-color: #fff;
 	overflow-x: hidden !important;
 }
+/* allow horizontal scrollbar in settings
+	otherwise user management is not usable on mobile */
+#body-settings #app-content {
+	overflow-x: auto !important;
+}
 
 #app-navigation-toggle {
 	position: fixed;
