@@ -441,7 +441,7 @@ class Hooks {
 			$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
 			$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
 		} else {
-			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::ERROR);
+			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::DEBUG);
 			return false;
 		}
 
