@@ -217,4 +217,40 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 
 	}
 
+	/**
+	 * if a folder gets renamed all children mount points should be renamed too
+	 */
+	function testRename() {
+
+		$fileinfo = \OC\Files\Filesystem::getFileInfo($this->folder);
+		$result = \OCP\Share::shareItem('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
+		$this->assertTrue($result);
+
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		// make sure that the shared folder exists
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->folder));
+
+		\OC\Files\Filesystem::mkdir('oldTarget');
+		\OC\Files\Filesystem::mkdir('oldTarget/subfolder');
+		\OC\Files\Filesystem::mkdir('newTarget');
+
+		\OC\Files\Filesystem::rename($this->folder, 'oldTarget/subfolder/' . $this->folder);
+
+		// re-login to make sure that the new mount points are initialized
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		\OC\Files\Filesystem::rename('/oldTarget', '/newTarget/oldTarget');
+
+		// re-login to make sure that the new mount points are initialized
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('/newTarget/oldTarget/subfolder/' . $this->folder));
+
+		// cleanup
+		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
 }

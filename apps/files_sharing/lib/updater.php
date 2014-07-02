@@ -109,6 +109,7 @@ class Shared_Updater {
 	static public function renameHook($params) {
 		self::correctFolders($params['newpath']);
 		self::correctFolders(pathinfo($params['oldpath'], PATHINFO_DIRNAME));
+		self::renameChildren($params['oldpath'], $params['newpath']);
 	}
 
 	/**
@@ -207,6 +208,28 @@ class Shared_Updater {
 				'SELECT `fileid` FROM `*PREFIX*filecache` WHERE `item_type` IN (\'file\', \'folder\'))'
 		);
 		$findAndRemoveShares->execute(array());
+	}
+
+	/**
+	 * rename mount point from the children if the parent was renamed
+	 * 
+	 * @param string $oldPath old path relative to data/user/files
+	 * @param string $newPath new path relative to data/user/files
+	 */
+	static private function renameChildren($oldPath, $newPath) {
+
+		$absNewPath =  \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $newPath);
+		$absOldPath =  \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files/' . $oldPath);
+
+		$mountManager = \OC\Files\Filesystem::getMountManager();
+		$mountedShares = $mountManager->findIn('/' . \OCP\User::getUser() . '/files/' . $oldPath);
+		foreach ($mountedShares as $mount) {
+			if ($mount->getStorage()->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
+				$mountPoint = $mount->getMountPoint();
+				$target = str_replace($absOldPath, $absNewPath, $mountPoint);
+				$mount->moveMount($target);
+			}
+		}
 	}
 
 }
