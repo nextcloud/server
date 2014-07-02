@@ -205,6 +205,9 @@ table.multiselect thead {
 	left: 250px; /* sidebar */
 }
 
+table thead th {
+	background-color: #fff;
+}
 table.multiselect thead th {
 	background-color: rgba(220,220,220,.8);
 	color: #000;
