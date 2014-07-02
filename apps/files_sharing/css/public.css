@@ -88,20 +88,6 @@ thead {
 	max-width: 90%;
 }
 
-.header-right {
-	transition: opacity 500ms ease 0s;
-	-moz-transition: opacity 500ms ease 0s;
-	-ms-transition: opacity 500ms ease 0s;
-	-o-transition: opacity 500ms ease 0s;
-	-webkit-transition: opacity 500ms ease 0s;
-}
-
-.header-right:hover, .header-right.active {
-	opacity: 1;
-	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter: alpha(opacity=100);
-}
-
 /* within #save */
 #remote_address {
 	margin: 0;
