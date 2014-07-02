@@ -38,6 +38,7 @@ class Mount extends \OC\Files\Mount\Mount implements MoveableMount {
 	public function moveMount($target) {
 		$result = $this->manager->setMountPoint($this->mountPoint, $target);
 		$this->setMountPoint($target);
+
 		return $result;
 	}
 

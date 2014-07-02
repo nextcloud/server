@@ -236,4 +236,5 @@ class Helper {
 		$result = $appConfig->getValue('files_sharing', 'incoming_server2server_share_enabled', 'yes');
 		return ($result === 'yes') ? true : false;
 	}
+
 }

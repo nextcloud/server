@@ -440,13 +440,17 @@ class View {
 				$internalPath1 = $mount->getInternalPath($absolutePath1 . $postFix1);
 				list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
 				if ($internalPath1 === '' and $mount instanceof MoveableMount) {
-					/**
-					 * @var \OC\Files\Mount\Mount | \OC\Files\Mount\MoveableMount $mount
-					 */
-					$sourceMountPoint = $mount->getMountPoint();
-					$result = $mount->moveMount($absolutePath2);
-					$manager->moveMount($sourceMountPoint, $mount->getMountPoint());
-					\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
+					if ($this->isTargetAllowed($absolutePath2)) {
+						/**
+						 * @var \OC\Files\Mount\Mount | \OC\Files\Mount\MoveableMount $mount
+						 */
+						$sourceMountPoint = $mount->getMountPoint();
+						$result = $mount->moveMount($absolutePath2);
+						$manager->moveMount($sourceMountPoint, $mount->getMountPoint());
+						\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
+					} else {
+						$result = false;
+					}
 				} elseif ($mp1 == $mp2) {
 					if ($storage1) {
 						$result = $storage1->rename($internalPath1, $internalPath2);
@@ -1184,5 +1188,28 @@ class View {
 		if ($pathLen > $maxLen) {
 			throw new \OCP\Files\InvalidPathException("Path length($pathLen) exceeds max path length($maxLen): $path");
 		}
+	}
+
+	/**
+	 * check if it is allowed to move a mount point to a given target.
+	 * It is not allowed to move a mount point into a different mount point
+	 *
+	 * @param string $target path
+	 * @return boolean
+	 */
+	private function isTargetAllowed($target) {
+
+		$result = false;
+
+		list($targetStorage,) = \OC\Files\Filesystem::resolvePath($target);
+		if ($targetStorage->instanceOfStorage('\OCP\Files\IHomeStorage')) {
+			$result = true;
+		} else {
+			\OCP\Util::writeLog('files',
+				'It is not allowed to move one mount point into another one',
+				\OCP\Util::DEBUG);
+		}
+
+		return $result;
 	}
 }
