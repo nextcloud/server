@@ -25,7 +25,7 @@
 				</span>
 				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
 					<img class="svg" alt="" src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>"/>
-					<?php p($l->t('Download'))?>
+					<span id="download-text"><?php p($l->t('Download'))?></span>
 				</a>
 			</span>
 		</div>

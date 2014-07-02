@@ -5,6 +5,11 @@
 	position: absolute !important;
 }
 
+/* hide text of download button, only show icon */
+#download-text {
+	display: none;
+}
+
 /* hide size and date columns */
 table th#headerSize,
 table td.filesize,
