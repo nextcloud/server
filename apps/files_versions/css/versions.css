@@ -1,5 +1,5 @@
 #dropdown.drop-versions {
-	width:320px;
+	width: 360px;
 }
 
 #found_versions li {
@@ -52,5 +52,8 @@
 #found_versions .revertVersion {
 	cursor: pointer;
 	float: right;
+	max-width: 130px;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
