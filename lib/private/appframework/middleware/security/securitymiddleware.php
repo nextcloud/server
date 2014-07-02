@@ -143,6 +143,8 @@ class SecurityMiddleware extends Middleware {
 
 				// TODO: replace with link to route
 				$url = $this->urlGenerator->getAbsoluteURL('index.php');
+				// add redirect URL to redirect to the previous page after login
+				$url .= '?redirect_url=' . urlencode($this->request->server['REQUEST_URI']);
 				$response = new RedirectResponse($url);
 				$this->logger->debug($exception->getMessage());
 			}
