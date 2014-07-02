@@ -22,7 +22,7 @@
 		<a href="https://owncloud.org/contribute"
 			target="_blank">join development</a>
 		or
-		<a href="https://owncloud.org/contribute/#promote"
+		<a href="https://owncloud.org/promote"
 			target="_blank">spread the word</a>!'));?>
 	</p>
 	<?php endif; ?>
