@@ -572,8 +572,13 @@ label.infield {
 }
 
 #body-login .update {
+	width: inherit;
 	text-align: center;
 	color: #ccc;
+}
+
+#body-login .v-align {
+	width: inherit;
 }
 
 #body-login .update img.float-spinner {
