@@ -181,11 +181,12 @@
 				return;
 			}
 			this.currentFile = parent;
+			var $tr = parent.closest('tr');
 			var self = this;
 			var actions = this.getActions(this.getCurrentMimeType(), this.getCurrentType(), this.getCurrentPermissions());
 			var file = this.getCurrentFile();
 			var nameLinks;
-			if (parent.closest('tr').data('renaming')) {
+			if ($tr.data('renaming')) {
 				return;
 			}
 
@@ -278,7 +279,7 @@
 			}
 
 			if (triggerEvent){
-				fileList.$fileList.trigger(jQuery.Event("fileActionsReady", {fileList: fileList}));
+				fileList.$fileList.trigger(jQuery.Event("fileActionsReady", {fileList: fileList, $files: $tr}));
 			}
 		},
 		getCurrentFile: function () {

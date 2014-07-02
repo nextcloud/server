@@ -797,13 +797,24 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.$fileList.on('fileActionsReady', handler);
 			fileList.setFiles(testFiles);
 			expect(handler.calledOnce).toEqual(true);
+			expect(handler.getCall(0).args[0].$files.length).toEqual(testFiles.length);
 		});
 		it('triggers "fileActionsReady" event after single add', function() {
 			var handler = sinon.stub();
+			var $tr;
 			fileList.setFiles(testFiles);
 			fileList.$fileList.on('fileActionsReady', handler);
-			fileList.add({name: 'test.txt'});
+			$tr = fileList.add({name: 'test.txt'});
 			expect(handler.calledOnce).toEqual(true);
+			expect(handler.getCall(0).args[0].$files.is($tr)).toEqual(true);
+		});
+		it('triggers "fileActionsReady" event after next page load with the newly appended files', function() {
+			var handler = sinon.stub();
+			fileList.setFiles(generateFiles(0, 64));
+			fileList.$fileList.on('fileActionsReady', handler);
+			fileList._nextPage();
+			expect(handler.calledOnce).toEqual(true);
+			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize);
 		});
 		it('does not trigger "fileActionsReady" event after single add with silent argument', function() {
 			var handler = sinon.stub();
@@ -1630,6 +1641,7 @@ describe('OCA.Files.FileList tests', function() {
 		});
 		it('redisplays actions when new actions have been registered', function() {
 			var actionStub = sinon.stub();
+			var readyHandler = sinon.stub();
 			var clock = sinon.useFakeTimers();
 			var debounceStub = sinon.stub(_, 'debounce', function(callback) {
 				return function() {
@@ -1637,11 +1649,15 @@ describe('OCA.Files.FileList tests', function() {
 					_.defer(callback);
 				};
 			});
+
 			// need to reinit the list to make the debounce call
 			fileList.destroy();
 			fileList = new OCA.Files.FileList($('#app-content-files'));
 
 			fileList.setFiles(testFiles);
+
+			fileList.$fileList.on('fileActionsReady', readyHandler);
+
 			fileList.fileActions.register(
 				'text/plain',
 				'Test',
@@ -1654,9 +1670,13 @@ describe('OCA.Files.FileList tests', function() {
 			);
 			var $tr = fileList.findFileEl('One.txt');
 			expect($tr.find('.action-test').length).toEqual(0);
+			expect(readyHandler.notCalled).toEqual(true);
+
 			// update is delayed
 			clock.tick(100);
 			expect($tr.find('.action-test').length).toEqual(1);
+			expect(readyHandler.calledOnce).toEqual(true);
+
 			clock.restore();
 			debounceStub.restore();
 		});
