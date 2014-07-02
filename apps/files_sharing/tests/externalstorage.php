@@ -72,6 +72,7 @@ class Test_Files_Sharing_External_Storage extends \PHPUnit_Framework_TestCase {
 				'mountpoint' => 'remoteshare',
 				'token' => 'abcdef',
 				'password' => '',
+				'manager' => null
 			)
 		);
 		$this->assertEquals($baseUri, $storage->getBaseUri());

@@ -27,6 +27,10 @@ class Manager {
 	 * @param string $mountPoint
 	 */
 	public function removeMount($mountPoint) {
+		$mountPoint = Filesystem::normalizePath($mountPoint);
+		if (strlen($mountPoint) > 1) {
+			$mountPoint .= '/';
+		}
 		unset($this->mounts[$mountPoint]);
 	}
 

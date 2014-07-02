@@ -19,23 +19,7 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	}
 
 	public function scanAll() {
-		$remote = $this->storage->getRemote();
-		$token = $this->storage->getToken();
-		$password = $this->storage->getPassword();
-		$url = $remote . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
-
-		$ch = curl_init();
-
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,
-			http_build_query(array('password' => $password)));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		$result = curl_exec($ch);
-		curl_close($ch);
-
-		$data = json_decode($result, true);
+		$data = $this->storage->getShareInfo();
 		if ($data['status'] === 'success') {
 			$this->addResult($data['data'], '');
 		} else {

@@ -58,7 +58,7 @@ $(document).ready(function () {
 		if (params.remote && params.token && params.owner && params.name) {
 			// clear hash, it is unlikely that it contain any extra parameters
 			location.hash = '';
-			params.passwordProtected = parseInt(params.passwordProtected, 10) === 1;
+			params.passwordProtected = parseInt(params.protected, 10) === 1;
 			OCA.Sharing.showAddExternalDialog(
 				params.remote,
 				params.token,

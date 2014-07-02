@@ -113,7 +113,9 @@ class Manager {
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
+		$data['manager'] = $this;
 		$mountPoint = '/' . $this->userSession->getUser()->getUID() . '/files' . $data['mountpoint'];
+		$data['mountpoint'] = $mountPoint;
 		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 		$this->mountManager->addMount($mount);
 		return $mount;

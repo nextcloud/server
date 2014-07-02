@@ -846,13 +846,18 @@
 		 * @param {boolean} force set to true to force changing directory
 		 */
 		changeDirectory: function(targetDir, changeUrl, force) {
+			var self = this;
 			var currentDir = this.getCurrentDirectory();
 			targetDir = targetDir || '/';
 			if (!force && currentDir === targetDir) {
 				return;
 			}
 			this._setCurrentDir(targetDir, changeUrl);
-			this.reload();
+			this.reload().then(function(success){
+				if (!success) {
+					self.changeDirectory(currentDir, true);
+				}
+			});
 		},
 		linkTo: function(dir) {
 			return OC.linkTo('files', 'index.php')+"?dir="+ encodeURIComponent(dir).replace(/%2F/g, '/');
@@ -912,7 +917,6 @@
 		 * @brief Reloads the file list using ajax call
 		 */
 		reload: function() {
-			var self = this;
 			this._selectedFiles = {};
 			this._selectionSummary.clear();
 			this.$el.find('.select-all').prop('checked', false);
@@ -926,14 +930,10 @@
 					dir : this.getCurrentDirectory(),
 					sort: this._sort,
 					sortdirection: this._sortDirection
-				},
-				error: function(result) {
-					self.reloadCallback(result);
-				},
-				success: function(result) {
-					self.reloadCallback(result);
 				}
 			});
+			var callBack = this.reloadCallback.bind(this);
+			return this._reloadCall.then(callBack, callBack);
 		},
 		reloadCallback: function(result) {
 			delete this._reloadCall;
@@ -941,17 +941,17 @@
 
 			if (!result || result.status === 'error') {
 				OC.Notification.show(result.data.message);
-				return;
+				return false;
 			}
 
 			if (result.status === 404) {
 				// go back home
 				this.changeDirectory('/');
-				return;
+				return false;
 			}
 			// aborted ?
 			if (result.status === 0){
-				return;
+				return true;
 			}
 
 			// TODO: should rather return upload file size through
@@ -963,6 +963,7 @@
 			}
 
 			this.setFiles(result.data.files);
+			return true
 		},
 
 		updateStorageStatistics: function(force) {
