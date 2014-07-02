@@ -47,7 +47,6 @@ class Test_Files_Sharing_Proxy extends Test_Files_Sharing_Base {
 		$this->filename = '/share-api-test';
 
 		// save file with content
-		$this->view->file_put_contents($this->filename, $this->data);
 		$this->view->mkdir($this->folder);
 		$this->view->mkdir($this->folder . $this->subfolder);
 		$this->view->mkdir($this->folder . $this->subfolder . $this->subsubfolder);
@@ -56,7 +55,6 @@ class Test_Files_Sharing_Proxy extends Test_Files_Sharing_Base {
 	}
 
 	function tearDown() {
-		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);
 
 		self::$tempStorage = null;
@@ -69,30 +67,33 @@ class Test_Files_Sharing_Proxy extends Test_Files_Sharing_Base {
 	 */
 	function testpreUnlink() {
 
-		$fileInfo1 = \OC\Files\Filesystem::getFileInfo($this->filename);
 		$fileInfo2 = \OC\Files\Filesystem::getFileInfo($this->folder);
-
-		$result = \OCP\Share::shareItem('file', $fileInfo1->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
-		$this->assertTrue($result);
 
 		$result = \OCP\Share::shareItem('folder', $fileInfo2->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, 31);
 		$this->assertTrue($result);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		// move shared folder to 'localDir' and rename it, so that it uses the same
-		// name as the shared file
+		// one folder should be shared with the user
+		$sharedFolders = \OCP\Share::getItemsSharedWith('folder');
+		$this->assertSame(1, count($sharedFolders));
+
+		// move shared folder to 'localDir'
 		\OC\Files\Filesystem::mkdir('localDir');
-		$result = \OC\Files\Filesystem::rename($this->folder, '/localDir/' . $this->filename);
+		$result = \OC\Files\Filesystem::rename($this->folder, '/localDir/' . $this->folder);
 		$this->assertTrue($result);
 
 		\OC\Files\Filesystem::unlink('localDir');
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		// after we deleted 'localDir' the share should be moved up to the root and be
-		// renamed to "filename (2)"
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
-		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename . ' (2)' ));
+		// after the parent directory was deleted the share should be unshared
+		$sharedFolders = \OCP\Share::getItemsSharedWith('folder');
+		$this->assertTrue(empty($sharedFolders));
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		// the folder for the owner should still exists
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->folder));
 	}
 }
