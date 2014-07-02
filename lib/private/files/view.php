@@ -161,17 +161,27 @@ class View {
 		return $this->basicOperation('mkdir', $path, array('create', 'write'));
 	}
 
+	/**
+	 * remove mount point
+	 *
+	 * @param \OC\Files\Mount\MoveableMount $mount
+	 * @param string $path relative to data/
+	 * @return boolean
+	 */
 	protected function removeMount($mount, $path){
 		if ($mount instanceof MoveableMount) {
+			// cut of /user/files to get the relative path to data/user/files
+			$pathParts= explode('/', $path, 4);
+			$relPath = '/' . $pathParts[3];
 			\OC_Hook::emit(
 				Filesystem::CLASSNAME, "umount",
-				array(Filesystem::signal_param_path => $path)
+				array(Filesystem::signal_param_path => $relPath)
 			);
 			$result = $mount->removeMount();
 			if ($result) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, "post_umount",
-					array(Filesystem::signal_param_path => $path)
+					array(Filesystem::signal_param_path => $relPath)
 				);
 			}
 			return $result;
@@ -387,7 +397,7 @@ class View {
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
 		if ($mount->getInternalPath($absolutePath) === '') {
-			return $this->removeMount($mount, $path);
+			return $this->removeMount($mount, $absolutePath);
 		}
 		return $this->basicOperation('unlink', $path, array('delete'));
 	}
