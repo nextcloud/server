@@ -53,8 +53,8 @@ try {
 
 	\OC::$session->close();
 
-    // initialize a dummy memory session
-    \OC::$session = new \OC\Session\Memory('');
+	// initialize a dummy memory session
+	\OC::$session = new \OC\Session\Memory('');
 
 	$logger = \OC_Log::$object;
 
