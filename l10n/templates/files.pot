@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-01 01:54-0400\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:272 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr ""
 
@@ -239,15 +239,15 @@ msgstr ""
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1497 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr ""
 
-#: js/filelist.js:1498 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr ""
 
-#: js/filelist.js:1499 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr ""
 
@@ -364,36 +364,32 @@ msgstr ""
 msgid "From link"
 msgstr ""
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr ""
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr ""
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr ""
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr ""

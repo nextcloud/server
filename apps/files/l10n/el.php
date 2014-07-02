@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Νέος κατάλογος",
 "Folder" => "Φάκελος",
 "From link" => "Από σύνδεσμο",
-"Cancel upload" => "Ακύρωση αποστολής",
 "You don’t have permission to upload or create files here" => "Δεν έχετε δικαιώματα φόρτωσης ή δημιουργίας αρχείων εδώ",
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανεβάστε κάτι!",
 "Download" => "Λήψη",

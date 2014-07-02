@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: N'ko (http://www.transifex.com/projects/p/owncloud/language/nqo/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgid ""
 "allowed."
 msgstr ""
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:159
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -88,54 +88,54 @@ msgstr ""
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:75
+#: ajax/upload.php:77
 msgid "No file was uploaded. Unknown error"
 msgstr ""
 
-#: ajax/upload.php:82
+#: ajax/upload.php:84
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: ajax/upload.php:83
+#: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr ""
 
-#: ajax/upload.php:85
+#: ajax/upload.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: ajax/upload.php:86
+#: ajax/upload.php:88
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ajax/upload.php:87
+#: ajax/upload.php:89
 msgid "No file was uploaded"
 msgstr ""
 
-#: ajax/upload.php:88
+#: ajax/upload.php:90
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: ajax/upload.php:89
+#: ajax/upload.php:91
 msgid "Failed to write to disk"
 msgstr ""
 
-#: ajax/upload.php:109
+#: ajax/upload.php:111
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:171
+#: ajax/upload.php:173
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:181
+#: ajax/upload.php:183
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:196
+#: ajax/upload.php:198
 msgid "Invalid directory."
 msgstr ""
 
@@ -143,125 +143,125 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: appinfo/app.php:29
+#: appinfo/app.php:27
 msgid "All files"
 msgstr ""
 
-#: js/file-upload.js:257
+#: js/file-upload.js:268
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:270
+#: js/file-upload.js:281
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:281
+#: js/file-upload.js:292
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:358
+#: js/file-upload.js:369
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/file-upload.js:404
+#: js/file-upload.js:415
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:490
+#: js/file-upload.js:499
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/file-upload.js:555
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:1188
+#: js/file-upload.js:568 js/filelist.js:1228
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/file-upload.js:614
+#: js/file-upload.js:623
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:630
+#: js/file-upload.js:639
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:677
+#: js/file-upload.js:686
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:211
+#: js/fileactions.js:257
 msgid "Share"
 msgstr ""
 
-#: js/fileactions.js:224
+#: js/fileactions.js:270
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:262
+#: js/fileactions.js:308
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:314
+#: js/filelist.js:339
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/filelist.js:619 js/filelist.js:1691
+#: js/filelist.js:659 js/filelist.js:1752
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:1139
+#: js/filelist.js:1179
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1147
+#: js/filelist.js:1187
 msgid "Error moving file"
 msgstr ""
 
-#: js/filelist.js:1147
+#: js/filelist.js:1187
 msgid "Error"
 msgstr ""
 
-#: js/filelist.js:1225
+#: js/filelist.js:1276
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1346
+#: js/filelist.js:1394
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1449 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr ""
 
-#: js/filelist.js:1450 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr ""
 
-#: js/filelist.js:1451 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr ""
 
-#: js/filelist.js:1461 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1509 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 
-#: js/filelist.js:1467 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1515 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 
-#: js/filelist.js:1599 js/filelist.js:1638
+#: js/filelist.js:1645 js/filelist.js:1684
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -362,36 +362,32 @@ msgstr ""
 msgid "From link"
 msgstr ""
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr ""
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr ""
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr ""
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr ""

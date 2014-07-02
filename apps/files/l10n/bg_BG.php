@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "Text file" => "Текстов файл",
 "New folder" => "Нова папка",
 "Folder" => "Папка",
-"Cancel upload" => "Спри качването",
 "Nothing in here. Upload something!" => "Няма нищо тук. Качете нещо.",
 "Download" => "Изтегляне",
 "Upload too large" => "Файлът който сте избрали за качване е прекалено голям",

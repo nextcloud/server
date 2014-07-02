@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "Text file" => "קובץ טקסט",
 "Folder" => "תיקייה",
 "From link" => "מקישור",
-"Cancel upload" => "ביטול ההעלאה",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",
 "Download" => "הורדה",
 "Upload too large" => "העלאה גדולה מידי",

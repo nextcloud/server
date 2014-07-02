@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "增加文件夹",
 "Folder" => "文件夹",
 "From link" => "来自链接",
-"Cancel upload" => "取消上传",
 "You don’t have permission to upload or create files here" => "您没有权限来上传湖州哦和创建文件",
 "Nothing in here. Upload something!" => "这里还什么都没有。上传些东西吧！",
 "Download" => "下载",

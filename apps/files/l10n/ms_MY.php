@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "New" => "Baru",
 "Text file" => "Fail teks",
 "Folder" => "Folder",
-"Cancel upload" => "Batal muat naik",
 "Nothing in here. Upload something!" => "Tiada apa-apa di sini. Muat naik sesuatu!",
 "Download" => "Muat turun",
 "Upload too large" => "Muatnaik terlalu besar",

@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "¡Nun pue escribise nel direutoriu \"config\"!",
+"See %s" => "Mira %s",
 "You are accessing the server from an untrusted domain." => "Tas accediendo al sirvidor dende un dominiu non confiáu.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Por favor, contauta col alministrador. Si yes l'alministrador, configura l'axuste \"trusted_domain\" en config/config.php. Hai un exemplu en config/config.sample.php.",
 "Help" => "Ayuda",
@@ -86,6 +88,11 @@ $TRANSLATIONS = array(
 "A valid username must be provided" => "Tien d'apurrise un nome d'usuariu válidu",
 "A valid password must be provided" => "Tien d'apurrise una contraseña válida",
 "The username is already being used" => "El nome d'usuariu yá ta usándose",
+"Cannot write into \"config\" directory" => "Nun pue escribise nel direutoriu \"config\"",
+"Cannot write into \"apps\" directory" => "Nun pue escribise nel direutoriu \"apps\"",
+"Cannot create \"data\" directory (%s)" => "Nun pue crease'l direutoriu \"data\" (%s)",
+"Please ask your server administrator to install the module." => "Por favor, entrúga-y al to alministrador del sirvidor pa instalar el módulu.",
+"Please upgrade your database version" => "Por favor, anova la versión de la to base de datos",
 "Could not obtain lock type %d on \"%s\"." => "Nun pudo facese'l bloquéu %d en \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

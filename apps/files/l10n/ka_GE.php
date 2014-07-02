@@ -43,7 +43,6 @@ $TRANSLATIONS = array(
 "New folder" => "ახალი ფოლდერი",
 "Folder" => "საქაღალდე",
 "From link" => "მისამართიდან",
-"Cancel upload" => "ატვირთვის გაუქმება",
 "Nothing in here. Upload something!" => "აქ არაფერი არ არის. ატვირთე რამე!",
 "Download" => "ჩამოტვირთვა",
 "Upload too large" => "ასატვირთი ფაილი ძალიან დიდია",

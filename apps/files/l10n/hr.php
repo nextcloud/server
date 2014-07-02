@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "New" => "novo",
 "Text file" => "tekstualna datoteka",
 "Folder" => "mapa",
-"Cancel upload" => "Prekini upload",
 "Nothing in here. Upload something!" => "Nema ničega u ovoj mapi. Pošalji nešto!",
 "Download" => "Preuzimanje",
 "Upload too large" => "Prijenos je preobiman",

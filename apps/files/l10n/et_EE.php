@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Uus kaust",
 "Folder" => "Kaust",
 "From link" => "Allikast",
-"Cancel upload" => "Tühista üleslaadimine",
 "You don’t have permission to upload or create files here" => "Sul puuduvad õigused siia failide üleslaadimiseks või tekitamiseks",
 "Nothing in here. Upload something!" => "Siin pole midagi. Lae midagi üles!",
 "Download" => "Lae alla",

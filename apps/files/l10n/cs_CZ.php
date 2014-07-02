@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nová složka",
 "Folder" => "Složka",
 "From link" => "Z odkazu",
-"Cancel upload" => "Zrušit odesílání",
 "You don’t have permission to upload or create files here" => "Nemáte oprávnění zde nahrávat či vytvářet soubory",
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",
 "Download" => "Stáhnout",

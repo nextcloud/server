@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Nie je možné zapisovat do priečinka \"config\"!",
 "You are accessing the server from an untrusted domain." => "Pristupujete na server v nedôveryhodnej doméne.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Kontaktujte administrátora. Ak ste administrátorom tejto inštancie, nakonfigurujte správne nastavenie \"trusted_domain\" v config/config.php. Vzorová konfigurácia je uvedená v config/config.sample.php.",
 "Help" => "Pomoc",
@@ -82,6 +83,22 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "V mene používateľa sú povolené len nasledovné znaky: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "Musíte zadať platné používateľské meno",
 "A valid password must be provided" => "Musíte zadať platné heslo",
-"The username is already being used" => "Meno používateľa je už použité"
+"The username is already being used" => "Meno používateľa je už použité",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "Ovládače databázy (sqlite, mysql, or postgresql) nie sú nainštalované.",
+"Cannot write into \"config\" directory" => "Nie je možné zapisovať do priečinka \"config\"",
+"Cannot write into \"apps\" directory" => "Nie je možné zapisovať do priečinka \"apps\"",
+"Cannot create \"data\" directory (%s)" => "Nie je možné vytvoriť priečinok \"data\" (%s)",
+"Please ask your server administrator to install the module." => "Prosím, požiadajte administrátora vášho servera o inštaláciu modulu.",
+"PHP module %s not installed." => "PHP modul %s nie je nainštalovaný.",
+"PHP %s or higher is required." => "Požadovaná verzia PHP %s alebo vyššia.",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Prosím, požiadajte administrátora vášho servera o aktualizáciu PHP na najnovšiu verziu. Vaša verzia PHP už nie je podporovaná ownCloud-om a PHP komunitou.",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "PHP Safe Mode je zapnutý. ownCloud pre správnu funkčnosť vyžaduje, aby bol vypnutý.",
+"PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "PHP Safe Mode je zastarané a väčšinou zbytočné nastavenie, ktoré by malo byť vypnuté. Prosím, požiadajte administrátora vášho serveru o jeho vypnutie v php.ini alebo v nastaveniach webového servera.",
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work properly." => "Magic Quotes sú povolené. ownCloud pre správnu funkčnosť vyžaduje, aby boli vypnuté.",
+"PHP modules have been installed, but they are still listed as missing?" => "PHP moduly boli nainštalované, ale stále sú uvedené ako chýbajúce?",
+"Please ask your server administrator to restart the web server." => "Prosím, požiadajte administrátora vášho servera o reštartovanie webového servera.",
+"PostgreSQL >= 9 required" => "Vyžadované PostgreSQL >= 9",
+"Please upgrade your database version" => "Prosím, aktualizujte verziu svojej databázy",
+"Error occurred while checking PostgreSQL version" => "Nastala chyba pri overovaní verzie PostgreSQL"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

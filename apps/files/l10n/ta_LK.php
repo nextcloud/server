@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "Text file" => "கோப்பு உரை",
 "Folder" => "கோப்புறை",
 "From link" => "இணைப்பிலிருந்து",
-"Cancel upload" => "பதிவேற்றலை இரத்து செய்க",
 "Nothing in here. Upload something!" => "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!",
 "Download" => "பதிவிறக்குக",
 "Upload too large" => "பதிவேற்றல் மிகப்பெரியது",

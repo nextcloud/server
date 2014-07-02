@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:11+0000\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +42,7 @@ msgid ""
 "allowed."
 msgstr "Неисправан назив. Следећи знакови нису дозвољени: \\, /, <, >, :, \", |, ? и *."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:157
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:159
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -88,54 +88,54 @@ msgstr ""
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:75
+#: ajax/upload.php:77
 msgid "No file was uploaded. Unknown error"
 msgstr "Ниједна датотека није отпремљена услед непознате грешке"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:84
 msgid "There is no error, the file uploaded with success"
 msgstr "Није дошло до грешке. Датотека је успешно отпремљена."
 
-#: ajax/upload.php:83
+#: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:"
 
-#: ajax/upload.php:85
+#: ajax/upload.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Отпремљена датотека прелази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу"
 
-#: ajax/upload.php:86
+#: ajax/upload.php:88
 msgid "The uploaded file was only partially uploaded"
 msgstr "Датотека је делимично отпремљена"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:89
 msgid "No file was uploaded"
 msgstr "Датотека није отпремљена"
 
-#: ajax/upload.php:88
+#: ajax/upload.php:90
 msgid "Missing a temporary folder"
 msgstr "Недостаје привремена фасцикла"
 
-#: ajax/upload.php:89
+#: ajax/upload.php:91
 msgid "Failed to write to disk"
 msgstr "Не могу да пишем на диск"
 
-#: ajax/upload.php:109
+#: ajax/upload.php:111
 msgid "Not enough storage available"
 msgstr "Нема довољно простора"
 
-#: ajax/upload.php:171
+#: ajax/upload.php:173
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:181
+#: ajax/upload.php:183
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:196
+#: ajax/upload.php:198
 msgid "Invalid directory."
 msgstr "неисправна фасцикла."
 
@@ -147,125 +147,125 @@ msgstr "Датотеке"
 msgid "All files"
 msgstr ""
 
-#: js/file-upload.js:257
+#: js/file-upload.js:268
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:270
+#: js/file-upload.js:281
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:281
+#: js/file-upload.js:292
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:358
+#: js/file-upload.js:369
 msgid "Upload cancelled."
 msgstr "Отпремање је прекинуто."
 
-#: js/file-upload.js:404
+#: js/file-upload.js:415
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:490
+#: js/file-upload.js:499
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Отпремање датотеке је у току. Ако сада напустите страницу, прекинућете отпремање."
 
-#: js/file-upload.js:555
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:559 js/filelist.js:1190
+#: js/file-upload.js:568 js/filelist.js:1228
 msgid "{new_name} already exists"
 msgstr "{new_name} већ постоји"
 
-#: js/file-upload.js:614
+#: js/file-upload.js:623
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:630
+#: js/file-upload.js:639
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:677
+#: js/file-upload.js:686
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:211
+#: js/fileactions.js:257
 msgid "Share"
 msgstr "Дели"
 
-#: js/fileactions.js:224
+#: js/fileactions.js:270
 msgid "Delete permanently"
 msgstr "Обриши за стално"
 
-#: js/fileactions.js:226 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Обриши"
 
-#: js/fileactions.js:262
+#: js/fileactions.js:308
 msgid "Rename"
 msgstr "Преименуј"
 
-#: js/filelist.js:314
+#: js/filelist.js:339
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Припремам преузимање. Ово може да потраје ако су датотеке велике."
 
-#: js/filelist.js:621 js/filelist.js:1693
+#: js/filelist.js:659 js/filelist.js:1752
 msgid "Pending"
 msgstr "На чекању"
 
-#: js/filelist.js:1141
+#: js/filelist.js:1179
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1149
+#: js/filelist.js:1187
 msgid "Error moving file"
 msgstr ""
 
-#: js/filelist.js:1149
+#: js/filelist.js:1187
 msgid "Error"
 msgstr "Грешка"
 
-#: js/filelist.js:1227
+#: js/filelist.js:1276
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1348
+#: js/filelist.js:1394
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1451 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr "Име"
 
-#: js/filelist.js:1452 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr "Величина"
 
-#: js/filelist.js:1453 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr "Измењено"
 
-#: js/filelist.js:1463 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1509 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:1469 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1515 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:1601 js/filelist.js:1640
+#: js/filelist.js:1645 js/filelist.js:1684
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -368,36 +368,32 @@ msgstr "фасцикла"
 msgid "From link"
 msgstr "Са везе"
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr "Прекини отпремање"
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr ""
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr "Овде нема ничег. Отпремите нешто!"
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr "Преузми"
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr "Датотека је превелика"
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Датотеке које желите да отпремите прелазе ограничење у величини."
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr "Скенирам датотеке…"
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr ""

@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-26 21:01+0000\n"
-"Last-Translator: Manuela Silva <manuela.silva@sky.com>\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -155,123 +155,123 @@ msgstr "Ficheiros"
 msgid "All files"
 msgstr "Todos os ficheiros"
 
-#: js/file-upload.js:257
+#: js/file-upload.js:268
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "Incapaz de enviar {filename}, dado que é uma pasta, ou tem 0 bytes"
 
-#: js/file-upload.js:270
+#: js/file-upload.js:281
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr "O tamanho total do ficheiro {size1} excede o limite de carregamento {size2}"
 
-#: js/file-upload.js:281
+#: js/file-upload.js:292
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr "Não existe espaço suficiente. Está a enviar {size1} mas apenas existe {size2} disponível"
 
-#: js/file-upload.js:358
+#: js/file-upload.js:369
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/file-upload.js:404
+#: js/file-upload.js:415
 msgid "Could not get result from server."
 msgstr "Não foi possível obter o resultado do servidor."
 
-#: js/file-upload.js:490
+#: js/file-upload.js:499
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Envio de ficheiro em progresso. Se deixar a página agora, irá cancelar o envio."
 
-#: js/file-upload.js:555
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazio"
 
-#: js/file-upload.js:559 js/filelist.js:1192
+#: js/file-upload.js:568 js/filelist.js:1228
 msgid "{new_name} already exists"
 msgstr "O nome {new_name} já existe"
 
-#: js/file-upload.js:614
+#: js/file-upload.js:623
 msgid "Could not create file"
 msgstr "Não pôde criar ficheiro"
 
-#: js/file-upload.js:630
+#: js/file-upload.js:639
 msgid "Could not create folder"
 msgstr "Não pôde criar pasta"
 
-#: js/file-upload.js:677
+#: js/file-upload.js:686
 msgid "Error fetching URL"
 msgstr "Erro ao obter URL"
 
-#: js/fileactions.js:213
+#: js/fileactions.js:257
 msgid "Share"
 msgstr "Compartilhar"
 
-#: js/fileactions.js:226
+#: js/fileactions.js:270
 msgid "Delete permanently"
 msgstr "Apagar Para Sempre"
 
-#: js/fileactions.js:228 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Apagar"
 
-#: js/fileactions.js:264
+#: js/fileactions.js:308
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:314
+#: js/filelist.js:339
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "A sua transferência está a ser preparada. Isto poderá demorar algum tempo, se os seus ficheiros forem grandes."
 
-#: js/filelist.js:623 js/filelist.js:1713
+#: js/filelist.js:659 js/filelist.js:1752
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:1143
+#: js/filelist.js:1179
 msgid "Error moving file."
 msgstr "Erro a mover o ficheiro."
 
-#: js/filelist.js:1151
+#: js/filelist.js:1187
 msgid "Error moving file"
 msgstr "Erro ao mover o ficheiro"
 
-#: js/filelist.js:1151
+#: js/filelist.js:1187
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1240
+#: js/filelist.js:1276
 msgid "Could not rename file"
 msgstr "Não pôde renomear o ficheiro"
 
-#: js/filelist.js:1358
+#: js/filelist.js:1394
 msgid "Error deleting file."
 msgstr "Erro ao apagar o ficheiro."
 
-#: js/filelist.js:1461 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1462 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1463 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1473 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1509 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:1479 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1515 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n ficheiro"
 msgstr[1] "%n ficheiros"
 
-#: js/filelist.js:1606 js/filelist.js:1645
+#: js/filelist.js:1645 js/filelist.js:1684
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "A carregar %n ficheiro"
@@ -373,36 +373,32 @@ msgstr "Pasta"
 msgid "From link"
 msgstr "Da hiperligação"
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr "Cancelar envio"
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr "Você não tem permissão para enviar ou criar ficheiros aqui"
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr "Vazio. Envie alguma coisa!"
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr "Transferir"
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr "Upload muito grande"
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor."
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr "Os ficheiros estão a ser analisados, por favor aguarde."
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr "A analisar"

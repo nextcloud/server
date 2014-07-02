@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Text file" => "Texta skrá",
 "Folder" => "Mappa",
 "From link" => "Af tengli",
-"Cancel upload" => "Hætta við innsendingu",
 "Nothing in here. Upload something!" => "Ekkert hér. Settu eitthvað inn!",
 "Download" => "Niðurhal",
 "Upload too large" => "Innsend skrá er of stór",

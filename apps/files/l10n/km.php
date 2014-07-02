@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "New folder" => "ថត​ថ្មី",
 "Folder" => "ថត",
 "From link" => "ពី​តំណ",
-"Cancel upload" => "បោះបង់​ការ​ផ្ទុកឡើង",
 "Nothing in here. Upload something!" => "គ្មាន​អ្វី​នៅ​ទីនេះ​ទេ។ ផ្ទុក​ឡើង​អ្វី​មួយ!",
 "Download" => "ទាញយក",
 "Upload too large" => "ផ្ទុក​ឡើង​ធំ​ពេក"

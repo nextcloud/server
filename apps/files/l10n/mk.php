@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "New folder" => "Нова папка",
 "Folder" => "Папка",
 "From link" => "Од врска",
-"Cancel upload" => "Откажи прикачување",
 "Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",
 "Download" => "Преземи",
 "Upload too large" => "Фајлот кој се вчитува е преголем",

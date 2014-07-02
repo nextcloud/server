@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Carpeta nova",
 "Folder" => "Carpeta",
 "From link" => "Des d'enllaç",
-"Cancel upload" => "Cancel·la la pujada",
 "You don’t have permission to upload or create files here" => "No teniu permisos per a pujar o crear els fitxers aquí",
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Download" => "Baixa",

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 20:20+0000\n"
-"Last-Translator: vidaren <news@vidartysse.net>\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,7 +205,7 @@ msgstr "Del"
 msgid "Delete permanently"
 msgstr "Slett permanent"
 
-#: js/fileactions.js:272 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Slett"
 
@@ -243,15 +243,15 @@ msgstr "Klarte ikke å gi nytt navn til fil"
 msgid "Error deleting file."
 msgstr "Feil ved sletting av fil."
 
-#: js/filelist.js:1497 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr "Navn"
 
-#: js/filelist.js:1498 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/filelist.js:1499 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr "Endret"
 
@@ -369,36 +369,32 @@ msgstr "Mappe"
 msgid "From link"
 msgstr "Fra lenke"
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr "Avbryt opplasting"
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr "Du har ikke tillatelse til å laste opp eller opprette filer her"
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr "Ingenting her. Last opp noe!"
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr "Last ned"
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr "Filen er for stor"
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Filene du prøver å laste opp er for store for å laste opp til denne serveren."
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr "Skanner filer, vennligst vent."
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr "Skanner nå"

@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nova pasta",
 "Folder" => "Pasta",
 "From link" => "Do link",
-"Cancel upload" => "Cancelar envio",
 "You don’t have permission to upload or create files here" => "Você não tem permissão para enviar ou criar arquivos aqui",
 "Nothing in here. Upload something!" => "Nada aqui. Carrege alguma coisa!",
 "Download" => "Baixar",

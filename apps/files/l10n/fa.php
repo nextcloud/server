@@ -47,7 +47,6 @@ $TRANSLATIONS = array(
 "New folder" => "پوشه جدید",
 "Folder" => "پوشه",
 "From link" => "از پیوند",
-"Cancel upload" => "متوقف کردن بار گذاری",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
 "Download" => "دانلود",
 "Upload too large" => "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",

@@ -9,14 +9,15 @@
 # Etienne <etiess@gmail.com>, 2014
 # Fabian Lemaître <ptit.boogy@gmail.com>, 2014
 # Gauth <gauthier@openux.org>, 2014
+# Romain DEP. <rom1dep@gmail.com>, 2014
 # themen <themen2004@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-01 14:41+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,13 +29,13 @@ msgstr ""
 msgid ""
 "Fetching request tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "La requête de récupération des jetons d’authentification a échoué. Veuillez vérifier votre App-Key Dropbox ainsi que le mot de passe."
 
 #: ajax/dropbox.php:40
 msgid ""
 "Fetching access tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "La requête d’accès aux jetons d’authentification a échoué. Veuillez vérifier votre App-Key Dropbox ainsi que le mot de passe."
 
 #: ajax/dropbox.php:48 js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
@@ -43,12 +44,12 @@ msgstr "Veuillez fournir une clé d'application (app key) ainsi qu'un mot de pas
 #: ajax/google.php:27
 #, php-format
 msgid "Step 1 failed. Exception: %s"
-msgstr ""
+msgstr "L’étape 1 a échoué. Erreur: %s"
 
 #: ajax/google.php:38
 #, php-format
 msgid "Step 2 failed. Exception: %s"
-msgstr ""
+msgstr "L’étape 2 a échoué. Erreur: %s"
 
 #: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"
@@ -242,29 +243,29 @@ msgstr "Système"
 msgid "Saved"
 msgstr "Sauvegarder"
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr "<b>Attention :</b>"
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr "et"
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Attention :</b> Le support de cURL de PHP n'est pas activé ou installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer."
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Attention : </b> Le support FTP de PHP n'est pas activé ou installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer."
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

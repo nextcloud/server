@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "Text file" => "පෙළ ගොනුව",
 "Folder" => "ෆෝල්ඩරය",
 "From link" => "යොමුවෙන්",
-"Cancel upload" => "උඩුගත කිරීම අත් හරින්න",
 "Nothing in here. Upload something!" => "මෙහි කිසිවක් නොමැත. යමක් උඩුගත කරන්න",
 "Download" => "බාන්න",
 "Upload too large" => "උඩුගත කිරීම විශාල වැඩිය",

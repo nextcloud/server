@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-26 14:41+0000\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -148,123 +148,123 @@ msgstr "Dosieroj"
 msgid "All files"
 msgstr ""
 
-#: js/file-upload.js:257
+#: js/file-upload.js:268
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr "Ne povis alŝutiĝi {filename} ĉar ĝi estas dosierujo aŭ ĝi havas 0 duumokojn"
 
-#: js/file-upload.js:270
+#: js/file-upload.js:281
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:281
+#: js/file-upload.js:292
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:358
+#: js/file-upload.js:369
 msgid "Upload cancelled."
 msgstr "La alŝuto nuliĝis."
 
-#: js/file-upload.js:404
+#: js/file-upload.js:415
 msgid "Could not get result from server."
 msgstr "Ne povis ekhaviĝi rezulto el la servilo."
 
-#: js/file-upload.js:490
+#: js/file-upload.js:499
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton."
 
-#: js/file-upload.js:555
+#: js/file-upload.js:564
 msgid "URL cannot be empty"
 msgstr "La URL ne povas malpleni"
 
-#: js/file-upload.js:559 js/filelist.js:1192
+#: js/file-upload.js:568 js/filelist.js:1228
 msgid "{new_name} already exists"
 msgstr "{new_name} jam ekzistas"
 
-#: js/file-upload.js:614
+#: js/file-upload.js:623
 msgid "Could not create file"
 msgstr "Ne povis kreiĝi dosiero"
 
-#: js/file-upload.js:630
+#: js/file-upload.js:639
 msgid "Could not create folder"
 msgstr "Ne povis kreiĝi dosierujo"
 
-#: js/file-upload.js:677
+#: js/file-upload.js:686
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:213
+#: js/fileactions.js:257
 msgid "Share"
 msgstr "Kunhavigi"
 
-#: js/fileactions.js:226
+#: js/fileactions.js:270
 msgid "Delete permanently"
 msgstr "Forigi por ĉiam"
 
-#: js/fileactions.js:228 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Forigi"
 
-#: js/fileactions.js:264
+#: js/fileactions.js:308
 msgid "Rename"
 msgstr "Alinomigi"
 
-#: js/filelist.js:314
+#: js/filelist.js:339
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Via elŝuto pretiĝatas. Ĉi tio povas daŭri iom da tempo se la dosieroj grandas."
 
-#: js/filelist.js:623 js/filelist.js:1713
+#: js/filelist.js:659 js/filelist.js:1752
 msgid "Pending"
 msgstr "Traktotaj"
 
-#: js/filelist.js:1143
+#: js/filelist.js:1179
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1151
+#: js/filelist.js:1187
 msgid "Error moving file"
 msgstr "Eraris movo de dosiero"
 
-#: js/filelist.js:1151
+#: js/filelist.js:1187
 msgid "Error"
 msgstr "Eraro"
 
-#: js/filelist.js:1240
+#: js/filelist.js:1276
 msgid "Could not rename file"
 msgstr "Ne povis alinomiĝi dosiero"
 
-#: js/filelist.js:1358
+#: js/filelist.js:1394
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1461 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr "Nomo"
 
-#: js/filelist.js:1462 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr "Grando"
 
-#: js/filelist.js:1463 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr "Modifita"
 
-#: js/filelist.js:1473 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1509 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n dosierujo"
 msgstr[1] "%n dosierujoj"
 
-#: js/filelist.js:1479 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1515 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n dosiero"
 msgstr[1] "%n dosieroj"
 
-#: js/filelist.js:1606 js/filelist.js:1645
+#: js/filelist.js:1645 js/filelist.js:1684
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Alŝutatas %n dosiero"
@@ -366,36 +366,32 @@ msgstr "Dosierujo"
 msgid "From link"
 msgstr "El ligilo"
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr "Nuligi alŝuton"
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr "Vi ne havas permeson alŝuti aŭ krei dosierojn ĉi tie"
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr "Nenio estas ĉi tie. Alŝutu ion!"
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr "Elŝuti"
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr "Alŝuto tro larĝa"
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo."
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr "Dosieroj estas skanataj, bonvolu atendi."
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr ""

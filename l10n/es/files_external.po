@@ -3,17 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Art O. Pal <artopal@fastmail.fm>, 2014
+# Artopal <artopal@fastmail.fm>, 2014
 # joses <jose_mari_s@hotmail.com>, 2014
 # Miguel Reyes Canales <mreyesca@luthcueit.onmicrosoft.com>, 2014
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2014
 # Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-30 05:50+0000\n"
-"Last-Translator: Art O. Pal <artopal@fastmail.fm>\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-01 07:14+0000\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,13 +26,13 @@ msgstr ""
 msgid ""
 "Fetching request tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "La descarga de los tokens solicitados ha fallado. Verifique que la llave y el secreto de su app Dropbox es correcta."
 
 #: ajax/dropbox.php:40
 msgid ""
 "Fetching access tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "La descarga de los tokens de acceso ha fallado. Verifique que la llave y el secreto de su app Dropbox es correcta."
 
 #: ajax/dropbox.php:48 js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
@@ -239,29 +240,29 @@ msgstr "Sistema"
 msgid "Saved"
 msgstr "Guardado"
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b> "
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr "y"
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El soporte de cURL en PHP no está activado o instalado. No se puede montar %s. Pídale al administrador de sistema que lo instale."
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El soporte de FTP en PHP no está activado o instalado. No se puede montar %s. Pídale al administrador de sistema que lo instale."
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

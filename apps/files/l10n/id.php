@@ -68,7 +68,6 @@ $TRANSLATIONS = array(
 "New folder" => "Map baru",
 "Folder" => "Folder",
 "From link" => "Dari tautan",
-"Cancel upload" => "Batal pengunggahan",
 "You don’t have permission to upload or create files here" => "Anda tidak memiliki akses untuk mengunggah atau membuat berkas disini",
 "Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
 "Download" => "Unduh",

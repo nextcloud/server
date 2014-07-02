@@ -75,7 +75,6 @@ $TRANSLATIONS = array(
 "New folder" => "Нова тека",
 "Folder" => "Тека",
 "From link" => "З посилання",
-"Cancel upload" => "Перервати завантаження",
 "You don’t have permission to upload or create files here" => "У вас недостатньо прав для завантаження або створення файлів тут",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Download" => "Завантажити",

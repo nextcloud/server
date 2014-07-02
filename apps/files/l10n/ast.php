@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nueva carpeta",
 "Folder" => "Carpeta",
 "From link" => "Dende enllaz",
-"Cancel upload" => "Encaboxar xuba",
 "You don’t have permission to upload or create files here" => "Nun tienes permisu pa xubir o crear ficheros equí",
 "Nothing in here. Upload something!" => "Nun hai nada equí. ¡Xubi daqué!",
 "Download" => "Descargar",

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 12:41+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,7 +205,7 @@ msgstr "Compartilhar"
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:272 templates/list.php:78 templates/list.php:79
+#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Excluir"
 
@@ -243,15 +243,15 @@ msgstr "Não foi possível renomear o arquivo"
 msgid "Error deleting file."
 msgstr "Erro eliminando o arquivo."
 
-#: js/filelist.js:1497 templates/list.php:62
+#: js/filelist.js:1497 templates/list.php:61
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1498 templates/list.php:73
+#: js/filelist.js:1498 templates/list.php:72
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1499 templates/list.php:76
+#: js/filelist.js:1499 templates/list.php:75
 msgid "Modified"
 msgstr "Modificado"
 
@@ -369,36 +369,32 @@ msgstr "Pasta"
 msgid "From link"
 msgstr "Do link"
 
-#: templates/list.php:42
-msgid "Cancel upload"
-msgstr "Cancelar envio"
-
-#: templates/list.php:48
+#: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
 msgstr "Você não tem permissão para enviar ou criar arquivos aqui"
 
-#: templates/list.php:53
+#: templates/list.php:52
 msgid "Nothing in here. Upload something!"
 msgstr "Nada aqui. Carrege alguma coisa!"
 
-#: templates/list.php:67
+#: templates/list.php:66
 msgid "Download"
 msgstr "Baixar"
 
-#: templates/list.php:92
+#: templates/list.php:91
 msgid "Upload too large"
 msgstr "Arquivo muito grande para envio"
 
-#: templates/list.php:94
+#: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Os arquivos que você está tentando enviar excedeu o tamanho máximo para arquivos no servidor."
 
-#: templates/list.php:99
+#: templates/list.php:98
 msgid "Files are being scanned, please wait."
 msgstr "Arquivos sendo escaneados, por favor aguarde."
 
-#: templates/list.php:102
+#: templates/list.php:101
 msgid "Currently scanning"
 msgstr "Atualmente escaneando"

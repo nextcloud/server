@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "New" => "Nòu",
 "Text file" => "Fichièr de tèxte",
 "Folder" => "Dorsièr",
-"Cancel upload" => " Anulla l'amontcargar",
 "Nothing in here. Upload something!" => "Pas res dedins. Amontcarga qualquaren",
 "Download" => "Avalcarga",
 "Upload too large" => "Amontcargament tròp gròs",

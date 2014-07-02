@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 02:59+0000\n"
+"Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: base.php:187 base.php:194
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "¡Nun pue escribise nel direutoriu \"config\"!"
 
 #: base.php:188
 msgid ""
@@ -33,7 +33,7 @@ msgstr ""
 #: base.php:190
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Mira %s"
 
 #: base.php:195 private/util.php:413
 #, php-format
@@ -484,11 +484,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Nun pue escribise nel direutoriu \"config\""
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Nun pue escribise nel direutoriu \"apps\""
 
 #: private/util.php:426
 #, php-format
@@ -500,7 +500,7 @@ msgstr ""
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Nun pue crease'l direutoriu \"data\" (%s)"
 
 #: private/util.php:441
 #, php-format
@@ -522,7 +522,7 @@ msgstr ""
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Por favor, entrúga-y al to alministrador del sirvidor pa instalar el módulu."
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -583,7 +583,7 @@ msgstr ""
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Por favor, anova la versión de la to base de datos"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"

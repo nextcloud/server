@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexandre Fidalgo <alexandremagnos15@gmail.com>, 2014
 # Bruno Matias <bmgmatias@gmail.com>, 2013
 # Daniel Pinto <daniel@mouxy.net>, 2013
 # zedascouves <duartegrilo@gmail.com>, 2013
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 21:31+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-01 21:51+0000\n"
+"Last-Translator: Alexandre Fidalgo <alexandremagnos15@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -203,7 +204,7 @@ msgstr "Não foi possível alterar a sua palavra-passe, mas a chave de encripta�
 msgid "Unable to change password"
 msgstr "Não foi possível alterar a sua password"
 
-#: js/admin.js:127
+#: js/admin.js:128
 msgid "Sending..."
 msgstr "A enviar..."
 
@@ -355,23 +356,23 @@ msgstr "nunca"
 msgid "deleted {userName}"
 msgstr "apagar{utilizador}"
 
-#: js/users/users.js:381
+#: js/users/users.js:383
 msgid "add group"
 msgstr "Adicionar grupo"
 
-#: js/users/users.js:578
+#: js/users/users.js:580
 msgid "A valid username must be provided"
 msgstr "Um nome de utilizador válido deve ser fornecido"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
 msgid "Error creating user"
 msgstr "Erro a criar utilizador"
 
-#: js/users/users.js:584
+#: js/users/users.js:586
 msgid "A valid password must be provided"
 msgstr "Uma password válida deve ser fornecida"
 
-#: js/users/users.js:608
+#: js/users/users.js:610
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Atenção: a pasta pessoal do utilizador \"{user}\" já existe"
 
@@ -925,7 +926,7 @@ msgstr "Digite a senha de recuperação, a fim de recuperar os arquivos de usuá
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Pesquisa Utilizadores e Grupos"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
@@ -969,11 +970,11 @@ msgstr "Quota"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Localização do Armazenamento"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Ultimo acesso"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

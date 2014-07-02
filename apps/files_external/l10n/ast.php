@@ -1,6 +1,8 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Por favor, proporciona una clave válida de l'app Dropbox y una clave secreta.",
+"Step 1 failed. Exception: %s" => "Pasu 1 fallíu. Esceición: %s",
+"Step 2 failed. Exception: %s" => "Pasu 2 fallíu. Esceición: %s",
 "External storage" => "Almacenamientu esternu",
 "Local" => "Llocal",
 "Location" => "Llocalización",

@@ -1,12 +1,16 @@
 <?php
 $TRANSLATIONS = array(
-"Shared with you" => "Deljen z vami",
-"Shared with others" => "Deljen z ostalimi",
-"Shared by link" => "Souporaba preko povezave",
-"No files have been shared with you yet." => "Nobene datoteka še niste dali v souporabo",
-"You haven't shared any files yet." => "Niste še delili datotek",
-"You haven't shared any files by link yet." => "Niste še delili datotek preko povezave",
+"Server to server sharing is not enabled on this server" => "Na tem strežniku ni omogočena možnost souporabe strežnika s strežnikom.",
+"Couldn't add remote share" => "Ni mogoče dodati oddaljenega mesta za souporabo",
+"Shared with you" => "V souporabi z vami",
+"Shared with others" => "V souporabi  z drugimi",
+"Shared by link" => "Souporaba s povezavo",
+"No files have been shared with you yet." => "Ni datotek, ki bi jih drugi omogočili za souporabo z vami.",
+"You haven't shared any files yet." => "Ni datotek, ki bi jih omogočili za souporabo.",
+"You haven't shared any files by link yet." => "Ni datotek, ki bi jih omogočili za souporabo s povezavo.",
+"Add Share" => "Dodaj v souporabo",
 "Password" => "Geslo",
+"Invalid ownCloud url" => "Naveden je neveljaven naslov URL strežnika ownCloud",
 "Shared by {owner}" => "Souporabo omogoča {owner}",
 "Shared by" => "V souporabi z",
 "This share is password-protected" => "To mesto je zaščiteno z geslom.",
@@ -19,9 +23,12 @@ $TRANSLATIONS = array(
 "the link expired" => "povezava je pretekla,",
 "sharing is disabled" => "souporaba je onemogočena.",
 "For more info, please ask the person who sent this link." => "Za več podrobnosti stopite v stik s pošiljateljem te povezave.",
+"Save to ownCloud" => "Shrani v ownCloud",
+"example.com/owncloud" => "primer.si/owncloud",
 "Save" => "Shrani",
 "Download" => "Prejmi",
 "Download %s" => "Prejmi %s",
-"Direct link" => "Neposredna povezava"
+"Direct link" => "Neposredna povezava",
+"Remote Shares" => "Oddaljena souporaba"
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

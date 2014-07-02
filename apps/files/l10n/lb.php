@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "New" => "Nei",
 "Text file" => "Text Fichier",
 "Folder" => "Dossier",
-"Cancel upload" => "Upload ofbriechen",
 "Nothing in here. Upload something!" => "Hei ass näischt. Lued eppes rop!",
 "Download" => "Download",
 "Upload too large" => "Upload ze grouss",

@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "New folder" => "مجلد جديد",
 "Folder" => "مجلد",
 "From link" => "من رابط",
-"Cancel upload" => "إلغاء رفع الملفات",
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Download" => "تحميل",
 "Upload too large" => "حجم الترفيع أعلى من المسموح",

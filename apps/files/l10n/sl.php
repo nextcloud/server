@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Nova mapa",
 "Folder" => "Mapa",
 "From link" => "Iz povezave",
-"Cancel upload" => "Prekliči pošiljanje",
 "You don’t have permission to upload or create files here" => "Ni ustreznih dovoljenj za pošiljanje ali ustvarjanje datotek na tem mestu.",
 "Nothing in here. Upload something!" => "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak!",
 "Download" => "Prejmi",

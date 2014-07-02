@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 17:41+0000\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-01 12:11+0000\n"
 "Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -206,7 +206,7 @@ msgstr "Gränssnittet stödjer inte byte av lösenord, men användarnas krypteri
 msgid "Unable to change password"
 msgstr "Kunde inte ändra lösenord"
 
-#: js/admin.js:127
+#: js/admin.js:128
 msgid "Sending..."
 msgstr "Skickar..."
 
@@ -358,23 +358,23 @@ msgstr "aldrig"
 msgid "deleted {userName}"
 msgstr "raderade {userName}"
 
-#: js/users/users.js:381
+#: js/users/users.js:383
 msgid "add group"
 msgstr "lägg till grupp"
 
-#: js/users/users.js:578
+#: js/users/users.js:580
 msgid "A valid username must be provided"
 msgstr "Ett giltigt användarnamn måste anges"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
 msgid "Error creating user"
 msgstr "Fel vid skapande av användare"
 
-#: js/users/users.js:584
+#: js/users/users.js:586
 msgid "A valid password must be provided"
 msgstr "Ett giltigt lösenord måste anges"
 
-#: js/users/users.js:608
+#: js/users/users.js:610
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Varning: Hem katalogen för varje användare \"{användare}\" finns redan"
 
@@ -392,7 +392,7 @@ msgstr "Info, varningar och allvarliga fel"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr "Varningar, fel ocg allvarliga fel"
+msgstr "Varningar, fel och allvarliga fel"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
@@ -475,7 +475,7 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Databasprestanda Information"
 
 #: templates/admin.php:108
 msgid ""

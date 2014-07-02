@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Text file" => "টেক্সট ফাইল",
 "Folder" => "ফোল্ডার",
 "From link" => " লিংক থেকে",
-"Cancel upload" => "আপলোড বাতিল কর",
 "Nothing in here. Upload something!" => "এখানে কিছুই নেই। কিছু আপলোড করুন !",
 "Download" => "ডাউনলোড",
 "Upload too large" => "আপলোডের আকারটি অনেক বড়",

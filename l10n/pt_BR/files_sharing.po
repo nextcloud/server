@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 14:40+0000\n"
+"POT-Creation-Date: 2014-07-02 01:54-0400\n"
+"PO-Revision-Date: 2014-07-01 10:50+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/external.php:20
+#: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
 msgstr "Compartilhamento de servidor para servidor não está habilitado no servidor"
 
-#: ajax/external.php:50
+#: ajax/external.php:47
 msgid "Couldn't add remote share"
 msgstr "Não foi possível adicionar compartilhamento remoto"
 

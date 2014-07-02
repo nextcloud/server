@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "Karpeta berria",
 "Folder" => "Karpeta",
 "From link" => "Estekatik",
-"Cancel upload" => "Ezeztatu igoera",
 "You don’t have permission to upload or create files here" => "Ez duzu fitxategiak hona igotzeko edo hemen sortzeko baimenik",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
 "Download" => "Deskargatu",

@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "New folder" => "新しいフォルダー",
 "Folder" => "フォルダー",
 "From link" => "リンク",
-"Cancel upload" => "アップロードをキャンセル",
 "You don’t have permission to upload or create files here" => "ここにファイルをアップロードもしくは作成する権限がありません",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Download" => "ダウンロード",

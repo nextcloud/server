@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "New folder" => "Dosje e're",
 "Folder" => "Dosje",
 "From link" => "Nga lidhja",
-"Cancel upload" => "Anullo ngarkimin",
 "Nothing in here. Upload something!" => "Këtu nuk ka asgje. Ngarko dicka",
 "Download" => "Shkarko",
 "Upload too large" => "Ngarkimi shumë i madh",
