@@ -58,14 +58,9 @@
 
 /* APP SIDEBAR TOGGLE and SWIPE ----------------------------------------------*/
 
-/* prevent scrollbar when sidebar is open */
-.snapjs-left #content-wrapper {
-	overflow-x: hidden;
-}
-
 #app-navigation,
 #app-content {
-	position: absolute;
+	position: absolute !important;
 	top: 0;
 	left: 0;
 	right: 0;

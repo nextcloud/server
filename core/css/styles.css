@@ -297,6 +297,7 @@ input[type="submit"].enabled {
 	position: absolute;
 	height: 100%;
 	width: 100%;
+	overflow-x: hidden; /* prevent horizontal scrollbar */
 	padding-top: 45px;
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
