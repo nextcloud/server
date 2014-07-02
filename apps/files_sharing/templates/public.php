@@ -19,7 +19,7 @@
 				<span id="save" data-protected="<?php p($_['protected'])?>" data-owner="<?php p($_['displayName'])?>" data-name="<?php p($_['filename'])?>">
 					<button><?php p($l->t('Add to your ownCloud')) ?></button>
 					<form class="save-form hidden" action="#">
-						<input type="text" id="remote_address" placeholder="<?php p($l->t('example.com/owncloud')) ?>"/>
+						<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
 						<input type="submit" value="<?php p($l->t('Save')) ?>"/>
 					</form>
 				</span>
