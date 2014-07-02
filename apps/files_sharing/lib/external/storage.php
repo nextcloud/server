@@ -142,6 +142,7 @@ class Storage extends DAV implements ISharedStorage {
 					// since this is permanent (re-sharing the file will create a new token)
 					// we remove the invalid storage
 					$this->manager->removeShare($this->mountPoint);
+					$this->manager->getMountManager()->removeMount($this->mountPoint);
 					throw new StorageInvalidException();
 				} else {
 					// ownCloud instance is gone, likely to be a temporary server configuration error
