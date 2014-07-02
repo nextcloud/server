@@ -676,7 +676,11 @@
 			tr.append(td);
 
 			// date column
-			var modifiedColor = Math.round((Math.round((new Date()).getTime() / 1000) - mtime)/60/60/24*5);
+			var modifiedColor = Math.round(((Math.round((new Date()).getTime()) - mtime)/60/60/24*5) / 1000);
+			// ensure that the brightest color is still readable
+			if (modifiedColor >= '160') {
+				modifiedColor = 160;
+			}
 			td = $('<td></td>').attr({ "class": "date" });
 			td.append($('<span></span>').attr({
 				"class": "modified",
