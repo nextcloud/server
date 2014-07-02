@@ -28,6 +28,8 @@
  * server
  */
 
+/* global EventSource */
+
 /**
  * Create a new event source
  * @param {string} src
@@ -35,8 +37,10 @@
  */
 OC.EventSource=function(src,data){
 	var dataStr='';
-	this.closed = false;
+	var name;
+	var joinChar;
 	this.typelessListeners=[];
+	this.closed = false;
 	this.listeners={};
 	if(data){
 		for(name in data){
@@ -44,25 +48,25 @@ OC.EventSource=function(src,data){
 		}
 	}
 	dataStr+='requesttoken='+oc_requesttoken;
-	if(!this.useFallBack && typeof EventSource !='undefined'){
-		var joinChar = '&';
+	if(!this.useFallBack && typeof EventSource !== 'undefined'){
+		joinChar = '&';
 		if(src.indexOf('?') === -1) {
 			joinChar = '?';
 		}
-		this.source=new EventSource(src+joinChar+dataStr);
+		this.source= new EventSource(src+joinChar+dataStr);
 		this.source.onmessage=function(e){
 			for(var i=0;i<this.typelessListeners.length;i++){
 				this.typelessListeners[i](JSON.parse(e.data));
 			}
 		}.bind(this);
 	}else{
-		iframeId='oc_eventsource_iframe_'+OC.EventSource.iframeCount;
+		var iframeId='oc_eventsource_iframe_'+OC.EventSource.iframeCount;
 		OC.EventSource.fallBackSources[OC.EventSource.iframeCount]=this;
 		this.iframe=$('<iframe/>');
 		this.iframe.attr('id',iframeId);
 		this.iframe.hide();
 
-		var joinChar = '&';
+		joinChar = '&';
 		if(src.indexOf('?') === -1) {
 			joinChar = '?';
 		}
@@ -73,7 +77,7 @@ OC.EventSource=function(src,data){
 	}
 	//add close listener
 	this.listen('__internal__',function(data){
-		if(data=='close'){
+		if(data === 'close'){
 			this.close();
 		}
 	}.bind(this));
@@ -89,18 +93,19 @@ OC.EventSource.prototype={
 	listeners:{},//only for fallback
 	useFallBack:false,
 	fallBackCallBack:function(type,data){
+		var i;
 		// ignore messages that might appear after closing
 		if (this.closed) {
 			return;
 		}
 		if(type){
-			if (typeof this.listeners['done'] != 'undefined') {
-				for(var i=0;i<this.listeners[type].length;i++){
+			if (typeof this.listeners.done !== 'undefined') {
+				for(i=0;i<this.listeners[type].length;i++){
 					this.listeners[type][i](data);
 				}
 			}
 		}else{
-			for(var i=0;i<this.typelessListeners.length;i++){
+			for(i=0;i<this.typelessListeners.length;i++){
 				this.typelessListeners[i](data);
 			}
 		}
@@ -117,7 +122,7 @@ OC.EventSource.prototype={
 					this.listeners[type].push(callback);
 				}else{
 					this.source.addEventListener(type,function(e){
-						if (typeof e.data != 'undefined') {
+						if (typeof e.data !== 'undefined') {
 							callback(JSON.parse(e.data));
 						} else {
 							callback('');
@@ -125,13 +130,13 @@ OC.EventSource.prototype={
 					},false);
 				}
 			}else{
-				typelessListeners.push(callback);
+				this.typelessListeners.push(callback);
 			}
 		}
 	},
 	close:function(){
 		this.closed = true;
-		if (typeof this.source !='undefined') {
+		if (typeof this.source !== 'undefined') {
 			this.source.close();
 		}
 	}
