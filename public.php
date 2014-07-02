@@ -17,7 +17,7 @@ try {
 	if (!$pathInfo && !isset($_GET['service'])) {
 		header('HTTP/1.0 404 Not Found');
 		exit;
-	} elseif ($_GET['service']) {
+	} elseif (isset($_GET['service'])) {
 		$service = $_GET['service'];
 	} else {
 		$pathInfo = trim($pathInfo, '/');
