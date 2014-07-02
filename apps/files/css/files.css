@@ -256,6 +256,7 @@ table td.filename .nametext {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 800px;
+	height: 100%;
 }
 
 table td.filename .nametext .innernametext {
