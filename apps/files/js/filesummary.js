@@ -181,7 +181,7 @@
 
 			var info = t('files', '{dirs} and {files}', infoVars);
 
-			var $summary = $('<td><span class="info">'+info+'</span></td>'+fileSize+'<td></td>');
+			var $summary = $('<td><span class="info">'+info+'</span></td>'+fileSize+'<td class="date"></td>');
 
 			if (!this.summary.totalFiles && !this.summary.totalDirs) {
 				this.$el.addClass('hidden');
