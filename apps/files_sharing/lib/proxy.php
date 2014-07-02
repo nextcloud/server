@@ -21,47 +21,43 @@
  */
 
 namespace OCA\Files\Share;
+use OCA\Files_Sharing\Helper;
 
 class Proxy extends \OC_FileProxy {
 
 	/**
-	 * check if the deleted folder contains share mount points and move them
-	 * up to the parent
+	 * check if the deleted folder contains share mount points and unshare them
 	 *
 	 * @param string $path
 	 */
 	public function preUnlink($path) {
-		$this->moveMountPointsUp($path);
+		$this->unshareChildren($path);
 	}
 
 	/**
-	 * check if the deleted folder contains share mount points and move them
-	 * up to the parent
+	 * check if the deleted folder contains share mount points and unshare them
 	 *
 	 * @param string $path
 	 */
 	public function preRmdir($path) {
-		$this->moveMountPointsUp($path);
+		$this->unshareChildren($path);
 	}
 
 	/**
-	 * move share mount points up to the parent
+	 * unshare shared items below the deleted folder
 	 *
 	 * @param string $path
 	 */
-	private function moveMountPointsUp($path) {
+	private function unshareChildren($path) {
 		$view = new \OC\Files\View('/');
 
-		// find share mount points within $path and move them up to the parent folder
-		// before we delete $path
+		// find share mount points within $path and unmount them
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$mountedShares = $mountManager->findIn($path);
 		foreach ($mountedShares as $mount) {
-			if ($mount->getStorage()->instanceOfStorage('\OC\Files\Storage\Shared')) {
+			if ($mount->getStorage()->instanceOfStorage('OCA\Files_Sharing\ISharedStorage')) {
 				$mountPoint = $mount->getMountPoint();
-				$mountPointName = $mount->getMountPointName();
-				$target = \OCA\Files_Sharing\Helper::generateUniqueTarget(dirname($path) . '/' . $mountPointName, array(), $view);
-				$view->rename($mountPoint, $target);
+				$view->unlink($mountPoint);
 			}
 		}
 	}

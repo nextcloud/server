@@ -143,8 +143,10 @@ class SharedMount extends Mount implements MoveableMount {
 	 * @return bool
 	 */
 	public function removeMount() {
+		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$storage = $this->getStorage();
 		$result =  \OCP\Share::unshareFromSelf($storage->getItemType(), $storage->getMountPoint());
+		$mountManager->removeMount($this->mountPoint);
 
 		return $result;
 	}
