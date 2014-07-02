@@ -53,6 +53,9 @@ try {
 
 	\OC::$session->close();
 
+    // initialize a dummy memory session
+    \OC::$session = new \OC\Session\Memory('');
+
 	$logger = \OC_Log::$object;
 
 	// Don't do anything if ownCloud has not been installed
