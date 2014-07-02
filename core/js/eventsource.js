@@ -35,6 +35,7 @@
  */
 OC.EventSource=function(src,data){
 	var dataStr='';
+	this.closed = false;
 	this.typelessListeners=[];
 	this.listeners={};
 	if(data){
@@ -88,6 +89,10 @@ OC.EventSource.prototype={
 	listeners:{},//only for fallback
 	useFallBack:false,
 	fallBackCallBack:function(type,data){
+		// ignore messages that might appear after closing
+		if (this.closed) {
+			return;
+		}
 		if(type){
 			if (typeof this.listeners['done'] != 'undefined') {
 				for(var i=0;i<this.listeners[type].length;i++){
@@ -125,6 +130,7 @@ OC.EventSource.prototype={
 		}
 	},
 	close:function(){
+		this.closed = true;
 		if (typeof this.source !='undefined') {
 			this.source.close();
 		}
