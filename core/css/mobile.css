@@ -82,6 +82,11 @@
 	background-color: #fff;
 	overflow-x: hidden !important;
 }
+/* allow horizontal scrollbar in settings
+	otherwise user management is not usable on mobile */
+#body-settings #app-content {
+	overflow-x: auto !important;
+}
 
 #app-navigation-toggle {
 	position: fixed;
@@ -126,6 +131,15 @@
 
 table.multiselect thead {
 	left: 0 !important;
+}
+
+
+/* prevent overflow in user management controls bar */
+#usersearchform {
+	display: none;
+}
+#body-settings #controls {
+	min-width: 768px !important;
 }
 
 
