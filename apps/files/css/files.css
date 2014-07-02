@@ -89,7 +89,7 @@
 
 /* fit app list view heights */
 .app-files #app-content>.viewcontainer {
-	height: 100%;
+	min-height: 100%;
 }
 
 /* move Deleted Files to bottom of sidebar */
