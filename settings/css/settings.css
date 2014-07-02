@@ -19,6 +19,9 @@ input#openid, input#webdav { width:20em; }
 .clientsbox .center {
 	margin-top: 10px;
 }
+.clientsbox a {
+	font-weight: bold;
+}
 
 #passworderror { display:none; }
 #passwordchanged { display:none; }

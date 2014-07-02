@@ -15,6 +15,18 @@
 	<a href="<?php p($_['clients']['ios']); ?>" target="_blank">
 		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.png')); ?>" />
 	</a>
+
+	<?php if (OC_Util::getEditionString() === ''): ?>
+	<p class="center">
+		<?php print_unescaped($l->t('If you want to support the project
+		<a href="https://owncloud.org/contribute"
+			target="_blank">join development</a>
+		or
+		<a href="https://owncloud.org/promote"
+			target="_blank">spread the word</a>!'));?>
+	</p>
+	<?php endif; ?>
+
 	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
 	<p class="center"><a class="button" href="#" id="showWizard"><?php p($l->t('Show First Run Wizard again'));?></a></p>
 	<?php }?>
