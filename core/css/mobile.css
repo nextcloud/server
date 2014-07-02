@@ -129,6 +129,15 @@ table.multiselect thead {
 }
 
 
+/* prevent overflow in user management controls bar */
+#usersearchform {
+	display: none;
+}
+#body-settings #controls {
+	min-width: 768px !important;
+}
+
+
 /* fix controls bar jumping when navigation is slid out */
 .snapjs-left #app-navigation-toggle,
 .snapjs-left #controls {
