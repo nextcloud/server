@@ -675,8 +675,13 @@
 			}).text(simpleSize);
 			tr.append(td);
 
-			// date column
-			var modifiedColor = Math.round((Math.round((new Date()).getTime() / 1000) - mtime)/60/60/24*5);
+			// date column (1000 milliseconds to seconds, 60 seconds, 60 minutes, 24 hours)
+			// difference in days multiplied by 5 - brightest shade for files older than 32 days (160/5)
+			var modifiedColor = Math.round(((new Date()).getTime() - mtime )/1000/60/60/24*5 );
+			// ensure that the brightest color is still readable
+			if (modifiedColor >= '160') {
+				modifiedColor = 160;
+			}
 			td = $('<td></td>').attr({ "class": "date" });
 			td.append($('<span></span>').attr({
 				"class": "modified",
