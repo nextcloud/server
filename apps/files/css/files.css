@@ -473,12 +473,12 @@ a.action>img {
 }
 
 .summary td {
-	padding-top: 8px;
-	padding-bottom: 8px;
+	padding-top: 20px;
+	padding-bottom: 250px;
 	border-bottom: none;
 }
 .summary .info {
-	margin-left: 55px;
+	margin-left: 40px;
 }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
