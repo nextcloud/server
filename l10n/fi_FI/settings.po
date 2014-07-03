@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-18 01:54-0400\n"
-"PO-Revision-Date: 2014-06-17 06:10+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta."
 msgid "Send mode"
 msgstr "Lähetystila"
 
-#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
 msgstr "Salaus"
 
@@ -194,7 +194,7 @@ msgstr "Taustaosa ei tue salasanan vaihtamista, mutta käyttäjän salausavain p
 msgid "Unable to change password"
 msgstr "Salasanan vaihto ei onnistunut"
 
-#: js/admin.js:127
+#: js/admin.js:128
 msgid "Sending..."
 msgstr "Lähetetään..."
 
@@ -318,7 +318,7 @@ msgstr "Anna kelvollinen ryhmän nimi"
 msgid "deleted {groupName}"
 msgstr "poistettu {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:255
+#: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
 msgstr "kumoa"
 
@@ -333,36 +333,36 @@ msgstr "Ryhmät"
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Poista"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:85 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "ei koskaan"
 
-#: js/users/users.js:254
+#: js/users/users.js:264
 msgid "deleted {userName}"
 msgstr "poistettu {userName}"
 
-#: js/users/users.js:371
+#: js/users/users.js:383
 msgid "add group"
 msgstr "lisää ryhmä"
 
-#: js/users/users.js:568
+#: js/users/users.js:580
 msgid "A valid username must be provided"
 msgstr "Anna kelvollinen käyttäjätunnus"
 
-#: js/users/users.js:569 js/users/users.js:575 js/users/users.js:590
+#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
 msgid "Error creating user"
 msgstr "Virhe käyttäjää luotaessa"
 
-#: js/users/users.js:574
+#: js/users/users.js:586
 msgid "A valid password must be provided"
 msgstr "Anna kelvollinen salasana"
 
-#: js/users/users.js:598
+#: js/users/users.js:610
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Varoitus: käyttäjällä \"{user}\" on jo olemassa kotikansio"
 
@@ -702,11 +702,11 @@ msgstr "Enemmän"
 msgid "Less"
 msgstr "Vähemmän"
 
-#: templates/admin.php:454 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:208
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:458 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -776,122 +776,132 @@ msgstr "Kaupallinen tuki"
 msgid "Get the apps to sync your files"
 msgstr "Aseta sovellukset synkronoimaan tiedostosi"
 
-#: templates/personal.php:19
+#: templates/personal.php:21
+msgid ""
+"If you want to support the project\n"
+"\t\t<a href=\"https://owncloud.org/contribute\"\n"
+"\t\t\ttarget=\"_blank\">join development</a>\n"
+"\t\tor\n"
+"\t\t<a href=\"https://owncloud.org/promote\"\n"
+"\t\t\ttarget=\"_blank\">spread the word</a>!"
+msgstr ""
+
+#: templates/personal.php:31
 msgid "Show First Run Wizard again"
 msgstr "Näytä ensimmäisen käyttökerran avustaja uudelleen"
 
-#: templates/personal.php:27
+#: templates/personal.php:39
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>"
 
-#: templates/personal.php:38 templates/users/part.createuser.php:8
+#: templates/personal.php:50 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Salasana"
 
-#: templates/personal.php:39
+#: templates/personal.php:51
 msgid "Your password was changed"
 msgstr "Salasanasi vaihdettiin"
 
-#: templates/personal.php:40
+#: templates/personal.php:52
 msgid "Unable to change your password"
 msgstr "Salasanaasi ei voitu vaihtaa"
 
-#: templates/personal.php:42
+#: templates/personal.php:54
 msgid "Current password"
 msgstr "Nykyinen salasana"
 
-#: templates/personal.php:45
+#: templates/personal.php:57
 msgid "New password"
 msgstr "Uusi salasana"
 
-#: templates/personal.php:49
+#: templates/personal.php:61
 msgid "Change password"
 msgstr "Vaihda salasana"
 
-#: templates/personal.php:61 templates/users/part.userlist.php:8
+#: templates/personal.php:73 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Koko nimi"
 
-#: templates/personal.php:76
+#: templates/personal.php:88
 msgid "Email"
 msgstr "Sähköpostiosoite"
 
-#: templates/personal.php:78
+#: templates/personal.php:90
 msgid "Your email address"
 msgstr "Sähköpostiosoitteesi"
 
-#: templates/personal.php:81
+#: templates/personal.php:93
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa ja voit vastaanottaa ilmoituksia"
 
-#: templates/personal.php:89
+#: templates/personal.php:101
 msgid "Profile picture"
 msgstr "Profiilikuva"
 
-#: templates/personal.php:94
+#: templates/personal.php:106
 msgid "Upload new"
 msgstr "Lähetä uusi"
 
-#: templates/personal.php:96
+#: templates/personal.php:108
 msgid "Select new from Files"
 msgstr "Valitse uusi tiedostoista"
 
-#: templates/personal.php:97
+#: templates/personal.php:109
 msgid "Remove image"
 msgstr "Poista kuva"
 
-#: templates/personal.php:98
+#: templates/personal.php:110
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Joko png- tai jpg-kuva. Mieluiten neliö, voit kuitenkin rajata kuvaa."
 
-#: templates/personal.php:100
+#: templates/personal.php:112
 msgid "Your avatar is provided by your original account."
 msgstr "Avatar-kuvasi pohjautuu alkuperäiseen tiliisi."
 
-#: templates/personal.php:104
+#: templates/personal.php:116
 msgid "Cancel"
 msgstr "Peru"
 
-#: templates/personal.php:105
+#: templates/personal.php:117
 msgid "Choose as profile image"
 msgstr "Valitse profiilikuvaksi"
 
-#: templates/personal.php:111 templates/personal.php:112
+#: templates/personal.php:123 templates/personal.php:124
 msgid "Language"
 msgstr "Kieli"
 
-#: templates/personal.php:131
+#: templates/personal.php:143
 msgid "Help translate"
 msgstr "Auta kääntämisessä"
 
-#: templates/personal.php:150
+#: templates/personal.php:162
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Salaussovellus ei ole enää käytössä, joten pura kaikkien tiedostojesi salaus"
 
-#: templates/personal.php:156
+#: templates/personal.php:168
 msgid "Log-in password"
 msgstr "Kirjautumissalasana"
 
-#: templates/personal.php:161
+#: templates/personal.php:173
 msgid "Decrypt all Files"
 msgstr "Pura kaikkien tiedostojen salaus"
 
-#: templates/personal.php:174
+#: templates/personal.php:186
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:178
+#: templates/personal.php:190
 msgid "Restore Encryption Keys"
 msgstr "Palauta salausavaimet"
 
-#: templates/personal.php:182
+#: templates/personal.php:194
 msgid "Delete Encryption Keys"
 msgstr "Poista salausavaimet"
 
@@ -930,7 +940,7 @@ msgstr "Ryhmä"
 msgid "Everyone"
 msgstr "Kaikki"
 
-#: templates/users/part.grouplist.php:29
+#: templates/users/part.grouplist.php:31
 msgid "Admins"
 msgstr "Ylläpitäjät"
 

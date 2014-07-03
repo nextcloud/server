@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 11:41+0000\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/external.php:20
+#: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
 msgstr "Sunucudan sunucuya paylaşım bu sunucuda etkin değil"
 
-#: ajax/external.php:50
+#: ajax/external.php:47
 msgid "Couldn't add remote share"
 msgstr "Uzak paylaşım eklenemedi"
 
@@ -63,15 +63,15 @@ msgstr "Paylaşım Ekle"
 msgid "Password"
 msgstr "Parola"
 
-#: js/public.js:204
+#: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
 msgstr "{remote} üzerinde ownCloud kurulumu bulunamadı"
 
-#: js/public.js:205
+#: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "Geçersiz ownCloud adresi"
 
-#: js/share.js:60
+#: js/share.js:146
 msgid "Shared by {owner}"
 msgstr "{owner} tarafından paylaşılmış"
 
@@ -120,12 +120,8 @@ msgid "For more info, please ask the person who sent this link."
 msgstr "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin."
 
 #: templates/public.php:20
-msgid "Save to ownCloud"
-msgstr "ownCloud'a kaydet"
-
-#: templates/public.php:22
-msgid "example.com/owncloud"
-msgstr "örnek.com/owncloud"
+msgid "Add to your ownCloud"
+msgstr ""
 
 #: templates/public.php:23
 msgid "Save"

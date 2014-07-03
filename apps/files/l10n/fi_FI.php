@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Folder name cannot be empty." => "Kansion nimi ei voi olla tyhjä.",
 "Error when creating the folder" => "Virhe kansiota luotaessa",
 "Unable to set upload directory." => "Lähetyskansion asettaminen epäonnistui.",
+"Invalid Token" => "Virheellinen token",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesize-säännön:",

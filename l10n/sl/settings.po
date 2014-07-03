@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-25 06:33-0400\n"
-"PO-Revision-Date: 2014-06-24 14:02+0000\n"
-"Last-Translator: Matej Urbančič <>\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,7 @@ msgstr ""
 msgid "Send mode"
 msgstr "Način pošiljanja"
 
-#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
 msgstr "Šifriranje"
 
@@ -195,7 +195,7 @@ msgstr "Hrbtišče programa ne podpira spreminjanja gesla, je pa uspešno posodo
 msgid "Unable to change password"
 msgstr "Ni mogoče spremeniti gesla"
 
-#: js/admin.js:127
+#: js/admin.js:128
 msgid "Sending..."
 msgstr "Poteka pošiljanje ..."
 
@@ -347,23 +347,23 @@ msgstr "nikoli"
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:383
 msgid "add group"
 msgstr "dodaj skupino"
 
-#: js/users/users.js:578
+#: js/users/users.js:580
 msgid "A valid username must be provided"
 msgstr "Navedeno mora biti veljavno uporabniško ime"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
 msgid "Error creating user"
 msgstr "Napaka ustvarjanja uporabnika"
 
-#: js/users/users.js:584
+#: js/users/users.js:586
 msgid "A valid password must be provided"
 msgstr "Navedeno mora biti veljavno geslo"
 
-#: js/users/users.js:608
+#: js/users/users.js:610
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Opozorilo: osebna mapa uporabnika \"{user}\" že obstaja"
 
@@ -703,11 +703,11 @@ msgstr "Več"
 msgid "Less"
 msgstr "Manj"
 
-#: templates/admin.php:454 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:208
 msgid "Version"
 msgstr "Različica"
 
-#: templates/admin.php:458 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -777,122 +777,132 @@ msgstr "Podpora strankam"
 msgid "Get the apps to sync your files"
 msgstr "Pridobi programe za usklajevanje datotek"
 
-#: templates/personal.php:19
+#: templates/personal.php:21
+msgid ""
+"If you want to support the project\n"
+"\t\t<a href=\"https://owncloud.org/contribute\"\n"
+"\t\t\ttarget=\"_blank\">join development</a>\n"
+"\t\tor\n"
+"\t\t<a href=\"https://owncloud.org/promote\"\n"
+"\t\t\ttarget=\"_blank\">spread the word</a>!"
+msgstr ""
+
+#: templates/personal.php:31
 msgid "Show First Run Wizard again"
 msgstr "Zaženi čarovnika prvega zagona"
 
-#: templates/personal.php:27
+#: templates/personal.php:39
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Uporabljenega je <strong>%s</strong> od razpoložljivih <strong>%s</strong> prostora."
 
-#: templates/personal.php:38 templates/users/part.createuser.php:8
+#: templates/personal.php:50 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Geslo"
 
-#: templates/personal.php:39
+#: templates/personal.php:51
 msgid "Your password was changed"
 msgstr "Geslo je spremenjeno"
 
-#: templates/personal.php:40
+#: templates/personal.php:52
 msgid "Unable to change your password"
 msgstr "Gesla ni mogoče spremeniti."
 
-#: templates/personal.php:42
+#: templates/personal.php:54
 msgid "Current password"
 msgstr "Trenutno geslo"
 
-#: templates/personal.php:45
+#: templates/personal.php:57
 msgid "New password"
 msgstr "Novo geslo"
 
-#: templates/personal.php:49
+#: templates/personal.php:61
 msgid "Change password"
 msgstr "Spremeni geslo"
 
-#: templates/personal.php:61 templates/users/part.userlist.php:8
+#: templates/personal.php:73 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Polno ime"
 
-#: templates/personal.php:76
+#: templates/personal.php:88
 msgid "Email"
 msgstr "Elektronski naslov"
 
-#: templates/personal.php:78
+#: templates/personal.php:90
 msgid "Your email address"
 msgstr "Osebni elektronski naslov"
 
-#: templates/personal.php:81
+#: templates/personal.php:93
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:89
+#: templates/personal.php:101
 msgid "Profile picture"
 msgstr "Slika profila"
 
-#: templates/personal.php:94
+#: templates/personal.php:106
 msgid "Upload new"
 msgstr "Pošlji novo"
 
-#: templates/personal.php:96
+#: templates/personal.php:108
 msgid "Select new from Files"
 msgstr "Izberi novo iz menija datotek"
 
-#: templates/personal.php:97
+#: templates/personal.php:109
 msgid "Remove image"
 msgstr "Odstrani sliko"
 
-#: templates/personal.php:98
+#: templates/personal.php:110
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Slika je lahko png ali jpg. Slika naj bo kvadratna, ni pa to pogoj, saj  jo bo mogoče obrezati."
 
-#: templates/personal.php:100
+#: templates/personal.php:112
 msgid "Your avatar is provided by your original account."
 msgstr "Podoba je podana v izvornem računu."
 
-#: templates/personal.php:104
+#: templates/personal.php:116
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: templates/personal.php:105
+#: templates/personal.php:117
 msgid "Choose as profile image"
 msgstr "Izberi kot sliko profila"
 
-#: templates/personal.php:111 templates/personal.php:112
+#: templates/personal.php:123 templates/personal.php:124
 msgid "Language"
 msgstr "Jezik"
 
-#: templates/personal.php:131
+#: templates/personal.php:143
 msgid "Help translate"
 msgstr "Sodelujte pri prevajanju"
 
-#: templates/personal.php:150
+#: templates/personal.php:162
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Program za šifriranje ni več omogočen. Odšifrirati je treba vse datoteke."
 
-#: templates/personal.php:156
+#: templates/personal.php:168
 msgid "Log-in password"
 msgstr "Prijavno geslo"
 
-#: templates/personal.php:161
+#: templates/personal.php:173
 msgid "Decrypt all Files"
 msgstr "Odšifriraj vse datoteke"
 
-#: templates/personal.php:174
+#: templates/personal.php:186
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:178
+#: templates/personal.php:190
 msgid "Restore Encryption Keys"
 msgstr ""
 
-#: templates/personal.php:182
+#: templates/personal.php:194
 msgid "Delete Encryption Keys"
 msgstr ""
 

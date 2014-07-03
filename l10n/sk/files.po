@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-02 01:54-0400\n"
-"PO-Revision-Date: 2014-07-02 05:54+0000\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/owncloud/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ajax/list.php:38
+msgid "Storage not available"
+msgstr ""
+
+#: ajax/list.php:45
+msgid "Storage invalid"
+msgstr ""
+
+#: ajax/list.php:52
+msgid "Unknown error"
+msgstr ""
 
 #: ajax/move.php:15
 #, php-format
@@ -177,7 +189,7 @@ msgstr ""
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:568 js/filelist.js:1228
+#: js/file-upload.js:568 js/filelist.js:1244
 msgid "{new_name} already exists"
 msgstr ""
 
@@ -193,19 +205,19 @@ msgstr ""
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:257
+#: js/fileactions.js:258
 msgid "Share"
 msgstr "Zdieľať"
 
-#: js/fileactions.js:270
+#: js/fileactions.js:271
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:272 templates/list.php:77 templates/list.php:78
+#: js/fileactions.js:273 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Odstrániť"
 
-#: js/fileactions.js:308
+#: js/fileactions.js:309
 msgid "Rename"
 msgstr ""
 
@@ -215,57 +227,57 @@ msgid ""
 "big."
 msgstr ""
 
-#: js/filelist.js:659 js/filelist.js:1752
+#: js/filelist.js:669 js/filelist.js:1768
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:1179
+#: js/filelist.js:1195
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1187
+#: js/filelist.js:1203
 msgid "Error moving file"
 msgstr ""
 
-#: js/filelist.js:1187
+#: js/filelist.js:1203
 msgid "Error"
 msgstr ""
 
-#: js/filelist.js:1276
+#: js/filelist.js:1292
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1394
+#: js/filelist.js:1410
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1497 templates/list.php:61
+#: js/filelist.js:1513 templates/list.php:61
 msgid "Name"
 msgstr ""
 
-#: js/filelist.js:1498 templates/list.php:72
+#: js/filelist.js:1514 templates/list.php:72
 msgid "Size"
 msgstr ""
 
-#: js/filelist.js:1499 templates/list.php:75
+#: js/filelist.js:1515 templates/list.php:75
 msgid "Modified"
 msgstr ""
 
-#: js/filelist.js:1509 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1525 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:1515 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1531 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: js/filelist.js:1645 js/filelist.js:1684
+#: js/filelist.js:1661 js/filelist.js:1700
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""

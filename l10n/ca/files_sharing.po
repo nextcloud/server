@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-01 01:54-0400\n"
-"PO-Revision-Date: 2014-06-30 07:41+0000\n"
-"Last-Translator: rogerc\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -63,15 +63,15 @@ msgstr "Comparteix"
 msgid "Password"
 msgstr "Contrasenya"
 
-#: js/public.js:204
+#: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
 msgstr "No s'ha trobat cap instal·lació ownCloud a {remote}"
 
-#: js/public.js:205
+#: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "La url d'ownCloud no és vàlida"
 
-#: js/share.js:60
+#: js/share.js:146
 msgid "Shared by {owner}"
 msgstr "Compartits per {owner}"
 
@@ -120,12 +120,8 @@ msgid "For more info, please ask the person who sent this link."
 msgstr "Per més informació contacteu amb qui us ha enviat l'enllaç."
 
 #: templates/public.php:20
-msgid "Save to ownCloud"
-msgstr "Desa a ownCloud"
-
-#: templates/public.php:22
-msgid "example.com/owncloud"
-msgstr "exemple.com/owncloud"
+msgid "Add to your ownCloud"
+msgstr ""
 
 #: templates/public.php:23
 msgid "Save"

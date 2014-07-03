@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-22 01:54-0400\n"
-"PO-Revision-Date: 2014-06-21 09:38+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Devi impostare l'indirizzo del tuo utente prima di poter provare l'invio
 msgid "Send mode"
 msgstr "Modalità di invio"
 
-#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:144
+#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
 msgstr "Cifratura"
 
@@ -197,7 +197,7 @@ msgstr "Il motore non supporta la modifica della password, ma la chiave di cifra
 msgid "Unable to change password"
 msgstr "Impossibile cambiare la password"
 
-#: js/admin.js:127
+#: js/admin.js:128
 msgid "Sending..."
 msgstr "Invio in corso..."
 
@@ -336,7 +336,7 @@ msgstr "Gruppi"
 msgid "Group Admin"
 msgstr "Gruppi amministrati"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:44
+#: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Elimina"
@@ -349,23 +349,23 @@ msgstr "mai"
 msgid "deleted {userName}"
 msgstr "{userName} eliminato"
 
-#: js/users/users.js:381
+#: js/users/users.js:383
 msgid "add group"
 msgstr "aggiungi gruppo"
 
-#: js/users/users.js:578
+#: js/users/users.js:580
 msgid "A valid username must be provided"
 msgstr "Deve essere fornito un nome utente valido"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
 msgid "Error creating user"
 msgstr "Errore durante la creazione dell'utente"
 
-#: js/users/users.js:584
+#: js/users/users.js:586
 msgid "A valid password must be provided"
 msgstr "Deve essere fornita una password valida"
 
-#: js/users/users.js:608
+#: js/users/users.js:610
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Avviso: la cartella home dell'utente \"{user}\" esiste già"
 
@@ -705,11 +705,11 @@ msgstr "Altro"
 msgid "Less"
 msgstr "Meno"
 
-#: templates/admin.php:454 templates/personal.php:196
+#: templates/admin.php:454 templates/personal.php:208
 msgid "Version"
 msgstr "Versione"
 
-#: templates/admin.php:458 templates/personal.php:199
+#: templates/admin.php:458 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -779,122 +779,132 @@ msgstr "Supporto commerciale"
 msgid "Get the apps to sync your files"
 msgstr "Scarica le applicazioni per sincronizzare i tuoi file"
 
-#: templates/personal.php:19
+#: templates/personal.php:21
+msgid ""
+"If you want to support the project\n"
+"\t\t<a href=\"https://owncloud.org/contribute\"\n"
+"\t\t\ttarget=\"_blank\">join development</a>\n"
+"\t\tor\n"
+"\t\t<a href=\"https://owncloud.org/promote\"\n"
+"\t\t\ttarget=\"_blank\">spread the word</a>!"
+msgstr ""
+
+#: templates/personal.php:31
 msgid "Show First Run Wizard again"
 msgstr "Mostra nuovamente la procedura di primo avvio"
 
-#: templates/personal.php:27
+#: templates/personal.php:39
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Hai utilizzato <strong>%s</strong> dei <strong>%s</strong> disponibili"
 
-#: templates/personal.php:38 templates/users/part.createuser.php:8
+#: templates/personal.php:50 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Password"
 
-#: templates/personal.php:39
+#: templates/personal.php:51
 msgid "Your password was changed"
 msgstr "La tua password è cambiata"
 
-#: templates/personal.php:40
+#: templates/personal.php:52
 msgid "Unable to change your password"
 msgstr "Modifica password non riuscita"
 
-#: templates/personal.php:42
+#: templates/personal.php:54
 msgid "Current password"
 msgstr "Password attuale"
 
-#: templates/personal.php:45
+#: templates/personal.php:57
 msgid "New password"
 msgstr "Nuova password"
 
-#: templates/personal.php:49
+#: templates/personal.php:61
 msgid "Change password"
 msgstr "Modifica password"
 
-#: templates/personal.php:61 templates/users/part.userlist.php:8
+#: templates/personal.php:73 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Nome completo"
 
-#: templates/personal.php:76
+#: templates/personal.php:88
 msgid "Email"
 msgstr "Posta elettronica"
 
-#: templates/personal.php:78
+#: templates/personal.php:90
 msgid "Your email address"
 msgstr "Il tuo indirizzo email"
 
-#: templates/personal.php:81
+#: templates/personal.php:93
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Inserisci il tuo indirizzo di posta per abilitare il recupero della password e ricevere notifiche"
 
-#: templates/personal.php:89
+#: templates/personal.php:101
 msgid "Profile picture"
 msgstr "Immagine del profilo"
 
-#: templates/personal.php:94
+#: templates/personal.php:106
 msgid "Upload new"
 msgstr "Carica nuova"
 
-#: templates/personal.php:96
+#: templates/personal.php:108
 msgid "Select new from Files"
 msgstr "Seleziona nuova da file"
 
-#: templates/personal.php:97
+#: templates/personal.php:109
 msgid "Remove image"
 msgstr "Rimuovi immagine"
 
-#: templates/personal.php:98
+#: templates/personal.php:110
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Sia png che jpg. Preferibilmente quadrata, ma potrai ritagliarla."
 
-#: templates/personal.php:100
+#: templates/personal.php:112
 msgid "Your avatar is provided by your original account."
 msgstr "Il tuo avatar è ottenuto dal tuo account originale."
 
-#: templates/personal.php:104
+#: templates/personal.php:116
 msgid "Cancel"
 msgstr "Annulla"
 
-#: templates/personal.php:105
+#: templates/personal.php:117
 msgid "Choose as profile image"
 msgstr "Scegli come immagine del profilo"
 
-#: templates/personal.php:111 templates/personal.php:112
+#: templates/personal.php:123 templates/personal.php:124
 msgid "Language"
 msgstr "Lingua"
 
-#: templates/personal.php:131
+#: templates/personal.php:143
 msgid "Help translate"
 msgstr "Migliora la traduzione"
 
-#: templates/personal.php:150
+#: templates/personal.php:162
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "L'applicazione di cifratura non è più abilitata, decifra tutti i tuoi file"
 
-#: templates/personal.php:156
+#: templates/personal.php:168
 msgid "Log-in password"
 msgstr "Password di accesso"
 
-#: templates/personal.php:161
+#: templates/personal.php:173
 msgid "Decrypt all Files"
 msgstr "Decifra tutti i file"
 
-#: templates/personal.php:174
+#: templates/personal.php:186
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr "Le tue chiavi di cifratura sono state spostate in una posizione sicura. Se qualcosa non dovesse funzionare, potrai ripristinare le chiavi. Eliminale definitivamente solo se sei sicuro che tutti i file siano stati decifrati."
 
-#: templates/personal.php:178
+#: templates/personal.php:190
 msgid "Restore Encryption Keys"
 msgstr "Ripristina chiavi di cifratura"
 
-#: templates/personal.php:182
+#: templates/personal.php:194
 msgid "Delete Encryption Keys"
 msgstr "Elimina chiavi di cifratura"
 
@@ -933,7 +943,7 @@ msgstr "Gruppo"
 msgid "Everyone"
 msgstr "Chiunque"
 
-#: templates/users/part.grouplist.php:29
+#: templates/users/part.grouplist.php:31
 msgid "Admins"
 msgstr "Amministratori"
 

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 10:51+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +23,11 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/external.php:20
+#: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
 msgstr "Der Server für die Serverfreigabe ist auf diesem Server nicht aktiviert"
 
-#: ajax/external.php:50
+#: ajax/external.php:47
 msgid "Couldn't add remote share"
 msgstr "Entfernte Freigabe kann nicht hinzu gefügt werden"
 
@@ -68,15 +68,15 @@ msgstr "Freigabe hinzufügen"
 msgid "Password"
 msgstr "Passwort"
 
-#: js/public.js:204
+#: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
 msgstr "Keine OwnCloud-Installation auf {remote} gefunden"
 
-#: js/public.js:205
+#: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "Ungültige OwnCloud-URL"
 
-#: js/share.js:60
+#: js/share.js:146
 msgid "Shared by {owner}"
 msgstr "Geteilt von {owner}"
 
@@ -125,12 +125,8 @@ msgid "For more info, please ask the person who sent this link."
 msgstr "Für mehr Informationen, frage bitte die Person, die Dir diesen Link geschickt hat."
 
 #: templates/public.php:20
-msgid "Save to ownCloud"
-msgstr "In OwnCloud speichern"
-
-#: templates/public.php:22
-msgid "example.com/owncloud"
-msgstr "beispiel.com/owncloud"
+msgid "Add to your ownCloud"
+msgstr ""
 
 #: templates/public.php:23
 msgid "Save"

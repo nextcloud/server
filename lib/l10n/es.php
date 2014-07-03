@@ -91,6 +91,7 @@ $TRANSLATIONS = array(
 "A valid password must be provided" => "Se debe proporcionar una contraseña válida",
 "The username is already being used" => "El nombre de usuario ya está en uso",
 "No database drivers (sqlite, mysql, or postgresql) installed." => "No están instalados los drivers de BBDD  (sqlite, mysql, o postgresql)",
+"Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." => "Los permisos usualmente pueden ser  solucionados, %sdando permisos de escritura al directorio de configuración en el servidor Web%s.",
 "Cannot write into \"config\" directory" => "No se puede escribir el el directorio de configuración",
 "Cannot write into \"apps\" directory" => "No se puede escribir en el directorio de \"apps\"",
 "Cannot create \"data\" directory (%s)" => "No puedo crear del directorio \"data\" (%s)",
@@ -103,6 +104,7 @@ $TRANSLATIONS = array(
 "PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Modo Seguro de PHP es un entorno en desuso y en su mayoría inútil que debe ser desactivada. Contacte al administrador del servidor para desactivarlo en php.ini o en la configuración del servidor web.",
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work properly." => "Magic Quotes está habilitado. ownCloud requiere que se desactive para que funcione correctamente.",
 "Magic Quotes is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Magic Quotes es un entorno en desuso y en su mayoría inútil que debe ser desactivada. Consulte a su administrador del servidor para desactivarlo en php.ini o en la configuración del servidor web.",
+"PHP modules have been installed, but they are still listed as missing?" => "Los módulos PHP se han instalado, pero aparecen listados como si faltaran",
 "Please ask your server administrator to restart the web server." => "Consulte al administrador de su servidor para reiniciar el servidor web.",
 "PostgreSQL >= 9 required" => "PostgreSQL 9 o superior requerido.",
 "Please upgrade your database version" => "Actualice su versión de base de datos.",
@@ -111,6 +113,7 @@ $TRANSLATIONS = array(
 "Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Por favor cambie los permisos a 0770 para que el directorio no se pueda mostrar para otros usuarios.",
 "Data directory (%s) is readable by other users" => "Directorio de datos (%s) se puede leer por otros usuarios.",
 "Data directory (%s) is invalid" => "Directorio de datos (%s) no es válida",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Verifique que el directorio de datos contiene un archivo \".ocdata\" en su directorio raíz.",
 "Could not obtain lock type %d on \"%s\"." => "No se pudo realizar el bloqueo %d en \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

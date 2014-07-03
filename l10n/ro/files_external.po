@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Arthur Țițeică <arthur.titeica@gmail.com>, 2014
+# astalush <astalush@yahoo.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 21:11+0000\n"
+"Last-Translator: astalush <astalush@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +59,7 @@ msgstr "Locație"
 
 #: appinfo/app.php:50
 msgid "Amazon S3"
-msgstr ""
+msgstr "Amazon S3"
 
 #: appinfo/app.php:53
 msgid "Key"
@@ -94,7 +95,7 @@ msgstr ""
 
 #: appinfo/app.php:67
 msgid "Region (optional)"
-msgstr ""
+msgstr "Regiune"
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -130,7 +131,7 @@ msgstr "Parolă"
 #: appinfo/app.php:91 appinfo/app.php:133 appinfo/app.php:143
 #: appinfo/app.php:154 appinfo/app.php:176
 msgid "Root"
-msgstr ""
+msgstr "Root"
 
 #: appinfo/app.php:92
 msgid "Secure ftps://"
@@ -236,29 +237,29 @@ msgstr ""
 msgid "Saved"
 msgstr "Salvat"
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr ""
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -275,7 +276,7 @@ msgstr "Nume"
 
 #: templates/list.php:20
 msgid "Storage type"
-msgstr ""
+msgstr "Tip stocare"
 
 #: templates/list.php:23
 msgid "Scope"

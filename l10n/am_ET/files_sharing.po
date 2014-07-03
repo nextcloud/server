@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Amharic (Ethiopia) (http://www.transifex.com/projects/p/owncloud/language/am_ET/)\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 "Language: am_ET\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/external.php:20
+#: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
 msgstr ""
 
-#: ajax/external.php:50
+#: ajax/external.php:47
 msgid "Couldn't add remote share"
 msgstr ""
 
@@ -62,15 +62,15 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: js/public.js:204
+#: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
 msgstr ""
 
-#: js/public.js:205
+#: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr ""
 
-#: js/share.js:60
+#: js/share.js:146
 msgid "Shared by {owner}"
 msgstr ""
 
@@ -119,11 +119,7 @@ msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
 #: templates/public.php:20
-msgid "Save to ownCloud"
-msgstr ""
-
-#: templates/public.php:22
-msgid "example.com/owncloud"
+msgid "Add to your ownCloud"
 msgstr ""
 
 #: templates/public.php:23

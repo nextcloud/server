@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-02 10:50+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Khmer (http://www.transifex.com/projects/p/owncloud/language/km/)\n"
 "MIME-Version: 1.0\n"
@@ -272,7 +272,7 @@ msgstr "កំណត់​ពាក្យ​សម្ងាត់​អ្នក
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "ម៉ាស៊ីន​មេ​វេប​របស់​អ្នក​មិន​បានរៀបចំត្រឹមត្រូវ ដើម្បី​អនុញ្ញាតិ​អោយ​មាន​ឯកសារ​ធ្វើ​សមកាលកម្មបាន​ទេ ព្រោះថា WebDAV ហាក់​បី​ដូច​ជាខូចហើយ។"
 
 #: private/setup.php:171
 #, php-format

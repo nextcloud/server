@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 09:00+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-07-03 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,11 +22,11 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/external.php:20
+#: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
 msgstr "Sdílení mezi servery není povoleno"
 
-#: ajax/external.php:50
+#: ajax/external.php:47
 msgid "Couldn't add remote share"
 msgstr "Nelze přidat vzdálené úložiště"
 
@@ -67,15 +67,15 @@ msgstr "Přidat úložiště"
 msgid "Password"
 msgstr "Heslo"
 
-#: js/public.js:204
+#: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
 msgstr "Nebyla nalezen žádný funkční ownCloud na {remote}"
 
-#: js/public.js:205
+#: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "Neplatná ownCloud url"
 
-#: js/share.js:60
+#: js/share.js:146
 msgid "Shared by {owner}"
 msgstr "Sdílí {owner}"
 
@@ -124,12 +124,8 @@ msgid "For more info, please ask the person who sent this link."
 msgstr "Pro více informací kontaktujte osobu, která vám zaslala tento odkaz."
 
 #: templates/public.php:20
-msgid "Save to ownCloud"
-msgstr "Uložit na ownCloud"
-
-#: templates/public.php:22
-msgid "example.com/owncloud"
-msgstr "example.com/owncloud"
+msgid "Add to your ownCloud"
+msgstr ""
 
 #: templates/public.php:23
 msgid "Save"
