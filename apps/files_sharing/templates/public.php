@@ -13,7 +13,7 @@
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 			title="" id="owncloud">
-			<div class="logo-icon svg"></div>
+			<div class="logo-wide svg"></div>
 		</a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 		<div class="header-right">
