@@ -21,6 +21,14 @@
 	box-align: center;
 }
 
+/* on mobile, show logo-icon instead of logo-wide */
+#header .logo-wide {
+	background-image: url(../img/logo-icon.svg);
+	background-repeat: no-repeat;
+	width: 62px;
+	height: 34px;
+}
+
 /* compress search box on mobile, expand when focused */
 .searchbox input[type="search"] {
 	width: 15%;
