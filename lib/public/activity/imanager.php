@@ -50,11 +50,81 @@ interface IManager {
 	 * In order to improve lazy loading a closure can be registered which will be called in case
 	 * activity consumers are actually requested
 	 *
-	 * $callable has to return an instance of OCA\Activity\IConsumer
+	 * $callable has to return an instance of \OCP\Activity\IConsumer
 	 *
 	 * @param \Closure $callable
 	 * @return void
 	 */
 	function registerConsumer(\Closure $callable);
 
+	/**
+	 * In order to improve lazy loading a closure can be registered which will be called in case
+	 * activity consumers are actually requested
+	 *
+	 * $callable has to return an instance of \OCP\Activity\IExtension
+	 *
+	 * @param \Closure $callable
+	 * @return void
+	 */
+	function registerExtension(\Closure $callable);
+
+	/**
+	 * Will return additional notification types as specified by other apps
+	 * @param string $languageCode
+	 * @return array
+	 */
+	function getNotificationTypes($languageCode);
+
+	/**
+	 * @param array $types
+	 * @param string $filter
+	 * @return array
+	 */
+	function filterNotificationTypes($types, $filter);
+
+	/**
+	 * @param string $method
+	 * @return array
+	 */
+	function getDefaultTypes($method);
+
+	/**
+	 * @param string $app
+	 * @param string $text
+	 * @param array $params
+	 * @param boolean $stripPath
+	 * @param boolean $highlightParams
+	 * @param string $languageCode
+	 * @return string|false
+	 */
+	function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
+
+	/**
+	 * @param string $type
+	 * @return string
+	 */
+	function getTypeIcon($type);
+
+	/**
+	 * @param array $activity
+	 * @return integer|false
+	 */
+	function getGroupParameter($activity);
+
+	/**
+	 * @return array
+	 */
+	function getNavigation();
+
+	/**
+	 * @param string $filterValue
+	 * @return boolean
+	 */
+	function isFilterValid($filterValue);
+
+	/**
+	 * @param string $filter
+	 * @return array
+	 */
+	function getQueryForFilter($filter);
 }
