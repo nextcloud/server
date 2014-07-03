@@ -89,21 +89,39 @@ thead {
 }
 
 /* within #save */
-#remote_address {
-	margin: 0;
-	height: 14px;
-	padding: 6px;
+#save .save-form {
+	position: relative;
 }
 
-#save button {
+#remote_address {
+	margin: 0;
+	width: 130px;
+	height: 14px;
+	padding: 6px;
+	padding-right: 24px;
+}
+
+#save #save-button,
+#save #save-button-confirm {
 	margin: 0 5px;
 	height: 28px;
 	padding-bottom: 4px;
 	line-height: 14px;
 }
 
-#save .save-form [type="submit"] {
-	margin: 0 5px;
-	height: 28px;
-	padding-bottom: 4px;
+#save-button-confirm {
+	position: absolute;
+	background-color: transparent;
+	border: none;
+	margin: 2px 4px !important;
+	right: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+#save-button-confirm:hover,
+#save-button-confirm:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
 }

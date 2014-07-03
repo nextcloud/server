@@ -19,10 +19,10 @@
 		<div class="header-right">
 			<span id="details">
 				<span id="save" data-protected="<?php p($_['protected'])?>" data-owner="<?php p($_['displayName'])?>" data-name="<?php p($_['filename'])?>">
-					<button><?php p($l->t('Add to your ownCloud')) ?></button>
+					<button id="save-button"><?php p($l->t('Add to your ownCloud')) ?></button>
 					<form class="save-form hidden" action="#">
 						<input type="text" id="remote_address" placeholder="example.com/owncloud"/>
-						<input type="submit" value="<?php p($l->t('Save')) ?>"/>
+						<button id="save-button-confirm" class="icon-confirm svg"></button>
 					</form>
 				</span>
 				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">
