@@ -472,8 +472,8 @@ a.action>img {
 }
 
 .summary td {
-	padding-top: 8px;
-	padding-bottom: 8px;
+	padding-top: 20px;
+	padding-bottom: 300px;
 	border-bottom: none;
 }
 .summary .info {
