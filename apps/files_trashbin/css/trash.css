@@ -15,3 +15,6 @@
 #app-content-trashbin .summary :last-child {
 	padding: 0;
 }
+#app-content-trashbin #filestable .summary .filesize {
+	display: none;
+}
