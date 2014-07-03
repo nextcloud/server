@@ -111,6 +111,13 @@
 						var $buttonrow = $('<div class="oc-dialog-buttonrow" />');
 						this.$buttonrow = $buttonrow.appendTo(this.$dialog);
 					}
+					if (value.length === 1) {
+						this.$buttonrow.addClass('onebutton');
+					} else if (value.length === 2) {
+						this.$buttonrow.addClass('twobuttons');
+					} else if (value.length === 3) {
+						this.$buttonrow.addClass('threebuttons');
+					}
 					$.each(value, function(idx, val) {
 						var $button = $('<button>').text(val.text);
 						if (val.classes) {

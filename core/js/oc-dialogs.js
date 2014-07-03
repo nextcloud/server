@@ -19,7 +19,7 @@
  *
  */
 
-/* global OC, t, alert, $ */
+/* global alert */
 
 /**
  * this class to ease the usage of jquery dialogs
@@ -66,7 +66,7 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	confirm:function(text, title, callback, modal) {
-		this.message(
+		return this.message(
 			text,
 			title,
 			'notice',
@@ -86,7 +86,7 @@ var OCdialogs = {
 	 * @param password whether the input should be a password input
 	 */
 	prompt: function (text, title, callback, modal, name, password) {
-		$.when(this._getMessageTemplate()).then(function ($tmpl) {
+		return $.when(this._getMessageTemplate()).then(function ($tmpl) {
 			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
 			var $dlg = $tmpl.octemplate({
@@ -104,8 +104,15 @@ var OCdialogs = {
 				modal = false;
 			}
 			$('body').append($dlg);
-			var buttonlist = [
-				{
+			var buttonlist = [{
+					text : t('core', 'No'),
+					click: function () {
+						if (callback !== undefined) {
+							callback(false, input.val());
+						}
+						$(dialogId).ocdialog('close');
+					}
+				}, {
 					text         : t('core', 'Yes'),
 					click        : function () {
 						if (callback !== undefined) {
@@ -114,15 +121,6 @@ var OCdialogs = {
 						$(dialogId).ocdialog('close');
 					},
 					defaultButton: true
-				},
-				{
-					text : t('core', 'No'),
-					click: function () {
-						if (callback !== undefined) {
-							callback(false, input.val());
-						}
-						$(dialogId).ocdialog('close');
-					}
 				}
 			];
 
@@ -237,7 +235,7 @@ var OCdialogs = {
 	 * You better use a wrapper instead ...
 	*/
 	message:function(content, title, dialogType, buttons, callback, modal) {
-		$.when(this._getMessageTemplate()).then(function($tmpl) {
+		return $.when(this._getMessageTemplate()).then(function($tmpl) {
 			var dialogName = 'oc-dialog-' + OCdialogs.dialogsCounter + '-content';
 			var dialogId = '#' + dialogName;
 			var $dlg = $tmpl.octemplate({
@@ -254,6 +252,15 @@ var OCdialogs = {
 			switch (buttons) {
 			case OCdialogs.YES_NO_BUTTONS:
 				buttonlist = [{
+					text: t('core', 'No'),
+					click: function(){
+						if (callback !== undefined) {
+							callback(false);
+						}
+						$(dialogId).ocdialog('close');
+					}
+				},
+				{
 					text: t('core', 'Yes'),
 					click: function(){
 						if (callback !== undefined) {
@@ -262,15 +269,6 @@ var OCdialogs = {
 						$(dialogId).ocdialog('close');
 					},
 					defaultButton: true
-				},
-				{
-					text: t('core', 'No'),
-					click: function(){
-						if (callback !== undefined) {
-							callback(false);
-						}
-						$(dialogId).ocdialog('close');
-					}
 				}];
 				break;
 			case OCdialogs.OK_BUTTON:
