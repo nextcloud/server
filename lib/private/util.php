@@ -852,7 +852,6 @@ class OC_Util {
 	 */
 	public static function redirectToDefaultPage() {
 		$location = self::getDefaultPageUrl();
-		OC_Log::write('core', 'redirectToDefaultPage: '.$location, OC_Log::DEBUG);
 		header('Location: '.$location);
 		exit();
 	}
