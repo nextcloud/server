@@ -1,8 +1,21 @@
+/* global escapeHTML */
+
+/**
+ * @namespace
+ */
 OC.Share={
 	SHARE_TYPE_USER:0,
 	SHARE_TYPE_GROUP:1,
 	SHARE_TYPE_LINK:3,
 	SHARE_TYPE_EMAIL:4,
+
+	/**
+	 * Regular expression for splitting parts of remote share owners:
+	 * "user@example.com/path/to/owncloud"
+	 * "user@anotherexample.com@example.com/path/to/owncloud
+	 */
+	_REMOTE_OWNER_REGEXP: new RegExp("^([^@]*)@(([^@]*)@)?([^/]*)(.*)?$"),
+
 	/**
 	 * @deprecated use OC.Share.currentShares instead
 	 */
@@ -169,6 +182,38 @@ OC.Share={
 		}
 	},
 	/**
+	 * Format remote share owner to make it more readable
+	 *
+	 * @param {String} owner full remote share owner name
+	 * @return {String} HTML code for the owner display
+	 */
+	_formatSharedByOwner: function(owner) {
+		var parts = this._REMOTE_OWNER_REGEXP.exec(owner);
+		if (!parts) {
+			// display as is, most likely to be a simple owner name
+			return t('files_sharing', 'Shared by {owner}', {owner: escapeHTML(owner)});
+		}
+
+		var userName = parts[1];
+		var userDomain = parts[3];
+		var server = parts[4];
+		var tooltip = userName;
+		if (userDomain) {
+			tooltip += '@' + userDomain;
+		}
+		if (server) {
+			tooltip += '@' + server;
+		}
+
+		var html = '<span class="remoteOwner" title="' + escapeHTML(tooltip) + '">';
+		html += '<span class="username">' + escapeHTML(userName) + '</span>';
+		if (userDomain) {
+			html += '<span class="userDomain">@' + escapeHTML(userDomain) + '</span>';
+		}
+		html += '</span>';
+		return t('files_sharing', 'Shared by {owner}', {owner: html});
+	},
+	/**
 	 * Marks/unmarks a given file as shared by changing its action icon
 	 * and folder icon.
 	 *
@@ -206,12 +251,15 @@ OC.Share={
 			message = t('core', 'Shared');
 			// even if reshared, only show "Shared by"
 			if (owner) {
-				message = t('files_sharing', 'Shared by {owner}', {owner: escapeHTML(owner)});
+				message = this._formatSharedByOwner(owner);
 			}
 			else if (recipients) {
 				message = t('core', 'Shared with {recipients}', {recipients: escapeHTML(recipients)});
 			}
-			action.html(' <span>'+ message + '</span>').prepend(img);
+			action.html(' <span>' + message + '</span>').prepend(img);
+			if (owner) {
+				action.find('.remoteOwner').tipsy({gravity: 's'});
+			}
 		}
 		else {
 			action.removeClass('permanent');
