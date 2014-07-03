@@ -22,6 +22,10 @@ table td.date {
 table td {
 	padding: 0;
 }
+/* and accordingly fix left margin of file list summary on mobile */
+.summary .info {
+	margin-left: 55px;
+}
 
 /* remove shift for multiselect bar to account for missing navigation */
 table.multiselect thead {
