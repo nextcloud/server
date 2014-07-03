@@ -342,12 +342,8 @@ OC.Share={
 				html += '<br />';
 
 				var defaultExpireMessage = '';
-				if ((itemType === 'folder' || itemType === 'file') && oc_appconfig.core.defaultExpireDateEnabled) {
-					if (oc_appconfig.core.defaultExpireDateEnforced) {
-						defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
-					} else {
-						defaultExpireMessage = t('core', 'By default the public link will expire after {days} days', {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
-					}
+				if ((itemType === 'folder' || itemType === 'file') && oc_appconfig.core.defaultExpireDateEnforced) {
+					defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
 				}
 
 				html += '<input id="linkText" type="text" readonly="readonly" />';
