@@ -230,8 +230,10 @@
 	padding: 7px 5px;
 	color: #fff;
 	height: 100%;
-	max-width: 40%;
+	max-width: 80%;
 	white-space: nowrap;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 /* Profile picture in header */
