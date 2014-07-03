@@ -72,6 +72,9 @@ OC.search.showResults=function(results){
 					
 					if (type[i].path) {
 						var parent = OC.dirname(type[i].path);
+						if (parent === '') {
+							parent = '/';
+						}
 						var containerName = OC.basename(parent);
 						if (containerName === '') {
 							containerName = '/';
