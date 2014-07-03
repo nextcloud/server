@@ -325,6 +325,7 @@ table td.filename .uploadtext {
 	filter: alpha(opacity=0);
 	opacity: 0;
 	float: left;
+	top: 0;
 	margin: 32px 0 4px 32px; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/
 }
 /* Show checkbox when hovering, checked, or selected */
@@ -355,6 +356,7 @@ table td.filename .uploadtext {
 }
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
+	top: 0;
 }
 .select-all + label {
 	top: 0;
