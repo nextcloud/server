@@ -365,5 +365,84 @@ describe('OC.Share tests', function() {
 			});
 		});
 	});
+	describe('markFileAsShared', function() {
+		var $file;
+		var tipsyStub;
+
+		beforeEach(function() {
+			tipsyStub = sinon.stub($.fn, 'tipsy');
+			$file = $('<tr><td class="filename">File name</td></tr>');
+			$file.find('.filename').append(
+				'<span class="fileactions">' +
+				'<a href="#" class="action action-share" data-action="Share">' +
+				'<img></img><span> Share</span>' +
+				'</a>' +
+				'</span>'
+			);
+		});
+		afterEach(function() {
+			$file = null;
+			tipsyStub.restore();
+		});
+		describe('displaying the share owner', function() {
+			function checkOwner(input, output, title) {
+				var $action;
+
+				$file.attr('data-share-owner', input);
+				OC.Share.markFileAsShared($file);
+
+				$action = $file.find('.action-share>span');
+				expect($action.text()).toEqual(output);
+				if (_.isString(title)) {
+					expect($action.find('.remoteOwner').attr('title')).toEqual(title);
+				} else {
+					expect($action.find('.remoteOwner').attr('title')).not.toBeDefined();
+				}
+				expect(tipsyStub.calledOnce).toEqual(true);
+				tipsyStub.reset();
+			}
+
+			it('displays the local share owner as is', function() {
+				checkOwner('User One', 'Shared by User One', null);
+			});
+			it('displays the user name part of a remote share owner', function() {
+				checkOwner(
+					'User One@someserver.com',
+					'Shared by User One',
+					'User One@someserver.com'
+				);
+				checkOwner(
+					'User One@someserver.com/',
+					'Shared by User One',
+					'User One@someserver.com'
+				);
+				checkOwner(
+					'User One@someserver.com/root/of/owncloud',
+					'Shared by User One',
+					'User One@someserver.com'
+				);
+			});
+			it('displays the user name part with domain of a remote share owner', function() {
+				checkOwner(
+					'User One@example.com@someserver.com',
+					'Shared by User One@example.com',
+					'User One@example.com@someserver.com'
+				);
+				checkOwner(
+					'User One@example.com@someserver.com/',
+					'Shared by User One@example.com',
+					'User One@example.com@someserver.com'
+				);
+				checkOwner(
+					'User One@example.com@someserver.com/root/of/owncloud',
+					'Shared by User One@example.com',
+					'User One@example.com@someserver.com'
+				);
+			});
+		});
+
+		// TODO: add unit tests for folder icons
+		// TODO: add unit tests for share recipients
+	});
 });
 
