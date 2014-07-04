@@ -420,13 +420,13 @@ input[name='password-clone'] {
 #password-icon {
 	position: absolute;
 	left: 16px;
-	top: 20px;
+	top: 22px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
 #adminpass-icon, #password-icon {
-	top: 15px;
+	top: 17px;
 }
 
 /* General new input field look */
@@ -474,7 +474,6 @@ label.infield {
 #body-login form input[type="checkbox"]+label {
 	position: relative;
 	margin: 0;
-	font-size: 13px;
 	padding: 14px;
 	padding-left: 28px;
 	margin-left: -28px;
