@@ -241,18 +241,24 @@
 	float: left;
 	display: inline-block;
 	margin-right: 5px;
+	cursor: pointer;
 }
 #header .avatardiv img {
 	opacity: 1;
+	cursor: pointer;
 }
 
 #settings {
 	float: right;
 	color: #bbb;
+	cursor: pointer;
 }
 #expand {
 	display: block;
 	padding: 7px 12px 6px 7px;
+	cursor: pointer;
+}
+#expand * {
 	cursor: pointer;
 }
 #expand:hover, #expand:focus, #expand:active { color:#fff; }

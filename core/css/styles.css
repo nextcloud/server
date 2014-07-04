@@ -420,13 +420,13 @@ input[name='password-clone'] {
 #password-icon {
 	position: absolute;
 	left: 16px;
-	top: 20px;
+	top: 22px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 	filter: alpha(opacity=30);
 	opacity: .3;
 }
 #adminpass-icon, #password-icon {
-	top: 15px;
+	top: 17px;
 }
 
 /* General new input field look */
@@ -474,10 +474,10 @@ label.infield {
 #body-login form input[type="checkbox"]+label {
 	position: relative;
 	margin: 0;
-	font-size: 13px;
 	padding: 14px;
 	padding-left: 28px;
 	margin-left: -28px;
+	vertical-align: middle;
 }
 #body-login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 #body-login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
