@@ -52,6 +52,10 @@ $(document).ready(function() {
 		$(':submit', this).attr('disabled','disabled').val($(':submit', this).data('finishing'));
 		$('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
 		$('#selectDbType').buttonset('disable');
+		$('.strengthify-wrapper, .tipsy')
+			.css('-ms-filter', '"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"')
+			.css('filter', 'alpha(opacity=30)')
+			.css('opacity', .3);
 
 		// Create the form
 		var form = $('<form>');
