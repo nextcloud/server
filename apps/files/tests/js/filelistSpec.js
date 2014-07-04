@@ -1933,4 +1933,30 @@ describe('OCA.Files.FileList tests', function() {
 			});
 		});
 	});
+	describe('Handeling errors', function () {
+		beforeEach(function () {
+			redirectStub = sinon.stub(OC, 'redirect');
+
+			fileList = new OCA.Files.FileList($('#app-content-files'));
+		});
+		afterEach(function () {
+			fileList = undefined;
+
+			redirectStub.restore();
+		});
+		it('reloads the page on authentication errors', function () {
+			fileList.reload();
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					status: 'error',
+					data: {
+						'error': 'authentication_error'
+					}
+				})
+			);
+			expect(redirectStub.calledWith(OC.generateUrl('apps/files'))).toEqual(true);
+		});
+	});
 });
