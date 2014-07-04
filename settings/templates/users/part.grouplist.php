@@ -12,7 +12,7 @@
 		</form>
 	</li>
 	<!-- Everyone -->
-	<li data-gid="" class="isgroup">
+	<li data-gid="_everyone" data-usercount="<?php p($_["usercount"]); ?>" class="isgroup">
 		<a href="#">
 			<span class="groupname">
 				<?php p($l->t('Everyone')); ?>
@@ -27,7 +27,7 @@
 
 	<!-- The Admin Group -->
 	<?php foreach($_["adminGroup"] as $adminGroup): ?>
-		<li data-gid="admin" class="isgroup">
+		<li data-gid="admin" data-usercount="<?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?>" class="isgroup">
 			<a href="#"><span class="groupname"><?php p($l->t('Admins')); ?></span></a>
 			<span class="utils">
 				<span class="usercount"><?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?></span>
