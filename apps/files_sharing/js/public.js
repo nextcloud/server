@@ -163,7 +163,7 @@ OCA.Sharing.PublicApp = {
 			OCA.Sharing.PublicApp._saveToOwnCloud(remote, token, owner, name, isProtected);
 		});
 
-		$('#save > button').click(function () {
+		$('#save #save-button').click(function () {
 			$(this).hide();
 			$('.save-form').css('display', 'inline');
 			$('#remote_address').focus();
