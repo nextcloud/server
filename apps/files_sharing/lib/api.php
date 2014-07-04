@@ -60,6 +60,9 @@ class Api {
 			foreach ($shares as &$share) {
 				if ($share['item_type'] === 'file' && isset($share['path'])) {
 					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['path']);
+					if (\OC::$server->getPreviewManager()->isMimeSupported($share['mimetype'])) {
+						$share['isPreviewAvailable'] = true;
+					}
 				}
 				$newShares[] = $share;
 			}
@@ -214,6 +217,9 @@ class Api {
 			foreach ($shares as &$share) {
 				if ($share['item_type'] === 'file') {
 					$share['mimetype'] = \OC_Helper::getFileNameMimeType($share['file_target']);
+					if (\OC::$server->getPreviewManager()->isMimeSupported($share['mimetype'])) {
+						$share['isPreviewAvailable'] = true;
+					}
 				}
 			}
 			$result = new \OC_OCS_Result($shares);
