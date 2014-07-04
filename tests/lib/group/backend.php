@@ -31,8 +31,12 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	 * test cases can override this in order to clean up created groups
 	 * @return array
 	 */
-	public function getGroupName() {
-		return uniqid('test_');
+	public function getGroupName($name = null) {
+		if(is_null($name)) {
+			return uniqid('test_');
+		} else {
+			return $name;
+		}
 	}
 
 	/**
@@ -88,7 +92,7 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->backend->inGroup($user2, $group1));
 		$this->assertFalse($this->backend->inGroup($user1, $group2));
 		$this->assertFalse($this->backend->inGroup($user2, $group2));
-		
+
 		$this->assertFalse($this->backend->addToGroup($user1, $group1));
 
 		$this->assertEquals(array($user1), $this->backend->usersInGroup($group1));
@@ -102,4 +106,35 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $this->backend->usersInGroup($group1));
 		$this->assertFalse($this->backend->inGroup($user1, $group1));
 	}
+
+	public function testSearchGroups() {
+		$name1 = $this->getGroupName('foobarbaz');
+		$name2 = $this->getGroupName('bazbarfoo');
+		$name3 = $this->getGroupName('notme');
+
+		$this->backend->createGroup($name1);
+		$this->backend->createGroup($name2);
+		$this->backend->createGroup($name3);
+
+		$result = $this->backend->getGroups('bar');
+		$this->assertSame(2, count($result));
+	}
+
+	public function testSearchUsers() {
+		$group = $this->getGroupName();
+		$this->backend->createGroup($group);
+
+		$name1 = 'foobarbaz';
+		$name2 = 'bazbarfoo';
+		$name3 = 'notme';
+
+		$this->backend->addToGroup($name1, $group);
+		$this->backend->addToGroup($name2, $group);
+		$this->backend->addToGroup($name3, $group);
+
+		$result = $this->backend->usersInGroup($group, 'bar');
+		$this->assertSame(2, count($result));
+	}
+
+
 }

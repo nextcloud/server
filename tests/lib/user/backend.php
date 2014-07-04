@@ -96,4 +96,21 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertSame($name1, $this->backend->checkPassword($name1, 'newpass1'));
 		$this->assertFalse($this->backend->checkPassword($name2, 'newpass1'));
 	}
+
+	public function testSearch() {
+		$name1 = 'foobarbaz';
+		$name2 = 'bazbarfoo';
+		$name3 = 'notme';
+
+		$this->backend->createUser($name1, 'pass1');
+		$this->backend->createUser($name2, 'pass2');
+		$this->backend->createUser($name3, 'pass3');
+
+		$result = $this->backend->getUsers('bar');
+		$this->assertSame(2, count($result));
+
+		$result = $this->backend->getDisplayNames('bar');
+		$this->assertSame(2, count($result));
+	}
+
 }

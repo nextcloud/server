@@ -28,8 +28,10 @@ class Test_Group_Database extends Test_Group_Backend {
 	 * test cases can override this in order to clean up created groups
 	 * @return array
 	 */
-	public function getGroupName() {
-		$name=uniqid('test_');
+	public function getGroupName($name = null) {
+		if(is_null($name)) {
+			$name=uniqid('test_');
+		}
 		$this->groups[]=$name;
 		return $name;
 	}

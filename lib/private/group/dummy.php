@@ -142,7 +142,16 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = -1, $offset = 0) {
-		return array_keys($this->groups);
+		if(empty($search)) {
+			return array_keys($this->groups);
+		}
+		$result = array();
+		foreach(array_keys($this->groups) as $group) {
+			if(stripos($group, $search) !== false) {
+				$result[] = $group;
+			}
+		}
+		return $result;
 	}
 
 	/**
@@ -151,10 +160,21 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		if(isset($this->groups[$gid])) {
-			return $this->groups[$gid];
+			if(empty($search)) {
+				return $this->groups[$gid];
+			}
+			$result = array();
+			foreach($this->groups[$gid] as $user) {
+				if(stripos($user, $search) !== false) {
+					$result[] = $user;
+				}
+			}
+			return $result;
 		}else{
 			return array();
 		}
 	}
+
+
 
 }
