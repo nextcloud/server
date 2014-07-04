@@ -444,17 +444,18 @@ class Keymanager {
 
 	/**
 	 * Delete a single user's shareKey for a single file
+	 *
+	 * @param \OC\Files\View $view relative to data/
+	 * @param array $userIds list of users we want to remove
+	 * @param string $filename the owners name of the file for which we want to remove the users relative to data/user/files
+	 * @param string $owner owner of the file
 	 */
-	public static function delShareKey(\OC\Files\View $view, $userIds, $filePath) {
+	public static function delShareKey($view, $userIds, $filename, $owner) {
 
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		$userId = Helper::getUser($filePath);
-
-		$util = new Util($view, $userId);
-
-		list($owner, $filename) = $util->getUidAndFilename($filePath);
+		$util = new Util($view, $owner);
 
 		if ($util->isSystemWideMountPoint($filename)) {
 			$shareKeyPath = \OC\Files\Filesystem::normalizePath('/files_encryption/share-keys/' . $filename);

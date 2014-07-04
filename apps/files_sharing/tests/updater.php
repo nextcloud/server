@@ -57,7 +57,7 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 
 	/**
 	 * test deletion of a folder which contains share mount points. Share mount
-	 * points should move up to the parent before the folder gets deleted so
+	 * points should be unshared before the folder gets deleted so
 	 * that the mount point doesn't end up at the trash bin
 	 */
 	function testDeleteParentFolder() {
@@ -78,6 +78,9 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 		// check if user2 can see the shared folder
 		$this->assertTrue($view->file_exists($this->folder));
 
+		$foldersShared = \OCP\Share::getItemsSharedWith('folder');
+		$this->assertSame(1, count($foldersShared));
+
 		$view->mkdir("localFolder");
 		$view->file_put_contents("localFolder/localFile.txt", "local file");
 
@@ -91,8 +94,9 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 
 		$this->loginHelper(self::TEST_FILES_SHARING_API_USER2);
 
-		// mount point should move up again
-		$this->assertTrue($view->file_exists($this->folder));
+		// shared folder should be unshared
+		$foldersShared = \OCP\Share::getItemsSharedWith('folder');
+		$this->assertTrue(empty($foldersShared));
 
 		// trashbin should contain the local file but not the mount point
 		$rootView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
@@ -109,10 +113,6 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 		if ($status === false) {
 			\OC_App::disable('files_trashbin');
 		}
-		// cleanup
-		$this->loginHelper(self::TEST_FILES_SHARING_API_USER1);
-		$result = \OCP\Share::unshare('folder', $fileinfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2);
-		$this->assertTrue($result);
 	}
 
 	/**
