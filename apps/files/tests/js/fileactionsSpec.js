@@ -193,6 +193,156 @@ describe('OCA.Files.FileActions tests', function() {
 		context = actionStub.getCall(0).args[1];
 		expect(context.dir).toEqual('/somepath');
 	});
+	describe('merging', function() {
+		var $tr;
+		beforeEach(function() {
+			var fileData = {
+				id: 18,
+				type: 'file',
+				name: 'testName.txt',
+				path: '/anotherpath/there',
+				mimetype: 'text/plain',
+				size: '1234',
+				etag: 'a01234c',
+				mtime: '123456'
+			};
+			$tr = fileList.add(fileData);
+		});
+		afterEach(function() {
+			$tr = null;
+		});
+		it('copies all actions to target file actions', function() {
+			var actions1 = new OCA.Files.FileActions();
+			var actions2 = new OCA.Files.FileActions();
+			var actionStub1 = sinon.stub();
+			var actionStub2 = sinon.stub();
+			actions1.register(
+					'all',
+					'Test',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub1
+			);
+			actions2.register(
+					'all',
+					'Test2',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub2
+			);
+			actions2.merge(actions1);
+
+			actions2.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action-test').length).toEqual(1);
+			expect($tr.find('.action-test2').length).toEqual(1);
+
+			$tr.find('.action-test').click();
+			expect(actionStub1.calledOnce).toEqual(true);
+			expect(actionStub2.notCalled).toEqual(true);
+
+			actionStub1.reset();
+
+			$tr.find('.action-test2').click();
+			expect(actionStub1.notCalled).toEqual(true);
+			expect(actionStub2.calledOnce).toEqual(true);
+		});
+		it('overrides existing actions on merge', function() {
+			var actions1 = new OCA.Files.FileActions();
+			var actions2 = new OCA.Files.FileActions();
+			var actionStub1 = sinon.stub();
+			var actionStub2 = sinon.stub();
+			actions1.register(
+					'all',
+					'Test',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub1
+			);
+			actions2.register(
+					'all',
+					'Test', // override
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub2
+			);
+			actions1.merge(actions2);
+
+			actions1.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action-test').length).toEqual(1);
+
+			$tr.find('.action-test').click();
+			expect(actionStub1.notCalled).toEqual(true);
+			expect(actionStub2.calledOnce).toEqual(true);
+		});
+		it('overrides existing action when calling register after merge', function() {
+			var actions1 = new OCA.Files.FileActions();
+			var actions2 = new OCA.Files.FileActions();
+			var actionStub1 = sinon.stub();
+			var actionStub2 = sinon.stub();
+			actions1.register(
+					'all',
+					'Test',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub1
+			);
+
+			actions1.merge(actions2);
+
+			// late override
+			actions1.register(
+					'all',
+					'Test', // override
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub2
+			);
+
+			actions1.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action-test').length).toEqual(1);
+
+			$tr.find('.action-test').click();
+			expect(actionStub1.notCalled).toEqual(true);
+			expect(actionStub2.calledOnce).toEqual(true);
+		});
+		it('leaves original file actions untouched (clean copy)', function() {
+			var actions1 = new OCA.Files.FileActions();
+			var actions2 = new OCA.Files.FileActions();
+			var actionStub1 = sinon.stub();
+			var actionStub2 = sinon.stub();
+			actions1.register(
+					'all',
+					'Test',
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub1
+			);
+
+			// copy the Test action to actions2
+			actions2.merge(actions1);
+
+			// late override
+			actions2.register(
+					'all',
+					'Test', // override
+					OC.PERMISSION_READ,
+					OC.imagePath('core', 'actions/test'),
+					actionStub2
+			);
+
+			// check if original actions still call the correct handler
+			actions1.display($tr.find('td.filename'), true, fileList);
+
+			expect($tr.find('.action-test').length).toEqual(1);
+
+			$tr.find('.action-test').click();
+			expect(actionStub1.calledOnce).toEqual(true);
+			expect(actionStub2.notCalled).toEqual(true);
+		});
+	});
 	describe('events', function() {
 		var clock;
 		beforeEach(function() {
