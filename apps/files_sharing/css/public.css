@@ -101,6 +101,10 @@ thead {
 	padding-right: 24px;
 }
 
+.ie8 #remote_address {
+	padding-right: 30px;
+}
+
 #save #save-button,
 #save #save-button-confirm {
 	margin: 0 5px;
@@ -119,6 +123,11 @@ thead {
 	filter: alpha(opacity=50);
 	opacity: .5;
 }
+
+.ie8 #save-button-confirm {
+	margin: 2px 0 !important;
+}
+
 #save-button-confirm:hover,
 #save-button-confirm:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
