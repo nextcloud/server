@@ -142,15 +142,14 @@ class Storage {
 
 		if (!\OC\Files\Filesystem::file_exists($path)) {
 
-			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
+			$view = new \OC\Files\View('/' . $uid . '/files_versions');
 
-			$abs_path = $versions_fileview->getLocalFile($filename . '.v');
 			$versions = self::getVersions($uid, $filename);
 			if (!empty($versions)) {
 				foreach ($versions as $v) {
-					\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $abs_path . $v['version']));
-					unlink($abs_path . $v['version']);
-					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $abs_path . $v['version']));
+					\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $path . $v['version']));
+					$view->unlink($filename . '.v' . $v['version']);
+					\OC_Hook::emit('\OCP\Versions', 'delete', array('path' => $path . $v['version']));
 				}
 			}
 		}
