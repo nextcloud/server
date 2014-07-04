@@ -95,7 +95,6 @@
 		},
 
 		reload: function() {
-			var self = this;
 			this.showMask();
 			if (this._reloadCall) {
 				this._reloadCall.abort();
@@ -110,14 +109,10 @@
 				type: 'GET',
 				beforeSend: function(xhr) {
 					xhr.setRequestHeader('OCS-APIREQUEST', 'true');
-				},
-				error: function(result) {
-					self.reloadCallback(result);
-				},
-				success: function(result) {
-					self.reloadCallback(result);
 				}
 			});
+			var callBack = this.reloadCallback.bind(this);
+			return this._reloadCall.then(callBack, callBack);
 		},
 
 		reloadCallback: function(result) {
