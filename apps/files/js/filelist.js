@@ -919,7 +919,9 @@
 				.addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
 		},
 		/**
-		 * @brief Reloads the file list using ajax call
+		 * Reloads the file list using ajax call
+		 *
+		 * @return ajax call object
 		 */
 		reload: function() {
 			this._selectedFiles = {};
