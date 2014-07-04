@@ -241,14 +241,17 @@
 	float: left;
 	display: inline-block;
 	margin-right: 5px;
+	cursor: pointer;
 }
 #header .avatardiv img {
 	opacity: 1;
+	cursor: pointer;
 }
 
 #settings {
 	float: right;
 	color: #bbb;
+	cursor: pointer;
 }
 #expand {
 	display: block;
