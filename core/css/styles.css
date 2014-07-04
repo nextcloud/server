@@ -812,6 +812,7 @@ div.crumb {
 	display: block;
 	background: url('../img/breadcrumb.svg') no-repeat right center;
 	height: 44px;
+	background-size: auto 24px;
 }
 div.crumb.hidden {
 	display: none;
