@@ -91,15 +91,11 @@
 			if (!this.actions[mime]) {
 				this.actions[mime] = {};
 			}
-			if (!this.actions[mime][name]) {
-				this.actions[mime][name] = {};
-			}
-			if (!displayName) {
-				displayName = t('files', name);
-			}
-			this.actions[mime][name]['action'] = action;
-			this.actions[mime][name]['permissions'] = permissions;
-			this.actions[mime][name]['displayName'] = displayName;
+			this.actions[mime][name] = {
+				action: action,
+				permissions: permissions,
+				displayName: displayName || t('files', name)
+			};
 			this.icons[name] = icon;
 			this._notifyUpdateListeners();
 		},
@@ -314,7 +310,7 @@
 			});
 
 			this.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename, context) {
-				var dir = context.fileList.getCurrentDirectory();
+				var dir = context.$file.attr('data-path') || context.fileList.getCurrentDirectory();
 				if (dir !== '/') {
 					dir = dir + '/';
 				}
