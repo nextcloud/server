@@ -34,6 +34,10 @@ GroupList = {
 		$groupLiElement.find('.usercount').text(usercount);
 	},
 
+	getUserCount: function ($groupLiElement) {
+		return parseInt($groupLiElement.data('usercount'), 10);
+	},
+
 	getCurrentGID: function () {
 		return GroupList.activeGID;
 	},

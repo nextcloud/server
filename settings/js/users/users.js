@@ -91,8 +91,8 @@ var UserList = {
 		}
 		$tdLastLogin = $tr.find('td.lastLogin');
 		$tdLastLogin.text(lastLoginRel);
-		//tooltip makes it complicated … to not insert new HTML, we adjust the 
-		//original title. We use a temporary div to get back the html that we 
+		//tooltip makes it complicated … to not insert new HTML, we adjust the
+		//original title. We use a temporary div to get back the html that we
 		//can pass later. It is also required to initialise tipsy.
 		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
 		$tdLastLogin.tipsy({gravity:'s', fade:true, html:true});
@@ -602,6 +602,12 @@ $(document).ready(function () {
 					if (result.data.groups) {
 						var addedGroups = result.data.groups;
 						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+						for (i in result.data.groups) {
+							var gid = result.data.groups[i];
+							$li = GroupList.getGroupLI(gid);
+							userCount = GroupList.getUserCount($li);
+							GroupList.setUserCount($li, userCount + 1);
+						}
 					}
 					if (result.data.homeExists){
 						OC.Notification.hide();
