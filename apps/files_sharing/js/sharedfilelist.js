@@ -166,11 +166,10 @@
 					}
 					else {
 						file.type = 'file';
-						// force preview retrieval as we don't have mime types,
-						// the preview endpoint will fall back to the mime type
-						// icon if no preview exists
-						file.isPreviewAvailable = true;
-						file.icon = true;
+						if (share.isPreviewAvailable) {
+							file.icon = true;
+							file.isPreviewAvailable = true;
+						}
 					}
 					file.share = {
 						id: share.id,
