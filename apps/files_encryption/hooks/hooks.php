@@ -340,7 +340,7 @@ class Hooks {
 	}
 
 	/**
-	 * @brief
+	 * unshare file/folder from a user with whom you shared the file before
 	 */
 	public static function postUnshare($params) {
 
@@ -385,8 +385,10 @@ class Hooks {
 				// Unshare every user who no longer has access to the file
 				$delUsers = array_diff($userIds, $sharingUsers);
 
+				list($owner, $ownerPath) = $util->getUidAndFilename($path);
+
 				// delete share key
-				Keymanager::delShareKey($view, $delUsers, $path);
+				Keymanager::delShareKey($view, $delUsers, $ownerPath, $owner);
 			}
 
 		}
@@ -595,6 +597,7 @@ class Hooks {
 	}
 
 	/**
+	 * unmount file from yourself
 	 * remember files/folders which get unmounted
 	 */
 	public static function preUmount($params) {
@@ -613,6 +616,9 @@ class Hooks {
 			'itemType' => $itemType);
 	}
 
+	/**
+	 * unmount file from yourself
+	 */
 	public static function postUmount($params) {
 
 		if (!isset(self::$umountedFiles[$params[\OC\Files\Filesystem::signal_param_path]])) {
@@ -642,7 +648,7 @@ class Hooks {
 			// check if the user still has access to the file, otherwise delete share key
 			$sharingUsers = \OCP\Share::getUsersSharingFile($path, $user);
 			if (!in_array(\OCP\User::getUser(), $sharingUsers['users'])) {
-				Keymanager::delShareKey($view, array(\OCP\User::getUser()), $path);
+				Keymanager::delShareKey($view, array(\OCP\User::getUser()), $path, $user);
 			}
 		}
 	}

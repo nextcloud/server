@@ -225,7 +225,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user3.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
-		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER), '/folder1/');
+		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER), '/folder1/', Test_Encryption_Keymanager::TEST_USER);
 
 		// check if share keys from user1 and user2 are deleted
 		$this->assertFalse($this->view->file_exists(
@@ -274,7 +274,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
-		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER), '/folder1/existingFile.txt');
+		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER), '/folder1/existingFile.txt', Test_Encryption_Keymanager::TEST_USER);
 
 		// check if share keys from user1 and user2 are deleted
 		$this->assertFalse($this->view->file_exists(
