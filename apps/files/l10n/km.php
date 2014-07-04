@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "មិន​ស្គាល់​កំហុស",
 "Could not move %s - File with this name already exists" => "មិន​អាច​ផ្លាស់​ទី %s - មាន​ឈ្មោះ​ឯកសារ​ដូច​នេះ​ហើយ",
 "Could not move %s" => "មិន​អាច​ផ្លាស់ទី %s",
 "File name cannot be empty." => "ឈ្មោះ​ឯកសារ​មិន​អាច​នៅ​ទទេ​បាន​ឡើយ។",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Eroare necunoscută",
 "Could not move %s - File with this name already exists" => "%s nu se poate muta - Fișierul cu acest nume există deja ",
 "Could not move %s" => "Nu se poate muta %s",
 "File name cannot be empty." => "Numele fișierului nu poate rămâne gol.",

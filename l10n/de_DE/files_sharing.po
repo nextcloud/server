@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 08:30+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,24 +123,24 @@ msgstr "Teilen ist deaktiviert"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen Link geschickt hat."
 
-#: templates/public.php:20
+#: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Zu Ihrer ownCloud hinzufügen"
 
-#: templates/public.php:23
+#: templates/public.php:25
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/public.php:28
+#: templates/public.php:30
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/public.php:59
+#: templates/public.php:61
 #, php-format
 msgid "Download %s"
 msgstr "Download %s"
 
-#: templates/public.php:63
+#: templates/public.php:65
 msgid "Direct link"
 msgstr "Direkte Verlinkung"
 

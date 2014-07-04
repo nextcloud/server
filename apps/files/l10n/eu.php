@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Biltegia ez dago eskuragarri",
+"Storage invalid" => "Biltegi bliogabea",
+"Unknown error" => "Errore ezezaguna",
 "Could not move %s - File with this name already exists" => "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da",
 "Could not move %s" => "Ezin dira fitxategiak mugitu %s",
 "File name cannot be empty." => "Fitxategi izena ezin da hutsa izan.",

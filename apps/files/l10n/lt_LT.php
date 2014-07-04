@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Neatpažinta klaida",
 "Could not move %s - File with this name already exists" => "Nepavyko perkelti %s - failas su tokiu pavadinimu jau egzistuoja",
 "Could not move %s" => "Nepavyko perkelti %s",
 "File name cannot be empty." => "Failo pavadinimas negali būti tuščias.",

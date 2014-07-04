@@ -172,6 +172,7 @@ $TRANSLATIONS = array(
 "Bugtracker" => "Innmelding og sporing av feil",
 "Commercial Support" => "Forretningsstøtte",
 "Get the apps to sync your files" => "Få apper til å synkronisere filene dine",
+"If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" => "Hvis du vil støtte prosjektet kan du\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">bli med i utviklingen</a>\n\t\teller\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spre budskapet</a>!",
 "Show First Run Wizard again" => "Vis \"Førstegangs veiviser\" på nytt",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>",
 "Password" => "Passord",

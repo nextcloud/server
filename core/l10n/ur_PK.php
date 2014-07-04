@@ -68,7 +68,6 @@ $TRANSLATIONS = array(
 "Shared with you by {owner}" => "اشتراک شدہ آپ سے{مالک}",
 "Share with user or group …" => "صارف یا مجموعہ کے ساتھ اشتراک کریں ...",
 "Share link" => "اشتراک لنک",
-"By default the public link will expire after {days} days" => "ڈیفالٹ میں عوامی لنک ختم ہو جائے گا {دن} دن",
 "Password protect" => "محفوظ پاسورڈ",
 "Choose a password for the public link" => "عوامی لنک کے لئےپاس ورڈ منتخب کریں",
 "Allow Public Upload" => "پبلک اپ لوڈ کرنے کی اجازت دیں",

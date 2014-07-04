@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Depolama mevcut değil",
+"Storage invalid" => "Depolama geçersiz",
+"Unknown error" => "Bilinmeyen hata",
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten mevcut",
 "Could not move %s" => "%s taşınamadı",
 "File name cannot be empty." => "Dosya adı boş olamaz.",

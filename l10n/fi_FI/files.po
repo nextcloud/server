@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 14:41+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +23,15 @@ msgstr ""
 
 #: ajax/list.php:38
 msgid "Storage not available"
-msgstr ""
+msgstr "Tallennustila ei ole käytettävissä"
 
 #: ajax/list.php:45
 msgid "Storage invalid"
-msgstr ""
+msgstr "Virheellinen tallennustila"
 
 #: ajax/list.php:52
 msgid "Unknown error"
-msgstr ""
+msgstr "Tuntematon virhe"
 
 #: ajax/move.php:15
 #, php-format

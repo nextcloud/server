@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 06:11+0000\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -349,165 +349,161 @@ msgstr "Gutes Passwort"
 msgid "Strong password"
 msgstr "Starkes Passwort"
 
-#: js/share.js:109 js/share.js:199
+#: js/share.js:129 js/share.js:251
 msgid "Shared"
 msgstr "Geteilt"
 
-#: js/share.js:202
+#: js/share.js:194 js/share.js:214
 msgid "Shared by {owner}"
 msgstr "Geteilt von {owner}"
 
-#: js/share.js:205
+#: js/share.js:257
 msgid "Shared with {recipients}"
 msgstr "Geteilt mit {recipients}"
 
-#: js/share.js:211
+#: js/share.js:266
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:938
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fehler"
 
-#: js/share.js:273 js/share.js:1001
+#: js/share.js:328 js/share.js:1052
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
-#: js/share.js:285
+#: js/share.js:340
 msgid "Error while unsharing"
 msgstr "Fehler beim Aufheben der Freigabe"
 
-#: js/share.js:292
+#: js/share.js:347
 msgid "Error while changing permissions"
 msgstr "Fehler beim Ändern der Rechte"
 
-#: js/share.js:302
+#: js/share.js:357
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} hat dies mit Dir und der Gruppe {group} geteilt"
 
-#: js/share.js:304
+#: js/share.js:359
 msgid "Shared with you by {owner}"
 msgstr "{owner} hat dies mit Dir geteilt"
 
-#: js/share.js:328
+#: js/share.js:383
 msgid "Share with user or group …"
 msgstr "Mit Benutzer oder Gruppe teilen ...."
 
-#: js/share.js:334
+#: js/share.js:389
 msgid "Share link"
 msgstr "Link Teilen"
 
-#: js/share.js:340
+#: js/share.js:394
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "Der öffentliche Link wird spätestens nach {days} Tagen, nach Erstellung, ablaufen"
 
-#: js/share.js:342
-msgid "By default the public link will expire after {days} days"
-msgstr "Standardmäßig wird der öffentliche Link nach {days} Tagen ablaufen"
-
-#: js/share.js:347
+#: js/share.js:398
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:349
+#: js/share.js:400
 msgid "Choose a password for the public link"
 msgstr "Wählen Sie ein Passwort für den öffentlichen Link"
 
-#: js/share.js:355
+#: js/share.js:406
 msgid "Allow Public Upload"
 msgstr "Öffentliches Hochladen erlauben"
 
-#: js/share.js:359
+#: js/share.js:410
 msgid "Email link to person"
 msgstr "Link per E-Mail verschicken"
 
-#: js/share.js:360
+#: js/share.js:411
 msgid "Send"
 msgstr "Senden"
 
-#: js/share.js:365
+#: js/share.js:416
 msgid "Set expiration date"
 msgstr "Setze ein Ablaufdatum"
 
-#: js/share.js:366
+#: js/share.js:417
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:404
+#: js/share.js:455
 msgid "Share via email:"
 msgstr "Über eine E-Mail teilen:"
 
-#: js/share.js:407
+#: js/share.js:458
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:456 js/share.js:524
+#: js/share.js:507 js/share.js:575
 msgid "group"
 msgstr "Gruppe"
 
-#: js/share.js:489
+#: js/share.js:540
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:540
+#: js/share.js:591
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:562
+#: js/share.js:613
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:570
+#: js/share.js:621
 msgid "notify by email"
 msgstr "Per E-Mail informieren"
 
-#: js/share.js:573
+#: js/share.js:624
 msgid "can share"
 msgstr "Kann teilen"
 
-#: js/share.js:576
+#: js/share.js:627
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:578
+#: js/share.js:629
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:581
+#: js/share.js:632
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:584
+#: js/share.js:635
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:587
+#: js/share.js:638
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:919
+#: js/share.js:970
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:938
+#: js/share.js:989
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:959
+#: js/share.js:1010
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:988
+#: js/share.js:1039
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:999
+#: js/share.js:1050
 msgid "Email sent"
 msgstr "E-Mail wurde verschickt"
 
-#: js/share.js:1023
+#: js/share.js:1074
 msgid "Warning"
 msgstr "Warnung"
 

@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Andmehoidla pole saadaval",
+"Storage invalid" => "Vigane andmehoidla",
+"Unknown error" => "Tundmatu viga",
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
 "File name cannot be empty." => "Faili nimi ei saa olla tühi.",

@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Sdílet s uživatelem nebo skupinou",
 "Share link" => "Sdílet odkaz",
 "The public link will expire no later than {days} days after it is created" => "Veřejný odkaz nevyprší dříve než za {days} dní po svém vytvoření",
-"By default the public link will expire after {days} days" => "Ve výchozím nastavení vyprší veřejný odkaz za {days} dní",
 "Password protect" => "Chránit heslem",
 "Choose a password for the public link" => "Zadej heslo pro tento veřejný odkaz",
 "Allow Public Upload" => "Povolit veřejné nahrávání",

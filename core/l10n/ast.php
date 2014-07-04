@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Compartir col usuariu o grupu ...",
 "Share link" => "Compartir enllaz",
 "The public link will expire no later than {days} days after it is created" => "L'enllaz públicu va caducar enantes de {days} díes dende la so creación",
-"By default the public link will expire after {days} days" => "Por defeutu, l'enllaz públicu va caducar dempués de {days} díes",
 "Password protect" => "Protexer con contraseña",
 "Choose a password for the public link" => "Escueyi una contraseña pal enllaz públicu",
 "Allow Public Upload" => "Permitir xuba pública",

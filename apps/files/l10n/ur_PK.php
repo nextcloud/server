@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "غیر معروف خرابی",
 "Share" => "تقسیم",
 "Delete" => "حذف کریں",
 "Error" => "ایرر",

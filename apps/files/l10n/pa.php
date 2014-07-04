@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "ਅਣਜਾਣ ਗਲਤੀ",
 "Files" => "ਫਾਇਲਾਂ",
 "Share" => "ਸਾਂਝਾ ਕਰੋ",
 "Delete" => "ਹਟਾਓ",

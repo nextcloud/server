@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Del med bruker eller gruppe …",
 "Share link" => "Del lenke",
 "The public link will expire no later than {days} days after it is created" => "Den offentlige lenken vil utløpe senest {days} dager etter at den lages",
-"By default the public link will expire after {days} days" => "Som standard vil den offentlige lenken utløpe etter {days} dager",
 "Password protect" => "Passordbeskyttet",
 "Choose a password for the public link" => "Velg et passord for den offentlige lenken",
 "Allow Public Upload" => "Tillat Offentlig Opplasting",

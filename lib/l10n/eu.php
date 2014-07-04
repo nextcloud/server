@@ -116,6 +116,7 @@ $TRANSLATIONS = array(
 "Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Mesedez aldatu baimenak 0770ra beste erabiltzaileek karpetan sartu ezin izateko.",
 "Data directory (%s) is readable by other users" => "Data karpeta (%s) beste erabiltzaileek irakur dezakete",
 "Data directory (%s) is invalid" => "Datuen karpeta (%s) ez da baliogarria",
-"Please check that the data directory contains a file \".ocdata\" in its root." => "Mesedez egiaztatu data karpeta \".ocdata\" fitxategia duela bere erroan."
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Mesedez egiaztatu data karpeta \".ocdata\" fitxategia duela bere erroan.",
+"Could not obtain lock type %d on \"%s\"." => "Ezin da lortu sarraia mota %d \"%s\"-an."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,6 +1,10 @@
 <?php
 $TRANSLATIONS = array(
+"Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." => "Tellimustõendi hankimine ebaõnnestus. Veendu, et Su Dropboxi rakendi võti (key) ja saladus (secret) on korrektsed.",
+"Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." => "Ligipääsutõendi hankimine ebaõnnestus. Veendu, et Su Dropboxi rakendi võti (key) ja saladus (secret) on korrektsed.",
 "Please provide a valid Dropbox app key and secret." => "Palun sisesta korrektne Dropboxi rakenduse võti ja salasõna.",
+"Step 1 failed. Exception: %s" => "Samm 1 ebaõnnestus. Erind: %s",
+"Step 2 failed. Exception: %s" => "Samm 2 ebaõnnestus. Erind: %s",
 "External storage" => "Väline andmehoidla",
 "Local" => "Kohalik",
 "Location" => "Asukoht",

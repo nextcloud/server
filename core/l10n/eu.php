@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Elkarbanatu erabiltzaile edo taldearekin...",
 "Share link" => "Elkarbanatu lotura",
 "The public link will expire no later than {days} days after it is created" => "Esteka publikoak iraungi egingo du, askoz jota, sortu eta  {days} egunetara.",
-"By default the public link will expire after {days} days" => "Besterik ezean esteka publikoak  {days} egun eta gero iraungi egingo du.",
 "Password protect" => "Babestu pasahitzarekin",
 "Choose a password for the public link" => "Aukeratu pasahitz bat esteka publikorako",
 "Allow Public Upload" => "Gaitu igotze publikoa",

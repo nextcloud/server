@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Artopal <artopal@fastmail.fm>, 2013-2014
+# Artopal <artopal@fastmail.fm>, 2014
 # asaez <asaez@asaez.eu>, 2013
 # Esther Alvarez de Prado <eadeprado@outlook.com>, 2013
 # Guillermo G. <ggam@brainleakage.com>, 2013
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 22:30+0000\n"
+"Last-Translator: Artopal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -362,23 +363,23 @@ msgstr "nunca"
 msgid "deleted {userName}"
 msgstr "borrado {userName}"
 
-#: js/users/users.js:383
+#: js/users/users.js:381
 msgid "add group"
 msgstr "añadir Grupo"
 
-#: js/users/users.js:580
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Se debe proporcionar un nombre de usuario válido"
 
-#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Error al crear usuario"
 
-#: js/users/users.js:586
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Se debe proporcionar una contraseña válida"
 
-#: js/users/users.js:610
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Atención: el directorio de inicio para el usuario \"{user}\" ya existe."
 
@@ -800,7 +801,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "Si desea contribuir al proyecto\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">únase al desarrollo</a>\n\t\to\n\t\t¡<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">corra la voz</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"

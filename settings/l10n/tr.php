@@ -172,6 +172,7 @@ $TRANSLATIONS = array(
 "Bugtracker" => "Hata Takip Sistemi",
 "Commercial Support" => "Ticari Destek",
 "Get the apps to sync your files" => "Dosyalarınızı eşitlemek için uygulamaları indirin",
+"If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" => "Projeyi desteklemek istiyorsanız\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">geliştirilmesine katılın</a>\n\t\tveya\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">bizi duyurun</a>!",
 "Show First Run Wizard again" => "İlk Çalıştırma Sihirbazı'nı yeniden göster",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Kullandığınız: <strong>%s</strong>. Kullanılabilir alan: <strong>%s</strong>",
 "Password" => "Parola",

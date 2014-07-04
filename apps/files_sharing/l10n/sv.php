@@ -25,11 +25,12 @@ $TRANSLATIONS = array(
 "the link expired" => "giltighet för länken har gått ut",
 "sharing is disabled" => "delning är inaktiverat",
 "For more info, please ask the person who sent this link." => "För mer information, kontakta den person som skickade den här länken.",
+"Add to your ownCloud" => "Lägg till i din ownCloud",
 "Save" => "Spara",
 "Download" => "Ladda ner",
 "Download %s" => "Ladda ner %s",
 "Direct link" => "Direkt länk",
-"Remote Shares" => "Fjärrutdelningar",
+"Remote Shares" => "Fjärrutdelningar Server-Server",
 "Allow other instances to mount public links shared from this server" => "Tillåt andra instanser vidaredelning utav publika länkar delade från denna servern",
 "Allow users to mount public link shares" => "Tillåt användare att montera publika länkar"
 );

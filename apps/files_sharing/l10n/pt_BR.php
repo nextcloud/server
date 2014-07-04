@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "the link expired" => "o link expirou",
 "sharing is disabled" => "o compartilhamento está desativado",
 "For more info, please ask the person who sent this link." => "Para mais informações, por favor, pergunte a pessoa que enviou este link.",
+"Add to your ownCloud" => "Adiconar ao seu ownCloud",
 "Save" => "Salvar",
 "Download" => "Baixar",
 "Download %s" => "Baixar %s",

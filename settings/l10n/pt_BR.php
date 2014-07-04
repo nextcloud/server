@@ -172,6 +172,7 @@ $TRANSLATIONS = array(
 "Bugtracker" => "Rastreador de Bugs",
 "Commercial Support" => "Suporte Comercial",
 "Get the apps to sync your files" => "Faça com que os apps sincronizem seus arquivos",
+"If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" => "Se você deseja dar suporte ao projeto\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\">junte-se ao desenvolvimento</a>\n⇥⇥or\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\">espalhe pelo mundo</a>!",
 "Show First Run Wizard again" => "Mostrar Assistente de Primeira Execução novamente",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Você usou <strong>%s</strong> do seu espaço de <strong>%s</strong>",
 "Password" => "Senha",

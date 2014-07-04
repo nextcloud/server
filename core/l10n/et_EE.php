@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Jaga kasutaja või grupiga ...",
 "Share link" => "Jaga linki",
 "The public link will expire no later than {days} days after it is created" => "Avalik link aegub mitte hiljem kui pärast {days} päeva selle loomist",
-"By default the public link will expire after {days} days" => "Avalik link aegub vaikimisi pärast {days} päeva",
 "Password protect" => "Parooliga kaitstud",
 "Choose a password for the public link" => "Vali avaliku lingi jaoks parool",
 "Allow Public Upload" => "Luba avalik üleslaadimine",

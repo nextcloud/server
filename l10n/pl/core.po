@@ -6,13 +6,14 @@
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # Krzysztof Łojowski <maxxxrally@gmail.com>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
+# Marcin Małecki <gerber@tkdami.net>, 2014
 # Piotr Kwiecinski <pkwiecin@adbrand.pl>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-28 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 06:11+0000\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +233,7 @@ msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Link do zresetowanego hasła, został wysłany na twój adres e-mail. Jeśli nie dostałeś wiadomości w rozsądnym czasie, sprawdź folder ze spamem.<br> Jeśli nie ma wiadomości w tym folderze, skontaktuj się ze swoim administratorem."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -240,7 +241,7 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Twoje pliki są zaszyfrowane. Jeśli nie włączyłeś klucza odzyskiwania, nie będzie możliwości odszyfrowania tych plików po zresetowaniu hasła.<br>Jeśli nie jesteś pewien co zrobić, skontaktuj się ze swoim administratorem, zanim bedziesz kontynuował. <br/> Czy chcesz kontynuować?\n "
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
@@ -347,165 +348,161 @@ msgstr "Dobre hasło"
 msgid "Strong password"
 msgstr "Mocne hasło"
 
-#: js/share.js:109 js/share.js:199
+#: js/share.js:129 js/share.js:251
 msgid "Shared"
 msgstr "Udostępniono"
 
-#: js/share.js:202
+#: js/share.js:194 js/share.js:214
 msgid "Shared by {owner}"
 msgstr "Udostępnione przez {owner}"
 
-#: js/share.js:205
+#: js/share.js:257
 msgid "Shared with {recipients}"
 msgstr "Współdzielony z {recipients}"
 
-#: js/share.js:211
+#: js/share.js:266
 msgid "Share"
 msgstr "Udostępnij"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:938
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Błąd"
 
-#: js/share.js:273 js/share.js:1001
+#: js/share.js:328 js/share.js:1052
 msgid "Error while sharing"
 msgstr "Błąd podczas współdzielenia"
 
-#: js/share.js:285
+#: js/share.js:340
 msgid "Error while unsharing"
 msgstr "Błąd podczas zatrzymywania współdzielenia"
 
-#: js/share.js:292
+#: js/share.js:347
 msgid "Error while changing permissions"
 msgstr "Błąd przy zmianie uprawnień"
 
-#: js/share.js:302
+#: js/share.js:357
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Udostępnione tobie i grupie {group} przez {owner}"
 
-#: js/share.js:304
+#: js/share.js:359
 msgid "Shared with you by {owner}"
 msgstr "Udostępnione tobie przez {owner}"
 
-#: js/share.js:328
+#: js/share.js:383
 msgid "Share with user or group …"
 msgstr "Współdziel z użytkownikiem lub grupą ..."
 
-#: js/share.js:334
+#: js/share.js:389
 msgid "Share link"
 msgstr "Udostępnij link"
 
-#: js/share.js:340
+#: js/share.js:394
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr "Link publiczny wygaśnie nie później niż po {days} dniach od utworzenia"
 
-#: js/share.js:342
-msgid "By default the public link will expire after {days} days"
-msgstr "Domyślnie link publiczny wygaśnie po {days} dniach"
-
-#: js/share.js:347
+#: js/share.js:398
 msgid "Password protect"
 msgstr "Zabezpiecz hasłem"
 
-#: js/share.js:349
+#: js/share.js:400
 msgid "Choose a password for the public link"
 msgstr "Wybierz hasło dla linku publicznego"
 
-#: js/share.js:355
+#: js/share.js:406
 msgid "Allow Public Upload"
 msgstr "Pozwól na  publiczne wczytywanie"
 
-#: js/share.js:359
+#: js/share.js:410
 msgid "Email link to person"
 msgstr "Wyślij osobie odnośnik poprzez e-mail"
 
-#: js/share.js:360
+#: js/share.js:411
 msgid "Send"
 msgstr "Wyślij"
 
-#: js/share.js:365
+#: js/share.js:416
 msgid "Set expiration date"
 msgstr "Ustaw datę wygaśnięcia"
 
-#: js/share.js:366
+#: js/share.js:417
 msgid "Expiration date"
 msgstr "Data wygaśnięcia"
 
-#: js/share.js:404
+#: js/share.js:455
 msgid "Share via email:"
 msgstr "Współdziel poprzez e-mail:"
 
-#: js/share.js:407
+#: js/share.js:458
 msgid "No people found"
 msgstr "Nie znaleziono ludzi"
 
-#: js/share.js:456 js/share.js:524
+#: js/share.js:507 js/share.js:575
 msgid "group"
 msgstr "grupa"
 
-#: js/share.js:489
+#: js/share.js:540
 msgid "Resharing is not allowed"
 msgstr "Współdzielenie nie jest możliwe"
 
-#: js/share.js:540
+#: js/share.js:591
 msgid "Shared in {item} with {user}"
 msgstr "Współdzielone w {item} z {user}"
 
-#: js/share.js:562
+#: js/share.js:613
 msgid "Unshare"
 msgstr "Zatrzymaj współdzielenie"
 
-#: js/share.js:570
+#: js/share.js:621
 msgid "notify by email"
 msgstr "powiadom przez emaila"
 
-#: js/share.js:573
+#: js/share.js:624
 msgid "can share"
 msgstr "może współdzielić"
 
-#: js/share.js:576
+#: js/share.js:627
 msgid "can edit"
 msgstr "może edytować"
 
-#: js/share.js:578
+#: js/share.js:629
 msgid "access control"
 msgstr "kontrola dostępu"
 
-#: js/share.js:581
+#: js/share.js:632
 msgid "create"
 msgstr "utwórz"
 
-#: js/share.js:584
+#: js/share.js:635
 msgid "update"
 msgstr "uaktualnij"
 
-#: js/share.js:587
+#: js/share.js:638
 msgid "delete"
 msgstr "usuń"
 
-#: js/share.js:919
+#: js/share.js:970
 msgid "Password protected"
 msgstr "Zabezpieczone hasłem"
 
-#: js/share.js:938
+#: js/share.js:989
 msgid "Error unsetting expiration date"
 msgstr "Błąd podczas usuwania daty wygaśnięcia"
 
-#: js/share.js:959
+#: js/share.js:1010
 msgid "Error setting expiration date"
 msgstr "Błąd podczas ustawiania daty wygaśnięcia"
 
-#: js/share.js:988
+#: js/share.js:1039
 msgid "Sending ..."
 msgstr "Wysyłanie..."
 
-#: js/share.js:999
+#: js/share.js:1050
 msgid "Email sent"
 msgstr "E-mail wysłany"
 
-#: js/share.js:1023
+#: js/share.js:1074
 msgid "Warning"
 msgstr "Ostrzeżenie"
 

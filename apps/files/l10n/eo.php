@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Nekonata eraro",
 "Could not move %s - File with this name already exists" => "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
 "Could not move %s" => "Ne eblis movi %s",
 "File name cannot be empty." => "Dosiernomo devas ne malpleni.",

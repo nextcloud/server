@@ -83,7 +83,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Megosztani egy felhasználóval vagy csoporttal ...",
 "Share link" => "Megosztás hivatkozással",
 "The public link will expire no later than {days} days after it is created" => "A nyilvános link érvényessége legkorábban {days} nappal a létrehozása után jár csak le",
-"By default the public link will expire after {days} days" => "A nyilvános link érvényessége alapértelmezetten {days} nap múlva jár le",
 "Password protect" => "Jelszóval is védem",
 "Choose a password for the public link" => "Válasszon egy jelszót a nyilvános linkhez",
 "Allow Public Upload" => "Feltöltést is engedélyezek",

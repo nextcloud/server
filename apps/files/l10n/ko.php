@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "알 수 없는 오류",
 "Could not move %s - File with this name already exists" => "항목 %s을(를) 이동시킬 수 없음 - 같은 이름의 파일이 이미 존재함",
 "Could not move %s" => "항목 %s을(를) 이동시킬 수 없음",
 "File name cannot be empty." => "파일 이름이 비어 있을 수 없습니다.",

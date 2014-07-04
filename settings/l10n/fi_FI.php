@@ -166,6 +166,7 @@ $TRANSLATIONS = array(
 "Bugtracker" => "Ohjelmistovirheiden jäljitys",
 "Commercial Support" => "Kaupallinen tuki",
 "Get the apps to sync your files" => "Aseta sovellukset synkronoimaan tiedostosi",
+"If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" => "Jos haluat tukea projektia,\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">osallistu kehitykseen</a>\n\t\ttai\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">levitä sanaa</a>!",
 "Show First Run Wizard again" => "Näytä ensimmäisen käyttökerran avustaja uudelleen",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
 "Password" => "Salasana",

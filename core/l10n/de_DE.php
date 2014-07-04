@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Mit Benutzer oder Gruppe teilen ....",
 "Share link" => "Link teilen",
 "The public link will expire no later than {days} days after it is created" => "Der öffentliche Link wird spätestens nach {days} Tagen, nach Erstellung, ablaufen",
-"By default the public link will expire after {days} days" => "Standardmäßig wird der öffentliche Link nach {days} Tagen ablaufen",
 "Password protect" => "Passwortschutz",
 "Choose a password for the public link" => "Wählen Sie ein Passwort für den öffentlichen Link",
 "Allow Public Upload" => "Öffentliches Hochladen erlauben",

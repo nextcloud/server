@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Gabim panjohur",
 "Could not move %s - File with this name already exists" => "E pa mundur zhvendosja e %s - ekziston nje skedar me te njetin emer",
 "Could not move %s" => "Nuk mund të zhvendoset %s",
 "File name cannot be empty." => "Emri i skedarit nuk mund të jetë bosh.",

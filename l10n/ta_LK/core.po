@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-27 01:54-0400\n"
-"PO-Revision-Date: 2014-06-27 05:54+0000\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -338,165 +338,161 @@ msgstr ""
 msgid "Strong password"
 msgstr ""
 
-#: js/share.js:109 js/share.js:199
+#: js/share.js:129 js/share.js:251
 msgid "Shared"
 msgstr ""
 
-#: js/share.js:202
+#: js/share.js:194 js/share.js:214
 msgid "Shared by {owner}"
 msgstr "பகிரப்பட்டது {சொந்தகாரர்}"
 
-#: js/share.js:205
+#: js/share.js:257
 msgid "Shared with {recipients}"
 msgstr ""
 
-#: js/share.js:211
+#: js/share.js:266
 msgid "Share"
 msgstr "பகிர்வு"
 
-#: js/share.js:271 js/share.js:285 js/share.js:292 js/share.js:936
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
 #: templates/installation.php:10
 msgid "Error"
 msgstr "வழு"
 
-#: js/share.js:273 js/share.js:999
+#: js/share.js:328 js/share.js:1052
 msgid "Error while sharing"
 msgstr "பகிரும் போதான வழு"
 
-#: js/share.js:285
+#: js/share.js:340
 msgid "Error while unsharing"
 msgstr "பகிராமல் உள்ளப்போதான வழு"
 
-#: js/share.js:292
+#: js/share.js:347
 msgid "Error while changing permissions"
 msgstr "அனுமதிகள் மாறும்போதான வழு"
 
-#: js/share.js:302
+#: js/share.js:357
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "உங்களுடனும் குழுவுக்கிடையிலும் {குழு} பகிரப்பட்டுள்ளது {உரிமையாளர்}"
 
-#: js/share.js:304
+#: js/share.js:359
 msgid "Shared with you by {owner}"
 msgstr "உங்களுடன் பகிரப்பட்டுள்ளது {உரிமையாளர்}"
 
-#: js/share.js:328
+#: js/share.js:383
 msgid "Share with user or group …"
 msgstr ""
 
-#: js/share.js:334
+#: js/share.js:389
 msgid "Share link"
 msgstr ""
 
-#: js/share.js:340
+#: js/share.js:394
 msgid ""
 "The public link will expire no later than {days} days after it is created"
 msgstr ""
 
-#: js/share.js:342
-msgid "By default the public link will expire after {days} days"
-msgstr ""
-
-#: js/share.js:347
+#: js/share.js:398
 msgid "Password protect"
 msgstr "கடவுச்சொல்லை பாதுகாத்தல்"
 
-#: js/share.js:349
+#: js/share.js:400
 msgid "Choose a password for the public link"
 msgstr ""
 
-#: js/share.js:355
+#: js/share.js:406
 msgid "Allow Public Upload"
 msgstr ""
 
-#: js/share.js:359
+#: js/share.js:410
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:360
+#: js/share.js:411
 msgid "Send"
 msgstr ""
 
-#: js/share.js:365
+#: js/share.js:416
 msgid "Set expiration date"
 msgstr "காலாவதி தேதியை குறிப்பிடுக"
 
-#: js/share.js:366
+#: js/share.js:417
 msgid "Expiration date"
 msgstr "காலவதியாகும் திகதி"
 
-#: js/share.js:404
+#: js/share.js:455
 msgid "Share via email:"
 msgstr "மின்னஞ்சலினூடான பகிர்வு: "
 
-#: js/share.js:407
+#: js/share.js:458
 msgid "No people found"
 msgstr "நபர்கள் யாரும் இல்லை"
 
-#: js/share.js:456 js/share.js:524
+#: js/share.js:507 js/share.js:575
 msgid "group"
 msgstr "குழு"
 
-#: js/share.js:489
+#: js/share.js:540
 msgid "Resharing is not allowed"
 msgstr "மீள்பகிர்வதற்கு அனுமதி இல்லை "
 
-#: js/share.js:540
+#: js/share.js:591
 msgid "Shared in {item} with {user}"
 msgstr "{பயனாளர்} உடன் {உருப்படி} பகிரப்பட்டுள்ளது"
 
-#: js/share.js:562
+#: js/share.js:613
 msgid "Unshare"
 msgstr "பகிரப்படாதது"
 
-#: js/share.js:570
+#: js/share.js:621
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:573
+#: js/share.js:624
 msgid "can share"
 msgstr ""
 
-#: js/share.js:576
+#: js/share.js:627
 msgid "can edit"
 msgstr "தொகுக்க முடியும்"
 
-#: js/share.js:578
+#: js/share.js:629
 msgid "access control"
 msgstr "கட்டுப்பாடான அணுகல்"
 
-#: js/share.js:581
+#: js/share.js:632
 msgid "create"
 msgstr "உருவவாக்கல்"
 
-#: js/share.js:584
+#: js/share.js:635
 msgid "update"
 msgstr "இற்றைப்படுத்தல்"
 
-#: js/share.js:587
+#: js/share.js:638
 msgid "delete"
 msgstr "நீக்குக"
 
-#: js/share.js:917
+#: js/share.js:970
 msgid "Password protected"
 msgstr "கடவுச்சொல் பாதுகாக்கப்பட்டது"
 
-#: js/share.js:936
+#: js/share.js:989
 msgid "Error unsetting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு"
 
-#: js/share.js:957
+#: js/share.js:1010
 msgid "Error setting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு"
 
-#: js/share.js:986
+#: js/share.js:1039
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:997
+#: js/share.js:1050
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:1021
+#: js/share.js:1074
 msgid "Warning"
 msgstr "எச்சரிக்கை"
 

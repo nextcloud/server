@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Непозната грешка",
 "Could not move %s - File with this name already exists" => "Не можам да го преместам %s - Датотека со такво име веќе постои",
 "Could not move %s" => "Не можам да ги префрлам %s",
 "File name cannot be empty." => "Името на датотеката не може да биде празно.",

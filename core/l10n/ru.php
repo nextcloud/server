@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Поделиться с пользователем или группой...",
 "Share link" => "Поделиться ссылкой",
 "The public link will expire no later than {days} days after it is created" => "Срок действия публичной ссылки истекает не позже чем через {days} дней, после её создания",
-"By default the public link will expire after {days} days" => "По умолчанию срок действия публичной ссылки истекает через {days} дней",
 "Password protect" => "Защитить паролем",
 "Choose a password for the public link" => "Выберите пароль для публичной ссылки",
 "Allow Public Upload" => "Разрешить загрузку",

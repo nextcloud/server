@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "未知的錯誤",
 "Could not move %s - File with this name already exists" => "無法移動 %s ，同名的檔案已經存在",
 "Could not move %s" => "無法移動 %s",
 "File name cannot be empty." => "檔名不能為空",

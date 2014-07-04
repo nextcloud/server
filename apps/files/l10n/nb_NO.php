@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Lagringsplass ikke tilgjengelig",
+"Storage invalid" => "Lagringsplass ugyldig",
+"Unknown error" => "Ukjent feil",
 "Could not move %s - File with this name already exists" => "Kan ikke flytte %s - En fil med samme navn finnes allerede",
 "Could not move %s" => "Kunne ikke flytte %s",
 "File name cannot be empty." => "Filnavn kan ikke være tomt.",

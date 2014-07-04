@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Produciuse un erro descoñecido",
 "Could not move %s - File with this name already exists" => "Non foi posíbel mover %s; Xa existe un ficheiro con ese nome.",
 "Could not move %s" => "Non foi posíbel mover %s",
 "File name cannot be empty." => "O nome de ficheiro non pode estar baleiro",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"See %s" => "Zobacz %s",
 "You are accessing the server from an untrusted domain." => "Dostajesz się do serwera z niezaufanej domeny.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Proszę skontaktuj się z administratorem. Jeśli jesteś administratorem tej instancji, skonfiguruj parametr \"trusted_domain\" w pliku config/config.php. Przykładowa konfiguracja jest dostępna w pliku config/config.sample.php.",
 "Help" => "Pomoc",

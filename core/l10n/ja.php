@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "ユーザーもしくはグループと共有 ...",
 "Share link" => "URLで共有",
 "The public link will expire no later than {days} days after it is created" => "URLによる共有は、作成してから {days} 日以内に有効期限切れになります",
-"By default the public link will expire after {days} days" => "デフォルトの設定では、URLによる共有は {days} 日後に有効期限切れになります",
 "Password protect" => "パスワード保護を有効化",
 "Choose a password for the public link" => "URLによる共有のパスワードを入力",
 "Allow Public Upload" => "アップロードを許可",

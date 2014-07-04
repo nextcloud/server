@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Artopal <artopal@fastmail.fm>, 2013-2014
+# Artopal <artopal@fastmail.fm>, 2014
 # Guillermo G. <ggam@brainleakage.com>, 2013
 # Javi <japaol@gmail.com>, 2013
 # joses <jose_mari_s@hotmail.com>, 2014
@@ -19,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 22:30+0000\n"
+"Last-Translator: Artopal <artopal@fastmail.fm>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,15 +32,15 @@ msgstr ""
 
 #: ajax/list.php:38
 msgid "Storage not available"
-msgstr ""
+msgstr "Almacenamiento no disponible"
 
 #: ajax/list.php:45
 msgid "Storage invalid"
-msgstr ""
+msgstr "Almacenamiento inválido"
 
 #: ajax/list.php:52
 msgid "Unknown error"
-msgstr ""
+msgstr "Error desconocido"
 
 #: ajax/move.php:15
 #, php-format

@@ -88,7 +88,6 @@ $TRANSLATIONS = array(
 "Share with user or group …" => "Διαμοιρασμός με χρήστη ή ομάδα ...",
 "Share link" => "Διαμοιρασμός συνδέσμου",
 "The public link will expire no later than {days} days after it is created" => "Ο δημόσιος σύνδεσμος θα απενεργοποιηθεί το πολύ {days} ημέρες μετά την δημιουργία του",
-"By default the public link will expire after {days} days" => "Ο δημόσιος σύνδεσμος θα απενεργοποιηθεί ερήμην μετά από {days} ημέρες",
 "Password protect" => "Προστασία συνθηματικού",
 "Choose a password for the public link" => "Επιλέξτε κωδικό για τον δημόσιο σύνδεσμο",
 "Allow Public Upload" => "Επιτρέπεται η Δημόσια Αποστολή",

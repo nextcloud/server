@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Galat tidak diketahui",
 "Could not move %s - File with this name already exists" => "Tidak dapat memindahkan %s - Berkas dengan nama ini sudah ada",
 "Could not move %s" => "Tidak dapat memindahkan %s",
 "File name cannot be empty." => "Nama berkas tidak boleh kosong.",

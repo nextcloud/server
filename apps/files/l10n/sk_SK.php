@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Neznáma chyba",
 "Could not move %s - File with this name already exists" => "Nie je možné presunúť %s - súbor s týmto menom už existuje",
 "Could not move %s" => "Nie je možné presunúť %s",
 "File name cannot be empty." => "Meno súboru nemôže byť prázdne",

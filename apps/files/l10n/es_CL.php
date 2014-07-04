@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Error desconocido",
 "Files" => "Archivos",
 "Share" => "Compartir",
 "Rename" => "Renombrar",

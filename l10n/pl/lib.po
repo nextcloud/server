@@ -6,13 +6,14 @@
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # Dawid <hoek@hoek.pl>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
+# TranslationENPL <translationenpl@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-02 01:54-0400\n"
-"PO-Revision-Date: 2014-07-01 07:14+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 14:41+0000\n"
+"Last-Translator: TranslationENPL <translationenpl@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +34,7 @@ msgstr ""
 #: base.php:190
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Zobacz %s"
 
 #: base.php:195 private/util.php:413
 #, php-format

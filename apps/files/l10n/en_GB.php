@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Storage not available",
+"Storage invalid" => "Storage invalid",
+"Unknown error" => "Unknown error",
 "Could not move %s - File with this name already exists" => "Could not move %s - File with this name already exists",
 "Could not move %s" => "Could not move %s",
 "File name cannot be empty." => "File name cannot be empty.",

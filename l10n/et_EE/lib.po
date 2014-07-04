@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 12:51+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,18 +21,18 @@ msgstr ""
 
 #: base.php:187 base.php:194
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Ei saa kirjutada \"config\" kataloogi!"
 
 #: base.php:188
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "Tavaliselt saab selle lahendada andes veebiserverile seatete kataloogile \"config\" kirjutusõigused"
 
 #: base.php:190
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Vaata %s"
 
 #: base.php:195 private/util.php:413
 #, php-format
@@ -472,7 +472,7 @@ msgstr "Kasutajanimi on juba kasutuses"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Ühtegi andmebaasi (sqlite, mysql või postgresql) draiverit pole paigaldatud."
 
 #: private/util.php:405
 #, php-format
@@ -483,11 +483,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Ei saa kirjutada \"config\" kataloogi"
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Ei saa kirjutada \"apps\" kataloogi!"
 
 #: private/util.php:426
 #, php-format
@@ -499,29 +499,29 @@ msgstr ""
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Ei suuda luua \"data\" kataloogi (%s)"
 
 #: private/util.php:441
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Tavaliselt saab selle lahendada <a href=\"%s\" target=\"_blank\">andes veebiserverile juur-kataloogile kirjutusõigused</a>."
 
 #: private/util.php:457
 #, php-format
 msgid "Setting locale to %s failed"
-msgstr ""
+msgstr "Lokaadi %s määramine ebaõnnestus."
 
 #: private/util.php:460
 msgid ""
 "Please install one of theses locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Palun paigalda mõni neist lokaatides oma süsteemi ning taaskäivita veebiserver."
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Palu oma serveri haldajal moodul paigadalda."
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -529,92 +529,92 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "PHP moodulit %s pole paigaldatud."
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "PHP %s või uuem on nõutav."
 
 #: private/util.php:539
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "Palu oma serveri haldajal uuendada PHP viimasele versioonile. Sinu PHP versioon pole enam toetatud ownCloud-i ja PHP kogukonna poolt."
 
 #: private/util.php:556
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "PHP Safe Mode on lubatud. ownCloud vajab normaalseks toimimiseks, et see oleks keelatud."
 
 #: private/util.php:557
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "PHP Safe Mode on aegunud ja üldiselt kasutu seadistus, mis tuleks keelata. Palu oma serveri haldajal see keelata php.ini failis või veebiserveri seadetes."
 
 #: private/util.php:564
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Magic Quotes on lubatud. ownCloud vajab normaalseks toimimiseks, et see oleks keelatud."
 
 #: private/util.php:565
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "Magic Quotes on aegunud ja üldiselt kasutu seadistus, mis tuleks keelata. Palu oma serveri haldajal see keelata php.ini failis või veebiserveri seadetes."
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "PHP moodulid on paigaldatud, kuid neid näitatakse endiselt kui puuduolevad?"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Palu oma serveri haldajal veebiserver taaskäivitada."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "PostgreSQL >= 9 on nõutav"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Palun uuenda oma andmebaasi versiooni"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "Viga PostgreSQL versiooni kontrollimisel"
 
 #: private/util.php:618
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Palun veendu, et kasutad PostgreSQL >=9 või vaata logidest vea kohta detailsemat informatsiooni"
 
 #: private/util.php:680
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "Palun muuda kataloogi õigused 0770-ks, et kataloogi sisu poleks teistele kasutajatele nähtav"
 
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Andmete kataloog (%s) on teistele kasutajate loetav"
 
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Andmete kataloog (%s) pole korrektne"
 
 #: private/util.php:711
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Palun veendu, et andmete kataloogis sisaldub fail \".ocdata\" "
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

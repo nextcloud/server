@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Et ass en onbekannte Fehler opgetrueden",
 "There is no error, the file uploaded with success" => "Keen Feeler, Datei ass komplett ropgelueden ginn",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass",
 "The uploaded file was only partially uploaded" => "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn",

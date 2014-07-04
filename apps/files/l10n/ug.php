@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "يوچۇن خاتالىق",
 "Could not move %s" => "%s يۆتكىيەلمەيدۇ",
 "No file was uploaded. Unknown error" => "ھېچقانداق ھۆججەت يۈكلەنمىدى. يوچۇن خاتالىق",
 "No file was uploaded" => "ھېچقانداق ھۆججەت يۈكلەنمىدى",

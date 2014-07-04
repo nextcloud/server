@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Na voljo ni dovolj prostora",
+"Storage invalid" => "Določen prostor ni veljaven",
+"Unknown error" => "Neznana napaka",
 "Could not move %s - File with this name already exists" => "Datoteke %s ni mogoče premakniti  - datoteka s tem imenom že obstaja.",
 "Could not move %s" => "Datoteke %s ni mogoče premakniti",
 "File name cannot be empty." => "Ime datoteke ne sme biti prazno polje.",

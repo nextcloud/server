@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "خطای نامشخص",
 "Could not move %s - File with this name already exists" => "%s نمی توان جابجا کرد - در حال حاضر پرونده با این نام وجود دارد. ",
 "Could not move %s" => "%s نمی تواند حرکت کند ",
 "File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",

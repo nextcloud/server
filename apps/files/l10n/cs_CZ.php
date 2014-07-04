@@ -1,5 +1,8 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Úložiště není dostupné",
+"Storage invalid" => "Neplatné úložiště",
+"Unknown error" => "Neznámá chyba",
 "Could not move %s - File with this name already exists" => "Nelze přesunout %s - již existuje soubor se stejným názvem",
 "Could not move %s" => "Nelze přesunout %s",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",

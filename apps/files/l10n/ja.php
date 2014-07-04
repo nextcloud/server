@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "不明なエラー",
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
 "File name cannot be empty." => "ファイル名を空にすることはできません。",

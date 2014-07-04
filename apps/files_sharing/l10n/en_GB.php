@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "the link expired" => "the link expired",
 "sharing is disabled" => "sharing is disabled",
 "For more info, please ask the person who sent this link." => "For more info, please ask the person who sent this link.",
+"Add to your ownCloud" => "Add to your ownCloud",
 "Save" => "Save",
 "Download" => "Download",
 "Download %s" => "Download %s",

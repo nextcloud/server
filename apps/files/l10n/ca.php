@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Error desconegut",
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",

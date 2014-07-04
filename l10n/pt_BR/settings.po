@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"PO-Revision-Date: 2014-07-03 21:21+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -348,23 +348,23 @@ msgstr "nunca"
 msgid "deleted {userName}"
 msgstr "eliminado {userName}"
 
-#: js/users/users.js:383
+#: js/users/users.js:381
 msgid "add group"
 msgstr "adicionar grupo"
 
-#: js/users/users.js:580
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Forneça um nome de usuário válido"
 
-#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Erro ao criar usuário"
 
-#: js/users/users.js:586
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Forneça uma senha válida"
 
-#: js/users/users.js:610
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Aviso: O diretório home para o usuário \"{user}\" já existe"
 
@@ -786,7 +786,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "Se você deseja dar suporte ao projeto\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\">junte-se ao desenvolvimento</a>\n⇥⇥or\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\">espalhe pelo mundo</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"

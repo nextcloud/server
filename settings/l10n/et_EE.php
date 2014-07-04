@@ -172,6 +172,7 @@ $TRANSLATIONS = array(
 "Bugtracker" => "Vigade nimekiri",
 "Commercial Support" => "Tasuline kasutajatugi",
 "Get the apps to sync your files" => "Hangi rakendusi failide sünkroniseerimiseks",
+"If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" => "Kui tahad projekti toetada\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">liitu arendusega</a>\n\t\tvõi\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">levita sõna</a>!",
 "Show First Run Wizard again" => "Näita veelkord Esmase Käivituse Juhendajat",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Kasutad <strong>%s</strong> saadavalolevast <strong>%s</strong>",
 "Password" => "Parool",
