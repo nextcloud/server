@@ -41,7 +41,7 @@ class Controller {
 			'dbpass' => '',
 			'dbname' => '',
 			'dbtablespace' => '',
-			'dbhost' => '',
+			'dbhost' => 'localhost',
 			'dbtype' => '',
 		);
 		$parameters = array_merge($defaults, $post);
