@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Alexander Savchenko <a.v.savchenko@mail.ru>, 2014
+# Alexander Savchenko, 2014
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # Alexej Ruseckij <fenuksuh@ya.ru>, 2013
 # Alf <alfsoft@gmail.com>, 2013
@@ -20,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 06:12+0000\n"
-"Last-Translator: Alexander Savchenko <a.v.savchenko@mail.ru>\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"Last-Translator: Alexander Savchenko\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -155,7 +155,7 @@ msgstr "Вы действительно хотите удалить сущест
 msgid "Confirm Deletion"
 msgstr "Подтверждение удаления"
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
@@ -163,7 +163,7 @@ msgstr[0] "%s группа найдена"
 msgstr[1] "%s группы найдены"
 msgstr[2] "%s групп найдено"
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
@@ -171,13 +171,13 @@ msgstr[0] "%s пользователь найден"
 msgstr[1] "%s пользователя найдено"
 msgstr[2] "%s пользователей найдено"
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
-msgstr "Неверный сервер"
-
-#: lib/wizard.php:1025
+#: lib/wizard.php:317 lib/wizard.php:1051
 msgid "Could not find the desired feature"
 msgstr "Не могу найти требуемой функциональности"
+
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
+msgstr "Неверный сервер"
 
 #: settings.php:52
 msgid "Server"

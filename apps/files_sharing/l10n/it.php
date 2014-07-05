@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "la condivisione è disabilitata",
 "For more info, please ask the person who sent this link." => "Per ulteriori informazioni, chiedi alla persona che ti ha inviato il collegamento.",
 "Add to your ownCloud" => "Aggiungi al tuo ownCloud",
-"Save" => "Salva",
 "Download" => "Scarica",
 "Download %s" => "Scarica %s",
 "Direct link" => "Collegamento diretto",

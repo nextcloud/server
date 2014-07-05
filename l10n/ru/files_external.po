@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Alexander Savchenko <a.v.savchenko@mail.ru>, 2014
+# Alexander Savchenko, 2014
 # BuxarNET <buxarnet@gmail.com>, 2014
 # anshibanov <shibanovan@yandex.ru>, 2014
 # Swab <swab@i.ua>, 2014
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -241,29 +241,29 @@ msgstr "Система"
 msgid "Saved"
 msgstr "Сохранено"
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr "<b>Примечание:</b> "
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr "и"
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Примечание:</b> Поддержка cURL в PHP не включена или не установлен модуль. Подключение %s невозможно. Обратитесь к вашему системному администратору."
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Обратите внимание:</b> Поддержка FTP в PHP не включена или не установлена. Монтирование %s невозможно. Пожалуйста, обратитесь к системному администратору."
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

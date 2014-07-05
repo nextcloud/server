@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "the link expired" => "lidhja ka skaduar",
 "sharing is disabled" => "ndarja është çaktivizuar",
 "For more info, please ask the person who sent this link." => "Për më shumë informacione, ju lutem pyesni personin që iu dërgoi këtë lidhje.",
-"Save" => "Ruaj",
 "Download" => "Shkarko",
 "Direct link" => "Lidhje direkte"
 );

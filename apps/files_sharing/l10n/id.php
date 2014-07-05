@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "the link expired" => "tautan telah kadaluarsa",
 "sharing is disabled" => "berbagi dinonaktifkan",
 "For more info, please ask the person who sent this link." => "Untuk info lebih lanjut, silakan tanyakan orang yang mengirim tautan ini.",
-"Save" => "Simpan",
 "Download" => "Unduh",
 "Download %s" => "Unduh %s",
 "Direct link" => "Tautan langsung",

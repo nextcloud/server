@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "the link expired" => "времетраењето на линкот е изминато",
 "sharing is disabled" => "споделувањето не е дозволено",
 "For more info, please ask the person who sent this link." => "За повеќе информации, прашајте го лицето кое ви ја испратила врската.",
-"Save" => "Сними",
 "Download" => "Преземи",
 "Download %s" => "Преземи %s",
 "Direct link" => "Директна врска"

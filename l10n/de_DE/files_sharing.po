@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-04 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 08:30+0000\n"
-"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,7 +79,7 @@ msgstr "Ungültige OwnCloud-URL"
 msgid "Shared by {owner}"
 msgstr "Geteilt von {owner}"
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "Geteilt von"
 
@@ -126,10 +126,6 @@ msgstr "Für mehr Informationen, fragen Sie bitte die Person, die Ihnen diesen L
 #: templates/public.php:22
 msgid "Add to your ownCloud"
 msgstr "Zu Ihrer ownCloud hinzufügen"
-
-#: templates/public.php:25
-msgid "Save"
-msgstr "Speichern"
 
 #: templates/public.php:30
 msgid "Download"

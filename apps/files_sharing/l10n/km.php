@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "the link expired" => "តំណ​ផុត​ពេល​កំណត់",
 "sharing is disabled" => "មិន​អនុញ្ញាត​ការ​ចែករំលែក",
 "For more info, please ask the person who sent this link." => "សម្រាប់​ព័ត៌មាន​បន្ថែម សូម​សួរ​អ្នក​ដែល​ផ្ញើ​តំណ​នេះ។",
-"Save" => "រក្សាទុក",
 "Download" => "ទាញយក",
 "Download %s" => "ទាញយក %s",
 "Direct link" => "តំណ​ផ្ទាល់"

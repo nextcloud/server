@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "the link expired" => "l'enllaç ha vençut",
 "sharing is disabled" => "s'ha desactivat la compartició",
 "For more info, please ask the person who sent this link." => "Per més informació contacteu amb qui us ha enviat l'enllaç.",
-"Save" => "Desa",
 "Download" => "Baixa",
 "Download %s" => "Baixa %s",
 "Direct link" => "Enllaç directe",

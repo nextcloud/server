@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/projects/p/owncloud/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Shared by {owner}"
 msgstr ""
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr ""
 
@@ -118,24 +118,20 @@ msgstr ""
 msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
-#: templates/public.php:20
+#: templates/public.php:22
 msgid "Add to your ownCloud"
 msgstr ""
 
-#: templates/public.php:23
-msgid "Save"
-msgstr ""
-
-#: templates/public.php:28
+#: templates/public.php:30
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:59
+#: templates/public.php:61
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:63
+#: templates/public.php:65
 msgid "Direct link"
 msgstr ""
 

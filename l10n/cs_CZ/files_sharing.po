@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "Neplatná ownCloud url"
 msgid "Shared by {owner}"
 msgstr "Sdílí {owner}"
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "Sdílí"
 
@@ -123,24 +123,20 @@ msgstr "sdílení je zakázané"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Pro více informací kontaktujte osobu, která vám zaslala tento odkaz."
 
-#: templates/public.php:20
+#: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Přidat do svého ownCloudu"
 
-#: templates/public.php:23
-msgid "Save"
-msgstr "Uložit"
-
-#: templates/public.php:28
+#: templates/public.php:30
 msgid "Download"
 msgstr "Stáhnout"
 
-#: templates/public.php:59
+#: templates/public.php:61
 #, php-format
 msgid "Download %s"
 msgstr "Stáhnout %s"
 
-#: templates/public.php:63
+#: templates/public.php:65
 msgid "Direct link"
 msgstr "Přímý odkaz"
 

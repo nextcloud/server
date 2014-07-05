@@ -5,6 +5,7 @@
 # Translators:
 # Charlie Mak <makchamhim72@gmail.com>, 2013
 # fangpeishi <fangpeishi@gmail.com>, 2014
+# Kaijia Feng <fengkaijia@gmail.com>, 2014
 # Martin Liu <liuzh66@gmail.com>, 2014
 # wang <modokwang@gmail.com>, 2013
 # csslayer <wengxt@gmail.com>, 2013-2014
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 03:00+0000\n"
+"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: base.php:187 base.php:194
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "无法写入“config”目录！"
 
 #: base.php:188
 msgid ""
@@ -35,7 +36,7 @@ msgstr ""
 #: base.php:190
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "查看 %s"
 
 #: base.php:195 private/util.php:413
 #, php-format
@@ -296,7 +297,7 @@ msgstr "共享 %s 失败，因为文件不存在。"
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "您无权分享 %s"
 
 #: private/share/share.php:531
 #, php-format
@@ -471,7 +472,7 @@ msgstr "用户名已被使用"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "没有安装数据库驱动 (SQLite、MySQL 或 PostgreSQL)。"
 
 #: private/util.php:405
 #, php-format
@@ -482,11 +483,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "无法写入“config”目录"
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "无法写入“apps”目录"
 
 #: private/util.php:426
 #, php-format
@@ -498,7 +499,7 @@ msgstr ""
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "无法创建“apps”目录 (%s)"
 
 #: private/util.php:441
 #, php-format
@@ -510,17 +511,17 @@ msgstr ""
 #: private/util.php:457
 #, php-format
 msgid "Setting locale to %s failed"
-msgstr ""
+msgstr "设置语言为 %s 失败"
 
 #: private/util.php:460
 msgid ""
 "Please install one of theses locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "请在您的系统中安装这些语言并重新启动您的网页服务器。"
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "请联系服务器管理员安装模块。"
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -528,64 +529,64 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "PHP %s 模块未安装。"
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "要求 PHP 版本 %s 或者更高。"
 
 #: private/util.php:539
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "请联系服务器管理员升级 PHP 到最新的版本。ownCloud 和 PHP 社区已经不再支持此版本的 PHP。"
 
 #: private/util.php:556
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "PHP Safe Mode 已经启用，ownCloud 需要 Safe Mode 停用以正常工作。"
 
 #: private/util.php:557
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "PHP Safe Mode 已经被废弃并且应当被停用。请联系服务器管理员在 php.ini 或您的服务器设置中停用 Safe Mode。"
 
 #: private/util.php:564
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Magic Quotes 已经启用，ownCloud 需要 Magic Quotes 停用以正常工作。"
 
 #: private/util.php:565
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "Magic Quotes 已经被废弃并且应当被停用。请联系服务器管理员在 php.ini 或您的服务器设置中停用 Magic Quotes。"
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "PHP 模块已经安装，但仍然显示未安装？"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "请联系服务器管理员重启网页服务器。"
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "要求 PostgreSQL >= 9"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "请升级您的数据库版本"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "检查 PostgreSQL 版本时发生了一个错误"
 
 #: private/util.php:618
 msgid ""
@@ -597,23 +598,23 @@ msgstr ""
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "请更改权限为 0770 以避免其他用户查看目录。"
 
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "文件目录 (%s) 可以被其他用户读取"
 
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "文件目录 (%s) 无效"
 
 #: private/util.php:711
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "请确保文件根目录下包含有一个名为“.ocdata”的文件。"
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-01 01:54-0400\n"
-"PO-Revision-Date: 2014-06-30 07:41+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: rogerc\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -238,29 +238,29 @@ msgstr "Sistema"
 msgid "Saved"
 msgstr "Desat"
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b> "
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr "i"
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El suport cURL no està activat o instal·lat a PHP. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El suport FTP per PHP no està activat o no està instal·lat. No es pot muntar %s. Demaneu a l'administrador del sistema que l'instal·li."
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "jakaminen on poistettu käytöstä",
 "For more info, please ask the person who sent this link." => "Kysy lisätietoja henkilöltä, jolta sait linkin.",
 "Add to your ownCloud" => "Lisää ownCloudiisi",
-"Save" => "Tallenna",
 "Download" => "Lataa",
 "Download %s" => "Lataa %s",
 "Direct link" => "Suora linkki",

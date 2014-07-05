@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -83,7 +83,7 @@ msgstr "Не верный ownCloud адрес"
 msgid "Shared by {owner}"
 msgstr "Доступ открыл {owner}"
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "Опубликовано"
 
@@ -127,24 +127,20 @@ msgstr "доступ к информации заблокирован"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Для получения дополнительной информации, пожалуйста, свяжитесь с тем, кто отправил Вам эту ссылку."
 
-#: templates/public.php:20
+#: templates/public.php:22
 msgid "Add to your ownCloud"
 msgstr ""
 
-#: templates/public.php:23
-msgid "Save"
-msgstr "Сохранить"
-
-#: templates/public.php:28
+#: templates/public.php:30
 msgid "Download"
 msgstr "Скачать"
 
-#: templates/public.php:59
+#: templates/public.php:61
 #, php-format
 msgid "Download %s"
 msgstr "Скачать %s"
 
-#: templates/public.php:63
+#: templates/public.php:65
 msgid "Direct link"
 msgstr "Прямая ссылка"
 

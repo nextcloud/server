@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr ""
 msgid "Shared by {owner}"
 msgstr "{owner} 님이 공유함"
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "공유한 사용자:"
 
@@ -121,24 +121,20 @@ msgstr "공유가 비활성화됨"
 msgid "For more info, please ask the person who sent this link."
 msgstr "자세한 정보는 링크를 보낸 사람에게 문의하십시오."
 
-#: templates/public.php:20
+#: templates/public.php:22
 msgid "Add to your ownCloud"
 msgstr ""
 
-#: templates/public.php:23
-msgid "Save"
-msgstr "저장"
-
-#: templates/public.php:28
+#: templates/public.php:30
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/public.php:59
+#: templates/public.php:61
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:63
+#: templates/public.php:65
 msgid "Direct link"
 msgstr "직접 링크"
 

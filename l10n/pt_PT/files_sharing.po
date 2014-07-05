@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -81,7 +81,7 @@ msgstr "Endereço errado"
 msgid "Shared by {owner}"
 msgstr "Partilhado por {dono}"
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr "Partilhado por"
 
@@ -125,24 +125,20 @@ msgstr "a partilha está desativada"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação."
 
-#: templates/public.php:20
+#: templates/public.php:22
 msgid "Add to your ownCloud"
 msgstr ""
 
-#: templates/public.php:23
-msgid "Save"
-msgstr "Guardar"
-
-#: templates/public.php:28
+#: templates/public.php:30
 msgid "Download"
 msgstr "Transferir"
 
-#: templates/public.php:59
+#: templates/public.php:61
 #, php-format
 msgid "Download %s"
 msgstr "Transferir %s"
 
-#: templates/public.php:63
+#: templates/public.php:65
 msgid "Direct link"
 msgstr "Hiperligação direta"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-04 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 06:11+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -191,7 +191,7 @@ msgstr "檔案上傳中，離開此頁面將會取消上傳。"
 msgid "URL cannot be empty"
 msgstr "URL 不能留空"
 
-#: js/file-upload.js:568 js/filelist.js:1244
+#: js/file-upload.js:568 js/filelist.js:1253
 msgid "{new_name} already exists"
 msgstr "{new_name} 已經存在"
 
@@ -207,19 +207,19 @@ msgstr "無法建立資料夾"
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:258
+#: js/fileactions.js:254
 msgid "Share"
 msgstr "分享"
 
-#: js/fileactions.js:271
+#: js/fileactions.js:267
 msgid "Delete permanently"
 msgstr "永久刪除"
 
-#: js/fileactions.js:273 templates/list.php:77 templates/list.php:78
+#: js/fileactions.js:269 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "刪除"
 
-#: js/fileactions.js:309
+#: js/fileactions.js:305
 msgid "Rename"
 msgstr "重新命名"
 
@@ -229,53 +229,53 @@ msgid ""
 "big."
 msgstr "正在準備您的下載，若您的檔案較大，將會需要更多時間。"
 
-#: js/filelist.js:669 js/filelist.js:1768
+#: js/filelist.js:669 js/filelist.js:1777
 msgid "Pending"
 msgstr "等候中"
 
-#: js/filelist.js:1195
+#: js/filelist.js:1204
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1203
+#: js/filelist.js:1212
 msgid "Error moving file"
 msgstr "移動檔案失敗"
 
-#: js/filelist.js:1203
+#: js/filelist.js:1212
 msgid "Error"
 msgstr "錯誤"
 
-#: js/filelist.js:1292
+#: js/filelist.js:1301
 msgid "Could not rename file"
 msgstr "無法重新命名"
 
-#: js/filelist.js:1410
+#: js/filelist.js:1419
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1513 templates/list.php:61
+#: js/filelist.js:1522 templates/list.php:61
 msgid "Name"
 msgstr "名稱"
 
-#: js/filelist.js:1514 templates/list.php:72
+#: js/filelist.js:1523 templates/list.php:72
 msgid "Size"
 msgstr "大小"
 
-#: js/filelist.js:1515 templates/list.php:75
+#: js/filelist.js:1524 templates/list.php:75
 msgid "Modified"
 msgstr "修改時間"
 
-#: js/filelist.js:1525 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1534 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n 個資料夾"
 
-#: js/filelist.js:1531 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1540 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n 個檔案"
 
-#: js/filelist.js:1661 js/filelist.js:1700
+#: js/filelist.js:1670 js/filelist.js:1709
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n 個檔案正在上傳"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 18:01+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -240,29 +240,29 @@ msgstr "Σύστημα"
 msgid "Saved"
 msgstr "Αποθηκεύτηκαν"
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr "<b>Σημείωση:</b> "
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr "και"
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Σημείωση:</b> Η υποστήριξη cURL στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Η προσάρτηση του %s δεν είναι δυνατή. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει."
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Σημείωση:</b> Η υποστήριξη FTP στην PHP δεν είναι ενεργοποιημένη ή εγκατεστημένη. Δεν είναι δυνατή η προσάρτηση του %s. Παρακαλώ ζητήστε από τον διαχειριστή συστημάτων σας να την εγκαταστήσει."
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-04 01:54-0400\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Shared by {owner}"
 msgstr ""
 
-#: js/sharedfilelist.js:128
+#: js/sharedfilelist.js:123
 msgid "Shared by"
 msgstr ""
 
@@ -120,10 +120,6 @@ msgstr ""
 
 #: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
-
-#: templates/public.php:25
-msgid "Save"
 msgstr ""
 
 #: templates/public.php:30

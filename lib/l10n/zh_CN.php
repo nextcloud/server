@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "无法写入“config”目录！",
+"See %s" => "查看 %s",
 "You are accessing the server from an untrusted domain." => "您正在访问来自不信任域名的服务器。",
 "Help" => "帮助",
 "Personal" => "个人",
@@ -49,6 +51,7 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "请认真检查<a href='%s'>安装指南</a>.",
 "%s shared »%s« with you" => "%s 向您分享了 »%s«",
 "Sharing %s failed, because the file does not exist" => "共享 %s 失败，因为文件不存在。",
+"You are not allowed to share %s" => "您无权分享 %s",
 "Sharing %s failed, because the user %s is the item owner" => "共享 %s 失败，因为用户 %s 是对象的拥有者",
 "Sharing %s failed, because the user %s does not exist" => "共享 %s 失败，因为用户 %s 不存在",
 "Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "共享 %s 失败，因为用户 %s 不是 %s 所属的任何组的用户",
@@ -81,6 +84,29 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "用户名只允许使用以下字符：“a-z”，“A-Z”，“0-9”，和“_.@-”",
 "A valid username must be provided" => "必须提供合法的用户名",
 "A valid password must be provided" => "必须提供合法的密码",
-"The username is already being used" => "用户名已被使用"
+"The username is already being used" => "用户名已被使用",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "没有安装数据库驱动 (SQLite、MySQL 或 PostgreSQL)。",
+"Cannot write into \"config\" directory" => "无法写入“config”目录",
+"Cannot write into \"apps\" directory" => "无法写入“apps”目录",
+"Cannot create \"data\" directory (%s)" => "无法创建“apps”目录 (%s)",
+"Setting locale to %s failed" => "设置语言为 %s 失败",
+"Please install one of theses locales on your system and restart your webserver." => "请在您的系统中安装这些语言并重新启动您的网页服务器。",
+"Please ask your server administrator to install the module." => "请联系服务器管理员安装模块。",
+"PHP module %s not installed." => "PHP %s 模块未安装。",
+"PHP %s or higher is required." => "要求 PHP 版本 %s 或者更高。",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "请联系服务器管理员升级 PHP 到最新的版本。ownCloud 和 PHP 社区已经不再支持此版本的 PHP。",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "PHP Safe Mode 已经启用，ownCloud 需要 Safe Mode 停用以正常工作。",
+"PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "PHP Safe Mode 已经被废弃并且应当被停用。请联系服务器管理员在 php.ini 或您的服务器设置中停用 Safe Mode。",
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work properly." => "Magic Quotes 已经启用，ownCloud 需要 Magic Quotes 停用以正常工作。",
+"Magic Quotes is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Magic Quotes 已经被废弃并且应当被停用。请联系服务器管理员在 php.ini 或您的服务器设置中停用 Magic Quotes。",
+"PHP modules have been installed, but they are still listed as missing?" => "PHP 模块已经安装，但仍然显示未安装？",
+"Please ask your server administrator to restart the web server." => "请联系服务器管理员重启网页服务器。",
+"PostgreSQL >= 9 required" => "要求 PostgreSQL >= 9",
+"Please upgrade your database version" => "请升级您的数据库版本",
+"Error occurred while checking PostgreSQL version" => "检查 PostgreSQL 版本时发生了一个错误",
+"Please change the permissions to 0770 so that the directory cannot be listed by other users." => "请更改权限为 0770 以避免其他用户查看目录。",
+"Data directory (%s) is readable by other users" => "文件目录 (%s) 可以被其他用户读取",
+"Data directory (%s) is invalid" => "文件目录 (%s) 无效",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "请确保文件根目录下包含有一个名为“.ocdata”的文件。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

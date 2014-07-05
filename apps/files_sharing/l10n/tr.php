@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "paylaşım devre dışı",
 "For more info, please ask the person who sent this link." => "Daha fazla bilgi için bu bağlantıyı aldığınız kişi ile iletişime geçin.",
 "Add to your ownCloud" => "ownCloud'ınıza Ekleyin",
-"Save" => "Kaydet",
 "Download" => "İndir",
 "Download %s" => "İndir: %s",
 "Direct link" => "Doğrudan bağlantı",

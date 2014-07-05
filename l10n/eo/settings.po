@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-04 15:13+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -346,23 +346,23 @@ msgstr "neniam"
 msgid "deleted {userName}"
 msgstr "{userName} foriĝis"
 
-#: js/users/users.js:383
+#: js/users/users.js:381
 msgid "add group"
 msgstr "aldoni grupon"
 
-#: js/users/users.js:580
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "Valida uzantonomo devas proviziĝi"
 
-#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "Eraris kreo de uzanto"
 
-#: js/users/users.js:586
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "Valida pasvorto devas proviziĝi"
 
-#: js/users/users.js:610
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Averto: hejmdosierujo por la uzanto “{user”} jam ekzistas"
 

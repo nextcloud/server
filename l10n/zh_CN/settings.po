@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Kaijia Feng <fengkaijia@gmail.com>, 2014
 # Martin Liu <liuzh66@gmail.com>, 2014
 # mozillazg <opensource.mozillazg@gmail.com>, 2014
 # Star Brilliant <m13253@hotmail.com>, 2013
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-03 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-05 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 02:41+0000\n"
+"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,17 +109,17 @@ msgstr "无法解密您的文件，请检查密码并重试。"
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "加密密钥已经永久删除"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "无法永久删除您的加密密钥，请检查 owncloud.log 或联系管理员"
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "无法删除应用。"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -138,13 +139,13 @@ msgstr "无法删除用户"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "恢复备份成功"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "无法恢复加密密钥，请检查 owncloud.log 或联系管理员"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -219,7 +220,7 @@ msgstr "更新至 {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "下载应用"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -263,15 +264,15 @@ msgstr "已更新"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "卸载中...."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "卸载应用时发生了一个错误"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "卸载"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -303,27 +304,27 @@ msgstr "正在解密文件... 请稍等，可能需要一些时间。"
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "永久删除加密密钥。"
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "恢复加密密钥。"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "无法删除 {objName}"
 
 #: js/users/groups.js:73 js/users/groups.js:178
 msgid "Error creating group"
-msgstr ""
+msgstr "创建组时出错"
 
 #: js/users/groups.js:177
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "请提供一个有效的组名称"
 
 #: js/users/groups.js:205
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "已删除 {groupName}"
 
 #: js/users/groups.js:206 js/users/users.js:265
 msgid "undo"
@@ -351,25 +352,25 @@ msgstr "从不"
 
 #: js/users/users.js:264
 msgid "deleted {userName}"
-msgstr ""
+msgstr "已删除 {userName}"
 
-#: js/users/users.js:383
+#: js/users/users.js:381
 msgid "add group"
 msgstr "增加组"
 
-#: js/users/users.js:580
+#: js/users/users.js:578
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users/users.js:581 js/users/users.js:587 js/users/users.js:602
+#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users/users.js:586
+#: js/users/users.js:584
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
-#: js/users/users.js:610
+#: js/users/users.js:608
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：用户 \"{user}\" 的家目录已存在"
 
@@ -460,24 +461,24 @@ msgstr "请认真检查<a href='%s'>安装指南</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP 被设置为移除行内 <doc> 块，这将导致数个核心应用无法访问。"
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "这可能是由缓存/加速器造成的，例如 Zend OPcache 或 eAccelerator。"
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "数据库性能信息"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "SQLite 正在使用。我们建议大型网站切换到其他数据库。请使用命令行工具：“occ db:convert-type”迁移数据库"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -578,11 +579,11 @@ msgstr "允许应用软件使用共享API"
 
 #: templates/admin.php:243
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "允许用户通过链接分享文件"
 
 #: templates/admin.php:249
 msgid "Enforce password protection"
-msgstr ""
+msgstr "强制密码保护"
 
 #: templates/admin.php:252
 msgid "Allow public uploads"
@@ -610,7 +611,7 @@ msgstr "允许再次共享"
 
 #: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "限制仅与组内用户分享"
 
 #: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
@@ -618,12 +619,12 @@ msgstr "允许用户发送共享文件的邮件通知"
 
 #: templates/admin.php:286
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "在分享中排除组"
 
 #: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "这些组将仍可以获取分享，但无法向他人分享。"
 
 #: templates/admin.php:303
 msgid "Security"
@@ -659,7 +660,7 @@ msgstr "来自地址"
 
 #: templates/admin.php:366
 msgid "mail"
-msgstr ""
+msgstr "邮件"
 
 #: templates/admin.php:387
 msgid "Authentication required"
@@ -753,7 +754,7 @@ msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "仅对特定的组开放"
 
 #: templates/apps.php:61
 msgid "All"
@@ -791,7 +792,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "<a href=\"https://owncloud.org/contribute\"\n\ttarget=\"_blank\">加入开发</a>\n或\n<a href=\"https://owncloud.org/promote\"\n\ttarget=\"_blank\">帮助推广</a>以支持本项目！"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"
@@ -902,15 +903,15 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "您的加密密钥已经移动到一个备份位置。如果发生了错误您可以恢复密钥，当确认所有文件已经正确解密时才可永久删除密钥。"
 
 #: templates/personal.php:190
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "恢复加密密钥"
 
 #: templates/personal.php:194
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "删除加密密钥"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -933,11 +934,11 @@ msgstr "输入恢复密码来在更改密码的时候恢复用户文件"
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "搜索用户和组"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "增加组"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -945,11 +946,11 @@ msgstr "分组"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "所有人"
 
 #: templates/users/part.grouplist.php:31
 msgid "Admins"
-msgstr ""
+msgstr "管理员"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -977,11 +978,11 @@ msgstr "配额"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "存储空间位置"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "最后登录"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

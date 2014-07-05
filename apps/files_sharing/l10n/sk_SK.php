@@ -24,7 +24,6 @@ $TRANSLATIONS = array(
 "the link expired" => "linke vypršala platnosť",
 "sharing is disabled" => "zdieľanie je zakázané",
 "For more info, please ask the person who sent this link." => "Pre viac informácií kontaktujte osobu, ktorá vám poslala tento odkaz.",
-"Save" => "Uložiť",
 "Download" => "Sťahovanie",
 "Download %s" => "Stiahnuť %s",
 "Direct link" => "Priama linka",

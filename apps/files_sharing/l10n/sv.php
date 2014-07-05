@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "delning är inaktiverat",
 "For more info, please ask the person who sent this link." => "För mer information, kontakta den person som skickade den här länken.",
 "Add to your ownCloud" => "Lägg till i din ownCloud",
-"Save" => "Spara",
 "Download" => "Ladda ner",
 "Download %s" => "Ladda ner %s",
 "Direct link" => "Direkt länk",
