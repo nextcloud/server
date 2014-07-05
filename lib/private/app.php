@@ -587,6 +587,9 @@ class OC_App {
 			$file = self::getAppPath($appid) . '/appinfo/info.xml';
 		}
 		$data = array();
+		if (!file_exists($file)) {
+			return null;
+		}
 		$content = @file_get_contents($file);
 		if (!$content) {
 			return null;
