@@ -238,6 +238,20 @@ var UserList = {
 		UserList.getRow(uid).show();
 	},
 	remove: function(uid) {
+		$tr = UserList.getRow(uid);
+		groups = $tr.find('.groups .groupsselect').val();
+		for(i in groups) {
+			var gid = groups[i];
+			$li = GroupList.getGroupLI(gid);
+			userCount = GroupList.getUserCount($li);
+			if(userCount == 1) {
+				newUserCount = '';
+			} else {
+				newUserCount = userCount - 1;
+			}
+			GroupList.setUserCount($li, newUserCount);
+		}
+
 		UserList.getRow(uid).remove();
 	},
 	has: function(uid) {
