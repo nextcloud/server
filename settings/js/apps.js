@@ -84,12 +84,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find('input.update').hide();
 		}
 
-		if (app.removable !== false) {
-			page.find('input.uninstall').show();
-			page.find('input.uninstall').data('appid', app.id);
-			page.find('input.uninstall').attr('value', t('settings', 'Uninstall App'));
+		if (app.removable !== false && app.active === false) {
+			page.find('a.uninstall').show();
+			page.find('a.uninstall').data('appid', app.id);
+			page.find('a.uninstall').attr('value', t('settings', 'Uninstall App'));
 		} else {
-			page.find('input.uninstall').hide();
+			page.find('a.uninstall').hide();
 		}
 
 		page.find('input.enable').show();
@@ -371,7 +371,7 @@ $(document).ready(function(){
 			OC.Settings.Apps.updateApp(appid, element);
 		}
 	});
-	$('#app-content input.uninstall').click(function(){
+	$('#app-content a.uninstall').click(function(){
 		var element = $(this);
 		var appid=$(this).data('appid');
 		if(appid) {
