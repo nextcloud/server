@@ -157,8 +157,8 @@ class Proxy extends \OC_FileProxy {
 					// store new unenecrypted size so that it can be updated
 					// in the post proxy
 					$tmpFileInfo = $view->getFileInfo($tmpPath);
-					if ( isset($tmpFileInfo['size']) ) {
-						self::$unencryptedSizes[\OC\Files\Filesystem::normalizePath($path)] = $tmpFileInfo['size'];
+					if ( isset($tmpFileInfo['unencrypted_size']) ) {
+						self::$unencryptedSizes[\OC\Files\Filesystem::normalizePath($path)] = $tmpFileInfo['unencrypted_size'];
 					}
 
 					// remove our temp file

@@ -47,6 +47,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	public $view;     // view in /data/user/files
 	public $rootView; // view on /data/user
 	public $data;
+	public $dataLong;
 	public $filename;
 
 	public static function setUpBeforeClass() {
@@ -80,6 +81,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 		// init short data
 		$this->data = 'hats';
+		$this->dataLong = file_get_contents(__DIR__ . '/../lib/crypt.php');
 		$this->filename = 'enc_proxy_tests-' . uniqid() . '.txt';
 
 	}
@@ -95,17 +97,19 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	 */
 	function testPostFileSize() {
 
-		$this->view->file_put_contents($this->filename, $this->data);
+		$this->view->file_put_contents($this->filename, $this->dataLong);
+		$size = strlen($this->dataLong);
 
 		\OC_FileProxy::$enabled = false;
 
-		$unencryptedSize = $this->view->filesize($this->filename);
+		$encryptedSize = $this->view->filesize($this->filename);
 
 		\OC_FileProxy::$enabled = true;
 
-		$encryptedSize = $this->view->filesize($this->filename);
+		$unencryptedSize = $this->view->filesize($this->filename);
 
-		$this->assertTrue($encryptedSize !== $unencryptedSize);
+		$this->assertTrue($encryptedSize > $unencryptedSize);
+		$this->assertSame($size, $unencryptedSize);
 
 		// cleanup
 		$this->view->unlink($this->filename);
