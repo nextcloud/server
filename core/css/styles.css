@@ -854,6 +854,16 @@ div.crumb:active {
 	opacity: 0;
 }
 
+/* LEGACY FIX only - do not use fieldsets for settings */
+fieldset legend {
+	top: 20px;
+	position: relative;
+}
+fieldset legend + p {
+	margin-top: 12px;
+}
+
+
 /* for IE10 */
 @-ms-viewport {
 	width: device-width;
