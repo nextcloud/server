@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-05 03:00+0000\n"
+"POT-Creation-Date: 2014-07-06 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 18:43+0000\n"
 "Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -102,7 +102,7 @@ msgstr "无效的图像"
 
 #: private/defaults.php:38
 msgid "web services under your control"
-msgstr "您控制的web服务"
+msgstr "您控制的网络服务"
 
 #: private/installer.php:77
 msgid "App directory already exists"

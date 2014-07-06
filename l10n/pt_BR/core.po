@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-06 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 18:43+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -320,23 +320,23 @@ msgstr "({count} selecionados)"
 msgid "Error loading file exists template"
 msgstr "Erro ao carregar arquivo existe modelo"
 
-#: js/setup.js:92
+#: js/setup.js:96
 msgid "Very weak password"
 msgstr "Senha muito fraca"
 
-#: js/setup.js:93
+#: js/setup.js:97
 msgid "Weak password"
 msgstr "Senha fraca"
 
-#: js/setup.js:94
+#: js/setup.js:98
 msgid "So-so password"
 msgstr "Senha mais ou menos"
 
-#: js/setup.js:95
+#: js/setup.js:99
 msgid "Good password"
 msgstr "Boa senha"
 
-#: js/setup.js:96
+#: js/setup.js:100
 msgid "Strong password"
 msgstr "Senha forte"
 

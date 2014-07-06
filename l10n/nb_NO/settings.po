@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-06 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 18:43+0000\n"
 "Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -777,7 +777,7 @@ msgstr "Forretningsstøtte"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Få apper til å synkronisere filene dine"
+msgstr "Hent apper som synkroniserer filene dine"
 
 #: templates/personal.php:21
 msgid ""
@@ -787,7 +787,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr "Hvis du vil støtte prosjektet kan du\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">bli med i utviklingen</a>\n\t\teller\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spre budskapet</a>!"
+msgstr "Hvis du vil støtte prosjektet kan du\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">delta i utviklingen</a>\n\t\teller\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spre budskapet</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"

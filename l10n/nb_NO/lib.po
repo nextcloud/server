@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 19:51+0000\n"
+"POT-Creation-Date: 2014-07-06 01:54-0400\n"
+"PO-Revision-Date: 2014-07-05 18:43+0000\n"
 "Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -98,7 +98,7 @@ msgstr "Ugyldig bilde"
 
 #: private/defaults.php:38
 msgid "web services under your control"
-msgstr "web tjenester du kontrollerer"
+msgstr "webtjenester som du kontrollerer"
 
 #: private/installer.php:77
 msgid "App directory already exists"
@@ -406,7 +406,7 @@ msgstr "Kunne ikke finne kategori \"%s\""
 
 #: private/template/functions.php:134
 msgid "seconds ago"
-msgstr "for noen sekunder siden"
+msgstr "for få sekunder siden"
 
 #: private/template/functions.php:135
 msgid "%n minute ago"
