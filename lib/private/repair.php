@@ -81,6 +81,7 @@ class Repair extends BasicEmitter {
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		return array(
+			new \OC\Repair\InnoDB()
 		);
 	}
 
