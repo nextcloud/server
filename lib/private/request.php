@@ -95,7 +95,7 @@ class OC_Request {
 	 * reverse proxies
 	 */
 	public static function serverHost() {
-		if(OC::$CLI) {
+		if (OC::$CLI && defined('PHPUNIT_RUN')) {
 			return 'localhost';
 		}
 
