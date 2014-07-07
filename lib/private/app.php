@@ -574,7 +574,7 @@ class OC_App {
 	 * Read all app metadata from the info.xml file
 	 * @param string $appid id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
-	 * @return array
+	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
 	 */
 	public static function getAppInfo($appid, $path = false) {
@@ -587,6 +587,9 @@ class OC_App {
 			$file = self::getAppPath($appid) . '/appinfo/info.xml';
 		}
 		$data = array();
+		if (!file_exists($file)) {
+			return null;
+		}
 		$content = @file_get_contents($file);
 		if (!$content) {
 			return null;
