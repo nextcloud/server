@@ -117,10 +117,18 @@ class OC {
 			}
 		}
 
-		OC::$WEBROOT = substr($scriptName, 0, strlen($scriptName) - strlen(OC::$SUBURI));
+		if (substr($scriptName, 0 - strlen(OC::$SUBURI)) === OC::$SUBURI) {
+			OC::$WEBROOT = substr($scriptName, 0, 0 - strlen(OC::$SUBURI));
 
-		if (OC::$WEBROOT != '' and OC::$WEBROOT[0] !== '/') {
-			OC::$WEBROOT = '/' . OC::$WEBROOT;
+			if (OC::$WEBROOT != '' && OC::$WEBROOT[0] !== '/') {
+				OC::$WEBROOT = '/' . OC::$WEBROOT;
+			}
+		} else {
+			// The scriptName is not ending with OC::$SUBURI
+			// This most likely means that we are calling from CLI.
+			// However some cron jobs still need to generate
+			// a web URL, so we use overwritewebroot as a fallback.
+			OC::$WEBROOT = OC_Config::getValue('overwritewebroot', '');
 		}
 
 		// search the 3rdparty folder
