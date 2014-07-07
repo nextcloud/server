@@ -499,6 +499,48 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
 			expect($tr.attr('data-mime')).toEqual('text/plain');
 			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-recipients')).not.toBeDefined();
+			expect($tr.attr('data-share-owner')).not.toBeDefined();
+			expect($tr.attr('data-share-id')).toEqual('7');
+			expect($tr.find('a.name').attr('href')).toEqual(
+					OC.webroot +
+					'/index.php/apps/files/ajax/download.php' +
+					'?dir=%2Flocal%20path&files=local%20name.txt');
+
+			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
+		});
+		it('does not show virtual token recipient as recipient when password was set', function() {
+			/* jshint camelcase: false */
+			var request;
+			// when a password is set, share_with contains an auth token
+			ocsResponse.ocs.data[0].share_with = 'abc01234/01234abc';
+			ocsResponse.ocs.data[0].share_with_displayname = 'abc01234/01234abc';
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+			expect(request.url).toEqual(
+				OC.linkToOCS('apps/files_sharing/api/v1') +
+				'shares?format=json&shared_with_me=false'
+			);
+
+			fakeServer.requests[0].respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify(ocsResponse)
+			);
+
+			// only renders the link share entry
+			var $rows = fileList.$el.find('tbody tr');
+			var $tr = $rows.eq(0);
+			expect($rows.length).toEqual(1);
+			expect($tr.attr('data-id')).toEqual('49');
+			expect($tr.attr('data-type')).toEqual('file');
+			expect($tr.attr('data-file')).toEqual('local name.txt');
+			expect($tr.attr('data-path')).toEqual('/local path');
+			expect($tr.attr('data-size')).not.toBeDefined();
+			expect($tr.attr('data-permissions')).toEqual('31'); // read and delete
+			expect($tr.attr('data-mime')).toEqual('text/plain');
+			expect($tr.attr('data-mtime')).toEqual('11111000');
+			expect($tr.attr('data-share-recipients')).not.toBeDefined();
 			expect($tr.attr('data-share-owner')).not.toBeDefined();
 			expect($tr.attr('data-share-id')).toEqual('7');
 			expect($tr.find('a.name').attr('href')).toEqual(
