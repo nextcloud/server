@@ -854,6 +854,28 @@ div.crumb:active {
 	opacity: 0;
 }
 
+
+/* public footer */
+#body-public footer {
+	margin-top: 65px;
+	text-align: center;
+}
+
+#body-public footer .info {
+	color: #777;
+	text-align: center;
+	margin: 0 auto;
+	padding: 20px 0;
+}
+
+#body-public footer .info a {
+	color: #777;
+	font-weight: bold;
+	padding: 13px;
+	margin: -13px;
+}
+
+
 /* LEGACY FIX only - do not use fieldsets for settings */
 fieldset legend {
 	top: 20px;
