@@ -618,6 +618,7 @@ $(document).ready(function () {
 					if(!UserList.has(username)) {
 						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, 0, true);
 					}
+					$('#newusername').focus();
 				}
 			}
 		);
