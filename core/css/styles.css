@@ -855,11 +855,11 @@ div.crumb:active {
 }
 
 /* LEGACY FIX only - do not use fieldsets for settings */
-fieldset legend {
-	top: 20px;
+fieldset.warning legend, fieldset.update legend {
+	top: 18px;
 	position: relative;
 }
-fieldset legend + p {
+fieldset.warning legend + p, fieldset.update legend + p {
 	margin-top: 12px;
 }
 
