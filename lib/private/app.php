@@ -1186,6 +1186,9 @@ class OC_App {
 
 		//set remote/public handlers
 		$appData = self::getAppInfo($appid);
+		if (array_key_exists('ocsid', $appData)) {
+			OC_Appconfig::setValue($appid, 'ocsid', $appData['ocsid']);
+		}
 		foreach ($appData['remote'] as $name => $path) {
 			OCP\CONFIG::setAppValue('core', 'remote_' . $name, $appid . '/' . $path);
 		}
