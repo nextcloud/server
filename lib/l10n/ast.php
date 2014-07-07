@@ -92,7 +92,9 @@ $TRANSLATIONS = array(
 "Cannot write into \"apps\" directory" => "Nun pue escribise nel direutoriu \"apps\"",
 "Cannot create \"data\" directory (%s)" => "Nun pue crease'l direutoriu \"data\" (%s)",
 "Please ask your server administrator to install the module." => "Por favor, entrúga-y al to alministrador del sirvidor pa instalar el módulu.",
+"PostgreSQL >= 9 required" => "PostgreSQL >= 9 requeríu",
 "Please upgrade your database version" => "Por favor, anova la versión de la to base de datos",
+"Error occurred while checking PostgreSQL version" => "Asocedió un fallu entrín se comprobaba la versión de PostgreSQL",
 "Could not obtain lock type %d on \"%s\"." => "Nun pudo facese'l bloquéu %d en \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

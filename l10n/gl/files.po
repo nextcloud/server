@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-07 01:54-0400\n"
+"PO-Revision-Date: 2014-07-06 21:00+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +21,11 @@ msgstr ""
 
 #: ajax/list.php:38
 msgid "Storage not available"
-msgstr ""
+msgstr "Almacenamento non dispoñíbel"
 
 #: ajax/list.php:45
 msgid "Storage invalid"
-msgstr ""
+msgstr "Almacenamento incorrecto"
 
 #: ajax/list.php:52
 msgid "Unknown error"
