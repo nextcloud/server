@@ -179,7 +179,9 @@
 						file.permissions = share.permissions;
 					}
 					else {
-						file.share.targetDisplayName = share.share_with_displayname;
+						if (share.share_type !== OC.Share.SHARE_TYPE_LINK) {
+							file.share.targetDisplayName = share.share_with_displayname;
+						}
 						file.name = OC.basename(share.path);
 						file.path = OC.dirname(share.path);
 						file.permissions = OC.PERMISSION_ALL;
