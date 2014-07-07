@@ -1138,7 +1138,9 @@ function initCore() {
 			if(!$app.is('a')) {
 				$app = $app.closest('a');
 			}
-			$app.addClass('app-loading');
+			if(!event.ctrlKey) {
+				$app.addClass('app-loading');
+			}
 		});
 	}
 
