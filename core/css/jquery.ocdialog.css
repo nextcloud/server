@@ -31,6 +31,17 @@
 	margin-top: 10px;
 	width: 100%;
 }
+/* align primary button to right, other buttons to left */
+.oc-dialog-buttonrow.twobuttons button:nth-child(1) {
+	float: left;
+}
+.oc-dialog-buttonrow.twobuttons button:nth-child(2) {
+	float: right;
+}
+
+.oc-dialog-buttonrow.onebutton button {
+	float: right;
+}
 
 .oc-dialog-close {
 	position:absolute;

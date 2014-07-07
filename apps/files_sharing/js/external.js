@@ -42,12 +42,39 @@
 			}
 		};
 		if (!passwordProtected) {
-			OC.dialogs.confirm(t('files_sharing', 'Add {name} from {owner}@{remote}', {name: name, owner: owner, remote: remoteClean})
-				, t('files_sharing','Add Share'), callback, true);
+			OC.dialogs.confirm(
+				t(
+					'files_sharing',
+					'Do you want to add the remote share {name} from {owner}@{remote}?',
+					{name: name, owner: owner, remote: remoteClean}
+				),
+				t('files_sharing','Remote share'),
+				callback,
+				true
+			).then(this._adjustDialog);
 		} else {
-			OC.dialogs.prompt(t('files_sharing', 'Add {name} from {owner}@{remote}', {name: name, owner: owner, remote: remoteClean})
-				, t('files_sharing','Add Share'), callback, true, t('files_sharing','Password'), true);
+			OC.dialogs.prompt(
+				t(
+					'files_sharing',
+					'Do you want to add the remote share {name} from {owner}@{remote}?',
+					{name: name, owner: owner, remote: remoteClean}
+				),
+				t('files_sharing','Remote share'),
+				callback,
+				true,
+				t('files_sharing','Remote share password'),
+				true
+			).then(this._adjustDialog);
 		}
+	};
+
+	OCA.Sharing._adjustDialog = function() {
+		var $dialog = $('.oc-dialog:visible');
+		var $buttons = $dialog.find('button');
+		// hack the buttons
+		$dialog.find('.ui-icon').remove();
+		$buttons.eq(0).text(t('core', 'Cancel'));
+		$buttons.eq(1).text(t('core', 'Add remote share'));
 	};
 })();
 
