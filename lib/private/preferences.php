@@ -173,11 +173,16 @@ class Preferences {
 	 */
 	public function setValue($user, $app, $key, $value, $preCondition = null) {
 		// Check if the key does exist
-		$query = 'SELECT COUNT(*) FROM `*PREFIX*preferences`'
+		$query = 'SELECT `configvalue` FROM `*PREFIX*preferences`'
 			. ' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
-		$count = $this->conn->fetchColumn($query, array($user, $app, $key));
-		$exists = $count > 0;
+		$oldValue = $this->conn->fetchColumn($query, array($user, $app, $key));
+		$exists = $oldValue !== false;
 
+		if($oldValue === strval($value)) {
+			// no changes
+			return true;
+		}
+		
 		$affectedRows = 0;
 
 		if (!$exists && $preCondition === null) {
