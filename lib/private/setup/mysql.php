@@ -61,7 +61,7 @@ class MySQL extends AbstractDatabase {
 		$name = $this->dbname;
 		$user = $this->dbuser;
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
-		$query = "CREATE DATABASE IF NOT EXISTS `$name`";
+		$query = "CREATE DATABASE IF NOT EXISTS `$name` CHARACTER SET utf8 COLLATE utf8_bin;";
 		$result = mysql_query($query, $connection);
 		if(!$result) {
 			$entry = $this->trans->t('DB Error: "%s"', array(mysql_error($connection))) . '<br />';
