@@ -14,6 +14,7 @@ function updateStatus(statusEl, result){
 OC.MountConfig={
 	saveStorage:function(tr, callback) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
+		var oldMountPoint = $(tr).find('.mountPoint input').data('mountpoint');
 		if (mountPoint == '') {
 			return false;
 		}
@@ -80,9 +81,11 @@ OC.MountConfig={
 							classOptions: classOptions,
 							mountType: mountType,
 							applicable: applicable,
-							isPersonal: isPersonal
+							isPersonal: isPersonal,
+							oldMountPoint: oldMountPoint
 						},
 						success: function(result) {
+							$(tr).find('.mountPoint input').data('mountpoint', mountPoint);
 							status = updateStatus(statusSpan, result);
 							if (callback) {
 								callback(status);
@@ -139,9 +142,11 @@ OC.MountConfig={
 						classOptions: classOptions,
 						mountType: mountType,
 						applicable: applicable,
-						isPersonal: isPersonal
+						isPersonal: isPersonal,
+						oldMountPoint: oldMountPoint
 					},
 					success: function(result) {
+						$(tr).find('.mountPoint input').data('mountpoint', mountPoint);
 						status = updateStatus(statusSpan, result);
 						if (callback) {
 							callback(status);

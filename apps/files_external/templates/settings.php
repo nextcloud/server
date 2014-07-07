@@ -24,6 +24,7 @@
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint"
 											  value="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
+											  data-mountpoint="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
 											  placeholder="<?php p($l->t('Folder name')); ?>" /></td>
 				<?php if (!isset($mount['mountpoint'])): ?>
 					<td class="backend">
