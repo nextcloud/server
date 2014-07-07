@@ -15,4 +15,5 @@
 		<files>public.php</files>
 		<webdav>publicwebdav.php</webdav>
 	</public>
+	<ocsid>166050</ocsid>
 </info>
