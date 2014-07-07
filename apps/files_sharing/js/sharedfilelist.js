@@ -238,12 +238,11 @@
 					);
 					delete data.recipientsCount;
 				})
-				// Sort by expected sort comparator
-				.sortBy(this._sortComparator)
 				// Finish the chain by getting the result
 				.value();
 
-			return files;
+			// Sort by expected sort comparator
+			return files.sort(this._sortComparator);
 		}
 	});
 
