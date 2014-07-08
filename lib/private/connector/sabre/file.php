@@ -71,13 +71,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		}
 
 		// mark file as partial while uploading (ignored by the scanner)
-		$partpath = $this->path . '.ocTransferId' . rand() . '.part';
+		$partFilePath = $this->path . '.ocTransferId' . rand() . '.part';
 
 		try {
-			$putOkay = $this->fileView->file_put_contents($partpath, $data);
+			$putOkay = $this->fileView->file_put_contents($partFilePath, $data);
 			if ($putOkay === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
-				$this->fileView->unlink($partpath);
+				$this->fileView->unlink($partFilePath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new \Sabre\DAV\Exception('Could not write file contents');
 			}
@@ -102,13 +102,22 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
+		// double check if the file was fully received
+		// compare expected and actual size
+		$expected = $_SERVER['CONTENT_LENGTH'];
+		$actual = $this->fileView->filesize($partFilePath);
+		if ($actual != $expected) {
+			$this->fileView->unlink($partFilePath);
+			throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+		}
+
 		// rename to correct path
 		try {
-			$renameOkay = $this->fileView->rename($partpath, $this->path);
+			$renameOkay = $this->fileView->rename($partFilePath, $this->path);
 			$fileExists = $this->fileView->file_exists($this->path);
 			if ($renameOkay === false || $fileExists === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				$this->fileView->unlink($partpath);
+				$this->fileView->unlink($partFilePath);
 				throw new \Sabre\DAV\Exception('Could not rename part file to final file');
 			}
 		}
@@ -259,5 +268,4 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 
 		return null;
 	}
-
 }

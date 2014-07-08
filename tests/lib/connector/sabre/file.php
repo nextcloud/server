@@ -29,7 +29,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$file = new OC_Connector_Sabre_File($view, $info);
 
 		// action
-		$etag = $file->put('test data');
+		$file->put('test data');
 	}
 
 	/**
@@ -37,7 +37,9 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSimplePutFailsOnRename() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'rename', 'getRelativePath'), array(), '', false);
+		$view = $this->getMock('\OC\Files\View',
+			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'),
+			array(), '', false);
 		$view->expects($this->any())
 			->method('file_put_contents')
 			->withAnyParameters()
@@ -46,10 +48,14 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->method('rename')
 			->withAnyParameters()
 			->will($this->returnValue(false));
-
 		$view->expects($this->any())
 			->method('getRelativePath')
 			->will($this->returnValue('/test.txt'));
+		$view->expects($this->any())
+			->method('filesize')
+			->will($this->returnValue(123456));
+
+		$_SERVER['CONTENT_LENGTH'] = 123456;
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
 			'permissions' => \OCP\PERMISSION_ALL
@@ -58,7 +64,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$file = new OC_Connector_Sabre_File($view, $info);
 
 		// action
-		$etag = $file->put('test data');
+		$file->put('test data');
 	}
 
 	/**
@@ -81,7 +87,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$file = new OC_Connector_Sabre_File($view, $info);
 
 		// action
-		$etag = $file->put('test data');
+		$file->put('test data');
 	}
 
 	/**
@@ -101,5 +107,40 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		));
 		$file = new OC_Connector_Sabre_File($view, $info);
 		$file->setName('/super*star.txt');
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\BadRequest
+	 */
+	public function testUploadAbort() {
+		// setup
+		$view = $this->getMock('\OC\Files\View',
+			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'),
+			array(), '', false);
+		$view->expects($this->any())
+			->method('file_put_contents')
+			->withAnyParameters()
+			->will($this->returnValue(true));
+		$view->expects($this->any())
+			->method('rename')
+			->withAnyParameters()
+			->will($this->returnValue(false));
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue('/test.txt'));
+		$view->expects($this->any())
+			->method('filesize')
+			->will($this->returnValue(123456));
+
+		$_SERVER['CONTENT_LENGTH'] = 12345;
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\PERMISSION_ALL
+		));
+
+		$file = new OC_Connector_Sabre_File($view, $info);
+
+		// action
+		$file->put('test data');
 	}
 }
