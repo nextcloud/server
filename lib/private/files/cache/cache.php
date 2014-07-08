@@ -472,6 +472,8 @@ class Cache {
 			$sql .= 'REGEXP_LIKE(`name`, ?, \'i\')';
 		} else if($dbtype === 'pgsql') {
 			$sql .= '`name` ILIKE ?';
+		} else if ($dbtype === 'mysql') {
+			$sql .= '`name` COLLATE utf8_general_ci LIKE ?';
 		} else {
 			$sql .= '`name` LIKE ?';
 		}
