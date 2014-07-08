@@ -10,6 +10,7 @@ var $userGroupList;
 var GroupList;
 GroupList = {
 	activeGID: '',
+	everyoneGID: '_everyone',
 
 	addGroup: function (gid, usercount) {
 		var $li = $userGroupList.find('.isgroup:last-child').clone();
@@ -27,7 +28,7 @@ GroupList = {
 
 	setUserCount: function (groupLiElement, usercount) {
 		var $groupLiElement = $(groupLiElement);
-		if (usercount === undefined || usercount === 0) {
+		if (usercount === undefined || usercount === 0 || usercount < 0) {
 			usercount = '';
 		}
 		$groupLiElement.data('usercount', usercount);
@@ -36,6 +37,20 @@ GroupList = {
 
 	getUserCount: function ($groupLiElement) {
 		return parseInt($groupLiElement.data('usercount'), 10);
+	},
+
+	modEveryoneCount: function(diff) {
+		$li = GroupList.getGroupLI(GroupList.everyoneGID);
+		count = GroupList.getUserCount($li) + diff;
+		GroupList.setUserCount($li, count);
+	},
+
+	incEveryoneCount: function() {
+		GroupList.modEveryoneCount(1);
+	},
+
+	decEveryoneCount: function() {
+		GroupList.modEveryoneCount(-1);
 	},
 
 	getCurrentGID: function () {

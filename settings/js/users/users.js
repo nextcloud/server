@@ -237,7 +237,7 @@ var UserList = {
 	show: function(uid) {
 		UserList.getRow(uid).show();
 	},
-	remove: function(uid) {
+	markRemove: function(uid) {
 		$tr = UserList.getRow(uid);
 		groups = $tr.find('.groups .groupsselect').val();
 		for(i in groups) {
@@ -251,8 +251,28 @@ var UserList = {
 			}
 			GroupList.setUserCount($li, newUserCount);
 		}
-
+		GroupList.decEveryoneCount();
+		UserList.hide(uid);
+	},
+	remove: function(uid) {
 		UserList.getRow(uid).remove();
+	},
+	undoRemove: function(uid) {
+		$tr = UserList.getRow(uid);
+		groups = $tr.find('.groups .groupsselect').val();
+		for(i in groups) {
+			var gid = groups[i];
+			$li = GroupList.getGroupLI(gid);
+			userCount = GroupList.getUserCount($li);
+			if(userCount == 1) {
+				newUserCount = '';
+			} else {
+				newUserCount = userCount + 1;
+			}
+			GroupList.setUserCount($li, newUserCount);
+		}
+		GroupList.incEveryoneCount();
+		UserList.getRow(uid).show();
 	},
 	has: function(uid) {
 		return UserList.getRow(uid).length > 0;
@@ -271,14 +291,14 @@ var UserList = {
 	initDeleteHandling: function() {
 		//set up handler
 		UserDeleteHandler = new DeleteHandler('removeuser.php', 'username',
-											UserList.hide, UserList.remove);
+											UserList.markRemove, UserList.remove);
 
 		//configure undo
 		OC.Notification.hide();
 		var msg = escapeHTML(t('settings', 'deleted {userName}', {userName: '%oid'})) + '<span class="undo">' +
 			escapeHTML(t('settings', 'undo')) + '</span>';
 		UserDeleteHandler.setNotification(OC.Notification, 'deleteuser', msg,
-										UserList.show);
+										UserList.undoRemove);
 
 		//when to mark user for delete
 		$userListBody.on('click', '.delete', function () {
@@ -482,10 +502,8 @@ $(document).ready(function () {
 	UserList.doSort();
 	UserList.availableGroups = $userList.data('groups');
 
-
 	UserList.scrollArea = $('#app-content');
 	UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
-
 
 	$userList.after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
@@ -639,6 +657,7 @@ $(document).ready(function () {
 						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, 0, true);
 					}
 					$('#newusername').focus();
+					GroupList.incEveryoneCount();
 				}
 			}
 		);
