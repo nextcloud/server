@@ -404,14 +404,15 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * find the best language
+	 *
 	 * @param array|string $app details below
-	 * string language
 	 *
 	 * If $app is an array, ownCloud assumes that these are the available
 	 * languages. Otherwise ownCloud tries to find the files in the l10n
 	 * folder.
 	 *
 	 * If nothing works it returns 'en'
+	 * @return string language
 	 */
 	public function getLanguageCode($app=null) {
 		return self::findLanguage($app);
