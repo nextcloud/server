@@ -34,14 +34,15 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 					if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith == '') {
 						$shareWith = null;
 					}
-
+ 					$itemSourceName=(isset($_POST['itemSourceName'])) ? $_POST['itemSourceName']:'';
+					
 					$token = OCP\Share::shareItem(
 						$_POST['itemType'],
 						$_POST['itemSource'],
 						$shareType,
 						$shareWith,
 						$_POST['permissions'],
-						$_POST['itemSourceName'],
+						$itemSourceName,
 						(!empty($_POST['expirationDate']) ? new \DateTime($_POST['expirationDate']) : null)
 					);
 
