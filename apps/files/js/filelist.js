@@ -18,8 +18,8 @@
 		this.initialize($el, options);
 	};
 	FileList.prototype = {
-		SORT_INDICATOR_ASC_CLASS: 'icon-triangle-s',
-		SORT_INDICATOR_DESC_CLASS: 'icon-triangle-n',
+		SORT_INDICATOR_ASC_CLASS: 'icon-triangle-n',
+		SORT_INDICATOR_DESC_CLASS: 'icon-triangle-s',
 
 		id: 'files',
 		appName: t('files', 'Files'),
@@ -371,7 +371,12 @@
 					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc');
 				}
 				else {
-					this.setSort(sort, 'asc');
+					if ( sort === 'name' ) {	//default sorting of name is opposite to size and mtime
+						this.setSort(sort, 'asc');
+					}
+					else {
+						this.setSort(sort, 'desc');
+					}
 				}
 				this.reload();
 			}
@@ -914,16 +919,25 @@
 			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
 			this._sortComparator = comparator;
+
 			if (direction === 'desc') {
 				this._sortComparator = function(fileInfo1, fileInfo2) {
 					return -comparator(fileInfo1, fileInfo2);
 				};
 			}
 			this.$el.find('thead th .sort-indicator')
-				.removeClass(this.SORT_INDICATOR_ASC_CLASS + ' ' + this.SORT_INDICATOR_DESC_CLASS);
+				.removeClass(this.SORT_INDICATOR_ASC_CLASS)
+				.removeClass(this.SORT_INDICATOR_DESC_CLASS)
+				.toggleClass('hidden', true)
+				.addClass(this.SORT_INDICATOR_DESC_CLASS);
+
 			this.$el.find('thead th.column-' + sort + ' .sort-indicator')
+				.removeClass(this.SORT_INDICATOR_ASC_CLASS)
+				.removeClass(this.SORT_INDICATOR_DESC_CLASS)
+				.toggleClass('hidden', false)
 				.addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
 		},
+
 		/**
 		 * Reloads the file list using ajax call
 		 *

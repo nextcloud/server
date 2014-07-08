@@ -1696,7 +1696,7 @@ describe('OCA.Files.FileList tests', function() {
 			var url = fakeServer.requests[0].url;
 			var query = OC.parseQueryString(url.substr(url.indexOf('?') + 1));
 			expect(query.sort).toEqual('size');
-			expect(query.sortdirection).toEqual('asc');
+			expect(query.sortdirection).toEqual('desc');
 		});
 		it('Toggles sort direction when clicking on already sorted column', function() {
 			fileList.$el.find('.column-name .columntitle').click();
@@ -1710,16 +1710,14 @@ describe('OCA.Files.FileList tests', function() {
 			var ASC_CLASS = fileList.SORT_INDICATOR_ASC_CLASS;
 			var DESC_CLASS = fileList.SORT_INDICATOR_DESC_CLASS;
 			fileList.$el.find('.column-size .columntitle').click();
-			// moves triangle to size column
+			// moves triangle to size column, check indicator on name is hidden
 			expect(
-				fileList.$el.find('.column-name .sort-indicator').hasClass(ASC_CLASS + ' ' + DESC_CLASS)
-			).toEqual(false);
-			expect(
-				fileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS)
+				fileList.$el.find('.column-name .sort-indicator').hasClass('hidden')
 			).toEqual(true);
-
-			// click again on size column, reverses direction
-			fileList.$el.find('.column-size .columntitle').click();
+			// check indicator on size is visible and defaults to descending
+			expect(
+				fileList.$el.find('.column-size .sort-indicator').hasClass('hidden')
+			).toEqual(false);
 			expect(
 				fileList.$el.find('.column-size .sort-indicator').hasClass(DESC_CLASS)
 			).toEqual(true);
@@ -1727,20 +1725,36 @@ describe('OCA.Files.FileList tests', function() {
 			// click again on size column, reverses direction
 			fileList.$el.find('.column-size .columntitle').click();
 			expect(
+				fileList.$el.find('.column-size .sort-indicator').hasClass('hidden')
+			).toEqual(false);
+			expect(
 				fileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS)
+			).toEqual(true);
+
+			// click again on size column, reverses direction
+			fileList.$el.find('.column-size .columntitle').click();
+			expect(
+				fileList.$el.find('.column-size .sort-indicator').hasClass('hidden')
+			).toEqual(false);
+			expect(
+				fileList.$el.find('.column-size .sort-indicator').hasClass(DESC_CLASS)
 			).toEqual(true);
 
 			// click on mtime column, moves indicator there
 			fileList.$el.find('.column-mtime .columntitle').click();
 			expect(
-				fileList.$el.find('.column-size .sort-indicator').hasClass(ASC_CLASS + ' ' + DESC_CLASS)
+				fileList.$el.find('.column-size .sort-indicator').hasClass('hidden')
+			).toEqual(true);
+			expect(
+				fileList.$el.find('.column-mtime .sort-indicator').hasClass('hidden')
 			).toEqual(false);
 			expect(
-				fileList.$el.find('.column-mtime .sort-indicator').hasClass(ASC_CLASS)
+				fileList.$el.find('.column-mtime .sort-indicator').hasClass(DESC_CLASS)
 			).toEqual(true);
 		});
 		it('Uses correct sort comparator when inserting files', function() {
 			testFiles.sort(OCA.Files.FileList.Comparators.size);
+			testFiles.reverse();	//default is descending
 			// this will make it reload the testFiles with the correct sorting
 			fileList.$el.find('.column-size .columntitle').click();
 			expect(fakeServer.requests.length).toEqual(1);
@@ -1764,17 +1778,16 @@ describe('OCA.Files.FileList tests', function() {
 				etag: '999'
 			};
 			fileList.add(newFileData);
+			expect(fileList.findFileEl('Three.pdf').index()).toEqual(0);
+			expect(fileList.findFileEl('new file.txt').index()).toEqual(1);
+			expect(fileList.findFileEl('Two.jpg').index()).toEqual(2);
+			expect(fileList.findFileEl('somedir').index()).toEqual(3);
+			expect(fileList.findFileEl('One.txt').index()).toEqual(4);
 			expect(fileList.files.length).toEqual(5);
 			expect(fileList.$fileList.find('tr').length).toEqual(5);
-			expect(fileList.findFileEl('One.txt').index()).toEqual(0);
-			expect(fileList.findFileEl('somedir').index()).toEqual(1);
-			expect(fileList.findFileEl('Two.jpg').index()).toEqual(2);
-			expect(fileList.findFileEl('new file.txt').index()).toEqual(3);
-			expect(fileList.findFileEl('Three.pdf').index()).toEqual(4);
 		});
 		it('Uses correct reversed sort comparator when inserting files', function() {
 			testFiles.sort(OCA.Files.FileList.Comparators.size);
-			testFiles.reverse();
 			// this will make it reload the testFiles with the correct sorting
 			fileList.$el.find('.column-size .columntitle').click();
 			expect(fakeServer.requests.length).toEqual(1);
@@ -1811,13 +1824,13 @@ describe('OCA.Files.FileList tests', function() {
 				etag: '999'
 			};
 			fileList.add(newFileData);
+			expect(fileList.findFileEl('One.txt').index()).toEqual(0);
+			expect(fileList.findFileEl('somedir').index()).toEqual(1);
+			expect(fileList.findFileEl('Two.jpg').index()).toEqual(2);
+			expect(fileList.findFileEl('new file.txt').index()).toEqual(3);
+			expect(fileList.findFileEl('Three.pdf').index()).toEqual(4);
 			expect(fileList.files.length).toEqual(5);
 			expect(fileList.$fileList.find('tr').length).toEqual(5);
-			expect(fileList.findFileEl('One.txt').index()).toEqual(4);
-			expect(fileList.findFileEl('somedir').index()).toEqual(3);
-			expect(fileList.findFileEl('Two.jpg').index()).toEqual(2);
-			expect(fileList.findFileEl('new file.txt').index()).toEqual(1);
-			expect(fileList.findFileEl('Three.pdf').index()).toEqual(0);
 		});
 	});
 	/**
