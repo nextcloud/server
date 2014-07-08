@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-07 01:54-0400\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,33 +18,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: base.php:187 base.php:194
+#: base.php:195 base.php:202
 msgid "Cannot write into \"config\" directory!"
 msgstr ""
 
-#: base.php:188
+#: base.php:196
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config "
 "directory"
 msgstr ""
 
-#: base.php:190
+#: base.php:198
 #, php-format
 msgid "See %s"
 msgstr ""
 
-#: base.php:195 private/util.php:413
+#: base.php:203 private/util.php:413
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: base.php:675
+#: base.php:683
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:676
+#: base.php:684
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -71,19 +71,19 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:987
+#: private/app.php:990
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: private/app.php:1144
+#: private/app.php:1147
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1156
+#: private/app.php:1159
 msgid "No app name specified"
 msgstr ""
 

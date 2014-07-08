@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "ストレージが利用できません",
+"Storage invalid" => "ストレージが無効です",
 "Unknown error" => "不明なエラー",
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
@@ -25,8 +27,8 @@ $TRANSLATIONS = array(
 "Missing a temporary folder" => "一時保存フォルダーが見つかりません",
 "Failed to write to disk" => "ディスクへの書き込みに失敗しました",
 "Not enough storage available" => "ストレージに十分な空き容量がありません",
-"Upload failed. Could not find uploaded file" => "アップロードに失敗。アップロード済みのファイルを見つけることができませんでした。",
-"Upload failed. Could not get file info." => "アップロードに失敗。ファイル情報を取得できませんでした。",
+"Upload failed. Could not find uploaded file" => "アップロードに失敗しました。アップロード済みのファイルを見つけることができませんでした。",
+"Upload failed. Could not get file info." => "アップロードに失敗しました。ファイル情報を取得できませんでした。",
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
 "All files" => "すべてのファイル",

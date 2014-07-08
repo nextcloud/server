@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Parole",
 "Shared by {owner}" => "Dalījās {owner}",
 "Shared by" => "Dalījās",
+"Password" => "Parole",
 "Name" => "Nosaukums",
 "Download" => "Lejupielādēt"
 );

@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Lykilorð",
 "Shared by" => "Deilt af",
+"Password" => "Lykilorð",
 "Name" => "Nafn",
 "Download" => "Niðurhal"
 );

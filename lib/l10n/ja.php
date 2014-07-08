@@ -112,11 +112,11 @@ $TRANSLATIONS = array(
 "PostgreSQL >= 9 required" => "PostgreSQL >= 9 が必要です",
 "Please upgrade your database version" => "新しいバージョンのデータベースにアップグレードしてください",
 "Error occurred while checking PostgreSQL version" => "PostgreSQL のバージョンチェック中にエラーが発生しました",
-"Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "PostgreSQL >= 9 がインストールされているかどうか確認して下さい。もしくは、ログからエラーに関する詳細な情報を確認して下さい。",
+"Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "PostgreSQL >= 9 がインストールされているかどうか確認してください。もしくは、ログからエラーに関する詳細な情報を確認してください。",
 "Please change the permissions to 0770 so that the directory cannot be listed by other users." => "ディレクトリが他のユーザーから見えないように、パーミッションを 0770 に変更してください。",
 "Data directory (%s) is readable by other users" => "データディレクトリ (%s) は他のユーザーも閲覧することができます",
 "Data directory (%s) is invalid" => "データディレクトリ (%s) は無効です",
-"Please check that the data directory contains a file \".ocdata\" in its root." => "データディレクトリに \".ocdata\" ファイルが含まれていることを確認して下さい。",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "データディレクトリに \".ocdata\" ファイルが含まれていることを確認してください。",
 "Could not obtain lock type %d on \"%s\"." => "\"%s\" で %d タイプのロックを取得できませんでした。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

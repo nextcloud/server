@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Mật khẩu",
 "Shared by {owner}" => "Được chia sẽ bởi {owner}",
 "Shared by" => "Chia sẻ bởi",
+"Password" => "Mật khẩu",
 "Name" => "Tên",
 "Download" => "Tải về"
 );

@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Jelszó",
 "Shared by {owner}" => "Megosztotta: {owner}",
 "Shared by" => "Megosztotta Önnel",
 "This share is password-protected" => "Ez egy jelszóval védett megosztás",
 "The password is wrong. Try again." => "A megadott jelszó nem megfelelő. Próbálja újra!",
+"Password" => "Jelszó",
 "Name" => "Név",
 "Sorry, this link doesn’t seem to work anymore." => "Sajnos úgy tűnik, ez a link már nem működik.",
 "Reasons might be:" => "Ennek az oka a következő lehet:",

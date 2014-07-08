@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Парола",
 "Shared by" => "Споделено от",
+"Password" => "Парола",
 "Name" => "Име",
 "Download" => "Изтегляне"
 );

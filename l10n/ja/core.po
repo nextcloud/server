@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 05:40+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -174,47 +174,47 @@ msgstr "オーディオ"
 msgid "Saving..."
 msgstr "保存中..."
 
-#: js/js.js:1276
+#: js/js.js:1278
 msgid "seconds ago"
 msgstr "数秒前"
 
-#: js/js.js:1277
+#: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "%n 分前"
 
-#: js/js.js:1278
+#: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "%n 時間前"
 
-#: js/js.js:1279
+#: js/js.js:1281
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:1280
+#: js/js.js:1282
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:1281
+#: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "%n日前"
 
-#: js/js.js:1282
+#: js/js.js:1284
 msgid "last month"
 msgstr "1ヶ月前"
 
-#: js/js.js:1283
+#: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "%nヶ月前"
 
-#: js/js.js:1284
+#: js/js.js:1286
 msgid "last year"
 msgstr "1年前"
 
-#: js/js.js:1285
+#: js/js.js:1287
 msgid "years ago"
 msgstr "数年前"
 
@@ -249,94 +249,94 @@ msgstr "パスワードをリセット"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr "パスワードは変更できません。管理者に問い合わせてください。"
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
-msgid "Yes"
-msgstr "はい"
-
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
+#: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
 msgstr "いいえ"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:116 js/oc-dialogs.js:264
+msgid "Yes"
+msgstr "はい"
+
+#: js/oc-dialogs.js:202
 msgid "Choose"
 msgstr "選択"
 
-#: js/oc-dialogs.js:231
+#: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
 msgstr "ファイル選択テンプレートの読み込みエラー: {error}"
 
-#: js/oc-dialogs.js:284
+#: js/oc-dialogs.js:282
 msgid "Ok"
 msgstr "OK"
 
-#: js/oc-dialogs.js:304
+#: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
 msgstr "メッセージテンプレートの読み込みエラー: {error}"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:430
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} ファイルが競合"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:444
 msgid "One file conflict"
 msgstr "1ファイルが競合"
 
-#: js/oc-dialogs.js:452
+#: js/oc-dialogs.js:450
 msgid "New Files"
 msgstr "新しいファイル"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:451
 msgid "Already existing files"
 msgstr "既存のファイル"
 
-#: js/oc-dialogs.js:455
+#: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
 msgstr "どちらのファイルを保持しますか？"
 
-#: js/oc-dialogs.js:456
+#: js/oc-dialogs.js:454
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "両方のバージョンを選択した場合は、ファイル名の後ろに数字を追加したファイルのコピーを作成します。"
 
-#: js/oc-dialogs.js:464
+#: js/oc-dialogs.js:462
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: js/oc-dialogs.js:474
+#: js/oc-dialogs.js:472
 msgid "Continue"
 msgstr "続ける"
 
-#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
+#: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
 msgstr "(すべて選択)"
 
-#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
+#: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
 msgstr "({count} 選択)"
 
-#: js/oc-dialogs.js:546
+#: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
 msgstr "既存ファイルのテンプレートの読み込みエラー"
 
-#: js/setup.js:92
+#: js/setup.js:96
 msgid "Very weak password"
 msgstr "非常に弱いパスワード"
 
-#: js/setup.js:93
+#: js/setup.js:97
 msgid "Weak password"
 msgstr "弱いパスワード"
 
-#: js/setup.js:94
+#: js/setup.js:98
 msgid "So-so password"
 msgstr "まずまずのパスワード"
 
-#: js/setup.js:95
+#: js/setup.js:99
 msgid "Good password"
 msgstr "良好なパスワード"
 
-#: js/setup.js:96
+#: js/setup.js:100
 msgid "Strong password"
 msgstr "強いパスワード"
 
@@ -528,7 +528,7 @@ msgstr "削除するタグが選択されていません。"
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr "{productName} を バージョン {version} に更新しています。しばらくお待ち下さい。"
+msgstr "{productName} を バージョン {version} に更新しています。しばらくお待ちください。"
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -548,13 +548,13 @@ msgstr "トークンが無効なため、パスワードをリセットできま
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr "リセットメールを送信できませんでした。ユーザ名が正しいかどうか確認して下さい。"
+msgstr "リセットメールを送信できませんでした。ユーザー名が正しいことを確認してください。"
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr "このユーザ名に紐付けられたメールアドレスが無いため、リセットメールを送信できませんでした。管理者に問い合わせてください。"
+msgstr "このユーザー名に紐付けられたメールアドレスがないため、リセットメールを送信できませんでした。管理者に問い合わせてください。"
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format

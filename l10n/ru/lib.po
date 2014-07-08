@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
+"PO-Revision-Date: 2014-07-07 15:21+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -26,33 +26,33 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: base.php:187 base.php:194
+#: base.php:195 base.php:202
 msgid "Cannot write into \"config\" directory!"
 msgstr ""
 
-#: base.php:188
+#: base.php:196
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
 msgstr ""
 
-#: base.php:190
+#: base.php:198
 #, php-format
 msgid "See %s"
 msgstr ""
 
-#: base.php:195 private/util.php:413
+#: base.php:203 private/util.php:413
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: base.php:675
+#: base.php:683
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Вы пытаетесь получить доступ к серверу с неподтверждённого домена."
 
-#: base.php:676
+#: base.php:684
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -79,19 +79,19 @@ msgstr "Пользователи"
 msgid "Admin"
 msgstr "Администрирование"
 
-#: private/app.php:987
+#: private/app.php:990
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Не смог обновить \"%s\"."
 
-#: private/app.php:1144
+#: private/app.php:1147
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Невозможно установить приложение \\\"%s\\\", т.к. оно несовместимо с этой версией ownCloud."
 
-#: private/app.php:1156
+#: private/app.php:1159
 msgid "No app name specified"
 msgstr "Не выбрано имя приложения"
 

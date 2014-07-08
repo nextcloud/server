@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-07 01:54-0400\n"
-"PO-Revision-Date: 2014-07-07 01:50+0000\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
+"PO-Revision-Date: 2014-07-07 23:00+0000\n"
 "Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -20,33 +20,33 @@ msgstr ""
 "Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:187 base.php:194
+#: base.php:195 base.php:202
 msgid "Cannot write into \"config\" directory!"
 msgstr "¡Nun pue escribise nel direutoriu \"config\"!"
 
-#: base.php:188
+#: base.php:196
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
 msgstr ""
 
-#: base.php:190
+#: base.php:198
 #, php-format
 msgid "See %s"
 msgstr "Mira %s"
 
-#: base.php:195 private/util.php:413
+#: base.php:203 private/util.php:413
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: base.php:675
+#: base.php:683
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Tas accediendo al sirvidor dende un dominiu non confiáu."
 
-#: base.php:676
+#: base.php:684
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -73,19 +73,19 @@ msgstr "Usuarios"
 msgid "Admin"
 msgstr "Almin"
 
-#: private/app.php:987
+#: private/app.php:990
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Fallu al anovar \"%s\"."
 
-#: private/app.php:1144
+#: private/app.php:1147
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "L'aplicación \\\"%s\\\" nun pue instalase porque nun ye compatible con esta versión d'ownCloud"
 
-#: private/app.php:1156
+#: private/app.php:1159
 msgid "No app name specified"
 msgstr "Nun s'especificó nome de l'aplicación"
 
@@ -407,19 +407,19 @@ msgstr "Nun pudo alcontrase la estaya \"%s.\""
 
 #: private/template/functions.php:134
 msgid "seconds ago"
-msgstr "fai segundos"
+msgstr "hai segundos"
 
 #: private/template/functions.php:135
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] "fai %n minutos"
+msgstr[0] "hai %n minutu"
+msgstr[1] "hai %n minutos"
 
 #: private/template/functions.php:136
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] "fai %n hores"
+msgstr[0] "hai %n hora"
+msgstr[1] "hai %n hores"
 
 #: private/template/functions.php:137
 msgid "today"
@@ -432,8 +432,8 @@ msgstr "ayeri"
 #: private/template/functions.php:140
 msgid "%n day go"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] "fai %n díes"
+msgstr[0] "hai %n día"
+msgstr[1] "hai %n díes"
 
 #: private/template/functions.php:142
 msgid "last month"
@@ -442,8 +442,8 @@ msgstr "mes caberu"
 #: private/template/functions.php:143
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] "fai %n meses"
+msgstr[0] "hai %n mes"
+msgstr[1] "hai %n meses"
 
 #: private/template/functions.php:145
 msgid "last year"
@@ -451,7 +451,7 @@ msgstr "añu caberu"
 
 #: private/template/functions.php:146
 msgid "years ago"
-msgstr "fai años"
+msgstr "hai años"
 
 #: private/user/manager.php:238
 msgid ""
@@ -473,7 +473,7 @@ msgstr "El nome d'usuariu yá ta usándose"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Nun hai controladores de bases de datos  (sqlite, mysql, o postgresql)"
 
 #: private/util.php:405
 #, php-format
@@ -507,7 +507,7 @@ msgstr "Nun pue crease'l direutoriu \"data\" (%s)"
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Esto pue iguase davezu <a href=\"%s\" target=\"_blank\">dándo-y accesu d'escritura al direutoriu raigañu</a>."
 
 #: private/util.php:457
 #, php-format
@@ -530,7 +530,7 @@ msgstr "Por favor, entrúga-y al to alministrador del sirvidor pa instalar el m�
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "Nun ta instaláu'l módulu PHP %s"
 
 #: private/util.php:538
 #, php-format
@@ -547,7 +547,7 @@ msgstr ""
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Ta habilitáu'l mou seguru de PHP. ownCloud requier que tea deshabilitáu pa furrular afayadízamente"
 
 #: private/util.php:557
 msgid ""
@@ -575,7 +575,7 @@ msgstr ""
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Por favor, entruga al to alministrador pa reaniciar el sirvidor web."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
@@ -599,7 +599,7 @@ msgstr ""
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "Por favor, camuda los permisos a 0770 pa que'l direutoriu nun pueda llistase por otros usuarios."
 
 #: private/util.php:689
 #, php-format
@@ -609,7 +609,7 @@ msgstr ""
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Ye inválidu'l direutoriu de datos (%s)"
 
 #: private/util.php:711
 msgid ""

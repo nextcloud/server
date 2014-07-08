@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Parolă",
 "Shared by" => "impartite in ",
 "The password is wrong. Try again." => "Parola este incorectă. Încercaţi din nou.",
+"Password" => "Parolă",
 "Name" => "Nume",
 "Download" => "Descarcă"
 );

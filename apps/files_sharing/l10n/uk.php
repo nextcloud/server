@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Пароль",
 "Shared by {owner}" => "Опублікував {owner}",
 "Shared by" => "Опубліковано",
 "This share is password-protected" => "Цей ресурс обміну захищений паролем",
 "The password is wrong. Try again." => "Невірний пароль. Спробуйте ще раз.",
+"Password" => "Пароль",
 "Name" => "Ім'я",
 "Sorry, this link doesn’t seem to work anymore." => "На жаль, посилання більше не працює.",
 "Reasons might be:" => "Можливі причини:",

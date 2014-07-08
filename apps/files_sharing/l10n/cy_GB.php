@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Cyfrinair",
 "Shared by" => "Rhannwyd gan",
+"Password" => "Cyfrinair",
 "Name" => "Enw",
 "Download" => "Llwytho i lawr"
 );

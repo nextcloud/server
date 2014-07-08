@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "Kata laluan",
 "Shared by" => "Dikongsi dengan",
+"Password" => "Kata laluan",
 "Name" => "Nama",
 "Download" => "Muat turun"
 );

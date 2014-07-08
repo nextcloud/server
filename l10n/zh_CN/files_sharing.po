@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-05 05:54+0000\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -53,18 +53,25 @@ msgstr "您还未分享过文件。"
 msgid "You haven't shared any files by link yet."
 msgstr "您还没通过链接分享文件。"
 
-#: js/external.js:45 js/external.js:48
-msgid "Add {name} from {owner}@{remote}"
-msgstr "添加 {name} 来自 {owner}@{remote}"
+#: js/external.js:48 js/external.js:59
+msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
+msgstr ""
 
-#: js/external.js:46 js/external.js:49
-msgid "Add Share"
-msgstr "添加分享"
+#: js/external.js:51 js/external.js:62
+msgid "Remote share"
+msgstr ""
 
-#: js/external.js:49 templates/authenticate.php:10
-#: templates/authenticate.php:12
-msgid "Password"
-msgstr "密码"
+#: js/external.js:65
+msgid "Remote share password"
+msgstr ""
+
+#: js/external.js:76
+msgid "Cancel"
+msgstr ""
+
+#: js/external.js:77
+msgid "Add remote share"
+msgstr ""
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
@@ -89,6 +96,10 @@ msgstr "这是一个密码保护的共享"
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
 msgstr "用户名或密码错误！请重试"
+
+#: templates/authenticate.php:10 templates/authenticate.php:12
+msgid "Password"
+msgstr "密码"
 
 #: templates/list.php:16
 msgid "Name"

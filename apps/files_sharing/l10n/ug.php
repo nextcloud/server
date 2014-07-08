@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Password" => "ئىم",
 "Shared by" => "ھەمبەھىرلىگۈچى",
+"Password" => "ئىم",
 "Name" => "ئاتى",
 "Download" => "چۈشۈر"
 );

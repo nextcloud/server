@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-07 01:54-0400\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -231,7 +231,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: js/settings.js:320 js/settings.js:327
+#: js/settings.js:325 js/settings.js:332
 msgid "Saved"
 msgstr ""
 
@@ -284,7 +284,7 @@ msgstr ""
 msgid "External Storage"
 msgstr ""
 
-#: templates/settings.php:8 templates/settings.php:27
+#: templates/settings.php:8 templates/settings.php:28
 msgid "Folder name"
 msgstr ""
 
@@ -300,43 +300,43 @@ msgstr ""
 msgid "Available for"
 msgstr ""
 
-#: templates/settings.php:32
+#: templates/settings.php:33
 msgid "Add storage"
 msgstr ""
 
-#: templates/settings.php:92
+#: templates/settings.php:93
 msgid "No user or group"
 msgstr ""
 
-#: templates/settings.php:95
+#: templates/settings.php:96
 msgid "All Users"
 msgstr ""
 
-#: templates/settings.php:97
+#: templates/settings.php:98
 msgid "Groups"
 msgstr ""
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid "Users"
 msgstr ""
 
-#: templates/settings.php:118 templates/settings.php:119
-#: templates/settings.php:158 templates/settings.php:159
+#: templates/settings.php:119 templates/settings.php:120
+#: templates/settings.php:159 templates/settings.php:160
 msgid "Delete"
 msgstr ""
 
-#: templates/settings.php:132
+#: templates/settings.php:133
 msgid "Enable User External Storage"
 msgstr ""
 
-#: templates/settings.php:135
+#: templates/settings.php:136
 msgid "Allow users to mount the following external storage"
 msgstr ""
 
-#: templates/settings.php:150
+#: templates/settings.php:151
 msgid "SSL root certificates"
 msgstr ""
 
-#: templates/settings.php:168
+#: templates/settings.php:169
 msgid "Import Root Certificate"
 msgstr ""

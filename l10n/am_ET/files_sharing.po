@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-05 05:54+0000\n"
+"POT-Creation-Date: 2014-07-08 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Amharic (Ethiopia) (http://www.transifex.com/projects/p/owncloud/language/am_ET/)\n"
 "MIME-Version: 1.0\n"
@@ -49,17 +49,24 @@ msgstr ""
 msgid "You haven't shared any files by link yet."
 msgstr ""
 
-#: js/external.js:45 js/external.js:48
-msgid "Add {name} from {owner}@{remote}"
+#: js/external.js:48 js/external.js:59
+msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
 msgstr ""
 
-#: js/external.js:46 js/external.js:49
-msgid "Add Share"
+#: js/external.js:51 js/external.js:62
+msgid "Remote share"
 msgstr ""
 
-#: js/external.js:49 templates/authenticate.php:10
-#: templates/authenticate.php:12
-msgid "Password"
+#: js/external.js:65
+msgid "Remote share password"
+msgstr ""
+
+#: js/external.js:76
+msgid "Cancel"
+msgstr ""
+
+#: js/external.js:77
+msgid "Add remote share"
 msgstr ""
 
 #: js/public.js:203
@@ -84,6 +91,10 @@ msgstr ""
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
+msgstr ""
+
+#: templates/authenticate.php:10 templates/authenticate.php:12
+msgid "Password"
 msgstr ""
 
 #: templates/list.php:16
