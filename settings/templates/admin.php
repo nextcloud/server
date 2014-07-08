@@ -226,7 +226,7 @@ if (!$_['internetconnectionworking']) {
 					print_unescaped('checked="checked"');
 				} ?>>
 				<label for="backgroundjobs_cron">Cron</label><br/>
-				<em><?php p($l->t("Use systems cron service to call the cron.php file every 15 minutes.")); ?></em>
+				<em><?php p($l->t("Use system's cron service to call the cron.php file every 15 minutes.")); ?></em>
 	</p>
 </div>
 
