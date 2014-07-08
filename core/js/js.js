@@ -380,7 +380,7 @@ var OC={
 	 * Do a search query and display the results
 	 * @param {string} query the search query
 	 */
-	search:function(query){
+	search: _.debounce(function(query){
 		if(query){
 			OC.addStyle('search','results');
 			$.getJSON(OC.filePath('search','ajax','search.php')+'?query='+encodeURIComponent(query), function(results){
@@ -388,7 +388,7 @@ var OC={
 				OC.search.showResults(results);
 			});
 		}
-	},
+	}, 500),
 	dialogs:OCdialogs,
 	mtime2date:function(mtime) {
 		mtime = parseInt(mtime,10);
