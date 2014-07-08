@@ -87,13 +87,18 @@ class Test_Files_Sharing_Update_Routine extends Test_Files_Sharing_Base {
 	/**
 	 * @medium
 	 */
-	function testRemoveBrokenShares() {
+	function testRemoveBrokenFileShares() {
 
 		$this->prepareFileCache();
 
-		// check if there are just 3 shares (see setUp - precondition: empty table)
-		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share`');
-		$result = $countShares->execute()->fetchOne();
+		// check if there are just 4 shares (see setUp - precondition: empty table)
+		$countAllShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share`');
+		$result = $countAllShares->execute()->fetchOne();
+		$this->assertEquals(4, $result);
+
+		// check if there are just 3 file shares (see setUp - precondition: empty table)
+		$countFileShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share` WHERE `item_type` IN (\'file\', \'folder\')');
+		$result = $countFileShares->execute()->fetchOne();
 		$this->assertEquals(3, $result);
 
 		// check if there are just 2 items (see setUp - precondition: empty table)
@@ -105,19 +110,23 @@ class Test_Files_Sharing_Update_Routine extends Test_Files_Sharing_Base {
 		\OC\Files\Cache\Shared_Updater::fixBrokenSharesOnAppUpdate();
 
 		// check if there are just 2 shares (one gets killed by the code as there is no filecache entry for this)
-		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share`');
-		$result = $countShares->execute()->fetchOne();
+		$result = $countFileShares->execute()->fetchOne();
 		$this->assertEquals(2, $result);
 
 		// check if the share of file '200' is removed as there is no entry for this in filecache table
-		$countShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share` WHERE `file_source` = 200');
-		$result = $countShares->execute()->fetchOne();
+		$countFileShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share` WHERE `file_source` = 200');
+		$result = $countFileShares->execute()->fetchOne();
 		$this->assertEquals(0, $result);
 
 		// check if there are just 2 items
 		$countItems = \OC_DB::prepare('SELECT COUNT(`fileid`) FROM `*PREFIX*filecache`');
 		$result = $countItems->execute()->fetchOne();
 		$this->assertEquals(2, $result);
+
+		// the calendar share survived
+		$countOtherShares = \OC_DB::prepare('SELECT COUNT(`id`) FROM `*PREFIX*share` WHERE `item_source` = \'999\'');
+		$result = $countOtherShares->execute()->fetchOne();
+		$this->assertEquals(1, $result);
 	}
 
 	/**
@@ -228,6 +237,11 @@ class Test_Files_Sharing_Update_Routine extends Test_Files_Sharing_Base {
 		$addShares->execute(array($fileIds[0]));
 		$addShares->execute(array(200)); // id of "deleted" file
 		$addShares->execute(array($fileIds[1]));
+
+		// add a few unrelated shares, calendar share that must be left untouched
+		$addShares = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_source`, `item_type`, `uid_owner`) VALUES (?, \'calendar\', 1)');
+		// the number is used as item_source
+		$addShares->execute(array(999));
 	}
 
 }
