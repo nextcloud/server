@@ -18,6 +18,8 @@ class OC_Defaults {
 	private $defaultTitle;
 	private $defaultBaseUrl;
 	private $defaultSyncClientUrl;
+	private $defaultiOSClientURL;
+	private $defaultAndroidClientURL;
 	private $defaultDocBaseUrl;
 	private $defaultDocVersion;
 	private $defaultSlogan;
@@ -28,18 +30,20 @@ class OC_Defaults {
 		$this->l = OC_L10N::get('lib');
 		$version = OC_Util::getVersion();
 
-		$this->defaultEntity = "ownCloud"; /* e.g. company name, used for footers and copyright notices */
-		$this->defaultName = "ownCloud"; /* short name, used when referring to the software */
-		$this->defaultTitle = "ownCloud"; /* can be a longer name, for titles */
-		$this->defaultBaseUrl = "https://owncloud.org";
-		$this->defaultSyncClientUrl = "https://owncloud.org/sync-clients/";
-		$this->defaultDocBaseUrl = "http://doc.owncloud.org";
-		$this->defaultDocVersion = $version[0] . ".0"; // used to generate doc links
-		$this->defaultSlogan = $this->l->t("web services under your control");
-		$this->defaultLogoClaim = "";
-		$this->defaultMailHeaderColor = "#1d2d44"; /* header color of mail notifications */
+		$this->defaultEntity = 'ownCloud'; /* e.g. company name, used for footers and copyright notices */
+		$this->defaultName = 'ownCloud'; /* short name, used when referring to the software */
+		$this->defaultTitle = 'ownCloud'; /* can be a longer name, for titles */
+		$this->defaultBaseUrl = 'https://owncloud.org';
+		$this->defaultSyncClientUrl = 'https://owncloud.org/sync-clients/';
+		$this->defaultiOSClientURL = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
+		$this->defaultAndroidClientURL = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
+		$this->defaultDocBaseUrl = 'http://doc.owncloud.org';
+		$this->defaultDocVersion = $version[0] . '.0'; // used to generate doc links
+		$this->defaultSlogan = $this->l->t('web services under your control');
+		$this->defaultLogoClaim = '';
+		$this->defaultMailHeaderColor = '#1d2d44'; /* header color of mail notifications */
 
-		if (class_exists("OC_Theme")) {
+		if (class_exists('OC_Theme')) {
 			$this->theme = new OC_Theme();
 		}
 	}
@@ -75,6 +79,30 @@ class OC_Defaults {
 			return $this->theme->getSyncClientUrl();
 		} else {
 			return $this->defaultSyncClientUrl;
+		}
+	}
+
+	/**
+	 * Returns the URL to the App Store for the iOS Client
+	 * @return string URL
+	 */
+	public function getiOSClientUrl() {
+		if ($this->themeExist('getiOSClientUrl')) {
+			return $this->theme->getiOSClientUrl();
+		} else {
+			return $this->defaultiOSClientUrl;
+		}
+	}
+
+	/**
+	 * Returns the URL to Google Play for the Android Client
+	 * @return string URL
+	 */
+	public function getAndroidClientUrl() {
+		if ($this->themeExist('getAndroidClientUrl')) {
+			return $this->theme->getAndroidClientUrl();
+		} else {
+			return $this->defaultAndroidClientUrl;
 		}
 	}
 
@@ -158,7 +186,7 @@ class OC_Defaults {
 		if ($this->themeExist('getShortFooter')) {
 			$footer = $this->theme->getShortFooter();
 		} else {
-			$footer = "<a href=\"". $this->getBaseUrl() . "\" target=\"_blank\">" .$this->getEntity() . "</a>".
+			$footer = '<a href=\"'. $this->getBaseUrl() . '\" target=\"_blank\">' .$this->getEntity() . '</a>'.
 				' – ' . $this->getSlogan();
 		}
 
