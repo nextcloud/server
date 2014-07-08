@@ -67,7 +67,6 @@ $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $
 	$mountManager = \OC\Files\Filesystem::getMountManager();
 	$objectTree->init($root, $view, $mountManager);
 
-	$server->addPlugin(new OC_Connector_Sabre_AbortedUploadDetectionPlugin($view));
 	$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
 }, 30); // priority 30: after auth (10) and acl(20), before lock(50) and handling the request
 
