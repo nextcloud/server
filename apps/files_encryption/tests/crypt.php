@@ -388,33 +388,6 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * test decryption using legacy blowfish method
-	 */
-	function testLegacyDecryptShort() {
-
-		$crypted = $this->legacyEncrypt($this->dataShort, $this->pass);
-
-		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
-
-		$this->assertEquals($this->dataShort, $decrypted);
-
-	}
-
-	/**
-	 * @medium
-	 * test decryption using legacy blowfish method
-	 */
-	function testLegacyDecryptLong() {
-
-		$crypted = $this->legacyEncrypt($this->dataLong, $this->pass);
-
-		$decrypted = Encryption\Crypt::legacyBlockDecrypt($crypted, $this->pass);
-
-		$this->assertEquals($this->dataLong, $decrypted);
-	}
-
-	/**
-	 * @medium
 	 */
 	function testRenameFile() {
 
@@ -656,21 +629,6 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		// tear down
 		$view->unlink($filename);
-	}
-
-
-	/**
-	 * encryption using legacy blowfish method
-	 * @param string $data data to encrypt
-	 * @param string $passwd password
-	 * @return string
-	 */
-	function legacyEncrypt($data, $passwd) {
-
-		$bf = new Legacy_Crypt_Blowfish($passwd);
-		$crypted = $bf->encrypt($data);
-
-		return $crypted;
 	}
 
 }

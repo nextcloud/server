@@ -203,9 +203,6 @@ class Proxy extends \OC_FileProxy {
 		$plainData = null;
 		$view = new \OC\Files\View('/');
 
-		// init session
-		$session = new \OCA\Encryption\Session($view);
-
 		// If data is a catfile
 		if (
 			Crypt::mode() === 'server'
@@ -220,18 +217,6 @@ class Proxy extends \OC_FileProxy {
 				}
 			}
 
-		} elseif (
-			Crypt::mode() == 'server'
-			&& \OC::$session->exists('legacyenckey')
-			&& Crypt::isEncryptedMeta($path)
-		) {
-			// Disable encryption proxy to prevent recursive calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
-
-			$plainData = Crypt::legacyBlockDecrypt($data, $session->getLegacyKey());
-
-			\OC_FileProxy::$enabled = $proxyStatus;
 		}
 
 		if (!isset($plainData)) {

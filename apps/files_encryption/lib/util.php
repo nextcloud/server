@@ -236,7 +236,7 @@ class Util {
 	 * Find all files and their encryption status within a directory
 	 * @param string $directory The path of the parent directory to search
 	 * @param bool $found the founded files if called again
-	 * @return array keys: plain, encrypted, legacy, broken
+	 * @return array keys: plain, encrypted, broken
 	 * @note $directory needs to be a path relative to OC data dir. e.g.
 	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
@@ -250,7 +250,6 @@ class Util {
 			$found = array(
 				'plain' => array(),
 				'encrypted' => array(),
-				'legacy' => array(),
 				'broken' => array(),
 			);
 		}
@@ -303,15 +302,6 @@ class Util {
 										'path' => $filePath,
 									);
 								}
-
-								// If the file uses old
-								// encryption system
-							} elseif (Crypt::isLegacyEncryptedContent($isEncryptedPath, $relPath)) {
-
-								$found['legacy'][] = array(
-									'name' => $file,
-									'path' => $filePath
-								);
 
 								// If the file is not encrypted
 							} else {
@@ -691,12 +681,10 @@ class Util {
 	/**
 	 * Encrypt all files in a directory
 	 * @param string $dirPath the directory whose files will be encrypted
-	 * @param null $legacyPassphrase
-	 * @param null $newPassphrase
 	 * @return bool
 	 * @note Encryption is recursive
 	 */
-	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
+	public function encryptAll($dirPath) {
 
 		$result = true;
 
@@ -762,42 +750,6 @@ class Util {
 			} else {
 				\OCP\Util::writeLog('files_encryption', 'initial encryption: could not encrypt ' . $rawPath, \OCP\Util::FATAL);
 				$result = false;
-			}
-		}
-
-		// Encrypt legacy encrypted files
-		if (!empty($legacyPassphrase) && !empty($newPassphrase)) {
-
-			foreach ($found['legacy'] as $legacyFile) {
-
-				// Fetch data from file
-				$legacyData = $this->view->file_get_contents($legacyFile['path']);
-
-				// decrypt data, generate catfile
-				$decrypted = Crypt::legacyBlockDecrypt($legacyData, $legacyPassphrase);
-
-				$rawPath = $legacyFile['path'];
-
-				// enable proxy the ensure encryption is handled
-				\OC_FileProxy::$enabled = true;
-
-				// Open enc file handle for binary writing, with same filename as original plain file
-				$encHandle = $this->view->fopen($rawPath, 'wb');
-
-				if (is_resource($encHandle)) {
-
-					// write data to stream
-					fwrite($encHandle, $decrypted);
-
-					// close stream
-					fclose($encHandle);
-				} else {
-					\OCP\Util::writeLog('files_encryption', 'initial encryption: could not encrypt legacy file ' . $rawPath, \OCP\Util::FATAL);
-					$result = false;
-				}
-
-				// disable proxy to prevent file being encrypted twice
-				\OC_FileProxy::$enabled = false;
 			}
 		}
 

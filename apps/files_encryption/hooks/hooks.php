@@ -97,23 +97,9 @@ class Hooks {
 		// If migration not yet done
 		if ($ready) {
 
-			$userView = new \OC\Files\View('/' . $params['uid']);
-
-			// Set legacy encryption key if it exists, to support
-			// depreciated encryption system
-			if ($userView->file_exists('encryption.key')) {
-				$encLegacyKey = $userView->file_get_contents('encryption.key');
-				if ($encLegacyKey) {
-
-					$plainLegacyKey = Crypt::legacyDecrypt($encLegacyKey, $params['password']);
-
-					$session->setLegacyKey($plainLegacyKey);
-				}
-			}
-
 			// Encrypt existing user files
 			try {
-				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password']);
+				$result = $util->encryptAll('/' . $params['uid'] . '/' . 'files');
 			} catch (\Exception $ex) {
 				\OCP\Util::writeLog('Encryption library', 'Initial encryption failed! Error: ' . $ex->getMessage(), \OCP\Util::FATAL);
 				$result = false;
