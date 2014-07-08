@@ -76,8 +76,8 @@ usort( $languages, function ($a, $b) {
 //links to clients
 $clients = array(
 	'desktop' => OC_Config::getValue('customclient_desktop', $defaults->getSyncClientUrl()),
-	'android' => OC_Config::getValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.owncloud.android'),
-	'ios'     => OC_Config::getValue('customclient_ios', 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8')
+	'android' => OC_Config::getValue('customclient_android', $defaults->getAndroidClientUrl()),
+	'ios'     => OC_Config::getValue('customclient_ios', $defaults->getiOSClientUrl())
 );
 
 // Return template
