@@ -369,7 +369,12 @@
 					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc');
 				}
 				else {
-					this.setSort(sort, 'asc');
+					if ( sort == 'name' ) { 	//default sorting of name is opposite to size and mtime
+						this.setSort(sort, 'asc');
+					}
+					else {
+						this.setSort(sort, 'desc');
+					}
 				}
 				this.reload();
 			}
