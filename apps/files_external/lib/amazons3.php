@@ -190,26 +190,17 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		$dh = $this->opendir($path);
-
-		if(is_resource($dh)) {
-			while (($file = readdir($dh)) !== false) {
-				if ($file === '.' || $file === '..') {
-					continue;
-				}
-
-				if ($this->is_dir($path . '/' . $file)) {
-					$this->rmdir($path . '/' . $file);
-				} else {
-					$this->unlink($path . '/' . $file);
-				}
-			}
-		}
+		// Since there are no real directories on S3, we need
+		// to delete all objects prefixed with the path.
+		$objects = $this->connection->listObjects([
+			'Bucket' => $this->bucket,
+			'Prefix' => $path . '/'
+		]);
 
 		try {
-			$result = $this->connection->deleteObject(array(
+			$result = $this->connection->deleteObjects(array(
 				'Bucket' => $this->bucket,
-				'Key' => $path . '/'
+				'Objects' => $objects['Contents']
 			));
 			$this->testTimeout();
 		} catch (S3Exception $e) {
@@ -309,6 +300,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	public function unlink($path) {
 		$path = $this->normalizePath($path);
+
+		if ( $this->is_dir($path) ) {
+			return $this->rmdir($path);
+		}
 
 		try {
 			$result = $this->connection->deleteObject(array(
