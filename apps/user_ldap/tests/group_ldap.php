@@ -96,6 +96,10 @@ class Test_Group_Ldap extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue('cn=group,dc=foo,dc=bar'));
 
 		$access->expects($this->any())
+			->method('fetchListOfUsers')
+			->will($this->returnValue(array()));
+
+		$access->expects($this->any())
 			->method('readAttribute')
 			->will($this->returnCallback(function($name) {
 				//the search operation will call readAttribute, thus we need
@@ -111,12 +115,158 @@ class Test_Group_Ldap extends \PHPUnit_Framework_TestCase {
 
 		$access->expects($this->any())
 			->method('dn2username')
-			->will($this->returnValue('foobar'));
+			->will($this->returnCallback(function() {
+				return 'foobar' . \OCP\Util::generateRandomBytes(7);
+			}));
 
 		$groupBackend = new GroupLDAP($access);
 		$users = $groupBackend->countUsersInGroup('group', '3');
 
 		$this->assertSame(2, $users);
+	}
+
+	public function testPrimaryGroupID2NameSuccess() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('getSID')
+			->with($userDN)
+			->will($this->returnValue('S-1-5-21-249921958-728525901-1594176202'));
+
+		$access->expects($this->once())
+			->method('searchGroups')
+			->will($this->returnValue(array('cn=foo,dc=barfoo,dc=bar')));
+
+		$access->expects($this->once())
+			->method('dn2groupname')
+			->with('cn=foo,dc=barfoo,dc=bar')
+			->will($this->returnValue('MyGroup'));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->primaryGroupID2Name('3117', $userDN);
+
+		$this->assertSame('MyGroup', $group);
+	}
+
+	public function testPrimaryGroupID2NameNoSID() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('getSID')
+			->with($userDN)
+			->will($this->returnValue(false));
+
+		$access->expects($this->never())
+			->method('searchGroups');
+
+		$access->expects($this->never())
+			->method('dn2groupname');
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->primaryGroupID2Name('3117', $userDN);
+
+		$this->assertSame(false, $group);
+	}
+
+	public function testPrimaryGroupID2NameNoGroup() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('getSID')
+			->with($userDN)
+			->will($this->returnValue('S-1-5-21-249921958-728525901-1594176202'));
+
+		$access->expects($this->once())
+			->method('searchGroups')
+			->will($this->returnValue(array()));
+
+		$access->expects($this->never())
+			->method('dn2groupname');
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->primaryGroupID2Name('3117', $userDN);
+
+		$this->assertSame(false, $group);
+	}
+
+	public function testPrimaryGroupID2NameNoName() {
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$userDN = 'cn=alice,cn=foo,dc=barfoo,dc=bar';
+
+		$access->expects($this->once())
+			->method('getSID')
+			->with($userDN)
+			->will($this->returnValue('S-1-5-21-249921958-728525901-1594176202'));
+
+		$access->expects($this->once())
+			->method('searchGroups')
+			->will($this->returnValue(array('cn=foo,dc=barfoo,dc=bar')));
+
+		$access->expects($this->once())
+			->method('dn2groupname')
+			->will($this->returnValue(false));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$group = $groupBackend->primaryGroupID2Name('3117', $userDN);
+
+		$this->assertSame(false, $group);
+	}
+
+	public function testGetEntryGroupIDValue() {
+		//tests getEntryGroupID via getGroupPrimaryGroupID
+		//which is basically identical to getUserPrimaryGroupIDs
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
+		$attr = 'primaryGroupToken';
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($dn, $attr)
+			->will($this->returnValue(array('3117')));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$gid = $groupBackend->getGroupPrimaryGroupID($dn);
+
+		$this->assertSame('3117', $gid);
+	}
+
+	public function testGetEntryGroupIDNoValue() {
+		//tests getEntryGroupID via getGroupPrimaryGroupID
+		//which is basically identical to getUserPrimaryGroupIDs
+		$access = $this->getAccessMock();
+		$this->enableGroups($access);
+
+		$dn = 'cn=foobar,cn=foo,dc=barfoo,dc=bar';
+		$attr = 'primaryGroupToken';
+
+		$access->expects($this->once())
+			->method('readAttribute')
+			->with($dn, $attr)
+			->will($this->returnValue(false));
+
+		$groupBackend = new GroupLDAP($access);
+
+		$gid = $groupBackend->getGroupPrimaryGroupID($dn);
+
+		$this->assertSame(false, $gid);
 	}
 
 }
