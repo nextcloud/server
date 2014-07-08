@@ -183,6 +183,10 @@ class AppConfig implements \OCP\IAppConfig {
 			);
 			$this->conn->insert('*PREFIX*appconfig', $data);
 		} else {
+			$oldValue = $this->getValue($app, $key);
+			if($oldValue === strval($value)) {
+				return true;
+			}
 			$data = array(
 				'configvalue' => $value,
 			);

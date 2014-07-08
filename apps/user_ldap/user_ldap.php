@@ -73,7 +73,6 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 			}
 
 			$user->markLogin();
-			$user->update();
 
 			return $user->getUsername();
 		}

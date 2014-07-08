@@ -95,6 +95,72 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('somevalue', $value['configvalue']);
 	}
 
+	public function testSetValueUnchanged() {
+		$statementMock = $this->getMock('\Doctrine\DBAL\Statement', array(), array(), '', false);
+		$statementMock->expects($this->once())
+			->method('fetch')
+			->will($this->returnValue(false));
+
+		$connectionMock = $this->getMock('\OC\DB\Connection', array(), array(), '', false);
+		$connectionMock->expects($this->once())
+			->method('executeQuery')
+			->with($this->equalTo('SELECT `configvalue`, `configkey` FROM `*PREFIX*appconfig`'
+				.' WHERE `appid` = ?'), $this->equalTo(array('bar')))
+			->will($this->returnValue($statementMock));
+		$connectionMock->expects($this->once())
+			->method('insert')
+			->with($this->equalTo('*PREFIX*appconfig'),
+				$this->equalTo(
+					array(
+						'appid' => 'bar',
+						'configkey' => 'foo',
+						'configvalue' => 'v1',
+					)
+				));
+		$connectionMock->expects($this->never())
+			->method('update');
+
+		$appconfig = new OC\AppConfig($connectionMock);
+		$appconfig->setValue('bar', 'foo', 'v1');
+		$appconfig->setValue('bar', 'foo', 'v1');
+		$appconfig->setValue('bar', 'foo', 'v1');
+	}
+
+	public function testSetValueUnchanged2() {
+		$statementMock = $this->getMock('\Doctrine\DBAL\Statement', array(), array(), '', false);
+		$statementMock->expects($this->once())
+			->method('fetch')
+			->will($this->returnValue(false));
+
+		$connectionMock = $this->getMock('\OC\DB\Connection', array(), array(), '', false);
+		$connectionMock->expects($this->once())
+			->method('executeQuery')
+			->with($this->equalTo('SELECT `configvalue`, `configkey` FROM `*PREFIX*appconfig`'
+				.' WHERE `appid` = ?'), $this->equalTo(array('bar')))
+			->will($this->returnValue($statementMock));
+		$connectionMock->expects($this->once())
+			->method('insert')
+			->with($this->equalTo('*PREFIX*appconfig'),
+				$this->equalTo(
+					array(
+						'appid' => 'bar',
+						'configkey' => 'foo',
+						'configvalue' => 'v1',
+					)
+				));
+		$connectionMock->expects($this->once())
+			->method('update')
+			->with($this->equalTo('*PREFIX*appconfig'),
+				$this->equalTo(array('configvalue' => 'v2')),
+				$this->equalTo(array('appid' => 'bar', 'configkey' => 'foo'))
+				);
+
+		$appconfig = new OC\AppConfig($connectionMock);
+		$appconfig->setValue('bar', 'foo', 'v1');
+		$appconfig->setValue('bar', 'foo', 'v2');
+		$appconfig->setValue('bar', 'foo', 'v2');
+	}
+
 	public function testDeleteKey() {
 		\OC_Appconfig::deleteKey('testapp', 'deletethis');
 		$query = \OC_DB::prepare('SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?');
