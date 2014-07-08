@@ -58,7 +58,7 @@ GroupList = {
 	},
 
 	sortGroups: function () {
-		var lis = $('.isgroup').get();
+		var lis = $userGroupList.find('.isgroup').get();
 
 		lis.sort(function (a, b) {
 			return UserList.alphanum(
