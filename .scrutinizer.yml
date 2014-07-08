@@ -19,6 +19,7 @@ filter:
         - 'core/js/placeholders.js'
         - 'core/js/underscore.js'
         - 'core/js/jquery.multiselect.js'
+        - 'core/js/snap.js'
 
 
 imports:
