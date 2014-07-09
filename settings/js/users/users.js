@@ -385,20 +385,21 @@ var UserList = {
 					function (response) {
 						if (response.status === 'success') {
 							GroupList.update();
-							if (UserList.availableGroups.indexOf(response.data.groupname) === -1 &&
+							var groupName = response.data.groupname;
+							if (UserList.availableGroups.indexOf(groupName) === -1 &&
 								response.data.action === 'add'
 							) {
-								UserList.availableGroups.push(response.data.groupname);
+								UserList.availableGroups.push(groupName);
 							}
 
 							// in case this was the last user in that group the group has to be removed
-							var groupElement = GroupList.getGroupLI(response.data.groupname);
+							var groupElement = GroupList.getGroupLI(groupName);
 							var userCount = GroupList.getUserCount(groupElement);
 							if (response.data.action === 'remove' && userCount === 1) {
-								_.without(UserList.availableGroups, response.data.groupname);
-								GroupList.remove(response.data.groupname);
-								$('.groupsselect option[value='+response.data.groupname+']').remove();
-								$('.subadminsselect option[value='+response.data.groupname+']').remove();
+								_.without(UserList.availableGroups, groupName);
+								GroupList.remove(groupName);
+								$('.groupsselect option').filterAttr('value', groupName).remove();
+								$('.subadminsselect option').filterAttr('value', groupName).remove();
 							}
 
 
