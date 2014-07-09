@@ -34,6 +34,9 @@ if (isset($_GET['limit'])) {
 }
 if (isset($_GET['gid']) && !empty($_GET['gid'])) {
 	$gid = $_GET['gid'];
+	if ($gid === '_everyone') {
+		$gid = false;
+	}
 } else {
 	$gid = false;
 }
