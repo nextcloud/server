@@ -40,8 +40,8 @@ GroupList = {
 	},
 
 	modEveryoneCount: function(diff) {
-		$li = GroupList.getGroupLI(GroupList.everyoneGID);
-		count = GroupList.getUserCount($li) + diff;
+		var $li = GroupList.getGroupLI(GroupList.everyoneGID);
+		var count = GroupList.getUserCount($li) + diff;
 		GroupList.setUserCount($li, count);
 	},
 
@@ -140,7 +140,7 @@ GroupList = {
 					}
 					_.defer(function () {
 						$(lis).each(function () {
-							this.removeClass('transparent')
+							this.removeClass('transparent');
 						});
 					});
 				}

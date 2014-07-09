@@ -399,8 +399,8 @@ var UserList = {
 						}
 					}
 				);
-			}
-		};
+			};
+		}
 		var addGroup = function (select, group) {
 			$('select[multiple]').each(function (index, element) {
 				$element = $(element);
