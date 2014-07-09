@@ -114,7 +114,10 @@ GroupList = {
 		GroupList.updating = true;
 		$.get(
 			OC.generateUrl('/settings/ajax/grouplist'),
-			{pattern: filter.getPattern()},
+			{
+				pattern: filter.getPattern(),
+				filterGroups: filter.filterGroups ? 1 : 0
+			},
 			function (result) {
 
 				var lis = [];

@@ -24,9 +24,9 @@ class MetaData {
 	protected $isAdmin;
 
 	/**
-	 * @var string[] $groups
+	 * @var array $metaData
 	 */
-	protected $groups = array();
+	protected $metaData = array();
 
 	/**
 	 * @var \OC\Group\Manager $groupManager
@@ -39,14 +39,9 @@ class MetaData {
 	protected $sorting = false;
 
 	/**
-	 * @var string $lastSearch
-	 */
-	protected $lastSearch;
-
-	/**
-	 * @param string the uid of the current user
-	 * @param bool whether the current users is an admin
-	 * @param \OC\Group\Manager
+	 * @param string $user the uid of the current user
+	 * @param bool $isAdmin whether the current users is an admin
+	 * @param \OC\Group\Manager $groupManager
 	 */
 	public function __construct(
 			$user,
@@ -63,14 +58,15 @@ class MetaData {
 	 * the array is structured as follows:
 	 * [0] array containing meta data about admin groups
 	 * [1] array containing meta data about unprivileged groups
-	 * @param string only effective when instance was created with isAdmin being
-	 * true
+	 * @param string $groupSearch only effective when instance was created with
+	 * isAdmin being true
+	 * @param string $userSearch the pattern users are search for
 	 * @return array
 	 */
-	public function get($search = '') {
-		if($this->lastSearch !== $search) {
-			$this->lastSearch = $search;
-			$this->groups = array();
+	public function get($groupSearch = '', $userSearch = '') {
+		$key = $groupSearch . '::' . $userSearch;
+		if(isset($this->metaData[$key])) {
+			return $this->metaData[$key];
 		}
 
 		$adminGroups = array();
@@ -80,8 +76,8 @@ class MetaData {
 		$sortAdminGroupsIndex = 0;
 		$sortAdminGroupsKeys = array();
 
-		foreach($this->getGroups($search) as $group) {
-			$groupMetaData = $this->generateGroupMetaData($group);
+		foreach($this->getGroups($groupSearch) as $group) {
+			$groupMetaData = $this->generateGroupMetaData($group, $userSearch);
 			if (strtolower($group->getGID()) !== 'admin') {
 				$this->addEntry(
 					$groups,
@@ -104,13 +100,14 @@ class MetaData {
 		$this->sort($groups, $sortGroupsKeys);
 		$this->sort($adminGroups, $sortAdminGroupsKeys);
 
-		return array($adminGroups, $groups);
+		$this->metaData[$key] = array($adminGroups, $groups);
+		return $this->metaData[$key];
 	}
 
 	/**
-	 * @brief sets the sort mode, currently 0 (none) and 1 (user entries,
+	 * sets the sort mode, currently 0 (none) and 1 (user entries,
 	 * descending) are supported
-	 * @param int the sortMode (SORT_NONE, SORT_USERCOUNT)
+	 * @param int $sortMode (SORT_NONE, SORT_USERCOUNT)
 	 */
 	public function setSorting($sortMode) {
 		if($sortMode >= 0 && $sortMode <= 1) {
@@ -121,11 +118,11 @@ class MetaData {
 	}
 
 	/**
-	 * @brief adds an group entry to the resulting array
-	 * @param array the resulting array, by reference
-	 * @param array the sort key array, by reference
-	 * @param array the sort key index, by reference
-	 * @param array the group's meta data as returned by generateGroupMetaData()
+	 * adds an group entry to the resulting array
+	 * @param array $entries the resulting array, by reference
+	 * @param array $sortKeys the sort key array, by reference
+	 * @param int $sortIndex the sort key index, by reference
+	 * @param array $data the group's meta data as returned by generateGroupMetaData()
 	 * @return null
 	 */
 	private function addEntry(&$entries, &$sortKeys, &$sortIndex, $data) {
@@ -137,22 +134,23 @@ class MetaData {
 	}
 
 	/**
-	 * @brief creates an array containing the group meta data
-	 * @param \OC\Group\Group
+	 * creates an array containing the group meta data
+	 * @param \OC\Group\Group $group
+	 * @param string $userSearch
 	 * @return array with the keys 'id', 'name' and 'usercount'
 	 */
-	private function generateGroupMetaData(\OC\Group\Group $group) {
+	private function generateGroupMetaData(\OC\Group\Group $group, $userSearch) {
 		return array(
-				'id' => str_replace(' ','', $group->getGID()),
+				'id' => $group->getGID(),
 				'name' => $group->getGID(),
-				'usercount' => $group->count()
+				'usercount' => $group->count($userSearch)
 			);
 	}
 
 	/**
-	 * @brief sorts the result array, if applicable
-	 * @param array the result array, by reference
-	 * @param array the array containing the sort keys
+	 * sorts the result array, if applicable
+	 * @param array $entries the result array, by reference
+	 * @param array $sortKeys the array containing the sort keys
 	 * @param return null
 	 */
 	private function sort(&$entries, $sortKeys) {
@@ -162,27 +160,15 @@ class MetaData {
 	}
 
 	/**
-	 * @brief returns the available groups
-	 * @param string a search string
+	 * returns the available groups
+	 * @param string $search a search string
 	 * @return \OC\Group\Group[]
 	 */
 	private function getGroups($search = '') {
-		if(count($this->groups) === 0) {
-			$this->fetchGroups($search);
-		}
-		return $this->groups;
-	}
-
-	/**
-	 * @brief fetches the group using the group manager or the subAdmin API
-	 * @param string a search string
-	 * @return null
-	 */
-	private function fetchGroups($search = '') {
 		if($this->isAdmin) {
-			$this->groups = $this->groupManager->search($search);
+			return $this->groupManager->search($search);
 		} else {
-			$this->groups = \OC_SubAdmin::getSubAdminsGroups($this->user);
+			return \OC_SubAdmin::getSubAdminsGroups($this->user);
 		}
 	}
 }

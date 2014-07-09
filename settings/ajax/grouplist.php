@@ -27,6 +27,12 @@ if (isset($_GET['pattern']) && !empty($_GET['pattern'])) {
 } else {
 	$pattern = '';
 }
+if (isset($_GET['filterGroups']) && !empty($_GET['filterGroups'])) {
+	$filterGroups = intval($_GET['filterGroups']) === 1;
+} else {
+	$filterGroups = false;
+}
+$groupPattern = $filterGroups ? $pattern : '';
 $groups = array();
 $adminGroups = array();
 $groupManager = \OC_Group::getManager();
@@ -36,13 +42,7 @@ $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 //groups will be filtered out later
 $groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), true, $groupManager);
 $groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
-list($adminGroups, $groups) = $groupsInfo->get($pattern);
-
-$accessibleGroups = $groupManager->search($pattern);
-if(!$isAdmin) {
-	$subadminGroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessibleGroups = array_intersect($groups, $subadminGroups);
-}
+list($adminGroups, $groups) = $groupsInfo->get($groupPattern, $pattern);
 
 OC_JSON::success(
 	array('data' => array('adminGroups' => $adminGroups, 'groups' => $groups)));
