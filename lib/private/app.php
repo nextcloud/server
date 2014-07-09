@@ -506,7 +506,7 @@ class OC_App {
 	 * Get the directory for the given app.
 	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
 	 *
-*@param string $appId
+	 * @param string $appId
 	 * @return string|false
 	 */
 	public static function getAppPath($appId) {
@@ -899,6 +899,7 @@ class OC_App {
 				$app1[$i]['ocs_id'] = $app['id'];
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
 				$app1[$i]['update'] = false;
+				$app1[$i]['groups'] = false;
 				$app1[$i]['removable'] = false;
 				if ($app['label'] == 'recommended') {
 					$app1[$i]['internallabel'] = 'Recommended';
