@@ -24,47 +24,51 @@
 		currentFile: null,
 
 		/**
+		 * Dummy jquery element, for events
+		 */
+		$el: null,
+
+		/**
 		 * List of handlers to be notified whenever a register() or
 		 * setDefault() was called.
 		 */
-		_updateListeners: [],
+		_updateListeners: {},
 
 		initialize: function() {
 			this.clear();
+			// abusing jquery for events until we get a real event lib
+			this.$el = $('<div class="dummy-fileactions hidden"></div>');
+			$('body').append(this.$el);
 		},
 
 		/**
-		 * Adds an update listener to be notified whenever register()
-		 * or setDefault() has been called.
+		 * Adds an event handler
 		 *
+		 * @param {String} eventName event name
 		 * @param Function callback
 		 */
-		addUpdateListener: function(callback) {
-			if (!_.isFunction(callback)) {
-				throw 'Argument passed to FileActions.addUpdateListener must be a function';
-			}
-			this._updateListeners.push(callback);
+		on: function(eventName, callback) {
+			this.$el.on(eventName, callback);
 		},
 
 		/**
-		 * Removes an update listener.
+		 * Removes an event handler
 		 *
+		 * @param {String} eventName event name
 		 * @param Function callback
 		 */
-		removeUpdateListener: function(callback) {
-			if (!_.isFunction(callback)) {
-				throw 'Argument passed to FileActions.removeUpdateListener must be a function';
-			}
-			this._updateListeners = _.without(this._updateListeners, callback);
+		off: function(eventName, callback) {
+			this.$el.off(eventName, callback);
 		},
 
 		/**
-		 * Notifies the registered update listeners
+		 * Notifies the event handlers
+		 *
+		 * @param {String} eventName event name
+		 * @param {Object} data data
 		 */
-		_notifyUpdateListeners: function() {
-			for (var i = 0; i < this._updateListeners.length; i++) {
-				this._updateListeners[i](this);
-			}
+		_notifyUpdateListeners: function(eventName, data) {
+			this.$el.trigger(new $.Event(eventName, data));
 		},
 
 		/**
@@ -87,17 +91,44 @@
 			this.defaults = _.extend(this.defaults, fileActions.defaults);
 			this.icons = _.extend(this.icons, fileActions.icons);
 		},
-		register: function (mime, name, permissions, icon, action, displayName) {
+		/**
+		 * @deprecated use #registerAction() instead
+		 */
+		register: function(mime, name, permissions, icon, action, displayName) {
+			return this.registerAction({
+				name: name,
+				mime: mime,
+				permissions: permissions,
+				icon: icon,
+				actionHandler: action,
+				displayName: displayName
+			});
+		},
+		/**
+		 * Register action
+		 *
+		 * @param {Object} action action object
+		 * @param {String} action.name identifier of the action
+		 * @param {String} action.displayName display name of the action, defaults
+		 * to the name given in action.name
+		 * @param {String} action.mime mime type
+		 * @param {int} action.permissions permissions
+		 * @param {(Function|String)} action.icon icon
+		 * @param {Function} action.actionHandler function that performs the action
+		 */
+		registerAction: function (action) {
+			var mime = action.mime;
+			var name = action.name;
 			if (!this.actions[mime]) {
 				this.actions[mime] = {};
 			}
 			this.actions[mime][name] = {
-				action: action,
-				permissions: permissions,
-				displayName: displayName || t('files', name)
+				action: action.actionHandler,
+				permissions: action.permissions,
+				displayName: action.displayName || t('files', name)
 			};
-			this.icons[name] = icon;
-			this._notifyUpdateListeners();
+			this.icons[name] = action.icon;
+			this._notifyUpdateListeners('registerAction', {action: action});
 		},
 		clear: function() {
 			this.actions = {};
@@ -108,7 +139,7 @@
 		},
 		setDefault: function (mime, name) {
 			this.defaults[mime] = name;
-			this._notifyUpdateListeners();
+			this._notifyUpdateListeners('setDefault', {defaultAction: {mime: mime, name: name}});
 		},
 		get: function (mime, type, permissions) {
 			var actions = this.getActions(mime, type, permissions);

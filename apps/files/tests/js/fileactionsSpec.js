@@ -354,7 +354,7 @@ describe('OCA.Files.FileActions tests', function() {
 		it('notifies update event handlers once after multiple changes', function() {
 			var actionStub = sinon.stub();
 			var handler = sinon.stub();
-			FileActions.addUpdateListener(handler);
+			FileActions.on('registerAction', handler);
 			FileActions.register(
 					'all',
 					'Test',
@@ -374,8 +374,8 @@ describe('OCA.Files.FileActions tests', function() {
 		it('does not notifies update event handlers after unregistering', function() {
 			var actionStub = sinon.stub();
 			var handler = sinon.stub();
-			FileActions.addUpdateListener(handler);
-			FileActions.removeUpdateListener(handler);
+			FileActions.on('registerAction', handler);
+			FileActions.off('registerAction', handler);
 			FileActions.register(
 					'all',
 					'Test',

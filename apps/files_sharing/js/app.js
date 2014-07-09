@@ -92,6 +92,21 @@ OCA.Sharing.App = {
 		}
 	},
 
+	/**
+	 * Destroy the app
+	 */
+	destroy: function() {
+		OCA.Files.fileActions.off('setDefault.app-sharing', this._onActionsUpdated);
+		OCA.Files.fileActions.off('registerAction.app-sharing', this._onActionsUpdated);
+		this.removeSharingIn();
+		this.removeSharingOut();
+		this.removeSharingLinks();
+		this._inFileList = null;
+		this._outFileList = null;
+		this._linkFileList = null;
+		delete this._globalActionsInitialized;
+	},
+
 	_createFileActions: function() {
 		// inherit file actions from the files app
 		var fileActions = new OCA.Files.FileActions();
@@ -99,6 +114,14 @@ OCA.Sharing.App = {
 		// compatible with the sharing overview and need to be adapted first
 		fileActions.registerDefaultActions();
 		fileActions.merge(OCA.Files.fileActions);
+
+		if (!this._globalActionsInitialized) {
+			// in case actions are registered later
+			this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
+			OCA.Files.fileActions.on('setDefault.app-sharing', this._onActionsUpdated);
+			OCA.Files.fileActions.on('registerAction.app-sharing', this._onActionsUpdated);
+			this._globalActionsInitialized = true;
+		}
 
 		// when the user clicks on a folder, redirect to the corresponding
 		// folder in the files app instead of opening it directly
@@ -108,6 +131,23 @@ OCA.Sharing.App = {
 		});
 		fileActions.setDefault('dir', 'Open');
 		return fileActions;
+	},
+
+	_onActionsUpdated: function(ev) {
+		_.each([this._inFileList, this._outFileList, this._linkFileList], function(list) {
+			if (!list) {
+				return;
+			}
+
+			if (ev.action) {
+				list.fileActions.registerAction(ev.action);
+			} else if (ev.defaultAction) {
+				list.fileActions.setDefault(
+					ev.defaultAction.mime,
+					ev.defaultAction.name
+				);
+			}
+		});
 	},
 
 	_extendFileList: function(fileList) {
