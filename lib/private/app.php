@@ -28,7 +28,7 @@
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
- * owncloud ecosystem. Furthermore, this class is responsible for installing,
+ * ownCloud ecosystem. Furthermore, this class is responsible for installing,
  * upgrading and removing apps.
  */
 class OC_App {
@@ -42,8 +42,8 @@ class OC_App {
 	static private $altLogin = array();
 
 	/**
-	 * clean the appid
-	 * @param string|boolean $app Appid that needs to be cleaned
+	 * clean the appId
+	 * @param string|boolean $app AppId that needs to be cleaned
 	 * @return string
 	 */
 	public static function cleanAppId($app) {
@@ -55,7 +55,7 @@ class OC_App {
 	 * @param array $types
 	 * @return bool
 	 *
-	 * This function walks through the owncloud directory and loads all apps
+	 * This function walks through the ownCloud directory and loads all apps
 	 * it can find. A directory contains an app if the file /appinfo/app.php
 	 * exists.
 	 *
@@ -146,13 +146,13 @@ class OC_App {
 	/**
 	 * check if app is shipped
 	 *
-	 * @param string $appid the id of the app to check
+	 * @param string $appId the id of the app to check
 	 * @return bool
 	 *
 	 * Check if an app that is installed is a shipped app or installed from the appstore.
 	 */
-	public static function isShipped($appid) {
-		$info = self::getAppInfo($appid);
+	public static function isShipped($appId) {
+		$info = self::getAppInfo($appId);
 		if (isset($info['shipped']) && $info['shipped'] == 'true') {
 			return true;
 		} else {
@@ -246,12 +246,12 @@ class OC_App {
 	 * @return int
 	 */
 	public static function downloadApp($app) {
-		$appdata=OC_OCSClient::getApplication($app);
+		$appData=OC_OCSClient::getApplication($app);
 		$download=OC_OCSClient::getApplicationDownload($app, 1);
 		if(isset($download['downloadlink']) and $download['downloadlink']!='') {
 			// Replace spaces in download link without encoding entire URL
 			$download['downloadlink'] = str_replace(' ', '%20', $download['downloadlink']);
-			$info = array('source'=>'http', 'href'=>$download['downloadlink'], 'appdata'=>$appdata);
+			$info = array('source'=>'http', 'href'=>$download['downloadlink'], 'appdata'=>$appData);
 			$app=OC_Installer::installApp($info);
 		}
 		return $app;
@@ -424,15 +424,15 @@ class OC_App {
 
 	// This is private as well. It simply works, so don't ask for more details
 	private static function proceedNavigation($list) {
-		$activeapp = OC::$server->getNavigationManager()->getActiveEntry();
-		foreach ($list as &$naventry) {
-			if ($naventry['id'] == $activeapp) {
-				$naventry['active'] = true;
+		$activeApp = OC::$server->getNavigationManager()->getActiveEntry();
+		foreach ($list as &$navEntry) {
+			if ($navEntry['id'] == $activeApp) {
+				$navEntry['active'] = true;
 			} else {
-				$naventry['active'] = false;
+				$navEntry['active'] = false;
 			}
 		}
-		unset($naventry);
+		unset($navEntry);
 
 		usort($list, create_function('$a, $b', 'if( $a["order"] == $b["order"] ) {return 0;}elseif( $a["order"] < $b["order"] ) {return -1;}else{return 1;}'));
 
@@ -505,16 +505,17 @@ class OC_App {
 	/**
 	 * Get the directory for the given app.
 	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
-	 * @param string $appid
+	 *
+*@param string $appId
 	 * @return string|false
 	 */
-	public static function getAppPath($appid) {
-		if ($appid === null || trim($appid) === '') {
+	public static function getAppPath($appId) {
+		if ($appId === null || trim($appId) === '') {
 			return false;
 		}
 
-		if (($dir = self::findAppInDirectories($appid)) != false) {
-			return $dir['path'] . '/' . $appid;
+		if (($dir = self::findAppInDirectories($appId)) != false) {
+			return $dir['path'] . '/' . $appId;
 		}
 		return false;
 	}
@@ -522,34 +523,37 @@ class OC_App {
 
 	/**
 	 * check if an app's directory is writable
-	 * @param $appid
+	 *
+	 * @param string $appId
 	 * @return bool
 	 */
-	public static function isAppDirWritable($appid) {
-		$path = self::getAppPath($appid);
+	public static function isAppDirWritable($appId) {
+		$path = self::getAppPath($appId);
 		return ($path !== false) ? is_writable($path) : false;
 	}
 
 	/**
 	 * Get the path for the given app on the access
 	 * If the app is defined in multiple directories, the first one is taken. (false if not found)
-	 * @param string $appid
+	 *
+	 * @param string $appId
 	 * @return string|false
 	 */
-	public static function getAppWebPath($appid) {
-		if (($dir = self::findAppInDirectories($appid)) != false) {
-			return OC::$WEBROOT . $dir['url'] . '/' . $appid;
+	public static function getAppWebPath($appId) {
+		if (($dir = self::findAppInDirectories($appId)) != false) {
+			return OC::$WEBROOT . $dir['url'] . '/' . $appId;
 		}
 		return false;
 	}
 
 	/**
 	 * get the last version of the app, either from appinfo/version or from appinfo/info.xml
-	 * @param string $appid
+	 *
+	 * @param string $appId
 	 * @return string
 	 */
-	public static function getAppVersion($appid) {
-		$file = self::getAppPath($appid);
+	public static function getAppVersion($appId) {
+		$file = self::getAppPath($appId);
 		return ($file !== false) ? self::getAppVersionByPath($file) : '0';
 	}
 
@@ -572,19 +576,20 @@ class OC_App {
 
 	/**
 	 * Read all app metadata from the info.xml file
-	 * @param string $appid id of the app or the path of the info.xml file
+	 *
+	 * @param string $appId id of the app or the path of the info.xml file
 	 * @param boolean $path (optional)
 	 * @return array|null
 	 * @note all data is read from info.xml, not just pre-defined fields
 	 */
-	public static function getAppInfo($appid, $path = false) {
+	public static function getAppInfo($appId, $path = false) {
 		if ($path) {
-			$file = $appid;
+			$file = $appId;
 		} else {
-			if (isset(self::$appInfo[$appid])) {
-				return self::$appInfo[$appid];
+			if (isset(self::$appInfo[$appId])) {
+				return self::$appInfo[$appId];
 			}
-			$file = self::getAppPath($appid) . '/appinfo/info.xml';
+			$file = self::getAppPath($appId) . '/appinfo/info.xml';
 		}
 		$data = array();
 		if (!file_exists($file)) {
@@ -628,14 +633,14 @@ class OC_App {
 				$xml = (string)$child->asXML();
 				$data[$child->getName()] = substr($xml, 13, -14); //script <description> tags
 			} elseif ($child->getName() == 'documentation') {
-				foreach ($child as $subchild) {
-					$data["documentation"][$subchild->getName()] = (string)$subchild;
+				foreach ($child as $subChild) {
+					$data["documentation"][$subChild->getName()] = (string)$subChild;
 				}
 			} else {
 				$data[$child->getName()] = (string)$child;
 			}
 		}
-		self::$appInfo[$appid] = $data;
+		self::$appInfo[$appId] = $data;
 
 		return $data;
 	}
@@ -776,7 +781,7 @@ class OC_App {
 		//TODO which apps do we want to blacklist and how do we integrate
 		// blacklisting with the multi apps folder feature?
 
-		$blacklist = array('files'); //we dont want to show configuration for these
+		$blacklist = array('files'); //we don't want to show configuration for these
 		$appList = array();
 
 		foreach ($installedApps as $app) {
@@ -841,40 +846,34 @@ class OC_App {
 		} else {
 			$combinedApps = $appList;
 		}
-		// bring the apps into the right order with a custom sort funtion
-		usort($combinedApps, '\OC_App::customSort');
+		// bring the apps into the right order with a custom sort function
+		usort($combinedApps, function ($a, $b) {
+
+			// priority 1: active
+			if ($a['active'] != $b['active']) {
+				return $b['active'] - $a['active'];
+			}
+
+			// priority 2: shipped
+			$aShipped = (array_key_exists('shipped', $a) && $a['shipped'] === 'true') ? 1 : 0;
+			$bShipped = (array_key_exists('shipped', $b) && $b['shipped'] === 'true') ? 1 : 0;
+			if ($aShipped !== $bShipped) {
+				return ($bShipped - $aShipped);
+			}
+
+			// priority 3: recommended
+			if ($a['internalclass'] != $b['internalclass']) {
+				$aTemp = ($a['internalclass'] == 'recommendedapp' ? 1 : 0);
+				$bTemp = ($b['internalclass'] == 'recommendedapp' ? 1 : 0);
+				return ($bTemp - $aTemp);
+			}
+
+			// priority 4: alphabetical
+			return strcasecmp($a['name'], $b['name']);
+
+		});
 
 		return $combinedApps;
-	}
-
-	/**
-	 * Internal custom sort funtion to bring the app into the right order. Should only be called by listAllApps
-	 * @return array
-	 */
-	private static function customSort($a, $b) {
-
-		// prio 1: active
-		if ($a['active'] != $b['active']) {
-			return $b['active'] - $a['active'];
-		}
-
-		// prio 2: shipped
-		$ashipped = (array_key_exists('shipped', $a) && $a['shipped'] === 'true') ? 1 : 0;
-		$bshipped = (array_key_exists('shipped', $b) && $b['shipped'] === 'true') ? 1 : 0;
-		if ($ashipped !== $bshipped) {
-			return ($bshipped - $ashipped);
-		}
-
-		// prio 3: recommended
-		if ($a['internalclass'] != $b['internalclass']) {
-			$atemp = ($a['internalclass'] == 'recommendedapp' ? 1 : 0);
-			$btemp = ($b['internalclass'] == 'recommendedapp' ? 1 : 0);
-			return ($btemp - $atemp);
-		}
-
-		// prio 4: alphabetical
-		return strcasecmp($a['name'], $b['name']);
-
 	}
 
 	/**
@@ -1026,7 +1025,7 @@ class OC_App {
 	}
 
 	/**
-	 * Ajust the number of version parts of $version1 to match
+	 * Adjust the number of version parts of $version1 to match
 	 * the number of version parts of $version2.
 	 *
 	 * @param string $version1 version to adjust
@@ -1124,12 +1123,12 @@ class OC_App {
 	 */
 	public static function installApp($app) {
 		$l = OC_L10N::get('core');
-		$appdata=OC_OCSClient::getApplication($app);
+		$appData=OC_OCSClient::getApplication($app);
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
 		if(!is_numeric($app)) {
 			$shippedVersion=self::getAppVersion($app);
-			if($appdata && version_compare($shippedVersion, $appdata['version'], '<')) {
+			if($appData && version_compare($shippedVersion, $appData['version'], '<')) {
 				$app = self::downloadApp($app);
 			} else {
 				$app = OC_Installer::installShippedApp($app);
@@ -1150,8 +1149,8 @@ class OC_App {
 				);
 			}else{
 				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
-				if(isset($appdata['id'])) {
-					OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
+				if(isset($appData['id'])) {
+					OC_Appconfig::setValue( $app, 'ocsid', $appData['id'] );
 				}
 				\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 			}
@@ -1165,60 +1164,60 @@ class OC_App {
 	/**
 	 * update the database for the app and call the update script
 	 *
-	 * @param string $appid
+	 * @param string $appId
 	 * @return bool
 	 */
-	public static function updateApp($appid) {
-		if (file_exists(self::getAppPath($appid) . '/appinfo/preupdate.php')) {
-			self::loadApp($appid);
-			include self::getAppPath($appid) . '/appinfo/preupdate.php';
+	public static function updateApp($appId) {
+		if (file_exists(self::getAppPath($appId) . '/appinfo/preupdate.php')) {
+			self::loadApp($appId);
+			include self::getAppPath($appId) . '/appinfo/preupdate.php';
 		}
-		if (file_exists(self::getAppPath($appid) . '/appinfo/database.xml')) {
-			OC_DB::updateDbFromStructure(self::getAppPath($appid) . '/appinfo/database.xml');
+		if (file_exists(self::getAppPath($appId) . '/appinfo/database.xml')) {
+			OC_DB::updateDbFromStructure(self::getAppPath($appId) . '/appinfo/database.xml');
 		}
-		if (!self::isEnabled($appid)) {
+		if (!self::isEnabled($appId)) {
 			return false;
 		}
-		if (file_exists(self::getAppPath($appid) . '/appinfo/update.php')) {
-			self::loadApp($appid);
-			include self::getAppPath($appid) . '/appinfo/update.php';
+		if (file_exists(self::getAppPath($appId) . '/appinfo/update.php')) {
+			self::loadApp($appId);
+			include self::getAppPath($appId) . '/appinfo/update.php';
 		}
 
 		//set remote/public handlers
-		$appData = self::getAppInfo($appid);
+		$appData = self::getAppInfo($appId);
 		if (array_key_exists('ocsid', $appData)) {
-			OC_Appconfig::setValue($appid, 'ocsid', $appData['ocsid']);
+			OC_Appconfig::setValue($appId, 'ocsid', $appData['ocsid']);
 		}
 		foreach ($appData['remote'] as $name => $path) {
-			OCP\CONFIG::setAppValue('core', 'remote_' . $name, $appid . '/' . $path);
+			OCP\CONFIG::setAppValue('core', 'remote_' . $name, $appId . '/' . $path);
 		}
 		foreach ($appData['public'] as $name => $path) {
-			OCP\CONFIG::setAppValue('core', 'public_' . $name, $appid . '/' . $path);
+			OCP\CONFIG::setAppValue('core', 'public_' . $name, $appId . '/' . $path);
 		}
 
-		self::setAppTypes($appid);
+		self::setAppTypes($appId);
 
 		return true;
 	}
 
 	/**
-	 * @param string $appid
+	 * @param string $appId
 	 * @return \OC\Files\View
 	 */
-	public static function getStorage($appid) {
-		if (OC_App::isEnabled($appid)) { //sanity check
+	public static function getStorage($appId) {
+		if (OC_App::isEnabled($appId)) { //sanity check
 			if (OC_User::isLoggedIn()) {
 				$view = new \OC\Files\View('/' . OC_User::getUser());
-				if (!$view->file_exists($appid)) {
-					$view->mkdir($appid);
+				if (!$view->file_exists($appId)) {
+					$view->mkdir($appId);
 				}
-				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appid);
+				return new \OC\Files\View('/' . OC_User::getUser() . '/' . $appId);
 			} else {
-				OC_Log::write('core', 'Can\'t get app storage, app ' . $appid . ', user not logged in', OC_Log::ERROR);
+				OC_Log::write('core', 'Can\'t get app storage, app ' . $appId . ', user not logged in', OC_Log::ERROR);
 				return false;
 			}
 		} else {
-			OC_Log::write('core', 'Can\'t get app storage, app ' . $appid . ' not enabled', OC_Log::ERROR);
+			OC_Log::write('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', OC_Log::ERROR);
 			return false;
 		}
 	}
