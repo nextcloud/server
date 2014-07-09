@@ -18,7 +18,9 @@
  */
 
 namespace OC\Search\Result;
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
+use OCP\Files\FileInfo;
+
 /**
  * A found file
  */
@@ -65,20 +67,20 @@ class File extends \OCP\Search\Result {
 	 * Create a new file search result
 	 * @param array $data file data given by provider
 	 */
-	public function __construct(array $data = null) {
-		$info = pathinfo($data['path']);
-		$this->id = $data['fileid'];
+	public function __construct(FileInfo $data) {
+		$info = pathinfo($data->getPath());
+		$this->id = $data->getId();
 		$this->name = $info['basename'];
 		$this->link = \OCP\Util::linkTo(
 			'files',
 			'index.php',
 			array('dir' => $info['dirname'], 'file' => $info['basename'])
 		);
-		$this->permissions = self::get_permissions($data['path']);
-		$this->path = (strpos($data['path'], 'files') === 0) ? substr($data['path'], 5) : $data['path'];
-		$this->size = $data['size'];
-		$this->modified = $data['mtime'];
-		$this->mime_type = $data['mimetype'];
+		$this->permissions = self::get_permissions($data->getPath());
+		$this->path = (strpos($data->getPath(), 'files') === 0) ? substr($data->getPath(), 5) : $data->getPath();
+		$this->size = $data->getSize();
+		$this->modified = $data->getMtime();
+		$this->mime_type = $data->getMimetype();
 	}
 
 	/**
