@@ -32,9 +32,11 @@
 			// regular actions
 			fileActions.merge(OCA.Files.fileActions);
 
-			// in case apps would decide to register file actions later,
-			// replace the global object with this one
-			OCA.Files.fileActions = fileActions;
+			this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
+			OCA.Files.fileActions.on('setDefault.app-files', this._onActionsUpdated);
+			OCA.Files.fileActions.on('registerAction.app-files', this._onActionsUpdated);
+			window.FileActions.on('setDefault.app-files', this._onActionsUpdated);
+			window.FileActions.on('registerAction.app-files', this._onActionsUpdated);
 
 			this.files = OCA.Files.Files;
 
@@ -57,6 +59,32 @@
 			this._setupEvents();
 			// trigger URL change event handlers
 			this._onPopState(OC.Util.History.parseUrlQuery());
+		},
+
+		/**
+		 * Destroy the app
+		 */
+		destroy: function() {
+			this.navigation = null;
+			this.fileList.destroy();
+			this.fileList = null;
+			this.files = null;
+			OCA.Files.fileActions.off('setDefault.app-files', this._onActionsUpdated);
+			OCA.Files.fileActions.off('registerAction.app-files', this._onActionsUpdated);
+			window.FileActions.off('setDefault.app-files', this._onActionsUpdated);
+			window.FileActions.off('registerAction.app-files', this._onActionsUpdated);
+		},
+
+		_onActionsUpdated: function(ev, newAction) {
+			// forward new action to the file list
+			if (ev.action) {
+				this.fileList.fileActions.registerAction(ev.action);
+			} else if (ev.defaultAction) {
+				this.fileList.fileActions.setDefault(
+					ev.defaultAction.mime,
+					ev.defaultAction.name
+				);
+			}
 		},
 
 		/**

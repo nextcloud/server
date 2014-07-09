@@ -172,7 +172,8 @@
 		 */
 		destroy: function() {
 			// TODO: also unregister other event handlers
-			this.fileActions.removeUpdateListener(this._onFileActionsUpdated);
+			this.fileActions.off('registerAction', this._onFileActionsUpdated);
+			this.fileActions.off('setDefault', this._onFileActionsUpdated);
 		},
 
 		_initFileActions: function(fileActions) {
@@ -182,7 +183,8 @@
 				this.fileActions.registerDefaultActions();
 			}
 			this._onFileActionsUpdated = _.debounce(_.bind(this._onFileActionsUpdated, this), 100);
-			this.fileActions.addUpdateListener(this._onFileActionsUpdated);
+			this.fileActions.on('registerAction', this._onFileActionsUpdated);
+			this.fileActions.on('setDefault', this._onFileActionsUpdated);
 		},
 
 		/**
