@@ -29,6 +29,7 @@ class Image extends Provider {
 			$fileName = $fileview->getLocalFile($path);
 		}
 		$image->loadFromFile($fileName);
+		$image->fixOrientation();
 
 		return $image->valid() ? $image : false;
 	}
