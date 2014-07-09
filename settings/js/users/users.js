@@ -393,6 +393,18 @@ var UserList = {
 							) {
 								UserList.availableGroups.push(response.data.groupname);
 							}
+
+							// in case this was the last user in that group the group has to be removed
+							var groupElement = GroupList.getGroupLI(response.data.groupname);
+							var userCount = GroupList.getUserCount(groupElement);
+							if (response.data.action === 'remove' && userCount === 1) {
+								_.without(UserList.availableGroups, response.data.groupname);
+								GroupList.remove(response.data.groupname);
+								$('.groupsselect option[value='+response.data.groupname+']').remove();
+								$('.subadminsselect option[value='+response.data.groupname+']').remove();
+							}
+
+
 						}
 						if (response.data.message) {
 							OC.Notification.show(response.data.message);
