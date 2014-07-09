@@ -64,20 +64,20 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		}
 
 		// mark file as partial while uploading (ignored by the scanner)
-		$partpath = $this->path . '.ocTransferId' . rand() . '.part';
+		$partFilePath = $this->path . '.ocTransferId' . rand() . '.part';
 
 		// if file is located in /Shared we write the part file to the users
 		// root folder because we can't create new files in /shared
 		// we extend the name with a random number to avoid overwriting a existing file
-		if (dirname($partpath) === 'Shared') {
-			$partpath = pathinfo($partpath, PATHINFO_FILENAME) . rand() . '.part';
+		if (dirname($partFilePath) === 'Shared') {
+			$partFilePath = pathinfo($partFilePath, PATHINFO_FILENAME) . rand() . '.part';
 		}
 
 		try {
-			$putOkay = $fs->file_put_contents($partpath, $data);
+			$putOkay = $fs->file_put_contents($partFilePath, $data);
 			if ($putOkay === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::file_put_contents() failed', \OC_Log::ERROR);
-				$fs->unlink($partpath);
+				$fs->unlink($partFilePath);
 				// because we have no clue about the cause we can only throw back a 500/Internal Server Error
 				throw new Sabre_DAV_Exception('Could not write file contents');
 			}
@@ -102,14 +102,23 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
+		// double check if the file was fully received
+		// compare expected and actual size
+		$expected = $_SERVER['CONTENT_LENGTH'];
+		$actual = $fs->filesize($partFilePath);
+		if ($actual != $expected) {
+			$fs->unlink($partFilePath);
+			throw new \Sabre_DAV_Exception_BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+		}
+
 		// rename to correct path
 		try {
-			$renameOkay = $fs->rename($partpath, $this->path);
+			$renameOkay = $fs->rename($partFilePath, $this->path);
 			$fileExists = $fs->file_exists($this->path);
 			if ($renameOkay === false || $fileExists === false) {
 				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				$fs->unlink($partpath);
-				throw new Sabre_DAV_Exception('Could not rename part file to final file');
+				$fs->unlink($partFilePath);
+				throw new \Sabre_DAV_Exception('Could not rename part file to final file');
 			}
 		}
 		catch (\OCP\Files\LockNotAcquiredException $e) {
@@ -272,5 +281,4 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 		return null;
 	}
-
 }
