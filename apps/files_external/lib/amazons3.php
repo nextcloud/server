@@ -193,10 +193,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		// Since there are no real directories on S3, we need
 		// to delete all objects prefixed with the path.
-		$objects = $this->connection->listObjects([
+		$objects = $this->connection->listObjects(array(
 			'Bucket' => $this->bucket,
 			'Prefix' => $path . '/'
-		]);
+		));
 
 		try {
 			$result = $this->connection->deleteObjects(array(
