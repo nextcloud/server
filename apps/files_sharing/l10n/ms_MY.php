@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Batal",
 "Shared by" => "Dikongsi dengan",
 "Password" => "Kata laluan",
 "Name" => "Nama",

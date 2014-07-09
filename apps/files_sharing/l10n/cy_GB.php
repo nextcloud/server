@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Diddymu",
 "Shared by" => "Rhannwyd gan",
 "Password" => "Cyfrinair",
 "Name" => "Enw",

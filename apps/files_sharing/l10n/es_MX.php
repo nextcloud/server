@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Cancelar",
 "Shared by {owner}" => "Compartido por {owner}",
 "Shared by" => "Compartido por",
 "This share is password-protected" => "Este elemento compartido esta protegido por contraseña",

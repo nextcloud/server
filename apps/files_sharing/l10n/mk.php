@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Ниту една датотека сеуште не била споделена со вас.",
 "You haven't shared any files yet." => "Вие досега немате споделено ниту една датотека.",
 "You haven't shared any files by link yet." => "Сеуште немате споделено датотека со врска.",
+"Cancel" => "Откажи",
 "Shared by {owner}" => "Споделени од {owner}",
 "Shared by" => "Споделено од",
 "This share is password-protected" => "Ова споделување е заштитено со лозинка",

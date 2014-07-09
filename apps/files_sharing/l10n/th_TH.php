@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "ยกเลิก",
 "Shared by {owner}" => "ถูกแชร์โดย {owner}",
 "Shared by" => "ถูกแชร์โดย",
 "Password" => "รหัสผ่าน",

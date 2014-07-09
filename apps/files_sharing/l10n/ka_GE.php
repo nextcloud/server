@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "უარყოფა",
 "Shared by {owner}" => "გაზიარდა {owner} –ის მიერ",
 "Shared by" => "აზიარებს",
 "Password" => "პაროლი",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Odustani",
 "Password" => "Lozinka",
 "Name" => "Ime",
 "Download" => "Preuzimanje"

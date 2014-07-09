@@ -92,7 +92,6 @@ $TRANSLATIONS = array(
 "Last cron was executed at %s." => "Cron terakhir dieksekusi pada %s.",
 "Execute one task with each page loaded" => "Jalankan tugas setiap kali halaman dimuat",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php didaftarkan pada layanan webcron untuk memanggil cron.php setiap 15 menit melalui http.",
-"Use systems cron service to call the cron.php file every 15 minutes." => "Menggunakan sistem layanan cron untuk memanggil berkas cron.php setiap 15 menit.",
 "Sharing" => "Berbagi",
 "Allow apps to use the Share API" => "Izinkan aplikasi untuk menggunakan API Pembagian",
 "Allow public uploads" => "Izinkan unggahan publik",

@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "他のユーザーがあなたと共有しているファイルはありません。",
 "You haven't shared any files yet." => "他のユーザーと共有しているファイルはありません。",
 "You haven't shared any files by link yet." => "URLリンクで共有しているファイルはありません。",
+"Cancel" => "キャンセル",
 "No ownCloud installation found at {remote}" => "{remote} には ownCloud がインストールされていません",
 "Invalid ownCloud url" => "無効な ownCloud URL です",
 "Shared by {owner}" => "{owner} と共有中",

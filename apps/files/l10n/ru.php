@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Хранилище недоступно",
+"Storage invalid" => "Хранилище неисправно",
 "Unknown error" => "Неизвестная ошибка",
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",

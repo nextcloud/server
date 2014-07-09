@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "ۋاز كەچ",
 "Shared by" => "ھەمبەھىرلىگۈچى",
 "Password" => "ئىم",
 "Name" => "ئاتى",

@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-09 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -178,51 +178,51 @@ msgstr "Audio"
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: js/js.js:1276
+#: js/js.js:1278
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:1277
+#: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "Vor %n Minute"
 msgstr[1] "Vor %n Minuten"
 
-#: js/js.js:1278
+#: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "Vor %n Stunde"
 msgstr[1] "Vor %n Stunden"
 
-#: js/js.js:1279
+#: js/js.js:1281
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:1280
+#: js/js.js:1282
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:1281
+#: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "Vor %n Tag"
 msgstr[1] "Vor %n Tagen"
 
-#: js/js.js:1282
+#: js/js.js:1284
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:1283
+#: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "Vor %n Monat"
 msgstr[1] "Vor %n Monaten"
 
-#: js/js.js:1284
+#: js/js.js:1286
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:1285
+#: js/js.js:1287
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -257,95 +257,95 @@ msgstr "Passwort zurücksetzen"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr "Passwort kann nicht geändert werden. Bitte kontaktiere Deinen Administrator."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
-msgid "Yes"
-msgstr "Ja"
-
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
+#: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
 msgstr "Nein"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:116 js/oc-dialogs.js:264
+msgid "Yes"
+msgstr "Ja"
+
+#: js/oc-dialogs.js:202
 msgid "Choose"
 msgstr "Auswählen"
 
-#: js/oc-dialogs.js:231
+#: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
 msgstr "Fehler beim Laden der Dateiauswahlvorlage: {error}"
 
-#: js/oc-dialogs.js:284
+#: js/oc-dialogs.js:282
 msgid "Ok"
 msgstr "OK"
 
-#: js/oc-dialogs.js:304
+#: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
 msgstr "Fehler beim Laden der Nachrichtenvorlage: {error}"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:430
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} Dateikonflikt"
 msgstr[1] "{count} Dateikonflikte"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:444
 msgid "One file conflict"
 msgstr "Ein Dateikonflikt"
 
-#: js/oc-dialogs.js:452
+#: js/oc-dialogs.js:450
 msgid "New Files"
 msgstr "Neue Dateien"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:451
 msgid "Already existing files"
 msgstr "Die Dateien existieren bereits"
 
-#: js/oc-dialogs.js:455
+#: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
 msgstr "Welche Dateien möchtest Du behalten?"
 
-#: js/oc-dialogs.js:456
+#: js/oc-dialogs.js:454
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Wenn Du beide Versionen auswählst, erhält die kopierte Datei eine Zahl am Ende des Dateinamens."
 
-#: js/oc-dialogs.js:464
+#: js/oc-dialogs.js:462
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: js/oc-dialogs.js:474
+#: js/oc-dialogs.js:472
 msgid "Continue"
 msgstr "Fortsetzen"
 
-#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
+#: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
 msgstr "(Alle ausgewählt)"
 
-#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
+#: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
 msgstr "({count} ausgewählt)"
 
-#: js/oc-dialogs.js:546
+#: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
 msgstr "Fehler beim Laden der vorhanden Dateivorlage"
 
-#: js/setup.js:92
+#: js/setup.js:96
 msgid "Very weak password"
 msgstr "Sehr schwaches Passwort"
 
-#: js/setup.js:93
+#: js/setup.js:97
 msgid "Weak password"
 msgstr "Schwaches Passwort"
 
-#: js/setup.js:94
+#: js/setup.js:98
 msgid "So-so password"
 msgstr "Durchschnittliches Passwort"
 
-#: js/setup.js:95
+#: js/setup.js:99
 msgid "Good password"
 msgstr "Gutes Passwort"
 
-#: js/setup.js:96
+#: js/setup.js:100
 msgid "Strong password"
 msgstr "Starkes Passwort"
 

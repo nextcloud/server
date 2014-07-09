@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Shared by link" => "Доступно по ссылке",
 "No files have been shared with you yet." => "Вы ещё не опубликовали файлы",
 "You haven't shared any files yet." => "Вы не имеете файлов в открытом доступе",
+"Cancel" => "Отменить",
 "Invalid ownCloud url" => "Не верный ownCloud адрес",
 "Shared by {owner}" => "Доступ открыл {owner}",
 "Shared by" => "Опубликовано",

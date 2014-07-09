@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "បោះបង់",
 "Shared by {owner}" => "{owner} បាន​ចែក​រំលែក",
 "Shared by" => "បាន​ចែក​រំលែក​ដោយ",
 "This share is password-protected" => "ការ​ចែករំលែក​នេះ​ត្រូវ​បាន​ការពារ​ដោយ​ពាក្យ​សម្ងាត់",

@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Cron was not executed yet!" => "排程沒有執行!",
 "Execute one task with each page loaded" => "當頁面載入時，執行",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "已經與 webcron 服務註冊好，將會每15分鐘呼叫 cron.php",
-"Use systems cron service to call the cron.php file every 15 minutes." => "使用系統的 cron 服務每15分鐘呼叫 cron.php 一次",
 "Sharing" => "分享",
 "Allow apps to use the Share API" => "允許 apps 使用分享 API",
 "Allow public uploads" => "允許任何人上傳",

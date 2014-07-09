@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Tidak ada berkas yang dibagikan kepada Anda.",
 "You haven't shared any files yet." => "Anda belum berbagi berkas apapun.",
 "You haven't shared any files by link yet." => "Anda belum berbagi berkas dengan tautan satupun.",
+"Cancel" => "Batal",
 "No ownCloud installation found at {remote}" => "Tidak ada instalasi ownCloud yang ditemukan di {remote}",
 "Invalid ownCloud url" => "URL ownCloud tidak sah",
 "Shared by {owner}" => "Dibagikan oleh {owner}",

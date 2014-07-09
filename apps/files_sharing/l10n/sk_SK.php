@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Zatiaľ s vami nikto žiadne súbory nezdieľal.",
 "You haven't shared any files yet." => "Zatiaľ ste nezdieľali žiadne súbory.",
 "You haven't shared any files by link yet." => "Zatiaľ ste pomocou odkazu nezdieľali žiaden súbor.",
+"Cancel" => "Zrušiť",
 "No ownCloud installation found at {remote}" => "Žiadna ownCloud inštancia na {remote}",
 "Invalid ownCloud url" => "Chybná ownCloud url",
 "Shared by {owner}" => "Zdieľa {owner}",

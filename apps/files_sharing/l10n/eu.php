@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Ez da zurekin fitxategirik elkarbanatu oraindik.",
 "You haven't shared any files yet." => "Ez duzu oraindik fitxategirik elkarbanatu.",
 "You haven't shared any files by link yet." => "Ez duzu oraindik fitxategirik lotura bidez elkarbanatu.",
+"Cancel" => "Ezeztatu",
 "No ownCloud installation found at {remote}" => "Ez da ownClouden instalaziorik aurkitu {remote}n",
 "Invalid ownCloud url" => "ownCloud url baliogabea",
 "Shared by {owner}" => "{owner}-k partekatuta",

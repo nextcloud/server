@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "రద్దుచేయి",
 "Password" => "సంకేతపదం",
 "Name" => "పేరు"
 );

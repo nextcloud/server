@@ -120,7 +120,6 @@ $TRANSLATIONS = array(
 "Cron was not executed yet!" => "Cron pole kordagi käivitatud!",
 "Execute one task with each page loaded" => "Käivita toiming igal lehe laadimisel",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php on registreeritud webcron teenuses, et käivitada fail cron.php iga 15 minuti tagant üle http.",
-"Use systems cron service to call the cron.php file every 15 minutes." => "Kasuta süsteemi cron teenust, et käivitada fail cron.php iga 15 minuti tagant.",
 "Sharing" => "Jagamine",
 "Allow apps to use the Share API" => "Luba rakendustel kasutada Share API-t",
 "Allow users to share via link" => "Luba kasutajatel lingiga jagamist ",

@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "目前没有文件向您分享。",
 "You haven't shared any files yet." => "您还未分享过文件。",
 "You haven't shared any files by link yet." => "您还没通过链接分享文件。",
+"Cancel" => "取消",
 "No ownCloud installation found at {remote}" => "未能在 {remote} 找到 ownCloud 服务",
 "Invalid ownCloud url" => "无效的 ownCloud 网址",
 "Shared by {owner}" => "由 {owner} 分享",

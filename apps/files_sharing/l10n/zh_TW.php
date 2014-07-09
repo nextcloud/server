@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "取消",
 "Shared by {owner}" => "由 {owner} 分享",
 "Shared by" => "由...分享",
 "This share is password-protected" => "這個分享有密碼保護",

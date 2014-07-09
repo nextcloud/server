@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-08 01:54-0400\n"
-"PO-Revision-Date: 2014-07-07 23:00+0000\n"
-"Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
+"POT-Creation-Date: 2014-07-09 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 13:01+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -518,7 +518,7 @@ msgstr ""
 msgid ""
 "Please install one of theses locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Instala ún d'estos locales nel to sistema y reanicia'l sirvidor web"
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
@@ -535,7 +535,7 @@ msgstr "Nun ta instaláu'l módulu PHP %s"
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "Necesítase PHP %s o superior"
 
 #: private/util.php:539
 msgid ""
@@ -583,11 +583,11 @@ msgstr "PostgreSQL >= 9 requeríu"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr "Por favor, anova la versión de la to base de datos"
+msgstr "Por favor, anueva la versión de la to base de datos"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr "Asocedió un fallu entrín se comprobaba la versión de PostgreSQL"
+msgstr "Asocedió un fallu mientres se comprobaba la versión de PostgreSQL"
 
 #: private/util.php:618
 msgid ""
@@ -604,7 +604,7 @@ msgstr "Por favor, camuda los permisos a 0770 pa que'l direutoriu nun pueda llis
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "El direutoriu de datos (%s) ye llexible por otros usuarios"
 
 #: private/util.php:710
 #, php-format

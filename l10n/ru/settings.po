@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-07 01:54-0400\n"
-"PO-Revision-Date: 2014-07-06 14:31+0000\n"
+"POT-Creation-Date: 2014-07-09 01:54-0400\n"
+"PO-Revision-Date: 2014-07-09 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -579,8 +579,8 @@ msgid ""
 msgstr "cron.php зарегестрирован в webcron и будет вызываться каждые 15 минут по http."
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
-msgstr "Использовать системный cron для вызова cron.php каждые 15 минут."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
+msgstr ""
 
 #: templates/admin.php:234
 msgid "Sharing"

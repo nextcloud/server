@@ -87,7 +87,6 @@ $TRANSLATIONS = array(
 "Cron" => "مجدول",
 "Execute one task with each page loaded" => "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "الملف cron.php تم تسجيله فى خدمه webcron  لاستدعاء الملف cron.php كل  15 دقيقه",
-"Use systems cron service to call the cron.php file every 15 minutes." => "استخدم نظام خدمة cron لـ استدعاء ملف cron.php كل 15 دقيقة ",
 "Sharing" => "مشاركة",
 "Allow apps to use the Share API" => "السماح للتطبيقات بالمشاركة عن طريق الAPI",
 "Allow public uploads" => "السماح بالرفع للعامة ",

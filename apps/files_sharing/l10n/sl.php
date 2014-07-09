@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Ni datotek, ki bi jih drugi omogočili za souporabo z vami.",
 "You haven't shared any files yet." => "Ni datotek, ki bi jih omogočili za souporabo.",
 "You haven't shared any files by link yet." => "Ni datotek, ki bi jih omogočili za souporabo s povezavo.",
+"Cancel" => "Prekliči",
 "Invalid ownCloud url" => "Naveden je neveljaven naslov URL strežnika ownCloud",
 "Shared by {owner}" => "Souporabo omogoča {owner}",
 "Shared by" => "V souporabi z",

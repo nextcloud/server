@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-09 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -169,11 +169,11 @@ msgstr "Zvok"
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/js.js:1276
+#: js/js.js:1278
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: js/js.js:1277
+#: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] "pred %n minuto"
@@ -181,7 +181,7 @@ msgstr[1] "pred %n minutama"
 msgstr[2] "pred %n minutami"
 msgstr[3] "pred %n minutami"
 
-#: js/js.js:1278
+#: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "pred %n uro"
@@ -189,15 +189,15 @@ msgstr[1] "pred %n urama"
 msgstr[2] "pred %n urami"
 msgstr[3] "pred %n urami"
 
-#: js/js.js:1279
+#: js/js.js:1281
 msgid "today"
 msgstr "danes"
 
-#: js/js.js:1280
+#: js/js.js:1282
 msgid "yesterday"
 msgstr "včeraj"
 
-#: js/js.js:1281
+#: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "pred %n dnevom"
@@ -205,11 +205,11 @@ msgstr[1] "pred %n dnevoma"
 msgstr[2] "pred %n dnevi"
 msgstr[3] "pred %n dnevi"
 
-#: js/js.js:1282
+#: js/js.js:1284
 msgid "last month"
 msgstr "zadnji mesec"
 
-#: js/js.js:1283
+#: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "pred %n mesecem"
@@ -217,11 +217,11 @@ msgstr[1] "pred %n mesecema"
 msgstr[2] "pred %n meseci"
 msgstr[3] "pred %n meseci"
 
-#: js/js.js:1284
+#: js/js.js:1286
 msgid "last year"
 msgstr "lansko leto"
 
-#: js/js.js:1285
+#: js/js.js:1287
 msgid "years ago"
 msgstr "let nazaj"
 
@@ -256,31 +256,31 @@ msgstr "Ponastavi geslo"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr "Gesla ni mogoče spremeniti. Stopite v stik s skrbnikom."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
-msgid "Yes"
-msgstr "Da"
-
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
+#: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
 msgstr "Ne"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:116 js/oc-dialogs.js:264
+msgid "Yes"
+msgstr "Da"
+
+#: js/oc-dialogs.js:202
 msgid "Choose"
 msgstr "Izbor"
 
-#: js/oc-dialogs.js:231
+#: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
 msgstr "Napaka nalaganja predloge izbirnika datotek: {error}"
 
-#: js/oc-dialogs.js:284
+#: js/oc-dialogs.js:282
 msgid "Ok"
 msgstr "V redu"
 
-#: js/oc-dialogs.js:304
+#: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
 msgstr "Napaka nalaganja predloge sporočil: {error}"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:430
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} spor datotek"
@@ -288,65 +288,65 @@ msgstr[1] "{count} spora datotek"
 msgstr[2] "{count} spori datotek"
 msgstr[3] "{count} sporov datotek"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:444
 msgid "One file conflict"
 msgstr "En spor datotek"
 
-#: js/oc-dialogs.js:452
+#: js/oc-dialogs.js:450
 msgid "New Files"
 msgstr "Nove datoteke"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:451
 msgid "Already existing files"
 msgstr "Obstoječe datoteke"
 
-#: js/oc-dialogs.js:455
+#: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
 msgstr "Katare datoteke želite ohraniti?"
 
-#: js/oc-dialogs.js:456
+#: js/oc-dialogs.js:454
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Če izberete obe različici, bo kopirani datoteki k imenu dodana številka."
 
-#: js/oc-dialogs.js:464
+#: js/oc-dialogs.js:462
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: js/oc-dialogs.js:474
+#: js/oc-dialogs.js:472
 msgid "Continue"
 msgstr "Nadaljuj"
 
-#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
+#: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
 msgstr "(vse izbrano)"
 
-#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
+#: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
 msgstr "({count} izbranih)"
 
-#: js/oc-dialogs.js:546
+#: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
 msgstr "Napaka nalaganja predloge obstoječih datotek"
 
-#: js/setup.js:92
+#: js/setup.js:96
 msgid "Very weak password"
 msgstr "Zelo šibko geslo"
 
-#: js/setup.js:93
+#: js/setup.js:97
 msgid "Weak password"
 msgstr "Šibko geslo"
 
-#: js/setup.js:94
+#: js/setup.js:98
 msgid "So-so password"
 msgstr "Slabo geslo"
 
-#: js/setup.js:95
+#: js/setup.js:99
 msgid "Good password"
 msgstr "Dobro geslo"
 
-#: js/setup.js:96
+#: js/setup.js:100
 msgid "Strong password"
 msgstr "Odlično geslo"
 

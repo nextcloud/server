@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Відмінити",
 "Shared by {owner}" => "Опублікував {owner}",
 "Shared by" => "Опубліковано",
 "This share is password-protected" => "Цей ресурс обміну захищений паролем",

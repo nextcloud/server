@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Sinuga pole veel ühtegi faili jagatud.",
 "You haven't shared any files yet." => "Sa pole jaganud veel ühtegi faili.",
 "You haven't shared any files by link yet." => "Sa pole lingiga jaganud veel ühtegi faili.",
+"Cancel" => "Loobu",
 "No ownCloud installation found at {remote}" => "Ei leitud ownCloud paigaldust asukohas {remote}",
 "Invalid ownCloud url" => "Vigane ownCloud url",
 "Shared by {owner}" => "Jagas {owner}",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "இரத்து செய்க",
 "Shared by {owner}" => "பகிரப்பட்டது {சொந்தகாரர்}",
 "Password" => "கடவுச்சொல்",
 "Name" => "பெயர்",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Atšaukti",
 "Shared by {owner}" => "Bendrina {owner}",
 "Shared by" => "Dalinasi",
 "This share is password-protected" => "Turinys apsaugotas slaptažodžiu",

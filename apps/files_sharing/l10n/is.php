@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Hætta við",
 "Shared by" => "Deilt af",
 "Password" => "Lykilorð",
 "Name" => "Nafn",

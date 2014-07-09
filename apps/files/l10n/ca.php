@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Emmagatzemament no disponible",
+"Storage invalid" => "Emmagatzemament no vàlid",
 "Unknown error" => "Error desconegut",
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",

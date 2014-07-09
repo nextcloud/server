@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Mégsem",
 "Shared by {owner}" => "Megosztotta: {owner}",
 "Shared by" => "Megosztotta Önnel",
 "This share is password-protected" => "Ez egy jelszóval védett megosztás",

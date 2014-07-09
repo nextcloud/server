@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "Cron" => "زمانبند",
 "Execute one task with each page loaded" => "اجرای یک وظیفه با هر بار بارگذاری صفحه",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php در یک سرویس webcron ثبت شده است که هر 15 دقیقه یک بار بر روی بستر http فراخوانی شود.",
-"Use systems cron service to call the cron.php file every 15 minutes." => "از سرویس کرون سرور استفاده شده است که فایل cron.php را هر 15 دقیقه یک بار فراخوانی کند.",
 "Sharing" => "اشتراک گذاری",
 "Allow apps to use the Share API" => "اجازه ی برنامه ها برای استفاده از API اشتراک گذاری",
 "Allow public uploads" => "اجازه بارگذاری عمومی",

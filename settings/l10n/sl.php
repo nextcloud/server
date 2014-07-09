@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Cron was not executed yet!" => "Opravilo Cron še ni zagnano!",
 "Execute one task with each page loaded" => "Izvedi eno nalogo z vsako naloženo stranjo.",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "Datoteka cron.php je vpisana v storitvi webcron za potrditev sklica vsakih 15 minut pri povezavi preko HTTP.",
-"Use systems cron service to call the cron.php file every 15 minutes." => "Uporabi storitev periodičnih opravil za klic datoteke cron.php vsakih 15 minut.",
 "Sharing" => "Souporaba",
 "Allow apps to use the Share API" => "Dovoli programom uporabo vmesnika API souporabe",
 "Allow public uploads" => "Dovoli javno pošiljanje datotek v oblak",

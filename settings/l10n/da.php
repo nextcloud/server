@@ -103,7 +103,6 @@ $TRANSLATIONS = array(
 "Cron was not executed yet!" => "Cron har ikke kørt endnu!",
 "Execute one task with each page loaded" => "Udføre en opgave med hver side indlæst",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php er registreret til at en webcron service skal kalde cron.php hvert 15 minut over http.",
-"Use systems cron service to call the cron.php file every 15 minutes." => "Brug systemets cron service til at kalde cron.php hvert 15. minut.",
 "Sharing" => "Deling",
 "Allow apps to use the Share API" => "Tillad apps til at bruge Share API",
 "Allow public uploads" => "Tillad offentlig upload",

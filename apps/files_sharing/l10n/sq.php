@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Anullo",
 "Shared by" => "Ndarë nga",
 "This share is password-protected" => "Kjo pjesë është e mbrojtur me fjalëkalim",
 "The password is wrong. Try again." => "Kodi është i gabuar. Provojeni përsëri.",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "Откажи",
 "Shared by" => "Делио",
 "Password" => "Лозинка",
 "Name" => "Име",

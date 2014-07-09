@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Inga filer har ännu delats med dig.",
 "You haven't shared any files yet." => "Du har inte delat några filer ännu.",
 "You haven't shared any files by link yet." => "Du har inte delat några filer som länk ännu.",
+"Cancel" => "Avbryt",
 "No ownCloud installation found at {remote}" => "Ingen ownCloudinstallation funnen på {remote}",
 "Invalid ownCloud url" => "Felaktig ownCloud url",
 "Shared by {owner}" => "Delad av {owner}",

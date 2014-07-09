@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Neniu dosiero kunhaviĝis kun vi ankoraŭ.",
 "You haven't shared any files yet." => "Vi kunhavigis neniun dosieron ankoraŭ.",
 "You haven't shared any files by link yet." => "Vi kunhavigis neniun dosieron per ligilo ankoraŭ.",
+"Cancel" => "Nuligi",
 "No ownCloud installation found at {remote}" => "Ne troviĝis instalo de ownCloud ĉe {remote}",
 "Invalid ownCloud url" => "Nevalidas URL de ownCloud",
 "Shared by {owner}" => "Kunhavigita de {owner}",

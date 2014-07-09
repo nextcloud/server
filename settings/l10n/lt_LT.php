@@ -63,7 +63,6 @@ $TRANSLATIONS = array(
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",
-"Use systems cron service to call the cron.php file every 15 minutes." => "Naudoti sistemos planuotų užduočių paslaugą, kad iškvieti cron.php kas 15 minučių.",
 "Sharing" => "Dalijimasis",
 "Allow apps to use the Share API" => "Leidžia programoms naudoti Share API",
 "Allow public uploads" => "Leisti viešus įkėlimus",

@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Endnu er ingen filer delt med dig.",
 "You haven't shared any files yet." => "Du har ikke delt nogen filer endnu.",
 "You haven't shared any files by link yet." => "Du har ikke delt nogen filer endnu.",
+"Cancel" => "Annuller",
 "Shared by {owner}" => "Delt af {owner}",
 "Shared by" => "Delt af",
 "This share is password-protected" => "Delingen er beskyttet af kodeord",

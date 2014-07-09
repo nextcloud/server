@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "لابردن",
 "Password" => "وشەی تێپەربو",
 "Name" => "ناو",
 "Download" => "داگرتن"

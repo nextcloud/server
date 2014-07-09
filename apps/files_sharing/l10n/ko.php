@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "취소",
 "Shared by {owner}" => "{owner} 님이 공유함",
 "Shared by" => "공유한 사용자:",
 "This share is password-protected" => "이 공유는 암호로 보호되어 있습니다",

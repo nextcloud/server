@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "منسوخ کریں",
 "Shared by" => "سے اشتراک شدہ",
 "Password" => "پاسورڈ",
 "Name" => "اسم",

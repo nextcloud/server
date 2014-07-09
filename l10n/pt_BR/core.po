@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-06 01:54-0400\n"
-"PO-Revision-Date: 2014-07-05 18:43+0000\n"
+"POT-Creation-Date: 2014-07-09 01:54-0400\n"
+"PO-Revision-Date: 2014-07-08 06:12+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -169,51 +169,51 @@ msgstr "Audio"
 msgid "Saving..."
 msgstr "Salvando..."
 
-#: js/js.js:1276
+#: js/js.js:1278
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:1277
+#: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] " ha %n minuto"
 msgstr[1] "ha %n minutos"
 
-#: js/js.js:1278
+#: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] "ha %n hora"
 msgstr[1] "ha %n horas"
 
-#: js/js.js:1279
+#: js/js.js:1281
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:1280
+#: js/js.js:1282
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:1281
+#: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] "ha %n dia"
 msgstr[1] "ha %n dias"
 
-#: js/js.js:1282
+#: js/js.js:1284
 msgid "last month"
 msgstr "último mês"
 
-#: js/js.js:1283
+#: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] "ha %n mês"
 msgstr[1] "ha %n meses"
 
-#: js/js.js:1284
+#: js/js.js:1286
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:1285
+#: js/js.js:1287
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -248,75 +248,75 @@ msgstr "Redefinir senha"
 msgid "Password can not be changed. Please contact your administrator."
 msgstr "A senha não pode ser alterada. Por favor, contate o administrador."
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
-msgid "Yes"
-msgstr "Sim"
-
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
+#: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
 msgstr "Não"
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:116 js/oc-dialogs.js:264
+msgid "Yes"
+msgstr "Sim"
+
+#: js/oc-dialogs.js:202
 msgid "Choose"
 msgstr "Escolher"
 
-#: js/oc-dialogs.js:231
+#: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
 msgstr "Erro no seletor de carregamento modelo de arquivos: {error}"
 
-#: js/oc-dialogs.js:284
+#: js/oc-dialogs.js:282
 msgid "Ok"
 msgstr "Ok"
 
-#: js/oc-dialogs.js:304
+#: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
 msgstr "Erro no carregamento de modelo de mensagem: {error}"
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:430
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] "{count} conflito de arquivo"
 msgstr[1] "{count} conflitos de arquivos"
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:444
 msgid "One file conflict"
 msgstr "Conflito em um arquivo"
 
-#: js/oc-dialogs.js:452
+#: js/oc-dialogs.js:450
 msgid "New Files"
 msgstr "Novos Arquivos"
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:451
 msgid "Already existing files"
 msgstr "Arquivos já existentes"
 
-#: js/oc-dialogs.js:455
+#: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
 msgstr "Qual arquivo você quer manter?"
 
-#: js/oc-dialogs.js:456
+#: js/oc-dialogs.js:454
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr "Se você selecionar ambas as versões, o arquivo copiado terá um número adicionado ao seu nome."
 
-#: js/oc-dialogs.js:464
+#: js/oc-dialogs.js:462
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:474
+#: js/oc-dialogs.js:472
 msgid "Continue"
 msgstr "Continuar"
 
-#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
+#: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
 msgstr "(todos os selecionados)"
 
-#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
+#: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
 msgstr "({count} selecionados)"
 
-#: js/oc-dialogs.js:546
+#: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
 msgstr "Erro ao carregar arquivo existe modelo"
 
