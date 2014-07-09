@@ -162,7 +162,7 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 	}
 }
 
-class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
+class Test_Preferences_Object2 extends PHPUnit_Framework_TestCase {
 	public function testGetUsers()
 	{
 		$statementMock = $this->getMock('\Doctrine\DBAL\Statement', array(), array(), '', false);
