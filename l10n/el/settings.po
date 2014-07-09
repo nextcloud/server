@@ -566,7 +566,7 @@ msgid ""
 msgstr "Το cron.php είναι καταχωρημένο σε μια υπηρεσία webcron ώστε να καλεί το cron.php κάθε 15 λεπτά μέσω http."
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Χρήση της υπηρεσίας cron του συστήματος για να καλεστεί το αρχείο cron.php κάθε 15 λεπτά."
 
 #: templates/admin.php:234

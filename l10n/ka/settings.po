@@ -343,7 +343,7 @@ msgid ""
 msgstr ""
 
 #: templates/admin.php:158
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
 #: templates/admin.php:163

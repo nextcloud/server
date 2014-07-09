@@ -579,7 +579,7 @@ msgid ""
 msgstr "cron.php зарегестрирован в webcron и будет вызываться каждые 15 минут по http."
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Использовать системный cron для вызова cron.php каждые 15 минут."
 
 #: templates/admin.php:234

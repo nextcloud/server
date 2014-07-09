@@ -561,7 +561,7 @@ msgid ""
 msgstr "A cron.php webcron szolgáltatásként van regisztrálva, hogy 15 percenként egyszer lefuttassa a cron.php-t."
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Használjuk a rendszer cron szolgáltatását, hogy 15 percenként egyszer futtassa le a cron.php-t."
 
 #: templates/admin.php:234

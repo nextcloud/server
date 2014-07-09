@@ -562,7 +562,7 @@ msgid ""
 msgstr "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http."
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Naudoti sistemos planuotų užduočių paslaugą, kad iškvieti cron.php kas 15 minučių."
 
 #: templates/admin.php:234

@@ -559,7 +559,7 @@ msgid ""
 msgstr "已經與 webcron 服務註冊好，將會每15分鐘呼叫 cron.php"
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "使用系統的 cron 服務每15分鐘呼叫 cron.php 一次"
 
 #: templates/admin.php:234

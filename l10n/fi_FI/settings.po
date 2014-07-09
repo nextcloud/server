@@ -558,7 +558,7 @@ msgid ""
 msgstr "cron.php kutsuu webcron-palvelun kautta cron.php:ta  15 minuutin välein http:tä käyttäen."
 
 #: templates/admin.php:229
-msgid "Use systems cron service to call the cron.php file every 15 minutes."
+msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Käytä järjestelmän cron-palvelua cron.php-tiedoston kutsumiseen 15 minuutin välein"
 
 #: templates/admin.php:234
