@@ -10,6 +10,7 @@
 namespace OC\User;
 
 use OC\Hooks\Emitter;
+use OCP\IUserSession;
 
 /**
  * Class Session
@@ -29,7 +30,7 @@ use OC\Hooks\Emitter;
  *
  * @package OC\User
  */
-class Session implements Emitter, \OCP\IUserSession {
+class Session implements IUserSession, Emitter {
 	/**
 	 * @var \OC\User\Manager $manager
 	 */
