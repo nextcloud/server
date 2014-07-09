@@ -10,8 +10,9 @@
 namespace OC\User;
 
 use OC\Hooks\Emitter;
+use OCP\IUser;
 
-class User {
+class User implements IUser {
 	/**
 	 * @var string $uid
 	 */
