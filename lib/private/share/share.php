@@ -946,22 +946,19 @@ class Share extends \OC\Share\Constants {
 		$query->bindValue(4, $user);
 		$query->bindValue(5, \OCP\Share::SHARE_TYPE_LINK);
 
-		$result = $query->execute();
+		$query->execute();
 
-		if ($result === 1) {
-			\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', array(
-				'itemType' => $itemType,
-				'itemSource' => $itemSource,
-				'date' => $date,
-				'uidOwner' => $user
-			));
-		} else {
-			\OCP\Util::writeLog('sharing', "Couldn't set expire date'", \OCP\Util::ERROR);
-		}
+		\OC_Hook::emit('OCP\Share', 'post_set_expiration_date', array(
+			'itemType' => $itemType,
+			'itemSource' => $itemSource,
+			'date' => $date,
+			'uidOwner' => $user
+		));
+	
+		return true;
 
-		return ($result === 1) ? true : false;
-	}
-
+        }
+        
 	/**
 	 * Checks whether a share has expired, calls unshareItem() if yes.
 	 * @param array $item Share data (usually database row)
