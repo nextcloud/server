@@ -73,8 +73,8 @@ var UserList = {
 				.find('option').attr('selected', null)
 				.first().attr('selected', 'selected');
 		} else {
-			if ($quotaSelect.find('option[value="' + quota + '"]').length > 0) {
-				$quotaSelect.find('option[value="' + quota + '"]').attr('selected', 'selected');
+			if ($quotaSelect.find('option').filterAttr('value', quota).length > 0) {
+				$quotaSelect.find('option').filterAttr('value', quota).attr('selected', 'selected');
 			} else {
 				$quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
@@ -414,7 +414,7 @@ var UserList = {
 		var addGroup = function (select, group) {
 			$('select[multiple]').each(function (index, element) {
 				$element = $(element);
-				if ($element.find('option[value="' + group + '"]').length === 0 &&
+				if ($element.find('option').filterAttr('value', group).length === 0 &&
 					select.data('msid') !== $element.data('msid')) {
 					$element.append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 				}
@@ -464,7 +464,7 @@ var UserList = {
 
 		var addSubAdmin = function (group) {
 			$('select[multiple]').each(function (index, element) {
-				if ($(element).find('option[value="' + group + '"]').length === 0) {
+				if ($(element).find('option').filterAttr('value', group).length === 0) {
 					$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 				}
 			});
