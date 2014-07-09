@@ -93,6 +93,13 @@ interface IServerContainer {
 	function getAppFolder();
 
 	/**
+	 * Returns a user manager
+	 *
+	 * @return \OCP\IUserManager
+	 */
+	function getUserManager();
+
+	/**
 	 * Returns the user session
 	 *
 	 * @return \OCP\IUserSession
