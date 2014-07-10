@@ -52,9 +52,7 @@ describe('OCA.Files.App tests', function() {
 		App.initialize();
 	});
 	afterEach(function() {
-		App.navigation = null;
-		App.fileList = null;
-		App.files = null;
+		App.destroy();
 
 		pushStateStub.restore();
 		parseUrlQueryStub.restore();

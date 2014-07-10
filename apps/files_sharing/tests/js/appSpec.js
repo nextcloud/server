@@ -45,12 +45,7 @@ describe('OCA.Sharing.App tests', function() {
 		fileListOut = App.initSharingOut($('#app-content-sharingout'));
 	});
 	afterEach(function() {
-		App._inFileList = null;
-		App._outFileList = null;
-		fileListIn.destroy();
-		fileListOut.destroy();
-		fileListIn = null;
-		fileListOut = null;
+		App.destroy();
 	});
 
 	describe('initialization', function() {
