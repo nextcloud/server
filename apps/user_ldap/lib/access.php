@@ -1298,6 +1298,12 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	public function convertSID2Str($sid) {
 		try {
+			if(!function_exists('bcadd')) {
+				\OCP\Util::writeLog('user_ldap',
+					'You need to install bcmath module for PHP to have support ' .
+					'for AD primary groups', \OCP\Util::WARN);
+				throw new \Excpetion('missing bcmath module');
+			}
 			$srl = ord($sid[0]);
 			$numberSubID = ord($sid[1]);
 			$x = substr($sid, 2, 6);
