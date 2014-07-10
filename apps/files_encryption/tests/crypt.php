@@ -7,7 +7,6 @@
  * See the COPYING-README file.
  */
 
-require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
 require_once __DIR__ . '/../../../lib/base.php';
 require_once __DIR__ . '/../lib/crypt.php';
 require_once __DIR__ . '/../lib/keymanager.php';
