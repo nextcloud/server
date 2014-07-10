@@ -204,36 +204,4 @@ class Session {
 		}
 	}
 
-
-	/**
-	 * Sets user legacy key to session
-	 * @param string $legacyKey
-	 * @return bool
-	 */
-	public function setLegacyKey($legacyKey) {
-
-		\OC::$session->set('legacyKey', $legacyKey);
-
-		return true;
-	}
-
-	/**
-	 * Gets user legacy key from session
-	 * @return string $legacyKey The user's plaintext legacy key
-	 *
-	 */
-	public function getLegacyKey() {
-
-		if (!is_null(\OC::$session->get('legacyKey'))) {
-
-			return \OC::$session->get('legacyKey');
-
-		} else {
-
-			return false;
-
-		}
-
-	}
-
 }

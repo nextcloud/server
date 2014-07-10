@@ -25,8 +25,6 @@
 
 namespace OCA\Encryption;
 
-require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
-
 /**
  * Class for common cryptography functionality
  */
@@ -175,36 +173,6 @@ class Crypt {
 
 		// Return encryption status
 		return isset($metadata['encrypted']) && ( bool )$metadata['encrypted'];
-
-	}
-
-	/**
-	 * Check if a file is encrypted via legacy system
-	 * @param boolean $isCatFileContent
-	 * @param string $relPath The path of the file, relative to user/data;
-	 *        e.g. filename or /Docs/filename, NOT admin/files/filename
-	 * @return boolean
-	 */
-	public static function isLegacyEncryptedContent($isCatFileContent, $relPath) {
-
-		// Fetch all file metadata from DB
-		$metadata = \OC\Files\Filesystem::getFileInfo($relPath, '');
-
-		// If a file is flagged with encryption in DB, but isn't a
-		// valid content + IV combination, it's probably using the
-		// legacy encryption system
-		if (isset($metadata['encrypted'])
-			&& $metadata['encrypted'] === true
-			&& $isCatFileContent === false
-		) {
-
-			return true;
-
-		} else {
-
-			return false;
-
-		}
 
 	}
 
@@ -520,64 +488,6 @@ class Crypt {
 
 		}
 
-	}
-
-	/**
-	 * Get the blowfish encryption handler for a key
-	 * @param string $key (optional)
-	 * @return \Crypt_Blowfish blowfish object
-	 *
-	 * if the key is left out, the default handler will be used
-	 */
-	private static function getBlowfish($key = '') {
-
-		if ($key) {
-
-			return new \Legacy_Crypt_Blowfish($key);
-
-		} else {
-
-			return false;
-
-		}
-
-	}
-
-	/**
-	 * decrypts content using legacy blowfish system
-	 * @param string $content the cleartext message you want to decrypt
-	 * @param string $passphrase
-	 * @return string cleartext content
-	 *
-	 * This function decrypts an content
-	 */
-	public static function legacyDecrypt($content, $passphrase = '') {
-
-		$bf = self::getBlowfish($passphrase);
-
-		$decrypted = $bf->decrypt($content);
-
-		return $decrypted;
-	}
-
-	/**
-	 * @param string $data
-	 * @param string $key
-	 * @param int $maxLength
-	 * @return string
-	 */
-	public static function legacyBlockDecrypt($data, $key = '', $maxLength = 0) {
-
-		$result = '';
-		while (strlen($data)) {
-			$result .= self::legacyDecrypt(substr($data, 0, 8192), $key);
-			$data = substr($data, 8192);
-		}
-		if ($maxLength > 0) {
-			return substr($result, 0, $maxLength);
-		} else {
-			return rtrim($result, "\0");
-		}
 	}
 
 }
