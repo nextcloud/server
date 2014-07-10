@@ -1908,7 +1908,7 @@ class Share extends \OC\Share\Constants {
 				} else if (!isset($statuses[$item[$column]])) {
 					$statuses[$item[$column]]['link'] = false;
 				}
-				if ($item['file_target']) {
+				if (isset($item['file_target'])) {
 					$statuses[$item[$column]]['path'] = $item['path'];
 				}
 			}
