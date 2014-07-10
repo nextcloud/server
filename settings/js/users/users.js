@@ -20,8 +20,8 @@ var UserList = {
 
 	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
 		var $tr = $userListBody.find('tr:first-child').clone();
-		var subadminsEl;
-		var subadminSelect;
+		var subAdminsEl;
+		var subAdminSelect;
 		var groupsSelect;
 		if ($tr.find('div.avatardiv').length){
 			$tr.find('.avatardiv').imageplaceholder(username, displayname);
@@ -38,7 +38,7 @@ var UserList = {
 			.data('username', username)
 			.data('user-groups', groups);
 		if ($tr.find('td.subadmins').length > 0) {
-			subadminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
+			subAdminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
 				.data('username', username)
 				.data('user-groups', groups)
 				.data('subadmin', subadmin);
@@ -46,14 +46,14 @@ var UserList = {
 		}
 		$.each(this.availableGroups, function (i, group) {
 			groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
-			if (typeof subadminSelect !== 'undefined' && group !== 'admin') {
-				subadminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
+			if (typeof subAdminSelect !== 'undefined' && group !== 'admin') {
+				subAdminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			}
 		});
 		$tr.find('td.groups').empty().append(groupsSelect);
-		subadminsEl = $tr.find('td.subadmins');
-		if (subadminsEl.length > 0) {
-			subadminsEl.append(subadminSelect);
+		subAdminsEl = $tr.find('td.subadmins');
+		if (subAdminsEl.length > 0) {
+			subAdminsEl.append(subAdminSelect);
 		}
 		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== username) {
 			var deleteImage = $('<img class="svg action">').attr({
@@ -73,26 +73,25 @@ var UserList = {
 				.find('option').attr('selected', null)
 				.first().attr('selected', 'selected');
 		} else {
-			if ($quotaSelect.find('option[value="' + quota + '"]').length > 0) {
-				$quotaSelect.find('option[value="' + quota + '"]').attr('selected', 'selected');
+			if ($quotaSelect.find('option').filterAttr('value', quota).length > 0) {
+				$quotaSelect.find('option').filterAttr('value', quota).attr('selected', 'selected');
 			} else {
 				$quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
 		}
 		$tr.find('td.storageLocation').text(storageLocation);
 
-		if(lastLogin === 0) {
-			var lastLoginRel = t('settings', 'never');
-			var lastLoginAbs = lastLoginRel;
-		} else {
+		var lastLoginRel = t('settings', 'never');
+		var lastLoginAbs = lastLoginRel;
+		if(lastLogin !== 0) {
 			lastLogin = new Date(lastLogin * 1000);
-			var lastLoginRel = relative_modified_date(lastLogin.getTime() / 1000);
-			var lastLoginAbs = formatDate(lastLogin.getTime());
+			lastLoginRel = relative_modified_date(lastLogin.getTime() / 1000);
+			lastLoginAbs = formatDate(lastLogin.getTime());
 		}
-		$tdLastLogin = $tr.find('td.lastLogin');
+		var $tdLastLogin = $tr.find('td.lastLogin');
 		$tdLastLogin.text(lastLoginRel);
-		//tooltip makes it complicated … to not insert new HTML, we adjust the 
-		//original title. We use a temporary div to get back the html that we 
+		//tooltip makes it complicated … to not insert new HTML, we adjust the
+		//original title. We use a temporary div to get back the html that we
 		//can pass later. It is also required to initialise tipsy.
 		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
 		$tdLastLogin.tipsy({gravity:'s', fade:true, html:true});
@@ -124,8 +123,8 @@ var UserList = {
 		window.setTimeout(function(){
 			$quotaSelect.singleSelect();
 			UserList.applyGroupSelect(groupsSelect);
-			if (subadminSelect) {
-				UserList.applySubadminSelect(subadminSelect);
+			if (subAdminSelect) {
+				UserList.applySubadminSelect(subAdminSelect);
 			}
 		}, 0);
 		return $tr;
@@ -237,8 +236,40 @@ var UserList = {
 	show: function(uid) {
 		UserList.getRow(uid).show();
 	},
+	markRemove: function(uid) {
+		var $tr = UserList.getRow(uid);
+		var groups = $tr.find('.groups .groupsselect').val();
+		for(var i in groups) {
+			var gid = groups[i];
+			var $li = GroupList.getGroupLI(gid);
+			var userCount = GroupList.getUserCount($li);
+			if(userCount === 1) {
+				GroupList.setUserCount($li, '');
+			} else {
+				GroupList.setUserCount($li, userCount - 1);
+			}
+		}
+		GroupList.decEveryoneCount();
+		UserList.hide(uid);
+	},
 	remove: function(uid) {
 		UserList.getRow(uid).remove();
+	},
+	undoRemove: function(uid) {
+		var $tr = UserList.getRow(uid);
+		var groups = $tr.find('.groups .groupsselect').val();
+		for(var i in groups) {
+			var gid = groups[i];
+			var $li = GroupList.getGroupLI(gid);
+			var userCount = GroupList.getUserCount($li);
+			if(userCount === 1) {
+				GroupList.setUserCount($li, '');
+			} else {
+				GroupList.setUserCount($li, userCount + 1);
+			}
+		}
+		GroupList.incEveryoneCount();
+		UserList.getRow(uid).show();
 	},
 	has: function(uid) {
 		return UserList.getRow(uid).length > 0;
@@ -257,14 +288,14 @@ var UserList = {
 	initDeleteHandling: function() {
 		//set up handler
 		UserDeleteHandler = new DeleteHandler('removeuser.php', 'username',
-											UserList.hide, UserList.remove);
+											UserList.markRemove, UserList.remove);
 
 		//configure undo
 		OC.Notification.hide();
 		var msg = escapeHTML(t('settings', 'deleted {userName}', {userName: '%oid'})) + '<span class="undo">' +
 			escapeHTML(t('settings', 'undo')) + '</span>';
 		UserDeleteHandler.setNotification(OC.Notification, 'deleteuser', msg,
-										UserList.show);
+										UserList.undoRemove);
 
 		//when to mark user for delete
 		$userListBody.on('click', '.delete', function () {
@@ -325,7 +356,7 @@ var UserList = {
 					}, 0);
 				}
 				UserList.updating = false;
-		});
+			});
 	},
 
 	applyGroupSelect: function (element) {
@@ -354,23 +385,37 @@ var UserList = {
 					function (response) {
 						if (response.status === 'success') {
 							GroupList.update();
-							if (UserList.availableGroups.indexOf(response.data.groupname) === -1 &&
+							var groupName = response.data.groupname;
+							if (UserList.availableGroups.indexOf(groupName) === -1 &&
 								response.data.action === 'add'
 							) {
-								UserList.availableGroups.push(response.data.groupname);
+								UserList.availableGroups.push(groupName);
 							}
+
+							// in case this was the last user in that group the group has to be removed
+							var groupElement = GroupList.getGroupLI(groupName);
+							var userCount = GroupList.getUserCount(groupElement);
+							if (response.data.action === 'remove' && userCount === 1) {
+								_.without(UserList.availableGroups, groupName);
+								GroupList.remove(groupName);
+								$('.groupsselect option').filterAttr('value', groupName).remove();
+								$('.subadminsselect option').filterAttr('value', groupName).remove();
+							}
+
+
 						}
 						if (response.data.message) {
 							OC.Notification.show(response.data.message);
 						}
 					}
 				);
-			}
-		};
+			};
+		}
 		var addGroup = function (select, group) {
 			$('select[multiple]').each(function (index, element) {
 				$element = $(element);
-				if ($element.find('option[value="' + group + '"]').length === 0 && select.data('msid') !== $element.data('msid')) {
+				if ($element.find('option').filterAttr('value', group).length === 0 &&
+					select.data('msid') !== $element.data('msid')) {
 					$element.append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 				}
 			});
@@ -419,7 +464,7 @@ var UserList = {
 
 		var addSubAdmin = function (group) {
 			$('select[multiple]').each(function (index, element) {
-				if ($(element).find('option[value="' + group + '"]').length === 0) {
+				if ($(element).find('option').filterAttr('value', group).length === 0) {
 					$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 				}
 			});
@@ -468,10 +513,8 @@ $(document).ready(function () {
 	UserList.doSort();
 	UserList.availableGroups = $userList.data('groups');
 
-
 	UserList.scrollArea = $('#app-content');
 	UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
-
 
 	$userList.after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
 
@@ -602,6 +645,12 @@ $(document).ready(function () {
 					if (result.data.groups) {
 						var addedGroups = result.data.groups;
 						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+						for (var i in result.data.groups) {
+							var gid = result.data.groups[i];
+							$li = GroupList.getGroupLI(gid);
+							userCount = GroupList.getUserCount($li);
+							GroupList.setUserCount($li, userCount + 1);
+						}
 					}
 					if (result.data.homeExists){
 						OC.Notification.hide();
@@ -619,6 +668,7 @@ $(document).ready(function () {
 						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, 0, true);
 					}
 					$('#newusername').focus();
+					GroupList.incEveryoneCount();
 				}
 			}
 		);
