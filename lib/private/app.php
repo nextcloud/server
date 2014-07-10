@@ -826,13 +826,8 @@ class OC_App {
 			// Remove duplicates
 			foreach ($appList as $app) {
 				foreach ($remoteApps AS $key => $remote) {
-					if (
-						$app['name'] == $remote['name']
-						// To set duplicate detection to use OCS ID instead of string name,
-						// enable this code, remove the line of code above,
-						// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
-						// OR $app['ocs_id'] == $remote['ocs_id']
-					) {
+					if ($app['name'] === $remote['name'] ||
+						$app['ocsid'] ===  $remote['id']) {
 						unset($remoteApps[$key]);
 					}
 				}
