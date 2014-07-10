@@ -233,6 +233,7 @@
 				.each(function(data) {
 					// convert the recipients map to a flat
 					// array of sorted names
+					data.mountType = 'shared';
 					data.recipients = _.keys(data.recipients);
 					data.recipientsDisplayName = OCA.Sharing.Util.formatRecipients(
 						data.recipients,
