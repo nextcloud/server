@@ -37,6 +37,7 @@ class Helper
 	public static function determineIcon($file) {
 		if($file['type'] === 'dir') {
 			$icon = \OC_Helper::mimetypeIcon('dir');
+			// TODO: move this part to the client side, using mountType
 			if ($file->isShared()) {
 				$icon = \OC_Helper::mimetypeIcon('dir-shared');
 			} elseif ($file->isMounted()) {
@@ -124,6 +125,18 @@ class Helper
 		}
 		if (isset($i['is_share_mount_point'])) {
 			$entry['isShareMountPoint'] = $i['is_share_mount_point'];
+		}
+		$mountType = null;
+		if ($i->isShared()) {
+			$mountType = 'shared';
+		} else if ($i->isMounted()) {
+			$mountType = 'external';
+		}
+		if ($mountType !== null) {
+			if ($i->getInternalPath() === '') {
+				$mountType .= '-root';
+			}
+			$entry['mountType'] = $mountType;
 		}
 		return $entry;
 	}

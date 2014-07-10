@@ -104,6 +104,7 @@
 		_makeFiles: function(data) {
 			var files = _.map(data, function(fileData) {
 				fileData.icon = OC.imagePath('core', 'filetypes/folder-external');
+				fileData.mountType = 'external';
 				return fileData;
 			});
 
