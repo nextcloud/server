@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-10 04:58-0400\n"
+"PO-Revision-Date: 2014-07-10 07:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgstr "Pribadi"
 msgid "System"
 msgstr ""
 
-#: js/settings.js:320 js/settings.js:327
+#: js/settings.js:325 js/settings.js:332
 msgid "Saved"
 msgstr "Disimpan"
 
@@ -285,7 +285,7 @@ msgstr ""
 msgid "External Storage"
 msgstr "Penyimpanan Eksternal"
 
-#: templates/settings.php:8 templates/settings.php:27
+#: templates/settings.php:8 templates/settings.php:28
 msgid "Folder name"
 msgstr "Nama folder"
 
@@ -301,43 +301,43 @@ msgstr "Opsi"
 msgid "Available for"
 msgstr "Tersedia untuk"
 
-#: templates/settings.php:32
+#: templates/settings.php:33
 msgid "Add storage"
 msgstr "Tambahkan penyimpanan"
 
-#: templates/settings.php:92
+#: templates/settings.php:93
 msgid "No user or group"
 msgstr "Tidak ada pengguna dan grup"
 
-#: templates/settings.php:95
+#: templates/settings.php:96
 msgid "All Users"
 msgstr "Semua Pengguna"
 
-#: templates/settings.php:97
+#: templates/settings.php:98
 msgid "Groups"
 msgstr "Grup"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid "Users"
 msgstr "Pengguna"
 
-#: templates/settings.php:118 templates/settings.php:119
-#: templates/settings.php:158 templates/settings.php:159
+#: templates/settings.php:119 templates/settings.php:120
+#: templates/settings.php:159 templates/settings.php:160
 msgid "Delete"
 msgstr "Hapus"
 
-#: templates/settings.php:132
+#: templates/settings.php:133
 msgid "Enable User External Storage"
 msgstr "Aktifkan Penyimpanan Eksternal Pengguna"
 
-#: templates/settings.php:135
+#: templates/settings.php:136
 msgid "Allow users to mount the following external storage"
 msgstr "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 
-#: templates/settings.php:150
+#: templates/settings.php:151
 msgid "SSL root certificates"
 msgstr "Sertifikat root SSL"
 
-#: templates/settings.php:168
+#: templates/settings.php:169
 msgid "Import Root Certificate"
 msgstr "Impor Sertifikat Root"

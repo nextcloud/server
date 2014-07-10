@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-10 04:58-0400\n"
+"PO-Revision-Date: 2014-07-10 07:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -233,7 +233,7 @@ msgstr "Osobiste"
 msgid "System"
 msgstr "System"
 
-#: js/settings.js:320 js/settings.js:327
+#: js/settings.js:325 js/settings.js:332
 msgid "Saved"
 msgstr "Zapisano"
 
@@ -286,7 +286,7 @@ msgstr "Zakres"
 msgid "External Storage"
 msgstr "Zewnętrzna zasoby dyskowe"
 
-#: templates/settings.php:8 templates/settings.php:27
+#: templates/settings.php:8 templates/settings.php:28
 msgid "Folder name"
 msgstr "Nazwa folderu"
 
@@ -302,43 +302,43 @@ msgstr "Opcje"
 msgid "Available for"
 msgstr "Dostępne przez"
 
-#: templates/settings.php:32
+#: templates/settings.php:33
 msgid "Add storage"
 msgstr "Dodaj zasoby dyskowe"
 
-#: templates/settings.php:92
+#: templates/settings.php:93
 msgid "No user or group"
 msgstr "Brak użytkownika lub grupy"
 
-#: templates/settings.php:95
+#: templates/settings.php:96
 msgid "All Users"
 msgstr "Wszyscy uzytkownicy"
 
-#: templates/settings.php:97
+#: templates/settings.php:98
 msgid "Groups"
 msgstr "Grupy"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid "Users"
 msgstr "Użytkownicy"
 
-#: templates/settings.php:118 templates/settings.php:119
-#: templates/settings.php:158 templates/settings.php:159
+#: templates/settings.php:119 templates/settings.php:120
+#: templates/settings.php:159 templates/settings.php:160
 msgid "Delete"
 msgstr "Usuń"
 
-#: templates/settings.php:132
+#: templates/settings.php:133
 msgid "Enable User External Storage"
 msgstr "Włącz zewnętrzne zasoby dyskowe użytkownika"
 
-#: templates/settings.php:135
+#: templates/settings.php:136
 msgid "Allow users to mount the following external storage"
 msgstr "Pozwól użytkownikom montować następujące zewnętrzne zasoby dyskowe"
 
-#: templates/settings.php:150
+#: templates/settings.php:151
 msgid "SSL root certificates"
 msgstr "Główny certyfikat SSL"
 
-#: templates/settings.php:168
+#: templates/settings.php:169
 msgid "Import Root Certificate"
 msgstr "Importuj główny certyfikat"

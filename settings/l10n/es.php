@@ -120,6 +120,7 @@ $TRANSLATIONS = array(
 "Cron was not executed yet!" => "¡Cron aún no ha sido ejecutado!",
 "Execute one task with each page loaded" => "Ejecutar una tarea con cada página cargada",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",
+"Use system's cron service to call the cron.php file every 15 minutes." => "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos.",
 "Sharing" => "Compartiendo",
 "Allow apps to use the Share API" => "Permitir a las aplicaciones utilizar la API de Compartición",
 "Allow users to share via link" => "Permite a los usuarios compartir por medio de enlaces",

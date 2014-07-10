@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-10 04:58-0400\n"
+"PO-Revision-Date: 2014-07-10 07:11+0000\n"
 "Last-Translator: enoch85 <enoch85@gmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -237,7 +237,7 @@ msgstr "Personligt"
 msgid "System"
 msgstr "System"
 
-#: js/settings.js:320 js/settings.js:327
+#: js/settings.js:325 js/settings.js:332
 msgid "Saved"
 msgstr "Sparad"
 
@@ -290,7 +290,7 @@ msgstr "Scope"
 msgid "External Storage"
 msgstr "Extern lagring"
 
-#: templates/settings.php:8 templates/settings.php:27
+#: templates/settings.php:8 templates/settings.php:28
 msgid "Folder name"
 msgstr "Mappnamn"
 
@@ -306,43 +306,43 @@ msgstr "Alternativ"
 msgid "Available for"
 msgstr "Tillgänglig för"
 
-#: templates/settings.php:32
+#: templates/settings.php:33
 msgid "Add storage"
 msgstr "Lägg till lagring"
 
-#: templates/settings.php:92
+#: templates/settings.php:93
 msgid "No user or group"
 msgstr "Ingen användare eller grupp"
 
-#: templates/settings.php:95
+#: templates/settings.php:96
 msgid "All Users"
 msgstr "Alla användare"
 
-#: templates/settings.php:97
+#: templates/settings.php:98
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid "Users"
 msgstr "Användare"
 
-#: templates/settings.php:118 templates/settings.php:119
-#: templates/settings.php:158 templates/settings.php:159
+#: templates/settings.php:119 templates/settings.php:120
+#: templates/settings.php:159 templates/settings.php:160
 msgid "Delete"
 msgstr "Radera"
 
-#: templates/settings.php:132
+#: templates/settings.php:133
 msgid "Enable User External Storage"
 msgstr "Aktivera extern lagring för användare"
 
-#: templates/settings.php:135
+#: templates/settings.php:136
 msgid "Allow users to mount the following external storage"
 msgstr "Tillåt användare att montera följande extern lagring"
 
-#: templates/settings.php:150
+#: templates/settings.php:151
 msgid "SSL root certificates"
 msgstr "SSL rotcertifikat"
 
-#: templates/settings.php:168
+#: templates/settings.php:169
 msgid "Import Root Certificate"
 msgstr "Importera rotcertifikat"

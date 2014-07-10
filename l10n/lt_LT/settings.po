@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Andrius Štikonas <andrius@stikonas.eu>, 2014
 # Dr. ROX <to.dr.rox@gmail.com>, 2013
 # Valentinas <fizikiukas@gmail.com>, 2013
 # Liudas Ališauskas <liudas.alisauskas@gmail.com>, 2013-2014
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-09 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-10 04:58-0400\n"
+"PO-Revision-Date: 2014-07-09 21:01+0000\n"
+"Last-Translator: Andrius Štikonas <andrius@stikonas.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -372,7 +373,7 @@ msgstr "Įspėjimas: Vartotojo \"{user}\" namų aplankas jau egzistuoja"
 
 #: personal.php:50 personal.php:51
 msgid "__language_name__"
-msgstr "Kalba"
+msgstr "Lietuvių"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
