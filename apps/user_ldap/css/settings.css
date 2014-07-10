@@ -127,3 +127,8 @@ select[multiple=multiple] + button {
 .ldap_grey {
 	color: #777;
 }
+
+.outoftheway {
+	position: absolute;
+	left: -2000px;
+}
