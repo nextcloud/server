@@ -201,10 +201,10 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 		$connectionMock = $this->getMock('\OC\DB\Connection', array(), array(), '', false);
 		$connectionMock->expects($this->exactly(2))
 			->method('fetchColumn')
-			->with($this->equalTo('SELECT COUNT(*) FROM `*PREFIX*preferences`'
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences`'
 				.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
 				$this->equalTo(array('grg', 'bar', 'foo')))
-			->will($this->onConsecutiveCalls(0, 1));
+			->will($this->onConsecutiveCalls(false, 'v1'));
 		$connectionMock->expects($this->once())
 			->method('insert')
 			->with($this->equalTo('*PREFIX*preferences'),
@@ -233,6 +233,74 @@ class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
 
 		$preferences = new OC\Preferences($connectionMock);
 		$preferences->setValue('grg', 'bar', 'foo', 'v1');
+		$preferences->setValue('grg', 'bar', 'foo', 'v2');
+	}
+
+	public function testSetValueUnchanged() {
+		$connectionMock = $this->getMock('\OC\DB\Connection', array(), array(), '', false);
+		$connectionMock->expects($this->exactly(3))
+			->method('fetchColumn')
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences`'
+				.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
+				$this->equalTo(array('grg', 'bar', 'foo')))
+			->will($this->onConsecutiveCalls(false, 'v1', 'v1'));
+		$connectionMock->expects($this->once())
+			->method('insert')
+			->with($this->equalTo('*PREFIX*preferences'),
+				$this->equalTo(
+					array(
+						'userid' => 'grg',
+						'appid' => 'bar',
+						'configkey' => 'foo',
+						'configvalue' => 'v1',
+					)
+				));
+		$connectionMock->expects($this->never())
+			->method('update');
+
+		$preferences = new OC\Preferences($connectionMock);
+		$preferences->setValue('grg', 'bar', 'foo', 'v1');
+		$preferences->setValue('grg', 'bar', 'foo', 'v1');
+		$preferences->setValue('grg', 'bar', 'foo', 'v1');
+	}
+
+	public function testSetValueUnchanged2() {
+		$connectionMock = $this->getMock('\OC\DB\Connection', array(), array(), '', false);
+		$connectionMock->expects($this->exactly(3))
+			->method('fetchColumn')
+			->with($this->equalTo('SELECT `configvalue` FROM `*PREFIX*preferences`'
+				.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?'),
+				$this->equalTo(array('grg', 'bar', 'foo')))
+			->will($this->onConsecutiveCalls(false, 'v1', 'v2'));
+		$connectionMock->expects($this->once())
+			->method('insert')
+			->with($this->equalTo('*PREFIX*preferences'),
+				$this->equalTo(
+					array(
+						'userid' => 'grg',
+						'appid' => 'bar',
+						'configkey' => 'foo',
+						'configvalue' => 'v1',
+					)
+				));
+		$connectionMock->expects($this->once())
+			->method('update')
+			->with($this->equalTo('*PREFIX*preferences'),
+				$this->equalTo(
+					array(
+						'configvalue' => 'v2',
+					)),
+				$this->equalTo(
+					array(
+						'userid' => 'grg',
+						'appid' => 'bar',
+						'configkey' => 'foo',
+					)
+				));
+
+		$preferences = new OC\Preferences($connectionMock);
+		$preferences->setValue('grg', 'bar', 'foo', 'v1');
+		$preferences->setValue('grg', 'bar', 'foo', 'v2');
 		$preferences->setValue('grg', 'bar', 'foo', 'v2');
 	}
 

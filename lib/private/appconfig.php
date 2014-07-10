@@ -128,11 +128,13 @@ class OC_Appconfig{
 			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `configkey`, `configvalue` )'
 				.' VALUES( ?, ?, ? )' );
 			$query->execute( array( $app, $key, $value ));
-		}
-		else{
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ?'
-				.' WHERE `appid` = ? AND `configkey` = ?' );
-			$query->execute( array( $value, $app, $key ));
+		} else {
+			$oldValue = self::getValue($app, $key);
+			if($oldValue !== strval($value)) {
+				$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ?'
+					.' WHERE `appid` = ? AND `configkey` = ?' );
+				$query->execute( array( $value, $app, $key ));
+			}
 		}
 		// TODO where should this be documented?
 		\OC_Hook::emit('OC_Appconfig', 'post_set_value', array(
