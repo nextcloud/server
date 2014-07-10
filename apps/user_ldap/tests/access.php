@@ -82,6 +82,10 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
 		$access = new Access($con, $lw, $um);
 
+		if(!function_exists('\bcadd')) {
+			$this->markTestSkipped('bcmath not available');
+		}
+
 		$sidBinary = file_get_contents(__DIR__ . '/data/sid.dat');
 		$sidExpected = 'S-1-5-21-249921958-728525901-1594176202';
 
@@ -92,10 +96,35 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
 		$access = new Access($con, $lw, $um);
 
+		if(!function_exists('\bcadd')) {
+			$this->markTestSkipped('bcmath not available');
+		}
+
 		$sidIllegal = 'foobar';
 		$sidExpected = '';
 
 		$this->assertSame($sidExpected, $access->convertSID2Str($sidIllegal));
+	}
+
+	public function testConvertSID2StrNoBCMath() {
+		if(function_exists('\bcadd')) {
+			$removed = false;
+			if(function_exists('runkit_function_remove')) {
+				$removed = !runkit_function_remove('\bcadd');
+			}
+			if(!$removed) {
+				$this->markTestSkipped('bcadd could not be removed for ' .
+					'testing without bcmath');
+			}
+		}
+
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$sidBinary = file_get_contents(__DIR__ . '/data/sid.dat');
+		$sidExpected = '';
+
+		$this->assertSame($sidExpected, $access->convertSID2Str($sidBinary));
 	}
 
 	public function testGetDomainDNFromDNSuccess() {
