@@ -1,3 +1,10 @@
+<div class="outoftheway">
+	<!-- Hack for Safari and Chromium/Chrome which ignore autocomplete="off" -->
+	<input type="text" id="fake_user" name="fake_user" autocomplete="off" />
+	<input type="password" id="fake_password" name="fake_password"
+				autocomplete="off" />
+</div>
+
 <fieldset id="ldapWizard1">
 		<p>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
