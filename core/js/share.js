@@ -191,7 +191,7 @@ OC.Share={
 		var parts = this._REMOTE_OWNER_REGEXP.exec(owner);
 		if (!parts) {
 			// display as is, most likely to be a simple owner name
-			return t('files_sharing', 'Shared by {owner}', {owner: escapeHTML(owner)});
+			return escapeHTML(owner);
 		}
 
 		var userName = parts[1];
@@ -211,7 +211,7 @@ OC.Share={
 			html += '<span class="userDomain">@' + escapeHTML(userDomain) + '</span>';
 		}
 		html += '</span>';
-		return t('files_sharing', 'Shared by {owner}', {owner: html});
+		return html;
 	},
 	/**
 	 * Marks/unmarks a given file as shared by changing its action icon
