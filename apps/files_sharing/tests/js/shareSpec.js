@@ -165,7 +165,7 @@ describe('OCA.Sharing.Util tests', function() {
 			$tr = fileList.$el.find('tbody tr:first');
 			$action = $tr.find('.action-share');
 			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared by User One');
+			expect($action.find('>span').text()).toEqual('User One');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
 		});
@@ -207,7 +207,7 @@ describe('OCA.Sharing.Util tests', function() {
 			expect($tr.find('.action-share').length).toEqual(0);
 			$action = $tr.find('.action-share-notification');
 			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text().trim()).toEqual('Shared by User One');
+			expect($action.find('>span').text().trim()).toEqual('User One');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 			expect(OC.basename(getImageUrl($tr.find('.filename')))).toEqual('folder-shared.svg');
 			expect($action.find('img').length).toEqual(1);
@@ -369,7 +369,7 @@ describe('OCA.Sharing.Util tests', function() {
 			OC.Share.updateIcon('file', 1);
 
 			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared by User One');
+			expect($action.find('>span').text()).toEqual('User One');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
 		it('keep share text after unsharing reshare', function() {
@@ -405,7 +405,7 @@ describe('OCA.Sharing.Util tests', function() {
 			OC.Share.updateIcon('file', 1);
 
 			expect($action.hasClass('permanent')).toEqual(true);
-			expect($action.find('>span').text()).toEqual('Shared by User One');
+			expect($action.find('>span').text()).toEqual('User One');
 			expect(OC.basename($action.find('img').attr('src'))).toEqual('share.svg');
 		});
 	});

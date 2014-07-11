@@ -403,39 +403,39 @@ describe('OC.Share tests', function() {
 			}
 
 			it('displays the local share owner as is', function() {
-				checkOwner('User One', 'Shared by User One', null);
+				checkOwner('User One', 'User One', null);
 			});
 			it('displays the user name part of a remote share owner', function() {
 				checkOwner(
 					'User One@someserver.com',
-					'Shared by User One',
+					'User One',
 					'User One@someserver.com'
 				);
 				checkOwner(
 					'User One@someserver.com/',
-					'Shared by User One',
+					'User One',
 					'User One@someserver.com'
 				);
 				checkOwner(
 					'User One@someserver.com/root/of/owncloud',
-					'Shared by User One',
+					'User One',
 					'User One@someserver.com'
 				);
 			});
 			it('displays the user name part with domain of a remote share owner', function() {
 				checkOwner(
 					'User One@example.com@someserver.com',
-					'Shared by User One@example.com',
+					'User One@example.com',
 					'User One@example.com@someserver.com'
 				);
 				checkOwner(
 					'User One@example.com@someserver.com/',
-					'Shared by User One@example.com',
+					'User One@example.com',
 					'User One@example.com@someserver.com'
 				);
 				checkOwner(
 					'User One@example.com@someserver.com/root/of/owncloud',
-					'Shared by User One@example.com',
+					'User One@example.com',
 					'User One@example.com@someserver.com'
 				);
 			});
