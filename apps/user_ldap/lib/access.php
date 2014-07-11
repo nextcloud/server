@@ -1302,7 +1302,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 				\OCP\Util::writeLog('user_ldap',
 					'You need to install bcmath module for PHP to have support ' .
 					'for AD primary groups', \OCP\Util::WARN);
-				throw new \Excpetion('missing bcmath module');
+				throw new \Exception('missing bcmath module');
 			}
 			$srl = ord($sid[0]);
 			$numberSubID = ord($sid[1]);
