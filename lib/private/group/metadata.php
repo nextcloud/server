@@ -168,7 +168,19 @@ class MetaData {
 		if($this->isAdmin) {
 			return $this->groupManager->search($search);
 		} else {
-			return \OC_SubAdmin::getSubAdminsGroups($this->user);
+            $groupIds = \OC_SubAdmin::getSubAdminsGroups($this->user);
+
+            /* \OC_SubAdmin::getSubAdminsGroups() returns an array of GIDs, but this
+             * method is expected to return an array with the GIDs as keys and group objects as
+             * values, so we need to convert this information.
+             */
+			$this->groups = array();
+            foreach($groupIds as $gid) {
+                $grp = $this->groupManager->get($gid);
+                if (!empty($grp)) {
+                    $this->groups[$gid] = $grp;
+                }
+            }
 		}
 	}
 }
