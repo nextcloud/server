@@ -235,9 +235,10 @@ class OC_Installer{
 			throw new \Exception($l->t("No source specified when installing app"));
 		}
 
-		//download the file if necesary
+		//download the file if necessary
 		if($data['source']=='http') {
-			$path=OC_Helper::tmpFile();
+			$pathInfo = pathinfo($data['href']);
+			$path=OC_Helper::tmpFile('.' . $pathInfo['extension']);
 			if(!isset($data['href'])) {
 				throw new \Exception($l->t("No href specified when installing app from http"));
 			}
@@ -251,13 +252,7 @@ class OC_Installer{
 
 		//detect the archive type
 		$mime=OC_Helper::getMimeType($path);
-		if($mime=='application/zip') {
-			rename($path, $path.'.zip');
-			$path.='.zip';
-		}elseif($mime=='application/x-gzip') {
-			rename($path, $path.'.tgz');
-			$path.='.tgz';
-		}else{
+		if ($mime !=='application/zip' && $mime !== 'application/x-gzip') {
 			throw new \Exception($l->t("Archives of type %s are not supported", array($mime)));
 		}
 
