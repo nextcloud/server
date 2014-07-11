@@ -148,10 +148,6 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		$ocname = $this->access->dn2username($dn);
 
 		if($ocname) {
-			//update some settings, if necessary
-			$this->updateQuota($dn);
-			$this->updateEmail($dn);
-
 			//are the credentials OK?
 			if(!$this->access->areCredentialsValid($dn, $password)) {
 				return false;
