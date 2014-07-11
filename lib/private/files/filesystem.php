@@ -33,9 +33,9 @@ namespace OC\Files;
 use OC\Files\Storage\Loader;
 
 class Filesystem {
-    const SPACE_NOT_COMPUTED = -1;
-    const SPACE_UNKNOWN = -2;
-    const SPACE_UNLIMITED = -3;
+	const SPACE_NOT_COMPUTED = -1;
+	const SPACE_UNKNOWN = -2;
+	const SPACE_UNLIMITED = -3;
 
 	/**
 	 * @var Mount\Manager $mounts
