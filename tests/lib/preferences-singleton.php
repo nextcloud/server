@@ -61,7 +61,8 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		sort($expected);
 		$apps = \OC_Preferences::getApps('Someuser');
 		sort($apps);
-		$this->assertEquals($expected, $apps);	}
+		$this->assertEquals($expected, $apps);
+	}
 
 	public function testGetKeys() {
 		$query = \OC_DB::prepare('SELECT DISTINCT `configkey` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?');

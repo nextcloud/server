@@ -62,6 +62,7 @@ class ControllerMethodReflector {
 		} else {
 			$this->types = array_combine($matches['var'], $matches['type']);
 		}
+
 		// get method parameters
 		foreach ($reflection->getParameters() as $param) {
 			if($param->isOptional()) {
