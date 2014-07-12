@@ -7,6 +7,10 @@
  */
 namespace OC\Files\Storage;
 
+/**
+* Uses phpseclib's Net_SFTP class and the Net_SFTP_Stream stream wrapper to
+* provide access to SFTP servers.
+*/
 class SFTP extends \OC\Files\Storage\Common {
 	private $host;
 	private $user;
