@@ -17,6 +17,9 @@ class SFTP extends \OC\Files\Storage\Common {
 	private $password;
 	private $root;
 
+	/**
+	* @var \Net_SFTP
+	*/
 	private $client;
 
 	private static $tempFiles = array();
@@ -231,8 +234,8 @@ class SFTP extends \OC\Files\Storage\Common {
 				case 'x+':
 				case 'c':
 				case 'c+':
-					// FIXME: make client login lazy to prevent it when using fopen()
-					return fopen($this->constructUrl($path), $mode);
+					$context = stream_context_create(array('sftp' => array('session' => $this->client)));
+					return fopen($this->constructUrl($path), $mode, false, $context);
 			}
 		} catch (\Exception $e) {
 		}
@@ -294,7 +297,10 @@ class SFTP extends \OC\Files\Storage\Common {
 	 * @param string $path
 	 */
 	public function constructUrl($path) {
-		$url = 'sftp://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
+		// Do not pass the password here. We want to use the Net_SFTP object
+		// supplied via stream context or fail. We only supply username and
+		// hostname because this might show up in logs (they are not used).
+		$url = 'sftp://'.$this->user.'@'.$this->host.$this->root.$path;
 		return $url;
 	}
 }
