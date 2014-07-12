@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-08 06:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-12 01:54-0400\n"
+"PO-Revision-Date: 2014-07-11 07:40+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,15 +53,15 @@ msgstr "Sa pole lingiga jaganud veel ühtegi faili."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "Soovid lisata kaugjagamise {name} asukohast {owner}@{remote}?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Kaugjagamine"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Kaugjagamise parool"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -69,7 +69,7 @@ msgstr "Loobu"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Lisa kaugjagamine"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"

@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-12 01:54-0400\n"
+"PO-Revision-Date: 2014-07-10 19:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -316,19 +316,19 @@ msgstr "Restaurar chaves encriptadas."
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:197
 msgid "Error creating group"
 msgstr "Erro ao criar grupo"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:196
 msgid "A valid group name must be provided"
 msgstr "Um nome válido do grupo tem de ser fornecido"
 
-#: js/users/groups.js:205
+#: js/users/groups.js:224
 msgid "deleted {groupName}"
 msgstr "apagar {Nome do grupo}"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:225 js/users/users.js:296
 msgid "undo"
 msgstr "desfazer"
 
@@ -348,31 +348,31 @@ msgstr "Grupo Administrador"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "nunca"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr "apagar{utilizador}"
 
-#: js/users/users.js:381
+#: js/users/users.js:426
 msgid "add group"
 msgstr "Adicionar grupo"
 
-#: js/users/users.js:578
+#: js/users/users.js:621
 msgid "A valid username must be provided"
 msgstr "Um nome de utilizador válido deve ser fornecido"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
 msgid "Error creating user"
 msgstr "Erro a criar utilizador"
 
-#: js/users/users.js:584
+#: js/users/users.js:627
 msgid "A valid password must be provided"
 msgstr "Uma password válida deve ser fornecida"
 
-#: js/users/users.js:608
+#: js/users/users.js:657
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Atenção: a pasta pessoal do utilizador \"{user}\" já existe"
 

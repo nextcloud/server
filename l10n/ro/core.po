@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alex <__sashok@mail.ru>, 2014
 # astalush <astalush@yahoo.com>, 2014
 # corneliu.e <corneliueva@yahoo.com>, 2013
 # Dumitru Ursu <dima@ceata.org>, 2013
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-12 01:54-0400\n"
+"PO-Revision-Date: 2014-07-11 18:30+0000\n"
+"Last-Translator: Alex <__sashok@mail.ru>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,15 +30,15 @@ msgstr "Data de expirare este în trecut."
 #: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Nu s-a putut trimite mesajul către următorii utilizatori: %s"
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Modul mentenanță a fost activat"
 
 #: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Modul mentenanță a fost dezactivat"
 
 #: ajax/update.php:16
 msgid "Updated database"
@@ -50,11 +51,11 @@ msgstr ""
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Aplicatii incompatibile oprite: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
-msgstr ""
+msgstr "Nu a fost furnizat vreo imagine sau fișier"
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
@@ -162,11 +163,11 @@ msgstr "Dosar"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Imagine"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -214,7 +215,7 @@ msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
+msgstr[2] "%n luni în urmă"
 
 #: js/js.js:1286
 msgid "last year"
@@ -245,7 +246,7 @@ msgstr ""
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Eu știu ce fac"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -253,7 +254,7 @@ msgstr "Resetează parola"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Parola nu poate fi modificata. Vă rugăm să contactați administratorul dvs."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -292,11 +293,11 @@ msgstr "Un conflict de fișier"
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
-msgstr ""
+msgstr "Fișiere noi"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "Fișiere deja existente"
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
@@ -322,7 +323,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} selectate)"
 
 #: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
@@ -342,11 +343,11 @@ msgstr ""
 
 #: js/setup.js:99
 msgid "Good password"
-msgstr ""
+msgstr "Parolă bună"
 
 #: js/setup.js:100
 msgid "Strong password"
-msgstr ""
+msgstr "Parolă puternică"
 
 #: js/share.js:129 js/share.js:251
 msgid "Shared"
@@ -354,11 +355,11 @@ msgstr "Partajat"
 
 #: js/share.js:194 js/share.js:214
 msgid "Shared by {owner}"
-msgstr ""
+msgstr "Partajat de {owner}"
 
 #: js/share.js:257
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Partajat cu {recipients}"
 
 #: js/share.js:266
 msgid "Share"
@@ -456,7 +457,7 @@ msgstr "Anulare partajare"
 
 #: js/share.js:621
 msgid "notify by email"
-msgstr ""
+msgstr "notifică prin email"
 
 #: js/share.js:624
 msgid "can share"
@@ -536,15 +537,15 @@ msgstr ""
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "Se actualizează {productName} la versiunea {version}, poate dura câteva momente."
 
 #: js/update.js:43
 msgid "Please reload the page."
-msgstr ""
+msgstr "Te rugăm să reîncarci pagina."
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "Actualizare eșuată."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -605,7 +606,7 @@ msgstr "Noua parolă"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Noua parolă"
 
 #: setup/controller.php:140
 #, php-format
@@ -688,7 +689,7 @@ msgstr ""
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Partajarea va expira în data de %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
@@ -744,7 +745,7 @@ msgstr "Parolă"
 
 #: templates/installation.php:72
 msgid "Storage & database"
-msgstr ""
+msgstr "Stocare și baza de date"
 
 #: templates/installation.php:79
 msgid "Data folder"
@@ -833,7 +834,7 @@ msgstr ""
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Ți-ai uitat parola? Resetează!"
 
 #: templates/login.php:55
 msgid "remember"
@@ -870,12 +871,12 @@ msgstr ""
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Îți mulțumim pentru răbrade."
 
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s va fi actualizat la versiunea %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
@@ -894,7 +895,7 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Începe actualizarea"
 
 #: templates/update.user.php:3
 msgid ""

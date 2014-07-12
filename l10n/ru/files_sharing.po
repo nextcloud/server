@@ -8,6 +8,7 @@
 # jekader <jekader@gmail.com>, 2014
 # mogarych <mogarych@mail.ru>, 2014
 # Pavel P. Zabortsev <ppz2001@mail.ru>, 2014
+# rodionc <rodionc@gmail.com>, 2014
 # Victor Bravo <>, 2013
 # Void Ayanami <hex.void@gmail.com>, 2013
 # Денис <denstarr@mail.md>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-08 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-12 01:54-0400\n"
+"PO-Revision-Date: 2014-07-11 11:31+0000\n"
+"Last-Translator: rodionc <rodionc@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +29,11 @@ msgstr ""
 
 #: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "На данном сервере выключено межсерверное предоставление общих папок"
 
 #: ajax/external.php:47
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Невозможно добавить удалённую общую папку"
 
 #: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
@@ -56,19 +57,19 @@ msgstr "Вы не имеете файлов в открытом доступе"
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Вы ещё не открыли доступ по ссылке ни к одному файлу."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "Добавить удалённую общую папку {name} из {owner}@{remote}?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Удалённая общая папка"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Пароль для удалённой общей папки"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -76,11 +77,11 @@ msgstr "Отменить"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Добавить удалённую общую папку"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Не найдено ownCloud на {remote}"
 
 #: js/public.js:204
 msgid "Invalid ownCloud url"
@@ -140,7 +141,7 @@ msgstr "Для получения дополнительной информац�
 
 #: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Добавить в свой ownCloud"
 
 #: templates/public.php:30
 msgid "Download"
@@ -157,12 +158,12 @@ msgstr "Прямая ссылка"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr ""
+msgstr "Удалённые общие папки"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "Разрешить удалённым экземплярам монтировать публичные ссылки с данного сервера"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Разрешить пользователям монтировать ссылки на публичные папки"

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"See %s" => "Se %s",
 "Help" => "Hjælp",
 "Personal" => "Personligt",
 "Settings" => "Indstillinger",
@@ -48,6 +49,13 @@ $TRANSLATIONS = array(
 "Please double check the <a href='%s'>installation guides</a>." => "Dobbelttjek venligst <a href='%s'>installations vejledningerne</a>.",
 "%s shared »%s« with you" => "%s delte »%s« med sig",
 "You are not allowed to share %s" => "Du har ikke tilladelse til at dele %s",
+"Sharing %s failed, because the user %s is the item owner" => "Der skete en fejl ved deling af %s, brugeren %s er ejer af objektet",
+"Sharing %s failed, because the user %s does not exist" => "Der skete en fejl ved deling af %s, brugeren %s eksistere ikke",
+"Sharing %s failed, because the user %s is not a member of any groups that %s is a member of" => "Der skete en fejl ved deling af %s, brugeren %s er ikke medlem af nogle grupper som %s er medlem af",
+"Sharing %s failed, because this item is already shared with %s" => "Der skete en fejl ved deling af %s, objektet er allerede delt med %s",
+"Sharing %s failed, because the group %s does not exist" => "Der skete en fejl ved deling af %s, gruppen %s eksistere ikke",
+"Sharing %s failed, because %s is not a member of the group %s" => "Der skete en fejl ved deling af %s, fordi %s ikke er medlem af gruppen %s",
+"Sharing %s failed, because sharing with links is not allowed" => "Der skete en fejl ved deling af %s, det er ikke tilladt at dele links",
 "Could not find category \"%s\"" => "Kunne ikke finde kategorien \"%s\"",
 "seconds ago" => "sekunder siden",
 "_%n minute ago_::_%n minutes ago_" => array("%n minut siden","%n minutter siden"),
@@ -59,6 +67,7 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("%n måned siden","%n måneder siden"),
 "last year" => "sidste år",
 "years ago" => "år siden",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Det er kun tilladt at benytte følgene karakterer i et brugernavn \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "Et gyldigt brugernavn skal angives",
 "A valid password must be provided" => "En gyldig adgangskode skal angives",
 "The username is already being used" => "Brugernavnet er allerede i brug"

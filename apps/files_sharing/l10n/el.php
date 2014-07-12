@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Κανένα αρχείο δνε έχει διαμοιραστεί ακόμα με εσάς.",
 "You haven't shared any files yet." => "Δεν έχετε διαμοιραστεί κανένα αρχείο ακόμα.",
 "You haven't shared any files by link yet." => "Δεν έχετε διαμοιραστεί κανένα αρχείο μέσω συνδέσμου ακόμα.",
+"Remote share" => "Απομακρυσμένος διαμοιρασμός",
 "Cancel" => "Άκυρο",
 "No ownCloud installation found at {remote}" => "Δεν βρέθηκε εγκατεστημένο ownCloud στο {remote}",
 "Invalid ownCloud url" => "Άκυρη url ownCloud ",
