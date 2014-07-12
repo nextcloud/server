@@ -54,12 +54,8 @@ class SFTP extends \OC\Files\Storage\Common {
 		$hostKeys = $this->readHostKeys();
 		$this->client = new \Net_SFTP($this->host);
 
-		if (!$this->client->login($this->user, $this->password)) {
-			throw new \Exception('Login failed');
-		}
-
+		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
-
 		if (array_key_exists($this->host, $hostKeys)) {
 			if ($hostKeys[$this->host] != $currentHostKey) {
 				throw new \Exception('Host public key does not match known key');
@@ -67,6 +63,10 @@ class SFTP extends \OC\Files\Storage\Common {
 		} else {
 			$hostKeys[$this->host] = $currentHostKey;
 			$this->writeHostKeys($hostKeys);
+		}
+
+		if (!$this->client->login($this->user, $this->password)) {
+			throw new \Exception('Login failed');
 		}
 	}
 
