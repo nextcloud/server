@@ -4,16 +4,18 @@
 # 
 # Translators:
 # Anders J. Sørensen, 2013-2014
+# Aputsiaĸ Niels Janussen <aj@isit.gl>, 2014
 # Leif Lodahl <leiflodahl@gmail.com>, 2013
+# Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>, 2014
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-13 01:54-0400\n"
+"PO-Revision-Date: 2014-07-12 10:21+0000\n"
+"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +26,7 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Ugyldig værdi anført for %s"
 
 #: admin/controller.php:73
 msgid "Saved"
@@ -36,12 +38,12 @@ msgstr "test email indstillinger"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Hvis du har modtaget denne email, så lader indstillinger til at være korrekte."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Der opstod et problem under afsendelse af emailen. Gennemse venligst dine indstillinger påny."
 
 #: admin/controller.php:99
 msgid "Email sent"
@@ -49,11 +51,11 @@ msgstr "E-mail afsendt"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Du skal angive din bruger-email før der kan sendes test-email."
 
 #: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
-msgstr ""
+msgstr "Tilstand for afsendelse"
 
 #: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
@@ -110,11 +112,11 @@ msgstr "Krypteringsnøgle slettet permanent"
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Kunne ikke slette dine nøgler til kryptering permanent, tjek venligst din owncloud.log eller spørg din administrator"
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Kunne ikke fjerne app'en."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -134,13 +136,13 @@ msgstr "Bruger kan ikke slettes"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Backups succesfuld genskabt "
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Kunne ikke genskabe din krypyterings nøgle, se logfilen owncloud.log eller spørg en administrator"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -215,7 +217,7 @@ msgstr "Opdatér til {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Afinstallér app"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -259,15 +261,15 @@ msgstr "Opdateret"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Afinstallerer..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Fejl under afinstallering af app"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Afinstallér"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -309,19 +311,19 @@ msgstr "Genopret krypteringsnøgler."
 msgid "Unable to delete {objName}"
 msgstr "Kunne ikke slette {objName}"
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:197
 msgid "Error creating group"
 msgstr "Fejl ved oprettelse af gruppe"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:196
 msgid "A valid group name must be provided"
 msgstr "Et gyldigt gruppenavn skal angives "
 
-#: js/users/groups.js:205
+#: js/users/groups.js:224
 msgid "deleted {groupName}"
 msgstr "slettede {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:225 js/users/users.js:296
 msgid "undo"
 msgstr "fortryd"
 
@@ -341,31 +343,31 @@ msgstr "Gruppe Administrator"
 msgid "Delete"
 msgstr "Slet"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "aldrig"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr "slettede {userName}"
 
-#: js/users/users.js:381
+#: js/users/users.js:426
 msgid "add group"
 msgstr "Tilføj gruppe"
 
-#: js/users/users.js:578
+#: js/users/users.js:621
 msgid "A valid username must be provided"
 msgstr "Et gyldigt brugernavn skal angives"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
 msgid "Error creating user"
 msgstr "Fejl ved oprettelse af bruger"
 
-#: js/users/users.js:584
+#: js/users/users.js:627
 msgid "A valid password must be provided"
 msgstr "En gyldig adgangskode skal angives"
 
-#: js/users/users.js:608
+#: js/users/users.js:657
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Advarsel: Hjemmemappen for bruger \"{user}\" findes allerede"
 
@@ -403,7 +405,7 @@ msgstr "Login"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Klartekst"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
@@ -456,13 +458,13 @@ msgstr "Dobbelttjek venligst <a href='%s'>installations vejledningerne</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP opsætning blokere \"inline doc blocks\". dette gør at flere grundlæggende apps utilgængelige"
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Dette er sansynligvis forårsaget af et accelerator eller cache som Zend OPcache eller eAccelerator"
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
@@ -473,7 +475,7 @@ msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "SQLite er benyttet som database. Ved store installationer anbefaler vi at ændre dette. For at migrere til en anden database benyt 'occ db:convert-type' værktøjet i et kommandovindue."
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -562,7 +564,7 @@ msgstr "cron.php er registreret til at en webcron service skal kalde cron.php hv
 
 #: templates/admin.php:229
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Brug systemets cron service til at kalde cron.php hver 15. minut"
 
 #: templates/admin.php:234
 msgid "Sharing"
@@ -574,11 +576,11 @@ msgstr "Tillad apps til at bruge Share API"
 
 #: templates/admin.php:243
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Tillad brugere at dele via link"
 
 #: templates/admin.php:249
 msgid "Enforce password protection"
-msgstr ""
+msgstr "tving kodeords beskyttelse"
 
 #: templates/admin.php:252
 msgid "Allow public uploads"
@@ -606,7 +608,7 @@ msgstr "Tillad videredeling"
 
 #: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Begræns brugere til deling med brugere i deres gruppe"
 
 #: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
@@ -619,7 +621,7 @@ msgstr "Ekskluder grupper fra at dele"
 #: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Disse grupper vil stadig kunne modtage delefiler, dog ikke skabe dem."
 
 #: templates/admin.php:303
 msgid "Security"
@@ -647,7 +649,7 @@ msgstr "Email Server"
 
 #: templates/admin.php:334
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Dette anvendes til udsendelse af notifikationer."
 
 #: templates/admin.php:365
 msgid "From address"
@@ -741,7 +743,7 @@ msgstr "Se applikationens side på apps.owncloud.com"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Se programmets websted"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -749,7 +751,7 @@ msgstr "<span class=\"licence\"></span>-licenseret af <span class=\"author\"></s
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Aktivér kun for udvalgte grupper"
 
 #: templates/apps.php:61
 msgid "All"
@@ -787,7 +789,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "Hvis du vil støtte projektet\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">deltag i udviklingen</a>\n\t\teller\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spred budskabet</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"
@@ -839,7 +841,7 @@ msgstr "Din emailadresse"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Angiv en emailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer"
 
 #: templates/personal.php:101
 msgid "Profile picture"
@@ -898,7 +900,7 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Din krypteringsmøgler er flyttet til en backup lokation . hvis noget gik galt kan du genskabe nøglerne. Slet kun nøgler permanent hvis du er sikker på at alle filer er dekrypteret korrekt."
 
 #: templates/personal.php:190
 msgid "Restore Encryption Keys"
@@ -929,7 +931,7 @@ msgstr "Indtast et gendannelse kodeord for, at kunne gendanne brugerens filer ve
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Søg efter brugere og grupper"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
@@ -945,7 +947,7 @@ msgstr "Alle"
 
 #: templates/users/part.grouplist.php:31
 msgid "Admins"
-msgstr ""
+msgstr "Administratore"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -973,11 +975,11 @@ msgstr "Kvote"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Placering af lageret"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Seneste login"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

@@ -164,7 +164,7 @@ $TRANSLATIONS = array(
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Dine data mappe og filer er sandsynligvis tilgængelige fra internettet fordi .htaccess filen ikke virker.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "For information om, hvordan du konfigurerer din server korrekt se <a href=\"%s\" target=\"_blank\">dokumentationen</a>.",
 "Create an <strong>admin account</strong>" => "Opret en <strong>administratorkonto</strong>",
-"Password" => "Kodeord",
+"Password" => "Adgangskode",
 "Storage & database" => "Lager & database",
 "Data folder" => "Datamappe",
 "Configure the database" => "Konfigurer databasen",

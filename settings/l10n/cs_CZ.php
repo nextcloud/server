@@ -120,6 +120,7 @@ $TRANSLATIONS = array(
 "Cron was not executed yet!" => "Cron ještě nebyl spuštěn!",
 "Execute one task with each page loaded" => "Spustit jednu úlohu s každým načtením stránky",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php je registrován u služby webcron, aby volal cron.php jednou za 15 minut přes http.",
+"Use system's cron service to call the cron.php file every 15 minutes." => "Použít systémovou službu cron pro spuštění souboru cron.php každých 15 minut.",
 "Sharing" => "Sdílení",
 "Allow apps to use the Share API" => "Povolit aplikacím používat API sdílení",
 "Allow users to share via link" => "Povolit uživatelům sdílení pomocí odkazů",

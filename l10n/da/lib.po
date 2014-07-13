@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Anders J. Sørensen, 2013-2014
+# Aputsiaĸ Niels Janussen <aj@isit.gl>, 2014
 # Claus Christensen <claus_chr@webspeed.dk>, 2013
 # Leif Lodahl <leiflodahl@gmail.com>, 2013
 # Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>, 2014
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 01:54-0400\n"
-"PO-Revision-Date: 2014-07-10 17:31+0000\n"
-"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
+"POT-Creation-Date: 2014-07-13 01:54-0400\n"
+"PO-Revision-Date: 2014-07-12 07:10+0000\n"
+"Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 
 #: base.php:195 base.php:202
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Kan ikke skrive til mappen \"config\"!"
 
 #: base.php:196
 msgid ""
@@ -345,50 +346,50 @@ msgstr "Der skete en fejl ved deling af %s, det er ikke tilladt at dele links"
 #: private/share/share.php:660
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "Delingstypen %s er ikke gyldig for %s"
 
 #: private/share/share.php:860
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Angivelse af tilladelser for %s mislykkedes, fordi tilladelserne overskred de som var tildelt %s"
 
 #: private/share/share.php:921
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Angivelse af tilladelser for %s mislykkedes, fordi artiklen ikke blev fundet"
 
 #: private/share/share.php:1046
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "Delingsbackend'en %s skal implementere grænsefladen OCP\\Share_Backend"
 
 #: private/share/share.php:1053
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Delingsbackend'en %s blev ikke fundet"
 
 #: private/share/share.php:1059
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Delingsbackend'en for %s blev ikke fundet"
 
 #: private/share/share.php:1476
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "Deling af %s mislykkedes, fordi brugeren %s er den som delte oprindeligt"
 
 #: private/share/share.php:1485
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "Deling af %s mislykkedes, fordi tilladelserne overskred de tillaldelser som %s var tildelt"
 
 #: private/share/share.php:1501
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "Deling af %s mislykkedes, fordi videredeling ikke er tilladt"
 
 #: private/share/share.php:1513
 #, php-format
@@ -487,11 +488,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Kan ikke skrive til mappen \"config\""
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Kan ikke skrive til mappen \"apps\""
 
 #: private/util.php:426
 #, php-format
@@ -503,7 +504,7 @@ msgstr ""
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Kan ikke oprette mappen \"data\" (%s)"
 
 #: private/util.php:441
 #, php-format
@@ -525,7 +526,7 @@ msgstr ""
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Du bedes anmode din serveradministrator om at installere modulet."
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -533,12 +534,12 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "PHP-modulet %s er ikke installeret."
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "Der kræves PHP %s eller nyere."
 
 #: private/util.php:539
 msgid ""
@@ -578,15 +579,15 @@ msgstr ""
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Du bedes anmode din serveradministrator om at genstarte webserveren."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "PostgreSQL >= 9 kræves"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Opgradér venligst din databaseversion"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"

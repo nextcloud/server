@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Anders J. Sørensen, 2013-2014
+# Aputsiaĸ Niels Janussen <aj@isit.gl>, 2014
 # Claus Christensen <claus_chr@webspeed.dk>, 2013
 # Leif Lodahl <leiflodahl@gmail.com>, 2013
 # Ole Holm Frandsen <froksen@gmail.com>, 2014
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-13 01:54-0400\n"
+"PO-Revision-Date: 2014-07-12 06:10+0000\n"
+"Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +96,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Sørg for at PHP 5.3.3 eller nyere er installeret og at OpenSSL sammen med PHP-udvidelsen er aktiveret og korrekt konfigureret. Indtil videre er krypteringsprogrammet deaktiveret."
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "Følgende brugere er ikke sat op til kryptering:"
 
@@ -110,7 +111,7 @@ msgstr "Kryptering foretages... Prøv venligst igen senere."
 #: templates/invalid_private_key.php:8
 #, php-format
 msgid "Go directly to your %spersonal settings%s."
-msgstr ""
+msgstr "Gå direkte til dine %spersonlige indstillinger%s."
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

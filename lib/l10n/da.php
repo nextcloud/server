@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Kan ikke skrive til mappen \"config\"!",
 "See %s" => "Se %s",
 "Help" => "Hjælp",
 "Personal" => "Personligt",
@@ -56,6 +57,15 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because the group %s does not exist" => "Der skete en fejl ved deling af %s, gruppen %s eksistere ikke",
 "Sharing %s failed, because %s is not a member of the group %s" => "Der skete en fejl ved deling af %s, fordi %s ikke er medlem af gruppen %s",
 "Sharing %s failed, because sharing with links is not allowed" => "Der skete en fejl ved deling af %s, det er ikke tilladt at dele links",
+"Share type %s is not valid for %s" => "Delingstypen %s er ikke gyldig for %s",
+"Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Angivelse af tilladelser for %s mislykkedes, fordi tilladelserne overskred de som var tildelt %s",
+"Setting permissions for %s failed, because the item was not found" => "Angivelse af tilladelser for %s mislykkedes, fordi artiklen ikke blev fundet",
+"Sharing backend %s must implement the interface OCP\\Share_Backend" => "Delingsbackend'en %s skal implementere grænsefladen OCP\\Share_Backend",
+"Sharing backend %s not found" => "Delingsbackend'en %s blev ikke fundet",
+"Sharing backend for %s not found" => "Delingsbackend'en for %s blev ikke fundet",
+"Sharing %s failed, because the user %s is the original sharer" => "Deling af %s mislykkedes, fordi brugeren %s er den som delte oprindeligt",
+"Sharing %s failed, because the permissions exceed permissions granted to %s" => "Deling af %s mislykkedes, fordi tilladelserne overskred de tillaldelser som %s var tildelt",
+"Sharing %s failed, because resharing is not allowed" => "Deling af %s mislykkedes, fordi videredeling ikke er tilladt",
 "Could not find category \"%s\"" => "Kunne ikke finde kategorien \"%s\"",
 "seconds ago" => "sekunder siden",
 "_%n minute ago_::_%n minutes ago_" => array("%n minut siden","%n minutter siden"),
@@ -70,6 +80,15 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Det er kun tilladt at benytte følgene karakterer i et brugernavn \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "Et gyldigt brugernavn skal angives",
 "A valid password must be provided" => "En gyldig adgangskode skal angives",
-"The username is already being used" => "Brugernavnet er allerede i brug"
+"The username is already being used" => "Brugernavnet er allerede i brug",
+"Cannot write into \"config\" directory" => "Kan ikke skrive til mappen \"config\"",
+"Cannot write into \"apps\" directory" => "Kan ikke skrive til mappen \"apps\"",
+"Cannot create \"data\" directory (%s)" => "Kan ikke oprette mappen \"data\" (%s)",
+"Please ask your server administrator to install the module." => "Du bedes anmode din serveradministrator om at installere modulet.",
+"PHP module %s not installed." => "PHP-modulet %s er ikke installeret.",
+"PHP %s or higher is required." => "Der kræves PHP %s eller nyere.",
+"Please ask your server administrator to restart the web server." => "Du bedes anmode din serveradministrator om at genstarte webserveren.",
+"PostgreSQL >= 9 required" => "PostgreSQL >= 9 kræves",
+"Please upgrade your database version" => "Opgradér venligst din databaseversion"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
