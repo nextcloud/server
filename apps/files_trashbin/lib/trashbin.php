@@ -117,10 +117,18 @@ class Trashbin {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
-		$sizeOfAddedFiles = self::copy_recursive('/files/' . $file_path, $trashPath, $view);
+		try {
+			$sizeOfAddedFiles = self::copy_recursive('/files/'.$file_path, $trashPath, $view);
+		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
+			$sizeOfAddedFiles = false;
+			if ($view->file_exists($trashPath)) {
+				$view->deleteAll($trashPath);
+			}
+			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
+		}
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		if ($view->file_exists('files_trashbin/files/' . $filename . '.d' . $timestamp)) {
+		if ($sizeOfAddedFiles !== false) {
 			$size = $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`user`) VALUES (?,?,?,?)");
 			$result = $query->execute(array($filename, $timestamp, $location, $user));
@@ -137,8 +145,6 @@ class Trashbin {
 			if ($user !== $owner) {
 				self::copyFilesToOwner($file_path, $owner, $ownerPath, $timestamp);
 			}
-		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t move ' . $file_path . ' to the trash bin', \OC_log::ERROR);
 		}
 
 		$userTrashSize += $size;
@@ -823,13 +829,19 @@ class Trashbin {
 					$size += self::copy_recursive($pathDir, $destination . '/' . $i['name'], $view);
 				} else {
 					$size += $view->filesize($pathDir);
-					$view->copy($pathDir, $destination . '/' . $i['name']);
+					$result = $view->copy($pathDir, $destination . '/' . $i['name']);
+					if (!$result) {
+						throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
+					}
 					$view->touch($destination . '/' . $i['name'], $view->filemtime($pathDir));
 				}
 			}
 		} else {
 			$size += $view->filesize($source);
-			$view->copy($source, $destination);
+			$result = $view->copy($source, $destination);
+			if (!$result) {
+				throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
+			}
 			$view->touch($destination, $view->filemtime($source));
 		}
 		return $size;
