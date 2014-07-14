@@ -88,7 +88,7 @@ class RouteConfig {
 							->method($verb)
 							->action($handler);
 
-			// optionally register requirements for route. This is used to 
+			// optionally register requirements for route. This is used to
 			// tell the route parser how url parameters should be matched
 			if(array_key_exists('requirements', $simpleRoute)) {
 				$router->requirements($simpleRoute['requirements']);
@@ -122,14 +122,13 @@ class RouteConfig {
 		foreach ($resources as $resource => $config) {
 
 			// the url parameter used as id to the resource
-			$resourceId = $this->buildResourceId($resource);
 			foreach($actions as $action) {
 				$url = $config['url'];
 				$method = $action['name'];
 				$verb = isset($action['verb']) ? strtoupper($action['verb']) : 'GET';
 				$collectionAction = isset($action['on-collection']) ? $action['on-collection'] : false;
 				if (!$collectionAction) {
-					$url = $url . '/' . $resourceId;
+					$url = $url . '/{id}';
 				}
 				if (isset($action['url-postfix'])) {
 					$url = $url . '/' . $action['url-postfix'];
@@ -166,15 +165,6 @@ class RouteConfig {
 	 */
 	private function buildActionName($action) {
 		return $this->underScoreToCamelCase($action);
-	}
-
-	/**
-	 * Generates the id used in the url part o the route url
-	 * @param string $resource
-	 * @return string
-	 */
-	private function buildResourceId($resource) {
-		return '{'.$this->underScoreToCamelCase(rtrim($resource, 's')).'Id}';
 	}
 
 	/**
