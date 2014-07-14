@@ -291,14 +291,20 @@
 			if (actions['Delete']) {
 				var img = self.icons['Delete'];
 				var html;
+				var mountType = $tr.attr('data-mounttype');
+				var deleteTitle = t('files', 'Delete');
+				if (mountType === 'external-root') {
+					deleteTitle = t('files', 'Disconnect storage');
+				} else if (mountType === 'shared-root') {
+					deleteTitle = t('files', 'Unshare');
+				} else if (fileList.id === 'trashbin') {
+					deleteTitle = t('files', 'Delete permanently');
+				}
+
 				if (img.call) {
 					img = img(file);
 				}
-				if (typeof trashBinApp !== 'undefined' && trashBinApp) {
-					html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete delete-icon" />';
-				} else {
-					html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete delete-icon" />';
-				}
+				html = '<a href="#" original-title="' + escapeHTML(deleteTitle) + '" class="action delete delete-icon" />';
 				var element = $(html);
 				element.data('action', actions['Delete']);
 				element.on('click', {a: null, elem: parent, actionFunc: actions['Delete'].action}, actionHandler);

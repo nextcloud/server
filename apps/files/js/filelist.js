@@ -600,6 +600,10 @@
 				"data-permissions": fileData.permissions || this.getDirectoryPermissions()
 			});
 
+			if (fileData.mountType) {
+				tr.attr('data-mounttype', fileData.mountType);
+			}
+
 			if (!_.isUndefined(path)) {
 				tr.attr('data-path', path);
 			}
