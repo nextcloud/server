@@ -7,6 +7,10 @@
  */
 namespace OC\Files\Storage;
 
+/**
+* Uses phpseclib's Net_SFTP class and the Net_SFTP_Stream stream wrapper to
+* provide access to SFTP servers.
+*/
 class SFTP extends \OC\Files\Storage\Common {
 	private $host;
 	private $user;
@@ -18,6 +22,17 @@ class SFTP extends \OC\Files\Storage\Common {
 	private static $tempFiles = array();
 
 	public function __construct($params) {
+		// The sftp:// scheme has to be manually registered via inclusion of
+		// the 'Net/SFTP/Stream.php' file which registers the Net_SFTP_Stream
+		// stream wrapper as a side effect.
+		// A slightly better way to register the stream wrapper is available
+		// since phpseclib 0.3.7 in the form of a static call to
+		// Net_SFTP_Stream::register() which will trigger autoloading if
+		// necessary.
+		// TODO: Call Net_SFTP_Stream::register() instead when phpseclib is
+		//       updated to 0.3.7 or higher.
+		require_once 'Net/SFTP/Stream.php';
+
 		$this->host = $params['host'];
 		$proto = strpos($this->host, '://');
 		if ($proto != false) {
