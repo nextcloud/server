@@ -92,10 +92,9 @@ class File extends \OCP\Search\Result {
 	 * @param string $path
 	 * @return string relative path
 	 */
-	function getRelativePath ($path) {
+	protected function getRelativePath ($path) {
 		$root = \OC::$server->getUserFolder();
 		return $root->getRelativePath($path);
-
 	}
 
 }
