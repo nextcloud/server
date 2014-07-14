@@ -466,6 +466,12 @@ describe('Core base tests', function() {
 				}
 			});
 		});
+		describe('stripTime', function() {
+			it('strips time from dates', function() {
+				expect(OC.Util.stripTime(new Date(2014, 2, 24, 15, 4, 45, 24)))
+					.toEqual(new Date(2014, 2, 24, 0, 0, 0, 0));
+			});
+		});
 	});
 });
 
