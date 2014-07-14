@@ -1353,6 +1353,18 @@ OC.Util = {
 				}
 			});
 		});
+	},
+
+	/**
+	 * Remove the time component from a given date
+	 *
+	 * @param {Date} date date
+	 * @return {Date} date with stripped time
+	 */
+	stripTime: function(date) {
+		// FIXME: likely to break when crossing DST
+		// would be better to use a library like momentJS
+		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	}
 };
 

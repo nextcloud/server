@@ -436,7 +436,7 @@ OC.Share={
 						}
 					}
 					if (share.expiration != null) {
-						OC.Share.showExpirationDate(share.expiration);
+						OC.Share.showExpirationDate(share.expiration, share.stime);
 					}
 				});
 			}
@@ -716,7 +716,24 @@ OC.Share={
 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
-	showExpirationDate:function(date) {
+	/**
+	 * Displays the expiration date field
+	 *
+	 * @param {Date} date current expiration date
+	 * @param {int} [shareTime] share timestamp in seconds, defaults to now
+	 */
+	showExpirationDate:function(date, shareTime) {
+		var now = new Date();
+		var datePickerOptions = {
+			minDate: now,
+			maxDate: null
+		};
+		if (_.isNumber(shareTime)) {
+			shareTime = new Date(shareTime * 1000);
+		}
+		if (!shareTime) {
+			shareTime = now;
+		}
 		$('#expirationCheckbox').attr('checked', true);
 		$('#expirationDate').val(date);
 		$('#expirationDate').show('blind');
@@ -726,13 +743,14 @@ OC.Share={
 		});
 		if (oc_appconfig.core.defaultExpireDateEnforced) {
 			$('#expirationCheckbox').attr('disabled', true);
-			$.datepicker.setDefaults({
-				maxDate : new Date(date.replace(' 00:00:00', ''))
-			});
+			shareTime = OC.Util.stripTime(shareTime).getTime();
+			// max date is share date + X days
+			datePickerOptions.maxDate = new Date(shareTime + oc_appconfig.core.defaultExpireDate * 24 * 3600 * 1000);
 		}
 		if(oc_appconfig.core.defaultExpireDateEnabled) {
 			$('#defaultExpireMessage').show('blind');
 		}
+		$.datepicker.setDefaults(datePickerOptions);
 	}
 };
 
