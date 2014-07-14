@@ -39,9 +39,9 @@ class MetaData {
 	protected $sorting = false;
 
 	/**
-	 * @param string the uid of the current user
-	 * @param bool whether the current users is an admin
-	 * @param \OC\Group\Manager
+	 * @param string $user the uid of the current user
+	 * @param bool $isAdmin whether the current users is an admin
+	 * @param \OC\Group\Manager $groupManager
 	 */
 	public function __construct(
 			$user,
@@ -105,9 +105,9 @@ class MetaData {
 	}
 
 	/**
-	 * @brief sets the sort mode, currently 0 (none) and 1 (user entries,
+	 * sets the sort mode, currently 0 (none) and 1 (user entries,
 	 * descending) are supported
-	 * @param int the sortMode (SORT_NONE, SORT_USERCOUNT)
+	 * @param int $sortMode (SORT_NONE, SORT_USERCOUNT)
 	 */
 	public function setSorting($sortMode) {
 		if($sortMode >= 0 && $sortMode <= 1) {
@@ -118,11 +118,11 @@ class MetaData {
 	}
 
 	/**
-	 * @brief adds an group entry to the resulting array
-	 * @param array the resulting array, by reference
-	 * @param array the sort key array, by reference
-	 * @param array the sort key index, by reference
-	 * @param array the group's meta data as returned by generateGroupMetaData()
+	 * adds an group entry to the resulting array
+	 * @param array $entries the resulting array, by reference
+	 * @param array $sortKeys the sort key array, by reference
+	 * @param int $sortIndex the sort key index, by reference
+	 * @param array $data the group's meta data as returned by generateGroupMetaData()
 	 * @return null
 	 */
 	private function addEntry(&$entries, &$sortKeys, &$sortIndex, $data) {
@@ -134,7 +134,7 @@ class MetaData {
 	}
 
 	/**
-	 * @brief creates an array containing the group meta data
+	 * creates an array containing the group meta data
 	 * @param \OC\Group\Group $group
 	 * @param string $userSearch
 	 * @return array with the keys 'id', 'name' and 'usercount'
@@ -148,9 +148,9 @@ class MetaData {
 	}
 
 	/**
-	 * @brief sorts the result array, if applicable
-	 * @param array the result array, by reference
-	 * @param array the array containing the sort keys
+	 * sorts the result array, if applicable
+	 * @param array $entries the result array, by reference
+	 * @param array $sortKeys the array containing the sort keys
 	 * @param return null
 	 */
 	private function sort(&$entries, $sortKeys) {
@@ -160,8 +160,8 @@ class MetaData {
 	}
 
 	/**
-	 * @brief returns the available groups
-	 * @param string a search string
+	 * returns the available groups
+	 * @param string $search a search string
 	 * @return \OC\Group\Group[]
 	 */
 	private function getGroups($search = '') {
