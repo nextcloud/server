@@ -1103,8 +1103,9 @@ class View {
 			foreach ($results as $result) {
 				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$internalPath = $result['path'];
+					$path = $mountPoint . $result['path'];
 					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
-					$files[] = new FileInfo($mountPoint . $result['path'], $storage, $internalPath, $result);
+					$files[] = new FileInfo($path, $storage, $internalPath, $result);
 				}
 			}
 
