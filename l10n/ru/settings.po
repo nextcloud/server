@@ -7,6 +7,7 @@
 # Alexander Savchenko, 2014
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # Alf <alfsoft@gmail.com>, 2013
+# Almaz Mannanov <AlmazWorks@gmail.com>, 2014
 # Andrew Batchmauga <lordakryl@gmail.com>, 2013
 # Denis <denispal@gmail.com>, 2014
 # Denis <denispal@gmail.com>, 2014
@@ -29,9 +30,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-14 01:54-0400\n"
+"PO-Revision-Date: 2014-07-13 12:50+0000\n"
+"Last-Translator: Almaz Mannanov <AlmazWorks@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -327,19 +328,19 @@ msgstr "Восстановить ключи шифрования."
 msgid "Unable to delete {objName}"
 msgstr "Невозможно удалить {objName}"
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:197
 msgid "Error creating group"
 msgstr "Ошибка создания группы"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:196
 msgid "A valid group name must be provided"
 msgstr "Введите правильное имя группы"
 
-#: js/users/groups.js:205
+#: js/users/groups.js:224
 msgid "deleted {groupName}"
 msgstr "удалено {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:225 js/users/users.js:296
 msgid "undo"
 msgstr "отмена"
 
@@ -359,31 +360,31 @@ msgstr "Администратор группы"
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "никогда"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr "удалён {userName}"
 
-#: js/users/users.js:381
+#: js/users/users.js:426
 msgid "add group"
 msgstr "добавить группу"
 
-#: js/users/users.js:578
+#: js/users/users.js:621
 msgid "A valid username must be provided"
 msgstr "Укажите правильное имя пользователя"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
 msgid "Error creating user"
 msgstr "Ошибка создания пользователя"
 
-#: js/users/users.js:584
+#: js/users/users.js:627
 msgid "A valid password must be provided"
 msgstr "Укажите валидный пароль"
 
-#: js/users/users.js:608
+#: js/users/users.js:657
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Предупреждение: домашняя папка пользователя \"{user}\" уже существует"
 
@@ -596,7 +597,7 @@ msgstr "Разрешить пользователям публикации че�
 
 #: templates/admin.php:249
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Обязательная защита паролем"
 
 #: templates/admin.php:252
 msgid "Allow public uploads"

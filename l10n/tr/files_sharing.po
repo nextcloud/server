@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-08 06:12+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-14 01:54-0400\n"
+"PO-Revision-Date: 2014-07-13 14:40+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,15 +52,15 @@ msgstr "Bağlantı ile henüz hiçbir dosya paylaşmadınız."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "{owner}@{remote} konumundan {name} uzak paylaşımını eklemek istiyor musunuz?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Uzak paylaşım"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Uzak paylaşım parolası"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -68,7 +68,7 @@ msgstr "İptal"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Uzak paylaşım ekle"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"

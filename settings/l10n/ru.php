@@ -121,6 +121,7 @@ $TRANSLATIONS = array(
 "Sharing" => "Общий доступ",
 "Allow apps to use the Share API" => "Позволить приложениям использовать API общего доступа",
 "Allow users to share via link" => "Разрешить пользователям публикации через ссылки",
+"Enforce password protection" => "Обязательная защита паролем",
 "Allow public uploads" => "Разрешить открытые загрузки",
 "Set default expiration date" => "Установите дату окончания по-умолчанию",
 "Expire after " => "Заканчивается после",
