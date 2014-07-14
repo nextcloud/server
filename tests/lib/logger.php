@@ -19,7 +19,7 @@ class Logger extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		self::$logs = array();
-		$this->logger = new Log($this);
+		$this->logger = new Log('Test\Logger');
 	}
 
 	public function testInterpolation() {
