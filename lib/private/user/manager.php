@@ -10,6 +10,7 @@
 namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
+use OCP\IUserManager;
 
 /**
  * Class Manager
@@ -24,7 +25,7 @@ use OC\Hooks\PublicEmitter;
  *
  * @package OC\User
  */
-class Manager extends PublicEmitter {
+class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * @var \OC_User_Interface[] $backends
 	 */
