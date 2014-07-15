@@ -365,7 +365,7 @@ var UserList = {
 		var user = UserList.getUID($element);
 
 		if ($element.data('user-groups')) {
-			if (typeof $element.data('user-groups') == 'string') {
+			if (typeof $element.data('user-groups') === 'string') {
 				checked = $element.data('user-groups').split(", ");
 			}
 			else {
@@ -450,7 +450,7 @@ var UserList = {
 		var user = UserList.getUID($element);
 
 		if ($element.data('subadmin')) {
-			if (typeof $element.data('subadmin') == 'string') {
+			if (typeof $element.data('subadmin') === 'string') {
 				checked = $element.data('subadmin').split(", ");
 			}
 			else {
