@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-07 01:54-0400\n"
-"PO-Revision-Date: 2014-07-06 21:00+0000\n"
-"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-07-15 01:54-0400\n"
+"PO-Revision-Date: 2014-07-15 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -191,7 +191,7 @@ msgstr "O envío do ficheiro está en proceso. Saír agora da páxina cancelará
 msgid "URL cannot be empty"
 msgstr "O URL non pode quedar en branco."
 
-#: js/file-upload.js:568 js/filelist.js:1253
+#: js/file-upload.js:568 js/filelist.js:1259
 msgid "{new_name} already exists"
 msgstr "Xa existe un {new_name}"
 
@@ -207,77 +207,85 @@ msgstr "Non foi posíbel crear o cartafol"
 msgid "Error fetching URL"
 msgstr "Produciuse un erro ao obter o URL"
 
-#: js/fileactions.js:254
+#: js/fileactions.js:285
 msgid "Share"
 msgstr "Compartir"
 
-#: js/fileactions.js:267
-msgid "Delete permanently"
-msgstr "Eliminar permanentemente"
-
-#: js/fileactions.js:269 templates/list.php:77 templates/list.php:78
+#: js/fileactions.js:295 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/fileactions.js:305
+#: js/fileactions.js:297
+msgid "Disconnect storage"
+msgstr ""
+
+#: js/fileactions.js:299
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:301
+msgid "Delete permanently"
+msgstr "Eliminar permanentemente"
+
+#: js/fileactions.js:342
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:339
+#: js/filelist.js:341
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Está a prepararse a súa descarga. Isto pode levar bastante tempo se os ficheiros son grandes."
 
-#: js/filelist.js:669 js/filelist.js:1777
+#: js/filelist.js:675 js/filelist.js:1783
 msgid "Pending"
 msgstr "Pendentes"
 
-#: js/filelist.js:1204
+#: js/filelist.js:1210
 msgid "Error moving file."
 msgstr "Produciuse un erro ao mover o ficheiro."
 
-#: js/filelist.js:1212
+#: js/filelist.js:1218
 msgid "Error moving file"
 msgstr "Produciuse un erro ao mover o ficheiro"
 
-#: js/filelist.js:1212
+#: js/filelist.js:1218
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1301
+#: js/filelist.js:1307
 msgid "Could not rename file"
 msgstr "Non foi posíbel renomear o ficheiro"
 
-#: js/filelist.js:1419
+#: js/filelist.js:1425
 msgid "Error deleting file."
 msgstr "Produciuse un erro ao eliminar o ficheiro."
 
-#: js/filelist.js:1522 templates/list.php:61
+#: js/filelist.js:1528 templates/list.php:61
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1523 templates/list.php:72
+#: js/filelist.js:1529 templates/list.php:72
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/filelist.js:1524 templates/list.php:75
+#: js/filelist.js:1530 templates/list.php:75
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1534 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n cartafol"
 msgstr[1] "%n cartafoles"
 
-#: js/filelist.js:1540 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n ficheiro"
 msgstr[1] "%n ficheiros"
 
-#: js/filelist.js:1670 js/filelist.js:1709
+#: js/filelist.js:1676 js/filelist.js:1715
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Cargando %n ficheiro"

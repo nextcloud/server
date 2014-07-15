@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-15 01:54-0400\n"
+"PO-Revision-Date: 2014-07-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,7 @@ msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi t
 msgid "URL cannot be empty"
 msgstr "URL không thể để trống"
 
-#: js/file-upload.js:568 js/filelist.js:1253
+#: js/file-upload.js:568 js/filelist.js:1259
 msgid "{new_name} already exists"
 msgstr "{new_name} đã tồn tại"
 
@@ -209,75 +209,83 @@ msgstr "Không thể tạo thư mục"
 msgid "Error fetching URL"
 msgstr ""
 
-#: js/fileactions.js:254
+#: js/fileactions.js:285
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/fileactions.js:267
-msgid "Delete permanently"
-msgstr "Xóa vĩnh vễn"
-
-#: js/fileactions.js:269 templates/list.php:77 templates/list.php:78
+#: js/fileactions.js:295 templates/list.php:77 templates/list.php:78
 msgid "Delete"
 msgstr "Xóa"
 
-#: js/fileactions.js:305
+#: js/fileactions.js:297
+msgid "Disconnect storage"
+msgstr ""
+
+#: js/fileactions.js:299
+msgid "Unshare"
+msgstr ""
+
+#: js/fileactions.js:301
+msgid "Delete permanently"
+msgstr "Xóa vĩnh vễn"
+
+#: js/fileactions.js:342
 msgid "Rename"
 msgstr "Sửa tên"
 
-#: js/filelist.js:339
+#: js/filelist.js:341
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Your download is being prepared. This might take some time if the files are big."
 
-#: js/filelist.js:669 js/filelist.js:1777
+#: js/filelist.js:675 js/filelist.js:1783
 msgid "Pending"
 msgstr "Đang chờ"
 
-#: js/filelist.js:1204
+#: js/filelist.js:1210
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1212
+#: js/filelist.js:1218
 msgid "Error moving file"
 msgstr "Lỗi di chuyển tập tin"
 
-#: js/filelist.js:1212
+#: js/filelist.js:1218
 msgid "Error"
 msgstr "Lỗi"
 
-#: js/filelist.js:1301
+#: js/filelist.js:1307
 msgid "Could not rename file"
 msgstr "Không thể đổi tên file"
 
-#: js/filelist.js:1419
+#: js/filelist.js:1425
 msgid "Error deleting file."
 msgstr "Lỗi xóa file,"
 
-#: js/filelist.js:1522 templates/list.php:61
+#: js/filelist.js:1528 templates/list.php:61
 msgid "Name"
 msgstr "Tên"
 
-#: js/filelist.js:1523 templates/list.php:72
+#: js/filelist.js:1529 templates/list.php:72
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/filelist.js:1524 templates/list.php:75
+#: js/filelist.js:1530 templates/list.php:75
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/filelist.js:1534 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n thư mục"
 
-#: js/filelist.js:1540 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n tập tin"
 
-#: js/filelist.js:1670 js/filelist.js:1709
+#: js/filelist.js:1676 js/filelist.js:1715
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Đang tải lên %n tập tin"

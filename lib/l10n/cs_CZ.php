@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "Sdílení typu %s není korektní pro %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Nastavení oprávnění pro %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla povolena pro %s",
 "Setting permissions for %s failed, because the item was not found" => "Nastavení práv pro %s selhalo, protože položka nebyla nalezena",
+"Sharing backend %s must implement the interface OCP\\Share_Backend" => "Podpůrná vrstva pro sdílení %s musí obsahovat rozhraní OCP\\Share_Backend",
 "Sharing backend %s not found" => "Podpůrná vrstva sdílení %s nenalezena",
 "Sharing backend for %s not found" => "Podpůrná vrstva sdílení pro %s nenalezena",
 "Sharing %s failed, because the user %s is the original sharer" => "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první.",

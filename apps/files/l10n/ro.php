@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Spațiu de stocare indisponibil",
+"Storage invalid" => "Spațiu de stocare invalid",
 "Unknown error" => "Eroare necunoscută",
 "Could not move %s - File with this name already exists" => "%s nu se poate muta - Fișierul cu acest nume există deja ",
 "Could not move %s" => "Nu se poate muta %s",
@@ -21,7 +23,7 @@ $TRANSLATIONS = array(
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Fișierul încărcat depășește directiva upload_max_filesize din php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Fișierul încărcat depășește directiva MAX_FILE_SIZE specificată în formularul HTML",
 "The uploaded file was only partially uploaded" => "Fișierul a fost încărcat doar parțial",
-"No file was uploaded" => "Nu a fost încărcat niciun fișier",
+"No file was uploaded" => "Nu a fost încărcat nici un fișier",
 "Missing a temporary folder" => "Lipsește un dosar temporar",
 "Failed to write to disk" => "Eroare la scrierea pe disc",
 "Not enough storage available" => "Nu este disponibil suficient spațiu",
@@ -42,8 +44,8 @@ $TRANSLATIONS = array(
 "Could not create folder" => "Nu s-a putut crea folderul",
 "Error fetching URL" => "Eroare încarcare URL",
 "Share" => "Partajează",
-"Delete permanently" => "Șterge permanent",
 "Delete" => "Șterge",
+"Delete permanently" => "Șterge permanent",
 "Rename" => "Redenumește",
 "Your download is being prepared. This might take some time if the files are big." => "Se pregătește descărcarea. Aceasta poate dura ceva timp dacă fișierele sunt mari.",
 "Pending" => "În așteptare",

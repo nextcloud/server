@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Delete permanently" => "శాశ్వతంగా తొలగించు",
 "Delete" => "తొలగించు",
+"Delete permanently" => "శాశ్వతంగా తొలగించు",
 "Error" => "పొరపాటు",
 "Name" => "పేరు",
 "Size" => "పరిమాణం",
