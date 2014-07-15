@@ -46,10 +46,6 @@
 	background-image: url('../img/actions/checkmark-white.svg');
 }
 
-.icon-clock {
-	background-image: url('../img/actions/clock.svg');
-}
-
 .icon-close {
 	background-image: url('../img/actions/close.svg');
 }
@@ -76,10 +72,6 @@
 
 .icon-info {
 	background-image: url('../img/actions/info.svg');
-}
-
-.icon-lock {
-	background-image: url('../img/actions/lock.svg');
 }
 
 .icon-logout {
