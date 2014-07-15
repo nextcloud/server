@@ -14,6 +14,7 @@ function UserManagementFilter(filterInput, userList, groupList) {
 	this.filterInput = filterInput;
 	this.userList = userList;
 	this.groupList = groupList;
+	this.filterGroups = false;
 	this.thread = undefined;
 	this.oldval = this.filterInput.val();
 
@@ -55,7 +56,10 @@ UserManagementFilter.prototype.init = function() {
 UserManagementFilter.prototype.run = _.debounce(function() {
 		this.userList.empty();
 		this.userList.update(GroupList.getCurrentGID());
-		this.groupList.empty();
+		if(this.filterGroups) {
+			// user counts are being updated nevertheless
+			this.groupList.empty();
+		}
 		this.groupList.update();
 	},
 	300
