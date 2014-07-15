@@ -564,6 +564,7 @@ class OC {
 		self::registerPreviewHooks();
 		self::registerShareHooks();
 		self::registerLogRotate();
+		self::registerLocalAddressBook();
 
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
@@ -573,6 +574,14 @@ class OC {
 				OC_Util::addScript('backgroundjobs');
 			}
 		}
+	}
+
+	private static function registerLocalAddressBook() {
+		self::$server->getContactsManager()->register(function() {
+			$userManager = \OC::$server->getUserManager();
+			\OC::$server->getContactsManager()->registerAddressBook(
+				new \OC\Contacts\LocalAddressBook($userManager));
+		});
 	}
 
 	/**
