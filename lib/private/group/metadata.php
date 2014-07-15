@@ -176,9 +176,9 @@ class MetaData {
 			*/
 			$this->groups = array();
 			foreach($groupIds as $gid) {
-				$grp = $this->groupManager->get($gid);
-				if (!empty($grp)) {
-					$this->groups[$gid] = $grp;
+				$group = $this->groupManager->get($gid);
+				if (!is_null($group)) {
+					$this->groups[$gid] = $group;
 				}
 			}
 		}
