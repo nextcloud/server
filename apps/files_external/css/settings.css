@@ -10,7 +10,19 @@ td.remove>img { visibility:hidden; padding-top:7px; }
 tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 #addMountPoint>td { border:none; }
 #addMountPoint>td.applicable { visibility:hidden; }
-#selectBackend { margin-left:-10px; }
+
+#selectBackend {
+	margin-left:-10px; 
+	width : 150px; 
+}
+
+#externalStorage td.configuration, #externalStorage td.backend {
+	white-space : normal;
+}
+
+#externalStorage td.configuration input.added  {
+	margin-right : 6px;
+}
 
 #externalStorage label > input[type="checkbox"] {
 	margin-right: 3px;

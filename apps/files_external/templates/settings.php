@@ -8,12 +8,11 @@
 				<th><?php p($l->t('Folder name')); ?></th>
 				<th><?php p($l->t('External storage')); ?></th>
 				<th><?php p($l->t('Configuration')); ?></th>
-				<!--<th><?php p($l->t('Options')); ?></th> -->
 				<?php if ($_['isAdminPage']) print_unescaped('<th>'.$l->t('Available for').'</th>'); ?>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
-		<tbody width="100%">
+		<tbody>
 		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 		<?php foreach ($_['mounts'] as $mount): ?>
 			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
@@ -25,7 +24,8 @@
 				<td class="mountPoint"><input type="text" name="mountPoint"
 											  value="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
 											  data-mountpoint="<?php p(isset($mount['mountpoint']) ? $mount['mountpoint'] : ''); ?>"
-											  placeholder="<?php p($l->t('Folder name')); ?>" /></td>
+											  placeholder="<?php p($l->t('Folder name')); ?>" />
+				</td>
 				<?php if (!isset($mount['mountpoint'])): ?>
 					<td class="backend">
 						<select id="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
@@ -37,10 +37,10 @@
 						</select>
 					</td>
 				<?php else: ?>
-					<td class="backend"
-						data-class="<?php p($mount['class']); ?>"><?php p($mount['backend']); ?></td>
+					<td class="backend" data-class="<?php p($mount['class']); ?>"><?php p($mount['backend']); ?>
+					</td>
 				<?php endif; ?>
-				<td class ="configuration" width="100%">
+				<td class ="configuration">
 					<?php if (isset($mount['options'])): ?>
 						<?php foreach ($mount['options'] as $parameter => $value): ?>
 							<?php if (isset($_['backends'][$mount['class']]['configuration'][$parameter])): ?>
@@ -150,7 +150,7 @@
 	  action="<?php p(OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php')); ?>">
 		<h2><?php p($l->t('SSL root certificates'));?></h2>
 		<table id="sslCertificate" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
-			<tbody width="100%">
+			<tbody>
 			<?php foreach ($_['certs'] as $rootCert): ?>
 			<tr id="<?php p($rootCert) ?>">
 			<td class="rootCert"><?php p($rootCert) ?></td>
