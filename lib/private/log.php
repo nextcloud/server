@@ -154,6 +154,6 @@ class Log implements ILogger {
 		$message = strtr($message, $replace);
 
 		$logger = $this->logger;
-		$logger::write($app, $message, $level);
+		call_user_func(array($logger, 'write'), $app, $message, $level);
 	}
 }
