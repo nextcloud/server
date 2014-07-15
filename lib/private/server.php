@@ -255,7 +255,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\Files\Folder
 	 */
 	function getUserFolder() {
-		$dir = '/' . \OCP\User::getUser();
+		$dir = '/' . $this->getUserSession()->getUser()->getUID();
 		$root = $this->getRootFolder();
 		$folder = null;
 
