@@ -48,7 +48,7 @@ class OC_Defaults {
 	 * @param string $method
 	 */
 	private function themeExist($method) {
-		if (OC_Util::getTheme() !== '' && method_exists('OC_Theme', $method)) {
+		if (isset($this->theme) && method_exists($this->theme, $method)) {
 			return true;
 		}
 		return false;
