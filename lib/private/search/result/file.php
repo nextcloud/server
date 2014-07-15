@@ -18,7 +18,9 @@
  */
 
 namespace OC\Search\Result;
-use \OC\Files\Filesystem;
+use OC\Files\Filesystem;
+use OCP\Files\FileInfo;
+
 /**
  * A found file
  */
@@ -63,49 +65,36 @@ class File extends \OCP\Search\Result {
 
 	/**
 	 * Create a new file search result
-	 * @param array $data file data given by provider
+	 * @param FileInfo $data file data given by provider
 	 */
-	public function __construct(array $data = null) {
-		$info = pathinfo($data['path']);
-		$this->id = $data['fileid'];
+	public function __construct(FileInfo $data) {
+
+		$path = $this->getRelativePath($data->getPath());
+
+		$info = pathinfo($path);
+		$this->id = $data->getId();
 		$this->name = $info['basename'];
 		$this->link = \OCP\Util::linkTo(
 			'files',
 			'index.php',
 			array('dir' => $info['dirname'], 'file' => $info['basename'])
 		);
-		$this->permissions = self::get_permissions($data['path']);
-		$this->path = (strpos($data['path'], 'files') === 0) ? substr($data['path'], 5) : $data['path'];
-		$this->size = $data['size'];
-		$this->modified = $data['mtime'];
-		$this->mime_type = $data['mimetype'];
+		$this->permissions = $data->getPermissions();
+		$this->path = $path;
+		$this->size = $data->getSize();
+		$this->modified = $data->getMtime();
+		$this->mime_type = $data->getMimetype();
 	}
 
 	/**
-	 * Determine permissions for a given file path
+	 * converts a path relative to the users files folder
+	 * eg /user/files/foo.txt -> /foo.txt
 	 * @param string $path
-	 * @return int
+	 * @return string relative path
 	 */
-	function get_permissions($path) {
-		// add read permissions
-		$permissions = \OCP\PERMISSION_READ;
-		// get directory
-		$fileinfo = pathinfo($path);
-		$dir = $fileinfo['dirname'] . '/';
-		// add update permissions
-		if (Filesystem::isUpdatable($dir)) {
-			$permissions |= \OCP\PERMISSION_UPDATE;
-		}
-		// add delete permissions
-		if (Filesystem::isDeletable($dir)) {
-			$permissions |= \OCP\PERMISSION_DELETE;
-		}
-		// add share permissions
-		if (Filesystem::isSharable($dir)) {
-			$permissions |= \OCP\PERMISSION_SHARE;
-		}
-		// return
-		return $permissions;
+	protected function getRelativePath ($path) {
+		$root = \OC::$server->getUserFolder();
+		return $root->getRelativePath($path);
 	}
-	
+
 }
