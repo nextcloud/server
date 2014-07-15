@@ -70,7 +70,7 @@ $array = array(
 	"firstDay" => json_encode($l->l('firstday', 'firstday')) ,
 	"oc_config" => json_encode(
 		array(
-			'session_lifetime'	=> \OCP\Config::getSystemValue('session_lifetime', ini_get('session.gc_maxlifetime')),
+			'session_lifetime'	=> min(\OCP\Config::getSystemValue('session_lifetime', ini_get('session.gc_maxlifetime')), ini_get('session.gc_maxlifetime')),
 			'session_keepalive'	=> \OCP\Config::getSystemValue('session_keepalive', true),
 			'version'			=> implode('.', OC_Util::getVersion()),
 			'versionstring'		=> OC_Util::getVersionString(),
