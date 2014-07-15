@@ -14,7 +14,7 @@ class MP3 extends Provider {
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-		require_once('getid3/getid3.php');
+		require_once('james-heinrich/getid3/getid3/getid3.php');
 
 		$getID3 = new \getID3();
 
