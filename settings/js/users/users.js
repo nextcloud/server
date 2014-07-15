@@ -365,7 +365,12 @@ var UserList = {
 		var user = UserList.getUID($element);
 
 		if ($element.data('user-groups')) {
-			checked = $element.data('user-groups');
+			if (typeof $element.data('user-groups') === 'string') {
+				checked = $element.data('user-groups').split(", ");
+			}
+			else {
+				checked = $element.data('user-groups');
+			}
 		}
 		var checkHandler = null;
 		if(user) { // Only if in a user row, and not the #newusergroups select
@@ -445,7 +450,12 @@ var UserList = {
 		var user = UserList.getUID($element);
 
 		if ($element.data('subadmin')) {
-			checked = $element.data('subadmin');
+			if (typeof $element.data('subadmin') === 'string') {
+				checked = $element.data('subadmin').split(", ");
+			}
+			else {
+				checked = $element.data('subadmin');
+			}
 		}
 		var checkHandler = function (group) {
 			if (group === 'admin') {
