@@ -174,13 +174,15 @@ class MetaData {
 			* method is expected to return an array with the GIDs as keys and group objects as
 			* values, so we need to convert this information.
 			*/
-			$this->groups = array();
+			$groups = array();
 			foreach($groupIds as $gid) {
 				$group = $this->groupManager->get($gid);
 				if (!is_null($group)) {
-					$this->groups[$gid] = $group;
+					$groups[$gid] = $group;
 				}
 			}
+
+			return $groups;
 		}
 	}
 }
