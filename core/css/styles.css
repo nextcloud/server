@@ -37,6 +37,18 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
 .header-right > * { vertical-align:middle; }
 
+/* info part on the right, used e.g. for info on who shared something */
+.header-right {
+	position: absolute;
+	right: 0;
+	padding: 7px 5px;
+	color: #fff;
+	height: 100%;
+	max-width: 40%;
+	white-space: nowrap;
+}
+
+/* Profile picture in header */
 #header .avatardiv {
 	float: left;
 	display: inline-block;
@@ -109,6 +121,12 @@ input[type="time"] {
 	height: 31px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
+
+/* correctly align images inside of buttons */
+input img, button img, .button img {
+	vertical-align: text-bottom;
+}
+
 #quota {
 	cursor: default;
 	margin: 30px;
