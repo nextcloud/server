@@ -36,6 +36,7 @@ $TRANSLATIONS = array(
 "Could not create folder" => "Tidak dapat membuat folder",
 "Share" => "Bagikan",
 "Delete" => "Hapus",
+"Unshare" => "Batalkan berbagi",
 "Delete permanently" => "Hapus secara permanen",
 "Rename" => "Ubah nama",
 "Your download is being prepared. This might take some time if the files are big." => "Unduhan Anda sedang disiapkan. Prosesnya dapat berlangsung agak lama jika ukuran berkasnya besar.",

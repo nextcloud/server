@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-09 11:01+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,10 +81,6 @@ msgstr "{remote} には ownCloud がインストールされていません"
 #: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "無効な ownCloud URL です"
-
-#: js/share.js:146
-msgid "Shared by {owner}"
-msgstr "{owner} と共有中"
 
 #: js/sharedfilelist.js:123
 msgid "Shared by"

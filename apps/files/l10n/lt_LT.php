@@ -38,6 +38,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Klauda gaunant URL",
 "Share" => "Dalintis",
 "Delete" => "Ištrinti",
+"Unshare" => "Nebesidalinti",
 "Delete permanently" => "Ištrinti negrįžtamai",
 "Rename" => "Pervadinti",
 "Your download is being prepared. This might take some time if the files are big." => "Jūsų atsisiuntimas yra paruošiamas. tai gali užtrukti jei atsisiunčiamas didelis failas.",

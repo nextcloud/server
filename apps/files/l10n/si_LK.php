@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
 "Share" => "බෙදා හදා ගන්න",
 "Delete" => "මකා දමන්න",
+"Unshare" => "නොබෙදු",
 "Rename" => "නැවත නම් කරන්න",
 "Error" => "දෝෂයක්",
 "Name" => "නම",

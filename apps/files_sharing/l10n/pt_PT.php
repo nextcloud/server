@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Cancelar",
 "No ownCloud installation found at {remote}" => "Não foi encontrada uma instalação em {remote}",
 "Invalid ownCloud url" => "Endereço errado",
-"Shared by {owner}" => "Partilhado por {dono}",
 "Shared by" => "Partilhado por",
 "This share is password-protected" => "Esta partilha está protegida por senha",
 "The password is wrong. Try again." => "A senha está errada. Por favor, tente de novo.",

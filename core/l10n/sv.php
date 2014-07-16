@@ -75,7 +75,6 @@ $TRANSLATIONS = array(
 "Good password" => "Bra lösenord",
 "Strong password" => "Starkt lösenord",
 "Shared" => "Delad",
-"Shared by {owner}" => "Delad av {owner}",
 "Shared with {recipients}" => "Delad med {recipients}",
 "Share" => "Dela",
 "Error" => "Fel",

@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "Good password" => "Добра лозинка",
 "Strong password" => "Јака лозинка",
 "Shared" => "Споделен",
-"Shared by {owner}" => "Споделени од {owner}",
 "Share" => "Сподели",
 "Error" => "Грешка",
 "Error while sharing" => "Грешка при споделување",

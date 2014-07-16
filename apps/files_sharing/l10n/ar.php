@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Cancel" => "إلغاء",
-"Shared by {owner}" => "مشاركة من طرف {owner}",
 "Shared by" => "تم مشاركتها بواسطة",
 "This share is password-protected" => "هذه المشاركة محمية بكلمة مرور",
 "The password is wrong. Try again." => "كلمة المرور خاطئة. حاول مرة أخرى",

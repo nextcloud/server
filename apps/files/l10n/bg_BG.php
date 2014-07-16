@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Upload cancelled." => "Качването е спряно.",
 "Share" => "Споделяне",
 "Delete" => "Изтриване",
+"Unshare" => "Премахни споделяне",
 "Delete permanently" => "Изтриване завинаги",
 "Rename" => "Преименуване",
 "Pending" => "Чакащо",

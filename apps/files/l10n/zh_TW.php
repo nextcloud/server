@@ -36,6 +36,7 @@ $TRANSLATIONS = array(
 "Could not create folder" => "無法建立資料夾",
 "Share" => "分享",
 "Delete" => "刪除",
+"Unshare" => "取消分享",
 "Delete permanently" => "永久刪除",
 "Rename" => "重新命名",
 "Your download is being prepared. This might take some time if the files are big." => "正在準備您的下載，若您的檔案較大，將會需要更多時間。",

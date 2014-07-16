@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "Could not create folder" => "I pamundur krijimi i kartelës",
 "Share" => "Ndaj",
 "Delete" => "Fshi",
+"Unshare" => "Hiq ndarjen",
 "Delete permanently" => "Fshi përfundimisht",
 "Rename" => "Riemëro",
 "Your download is being prepared. This might take some time if the files are big." => "Shkarkimi juaj është duke u përgatitur. Kjo mund të kërkojë kohë nëse skedarët janë të mëdhenj.",

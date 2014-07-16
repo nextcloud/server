@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Nu sunt încă fișiere partajate cu tine.",
 "You haven't shared any files yet." => "Nu ai partajat încă nici un fișier.",
 "Cancel" => "Anulare",
-"Shared by {owner}" => "Partajat de {owner}",
 "Shared by" => "impartite in ",
 "This share is password-protected" => "Această partajare este protejată cu parolă",
 "The password is wrong. Try again." => "Parola este incorectă. Încercaţi din nou.",

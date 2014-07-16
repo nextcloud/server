@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} مەۋجۇت",
 "Share" => "ھەمبەھىر",
 "Delete" => "ئۆچۈر",
+"Unshare" => "ھەمبەھىرلىمە",
 "Delete permanently" => "مەڭگۈلۈك ئۆچۈر",
 "Rename" => "ئات ئۆزگەرت",
 "Pending" => "كۈتۈۋاتىدۇ",

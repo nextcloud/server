@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "File upload is in progress. Leaving the page now will cancel the upload." => "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. ",
 "Share" => "Parteja",
 "Delete" => "Escafa",
+"Unshare" => "Pas partejador",
 "Rename" => "Torna nomenar",
 "Pending" => "Al esperar",
 "Error" => "Error",

@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Chyba při načítání URL",
 "Share" => "Sdílet",
 "Delete" => "Smazat",
+"Unshare" => "Zrušit sdílení",
 "Delete permanently" => "Trvale odstranit",
 "Rename" => "Přejmenovat",
 "Your download is being prepared. This might take some time if the files are big." => "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to chvíli trvat.",

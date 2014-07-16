@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Good password" => "İyi parola",
 "Strong password" => "Güçlü parola",
 "Shared" => "Paylaşılan",
-"Shared by {owner}" => "{owner} tarafından paylaşılmış",
 "Shared with {recipients}" => "{recipients} ile paylaşılmış",
 "Share" => "Paylaş",
 "Error" => "Hata",

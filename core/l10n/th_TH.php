@@ -42,7 +42,6 @@ $TRANSLATIONS = array(
 "New Files" => "ไฟล์ใหม่",
 "Cancel" => "ยกเลิก",
 "Shared" => "แชร์แล้ว",
-"Shared by {owner}" => "ถูกแชร์โดย {owner}",
 "Share" => "แชร์",
 "Error" => "ข้อผิดพลาด",
 "Error while sharing" => "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล",

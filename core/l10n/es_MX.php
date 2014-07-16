@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "({count} selected)" => "({count} seleccionados)",
 "Error loading file exists template" => "Error cargando plantilla de archivo existente",
 "Shared" => "Compartido",
-"Shared by {owner}" => "Compartido por {owner}",
 "Share" => "Compartir",
 "Error" => "Error",
 "Error while sharing" => "Error al compartir",

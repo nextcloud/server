@@ -73,7 +73,6 @@ $TRANSLATIONS = array(
 "Good password" => "Hyvä salasana",
 "Strong password" => "Vahva salasana",
 "Shared" => "Jaettu",
-"Shared by {owner}" => "Jakanut {owner}",
 "Shared with {recipients}" => "Jaettu henkilöiden {recipients} kanssa",
 "Share" => "Jaa",
 "Error" => "Virhe",

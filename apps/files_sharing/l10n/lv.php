@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Cancel" => "Atcelt",
-"Shared by {owner}" => "Dalījās {owner}",
 "Shared by" => "Dalījās",
 "Password" => "Parole",
 "Name" => "Nosaukums",

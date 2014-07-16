@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} ஏற்கனவே உள்ளது",
 "Share" => "பகிர்வு",
 "Delete" => "நீக்குக",
+"Unshare" => "பகிரப்படாதது",
 "Rename" => "பெயர்மாற்றம்",
 "Pending" => "நிலுவையிலுள்ள",
 "Error" => "வழு",

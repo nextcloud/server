@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "({count} selected)" => "({count} pažymėtų)",
 "Error loading file exists template" => "Klaida įkeliant esančių failų ruošinį",
 "Shared" => "Dalinamasi",
-"Shared by {owner}" => "Bendrina {owner}",
 "Share" => "Dalintis",
 "Error" => "Klaida",
 "Error while sharing" => "Klaida, dalijimosi metu",

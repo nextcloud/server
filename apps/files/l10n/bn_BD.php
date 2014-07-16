@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} টি বিদ্যমান",
 "Share" => "ভাগাভাগি কর",
 "Delete" => "মুছে",
+"Unshare" => "ভাগাভাগি বাতিল ",
 "Rename" => "পূনঃনামকরণ",
 "Pending" => "মুলতুবি",
 "Error" => "সমস্যা",

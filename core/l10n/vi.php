@@ -59,7 +59,6 @@ $TRANSLATIONS = array(
 "({count} selected)" => "({count} được chọn)",
 "Error loading file exists template" => "Lỗi khi tải tập tin mẫu đã tồn tại",
 "Shared" => "Được chia sẻ",
-"Shared by {owner}" => "Được chia sẽ bởi {owner}",
 "Share" => "Chia sẻ",
 "Error" => "Lỗi",
 "Error while sharing" => "Lỗi trong quá trình chia sẻ",

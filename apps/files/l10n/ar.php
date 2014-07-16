@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} موجود مسبقا",
 "Share" => "شارك",
 "Delete" => "إلغاء",
+"Unshare" => "إلغاء المشاركة",
 "Delete permanently" => "حذف بشكل دائم",
 "Rename" => "إعادة تسميه",
 "Your download is being prepared. This might take some time if the files are big." => "جاري تجهيز عملية التحميل. قد تستغرق بعض الوقت اذا كان حجم الملفات كبير.",

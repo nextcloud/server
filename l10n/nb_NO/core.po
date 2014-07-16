@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: vidaren <news@vidartysse.net>\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -346,10 +346,6 @@ msgstr "Sterkt passord"
 msgid "Shared"
 msgstr "Delt"
 
-#: js/share.js:194 js/share.js:214
-msgid "Shared by {owner}"
-msgstr "Delt av {owner}"
-
 #: js/share.js:257
 msgid "Shared with {recipients}"
 msgstr "Delt med {recipients}"
@@ -466,7 +462,7 @@ msgstr "tilgangskontroll"
 
 #: js/share.js:632
 msgid "create"
-msgstr "opprett"
+msgstr "opprette"
 
 #: js/share.js:635
 msgid "update"
@@ -474,7 +470,7 @@ msgstr "oppdatere"
 
 #: js/share.js:638
 msgid "delete"
-msgstr "slett"
+msgstr "slette"
 
 #: js/share.js:970
 msgid "Password protected"
@@ -677,7 +673,7 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr "Hei der,\n\nbare informerer om at %s delte %s med deg.\nVis den: %s\n\n"
+msgstr "Hei,\n\nDette er en beskjed om at %s delte %s med deg.\nVis den: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
@@ -729,7 +725,7 @@ msgstr "For informasjon om hvordan du setter opp serveren din riktig, se <a href
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
-msgstr "opprett en <strong>administrator-konto</strong>"
+msgstr "Opprett en <strong>administrator-konto</strong>"
 
 #: templates/installation.php:59 templates/installation.php:62
 #: templates/login.php:41 templates/login.php:44
@@ -846,7 +842,7 @@ msgstr "Alternative innlogginger"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr "Hei der,<br><br>bare informerer om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis!</a><br><br>"
+msgstr "Hei,<br><br>Dette er en beskjed om at %s delte <strong>%s</strong> med deg.<br><a href=\"%s\">Vis den!</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."

@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} כבר קיים",
 "Share" => "שתף",
 "Delete" => "מחיקה",
+"Unshare" => "הסר שיתוף",
 "Delete permanently" => "מחק לצמיתות",
 "Rename" => "שינוי שם",
 "Pending" => "ממתין",

@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Tilføj ekstern deling",
 "No ownCloud installation found at {remote}" => "Der blev ikke fundet en ownCloud-installation på {remote}",
 "Invalid ownCloud url" => "Ugyldig ownCloud-URL",
-"Shared by {owner}" => "Delt af {owner}",
 "Shared by" => "Delt af",
 "This share is password-protected" => "Delingen er beskyttet af kodeord",
 "The password is wrong. Try again." => "Kodeordet er forkert. Prøv igen.",

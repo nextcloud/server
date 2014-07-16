@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 01:54-0400\n"
-"PO-Revision-Date: 2014-07-11 11:31+0000\n"
-"Last-Translator: rodionc <rodionc@gmail.com>\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,10 +86,6 @@ msgstr "Не найдено ownCloud на {remote}"
 #: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "Не верный ownCloud адрес"
-
-#: js/share.js:146
-msgid "Shared by {owner}"
-msgstr "Доступ открыл {owner}"
 
 #: js/sharedfilelist.js:123
 msgid "Shared by"

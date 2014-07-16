@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-08 13:01+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-15 16:41+0000\n"
+"Last-Translator: Ḷḷumex03 <l.lumex03.tornes@gmail.com>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "¡Nun pue escribise nel direutoriu \"config\"!"
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "Davezu esto pue iguase dándo-y al sirvidor web accesu d'escritura al direutoriu de configuración"
 
 #: base.php:198
 #, php-format
@@ -40,7 +40,7 @@ msgstr "Mira %s"
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr ""
+msgstr "Davezu esto pue iguase %sdándo-y al sirvidor web accesu d'escritura al direutoriu de configuración%s."
 
 #: base.php:683
 msgid "You are accessing the server from an untrusted domain."
@@ -73,19 +73,19 @@ msgstr "Usuarios"
 msgid "Admin"
 msgstr "Almin"
 
-#: private/app.php:990
+#: private/app.php:985
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Fallu al anovar \"%s\"."
 
-#: private/app.php:1147
+#: private/app.php:1142
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "L'aplicación \\\"%s\\\" nun pue instalase porque nun ye compatible con esta versión d'ownCloud"
 
-#: private/app.php:1159
+#: private/app.php:1154
 msgid "No app name specified"
 msgstr "Nun s'especificó nome de l'aplicación"
 
@@ -114,44 +114,44 @@ msgstr "Nun pue crease la carpeta de l'aplicación. Por favor, igua los permisos
 msgid "No source specified when installing app"
 msgstr "Nun s'especificó nenguna fonte al instalar app"
 
-#: private/installer.php:242
+#: private/installer.php:243
 msgid "No href specified when installing app from http"
 msgstr "Nun s'especificó href al instalar la app dende http"
 
-#: private/installer.php:247
+#: private/installer.php:248
 msgid "No path specified when installing app from local file"
 msgstr "Nun s'especificó camín dende un ficheru llocal al instalar l'aplicación"
 
-#: private/installer.php:261
+#: private/installer.php:256
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Los ficheros de triba %s nun tán sofitaos"
 
-#: private/installer.php:275
+#: private/installer.php:270
 msgid "Failed to open archive when installing app"
 msgstr "Falló al abrir el ficheru al instalar l'aplicación"
 
-#: private/installer.php:313
+#: private/installer.php:308
 msgid "App does not provide an info.xml file"
 msgstr "L'aplicación nun apurre un ficheru info.xml"
 
-#: private/installer.php:319
+#: private/installer.php:314
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Nun pue instalase l'aplicación por causa d'un códigu non permitíu na App"
 
-#: private/installer.php:325
+#: private/installer.php:320
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Nun pue instalase l'aplicación porque nun ye compatible con esta versión d'ownCloud."
 
-#: private/installer.php:331
+#: private/installer.php:326
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "L'aplicación nun pue instalase porque contién la etiqueta <shipped>true</shipped> que nun ta permitida p'aplicaciones non distribuyíes"
 
-#: private/installer.php:344
+#: private/installer.php:339
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -356,45 +356,45 @@ msgstr "Falló dar permisos a %s, porque los permisos son mayores que los otorga
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Falló dar permisos a %s, porque l'elementu nun s'atopó"
 
-#: private/share/share.php:1046
+#: private/share/share.php:1043
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "El motor compartíu %s tien d'implementar la interfaz OCP\\Share_Backend"
 
-#: private/share/share.php:1053
+#: private/share/share.php:1050
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Nun s'alcontró'l botón de compartición %s"
 
-#: private/share/share.php:1059
+#: private/share/share.php:1056
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Nun s'alcontró'l botón de partición pa %s"
 
-#: private/share/share.php:1476
+#: private/share/share.php:1473
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Compartir %s falló, yá que l'usuariu %s ye'l compartidor orixinal"
 
-#: private/share/share.php:1485
+#: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Compartir %s falló, porque los permisos perpasen los otorgaos a %s"
 
-#: private/share/share.php:1501
+#: private/share/share.php:1498
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Compartir %s falló, porque nun se permite la re-compartición"
 
-#: private/share/share.php:1513
+#: private/share/share.php:1510
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Compartir %s falló porque'l motor compartíu pa %s podría nun atopar el so orixe"
 
-#: private/share/share.php:1527
+#: private/share/share.php:1524
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -453,21 +453,21 @@ msgstr "añu caberu"
 msgid "years ago"
 msgstr "hai años"
 
-#: private/user/manager.php:238
+#: private/user/manager.php:239
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-\""
 
-#: private/user/manager.php:243
+#: private/user/manager.php:244
 msgid "A valid username must be provided"
 msgstr "Tien d'apurrise un nome d'usuariu válidu"
 
-#: private/user/manager.php:247
+#: private/user/manager.php:248
 msgid "A valid password must be provided"
 msgstr "Tien d'apurrise una contraseña válida"
 
-#: private/user/manager.php:252
+#: private/user/manager.php:253
 msgid "The username is already being used"
 msgstr "El nome d'usuariu yá ta usándose"
 
@@ -480,7 +480,7 @@ msgstr "Nun hai controladores de bases de datos  (sqlite, mysql, o postgresql)"
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr ""
+msgstr "Davezu los permisos puen iguase %sdándo-y al sirvidor web accesu d'escritura al direutoriu raigañu%s."
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
@@ -541,7 +541,7 @@ msgstr "Necesítase PHP %s o superior"
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "Por favor, entrúga-y al to alministrador del sirvidor p'anovar PHP a la cabera versión. La to versión PHP nun ta sofitada por ownCloud y la comunidá PHP."
 
 #: private/util.php:556
 msgid ""
@@ -560,7 +560,7 @@ msgstr ""
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Tán habilitaes les Magic Quotes. ownCloud requier que les deshabilites pa furrular afayadizamente."
 
 #: private/util.php:565
 msgid ""
@@ -571,7 +571,7 @@ msgstr ""
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "Instaláronse los módulos PHP, ¿pero tán entá llistaos cómo faltantes?"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
@@ -593,7 +593,7 @@ msgstr "Asocedió un fallu mientres se comprobaba la versión de PostgreSQL"
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Por favor, asegúrate que tienes PostgreSQL >= 9 o comprueba los rexistros pa más información tocante al fallu"
 
 #: private/util.php:680
 msgid ""

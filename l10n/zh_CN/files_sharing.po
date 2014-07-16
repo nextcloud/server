@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-08 06:12+0000\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -80,10 +80,6 @@ msgstr "未能在 {remote} 找到 ownCloud 服务"
 #: js/public.js:204
 msgid "Invalid ownCloud url"
 msgstr "无效的 ownCloud 网址"
-
-#: js/share.js:146
-msgid "Shared by {owner}"
-msgstr "由 {owner} 分享"
 
 #: js/sharedfilelist.js:123
 msgid "Shared by"

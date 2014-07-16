@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Armazenamento indisposinvel",
+"Storage invalid" => "Armazenamento inválido",
 "Unknown error" => "Erro Desconhecido",
 "Could not move %s - File with this name already exists" => "Não foi possível mover %s - Já existe um ficheiro com este nome",
 "Could not move %s" => "Não foi possível mover %s",
@@ -43,6 +45,8 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Erro ao obter URL",
 "Share" => "Compartilhar",
 "Delete" => "Apagar",
+"Disconnect storage" => "Desconete o armazenamento",
+"Unshare" => "Deixar de partilhar",
 "Delete permanently" => "Apagar Para Sempre",
 "Rename" => "Renomear",
 "Your download is being prepared. This might take some time if the files are big." => "A sua transferência está a ser preparada. Isto poderá demorar algum tempo, se os seus ficheiros forem grandes.",

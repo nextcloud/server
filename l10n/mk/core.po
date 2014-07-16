@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -342,10 +342,6 @@ msgstr "Јака лозинка"
 #: js/share.js:129 js/share.js:251
 msgid "Shared"
 msgstr "Споделен"
-
-#: js/share.js:194 js/share.js:214
-msgid "Shared by {owner}"
-msgstr "Споделени од {owner}"
 
 #: js/share.js:257
 msgid "Shared with {recipients}"

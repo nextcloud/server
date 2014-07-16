@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} er þegar til",
 "Share" => "Deila",
 "Delete" => "Eyða",
+"Unshare" => "Hætta deilingu",
 "Rename" => "Endurskýra",
 "Pending" => "Bíður",
 "Error" => "Villa",

@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Nuligi",
 "No ownCloud installation found at {remote}" => "Ne troviĝis instalo de ownCloud ĉe {remote}",
 "Invalid ownCloud url" => "Nevalidas URL de ownCloud",
-"Shared by {owner}" => "Kunhavigita de {owner}",
 "Shared by" => "Kunhavigita de",
 "This share is password-protected" => "Ĉi tiu kunhavigo estas protektata per pasvorto",
 "The password is wrong. Try again." => "La pasvorto malĝustas. Provu denove.",

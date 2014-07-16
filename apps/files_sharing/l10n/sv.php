@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Avbryt",
 "No ownCloud installation found at {remote}" => "Ingen ownCloudinstallation funnen på {remote}",
 "Invalid ownCloud url" => "Felaktig ownCloud url",
-"Shared by {owner}" => "Delad av {owner}",
 "Shared by" => "Delad av",
 "This share is password-protected" => "Den här delningen är lösenordsskyddad",
 "The password is wrong. Try again." => "Lösenordet är fel. Försök igen.",

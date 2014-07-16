@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Добавить удалённую общую папку",
 "No ownCloud installation found at {remote}" => "Не найдено ownCloud на {remote}",
 "Invalid ownCloud url" => "Не верный ownCloud адрес",
-"Shared by {owner}" => "Доступ открыл {owner}",
 "Shared by" => "Опубликовано",
 "This share is password-protected" => "Для доступа к информации необходимо ввести пароль",
 "The password is wrong. Try again." => "Неверный пароль. Попробуйте еще раз.",

@@ -8,6 +8,7 @@ $TRANSLATIONS = array(
 "Files" => "Fajlovi",
 "Share" => "Podeli",
 "Delete" => "Obriši",
+"Unshare" => "Ukljoni deljenje",
 "Rename" => "Preimenij",
 "Error" => "Greška",
 "Name" => "Ime",

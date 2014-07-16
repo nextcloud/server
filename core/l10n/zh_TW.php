@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "Good password" => "好的密碼",
 "Strong password" => "很強的密碼",
 "Shared" => "已分享",
-"Shared by {owner}" => "由 {owner} 分享",
 "Share" => "分享",
 "Error" => "錯誤",
 "Error while sharing" => "分享時發生錯誤",

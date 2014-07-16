@@ -45,7 +45,6 @@ $TRANSLATIONS = array(
 "New Files" => "Neue Dateien",
 "Cancel" => "Abbrechen",
 "Shared" => "Geteilt",
-"Shared by {owner}" => "Geteilt von {owner}",
 "Share" => "Teilen",
 "Error" => "Fehler",
 "Error while sharing" => "Fehler beim Teilen",

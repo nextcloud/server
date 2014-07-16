@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Entfernte Freigabe hinzufügen",
 "No ownCloud installation found at {remote}" => "Keine OwnCloud-Installation auf {remote} gefunden",
 "Invalid ownCloud url" => "Ungültige OwnCloud-URL",
-"Shared by {owner}" => "Geteilt von {owner}",
 "Shared by" => "Geteilt von",
 "This share is password-protected" => "Diese Freigabe ist durch ein Passwort geschützt",
 "The password is wrong. Try again." => "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",

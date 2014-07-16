@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Good password" => "Хороший пароль",
 "Strong password" => "Устойчивый к взлому пароль",
 "Shared" => "Общие",
-"Shared by {owner}" => "Доступ открыл {owner}",
 "Shared with {recipients}" => "Доступ открыт {recipients}",
 "Share" => "Открыть доступ",
 "Error" => "Ошибка",

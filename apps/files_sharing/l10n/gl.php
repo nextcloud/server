@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Engadir unha compartición remota",
 "No ownCloud installation found at {remote}" => "Non se atopou unha instalación do ownCloud en {remote}",
 "Invalid ownCloud url" => "URL incorrecta do ownCloud",
-"Shared by {owner}" => "Compartido por {owner}",
 "Shared by" => "Compartido por",
 "This share is password-protected" => "Esta compartición está protexida con contrasinal",
 "The password is wrong. Try again." => "O contrasinal é incorrecto. Ténteo de novo.",

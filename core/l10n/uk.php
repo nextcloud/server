@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "Good password" => "Добрий пароль",
 "Strong password" => "Надійний пароль",
 "Shared" => "Опубліковано",
-"Shared by {owner}" => "Опублікував {owner}",
 "Share" => "Поділитися",
 "Error" => "Помилка",
 "Error while sharing" => "Помилка під час публікації",

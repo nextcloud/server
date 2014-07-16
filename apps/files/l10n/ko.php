@@ -38,6 +38,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "URL을 가져올 수 없음",
 "Share" => "공유",
 "Delete" => "삭제",
+"Unshare" => "공유 해제",
 "Delete permanently" => "영구히 삭제",
 "Rename" => "이름 바꾸기",
 "Your download is being prepared. This might take some time if the files are big." => "다운로드 준비 중입니다. 파일 크기가 크면 시간이 오래 걸릴 수도 있습니다.",

@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Pridať vzdialené úložisko",
 "No ownCloud installation found at {remote}" => "Žiadna ownCloud inštancia na {remote}",
 "Invalid ownCloud url" => "Chybná ownCloud url",
-"Shared by {owner}" => "Zdieľa {owner}",
 "Shared by" => "Zdieľa",
 "This share is password-protected" => "Toto zdieľanie je chránené heslom",
 "The password is wrong. Try again." => "Heslo je chybné. Skúste to znova.",

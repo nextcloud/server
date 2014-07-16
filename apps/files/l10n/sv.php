@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Fel vid hämtning av URL",
 "Share" => "Dela",
 "Delete" => "Radera",
+"Unshare" => "Sluta dela",
 "Delete permanently" => "Radera permanent",
 "Rename" => "Byt namn",
 "Your download is being prepared. This might take some time if the files are big." => "Din nedladdning förbereds. Det kan ta tid om det är stora filer.",

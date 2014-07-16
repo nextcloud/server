@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Cancel" => "取消",
 "No ownCloud installation found at {remote}" => "未能在 {remote} 找到 ownCloud 服务",
 "Invalid ownCloud url" => "无效的 ownCloud 网址",
-"Shared by {owner}" => "由 {owner} 分享",
 "Shared by" => "共享人",
 "This share is password-protected" => "这是一个密码保护的共享",
 "The password is wrong. Try again." => "用户名或密码错误！请重试",

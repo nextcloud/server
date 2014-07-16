@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Files" => "Files",
 "Share" => "Compartir",
 "Delete" => "Deler",
+"Unshare" => "Leva compartir",
 "Error" => "Error",
 "Name" => "Nomine",
 "Size" => "Dimension",

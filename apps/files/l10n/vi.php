@@ -37,6 +37,7 @@ $TRANSLATIONS = array(
 "Could not create folder" => "Không thể tạo thư mục",
 "Share" => "Chia sẻ",
 "Delete" => "Xóa",
+"Unshare" => "Bỏ chia sẻ",
 "Delete permanently" => "Xóa vĩnh vễn",
 "Rename" => "Sửa tên",
 "Your download is being prepared. This might take some time if the files are big." => "Your download is being prepared. This might take some time if the files are big.",

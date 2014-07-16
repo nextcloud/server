@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "リモート共有を追加",
 "No ownCloud installation found at {remote}" => "{remote} には ownCloud がインストールされていません",
 "Invalid ownCloud url" => "無効な ownCloud URL です",
-"Shared by {owner}" => "{owner} と共有中",
 "Shared by" => "共有者：",
 "This share is password-protected" => "この共有はパスワードで保護されています",
 "The password is wrong. Try again." => "パスワードが間違っています。再試行してください。",

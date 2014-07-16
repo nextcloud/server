@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Prekliči",
 "Add remote share" => "Dodaj oddaljeno mesto za souporabo",
 "Invalid ownCloud url" => "Naveden je neveljaven naslov URL strežnika ownCloud",
-"Shared by {owner}" => "Souporabo omogoča {owner}",
 "Shared by" => "V souporabi z",
 "This share is password-protected" => "To mesto je zaščiteno z geslom.",
 "The password is wrong. Try again." => "Geslo je napačno. Poskusite znova.",

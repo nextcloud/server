@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-08 01:54-0400\n"
-"PO-Revision-Date: 2014-07-08 05:54+0000\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Kannada (http://www.transifex.com/projects/p/owncloud/language/kn/)\n"
 "MIME-Version: 1.0\n"
@@ -75,10 +75,6 @@ msgstr ""
 
 #: js/public.js:204
 msgid "Invalid ownCloud url"
-msgstr ""
-
-#: js/share.js:146
-msgid "Shared by {owner}"
 msgstr ""
 
 #: js/sharedfilelist.js:123

@@ -26,6 +26,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} finst allereie",
 "Share" => "Del",
 "Delete" => "Slett",
+"Unshare" => "Udel",
 "Delete permanently" => "Slett for godt",
 "Rename" => "Endra namn",
 "Your download is being prepared. This might take some time if the files are big." => "Gjer klar nedlastinga di. Dette kan ta ei stund viss filene er store.",

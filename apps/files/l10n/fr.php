@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Erreur d'accès à l'URL",
 "Share" => "Partager",
 "Delete" => "Supprimer",
+"Unshare" => "Ne plus partager",
 "Delete permanently" => "Supprimer de façon définitive",
 "Rename" => "Renommer",
 "Your download is being prepared. This might take some time if the files are big." => "Votre téléchargement est cours de préparation. Ceci peut nécessiter un certain temps si les fichiers sont volumineux.",

@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Cancel" => "Avbryt",
-"Shared by {owner}" => "Delt av {owner}",
 "Shared by" => "Delt av",
 "The password is wrong. Try again." => "Passordet er gale. Prøv igjen.",
 "Password" => "Passord",

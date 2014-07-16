@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Lisa kaugjagamine",
 "No ownCloud installation found at {remote}" => "Ei leitud ownCloud paigaldust asukohas {remote}",
 "Invalid ownCloud url" => "Vigane ownCloud url",
-"Shared by {owner}" => "Jagas {owner}",
 "Shared by" => "Jagas",
 "This share is password-protected" => "See jagamine on parooliga kaitstud",
 "The password is wrong. Try again." => "Parool on vale. Proovi uuesti.",

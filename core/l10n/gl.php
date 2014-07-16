@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Good password" => "Bo contrasinal",
 "Strong password" => "Contrasinal forte",
 "Shared" => "Compartido",
-"Shared by {owner}" => "Compartido por {owner}",
 "Shared with {recipients}" => "Compartido con {recipients}",
 "Share" => "Compartir",
 "Error" => "Erro",

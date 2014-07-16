@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Lisää etäjako",
 "No ownCloud installation found at {remote}" => "ownCloud-asennusta ei löytynyt kohteesta {remote}",
 "Invalid ownCloud url" => "Virheellinen ownCloud-osoite",
-"Shared by {owner}" => "Jakanut {owner}",
 "Shared by" => "Jakanut",
 "This share is password-protected" => "Tämä jako on suojattu salasanalla",
 "The password is wrong. Try again." => "Väärä salasana. Yritä uudelleen.",

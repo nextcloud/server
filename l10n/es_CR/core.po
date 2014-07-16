@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-04 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 05:54+0000\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Costa Rica) (http://www.transifex.com/projects/p/owncloud/language/es_CR/)\n"
 "MIME-Version: 1.0\n"
@@ -167,51 +167,51 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: js/js.js:1276
+#: js/js.js:1278
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:1277
+#: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1278
+#: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1279
+#: js/js.js:1281
 msgid "today"
 msgstr ""
 
-#: js/js.js:1280
+#: js/js.js:1282
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:1281
+#: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1282
+#: js/js.js:1284
 msgid "last month"
 msgstr ""
 
-#: js/js.js:1283
+#: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/js.js:1284
+#: js/js.js:1286
 msgid "last year"
 msgstr ""
 
-#: js/js.js:1285
+#: js/js.js:1287
 msgid "years ago"
 msgstr ""
 
@@ -246,104 +246,100 @@ msgstr ""
 msgid "Password can not be changed. Please contact your administrator."
 msgstr ""
 
-#: js/oc-dialogs.js:109 js/oc-dialogs.js:257
-msgid "Yes"
-msgstr ""
-
-#: js/oc-dialogs.js:119 js/oc-dialogs.js:267
+#: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
 msgstr ""
 
-#: js/oc-dialogs.js:204
+#: js/oc-dialogs.js:116 js/oc-dialogs.js:264
+msgid "Yes"
+msgstr ""
+
+#: js/oc-dialogs.js:202
 msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:231
+#: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:284
+#: js/oc-dialogs.js:282
 msgid "Ok"
 msgstr ""
 
-#: js/oc-dialogs.js:304
+#: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
 msgstr ""
 
-#: js/oc-dialogs.js:432
+#: js/oc-dialogs.js:430
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/oc-dialogs.js:446
+#: js/oc-dialogs.js:444
 msgid "One file conflict"
 msgstr ""
 
-#: js/oc-dialogs.js:452
+#: js/oc-dialogs.js:450
 msgid "New Files"
 msgstr ""
 
-#: js/oc-dialogs.js:453
+#: js/oc-dialogs.js:451
 msgid "Already existing files"
 msgstr ""
 
-#: js/oc-dialogs.js:455
+#: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
 msgstr ""
 
-#: js/oc-dialogs.js:456
+#: js/oc-dialogs.js:454
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
 msgstr ""
 
-#: js/oc-dialogs.js:464
+#: js/oc-dialogs.js:462
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:474
+#: js/oc-dialogs.js:472
 msgid "Continue"
 msgstr ""
 
-#: js/oc-dialogs.js:521 js/oc-dialogs.js:534
+#: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:524 js/oc-dialogs.js:538
+#: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
 msgstr ""
 
-#: js/oc-dialogs.js:546
+#: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
 msgstr ""
 
-#: js/setup.js:92
+#: js/setup.js:96
 msgid "Very weak password"
 msgstr ""
 
-#: js/setup.js:93
+#: js/setup.js:97
 msgid "Weak password"
 msgstr ""
 
-#: js/setup.js:94
+#: js/setup.js:98
 msgid "So-so password"
 msgstr ""
 
-#: js/setup.js:95
+#: js/setup.js:99
 msgid "Good password"
 msgstr ""
 
-#: js/setup.js:96
+#: js/setup.js:100
 msgid "Strong password"
 msgstr ""
 
 #: js/share.js:129 js/share.js:251
 msgid "Shared"
-msgstr ""
-
-#: js/share.js:194 js/share.js:214
-msgid "Shared by {owner}"
 msgstr ""
 
 #: js/share.js:257
@@ -617,7 +613,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:117
+#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
 msgid "Apps"
 msgstr ""
 

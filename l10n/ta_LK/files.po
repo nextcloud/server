@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 05:54+0000\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
+"PO-Revision-Date: 2014-07-15 06:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgstr ""
 
 #: js/fileactions.js:299
 msgid "Unshare"
-msgstr ""
+msgstr "பகிரப்படாதது"
 
 #: js/fileactions.js:301
 msgid "Delete permanently"

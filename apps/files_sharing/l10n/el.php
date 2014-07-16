@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Άκυρο",
 "No ownCloud installation found at {remote}" => "Δεν βρέθηκε εγκατεστημένο ownCloud στο {remote}",
 "Invalid ownCloud url" => "Άκυρη url ownCloud ",
-"Shared by {owner}" => "Διαμοιράστηκε από τον {owner}",
 "Shared by" => "Διαμοιράστηκε από",
 "This share is password-protected" => "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
 "The password is wrong. Try again." => "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",

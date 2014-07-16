@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "A megadott URL-ről nem sikerül adatokat kapni",
 "Share" => "Megosztás",
 "Delete" => "Törlés",
+"Unshare" => "A megosztás visszavonása",
 "Delete permanently" => "Végleges törlés",
 "Rename" => "Átnevezés",
 "Your download is being prepared. This might take some time if the files are big." => "Készül a letöltendő állomány. Ez eltarthat egy ideig, ha nagyok a fájlok.",

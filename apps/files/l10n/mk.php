@@ -33,6 +33,7 @@ $TRANSLATIONS = array(
 "Could not create folder" => "Не можам да креирам папка",
 "Share" => "Сподели",
 "Delete" => "Избриши",
+"Unshare" => "Не споделувај",
 "Delete permanently" => "Трајно избришани",
 "Rename" => "Преименувај",
 "Your download is being prepared. This might take some time if the files are big." => "Вашето преземање се подготвува. Ова може да потрае до колку датотеките се големи.",

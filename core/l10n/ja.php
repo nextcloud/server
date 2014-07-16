@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Good password" => "良好なパスワード",
 "Strong password" => "強いパスワード",
 "Shared" => "共有中",
-"Shared by {owner}" => "{owner} と共有中",
 "Shared with {recipients}" => "{recipients} と共有",
 "Share" => "共有",
 "Error" => "エラー",

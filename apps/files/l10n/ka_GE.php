@@ -21,6 +21,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} უკვე არსებობს",
 "Share" => "გაზიარება",
 "Delete" => "წაშლა",
+"Unshare" => "გაუზიარებადი",
 "Delete permanently" => "სრულად წაშლა",
 "Rename" => "გადარქმევა",
 "Your download is being prepared. This might take some time if the files are big." => "გადმოწერის მოთხოვნა მუშავდება. ის მოითხოვს გარკვეულ დროს რაგდან ფაილები არის დიდი ზომის.",

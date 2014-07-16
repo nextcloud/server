@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} yn bodoli'n barod",
 "Share" => "Rhannu",
 "Delete" => "Dileu",
+"Unshare" => "Dad-rannu",
 "Delete permanently" => "Dileu'n barhaol",
 "Rename" => "Ailenwi",
 "Your download is being prepared. This might take some time if the files are big." => "Wrthi'n paratoi i lwytho i lawr. Gall gymryd peth amser os yw'r ffeiliau'n fawr.",

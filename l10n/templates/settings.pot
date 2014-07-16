@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 01:54-0400\n"
+"POT-Creation-Date: 2014-07-16 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -344,23 +344,23 @@ msgstr ""
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:426
+#: js/users/users.js:431
 msgid "add group"
 msgstr ""
 
-#: js/users/users.js:621
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr ""
 
-#: js/users/users.js:627
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr ""
 
-#: js/users/users.js:657
+#: js/users/users.js:667
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 

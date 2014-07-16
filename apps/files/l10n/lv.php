@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} jau eksistē",
 "Share" => "Dalīties",
 "Delete" => "Dzēst",
+"Unshare" => "Pārtraukt dalīšanos",
 "Delete permanently" => "Dzēst pavisam",
 "Rename" => "Pārsaukt",
 "Your download is being prepared. This might take some time if the files are big." => "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes ir lielas.",

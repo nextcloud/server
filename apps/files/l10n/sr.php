@@ -20,6 +20,7 @@ $TRANSLATIONS = array(
 "{new_name} already exists" => "{new_name} већ постоји",
 "Share" => "Дели",
 "Delete" => "Обриши",
+"Unshare" => "Укини дељење",
 "Delete permanently" => "Обриши за стално",
 "Rename" => "Преименуј",
 "Your download is being prepared. This might take some time if the files are big." => "Припремам преузимање. Ово може да потраје ако су датотеке велике.",

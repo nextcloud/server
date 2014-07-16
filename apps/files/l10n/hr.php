@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "File upload is in progress. Leaving the page now will cancel the upload." => "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje.",
 "Share" => "Podijeli",
 "Delete" => "Obriši",
+"Unshare" => "Makni djeljenje",
 "Rename" => "Promjeni ime",
 "Pending" => "U tijeku",
 "Error" => "Greška",

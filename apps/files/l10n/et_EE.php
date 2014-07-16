@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Viga URL-i haaramisel",
 "Share" => "Jaga",
 "Delete" => "Kustuta",
+"Unshare" => "Lõpeta jagamine",
 "Delete permanently" => "Kustuta jäädavalt",
 "Rename" => "Nimeta ümber",
 "Your download is being prepared. This might take some time if the files are big." => "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. ",

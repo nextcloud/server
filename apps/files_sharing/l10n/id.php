@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Cancel" => "Batal",
 "No ownCloud installation found at {remote}" => "Tidak ada instalasi ownCloud yang ditemukan di {remote}",
 "Invalid ownCloud url" => "URL ownCloud tidak sah",
-"Shared by {owner}" => "Dibagikan oleh {owner}",
 "Shared by" => "Dibagikan oleh",
 "This share is password-protected" => "Berbagi ini dilindungi sandi",
 "The password is wrong. Try again." => "Sandi salah. Coba lagi",

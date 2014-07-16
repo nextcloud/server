@@ -65,7 +65,6 @@ $TRANSLATIONS = array(
 "Good password" => "Parolă bună",
 "Strong password" => "Parolă puternică",
 "Shared" => "Partajat",
-"Shared by {owner}" => "Partajat de {owner}",
 "Shared with {recipients}" => "Partajat cu {recipients}",
 "Share" => "Partajează",
 "Error" => "Eroare",

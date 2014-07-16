@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Add remote share" => "Add remote share",
 "No ownCloud installation found at {remote}" => "No ownCloud installation found at {remote}",
 "Invalid ownCloud url" => "Invalid ownCloud URL",
-"Shared by {owner}" => "Shared by {owner}",
 "Shared by" => "Shared by",
 "This share is password-protected" => "This share is password-protected",
 "The password is wrong. Try again." => "The password is wrong. Try again.",

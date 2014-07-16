@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "غیر معروف خرابی",
 "Share" => "تقسیم",
 "Delete" => "حذف کریں",
+"Unshare" => "شئیرنگ ختم کریں",
 "Error" => "ایرر",
 "Name" => "اسم",
 "_%n folder_::_%n folders_" => array("",""),
