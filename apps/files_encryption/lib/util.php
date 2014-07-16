@@ -956,19 +956,26 @@ class Util {
 		// Get the current users's private key for decrypting existing keyfile
 		$privateKey = $session->getPrivateKey();
 
-		$fileOwner = \OC\Files\Filesystem::getOwner($filePath);
-
-		// Decrypt keyfile
-		$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
-
-		// Re-enc keyfile to (additional) sharekeys
-		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
+		try {
+			// Decrypt keyfile
+			$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
+			// Re-enc keyfile to (additional) sharekeys
+			$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
+		} catch (Exceptions\EncryptionException $e) {
+			$msg = 'set shareFileKeyFailed (code: ' . $e->getCode() . '): ' . $e->getMessage();
+			\OCP\Util::writeLog('files_encryption', $msg, \OCP\Util::FATAL);
+			return false;
+		} catch (\Exception $e) {
+			$msg = 'set shareFileKeyFailed (unknown error): ' . $e->getMessage();
+			\OCP\Util::writeLog('files_encryption', $msg, \OCP\Util::FATAL);
+			return false;
+		}
 
 		// Save the recrypted key to it's owner's keyfiles directory
 		// Save new sharekeys to all necessary user directory
 		if (
-			!Keymanager::setFileKey($this->view, $this, $filePath, $multiEncKey['data'])
-			|| !Keymanager::setShareKeys($this->view, $this, $filePath, $multiEncKey['keys'])
+				!Keymanager::setFileKey($this->view, $this, $filePath, $multiEncKey['data'])
+				|| !Keymanager::setShareKeys($this->view, $this, $filePath, $multiEncKey['keys'])
 		) {
 
 			\OCP\Util::writeLog('Encryption library',

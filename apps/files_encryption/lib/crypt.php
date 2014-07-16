@@ -390,6 +390,7 @@ class Crypt {
 	 * @param string $plainContent content to be encrypted
 	 * @param array $publicKeys array keys must be the userId of corresponding user
 	 * @return array keys: keys (array, key = userId), data
+	 * @throws \OCA\Encryption\Exceptions\\MultiKeyEncryptException if encryption failed
 	 * @note symmetricDecryptFileContent() can decrypt files created using this method
 	 */
 	public static function multiKeyEncrypt($plainContent, array $publicKeys) {
@@ -397,9 +398,7 @@ class Crypt {
 		// openssl_seal returns false without errors if $plainContent
 		// is empty, so trigger our own error
 		if (empty($plainContent)) {
-
-			throw new \Exception('Cannot mutliKeyEncrypt empty plain content');
-
+			throw new Exceptions\MultiKeyEncryptException('Cannot mutliKeyEncrypt empty plain content', 10);
 		}
 
 		// Set empty vars to be set by openssl by reference
@@ -426,9 +425,7 @@ class Crypt {
 			);
 
 		} else {
-
-			return false;
-
+			throw new Exceptions\MultiKeyEncryptException('multi key encryption failed: ' . openssl_error_string(), 20);
 		}
 
 	}
@@ -438,8 +435,8 @@ class Crypt {
 	 * @param string $encryptedContent
 	 * @param string $shareKey
 	 * @param mixed $privateKey
-	 * @return false|string
-	 * @internal param string $plainContent content to be encrypted
+	 * @throws \OCA\Encryption\Exceptions\\MultiKeyDecryptException if decryption failed
+	 * @internal param string $plainContent contains decrypted content
 	 * @return string $plainContent decrypted string
 	 * @note symmetricDecryptFileContent() can be used to decrypt files created using this method
 	 *
@@ -448,9 +445,7 @@ class Crypt {
 	public static function multiKeyDecrypt($encryptedContent, $shareKey, $privateKey) {
 
 		if (!$encryptedContent) {
-
-			return false;
-
+			throw new Exceptions\MultiKeyDecryptException('Cannot mutliKeyDecrypt empty plain content', 10);
 		}
 
 		if (openssl_open($encryptedContent, $plainContent, $shareKey, $privateKey)) {
@@ -458,11 +453,7 @@ class Crypt {
 			return $plainContent;
 
 		} else {
-
-			\OCP\Util::writeLog('Encryption library', 'Decryption (asymmetric) of sealed content with share-key "'.$shareKey.'" failed', \OCP\Util::ERROR);
-
-			return false;
-
+			throw new Exceptions\MultiKeyDecryptException('multiKeyDecrypt with share-key' . $shareKey . 'failed: ' . openssl_error_string(), 20);
 		}
 
 	}
