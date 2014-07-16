@@ -707,4 +707,27 @@ $(document).ready(function () {
 		);
 	});
 
+	// Option to display/hide the "Storage location" column
+	$('#CheckboxStorageLocation').click(function() {
+		if ($('#CheckboxStorageLocation').is(':checked')) {
+			$("#headerStorageLocation").show();
+			$("#userlist td.storageLocation").show();
+		} else {
+			$("#headerStorageLocation").hide();
+			$("#userlist td.storageLocation").hide();
+		}
+	});
+	// Option to display/hide the "Last Login" column
+	$('#CheckboxLastLogin').click(function() {
+		if ($('#CheckboxLastLogin').is(':checked')) {
+			$("#headerLastLogin").show();
+			$("#userlist td.lastLogin").show();
+		} else {
+			$("#headerLastLogin").hide();
+			$("#userlist td.lastLogin").hide();
+		}
+	});
+
+
+
 });
