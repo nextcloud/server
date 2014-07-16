@@ -192,15 +192,15 @@ $(document).ready(function() {
 						placeholder = placeholder.substring(1);
 					}
 					if (placeholder.indexOf('*') === 0) {
-						var class_string = is_optional ? ' class="optional"' : '';
-						td.append('<input type="password"' + class_string + ' data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+						var class_string = is_optional ? ' optional' : '';
+						td.append('<input type="password" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
 					} else if (placeholder.indexOf('!') === 0) {
-						td.append('<label><input type="checkbox" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
+						td.append('<label><input type="checkbox" class="added" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
 					} else if (placeholder.indexOf('#') === 0) {
-						td.append('<input type="hidden" data-parameter="'+parameter+'" />');
+						td.append('<input type="hidden" class="added" data-parameter="'+parameter+'" />');
 					} else {
-						var class_string = is_optional ? ' class="optional"' : '';
-						td.append('<input type="text"' + class_string + ' data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
+						var class_string = is_optional ? ' optional' : '';
+						td.append('<input type="text" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
 				});
 				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length == 1) {
