@@ -95,6 +95,8 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		} else {
 			OC_App::disable('files_trashbin');
 		}
+
+		$this->assertTrue(\OC_FileProxy::$enabled);
 	}
 
 	public static function tearDownAfterClass() {
