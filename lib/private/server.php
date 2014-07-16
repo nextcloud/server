@@ -10,6 +10,7 @@ use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
+use OCP\ISession;
 
 /**
  * Class Server
@@ -31,8 +32,8 @@ class Server extends SimpleContainer implements IServerContainer {
 				$urlParams = array();
 			}
 
-			if (\OC::$session->exists('requesttoken')) {
-				$requestToken = \OC::$session->get('requesttoken');
+			if (\OC::$server->getSession()->exists('requesttoken')) {
+				$requestToken = \OC::$server->getSession()->get('requesttoken');
 			} else {
 				$requestToken = false;
 			}
@@ -100,7 +101,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			 * @var \OC\User\Manager $manager
 			 */
 			$manager = $c->query('UserManager');
-			$userSession = new \OC\User\Session($manager, \OC::$session);
+			$userSession = new \OC\User\Session($manager, new \OC\Session\Memory(''));
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
 			});
@@ -328,6 +329,20 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
+	 * @return \OCP\ISession
+	 */
+	function getSession() {
+		return $this->query('UserSession')->getSession();
+	}
+
+	/**
+	 * @param \OCP\ISession $session
+	 */
+	function setSession(\OCP\ISession $session) {
+		return $this->query('UserSession')->setSession($session);
+	}
+
+	/**
 	 * @return \OC\NavigationManager
 	 */
 	function getNavigationManager() {
@@ -390,15 +405,6 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getMemCacheFactory() {
 		return $this->query('MemCacheFactory');
-	}
-
-	/**
-	 * Returns the current session
-	 *
-	 * @return \OCP\ISession
-	 */
-	function getSession() {
-		return \OC::$session;
 	}
 
 	/**

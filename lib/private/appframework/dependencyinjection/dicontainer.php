@@ -191,7 +191,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	private function getUserId() {
-		return \OC::$session->get('user_id');
+		return \OC::$server->getSession()->get('user_id');
 	}
 
 	/**

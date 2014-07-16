@@ -23,7 +23,7 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-\OC::$session->close();
+\OC::$server->getSession()->close();
 
 $files = new \OCA\Files\App(
 	\OC\Files\Filesystem::getView(),

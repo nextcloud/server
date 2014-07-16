@@ -117,7 +117,7 @@ class Session {
 	 */
 	public function setPrivateKey($privateKey) {
 
-		\OC::$session->set('privateKey', $privateKey);
+		\OC::$server->getSession()->set('privateKey', $privateKey);
 
 		return true;
 
@@ -140,7 +140,7 @@ class Session {
 	 */
 	public function setInitialized($init) {
 
-		\OC::$session->set('encryptionInitialized', $init);
+		\OC::$server->getSession()->set('encryptionInitialized', $init);
 
 		return true;
 
@@ -150,8 +150,8 @@ class Session {
 	 * remove encryption keys and init status from session
 	 */
 	public function closeSession() {
-		\OC::$session->remove('encryptionInitialized');
-		\OC::$session->remove('privateKey');
+		\OC::$server->getSession()->remove('encryptionInitialized');
+		\OC::$server->getSession()->remove('privateKey');
 	}
 
 
@@ -162,8 +162,8 @@ class Session {
 	 * @note this doesn not indicate of the init was successful, we just remeber the try!
 	 */
 	public function getInitialized() {
-		if (!is_null(\OC::$session->get('encryptionInitialized'))) {
-			return \OC::$session->get('encryptionInitialized');
+		if (!is_null(\OC::$server->getSession()->get('encryptionInitialized'))) {
+			return \OC::$server->getSession()->get('encryptionInitialized');
 		} else {
 			return self::NOT_INITIALIZED;
 		}
@@ -179,8 +179,8 @@ class Session {
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
 			return $this->getPublicSharePrivateKey();
 		} else {
-			if (!is_null(\OC::$session->get('privateKey'))) {
-				return \OC::$session->get('privateKey');
+			if (!is_null(\OC::$server->getSession()->get('privateKey'))) {
+				return \OC::$server->getSession()->get('privateKey');
 			} else {
 				return false;
 			}
@@ -194,7 +194,7 @@ class Session {
 	 */
 	public function setPublicSharePrivateKey($privateKey) {
 
-		\OC::$session->set('publicSharePrivateKey', $privateKey);
+		\OC::$server->getSession()->set('publicSharePrivateKey', $privateKey);
 
 		return true;
 
@@ -207,8 +207,8 @@ class Session {
 	 */
 	public function getPublicSharePrivateKey() {
 
-		if (!is_null(\OC::$session->get('publicSharePrivateKey'))) {
-			return \OC::$session->get('publicSharePrivateKey');
+		if (!is_null(\OC::$server->getSession()->get('publicSharePrivateKey'))) {
+			return \OC::$server->getSession()->get('publicSharePrivateKey');
 		} else {
 			return false;
 		}
