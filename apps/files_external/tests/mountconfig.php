@@ -800,4 +800,41 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($priority,
 			$mountPoints['/'.self::TEST_USER1.'/files/ext']['priority']);
 	}
+
+	/*
+	 * Test for correct personal configuration loading in file sharing scenarios
+	 */
+	public function testMultiUserPersonalConfigLoading() {
+		$mountConfig = array(
+			'host' => 'somehost',
+			'user' => 'someuser',
+			'password' => 'somepassword',
+			'root' => 'someroot'
+		);
+
+		// Create personal mount point
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				OC_Mount_Config::MOUNT_TYPE_USER,
+				self::TEST_USER1,
+				true
+			)
+		);
+
+		// Ensure other user can read mount points
+		\OC_User::setUserId(self::TEST_USER2);
+		$mountPointsMe = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER2);
+		$mountPointsOther = OC_Mount_Config::getAbsoluteMountPoints(self::TEST_USER1);
+
+		$this->assertEquals(0, count($mountPointsMe));
+		$this->assertEquals(1, count($mountPointsOther));
+		$this->assertTrue(isset($mountPointsOther['/'.self::TEST_USER1.'/files/ext']));
+		$this->assertEquals('\OC\Files\Storage\SMB',
+			$mountPointsOther['/'.self::TEST_USER1.'/files/ext']['class']);
+		$this->assertEquals($mountConfig,
+			$mountPointsOther['/'.self::TEST_USER1.'/files/ext']['options']);
+	}
 }
