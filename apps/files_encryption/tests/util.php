@@ -200,36 +200,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @medium
-	 * test checking whether account is not ready for encryption,
-	 */
-	function testIsLegacyUser() {
-		$this->markTestSkipped('This test fails - could this be caused by the removal of the legacy code of encryption?');
-
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-
-		$userView = new \OC\Files\View('/' . \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-
-		// Disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$encryptionKeyContent = file_get_contents($this->legacyEncryptedDataKey);
-		$userView->file_put_contents('/encryption.key', $encryptionKeyContent);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		$params['uid'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
-		$params['password'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
-
-		$this->setMigrationStatus(0, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-
-		$this->assertTrue(OCA\Encryption\Hooks::login($params));
-
-		$this->assertEquals($this->legacyKey, \OC::$session->get('legacyKey'));
-	}
-
-	/**
-	 * @medium
 	 */
 	function testRecoveryEnabledForUser() {
 
@@ -485,60 +455,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
 		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
 
-	}
-
-	/**
-	 * @large
-	 */
-	function testEncryptLegacyFiles() {
-		$this->markTestSkipped('This test fails - could this be caused by the removal of the legacy code of encryption?');
-
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-
-		$userView = new \OC\Files\View('/' . \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-		$view = new \OC\Files\View('/' . \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER . '/files');
-
-		// Disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$encryptionKeyContent = file_get_contents($this->legacyEncryptedDataKey);
-		$userView->file_put_contents('/encryption.key', $encryptionKeyContent);
-
-		$legacyEncryptedData = file_get_contents($this->legacyEncryptedData);
-		$view->mkdir('/test/');
-		$view->mkdir('/test/subtest/');
-		$view->file_put_contents('/test/subtest/legacy-encrypted-text.txt', $legacyEncryptedData);
-
-		$fileInfo = $view->getFileInfo('/test/subtest/legacy-encrypted-text.txt');
-		$fileInfo['encrypted'] = true;
-		$view->putFileInfo('/test/subtest/legacy-encrypted-text.txt', $fileInfo);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
-		$params['uid'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
-		$params['password'] = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER;
-
-		$util = new Encryption\Util($this->view, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-		$this->setMigrationStatus(0, \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
-
-		$this->assertTrue(OCA\Encryption\Hooks::login($params));
-
-		$this->assertEquals($this->legacyKey, \OC::$session->get('legacyKey'));
-
-		$files = $util->findEncFiles('/' . \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER . '/files/');
-
-		$this->assertTrue(is_array($files));
-
-		$found = false;
-		foreach ($files['encrypted'] as $encryptedFile) {
-			if ($encryptedFile['name'] === 'legacy-encrypted-text.txt') {
-				$found = true;
-				break;
-			}
-		}
-
-		$this->assertTrue($found);
 	}
 
 	/**
