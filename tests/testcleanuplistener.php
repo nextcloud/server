@@ -166,6 +166,8 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 	private function cleanProxies() {
 		$proxies = OC_FileProxy::getProxies();
 		OC_FileProxy::clearProxies();
+		// reenable in case some test failed to reenable them
+		OC_FileProxy::$enabled = true;
 		return count($proxies) > 0;
 	}
 }
