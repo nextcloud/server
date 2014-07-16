@@ -369,7 +369,7 @@
 					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc');
 				}
 				else {
-					if ( sort == 'name' ) { 	//default sorting of name is opposite to size and mtime
+					if ( sort === 'name' ) { 	//default sorting of name is opposite to size and mtime
 						this.setSort(sort, 'asc');
 					}
 					else {
@@ -908,10 +908,9 @@
 		 * @param sort sort attribute name
 		 * @param direction sort direction, one of "asc" or "desc"
 		 */
-		setSort: function(sort, direction, show) {
+		setSort: function(sort, direction ) {
 			var comparator = FileList.Comparators[sort] || FileList.Comparators.name;
-			this._show = true;
-                        this._sort = sort;
+			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
 			this._sortComparator = comparator;
                         
@@ -923,13 +922,13 @@
 			this.$el.find('thead th .sort-indicator')
                                 .removeClass(this.SORT_INDICATOR_ASC_CLASS)
                                 .removeClass(this.SORT_INDICATOR_DESC_CLASS)
-                                .toggleClass('hidden', !show)
+                                .toggleClass('hidden', true)
                                 .addClass(this.SORT_INDICATOR_DESC_CLASS);
                                 
             		this.$el.find('thead th.column-' + sort + ' .sort-indicator')
                                 .removeClass(this.SORT_INDICATOR_ASC_CLASS)
                                 .removeClass(this.SORT_INDICATOR_DESC_CLASS)
-                                .toggleClass('hidden', show)
+                                .toggleClass('hidden', false)
                                 .addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
 		},
                 
