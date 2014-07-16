@@ -13,6 +13,7 @@ use OCP\IServerContainer;
 
 /**
  * Class Server
+ *
  * @package OC
  *
  * TODO: hookup all manager classes
@@ -20,10 +21,10 @@ use OCP\IServerContainer;
 class Server extends SimpleContainer implements IServerContainer {
 
 	function __construct() {
-		$this->registerService('ContactsManager', function($c) {
+		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
 		});
-		$this->registerService('Request', function($c) {
+		$this->registerService('Request', function ($c) {
 			if (isset($c['urlParams'])) {
 				$urlParams = $c['urlParams'];
 			} else {
@@ -37,7 +38,8 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 
 			if (defined('PHPUNIT_RUN') && PHPUNIT_RUN
-			&& in_array('fakeinput', stream_get_wrappers())) {
+				&& in_array('fakeinput', stream_get_wrappers())
+			) {
 				$stream = 'fakeinput://data';
 			} else {
 				$stream = 'php://input';
@@ -52,21 +54,21 @@ class Server extends SimpleContainer implements IServerContainer {
 					'env' => $_ENV,
 					'cookies' => $_COOKIE,
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
-						? $_SERVER['REQUEST_METHOD']
-						: null,
+							? $_SERVER['REQUEST_METHOD']
+							: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requestToken,
 				), $stream
 			);
 		});
-		$this->registerService('PreviewManager', function($c) {
+		$this->registerService('PreviewManager', function ($c) {
 			return new PreviewManager();
 		});
-		$this->registerService('TagManager', function($c) {
+		$this->registerService('TagManager', function ($c) {
 			$user = \OC_User::getUser();
 			return new TagManager($user);
 		});
-		$this->registerService('RootFolder', function($c) {
+		$this->registerService('RootFolder', function ($c) {
 			// TODO: get user and user manager from container as well
 			$user = \OC_User::getUser();
 			/** @var $c SimpleContainer */
@@ -76,7 +78,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$view = new View();
 			return new Root($manager, $view, $user);
 		});
-		$this->registerService('UserManager', function($c) {
+		$this->registerService('UserManager', function ($c) {
 			/**
 			 * @var SimpleContainer $c
 			 * @var \OC\AllConfig $config
@@ -84,7 +86,15 @@ class Server extends SimpleContainer implements IServerContainer {
 			$config = $c->query('AllConfig');
 			return new \OC\User\Manager($config);
 		});
-		$this->registerService('UserSession', function($c) {
+		$this->registerService('GroupManager', function ($c) {
+			/**
+			 * @var SimpleContainer $c
+			 * @var \OC\User\Manager $userManager
+			 */
+			$userManager = $c->query('UserManager');
+			return new \OC\Group\Manager($userManager);
+		});
+		$this->registerService('UserSession', function ($c) {
 			/**
 			 * @var SimpleContainer $c
 			 * @var \OC\User\Manager $manager
@@ -126,40 +136,40 @@ class Server extends SimpleContainer implements IServerContainer {
 			});
 			return $userSession;
 		});
-		$this->registerService('NavigationManager', function($c) {
+		$this->registerService('NavigationManager', function ($c) {
 			return new \OC\NavigationManager();
 		});
-		$this->registerService('AllConfig', function($c) {
+		$this->registerService('AllConfig', function ($c) {
 			return new \OC\AllConfig();
 		});
 		$this->registerService('AppConfig', function ($c) {
 			return new \OC\AppConfig(\OC_DB::getConnection());
 		});
-		$this->registerService('L10NFactory', function($c) {
+		$this->registerService('L10NFactory', function ($c) {
 			return new \OC\L10N\Factory();
 		});
-		$this->registerService('URLGenerator', function($c) {
+		$this->registerService('URLGenerator', function ($c) {
 			/** @var $c SimpleContainer */
 			$config = $c->query('AllConfig');
 			return new \OC\URLGenerator($config);
 		});
-		$this->registerService('AppHelper', function($c) {
+		$this->registerService('AppHelper', function ($c) {
 			return new \OC\AppHelper();
 		});
-		$this->registerService('UserCache', function($c) {
+		$this->registerService('UserCache', function ($c) {
 			return new UserCache();
 		});
 		$this->registerService('MemCacheFactory', function ($c) {
 			$instanceId = \OC_Util::getInstanceId();
 			return new \OC\Memcache\Factory($instanceId);
 		});
-		$this->registerService('ActivityManager', function($c) {
+		$this->registerService('ActivityManager', function ($c) {
 			return new ActivityManager();
 		});
-		$this->registerService('AvatarManager', function($c) {
+		$this->registerService('AvatarManager', function ($c) {
 			return new AvatarManager();
 		});
-		$this->registerService('Logger', function($c) {
+		$this->registerService('Logger', function ($c) {
 			/** @var $c SimpleContainer */
 			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'owncloud');
 			$logger = 'OC_Log_' . ucfirst($logClass);
@@ -174,7 +184,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$config = $c->getConfig();
 			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
 		});
-		$this->registerService('Router', function ($c){
+		$this->registerService('Router', function ($c) {
 			/**
 			 * @var Server $c
 			 */
@@ -186,10 +196,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 			return $router;
 		});
-		$this->registerService('Search', function($c){
+		$this->registerService('Search', function ($c) {
 			return new Search();
 		});
-		$this->registerService('Db', function($c){
+		$this->registerService('Db', function ($c) {
 			return new Db();
 		});
 	}
@@ -263,14 +273,14 @@ class Server extends SimpleContainer implements IServerContainer {
 		$root = $this->getRootFolder();
 		$folder = null;
 
-		if(!$root->nodeExists($dir)) {
+		if (!$root->nodeExists($dir)) {
 			$folder = $root->newFolder($dir);
 		} else {
 			$folder = $root->get($dir);
 		}
 
 		$dir = '/files';
-		if(!$folder->nodeExists($dir)) {
+		if (!$folder->nodeExists($dir)) {
 			$folder = $folder->newFolder($dir);
 		} else {
 			$folder = $folder->get($dir);
@@ -289,7 +299,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		$dir = '/' . \OC_App::getCurrentApp();
 		$root = $this->getRootFolder();
 		$folder = null;
-		if(!$root->nodeExists($dir)) {
+		if (!$root->nodeExists($dir)) {
 			$folder = $root->newFolder($dir);
 		} else {
 			$folder = $root->get($dir);
@@ -302,6 +312,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getUserManager() {
 		return $this->query('UserManager');
+	}
+
+	/**
+	 * @return \OC\Group\Manager
+	 */
+	function getGroupManager() {
+		return $this->query('GroupManager');
 	}
 
 	/**
@@ -330,12 +347,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\IAppConfig
 	 */
-	function getAppConfig(){
+	function getAppConfig() {
 		return $this->query('AppConfig');
 	}
 
 	/**
 	 * get an L10N instance
+	 *
 	 * @param string $app appid
 	 * @return \OC_L10N
 	 */
@@ -407,7 +425,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\BackgroundJob\IJobList
 	 */
-	function getJobList(){
+	function getJobList() {
 		return $this->query('JobList');
 	}
 
@@ -425,12 +443,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\Route\IRouter
 	 */
-	function getRouter(){
+	function getRouter() {
 		return $this->query('Router');
 	}
 
 	/**
 	 * Returns a search instance
+	 *
 	 * @return \OCP\ISearch
 	 */
 	function getSearch() {
@@ -439,6 +458,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * Returns an instance of the db facade
+	 *
 	 * @return \OCP\IDb
 	 */
 	function getDb() {
