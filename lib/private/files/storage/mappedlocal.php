@@ -184,8 +184,8 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function rename($path1, $path2) {
-		$srcParent = dirname($path1);
-		$dstParent = dirname($path2);
+		$srcParent = $this->dirname($path1);
+		$dstParent = $this->dirname($path2);
 
 		if (!$this->isUpdatable($srcParent)) {
 			\OC_Log::write('core', 'unable to rename, source directory is not writable : ' . $srcParent, \OC_Log::ERROR);
@@ -355,11 +355,26 @@ class MappedLocal extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path
+	 * @param bool $create
+	 * @return string
 	 */
 	private function buildPath($path, $create = true) {
 		$path = $this->stripLeading($path);
 		$fullPath = $this->datadir . $path;
 		return $this->mapper->logicToPhysical($fullPath, $create);
+	}
+
+	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function dirName($path) {
+		$path = dirname($path);
+		if ($path === '.') {
+			return '';
+		} else {
+			return $path;
+		}
 	}
 
 	/**
