@@ -99,7 +99,7 @@
 }
 
 #filestable tbody tr { background-color:#fff; height:40px; }
-#filestable tbody tr:hover, tbody tr:active , tbody th:hover, tbody th:active {
+#filestable tbody tr:hover, tbody tr:active {
 	background-color: rgb(240,240,240);
 }
 #filestable tbody tr.selected {
