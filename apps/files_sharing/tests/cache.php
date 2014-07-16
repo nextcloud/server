@@ -32,6 +32,9 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 	function setUp() {
 		parent::setUp();
 
+		\OC_User::setDisplayName(self::TEST_FILES_SHARING_API_USER1, 'User One');
+		\OC_User::setDisplayName(self::TEST_FILES_SHARING_API_USER2, 'User Two');
+
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->user2View = new \OC\Files\View('/'. self::TEST_FILES_SHARING_API_USER2 . '/files');
@@ -133,11 +136,15 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 					'name' => 'shareddir',
 					'path' => 'files/shareddir',
 					'mimetype' => 'httpd/unix-directory',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 				array(
 					'name' => 'shared single file.txt',
 					'path' => 'files/shared single file.txt',
 					'mimetype' => 'text/plain',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 			),
 			$results
@@ -153,16 +160,22 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 					'name' => 'bar.txt',
 					'path' => 'bar.txt',
 					'mimetype' => 'text/plain',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 				array(
 					'name' => 'emptydir',
 					'path' => 'emptydir',
 					'mimetype' => 'httpd/unix-directory',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 				array(
 					'name' => 'subdir',
 					'path' => 'subdir',
 					'mimetype' => 'httpd/unix-directory',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 			),
 			$results
@@ -187,16 +200,22 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 					'name' => 'another too.txt',
 					'path' => 'another too.txt',
 					'mimetype' => 'text/plain',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 				array(
 					'name' => 'another.txt',
 					'path' => 'another.txt',
 					'mimetype' => 'text/plain',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 				array(
 					'name' => 'not a text file.xml',
 					'path' => 'not a text file.xml',
 					'mimetype' => 'application/xml',
+					'uid_owner' => self::TEST_FILES_SHARING_API_USER1,
+					'displayname_owner' => 'User One',
 				),
 			),
 			$results

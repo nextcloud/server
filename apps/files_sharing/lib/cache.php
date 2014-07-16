@@ -162,7 +162,7 @@ class Shared_Cache extends Cache {
 			foreach ($sourceFolderContent as $key => $c) {
 				$sourceFolderContent[$key]['path'] = $dir . $c['name'];
 				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
-				$sourceFolderContent[$key]['displayname_owner'] = $parent['uid_owner'];
+				$sourceFolderContent[$key]['displayname_owner'] = \OC_User::getDisplayName($parent['uid_owner']);
 				$sourceFolderContent[$key]['permissions'] = $sourceFolderContent[$key]['permissions'] & $this->storage->getPermissions($dir . $c['name']);
 			}
 
