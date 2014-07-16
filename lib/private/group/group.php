@@ -9,7 +9,9 @@
 
 namespace OC\Group;
 
-class Group {
+use OCP\IGroup;
+
+class Group implements IGroup {
 	/**
 	 * @var string $id
 	 */
