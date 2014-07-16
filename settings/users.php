@@ -35,7 +35,14 @@ if($isAdmin) {
 	$accessibleUsers = OC_User::getDisplayNames('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
-	$accessibleUsers = OC_Group::displayNamesInGroups($groups, '', 30);
+	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
+	$gids = array();
+	foreach($groups as $group) {
+		if (isset($group['id'])) {
+			$gids[] = $group['id'];
+		}
+	}
+	$accessibleUsers = OC_Group::displayNamesInGroups($gids, '', 30);
 	$subadmins = false;
 }
 
