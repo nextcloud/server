@@ -25,9 +25,7 @@
 namespace OCP\AppFramework\Db;
 
 use \OCP\IDb;
-
-
-require_once __DIR__ . '/MapperTestUtility.php';
+use Test\AppFramework\Db\MapperTestUtility;
 
 /**
  * @method integer getId()
@@ -54,6 +52,9 @@ class ExampleMapper extends Mapper {
 
 class MapperTest extends MapperTestUtility {
 
+	/**
+	 * @var Mapper
+	 */
 	private $mapper;
 
 	public function setUp(){
