@@ -306,7 +306,7 @@ var UserList = {
 
 		//delete a marked user when leaving the page
 		$(window).on('beforeunload', function () {
-			UserDeleteHandler.delete();
+			UserDeleteHandler.deleteEntry();
 		});
 	},
 	update: function (gid) {
