@@ -20,8 +20,6 @@
  *
  */
 
-require_once __DIR__ . '/../../../lib/base.php';
-
 class Test_Mount_Config_Dummy_Storage {
 	public function test() {
 		return true;
