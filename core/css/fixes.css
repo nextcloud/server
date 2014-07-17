@@ -91,3 +91,17 @@ select {
 	background-color: #24282F;
 }
 
+/* needed else IE8 will randomly hide the borders... */
+.ie8 table th#headerDate, table td.date,
+.ie8 table th.column-last, table td.column-last {
+	position: static;
+}
+
+.ie8 #controls {
+	background-color: white;
+}
+
+.ie8 #content-wrapper {
+	overflow-y: auto;
+}
+
