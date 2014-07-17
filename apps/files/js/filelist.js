@@ -932,7 +932,6 @@
 				.addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
 		},
 
-
 		/**
 		 * Reloads the file list using ajax call
 		 *

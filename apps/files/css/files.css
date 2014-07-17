@@ -371,7 +371,6 @@ table td.filename .uploadtext {
 	left: 18px;
 }
 
-
 #fileList tr td.filename {
 	position: relative;
 	width: 100%;
@@ -435,7 +434,6 @@ a.action>img {
 	vertical-align: text-bottom;
 	margin-bottom: -1px;
 }
-
 
 #fileList a.action {
 	display: inline;
