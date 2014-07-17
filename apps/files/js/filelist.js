@@ -20,7 +20,7 @@
 	FileList.prototype = {
 		SORT_INDICATOR_ASC_CLASS: 'icon-triangle-s',
 		SORT_INDICATOR_DESC_CLASS: 'icon-triangle-n',
-		
+
 		id: 'files',
 		appName: t('files', 'Files'),
 		isEmpty: true,
@@ -380,7 +380,7 @@
 			}
 		},
 
-                /**
+		/**
 		 * Event handler when clicking on a bread crumb
 		 */
 		_onClickBreadCrumb: function(e) {
@@ -908,31 +908,31 @@
 		 * @param sort sort attribute name
 		 * @param direction sort direction, one of "asc" or "desc"
 		 */
-		setSort: function(sort, direction ) {
+		setSort: function(sort, direction) {
 			var comparator = FileList.Comparators[sort] || FileList.Comparators.name;
 			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
 			this._sortComparator = comparator;
-                        
+
 			if (direction === 'desc') {
 				this._sortComparator = function(fileInfo1, fileInfo2) {
 					return -comparator(fileInfo1, fileInfo2);
 				};
 			}
 			this.$el.find('thead th .sort-indicator')
-                                .removeClass(this.SORT_INDICATOR_ASC_CLASS)
-                                .removeClass(this.SORT_INDICATOR_DESC_CLASS)
-                                .toggleClass('hidden', true)
-                                .addClass(this.SORT_INDICATOR_DESC_CLASS);
-                                
-            		this.$el.find('thead th.column-' + sort + ' .sort-indicator')
-                                .removeClass(this.SORT_INDICATOR_ASC_CLASS)
-                                .removeClass(this.SORT_INDICATOR_DESC_CLASS)
-                                .toggleClass('hidden', false)
-                                .addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
+				.removeClass(this.SORT_INDICATOR_ASC_CLASS)
+				.removeClass(this.SORT_INDICATOR_DESC_CLASS)
+				.toggleClass('hidden', true)
+				.addClass(this.SORT_INDICATOR_DESC_CLASS);
+
+			this.$el.find('thead th.column-' + sort + ' .sort-indicator')
+				.removeClass(this.SORT_INDICATOR_ASC_CLASS)
+				.removeClass(this.SORT_INDICATOR_DESC_CLASS)
+				.toggleClass('hidden', false)
+				.addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
 		},
-                
-                
+
+
 		/**
 		 * Reloads the file list using ajax call
 		 *

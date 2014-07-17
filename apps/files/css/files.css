@@ -161,7 +161,7 @@ table th .sort-indicator {
 	display: inline-block;
 }
 table th:hover .sort-indicator.hidden {
-    	width: 10px;
+	width: 10px;
 	height: 8px;
 	margin-left: 10px;
 	visibility: visible;
