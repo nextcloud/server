@@ -184,19 +184,10 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function rename($path1, $path2) {
-		$srcParent = $this->dirname($path1);
-		$dstParent = $this->dirname($path2);
-
-		if (!$this->isUpdatable($srcParent)) {
-			\OC_Log::write('core', 'unable to rename, source directory is not writable : ' . $srcParent, \OC_Log::ERROR);
+		if (!$this->isUpdatable($path1)) {
+			\OC_Log::write('core', 'unable to rename, file is not writable : ' . $path1, \OC_Log::ERROR);
 			return false;
 		}
-
-		if (!$this->isUpdatable($dstParent)) {
-			\OC_Log::write('core', 'unable to rename, destination directory is not writable : ' . $dstParent, \OC_Log::ERROR);
-			return false;
-		}
-
 		if (!$this->file_exists($path1)) {
 			\OC_Log::write('core', 'unable to rename, file does not exists : ' . $path1, \OC_Log::ERROR);
 			return false;
@@ -355,26 +346,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path
-	 * @param bool $create
-	 * @return string
 	 */
 	private function buildPath($path, $create = true) {
 		$path = $this->stripLeading($path);
 		$fullPath = $this->datadir . $path;
 		return $this->mapper->logicToPhysical($fullPath, $create);
-	}
-
-	/**
-	 * @param string $path
-	 * @return string
-	 */
-	private function dirName($path) {
-		$path = dirname($path);
-		if ($path === '.') {
-			return '';
-		} else {
-			return $path;
-		}
 	}
 
 	/**
