@@ -5,10 +5,10 @@
 			<span><?php p($l->t('Add Group'))?></span>
 		</a>
 	</li>
-	<li id="newgroup-form">
+	<li id="newgroup-form" style="display: none">
 		<form>
 			<input type="text" id="newgroupname" placeholder="<?php p($l->t('Group')); ?>..." />
-			<input type="submit" class="button icon-add" value="" />
+			<input type="submit" class="button icon-add svg" value="" />
 		</form>
 	</li>
 	<!-- Everyone -->
