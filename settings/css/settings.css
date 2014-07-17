@@ -54,6 +54,11 @@ table.nostyle td { padding: 0.2em 0; }
 	position: absolute;	left: 12px; top:-2px;
 	content: '+'; font-weight: bold; font-size: 150%;
 }
+
+.ie8 #newgroup-form .icon-add {
+	height: 30px;
+}
+
 .usercount { float: left; margin: 5px; }
 li.active span.utils .delete {
 	float: left; position: relative; opacity: 0.5;

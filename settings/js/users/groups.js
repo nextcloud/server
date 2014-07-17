@@ -237,7 +237,7 @@ GroupList = {
 
 		//delete a marked user when leaving the page
 		$(window).on('beforeunload', function () {
-			GroupDeleteHandler.delete();
+			GroupDeleteHandler.deleteEntry();
 		});
 	},
 

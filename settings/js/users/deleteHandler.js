@@ -116,7 +116,7 @@ DeleteHandler.prototype.hideNotification = function() {
  */
 DeleteHandler.prototype.mark = function(oid) {
 	if(this.oidToDelete !== false) {
-		this.delete();
+		this.deleteEntry();
 	}
 	this.oidToDelete = oid;
 	this.canceled = false;
@@ -138,7 +138,7 @@ DeleteHandler.prototype.cancel = function() {
  * OC.dialogs.alert. On success, a callback is fired so that the client can
  * update the web interface accordingly.
  */
-DeleteHandler.prototype.delete = function() {
+DeleteHandler.prototype.deleteEntry = function() {
 	if(this.canceled || this.oidToDelete === false) {
 		return false;
 	}
