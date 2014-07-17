@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "External Storage" => "ექსტერნალ საცავი",
 "Folder name" => "ფოლდერის სახელი",
 "Configuration" => "კონფიგურაცია",
-"Options" => "ოფცია",
 "Add storage" => "საცავის დამატება",
 "All Users" => "ყველა მომხმარებელი",
 "Groups" => "ჯგუფები",

@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "External Storage" => "外部ストレージ",
 "Folder name" => "フォルダー名",
 "Configuration" => "設定",
-"Options" => "オプション",
 "Available for" => "以下が利用可能",
 "Add storage" => "ストレージを追加",
 "No user or group" => "ユーザーもしくはグループがありません",

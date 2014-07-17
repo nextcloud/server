@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Zunanja podatkovna shramba",
 "Folder name" => "Ime mape",
 "Configuration" => "Nastavitve",
-"Options" => "Možnosti",
 "Available for" => "Na voljo za",
 "Add storage" => "Dodaj shrambo",
 "No user or group" => "Ni uporabnika ali skupine",

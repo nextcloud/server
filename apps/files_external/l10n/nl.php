@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Externe opslag",
 "Folder name" => "Mapnaam",
 "Configuration" => "Configuratie",
-"Options" => "Opties",
 "Available for" => "Beschikbaar voor",
 "Add storage" => "Toevoegen opslag",
 "No user or group" => "Geen gebruiker of groep",

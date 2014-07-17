@@ -18,7 +18,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Надворешно складиште",
 "Folder name" => "Име на папка",
 "Configuration" => "Конфигурација",
-"Options" => "Опции",
 "All Users" => "Сите корисници",
 "Groups" => "Групи",
 "Users" => "Корисници",

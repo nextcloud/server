@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 05:54+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 15:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -153,7 +153,7 @@ msgstr ""
 
 #: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
-msgstr ""
+msgstr "ফাইলস"
 
 #: appinfo/app.php:27
 msgid "All files"
@@ -207,11 +207,11 @@ msgstr ""
 
 #: js/fileactions.js:285
 msgid "Share"
-msgstr ""
+msgstr "শেয়ার"
 
 #: js/fileactions.js:295 templates/list.php:77 templates/list.php:78
 msgid "Delete"
-msgstr ""
+msgstr "মুছে ফেলা"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
@@ -249,7 +249,7 @@ msgstr ""
 
 #: js/filelist.js:1218
 msgid "Error"
-msgstr ""
+msgstr "ভুল"
 
 #: js/filelist.js:1307
 msgid "Could not rename file"
@@ -261,11 +261,11 @@ msgstr ""
 
 #: js/filelist.js:1528 templates/list.php:61
 msgid "Name"
-msgstr ""
+msgstr "নাম"
 
 #: js/filelist.js:1529 templates/list.php:72
 msgid "Size"
-msgstr ""
+msgstr "আকার"
 
 #: js/filelist.js:1530 templates/list.php:75
 msgid "Modified"
@@ -348,7 +348,7 @@ msgstr ""
 
 #: templates/admin.php:15
 msgid "Save"
-msgstr ""
+msgstr "সেভ"
 
 #: templates/appnavigation.php:12
 msgid "WebDAV"

@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "External Storage" => "حافظه خارجی",
 "Folder name" => "نام پوشه",
 "Configuration" => "پیکربندی",
-"Options" => "تنظیمات",
 "Add storage" => "اضافه کردن حافظه",
 "All Users" => "تمام کاربران",
 "Groups" => "گروه ها",

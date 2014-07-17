@@ -1,15 +1,16 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Запись в каталог \"config\" невозможна",
 "You are accessing the server from an untrusted domain." => "Вы пытаетесь получить доступ к серверу с неподтверждённого домена.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Пожалуйста, свяжитесь с администратором. Если вы администратор этого хранилища, сконфигурируйте \"trusted_domain\" в config/config.php. Пример настройки можно найти в /config/config.sample.php.",
 "Help" => "Помощь",
 "Personal" => "Личное",
-"Settings" => "Конфигурация",
+"Settings" => "Настройки",
 "Users" => "Пользователи",
 "Admin" => "Администрирование",
-"Failed to upgrade \"%s\"." => "Не смог обновить \"%s\".",
+"Failed to upgrade \"%s\"." => "Ошибка обновления \"%s\".",
 "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "Невозможно установить приложение \\\"%s\\\", т.к. оно несовместимо с этой версией ownCloud.",
-"No app name specified" => "Не выбрано имя приложения",
+"No app name specified" => "Не указано имя приложения",
 "Unknown filetype" => "Неизвестный тип файла",
 "Invalid image" => "Изображение повреждено",
 "web services under your control" => "веб-сервисы под вашим управлением",
@@ -32,9 +33,9 @@ $TRANSLATIONS = array(
 "%s enter the database username." => "%s введите имя пользователя базы данных.",
 "%s enter the database name." => "%s введите имя базы данных.",
 "%s you may not use dots in the database name" => "%s Вы не можете использовать точки в имени базы данных",
-"MS SQL username and/or password not valid: %s" => "Имя пользователя и/или пароль MS SQL не подходит: %s",
+"MS SQL username and/or password not valid: %s" => "Неверное имя пользователя и/или пароль MS SQL: %s",
 "You need to enter either an existing account or the administrator." => "Вы должны войти или в существующий аккаунт или под администратором.",
-"MySQL/MariaDB username and/or password not valid" => " Имя пользователя и/или пароль MySQL/MariaDB не действительны.",
+"MySQL/MariaDB username and/or password not valid" => "Неверное имя пользователя и/или пароль MySQL/MariaDB",
 "DB Error: \"%s\"" => "Ошибка БД: \"%s\"",
 "Offending command was: \"%s\"" => "Вызываемая команда была: \"%s\"",
 "MySQL/MariaDB user '%s'@'localhost' exists already." => "Пользователь MySQL '%s'@'localhost' уже существует.",
@@ -45,8 +46,8 @@ $TRANSLATIONS = array(
 "Oracle username and/or password not valid" => "Неверное имя пользователя и/или пароль Oracle",
 "Offending command was: \"%s\", name: %s, password: %s" => "Вызываемая команда была: \"%s\", имя: %s, пароль: %s",
 "PostgreSQL username and/or password not valid" => "Неверное имя пользователя и/или пароль PostgreSQL",
-"Set an admin username." => "Установить имя пользователя для admin.",
-"Set an admin password." => "становит пароль для admin.",
+"Set an admin username." => "Задать имя пользователя для admin.",
+"Set an admin password." => "Задать пароль для admin.",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV.",
 "Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>.",
 "%s shared »%s« with you" => "%s поделился »%s« с вами",
@@ -80,6 +81,9 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Только следующие символы допускаются в имени пользователя: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-\"",
 "A valid username must be provided" => "Укажите правильное имя пользователя",
 "A valid password must be provided" => "Укажите валидный пароль",
-"The username is already being used" => "Имя пользователя уже используется"
+"The username is already being used" => "Имя пользователя уже используется",
+"Cannot write into \"config\" directory" => "Запись в каталог \"config\" невозможна",
+"Cannot write into \"apps\" directory" => "Запись в каталог \"app\" невозможна",
+"Cannot create \"data\" directory (%s)" => "Невозможно создать каталог \"data\" (%s)"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

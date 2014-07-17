@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ivo, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 21:40+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,47 +20,47 @@ msgstr ""
 
 #: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "Споделяне между сървъри не е разрешено на този сървър."
 
 #: ajax/external.php:47
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Неуспешно добавяне на отдалечена споделена директория."
 
 #: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Споделено с теб"
 
 #: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Споделено с други"
 
 #: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Споделено с връзка"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Все още няма споделени с теб файлове."
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Все още не си споделил файлове."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Все още не си споделил файлове с връзка."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "Желаеш ли да добавиш като прикачената папка {name} от {owner}@{remote}?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Прикачена Папка"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Парола за прикачена папка"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -67,15 +68,15 @@ msgstr "Отказ"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Добави прикачена папка"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Не е открит инсталиран ownCloud на {remote}."
 
 #: js/public.js:204
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Невалиден ownCloud интернет адрес."
 
 #: js/sharedfilelist.js:123
 msgid "Shared by"
@@ -83,11 +84,11 @@ msgstr "Споделено от"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
-msgstr ""
+msgstr "Тази зона е защитена с парола."
 
 #: templates/authenticate.php:7
 msgid "The password is wrong. Try again."
-msgstr ""
+msgstr "Грешна парола. Опитай отново."
 
 #: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
@@ -99,57 +100,57 @@ msgstr "Име"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "Споделено на"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
-msgstr ""
+msgstr "Съжаляваме, връзката вече не е активна."
 
 #: templates/part.404.php:4
 msgid "Reasons might be:"
-msgstr ""
+msgstr "Причините може да са:"
 
 #: templates/part.404.php:6
 msgid "the item was removed"
-msgstr ""
+msgstr "съдържанието е премахнато"
 
 #: templates/part.404.php:7
 msgid "the link expired"
-msgstr ""
+msgstr "връзката е изтекла"
 
 #: templates/part.404.php:8
 msgid "sharing is disabled"
-msgstr ""
+msgstr "споделянето е изключено"
 
 #: templates/part.404.php:10
 msgid "For more info, please ask the person who sent this link."
-msgstr ""
+msgstr "За повече информация, моля питай човека, който е изпратил тази връзка."
 
 #: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Добави към твоя ownCloud"
 
 #: templates/public.php:30
 msgid "Download"
-msgstr "Изтегляне"
+msgstr "Изтегли"
 
 #: templates/public.php:61
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "Изтегли %s"
 
 #: templates/public.php:65
 msgid "Direct link"
-msgstr ""
+msgstr "Директна връзка"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr ""
+msgstr "Прикачени Папки"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "Разреши други ownCloud сървъри да прикачват папки, споделени посредством връзки, на този сървър."
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Разреши потребители да прикачват папки, споделени посредством връзки."

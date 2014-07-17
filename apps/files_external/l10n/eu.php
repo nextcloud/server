@@ -61,7 +61,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Kanpoko biltegiratzea",
 "Folder name" => "Karpetaren izena",
 "Configuration" => "Konfigurazioa",
-"Options" => "Aukerak",
 "Available for" => "Hauentzat eskuragarri",
 "Add storage" => "Gehitu biltegiratzea",
 "No user or group" => "Talde edo erabiltzailerik ez",

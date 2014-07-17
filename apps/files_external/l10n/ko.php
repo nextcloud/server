@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "External Storage" => "외부 저장소",
 "Folder name" => "폴더 이름",
 "Configuration" => "설정",
-"Options" => "옵션",
 "Add storage" => "저장소 추가",
 "All Users" => "모든 사용자",
 "Groups" => "그룹",

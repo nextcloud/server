@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -286,7 +286,7 @@ msgstr "Zakres"
 msgid "External Storage"
 msgstr "Zewnętrzna zasoby dyskowe"
 
-#: templates/settings.php:8 templates/settings.php:28
+#: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
 msgstr "Nazwa folderu"
 
@@ -295,10 +295,6 @@ msgid "Configuration"
 msgstr "Konfiguracja"
 
 #: templates/settings.php:11
-msgid "Options"
-msgstr "Opcje"
-
-#: templates/settings.php:12
 msgid "Available for"
 msgstr "Dostępne przez"
 

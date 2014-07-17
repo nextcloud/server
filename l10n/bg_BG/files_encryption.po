@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Yasen Pramatarov <yasen@lindeas.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 11:01+0000\n"
+"Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,11 +38,11 @@ msgstr ""
 
 #: ajax/changeRecoveryPassword.php:49
 msgid "Password successfully changed."
-msgstr ""
+msgstr "Паролата е сменена успешно."
 
 #: ajax/changeRecoveryPassword.php:51
 msgid "Could not change the password. Maybe the old password was not correct."
-msgstr ""
+msgstr "Грешка при смяна на паролата. Може би старата ви парола е сгрешена."
 
 #: ajax/updatePrivateKeyPassword.php:52
 msgid "Private key password successfully updated."
@@ -53,14 +54,14 @@ msgid ""
 "correct."
 msgstr ""
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr ""
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -68,13 +69,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr ""
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr ""
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -91,7 +92,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr ""
 
@@ -127,11 +128,11 @@ msgstr ""
 
 #: templates/settings-admin.php:19 templates/settings-personal.php:50
 msgid "Enabled"
-msgstr ""
+msgstr "Включено"
 
 #: templates/settings-admin.php:27 templates/settings-personal.php:58
 msgid "Disabled"
-msgstr ""
+msgstr "Изключено"
 
 #: templates/settings-admin.php:32
 msgid "Change recovery key password:"
@@ -151,7 +152,7 @@ msgstr ""
 
 #: templates/settings-admin.php:56
 msgid "Change Password"
-msgstr ""
+msgstr "Промяна на парола"
 
 #: templates/settings-personal.php:8
 msgid "Your private key password no longer match your log-in password:"
@@ -169,11 +170,11 @@ msgstr ""
 
 #: templates/settings-personal.php:21
 msgid "Old log-in password"
-msgstr ""
+msgstr "Стара парола"
 
 #: templates/settings-personal.php:27
 msgid "Current log-in password"
-msgstr ""
+msgstr "Текуща парола"
 
 #: templates/settings-personal.php:32
 msgid "Update Private Key Password"

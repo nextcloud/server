@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ishita mukherjee <ishitamukh91@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-20 01:54-0400\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 14:52+0000\n"
+"Last-Translator: ishita mukherjee <ishitamukh91@gmail.com>\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,41 +21,41 @@ msgstr ""
 #: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "স্থায়ীভাবে %s গুলি মুছে ফেলা যায়নি"
 
 #: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "%s পুনরুদ্ধার করা যায়নি"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
-msgstr ""
+msgstr "ফাইলস মুছে ফেলা হয়েছে"
 
-#: js/app.js:53 templates/index.php:21 templates/index.php:23
+#: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
-msgstr ""
+msgstr "পুনরুদ্ধার"
 
 #: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
 msgid "Error"
-msgstr ""
+msgstr "ভুল"
 
-#: lib/trashbin.php:861 lib/trashbin.php:863
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
-msgstr ""
+msgstr "পুনরুদ্ধার করা হয়েছে"
 
 #: templates/index.php:7
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "কিছুই নেই এখানে।আপনার ট্র্যাশ বিন খালি!"
 
 #: templates/index.php:18
 msgid "Name"
-msgstr ""
+msgstr "নাম"
 
 #: templates/index.php:29
 msgid "Deleted"
-msgstr ""
+msgstr "মুছে ফেলা হয়েছে"
 
 #: templates/index.php:32 templates/index.php:33
 msgid "Delete"
-msgstr ""
+msgstr "মুছে ফেলা"

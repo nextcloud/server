@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "External Storage" => "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
 "Folder name" => "ឈ្មោះ​ថត",
 "Configuration" => "ការ​កំណត់​សណ្ឋាន",
-"Options" => "ជម្រើស",
 "Add storage" => "បន្ថែម​ឃ្លាំងផ្ទុក",
 "All Users" => "អ្នក​ប្រើ​ទាំងអស់",
 "Groups" => "ក្រុ",

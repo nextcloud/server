@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Name" => "ئاتى",
 "Folder name" => "قىسقۇچ ئاتى",
 "Configuration" => "سەپلىمە",
-"Options" => "تاللانما",
 "Groups" => "گۇرۇپپا",
 "Users" => "ئىشلەتكۈچىلەر",
 "Delete" => "ئۆچۈر"

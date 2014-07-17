@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Ārējā krātuve",
 "Folder name" => "Mapes nosaukums",
 "Configuration" => "Konfigurācija",
-"Options" => "Opcijas",
 "Add storage" => "Pievienot krātuvi",
 "All Users" => "Visi lietotāji",
 "Groups" => "Grupas",

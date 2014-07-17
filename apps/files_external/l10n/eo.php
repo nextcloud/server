@@ -44,7 +44,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Malena memorilo",
 "Folder name" => "Dosierujnomo",
 "Configuration" => "Agordo",
-"Options" => "Malneproj",
 "Available for" => "Disponebla por",
 "Add storage" => "Aldoni memorilon",
 "No user or group" => "Neniu uzanto aŭ grupo",

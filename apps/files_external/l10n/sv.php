@@ -62,7 +62,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Extern lagring",
 "Folder name" => "Mappnamn",
 "Configuration" => "Konfiguration",
-"Options" => "Alternativ",
 "Available for" => "Tillgänglig för",
 "Add storage" => "Lägg till lagring",
 "No user or group" => "Ingen användare eller grupp",

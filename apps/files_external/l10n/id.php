@@ -31,7 +31,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Penyimpanan Eksternal",
 "Folder name" => "Nama folder",
 "Configuration" => "Konfigurasi",
-"Options" => "Opsi",
 "Available for" => "Tersedia untuk",
 "Add storage" => "Tambahkan penyimpanan",
 "No user or group" => "Tidak ada pengguna dan grup",

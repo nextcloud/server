@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Εξωτερικό Αποθηκευτικό Μέσο",
 "Folder name" => "Όνομα φακέλου",
 "Configuration" => "Ρυθμίσεις",
-"Options" => "Επιλογές",
 "Available for" => "Διαθέσιμο για",
 "Add storage" => "Προσθηκη αποθηκευσης",
 "No user or group" => "Μη διαθέσιμος χρήστης ή ομάδα",

@@ -53,7 +53,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Externí úložiště",
 "Folder name" => "Název složky",
 "Configuration" => "Nastavení",
-"Options" => "Možnosti",
 "Available for" => "Dostupné pro",
 "Add storage" => "Přidat úložiště",
 "No user or group" => "Žádný uživatel nebo skupina",

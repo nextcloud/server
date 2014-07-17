@@ -10,7 +10,6 @@ $TRANSLATIONS = array(
 "Saved" => "حفظ",
 "Name" => "اسم",
 "Folder name" => "اسم المجلد",
-"Options" => "خيارات",
 "All Users" => "كل المستخدمين",
 "Groups" => "مجموعات",
 "Users" => "المستخدمين",

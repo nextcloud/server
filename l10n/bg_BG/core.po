@@ -4,13 +4,14 @@
 # 
 # Translators:
 # George Kamenov, 2014
+# Ivo, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 23:41+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,53 +21,53 @@ msgstr ""
 
 #: ajax/share.php:90
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "Дата на изтичане е в миналото."
 
 #: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Неуспешно изпращане на имейл до следните потребители: %s."
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Режим за поддръжка включен."
 
 #: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Режим за поддръжка изключен."
 
 #: ajax/update.php:16
 msgid "Updated database"
-msgstr ""
+msgstr "Базата данни обоновена."
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Промяна на схемата на базата данни проверена."
 
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "Изключени са несъвместимите програми: %s."
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
-msgstr ""
+msgstr "Нито Изображение, нито файл бяха зададени."
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Непознат тип файл."
 
 #: avatar/controller.php:90
 msgid "Invalid image"
-msgstr ""
+msgstr "Невалидно изображение."
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Липсва временен аватар, опитай отново."
 
 #: avatar/controller.php:140
 msgid "No crop data provided"
-msgstr ""
+msgstr "Липсва информация за клъцването."
 
 #: js/config.php:45
 msgid "Sunday"
@@ -150,7 +151,7 @@ msgstr "Настройки"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: js/js.js:591
 msgid "Folder"
@@ -158,11 +159,11 @@ msgstr "Папка"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Изображение"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Аудио"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -175,14 +176,14 @@ msgstr "преди секунди"
 #: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "преди %n минута"
+msgstr[1] "преди %n минути"
 
 #: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "преди %n час"
+msgstr[1] "преди %n часа"
 
 #: js/js.js:1281
 msgid "today"
@@ -195,8 +196,8 @@ msgstr "вчера"
 #: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "преди %n ден"
+msgstr[1] "преди %n дена"
 
 #: js/js.js:1284
 msgid "last month"
@@ -205,8 +206,8 @@ msgstr "последният месец"
 #: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "преди %n месец"
+msgstr[1] "преди %n месеца"
 
 #: js/js.js:1286
 msgid "last year"
@@ -218,14 +219,14 @@ msgstr "последните години"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Неуспешено изпращане на имейл. Моля, свържи се с администратора."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Връзката за възстановяване на паролата е изпратена на твоя имейл. Ако не я получиш в разумен период от време, провери папката си за спам.<br>Ако не е там се свържи с администратора."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -233,19 +234,19 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Файловете ти са криптирани. Ако не си насторил ключ за възстановяване, няма да има възможност да възстановиш информацията си след като промениш паролата.<br /> Ако не си сигурен какво да направиш, моля свържи се с администратора преди да продължиш.<br/>Наистина ли си сигурен, че искаш да продължиш?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Знам какво правя!"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
-msgstr "Нулиране на парола"
+msgstr "Възстановяване на парола"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Паролата не може да бъде промена. Моля, свържи се с администратора."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -261,7 +262,7 @@ msgstr "Избери"
 
 #: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "Грешка при зареждането на шаблон за избор на файл: {error}"
 
 #: js/oc-dialogs.js:282
 msgid "Ok"
@@ -269,35 +270,35 @@ msgstr "Добре"
 
 #: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "Грешка при зареждането на шаблон за съобщения: {error}"
 
 #: js/oc-dialogs.js:430
 msgid "{count} file conflict"
 msgid_plural "{count} file conflicts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} файлов проблем"
+msgstr[1] "{count} файлови проблема"
 
 #: js/oc-dialogs.js:444
 msgid "One file conflict"
-msgstr ""
+msgstr "Един файлов проблем"
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
-msgstr ""
+msgstr "Нови файлове"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "Вече съществуващи файлове"
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "Кои файлове желаеш да запазиш?"
 
 #: js/oc-dialogs.js:454
 msgid ""
 "If you select both versions, the copied file will have a number added to its"
 " name."
-msgstr ""
+msgstr "Ако избереш и двете версии, към името на копирания файл ще бъде добавено число."
 
 #: js/oc-dialogs.js:462
 msgid "Cancel"
@@ -305,39 +306,39 @@ msgstr "Отказ"
 
 #: js/oc-dialogs.js:472
 msgid "Continue"
-msgstr ""
+msgstr "Продължи"
 
 #: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
-msgstr ""
+msgstr "(всички избрани)"
 
 #: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} избрани)"
 
 #: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
-msgstr ""
+msgstr "Грешка при зареждането на шаблон за вече съществуваш файл."
 
 #: js/setup.js:96
 msgid "Very weak password"
-msgstr ""
+msgstr "Много слаба парола"
 
 #: js/setup.js:97
 msgid "Weak password"
-msgstr ""
+msgstr "Слаба парола"
 
 #: js/setup.js:98
 msgid "So-so password"
-msgstr ""
+msgstr "Не особено добра парола"
 
 #: js/setup.js:99
 msgid "Good password"
-msgstr ""
+msgstr "Добра парола"
 
 #: js/setup.js:100
 msgid "Strong password"
-msgstr ""
+msgstr "Сигурна парола"
 
 #: js/share.js:129 js/share.js:251
 msgid "Shared"
@@ -345,7 +346,7 @@ msgstr "Споделено"
 
 #: js/share.js:257
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Споделено с {recipients}."
 
 #: js/share.js:266
 msgid "Share"
@@ -358,36 +359,36 @@ msgstr "Грешка"
 
 #: js/share.js:328 js/share.js:1052
 msgid "Error while sharing"
-msgstr "Грешка при споделяне"
+msgstr "Грешка при споделянето."
 
 #: js/share.js:340
 msgid "Error while unsharing"
-msgstr "Грепка докато се премахва споделянето"
+msgstr "Грешка докато се премахва споделянето."
 
 #: js/share.js:347
 msgid "Error while changing permissions"
-msgstr "Грешка при промяна на достъпност"
+msgstr "Грешка при промяна на достъпа."
 
 #: js/share.js:357
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Споделено с тебе и група {group} от {owner}"
+msgstr "Споделено с теб и група {group} от {owner}."
 
 #: js/share.js:359
 msgid "Shared with you by {owner}"
-msgstr "Споделено с тебе от {owner}"
+msgstr "Споделено с теб от {owner}."
 
 #: js/share.js:383
 msgid "Share with user or group …"
-msgstr ""
+msgstr "Сподели с потребител или група..."
 
 #: js/share.js:389
 msgid "Share link"
-msgstr ""
+msgstr "Връзка за споделяне"
 
 #: js/share.js:394
 msgid ""
 "The public link will expire no later than {days} days after it is created"
-msgstr ""
+msgstr "Общодостъпната връзка ще изтече не по-късно от {days} дена след създаването й."
 
 #: js/share.js:398
 msgid "Password protect"
@@ -395,15 +396,15 @@ msgstr "Защитено с парола"
 
 #: js/share.js:400
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "Избери парола за общодостъпната връзка"
 
 #: js/share.js:406
 msgid "Allow Public Upload"
-msgstr ""
+msgstr "Разреши Общодостъпно Качване"
 
 #: js/share.js:410
 msgid "Email link to person"
-msgstr "Изпрати връзка до пощата на някои"
+msgstr "Изпрати връзка до нечия пощата"
 
 #: js/share.js:411
 msgid "Send"
@@ -419,7 +420,7 @@ msgstr "Дата на изтичане"
 
 #: js/share.js:455
 msgid "Share via email:"
-msgstr "сподели по поща:"
+msgstr "Сподели с имейл:"
 
 #: js/share.js:458
 msgid "No people found"
@@ -431,11 +432,11 @@ msgstr "група"
 
 #: js/share.js:540
 msgid "Resharing is not allowed"
-msgstr "Допълнително споделяне не е разрешено"
+msgstr "Повторно споделяне не е разрешено."
 
 #: js/share.js:591
 msgid "Shared in {item} with {user}"
-msgstr "Споделено в {item} с {user}"
+msgstr "Споделено в {item} с {user}."
 
 #: js/share.js:613
 msgid "Unshare"
@@ -443,11 +444,11 @@ msgstr "Премахни споделяне"
 
 #: js/share.js:621
 msgid "notify by email"
-msgstr ""
+msgstr "уведоми по имейла"
 
 #: js/share.js:624
 msgid "can share"
-msgstr ""
+msgstr "може да споделя"
 
 #: js/share.js:627
 msgid "can edit"
@@ -459,7 +460,7 @@ msgstr "контрол на достъпа"
 
 #: js/share.js:632
 msgid "create"
-msgstr "създаване"
+msgstr "Създаване"
 
 #: js/share.js:635
 msgid "update"
@@ -479,27 +480,27 @@ msgstr "Грешка при премахване на дата за изтича
 
 #: js/share.js:1010
 msgid "Error setting expiration date"
-msgstr "Грепка при поставяне на дата за изтичане"
+msgstr "Грешка при поставяне на дата за изтичане"
 
 #: js/share.js:1039
 msgid "Sending ..."
-msgstr "Изпращам ..."
+msgstr "Изпращане ..."
 
 #: js/share.js:1050
 msgid "Email sent"
-msgstr "Пощата е изпратена"
+msgstr "Имейла е изпратен"
 
 #: js/share.js:1074
 msgid "Warning"
-msgstr "Внимание"
+msgstr "Предупреждение"
 
 #: js/tags.js:8
 msgid "The object type is not specified."
-msgstr "Видът на обекта не е избран"
+msgstr "Видът на обекта не е избран."
 
 #: js/tags.js:19
 msgid "Enter new"
-msgstr ""
+msgstr "Въведи нов"
 
 #: js/tags.js:33
 msgid "Delete"
@@ -511,58 +512,58 @@ msgstr "Добавяне"
 
 #: js/tags.js:57
 msgid "Edit tags"
-msgstr ""
+msgstr "Промяна на етикетите"
 
 #: js/tags.js:75
 msgid "Error loading dialog template: {error}"
-msgstr ""
+msgstr "Грешка при зареждането на шаблоn за диалог: {error}."
 
 #: js/tags.js:288
 msgid "No tags selected for deletion."
-msgstr ""
+msgstr "Не са избрани етикети за изтриване."
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "Обновява се {productName} на версия {version}, това може да отнеме време."
 
 #: js/update.js:43
 msgid "Please reload the page."
-msgstr ""
+msgstr "Моля, презареди страницата."
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "Обновяването неуспешно."
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Обновяването е успешно. Пренасочване към твоя ownCloud сега."
 
 #: lostpassword/controller/lostcontroller.php:110
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Невалиден линк за промяна на паролата."
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Неуспешно изпращане на имейл за възстановяване на паролата. Моля, увери се, че потребителското име е правилно."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Неуспешно изпращане на имейл за възстановяване на паролата, защото липсва имейл свързан с това потребителско име. Моля свържи се с админстратора."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
-msgstr ""
+msgstr "Паролата на %s е променена."
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Използвай следната връзка, за да възстановиш паролата си: {link}"
 
 #: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
-msgstr "Ще получите връзка за нулиране на паролата Ви."
+msgstr "Ще получиш връзка за възстановяване на паролата посредством емейл."
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
@@ -576,15 +577,15 @@ msgid ""
 "will be no way to get your data back after your password is reset. If you "
 "are not sure what to do, please contact your administrator before you "
 "continue. Do you really want to continue?"
-msgstr ""
+msgstr "Файловете ти са криптирани. Ако не си насторил ключ за възстановяване, няма да има възможност да възстановиш информацията си след като промениш паролата. Ако не си сигурен какво да направиш, моля свържи се с администратора преди да продължиш. Наистина ли си сигурен, че искаш да продължиш?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
-msgstr ""
+msgstr "Да, наистина желая да възстановя паролата си сега."
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
-msgstr ""
+msgstr "Възстанови"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "New password"
@@ -592,19 +593,19 @@ msgstr "Нова парола"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Нова Парола"
 
 #: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "Mac OS X не се подържа и %s няма да работи правилно на тази платформа. Използвай го на свой риск!"
 
 #: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "За най-добри резултати, моля помисли дали не би желал да използваш GNU/Linux сървър."
 
 #: strings.php:5
 msgid "Personal"
@@ -614,7 +615,7 @@ msgstr "Лични"
 msgid "Users"
 msgstr "Потребители"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Приложения"
 
@@ -628,31 +629,31 @@ msgstr "Помощ"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "Грешка при зареждане на етикети."
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "Етикетите вече съществуват."
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "Грешка при изтриване на етикет(и)."
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "Грешка при задаване на етикета."
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "Грешка при премахване на етикета."
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "Грешка при отбелязване за любим."
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "Грешка при премахване отбелязването за любим."
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -660,7 +661,7 @@ msgstr "Достъпът е забранен"
 
 #: templates/404.php:15
 msgid "Cloud not found"
-msgstr "облакът не намерен"
+msgstr "Облакът не намерен"
 
 #: templates/altmail.php:2
 #, php-format
@@ -670,59 +671,59 @@ msgid ""
 "just letting you know that %s shared %s with you.\n"
 "View it: %s\n"
 "\n"
-msgstr ""
+msgstr "Здрасти,\n\nсамо да те уведомя, че %s сподели %s с теб.\nРазгледай го: %s\n\n"
 
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "Споделянето ще изтече на %s."
 
 #: templates/altmail.php:7 templates/mail.php:20
 msgid "Cheers!"
-msgstr ""
+msgstr "Поздрави!"
 
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr ""
+msgstr "Предупреждение за Сигурноста"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Твоята PHP версия е податлива на NULL Byte атака (CVE-2006-7243)."
 
 #: templates/installation.php:27
 #, php-format
 msgid "Please update your PHP installation to use %s securely."
-msgstr ""
+msgstr "Моля, обнови своята PHP инсталация, за да използваш %s сигурно."
 
 #: templates/installation.php:33
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Не е открит сигурен генератор на произволни числа, моля включи OpenSLL добавката за PHP."
 
 #: templates/installation.php:34
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Без сигурен генератор на произволни числа хакер може да предскаже линковете за възстановяване на паролата и да се сдобие с контрол върху твоят профил."
 
 #: templates/installation.php:40
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Твоята директория за данни и файлове вероятно са достъпни от интернет поради това, че .htaccess файла не функционира."
 
 #: templates/installation.php:42
 #, php-format
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"%s\" target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "За информация как правилно да настроиш сървъра си, моля прегледай <a href=\"%s\" target=\"_blank\">документацията</a>."
 
 #: templates/installation.php:48
 msgid "Create an <strong>admin account</strong>"
-msgstr "Създаване на <strong>админ профил</strong>"
+msgstr "Създаване на <strong>админ профил</strong>."
 
 #: templates/installation.php:59 templates/installation.php:62
 #: templates/login.php:41 templates/login.php:44
@@ -731,7 +732,7 @@ msgstr "Парола"
 
 #: templates/installation.php:72
 msgid "Storage & database"
-msgstr ""
+msgstr "Дисково пространство и база данни"
 
 #: templates/installation.php:79
 msgid "Data folder"
@@ -739,38 +740,38 @@ msgstr "Директория за данни"
 
 #: templates/installation.php:92
 msgid "Configure the database"
-msgstr "Конфигуриране на базата"
+msgstr "Конфигуриране на базата данни"
 
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Само %s е достъпен."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
-msgstr "Потребител за базата"
+msgstr "Потребител за базата данни"
 
 #: templates/installation.php:119 templates/installation.php:122
 msgid "Database password"
-msgstr "Парола за базата"
+msgstr "Парола за базата данни"
 
 #: templates/installation.php:127 templates/installation.php:129
 msgid "Database name"
-msgstr "Име на базата"
+msgstr "Име на базата данни"
 
 #: templates/installation.php:137 templates/installation.php:139
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tablespace-а за базата данни"
 
 #: templates/installation.php:146 templates/installation.php:148
 msgid "Database host"
-msgstr "Хост за базата"
+msgstr "Хост за базата данни"
 
 #: templates/installation.php:157
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "SQLite ще бъде използван за база данни. За по-големи инсталации препоръчваме това да бъде променено."
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -778,49 +779,49 @@ msgstr "Завършване на настройките"
 
 #: templates/installation.php:159
 msgid "Finishing …"
-msgstr ""
+msgstr "Завършване..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "Програмата изисква JavaScript, за да работи правилно. Моля, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включи  JavaScript</a> и презареди страницата."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s е на разположение. Прочети повече как да обновиш. "
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
-msgstr "Изход"
+msgstr "Отписване"
 
 #: templates/login.php:11
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Автоматичното вписване отказано!"
 
 #: templates/login.php:12
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Ако не си си променил паролата наскоро, профилът ти може да е компроменитран!"
 
 #: templates/login.php:14
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Моля, промени паролата си, за да подсигуриш профила си."
 
 #: templates/login.php:19
 msgid "Server side authentication failed!"
-msgstr ""
+msgstr "Заверяването в сървъра неуспешно!"
 
 #: templates/login.php:20
 msgid "Please contact your administrator."
-msgstr ""
+msgstr "Моля, свържи се с админстратора."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Забрави паролата? Възстанови я!"
 
 #: templates/login.php:55
 msgid "remember"
@@ -828,66 +829,66 @@ msgstr "запомни"
 
 #: templates/login.php:59
 msgid "Log in"
-msgstr "Вход"
+msgstr "Вписване"
 
 #: templates/login.php:65
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Други Потребителски Имена"
 
 #: templates/mail.php:15
 #, php-format
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "Здрасти,<br><br>само да те уведомя, че %s сподели <strong>%s</strong> с теб.\n<br><a href=\"%s\">Разгледай го!</a><br><br>."
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "В момента този ownCloud е в режим допускащ само един потребител."
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "Това означава, че само администраторът може да го използва."
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr ""
+msgstr "Свържи се със системния си администратор ако това съобщение се задържи твърде дълго или се е появило неочаквано."
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "Благодарим за търпението."
 
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s ще бъде обновена до версия %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "Следните програми ще бъдат изключени:"
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "Темата %s бе изключена."
 
 #: templates/update.admin.php:21
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr ""
+msgstr "Моля, увери се, че си направил копия на базата данни, папките с настройки и данни, преди да продължиш."
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Започни обновяването"
 
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr ""
+msgstr "В момента този ownCloud се обновява, а това може да отнеме време."
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr ""
+msgstr "Моля, презареди тази страница, след малко, за да продължиш да използваш ownCloud."

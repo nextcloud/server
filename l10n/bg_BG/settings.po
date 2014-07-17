@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ivo, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-09 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 23:50+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,7 +62,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Неуспешен опит за зареждане на списъка от Магазина за Програми."
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20 changepassword/controller.php:49
@@ -82,7 +83,7 @@ msgstr "Групата вече съществува"
 
 #: ajax/creategroup.php:20
 msgid "Unable to add group"
-msgstr "Невъзможно добавяне на група"
+msgstr "Неуспешно добавяне на група"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
@@ -114,19 +115,19 @@ msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Email адреса е записан"
+msgstr "Имейла запазен"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Невалиден Email адрес"
+msgstr "Невалиден имейл"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Невъзможно изтриване на група"
+msgstr "Неуспешно изтриване на група"
 
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr "Невъзможно изтриване на потребител"
+msgstr "Неуспешно изтриване на потребител"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
@@ -148,21 +149,21 @@ msgstr "Невалидна заявка"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Админът не може да премахне себе си от админ групата."
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Неуспешно добавяне на потребител към групата %s."
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Неуспешно премахване на потребител от групата %s."
 
 #: ajax/updateapp.php:41
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Неуспешно обновяване на приложението."
 
 #: changepassword/controller.php:17
 msgid "Wrong password"
@@ -199,7 +200,7 @@ msgstr ""
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
-msgstr "Потребителска документация"
+msgstr "Потребителска Документация"
 
 #: js/apps.js:54
 msgid "Admin Documentation"
@@ -207,7 +208,7 @@ msgstr ""
 
 #: js/apps.js:82
 msgid "Update to {appversion}"
-msgstr "Обновяване до {appversion}"
+msgstr "Обновяване до {appversion}."
 
 #: js/apps.js:90
 msgid "Uninstall App"
@@ -223,7 +224,7 @@ msgstr "Включено"
 
 #: js/apps.js:147
 msgid "Please wait...."
-msgstr "Моля почакайте...."
+msgstr "Моля изчакайте...."
 
 #: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
@@ -239,7 +240,7 @@ msgstr "Обновява се..."
 
 #: js/apps.js:223
 msgid "Error while updating app"
-msgstr ""
+msgstr "Грешка при обновяване на приложението."
 
 #: js/apps.js:223 js/apps.js:236
 msgid "Error"
@@ -271,27 +272,27 @@ msgstr ""
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "Много слаба парола"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "Слаба парола"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "Не особено добра парола"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "Добра парола"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "Сигурна парола"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Разшифроване на файловете... Моля, изчакай, това може да отнеме време..."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
@@ -305,19 +306,19 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "възтановяване"
 
@@ -330,38 +331,38 @@ msgstr "Групи"
 #: js/users/users.js:41 templates/users/part.userlist.php:12
 #: templates/users/part.userlist.php:57
 msgid "Group Admin"
-msgstr ""
+msgstr "Админ Група"
 
 #: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Изтриване"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "никога"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "нова група"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Валидно потребителско име трябва да бъде зададено."
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
-msgstr ""
+msgstr "Грешка при създаване на потребител."
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Валидна парола трябва да бъде зададена."
 
-#: js/users/users.js:608
+#: js/users/users.js:667
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -415,7 +416,7 @@ msgstr ""
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
-msgstr ""
+msgstr "Предупреждение за Сигурноста"
 
 #: templates/admin.php:50
 #, php-format
@@ -431,22 +432,22 @@ msgid ""
 "configure your webserver in a way that the data directory is no longer "
 "accessible or you move the data directory outside the webserver document "
 "root."
-msgstr ""
+msgstr "Твоята директория за данни и файлове вероятно са достъпни от интернет. .htaccess файла не функционира. Силно препоръчваме да настроиш уебсъръра по такъв начин, че директорията за данни да не бъде достъпна или да я преместиш извън директорията корен на сървъра."
 
 #: templates/admin.php:75 templates/admin.php:90
 msgid "Setup Warning"
-msgstr ""
+msgstr "Предупреждение за Настройките"
 
 #: templates/admin.php:78
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Вашият web сървър все още не е удачно настроен да позволява синхронизация на файлове, защото WebDAV интерфейсът изглежда не работи."
+msgstr "Твоят web сървър все още не е правилно настроен да позволява синхронизация на файлове, защото WebDAV интерфейсът изглежда не работи."
 
 #: templates/admin.php:79
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
-msgstr ""
+msgstr "Моля провери отново <a href=\"%s\">наръчника за инсталация</a>."
 
 #: templates/admin.php:93
 msgid ""
@@ -473,13 +474,13 @@ msgstr ""
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Модулът 'fileinfo' липсва"
 
 #: templates/admin.php:122
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP модулът 'fileinfo' липсва. Силно препоръчваме този модъл да бъде добавен, за да бъдат постигнати най-добри резултати при mime-type откриването."
 
 #: templates/admin.php:133
 msgid "Your PHP version is outdated"
@@ -494,7 +495,7 @@ msgstr ""
 
 #: templates/admin.php:147
 msgid "Locale not working"
-msgstr ""
+msgstr "Местоположението не работи"
 
 #: templates/admin.php:152
 msgid "System locale can not be set to a one which supports UTF-8."
@@ -515,7 +516,7 @@ msgstr ""
 
 #: templates/admin.php:172
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Интернет връзката не работи"
 
 #: templates/admin.php:175
 msgid ""
@@ -524,7 +525,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr ""
+msgstr "Сървърът няма работеща интернет връзка. Това означава, че някои функции като прикачването на външни дискови устройства, уведомления за обновяване или инсталиране на външни приложения няма да работят. Достъпът на файлове отвън или изпращане на имейли за уведомление вероятно също няма да работят. Препоръчваме да включиш интернет връзката за този сървър ако искаш да използваш всички тези функции."
 
 #: templates/admin.php:189
 msgid "Cron"
@@ -548,7 +549,7 @@ msgstr ""
 
 #: templates/admin.php:213
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Изпълни по едно задание с всяка заредена страница."
 
 #: templates/admin.php:221
 msgid ""
@@ -566,7 +567,7 @@ msgstr "Споделяне"
 
 #: templates/admin.php:238
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Разреши приложенията да използват Share API."
 
 #: templates/admin.php:243
 msgid "Allow users to share via link"
@@ -578,7 +579,7 @@ msgstr ""
 
 #: templates/admin.php:252
 msgid "Allow public uploads"
-msgstr ""
+msgstr "Разреши общодостъпно качване"
 
 #: templates/admin.php:256
 msgid "Set default expiration date"
@@ -598,7 +599,7 @@ msgstr ""
 
 #: templates/admin.php:271
 msgid "Allow resharing"
-msgstr ""
+msgstr "Разреши пресподеляне."
 
 #: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
@@ -619,23 +620,23 @@ msgstr ""
 
 #: templates/admin.php:303
 msgid "Security"
-msgstr ""
+msgstr "Сигурност"
 
 #: templates/admin.php:314
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Изисквай HTTPS"
 
 #: templates/admin.php:316
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
-msgstr ""
+msgstr "Задължава клиента да се свързва с %s през криптирана връзка."
 
 #: templates/admin.php:322
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr ""
+msgstr "Моля свържи се с твоя %s през HTTPS, за да включиш или изключиш SSL задължаването."
 
 #: templates/admin.php:332
 msgid "Email Server"
@@ -687,11 +688,11 @@ msgstr ""
 
 #: templates/admin.php:414
 msgid "Log"
-msgstr ""
+msgstr "Доклад"
 
 #: templates/admin.php:415
 msgid "Log level"
-msgstr ""
+msgstr "Детайли на доклада"
 
 #: templates/admin.php:447
 msgid "More"
@@ -713,19 +714,19 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Разработен от <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud обществото</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">кодът</a> е лицензиран под <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:14
 msgid "Add your App"
-msgstr "Добавете Ваше приложение"
+msgstr "Дабави свое Приложение"
 
 #: templates/apps.php:31
 msgid "More Apps"
-msgstr "Още приложения"
+msgstr "Още Приложения"
 
 #: templates/apps.php:38
 msgid "Select an App"
-msgstr "Изберете приложение"
+msgstr "Избери Приложение"
 
 #: templates/apps.php:43
 msgid "Documentation:"
@@ -733,7 +734,7 @@ msgstr ""
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Виж страницата на приложението на apps.owncloud.com."
 
 #: templates/apps.php:51
 msgid "See application website"
@@ -741,7 +742,7 @@ msgstr ""
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-лицензиран от<span class=\"author\"></span>"
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
@@ -749,15 +750,15 @@ msgstr ""
 
 #: templates/apps.php:61
 msgid "All"
-msgstr ""
+msgstr "Всички"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
-msgstr "Административна документация"
+msgstr "Административна Документация"
 
 #: templates/help.php:20
 msgid "Online Documentation"
-msgstr "Документация"
+msgstr "Документация в Интернет"
 
 #: templates/help.php:25
 msgid "Forum"
@@ -769,11 +770,11 @@ msgstr "Докладвани грешки"
 
 #: templates/help.php:40
 msgid "Commercial Support"
-msgstr "Платена поддръжка"
+msgstr "Платена Поддръжка"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Разреши приложенията да синхронизират файловете ти."
 
 #: templates/personal.php:21
 msgid ""
@@ -787,12 +788,12 @@ msgstr ""
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"
-msgstr "Покажи настройките за първоначално зареждане отново"
+msgstr "Покажи Настройките за Първоначално Зареждане отново"
 
 #: templates/personal.php:39
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Използвал си <strong>%s</strong> от наличните <strong>%s</strong>."
 
 #: templates/personal.php:50 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
@@ -801,11 +802,11 @@ msgstr "Парола"
 
 #: templates/personal.php:51
 msgid "Your password was changed"
-msgstr ""
+msgstr "Паролата ти е промена."
 
 #: templates/personal.php:52
 msgid "Unable to change your password"
-msgstr "Промяната на паролата не беше извършена"
+msgstr "Неуспешна промяна на паролата."
 
 #: templates/personal.php:54
 msgid "Current password"
@@ -825,11 +826,11 @@ msgstr ""
 
 #: templates/personal.php:88
 msgid "Email"
-msgstr "E-mail"
+msgstr "Имейл"
 
 #: templates/personal.php:90
 msgid "Your email address"
-msgstr "Вашия email адрес"
+msgstr "Твоят имейл адрес"
 
 #: templates/personal.php:93
 msgid ""
@@ -875,7 +876,7 @@ msgstr "Език"
 
 #: templates/personal.php:143
 msgid "Help translate"
-msgstr "Помогнете с превода"
+msgstr "Помогни с превода"
 
 #: templates/personal.php:162
 msgid "The encryption app is no longer enabled, please decrypt all your files"
@@ -906,7 +907,7 @@ msgstr ""
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
-msgstr "Потребител"
+msgstr "Потребителско Име"
 
 #: templates/users/part.createuser.php:20
 msgid "Create"
@@ -914,14 +915,14 @@ msgstr "Създаване"
 
 #: templates/users/part.createuser.php:26
 msgid "Admin Recovery Password"
-msgstr ""
+msgstr "Възстановяване на Администраторска Парола"
 
 #: templates/users/part.createuser.php:27
 #: templates/users/part.createuser.php:28
 msgid ""
 "Enter the recovery password in order to recover the users files during "
 "password change"
-msgstr ""
+msgstr "Въведи паролата за възстановяване, за да възстановиш файловете на потребителите при промяна на паролата."
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
@@ -961,7 +962,7 @@ msgstr "Други"
 
 #: templates/users/part.userlist.php:7
 msgid "Username"
-msgstr "Потребител"
+msgstr "Потребителско Име"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"
@@ -981,7 +982,7 @@ msgstr ""
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"
-msgstr ""
+msgstr "заложи нова парола"
 
 #: templates/users/part.userlist.php:70
 msgid "Default"

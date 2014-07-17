@@ -22,7 +22,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Stocare externă",
 "Folder name" => "Denumire director",
 "Configuration" => "Configurație",
-"Options" => "Opțiuni",
 "Add storage" => "Adauga stocare",
 "All Users" => "Toți utilizatorii",
 "Groups" => "Grupuri",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -284,7 +284,7 @@ msgstr ""
 msgid "External Storage"
 msgstr "Надворешно складиште"
 
-#: templates/settings.php:8 templates/settings.php:28
+#: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
 msgstr "Име на папка"
 
@@ -293,10 +293,6 @@ msgid "Configuration"
 msgstr "Конфигурација"
 
 #: templates/settings.php:11
-msgid "Options"
-msgstr "Опции"
-
-#: templates/settings.php:12
 msgid "Available for"
 msgstr ""
 

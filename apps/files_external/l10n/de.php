@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Externer Speicher",
 "Folder name" => "Ordnername",
 "Configuration" => "Konfiguration",
-"Options" => "Optionen",
 "Available for" => "Verfügbar für",
 "Add storage" => "Speicher hinzufügen",
 "No user or group" => "Kein Nutzer oder Gruppe",

@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Lưu trữ ngoài",
 "Folder name" => "Tên thư mục",
 "Configuration" => "Cấu hình",
-"Options" => "Tùy chọn",
 "Add storage" => "Thêm bộ nhớ",
 "All Users" => "Tất cả người dùng",
 "Groups" => "Nhóm",

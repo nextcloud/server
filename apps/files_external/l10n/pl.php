@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Zewnętrzna zasoby dyskowe",
 "Folder name" => "Nazwa folderu",
 "Configuration" => "Konfiguracja",
-"Options" => "Opcje",
 "Available for" => "Dostępne przez",
 "Add storage" => "Dodaj zasoby dyskowe",
 "No user or group" => "Brak użytkownika lub grupy",

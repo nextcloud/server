@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-29 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 05:54+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Paraguay) (http://www.transifex.com/projects/p/owncloud/language/es_PY/)\n"
 "MIME-Version: 1.0\n"
@@ -231,33 +231,33 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: js/settings.js:320 js/settings.js:327
+#: js/settings.js:325 js/settings.js:332
 msgid "Saved"
 msgstr ""
 
-#: lib/config.php:707
+#: lib/config.php:712
 msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:717
+#: lib/config.php:722
 msgid " and "
 msgstr ""
 
-#: lib/config.php:739
+#: lib/config.php:744
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:741
+#: lib/config.php:746
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:743
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -293,50 +293,46 @@ msgid "Configuration"
 msgstr ""
 
 #: templates/settings.php:11
-msgid "Options"
-msgstr ""
-
-#: templates/settings.php:12
 msgid "Available for"
 msgstr ""
 
-#: templates/settings.php:32
+#: templates/settings.php:33
 msgid "Add storage"
 msgstr ""
 
-#: templates/settings.php:92
+#: templates/settings.php:93
 msgid "No user or group"
 msgstr ""
 
-#: templates/settings.php:95
+#: templates/settings.php:96
 msgid "All Users"
 msgstr ""
 
-#: templates/settings.php:97
+#: templates/settings.php:98
 msgid "Groups"
 msgstr ""
 
-#: templates/settings.php:105
+#: templates/settings.php:106
 msgid "Users"
 msgstr ""
 
-#: templates/settings.php:118 templates/settings.php:119
-#: templates/settings.php:158 templates/settings.php:159
+#: templates/settings.php:119 templates/settings.php:120
+#: templates/settings.php:159 templates/settings.php:160
 msgid "Delete"
 msgstr ""
 
-#: templates/settings.php:132
+#: templates/settings.php:133
 msgid "Enable User External Storage"
 msgstr ""
 
-#: templates/settings.php:135
+#: templates/settings.php:136
 msgid "Allow users to mount the following external storage"
 msgstr ""
 
-#: templates/settings.php:150
+#: templates/settings.php:151
 msgid "SSL root certificates"
 msgstr ""
 
-#: templates/settings.php:168
+#: templates/settings.php:169
 msgid "Import Root Certificate"
 msgstr ""

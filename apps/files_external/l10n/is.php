@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Ytri gagnageymsla",
 "Folder name" => "Nafn möppu",
 "Configuration" => "Uppsetning",
-"Options" => "Stillingar",
 "All Users" => "Allir notendur",
 "Groups" => "Hópar",
 "Users" => "Notendur",

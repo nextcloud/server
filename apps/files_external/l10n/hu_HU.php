@@ -19,7 +19,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Külső tárolási szolgáltatások becsatolása",
 "Folder name" => "Mappanév",
 "Configuration" => "Beállítások",
-"Options" => "Opciók",
 "Add storage" => "Tároló becsatolása",
 "All Users" => "Az összes felhasználó",
 "Groups" => "Csoportok",

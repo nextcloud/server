@@ -56,7 +56,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Externé úložisko",
 "Folder name" => "Názov priečinka",
 "Configuration" => "Nastavenia",
-"Options" => "Možnosti",
 "Available for" => "K dispozícii pre",
 "Add storage" => "Pridať úložisko",
 "No user or group" => "Žiadny používateľ alebo skupina",

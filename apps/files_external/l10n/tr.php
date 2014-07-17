@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Harici Depolama",
 "Folder name" => "Klasör ismi",
 "Configuration" => "Yapılandırma",
-"Options" => "Seçenekler",
 "Available for" => "Kullanabilenler",
 "Add storage" => "Depo ekle",
 "No user or group" => "Kullanıcı veya grup yok",

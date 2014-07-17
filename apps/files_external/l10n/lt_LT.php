@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Išorinės saugyklos",
 "Folder name" => "Katalogo pavadinimas",
 "Configuration" => "Konfigūracija",
-"Options" => "Nustatymai",
 "Add storage" => "Pridėti saugyklą",
 "All Users" => "Visi vartotojai",
 "Groups" => "Grupės",

@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "External Storage" => "אחסון חיצוני",
 "Folder name" => "שם התיקייה",
 "Configuration" => "הגדרות",
-"Options" => "אפשרויות",
 "All Users" => "כל המשתמשים",
 "Groups" => "קבוצות",
 "Users" => "משתמשים",

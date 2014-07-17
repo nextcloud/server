@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Name" => "রাম",
 "External Storage" => "বাহ্যিক সংরক্ষণাগার",
 "Configuration" => "কনফিগারেসন",
-"Options" => "বিকল্পসমূহ",
 "All Users" => "সমস্ত ব্যবহারকারী",
 "Groups" => "গোষ্ঠীসমূহ",
 "Users" => "ব্যবহারকারী",

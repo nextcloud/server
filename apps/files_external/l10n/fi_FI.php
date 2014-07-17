@@ -39,7 +39,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Erillinen tallennusväline",
 "Folder name" => "Kansion nimi",
 "Configuration" => "Asetukset",
-"Options" => "Valinnat",
 "Available for" => "Saatavuus",
 "Add storage" => "Lisää tallennustila",
 "No user or group" => "Ei käyttäjää tai ryhmää",

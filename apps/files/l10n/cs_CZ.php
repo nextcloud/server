@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Chyba při načítání URL",
 "Share" => "Sdílet",
 "Delete" => "Smazat",
+"Disconnect storage" => "Odpojit úložiště",
 "Unshare" => "Zrušit sdílení",
 "Delete permanently" => "Trvale odstranit",
 "Rename" => "Přejmenovat",

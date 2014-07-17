@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 14:52+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgstr ""
 
 #: js/js.js:501
 msgid "Settings"
-msgstr ""
+msgstr "সেটিংস"
 
 #: js/js.js:590
 msgid "File"
@@ -165,7 +165,7 @@ msgstr ""
 
 #: js/js.js:607
 msgid "Saving..."
-msgstr ""
+msgstr "সংরক্ষণ করা হচ্ছে ..."
 
 #: js/js.js:1278
 msgid "seconds ago"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:462
 msgid "Cancel"
-msgstr ""
+msgstr "বাতিল করা"
 
 #: js/oc-dialogs.js:472
 msgid "Continue"
@@ -348,12 +348,12 @@ msgstr ""
 
 #: js/share.js:266
 msgid "Share"
-msgstr ""
+msgstr "শেয়ার"
 
 #: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
 #: templates/installation.php:10
 msgid "Error"
-msgstr ""
+msgstr "ভুল"
 
 #: js/share.js:328 js/share.js:1052
 msgid "Error while sharing"
@@ -490,7 +490,7 @@ msgstr ""
 
 #: js/share.js:1074
 msgid "Warning"
-msgstr ""
+msgstr "সতর্কীকরণ"
 
 #: js/tags.js:8
 msgid "The object type is not specified."
@@ -502,11 +502,11 @@ msgstr ""
 
 #: js/tags.js:33
 msgid "Delete"
-msgstr ""
+msgstr "মুছে ফেলা"
 
 #: js/tags.js:43
 msgid "Add"
-msgstr ""
+msgstr "যোগ করা"
 
 #: js/tags.js:57
 msgid "Edit tags"
@@ -567,7 +567,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:31 templates/login.php:35
 msgid "Username"
-msgstr ""
+msgstr "ইউজারনেম"
 
 #: lostpassword/templates/lostpassword.php:13
 msgid ""
@@ -613,7 +613,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr ""
 
@@ -779,19 +779,19 @@ msgstr ""
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr ""
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr ""
 

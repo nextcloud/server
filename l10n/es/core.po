@@ -6,14 +6,21 @@
 # Artopal <artopal@fastmail.fm>, 2013-2014
 # Carlos Andrés Burgos Urey <business@carlos-burgos.com>, 2014
 # Guillermo G. <ggam@brainleakage.com>, 2013
-# I Robot, 2013
+# Guillermo G. <ggam@brainleakage.com>, 2013
+# Stefano Gerli <stefano@aerosoles.net>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2013
 # joses <jose_mari_s@hotmail.com>, 2014
 # juanman <juanma@kde.org.ar>, 2013-2014
+# juanman <juanma@kde.org.ar>, 2013
 # Marc Sokolovitch <sokolovitch@yahoo.com>, 2013
 # Mario Arranz Florencio <mario.arranz@gmail.com>, 2014
+# Marc Sokolovitch <sokolovitch@yahoo.com>, 2013
+# Pablo Millaquen <pablomillaquen@gmail.com>, 2013
 # Pablo Millaquen <pablomillaquen@gmail.com>, 2013
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2013-2014
 # Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
+# Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
+# Sam Askari <saskarip@gmail.com>, 2013
 # Sam Askari <saskarip@gmail.com>, 2013
 # Sam Askari <saskarip@gmail.com>, 2013
 # xsergiolpx <sergioballesterossolanas@gmail.com>, 2014
@@ -24,9 +31,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 10:41+0000\n"
+"Last-Translator: socket <moncada@socket.es>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -630,7 +637,7 @@ msgstr "Personal"
 msgid "Users"
 msgstr "Usuarios"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Aplicaciones"
 
@@ -796,19 +803,19 @@ msgstr "Completar la instalación"
 msgid "Finishing …"
 msgstr "Finalizando..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Esta aplicación requiere que se habilite JavaScript para su correcta operación.  Por favor <a href=\"http://enable-javascript.com/es\" target=\"_blank\">habilite JavaScript</a> y vuelva a cargar esta interfaz."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Salir"
 

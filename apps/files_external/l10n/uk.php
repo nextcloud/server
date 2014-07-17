@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Зовнішні сховища",
 "Folder name" => "Ім'я теки",
 "Configuration" => "Налаштування",
-"Options" => "Опції",
 "Add storage" => "Додати сховище",
 "All Users" => "Усі користувачі",
 "Groups" => "Групи",

@@ -62,7 +62,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Almacenamientu esternu",
 "Folder name" => "Nome de la carpeta",
 "Configuration" => "Configuración",
-"Options" => "Opciones",
 "Available for" => "Disponible pa",
 "Add storage" => "Amestar almacenamientu",
 "No user or group" => "Nengún usuariu o grupu",

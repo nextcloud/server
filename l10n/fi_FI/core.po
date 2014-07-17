@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 11:15+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -220,14 +220,14 @@ msgstr "vuotta sitten"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Palautussähköpostin lähettäminen ei onnistunut. Ota yhteys ylläpitäjään."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Linkki salasanan palauttamista varten on lähetetty sähköpostitse. Jos et saa sähköpostiviestiä kohtuullisessa ajassa, tarkista roskapostikansiot.<br>Jos et saa sähköpostiviestiä, ota yhteys paikalliseen ylläpitäjään."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -545,18 +545,18 @@ msgstr ""
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Palautussähköpostin lähettäminen ei onnistunut. Varmista, että käyttäjätunnuksesi on oikein."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Palautussähköpostin lähettäminen ei onnistunut, koska tälle käyttäjätunnukselle ei ole määritelty sähköpostiosoitetta. Ota yhteys ylläpitäjään."
 
 #: lostpassword/controller/lostcontroller.php:168
 #, php-format
 msgid "%s password reset"
-msgstr "%s salasanan nollaus"
+msgstr "%s salasanan palautus"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -564,7 +564,7 @@ msgstr "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}"
 
 #: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
-msgstr "Saat sähköpostitse linkin nollataksesi salasanan."
+msgstr "Saat sähköpostitse linkin palauttaaksesi salasanan."
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
@@ -582,11 +582,11 @@ msgstr "Tiedostosi on salattu. Jos et ole ottanut palautusavainta käyttöön, e
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "Yes, I really want to reset my password now"
-msgstr "Kyllä, haluan nollata salasanani nyt"
+msgstr "Kyllä, haluan palauttaa salasanani nyt"
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
-msgstr "Nollaa salasana"
+msgstr "Palauta salasana"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "New password"
@@ -616,7 +616,7 @@ msgstr "Henkilökohtainen"
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Sovellukset"
 
@@ -782,19 +782,19 @@ msgstr "Viimeistele asennus"
 msgid "Finishing …"
 msgstr "Valmistellaan…"
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Tämä sovellus vaatii toimiakseen JavaScriptin käyttöä. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Ota JavaScript käyttöön</a> ja päivitä tämä käyttöliittymä."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 

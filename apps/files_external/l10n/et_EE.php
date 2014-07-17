@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Väline salvestuskoht",
 "Folder name" => "Kausta nimi",
 "Configuration" => "Seadistamine",
-"Options" => "Valikud",
 "Available for" => "Saadaval",
 "Add storage" => "Lisa andmehoidla",
 "No user or group" => "Ühtki kasutajat või gruppi",

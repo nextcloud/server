@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "External Storage" => "භාහිර ගබඩාව",
 "Folder name" => "ෆොල්ඩරයේ නම",
 "Configuration" => "වින්‍යාසය",
-"Options" => "විකල්පයන්",
 "All Users" => "සියළු පරිශීලකයන්",
 "Groups" => "කණ්ඩායම්",
 "Users" => "පරිශීලකයන්",

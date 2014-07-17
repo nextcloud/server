@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ivo, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 22:00+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,133 +20,133 @@ msgstr ""
 
 #: ajax/list.php:38
 msgid "Storage not available"
-msgstr ""
+msgstr "Липсва дисковото устройство."
 
 #: ajax/list.php:45
 msgid "Storage invalid"
-msgstr ""
+msgstr "Невалидно дисково устройство."
 
 #: ajax/list.php:52
 msgid "Unknown error"
-msgstr ""
+msgstr "Непозната грешка."
 
 #: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Неуспешно преместване на %s - Файл със същото име вече съществува."
 
 #: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Неуспешно преместване на %s."
 
 #: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Името на файла не може да бъде оставено празно."
 
 #: ajax/newfile.php:63
 #, php-format
 msgid "\"%s\" is an invalid file name."
-msgstr ""
+msgstr "\"%s\" е непозволено име за файл."
 
 #: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Невалидно име, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не са разрешени."
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:159
 #: lib/app.php:77
 msgid "The target folder has been moved or deleted."
-msgstr ""
+msgstr "Крайната папка е изтрита или преместена."
 
 #: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
 "name."
-msgstr ""
+msgstr "Името %s е вече в папка %s. Моля, избери друго име."
 
 #: ajax/newfile.php:97
 msgid "Not a valid source"
-msgstr ""
+msgstr "Невалиден източник."
 
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
+msgstr "На сървърът не му е разрешно да отваря интернет адреси, моля провери настройките на сървъра."
 
 #: ajax/newfile.php:118
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "Грешка при тегленето на %s от %s."
 
 #: ajax/newfile.php:146
 msgid "Error when creating the file"
-msgstr ""
+msgstr "Грешка при създаването на файлът."
 
 #: ajax/newfolder.php:22
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Името на папката не може да бъде оставено празно."
 
 #: ajax/newfolder.php:66
 msgid "Error when creating the folder"
-msgstr ""
+msgstr "Грешка при създаването на папката."
 
 #: ajax/upload.php:19 ajax/upload.php:57
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Неуспешно задаване на директория за качване."
 
 #: ajax/upload.php:33
 msgid "Invalid Token"
-msgstr ""
+msgstr "Невалиеден токен."
 
 #: ajax/upload.php:77
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Неуспешно качвачване на файл. Непозната грешка."
 
 #: ajax/upload.php:84
 msgid "There is no error, the file uploaded with success"
-msgstr "Файлът е качен успешно"
+msgstr "Файлът е качен успешно."
 
 #: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Файлът, който се опитваше да качиш надвишава зададения upload_max_filesize размер в php.ini:"
 
 #: ajax/upload.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Файлът който се опитвате да качите надвишава стойностите в MAX_FILE_SIZE в HTML формата."
+msgstr "Файлът, който се опитваш да качиш надвишава стойностите в MAX_FILE_SIZE в HTML формата."
 
 #: ajax/upload.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr "Файлът е качен частично"
+msgstr "Файлът е качен частично."
 
 #: ajax/upload.php:89
 msgid "No file was uploaded"
-msgstr "Фахлът не бе качен"
+msgstr "Неуспешно качване."
 
 #: ajax/upload.php:90
 msgid "Missing a temporary folder"
-msgstr "Липсва временна папка"
+msgstr "Липсва временна папка."
 
 #: ajax/upload.php:91
 msgid "Failed to write to disk"
-msgstr "Възникна проблем при запис в диска"
+msgstr "Възникна проблем при запис на диска."
 
 #: ajax/upload.php:111
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Недостатъчно място."
 
 #: ajax/upload.php:173
 msgid "Upload failed. Could not find uploaded file"
-msgstr ""
+msgstr "Неуспешно качване. Не бе открит качения файл."
 
 #: ajax/upload.php:183
 msgid "Upload failed. Could not get file info."
-msgstr ""
+msgstr "Неуспешно качване. Не се получи информация за файла."
 
 #: ajax/upload.php:198
 msgid "Invalid directory."
@@ -157,57 +158,57 @@ msgstr "Файлове"
 
 #: appinfo/app.php:27
 msgid "All files"
-msgstr ""
+msgstr "Всички файлове"
 
 #: js/file-upload.js:268
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Неуспешно качване на {filename}, защото е директория или е с размер от 0 байта."
 
 #: js/file-upload.js:281
 msgid "Total file size {size1} exceeds upload limit {size2}"
-msgstr ""
+msgstr "Общия размер {size1} надминава лимита за качване {size2}."
 
 #: js/file-upload.js:292
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
-msgstr ""
+msgstr "Няма достатъчно свободно място, ти се опитваш да качиш {size1}, но са останали само {size2}."
 
 #: js/file-upload.js:369
 msgid "Upload cancelled."
-msgstr "Качването е спряно."
+msgstr "Качването е прекъснато."
 
 #: js/file-upload.js:415
 msgid "Could not get result from server."
-msgstr ""
+msgstr "Не се получи резултат от сървърът."
 
 #: js/file-upload.js:499
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Извършва се качване на файлове. Затварянето на тази страница ще прекъсне качването."
 
 #: js/file-upload.js:564
 msgid "URL cannot be empty"
-msgstr ""
+msgstr "Интернет адресът не може да бъде оставен празен."
 
 #: js/file-upload.js:568 js/filelist.js:1259
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} вече съществува."
 
 #: js/file-upload.js:623
 msgid "Could not create file"
-msgstr ""
+msgstr "Несупешно създаване на файла."
 
 #: js/file-upload.js:639
 msgid "Could not create folder"
-msgstr ""
+msgstr "Неуспешно създаване на папка."
 
 #: js/file-upload.js:686
 msgid "Error fetching URL"
-msgstr ""
+msgstr "Грешка при отварянето на интернет адреса."
 
 #: js/fileactions.js:285
 msgid "Share"
-msgstr "Споделяне"
+msgstr "Споделена Папка"
 
 #: js/fileactions.js:295 templates/list.php:77 templates/list.php:78
 msgid "Delete"
@@ -215,15 +216,15 @@ msgstr "Изтриване"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
-msgstr ""
+msgstr "Извади дисковото устройство."
 
 #: js/fileactions.js:299
 msgid "Unshare"
-msgstr "Премахни споделяне"
+msgstr "Премахни Споделяне"
 
 #: js/fileactions.js:301
 msgid "Delete permanently"
-msgstr "Изтриване завинаги"
+msgstr "Изтрий завинаги"
 
 #: js/fileactions.js:342
 msgid "Rename"
@@ -233,7 +234,7 @@ msgstr "Преименуване"
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Подготовка за сваляне. Тази операция може да отнеме време особено, когато файловете са големи."
 
 #: js/filelist.js:675 js/filelist.js:1783
 msgid "Pending"
@@ -241,11 +242,11 @@ msgstr "Чакащо"
 
 #: js/filelist.js:1210
 msgid "Error moving file."
-msgstr ""
+msgstr "Грешка при местенето на файла."
 
 #: js/filelist.js:1218
 msgid "Error moving file"
-msgstr ""
+msgstr "Грешка при преместването на файла."
 
 #: js/filelist.js:1218
 msgid "Error"
@@ -253,11 +254,11 @@ msgstr "Грешка"
 
 #: js/filelist.js:1307
 msgid "Could not rename file"
-msgstr ""
+msgstr "Неуспешно преименуване на файла."
 
 #: js/filelist.js:1425
 msgid "Error deleting file."
-msgstr ""
+msgstr "Грешка при изтриването на файла."
 
 #: js/filelist.js:1528 templates/list.php:61
 msgid "Name"
@@ -269,82 +270,82 @@ msgstr "Размер"
 
 #: js/filelist.js:1530 templates/list.php:75
 msgid "Modified"
-msgstr "Променено"
+msgstr "Променен на"
 
 #: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n папка"
+msgstr[1] "%n папки"
 
 #: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n файл"
+msgstr[1] "%n файла"
 
 #: js/filelist.js:1676 js/filelist.js:1715
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Качване на %n файл"
+msgstr[1] "Качване на %n файла."
 
 #: js/files.js:101
 msgid "\"{name}\" is an invalid file name."
-msgstr ""
+msgstr "\"{name}\" е непозволено име за файл."
 
 #: js/files.js:122
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Заделеното място е запълнено, повече файлове не могат да бъдат синхронизирани или опреснени!"
 
 #: js/files.js:126
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Заделеното място е почити запълнено ({usedSpacePercent}%)."
 
 #: js/files.js:140
 msgid ""
 "Encryption App is enabled but your keys are not initialized, please log-out "
 "and log-in again"
-msgstr ""
+msgstr "Програмата за криптиране е включена, но твоите ключове не са зададени, моля отпиши си и се впиши отново."
 
 #: js/files.js:144
 msgid ""
 "Invalid private key for Encryption App. Please update your private key "
 "password in your personal settings to recover access to your encrypted "
 "files."
-msgstr ""
+msgstr "Невалиден личен ключ за Криптиращата Програма. Моля, обнови личния си ключ в Лични настройки, за да възстановиш достъпа до криптираните си файловете."
 
 #: js/files.js:148
 msgid ""
 "Encryption was disabled but your files are still encrypted. Please go to "
 "your personal settings to decrypt your files."
-msgstr ""
+msgstr "Криптирането е изключено, но файлове ти са все още защитени. Моля, отиди на лични найстройки, за да разшфроваш файловете."
 
 #: js/filesummary.js:182
 msgid "{dirs} and {files}"
-msgstr ""
+msgstr "{dirs} и {files}"
 
 #: lib/app.php:103
 #, php-format
 msgid "%s could not be renamed"
-msgstr ""
+msgstr "%s не може да бъде преименуван."
 
 #: lib/helper.php:23 templates/list.php:25
 #, php-format
 msgid "Upload (max. %s)"
-msgstr ""
+msgstr "Качване (макс. %s)"
 
 #: templates/admin.php:6
 msgid "File handling"
-msgstr ""
+msgstr "Операция с файла"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Максимален размер за качване"
+msgstr "Максимален размер"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "максимално:"
 
 #: templates/admin.php:15
 msgid "Save"
@@ -359,15 +360,15 @@ msgstr "WebDAV"
 msgid ""
 "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via "
 "WebDAV</a>"
-msgstr ""
+msgstr "Използвай този адрес, за да получиш <a href=\"%s\" target=\"_blank\">достъп до своите файлове чрез WebDAV</a>."
 
 #: templates/list.php:5
 msgid "New"
-msgstr "Ново"
+msgstr "Създаване"
 
 #: templates/list.php:8
 msgid "New text file"
-msgstr ""
+msgstr "Нов текстов файл"
 
 #: templates/list.php:9
 msgid "Text file"
@@ -383,15 +384,15 @@ msgstr "Папка"
 
 #: templates/list.php:16
 msgid "From link"
-msgstr ""
+msgstr "От връзка"
 
 #: templates/list.php:47
 msgid "You don’t have permission to upload or create files here"
-msgstr ""
+msgstr "Нямаш разрешение да създаваш или качваш файлове тук."
 
 #: templates/list.php:52
 msgid "Nothing in here. Upload something!"
-msgstr "Няма нищо тук. Качете нещо."
+msgstr "Тук няма нищо. Качете нещо!"
 
 #: templates/list.php:66
 msgid "Download"
@@ -399,18 +400,18 @@ msgstr "Изтегляне"
 
 #: templates/list.php:91
 msgid "Upload too large"
-msgstr "Файлът който сте избрали за качване е прекалено голям"
+msgstr "Прекалено голям файл за качване."
 
 #: templates/list.php:93
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Файловете които се опитвате да качите са по-големи от позволеното за сървъра."
+msgstr "Файловете, които се опитваш да качиш са по-големи от позволеното на този сървър."
 
 #: templates/list.php:98
 msgid "Files are being scanned, please wait."
-msgstr "Файловете се претърсват, изчакайте."
+msgstr "Файловете се сканирват, изчакайте."
 
 #: templates/list.php:101
 msgid "Currently scanning"
-msgstr ""
+msgstr "В момента се сканирва."

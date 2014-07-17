@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-09 05:54+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-16 14:52+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -243,7 +243,7 @@ msgstr ""
 
 #: js/apps.js:223 js/apps.js:236
 msgid "Error"
-msgstr ""
+msgstr "ভুল"
 
 #: js/apps.js:224 templates/apps.php:55
 msgid "Update"
@@ -305,19 +305,19 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr ""
 
@@ -335,33 +335,33 @@ msgstr ""
 #: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
-msgstr ""
+msgstr "মুছে ফেলা"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr ""
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr ""
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr ""
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr ""
 
-#: js/users/users.js:608
+#: js/users/users.js:667
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -863,7 +863,7 @@ msgstr ""
 
 #: templates/personal.php:116
 msgid "Cancel"
-msgstr ""
+msgstr "বাতিল করা"
 
 #: templates/personal.php:117
 msgid "Choose as profile image"
@@ -961,7 +961,7 @@ msgstr ""
 
 #: templates/users/part.userlist.php:7
 msgid "Username"
-msgstr ""
+msgstr "ইউজারনেম"
 
 #: templates/users/part.userlist.php:14
 msgid "Quota"

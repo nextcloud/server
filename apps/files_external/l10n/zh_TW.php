@@ -35,7 +35,6 @@ $TRANSLATIONS = array(
 "External Storage" => "外部儲存",
 "Folder name" => "資料夾名稱",
 "Configuration" => "設定",
-"Options" => "選項",
 "Available for" => "可用的",
 "Add storage" => "增加儲存區",
 "No user or group" => "沒有使用者或群組",

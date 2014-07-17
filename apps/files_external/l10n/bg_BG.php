@@ -12,7 +12,6 @@ $TRANSLATIONS = array(
 "External Storage" => "Външно хранилище",
 "Folder name" => "Име на папката",
 "Configuration" => "Конфигурация",
-"Options" => "Опции",
 "All Users" => "Всички потребители",
 "Groups" => "Групи",
 "Users" => "Потребители",

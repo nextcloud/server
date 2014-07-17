@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-07-17 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -286,7 +286,7 @@ msgstr ""
 msgid "External Storage"
 msgstr "外部儲存"
 
-#: templates/settings.php:8 templates/settings.php:28
+#: templates/settings.php:8 templates/settings.php:27
 msgid "Folder name"
 msgstr "資料夾名稱"
 
@@ -295,10 +295,6 @@ msgid "Configuration"
 msgstr "設定"
 
 #: templates/settings.php:11
-msgid "Options"
-msgstr "選項"
-
-#: templates/settings.php:12
 msgid "Available for"
 msgstr "可用的"
 
