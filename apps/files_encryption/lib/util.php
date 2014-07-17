@@ -1141,6 +1141,10 @@ class Util {
 		// Re-enc keyfile to (additional) sharekeys
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
 
+		if ($multiEncKey === false) {
+			return false;
+		}
+
 		// Save the recrypted key to it's owner's keyfiles directory
 		// Save new sharekeys to all necessary user directory
 		if (
