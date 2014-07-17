@@ -22,7 +22,7 @@
  */
 
 
-namespace OCP\AppFramework\Db;
+namespace Test\AppFramework\Db;
 
 
 /**
