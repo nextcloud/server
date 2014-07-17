@@ -162,7 +162,6 @@
 					else {
 						file.type = 'file';
 						if (share.isPreviewAvailable) {
-							file.icon = true;
 							file.isPreviewAvailable = true;
 						}
 					}
