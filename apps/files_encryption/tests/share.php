@@ -64,7 +64,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
 
 		// clear share hooks
-		\OC_Hook::clear('OCP\\Share');
+		\OC_Hook::clear();
 		\OC::registerShareHooks();
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
