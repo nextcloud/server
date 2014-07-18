@@ -37,7 +37,7 @@ class OC_OCSClient{
 	 */
 	private static function getAppStoreURL() {
 		if(OC_Util::getEditionString()===''){
-			$default='http://api.apps.owncloud.com/v1';
+			$default='https://api.owncloud.com/v1';
 		}else{
 			$default='';
 		}
