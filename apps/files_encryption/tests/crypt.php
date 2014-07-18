@@ -46,13 +46,12 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
 
-		// Filesystem related hooks
+		// clear hooks and register encryption hooks
+		\OC_Hook::clear();
 		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// Filesystem related hooks
 		\OCA\Encryption\Helper::registerUserHooks();
 
-		// clear and register hooks
+		// clear and register proxies
 		\OC_FileProxy::clearProxies();
 		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
@@ -95,6 +94,8 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		} else {
 			OC_App::disable('files_trashbin');
 		}
+
+		$this->assertTrue(\OC_FileProxy::$enabled);
 	}
 
 	public static function tearDownAfterClass() {
