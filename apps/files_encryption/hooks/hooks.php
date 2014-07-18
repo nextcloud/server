@@ -405,10 +405,14 @@ class Hooks {
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
 
+		$type = $view->is_dir('/' . $user . '/files/' . $params['oldpath']) ? 'folder' : 'file';
+
 		if ($mp1 === $mp2) {
 			self::$renamedFiles[$params['oldpath']] = array(
 				'uid' => $ownerOld,
-				'path' => $pathOld);
+				'path' => $pathOld,
+				'type' => $type,
+				);
 		}
 	}
 
@@ -437,6 +441,7 @@ class Hooks {
 				isset(self::$renamedFiles[$params['oldpath']]['path'])) {
 			$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
 			$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
+			$type =  self::$renamedFiles[$params['oldpath']]['type'];
 			unset(self::$renamedFiles[$params['oldpath']]);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::DEBUG);
@@ -471,8 +476,7 @@ class Hooks {
 		}
 
 		// handle share keys
-		if (!$view->is_dir($oldKeyfilePath)) {
-			$type = 'file';
+		if ($type === 'file') {
 			$oldKeyfilePath .= '.key';
 			$newKeyfilePath .= '.key';
 
@@ -484,7 +488,6 @@ class Hooks {
 			}
 
 		} else {
-			$type = "folder";
 			// handle share-keys folders
 			$view->rename($oldShareKeyPath, $newShareKeyPath);
 		}
