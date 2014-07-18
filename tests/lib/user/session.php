@@ -10,6 +10,17 @@
 namespace Test\User;
 
 class Session extends \PHPUnit_Framework_TestCase {
+
+	private $session;
+
+	public function setUp () {
+		$this->session = \OC::$session;
+	}
+
+	public function tearDown() {
+		\OC::$session = $this->session;
+	}
+
 	public function testGetUser() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->once())
@@ -26,6 +37,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$manager = new \OC\User\Manager();
 		$manager->registerBackend($backend);
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$user = $userSession->getUser();
 		$this->assertEquals('foo', $user->getUID());
@@ -46,6 +59,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 			->method('getUID')
 			->will($this->returnValue('foo'));
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->setUser($user);
 	}
@@ -96,6 +111,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');
 		$this->assertEquals($user, $userSession->getUser());
@@ -132,6 +149,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue($user));
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');
 	}
@@ -166,6 +185,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');
 	}
@@ -184,6 +205,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 			->with('foo', 'bar')
 			->will($this->returnValue(false));
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$userSession->login('foo', 'bar');
 	}
@@ -233,6 +256,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$token = 'goodToken';
 		\OC_Preferences::setValue('foo', 'login_token', $token, time());
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = $this->getMock(
 			'\OC\User\Session',
 			//override, otherwise tests will fail because of setcookie()
@@ -281,6 +306,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$token = 'goodToken';
 		\OC_Preferences::setValue('foo', 'login_token', $token, time());
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$granted = $userSession->loginWithCookie('foo', 'badToken');
 
@@ -322,6 +349,8 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$token = 'goodToken';
 		\OC_Preferences::setValue('foo', 'login_token', $token, time());
 
+		//also set the \OC::$session or the \OC\User\Session will use it
+		\OC::$session = $session;
 		$userSession = new \OC\User\Session($manager, $session);
 		$granted = $userSession->loginWithCookie('foo', $token);
 
