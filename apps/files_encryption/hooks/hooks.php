@@ -330,7 +330,6 @@ class Hooks {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 
 			$view = new \OC_FilesystemView('/');
-			$session = new \OCA\Encryption\Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
 			$path = $util->fileIdToPath($params['itemSource']);
@@ -387,25 +386,41 @@ class Hooks {
 				}
 			}
 
-			$sharingEnabled = \OCP\Share::isEnabled();
-
 			// get the path including mount point only if not a shared folder
 			if (strncmp($path, '/Shared', strlen('/Shared') !== 0)) {
 				// get path including the the storage mount point
 				$path = $util->getPathWithMountPoint($params['itemSource']);
 			}
 
-			// if a folder was shared, get a list of all (sub-)folders
-			if ($params['itemType'] === 'folder') {
-				$allFiles = $util->getAllFiles($path);
-			} else {
-				$allFiles = array($path);
-			}
+			self::updateKeyfiles($path, $params['itemType']);
+		}
+	}
 
-			foreach ($allFiles as $path) {
-				$usersSharing = $util->getSharingUsersArray($sharingEnabled, $path);
-				$util->setSharedFileKeyfiles($session, $usersSharing, $path);
-			}
+	/**
+	 * update keyfiles and share keys recursively
+	 *
+	 * @param string $path to the file/folder
+	 * @param string $type 'file' or 'folder'
+	 */
+	private static function updateKeyfiles($path, $type) {
+
+		$view = new \OC_FilesystemView('/');
+		$session = new \OCA\Encryption\Session($view);
+		$userId = \OCP\User::getUser();
+		$util = new Util($view, $userId);
+
+		$sharingEnabled = \OCP\Share::isEnabled();
+
+		// if a folder was shared, get a list of all (sub-)folders
+		if ($type === 'folder') {
+			$allFiles = $util->getAllFiles($path);
+		} else {
+			$allFiles = array($path);
+		}
+
+		foreach ($allFiles as $path) {
+			$usersSharing = $util->getSharingUsersArray($sharingEnabled, $path);
+			$util->setSharedFileKeyfiles($session, $usersSharing, $path);
 		}
 	}
 
@@ -512,10 +527,12 @@ class Hooks {
 		// otherwise we perform a stream copy, so we get a new set of keys
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+		$type = $view->is_dir('/' . $user . '/files/' . $params['oldpath']) ? 'folder' : 'file';
 		if ($mp1 === $mp2) {
 			self::$renamedFiles[$params['oldpath']] = array(
 				'uid' => $ownerOld,
-				'path' => $pathOld);
+				'path' => $pathOld,
+				'type' => $type);
 		}
 	}
 
@@ -537,7 +554,6 @@ class Hooks {
 		\OC_FileProxy::$enabled = false;
 
 		$view = new \OC_FilesystemView('/');
-		$session = new \OCA\Encryption\Session($view);
 		$userId = \OCP\User::getUser();
 		$util = new Util($view, $userId);
 
@@ -545,6 +561,8 @@ class Hooks {
 				isset(self::$renamedFiles[$params['oldpath']]['path'])) {
 			$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
 			$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
+			$type = self::$renamedFiles[$params['oldpath']]['type'];
+			unset(self::$renamedFiles[$params['oldpath']]);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::ERROR);
 			return false;
@@ -570,7 +588,7 @@ class Hooks {
 		}
 
 		// add key ext if this is not an folder
-		if (!$view->is_dir($oldKeyfilePath)) {
+		if ($type === 'file') {
 			$oldKeyfilePath .= '.key';
 			$newKeyfilePath .= '.key';
 
@@ -614,16 +632,10 @@ class Hooks {
 		// build the path to the file
 		$newPath = '/' . $ownerNew . '/files' . $pathNew;
 
-		if ($util->fixFileSize($newPath)) {
-			// get sharing app state
-			$sharingEnabled = \OCP\Share::isEnabled();
+		$util->fixFileSize($newPath);
 
-			// get users
-			$usersSharing = $util->getSharingUsersArray($sharingEnabled, $pathNew);
-
-			// update sharing-keys
-			$util->setSharedFileKeyfiles($session, $usersSharing, $pathNew);
-		}
+		// update sharing-keys
+		self::updateKeyfiles($params['newpath'], $type);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 	}
