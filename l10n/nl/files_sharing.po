@@ -147,7 +147,7 @@ msgstr "Externe shares"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr "Toestaan dat andere oanClouds openbaar gedeelde links mounten vanaf deze server"
+msgstr "Toestaan dat andere ownClouds openbaar gedeelde links mounten vanaf deze server"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
