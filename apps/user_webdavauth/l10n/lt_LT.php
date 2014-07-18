@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "WebDAV Authentication" => "WebDAV autentikacija",
+"Address:" => "Adresas:",
 "Save" => "Išsaugoti",
 "The user credentials will be sent to this address. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." => "Naudotojo duomenys bus nusiųsti šiuo adresu. Šis įskiepis patikrins gautą atsakymą ir interpretuos HTTP būsenos kodą 401 ir 403 kaip negaliojančius duomenis, ir visus kitus gautus atsakymus kaip galiojančius duomenis. "
 );

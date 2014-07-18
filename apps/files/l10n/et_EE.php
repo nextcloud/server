@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Viga URL-i haaramisel",
 "Share" => "Jaga",
 "Delete" => "Kustuta",
+"Disconnect storage" => "Ühenda andmehoidla lahti.",
 "Unshare" => "Lõpeta jagamine",
 "Delete permanently" => "Kustuta jäädavalt",
 "Rename" => "Nimeta ümber",

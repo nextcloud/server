@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-17 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 23:50+0000\n"
+"POT-Creation-Date: 2014-07-18 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 23:31+0000\n"
 "Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -21,36 +21,36 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "Зададена е невалидна стойност за %s."
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Запис"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "провери имейл настройките"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Ако си получил този имейл, настройките са правилни."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Настъпи проблем при изпращането на имейла. Моля, провери настройките."
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr "Пощата е изпратена"
+msgstr "Имейлът е изпратен"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Трябва да зададеш своя имейл преди да можеш да изпратиш проверяващи имейли."
 
 #: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
-msgstr ""
+msgstr "Режим на изпращане"
 
 #: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
@@ -58,7 +58,7 @@ msgstr "Криптиране"
 
 #: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
-msgstr ""
+msgstr "Метод за отризиране"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -71,11 +71,11 @@ msgstr "Възникна проблем с идентификацията"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "Пълното ти име е променено."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "Неуспешна промяна на пълното име."
 
 #: ajax/creategroup.php:11
 msgid "Group already exists"
@@ -87,31 +87,31 @@ msgstr "Неуспешно добавяне на група"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "Успешно разшифроването на файловете."
 
 #: ajax/decryptall.php:33
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Неуспешно разшифроване на файловете ти, моля провери owncloud.log или попитай администратора."
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Неуспешно разшифроване на файловете ти, провери паролата си и опитай отново."
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Ключовете за криптиране са безвъзвратно изтрити"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Неуспешно безвъзвратно изтриване на криптиращите ключове, моля провери своя owncloud.log или се свържи с админстратора."
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Неуспешно премахване на приложението."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -131,13 +131,13 @@ msgstr "Неуспешно изтриване на потребител"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Резервното копие е успешно възстановено."
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Неуспешно възстановяване на криптиращите ти ключове, моля провери owncloud.log или попитай администратора."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -167,36 +167,36 @@ msgstr "Неуспешно обновяване на приложението."
 
 #: changepassword/controller.php:17
 msgid "Wrong password"
-msgstr ""
+msgstr "Грешна парола"
 
 #: changepassword/controller.php:36
 msgid "No user supplied"
-msgstr ""
+msgstr "Липсва потребителско име"
 
 #: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Моля, посочете администраторската парола за възстановяване или всичката информация на потребителите ще бъде загубена."
 
 #: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "Грешна администраторска парола за възстановяване. Моля, провери паролата и опитай отново."
 
 #: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "Сървърът не позволява смяна на паролата, но ключът за криптиране беше успешно обновен."
 
 #: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
-msgstr ""
+msgstr "Неуспешна смяна на паролата."
 
 #: js/admin.js:128
 msgid "Sending..."
-msgstr ""
+msgstr "Изпращане..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
@@ -204,7 +204,7 @@ msgstr "Потребителска Документация"
 
 #: js/apps.js:54
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Админ Документация"
 
 #: js/apps.js:82
 msgid "Update to {appversion}"
@@ -212,7 +212,7 @@ msgstr "Обновяване до {appversion}."
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Премахни Приложението"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -228,11 +228,11 @@ msgstr "Моля изчакайте...."
 
 #: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Грешка при изключването на приложението"
 
 #: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Грешка при включване на приложението"
 
 #: js/apps.js:220
 msgid "Updating...."
@@ -256,19 +256,19 @@ msgstr "Обновено"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Премахване ..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Грешка при премахването на приложението."
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Премахване"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Избери аватар"
 
 #: js/personal.js:287
 msgid "Very weak password"
@@ -296,27 +296,27 @@ msgstr "Разшифроване на файловете... Моля, изчак
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Изтрий криптиращите ключове безвъзвратно."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Възстанови криптиращите ключове."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Неуспешно изтриване на {objName}."
 
 #: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
-msgstr ""
+msgstr "Грешка при създаване на група."
 
 #: js/users/groups.js:199
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Очаква се валидно име на група"
 
 #: js/users/groups.js:227
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "{groupName} изтрит"
 
 #: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
@@ -344,7 +344,7 @@ msgstr "никога"
 
 #: js/users/users.js:295
 msgid "deleted {userName}"
-msgstr ""
+msgstr "{userName} изтрит"
 
 #: js/users/users.js:431
 msgid "add group"
@@ -364,7 +364,7 @@ msgstr "Валидна парола трябва да бъде зададена.
 
 #: js/users/users.js:667
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Предупреждение: Личната директория на потребителя \"{user}\" вече съществува."
 
 #: personal.php:50 personal.php:51
 msgid "__language_name__"
@@ -372,23 +372,23 @@ msgstr "__language_name__"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Всичко (фатални проблеми, грешки, предупреждения, информация, дебъгване)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Информация, предупреждения, грешки и фатални проблеми"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Предупреждения, грешки и фатални проблеми"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Грешки и фатални проблеми"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Само фатални проблеми"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
@@ -400,19 +400,19 @@ msgstr "Вход"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "Не защитен"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -423,7 +423,7 @@ msgstr "Предупреждение за Сигурноста"
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
-msgstr ""
+msgstr "В момента използваш HTTP, за да посетиш %s. Силно препоръчваме да настроиш съвръра си да използва HTTPS."
 
 #: templates/admin.php:64
 msgid ""
@@ -453,24 +453,24 @@ msgstr "Моля провери отново <a href=\"%s\">наръчника �
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP е настроен да премахва inline doc блокове. Това може да превърне няколко основни приложения недостъпни."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Това може да се дължи на cache/accelerator като Zend OPache или eAccelerator."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Информацията за Прозиводителност на Базата Данни"
 
 #: templates/admin.php:108
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "Настоящата база данни е SQLite. За по-големи инсталации препоръчваме да я смениш. За да преминеш към друга база данни използвай следната команда от командния ред: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -484,14 +484,14 @@ msgstr "PHP модулът 'fileinfo' липсва. Силно препоръч�
 
 #: templates/admin.php:133
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "PHP версията е остаряла."
 
 #: templates/admin.php:136
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
-msgstr ""
+msgstr "PHP версията е остаряла. Силно препоръчваме да я обновиш на 5.3.8 или по-нова, защото по-старите версии създават проблеми. Възможно е тази инсталация да не работи правилно."
 
 #: templates/admin.php:147
 msgid "Locale not working"
@@ -499,20 +499,20 @@ msgstr "Местоположението не работи"
 
 #: templates/admin.php:152
 msgid "System locale can not be set to a one which supports UTF-8."
-msgstr ""
+msgstr "Системните настройки за местоположение не могат да бъдат промени на такива, подържащи UTF-8."
 
 #: templates/admin.php:156
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
-msgstr ""
+msgstr "Това означва, че може да има проблеми с определини символи в имената на файловете."
 
 #: templates/admin.php:160
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
-msgstr ""
+msgstr "Силно препоръчваме да инсталираш на сървъра пакетите,  които подържат следните местоположения: %s."
 
 #: templates/admin.php:172
 msgid "Internet connection not working"
@@ -534,18 +534,18 @@ msgstr "Крон"
 #: templates/admin.php:196
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Последният cron се изпълни в %s."
 
 #: templates/admin.php:199
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Последният cron се изпълни в %s. Това е преди повече от час, нещо не както трябва."
 
 #: templates/admin.php:203
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "Cron oще не е изпълнен!"
 
 #: templates/admin.php:213
 msgid "Execute one task with each page loaded"
@@ -555,11 +555,11 @@ msgstr "Изпълни по едно задание с всяка зареден
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
-msgstr ""
+msgstr "cron.php е регистриран към webcron да се свързва с cron.php всеки 15 минути по http."
 
 #: templates/admin.php:229
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Изполвай системната cron service, за връзка с cron.php файла всеки 15 минути."
 
 #: templates/admin.php:234
 msgid "Sharing"
@@ -571,11 +571,11 @@ msgstr "Разреши приложенията да използват Share AP
 
 #: templates/admin.php:243
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Разреши потребителите да споделят с връзка"
 
 #: templates/admin.php:249
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Изискай защита с парола."
 
 #: templates/admin.php:252
 msgid "Allow public uploads"
@@ -583,19 +583,19 @@ msgstr "Разреши общодостъпно качване"
 
 #: templates/admin.php:256
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Заложи дата на изтичане по подразбиране"
 
 #: templates/admin.php:260
 msgid "Expire after "
-msgstr ""
+msgstr "Изтечи след"
 
 #: templates/admin.php:263
 msgid "days"
-msgstr ""
+msgstr "дена"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "Изисквай дата на изтичане"
 
 #: templates/admin.php:271
 msgid "Allow resharing"
@@ -603,20 +603,20 @@ msgstr "Разреши пресподеляне."
 
 #: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Ограничи потребителите, така че да могат да споделят само с други потребители в своите групи."
 
 #: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "Разреши потребителите да изпращат имейл уведомления за споделени файлове."
 
 #: templates/admin.php:286
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Забрани групи да споделят"
 
 #: templates/admin.php:298
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят."
 
 #: templates/admin.php:303
 msgid "Security"
@@ -640,23 +640,23 @@ msgstr "Моля свържи се с твоя %s през HTTPS, за да вк
 
 #: templates/admin.php:332
 msgid "Email Server"
-msgstr ""
+msgstr "Имейл Сървър"
 
 #: templates/admin.php:334
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Това се използва за изпращане на уведомления."
 
 #: templates/admin.php:365
 msgid "From address"
-msgstr ""
+msgstr "От адрес"
 
 #: templates/admin.php:366
 msgid "mail"
-msgstr ""
+msgstr "поща"
 
 #: templates/admin.php:387
 msgid "Authentication required"
-msgstr ""
+msgstr "Нужна е идентификация"
 
 #: templates/admin.php:391
 msgid "Server address"
@@ -664,27 +664,27 @@ msgstr "Адрес на сървъра"
 
 #: templates/admin.php:395
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: templates/admin.php:400
 msgid "Credentials"
-msgstr ""
+msgstr "Потр. име и парола"
 
 #: templates/admin.php:401
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP Потребителско Име"
 
 #: templates/admin.php:404
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP Парола"
 
 #: templates/admin.php:408
 msgid "Test email settings"
-msgstr ""
+msgstr "Настройки на проверяващия имейл"
 
 #: templates/admin.php:409
 msgid "Send email"
-msgstr ""
+msgstr "Изпрати имейл"
 
 #: templates/admin.php:414
 msgid "Log"
@@ -730,7 +730,7 @@ msgstr "Избери Приложение"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Документация:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -738,7 +738,7 @@ msgstr "Виж страницата на приложението на apps.ownc
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Виж страницата на приложението"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -746,7 +746,7 @@ msgstr "<span class=\"licence\"></span>-лицензиран от<span class=\"a
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Включи само за определени групи"
 
 #: templates/apps.php:61
 msgid "All"
@@ -784,7 +784,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "Ако искаш да подпомогнеш проекта:\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">присъедини се и пиши код</a>\n\t\tили\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">разпространи мълвата</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"
@@ -822,7 +822,7 @@ msgstr "Промяна на паролата"
 
 #: templates/personal.php:73 templates/users/part.userlist.php:8
 msgid "Full Name"
-msgstr ""
+msgstr "Пълно Име"
 
 #: templates/personal.php:88
 msgid "Email"
@@ -836,31 +836,31 @@ msgstr "Твоят имейл адрес"
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Въведи имейл, за да включиш функцията за възстановяване на паролата и уведомления."
 
 #: templates/personal.php:101
 msgid "Profile picture"
-msgstr ""
+msgstr "Аватар"
 
 #: templates/personal.php:106
 msgid "Upload new"
-msgstr ""
+msgstr "Качи нов"
 
 #: templates/personal.php:108
 msgid "Select new from Files"
-msgstr ""
+msgstr "Избери нов от Файловете"
 
 #: templates/personal.php:109
 msgid "Remove image"
-msgstr ""
+msgstr "Премахни изображението"
 
 #: templates/personal.php:110
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr ""
+msgstr "Png или jpg. Най-добре в квадратни размери, но ще имаш възможност да го изрежеш."
 
 #: templates/personal.php:112
 msgid "Your avatar is provided by your original account."
-msgstr ""
+msgstr "Твоят аватар е взет от оригиналния ти профил."
 
 #: templates/personal.php:116
 msgid "Cancel"
@@ -868,7 +868,7 @@ msgstr "Отказ"
 
 #: templates/personal.php:117
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Избери като аватар"
 
 #: templates/personal.php:123 templates/personal.php:124
 msgid "Language"
@@ -880,30 +880,30 @@ msgstr "Помогни с превода"
 
 #: templates/personal.php:162
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr ""
+msgstr "Приложението за криптиране вече не е включено, моля разшифрирай всичките си файлове."
 
 #: templates/personal.php:168
 msgid "Log-in password"
-msgstr ""
+msgstr "Парола за вписване"
 
 #: templates/personal.php:173
 msgid "Decrypt all Files"
-msgstr ""
+msgstr "Разшифровай всички Файлове"
 
 #: templates/personal.php:186
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "Криптиращите ти ключове са преместени на резервно място. Ако нещо се случи ще можеш да възстановиш ключовете. Изтрий ги единствено ако си сигурен, че всички файлове са успешно разшифровани."
 
 #: templates/personal.php:190
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Възстанови Криптиращи Ключове"
 
 #: templates/personal.php:194
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Изтрий Криптиращи Ключове"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -926,23 +926,23 @@ msgstr "Въведи паролата за възстановяване, за д
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Търси Потребители и Групи"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Добави Група"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Група"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Всички"
 
 #: templates/users/part.grouplist.php:31
 msgid "Admins"
-msgstr ""
+msgstr "Администратори"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -950,7 +950,7 @@ msgstr "Квота по подразбиране"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "Моля, въведи квота за заделено място (пр. \"512 MB\" или \"12 GB\")"
 
 #: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
 msgid "Unlimited"
@@ -970,15 +970,15 @@ msgstr "Квота"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "Място за Запис"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Последно Вписване"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"
-msgstr ""
+msgstr "промени пълното име"
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"

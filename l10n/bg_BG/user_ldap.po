@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-17 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 22:50+0000\n"
+"POT-Creation-Date: 2014-07-18 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 23:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr ""
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
-msgstr ""
+msgstr "Сървър"
 
 #: templates/part.wizard-server.php:31
 msgid ""
@@ -280,7 +280,7 @@ msgstr ""
 
 #: templates/part.wizard-server.php:36
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: templates/part.wizard-server.php:44
 msgid "User DN"

@@ -1,12 +1,14 @@
 <?php
 $TRANSLATIONS = array(
-"Couldn't delete %s permanently" => "Невъзможно перманентното изтриване на %s",
-"Couldn't restore %s" => "Невъзможно възтановяване на %s",
-"Restore" => "Възтановяване",
+"Couldn't delete %s permanently" => "Неуспешно безвъзвратно изтриване на %s.",
+"Couldn't restore %s" => "Неуспешно възтановяване на %s.",
+"Deleted files" => "Изтрити файлове",
+"Restore" => "Възстановяви",
 "Error" => "Грешка",
-"Nothing in here. Your trash bin is empty!" => "Няма нищо. Кофата е празна!",
+"restored" => "възстановено",
+"Nothing in here. Your trash bin is empty!" => "Няма нищо. Кошчето е празно!",
 "Name" => "Име",
 "Deleted" => "Изтрито",
-"Delete" => "Изтриване"
+"Delete" => "Изтрий"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

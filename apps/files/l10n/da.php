@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Fejl ved URL",
 "Share" => "Del",
 "Delete" => "Slet",
+"Disconnect storage" => "Frakobl lager",
 "Unshare" => "Fjern deling",
 "Delete permanently" => "Slet permanent",
 "Rename" => "Omdøb",

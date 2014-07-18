@@ -6,6 +6,7 @@
 # Anders J. Sørensen, 2013-2014
 # Aputsiaĸ Niels Janussen <aj@isit.gl>, 2014
 # Claus Christensen <claus_chr@webspeed.dk>, 2013
+# Johannes Hessellund <osos@openeyes.dk>, 2014
 # Leif Lodahl <leiflodahl@gmail.com>, 2013
 # Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>, 2014
 # Ole Holm Frandsen <froksen@gmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-13 01:54-0400\n"
-"PO-Revision-Date: 2014-07-12 07:10+0000\n"
-"Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
+"POT-Creation-Date: 2014-07-18 01:54-0400\n"
+"PO-Revision-Date: 2014-07-17 09:11+0000\n"
+"Last-Translator: Johannes Hessellund <osos@openeyes.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,14 +49,14 @@ msgstr ""
 
 #: base.php:683
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Du tilgår serveren fra et utroværdigt domæne"
 
 #: base.php:684
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Kontakt venligst din administrator. Hvis du er administrator, konfigurer \"trusted_domain\" indstillingen i config/config.php. Et eksempel kan ses i config/config.sample.php."
 
 #: private/app.php:366
 msgid "Help"
@@ -77,19 +78,19 @@ msgstr "Brugere"
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:990
+#: private/app.php:985
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Upgradering af \"%s\" fejlede"
 
-#: private/app.php:1147
+#: private/app.php:1142
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr ""
+msgstr "App'en \\\"%s\\\" kan ikke installeres, da den ikke er kompatible med denne version af ownCloud."
 
-#: private/app.php:1159
+#: private/app.php:1154
 msgid "No app name specified"
 msgstr "Intet app-navn angivet"
 
@@ -118,44 +119,44 @@ msgstr "Kan ikke oprette app-mappe. Ret tilladelser. %s"
 msgid "No source specified when installing app"
 msgstr "Ingen kilde angivet under installation af app"
 
-#: private/installer.php:242
+#: private/installer.php:243
 msgid "No href specified when installing app from http"
 msgstr "Ingen href angivet under installation af app via http"
 
-#: private/installer.php:247
+#: private/installer.php:248
 msgid "No path specified when installing app from local file"
 msgstr "Ingen sti angivet under installation af app fra lokal fil"
 
-#: private/installer.php:261
+#: private/installer.php:256
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arkiver af type %s understøttes ikke"
 
-#: private/installer.php:275
+#: private/installer.php:270
 msgid "Failed to open archive when installing app"
 msgstr "Kunne ikke åbne arkiv under installation af appen"
 
-#: private/installer.php:313
+#: private/installer.php:308
 msgid "App does not provide an info.xml file"
 msgstr "Der følger ingen info.xml-fil med appen"
 
-#: private/installer.php:319
+#: private/installer.php:314
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "Appen kan ikke installeres, da den indeholder ikke-tilladt kode"
 
-#: private/installer.php:325
+#: private/installer.php:320
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "Appen kan ikke installeres, da den ikke er kompatibel med denne version af ownCloud."
 
-#: private/installer.php:331
+#: private/installer.php:326
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Appen kan ikke installeres, da den indeholder taget\n<shipped>\n\ntrue\n</shipped>\n\nhvilket ikke er tilladt for ikke-medfølgende apps"
 
-#: private/installer.php:344
+#: private/installer.php:339
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -293,7 +294,7 @@ msgstr "%s delte »%s« med sig"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "Deling af %s mislykkedes, fordi filen ikke eksisterer"
 
 #: private/share/share.php:501
 #, php-format
@@ -336,7 +337,7 @@ msgstr "Der skete en fejl ved deling af %s, fordi %s ikke er medlem af gruppen %
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Du skal angive et kodeord for at oprette et offentligt link - kun beskyttede links er tilladt"
 
 #: private/share/share.php:653
 #, php-format
@@ -360,49 +361,49 @@ msgstr "Angivelse af tilladelser for %s mislykkedes, fordi tilladelserne overskr
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Angivelse af tilladelser for %s mislykkedes, fordi artiklen ikke blev fundet"
 
-#: private/share/share.php:1046
+#: private/share/share.php:1043
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Delingsbackend'en %s skal implementere grænsefladen OCP\\Share_Backend"
 
-#: private/share/share.php:1053
+#: private/share/share.php:1050
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Delingsbackend'en %s blev ikke fundet"
 
-#: private/share/share.php:1059
+#: private/share/share.php:1056
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Delingsbackend'en for %s blev ikke fundet"
 
-#: private/share/share.php:1476
+#: private/share/share.php:1473
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Deling af %s mislykkedes, fordi brugeren %s er den som delte oprindeligt"
 
-#: private/share/share.php:1485
+#: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Deling af %s mislykkedes, fordi tilladelserne overskred de tillaldelser som %s var tildelt"
 
-#: private/share/share.php:1501
+#: private/share/share.php:1498
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Deling af %s mislykkedes, fordi videredeling ikke er tilladt"
 
-#: private/share/share.php:1513
+#: private/share/share.php:1510
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "Deling af %s mislykkedes, fordi back-enden ikke kunne finde kilden til %s"
 
-#: private/share/share.php:1527
+#: private/share/share.php:1524
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "Deling af %s mislykkedes, fordi filen ikke kunne findes i fil-cachen"
 
 #: private/tags.php:183
 #, php-format
@@ -457,27 +458,27 @@ msgstr "sidste år"
 msgid "years ago"
 msgstr "år siden"
 
-#: private/user/manager.php:238
+#: private/user/manager.php:239
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Det er kun tilladt at benytte følgene karakterer i et brugernavn \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\""
 
-#: private/user/manager.php:243
+#: private/user/manager.php:244
 msgid "A valid username must be provided"
 msgstr "Et gyldigt brugernavn skal angives"
 
-#: private/user/manager.php:247
+#: private/user/manager.php:248
 msgid "A valid password must be provided"
 msgstr "En gyldig adgangskode skal angives"
 
-#: private/user/manager.php:252
+#: private/user/manager.php:253
 msgid "The username is already being used"
 msgstr "Brugernavnet er allerede i brug"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Ingen database driver (sqlite, mysql eller postgresql) er installeret."
 
 #: private/util.php:405
 #, php-format
@@ -608,12 +609,12 @@ msgstr ""
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Datamappen (%s) kan læses af andre brugere"
 
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Datamappen (%s) er ugyldig"
 
 #: private/util.php:711
 msgid ""
@@ -624,4 +625,4 @@ msgstr ""
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Kunne ikke opnå en låsetype %d på \"%s\"."
