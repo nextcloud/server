@@ -482,26 +482,7 @@ class OC {
 		@ini_set('post_max_size', '10G');
 		@ini_set('file_uploads', '50');
 
-		//copy http auth headers for apache+php-fcgid work around
-		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
-			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
-		}
-
-		// Extract PHP_AUTH_USER/PHP_AUTH_PW from other headers if necessary.
-		$httpAuthHeaderServerVars = array(
-			'HTTP_AUTHORIZATION', // apache+php-cgi work around
-			'REDIRECT_HTTP_AUTHORIZATION', // apache+php-cgi alternative
-		);
-		foreach ($httpAuthHeaderServerVars as $httpAuthHeaderServerVar) {
-			if (isset($_SERVER[$httpAuthHeaderServerVar])
-				&& preg_match('/Basic\s+(.*)$/i', $_SERVER[$httpAuthHeaderServerVar], $matches)
-			) {
-				list($name, $password) = explode(':', base64_decode($matches[1]), 2);
-				$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-				$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-				break;
-			}
-		}
+		self::handleAuthHeaders();
 
 		self::initPaths();
 		if (OC_Config::getValue('instanceid', false)) {
@@ -853,6 +834,26 @@ class OC {
 			$minimizer = new OC_Minimizer_CSS();
 			$info = array($app_path, $app_web_path, $file);
 			$minimizer->output(array($info), $filepath);
+		}
+	}
+	protected static function handleAuthHeaders() {
+		//copy http auth headers for apache+php-fcgid work around
+		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
+			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
+		}
+
+		// Extract PHP_AUTH_USER/PHP_AUTH_PW from other headers if necessary.
+		$vars = array(
+			'HTTP_AUTHORIZATION', // apache+php-cgi work around
+			'REDIRECT_HTTP_AUTHORIZATION', // apache+php-cgi alternative
+		);
+		foreach ($vars as $var) {
+			if (isset($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
+				list($name, $password) = explode(':', base64_decode($matches[1]), 2);
+				$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
+				$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+				break;
+			}
 		}
 	}
 
