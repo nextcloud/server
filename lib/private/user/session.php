@@ -89,9 +89,9 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function setUser($user) {
 		if (is_null($user)) {
-			$this->session->remove('user_id');
+			$this->getSession()->remove('user_id');
 		} else {
-			$this->session->set('user_id', $user->getUID());
+			$this->getSession()->set('user_id', $user->getUID());
 		}
 		$this->activeUser = $user;
 	}
@@ -105,7 +105,7 @@ class Session implements IUserSession, Emitter {
 		if ($this->activeUser) {
 			return $this->activeUser;
 		} else {
-			$uid = $this->session->get('user_id');
+			$uid = $this->getSession()->get('user_id');
 			if ($uid) {
 				$this->activeUser = $this->manager->get($uid);
 				return $this->activeUser;
@@ -122,9 +122,9 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function setLoginName($loginName) {
 		if (is_null($loginName)) {
-			$this->session->remove('loginname');
+			$this->getSession()->remove('loginname');
 		} else {
-			$this->session->set('loginname', $loginName);
+			$this->getSession()->set('loginname', $loginName);
 		}
 	}
 
@@ -135,12 +135,12 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function getLoginName() {
 		if ($this->activeUser) {
-			return $this->session->get('loginname');
+			return $this->getSession()->get('loginname');
 		} else {
-			$uid = $this->session->get('user_id');
+			$uid = $this->getSession()->get('user_id');
 			if ($uid) {
 				$this->activeUser = $this->manager->get($uid);
-				return $this->session->get('loginname');
+				return $this->getSession()->get('loginname');
 			} else {
 				return null;
 			}
@@ -245,5 +245,22 @@ class Session implements IUserSession, Emitter {
 		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT . '/');
 		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT . '/');
 		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT . '/');
+	}
+
+	/**
+	 * will keep the session instance in sync with \OC::$session
+	 * @return \OC\Session\Session
+	 */
+	private function getSession() {
+		//keep $this->session in sync with \OC::$session
+		if ($this->session !== \OC::$session) {
+			\OC::$server->getLogger()->debug(
+				'\OC::$session has been replaced with a new instance. '.
+				'Closing and replacing session in UserSession instance.'
+			);
+			$this->session->close();
+			$this->session = \OC::$session;
+		}
+		return $this->session;
 	}
 }
