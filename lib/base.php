@@ -807,8 +807,8 @@ class OC {
 		foreach ($vars as $var) {
 			if (isset($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
 				list($name, $password) = explode(':', base64_decode($matches[1]), 2);
-				$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-				$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
+				$_SERVER['PHP_AUTH_USER'] = $name;
+				$_SERVER['PHP_AUTH_PW'] = $password;
 				break;
 			}
 		}
