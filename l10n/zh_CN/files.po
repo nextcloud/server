@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-19 01:54-0400\n"
+"PO-Revision-Date: 2014-07-18 16:04+0000\n"
+"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -222,7 +222,7 @@ msgstr "删除"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
-msgstr ""
+msgstr "断开储存连接"
 
 #: js/fileactions.js:299
 msgid "Unshare"

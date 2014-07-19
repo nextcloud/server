@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Cannot write into \"config\" directory!" => "Kan ikke skrive til mappen \"config\"!",
+"This can usually be fixed by giving the webserver write access to the config directory" => "Dette kan normalvis ordnes ved at give webserveren skrive adgang til config mappen",
 "See %s" => "Se %s",
 "You are accessing the server from an untrusted domain." => "Du tilgår serveren fra et utroværdigt domæne",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Kontakt venligst din administrator. Hvis du er administrator, konfigurer \"trusted_domain\" indstillingen i config/config.php. Et eksempel kan ses i config/config.sample.php.",

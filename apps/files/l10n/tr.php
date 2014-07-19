@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Adres getirilirken hata",
 "Share" => "Paylaş",
 "Delete" => "Sil",
+"Disconnect storage" => "Depolama bağlantısını kes",
 "Unshare" => "Paylaşmayı Kaldır",
 "Delete permanently" => "Kalıcı olarak sil",
 "Rename" => "Yeniden adlandır",

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-15 01:54-0400\n"
-"PO-Revision-Date: 2014-07-14 17:00+0000\n"
+"POT-Creation-Date: 2014-07-19 01:54-0400\n"
+"PO-Revision-Date: 2014-07-18 09:41+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -628,4 +628,4 @@ msgstr "Ověřte prosím, že kořenový adresář s daty obsahuje soubor \".ocd
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Nelze zjistit typ zámku %d na \"%s\"."

@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "获取URL出错",
 "Share" => "分享",
 "Delete" => "删除",
+"Disconnect storage" => "断开储存连接",
 "Unshare" => "取消共享",
 "Delete permanently" => "永久删除",
 "Rename" => "重命名",

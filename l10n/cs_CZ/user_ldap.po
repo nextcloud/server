@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-07-19 01:54-0400\n"
+"PO-Revision-Date: 2014-07-18 09:41+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -100,11 +100,11 @@ msgstr "Chyba"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Uveď prosím základní DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "Nelze určit základní DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"

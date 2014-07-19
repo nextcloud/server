@@ -116,6 +116,7 @@ $TRANSLATIONS = array(
 "Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Změntě prosím práva na 0770, aby adresář nemohl být otevřen ostatními uživateli.",
 "Data directory (%s) is readable by other users" => "Data adresář (%s) je čitelný i ostatními uživateli",
 "Data directory (%s) is invalid" => "Data adresář (%s) je neplatný",
-"Please check that the data directory contains a file \".ocdata\" in its root." => "Ověřte prosím, že kořenový adresář s daty obsahuje soubor \".ocdata\"."
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Ověřte prosím, že kořenový adresář s daty obsahuje soubor \".ocdata\".",
+"Could not obtain lock type %d on \"%s\"." => "Nelze zjistit typ zámku %d na \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";
