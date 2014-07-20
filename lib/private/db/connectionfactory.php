@@ -60,7 +60,15 @@ class ConnectionFactory {
 		if (!isset($this->defaultConnectionParams[$normalizedType])) {
 			throw new \InvalidArgumentException("Unsupported type: $type");
 		}
-		return $this->defaultConnectionParams[$normalizedType];
+		$result = $this->defaultConnectionParams[$normalizedType];
+		// \PDO::MYSQL_ATTR_FOUND_ROWS may not be defined, e.g. when the MySQL
+		// driver is missing. In this case, we won't be able to connect anyway.
+		if ($normalizedType === 'mysql' && defined('\PDO::MYSQL_ATTR_FOUND_ROWS')) {
+			$result['driverOptions'] = array(
+				\PDO::MYSQL_ATTR_FOUND_ROWS => true,
+			);
+		}
+		return $result;
 	}
 
 	/**
