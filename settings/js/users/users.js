@@ -654,9 +654,11 @@ $(document).ready(function () {
 				} else {
 					if (result.data.groups) {
 						var addedGroups = result.data.groups;
-						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
 						for (var i in result.data.groups) {
 							var gid = result.data.groups[i];
+							if(UserList.availableGroups.indexOf(gid) === -1) {
+								UserList.availableGroups.push(gid);
+							}
 							$li = GroupList.getGroupLI(gid);
 							userCount = GroupList.getUserCount($li);
 							GroupList.setUserCount($li, userCount + 1);
