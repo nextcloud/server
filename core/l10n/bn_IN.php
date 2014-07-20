@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Settings" => "সেটিংস",
+"Folder" => "ফোল্ডার",
 "Saving..." => "সংরক্ষণ করা হচ্ছে ...",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),

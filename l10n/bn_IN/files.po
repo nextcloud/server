@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ishita mukherjee <ishitamukh91@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-18 01:54-0400\n"
-"PO-Revision-Date: 2014-07-18 03:19+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-20 01:54-0400\n"
+"PO-Revision-Date: 2014-07-19 21:20+0000\n"
+"Last-Translator: ishita mukherjee <ishitamukh91@gmail.com>\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,12 +33,12 @@ msgstr ""
 #: ajax/move.php:15
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "%s সরানো যায়নি-এই নামে আগে থেকেই ফাইল আছে"
 
 #: ajax/move.php:25 ajax/move.php:28
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "%s সরানো যায়নি"
 
 #: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
@@ -102,42 +103,42 @@ msgstr ""
 
 #: ajax/upload.php:77
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "কোন ফাইল আপলোড করা হয় নি।অজানা ত্রুটি"
 
 #: ajax/upload.php:84
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "কোন ত্রুটি নেই,ফাইল সাফল্যের সঙ্গে আপলোড করা হয়েছে"
 
 #: ajax/upload.php:85
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "আপলোড করা ফাইল-php.ini মধ্যে upload_max_filesize নির্দেশ অতিক্রম করে:"
 
 #: ajax/upload.php:87
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "আপলোড করা ফাইল HTML ফর্মের জন্য  MAX_FILE_SIZE নির্দেশ অতিক্রম করে"
 
 #: ajax/upload.php:88
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "আপলোড করা ফাইল শুধুমাত্র আংশিকভাবে আপলোড করা হয়েছে"
 
 #: ajax/upload.php:89
 msgid "No file was uploaded"
-msgstr ""
+msgstr "কোন ফাইল আপলোড করা হয় নি"
 
 #: ajax/upload.php:90
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "একটি অস্থায়ী ফোল্ডার পাওয়া যাচ্ছেনা"
 
 #: ajax/upload.php:91
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "ডিস্কে লিখতে ব্যর্থ"
 
 #: ajax/upload.php:111
 msgid "Not enough storage available"
-msgstr ""
+msgstr "যথেষ্ট স্টোরেজ পাওয়া যায় না"
 
 #: ajax/upload.php:173
 msgid "Upload failed. Could not find uploaded file"
@@ -149,7 +150,7 @@ msgstr ""
 
 #: ajax/upload.php:198
 msgid "Invalid directory."
-msgstr ""
+msgstr "অবৈধ ডিরেক্টরি।"
 
 #: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
@@ -223,11 +224,11 @@ msgstr ""
 
 #: js/fileactions.js:301
 msgid "Delete permanently"
-msgstr ""
+msgstr "স্থায়ীভাবে মুছে দিন"
 
 #: js/fileactions.js:342
 msgid "Rename"
-msgstr ""
+msgstr "পুনঃনামকরণ"
 
 #: js/filelist.js:341
 msgid ""
@@ -237,7 +238,7 @@ msgstr ""
 
 #: js/filelist.js:675 js/filelist.js:1783
 msgid "Pending"
-msgstr ""
+msgstr "মুলতুবি"
 
 #: js/filelist.js:1210
 msgid "Error moving file."
@@ -375,11 +376,11 @@ msgstr ""
 
 #: templates/list.php:12
 msgid "New folder"
-msgstr ""
+msgstr "নতুন ফোল্ডার"
 
 #: templates/list.php:13
 msgid "Folder"
-msgstr ""
+msgstr "ফোল্ডার"
 
 #: templates/list.php:16
 msgid "From link"
@@ -395,7 +396,7 @@ msgstr ""
 
 #: templates/list.php:66
 msgid "Download"
-msgstr ""
+msgstr "ডাউনলোড করুন"
 
 #: templates/list.php:91
 msgid "Upload too large"

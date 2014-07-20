@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-05 03:00+0000\n"
+"POT-Creation-Date: 2014-07-20 01:54-0400\n"
+"PO-Revision-Date: 2014-07-19 07:40+0000\n"
 "Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -58,14 +58,14 @@ msgid ""
 "correct."
 msgstr "无法更新私钥密码。可能旧密码不正确。"
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr "加密应用还没有初始化！可能加密应用在你会话期间已被重新启用。请注销并重新登录，以初始化加密应用。"
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -73,13 +73,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr ""
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr ""
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -96,7 +96,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "请确认安装了 PHP 5.3.3 或更新版本，且 OpenSSL 及其 PHP 扩展已经启用并正确配置。加密应用现在已被禁用。"
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "以下用户还没有设置加密："
 
@@ -111,7 +111,7 @@ msgstr "初始加密运行中....请稍后再试。"
 #: templates/invalid_private_key.php:8
 #, php-format
 msgid "Go directly to your %spersonal settings%s."
-msgstr ""
+msgstr "直接访问您的%s个人设置%s。"
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-20 01:54-0400\n"
+"PO-Revision-Date: 2014-07-19 07:40+0000\n"
+"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -314,19 +314,19 @@ msgstr "恢复加密密钥。"
 msgid "Unable to delete {objName}"
 msgstr "无法删除 {objName}"
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr "创建组时出错"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr "请提供一个有效的组名称"
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr "已删除 {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "撤销"
 
@@ -346,31 +346,31 @@ msgstr "组管理员"
 msgid "Delete"
 msgstr "删除"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "从不"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr "已删除 {userName}"
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "增加组"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
-#: js/users/users.js:608
+#: js/users/users.js:667
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：用户 \"{user}\" 的家目录已存在"
 
@@ -567,7 +567,7 @@ msgstr "cron.php 已注册于一个 webcron 服务来通过 http 每 15 分钟�
 
 #: templates/admin.php:229
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "使用系统 CRON 服务每 15 分钟执行一次 cron.php 文件。"
 
 #: templates/admin.php:234
 msgid "Sharing"

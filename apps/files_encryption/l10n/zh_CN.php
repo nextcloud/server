@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "以下用户还没有设置加密：",
 "Initial encryption started... This can take some time. Please wait." => "初始加密启动中....这可能会花一些时间，请稍后再试。",
 "Initial encryption running... Please try again later." => "初始加密运行中....请稍后再试。",
+"Go directly to your %spersonal settings%s." => "直接访问您的%s个人设置%s。",
 "Encryption" => "加密",
 "Enable recovery key (allow to recover users files in case of password loss):" => "启用恢复密钥（允许你在密码丢失后恢复文件）：",
 "Recovery key password" => "恢复密钥密码",
