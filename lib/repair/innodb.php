@@ -28,9 +28,11 @@ class InnoDB extends BasicEmitter implements \OC\RepairStep {
 		}
 
 		$tables = $this->getAllMyIsamTables($connection);
-		foreach ($tables as $table) {
-			$connection->exec("ALTER TABLE $table ENGINE=InnoDB;");
-			$this->emit('\OC\Repair', 'info', array("Fixed $table"));
+		if (is_array($tables)) {
+			foreach ($tables as $table) {
+				$connection->exec("ALTER TABLE $table ENGINE=InnoDB;");
+				$this->emit('\OC\Repair', 'info', array("Fixed $table"));
+			}
 		}
 	}
 
