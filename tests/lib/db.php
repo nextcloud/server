@@ -200,4 +200,45 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		}
 	}
 
+	public function testUpdateAffectedRowsNoMatch() {
+		$this->insertCardData('fullname1', 'uri1');
+		// The WHERE clause does not match any rows
+		$this->assertSame(0, $this->updateCardData('fullname3', 'uri2'));
+	}
+
+	public function testUpdateAffectedRowsDifferent() {
+		$this->insertCardData('fullname1', 'uri1');
+		// The WHERE clause matches a single row and the value we are updating
+		// is different from the one already present.
+		$this->assertSame(1, $this->updateCardData('fullname1', 'uri2'));
+	}
+
+	public function testUpdateAffectedRowsSame() {
+		$this->insertCardData('fullname1', 'uri1');
+		// The WHERE clause matches a single row and the value we are updating
+		// to is the same as the one already present. MySQL reports 0 here when
+		// the PDO::MYSQL_ATTR_FOUND_ROWS flag is not specified.
+		$this->assertSame(1, $this->updateCardData('fullname1', 'uri1'));
+	}
+
+	public function testUpdateAffectedRowsMultiple() {
+		$this->insertCardData('fullname1', 'uri1');
+		$this->insertCardData('fullname2', 'uri2');
+		// The WHERE clause matches two rows. One row contains a value that
+		// needs to be updated, the other one already contains the value we are
+		// updating to. MySQL reports 1 here when the PDO::MYSQL_ATTR_FOUND_ROWS
+		// flag is not specified.
+		$query = OC_DB::prepare("UPDATE `*PREFIX*{$this->table2}` SET `uri` = ?");
+		$this->assertSame(2, $query->execute(array('uri1')));
+	}
+
+	protected function insertCardData($fullname, $uri) {
+		$query = OC_DB::prepare("INSERT INTO `*PREFIX*{$this->table2}` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)");
+		$this->assertSame(1, $query->execute(array($fullname, $uri, uniqid())));
+	}
+
+	protected function updateCardData($fullname, $uri) {
+		$query = OC_DB::prepare("UPDATE `*PREFIX*{$this->table2}` SET `uri` = ? WHERE `fullname` = ?");
+		return $query->execute(array($uri, $fullname));
+	}
 }
