@@ -490,7 +490,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	public static function logoutHelper() {
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		\OC_User::setUserId(false);
 		\OC\Files\Filesystem::tearDown();
 	}
 

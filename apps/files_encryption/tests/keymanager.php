@@ -107,7 +107,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$key = Encryption\Keymanager::getPrivateKey($this->view, $this->userId);
 
-		$privateKey = Encryption\Crypt::symmetricDecryptFileContent($key, $this->pass);
+		$privateKey = Encryption\Crypt::decryptPrivateKey($key, $this->pass);
 
 		$res = openssl_pkey_get_private($privateKey);
 
@@ -189,7 +189,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$this->assertArrayHasKey('key', $sslInfoPublic);
 
-		$privateKey = Encryption\Crypt::symmetricDecryptFileContent($keys['privateKey'], $this->pass);
+		$privateKey = Encryption\Crypt::decryptPrivateKey($keys['privateKey'], $this->pass);
 
 		$resPrivate = openssl_pkey_get_private($privateKey);
 
