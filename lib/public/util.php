@@ -128,10 +128,11 @@ class Util {
 	/**
 	 * get l10n object
 	 * @param string $application
+	 * @param string|null $language
 	 * @return \OC_L10N
 	 */
-	public static function getL10N( $application ) {
-		return \OC_L10N::get( $application );
+	public static function getL10N($application, $language = null) {
+		return \OC_L10N::get($application, $language);
 	}
 
 	/**
