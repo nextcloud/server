@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-21 01:54-0400\n"
+"PO-Revision-Date: 2014-07-20 18:11+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -218,11 +218,11 @@ msgstr "Izbriši"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
-msgstr ""
+msgstr "Odklopi shrambo"
 
 #: js/fileactions.js:299
 msgid "Unshare"
-msgstr "Prekliči souporabo"
+msgstr "Prekini souporabo"
 
 #: js/fileactions.js:301
 msgid "Delete permanently"

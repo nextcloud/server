@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-21 01:54-0400\n"
+"PO-Revision-Date: 2014-07-20 18:11+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -554,7 +554,7 @@ msgstr ""
 
 #: lostpassword/controller/lostcontroller.php:136
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Ni mogoče poslati elektronskega sporočila. Prepričajte se, da je uporabniško ime pravilno."
 
 #: lostpassword/controller/lostcontroller.php:151
 msgid ""
@@ -625,7 +625,7 @@ msgstr "Osebno"
 msgid "Users"
 msgstr "Uporabniki"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Programi"
 
@@ -791,19 +791,19 @@ msgstr "Končaj nastavitev"
 msgid "Finishing …"
 msgstr "Poteka zaključevanje opravila ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Program zahteva omogočeno skriptno podporo. Za pravilno delovanje je treba omogočiti <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript</a> in nato ponovno osvežiti vmesnik."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je na voljo. Pridobite več podrobnosti za posodobitev."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odjava"
 
@@ -831,7 +831,7 @@ msgstr "Stopite v stik s skrbnikom sistema."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Ali ste pozabili geslo? Ponastavite ga!"
 
 #: templates/login.php:55
 msgid "remember"

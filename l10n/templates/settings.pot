@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-20 01:54-0400\n"
+"POT-Creation-Date: 2014-07-21 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -360,7 +360,7 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: js/users/users.js:667
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 

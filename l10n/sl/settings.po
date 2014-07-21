@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-21 01:54-0400\n"
+"PO-Revision-Date: 2014-07-20 18:51+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Ni mogoče odstraniti programa."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -297,29 +297,29 @@ msgstr "Poteka odšifriranje datotek ... Opravilo je lahko dolgotrajno."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Trajno izbriše šifrirne ključe"
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Obnovi šifrirne ključe."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
-msgstr ""
+msgstr "Napaka ustvarjanja skupine"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "razveljavi"
 
@@ -339,31 +339,31 @@ msgstr "Skrbnik skupine"
 msgid "Delete"
 msgstr "Izbriši"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "nikoli"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "dodaj skupino"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Navedeno mora biti veljavno uporabniško ime"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Napaka ustvarjanja uporabnika"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Navedeno mora biti veljavno geslo"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Opozorilo: osebna mapa uporabnika \"{user}\" že obstaja"
 
@@ -900,11 +900,11 @@ msgstr ""
 
 #: templates/personal.php:190
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "Obnovi šifrirne ključe"
 
 #: templates/personal.php:194
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "Izbriši šifrirne ključe"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -975,7 +975,7 @@ msgstr ""
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Zadnja prijava"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"
