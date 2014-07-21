@@ -38,9 +38,7 @@ $adminGroups = array();
 $groupManager = \OC_Group::getManager();
 $isAdmin = OC_User::isAdminUser(OC_User::getUser());
 
-//we pass isAdmin as true, because OC_SubAdmin has no search feature,
-//groups will be filtered out later
-$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), true, $groupManager);
+$groupsInfo = new \OC\Group\MetaData(OC_User::getUser(), $isAdmin, $groupManager);
 $groupsInfo->setSorting($groupsInfo::SORT_USERCOUNT);
 list($adminGroups, $groups) = $groupsInfo->get($groupPattern, $pattern);
 
