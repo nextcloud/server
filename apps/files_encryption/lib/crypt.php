@@ -344,7 +344,7 @@ class Crypt {
 	 *
 	 * This function decrypts a file
 	 */
-	public static function symmetricDecryptFileContent($keyfileContent, $passphrase = '', $cipher = 'AES-128-CFB') {
+	public static function symmetricDecryptFileContent($keyfileContent, $passphrase = '', $cipher = Crypt::DEFAULT_CIPHER) {
 
 		if (!$keyfileContent) {
 
