@@ -22,6 +22,15 @@
 
 namespace OCA\Encryption\Exceptions;
 
+/**
+ * General encryption exception
+ * Possible Error Codes:
+ * 10 - unexpected end of encryption header
+ * 20 - unexpected blog size
+ * 30 - encryption header to large
+ * 40 - unknown cipher
+ * 50 - encryption failed
+ */
 class EncryptionException extends \Exception {
 }
 

@@ -141,18 +141,16 @@ class Helper {
 
 			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
 
-			// Encrypt private key empty passphrase
-			$encryptedPrivateKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword);
-
-			// Save private key
-			$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
+			$cipher = \OCA\Encryption\Helper::getCipher();
+			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword, $cipher);
+			if ($encryptedKey) {
+				Keymanager::setPrivateSystemKey($encryptedKey, $recoveryKeyId . '.private.key');
+				// Set recoveryAdmin as enabled
+				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
+				$return = true;
+			}
 
 			\OC_FileProxy::$enabled = true;
-
-			// Set recoveryAdmin as enabled
-			$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
-
-			$return = true;
 
 		} else { // get recovery key and check the password
 			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
@@ -226,7 +224,6 @@ class Helper {
 
 		return $return;
 	}
-
 
 	/**
 	 * checks if access is public/anonymous user
@@ -474,6 +471,26 @@ class Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * read the cipher used for encryption from the config.php
+	 *
+	 * @return string
+	 */
+	public static function getCipher() {
+
+		$cipher = \OCP\Config::getSystemValue('cipher', Crypt::DEFAULT_CIPHER);
+
+		if ($cipher !== 'AES-256-CFB' && $cipher !== 'AES-128-CFB') {
+			\OCP\Util::writeLog('files_encryption',
+					'wrong cipher defined in config.php, only AES-128-CFB and AES-256-CFB is supported. Fall back ' . Crypt::DEFAULT_CIPHER,
+					\OCP\Util::WARN);
+
+			$cipher = Crypt::DEFAULT_CIPHER;
+		}
+
+		return $cipher;
 	}
 }
 

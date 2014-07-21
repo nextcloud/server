@@ -36,6 +36,11 @@ class Crypt {
 	const ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR = 2;
 	const ENCRYPTION_NO_SHARE_KEY_FOUND = 3;
 
+	const BLOCKSIZE = 8192; // block size will always be 8192 for a PHP stream https://bugs.php.net/bug.php?id=21641
+	const DEFAULT_CIPHER = 'AES-256-CFB';
+
+	const HEADERSTART = 'HBEGIN';
+	const HEADEREND = 'HEND';
 
 	/**
 	 * return encryption mode client or server side encryption
@@ -181,18 +186,21 @@ class Crypt {
 	 * @param string $plainContent
 	 * @param string $iv
 	 * @param string $passphrase
+	 * @param string $cypher used for encryption, currently we support AES-128-CFB and AES-256-CFB
 	 * @return string encrypted file content
+	 * @throws \OCA\Encryption\Exceptions\EncryptionException
 	 */
-	private static function encrypt($plainContent, $iv, $passphrase = '') {
+	private static function encrypt($plainContent, $iv, $passphrase = '', $cipher = Crypt::DEFAULT_CIPHER) {
 
-		if ($encryptedContent = openssl_encrypt($plainContent, 'AES-128-CFB', $passphrase, false, $iv)) {
-			return $encryptedContent;
-		} else {
-			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of content failed', \OCP\Util::ERROR);
-			\OCP\Util::writeLog('Encryption library', openssl_error_string(), \OCP\Util::ERROR);
-			return false;
+		$encryptedContent = openssl_encrypt($plainContent, $cipher, $passphrase, false, $iv);
 
+		if (!$encryptedContent) {
+			$error = "Encryption (symmetric) of content failed: " . openssl_error_string();
+			\OCP\Util::writeLog('Encryption library', $error, \OCP\Util::ERROR);
+			throw new Exceptions\EncryptionException($error, 50);
 		}
+
+		return $encryptedContent;
 
 	}
 
@@ -201,19 +209,18 @@ class Crypt {
 	 * @param string $encryptedContent
 	 * @param string $iv
 	 * @param string $passphrase
+	 * @param string $cipher cipher user for decryption, currently we support aes128 and aes256
 	 * @throws \Exception
 	 * @return string decrypted file content
 	 */
-	private static function decrypt($encryptedContent, $iv, $passphrase) {
+	private static function decrypt($encryptedContent, $iv, $passphrase, $cipher = Crypt::DEFAULT_CIPHER) {
 
-		if ($plainContent = openssl_decrypt($encryptedContent, 'AES-128-CFB', $passphrase, false, $iv)) {
+		$plainContent = openssl_decrypt($encryptedContent, $cipher, $passphrase, false, $iv);
 
+		if ($plainContent) {
 			return $plainContent;
-
 		} else {
-
 			throw new \Exception('Encryption library: Decryption (symmetric) of content failed');
-
 		}
 
 	}
@@ -261,11 +268,12 @@ class Crypt {
 	 * Symmetrically encrypts a string and returns keyfile content
 	 * @param string $plainContent content to be encrypted in keyfile
 	 * @param string $passphrase
+	 * @param string $cypher used for encryption, currently we support AES-128-CFB and AES-256-CFB
 	 * @return false|string encrypted content combined with IV
 	 * @note IV need not be specified, as it will be stored in the returned keyfile
 	 * and remain accessible therein.
 	 */
-	public static function symmetricEncryptFileContent($plainContent, $passphrase = '') {
+	public static function symmetricEncryptFileContent($plainContent, $passphrase = '', $cipher = Crypt::DEFAULT_CIPHER) {
 
 		if (!$plainContent) {
 			\OCP\Util::writeLog('Encryption library', 'symmetrically encryption failed, no content given.', \OCP\Util::ERROR);
@@ -274,15 +282,16 @@ class Crypt {
 
 		$iv = self::generateIv();
 
-		if ($encryptedContent = self::encrypt($plainContent, $iv, $passphrase)) {
+		try {
+			$encryptedContent = self::encrypt($plainContent, $iv, $passphrase, $cipher);
 			// Combine content to encrypt with IV identifier and actual IV
 			$catfile = self::concatIv($encryptedContent, $iv);
 			$padded = self::addPadding($catfile);
 
 			return $padded;
-
-		} else {
-			\OCP\Util::writeLog('Encryption library', 'Encryption (symmetric) of keyfile content failed', \OCP\Util::ERROR);
+		} catch (OCA\Encryption\Exceptions\EncryptionException $e) {
+			$message = 'Could not encrypt file content (code: ' . $e->getCode . '): ';
+			\OCP\Util::writeLog('files_encryption', $message . $e->getMessage, \OCP\Util::ERROR);
 			return false;
 		}
 
@@ -293,6 +302,7 @@ class Crypt {
 	 * Symmetrically decrypts keyfile content
 	 * @param string $keyfileContent
 	 * @param string $passphrase
+	 * @param string $cipher cipher used for decryption, currently aes128 and aes256 is supported.
 	 * @throws \Exception
 	 * @return string|false
 	 * @internal param string $source
@@ -302,7 +312,7 @@ class Crypt {
 	 *
 	 * This function decrypts a file
 	 */
-	public static function symmetricDecryptFileContent($keyfileContent, $passphrase = '') {
+	public static function symmetricDecryptFileContent($keyfileContent, $passphrase = '', $cipher = 'AES-128-CFB') {
 
 		if (!$keyfileContent) {
 
@@ -316,7 +326,7 @@ class Crypt {
 		// Split into enc data and catfile
 		$catfile = self::splitIv($noPadding);
 
-		if ($plainContent = self::decrypt($catfile['encrypted'], $catfile['iv'], $passphrase)) {
+		if ($plainContent = self::decrypt($catfile['encrypted'], $catfile['iv'], $passphrase, $cipher)) {
 
 			return $plainContent;
 
@@ -328,6 +338,7 @@ class Crypt {
 
 	/**
 	 * Decrypt private key and check if the result is a valid keyfile
+	 *
 	 * @param string $encryptedKey encrypted keyfile
 	 * @param string $passphrase to decrypt keyfile
 	 * @return string|false encrypted private key or false
@@ -336,7 +347,15 @@ class Crypt {
 	 */
 	public static function decryptPrivateKey($encryptedKey, $passphrase) {
 
-		$plainKey = self::symmetricDecryptFileContent($encryptedKey, $passphrase);
+		$header = self::parseHeader($encryptedKey);
+		$cipher = self::getCipher($header);
+
+		// if we found a header we need to remove it from the key we want to decrypt
+		if (!empty($header)) {
+			$encryptedKey = substr($encryptedKey, strpos($encryptedKey, self::HEADEREND) + strlen(self::HEADEREND));
+		}
+
+		$plainKey = self::symmetricDecryptFileContent($encryptedKey, $passphrase, $cipher);
 
 		// check if this a valid private key
 		$res = openssl_pkey_get_private($plainKey);
@@ -479,6 +498,78 @@ class Crypt {
 
 		}
 
+	}
+
+	/**
+	 * read header into array
+	 *
+	 * @param string $data
+	 * @return array
+	 */
+	public static function parseHeader($data) {
+
+		$result = array();
+
+		if (substr($data, 0, strlen(self::HEADERSTART)) === self::HEADERSTART) {
+			$endAt = strpos($data, self::HEADEREND);
+			$header = substr($data, 0, $endAt + strlen(self::HEADEREND));
+
+			// +1 to not start with an ':' which would result in empty element at the beginning
+			$exploded = explode(':', substr($header, strlen(self::HEADERSTART)+1));
+
+			$element = array_shift($exploded);
+			while ($element !== self::HEADEREND) {
+
+				$result[$element] = array_shift($exploded);
+
+				$element = array_shift($exploded);
+
+			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * check if data block is the header
+	 *
+	 * @param string $data
+	 * @return boolean
+	 */
+	public static function isHeader($data) {
+
+		if (substr($data, 0, strlen(self::HEADERSTART)) === self::HEADERSTART) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * get chiper from header
+	 *
+	 * @param array $header
+	 * @throws \OCA\Encryption\Exceptions\EncryptionException
+	 */
+	public static function getCipher($header) {
+		$cipher = isset($header['cipher']) ? $header['cipher'] : 'AES-128-CFB';
+
+		if ($cipher !== 'AES-256-CFB' && $cipher !== 'AES-128-CFB') {
+
+			throw new \OCA\Encryption\Exceptions\EncryptionException('file header broken, no supported cipher defined', 40);
+		}
+
+		return $cipher;
+	}
+
+	/**
+	 * generate header for encrypted file
+	 */
+	public static function generateHeader() {
+		$cipher = Helper::getCipher();
+		$header = self::HEADERSTART . ':cipher:' . $cipher . ':' . self::HEADEREND;
+
+		return $header;
 	}
 
 }
