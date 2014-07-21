@@ -80,11 +80,13 @@ class Session {
 			$this->view->file_put_contents('/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey']);
 
 			// Encrypt private key empty passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], '');
-
-			// Save private key
-			$this->view->file_put_contents(
-				'/owncloud_private_key/' . $publicShareKeyId . '.private.key', $encryptedPrivateKey);
+			$cipher = \OCA\Encryption\Helper::getCipher();
+			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], '', $cipher);
+			if ($encryptedKey) {
+				Keymanager::setPrivateSystemKey($encryptedKey, $publicShareKeyId . '.private.key');
+			} else {
+				\OCP\Util::writeLog('files_encryption', 'Could not create public share keys', \OCP\Util::ERROR);
+			}
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 

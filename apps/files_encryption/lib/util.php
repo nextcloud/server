@@ -167,11 +167,12 @@ class Util {
 				\OC_FileProxy::$enabled = false;
 
 				// Encrypt private key with user pwd as passphrase
-				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase);
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $passphrase, Helper::getCipher());
 
 				// Save key-pair
 				if ($encryptedPrivateKey) {
-					$this->view->file_put_contents($this->privateKeyPath, $encryptedPrivateKey);
+					$header = crypt::generateHeader();
+					$this->view->file_put_contents($this->privateKeyPath, $header . $encryptedPrivateKey);
 					$this->view->file_put_contents($this->publicKeyPath, $keypair['publicKey']);
 				}
 
@@ -394,8 +395,14 @@ class Util {
 			&& $this->isEncryptedPath($path)
 		) {
 
-			// get the size from filesystem
-			$size = $this->view->filesize($path);
+			$offset = 0;
+			if ($this->containHeader($path)) {
+				$offset = Crypt::BLOCKSIZE;
+			}
+
+			// get the size from filesystem if the file contains a encryption header we
+			// we substract it
+			$size = $this->view->filesize($path) - $offset;
 
 			// fast path, else the calculation for $lastChunkNr is bogus
 			if ($size === 0) {
@@ -406,15 +413,15 @@ class Util {
 			// calculate last chunk nr
 			// next highest is end of chunks, one subtracted is last one
 			// we have to read the last chunk, we can't just calculate it (because of padding etc)
-			$lastChunkNr = ceil($size/ 8192) - 1;
-			$lastChunkSize = $size - ($lastChunkNr * 8192);
+			$lastChunkNr = ceil($size/ Crypt::BLOCKSIZE) - 1;
+			$lastChunkSize = $size - ($lastChunkNr * Crypt::BLOCKSIZE);
 
 			// open stream
 			$stream = fopen('crypt://' . $path, "r");
 
 			if (is_resource($stream)) {
 				// calculate last chunk position
-				$lastChunckPos = ($lastChunkNr * 8192);
+				$lastChunckPos = ($lastChunkNr * Crypt::BLOCKSIZE);
 
 				// seek to end
 				if (@fseek($stream, $lastChunckPos) === -1) {
@@ -446,6 +453,30 @@ class Util {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return $result;
+	}
+
+	/**
+	 * check if encrypted file contain a encryption header
+	 *
+	 * @param string $path
+	 * @return boolean
+	 */
+	private function containHeader($path) {
+		// Disable encryption proxy to read the raw data
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$isHeader = false;
+		$handle = $this->view->fopen($path, 'r');
+
+		if (is_resource($handle)) {
+			$firstBlock = fread($handle, Crypt::BLOCKSIZE);
+			$isHeader =  Crypt::isHeader($firstBlock);
+		}
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		return $isHeader;
 	}
 
 	/**

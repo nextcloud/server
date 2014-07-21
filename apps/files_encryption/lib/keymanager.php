@@ -258,9 +258,13 @@ class Keymanager {
 	 * @note Encryption of the private key must be performed by client code
 	 * as no encryption takes place here
 	 */
-	public static function setPrivateKey($key) {
+	public static function setPrivateKey($key, $user = '') {
 
-		$user = \OCP\User::getUser();
+		if ($user === '') {
+			$user = \OCP\User::getUser();
+		}
+
+		$header = Crypt::generateHeader();
 
 		$view = new \OC\Files\View('/' . $user . '/files_encryption');
 
@@ -271,12 +275,39 @@ class Keymanager {
 			$view->mkdir('');
 		}
 
-		$result = $view->file_put_contents($user . '.private.key', $key);
+		$result = $view->file_put_contents($user . '.private.key', $header . $key);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return $result;
 
+	}
+
+	/**
+	 * write private system key (recovery and public share key) to disk
+	 *
+	 * @param string $key encrypted key
+	 * @param string $keyName name of the key file
+	 * @return boolean
+	 */
+	public static function setPrivateSystemKey($key, $keyName) {
+
+		$header = Crypt::generateHeader();
+
+		$view = new \OC\Files\View('/owncloud_private_key');
+
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		if (!$view->file_exists('')) {
+			$view->mkdir('');
+		}
+
+		$result = $view->file_put_contents($keyName, $header . $key);
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		return $result;
 	}
 
 	/**
