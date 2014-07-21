@@ -37,7 +37,7 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 
 		$server->xmlNamespaces[self::NS_OWNCLOUD] = 'oc';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}id';
-		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}perm';
+		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}permissions';
 
 		$this->server = $server;
 		$this->server->subscribeEvent('beforeGetProperties', array($this, 'beforeGetProperties'));
