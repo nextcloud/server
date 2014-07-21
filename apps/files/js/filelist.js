@@ -18,8 +18,8 @@
 		this.initialize($el, options);
 	};
 	FileList.prototype = {
-		SORT_INDICATOR_ASC_CLASS: 'icon-triangle-s',
-		SORT_INDICATOR_DESC_CLASS: 'icon-triangle-n',
+		SORT_INDICATOR_ASC_CLASS: 'icon-triangle-n',
+		SORT_INDICATOR_DESC_CLASS: 'icon-triangle-s',
 
 		id: 'files',
 		appName: t('files', 'Files'),
