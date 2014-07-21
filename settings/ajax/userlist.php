@@ -76,10 +76,13 @@ if (OC_User::isAdminUser(OC_User::getUser())) {
 	$batch = OC_Group::usersInGroups($groups, $pattern, $limit, $offset);
 	foreach ($batch as $uid) {
 		$user = $userManager->get($uid);
+
+		// Only add the groups, this user is a subadmin of
+		$userGroups = array_intersect(OC_Group::getUserGroups($uid), OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()));
 		$users[] = array(
-			'name' => $user,
+			'name' => $uid,
 			'displayname' => $user->getDisplayName(),
-			'groups' => join(', ', OC_Group::getUserGroups($uid)),
+			'groups' => join(', ', $userGroups),
 			'quota' => OC_Preferences::getValue($uid, 'files', 'quota', 'default'),
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin(),
