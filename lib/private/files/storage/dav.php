@@ -281,6 +281,7 @@ class DAV extends \OC\Files\Storage\Common {
 		curl_setopt($curl, CURLOPT_INFILE, $source); // file pointer
 		curl_setopt($curl, CURLOPT_INFILESIZE, filesize($path));
 		curl_setopt($curl, CURLOPT_PUT, true);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		if ($this->secure === true) {
 			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
 			curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);
