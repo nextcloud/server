@@ -5,21 +5,23 @@ OC_JSON::checkSubAdminUser();
 
 if(OC_User::isAdminUser(OC_User::getUser())) {
 	$groups = array();
-	if( isset( $_POST["groups"] )) {
+	if (!empty($_POST["groups"])) {
 		$groups = $_POST["groups"];
 	}
 }else{
-	if(isset( $_POST["groups"] )) {
+	if (isset($_POST["groups"])) {
 		$groups = array();
-		foreach($_POST["groups"] as $group) {
-			if(OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group)) {
-				$groups[] = $group;
+		if (!empty($_POST["groups"])) {
+			foreach ($_POST["groups"] as $group) {
+				if (OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group)) {
+					$groups[] = $group;
+				}
 			}
 		}
-		if(count($groups) === 0) {
+		if (empty($groups)) {
 			$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
 		}
-	}else{
+	} else {
 		$groups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
 	}
 }
