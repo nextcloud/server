@@ -53,6 +53,8 @@ class Home extends Storage {
 	 */
 	private $tmpDir;
 
+	private $userId;
+
 	/**
 	 * @var \OC\User\User $user
 	 */
@@ -96,5 +98,9 @@ class Home extends Storage {
 	 */
 	public function testGetCacheReturnsHomeCache() {
 		$this->assertInstanceOf('\OC\Files\Cache\HomeCache', $this->instance->getCache());
+	}
+
+	public function testGetOwner() {
+		$this->assertEquals($this->userId, $this->instance->getOwner(''));
 	}
 }
