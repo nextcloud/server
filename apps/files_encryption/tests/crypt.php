@@ -97,6 +97,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 		}
 
 		$this->assertTrue(\OC_FileProxy::$enabled);
+		\OCP\Config::deleteSystemValue('cipher');
 	}
 
 	public static function tearDownAfterClass() {
@@ -157,6 +158,24 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
+	function testSymmetricEncryptFileContentAes128() {
+
+		# TODO: search in keyfile for actual content as IV will ensure this test always passes
+
+		$crypted = Encryption\Crypt::symmetricEncryptFileContent($this->dataShort, 'hat', 'AES-128-CFB');
+
+		$this->assertNotEquals($this->dataShort, $crypted);
+
+
+		$decrypt = Encryption\Crypt::symmetricDecryptFileContent($crypted, 'hat', 'AES-128-CFB');
+
+		$this->assertEquals($this->dataShort, $decrypt);
+
+	}
+
+	/**
+	 * @medium
+	 */
 	function testSymmetricStreamEncryptShortFileContent() {
 
 		$filename = 'tmp-' . uniqid() . '.test';
@@ -165,6 +184,47 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents($this->userId . '/files/' . $filename);
+
+		// Re-enable proxy - our work is done
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals($this->dataShort, $retreivedCryptedFile);
+
+		// Get file contents with the encryption wrapper
+		$decrypted = file_get_contents('crypt:///' . $this->userId . '/files/'. $filename);
+
+		// Check that decrypted data matches
+		$this->assertEquals($this->dataShort, $decrypted);
+
+		// Teardown
+		$this->view->unlink($this->userId . '/files/' . $filename);
+
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
+	}
+
+	/**
+	 * @medium
+	 */
+	function testSymmetricStreamEncryptShortFileContentAes128() {
+
+		$filename = 'tmp-' . uniqid() . '.test';
+
+		\OCP\Config::setSystemValue('cipher', 'AES-128-CFB');
+
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/'. $filename, $this->dataShort);
+
+		// Test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		\OCP\Config::deleteSystemValue('cipher');
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -222,6 +282,106 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals($this->dataLong . $this->dataLong, $retreivedCryptedFile);
+
+		$decrypted = file_get_contents('crypt:///' . $this->userId . '/files/'. $filename);
+
+		$this->assertEquals($this->dataLong . $this->dataLong, $decrypted);
+
+		// Teardown
+
+		$this->view->unlink($this->userId . '/files/' . $filename);
+
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
+
+	}
+
+	/**
+	 * @medium
+	 * Test that data that is written by the crypto stream wrapper with AES 128
+	 * @note Encrypted data is manually prepared and decrypted here to avoid dependency on success of stream_read
+	 * @note If this test fails with truncate content, check that enough array slices are being rejoined to form $e, as the crypt.php file may have gotten longer and broken the manual
+	 * reassembly of its data
+	 */
+	function testSymmetricStreamEncryptLongFileContentAes128() {
+
+		// Generate a a random filename
+		$filename = 'tmp-' . uniqid() . '.test';
+
+		\OCP\Config::setSystemValue('cipher', 'AES-128-CFB');
+
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);
+
+		// Test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		\OCP\Config::deleteSystemValue('cipher');
+
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents($this->userId . '/files/' . $filename);
+
+		// Re-enable proxy - our work is done
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals($this->dataLong . $this->dataLong, $retreivedCryptedFile);
+
+		$decrypted = file_get_contents('crypt:///' . $this->userId . '/files/'. $filename);
+
+		$this->assertEquals($this->dataLong . $this->dataLong, $decrypted);
+
+		// Teardown
+
+		$this->view->unlink($this->userId . '/files/' . $filename);
+
+		Encryption\Keymanager::deleteFileKey($this->view, $filename);
+
+	}
+
+	/**
+	 * @medium
+	 * Test that data that is written by the crypto stream wrapper with AES 128
+	 * @note Encrypted data is manually prepared and decrypted here to avoid dependency on success of stream_read
+	 * @note If this test fails with truncate content, check that enough array slices are being rejoined to form $e, as the crypt.php file may have gotten longer and broken the manual
+	 * reassembly of its data
+	 */
+	function testStreamDecryptLongFileContentWithoutHeader() {
+
+		// Generate a a random filename
+		$filename = 'tmp-' . uniqid() . '.test';
+
+		\OCP\Config::setSystemValue('cipher', 'AES-128-CFB');
+
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);
+
+		\OCP\Config::deleteSystemValue('cipher');
+
+		// Test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents($this->userId . '/files/' . $filename);
+
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals($this->dataLong . $this->dataLong, $retreivedCryptedFile);
+
+		// remove the header to check if we can also decrypt old files without a header,
+		//  this files should fall back to AES-128
+		$cryptedWithoutHeader = substr($retreivedCryptedFile, Encryption\Crypt::BLOCKSIZE);
+		$this->view->file_put_contents($this->userId . '/files/' . $filename, $cryptedWithoutHeader);
+
+		// Re-enable proxy - our work is done
+		\OC_FileProxy::$enabled = $proxyStatus;
 
 		$decrypted = file_get_contents('crypt:///' . $this->userId . '/files/'. $filename);
 
