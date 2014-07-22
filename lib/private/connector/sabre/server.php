@@ -29,6 +29,37 @@
 class OC_Connector_Sabre_Server extends Sabre\DAV\Server {
 
 	/**
+	 * @var string
+	 */
+	private $overLoadedUri = null;
+
+	public function getRequestUri() {
+
+		if (!is_null($this->overLoadedUri)) {
+			return $this->overLoadedUri;
+		}
+
+		return parent::getRequestUri();
+	}
+
+	public function checkPreconditions($handleAsGET = false) {
+		// chunked upload handling
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			$filePath = parent::getRequestUri();
+			list($path, $name) = \Sabre\DAV\URLUtil::splitPath($filePath);
+			$info = OC_FileChunking::decodeName($name);
+			if (!empty($info)) {
+				$filePath = $path . '/' . $info['name'];
+				$this->overLoadedUri = $filePath;
+			}
+		}
+
+		$result = parent::checkPreconditions($handleAsGET);
+		$this->overLoadedUri = null;
+		return $result;
+	}
+
+	/**
 	 * @see \Sabre\DAV\Server
 	 */
 	protected function httpPropfind($uri) {
