@@ -280,9 +280,8 @@ class Server extends SimpleContainer implements IServerContainer {
 	 *
 	 * @return \OCP\Files\Folder
 	 */
-	function getAppFolder() {
-
-		$dir = '/' . \OC_App::getCurrentApp();
+	function getAppFolder($app) {
+		$dir = (!$app) ?  '/' . \OC_App::getCurrentApp() : \OC_APP::getAppPath($app); 
 		$root = $this->getRootFolder();
 		$folder = null;
 		if(!$root->nodeExists($dir)) {
