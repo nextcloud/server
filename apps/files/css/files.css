@@ -152,15 +152,19 @@ table th .columntitle.name {
 	padding-right: 80px;
 	margin-left: 50px;
 }
-/* hover effect on sortable column */
-table th a.columntitle:hover {
-	color: #000;
-}
+
+.sort-indicator.hidden { visibility: hidden; }
 table th .sort-indicator {
 	width: 10px;
 	height: 8px;
 	margin-left: 10px;
 	display: inline-block;
+}
+table th:hover .sort-indicator.hidden {
+	width: 10px;
+	height: 8px;
+	margin-left: 10px;
+	visibility: visible;
 }
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td {
@@ -367,7 +371,6 @@ table td.filename .uploadtext {
 	left: 18px;
 }
 
-
 #fileList tr td.filename {
 	position: relative;
 	width: 100%;
@@ -431,7 +434,6 @@ a.action>img {
 	vertical-align: text-bottom;
 	margin-bottom: -1px;
 }
-
 
 #fileList a.action {
 	display: inline;
