@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Fout bij ophalen URL",
 "Share" => "Delen",
 "Delete" => "Verwijder",
+"Disconnect storage" => "Verbreken verbinding opslag",
 "Unshare" => "Stop met delen",
 "Delete permanently" => "Verwijder definitief",
 "Rename" => "Hernoem",
