@@ -472,28 +472,7 @@ class OC {
 		@ini_set('post_max_size', '10G');
 		@ini_set('file_uploads', '50');
 
-		//copy http auth headers for apache+php-fcgid work around
-		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
-			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
-		}
-
-		//set http auth headers for apache+php-cgi work around
-		if (isset($_SERVER['HTTP_AUTHORIZATION'])
-			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)
-		) {
-			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
-			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-		}
-
-		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
-		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])
-			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)
-		) {
-			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
-			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
-			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
-		}
+		self::handleAuthHeaders();
 
 		self::initPaths();
 		if (OC_Config::getValue('instanceid', false)) {
@@ -812,6 +791,27 @@ class OC {
 		}
 		header('HTTP/1.0 404 Not Found');
 		return false;
+	}
+
+	protected static function handleAuthHeaders() {
+		//copy http auth headers for apache+php-fcgid work around
+		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
+			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
+		}
+
+		// Extract PHP_AUTH_USER/PHP_AUTH_PW from other headers if necessary.
+		$vars = array(
+			'HTTP_AUTHORIZATION', // apache+php-cgi work around
+			'REDIRECT_HTTP_AUTHORIZATION', // apache+php-cgi alternative
+		);
+		foreach ($vars as $var) {
+			if (isset($_SERVER[$var]) && preg_match('/Basic\s+(.*)$/i', $_SERVER[$var], $matches)) {
+				list($name, $password) = explode(':', base64_decode($matches[1]), 2);
+				$_SERVER['PHP_AUTH_USER'] = $name;
+				$_SERVER['PHP_AUTH_PW'] = $password;
+				break;
+			}
+		}
 	}
 
 	protected static function handleLogin() {
