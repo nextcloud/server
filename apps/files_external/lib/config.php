@@ -294,18 +294,23 @@ class OC_Mount_Config {
 					$mount['options'] = self::decryptPasswords($mount['options']);
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
-					// Merge the mount point into the current mount points
-					if (isset($system[$mountPoint]) && $system[$mountPoint]['configuration'] == $mount['options']) {
-						$system[$mountPoint]['applicable']['groups']
-							= array_merge($system[$mountPoint]['applicable']['groups'], array($group));
+
+					$config = array(
+						'class' => $mount['class'],
+						'mountpoint' => $mountPoint,
+						'backend' => $backends[$mount['class']]['backend'],
+						'options' => $mount['options'],
+						'applicable' => array('groups' => array($group), 'users' => array()),
+						'status' => self::getBackendStatus($mount['class'], $mount['options'])
+					);
+					$hash = self::makeConfigHash($config);
+					// If an existing config exists (with same class, mountpoint and options)
+					if (isset($system[$hash])) {
+						// add the groups into that config
+						$system[$hash]['applicable']['groups']
+							= array_merge($system[$hash]['applicable']['groups'], array($group));
 					} else {
-						$system[$mountPoint] = array(
-							'class' => $mount['class'],
-							'backend' => $backends[$mount['class']]['backend'],
-							'configuration' => $mount['options'],
-							'applicable' => array('groups' => array($group), 'users' => array()),
-							'status' => self::getBackendStatus($mount['class'], $mount['options'])
-						);
+						$system[$hash] = $config;
 					}
 				}
 			}
@@ -320,23 +325,27 @@ class OC_Mount_Config {
 					$mount['options'] = self::decryptPasswords($mount['options']);
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
-					// Merge the mount point into the current mount points
-					if (isset($system[$mountPoint]) && $system[$mountPoint]['configuration'] == $mount['options']) {
-						$system[$mountPoint]['applicable']['users']
-							= array_merge($system[$mountPoint]['applicable']['users'], array($user));
+					$config = array(
+						'class' => $mount['class'],
+						'mountpoint' => $mountPoint,
+						'backend' => $backends[$mount['class']]['backend'],
+						'options' => $mount['options'],
+						'applicable' => array('groups' => array(), 'users' => array($user)),
+						'status' => self::getBackendStatus($mount['class'], $mount['options'])
+					);
+					$hash = self::makeConfigHash($config);
+					// If an existing config exists (with same class, mountpoint and options)
+					if (isset($system[$hash])) {
+						// add the users into that config
+						$system[$hash]['applicable']['users']
+							= array_merge($system[$hash]['applicable']['users'], array($user));
 					} else {
-						$system[$mountPoint] = array(
-							'class' => $mount['class'],
-							'backend' => $backends[$mount['class']]['backend'],
-							'configuration' => $mount['options'],
-							'applicable' => array('groups' => array(), 'users' => array($user)),
-							'status' => self::getBackendStatus($mount['class'], $mount['options'])
-						);
+						$system[$hash] = $config;
 					}
 				}
 			}
 		}
-		return $system;
+		return array_values($system);
 	}
 
 	/**
@@ -356,11 +365,12 @@ class OC_Mount_Config {
 					$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 				}
 				$mount['options'] = self::decryptPasswords($mount['options']);
-				// Remove '/uid/files/' from mount point
-				$personal[substr($mountPoint, strlen($uid) + 8)] = array(
+				$personal[] = array(
 					'class' => $mount['class'],
+					// Remove '/uid/files/' from mount point
+					'mountpoint' => substr($mountPoint, strlen($uid) + 8),
 					'backend' => $backends[$mount['class']]['backend'],
-					'configuration' => $mount['options'],
+					'options' => $mount['options'],
 					'status' => self::getBackendStatus($mount['class'], $mount['options'])
 				);
 			}
@@ -694,5 +704,21 @@ class OC_Mount_Config {
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
 		$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
 		return $cipher;
+	}
+
+	/**
+	 * Computes a hash based on the given configuration.
+	 * This is mostly used to find out whether configurations
+	 * are the same.
+	 */
+	private static function makeConfigHash($config) {
+		$data = json_encode(
+			array(
+				'c' => $config['class'],
+				'm' => $config['mountpoint'],
+				'o' => $config['options']
+			)
+		);
+		return hash('md5', $data);
 	}
 }
