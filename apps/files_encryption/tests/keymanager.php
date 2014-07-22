@@ -177,6 +177,38 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @medium
 	 */
+	function testSetPrivateKey() {
+
+		$key = "dummy key";
+
+		Encryption\Keymanager::setPrivateKey($key, 'dummyUser');
+
+		$this->assertTrue($this->view->file_exists('/dummyUser/files_encryption/dummyUser.private.key'));
+
+		//clean up
+		$this->view->deleteAll('/dummyUser');
+	}
+
+	/**
+	 * @medium
+	 */
+	function testSetPrivateSystemKey() {
+
+		$key = "dummy key";
+		$keyName = "myDummyKey.private.key";
+
+		Encryption\Keymanager::setPrivateSystemKey($key, $keyName);
+
+		$this->assertTrue($this->view->file_exists('/owncloud_private_key/' . $keyName));
+
+		// clean up
+		$this->view->unlink('/owncloud_private_key/' . $keyName);
+	}
+
+
+	/**
+	 * @medium
+	 */
 	function testGetUserKeys() {
 
 		$keys = Encryption\Keymanager::getUserKeys($this->view, $this->userId);
