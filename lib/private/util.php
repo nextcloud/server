@@ -22,7 +22,7 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 	}
-	
+
 	/**
 	 * mounting an object storage as the root fs will in essence remove the
 	 * necessity of a data folder being present.
@@ -50,7 +50,7 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 	}
-	
+
 	/**
 	 * Can be set up
 	 * @param string $user
@@ -168,6 +168,21 @@ class OC_Util {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * check if share API enforces a default expire date
+	 * @return boolean
+	 */
+	public static function isDefaultExpireDateEnforced() {
+		$isDefaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		$enforceDefaultExpireDate = false;
+		if ($isDefaultExpireDateEnabled === 'yes') {
+			$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+			$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
+		}
+
+		return $enforceDefaultExpireDate;
 	}
 
 	/**

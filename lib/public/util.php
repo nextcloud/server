@@ -519,6 +519,15 @@ class Util {
 	}
 
 	/**
+	 * check if share API enforces a default expire date
+	 * @return boolean
+	 */
+	public static function isDefaultExpireDateEnforced() {
+		return \OC_Util::isDefaultExpireDateEnforced();
+	}
+
+
+	/**
 	 * Checks whether the current version needs upgrade.
 	 *
 	 * @return bool true if upgrade is needed, false otherwise
