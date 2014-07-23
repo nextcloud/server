@@ -925,19 +925,69 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
+	 * validate expire date if it meets all constraints
+	 *
+	 * @param string $expireDate well formate date string, e.g. "DD-MM-YYYY"
+	 * @param string $shareTime timestamp when the file was shared
+	 * @param string $itemType
+	 * @param string $itemSource
+	 * @return DateTime validated date
+	 * @throws \Exception
+	 */
+	private static function validateExpireDate($expireDate, $shareTime, $itemType, $itemSource) {
+		$l = \OC_L10N::get('lib');
+		$date = new \DateTime($expireDate);
+		$today = new \DateTime('now');
+
+		// if the user doesn't provide a share time we need to get it from the database
+		// fall-back mode to keep API stable, because the $shareTime parameter was added later
+		$defaultExpireDateEnforced = \OCP\Util::isDefaultExpireDateEnforced();
+		if ($defaultExpireDateEnforced && $shareTime === null) {
+			$items = self::getItemShared($itemType, $itemSource);
+			$firstItem = reset($items);
+			$shareTime = (int)$firstItem['stime'];
+		}
+
+		if ($defaultExpireDateEnforced) {
+			// initialize max date with share time
+			$maxDate = new \DateTime();
+			$maxDate->setTimestamp($shareTime);
+			$maxDays = \OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
+			$maxDate->add(new \DateInterval('P' . $maxDays . 'D'));
+			if ($date > $maxDate) {
+				$warning = 'Can not set expire date. Shares can not expire later then ' . $maxDays . ' after they where shared';
+				$warning_t = $l->t('Can not set expire date. Shares can not expire later then %s after they where shared', array($maxDays));
+				\OCP\Util::writeLog('OCP\Share', $warning, \OCP\Util::WARN);
+				throw new \Exception($warning_t);
+			}
+		}
+
+		if ($date < $today) {
+			$message = 'Can not set expire date. Expire date is in the past';
+			$message_t = $l->t('Can not set expire date. Expire date is in the past');
+			\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::WARN);
+			throw new \Exception($message_t);
+		}
+
+		return $date;
+	}
+
+	/**
 	 * Set expiration date for a share
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $date expiration date
+	 * @param int $shareTime timestamp from when the file was shared
+	 * @throws \Exception
 	 * @return boolean
 	 */
-	public static function setExpirationDate($itemType, $itemSource, $date) {
+	public static function setExpirationDate($itemType, $itemSource, $date, $shareTime = null) {
 		$user = \OC_User::getUser();
 
 		if ($date == '') {
 			$date = null;
 		} else {
-			$date = new \DateTime($date);
+			$date = self::validateExpireDate($date, $shareTime, $itemType, $itemSource);
 		}
 		$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `item_type` = ? AND `item_source` = ?  AND `uid_owner` = ? AND `share_type` = ?');
 		$query->bindValue(1, $date, 'datetime');
@@ -954,11 +1004,10 @@ class Share extends \OC\Share\Constants {
 			'date' => $date,
 			'uidOwner' => $user
 		));
-	
-		return true;
 
-        }
-        
+		return true;
+	}
+
 	/**
 	 * Checks whether a share has expired, calls unshareItem() if yes.
 	 * @param array $item Share data (usually database row)

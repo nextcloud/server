@@ -298,10 +298,11 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $date expiration date
+	 * @param int $shareTime timestamp from when the file was shared
 	 * @return boolean
 	 */
-	public static function setExpirationDate($itemType, $itemSource, $date) {
-		return \OC\Share\Share::setExpirationDate($itemType, $itemSource, $date);
+	public static function setExpirationDate($itemType, $itemSource, $date, $shareTime = null) {
+		return \OC\Share\Share::setExpirationDate($itemType, $itemSource, $date, $shareTime);
 	}
 
 	/**
