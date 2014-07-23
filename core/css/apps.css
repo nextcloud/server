@@ -22,8 +22,7 @@
 	height: 100%;
 	float: left;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	background-color: #f8f8f8;
-	border-right: 1px solid #ccc;
+	background-color: #f5f5f5;
 	padding-bottom: 44px;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -49,11 +48,6 @@
 #app-navigation .selected,
 #app-navigation .selected a {
 	background-color: #ccc;
-}
-
-/* special rules for first-level entries and folders */
-#app-navigation > ul > li {
-	background-color: #f8f8f8;
 }
 
 #app-navigation .with-icon a {
