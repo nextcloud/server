@@ -39,7 +39,8 @@ class NaturalSort {
 
 		while ($x < $length) {
 			$c = $t[$x];
-			$m = ($c === '.' || ($c >= '0' && $c <= '9'));
+			// only include the dot in strings
+			$m = ((!$n && $c === '.') || ($c >= '0' && $c <= '9'));
 			if ($m !== $n) {
 				// next chunk
 				$y++;

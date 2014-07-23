@@ -531,10 +531,14 @@ describe('Core base tests', function() {
 				'za',
 				'ghi 1.txt',
 				'ghi 12.txt',
-				'zz'
+				'zz',
+				'15.txt',
+				'15b.txt'
 			];
 			a.sort(OC.Util.naturalSortCompare);
 			expect(a).toEqual([
+				'15.txt',
+				'15b.txt',
 				'123.txt',
 				'124.txt',
 				'abc',

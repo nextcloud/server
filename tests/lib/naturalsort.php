@@ -74,9 +74,13 @@ class Test_NaturalSort extends PHPUnit_Framework_TestCase {
 					'ghi 1.txt',
 					'ghi 12.txt',
 					'zz',
+					'15.txt',
+					'15b.txt',
 				),
 				// sorted
 				array(
+					'15.txt',
+					'15b.txt',
 					'123.txt',
 					'124.txt',
 					'abc',

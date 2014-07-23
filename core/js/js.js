@@ -1373,7 +1373,8 @@ OC.Util = {
 
 		while (x < t.length) {
 			c = t.charAt(x);
-			var m = (c === '.' || (c >= '0' && c <= '9'));
+			// only include the dot in strings
+			var m = ((!n && c === '.') || (c >= '0' && c <= '9'));
 			if (m !== n) {
 				// next chunk
 				y++;
@@ -1393,6 +1394,7 @@ OC.Util = {
 	 * or 0 if the strings are identical
 	 */
 	naturalSortCompare: function(a, b) {
+		var x;
 		var aa = OC.Util._chunkify(a);
 		var bb = OC.Util._chunkify(b);
 
