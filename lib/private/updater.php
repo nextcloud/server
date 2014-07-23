@@ -212,8 +212,6 @@ class Updater extends BasicEmitter {
 			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 			$this->emit('\OC\Updater', 'dbUpgrade');
 
-			// TODO: why not do this at the end ?
-			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
 			$disabledApps = \OC_App::checkAppsRequirements();
 			if (!empty($disabledApps)) {
 				$this->emit('\OC\Updater', 'disabledApps', array($disabledApps));
@@ -227,6 +225,9 @@ class Updater extends BasicEmitter {
 
 			//Invalidate update feed
 			\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
+
+			// only set the final version if everything went well
+			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
 		}
 	}
 }
