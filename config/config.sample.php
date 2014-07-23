@@ -284,7 +284,7 @@ $CONFIG = array(
 'asset-pipeline.enabled' => false,
 
 /* where mount.json file should be stored, defaults to data/mount.json */
-'mount_file' => '',
+// 'mount_file' => 'data/mount.json',
 
 /*
  * Location of the cache folder, defaults to "data/$user/cache" where "$user" is the current user.
