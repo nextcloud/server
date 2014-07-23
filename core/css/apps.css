@@ -193,7 +193,6 @@
 	position: fixed;
 	width: 249px;
 	bottom: 0;
-	border-top: 1px solid #ccc;
 }
 #app-settings.opened #app-settings-content {
 	display: block;
