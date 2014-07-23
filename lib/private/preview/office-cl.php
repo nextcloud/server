@@ -29,13 +29,12 @@ if (!\OC_Util::runningOnWindows()) {
 
 			$tmpDir = get_temp_dir();
 
-			$defaultParameters = ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ';
+			$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir) . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ';
 			$clParameters = \OCP\Config::getSystemValue('preview_office_cl_parameters', $defaultParameters);
 
 			$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
-			$export = 'export HOME=/' . $tmpDir;
 
-			shell_exec($export . "\n" . $exec);
+			shell_exec($exec);
 
 			//create imagick object from pdf
 			try{
