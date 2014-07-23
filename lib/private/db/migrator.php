@@ -110,7 +110,9 @@ class Migrator {
 			$this->dropTable($tmpName);
 		} catch (DBALException $e) {
 			// pgsql needs to commit it's failed transaction before doing anything else
-			$this->connection->commit();
+			if ($this->connection->isTransactionActive()) {
+				$this->connection->commit();
+			}
 			$this->dropTable($tmpName);
 			throw new MigrationException($table->getName(), $e->getMessage());
 		}
