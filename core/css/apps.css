@@ -191,7 +191,7 @@
 /* settings area */
 #app-settings {
 	position: fixed;
-	width: 249px;
+	width: 250px; /* change to 100% when layout positions are absolute */
 	bottom: 0;
 }
 #app-settings.opened #app-settings-content {
