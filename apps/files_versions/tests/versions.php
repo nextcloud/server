@@ -20,6 +20,7 @@
  *
  */
 
+require_once __DIR__ . '/../appinfo/app.php';
 require_once __DIR__ . '/../lib/versions.php';
 
 /**
@@ -28,6 +29,32 @@ require_once __DIR__ . '/../lib/versions.php';
  */
 class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 
+	const TEST_VERSIONS_USER = 'test-versions-user';
+	const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
+
+	private $rootView;
+
+	public static function setUpBeforeClass() {
+		// create test user
+		self::loginHelper(self::TEST_VERSIONS_USER, true);
+	}
+
+	public static function tearDownAfterClass() {
+		// cleanup test user
+		\OC_User::deleteUser(self::TEST_VERSIONS_USER);
+	}
+
+	function setUp() {
+		self::loginHelper(self::TEST_VERSIONS_USER);
+		$this->rootView = new \OC\Files\View();
+		if (!$this->rootView->file_exists(self::USERS_VERSIONS_ROOT)) {
+			$this->rootView->mkdir(self::USERS_VERSIONS_ROOT);
+		}
+	}
+
+	function tearDown() {
+		$this->rootView->deleteAll(self::USERS_VERSIONS_ROOT);
+	}
 
 	/**
 	 * @medium
@@ -174,6 +201,87 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 			),
 
 		);
+	}
+
+	function testRename() {
+
+		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
+
+		$t1 = time();
+		// second version is two weeks older, this way we make sure that no
+		// version will be expired
+		$t2 = $t1 - 60 * 60 * 24 * 14;
+
+		// create some versions
+		$v1 = self::USERS_VERSIONS_ROOT . '/test.txt.v' . $t1;
+		$v2 = self::USERS_VERSIONS_ROOT . '/test.txt.v' . $t2;
+		$v1Renamed = self::USERS_VERSIONS_ROOT . '/test2.txt.v' . $t1;
+		$v2Renamed = self::USERS_VERSIONS_ROOT . '/test2.txt.v' . $t2;
+
+		$this->rootView->file_put_contents($v1, 'version1');
+		$this->rootView->file_put_contents($v2, 'version2');
+
+		// execute rename hook of versions app
+		\OCA\Files_Versions\Storage::renameOrCopy("test.txt", "test2.txt", 'rename');
+
+		$this->assertFalse($this->rootView->file_exists($v1));
+		$this->assertFalse($this->rootView->file_exists($v2));
+
+		$this->assertTrue($this->rootView->file_exists($v1Renamed));
+		$this->assertTrue($this->rootView->file_exists($v2Renamed));
+
+		//cleanup
+		\OC\Files\Filesystem::unlink('test2.txt');
+	}
+
+	function testCopy() {
+
+		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
+
+		$t1 = time();
+		// second version is two weeks older, this way we make sure that no
+		// version will be expired
+		$t2 = $t1 - 60 * 60 * 24 * 14;
+
+		// create some versions
+		$v1 = self::USERS_VERSIONS_ROOT . '/test.txt.v' . $t1;
+		$v2 = self::USERS_VERSIONS_ROOT . '/test.txt.v' . $t2;
+		$v1Copied = self::USERS_VERSIONS_ROOT . '/test2.txt.v' . $t1;
+		$v2Copied = self::USERS_VERSIONS_ROOT . '/test2.txt.v' . $t2;
+
+		$this->rootView->file_put_contents($v1, 'version1');
+		$this->rootView->file_put_contents($v2, 'version2');
+
+		// execute copy hook of versions app
+		\OCA\Files_Versions\Storage::renameOrCopy("test.txt", "test2.txt", 'copy');
+
+		$this->assertTrue($this->rootView->file_exists($v1));
+		$this->assertTrue($this->rootView->file_exists($v2));
+
+		$this->assertTrue($this->rootView->file_exists($v1Copied));
+		$this->assertTrue($this->rootView->file_exists($v2Copied));
+
+		//cleanup
+		\OC\Files\Filesystem::unlink('test.txt');
+		\OC\Files\Filesystem::unlink('test2.txt');
+	}
+
+	/**
+	 * @param string $user
+	 * @param bool $create
+	 * @param bool $password
+	 */
+	public static function loginHelper($user, $create = false) {
+
+		if ($create) {
+			\OC_User::createUser($user, $user);
+		}
+
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+		\OC\Files\Filesystem::tearDown();
+		\OC_User::setUserId($user);
+		\OC_Util::setupFS($user);
 	}
 
 }
