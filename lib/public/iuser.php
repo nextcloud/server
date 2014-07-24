@@ -18,14 +18,14 @@ interface IUser {
 	public function getUID();
 
 	/**
-	 * get the displayname for the user, if no specific displayname is set it will fallback to the user id
+	 * get the display name for the user, if no specific display name is set it will fallback to the user id
 	 *
 	 * @return string
 	 */
 	public function getDisplayName();
 
 	/**
-	 * set the displayname for the user
+	 * set the display name for the user
 	 *
 	 * @param string $displayName
 	 * @return bool
@@ -59,7 +59,7 @@ interface IUser {
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 * @return bool
 	 */
-	public function setPassword($password, $recoveryPassword);
+	public function setPassword($password, $recoveryPassword = null);
 
 	/**
 	 * get the users home folder to mount
