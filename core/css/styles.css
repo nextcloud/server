@@ -444,13 +444,15 @@ input[name='password-clone'] {
 .groupbottom {
 	position: relative;
 }
-#body-login .grouptop input {
+#body-login .grouptop input,
+.grouptop input {
 	margin-bottom: 0;
 	border-bottom: 0;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
 }
-#body-login .groupmiddle input {
+#body-login .groupmiddle input,
+.groupmiddle input {
 	margin-top: 0;
 	margin-bottom: 0;
 	border-top: 0;
@@ -458,7 +460,8 @@ input[name='password-clone'] {
 	border-radius: 0;
 	box-shadow: 0 1px 0 rgba(0,0,0,.1) inset !important;
 }
-#body-login .groupbottom input {
+#body-login .groupbottom input,
+.groupbottom input {
 	margin-top: 0;
 	border-top: 0;
 	border-top-right-radius: 0;
