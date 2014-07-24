@@ -712,6 +712,7 @@
 		 * @param options map of attributes:
 		 * - "updateSummary": true to update the summary after adding (default), false otherwise
 		 * - "silent": true to prevent firing events like "fileActionsReady"
+		 * - "animate": true to animate preview loading (defaults to true here)
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
@@ -719,7 +720,7 @@
 			var $tr;
 			var $rows;
 			var $insertionPoint;
-			options = options || {};
+			options = _.extend({animate: true}, options || {});
 
 			// there are three situations to cover:
 			// 1) insertion point is visible on the current page
@@ -777,6 +778,7 @@
 		 * @param options map of attributes:
 		 * - "index" optional index at which to insert the element
 		 * - "updateSummary" true to update the summary after adding (default), false otherwise
+		 * - "animate" true to animate the preview rendering
 		 * @return new tr element (not appended to the table)
 		 */
 		_renderRow: function(fileData, options) {
@@ -818,7 +820,7 @@
 
 			if (fileData.isPreviewAvailable) {
 				// lazy load / newly inserted td ?
-				if (!fileData.icon) {
+				if (options.animate) {
 					this.lazyLoadPreview({
 						path: path + '/' + fileData.name,
 						mime: mime,
