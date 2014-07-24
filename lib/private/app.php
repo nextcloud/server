@@ -62,6 +62,9 @@ class OC_App {
 	 * if $types is set, only apps of those types will be loaded
 	 */
 	public static function loadApps($types = null) {
+		if (OC_Config::getValue('maintenance', false)) {
+			return false;
+		}
 		// Load the enabled apps here
 		$apps = self::getEnabledApps();
 		// prevent app.php from printing output
@@ -81,11 +84,12 @@ class OC_App {
 	 * load a single app
 	 *
 	 * @param string $app
+	 * @param bool $checkUpgrade whether an upgrade check should be done
 	 * @throws \OC\NeedsUpdateException
 	 */
-	public static function loadApp($app) {
+	public static function loadApp($app, $checkUpgrade = true) {
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
-			if (self::shouldUpgrade($app)) {
+			if ($checkUpgrade and self::shouldUpgrade($app)) {
 				throw new \OC\NeedsUpdateException();
 			}
 			require_once $app . '/appinfo/app.php';
@@ -1135,7 +1139,7 @@ class OC_App {
 	 */
 	public static function updateApp($appId) {
 		if (file_exists(self::getAppPath($appId) . '/appinfo/preupdate.php')) {
-			self::loadApp($appId);
+			self::loadApp($appId, false);
 			include self::getAppPath($appId) . '/appinfo/preupdate.php';
 		}
 		if (file_exists(self::getAppPath($appId) . '/appinfo/database.xml')) {
@@ -1145,7 +1149,7 @@ class OC_App {
 			return false;
 		}
 		if (file_exists(self::getAppPath($appId) . '/appinfo/update.php')) {
-			self::loadApp($appId);
+			self::loadApp($appId, false);
 			include self::getAppPath($appId) . '/appinfo/update.php';
 		}
 
