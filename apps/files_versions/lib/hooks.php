@@ -69,7 +69,25 @@ class Hooks {
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
 			if($oldpath<>'' && $newpath<>'') {
-				Storage::rename( $oldpath, $newpath );
+				Storage::renameOrCopy($oldpath, $newpath, 'rename');
+			}
+		}
+	}
+
+	/**
+	 * copy versions of copied files
+	 * @param array $params array with oldpath and newpath
+	 *
+	 * This function is connected to the copy signal of OC_Filesystem and copies the
+	 * the stored versions to the new location
+	 */
+	public static function copy_hook($params) {
+
+		if (\OCP\App::isEnabled('files_versions')) {
+			$oldpath = $params['oldpath'];
+			$newpath = $params['newpath'];
+			if($oldpath<>'' && $newpath<>'') {
+				Storage::renameOrCopy($oldpath, $newpath, 'copy');
 			}
 		}
 	}
