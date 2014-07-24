@@ -31,16 +31,22 @@
 
 /* compress search box on mobile, expand when focused */
 .searchbox input[type="search"] {
-	width: 15%;
-	-webkit-transition: width 100ms;
-	-moz-transition: width 100ms;
-	-o-transition: width 100ms;
-	transition: width 100ms;
+	width: 0;
+	cursor: pointer;
+	background-color: transparent;
+	background-image: url('../img/actions/search-white.svg');
+	-webkit-transition: all 100ms;
+	-moz-transition: all 100ms;
+	-o-transition: all 100ms;
+	transition: all 100ms;
 }
 .searchbox input[type="search"]:focus,
 .searchbox input[type="search"]:active {
 	width: 155px;
 	max-width: 50%;
+	cursor: text;
+	background-color: #fff;
+	background-image: url('../img/actions/search.svg');
 }
 
 /* do not show display name on mobile when profile picture is present */

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="16" width="16" version="1.0" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
+ <rect style="color:#000000" fill-opacity="0" height="97.986" width="163.31" y="-32.993" x="-62.897"/>
+ <path style="color:#000000" d="m6 1c-2.7614 0-5 2.2386-5 5s2.2386 5 5 5c0.98478 0 1.8823-0.28967 2.6562-0.78125l4.4688 4.625c0.09558 0.10527 0.22619 0.16452 0.375 0.15625 0.14882-0.0083 0.3031-0.07119 0.40625-0.1875l0.9375-1.0625c0.19194-0.22089 0.19549-0.53592 0-0.71875l-4.594-4.406c0.478-0.7663 0.75-1.6555 0.75-2.625 0-2.7614-2.2386-5-5-5zm0 2c1.6569 0 3 1.3431 3 3s-1.3431 3-3 3-3-1.3431-3-3 1.3431-3 3-3z" fill="#fff"/>
+</svg>
