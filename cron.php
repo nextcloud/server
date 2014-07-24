@@ -122,8 +122,7 @@ try {
 			// Work and success :-)
 			$jobList = \OC::$server->getJobList();
 			$job = $jobList->getNext();
-			if ($job != null)
-			{
+			if ($job != null) {
 				$job->execute($jobList, $logger);
 				$jobList->setLastJob($job);
 			}
