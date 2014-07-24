@@ -189,9 +189,12 @@ class Storage {
 	}
 
 	/**
-	 * rename versions of a file
+	 * rename or copy versions of a file
+	 * @param string $old_path
+	 * @param string $new_path
+	 * @param string $operation can be 'copy' or 'rename'
 	 */
-	public static function rename($old_path, $new_path) {
+	public static function renameOrCopy($old_path, $new_path, $operation) {
 		list($uid, $oldpath) = self::getUidAndFilename($old_path);
 		list($uidn, $newpath) = self::getUidAndFilename($new_path);
 		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
@@ -206,13 +209,13 @@ class Storage {
 		self::expire($newpath);
 
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
-			$versions_view->rename($oldpath, $newpath);
+			$versions_view->$operation($oldpath, $newpath);
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
 			// create missing dirs if necessary
 			self::createMissingDirectories($newpath, new \OC\Files\View('/'. $uidn));
 
 			foreach ($versions as $v) {
-				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
+				$versions_view->$operation($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
 		}
 	}
