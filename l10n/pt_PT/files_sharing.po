@@ -6,6 +6,7 @@
 # zedascouves <duartegrilo@gmail.com>, 2013
 # Gonçalo Ferreira <goncalo.ferreira@semcabo.pt>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
+# Luis Jorge Simões das Neves <luisjneves@gmail.com>, 2014
 # Manuela Silva <manuela.silva@sky.com>, 2014
 # Manuel Oliveira <manuel.oliveira@gmail.com>, 2013
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-24 01:54-0400\n"
+"PO-Revision-Date: 2014-07-23 23:20+0000\n"
+"Last-Translator: Luis Jorge Simões das Neves <luisjneves@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,15 +59,15 @@ msgstr "Ainda não partilhou quaisquer ficheiros por hiperligação."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "Deseja adicionar a partilha remota {nome} de {proprietário}@{remoto}?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Partilha remota"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Password da partilha remota"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -74,7 +75,7 @@ msgstr "Cancelar"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Adicionar partilha remota"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
@@ -134,7 +135,7 @@ msgstr "Para mais informação, por favor, pergunte à pessoa que lhe enviou est
 
 #: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Adicionar á sua ownCloud"
 
 #: templates/public.php:30
 msgid "Download"

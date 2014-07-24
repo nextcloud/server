@@ -8,14 +8,15 @@
 # Daniel Pinto <daniel@mouxy.net>, 2013
 # Fernando Moura <moura232@gmail.com>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
+# Luis Jorge Simões das Neves <luisjneves@gmail.com>, 2014
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 01:54-0400\n"
-"PO-Revision-Date: 2014-07-10 19:30+0000\n"
-"Last-Translator: Fernando Moura <moura232@gmail.com>\n"
+"POT-Creation-Date: 2014-07-24 01:54-0400\n"
+"PO-Revision-Date: 2014-07-23 23:10+0000\n"
+"Last-Translator: Luis Jorge Simões das Neves <luisjneves@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr "Falhou a limpar os mapas"
+msgstr "Falhou a limpar os mapas."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"

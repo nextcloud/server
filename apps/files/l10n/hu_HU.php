@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "A tároló elérhetetlen.",
+"Storage invalid" => "A tároló érvénytelen",
 "Unknown error" => "Ismeretlen hiba",
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
@@ -43,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "A megadott URL-ről nem sikerül adatokat kapni",
 "Share" => "Megosztás",
 "Delete" => "Törlés",
+"Disconnect storage" => "Tároló leválasztása",
 "Unshare" => "A megosztás visszavonása",
 "Delete permanently" => "Végleges törlés",
 "Rename" => "Átnevezés",

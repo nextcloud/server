@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Failed to clear the mappings." => "Falhou a limpar os mapas",
+"Failed to clear the mappings." => "Falhou a limpar os mapas.",
 "Failed to delete the server configuration" => "Erro ao eliminar a configuração do servidor",
 "The configuration is valid and the connection could be established!" => "A configuração está correcta e foi possível estabelecer a ligação!",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A configuração está correcta, mas não foi possível estabelecer o \"laço\", por favor, verifique as configurações do servidor e as credenciais.",

@@ -10,6 +10,7 @@
 # Fernando Moura <moura232@gmail.com>, 2014
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Jose Manuel Ruas <jmruas@gmail.com>, 2014
+# Luis Jorge Simões das Neves <luisjneves@gmail.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2013-2014
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
 # PapiMigas <papimigas@gmail.com>, 2013
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-12 01:54-0400\n"
-"PO-Revision-Date: 2014-07-10 19:41+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-24 01:54-0400\n"
+"PO-Revision-Date: 2014-07-23 23:51+0000\n"
+"Last-Translator: Luis Jorge Simões das Neves <luisjneves@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,7 +122,7 @@ msgstr "Não foi possível excluir permanentemente a sua chave de encriptação.
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Impossível remover aplicação."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -222,7 +223,7 @@ msgstr "Actualizar para a versão {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Desinstalar aplicação"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -266,15 +267,15 @@ msgstr "Actualizado"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Desinstalando ...."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Erro durante a desinstalação da aplicação"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Desinstalar"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -314,21 +315,21 @@ msgstr "Restaurar chaves encriptadas."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Impossível apagar {objNome}"
 
-#: js/users/groups.js:92 js/users/groups.js:197
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr "Erro ao criar grupo"
 
-#: js/users/groups.js:196
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr "Um nome válido do grupo tem de ser fornecido"
 
-#: js/users/groups.js:224
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr "apagar {Nome do grupo}"
 
-#: js/users/groups.js:225 js/users/users.js:296
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "desfazer"
 
@@ -356,23 +357,23 @@ msgstr "nunca"
 msgid "deleted {userName}"
 msgstr "apagar{utilizador}"
 
-#: js/users/users.js:426
+#: js/users/users.js:431
 msgid "add group"
 msgstr "Adicionar grupo"
 
-#: js/users/users.js:621
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Um nome de utilizador válido deve ser fornecido"
 
-#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Erro a criar utilizador"
 
-#: js/users/users.js:627
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Uma password válida deve ser fornecida"
 
-#: js/users/users.js:657
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Atenção: a pasta pessoal do utilizador \"{user}\" já existe"
 
@@ -463,13 +464,13 @@ msgstr "Por favor verifique o<a href='%s'>Guia de instalação</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr ""
+msgstr "PHP está aparentemente configurado a remover blocos doc em linha. Isto vai fazer algumas aplicações basicas inacessíveis."
 
 #: templates/admin.php:94
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
-msgstr ""
+msgstr "Isto é provavelmente causado por uma cache/acelerador como o Zend OPcache or eAcelerador."
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
@@ -480,7 +481,7 @@ msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr ""
+msgstr "SQLite é usado como base de dados. Para grandes instalações nós recomendamos a alterar isso. Para mudar para outra base de dados use o comando de linha: 'occ db:convert-type'"
 
 #: templates/admin.php:119
 msgid "Module 'fileinfo' missing"
@@ -569,7 +570,7 @@ msgstr "cron.php está registado num serviço webcron para chamar a página cron
 
 #: templates/admin.php:229
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Usar o serviço sistema cron para ligar o ficheiro cron.php a cada 15 minutos."
 
 #: templates/admin.php:234
 msgid "Sharing"
@@ -613,7 +614,7 @@ msgstr "Permitir repartilha"
 
 #: templates/admin.php:276
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "Restringe os utilizadores só a partilhar com utilizadores do seu grupo"
 
 #: templates/admin.php:281
 msgid "Allow users to send mail notification for shared files"
@@ -756,7 +757,7 @@ msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Activar só para grupos específicos"
 
 #: templates/apps.php:61
 msgid "All"
@@ -794,7 +795,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "Se quer ajudar no projecto\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\">aderir desenvolvimento</a>\n⇥⇥ou\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\">espalhe a palavra</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"

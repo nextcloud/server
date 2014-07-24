@@ -5,13 +5,14 @@
 # Translators:
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
+# Szládovics Péter <peti@szladovics.hu>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-24 01:54-0400\n"
+"PO-Revision-Date: 2014-07-23 14:01+0000\n"
+"Last-Translator: Szládovics Péter <peti@szladovics.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,11 +22,11 @@ msgstr ""
 
 #: ajax/list.php:38
 msgid "Storage not available"
-msgstr ""
+msgstr "A tároló elérhetetlen."
 
 #: ajax/list.php:45
 msgid "Storage invalid"
-msgstr ""
+msgstr "A tároló érvénytelen"
 
 #: ajax/list.php:52
 msgid "Unknown error"
@@ -191,7 +192,7 @@ msgstr "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a fel
 msgid "URL cannot be empty"
 msgstr "Az URL-cím nem maradhat kitöltetlenül"
 
-#: js/file-upload.js:568 js/filelist.js:1259
+#: js/file-upload.js:568 js/filelist.js:1273
 msgid "{new_name} already exists"
 msgstr "{new_name} már létezik"
 
@@ -217,7 +218,7 @@ msgstr "Törlés"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
-msgstr ""
+msgstr "Tároló leválasztása"
 
 #: js/fileactions.js:299
 msgid "Unshare"
@@ -237,55 +238,55 @@ msgid ""
 "big."
 msgstr "Készül a letöltendő állomány. Ez eltarthat egy ideig, ha nagyok a fájlok."
 
-#: js/filelist.js:675 js/filelist.js:1783
+#: js/filelist.js:680 js/filelist.js:1797
 msgid "Pending"
 msgstr "Folyamatban"
 
-#: js/filelist.js:1210
+#: js/filelist.js:1224
 msgid "Error moving file."
 msgstr "Hiba történt a fájl áthelyezése közben."
 
-#: js/filelist.js:1218
+#: js/filelist.js:1232
 msgid "Error moving file"
 msgstr "Az állomány áthelyezése nem sikerült."
 
-#: js/filelist.js:1218
+#: js/filelist.js:1232
 msgid "Error"
 msgstr "Hiba"
 
-#: js/filelist.js:1307
+#: js/filelist.js:1321
 msgid "Could not rename file"
 msgstr "Az állomány nem nevezhető át"
 
-#: js/filelist.js:1425
+#: js/filelist.js:1439
 msgid "Error deleting file."
 msgstr "Hiba a file törlése közben."
 
-#: js/filelist.js:1528 templates/list.php:61
+#: js/filelist.js:1542 templates/list.php:61
 msgid "Name"
 msgstr "Név"
 
-#: js/filelist.js:1529 templates/list.php:72
+#: js/filelist.js:1543 templates/list.php:72
 msgid "Size"
 msgstr "Méret"
 
-#: js/filelist.js:1530 templates/list.php:75
+#: js/filelist.js:1544 templates/list.php:75
 msgid "Modified"
 msgstr "Módosítva"
 
-#: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1554 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappa"
 msgstr[1] "%n mappa"
 
-#: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1560 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n állomány"
 msgstr[1] "%n állomány"
 
-#: js/filelist.js:1676 js/filelist.js:1715
+#: js/filelist.js:1690 js/filelist.js:1729
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "%n állomány feltöltése"
