@@ -81,10 +81,13 @@ class OC_App {
 	 * load a single app
 	 *
 	 * @param string $app
+	 * @throws \OC\NeedsUpdateException
 	 */
 	public static function loadApp($app) {
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
-			self::checkUpgrade($app);
+			if (self::shouldUpgrade($app)) {
+				throw new \OC\NeedsUpdateException();
+			}
 			require_once $app . '/appinfo/app.php';
 		}
 	}
@@ -952,39 +955,6 @@ class OC_App {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * check if the app needs updating and update when needed
-	 *
-	 * @param string $app
-	 */
-	public static function checkUpgrade($app) {
-		if (in_array($app, self::$checkedApps)) {
-			return;
-		}
-		self::$checkedApps[] = $app;
-		if (!self::shouldUpgrade($app)) {
-			return;
-		}
-		$versions = self::getAppVersions();
-		$installedVersion = $versions[$app];
-		$currentVersion = OC_App::getAppVersion($app);
-		OC_Log::write(
-			$app,
-			'starting app upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-			OC_Log::DEBUG
-		);
-		$info = self::getAppInfo($app);
-		try {
-			OC_App::updateApp($app);
-			OC_Hook::emit('update', 'success', 'Updated ' . $info['name'] . ' app');
-		} catch (Exception $e) {
-			OC_Hook::emit('update', 'failure', 'Failed to update ' . $info['name'] . ' app: ' . $e->getMessage());
-			$l = OC_L10N::get('lib');
-			throw new RuntimeException($l->t('Failed to upgrade "%s".', array($app)), 0, $e);
-		}
-		OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 	}
 
 	/**
