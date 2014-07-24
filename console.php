@@ -22,16 +22,22 @@ try {
 		exit(0);
 	}
 
-	// load all apps to get all api routes properly setup
-	OC_App::loadApps();
+	// only load apps if no update is due,
+	// else only core commands will be available
+	if (!\OCP\Util::needUpgrade()) {
+		// load all apps to get all api routes properly setup
+		OC_App::loadApps();
+	}
 
 	$defaults = new OC_Defaults;
 	$application = new Application($defaults->getName(), \OC_Util::getVersionString());
 	require_once 'core/register_command.php';
-	foreach(OC_App::getAllApps() as $app) {
-		$file = OC_App::getAppPath($app).'/appinfo/register_command.php';
-		if(file_exists($file)) {
-			require $file;
+	if (!\OCP\Util::needUpgrade()) {
+		foreach(OC_App::getAllApps() as $app) {
+			$file = OC_App::getAppPath($app).'/appinfo/register_command.php';
+			if(file_exists($file)) {
+				require $file;
+			}
 		}
 	}
 	$application->run();
