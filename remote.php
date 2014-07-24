@@ -51,6 +51,10 @@ try {
 	$baseuri = OC::$WEBROOT . '/remote.php/'.$service.'/';
 	require_once $file;
 
+} catch (\OC\ServiceUnavailableException $ex) {
+	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
+	OC_Template::printExceptionErrorPage($ex);
 } catch (Exception $ex) {
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
 	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
