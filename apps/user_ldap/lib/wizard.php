@@ -268,10 +268,10 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Could not connect to LDAP');
 		}
 
-		$this->fetchGroups($dbKey, $confKey);
+		$groups = $this->fetchGroups($dbKey, $confKey);
 
 		if($testMemberOf) {
-			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf();
+			$this->configuration->hasMemberOfFilterSupport = $this->testMemberOf($groups);
 			$this->result->markChange();
 			if(!$this->configuration->hasMemberOfFilterSupport) {
 				throw new \Exception('memberOf is not supported by the server');
@@ -300,12 +300,14 @@ class Wizard extends LDAPUtility {
 		$filter = $ldapAccess->combineFilterWithOr($filterParts);
 		$filter = $ldapAccess->combineFilterWithAnd(array($filter, 'cn=*'));
 
+		$groupdns = array();
 		$limit = 400;
 		$offset = 0;
 		do {
-			$result = $ldapAccess->searchGroups($filter, array('cn'), $limit, $offset);
+			$result = $ldapAccess->searchGroups($filter, array('cn','dn'), $limit, $offset);
 			foreach($result as $item) {
-				$groups[] = $item[0];
+				$groups[] = $item['cn'];
+				$groupdns[] = $item;
 			}
 			$offset += $limit;
 		} while (count($groups) > 0 && count($groups) % $limit === 0);
@@ -322,6 +324,7 @@ class Wizard extends LDAPUtility {
 			//something is already configured? pre-select it.
 			$this->result->addChange($dbKey, $setFeatures);
 		}
+		return $groupdns;
 	}
 
 	public function determineGroupMemberAssoc() {
@@ -656,7 +659,7 @@ class Wizard extends LDAPUtility {
 	 * @return bool true if it does, false otherwise
 	 * @throws \Exception
 	 */
-	private function testMemberOf() {
+	private function testMemberOf($groups) {
 		$cr = $this->getConnection();
 		if(!$cr) {
 			throw new \Exception('Could not connect to LDAP');
@@ -669,12 +672,12 @@ class Wizard extends LDAPUtility {
 		$filterPrefix = '(&(objectclass=*)(memberOf=';
 		$filterSuffix = '))';
 
-		foreach($this->resultCache as $dn => $properties) {
+		foreach($groups as $properties) {
 			if(!isset($properties['cn'])) {
 				//assuming only groups have their cn cached :)
 				continue;
 			}
-			$filter = strtolower($filterPrefix . $dn . $filterSuffix);
+			$filter = strtolower($filterPrefix . $properties['dn'] . $filterSuffix);
 			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
 			if(!$this->ldap->isResource($rr)) {
 				continue;
