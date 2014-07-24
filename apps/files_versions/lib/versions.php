@@ -191,8 +191,6 @@ class Storage {
 			return self::store($new_path);
 		}
 
-		self::expire($newpath);
-
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
 			$versions_view->$operation($oldpath, $newpath);
 		} else  if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
@@ -203,6 +201,11 @@ class Storage {
 				$versions_view->$operation($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
 		}
+
+		if (!$files_view->is_dir($newpath)) {
+			self::expire($newpath);
+		}
+
 	}
 
 	/**
@@ -257,34 +260,46 @@ class Storage {
 	public static function getVersions($uid, $filename, $userFullPath = '') {
 		$versions = array();
 		// fetch for old versions
-		$view = new \OC\Files\View('/' . $uid . '/' . self::VERSIONS_ROOT);
+		$view = new \OC\Files\View('/' . $uid . '/');
 
 		$pathinfo = pathinfo($filename);
-
-		$files = $view->getDirectoryContent($pathinfo['dirname']);
-
 		$versionedFile = $pathinfo['basename'];
 
-		foreach ($files as $file) {
-			if ($file['type'] === 'file') {
-				$pos = strrpos($file['path'], '.v');
-				$currentFile = substr($file['name'], 0, strrpos($file['name'], '.v'));
-				if ($currentFile === $versionedFile) {
-					$version = substr($file['path'], $pos + 2);
-					$key = $version . '#' . $filename;
-					$versions[$key]['cur'] = 0;
-					$versions[$key]['version'] = $version;
-					$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($version);
-					if (empty($userFullPath)) {
-						$versions[$key]['preview'] = '';
-					} else {
-						$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $userFullPath, 'version' => $version));
+		$dir = self::VERSIONS_ROOT . '/' . $pathinfo['dirname'];
+
+		$dirContent = false;
+		if ($view->is_dir($dir)) {
+			$dirContent = $view->opendir($dir);
+		}
+
+		if ($dirContent === false) {
+			return $versions;
+		}
+
+		if (is_resource($dirContent)) {
+			while (($entryName = readdir($dirContent)) !== false) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
+					$pathparts = pathinfo($entryName);
+					$filename = $pathparts['filename'];
+					if ($filename === $versionedFile) {
+						$pathparts = pathinfo($entryName);
+						$timestamp = substr($pathparts['extension'], 1);
+						$filename = $pathparts['filename'];
+						$key = $timestamp . '#' . $filename;
+						$versions[$key]['version'] = $timestamp;
+						$versions[$key]['humanReadableTimestamp'] = self::getHumanReadableTimestamp($timestamp);
+						if (empty($userFullPath)) {
+							$versions[$key]['preview'] = '';
+						} else {
+							$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $userFullPath, 'version' => $timestamp));
+						}
+						$versions[$key]['path'] = $filename;
+						$versions[$key]['name'] = $versionedFile;
+						$versions[$key]['size'] = $view->filesize($dir . '/' . $entryName);
 					}
-					$versions[$key]['path'] = $filename;
-					$versions[$key]['name'] = $versionedFile;
-					$versions[$key]['size'] = $file['size'];
 				}
 			}
+			closedir($dirContent);
 		}
 
 		// sort with newest version first
