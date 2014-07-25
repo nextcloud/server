@@ -32,6 +32,7 @@ function updateFilePermissions($chunkSize = 99) {
 		}
 	}
 
+	$connection = \OC_DB::getConnection();
 	$chunkedPermissionList = array_chunk($updatedRows, $chunkSize, true);
 
 	foreach ($chunkedPermissionList as $subList) {
@@ -39,7 +40,7 @@ function updateFilePermissions($chunkSize = 99) {
 		//update share table
 		$ids = implode(',', array_keys($subList));
 		foreach ($subList as $id => $permission) {
-			$statement .= "WHEN " . $id . " THEN " . $permission . " ";
+			$statement .= "WHEN " . $connection->quote($id, \PDO::PARAM_INT) . " THEN " . $permission . " ";
 		}
 		$statement .= ' END WHERE `id` IN (' . $ids . ')';
 
@@ -95,6 +96,7 @@ function removeSharedFolder($mkdirs = true, $chunkSize = 99) {
 		}
 
 		$chunkedShareList = array_chunk($shares, $chunkSize, true);
+		$connection = \OC_DB::getConnection();
 
 		foreach ($chunkedShareList as $subList) {
 
@@ -102,7 +104,7 @@ function removeSharedFolder($mkdirs = true, $chunkSize = 99) {
 			//update share table
 			$ids = implode(',', array_keys($subList));
 			foreach ($subList as $id => $target) {
-				$statement .= "WHEN " . $id . " THEN '/Shared" . $target . "' ";
+				$statement .= "WHEN " . $connection->quote($id, \PDO::PARAM_INT) . " THEN " . $connection->quote('/Shared' . $target, \PDO::PARAM_STR);
 			}
 			$statement .= ' END WHERE `id` IN (' . $ids . ')';
 
