@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Gabilondo <alexgabi@openmailbox.org>, 2014
 # asieriko <asieriko@gmail.com>, 2013-2014
 # natxooy <natxooy@openmailbox.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-25 01:54-0400\n"
+"PO-Revision-Date: 2014-07-24 23:40+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,15 +54,15 @@ msgstr "Ez duzu oraindik fitxategirik lotura bidez elkarbanatu."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "Nahi duzu gehitzea  {name}  urrutiko partekatzea honengandik  {owner}@{remote}?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Urrutiko parte hartzea"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Urrutiko parte hartzeen pasahitza"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -69,7 +70,7 @@ msgstr "Ezeztatu"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Gehitu urrutiko parte hartzea"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
@@ -146,7 +147,7 @@ msgstr "Lotura zuzena"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr "Hurruneko Elkarbanaketak"
+msgstr "Urrutiko parte hartzeak"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
@@ -154,4 +155,4 @@ msgstr "Baimendu beste instantziak zerbitzari honetatik elkarbanatutako lotura p
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr "Baimendu erabiltzaileak lotura publiko bidezko elkarbanaketak kargatzen"
+msgstr "Baimendu erabiltzaileak lotura publiko bidezko elkarbanaketak muntatzen"

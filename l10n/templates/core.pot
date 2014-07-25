@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-24 01:54-0400\n"
+"POT-Creation-Date: 2014-07-25 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -216,7 +216,7 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr ""
 
@@ -537,21 +537,21 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr ""

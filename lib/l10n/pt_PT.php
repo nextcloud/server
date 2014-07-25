@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Não é possível gravar na  directoria \"configurar\"!",
+"See %s" => "Ver %s",
 "You are accessing the server from an untrusted domain." => "Está a aceder ao servidor a partir de um domínio que não é de confiança.",
 "Help" => "Ajuda",
 "Personal" => "Pessoal",
@@ -81,6 +83,19 @@ $TRANSLATIONS = array(
 "A valid username must be provided" => "Um nome de utilizador válido deve ser fornecido",
 "A valid password must be provided" => "Uma password válida deve ser fornecida",
 "The username is already being used" => "O nome de utilizador já está a ser usado",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "Nenhuma base de dados de drivers (sqlite, mysql, or postgresql) instaladas.",
+"Cannot write into \"config\" directory" => "Não é possível escrever na directoria \"configurar\"",
+"Cannot write into \"apps\" directory" => "Não é possivel escrever na directoria \"aplicações\"",
+"Cannot create \"data\" directory (%s)" => "Não é possivel criar a directoria \"data\" (%s)",
+"Please ask your server administrator to install the module." => "Por favor pergunte ao seu administrador do servidor para instalar o modulo.",
+"PHP module %s not installed." => "O modulo %s PHP não está instalado.",
+"PHP %s or higher is required." => "Necessário PHP %s ou maior.",
+"PHP modules have been installed, but they are still listed as missing?" => "Os módulos PHP foram instalados,   mas eles ainda estão listados como desaparecidos?",
+"Please ask your server administrator to restart the web server." => "Pro favor pergunte ao seu administrador do servidor para reiniciar o servidor da internet.",
+"PostgreSQL >= 9 required" => "Necessita PostgreSQL >= 9",
+"Please upgrade your database version" => "Por favor actualize a sua versão da base de dados",
+"Data directory (%s) is invalid" => "Directoria data (%s) é invalida",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Por favor verifique que a directoria data contem um ficheiro \".ocdata\" na sua raiz.",
 "Could not obtain lock type %d on \"%s\"." => "Não foi possível obter o tipo de bloqueio %d em \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

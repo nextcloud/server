@@ -8,7 +8,11 @@ $TRANSLATIONS = array(
 "No files have been shared with you yet." => "Ez da zurekin fitxategirik elkarbanatu oraindik.",
 "You haven't shared any files yet." => "Ez duzu oraindik fitxategirik elkarbanatu.",
 "You haven't shared any files by link yet." => "Ez duzu oraindik fitxategirik lotura bidez elkarbanatu.",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Nahi duzu gehitzea  {name}  urrutiko partekatzea honengandik  {owner}@{remote}?",
+"Remote share" => "Urrutiko parte hartzea",
+"Remote share password" => "Urrutiko parte hartzeen pasahitza",
 "Cancel" => "Ezeztatu",
+"Add remote share" => "Gehitu urrutiko parte hartzea",
 "No ownCloud installation found at {remote}" => "Ez da ownClouden instalaziorik aurkitu {remote}n",
 "Invalid ownCloud url" => "ownCloud url baliogabea",
 "Shared by" => "Honek elkarbanatuta",
@@ -27,8 +31,8 @@ $TRANSLATIONS = array(
 "Download" => "Deskargatu",
 "Download %s" => "Deskargatu %s",
 "Direct link" => "Lotura zuzena",
-"Remote Shares" => "Hurruneko Elkarbanaketak",
+"Remote Shares" => "Urrutiko parte hartzeak",
 "Allow other instances to mount public links shared from this server" => "Baimendu beste instantziak zerbitzari honetatik elkarbanatutako lotura publikoak kargatzen",
-"Allow users to mount public link shares" => "Baimendu erabiltzaileak lotura publiko bidezko elkarbanaketak kargatzen"
+"Allow users to mount public link shares" => "Baimendu erabiltzaileak lotura publiko bidezko elkarbanaketak muntatzen"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

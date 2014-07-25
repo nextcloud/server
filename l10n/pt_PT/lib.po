@@ -5,6 +5,7 @@
 # Translators:
 # Helder Meneses <helder.meneses@gmail.com>, 2013-2014
 # Jose Manuel Ruas <jmruas@gmail.com>, 2014
+# Luis Jorge Simões das Neves <luisjneves@gmail.com>, 2014
 # Manuela Silva <manuela.silva@sky.com>, 2014
 # Nelson Rosado <nelsontrosado@gmail.com>, 2014
 # Andrew_Melim <nokostya.translation@gmail.com>, 2014
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-03 01:54-0400\n"
-"PO-Revision-Date: 2014-07-02 15:41+0000\n"
-"Last-Translator: Nelson Rosado <nelsontrosado@gmail.com>\n"
+"POT-Creation-Date: 2014-07-25 01:54-0400\n"
+"PO-Revision-Date: 2014-07-24 23:10+0000\n"
+"Last-Translator: Luis Jorge Simões das Neves <luisjneves@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,33 +24,33 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:187 base.php:194
+#: base.php:195 base.php:202
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Não é possível gravar na  directoria \"configurar\"!"
 
-#: base.php:188
+#: base.php:196
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
 msgstr ""
 
-#: base.php:190
+#: base.php:198
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Ver %s"
 
-#: base.php:195 private/util.php:413
+#: base.php:203 private/util.php:413
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: base.php:675
+#: base.php:662
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Está a aceder ao servidor a partir de um domínio que não é de confiança."
 
-#: base.php:676
+#: base.php:663
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -76,19 +77,19 @@ msgstr "Utilizadores"
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:987
+#: private/app.php:985
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "A actualização \"%s\" falhou."
 
-#: private/app.php:1144
+#: private/app.php:1142
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1156
+#: private/app.php:1154
 msgid "No app name specified"
 msgstr "O nome da aplicação não foi especificado"
 
@@ -117,44 +118,44 @@ msgstr "Não foi possível criar a pasta da aplicação. Por favor verifique as 
 msgid "No source specified when installing app"
 msgstr "Não foi especificada uma fonte de instalação desta aplicação"
 
-#: private/installer.php:242
+#: private/installer.php:243
 msgid "No href specified when installing app from http"
 msgstr "Não foi especificada uma href http para instalar esta aplicação"
 
-#: private/installer.php:247
+#: private/installer.php:248
 msgid "No path specified when installing app from local file"
 msgstr "Não foi especificado o caminho de instalação desta aplicação"
 
-#: private/installer.php:261
+#: private/installer.php:256
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr "Arquivos do tipo %s não são suportados"
 
-#: private/installer.php:275
+#: private/installer.php:270
 msgid "Failed to open archive when installing app"
 msgstr "Ocorreu um erro ao abrir o ficheiro de instalação desta aplicação"
 
-#: private/installer.php:313
+#: private/installer.php:308
 msgid "App does not provide an info.xml file"
 msgstr "A aplicação não disponibiliza um ficheiro info.xml"
 
-#: private/installer.php:319
+#: private/installer.php:314
 msgid "App can't be installed because of not allowed code in the App"
 msgstr "A aplicação não pode ser instalado devido a código não permitido dentro da aplicação"
 
-#: private/installer.php:325
+#: private/installer.php:320
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr "A aplicação não pode ser instalada por não ser compatível com esta versão do ownCloud"
 
-#: private/installer.php:331
+#: private/installer.php:326
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr "Esta aplicação não pode ser instalada por que contém o tag <shipped>true</shipped> que só é permitido para aplicações nativas"
 
-#: private/installer.php:344
+#: private/installer.php:339
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
@@ -359,45 +360,45 @@ msgstr "Definir permissões para %s falhou, porque as permissões excedem as per
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Definir permissões para %s falhou, porque o item não foi encontrado"
 
-#: private/share/share.php:1046
+#: private/share/share.php:1043
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Partilhar backend %s tem de implementar o interface OCP\\Share_Backend"
 
-#: private/share/share.php:1053
+#: private/share/share.php:1050
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Partilha backend %s não foi encontrado"
 
-#: private/share/share.php:1059
+#: private/share/share.php:1056
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Partilha backend para %s não foi encontrado"
 
-#: private/share/share.php:1476
+#: private/share/share.php:1473
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "A partilha %s falhou, porque o utilizador %s é o proprietário original"
 
-#: private/share/share.php:1485
+#: private/share/share.php:1482
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Definir permissões para %s falhou, porque as permissões excedem as permissões concedidas a %s"
 
-#: private/share/share.php:1501
+#: private/share/share.php:1498
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "A partilha %s falhou, porque repartilhar não é permitido"
 
-#: private/share/share.php:1513
+#: private/share/share.php:1510
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1527
+#: private/share/share.php:1524
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -456,27 +457,27 @@ msgstr "ano passado"
 msgid "years ago"
 msgstr "anos atrás"
 
-#: private/user/manager.php:238
+#: private/user/manager.php:239
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Apenas os seguintes caracteres são permitidos no nome de utilizador: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-\""
 
-#: private/user/manager.php:243
+#: private/user/manager.php:244
 msgid "A valid username must be provided"
 msgstr "Um nome de utilizador válido deve ser fornecido"
 
-#: private/user/manager.php:247
+#: private/user/manager.php:248
 msgid "A valid password must be provided"
 msgstr "Uma password válida deve ser fornecida"
 
-#: private/user/manager.php:252
+#: private/user/manager.php:253
 msgid "The username is already being used"
 msgstr "O nome de utilizador já está a ser usado"
 
 #: private/util.php:398
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Nenhuma base de dados de drivers (sqlite, mysql, or postgresql) instaladas."
 
 #: private/util.php:405
 #, php-format
@@ -487,11 +488,11 @@ msgstr ""
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Não é possível escrever na directoria \"configurar\""
 
 #: private/util.php:425
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Não é possivel escrever na directoria \"aplicações\""
 
 #: private/util.php:426
 #, php-format
@@ -503,7 +504,7 @@ msgstr ""
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Não é possivel criar a directoria \"data\" (%s)"
 
 #: private/util.php:441
 #, php-format
@@ -525,7 +526,7 @@ msgstr ""
 
 #: private/util.php:464
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Por favor pergunte ao seu administrador do servidor para instalar o modulo."
 
 #: private/util.php:468 private/util.php:475 private/util.php:482
 #: private/util.php:496 private/util.php:503 private/util.php:510
@@ -533,12 +534,12 @@ msgstr ""
 #: private/util.php:546
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "O modulo %s PHP não está instalado."
 
 #: private/util.php:538
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "Necessário PHP %s ou maior."
 
 #: private/util.php:539
 msgid ""
@@ -574,19 +575,19 @@ msgstr ""
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "Os módulos PHP foram instalados,   mas eles ainda estão listados como desaparecidos?"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Pro favor pergunte ao seu administrador do servidor para reiniciar o servidor da internet."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "Necessita PostgreSQL >= 9"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Por favor actualize a sua versão da base de dados"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
@@ -612,13 +613,13 @@ msgstr ""
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Directoria data (%s) é invalida"
 
 #: private/util.php:711
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Por favor verifique que a directoria data contem um ficheiro \".ocdata\" na sua raiz."
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format
