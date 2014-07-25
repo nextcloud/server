@@ -1167,6 +1167,9 @@ class OC_App {
 
 		self::setAppTypes($appId);
 
+		$version = \OC_App::getAppVersion($appId);
+		\OC_Appconfig::setValue($appId, 'installed_version', $version);
+
 		return true;
 	}
 
