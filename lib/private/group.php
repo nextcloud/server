@@ -34,26 +34,19 @@
  *   post_removeFromGroup(uid, gid)
  */
 class OC_Group {
-	/**
-	 * @var \OC\Group\Manager $manager
-	 */
-	private static $manager;
-
-	/**
-	 * @var \OC\User\Manager
-	 */
-	private static $userManager;
 
 	/**
 	 * @return \OC\Group\Manager
 	 */
 	public static function getManager() {
-		if (self::$manager) {
-			return self::$manager;
-		}
-		self::$userManager = \OC_User::getManager();
-		self::$manager = new \OC\Group\Manager(self::$userManager);
-		return self::$manager;
+		return \OC::$server->getGroupManager();
+	}
+
+	/**
+	 * @return \OC\User\Manager
+	 */
+	private static function getUserManager() {
+		return \OC::$server->getUserManager();
 	}
 
 	/**
@@ -127,7 +120,7 @@ class OC_Group {
 	 */
 	public static function inGroup($uid, $gid) {
 		$group = self::getManager()->get($gid);
-		$user = self::$userManager->get($uid);
+		$user = self::getUserManager()->get($uid);
 		if ($group and $user) {
 			return $group->inGroup($user);
 		}
@@ -144,7 +137,7 @@ class OC_Group {
 	 */
 	public static function addToGroup($uid, $gid) {
 		$group = self::getManager()->get($gid);
-		$user = self::$userManager->get($uid);
+		$user = self::getUserManager()->get($uid);
 		if ($group and $user) {
 			OC_Hook::emit("OC_Group", "pre_addToGroup", array("run" => true, "uid" => $uid, "gid" => $gid));
 			$group->addUser($user);
@@ -165,7 +158,7 @@ class OC_Group {
 	 */
 	public static function removeFromGroup($uid, $gid) {
 		$group = self::getManager()->get($gid);
-		$user = self::$userManager->get($uid);
+		$user = self::getUserManager()->get($uid);
 		if ($group and $user) {
 			OC_Hook::emit("OC_Group", "pre_removeFromGroup", array("run" => true, "uid" => $uid, "gid" => $gid));
 			$group->removeUser($user);
@@ -185,7 +178,7 @@ class OC_Group {
 	 * if the user exists at all.
 	 */
 	public static function getUserGroups($uid) {
-		$user = self::$userManager->get($uid);
+		$user = self::getUserManager()->get($uid);
 		if ($user) {
 			return self::getManager()->getUserGroupIds($user);
 		} else {

@@ -100,6 +100,13 @@ interface IServerContainer {
 	function getUserManager();
 
 	/**
+	 * Returns a group manager
+	 *
+	 * @return \OCP\IGroupManager
+	 */
+	function getGroupManager();
+
+	/**
 	 * Returns the user session
 	 *
 	 * @return \OCP\IUserSession
