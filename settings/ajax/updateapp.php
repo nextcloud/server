@@ -33,7 +33,10 @@ if (!is_numeric($appId)) {
 
 $appId = OC_App::cleanAppId($appId);
 
+\OC_Config::setValue('maintenance', true);
 $result = OC_Installer::updateAppByOCSId($appId, $isShipped);
+\OC_Config::setValue('maintenance', false);
+
 if($result !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appId)));
 } else {
