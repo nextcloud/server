@@ -96,7 +96,10 @@ class JobList implements IJobList {
 		$query->execute();
 		$jobs = array();
 		while ($row = $query->fetch()) {
-			$jobs[] = $this->buildJob($row);
+			$job = $this->buildJob($row);
+			if ($job) {
+				$jobs[] = $job;
+			}
 		}
 		return $jobs;
 	}
