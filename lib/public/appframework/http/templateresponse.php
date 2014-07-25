@@ -124,8 +124,10 @@ class TemplateResponse extends Response {
 	 * @return string the rendered html
 	 */
 	public function render(){
+		// \OCP\Template needs an empty string instead of 'blank' for an unwrapped response
+		$renderAs = $this->renderAs === 'blank' ? '' : $this->renderAs;
 
-		$template = new \OCP\Template($this->appName, $this->templateName, $this->renderAs);
+		$template = new \OCP\Template($this->appName, $this->templateName, $renderAs);
 
 		foreach($this->params as $key => $value){
 			$template->assign($key, $value);
