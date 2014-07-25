@@ -39,6 +39,7 @@ $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);
 $tmpl->assign('internetconnectionworking', OC_Util::isInternetConnectionEnabled() ? OC_Util::isInternetConnectionWorking() : false);
 $tmpl->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
+$tmpl->assign('isPhpCharSetUtf8', OC_Util::isPhpCharSetUtf8());
 $tmpl->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
 $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
