@@ -211,11 +211,11 @@ class OC {
 	public static function checkInstalled() {
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
-			if (!OC::$CLI) {
-				$url = 'http://' . $_SERVER['SERVER_NAME'] . OC::$WEBROOT . '/index.php';
-				header("Location: $url");
+			if (OC::$CLI) {
+				throw new Exception('Not installed');
 			} else {
-				throw new Exception("Not installed");
+				$url = 'http://' . $_SERVER['SERVER_NAME'] . OC::$WEBROOT . '/index.php';
+				header('Location: ' . $url);
 			}
 			exit();
 		}
@@ -522,10 +522,10 @@ class OC {
 
 		self::initTemplateEngine();
 		OC_App::loadApps(array('session'));
-		if (!self::$CLI) {
-			self::initSession();
-		} else {
+		if (self::$CLI) {
 			self::$session = new \OC\Session\Memory('');
+		} else {
+			self::initSession();
 		}
 		self::checkConfig();
 		self::checkInstalled();
@@ -656,8 +656,8 @@ class OC {
 		if (!OC::$CLI
 			// overwritehost is always trusted
 			&& OC_Request::getOverwriteHost() === null
-			&& !OC_Request::isTrustedDomain($host)) {
-
+			&& !OC_Request::isTrustedDomain($host)
+		) {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
 			OC_Template::printErrorPage(
