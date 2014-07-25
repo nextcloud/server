@@ -267,8 +267,6 @@ class Updater extends BasicEmitter {
 		foreach ($apps as $appId) {
 			if (\OC_App::shouldUpgrade($appId)) {
 				\OC_App::updateApp($appId);
-				$version = \OC_App::getAppVersion($appId);
-				\OC_Appconfig::setValue($appId, 'installed_version', $version);
 				$this->emit('\OC\Updater', 'appUpgrade', array($appId, $version));
 			}
 		}
