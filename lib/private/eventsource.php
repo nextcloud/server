@@ -34,6 +34,7 @@ class OC_EventSource{
 	public function __construct() {
 		OC_Util::obEnd();
 		header('Cache-Control: no-cache');
+		header('X-Accel-Buffering: no');
 		$this->fallback=isset($_GET['fallback']) and $_GET['fallback']=='true';
 		if($this->fallback) {
 			$this->fallBackId=$_GET['fallback_id'];
@@ -44,6 +45,7 @@ class OC_EventSource{
 		}
 		if( !OC_Util::isCallRegistered()) {
 			$this->send('error', 'Possible CSRF attack. Connection will be closed.');
+			$this->close();
 			exit();
 		}
 		flush();
