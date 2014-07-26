@@ -718,23 +718,24 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Unshare an item shared with the current user
 	 * @param string $itemType
-	 * @param string $itemTarget
+	 * @param string $itemOrigin Item target or source
+	 * @param boolean $originIsSource true if $itemOrigin is the source, false if $itemOrigin is the target (optional)
 	 * @return boolean true on success or false on failure
 	 *
 	 * Unsharing from self is not allowed for items inside collections
 	 */
-	public static function unshareFromSelf($itemType, $itemTarget) {
-
+	public static function unshareFromSelf($itemType, $itemOrigin, $originIsSource = false) {
+		$originType = ($originIsSource) ? 'source' : 'target';
 		$uid = \OCP\User::getUser();
 
 		if ($itemType === 'file' || $itemType === 'folder') {
-			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `file_target` = ?';
+			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `file_' . $originType . '` = ?';
 		} else {
-			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `item_target` = ?';
+			$statement = 'SELECT * FROM `*PREFIX*share` WHERE `item_type` = ? and `item_' . $originType . '` = ?';
 		}
 
 		$query = \OCP\DB::prepare($statement);
-		$result = $query->execute(array($itemType, $itemTarget));
+		$result = $query->execute(array($itemType, $itemOrigin));
 
 		$shares = $result->fetchAll();
 
