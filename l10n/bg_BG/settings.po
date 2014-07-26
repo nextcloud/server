@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-20 01:54-0400\n"
-"PO-Revision-Date: 2014-07-19 11:40+0000\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-25 21:40+0000\n"
 "Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -336,7 +336,7 @@ msgstr "Админ Група"
 #: js/users/users.js:63 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
-msgstr "Изтриване"
+msgstr "Изтрий"
 
 #: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
@@ -362,7 +362,7 @@ msgstr "Грешка при създаване на потребител."
 msgid "A valid password must be provided"
 msgstr "Валидна парола трябва да бъде зададена."
 
-#: js/users/users.js:667
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Предупреждение: Личната директория на потребителя \"{user}\" вече съществува."
 
@@ -774,7 +774,7 @@ msgstr "Платена Поддръжка"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Разреши приложенията да синхронизират файловете ти."
+msgstr "Изтегли програми за синхронизиране на файловете ти"
 
 #: templates/personal.php:21
 msgid ""
@@ -784,7 +784,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr "Ако искаш да подпомогнеш проекта:\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">присъедини се и пиши код</a>\n\t\tили\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">разпространи мълвата</a>!"
+msgstr "Ако искаш да помогнеш на проекта:\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">присъедини се и пиши код</a>\n\t\tили\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">разпространи мълвата</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"
@@ -958,7 +958,7 @@ msgstr "Неограничено"
 
 #: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
 msgid "Other"
-msgstr "Други"
+msgstr "Друга..."
 
 #: templates/users/part.userlist.php:7
 msgid "Username"
@@ -982,7 +982,7 @@ msgstr "промени пълното име"
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"
-msgstr "заложи нова парола"
+msgstr "сложи нова парола"
 
 #: templates/users/part.userlist.php:70
 msgid "Default"

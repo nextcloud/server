@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Gabilondo <alexgabi@openmailbox.org>, 2014
 # asieriko <asieriko@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: asieriko <asieriko@gmail.com>\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-25 23:30+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,7 +21,7 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Mapeatzeen garbiketak huts egin du."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
@@ -81,7 +82,7 @@ msgstr "Ezin da zerbitzariaren konfigurazioa gehitu"
 
 #: js/settings.js:127
 msgid "mappings cleared"
-msgstr ""
+msgstr "Mapeatzeak garbi"
 
 #: js/settings.js:128
 msgid "Success"
@@ -196,7 +197,7 @@ msgstr "Laguntza"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Baldintza horiek betetzen dituzten taldeak bertan eskuragarri %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -218,7 +219,7 @@ msgstr ""
 #: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "Raw LDAP iragazkia"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
@@ -232,7 +233,7 @@ msgstr "talde aurkituta"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "Erabiltzaileak atributu honekin sartzen dira:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -251,7 +252,7 @@ msgstr "Bestelako atributuak:"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
+msgstr "Definitu aplikatu beharreko iragazkia sartzen saiatzean. %%uid erabiltzailearen izena ordezten du sartzeko ekintzan. Adibidez: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
@@ -313,7 +314,7 @@ msgstr "Erabiltzaile eta taldeentzako Oinarrizko DN zehaztu dezakezu Aurreratu f
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Mugatu %s sarbidea baldintza horiek betetzen dituzten erabiltzaileei."
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -346,7 +347,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Abisua:</b> user_ldap eta user_webdavauth aplikazioak bateraezinak dira. Portaera berezia izan dezakezu. Mesedez eskatu zure sistema kudeatzaileari bietako bat desgaitzeko."
 
 #: templates/settings.php:14
 msgid ""
@@ -390,7 +391,7 @@ msgstr "Konektatu bakarrik erreplika zerbitzarira"
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Maiuskulak eta minuskulak ezberditzen ez dituen LDAP zerbitzaria (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."
@@ -401,7 +402,7 @@ msgstr "Ezgaitu SSL ziurtagirien egiaztapena."
 msgid ""
 "Not recommended, use it for testing only! If connection only works with this"
 " option, import the LDAP server's SSL certificate in your %s server."
-msgstr ""
+msgstr "Ez da gomendagarria, erabili bakarrik probarako! Konexioak aukera hau ezinbestekoa badu, inportatu LDAP zerbitzariaren SSL ziurtagiria zure %s zerbitzarian."
 
 #: templates/settings.php:28
 msgid "Cache Time-To-Live"
@@ -465,13 +466,13 @@ msgstr "Talde-Kide elkarketak"
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Talde habiaratuak"
 
 #: templates/settings.php:39
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Piztuta dagoenean, taldeak dauzkaten taldeak onartzen dira. (Bakarrik taldeko kideen atributuak DNak baditu)."
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
@@ -532,7 +533,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr ""
+msgstr "Modu lehenetsian barneko erabiltzaile-izena UUID atributuan oinarritua sortuko da. Horrek bermatzen du erabiltzailea bakarra dela eta karaktereak ez direla bihurtu behar. Barneko erabiltzaile-izenak muga bat du, hain zuzen bakarrik karaktere hauek onartzen direla:  [ a-zA-Z0-9_.@- ]. Gainerako karaktereak haien ASCII kodean dagokienekin ordezten dira edo saltatu egiten dira. Talka egotekotan zenbaki bat erantsi edo handituko da. Barneko erabiltzaile-izena erabiltzailea barnean identifikatzeko erabiltzen da. Era berean izen hau da erabiltzailearen karpeta nagusiaren izen lehentsia. Bai eta URL helbidearen zatia, esate baterako *DAV zerbitzu guztietan. Ezarpen hauekin lehenetsitako jokaera alda daiteke. Lortzeko ownCloud 5aren aurreko antzeko jokaera sartu erabiltzaile-izenaren atributua hurrengo eremuan. Hutsik utzi lehenetsitako jokaera izateko. Aldaketok bakarrik eragingo diete berriki mapeatutako (erantsitako) LDAP erabiltzaileei."
 
 #: templates/settings.php:55
 msgid "Internal Username Attribute:"

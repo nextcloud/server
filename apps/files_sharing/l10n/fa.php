@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Server to server sharing is not enabled on this server" => "اشتراک سرور به سرور در این سرور فعال نیست .",
 "Cancel" => "منصرف شدن",
 "Shared by" => "اشتراک گذاشته شده به وسیله",
 "This share is password-protected" => "این اشتراک توسط رمز عبور محافظت می شود",

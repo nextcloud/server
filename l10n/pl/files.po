@@ -6,6 +6,7 @@
 # bar_pet <bartosz.petrynski@gmail.com>, 2014
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # I Robot, 2013
+# JurijPietrowicz <aleksander_cichon@fastmail.fm>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 # Mariusz <fisiu@opensuse.org>, 2013
 # Michał Plichta <mplichta@gmail.com>, 2013
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 06:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-26 00:00+0000\n"
+"Last-Translator: JurijPietrowicz <aleksander_cichon@fastmail.fm>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -196,7 +197,7 @@ msgstr "Wysyłanie pliku jest w toku. Jeśli opuścisz tę stronę, wysyłanie z
 msgid "URL cannot be empty"
 msgstr "URL nie może być pusty"
 
-#: js/file-upload.js:568 js/filelist.js:1259
+#: js/file-upload.js:568 js/filelist.js:1275
 msgid "{new_name} already exists"
 msgstr "{new_name} już istnieje"
 
@@ -222,7 +223,7 @@ msgstr "Usuń"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
-msgstr ""
+msgstr "Odłącz magazyn"
 
 #: js/fileactions.js:299
 msgid "Unshare"
@@ -242,57 +243,57 @@ msgid ""
 "big."
 msgstr "Pobieranie jest przygotowywane. Może to zająć trochę czasu jeśli pliki są duże."
 
-#: js/filelist.js:675 js/filelist.js:1783
+#: js/filelist.js:680 js/filelist.js:1799
 msgid "Pending"
 msgstr "Oczekujące"
 
-#: js/filelist.js:1210
+#: js/filelist.js:1226
 msgid "Error moving file."
 msgstr "Błąd podczas przenoszenia pliku."
 
-#: js/filelist.js:1218
+#: js/filelist.js:1234
 msgid "Error moving file"
 msgstr "Błąd prz przenoszeniu pliku"
 
-#: js/filelist.js:1218
+#: js/filelist.js:1234
 msgid "Error"
 msgstr "Błąd"
 
-#: js/filelist.js:1307
+#: js/filelist.js:1323
 msgid "Could not rename file"
 msgstr "Nie można zmienić nazwy pliku"
 
-#: js/filelist.js:1425
+#: js/filelist.js:1441
 msgid "Error deleting file."
 msgstr "Błąd podczas usuwania pliku"
 
-#: js/filelist.js:1528 templates/list.php:61
+#: js/filelist.js:1544 templates/list.php:61
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/filelist.js:1529 templates/list.php:72
+#: js/filelist.js:1545 templates/list.php:72
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/filelist.js:1530 templates/list.php:75
+#: js/filelist.js:1546 templates/list.php:75
 msgid "Modified"
 msgstr "Modyfikacja"
 
-#: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1556 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n katalog"
 msgstr[1] "%n katalogi"
 msgstr[2] "%n katalogów"
 
-#: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1562 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n plik"
 msgstr[1] "%n pliki"
 msgstr[2] "%n plików"
 
-#: js/filelist.js:1676 js/filelist.js:1715
+#: js/filelist.js:1692 js/filelist.js:1731
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Wysyłanie %n pliku"

@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "Update" => "به روز رسانی",
 "Updated" => "بروز رسانی انجام شد",
 "Select a profile picture" => "انتخاب تصویر پروفایل",
+"Very weak password" => "رمز عبور بسیار ضعیف",
 "Weak password" => "رمز عبور ضعیف",
 "So-so password" => "رمز عبور متوسط",
 "Good password" => "رمز عبور خوب",

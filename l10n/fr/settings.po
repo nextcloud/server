@@ -6,6 +6,7 @@
 # 2rock <hub2rock@free.fr>, 2014
 # Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013
 # Alain Sanguinetti <alain@sanguinetti.eu>, 2014
+# square <benben390-390@yahoo.fr>, 2014
 # Christophe Lherieau <skimpax@gmail.com>, 2013-2014
 # Etienne <etiess@gmail.com>, 2013
 # Fabian Lemaître <ptit.boogy@gmail.com>, 2014
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-25 08:21+0000\n"
+"Last-Translator: square <benben390-390@yahoo.fr>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -320,19 +321,19 @@ msgstr "Restaurer les clés de chiffrement"
 msgid "Unable to delete {objName}"
 msgstr "Impossible de supprimer {objName}"
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr "Erreur lors de la création du groupe"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr "Vous devez spécifier un nom de groupe valide"
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr "{groupName} supprimé"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "annuler"
 
@@ -352,31 +353,31 @@ msgstr "Admin Groupe"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "jamais"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr "{userName} supprimé"
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "ajouter un groupe"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Un nom d'utilisateur valide doit être saisi"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Erreur lors de la création de l'utilisateur"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Un mot de passe valide doit être saisi"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Attention : Le dossier Home pour l'utilisateur \"{user}\" existe déjà"
 
@@ -573,7 +574,7 @@ msgstr "cron.php est enregistré en tant que service webcron pour appeler cron.p
 
 #: templates/admin.php:229
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Utilisez le service cron du système pour appeler le fichier cron.php toutes les 15 minutes."
 
 #: templates/admin.php:234
 msgid "Sharing"

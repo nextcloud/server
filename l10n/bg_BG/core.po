@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-22 01:54-0400\n"
-"PO-Revision-Date: 2014-07-21 07:30+0000\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-25 21:40+0000\n"
 "Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -217,7 +217,7 @@ msgstr "последната година"
 msgid "years ago"
 msgstr "последните години"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Неуспешено изпращане на имейл. Моля, свържи се с администратора."
 
@@ -468,7 +468,7 @@ msgstr "Обновяване"
 
 #: js/share.js:638
 msgid "delete"
-msgstr "Изтриване"
+msgstr "изтрий"
 
 #: js/share.js:970
 msgid "Password protected"
@@ -504,7 +504,7 @@ msgstr "Въведи нов"
 
 #: js/tags.js:33
 msgid "Delete"
-msgstr "Изтриване"
+msgstr "Изтрий"
 
 #: js/tags.js:43
 msgid "Add"
@@ -538,21 +538,21 @@ msgstr "Обновяването неуспешно."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновяването е успешно. Пренасочване към твоя ownCloud сега."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Невалиден линк за промяна на паролата."
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Неуспешно изпращане на имейл за възстановяване на паролата. Моля, увери се, че потребителското име е правилно."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Неуспешно изпращане на имейл за възстановяване на паролата, защото липсва имейл свързан с това потребителско име. Моля свържи се с админстратора."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "Паролата на %s е променена."

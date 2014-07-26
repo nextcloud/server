@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Błąd przy pobieraniu adresu URL",
 "Share" => "Udostępnij",
 "Delete" => "Usuń",
+"Disconnect storage" => "Odłącz magazyn",
 "Unshare" => "Zatrzymaj współdzielenie",
 "Delete permanently" => "Trwale usuń",
 "Rename" => "Zmień nazwę",

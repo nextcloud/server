@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Amir Keshavarz <pnetsale@gmail.com>, 2014
 # mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013
 # majid hajibaba <majid.hajibaba@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-25 23:00+0000\n"
+"Last-Translator: Amir Keshavarz <pnetsale@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,24 +22,24 @@ msgstr ""
 
 #: ajax/share.php:90
 msgid "Expiration date is in the past."
-msgstr ""
+msgstr "تاریخ انقضا مربوط به گذشته است ."
 
 #: ajax/share.php:122 ajax/share.php:164
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "ارسال ایمیل برای کاربران روبرو با شکست مواجه شد : %s"
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "حالت \" در دست تعمیر \" فعال شد ."
 
 #: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "حالت \" در دست تعمیر \" غیرفعال شد ."
 
 #: ajax/update.php:16
 msgid "Updated database"
-msgstr ""
+msgstr "بروز رسانی پایگاه داده انجام شد ."
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
@@ -47,11 +48,11 @@ msgstr ""
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "اپ های ناسازگار غیرفعال شدند : %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
-msgstr ""
+msgstr "هیچ فایل یا تصویری وارد نشده است"
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
@@ -63,7 +64,7 @@ msgstr "عکس نامعتبر"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "تصویر پروفایل موقت در حال حاضر در دسترس نیست ، دوباره تلاش کنید "
 
 #: avatar/controller.php:140
 msgid "No crop data provided"
@@ -159,11 +160,11 @@ msgstr "پوشه"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "تصویر"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "صدا"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -213,16 +214,16 @@ msgstr "سال قبل"
 msgid "years ago"
 msgstr "سال‌های قبل"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "ارسال ایمیل مجدد با مشکل مواجه شد . لطفا با مدیر سیستم تماس بگیرید ."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "لینک تنظیم مجدد رمز عبور به ایمیل شما ارسال شده است.<br>اگر آن رادر یک زمان مشخصی دریافت نکرده اید، لطفا هرزنامه/ پوشه های ناخواسته را بررسی کنید.<br>در صورت نبودن از مدیر خود بپرسید."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -230,19 +231,19 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "فایل های شما رمزگذاری شده اند. اگر شما کلید بازیابی را فعال نکرده اید، پس از راه اندازی مجدد رمزعبور هیچ راهی برای بازگشت اطلاعاتتان وجود نخواهد داشت.در صورت عدم اطمینان به انجام کار، لطفا ابتدا با مدیر خود تماس بگیرید. آیا واقعا میخواهید ادامه دهید ؟"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "اطلاع از انجام این کار دارم"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
-msgstr "دوباره سازی گذرواژه"
+msgstr "تنظیم مجدد رمز عبور"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "رمز عبور نمی تواند تغییر بکند . لطفا با مدیر سیستم تماس بگیرید ."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -258,7 +259,7 @@ msgstr "انتخاب کردن"
 
 #: js/oc-dialogs.js:229
 msgid "Error loading file picker template: {error}"
-msgstr ""
+msgstr "خطا در بارگذاری قالب انتخاب فایل : {error}"
 
 #: js/oc-dialogs.js:282
 msgid "Ok"
@@ -266,7 +267,7 @@ msgstr "قبول"
 
 #: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
-msgstr ""
+msgstr "خطا در بارگذاری قالب پیام : {error}"
 
 #: js/oc-dialogs.js:430
 msgid "{count} file conflict"
@@ -283,11 +284,11 @@ msgstr "فایل های جدید"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "فایل های موجود در حال حاضر "
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
-msgstr ""
+msgstr "کدام فایل ها را می خواهید نگه دارید ؟"
 
 #: js/oc-dialogs.js:454
 msgid ""
@@ -305,7 +306,7 @@ msgstr "ادامه"
 
 #: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
-msgstr ""
+msgstr "(همه انتخاب شده اند)"
 
 #: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
@@ -317,7 +318,7 @@ msgstr ""
 
 #: js/setup.js:96
 msgid "Very weak password"
-msgstr ""
+msgstr "رمز عبور بسیار ضعیف"
 
 #: js/setup.js:97
 msgid "Weak password"
@@ -341,7 +342,7 @@ msgstr "اشتراک گذاشته شده"
 
 #: js/share.js:257
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "به اشتراک گذاشته شده با {recipients}"
 
 #: js/share.js:266
 msgid "Share"
@@ -374,7 +375,7 @@ msgstr "به اشتراک گذاشته شده با شما توسط { دارند�
 
 #: js/share.js:383
 msgid "Share with user or group …"
-msgstr ""
+msgstr "به اشتراک گذاری با کاربر یا گروه"
 
 #: js/share.js:389
 msgid "Share link"
@@ -533,21 +534,21 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr ""
@@ -610,7 +611,7 @@ msgstr "شخصی"
 msgid "Users"
 msgstr "کاربران"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "  برنامه ها"
 
@@ -776,19 +777,19 @@ msgstr "اتمام نصب"
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr ""
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s در دسترس است. برای چگونگی به روز رسانی اطلاعات بیشتر را دریافت نمایید."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "خروج"
 

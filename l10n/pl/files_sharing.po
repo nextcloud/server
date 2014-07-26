@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
+# JurijPietrowicz <aleksander_cichon@fastmail.fm>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-26 01:54-0400\n"
+"PO-Revision-Date: 2014-07-26 00:00+0000\n"
+"Last-Translator: JurijPietrowicz <aleksander_cichon@fastmail.fm>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,11 +58,11 @@ msgstr ""
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Zdalny zasób"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Hasło do zdalnego zasobu"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -69,7 +70,7 @@ msgstr "Anuluj"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Dodaj zdalny zasób"
 
 #: js/public.js:203
 msgid "No ownCloud installation found at {remote}"
@@ -129,7 +130,7 @@ msgstr "Aby uzyskać więcej informacji proszę poprosić osobę, która wysła�
 
 #: templates/public.php:22
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Dodaj do twojego ownCloud"
 
 #: templates/public.php:30
 msgid "Download"

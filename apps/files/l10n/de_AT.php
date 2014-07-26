@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Files" => "Dateien",
 "Share" => "Freigeben",
 "Delete" => "Löschen",
 "Unshare" => "Teilung zurücknehmen",

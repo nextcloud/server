@@ -87,6 +87,17 @@ $TRANSLATIONS = array(
 "A valid username must be provided" => "Należy podać prawidłową nazwę użytkownika",
 "A valid password must be provided" => "Należy podać prawidłowe hasło",
 "The username is already being used" => "Ta nazwa użytkownika jest już używana",
+"No database drivers (sqlite, mysql, or postgresql) installed." => "Brak sterowników bazy danych (sqlite, mysql or postgresql).",
+"Cannot write into \"config\" directory" => "Nie można zapisać do katalogu \"config\"",
+"Cannot write into \"apps\" directory" => "Nie można zapisać do katalogu \"apps\"",
+"Setting locale to %s failed" => "Nie udało się zmienić języka na %s",
+"Please install one of theses locales on your system and restart your webserver." => "Proszę zainstalować jeden z tych języków w twoim systemie i zrestartować serwer www.",
+"Please ask your server administrator to install the module." => "Proszę poproś administratora serwera aby zainstalował ten moduł.",
+"PHP module %s not installed." => "Moduł PHP %s nie jest zainstalowany.",
+"PHP %s or higher is required." => "PHP %s lub wyższe jest wymagane.",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Proszę poproś administratora serwera aby zaktualizował PHP do najnowszej wersji. Twoja wersja PHP nie jest już dłużej wspierana przez ownCloud i społeczność PHP.",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "Bezpieczny tryb PHP jest aktywny. ownCloud do poprawnej pracy wymaga aby był on wyłączony.",
+"PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Bezpieczny tryb PHP jest przestarzały i w większości bezużyteczny i powinien być wyłączony. Proszę poproś administratora serwera aby wyłączył go w php.ini lub w pliku konfiguracyjnym serwera www.",
 "PostgreSQL >= 9 required" => "Wymagany PostgreSQL >= 9",
 "Could not obtain lock type %d on \"%s\"." => "Nie można uzyskać blokady typu %d na \"%s\"."
 );
