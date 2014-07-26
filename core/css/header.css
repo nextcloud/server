@@ -190,6 +190,8 @@
 #navigation .app-icon {
 	margin: 0 auto;
 	padding: 0;
+	max-height: 32px;
+	max-width: 32px;
 }
 
 /* Apps management */
