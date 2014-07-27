@@ -13,9 +13,9 @@ $TRANSLATIONS = array(
 "_%n hour ago_::_%n hours ago_" => array("","%n horas passate"),
 "today" => "hodie",
 "yesterday" => "heri",
-"_%n day go_::_%n days ago_" => array("",""),
+"_%n day go_::_%n days ago_" => array("","%n dies ante"),
 "last month" => "ultime mense",
-"_%n month ago_::_%n months ago_" => array("",""),
+"_%n month ago_::_%n months ago_" => array("","%n menses ante"),
 "last year" => "ultime anno",
 "years ago" => "annos passate"
 );

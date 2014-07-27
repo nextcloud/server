@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# hklcf <hklcfs@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-09 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-27 01:54-0400\n"
+"PO-Revision-Date: 2014-07-26 16:30+0000\n"
+"Last-Translator: hklcf <hklcfs@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "已儲存"
 
 #: admin/controller.php:90
 msgid "test email settings"
@@ -166,7 +167,7 @@ msgstr ""
 
 #: changepassword/controller.php:17
 msgid "Wrong password"
-msgstr ""
+msgstr "密碼錯誤"
 
 #: changepassword/controller.php:36
 msgid "No user supplied"
@@ -195,7 +196,7 @@ msgstr ""
 
 #: js/admin.js:128
 msgid "Sending..."
-msgstr ""
+msgstr "發送中..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
@@ -215,11 +216,11 @@ msgstr ""
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
-msgstr ""
+msgstr "停用"
 
 #: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
-msgstr ""
+msgstr "啟用"
 
 #: js/apps.js:147
 msgid "Please wait...."
@@ -235,7 +236,7 @@ msgstr ""
 
 #: js/apps.js:220
 msgid "Updating...."
-msgstr ""
+msgstr "更新中...."
 
 #: js/apps.js:223
 msgid "Error while updating app"
@@ -251,7 +252,7 @@ msgstr "更新"
 
 #: js/apps.js:227
 msgid "Updated"
-msgstr ""
+msgstr "已更新"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
@@ -305,19 +306,19 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr ""
 
@@ -337,31 +338,31 @@ msgstr ""
 msgid "Delete"
 msgstr "刪除"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr ""
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr ""
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr ""
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr ""
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -395,7 +396,7 @@ msgstr "空"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "登入"
 
 #: templates/admin.php:18
 msgid "Plain"
@@ -407,11 +408,11 @@ msgstr ""
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -695,7 +696,7 @@ msgstr ""
 
 #: templates/admin.php:447
 msgid "More"
-msgstr ""
+msgstr "更多"
 
 #: templates/admin.php:448
 msgid "Less"
@@ -817,7 +818,7 @@ msgstr "新密碼"
 
 #: templates/personal.php:61
 msgid "Change password"
-msgstr ""
+msgstr "更改密碼"
 
 #: templates/personal.php:73 templates/users/part.userlist.php:8
 msgid "Full Name"

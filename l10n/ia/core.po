@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-27 01:54-0400\n"
+"PO-Revision-Date: 2014-07-26 08:40+0000\n"
+"Last-Translator: giogio <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -150,7 +150,7 @@ msgstr "Configurationes"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "File"
 
 #: js/js.js:591
 msgid "Folder"
@@ -158,11 +158,11 @@ msgstr "Dossier"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Imagine"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -195,8 +195,8 @@ msgstr "heri"
 #: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n die ante"
+msgstr[1] "%n dies ante"
 
 #: js/js.js:1284
 msgid "last month"
@@ -205,8 +205,8 @@ msgstr "ultime mense"
 #: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%n mense ante"
+msgstr[1] "%n menses ante"
 
 #: js/js.js:1286
 msgid "last year"
@@ -216,7 +216,7 @@ msgstr "ultime anno"
 msgid "years ago"
 msgstr "annos passate"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr ""
 
@@ -237,7 +237,7 @@ msgstr ""
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Io sape lo que io es facente"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -245,7 +245,7 @@ msgstr "Reinitialisar contrasigno"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "Contrasigno non pote esser modificate. Pro favor continge tu administrator."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -395,7 +395,7 @@ msgstr "Protegite per contrasigno"
 
 #: js/share.js:400
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "Selige un contrasigno pro le ligamine public"
 
 #: js/share.js:406
 msgid "Allow Public Upload"
@@ -537,21 +537,21 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Le actualisation terminava con successo. On redirige nunc a tu ownCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s contrasigno re-fixate"
@@ -592,7 +592,7 @@ msgstr "Nove contrasigno"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Nove contrasigno"
 
 #: setup/controller.php:140
 #, php-format
@@ -614,7 +614,7 @@ msgstr "Personal"
 msgid "Users"
 msgstr "Usatores"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Applicationes"
 
@@ -744,7 +744,7 @@ msgstr "Configurar le base de datos"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "Solmente %s es disponibile"
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -780,19 +780,19 @@ msgstr "Terminar configuration"
 msgid "Finishing …"
 msgstr "Terminante ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr ""
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Clauder le session"
 
@@ -881,7 +881,7 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "Initia actualisation"
 
 #: templates/update.user.php:3
 msgid ""

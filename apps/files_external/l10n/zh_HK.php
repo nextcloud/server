@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Share" => "分享",
 "URL" => "網址",
 "Personal" => "個人",
+"Saved" => "已儲存",
 "Name" => "名稱",
 "Folder name" => "資料夾名稱",
 "Groups" => "群組",

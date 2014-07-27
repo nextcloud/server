@@ -7,14 +7,15 @@
 # Dawid <hoek@hoek.pl>, 2014
 # JurijPietrowicz <aleksander_cichon@fastmail.fm>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
+# mcinp, 2014
 # TranslationENPL <translationenpl@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-26 01:54-0400\n"
-"PO-Revision-Date: 2014-07-26 00:30+0000\n"
-"Last-Translator: JurijPietrowicz <aleksander_cichon@fastmail.fm>\n"
+"POT-Creation-Date: 2014-07-27 01:54-0400\n"
+"PO-Revision-Date: 2014-07-26 19:20+0000\n"
+"Last-Translator: mcinp\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,13 +25,13 @@ msgstr ""
 
 #: base.php:195 base.php:202
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Nie można zapisać do katalogu \"config\"!"
 
 #: base.php:196
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "Można to zwykle rozwiązać przez dodanie serwerowi www uprawnień zapisu do katalogu config."
 
 #: base.php:198
 #, php-format
@@ -42,7 +43,7 @@ msgstr "Zobacz %s"
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr ""
+msgstr "Można to zwykle rozwiązać przez %sdodanie serwerowi www uprawnień zapisu do katalogu config%s."
 
 #: base.php:662
 msgid "You are accessing the server from an untrusted domain."
@@ -486,7 +487,7 @@ msgstr "Brak sterowników bazy danych (sqlite, mysql or postgresql)."
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr ""
+msgstr "Problemy z uprawnieniami można zwykle naprawić  przez %sdodanie serwerowi www uprawnień zapisu do katalogu głównego%s."
 
 #: private/util.php:412
 msgid "Cannot write into \"config\" directory"
@@ -501,19 +502,19 @@ msgstr "Nie można zapisać do katalogu \"apps\""
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
-msgstr ""
+msgstr "Można to zwykle rozwiązać przez %sdodanie serwerowi www uprawnień zapisu do katalogu apps%s lub wyłączenie appstore w pliku konfiguracyjnym."
 
 #: private/util.php:440
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Nie można utworzyć katalogu \"data\" (%s)"
 
 #: private/util.php:441
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Można to zwykle rozwiązać przez <a href=\"%s\" target=\"_blank\">dodanie serwerowi www uprawnień zapisu do katalogu głównego</a>."
 
 #: private/util.php:457
 #, php-format
@@ -566,22 +567,22 @@ msgstr "Bezpieczny tryb PHP jest przestarzały i w większości bezużyteczny i 
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Magic Quotes są włączone. Do poprawnego działania ownCloud wymagane jest ich wyłączenie."
 
 #: private/util.php:565
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "Magic Quotes to przestarzałe i zasadniczo bezużyteczne ustawienie, które powinno być wyłączone. Poproś administratora serwera, by wyłączył je w php.ini albo w konfiguracji serwera www."
 
 #: private/util.php:579
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "Moduły PHP zostały zainstalowane, ale nadal brakuje ich na liście?"
 
 #: private/util.php:580
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Poproś administratora serwera o restart serwera www."
 
 #: private/util.php:609
 msgid "PostgreSQL >= 9 required"
@@ -589,23 +590,23 @@ msgstr "Wymagany PostgreSQL >= 9"
 
 #: private/util.php:610
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Uaktualnij wersję bazy danych"
 
 #: private/util.php:617
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "Wystąpił błąd podczas sprawdzania wersji PostgreSQL"
 
 #: private/util.php:618
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Upewnij się, że PostgreSQL jest w wersji co najmniej 9 lub sprawdź log by uzyskać więcej informacji na temat błędu"
 
 #: private/util.php:680
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "Zmień uprawnienia na 0770, żeby ukryć zawartość katalogu przed innymi użytkownikami."
 
 #: private/util.php:689
 #, php-format
@@ -621,7 +622,7 @@ msgstr ""
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Sprawdź, czy katalog danych zawiera plik \".ocdata\"."
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

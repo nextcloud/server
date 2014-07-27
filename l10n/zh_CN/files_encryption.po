@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Kaijia Feng <fengkaijia@gmail.com>, 2014
+# Mave <mave@foxmail.com>, 2014
 # Mengz You <mengz.you@gmail.com>, 2013
 # Star Brilliant <m13253@hotmail.com>, 2013
 # phy <transifex@phy25.com>, 2014
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-20 01:54-0400\n"
-"PO-Revision-Date: 2014-07-19 07:40+0000\n"
-"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
+"POT-Creation-Date: 2014-07-27 01:54-0400\n"
+"PO-Revision-Date: 2014-07-26 06:20+0000\n"
+"Last-Translator: Mave <mave@foxmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,13 +72,13 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr ""
+msgstr "您的私有密钥无效！也许是您在 %s 外更改了密码 (比如，在您的公司目录)。您可以在个人设置里更新您的私钥密码来恢复访问你的加密文件。"
 
 #: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
-msgstr ""
+msgstr " 无法解密这个文件（或许这是一个共享文件？），请询问文件所有者重新与您分享这个文件。"
 
 #: files/error.php:23 files/error.php:28
 msgid ""

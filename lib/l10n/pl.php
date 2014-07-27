@@ -1,6 +1,9 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Nie można zapisać do katalogu \"config\"!",
+"This can usually be fixed by giving the webserver write access to the config directory" => "Można to zwykle rozwiązać przez dodanie serwerowi www uprawnień zapisu do katalogu config.",
 "See %s" => "Zobacz %s",
+"This can usually be fixed by %sgiving the webserver write access to the config directory%s." => "Można to zwykle rozwiązać przez %sdodanie serwerowi www uprawnień zapisu do katalogu config%s.",
 "You are accessing the server from an untrusted domain." => "Dostajesz się do serwera z niezaufanej domeny.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Proszę skontaktuj się z administratorem. Jeśli jesteś administratorem tej instancji, skonfiguruj parametr \"trusted_domain\" w pliku config/config.php. Przykładowa konfiguracja jest dostępna w pliku config/config.sample.php.",
 "Help" => "Pomoc",
@@ -88,8 +91,12 @@ $TRANSLATIONS = array(
 "A valid password must be provided" => "Należy podać prawidłowe hasło",
 "The username is already being used" => "Ta nazwa użytkownika jest już używana",
 "No database drivers (sqlite, mysql, or postgresql) installed." => "Brak sterowników bazy danych (sqlite, mysql or postgresql).",
+"Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." => "Problemy z uprawnieniami można zwykle naprawić  przez %sdodanie serwerowi www uprawnień zapisu do katalogu głównego%s.",
 "Cannot write into \"config\" directory" => "Nie można zapisać do katalogu \"config\"",
 "Cannot write into \"apps\" directory" => "Nie można zapisać do katalogu \"apps\"",
+"This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." => "Można to zwykle rozwiązać przez %sdodanie serwerowi www uprawnień zapisu do katalogu apps%s lub wyłączenie appstore w pliku konfiguracyjnym.",
+"Cannot create \"data\" directory (%s)" => "Nie można utworzyć katalogu \"data\" (%s)",
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Można to zwykle rozwiązać przez <a href=\"%s\" target=\"_blank\">dodanie serwerowi www uprawnień zapisu do katalogu głównego</a>.",
 "Setting locale to %s failed" => "Nie udało się zmienić języka na %s",
 "Please install one of theses locales on your system and restart your webserver." => "Proszę zainstalować jeden z tych języków w twoim systemie i zrestartować serwer www.",
 "Please ask your server administrator to install the module." => "Proszę poproś administratora serwera aby zainstalował ten moduł.",
@@ -98,7 +105,16 @@ $TRANSLATIONS = array(
 "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Proszę poproś administratora serwera aby zaktualizował PHP do najnowszej wersji. Twoja wersja PHP nie jest już dłużej wspierana przez ownCloud i społeczność PHP.",
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "Bezpieczny tryb PHP jest aktywny. ownCloud do poprawnej pracy wymaga aby był on wyłączony.",
 "PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Bezpieczny tryb PHP jest przestarzały i w większości bezużyteczny i powinien być wyłączony. Proszę poproś administratora serwera aby wyłączył go w php.ini lub w pliku konfiguracyjnym serwera www.",
+"Magic Quotes is enabled. ownCloud requires that it is disabled to work properly." => "Magic Quotes są włączone. Do poprawnego działania ownCloud wymagane jest ich wyłączenie.",
+"Magic Quotes is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." => "Magic Quotes to przestarzałe i zasadniczo bezużyteczne ustawienie, które powinno być wyłączone. Poproś administratora serwera, by wyłączył je w php.ini albo w konfiguracji serwera www.",
+"PHP modules have been installed, but they are still listed as missing?" => "Moduły PHP zostały zainstalowane, ale nadal brakuje ich na liście?",
+"Please ask your server administrator to restart the web server." => "Poproś administratora serwera o restart serwera www.",
 "PostgreSQL >= 9 required" => "Wymagany PostgreSQL >= 9",
+"Please upgrade your database version" => "Uaktualnij wersję bazy danych",
+"Error occurred while checking PostgreSQL version" => "Wystąpił błąd podczas sprawdzania wersji PostgreSQL",
+"Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "Upewnij się, że PostgreSQL jest w wersji co najmniej 9 lub sprawdź log by uzyskać więcej informacji na temat błędu",
+"Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Zmień uprawnienia na 0770, żeby ukryć zawartość katalogu przed innymi użytkownikami.",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Sprawdź, czy katalog danych zawiera plik \".ocdata\".",
 "Could not obtain lock type %d on \"%s\"." => "Nie można uzyskać blokady typu %d na \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
