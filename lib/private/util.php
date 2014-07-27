@@ -1217,11 +1217,16 @@ class OC_Util {
 	/**
 	 * @Brief Get file content via curl.
 	 * @param string $url Url to get content
+	 * @throws Exception If the URL does not start with http:// or https://
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
 	 * If not, file_get_contents is used.
 	 */
 	public static function getUrlContent($url) {
+		if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+			throw new Exception('$url must start with https:// or http://', 1);
+		}
+		
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
 			$max_redirects = 10;
