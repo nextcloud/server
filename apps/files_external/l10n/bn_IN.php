@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Host" => "হোস্ট",
 "Username" => "ইউজারনেম",
 "Share" => "শেয়ার",
 "URL" => "URL",

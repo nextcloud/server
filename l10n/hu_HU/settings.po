@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 17:40+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,7 +53,7 @@ msgstr ""
 
 #: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
-msgstr ""
+msgstr "Küldési mód"
 
 #: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
@@ -61,7 +61,7 @@ msgstr "Titkosítás"
 
 #: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
-msgstr ""
+msgstr "Autentikációs metódus"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -199,7 +199,7 @@ msgstr "Nem sikerült megváltoztatni a jelszót"
 
 #: js/admin.js:128
 msgid "Sending..."
-msgstr ""
+msgstr "Küldés..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
@@ -207,7 +207,7 @@ msgstr "Felhasználói leírás"
 
 #: js/apps.js:54
 msgid "Admin Documentation"
-msgstr ""
+msgstr "Adminisztrátori Dokumentáció"
 
 #: js/apps.js:82
 msgid "Update to {appversion}"
@@ -309,19 +309,19 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "visszavonás"
 
@@ -341,31 +341,31 @@ msgstr "Csoportadminisztrátor"
 msgid "Delete"
 msgstr "Törlés"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "soha"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "csoport hozzáadása"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Érvényes felhasználónevet kell megadnia"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "A felhasználó nem hozható létre"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Érvényes jelszót kell megadnia"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Figyelmeztetés: A felhasználó \"{user}\" kezdő könyvtára  már létezett"
 

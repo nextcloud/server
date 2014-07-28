@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 17:40+0000\n"
+"Last-Translator: ebela <bela@dandre.hu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +74,7 @@ msgstr "Tartsuk meg a beállításokat?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Kiszolgáló"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -94,15 +94,15 @@ msgstr "Hiba"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Adja meg az alap/Base/ DN-t"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "nem sikerült azonosítani az alap/Base/ DN-t"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Add meg a portot"
 
 #: js/settings.js:780
 msgid "Configuration OK"
@@ -168,15 +168,15 @@ msgstr "Érvénytelen gépnév"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Kiszolgáló"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "Felhasználó Szűrő"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Bejelntkezési Szűrő"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -256,12 +256,12 @@ msgstr "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%
 
 #: templates/part.wizard-server.php:6
 msgid "1. Server"
-msgstr ""
+msgstr "1. Kiszolgáló"
 
 #: templates/part.wizard-server.php:13
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. kiszolgáló"
 
 #: templates/part.wizard-server.php:18
 msgid "Add Server Configuration"
@@ -269,7 +269,7 @@ msgstr "Új kiszolgáló beállításának hozzáadása"
 
 #: templates/part.wizard-server.php:21
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Konfiguráció törlés"
 
 #: templates/part.wizard-server.php:30
 msgid "Host"
@@ -391,7 +391,7 @@ msgstr "Csak a másodlagos (másolati) kiszolgálóhoz kapcsolódjunk."
 
 #: templates/settings.php:26
 msgid "Case insensitive LDAP server (Windows)"
-msgstr ""
+msgstr "Az LDAP-kiszolgáló nem tesz különbséget a kis- és nagybetűk között (Windows)"
 
 #: templates/settings.php:27
 msgid "Turn off SSL certificate validation."

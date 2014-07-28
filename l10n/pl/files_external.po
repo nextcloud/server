@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013
+# Krzysztof Łojowski <maxxxrally@gmail.com>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-17 01:54-0400\n"
-"PO-Revision-Date: 2014-07-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 21:30+0000\n"
+"Last-Translator: Krzysztof Łojowski <maxxxrally@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,13 +24,13 @@ msgstr ""
 msgid ""
 "Fetching request tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny Dropbox'a są poprawne."
 
 #: ajax/dropbox.php:40
 msgid ""
 "Fetching access tokens failed. Verify that your Dropbox app key and secret "
 "are correct."
-msgstr ""
+msgstr "Otrzymano błędne żądanie tokenów. Sprawdź, czy klucz aplikacji oraz klucz poufny Dropbox'a są poprawne."
 
 #: ajax/dropbox.php:48 js/dropbox.js:102
 msgid "Please provide a valid Dropbox app key and secret."
@@ -38,12 +39,12 @@ msgstr "Proszę podać prawidłowy klucz aplikacji Dropbox i klucz sekretny."
 #: ajax/google.php:27
 #, php-format
 msgid "Step 1 failed. Exception: %s"
-msgstr ""
+msgstr "Krok 1 błędny. Błąd: %s"
 
 #: ajax/google.php:38
 #, php-format
 msgid "Step 2 failed. Exception: %s"
-msgstr ""
+msgstr "Krok 2 błędny. Błąd: %s"
 
 #: appinfo/app.php:35 js/app.js:32 templates/settings.php:9
 msgid "External storage"

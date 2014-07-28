@@ -6,6 +6,7 @@
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013-2014
 # Dawid <hoek@hoek.pl>, 2014
 # JurijPietrowicz <aleksander_cichon@fastmail.fm>, 2014
+# Krzysztof Łojowski <maxxxrally@gmail.com>, 2014
 # Maciej Przybecki <maciej.przybecki@gmail.com>, 2013-2014
 # mcinp, 2014
 # TranslationENPL <translationenpl@gmail.com>, 2014
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-27 01:54-0400\n"
-"PO-Revision-Date: 2014-07-26 19:20+0000\n"
-"Last-Translator: mcinp\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 21:40+0000\n"
+"Last-Translator: Krzysztof Łojowski <maxxxrally@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -611,12 +612,12 @@ msgstr "Zmień uprawnienia na 0770, żeby ukryć zawartość katalogu przed inny
 #: private/util.php:689
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Katalog danych (%s) jest możliwy do odczytania przez innych użytkowników"
 
 #: private/util.php:710
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Katalog danych (%s) jest nieprawidłowy"
 
 #: private/util.php:711
 msgid ""

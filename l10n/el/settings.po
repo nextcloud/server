@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Playerthe12 <a7652246@drdrb.net>, 2014
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
 # Αικατερίνη Χ. Καταπόδη <spanish.katerina@gmail.com>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 21:40+0000\n"
+"Last-Translator: Playerthe12 <a7652246@drdrb.net>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -314,19 +315,19 @@ msgstr "Επαναφορά των κλειδιών κρυπτογράφησης.
 msgid "Unable to delete {objName}"
 msgstr "Αδυναμία διαγραφής του {objName}"
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr "Σφάλμα δημιουργίας ομάδας"
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr "Πρέπει να δοθεί ένα έγκυρο όνομα ομάδας"
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr "διαγραφή {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "αναίρεση"
 
@@ -346,31 +347,31 @@ msgstr "Ομάδα Διαχειριστών"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "ποτέ"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr "διαγραφή {userName}"
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "προσθήκη ομάδας"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Πρέπει να δοθεί έγκυρο όνομα χρήστη"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Σφάλμα δημιουργίας χρήστη"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Πρέπει να δοθεί έγκυρο συνθηματικό"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Προειδοποίηση: Ο μητρικός κατάλογος του χρήστη \"{user}\" υπάρχει ήδη"
 
@@ -567,7 +568,7 @@ msgstr "Το cron.php είναι καταχωρημένο σε μια υπηρε
 
 #: templates/admin.php:229
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "Χρησιμοποιήστε την cron υπηρεσία του συτήματος για να καλέσετε το cron.php αρχείο κάθε 15 λεπτά."
 
 #: templates/admin.php:234
 msgid "Sharing"
@@ -792,7 +793,7 @@ msgid ""
 "\t\tor\n"
 "\t\t<a href=\"https://owncloud.org/promote\"\n"
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
-msgstr ""
+msgstr "Αν θέλετε να στηρίξετε το έργο\n\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n\n⇥⇥⇥target=\"_blank\">συνησφέρετε στην ανάπτυξη</a>\n\n⇥⇥ή\n\n⇥⇥<a href=\"https://owncloud.org/promote\"\n\n⇥⇥⇥target=\"_blank\">διαδώστε το</a>!"
 
 #: templates/personal.php:31
 msgid "Show First Run Wizard again"

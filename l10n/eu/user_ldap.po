@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-26 01:54-0400\n"
-"PO-Revision-Date: 2014-07-25 23:30+0000\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 07:51+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -552,7 +552,7 @@ msgid ""
 "You must make sure that the attribute of your choice can be fetched for both"
 " users and groups and it is unique. Leave it empty for default behavior. "
 "Changes will have effect only on newly mapped (added) LDAP users and groups."
-msgstr ""
+msgstr "Era lehenetsian, UUID atributua automatikoki atzematen da. UUID atributua LDAP erabiltzaleak eta taldeak dudik gabe identifikatzeko erabiltzen da. Gainera, barneko erabiltzaile-izena UUID atributuan oinarritua sortuko da bestelakorik zehazten ez bada. Ezarpenak alda daitezke eta bestelako atributua jar daiteke. Ziur egon behar duzu hautatzen duzun atributua erabiltzaile eta taldeek eskura dezaketela eta bakarra dela. Jokabide lehenetsi gisa utz ezazu hutsik. Aldaketok soilik LDAP-n mapeatuko (gehituko)  diren erabiltzaile eta taldeei eragingo die."
 
 #: templates/settings.php:58
 msgid "UUID Attribute for Users:"
@@ -564,7 +564,7 @@ msgstr "Taldeentzako UUID atributuak:"
 
 #: templates/settings.php:60
 msgid "Username-LDAP User Mapping"
-msgstr ""
+msgstr "LDAP-erabiltzaile-izena erabiltzailearen mapeatzea"
 
 #: templates/settings.php:61
 msgid ""
@@ -578,12 +578,12 @@ msgid ""
 " is not configuration sensitive, it affects all LDAP configurations! Never "
 "clear the mappings in a production environment, only in a testing or "
 "experimental stage."
-msgstr ""
+msgstr "Erabiltzaile izenak (meta) datuak gordetzeko eta esleitzeko erabiltzen dira. Erabiltzaileak zehazki identifikatzeko eta ezagutzeko LDAP erabiltzaile bakoitzak barne erabiltzaile-izen bat edukiko du. Honek erabiltzaile izenatik LDAP erabiltzailera mapatzea eskatzen du. Sortutako erabiltzaile-izena mapatzen da LDAP erabiltzailearen UUID-ra. Gainera DN-a cachean gordetzen da ere LDAP-ren interakzioa txikitzeko,  baina DN-a ez da erabiltzen identifikatzeko. Baldin eta DN-a aldatzen bada aldaketak aurkituko dira. Barneko erabiltzaile-izena denean erabiltzen da. Mapatzea garbitzeagatik hondarrak nonnahi ageriko dira. Mapatzeak garbitzeak  eragiten dio LDAP ezarpen guztiei. Ez garbitu inoiz mapatzeak ingurune produktibo batean, egin soilik proba edo esperimentazio egoera batean."
 
 #: templates/settings.php:62
 msgid "Clear Username-LDAP User Mapping"
-msgstr ""
+msgstr "Garbitu LDAP-erabiltzaile-izenaren erabiltzaile mapaketa"
 
 #: templates/settings.php:62
 msgid "Clear Groupname-LDAP Group Mapping"
-msgstr ""
+msgstr "Garbitu LDAP-talde-izenaren talde mapaketa"

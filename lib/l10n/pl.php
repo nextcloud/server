@@ -114,6 +114,8 @@ $TRANSLATIONS = array(
 "Error occurred while checking PostgreSQL version" => "Wystąpił błąd podczas sprawdzania wersji PostgreSQL",
 "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "Upewnij się, że PostgreSQL jest w wersji co najmniej 9 lub sprawdź log by uzyskać więcej informacji na temat błędu",
 "Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Zmień uprawnienia na 0770, żeby ukryć zawartość katalogu przed innymi użytkownikami.",
+"Data directory (%s) is readable by other users" => "Katalog danych (%s) jest możliwy do odczytania przez innych użytkowników",
+"Data directory (%s) is invalid" => "Katalog danych (%s) jest nieprawidłowy",
 "Please check that the data directory contains a file \".ocdata\" in its root." => "Sprawdź, czy katalog danych zawiera plik \".ocdata\".",
 "Could not obtain lock type %d on \"%s\"." => "Nie można uzyskać blokady typu %d na \"%s\"."
 );

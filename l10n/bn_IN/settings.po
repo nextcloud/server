@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-18 01:54-0400\n"
-"PO-Revision-Date: 2014-07-18 03:19+0000\n"
+"POT-Creation-Date: 2014-07-28 01:54-0400\n"
+"PO-Revision-Date: 2014-07-27 16:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (India) (http://www.transifex.com/projects/p/owncloud/language/bn_IN/)\n"
 "MIME-Version: 1.0\n"
@@ -361,7 +361,7 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: js/users/users.js:667
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -773,7 +773,7 @@ msgstr ""
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "আপনার ফাইল সিঙ্ক করার অ্যাপ পান"
 
 #: templates/personal.php:21
 msgid ""

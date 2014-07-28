@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Μη διαθέσιμος αποθηκευτικός χώρος",
+"Storage invalid" => "Μη έγκυρος αποθηκευτικός χώρος",
 "Unknown error" => "Άγνωστο σφάλμα",
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
@@ -43,6 +45,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Σφάλμα φόρτωσης URL",
 "Share" => "Διαμοιρασμός",
 "Delete" => "Διαγραφή",
+"Disconnect storage" => "Αποσυνδεδεμένος αποθηκευτικός χώρος",
 "Unshare" => "Διακοπή διαμοιρασμού",
 "Delete permanently" => "Μόνιμη διαγραφή",
 "Rename" => "Μετονομασία",
