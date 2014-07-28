@@ -375,6 +375,39 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 
 	}
 
+	/*
+	 * if user is in a group excluded from resharing, then the share permission should
+	 * be removed
+	 */
+	public function testShareWithUserAndUserIsExcludedFromResharing() {
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared text.txt with user 4.'
+		);
+		$this->assertContains(
+			'test.txt',
+			OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that test.txt is a shared file of user 1.'
+		);
+
+		// exclude group2 from sharing
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', $this->group2);
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', "yes");
+
+		OC_User::setUserId($this->user4);
+
+		$share = OCP\Share::getItemSharedWith('test', 'test.txt');
+
+		$this->assertSame(\OCP\PERMISSION_ALL & ~OCP\PERMISSION_SHARE, $share['permissions'],
+				'Failed asserting that user 4 is excluded from re-sharing');
+
+		\OC_Appconfig::deleteKey('core', 'shareapi_exclude_groups_list');
+		\OC_Appconfig::deleteKey('core', 'shareapi_exclude_groups');
+
+	}
+
 	protected function shareUserOneTestFileWithGroupOne() {
 		OC_User::setUserId($this->user1);
 		$this->assertTrue(
