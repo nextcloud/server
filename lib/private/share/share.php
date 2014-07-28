@@ -595,6 +595,7 @@ class Share extends \OC\Share\Constants {
 			$shareWith['group'] = $group;
 			$shareWith['users'] = array_diff(\OC_Group::usersInGroup($group), array($uidOwner));
 		} else if ($shareType === self::SHARE_TYPE_LINK) {
+			$updateExistingShare = false;
 			if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') == 'yes') {
 
 				// when updating a link share
@@ -629,7 +630,7 @@ class Share extends \OC\Share\Constants {
 					throw new \Exception($message_t);
 				}
 
-				if (!empty($updateExistingShare) &&
+				if ($updateExistingShare === false &&
 						self::isDefaultExpireDateEnabled() &&
 						empty($expirationDate)) {
 					$expirationDate = Helper::calcExpireDate();
