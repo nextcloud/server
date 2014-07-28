@@ -940,6 +940,78 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 	/**
 	 * @medium
+	 */
+	function testUpdateShareExpireDate() {
+
+		$fileInfo = $this->view->getFileInfo($this->folder);
+
+		// enforce expire date, by default 7 days after the file was shared
+		\OCP\Config::setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		\OCP\Config::setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+
+		$dateWithinRange = new \DateTime();
+		$dateWithinRange->add(new \DateInterval('P5D'));
+		$dateOutOfRange = new \DateTime();
+		$dateOutOfRange->add(new \DateInterval('P8D'));
+
+		$result = \OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK,
+				null, 1);
+
+		// share was successful?
+		$this->assertTrue(is_string($result));
+
+		$items = \OCP\Share::getItemShared('file', null);
+
+		// make sure that we found a link share
+		$this->assertEquals(1, count($items));
+
+		$linkShare = reset($items);
+
+		// update expire date to a valid value
+		$params = array();
+		$params['id'] = $linkShare['id'];
+		$params['_put'] = array();
+		$params['_put']['expireDate'] = $dateWithinRange->format('Y-m-d');
+
+		$result = Share\Api::updateShare($params);
+
+		$this->assertTrue($result->succeeded());
+
+		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+
+		$updatedLinkShare = reset($items);
+
+		// date should be changed
+		$this->assertTrue(is_array($updatedLinkShare));
+		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
+
+		// update expire date to a value out of range
+		$params = array();
+		$params['id'] = $linkShare['id'];
+		$params['_put'] = array();
+		$params['_put']['expireDate'] = $dateOutOfRange->format('Y-m-d');
+
+		$result = Share\Api::updateShare($params);
+
+		$this->assertFalse($result->succeeded());
+
+		$items = \OCP\Share::getItemShared('file', $linkShare['file_source']);
+
+		$updatedLinkShare = reset($items);
+
+		// date shouldn't be changed
+		$this->assertTrue(is_array($updatedLinkShare));
+		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
+
+		// cleanup
+		\OCP\Config::setAppValue('core', 'shareapi_default_expire_date', 'no');
+		\OCP\Config::setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+	}
+
+	/**
+	 * @medium
 	 * @depends testCreateShare
 	 */
 	function testDeleteShare() {
@@ -1158,7 +1230,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);
 		$this->assertTrue($result);
 
-		$result = \OCP\Share::setExpirationDate('file', $info->getId() , $expireDate);
+		$result = \OCP\Share::setExpirationDate('file', $info->getId() , $expireDate, $now);
 		$this->assertTrue($result);
 
 		//manipulate stime so that both shares are older then the default expire date
