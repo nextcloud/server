@@ -128,6 +128,9 @@
 .icon-search {
 	background-image: url('../img/actions/search.svg');
 }
+.icon-search-white {
+	background-image: url('../img/actions/search-white.svg');
+}
 
 .icon-settings {
 	background-image: url('../img/actions/settings.svg');
