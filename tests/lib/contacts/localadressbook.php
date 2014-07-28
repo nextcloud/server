@@ -17,7 +17,7 @@ class Test_LocalAddressBook extends PHPUnit_Framework_TestCase
 	public function testSearchFN() {
 		$stub = $this->getMockForAbstractClass('\OCP\IUserManager', array('searchDisplayName'));
 
-		$stub->expects($this->any())->method('searchDisplayName')->will($this->return(array(
+		$stub->expects($this->any())->method('searchDisplayName')->will($this->returnValue(array(
 			new SimpleUserForTesting('tom', 'Thomas'),
 			new SimpleUserForTesting('tomtom', 'Thomas T.'),
 		)));
@@ -25,13 +25,13 @@ class Test_LocalAddressBook extends PHPUnit_Framework_TestCase
 		$localAddressBook = new LocalAddressBook($stub);
 
 		$result = $localAddressBook->search('tom', array('FN'), array());
-		$this->assertEqual(2, count($result));
+		$this->assertEquals(2, count($result));
 	}
 
 	public function testSearchId() {
 		$stub = $this->getMockForAbstractClass('\OCP\IUserManager', array('searchDisplayName'));
 
-		$stub->expects($this->any())->method('search')->will($this->return(array(
+		$stub->expects($this->any())->method('search')->will($this->returnValue(array(
 			new SimpleUserForTesting('tom', 'Thomas'),
 			new SimpleUserForTesting('tomtom', 'Thomas T.'),
 		)));
@@ -39,7 +39,7 @@ class Test_LocalAddressBook extends PHPUnit_Framework_TestCase
 		$localAddressBook = new LocalAddressBook($stub);
 
 		$result = $localAddressBook->search('tom', array('id'), array());
-		$this->assertEqual(2, count($result));
+		$this->assertEquals(2, count($result));
 	}
 }
 
