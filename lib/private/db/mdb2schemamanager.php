@@ -59,7 +59,8 @@ class MDB2SchemaManager {
 	public function getMigrator() {
 		$platform = $this->conn->getDatabasePlatform();
 		if ($platform instanceof SqlitePlatform) {
-			return new SQLiteMigrator($this->conn);
+			$config = \OC::$server->getConfig();
+			return new SQLiteMigrator($this->conn, $config);
 		} else if ($platform instanceof OraclePlatform) {
 			return new OracleMigrator($this->conn);
 		} else if ($platform instanceof MySqlPlatform) {

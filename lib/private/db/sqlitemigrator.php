@@ -11,6 +11,21 @@ namespace OC\DB;
 use Doctrine\DBAL\DBALException;
 
 class SQLiteMigrator extends Migrator {
+
+	/**
+	 * @var \OCP\IConfig
+	 */
+	private $config;
+
+	/**
+	 * @param \Doctrine\DBAL\Connection $connection
+	 * @param \OCP\IConfig $config
+	 */
+	public function __construct(\Doctrine\DBAL\Connection $connection, \OCP\IConfig $config) {
+		parent::__construct($connection);
+		$this->config = $config;
+	}
+
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema
 	 * @throws \OC\DB\MigrationException
@@ -19,7 +34,7 @@ class SQLiteMigrator extends Migrator {
 	 */
 	public function checkMigrate(\Doctrine\DBAL\Schema\Schema $targetSchema) {
 		$dbFile = $this->connection->getDatabase();
-		$tmpFile = \OC_Helper::tmpFile('.db');
+		$tmpFile = $this->buildTempDatabase();
 		copy($dbFile, $tmpFile);
 
 		$connectionParams = array(
@@ -36,5 +51,14 @@ class SQLiteMigrator extends Migrator {
 			unlink($tmpFile);
 			throw new MigrationException('', $e->getMessage());
 		}
+	}
+
+	/**
+	 * @return string
+	 */
+	private function buildTempDatabase() {
+		$dataDir = $this->config->getSystemValue("datadirectory", \OC::$SERVERROOT . '/data');
+		$tmpFile = uniqid("oc_");
+		return "$dataDir/$tmpFile.db";
 	}
 }
