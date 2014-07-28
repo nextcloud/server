@@ -72,7 +72,7 @@ class SimpleUserForTesting implements \OCP\IUser {
 	public function delete() {
 	}
 
-	public function setPassword($password, $recoveryPassword) {
+	public function setPassword($password, $recoveryPassword = null) {
 	}
 
 	public function getHome() {
