@@ -411,7 +411,7 @@ class Api {
 
 		if ($share['item_type'] !== 'folder' ||
 				(int)$share['share_type'] !== \OCP\Share::SHARE_TYPE_LINK ) {
-			return new \OC_OCS_Result(null, 404, "public upload is only possible for public shared folders");
+			return new \OC_OCS_Result(null, 400, "public upload is only possible for public shared folders");
 		}
 
 		// read, create, update (7) if public upload is enabled or
@@ -431,7 +431,7 @@ class Api {
 	private static function updateExpireDate($share, $params) {
 		// only public links can have a expire date
 		if ((int)$share['share_type'] !== \OCP\Share::SHARE_TYPE_LINK ) {
-			return new \OC_OCS_Result(null, 404, "expire date only exists for public link shares");
+			return new \OC_OCS_Result(null, 400, "expire date only exists for public link shares");
 		}
 
 		try {
