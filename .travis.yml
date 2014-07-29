@@ -14,11 +14,15 @@ matrix:
       env: DB=pgsql
     - php: 5.4
       env: DB=mysql
+    - php: 5.4
+      env: DB=mysql EXTERNAL=true
   allow_failures:
     - php: hhvm
   fast_finish: true
 
 env:
+  global:
+    - EXTERNAL=false
   matrix:
     - DB=sqlite
 
@@ -35,6 +39,11 @@ before_script:
 
   # call setup for tests
   - build/prepareTests.sh $DB
+
+  # Enable/disable files_external to control it's unit test execution
+  - php occ --list
+  - if [[ $EXTERNAL == true ]] ; then php occ app:enable files_external ; fi
+  - if [[ $EXTERNAL == false ]] ; then php occ app:disable files_external ; fi
 
 script:
   - phpunit --version
