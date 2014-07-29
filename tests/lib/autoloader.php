@@ -30,21 +30,6 @@ class AutoLoader extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('private/legacy/files.php', 'private/files.php'), $this->loader->findClass('OC_Files'));
 	}
 
-	public function testClassPath() {
-		$this->loader->registerClass('Foo\Bar', 'foobar.php');
-		$this->assertEquals(array('foobar.php'), $this->loader->findClass('Foo\Bar'));
-	}
-
-	public function testPrefixNamespace() {
-		$this->loader->registerPrefix('Foo', 'foo');
-		$this->assertEquals(array('foo/Foo/Bar.php'), $this->loader->findClass('Foo\Bar'));
-	}
-
-	public function testPrefix() {
-		$this->loader->registerPrefix('Foo_', 'foo');
-		$this->assertEquals(array('foo/Foo/Bar.php'), $this->loader->findClass('Foo_Bar'));
-	}
-
 	public function testLoadTestNamespace() {
 		$this->assertEquals(array('tests/lib/foo/bar.php'), $this->loader->findClass('Test\Foo\Bar'));
 	}
