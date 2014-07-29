@@ -561,9 +561,15 @@ class Preview {
 		$realX = (int)$image->width();
 		$realY = (int)$image->height();
 
-		// compute $maxY using the aspect of the generated preview
+		// compute $maxY and $maxX using the aspect of the generated preview
 		if ($this->keepAspect) {
-			$y = $x / ($realX / $realY);
+			$ratio = $realX / $realY;
+			if($x / $ratio < $y) {
+				// width restricted
+				$y = $x / $ratio;
+			} else {
+				$x = $y * $ratio;
+			}
 		}
 
 		if ($x === $realX && $y === $realY) {
