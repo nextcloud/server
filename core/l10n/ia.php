@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Data de expiration es in le passato.",
 "Turned on maintenance mode" => "Activate modo de mantenentia",
 "Turned off maintenance mode" => "De-activar modo de mantenentia",
 "Updated database" => "Base de datos actualisate",

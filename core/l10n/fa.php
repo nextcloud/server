@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "تاریخ انقضا مربوط به گذشته است .",
 "Couldn't send mail to following users: %s " => "ارسال ایمیل برای کاربران روبرو با شکست مواجه شد : %s",
 "Turned on maintenance mode" => "حالت \" در دست تعمیر \" فعال شد .",
 "Turned off maintenance mode" => "حالت \" در دست تعمیر \" غیرفعال شد .",

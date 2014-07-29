@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Verval datum is in die verlede.",
 "Turned on maintenance mode" => "Instandhouding aangeskakel",
 "Turned off maintenance mode" => "Instandhouding uitgeskakel",
 "No image or file provided" => "Geen prent of lêer voorsien",

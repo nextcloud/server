@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-27 01:54-0400\n"
-"PO-Revision-Date: 2014-07-26 08:40+0000\n"
-"Last-Translator: giogio <g.sora@tiscali.it>\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,11 +18,7 @@ msgstr ""
 "Language: ia\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "Data de expiration es in le passato."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -351,12 +347,12 @@ msgstr ""
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Error quando on compartiva"
 
@@ -469,27 +465,27 @@ msgstr "actualisar"
 msgid "delete"
 msgstr "deler"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Proteger con contrasigno"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Error quando on levava le data de expiration"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Error quando on fixava le data de expiration"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Inviante ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Message de e-posta inviate"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Aviso"
 

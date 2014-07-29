@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Múltbéli lejárati idő.",
 "Couldn't send mail to following users: %s " => "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s",
 "Turned on maintenance mode" => "A karbantartási mód bekapcsolva",
 "Turned off maintenance mode" => "A karbantartási mód kikapcsolva",

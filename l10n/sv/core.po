@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -26,11 +26,7 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "Utgångsdatumet är i det förflutna."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Gick inte att skicka e-post till följande användare: %s"
@@ -224,7 +220,7 @@ msgstr "förra året"
 msgid "years ago"
 msgstr "år sedan"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Kunde inte skicka återställningsmail. Vänligen kontakta din administratör."
 
@@ -359,12 +355,12 @@ msgstr "Delad med {recipients}"
 msgid "Share"
 msgstr "Dela"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fel"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
@@ -477,27 +473,27 @@ msgstr "uppdatera"
 msgid "delete"
 msgstr "radera"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Skickar ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "E-post skickat"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Varning"
 
@@ -545,21 +541,21 @@ msgstr "Uppdateringen misslyckades."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Uppdateringen lyckades. Du omdirigeras nu till OwnCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Kunde inte återställa lösenordet på grund av felaktig token"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Kunde inte skicka återställningsmail. Vänligen kontrollera att ditt användarnamn är korrekt."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Kunde inte skicka något återställningsmail därför att det inte finns någon e-mailadress kopplad till detta användarnamn. Vänligen kontakta din administratör."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s återställ lösenord"
@@ -622,7 +618,7 @@ msgstr "Personligt"
 msgid "Users"
 msgstr "Användare"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Program"
 
@@ -788,19 +784,19 @@ msgstr "Avsluta installation"
 msgid "Finishing …"
 msgstr "Avslutar ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Denna applikation kräver JavaScript aktiverat för att fungera korrekt. Vänligen <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktivera JavaScript</a> och ladda om gränssnittet."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s är tillgänglig. Få mer information om hur du går tillväga för att uppdatera."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Logga ut"
 

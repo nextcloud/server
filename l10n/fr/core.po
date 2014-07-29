@@ -12,14 +12,15 @@
 # Ogre Sympathique, 2013-2014
 # Patrice LACHANCE <patlachance@gmail.com>, 2013
 # Redouane Lakrache <red-0ne@smarty-concept.com>, 2013
+# Romain DEP. <rom1dep@gmail.com>, 2014
 # Spanti Nicola <rydroid_trans@yahoo.fr>, 2013
 # themen <themen2004@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +29,7 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "La date d'expiration est dans le passé."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Impossible d'envoyer un mail aux utilisateurs suivant : %s"
@@ -226,7 +223,7 @@ msgstr "l'année dernière"
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Impossible d'envoyer l’émail de réinitialisation. Veuillez contacter votre administrateur."
 
@@ -361,12 +358,12 @@ msgstr "Partagé avec {recipients}"
 msgid "Share"
 msgstr "Partager"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erreur"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Erreur lors de la mise en partage"
 
@@ -479,27 +476,27 @@ msgstr "mettre à jour"
 msgid "delete"
 msgstr "supprimer"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Une erreur est survenue pendant la suppression de la date d'expiration"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Erreur lors de la spécification de la date d'expiration"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "En cours d'envoi ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Email envoyé"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Attention"
 
@@ -533,7 +530,7 @@ msgstr "Aucune balise sélectionnée pour la suppression."
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr "Mise à jour en cours de {productName} vers la version {version}, cela peut prendre du temps."
+msgstr "Mise à jour en cours de {productName} vers la version {version}, cela peut prendre un certain temps."
 
 #: js/update.js:43
 msgid "Please reload the page."
@@ -547,21 +544,21 @@ msgstr "La mise à jour a échoué."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Impossible de réinitialiser le mot de passe car le jeton est invalide."
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Impossible d'envoyer l’émail de réinitialisation. Veuillez vérifier que votre nom d'utilisateur est correct."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Impossible d'envoyer l'email de réinitialisation car il n'y a aucune adresse email pour cet utilisateur. Veuillez contacter votre administrateur."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "Réinitialisation de votre mot de passe %s"
@@ -624,7 +621,7 @@ msgstr "Personnel"
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Applications"
 
@@ -790,19 +787,19 @@ msgstr "Terminer l'installation"
 msgid "Finishing …"
 msgstr "En cours de finalisation..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Cette application nécessite que JavaScript soit activé pour fonctionner correctement.  Veuillez <a href=\"http://enable-javascript.com/\" target=\"_blank\">activer JavaScript</a> puis charger à nouveau cette interface."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s est disponible. Obtenez plus d'informations sur la façon de mettre à jour."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Se déconnecter"
 
@@ -863,7 +860,7 @@ msgstr "Cela signifie que uniquement les administrateurs peuvent utiliser l'inst
 msgid ""
 "Contact your system administrator if this message persists or appeared "
 "unexpectedly."
-msgstr "Contactez votre administrateur système si ce message persiste ou apparaît de façon innatendue."
+msgstr "Veuillez contacter votre administrateur système si ce message persiste ou apparaît de façon inattendue."
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."

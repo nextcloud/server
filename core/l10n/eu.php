@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Muga data iraganekoa da",
 "Couldn't send mail to following users: %s " => "Ezin izan da posta bidali hurrengo erabiltzaileei: %s",
 "Turned on maintenance mode" => "Mantenu modua gaitu da",
 "Turned off maintenance mode" => "Mantenu modua desgaitu da",

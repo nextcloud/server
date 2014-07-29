@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Η ημερομηνία λήξης είναι στο παρελθόν.",
 "Couldn't send mail to following users: %s " => "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s",
 "Turned on maintenance mode" => "Η κατάσταση συντήρησης ενεργοποιήθηκε",
 "Turned off maintenance mode" => "Η κατάσταση συντήρησης απενεργοποιήθηκε",

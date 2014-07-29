@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "La data de caducidá ta nel pasáu.",
 "Couldn't send mail to following users: %s " => "Nun pudo unviase'l corréu a los usuarios siguientes: %s",
 "Turned on maintenance mode" => "Activáu'l mou de caltenimientu",
 "Turned off maintenance mode" => "Apagáu'l mou de caltenimientu",

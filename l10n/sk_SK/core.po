@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,7 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "   \t\nDátum expirácie spadá do minulosti."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebolo možné odoslať email týmto používateľom: %s "
@@ -221,7 +217,7 @@ msgstr "minulý rok"
 msgid "years ago"
 msgstr "pred rokmi"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Nemožno poslať email pre obnovu. Kontaktujte prosím vášho administrátora."
 
@@ -357,12 +353,12 @@ msgstr "Zdieľa s {recipients}"
 msgid "Share"
 msgstr "Zdieľať"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Chyba počas zdieľania"
 
@@ -475,27 +471,27 @@ msgstr "aktualizovať"
 msgid "delete"
 msgstr "vymazať"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Chránené heslom"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Chyba pri odstraňovaní dátumu expirácie"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Chyba pri nastavení dátumu expirácie"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Odosielam ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Email odoslaný"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Varovanie"
 
@@ -543,21 +539,21 @@ msgstr "Aktualizácia zlyhala."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Aktualizácia bola úspešná. Presmerovávam vás na prihlasovaciu stránku."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Nemožno zmeniť heslo pre neplatnosť tokenu."
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Nemožno poslať email pre obnovu. Uistite sa, či vkladáte správne používateľské meno."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Nemožno poslať email pre obnovu hesla, pretože pre tohoto používateľa nie je uvedená žiadna emailová adresa. Prosím, obráťte sa na administrátora."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "reset hesla %s"
@@ -620,7 +616,7 @@ msgstr "Osobné"
 msgid "Users"
 msgstr "Používatelia"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Aplikácie"
 
@@ -786,19 +782,19 @@ msgstr "Dokončiť inštaláciu"
 msgid "Finishing …"
 msgstr "Dokončujem..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Táto aplikácia vyžaduje JavaScript a tento musí byť povolený pre správnu funkciu aplikácie. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">povoľte JavaScript</a> a znovunačítajte toto rozhranie."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získajte viac informácií o postupe aktualizácie."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásiť"
 

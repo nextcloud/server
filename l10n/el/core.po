@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,7 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "Η ημερομηνία λήξης είναι στο παρελθόν."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Αδυναμία αποστολής μηνύματος στους ακόλουθους χρήστες: %s"
@@ -226,7 +222,7 @@ msgstr "τελευταίο χρόνο"
 msgid "years ago"
 msgstr "χρόνια πριν"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς. Παρακαλώ επικοινωνήστε με το διαχειριστή σας."
 
@@ -361,12 +357,12 @@ msgstr "Διαμοιράστηκε με {recipients}"
 msgid "Share"
 msgstr "Διαμοιρασμός"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
@@ -479,27 +475,27 @@ msgstr "ενημέρωση"
 msgid "delete"
 msgstr "διαγραφή"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Αποστολή..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Το Email απεστάλη "
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Προειδοποίηση"
 
@@ -547,21 +543,21 @@ msgstr "Η ενημέρωση δεν ήταν επιτυχής."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Αδυναμία επαναφοράς κωδικού πρόσβασης καθώς το τεκμήριο είναι άκυρο"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς. Παρακαλώ ελέγξτε ότι το όνομα χρήστη σας είναι ορθό."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Αδυναμία αποστολής ηλ. μηνύματος επαναφοράς καθώς δεν αντιστοιχεί καμμία διεύθυνση ηλ. ταχυδρομείου σε αυτό το όνομα χρήστη. Παρακαλώ επικοινωνήστε με το διαχειριστή σας."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s επαναφορά κωδικού πρόσβασης"
@@ -624,7 +620,7 @@ msgstr "Προσωπικά"
 msgid "Users"
 msgstr "Χρήστες"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Εφαρμογές"
 
@@ -790,19 +786,19 @@ msgstr "Ολοκλήρωση εγκατάστασης"
 msgid "Finishing …"
 msgstr "Ολοκλήρωση..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Αυτή η εφαρμογή απαιτεί η JavaScript να είναι ενεργοποιημένη για σωστή λειτουργία. Παρακαλώ <a href=\"http://enable-javascript.com/\" target=\"_blank\">ενεργοποιήστε τη JavaScript</a> και επαναφορτώστε αυτή τη διεπαφή."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

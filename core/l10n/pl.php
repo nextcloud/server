@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Data wygaśnięcia jest w przeszłości",
 "Couldn't send mail to following users: %s " => "Nie można było wysłać wiadomości do następujących użytkowników: %s",
 "Turned on maintenance mode" => "Włączony tryb konserwacji",
 "Turned off maintenance mode" => "Wyłączony tryb konserwacji",

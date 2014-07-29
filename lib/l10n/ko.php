@@ -61,6 +61,11 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "사용자 명에는 다음과 같은 문자만 사용이 가능합니다: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "올바른 사용자 이름을 입력해야 함",
 "A valid password must be provided" => "올바른 암호를 입력해야 함",
-"The username is already being used" => "이 사용자명은 현재 사용중입니다"
+"The username is already being used" => "이 사용자명은 현재 사용중입니다",
+"PHP module %s not installed." => "%s PHP 모듈이 설치되지 않았습니다.",
+"PHP %s or higher is required." => "%s 버전의 PHP 혹은 높은 버전을 필요로 합니다.",
+"PostgreSQL >= 9 required" => "PostgreSQL 9 혹은 이상 버전을 필요로합니다",
+"Please upgrade your database version" => "데이터베이스 버전을 업그레이드 하십시오",
+"Error occurred while checking PostgreSQL version" => "PostgreSQL 버전을 확인하던중 오류가 발생하였습니다"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

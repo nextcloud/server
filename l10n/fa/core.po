@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-26 01:54-0400\n"
-"PO-Revision-Date: 2014-07-25 23:00+0000\n"
-"Last-Translator: Amir Keshavarz <pnetsale@gmail.com>\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,7 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "تاریخ انقضا مربوط به گذشته است ."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "ارسال ایمیل برای کاربران روبرو با شکست مواجه شد : %s"
@@ -348,12 +344,12 @@ msgstr "به اشتراک گذاشته شده با {recipients}"
 msgid "Share"
 msgstr "اشتراک‌گذاری"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "خطا"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
@@ -466,27 +462,27 @@ msgstr "به روز"
 msgid "delete"
 msgstr "پاک کردن"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "درحال ارسال ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "اخطار"
 

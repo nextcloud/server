@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -21,11 +21,7 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "Muga data iraganekoa da"
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Ezin izan da posta bidali hurrengo erabiltzaileei: %s"
@@ -219,7 +215,7 @@ msgstr "joan den urtean"
 msgid "years ago"
 msgstr "urte"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Ezin da berrezartzeko eposta bidali. Mesedez jarri harremetan zure administradorearekin."
 
@@ -354,12 +350,12 @@ msgstr "{recipients}-rekin partekatua."
 msgid "Share"
 msgstr "Elkarbanatu"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Errorea"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Errore bat egon da elkarbanatzean"
 
@@ -472,27 +468,27 @@ msgstr "eguneratu"
 msgid "delete"
 msgstr "ezabatu"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Pasahitzarekin babestuta"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Errorea izan da muga data kentzean"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Errore bat egon da muga data ezartzean"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Bidaltzen ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Eposta bidalia"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Abisua"
 
@@ -540,21 +536,21 @@ msgstr "Eguneraketak ez du arrakasta izan."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Ezin izan da pasahitza berrezarri tokena baliogabea delako"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Ezin izan da berrezartzeko eposta bidali. Ziurtatu zure erabiltzaile izena egokia dela."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Ezin izan da berrezartzeko eposta bidali erabiltzaile izen honetarako eposta helbiderik ez dagoelako. Mesedez harremanetan jarri kudeatzailearekin."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s pasahitza berrezarri"
@@ -617,7 +613,7 @@ msgstr "Pertsonala"
 msgid "Users"
 msgstr "Erabiltzaileak"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Aplikazioak"
 
@@ -783,19 +779,19 @@ msgstr "Bukatu konfigurazioa"
 msgid "Finishing …"
 msgstr "Bukatzen..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Aplikazio honek ongi funtzionatzeko JavaScript gaitua behar du. Mesedez  <a href=\"http://enable-javascript.com/\" target=\"_blank\">gaitu JavaScript</a> eta birkargatu interfaze hau."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s erabilgarri dago. Eguneratzeaz argibide gehiago eskuratu."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Saioa bukatu"
 

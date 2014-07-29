@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Utløpsdato er tilbake i tid.",
 "Couldn't send mail to following users: %s " => "Klarte ikke å sende mail til følgende brukere: %s",
 "Turned on maintenance mode" => "Slo på vedlikeholdsmodus",
 "Turned off maintenance mode" => "Slo av vedlikeholdsmodus",

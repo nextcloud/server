@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "有効期限が切れています。",
 "Couldn't send mail to following users: %s " => "次のユーザーにメールを送信できませんでした: %s",
 "Turned on maintenance mode" => "メンテナンスモードがオンになりました",
 "Turned off maintenance mode" => "メンテナンスモードがオフになりました",

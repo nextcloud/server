@@ -9,13 +9,13 @@
 # Jongyoul Lee <jongyoul@gmail.com>, 2013
 # Park Shinjo <peremen@gmail.com>, 2013
 # Shinjo Park <kde@peremen.name>, 2013
-# woosuk park <bjh13579@gmail.com>, 2013
+# woosuk park <bjh13579@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,7 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr ""
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "%s 님에게 메일을 보낼 수 없습니다."
@@ -164,7 +160,7 @@ msgstr "폴더"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "그림"
 
 #: js/js.js:593
 msgid "Audio"
@@ -218,9 +214,9 @@ msgstr "작년"
 msgid "years ago"
 msgstr "년 전"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "재설정 메일을 보낼수 없습니다. 관리자에게 문의하십시오."
 
 #: js/lostpassword.js:5
 msgid ""
@@ -247,7 +243,7 @@ msgstr "암호 재설정"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "비밀번호를 변경할수 없습니다. 관리자에게 문의하십시오."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -284,11 +280,11 @@ msgstr "파일 1개 충돌"
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
-msgstr ""
+msgstr "새 파일"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "파일이 이미 존재합니다"
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
@@ -352,12 +348,12 @@ msgstr ""
 msgid "Share"
 msgstr "공유"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "오류"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "공유하는 중 오류 발생"
 
@@ -470,27 +466,27 @@ msgstr "업데이트"
 msgid "delete"
 msgstr "삭제"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "만료 날짜 해제 오류"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "만료 날짜 설정 오류"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "전송 중..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "이메일 발송됨"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "경고"
 
@@ -538,21 +534,21 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "업데이트가 성공하였습니다. ownCloud로 돌아갑니다."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s 암호 재설정"
@@ -593,7 +589,7 @@ msgstr "새 암호"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "새 암호"
 
 #: setup/controller.php:140
 #, php-format
@@ -615,7 +611,7 @@ msgstr "개인"
 msgid "Users"
 msgstr "사용자"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "앱"
 
@@ -745,7 +741,7 @@ msgstr "데이터베이스 설정"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "%s 만 가능합니다."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -781,19 +777,19 @@ msgstr "설치 완료"
 msgid "Finishing …"
 msgstr "완료 중 ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "이 애플리케이션을 올바르게 사용하려면 자바스크립트를 활성화해야 합니다. <a href=\"http://enable-javascript.com/\" target=\"_blank\">자바스크립트를 활성화</a>한 다음 인터페이스를 새로 고치십시오."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 자세한 정보를 얻으십시오."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "로그아웃"
 
@@ -821,7 +817,7 @@ msgstr "관리자에게 문의하십시오."
 
 #: templates/login.php:50
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "암호를 잊으셨다구요? 재설정하세요!"
 
 #: templates/login.php:55
 msgid "remember"
@@ -882,7 +878,7 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "업데이트 시작"
 
 #: templates/update.user.php:3
 msgid ""

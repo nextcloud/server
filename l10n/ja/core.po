@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,7 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "有効期限が切れています。"
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "次のユーザーにメールを送信できませんでした: %s"
@@ -218,7 +214,7 @@ msgstr "1年前"
 msgid "years ago"
 msgstr "数年前"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "リセットメールを送信できませんでした。管理者に問い合わせてください。"
 
@@ -352,12 +348,12 @@ msgstr "{recipients} と共有"
 msgid "Share"
 msgstr "共有"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "エラー"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "共有でエラー発生"
 
@@ -470,27 +466,27 @@ msgstr "アップデート"
 msgid "delete"
 msgstr "削除"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "有効期限の未設定エラー"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "送信中..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "メールを送信しました"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "警告"
 
@@ -538,21 +534,21 @@ msgstr "アップデートに失敗しました。"
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "アップデートに成功しました。今すぐownCloudにリダイレクトします。"
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "トークンが無効なため、パスワードをリセットできませんでした"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "リセットメールを送信できませんでした。ユーザー名が正しいことを確認してください。"
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "このユーザー名に紐付けられたメールアドレスがないため、リセットメールを送信できませんでした。管理者に問い合わせてください。"
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s パスワードリセット"
@@ -615,7 +611,7 @@ msgstr "個人"
 msgid "Users"
 msgstr "ユーザー"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "アプリ"
 
@@ -781,19 +777,19 @@ msgstr "セットアップを完了します"
 msgid "Finishing …"
 msgstr "作業を完了しています ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "このアプリケーションを使用するにはJavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、インターフェースを更新してください。 "
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s が利用可能です。アップデート方法について詳細情報を確認してください。"
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "ログアウト"
 

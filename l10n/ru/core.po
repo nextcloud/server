@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-18 01:54-0400\n"
-"PO-Revision-Date: 2014-07-18 03:19+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -42,11 +42,7 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "Дата истечения срока действия в прошлом."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Невозможно отправить письмо следующим пользователям: %s"
@@ -244,7 +240,7 @@ msgstr "год назад"
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Не удалось отправить письмо для сброса пароля. Пожалуйста, свяжитесь с вашим администратором."
 
@@ -380,12 +376,12 @@ msgstr "Доступ открыт {recipients}"
 msgid "Share"
 msgstr "Открыть доступ"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Ошибка"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Ошибка при открытии доступа"
 
@@ -498,27 +494,27 @@ msgstr "обновить"
 msgid "delete"
 msgstr "удалить"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Защищено паролем"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отмене срока доступа"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке срока доступа"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Отправляется ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Письмо отправлено"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -566,21 +562,21 @@ msgstr "Обновление не удалось."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Невозможно сбросить пароль потому, что ключ неправильный"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Не удалось отправить письмо для сброса пароля. Пожалуйста, убедитесь в том, что ваше имя пользователя введено верно."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Невозможно отправить письмо для сброса пароля, т.к. у вашего аккаунта не прописан адрес почты. Пожалуйста, свяжитесь с администратором."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s сброс пароля"

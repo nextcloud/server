@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "La date d'expiration est dans le passé.",
 "Couldn't send mail to following users: %s " => "Impossible d'envoyer un mail aux utilisateurs suivant : %s",
 "Turned on maintenance mode" => "Basculé en mode maintenance",
 "Turned off maintenance mode" => "Basculé en mode production (non maintenance)",
@@ -120,7 +119,7 @@ $TRANSLATIONS = array(
 "Edit tags" => "Modifier les balises",
 "Error loading dialog template: {error}" => "Erreur de chargement du modèle de dialogue : {error}",
 "No tags selected for deletion." => "Aucune balise sélectionnée pour la suppression.",
-"Updating {productName} to version {version}, this may take a while." => "Mise à jour en cours de {productName} vers la version {version}, cela peut prendre du temps.",
+"Updating {productName} to version {version}, this may take a while." => "Mise à jour en cours de {productName} vers la version {version}, cela peut prendre un certain temps.",
 "Please reload the page." => "Veuillez recharger la page.",
 "The update was unsuccessful." => "La mise à jour a échoué.",
 "The update was successful. Redirecting you to ownCloud now." => "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud.",
@@ -191,7 +190,7 @@ $TRANSLATIONS = array(
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Bonjour,<br><br>Juste pour vous informer que %s a partagé <strong>%s</strong> avec vous.<br><a href=\"%s\">Consultez-le !</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Cette instance de ownCloud est actuellement en mode utilisateur unique.",
 "This means only administrators can use the instance." => "Cela signifie que uniquement les administrateurs peuvent utiliser l'instance.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Contactez votre administrateur système si ce message persiste ou apparaît de façon innatendue.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Veuillez contacter votre administrateur système si ce message persiste ou apparaît de façon inattendue.",
 "Thank you for your patience." => "Merci de votre patience.",
 "%s will be updated to version %s." => "%s sera mis à jour vers la version %s.",
 "The following apps will be disabled:" => "Les applications suivantes seront désactivées :",

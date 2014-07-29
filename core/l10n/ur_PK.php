@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "ختم ہونے کی تاریخ ماضی میں ہے.",
 "Turned on maintenance mode" => "بحالی موڈ چالو ہے",
 "Turned off maintenance mode" => "بحالی موڈ بند ہے",
 "Updated database" => "اپ ڈیٹ ہوئ ڈیٹا بیس",

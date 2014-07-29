@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-17 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 11:15+0000\n"
-"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,11 +20,7 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "Päättymispäivä on menneisyydessä."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Sähköpostin lähetys seuraaville käyttäjille epäonnistui: %s"
@@ -218,7 +214,7 @@ msgstr "viime vuonna"
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Palautussähköpostin lähettäminen ei onnistunut. Ota yhteys ylläpitäjään."
 
@@ -353,12 +349,12 @@ msgstr "Jaettu henkilöiden {recipients} kanssa"
 msgid "Share"
 msgstr "Jaa"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Virhe"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
@@ -471,27 +467,27 @@ msgstr "päivitä"
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Lähetetään..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Sähköposti lähetetty"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Varoitus"
 
@@ -539,21 +535,21 @@ msgstr "Päivitys epäonnistui."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr ""
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Palautussähköpostin lähettäminen ei onnistunut. Varmista, että käyttäjätunnuksesi on oikein."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Palautussähköpostin lähettäminen ei onnistunut, koska tälle käyttäjätunnukselle ei ole määritelty sähköpostiosoitetta. Ota yhteys ylläpitäjään."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s salasanan palautus"

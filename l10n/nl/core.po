@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,7 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "De vervaldatum ligt in het verleden."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Kon geen e-mail sturen aan de volgende gebruikers: %s"
@@ -218,7 +214,7 @@ msgstr "vorig jaar"
 msgid "years ago"
 msgstr "jaar geleden"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Kon herstel e-mail niet versturen. Neem contact op met uw beheerder."
 
@@ -353,12 +349,12 @@ msgstr "Gedeeld met {recipients}"
 msgid "Share"
 msgstr "Delen"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fout"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
@@ -471,27 +467,27 @@ msgstr "bijwerken"
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de vervaldatum"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Versturen ..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "E-mail verzonden"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Waarschuwing"
 
@@ -539,21 +535,21 @@ msgstr "De update is niet geslaagd."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "Kon het wachtwoord niet herstellen, omdat het token ongeldig is"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Kon e-mail niet versturen. Verifieer of uw gebruikersnaam correct is."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Kon geen herstel e-mail versturen, omdat er geen e-mailadres bekend is bij deze gebruikersnaam. Neem contact op met uw beheerder."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "%s wachtwoord reset"
@@ -616,7 +612,7 @@ msgstr "Persoonlijk"
 msgid "Users"
 msgstr "Gebruikers"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Apps"
 
@@ -782,19 +778,19 @@ msgstr "Installatie afronden"
 msgid "Finishing …"
 msgstr "Afronden ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Deze applicatie heeft JavaScript nodig om correct te functioneren.  <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeer JavaScript</a> en herlaad deze interface."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s is beschikbaar. Verkrijg meer informatie over het bijwerken."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Afmelden"
 

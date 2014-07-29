@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-07-29 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,7 @@ msgstr ""
 "Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:90
-msgid "Expiration date is in the past."
-msgstr "A data de caducidade está no pasado."
-
-#: ajax/share.php:122 ajax/share.php:164
+#: ajax/share.php:116 ajax/share.php:158
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Non é posíbel enviar correo aos usuarios seguintes: %s"
@@ -217,7 +213,7 @@ msgstr "último ano"
 msgid "years ago"
 msgstr "anos atrás"
 
-#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:175
+#: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
 msgstr "Non foi posíbel enviar o coreo do restablecemento. Póñase en contacto co administrador."
 
@@ -352,12 +348,12 @@ msgstr "Compartido con {recipients}"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:989
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Erro"
 
-#: js/share.js:328 js/share.js:1052
+#: js/share.js:328 js/share.js:1070
 msgid "Error while sharing"
 msgstr "Produciuse un erro ao compartir"
 
@@ -470,27 +466,27 @@ msgstr "actualizar"
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:970
+#: js/share.js:988
 msgid "Password protected"
 msgstr "Protexido con contrasinal"
 
-#: js/share.js:989
+#: js/share.js:1007
 msgid "Error unsetting expiration date"
 msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:1010
+#: js/share.js:1028
 msgid "Error setting expiration date"
 msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:1039
+#: js/share.js:1057
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:1050
+#: js/share.js:1068
 msgid "Email sent"
 msgstr "Correo enviado"
 
-#: js/share.js:1074
+#: js/share.js:1092
 msgid "Warning"
 msgstr "Aviso"
 
@@ -538,21 +534,21 @@ msgstr "A actualización foi satisfactoria."
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 
-#: lostpassword/controller/lostcontroller.php:110
+#: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
 msgstr "No, foi posíbel restabelecer o contrasinal, a marca non é correcta"
 
-#: lostpassword/controller/lostcontroller.php:136
+#: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
 msgstr "Non foi posíbel enviar o coreo do restablecemento. Asegúrese de que o nome de usuario é o correcto."
 
-#: lostpassword/controller/lostcontroller.php:151
+#: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
 msgstr "Non foi posíbel enviar o coreo do restablecemento. Semella que este correo non corresponde con este nome de usuario. Póñase en contacto co administrador."
 
-#: lostpassword/controller/lostcontroller.php:168
+#: lostpassword/controller/lostcontroller.php:191
 #, php-format
 msgid "%s password reset"
 msgstr "Restabelecer o contrasinal %s"
@@ -615,7 +611,7 @@ msgstr "Persoal"
 msgid "Users"
 msgstr "Usuarios"
 
-#: strings.php:7 templates/layout.user.php:53 templates/layout.user.php:118
+#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
 msgstr "Aplicativos"
 
@@ -781,19 +777,19 @@ msgstr "Rematar a configuración"
 msgid "Finishing …"
 msgstr "Rematando ..."
 
-#: templates/layout.user.php:40
+#: templates/layout.user.php:44
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Este aplicativo require que o JavaScript estea activado para unha operativa correcta. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Active o JavaScript</a> e volva a cargar a interface."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s está dispoñíbel. Obteña máis información sobre como actualizar."
 
-#: templates/layout.user.php:80 templates/singleuser.user.php:8
+#: templates/layout.user.php:84 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Desconectar"
 

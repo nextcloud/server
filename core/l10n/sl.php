@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Datum preteka je v preteklosti.",
 "Couldn't send mail to following users: %s " => "Ni mogoče poslati sporočila za: %s",
 "Turned on maintenance mode" => "Vzdrževalni način je omogočen",
 "Turned off maintenance mode" => "Vzdrževalni način je onemogočen",

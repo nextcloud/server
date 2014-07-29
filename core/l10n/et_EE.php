@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Expiration date is in the past." => "Aegumise kuupäev on minevikus.",
 "Couldn't send mail to following users: %s " => "Kirja saatmine järgnevatele kasutajatele ebaõnnestus: %s ",
 "Turned on maintenance mode" => "Haldusrežiimis sisse lülitatud",
 "Turned off maintenance mode" => "Haldusrežiimis välja lülitatud",
