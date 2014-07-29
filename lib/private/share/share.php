@@ -955,8 +955,8 @@ class Share extends \OC\Share\Constants {
 			$maxDays = \OCP\Config::getAppValue('core', 'shareapi_expire_after_n_days', '7');
 			$maxDate->add(new \DateInterval('P' . $maxDays . 'D'));
 			if ($date > $maxDate) {
-				$warning = 'Can not set expire date. Shares can not expire later then ' . $maxDays . ' after they where shared';
-				$warning_t = $l->t('Can not set expire date. Shares can not expire later then %s after they where shared', array($maxDays));
+				$warning = 'Can not set expire date. Shares can not expire later than ' . $maxDays . ' after they where shared';
+				$warning_t = $l->t('Can not set expire date. Shares can not expire later than %s after they where shared', array($maxDays));
 				\OCP\Util::writeLog('OCP\Share', $warning, \OCP\Util::WARN);
 				throw new \Exception($warning_t);
 			}
