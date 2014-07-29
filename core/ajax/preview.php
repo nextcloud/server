@@ -21,10 +21,6 @@ if ($file === '') {
 	exit;
 }
 
-if ($keepAspect === true) {
-	$maxY = $maxX;
-}
-
 if ($maxX === 0 || $maxY === 0) {
 	//400 Bad Request
 	\OC_Response::setStatus(400);
