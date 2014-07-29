@@ -31,6 +31,9 @@ class Swift extends \Test\Files\Storage\Storage {
 	private $objectStorage;
 
 	public function setUp() {
+		if (!getenv('RUN_OBJECTSTORE_TESTS')) {
+			$this->markTestSkipped('objectstore tests are unreliable on travis');
+		}
 
 		\OC_App::disable('files_sharing');
 		\OC_App::disable('files_versions');
