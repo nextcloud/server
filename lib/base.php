@@ -478,8 +478,6 @@ class OC {
 
 		self::initPaths();
 		if (OC_Config::getValue('instanceid', false)) {
-			// \OC\Memcache\Cache has a hidden dependency on
-			// OC_Util::getInstanceId() for namespacing. See #5409.
 			try {
 				self::$loader->setMemoryCache(\OC\Memcache\Factory::createLowLatency('Autoloader'));
 			} catch (\Exception $ex) {
