@@ -148,7 +148,7 @@ class OC {
 			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				. ' folder in the ownCloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
-			exit();
+			return;
 		}
 		
 		// search the apps folder
