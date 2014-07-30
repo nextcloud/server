@@ -18,8 +18,8 @@ class OC_Defaults {
 	private $defaultTitle;
 	private $defaultBaseUrl;
 	private $defaultSyncClientUrl;
-	private $defaultiOSClientURL;
-	private $defaultAndroidClientURL;
+	private $defaultiOSClientUrl;
+	private $defaultAndroidClientUrl;
 	private $defaultDocBaseUrl;
 	private $defaultDocVersion;
 	private $defaultSlogan;
@@ -35,8 +35,8 @@ class OC_Defaults {
 		$this->defaultTitle = 'ownCloud'; /* can be a longer name, for titles */
 		$this->defaultBaseUrl = 'https://owncloud.org';
 		$this->defaultSyncClientUrl = 'https://owncloud.org/sync-clients/';
-		$this->defaultiOSClientURL = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
-		$this->defaultAndroidClientURL = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
+		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
+		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
 		$this->defaultDocBaseUrl = 'http://doc.owncloud.org';
 		$this->defaultDocVersion = $version[0] . '.0'; // used to generate doc links
 		$this->defaultSlogan = $this->l->t('web services under your control');
