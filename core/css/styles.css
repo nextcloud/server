@@ -688,6 +688,7 @@ label.infield {
 }
 #notification, #update-notification {
 	margin: 0 auto;
+	max-width: 60%;
 	z-index: 101;
 	background-color: #fc4;
 	border: 0;
