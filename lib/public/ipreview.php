@@ -57,4 +57,11 @@ interface IPreview
 	 */
 	function isMimeSupported($mimeType = '*');
 
+	/**
+	 * Check if a preview can be generated for a file
+	 *
+	 * @param \OCP\Files\FileInfo $file
+	 * @return bool
+	 */
+	function isAvailable($file);
 }

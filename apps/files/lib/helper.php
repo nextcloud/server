@@ -31,7 +31,7 @@ class Helper
 	/**
 	 * Determine icon for a given file
 	 *
-	 * @param \OC\Files\FileInfo $file file info
+	 * @param \OCP\Files\FileInfo $file file info
 	 * @return string icon URL
 	 */
 	public static function determineIcon($file) {
@@ -111,7 +111,7 @@ class Helper
 		$entry['mtime'] = $i['mtime'] * 1000;
 		// only pick out the needed attributes
 		$entry['icon'] = \OCA\Files\Helper::determineIcon($i);
-		if (\OC::$server->getPreviewManager()->isMimeSupported($i['mimetype'])) {
+		if (\OC::$server->getPreviewManager()->isAvailable($i)) {
 			$entry['isPreviewAvailable'] = true;
 		}
 		$entry['name'] = $i->getName();

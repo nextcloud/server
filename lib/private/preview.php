@@ -13,6 +13,7 @@
  */
 namespace OC;
 
+use OC\Files\Filesystem;
 use OC\Preview\Provider;
 
 require_once 'preview/image.php';
@@ -723,6 +724,35 @@ class Preview {
 
 		$preview = new Preview(\OC_User::getUser(), $prefix, $path);
 		$preview->deleteAllPreviews();
+	}
+
+	/**
+	 * Check if a preview can be generated for a file
+	 *
+	 * @param \OC\Files\FileInfo $file
+	 * @return bool
+	 */
+	public static function isAvailable($file) {
+		if (!\OC_Config::getValue('enable_previews', true)) {
+			return false;
+		}
+
+		//check if there are preview backends
+		if (empty(self::$providers)) {
+			self::initProviders();
+		}
+
+		//remove last element because it has the mimetype *
+		$providers = array_slice(self::$providers, 0, -1);
+		foreach ($providers as $supportedMimeType => $provider) {
+			/**
+			 * @var \OC\Preview\Provider $provider
+			 */
+			if (preg_match($supportedMimeType, $file->getMimetype())) {
+				return $provider->isAvailable($file);
+			}
+		}
+		return false;
 	}
 
 	/**

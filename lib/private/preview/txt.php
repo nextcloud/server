@@ -14,6 +14,16 @@ class TXT extends Provider {
 	}
 
 	/**
+	 * Check if a preview can be generated for $path
+	 *
+	 * @param \OC\Files\FileInfo $file
+	 * @return bool
+	 */
+	public function isAvailable($file) {
+		return $file->getSize() > 5;
+	}
+
+	/**
 	 * @param string $path
 	 * @param int $maxX
 	 * @param int $maxY
