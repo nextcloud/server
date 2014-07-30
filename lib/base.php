@@ -475,16 +475,9 @@ class OC {
 		@ini_set('file_uploads', '50');
 
 		self::handleAuthHeaders();
-
 		self::initPaths();
-		if (OC_Config::getValue('instanceid', false)) {
-			// \OC\Memcache\Cache has a hidden dependency on
-			// OC_Util::getInstanceId() for namespacing. See #5409.
-			try {
-				self::$loader->setMemoryCache(\OC\Memcache\Factory::createLowLatency('Autoloader'));
-			} catch (\Exception $ex) {
-			}
-		}
+		self::registerAutoloaderCache();
+
 		OC_Util::isSetLocaleWorking();
 
 		// setup 3rdparty autoloader
@@ -641,6 +634,23 @@ class OC {
 			OC_Hook::connect('OC_User', 'post_addToGroup', 'OC\Share\Hooks', 'post_addToGroup');
 			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC\Share\Hooks', 'post_removeFromGroup');
 			OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC\Share\Hooks', 'post_deleteGroup');
+		}
+	}
+
+	protected static function registerAutoloaderCache() {
+		// The class loader takes an optional low-latency cache, which MUST be
+		// namespaced. The instanceid is used for namespacing, but might be
+		// unavailable at this point. Futhermore, it might not be possible to
+		// generate an instanceid via \OC_Util::getInstanceId() because the
+		// config file may not be writable. As such, we only register a class
+		// loader cache if instanceid is available without trying to create one.
+		$instanceId = OC_Config::getValue('instanceid', null);
+		if ($instanceId) {
+			try {
+				$memcacheFactory = new \OC\Memcache\Factory($instanceId);
+				self::$loader->setMemoryCache($memcacheFactory->createLowLatency('Autoloader'));
+			} catch (\Exception $ex) {
+			}
 		}
 	}
 
