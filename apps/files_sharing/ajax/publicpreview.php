@@ -70,10 +70,6 @@ if(substr($path, 0, 1) === '/') {
 	$path = substr($path, 1);
 }
 
-if ($keepAspect === true) {
-	$maxY = $maxX;
-}
-
 if($maxX === 0 || $maxY === 0) {
 	\OC_Response::setStatus(\OC_Response::STATUS_BAD_REQUEST);
 	\OC_Log::write('core-preview', 'x and/or y set to 0', \OC_Log::DEBUG);
