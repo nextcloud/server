@@ -20,13 +20,36 @@ use \OC\Core\LostPassword\EncryptedDataException;
 
 class LostController extends Controller {
 
+	/**
+	 * @var \OCP\IURLGenerator
+	 */
 	protected $urlGenerator;
+
+	/**
+	 * @var \OCP\IUserManager
+	 */
 	protected $userManager;
+
+	/**
+	 * @var \OC_Defaults
+	 */
 	protected $defaults;
+
+	/**
+	 * @var IL10N
+	 */
 	protected $l10n;
 	protected $from;
 	protected $isDataEncrypted;
+
+	/**
+	 * @var IConfig
+	 */
 	protected $config;
+
+	/**
+	 * @var IUserSession
+	 */
 	protected $userSession;
 
 	public function __construct($appName,
@@ -110,7 +133,7 @@ class LostController extends Controller {
 				throw new \Exception($this->l10n->t('Couldn\'t reset password because the token is invalid'));
 			}
 
-			if (!$user->setPassword($userId, $password)) {
+			if (!$user->setPassword($password)) {
 				throw new \Exception();
 			}
 

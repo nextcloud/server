@@ -419,21 +419,51 @@ class Hooks {
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
 
+		$type = $view->is_dir('/' . $user . '/files/' . $params['oldpath']) ? 'folder' : 'file';
+
 		if ($mp1 === $mp2) {
 			self::$renamedFiles[$params['oldpath']] = array(
 				'uid' => $ownerOld,
-				'path' => $pathOld);
+				'path' => $pathOld,
+				'type' => $type,
+				'operation' => 'rename',
+				);
+
 		}
 	}
 
 	/**
-	 * after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
-	 * @param array $params array with oldpath and newpath
-	 *
-	 * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
-	 * of the stored versions along the actual file
+	 * mark file as renamed so that we know the original source after the file was renamed
+	 * @param array $params with the old path and the new path
 	 */
-	public static function postRename($params) {
+	public static function preCopy($params) {
+		$user = \OCP\User::getUser();
+		$view = new \OC\Files\View('/');
+		$util = new Util($view, $user);
+		list($ownerOld, $pathOld) = $util->getUidAndFilename($params['oldpath']);
+
+		// we only need to rename the keys if the rename happens on the same mountpoint
+		// otherwise we perform a stream copy, so we get a new set of keys
+		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
+		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+
+		$type = $view->is_dir('/' . $user . '/files/' . $params['oldpath']) ? 'folder' : 'file';
+
+		if ($mp1 === $mp2) {
+			self::$renamedFiles[$params['oldpath']] = array(
+				'uid' => $ownerOld,
+				'path' => $pathOld,
+				'type' => $type,
+				'operation' => 'copy');
+		}
+	}
+
+	/**
+	 * after a file is renamed/copied, rename/copy its keyfile and share-keys also fix the file size and fix also the sharing
+	 *
+	 * @param array $params array with oldpath and newpath
+	 */
+	public static function postRenameOrCopy($params) {
 
 		if (\OCP\App::isEnabled('files_encryption') === false) {
 			return true;
@@ -451,6 +481,8 @@ class Hooks {
 				isset(self::$renamedFiles[$params['oldpath']]['path'])) {
 			$ownerOld = self::$renamedFiles[$params['oldpath']]['uid'];
 			$pathOld = self::$renamedFiles[$params['oldpath']]['path'];
+			$type =  self::$renamedFiles[$params['oldpath']]['type'];
+			$operation = self::$renamedFiles[$params['oldpath']]['operation'];
 			unset(self::$renamedFiles[$params['oldpath']]);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::DEBUG);
@@ -485,8 +517,7 @@ class Hooks {
 		}
 
 		// handle share keys
-		if (!$view->is_dir($oldKeyfilePath)) {
-			$type = 'file';
+		if ($type === 'file') {
 			$oldKeyfilePath .= '.key';
 			$newKeyfilePath .= '.key';
 
@@ -494,18 +525,17 @@ class Hooks {
 			$matches = Helper::findShareKeys($oldShareKeyPath, $view);
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($pathOld, $pathNew, $src));
-				$view->rename($src, $dst);
+				$view->$operation($src, $dst);
 			}
 
 		} else {
-			$type = "folder";
 			// handle share-keys folders
-			$view->rename($oldShareKeyPath, $newShareKeyPath);
+			$view->$operation($oldShareKeyPath, $newShareKeyPath);
 		}
 
 		// Rename keyfile so it isn't orphaned
 		if ($view->file_exists($oldKeyfilePath)) {
-			$view->rename($oldKeyfilePath, $newKeyfilePath);
+			$view->$operation($oldKeyfilePath, $newKeyfilePath);
 		}
 
 

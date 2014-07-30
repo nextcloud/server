@@ -22,7 +22,7 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 	}
-	
+
 	/**
 	 * mounting an object storage as the root fs will in essence remove the
 	 * necessity of a data folder being present.
@@ -50,7 +50,7 @@ class OC_Util {
 			self::$rootMounted = true;
 		}
 	}
-	
+
 	/**
 	 * Can be set up
 	 * @param string $user
@@ -168,6 +168,21 @@ class OC_Util {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * check if share API enforces a default expire date
+	 * @return boolean
+	 */
+	public static function isDefaultExpireDateEnforced() {
+		$isDefaultExpireDateEnabled = \OCP\Config::getAppValue('core', 'shareapi_default_expire_date', 'no');
+		$enforceDefaultExpireDate = false;
+		if ($isDefaultExpireDateEnabled === 'yes') {
+			$value = \OCP\Config::getAppValue('core', 'shareapi_enforce_expire_date', 'no');
+			$enforceDefaultExpireDate = ($value === 'yes') ? true : false;
+		}
+
+		return $enforceDefaultExpireDate;
 	}
 
 	/**
@@ -1217,11 +1232,16 @@ class OC_Util {
 	/**
 	 * @Brief Get file content via curl.
 	 * @param string $url Url to get content
+	 * @throws Exception If the URL does not start with http:// or https://
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
 	 * If not, file_get_contents is used.
 	 */
 	public static function getUrlContent($url) {
+		if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+			throw new Exception('$url must start with https:// or http://', 1);
+		}
+		
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
 			$max_redirects = 10;

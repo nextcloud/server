@@ -17,6 +17,10 @@ class MySQLMigrator extends Migrator {
 	 * @return \Doctrine\DBAL\Schema\SchemaDiff
 	 */
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+		$platform = $connection->getDatabasePlatform();
+		$platform->registerDoctrineTypeMapping('enum', 'string');
+		$platform->registerDoctrineTypeMapping('bit', 'string');
+
 		$schemaDiff = parent::getDiff($targetSchema, $connection);
 
 		// identifiers need to be quoted for mysql

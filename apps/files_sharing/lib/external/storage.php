@@ -49,7 +49,12 @@ class Storage extends DAV implements ISharedStorage {
 		$this->remote = $options['remote'];
 		$this->remoteUser = $options['owner'];
 		list($protocol, $remote) = explode('://', $this->remote);
-		list($host, $root) = explode('/', $remote, 2);
+		if (strpos($remote, '/')) {
+			list($host, $root) = explode('/', $remote, 2);
+		} else {
+			$host = $remote;
+			$root = '';
+		}
 		$secure = $protocol === 'https';
 		$root = rtrim($root, '/') . '/public.php/webdav';
 		$this->mountPoint = $options['mountpoint'];
@@ -148,7 +153,7 @@ class Storage extends DAV implements ISharedStorage {
 					// ownCloud instance is gone, likely to be a temporary server configuration error
 					throw $e;
 				}
-			} catch(\Exception $shareException) {
+			} catch (\Exception $shareException) {
 				// todo, maybe handle 403 better and ask the user for a new password
 				throw $e;
 			}

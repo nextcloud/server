@@ -326,15 +326,37 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->shareUserOneTestFileWithUserTwo();
 		$this->shareUserTestFileAsLink();
 
-		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast),
-			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
-		);
+		// manipulate share table and set expire date to the past
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `item_type` = ? AND `item_source` = ?  AND `uid_owner` = ? AND `share_type` = ?');
+		$query->bindValue(1, new \DateTime($this->dateInPast), 'datetime');
+		$query->bindValue(2, 'test');
+		$query->bindValue(3, 'test.txt');
+		$query->bindValue(4, $this->user1);
+		$query->bindValue(5, \OCP\Share::SHARE_TYPE_LINK);
+		$query->execute();
 
 		$shares = OCP\Share::getItemsShared('test');
 		$this->assertSame(1, count($shares));
 		$share = reset($shares);
 		$this->assertSame(\OCP\Share::SHARE_TYPE_USER, $share['share_type']);
+	}
+
+	public function testSetExpireDateInPast() {
+		OC_User::setUserId($this->user1);
+		$this->shareUserOneTestFileWithUserTwo();
+		$this->shareUserTestFileAsLink();
+
+		$setExpireDateFailed = false;
+		try {
+			$this->assertTrue(
+					OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast, ''),
+					'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
+			);
+		} catch (\Exception $e) {
+			$setExpireDateFailed = true;
+		}
+
+		$this->assertTrue($setExpireDateFailed);
 	}
 
 	public function testShareWithUserExpirationValid() {
@@ -344,12 +366,45 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 
 
 		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture),
+			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture, ''),
 			'Failed asserting that user 1 successfully set an expiration date for the test.txt share.'
 		);
 
 		$shares = OCP\Share::getItemsShared('test');
 		$this->assertSame(2, count($shares));
+
+	}
+
+	/*
+	 * if user is in a group excluded from resharing, then the share permission should
+	 * be removed
+	 */
+	public function testShareWithUserAndUserIsExcludedFromResharing() {
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(
+			OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user4, OCP\PERMISSION_ALL),
+			'Failed asserting that user 1 successfully shared text.txt with user 4.'
+		);
+		$this->assertContains(
+			'test.txt',
+			OCP\Share::getItemShared('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+			'Failed asserting that test.txt is a shared file of user 1.'
+		);
+
+		// exclude group2 from sharing
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', $this->group2);
+		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', "yes");
+
+		OC_User::setUserId($this->user4);
+
+		$share = OCP\Share::getItemSharedWith('test', 'test.txt');
+
+		$this->assertSame(\OCP\PERMISSION_ALL & ~OCP\PERMISSION_SHARE, $share['permissions'],
+				'Failed asserting that user 4 is excluded from re-sharing');
+
+		\OC_Appconfig::deleteKey('core', 'shareapi_exclude_groups_list');
+		\OC_Appconfig::deleteKey('core', 'shareapi_exclude_groups');
 
 	}
 
@@ -552,7 +607,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 
 		// testGetShareByTokenExpirationValid
 		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture),
+			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInFuture, ''),
 			'Failed asserting that user 1 successfully set a future expiration date for the test.txt share.'
 		);
 		$row = $this->getShareByValidToken($token);
@@ -561,15 +616,45 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			'Failed asserting that the returned row has an expiration date.'
 		);
 
-		// testGetShareByTokenExpirationExpired
-		$this->assertTrue(
-			OCP\Share::setExpirationDate('test', 'test.txt', $this->dateInPast),
-			'Failed asserting that user 1 successfully set a past expiration date for the test.txt share.'
-		);
+		// manipulate share table and set expire date to the past
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `expiration` = ? WHERE `item_type` = ? AND `item_source` = ?  AND `uid_owner` = ? AND `share_type` = ?');
+		$query->bindValue(1, new \DateTime($this->dateInPast), 'datetime');
+		$query->bindValue(2, 'test');
+		$query->bindValue(3, 'test.txt');
+		$query->bindValue(4, $this->user1);
+		$query->bindValue(5, \OCP\Share::SHARE_TYPE_LINK);
+		$query->execute();
+
 		$this->assertFalse(
 			OCP\Share::getShareByToken($token),
 			'Failed asserting that an expired share could not be found.'
 		);
+	}
+
+	public function testShareItemWithLinkAndDefaultExpireDate() {
+		OC_User::setUserId($this->user1);
+
+		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
+		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
+
+		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, OCP\PERMISSION_READ);
+		$this->assertInternalType(
+			'string',
+			$token,
+			'Failed asserting that user 1 successfully shared text.txt as link with token.'
+		);
+
+		// share should have default expire date
+
+		$row = $this->getShareByValidToken($token);
+		$this->assertNotEmpty(
+			$row['expiration'],
+			'Failed asserting that the returned row has an default expiration date.'
+		);
+
+		\OC_Appconfig::deleteKey('core', 'shareapi_default_expire_date');
+		\OC_Appconfig::deleteKey('core', 'shareapi_expire_after_n_days');
+
 	}
 
 	public function testUnshareAll() {

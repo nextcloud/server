@@ -696,7 +696,7 @@ OC.Notification={
 		var notification = $('#notification');
 		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
 			notification.html(html);
-			notification.fadeIn().css("display","inline");
+			notification.fadeIn().css('display','inline-block');
 		}else{
 			OC.Notification.queuedNotifications.push(html);
 		}
@@ -710,7 +710,7 @@ OC.Notification={
 		var notification = $('#notification');
 		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
 			notification.text(text);
-			notification.fadeIn().css("display","inline");
+			notification.fadeIn().css('display','inline-block');
 		}else{
 			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
 		}
@@ -1353,6 +1353,18 @@ OC.Util = {
 				}
 			});
 		});
+	},
+
+	/**
+	 * Remove the time component from a given date
+	 *
+	 * @param {Date} date date
+	 * @return {Date} date with stripped time
+	 */
+	stripTime: function(date) {
+		// FIXME: likely to break when crossing DST
+		// would be better to use a library like momentJS
+		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 	}
 };
 

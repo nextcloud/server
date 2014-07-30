@@ -176,6 +176,7 @@ class Test_Files_Sharing_Update_Routine extends Test_Files_Sharing_Base {
 			array(\OCP\Share::SHARE_TYPE_USER, 'folder', 'user2', 'admin', '/foo2'),
 			array(\OCP\Share::SHARE_TYPE_USER, 'file', 'user3', 'admin', '/foo3'),
 			array(\OCP\Share::SHARE_TYPE_USER, 'folder', 'user4', 'admin', '/foo4'),
+			array(\OCP\Share::SHARE_TYPE_USER, 'folder', 'user4', 'admin', "/foo'4"),
 			array(\OCP\Share::SHARE_TYPE_LINK, 'file', 'user1', 'admin', '/ShouldNotChange'),
 			array(\OCP\Share::SHARE_TYPE_CONTACT, 'contact', 'admin', 'user1', '/ShouldNotChange'),
 

@@ -156,7 +156,7 @@ class User implements IUser {
 	 * @param string $recoveryPassword for the encryption app to reset encryption keys
 	 * @return bool
 	 */
-	public function setPassword($password, $recoveryPassword) {
+	public function setPassword($password, $recoveryPassword = null) {
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'preSetPassword', array($this, $password, $recoveryPassword));
 		}
