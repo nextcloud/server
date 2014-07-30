@@ -132,20 +132,25 @@ class OC {
 		}
 
 		// search the 3rdparty folder
-		if (OC_Config::getValue('3rdpartyroot', '') <> '' and OC_Config::getValue('3rdpartyurl', '') <> '') {
-			OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', '');
-			OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', '');
-		} elseif (file_exists(OC::$SERVERROOT . '/3rdparty')) {
-			OC::$THIRDPARTYROOT = OC::$SERVERROOT;
-			OC::$THIRDPARTYWEBROOT = OC::$WEBROOT;
-		} elseif (file_exists(OC::$SERVERROOT . '/../3rdparty')) {
-			OC::$THIRDPARTYWEBROOT = rtrim(dirname(OC::$WEBROOT), '/');
-			OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
-		} else {
-			throw new Exception('3rdparty directory not found! Please put the ownCloud 3rdparty'
+		OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', null);
+		OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', null);
+		
+		if (is_null(OC::$THIRDPARTYROOT) && is_null(OC::$THIRDPARTYWEBROOT)) {
+			if (file_exists(OC::$SERVERROOT . '/3rdparty')) {
+				OC::$THIRDPARTYROOT = OC::$SERVERROOT;
+				OC::$THIRDPARTYWEBROOT = OC::$WEBROOT;
+			} elseif (file_exists(OC::$SERVERROOT . '/../3rdparty')) {
+				OC::$THIRDPARTYWEBROOT = rtrim(dirname(OC::$WEBROOT), '/');
+				OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
+			}
+		}
+		if (is_null(OC::$THIRDPARTYROOT) || !file_exists(OC::$THIRDPARTYROOT)) {
+			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				. ' folder in the ownCloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
+			return;
 		}
+		
 		// search the apps folder
 		$config_paths = OC_Config::getValue('apps_paths', array());
 		if (!empty($config_paths)) {
