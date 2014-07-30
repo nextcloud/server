@@ -631,6 +631,32 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public function testShareItemWithLinkAndDefaultExpireDate() {
+		OC_User::setUserId($this->user1);
+
+		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
+		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
+
+		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, OCP\PERMISSION_READ);
+		$this->assertInternalType(
+			'string',
+			$token,
+			'Failed asserting that user 1 successfully shared text.txt as link with token.'
+		);
+
+		// share should have default expire date
+
+		$row = $this->getShareByValidToken($token);
+		$this->assertNotEmpty(
+			$row['expiration'],
+			'Failed asserting that the returned row has an default expiration date.'
+		);
+
+		\OC_Appconfig::deleteKey('core', 'shareapi_default_expire_date');
+		\OC_Appconfig::deleteKey('core', 'shareapi_expire_after_n_days');
+
+	}
+
 	public function testUnshareAll() {
 		$this->shareUserTestFileWithUser($this->user1, $this->user2);
 		$this->shareUserTestFileWithUser($this->user2, $this->user3);
