@@ -870,6 +870,14 @@ class OC_Image {
 			imagedestroy($process);
 			return false;
 		}
+
+		// preserve transparency
+		if($this->imageType == IMAGETYPE_GIF or $this->imageType == IMAGETYPE_PNG) {
+			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127));
+			imagealphablending($process, false);
+			imagesavealpha($process, true);
+		}
+
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $w, $h, $w, $h);
 		if ($process == false) {
 			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$w.'x'.$h, OC_Log::ERROR);
