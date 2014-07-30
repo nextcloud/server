@@ -398,7 +398,7 @@ $(document).ready(function(){
 		if(item) {
 			item.trigger('click');
 			item.addClass('active');
-			$('#app-navigation').animate({scrollTop: $(item).offset().top-70}, 'slow','swing');
+			$('#app-navigation').animate({scrollTop: item.offset().top-70}, 'slow','swing');
 		}
 	}
 
