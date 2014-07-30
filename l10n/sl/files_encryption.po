@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-02 01:54-0400\n"
-"PO-Revision-Date: 2014-07-01 07:14+0000\n"
-"Last-Translator: Matej Urbančič <>\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,14 +55,14 @@ msgid ""
 "correct."
 msgstr "Zasebnega ključa za geslo ni mogoče posodobiti. Morda vnos starega gesla ni bil pravilen."
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr "Program za šifriranje ni začet. Morda je bil program ponovno omogočen šele med zagonom trenutne seje. Odjavite se in se nato prijavite nazaj. S tem morda razrešite napako."
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -70,13 +70,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr "Zasebni ključ ni veljaven. Najverjetneje je bilo geslo spremenjeno izven %s (najverjetneje je to poslovna mapa). Geslo lahko posodobite med osebnimi nastavitvami in s tem obnovite dostop do šifriranih datotek."
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr "Te datoteke ni mogoče šifrirati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo."
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -93,7 +93,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Preverite, ali je na strežniku nameščen paket PHP 5.3.3 ali novejši, da je omogočen in pravilno nastavljen PHP OpenSSL. Z obstoječimi možnostmi šifriranje ni mogoče."
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "Navedeni uporabniki še nimajo nastavljenega šifriranja:"
 
@@ -114,87 +114,93 @@ msgstr "Oglejte si %sosebne nastavitve%s."
 msgid "Encryption"
 msgstr "Šifriranje"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Omogoči ključ za obnovitev datotek (v primeru izgube gesla):"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "Ključ za obnovitev gesla"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr "Ponovi ključ za obnovitev gesla"
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "Omogočeno"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "Onemogočeno"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "Spremeni ključ za obnovitev gesla:"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "Stari ključ za obnovitev gesla"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "Novi ključ za obnovitev gesla"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr "Ponovi novi ključ za obnovitev gesla"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "Spremeni geslo"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Vaš zasebni ključ za geslo se ne ujema z geslom, vnesenim ob prijavi:"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "Nastavite svoj star zasebni ključ v geslo, vneseno ob prijavi."
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Če ste pozabili svoje geslo, lahko vaše datoteke obnovi le skrbnik sistema."
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "Staro geslo"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "Trenutno geslo"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "Posodobi zasebni ključ"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "Omogoči obnovitev gesla:"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili."
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "Nastavitve obnavljanja dokumentov so posodobljene"
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "Nastavitev za obnavljanje dokumentov ni mogoče posodobiti"

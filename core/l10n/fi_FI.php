@@ -48,6 +48,7 @@ $TRANSLATIONS = array(
 "years ago" => "vuotta sitten",
 "Couldn't send reset email. Please contact your administrator." => "Palautussähköpostin lähettäminen ei onnistunut. Ota yhteys ylläpitäjään.",
 "The link to reset your password has been sent to your email. If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator." => "Linkki salasanan palauttamista varten on lähetetty sähköpostitse. Jos et saa sähköpostiviestiä kohtuullisessa ajassa, tarkista roskapostikansiot.<br>Jos et saa sähköpostiviestiä, ota yhteys paikalliseen ylläpitäjään.",
+"Your files are encrypted. If you haven't enabled the recovery key, there will be no way to get your data back after your password is reset.<br />If you are not sure what to do, please contact your administrator before you continue. <br />Do you really want to continue?" => "Tiedostosi on salattu. Jos et ole ottanut käyttöön palautusavainta, tietojasi ei ole mahdollista palauttaa salasanan nollaamisen jälkeen.<br />Jos et ole varma mitä tehdä, ota yhteys ylläpitäjään.<br />Haluatko varmasti jatkaa?",
 "I know what I'm doing" => "Tiedän mitä teen",
 "Reset password" => "Palauta salasana",
 "Password can not be changed. Please contact your administrator." => "Salasanan vaihtaminen ei onnistunut. Ota yhteys ylläpitäjään.",

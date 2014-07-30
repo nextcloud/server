@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because this item is already shared with %s" => "Kohteen %s jakaminen epäonnistui, koska kohde on jo jaettu käyttäjän %s kanssa",
 "Sharing %s failed, because the group %s does not exist" => "Kohteen %s jakaminen epäonnistui, koska ryhmää %s ei ole olemassa",
 "Sharing %s failed, because %s is not a member of the group %s" => "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s ei ole ryhmän %s jäsen",
+"You need to provide a password to create a public link, only protected links are allowed" => "Anna salasana luodaksesi julkisen linkin. Vain suojatut linkit ovat sallittuja",
 "Sharing %s failed, because sharing with links is not allowed" => "Kohteen %s jakaminen epäonnistui, koska jakaminen linkkejä käyttäen ei ole sallittu",
 "Setting permissions for %s failed, because the item was not found" => "Kohteen %s oikeuksien asettaminen epäonnistui, koska kohdetta ei löytynyt",
 "Sharing backend %s not found" => "Jakamisen taustaosaa %s ei löytynyt",
@@ -81,7 +82,10 @@ $TRANSLATIONS = array(
 "No database drivers (sqlite, mysql, or postgresql) installed." => "Tietokanta-ajureita (sqlite, mysql tai postgresql) ei ole asennettu.",
 "Cannot write into \"config\" directory" => "Hakemistoon \"config\" kirjoittaminen ei onnistu",
 "Cannot write into \"apps\" directory" => "Hakemistoon \"apps\" kirjoittaminen ei onnistu",
+"Cannot create \"data\" directory (%s)" => "Kansion \"data\" luominen ei onnistu (%s)",
+"This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Tämä on yleensä korjattavissa <a href=\"%s\" target=\"_blank\">antamalla http-palvelimelle kirjoitusoikeuden juurihakemistoon</a>.",
 "Setting locale to %s failed" => "Maa-asetuksen %s asettaminen epäonnistui",
+"Please install one of theses locales on your system and restart your webserver." => "Asenna järjestelmään yksi näistä maa-asetuksista ja käynnistä http-palvelin uudelleen.",
 "Please ask your server administrator to install the module." => "Pyydä palvelimen ylläpitäjää asentamaan moduulin.",
 "PHP module %s not installed." => "PHP-moduulia %s ei ole asennettu.",
 "PHP %s or higher is required." => "PHP %s tai sitä uudempi vaaditaan.",
@@ -93,6 +97,9 @@ $TRANSLATIONS = array(
 "Please upgrade your database version" => "Päivitä tietokantasi versio",
 "Error occurred while checking PostgreSQL version" => "Virhe PostgreSQL:n versiota tarkistaessa",
 "Please make sure you have PostgreSQL >= 9 or check the logs for more information about the error" => "Varmista, että käytössäsi on PostgreSQL >= 9 tai tarkista lokit saadaksesi lisätietoja virheestä",
+"Data directory (%s) is readable by other users" => "Datakansio (%s) on muiden käyttäjien luettavissa",
+"Data directory (%s) is invalid" => "Datakansio (%s) on virheellinen",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Varmista, että datakansion juuressa on tiedosto \".ocdata\".",
 "Could not obtain lock type %d on \"%s\"." => "Lukitustapaa %d ei saatu kohteelle \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

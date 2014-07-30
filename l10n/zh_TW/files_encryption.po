@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -57,14 +57,14 @@ msgid ""
 "correct."
 msgstr "無法更新私人金鑰密碼。可能舊的密碼不正確。"
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr "加密功能未初始化!可能加密功能需要重新啟用在現在的連線上。請試著登出再登入來初始化加密功能。"
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -72,13 +72,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr "您的私人金鑰不正確!可能您的密碼已經變更在外部的 %s (例如:您的企業目錄)。您可以在您的個人設定中更新私人金鑰密碼來還原存取您的加密檔案。"
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr "無法解密這個檔案，也許這是分享的檔案。請詢問檔案所有人重新分享檔案給您。"
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "請確認已安裝 PHP 5.3.3 或是更新的版本以及 OpenSSL 也一併安裝在 PHP extension 裡面並啟用及設置完成。現在，加密功能是停用的。"
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "以下的使用者無法設定加密:"
 
@@ -116,87 +116,93 @@ msgstr ""
 msgid "Encryption"
 msgstr "加密"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "啟用還原金鑰 (因忘記密碼仍允許還原使用者檔案):"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "還原金鑰密碼"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr "再輸入還原金鑰密碼一次"
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "已啓用"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "已停用"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "變更還原金鑰密碼:"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "舊的還原金鑰密碼"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "新的還原金鑰密碼"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr "再輸入新的還原金鑰密碼一次"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "變更密碼"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "您的私人金鑰密碼不符合您的登入密碼:"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "設定您的舊私人金鑰密碼到您現在的登入密碼。"
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "如果您忘記舊密碼，可以請求管理員協助取回檔案。"
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "舊登入密碼"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "目前的登入密碼"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "更新私人金鑰密碼"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "啟用密碼還原:"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案"
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "檔案還原設定已更新"
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "無法更新檔案還原設定"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-19 01:54-0400\n"
-"PO-Revision-Date: 2014-07-18 19:30+0000\n"
-"Last-Translator: Ivo\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -114,87 +114,93 @@ msgstr "Отиде направо към твоите %sлични настро�
 msgid "Encryption"
 msgstr "Криптиране"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Включи опцията възстановяване на ключ (разрешава да възстанови файловете на потребителите в случай на загубена парола):"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "Парола за възстановяане на ключа"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr "Повтори паролата за възстановяване на ключа"
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "Включено"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "Изключено"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "Промени паролата за въстановяване на ключа:"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "Старата парола за въстановяване на ключа"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "Новата парола за възстановяване на ключа"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr "Повтори новата паролза за възстановяване на ключа"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "Промени Паролата"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Тайната ти парола за ключа вече несъвпада с паролата ти за вписване:"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "Промени тайната парола за ключа да съвпада с паролата ти за вписване."
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Ако не помниш старата парола помоли администратора да възстанови файловете ти."
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "Стара парола за вписване"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "Текуща парола за вписване"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "Промени Тайната Парола за Ключа"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "Включи опцията възстановяване на паролата:"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола."
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "Настройките за възстановяване на файлове са променени."
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "Неуспешна промяна на настройките за възстановяване на файлове."

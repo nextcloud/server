@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-14 01:54-0400\n"
-"PO-Revision-Date: 2014-06-14 05:54+0000\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Switzerland) (http://www.transifex.com/projects/p/owncloud/language/de_CH/)\n"
 "MIME-Version: 1.0\n"
@@ -59,14 +59,14 @@ msgid ""
 "correct."
 msgstr "Das Passwort des privaten Schlüssels konnte nicht aktualisiert werden. Vielleicht war das alte Passwort nicht richtig."
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr ""
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -74,13 +74,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr ""
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr ""
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -97,7 +97,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert und das OpenSSL zusammen mit der PHP-Erweiterung aktiviert und richtig konfiguriert ist. Zur Zeit ist die Verschlüsselungs-App deaktiviert."
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:"
 
@@ -118,87 +118,93 @@ msgstr ""
 msgid "Encryption"
 msgstr "Verschlüsselung"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Aktivieren Sie den Wiederherstellungsschlüssel (erlaubt die Wiederherstellung des Zugangs zu den Benutzerdateien, wenn das Passwort verloren geht)."
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "Wiederherstellungschlüsselpasswort"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "Aktiviert"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "Deaktiviert"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "Wiederherstellungsschlüsselpasswort ändern"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "Altes Wiederherstellungsschlüsselpasswort"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "Neues Wiederherstellungsschlüsselpasswort "
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Das Privatschlüsselpasswort darf nicht länger mit den Login-Passwort übereinstimmen."
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "Setzen Sie Ihr altes Privatschlüsselpasswort auf Ihr aktuelles LogIn-Passwort."
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Falls Sie sich nicht an Ihr altes Passwort erinnern können, fragen Sie bitte Ihren Administrator, um Ihre Dateien wiederherzustellen."
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "Altes Login-Passwort"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "Momentanes Login-Passwort"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "Das Passwort des privaten Schlüssels aktualisieren"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "Die Passwort-Wiederherstellung aktivieren:"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Durch die Aktivierung dieser Option haben Sie die Möglichkeit, wieder auf Ihre verschlüsselten Dateien zugreifen zu können, wenn Sie Ihr Passwort verloren haben."
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "Die Einstellungen für die Dateiwiederherstellung wurden aktualisiert."
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "Die Dateiwiederherstellung konnte nicht aktualisiert werden."

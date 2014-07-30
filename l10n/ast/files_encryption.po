@@ -4,16 +4,16 @@
 # 
 # Translators:
 # Iñigo Varela <ivarela@softastur.org>, 2014
-# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
-# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
-# Ḷḷumex03 <l.lumex03.tornes@gmail.com>, 2014
+# Ḷḷumex03 <tornes@opmbx.org>, 2014
+# Ḷḷumex03 <tornes@opmbx.org>, 2014
+# Ḷḷumex03 <tornes@opmbx.org>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-16 01:54-0400\n"
-"PO-Revision-Date: 2014-06-15 10:23+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,14 +57,14 @@ msgid ""
 "correct."
 msgstr "Nun pudo camudase la contraseña. Pue que la contraseña antigua nun seya correuta."
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr "¡L'aplicación de cifráu nun s'anició! Seique se restableciera mentanto la sesión. Por favor intenta zarrar la sesión y volver a aniciala p'aniciar l'aplicación de cifráu."
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -72,13 +72,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr "¡La clave privada nun ye válida! Seique la contraseña se camudase dende fuera de %s (Ex:El to direutoriu corporativu). Pues anovar la contraseña de la clave privada nes tos opciones personales pa recuperar l'accesu a los ficheros."
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr "Nun pudo descifrase esti ficheru, dablemente seya un ficheru compartíu. Solicita al propietariu del mesmu que vuelva a compartilu contigo."
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Por favor, asegúrate de que PHP 5.3.3 o postreru ta instaláu y que la estensión OpenSSL de PHP ta habilitada y configurada correutamente. Pel momentu, l'aplicación de cifráu deshabilitóse."
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "Los siguientes usuarios nun se configuraron pal cifráu:"
 
@@ -116,87 +116,93 @@ msgstr "Dir direutamente a los tos %saxustes personales%s."
 msgid "Encryption"
 msgstr "Cifráu"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Habilitar la clave de recuperación (permite recuperar los ficheros del usuariu en casu de perda de la contraseña);"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "Contraseña de clave de recuperación"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr "Repeti la contraseña de clave de recuperación"
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "Habilitar"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "Deshabilitáu"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "Camudar la contraseña de la clave de recuperación"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "Clave de recuperación vieya"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "Clave de recuperación nueva"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr "Repetir la clave de recuperación nueva"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "Camudar contraseña"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "La to contraseña de clave privada yá nun concasa cola contraseña d'accesu:"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "Afitar la contraseña de la to clave privada vieya a la to contraseña actual d'accesu."
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Si nun recuerdes la contraseña vieya, pues pidir a alministrador que te recupere los ficheros."
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "Contraseña d'accesu vieya"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "Contraseña d'accesu actual"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "Anovar Contraseña de Clave Privada"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "Habilitar la recuperación de contraseña:"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Habilitar esta opción va permitite volver a tener accesu a los ficheros cifraos en casu de perda de contraseña"
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "Opciones de recuperación de ficheros anovada"
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "Nun pudo anovase la recuperación de ficheros"

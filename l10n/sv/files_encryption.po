@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-17 01:54-0400\n"
-"PO-Revision-Date: 2014-06-16 12:17+0000\n"
-"Last-Translator: Stefan Gagner <stefan@mei-ya.se>\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,14 +62,14 @@ msgid ""
 "correct."
 msgstr "Kunde inte uppdatera lösenordet för den privata nyckeln. Kanske var det gamla lösenordet fel."
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr "Krypteringsprogrammet kunde inte initieras! Möjligen blev krypteringsprogrammet återaktiverad under din session. Försök med att logga ut och in igen för att initiera krypteringsprogrammet."
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -77,13 +77,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr "Din privata lösenordsnyckel är inte giltig! Troligen har ditt lösenord ändrats utanför %s (t.ex. i företagets katalogtjänst). Du kan uppdatera den privata lösenordsnyckeln under dina personliga inställningar för att återfå tillgång till dina filer."
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr "Kan ej dekryptera denna fil, förmodligen är det en delad fil. Be ägaren av filen att dela den med dig."
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -100,7 +100,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Kontrollera att PHP 5.3.3 eller senare är installerad och att tillägget OpenSSL PHP är aktiverad och korrekt konfigurerad. Kryptering är tillsvidare inaktiverad."
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "Följande användare har inte aktiverat kryptering:"
 
@@ -121,87 +121,93 @@ msgstr "Gå direkt till dina %segna inställningar%s."
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "Aktivera återställningsnyckel (för att kunna återfå användarens filer vid glömt eller förlorat lösenord):"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "Lösenord för återställningsnyckel"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr "Upprepa återställningsnyckelns lösenord"
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "Aktiverad"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "Inaktiverad"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "Ändra lösenord för återställningsnyckel:"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "Gammalt lösenord för återställningsnyckel"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "Nytt lösenord för återställningsnyckel"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr "Upprepa lösenord för ny återställningsnyckel"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "Byt lösenord"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "Lösenordet till din privata nyckel stämmer inte längre överens med ditt inloggningslösenord:"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "Använd din gamla privata nyckels lösenord som ditt aktuella inloggningslösenord."
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "Om du inte kommer ihåg ditt gamla lösenord kan du be din administratör att återställa dina filer."
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "Gammalt inloggningslösenord"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "Nuvarande inloggningslösenord"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "Uppdatera lösenordet för din privata nyckel"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "Aktivera lösenordsåterställning"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Genom att aktivera detta alternativ kommer du kunna återfå tillgång till dina krypterade filer om du skulle förlora/glömma ditt lösenord"
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "Inställningarna för filåterställning har uppdaterats"
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "Kunde inte uppdatera filåterställning"

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 18:01+0000\n"
+"Last-Translator: Pisike Sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -360,11 +360,11 @@ msgstr "Lubade seadistus %s jaoks ebaõnnestus, kuna üksust ei leitud"
 msgid ""
 "Can not set expire date. Shares can not expire later then %s after they "
 "where shared"
-msgstr ""
+msgstr "Aegumise kuupäeva ei saa määrata. Jagamised ei saa aeguda hiljem kui %s peale jagamist."
 
 #: private/share/share.php:967
 msgid "Can not set expire date. Expire date is in the past"
-msgstr ""
+msgstr "Aegumise kuupäeva ei saa määrata. Aegumise kuupäev ei saa olla minevikus."
 
 #: private/share/share.php:1092
 #, php-format

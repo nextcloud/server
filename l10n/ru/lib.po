@@ -6,6 +6,7 @@
 # Alexander Shashkevych <alex@stunpix.com>, 2013
 # jekader <jekader@gmail.com>, 2013
 # Kalyuzhniy Aleksey, 2014
+# sbh12 <mail_123@mail.ru>, 2014
 # rodionc <rodionc@gmail.com>, 2014
 # Serge Shpikin <rkfg@rkfg.me>, 2013
 # Sk.Avenger <sk.avenger@adygnet.ru>, 2013
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 06:20+0000\n"
+"Last-Translator: sbh12 <mail_123@mail.ru>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -369,11 +370,11 @@ msgstr "Не удалось произвести настройку прав д�
 msgid ""
 "Can not set expire date. Shares can not expire later then %s after they "
 "where shared"
-msgstr ""
+msgstr "Не могу установить дату истечения. Шары не могут истечь позже чем %s после того, как они были расшарены"
 
 #: private/share/share.php:967
 msgid "Can not set expire date. Expire date is in the past"
-msgstr ""
+msgstr "Не могу установить дату истечения. Дата истечения находится в прошлом."
 
 #: private/share/share.php:1092
 #, php-format

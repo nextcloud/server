@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-16 01:54-0400\n"
-"PO-Revision-Date: 2014-06-16 04:10+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,14 +57,14 @@ msgid ""
 "correct."
 msgstr "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。"
 
-#: files/error.php:12
+#: files/error.php:13
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the"
 " encryption app."
 msgstr "セッション中に暗号化アプリを再度有効にされたため、暗号化アプリが初期化されていません。暗号化アプリを初期化するため、ログアウトしてログインしなおしてください。"
 
-#: files/error.php:16
+#: files/error.php:17
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -72,13 +72,13 @@ msgid ""
 " in your personal settings to recover access to your encrypted files."
 msgstr "プライベートキーが有効ではありません！パスワードが%sの外部で変更された(例: 共同ディレクトリ)と思われます。個人設定でプライベートキーのパスワードを更新して、暗号化ファイルへのアクセスを回復することができます。"
 
-#: files/error.php:19
+#: files/error.php:20
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。"
 
-#: files/error.php:22 files/error.php:27
+#: files/error.php:23 files/error.php:28
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。"
 
-#: hooks/hooks.php:300
+#: hooks/hooks.php:286
 msgid "Following users are not set up for encryption:"
 msgstr "以下のユーザーは、暗号化設定がされていません："
 
@@ -116,87 +116,93 @@ msgstr "直接 %s個人設定%s に進む。"
 msgid "Encryption"
 msgstr "暗号化"
 
-#: templates/settings-admin.php:5
+#: templates/settings-admin.php:5 templates/settings-personal.php:6
+msgid ""
+"Encryption App is enabled but your keys are not initialized, please log-out "
+"and log-in again"
+msgstr ""
+
+#: templates/settings-admin.php:8
 msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr "リカバリキーを有効にする (パスワードを忘れた場合にユーザーのファイルを回復できます):"
 
-#: templates/settings-admin.php:9
+#: templates/settings-admin.php:12
 msgid "Recovery key password"
 msgstr "リカバリキーのパスワード"
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:15
 msgid "Repeat Recovery key password"
 msgstr "リカバリキーのパスワードをもう一度入力"
 
-#: templates/settings-admin.php:19 templates/settings-personal.php:50
+#: templates/settings-admin.php:22 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr "有効"
 
-#: templates/settings-admin.php:27 templates/settings-personal.php:58
+#: templates/settings-admin.php:30 templates/settings-personal.php:61
 msgid "Disabled"
 msgstr "無効"
 
-#: templates/settings-admin.php:32
+#: templates/settings-admin.php:35
 msgid "Change recovery key password:"
 msgstr "リカバリキーのパスワードを変更:"
 
-#: templates/settings-admin.php:38
+#: templates/settings-admin.php:41
 msgid "Old Recovery key password"
 msgstr "古いリカバリキーのパスワード"
 
-#: templates/settings-admin.php:45
+#: templates/settings-admin.php:48
 msgid "New Recovery key password"
 msgstr "新しいリカバリキーのパスワード"
 
-#: templates/settings-admin.php:51
+#: templates/settings-admin.php:54
 msgid "Repeat New Recovery key password"
 msgstr "新しいリカバリキーのパスワードをもう一度入力"
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:59
 msgid "Change Password"
 msgstr "パスワードを変更"
 
-#: templates/settings-personal.php:8
+#: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password:"
 msgstr "もはや秘密鍵はログインパスワードと一致しません:"
 
-#: templates/settings-personal.php:11
+#: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password."
 msgstr "古い秘密鍵のパスワードを現在のログインパスワードに設定する。"
 
-#: templates/settings-personal.php:13
+#: templates/settings-personal.php:17
 msgid ""
 " If you don't remember your old password you can ask your administrator to "
 "recover your files."
 msgstr "古いパスワードを覚えていない場合、管理者に尋ねてファイルを回復することができます。"
 
-#: templates/settings-personal.php:21
+#: templates/settings-personal.php:25
 msgid "Old log-in password"
 msgstr "古いログインパスワード"
 
-#: templates/settings-personal.php:27
+#: templates/settings-personal.php:31
 msgid "Current log-in password"
 msgstr "現在のログインパスワード"
 
-#: templates/settings-personal.php:32
+#: templates/settings-personal.php:36
 msgid "Update Private Key Password"
 msgstr "秘密鍵のパスワードを更新"
 
-#: templates/settings-personal.php:41
+#: templates/settings-personal.php:44
 msgid "Enable password recovery:"
 msgstr "パスワードリカバリを有効に:"
 
-#: templates/settings-personal.php:43
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "このオプションを有効にすると、パスワードを紛失した場合も、暗号化されたファイルに再度アクセスすることができるようになります。"
 
-#: templates/settings-personal.php:59
+#: templates/settings-personal.php:62
 msgid "File recovery settings updated"
 msgstr "ファイルリカバリ設定を更新しました"
 
-#: templates/settings-personal.php:60
+#: templates/settings-personal.php:63
 msgid "Could not update file recovery"
 msgstr "ファイルリカバリを更新できませんでした"

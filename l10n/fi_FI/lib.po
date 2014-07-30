@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 06:50+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -330,7 +330,7 @@ msgstr "Kohteen %s jakaminen epäonnistui, koska käyttäjä %s ei ole ryhmän %
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Anna salasana luodaksesi julkisen linkin. Vain suojatut linkit ovat sallittuja"
 
 #: private/share/share.php:653
 #, php-format
@@ -509,14 +509,14 @@ msgstr ""
 #: private/util.php:455
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Kansion \"data\" luominen ei onnistu (%s)"
 
 #: private/util.php:456
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Tämä on yleensä korjattavissa <a href=\"%s\" target=\"_blank\">antamalla http-palvelimelle kirjoitusoikeuden juurihakemistoon</a>."
 
 #: private/util.php:472
 #, php-format
@@ -527,7 +527,7 @@ msgstr "Maa-asetuksen %s asettaminen epäonnistui"
 msgid ""
 "Please install one of theses locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Asenna järjestelmään yksi näistä maa-asetuksista ja käynnistä http-palvelin uudelleen."
 
 #: private/util.php:479
 msgid "Please ask your server administrator to install the module."
@@ -613,18 +613,18 @@ msgstr ""
 #: private/util.php:704
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Datakansio (%s) on muiden käyttäjien luettavissa"
 
 #: private/util.php:725
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Datakansio (%s) on virheellinen"
 
 #: private/util.php:726
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Varmista, että datakansion juuressa on tiedosto \".ocdata\"."
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format

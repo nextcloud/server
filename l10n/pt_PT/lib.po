@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 22:40+0000\n"
+"Last-Translator: Luis Jorge Simões das Neves <luisjneves@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -366,11 +366,11 @@ msgstr "Definir permissões para %s falhou, porque o item não foi encontrado"
 msgid ""
 "Can not set expire date. Shares can not expire later then %s after they "
 "where shared"
-msgstr ""
+msgstr "Não é possível definir data de expiração. Acções não podem expirar mais tarde que,%s após eles terem sido compartilhadas"
 
 #: private/share/share.php:967
 msgid "Can not set expire date. Expire date is in the past"
-msgstr ""
+msgstr "Não é possível definir data de expiração. A data de vencimento está no passado"
 
 #: private/share/share.php:1092
 #, php-format

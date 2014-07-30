@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "No se puede escribir en el directorio \"config\"!",
 "Settings" => "Configuración",
 "seconds ago" => "segundos antes",
 "_%n minute ago_::_%n minutes ago_" => array("",""),

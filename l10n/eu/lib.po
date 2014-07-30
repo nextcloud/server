@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Alexander Gabilondo <alexgabi@openmailbox.org>, 2014
 # asieriko <asieriko@gmail.com>, 2013-2014
 # natxooy <natxooy@openmailbox.org>, 2014
 # Piarres Beobide <pi@beobide.net>, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"PO-Revision-Date: 2014-07-29 06:30+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -361,11 +362,11 @@ msgstr "%srentzako baimenak ezartzea huts egin du, aurkitu ez delako"
 msgid ""
 "Can not set expire date. Shares can not expire later then %s after they "
 "where shared"
-msgstr ""
+msgstr "Ezin izan da jarri iraungitze data. Konpartitzea ezin da iraungi konpartitu eta %s ondoren."
 
 #: private/share/share.php:967
 msgid "Can not set expire date. Expire date is in the past"
-msgstr ""
+msgstr "Ezin da jarri iraungitze data. Iraungitze data iragan da."
 
 #: private/share/share.php:1092
 #, php-format
