@@ -9,6 +9,7 @@
 namespace OC\DB;
 
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Schema\Schema;
 
 class SQLiteMigrator extends Migrator {
 
@@ -60,5 +61,17 @@ class SQLiteMigrator extends Migrator {
 		$dataDir = $this->config->getSystemValue("datadirectory", \OC::$SERVERROOT . '/data');
 		$tmpFile = uniqid("oc_");
 		return "$dataDir/$tmpFile.db";
+	}
+
+	/**
+	 * @param Schema $targetSchema
+	 * @param \Doctrine\DBAL\Connection $connection
+	 * @return \Doctrine\DBAL\Schema\SchemaDiff
+	 */
+	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+		$platform = $connection->getDatabasePlatform();
+		$platform->registerDoctrineTypeMapping('tinyint unsigned', 'integer');
+
+		return parent::getDiff($targetSchema, $connection);
 	}
 }

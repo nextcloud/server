@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class TestMigration extends \PHPUnit_Framework_TestCase {
+class TestMySqlMigration extends \PHPUnit_Framework_TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */
 	private $connection;
