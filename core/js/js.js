@@ -696,7 +696,7 @@ OC.Notification={
 		var notification = $('#notification');
 		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
 			notification.html(html);
-			notification.fadeIn().css("display","inline");
+			notification.fadeIn().css('display','inline-block');
 		}else{
 			OC.Notification.queuedNotifications.push(html);
 		}
@@ -710,7 +710,7 @@ OC.Notification={
 		var notification = $('#notification');
 		if((notification.filter('span.undo').length == 1) || OC.Notification.isHidden()){
 			notification.text(text);
-			notification.fadeIn().css("display","inline");
+			notification.fadeIn().css('display','inline-block');
 		}else{
 			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
 		}
