@@ -680,7 +680,13 @@ label.infield {
 .center { text-align:center; }
 .inlineblock { display: inline-block; }
 
-#notification-container { position: fixed; top: 0px; width: 100%; text-align: center; z-index: 101; line-height: 1.2;}
+#notification-container {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	text-align: center;
+	line-height: 1.2;
+}
 #notification, #update-notification {
 	z-index: 101;
 	background-color: #fc4;
