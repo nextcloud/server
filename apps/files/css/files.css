@@ -316,7 +316,10 @@ table td.filename .nametext .innernametext {
 
 table td.filename .uploadtext {
 	font-weight: normal;
-	margin-left: 8px;
+	margin-left: 55px;
+	margin-top: 5px;
+	height: 20px;
+	padding: 10px 0;
 }
 
 .ie8 input[type="checkbox"]{
