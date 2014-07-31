@@ -152,6 +152,15 @@ table.multiselect thead {
 }
 
 
+/* do not show dates in filepicker */
+#oc-dialog-filepicker-content .filelist .date {
+	display: none;
+}
+#oc-dialog-filepicker-content .filelist .filename {
+	max-width: 80%;
+}
+
+
 /* fix controls bar jumping when navigation is slid out */
 .snapjs-left #app-navigation-toggle,
 .snapjs-left #controls {
