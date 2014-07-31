@@ -30,7 +30,8 @@ if ($maxX === 0 || $maxY === 0) {
 
 try {
 	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
-	if (!$always and !$preview->isMimeSupported(\OC\Files\Filesystem::getMimeType($file))) {
+	$info = \OC\Files\Filesystem::getFileInfo($file);
+	if (!$always and !$preview->isAvailable($info)) {
 		\OC_Response::setStatus(404);
 	} else {
 		$preview->setFile($file);

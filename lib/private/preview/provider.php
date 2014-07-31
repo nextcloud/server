@@ -11,6 +11,16 @@ abstract class Provider {
 	abstract public function getMimeType();
 
 	/**
+	 * Check if a preview can be generated for $path
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function isAvailable($path) {
+		return true;
+	}
+
+	/**
 	 * get thumbnail for file at path $path
 	 * @param string $path Path of file
 	 * @param int $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
