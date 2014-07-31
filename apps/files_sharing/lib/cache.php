@@ -275,12 +275,34 @@ class Shared_Cache extends Cache {
 	 */
 	public function search($pattern) {
 
-		$where = '`name` LIKE ? AND ';
+		$pattern = trim($pattern,'%');
 
-		// normalize pattern
-		$value = $this->normalize($pattern);
+		$normalizedPattern = $this->normalize($pattern);
 
-		return $this->searchWithWhere($where, $value);
+		$result = array();
+		$exploreDirs = array('');
+		while (count($exploreDirs) > 0) {
+			$dir = array_pop($exploreDirs);
+			$files = $this->getFolderContents($dir);
+			// no results?
+			if (!$files) {
+				// maybe it's a single shared file
+				$file = $this->get('');
+				if ($normalizedPattern === '' || stristr($file['name'], $normalizedPattern) !== false) {
+					$result[] = $file;
+				}
+				continue;
+			}
+			foreach ($files as $file) {
+				if ($normalizedPattern === '' || stristr($file['name'], $normalizedPattern) !== false) {
+					$result[] = $file;
+				}
+				if ($file['mimetype'] === 'httpd/unix-directory') {
+					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
+				}
+			}
+		}
+		return $result;
 
 	}
 
@@ -296,10 +318,6 @@ class Shared_Cache extends Cache {
 			$mimepart = $mimetype;
 			$mimetype = null;
 		}
-
-		// note: searchWithWhere is currently broken as it doesn't
-		// recurse into subdirs nor returns the correct
-		// file paths, so using getFolderContents() for now
 
 		$result = array();
 		$exploreDirs = array('');
@@ -324,57 +342,6 @@ class Shared_Cache extends Cache {
 			}
 		}
 		return $result;
-	}
-
-	/**
-	 * The maximum number of placeholders that can be used in an SQL query.
-	 * Value MUST be <= 1000 for oracle:
-	 * see ORA-01795 maximum number of expressions in a list is 1000
-	 * FIXME we should get this from doctrine as other DBs allow a lot more placeholders
-	 */
-	const MAX_SQL_CHUNK_SIZE = 1000;
-
-	/**
-	 * search for files with a custom where clause and value
-	 * the $wherevalue will be array_merge()d with the file id chunks
-	 *
-	 * @param string $sqlwhere
-	 * @param string $wherevalue
-	 * @return array
-	 */
-	private function searchWithWhere($sqlwhere, $wherevalue, $chunksize = self::MAX_SQL_CHUNK_SIZE) {
-
-		$ids = $this->getAll();
-
-		$files = array();
-
-		// divide into chunks
-		$chunks = array_chunk($ids, $chunksize);
-
-		foreach ($chunks as $chunk) {
-			$placeholders = join(',', array_fill(0, count($chunk), '?'));
-			$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`,
-					`encrypted`, `unencrypted_size`, `etag`
-					FROM `*PREFIX*filecache` WHERE ' . $sqlwhere . ' `fileid` IN (' . $placeholders . ')';
-
-			$stmt = \OC_DB::prepare($sql);
-
-			$result = $stmt->execute(array_merge(array($wherevalue), $chunk));
-
-			while ($row = $result->fetchRow()) {
-				if (substr($row['path'], 0, 6) === 'files/') {
-					$row['path'] = substr($row['path'], 6); // remove 'files/' from path as it's relative to '/Shared'
-				}
-				$row['mimetype'] = $this->getMimetype($row['mimetype']);
-				$row['mimepart'] = $this->getMimetype($row['mimepart']);
-				if ($row['encrypted'] or ($row['unencrypted_size'] > 0 and $row['mimetype'] === 'httpd/unix-directory')) {
-					$row['encrypted_size'] = $row['size'];
-					$row['size'] = $row['unencrypted_size'];
-				}
-				$files[] = $row;
-			}
-		}
-		return $files;
 	}
 
 	/**
