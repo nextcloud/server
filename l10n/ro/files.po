@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-15 06:11+0000\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
+"PO-Revision-Date: 2014-07-31 05:31+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -200,7 +200,7 @@ msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerup
 msgid "URL cannot be empty"
 msgstr "URL nu poate fi gol"
 
-#: js/file-upload.js:568 js/filelist.js:1259
+#: js/file-upload.js:568 js/filelist.js:1275
 msgid "{new_name} already exists"
 msgstr "{new_name} există deja"
 
@@ -246,57 +246,57 @@ msgid ""
 "big."
 msgstr "Se pregătește descărcarea. Aceasta poate dura ceva timp dacă fișierele sunt mari."
 
-#: js/filelist.js:675 js/filelist.js:1783
+#: js/filelist.js:680 js/filelist.js:1799
 msgid "Pending"
 msgstr "În așteptare"
 
-#: js/filelist.js:1210
+#: js/filelist.js:1226
 msgid "Error moving file."
 msgstr "Eroare la mutarea fișierului."
 
-#: js/filelist.js:1218
+#: js/filelist.js:1234
 msgid "Error moving file"
 msgstr "Eroare la mutarea fișierului"
 
-#: js/filelist.js:1218
+#: js/filelist.js:1234
 msgid "Error"
 msgstr "Eroare"
 
-#: js/filelist.js:1307
+#: js/filelist.js:1323
 msgid "Could not rename file"
 msgstr "Nu s-a putut redenumi fisierul"
 
-#: js/filelist.js:1425
+#: js/filelist.js:1441
 msgid "Error deleting file."
 msgstr "Eroare la ștergerea fisierului."
 
-#: js/filelist.js:1528 templates/list.php:61
+#: js/filelist.js:1544 templates/list.php:61
 msgid "Name"
 msgstr "Nume"
 
-#: js/filelist.js:1529 templates/list.php:72
+#: js/filelist.js:1545 templates/list.php:72
 msgid "Size"
 msgstr "Mărime"
 
-#: js/filelist.js:1530 templates/list.php:75
+#: js/filelist.js:1546 templates/list.php:75
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1556 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n director"
 msgstr[1] "%n directoare"
 msgstr[2] "%n directoare"
 
-#: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1562 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fișier"
 msgstr[1] "%n fișiere"
 msgstr[2] "%n fișiere"
 
-#: js/filelist.js:1676 js/filelist.js:1715
+#: js/filelist.js:1692 js/filelist.js:1731
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Se încarcă %n fișier."

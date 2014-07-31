@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Los siguientes usuarios no han sido configurados para el cifrado:",
 "Initial encryption started... This can take some time. Please wait." => "Encriptación iniciada... Esto puede tomar un tiempo. Por favor espere.",
 "Encryption" => "Cifrado",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "La aplicación de crifrado está habilitada pero tus claves no han sido inicializadas, por favor, cierra la sesión y vuelva a iniciarla de nuevo.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Habilitar la clave de recuperación (permite recuperar los archivos del usuario en caso de pérdida de la contraseña);",
 "Recovery key password" => "Contraseña de clave de recuperación",
 "Repeat Recovery key password" => "Repite la contraseña de clave de recuperación",

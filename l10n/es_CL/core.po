@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 21:41+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -50,11 +50,11 @@ msgstr ""
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Tipo de archivo desconocido"
 
 #: avatar/controller.php:90
 msgid "Invalid image"
-msgstr ""
+msgstr "Imagen no válida"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
@@ -604,11 +604,11 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Personal"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
 #: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
 msgid "Apps"
@@ -616,11 +616,11 @@ msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Administración"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: tags/controller.php:22
 msgid "Error loading tags"

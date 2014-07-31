@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Hasierako enkriptaketa abian... mesedez, saiatu beranduago.",
 "Go directly to your %spersonal settings%s." => "Joan zuzenean zure %sezarpen pertsonaletara%s.",
 "Encryption" => "Enkriptazioa",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Enkriptazio aplikazioa gaituta dago baina zure gakoak ez daude konfiguratuta, mesedez saioa bukatu eta berriro hasi",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Gaitu berreskurapen gakoa (erabiltzaileen fitxategiak berreskuratzea ahalbidetzen du pasahitza galtzen badute ere):",
 "Recovery key password" => "Berreskuratze gako pasahitza",
 "Repeat Recovery key password" => "Errepikatu berreskuratze gakoaren pasahitza",

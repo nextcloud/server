@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "初期暗号化実行中... 後でもう一度お試しください。",
 "Go directly to your %spersonal settings%s." => "直接 %s個人設定%s に進む。",
 "Encryption" => "暗号化",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
 "Enable recovery key (allow to recover users files in case of password loss):" => "リカバリキーを有効にする (パスワードを忘れた場合にユーザーのファイルを回復できます):",
 "Recovery key password" => "リカバリキーのパスワード",
 "Repeat Recovery key password" => "リカバリキーのパスワードをもう一度入力",

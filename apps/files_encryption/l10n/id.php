@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Pengguna berikut belum diatur untuk enkripsi:",
 "Initial encryption started... This can take some time. Please wait." => "Inisial enskripsi dijalankan... Ini dapat memakan waktu. Silakan tunggu.",
 "Encryption" => "Enkripsi",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Aplikasi Enskripsi telah diaktifkan tetapi kunci tidak diinisialisasi, silakan log-out dan log-in lagi",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Aktifkan kunci pemulihan (memungkinkan pengguna untuk memulihkan berkas dalam kasus kehilangan sandi):",
 "Recovery key password" => "Sandi kunci pemulihan",
 "Repeat Recovery key password" => "Ulangi sandi kunci Pemulihan",

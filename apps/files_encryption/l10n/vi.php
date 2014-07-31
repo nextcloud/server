@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Private key password successfully updated." => "Cập nhật thành công mật khẩu khóa cá nhân",
 "Could not update the private key password. Maybe the old password was not correct." => "Không thể cập nhật mật khẩu khóa cá nhân. Có thể mật khẩu cũ không đúng",
 "Encryption" => "Mã hóa",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Ứng dụng mã hóa đã được kích hoạt nhưng bạn chưa khởi tạo khóa. Vui lòng đăng xuất ra và đăng nhập lại",
 "Enabled" => "Bật",
 "Disabled" => "Tắt",
 "Change Password" => "Đổi Mật khẩu",

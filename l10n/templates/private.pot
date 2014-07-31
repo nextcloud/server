@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-30 01:54-0400\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -285,84 +285,84 @@ msgstr ""
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr ""
 
-#: share/share.php:627
+#: share/share.php:628
 msgid ""
 "You need to provide a password to create a public link, only protected links "
 "are allowed"
 msgstr ""
 
-#: share/share.php:653
+#: share/share.php:654
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: share/share.php:660
+#: share/share.php:661
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: share/share.php:860
+#: share/share.php:861
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: share/share.php:921
+#: share/share.php:922
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: share/share.php:959
+#: share/share.php:960
 #, php-format
 msgid ""
 "Can not set expire date. Shares can not expire later then %s after they "
 "where shared"
 msgstr ""
 
-#: share/share.php:967
+#: share/share.php:968
 msgid "Can not set expire date. Expire date is in the past"
 msgstr ""
 
-#: share/share.php:1092
+#: share/share.php:1093
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: share/share.php:1099
+#: share/share.php:1100
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: share/share.php:1105
+#: share/share.php:1106
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: share/share.php:1522
+#: share/share.php:1523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: share/share.php:1531
+#: share/share.php:1532
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: share/share.php:1547
+#: share/share.php:1548
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: share/share.php:1559
+#: share/share.php:1560
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: share/share.php:1573
+#: share/share.php:1574
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

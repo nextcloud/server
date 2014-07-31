@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Initial encryption started... This can take some time. Please wait." => "Encriptación inicial comenzada... Esto puede durar un tiempo. Por favor espere.",
 "Initial encryption running... Please try again later." => "Encriptación inicial corriendo... Por favor intente mas tarde. ",
 "Encryption" => "Encriptación",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "La aplicación de encriptación está habilitada pero las llaves no fueron inicializadas, por favor termine y vuelva a iniciar la sesión",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Habilitar clave de recuperación (te permite recuperar los archivos de usuario en el caso que pierdas la contraseña):",
 "Recovery key password" => "Contraseña de recuperación de clave",
 "Repeat Recovery key password" => "Repetir la contraseña de la clave de recuperación",

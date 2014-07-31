@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "다음 사용자는 암호화를 사용할 수 없습니다:",
 "Initial encryption started... This can take some time. Please wait." => "초기 암호화가 시작되었습니다... 시간이 걸릴 수도 있으니 기다려 주십시오.",
 "Encryption" => "암호화",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
 "Enable recovery key (allow to recover users files in case of password loss):" => "복구 키 사용 (암호를 잊었을 때 파일을 복구할 수 있도록 함):",
 "Recovery key password" => "복구 키 암호",
 "Repeat Recovery key password" => "복구 키 암호 재입력",

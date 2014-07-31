@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-17 01:54-0400\n"
-"PO-Revision-Date: 2014-07-17 05:54+0000\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 21:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -225,7 +225,7 @@ msgstr ""
 
 #: js/mountsfilelist.js:34
 msgid "Personal"
-msgstr ""
+msgstr "Personal"
 
 #: js/mountsfilelist.js:36
 msgid "System"
@@ -314,7 +314,7 @@ msgstr ""
 
 #: templates/settings.php:106
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
 #: templates/settings.php:119 templates/settings.php:120
 #: templates/settings.php:159 templates/settings.php:160

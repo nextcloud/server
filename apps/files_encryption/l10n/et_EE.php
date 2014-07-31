@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Toimub esmane krüpteerimine... Palun proovi hiljem uuesti.",
 "Go directly to your %spersonal settings%s." => "Liigi otse oma %s isiklike seadete %s juurde.",
 "Encryption" => "Krüpteerimine",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Krüpteerimisrakend on lubatud, kuid võtmeid pole lähtestatud. Palun logi välja ning uuesti sisse.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Luba taastevõti (võimalda kasutaja failide taastamine parooli kaotuse puhul):",
 "Recovery key password" => "Taastevõtme parool",
 "Repeat Recovery key password" => "Korda taastevõtme parooli",

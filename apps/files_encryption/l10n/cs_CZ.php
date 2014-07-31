@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Probíhá počáteční šifrování... Zkuste to prosím znovu později.",
 "Go directly to your %spersonal settings%s." => "Přejít přímo do svého %sosobního nastaveni%s.",
 "Encryption" => "Šifrování",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Povolit klíč pro obnovu (umožňuje obnovu uživatelských souborů v případě ztráty hesla)",
 "Recovery key password" => "Heslo klíče pro obnovu",
 "Repeat Recovery key password" => "Zopakujte heslo klíče pro obnovu",

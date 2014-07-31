@@ -18,6 +18,7 @@ $TRANSLATIONS = array(
 "Initial encryption started... This can take some time. Please wait." => "加密初始已啟用...這個需要一些時間。請稍等。",
 "Initial encryption running... Please try again later." => "加密初始執行中...請晚點再試。",
 "Encryption" => "加密",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "檔案加密已啓用，但是您的金鑰尚未初始化，請重新登入一次",
 "Enable recovery key (allow to recover users files in case of password loss):" => "啟用還原金鑰 (因忘記密碼仍允許還原使用者檔案):",
 "Recovery key password" => "還原金鑰密碼",
 "Repeat Recovery key password" => "再輸入還原金鑰密碼一次",

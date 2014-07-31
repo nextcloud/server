@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Kryptering foretages... Prøv venligst igen senere.",
 "Go directly to your %spersonal settings%s." => "Gå direkte til dine %spersonlige indstillinger%s.",
 "Encryption" => "Kryptering",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Krypteringsprogrammet er aktiveret, men din nøgle er ikke igangsat. Log venligst ud og ind igen.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Aktiver gendannelsesnøgle (Tillad gendannelse af brugerfiler i tilfælde af tab af kodeord):",
 "Recovery key password" => "Gendannelsesnøgle kodeord",
 "Repeat Recovery key password" => "Gentag gendannelse af nøglekoden",

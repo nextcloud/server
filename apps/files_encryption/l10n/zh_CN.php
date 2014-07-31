@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "初始加密运行中....请稍后再试。",
 "Go directly to your %spersonal settings%s." => "直接访问您的%s个人设置%s。",
 "Encryption" => "加密",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "加密应用被启用了，但是你的加密密钥没有初始化，请重新登出登录系统一次。",
 "Enable recovery key (allow to recover users files in case of password loss):" => "启用恢复密钥（允许你在密码丢失后恢复文件）：",
 "Recovery key password" => "恢复密钥密码",
 "Repeat Recovery key password" => "重复恢复密钥密码",

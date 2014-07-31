@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Initiële versleuteling bezig... Probeer het later opnieuw.",
 "Go directly to your %spersonal settings%s." => "Ga direct naar uw %spersoonlijke instellingen%s.",
 "Encryption" => "Versleuteling",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Crypto app is geactiveerd, maar uw sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Activeren herstelsleutel (maakt het mogelijk om gebruikersbestanden terug te halen in geval van verlies van het wachtwoord):",
 "Recovery key password" => "Wachtwoord herstelsleulel",
 "Repeat Recovery key password" => "Herhaal het herstelsleutel wachtwoord",

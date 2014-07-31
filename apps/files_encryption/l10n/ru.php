@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Работает первоначальное шифрование... Пожалуйста, повторите попытку позже.",
 "Go directly to your %spersonal settings%s." => "Перейти напряму к вашим %spersonal settings%s.",
 "Encryption" => "Шифрование",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Приложение для шифрования активно, но ваши ключи не инициализированы, пожалуйста, перелогиньтесь",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Включить ключ восстановления (позволяет пользователям восстановить файлы при потере пароля):",
 "Recovery key password" => "Пароль для ключа восстановления",
 "Repeat Recovery key password" => "Повторите пароль восстановления ключа",

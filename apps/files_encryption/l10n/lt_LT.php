@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Following users are not set up for encryption:" => "Sekantys naudotojai nenustatyti šifravimui:",
 "Initial encryption started... This can take some time. Please wait." => "Pradėtas pirminis šifravimas... Tai gali užtrukti. Prašome palaukti.",
 "Encryption" => "Šifravimas",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Šifravimo programa įjungta, bet Jūsų raktai nėra pritaikyti. Prašome atsijungti ir vėl prisijungti",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Įjunkite atkūrimo raktą, (leisti atkurti naudotojų failus praradus slaptažodį):",
 "Recovery key password" => "Atkūrimo rakto slaptažodis",
 "Repeat Recovery key password" => "Pakartokite atkūrimo rakto slaptažodį",

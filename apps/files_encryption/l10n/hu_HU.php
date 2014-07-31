@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Initial encryption started... This can take some time. Please wait." => "A titkosítási folyamat megkezdődött... Ez hosszabb ideig is eltarthat. Kérem várjon.",
 "Initial encryption running... Please try again later." => "Kezedeti titkosítás fut... Próbálja később.",
 "Encryption" => "Titkosítás",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Az állományok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérjük, hogy jelentkezzen ki, és lépjen be újra!",
 "Enable recovery key (allow to recover users files in case of password loss):" => "A helyreállítási kulcs beállítása (lehetővé teszi a felhasználók állományainak visszaállítását, ha elfelejtik a jelszavukat):",
 "Recovery key password" => "A helyreállítási kulcs jelszava",
 "Repeat Recovery key password" => "Ismételje meg a helyreállítási kulcs jelszavát",

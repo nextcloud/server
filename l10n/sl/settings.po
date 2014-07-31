@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-21 01:54-0400\n"
-"PO-Revision-Date: 2014-07-20 18:51+0000\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 18:30+0000\n"
 "Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -132,7 +132,7 @@ msgstr "Uporabnika ni mogoče izbrisati"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Varnostne kopije so uspešno obnovljene."
 
 #: ajax/restorekeys.php:23
 msgid ""
@@ -213,7 +213,7 @@ msgstr "Posodobi na {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Odstrani program"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -257,11 +257,11 @@ msgstr "Posodobljeno"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Odstranjevanje namestitve ..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Prišlo je do napake med odstranjevanjem programa."
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
@@ -305,7 +305,7 @@ msgstr "Obnovi šifrirne ključe."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "Ni mogoče izbrisati {objName}"
 
 #: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"

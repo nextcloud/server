@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Chiffrement initial en cours... Veuillez re-essayer ultérieurement.",
 "Go directly to your %spersonal settings%s." => "Allerz directement à vos %spersonal settings%s.",
 "Encryption" => "Chiffrement",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "L'application de chiffrement est activée mais vos clés ne sont pas initialisées, veuillez vous déconnecter et ensuite vous reconnecter.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Activer la clef de récupération (permet de récupérer les fichiers des utilisateurs en cas de perte de mot de passe).",
 "Recovery key password" => "Mot de passe de la clef de récupération",
 "Repeat Recovery key password" => "Répétez le mot de passe de la clé de récupération",

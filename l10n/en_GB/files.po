@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-18 01:54-0400\n"
-"PO-Revision-Date: 2014-07-17 10:04+0000\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
+"PO-Revision-Date: 2014-07-31 05:31+0000\n"
 "Last-Translator: Darren Richardson <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,7 @@ msgstr "File upload is in progress. Leaving the page now will cancel the upload.
 msgid "URL cannot be empty"
 msgstr "URL cannot be empty"
 
-#: js/file-upload.js:568 js/filelist.js:1259
+#: js/file-upload.js:568 js/filelist.js:1275
 msgid "{new_name} already exists"
 msgstr "{new_name} already exists"
 
@@ -236,55 +236,55 @@ msgid ""
 "big."
 msgstr "Your download is being prepared. This might take some time if the files are big."
 
-#: js/filelist.js:675 js/filelist.js:1783
+#: js/filelist.js:680 js/filelist.js:1799
 msgid "Pending"
 msgstr "Pending"
 
-#: js/filelist.js:1210
+#: js/filelist.js:1226
 msgid "Error moving file."
 msgstr "Error moving file."
 
-#: js/filelist.js:1218
+#: js/filelist.js:1234
 msgid "Error moving file"
 msgstr "Error moving file"
 
-#: js/filelist.js:1218
+#: js/filelist.js:1234
 msgid "Error"
 msgstr "Error"
 
-#: js/filelist.js:1307
+#: js/filelist.js:1323
 msgid "Could not rename file"
 msgstr "Could not rename file"
 
-#: js/filelist.js:1425
+#: js/filelist.js:1441
 msgid "Error deleting file."
 msgstr "Error deleting file."
 
-#: js/filelist.js:1528 templates/list.php:61
+#: js/filelist.js:1544 templates/list.php:61
 msgid "Name"
 msgstr "Name"
 
-#: js/filelist.js:1529 templates/list.php:72
+#: js/filelist.js:1545 templates/list.php:72
 msgid "Size"
 msgstr "Size"
 
-#: js/filelist.js:1530 templates/list.php:75
+#: js/filelist.js:1546 templates/list.php:75
 msgid "Modified"
 msgstr "Modified"
 
-#: js/filelist.js:1540 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1556 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n folder"
 msgstr[1] "%n folders"
 
-#: js/filelist.js:1546 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1562 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n file"
 msgstr[1] "%n files"
 
-#: js/filelist.js:1676 js/filelist.js:1715
+#: js/filelist.js:1692 js/filelist.js:1731
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Uploading %n file"

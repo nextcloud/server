@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "Εκτέλεση αρχικής κρυπτογράφησης... Παρακαλώ προσπαθήστε αργότερα.",
 "Go directly to your %spersonal settings%s." => "Πηγαίνετε κατ'ευθείαν στις %sπροσωπικές ρυθμίσεις%s σας.",
 "Encryption" => "Κρυπτογράφηση",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Η εφαρμογή κρυπτογράφησης είναι ενεργοποιημένη αλλά τα κλειδιά σας δεν έχουν καταγραφεί, παρακαλώ αποσυνδεθείτε και επανασυνδεθείτε.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Ενεργοποίηση κλειδιού ανάκτησης (επιτρέψτε την ανάκτηση αρχείων χρηστών σε περίπτωση απώλειας κωδικού):",
 "Recovery key password" => "Επαναφορά κωδικού κλειδιού",
 "Repeat Recovery key password" => "Επαναλάβετε το κλειδί επαναφοράς κωδικού",

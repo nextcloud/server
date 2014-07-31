@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown filetype" => "Tipo de archivo desconocido",
+"Invalid image" => "Imagen no válida",
 "Sunday" => "Domingo",
 "Monday" => "Lunes",
 "Tuesday" => "Martes",
@@ -44,6 +46,10 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "Ocurrió un error mientras se cambiaban los permisos",
 "The object type is not specified." => "El tipo de objeto no está especificado.",
 "Username" => "Usuario",
+"Personal" => "Personal",
+"Users" => "Usuarios",
+"Admin" => "Administración",
+"Help" => "Ayuda",
 "Password" => "Clave"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

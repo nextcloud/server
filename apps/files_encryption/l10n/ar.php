@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "جاري تفعيل التشفير المبدئي ، الرجاء المحاولة لاحقا",
 "Go directly to your %spersonal settings%s." => "  .%spersonal settings%s إنتقل مباشرة إلى ",
 "Encryption" => "التشفير",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "تم تمكين تشفير البرامج لكن لم يتم تهيئة المفاتيح لذا يرجى تسجيل الخروج ثم تسجيل الدخول مرة آخرى.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "تفعيل استعادة المفتاح (سوف يمكنك من استعادة ملفات المستخدمين في حال فقدان كلمة المرور):",
 "Recovery key password" => "استعادة كلمة مرور المفتاح",
 "Repeat Recovery key password" => "كرر كلمة المرور لـ استعادة المفتاح",

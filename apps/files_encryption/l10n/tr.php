@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "İlk şifreleme çalışıyor... Lütfen daha sonra tekrar deneyin.",
 "Go directly to your %spersonal settings%s." => "Doğrudan %skişisel ayarlarınıza%s gidin.",
 "Encryption" => "Şifreleme",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Kurtarma anahtarını etkinleştir (parola kaybı durumunda kullanıcı dosyalarının kurtarılmasına izin verir):",
 "Recovery key password" => "Kurtarma anahtarı parolası",
 "Repeat Recovery key password" => "Kurtarma anahtarı parolasını yineleyin",

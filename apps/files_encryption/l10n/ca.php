@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "encriptació inicial en procés... Proveu-ho més tard.",
 "Go directly to your %spersonal settings%s." => "Vés directament a l'%sarranjament personal%s.",
 "Encryption" => "Xifrat",
+"Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "L'aplicació d'encriptació està activada però les claus no estan inicialitzades, sortiu i acrediteu-vos de nou.",
 "Enable recovery key (allow to recover users files in case of password loss):" => "Activa la clau de recuperació (permet recuperar fitxers d'usuaris en cas de pèrdua de contrasenya):",
 "Recovery key password" => "Clau de recuperació de la contrasenya",
 "Repeat Recovery key password" => "Repetiu la clau de recuperació de contrasenya",

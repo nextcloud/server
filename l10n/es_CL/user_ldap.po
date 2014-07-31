@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-04 01:54-0400\n"
-"PO-Revision-Date: 2014-06-04 05:54+0000\n"
+"POT-Creation-Date: 2014-07-31 01:54-0400\n"
+"PO-Revision-Date: 2014-07-30 21:11+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -142,26 +142,26 @@ msgstr ""
 msgid "Confirm Deletion"
 msgstr ""
 
-#: lib/wizard.php:83 lib/wizard.php:97
+#: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:130
+#: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:825 lib/wizard.php:837
-msgid "Invalid Host"
+#: lib/wizard.php:317 lib/wizard.php:1051
+msgid "Could not find the desired feature"
 msgstr ""
 
-#: lib/wizard.php:1025
-msgid "Could not find the desired feature"
+#: lib/wizard.php:858 lib/wizard.php:870
+msgid "Invalid Host"
 msgstr ""
 
 #: settings.php:52
@@ -190,7 +190,7 @@ msgstr ""
 
 #: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
