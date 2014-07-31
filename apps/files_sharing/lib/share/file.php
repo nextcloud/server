@@ -38,7 +38,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			// FIXME: attributes should not be set here,
 			// keeping this pattern for now to avoid unexpected
 			// regressions
-			$this->path = basename($path);
+			$this->path = \OC\Files\Filesystem::normalizePath(basename($path));
 			return true;
 		}
 		return false;
