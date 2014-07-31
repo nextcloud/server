@@ -121,7 +121,15 @@ class SharedMount extends Mount implements MoveableMount {
 		$relTargetPath = $this->stripUserFilesPath($target);
 		$share = $this->storage->getShare();
 
-		$result = $this->updateFileTarget($relTargetPath, $share);
+		$result = true;
+
+		if (!empty($share['grouped'])) {
+			foreach ($share['grouped'] as $s) {
+				$result = $this->updateFileTarget($relTargetPath, $s) && $result;
+			}
+		} else {
+			$result = $this->updateFileTarget($relTargetPath, $share) && $result;
+		}
 
 		if ($result) {
 			$this->setMountPoint($target);
@@ -144,8 +152,11 @@ class SharedMount extends Mount implements MoveableMount {
 	 */
 	public function removeMount() {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
+		/**
+		 * @var \OC\Files\Storage\Shared
+		 */
 		$storage = $this->getStorage();
-		$result =  \OCP\Share::unshareFromSelf($storage->getItemType(), $storage->getMountPoint());
+		$result = $storage->unshareStorage();
 		$mountManager->removeMount($this->mountPoint);
 
 		return $result;
