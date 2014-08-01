@@ -59,7 +59,7 @@ class OC_OCSClient{
 
 	/**
 	 * Get all the categories from the OCS server
-	 * @return array an array of category ids
+	 * @return array|null an array of category ids or null
 	 * @note returns NULL if config value appstoreenabled is set to false
 	 * This function returns a list of all the application categories on the OCS server
 	 */
@@ -92,7 +92,7 @@ class OC_OCSClient{
 
 	/**
 	 * Get all the applications from the OCS server
-	 * @return array an array of application data
+	 * @return array|null an array of application data or null
 	 *
 	 * This function returns a list of all the applications on the OCS server
 	 * @param array|string $categories
@@ -150,9 +150,9 @@ class OC_OCSClient{
 	/**
 	 * Get an the applications from the OCS server
 	 * @param string $id
-	 * @return array an array of application data
+	 * @return array|null an array of application data or null
 	 *
-	 * This function returns an  applications from the OCS server
+	 * This function returns an applications from the OCS server
 	 */
 	public static function getApplication($id) {
 		if(OC_Config::getValue('appstoreenabled', true)==false) {
@@ -196,7 +196,7 @@ class OC_OCSClient{
 
 	/**
 	 * Get the download url for an application from the OCS server
-	 * @return array an array of application data
+	 * @return array|null an array of application data or null
 	 *
 	 * This function returns an download url for an applications from the OCS server
 	 * @param string $id
@@ -226,7 +226,5 @@ class OC_OCSClient{
 		}
 		return $app;
 	}
-
-
 
 }
