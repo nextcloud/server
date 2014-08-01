@@ -2,10 +2,10 @@
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "На данном сервере выключено межсерверное предоставление общих папок",
 "Couldn't add remote share" => "Невозможно добавить удалённую общую папку",
-"Shared with you" => "Опубликованы вами",
-"Shared with others" => "Опубликованы другими",
+"Shared with you" => "Доступно мне",
+"Shared with others" => "Доступно другим",
 "Shared by link" => "Доступно по ссылке",
-"No files have been shared with you yet." => "Вы ещё не опубликовали файлы",
+"No files have been shared with you yet." => "Отсутствуют доступные для вас файлы.",
 "You haven't shared any files yet." => "Вы не имеете файлов в открытом доступе",
 "You haven't shared any files by link yet." => "Вы ещё не открыли доступ по ссылке ни к одному файлу.",
 "Do you want to add the remote share {name} from {owner}@{remote}?" => "Добавить удалённую общую папку {name} из {owner}@{remote}?",
