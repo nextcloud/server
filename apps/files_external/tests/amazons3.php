@@ -41,4 +41,8 @@ class AmazonS3 extends Storage {
 			$this->instance->rmdir('');
 		}
 	}
+
+	public function testStat() {
+		$this->markTestSkipped('S3 doesn\'t update the parents folder mtime');
+	}
 }
