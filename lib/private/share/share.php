@@ -1512,7 +1512,7 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @return array of grouped items
 	 */
-	private static function groupItems($items, $itemType) {
+	protected static function groupItems($items, $itemType) {
 
 		$fileSharing = ($itemType === 'file' || $itemType === 'folder') ? true : false;
 

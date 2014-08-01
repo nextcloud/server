@@ -522,7 +522,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user2);
 		$this->assertEquals(array(OCP\PERMISSION_READ | OCP\PERMISSION_UPDATE), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_PERMISSIONS));
 		OC_User::setUserId($this->user4);
-		$this->assertEquals(array(), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
+		$this->assertEquals(array('test.txt'), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
 
 		// Valid share with same person - group then user
 		OC_User::setUserId($this->user1);
@@ -733,20 +733,88 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			array(false, array('share_with' => '1234567890', 'share_type' => '3', 'id' => 101)),
 			array(false, array('share_with' => '1234567890', 'share_type' => 3, 'id' => 101)),
 		);
+	}
 
-		/*
-		if (!isset($linkItem['share_with'])) {
-			return true;
-		}
+	/**
+	 * @dataProvider dataProviderTestGroupItems
+	 * @param type $ungrouped
+	 * @param type $grouped
+	 */
+	function testGroupItems($ungrouped, $grouped) {
 
-		if ($linkItem['share_type'] != \OCP\Share::SHARE_TYPE_LINK) {
-			return true;
-		}
+		$result = DummyShareClass::groupItemsTest($ungrouped);
 
-		if ( \OC::$session->exists('public_link_authenticated')
-			&& \OC::$session->get('public_link_authenticated') === $linkItem['id'] ) {
-			return true;
+		$this->compareArrays($grouped, $result);
+
+	}
+
+	function compareArrays($result, $expectedResult) {
+		foreach ($expectedResult as $key => $value) {
+			if (is_array($value)) {
+				$this->compareArrays($result[$key], $value);
+			} else {
+				$this->assertSame($value, $result[$key]);
+			}
 		}
-		 * */
+	}
+
+	function dataProviderTestGroupItems() {
+		return array(
+			// one array with one share
+			array(
+				array( // input
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_ALL, 'item_target' => 't1')),
+				array( // expected result
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_ALL, 'item_target' => 't1'))),
+			// two shares both point to the same source
+			array(
+				array( // input
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ, 'item_target' => 't1'),
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_UPDATE, 'item_target' => 't1'),
+					),
+				array( // expected result
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE, 'item_target' => 't1',
+						'grouped' => array(
+							array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ, 'item_target' => 't1'),
+							array('item_source' => 1, 'permissions' => \OCP\PERMISSION_UPDATE, 'item_target' => 't1'),
+							)
+						),
+					)
+				),
+			// two shares both point to the same source but with different targets
+			array(
+				array( // input
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ, 'item_target' => 't1'),
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_UPDATE, 'item_target' => 't2'),
+					),
+				array( // expected result
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ, 'item_target' => 't1'),
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_UPDATE, 'item_target' => 't2'),
+					)
+				),
+			// three shares two point to the same source
+			array(
+				array( // input
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ, 'item_target' => 't1'),
+					array('item_source' => 2, 'permissions' => \OCP\PERMISSION_CREATE, 'item_target' => 't2'),
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_UPDATE, 'item_target' => 't1'),
+					),
+				array( // expected result
+					array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE, 'item_target' => 't1',
+						'grouped' => array(
+							array('item_source' => 1, 'permissions' => \OCP\PERMISSION_READ, 'item_target' => 't1'),
+							array('item_source' => 1, 'permissions' => \OCP\PERMISSION_UPDATE, 'item_target' => 't1'),
+							)
+						),
+					array('item_source' => 2, 'permissions' => \OCP\PERMISSION_CREATE, 'item_target' => 't2'),
+					)
+				),
+		);
+	}
+}
+
+class DummyShareClass extends \OC\Share\Share {
+	public static function groupItemsTest($items) {
+		return parent::groupItems($items, 'test');
 	}
 }
