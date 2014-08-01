@@ -38,29 +38,7 @@ class AmazonS3 extends Storage {
 
 	public function tearDown() {
 		if ($this->instance) {
-			$connection = $this->instance->getConnection();
-
-			try {
-				// NOTE(berendt): clearBucket() is not working with Ceph
-				$iterator = $connection->getIterator('ListObjects', array(
-					'Bucket' => $this->config['amazons3']['bucket']
-				));
-
-				foreach ($iterator as $object) {
-					$connection->deleteObject(array(
-						'Bucket' => $this->config['amazons3']['bucket'],
-						'Key' => $object['Key']
-					));
-				}
-			} catch (S3Exception $e) {
-			}
-
-			$connection->deleteBucket(array(
-				'Bucket' => $this->config['amazons3']['bucket']
-			));
-
-			//wait some seconds for completing the replication
-			sleep(30);
+			$this->instance->rmdir('');
 		}
 	}
 }
