@@ -162,7 +162,7 @@ class OC_OCSClient{
 		$xml=OC_OCSClient::getOCSresponse($url);
 
 		if($xml==false) {
-			OC_Log::write('core', 'Unable to parse OCS content', OC_Log::FATAL);
+			OC_Log::write('core', 'Unable to parse OCS content for app ' . $id, OC_Log::FATAL);
 			return null;
 		}
 		$loadEntities = libxml_disable_entity_loader(true);
@@ -170,6 +170,10 @@ class OC_OCSClient{
 		libxml_disable_entity_loader($loadEntities);
 
 		$tmp=$data->data->content;
+		if (is_null($tmp)) {
+			OC_Log::write('core', 'Invalid OCS content returned for app ' . $id, OC_Log::FATAL);
+			return null;
+		}
 		$app=array();
 		$app['id']=$tmp->id;
 		$app['name']=$tmp->name;
