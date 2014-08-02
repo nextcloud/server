@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." => "Falló la descarga de los tokens solicitaos. Verifica que la clave y el secretu de la app de Dropbox ye correuta.",
+"Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." => "Falló la descarga de los tokens solicitaos. Verifica que la clave y el secretu de la app de Dropbox ye correuta.",
 "Please provide a valid Dropbox app key and secret." => "Por favor, proporciona una clave válida de l'app Dropbox y una clave secreta.",
 "Step 1 failed. Exception: %s" => "Pasu 1 fallíu. Esceición: %s",
 "Step 2 failed. Exception: %s" => "Pasu 2 fallíu. Esceición: %s",

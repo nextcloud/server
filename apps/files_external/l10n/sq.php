@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Share" => "Ndaj",
 "URL" => "URL-i",
 "Personal" => "Personale",
+"Saved" => "U ruajt",
 "Name" => "Emri",
 "Folder name" => "Emri i Skedarit",
 "Groups" => "Grupet",

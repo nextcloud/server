@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# erushu <eraldshuaipi@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-09 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-02 01:54-0400\n"
+"PO-Revision-Date: 2014-08-01 09:51+0000\n"
+"Last-Translator: erushu <eraldshuaipi@gmail.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "U ruajt"
 
 #: admin/controller.php:90
 msgid "test email settings"
@@ -49,11 +50,11 @@ msgstr ""
 
 #: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
-msgstr ""
+msgstr "Mënyra e dërgimit"
 
 #: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
-msgstr ""
+msgstr "Kodifikimi"
 
 #: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
@@ -166,7 +167,7 @@ msgstr "E pamundur të përditësohet app."
 
 #: changepassword/controller.php:17
 msgid "Wrong password"
-msgstr ""
+msgstr "Fjalëkalim i gabuar"
 
 #: changepassword/controller.php:36
 msgid "No user supplied"
@@ -191,11 +192,11 @@ msgstr ""
 
 #: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
-msgstr ""
+msgstr "Fjalëkalimi nuk mund të ndryshohet"
 
 #: js/admin.js:128
 msgid "Sending..."
-msgstr ""
+msgstr "Duke dërguar"
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
@@ -267,7 +268,7 @@ msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Zgjidh një foto profili"
 
 #: js/personal.js:287
 msgid "Very weak password"
@@ -305,19 +306,19 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "u fshi {groupName}"
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "anullo veprimin"
 
@@ -337,31 +338,31 @@ msgstr "Grupi Admin"
 msgid "Delete"
 msgstr "Fshi"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "asnjëherë"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
-msgstr ""
+msgstr "u fshi {userName}"
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "shto grup"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Duhet të jepni një emër të vlefshëm përdoruesi"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Gabim gjatë krijimit të përdoruesit"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Duhet të jepni një fjalëkalim te vlefshëm"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -391,11 +392,11 @@ msgstr ""
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
-msgstr ""
+msgstr "Asgjë"
 
 #: templates/admin.php:17
 msgid "Login"
-msgstr ""
+msgstr "Hyr"
 
 #: templates/admin.php:18
 msgid "Plain"
@@ -586,11 +587,11 @@ msgstr ""
 
 #: templates/admin.php:260
 msgid "Expire after "
-msgstr ""
+msgstr "Skadon pas"
 
 #: templates/admin.php:263
 msgid "days"
-msgstr ""
+msgstr "diitë"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
@@ -647,11 +648,11 @@ msgstr ""
 
 #: templates/admin.php:365
 msgid "From address"
-msgstr ""
+msgstr "Nga adresa"
 
 #: templates/admin.php:366
 msgid "mail"
-msgstr ""
+msgstr "postë"
 
 #: templates/admin.php:387
 msgid "Authentication required"
@@ -659,7 +660,7 @@ msgstr ""
 
 #: templates/admin.php:391
 msgid "Server address"
-msgstr ""
+msgstr "Adresa e serverit"
 
 #: templates/admin.php:395
 msgid "Port"
@@ -667,7 +668,7 @@ msgstr "Porta"
 
 #: templates/admin.php:400
 msgid "Credentials"
-msgstr ""
+msgstr "Kredencialet"
 
 #: templates/admin.php:401
 msgid "SMTP Username"
@@ -683,7 +684,7 @@ msgstr ""
 
 #: templates/admin.php:409
 msgid "Send email"
-msgstr ""
+msgstr "Dërgo email"
 
 #: templates/admin.php:414
 msgid "Log"
@@ -729,7 +730,7 @@ msgstr "Zgjidhni një Aplikacion"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Dokumentacioni:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -749,7 +750,7 @@ msgstr ""
 
 #: templates/apps.php:61
 msgid "All"
-msgstr ""
+msgstr "Të gjitha"
 
 #: templates/help.php:13
 msgid "Administrator Documentation"
@@ -821,7 +822,7 @@ msgstr "Ndrysho fjalëkalimin"
 
 #: templates/personal.php:73 templates/users/part.userlist.php:8
 msgid "Full Name"
-msgstr ""
+msgstr "Emri i plotë"
 
 #: templates/personal.php:88
 msgid "Email"
@@ -839,7 +840,7 @@ msgstr ""
 
 #: templates/personal.php:101
 msgid "Profile picture"
-msgstr ""
+msgstr "Foto Profili"
 
 #: templates/personal.php:106
 msgid "Upload new"
@@ -851,7 +852,7 @@ msgstr ""
 
 #: templates/personal.php:109
 msgid "Remove image"
-msgstr ""
+msgstr "Fshi imazh"
 
 #: templates/personal.php:110
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
@@ -867,7 +868,7 @@ msgstr "Anullo"
 
 #: templates/personal.php:117
 msgid "Choose as profile image"
-msgstr ""
+msgstr "Vendos si foto profili"
 
 #: templates/personal.php:123 templates/personal.php:124
 msgid "Language"
@@ -883,7 +884,7 @@ msgstr ""
 
 #: templates/personal.php:168
 msgid "Log-in password"
-msgstr ""
+msgstr "Fjalëkalimi i hyrjes"
 
 #: templates/personal.php:173
 msgid "Decrypt all Files"
@@ -925,19 +926,19 @@ msgstr "Jepni fjalëkalimin e rigjetjes për të rigjetur skedarët e përdorues
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Kërko Përdorues apo Grupe"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Shto Grup"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "Grup"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Të gjithë"
 
 #: templates/users/part.grouplist.php:31
 msgid "Admins"
@@ -973,11 +974,11 @@ msgstr ""
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Hyrja e fundit"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"
-msgstr ""
+msgstr "ndrysho emrin e plotë"
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"
