@@ -2,9 +2,9 @@
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "La compartición sirvidor a sirvidor nun ta habilitada nesti sirvidor",
 "Couldn't add remote share" => "Nun pudo amestase una compartición remota",
-"Shared with you" => "Compartío contigo",
-"Shared with others" => "Compartío con otros",
-"Shared by link" => "Compartíu por enllaz",
+"Shared with you" => "Compartíos contigo",
+"Shared with others" => "Compartíos con otros",
+"Shared by link" => "Compartíos per enllaz",
 "No files have been shared with you yet." => "Entá nun se compartieron ficheros contigo.",
 "You haven't shared any files yet." => "Entá nun compartiesti dengún ficheru.",
 "You haven't shared any files by link yet." => "Entá nun compartiesti nengún ficheru por enllaz.",
