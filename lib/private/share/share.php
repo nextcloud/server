@@ -925,7 +925,7 @@ class Share extends \OC\Share\Constants {
 	}
 
 	/**
-	 * validate expire date if it meets all constraints
+	 * validate expiration date if it meets all constraints
 	 *
 	 * @param string $expireDate well formate date string, e.g. "DD-MM-YYYY"
 	 * @param string $shareTime timestamp when the file was shared
@@ -963,8 +963,8 @@ class Share extends \OC\Share\Constants {
 		}
 
 		if ($date < $today) {
-			$message = 'Cannot set expiration date. Expire date is in the past';
-			$message_t = $l->t('Cannot set expiration date. Expire date is in the past');
+			$message = 'Cannot set expiration date. Expiration date is in the past';
+			$message_t = $l->t('Cannot set expiration date. Expiration date is in the past');
 			\OCP\Util::writeLog('OCP\Share', $message, \OCP\Util::WARN);
 			throw new \Exception($message_t);
 		}
@@ -1017,10 +1017,10 @@ class Share extends \OC\Share\Constants {
 
 		$result = false;
 
-		// only use default expire date for link shares
+		// only use default expiration date for link shares
 		if ((int) $item['share_type'] === self::SHARE_TYPE_LINK) {
 
-			// calculate expire date
+			// calculate expiration date
 			if (!empty($item['expiration'])) {
 				$userDefinedExpire = new \DateTime($item['expiration']);
 				$expires = $userDefinedExpire->getTimestamp();
@@ -1029,7 +1029,7 @@ class Share extends \OC\Share\Constants {
 			}
 
 
-			// get default expire settings
+			// get default expiration settings
 			$defaultSettings = Helper::getDefaultExpireSetting();
 			$expires = Helper::calculateExpireDate($defaultSettings, $item['stime'], $expires);
 
