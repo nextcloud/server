@@ -663,8 +663,6 @@ OC.Share={
 			// TODO: use oc webroot ?
 			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
 		} else {
-			// convert the token to base36
-			//token = parseInt(token, 16).toString(36);
 			//TODO add path param when showing a link to file in a subfolder of a public link share
 			var service='';
 			if(linkSharetype === 'folder' || linkSharetype === 'file'){
@@ -677,7 +675,7 @@ OC.Share={
 			if (service !== 'files') {
 				var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
 			} else {
-				var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 's.php')+'?t='+token;
+				var link = parent.location.protocol+'//'+location.host+OC.generateUrl('/s/')+token;
 			}
 		}
 		$('#linkText').val(link);

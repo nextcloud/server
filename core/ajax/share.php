@@ -46,8 +46,6 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						(!empty($_POST['expirationDate']) ? new \DateTime($_POST['expirationDate']) : null)
 					);
 
-					$token = base_convert($token, 16, 36);
-
 					if (is_string($token)) {
 						OC_JSON::success(array('data' => array('token' => $token)));
 					} else {

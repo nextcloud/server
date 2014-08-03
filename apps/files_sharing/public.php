@@ -13,8 +13,12 @@ if ($appConfig->getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 	exit();
 }
 
+// Legacy sharing links via public.php have the token in $GET['t']
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
+}
+
+if (isset($token)) {
 	$linkItem = OCP\Share::getShareByToken($token, false);
 	if (is_array($linkItem) && isset($linkItem['uid_owner'])) {
 		// seems to be a valid share

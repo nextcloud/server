@@ -246,6 +246,7 @@ var OC={
 			url = '/' + url;
 
 		}
+		// TODO save somewhere whether the webserver is able to skip the index.php to have shorter links (e.g. for sharing)
 		return OC.webroot + '/index.php' + _build(url, params);
 	},
 
