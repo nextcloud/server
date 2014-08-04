@@ -105,7 +105,7 @@ class Session implements Emitter, \OCP\IUserSession {
 			return $this->activeUser;
 		} else {
 			$uid = $this->session->get('user_id');
-			if ($uid) {
+			if ($uid !== null) {
 				$this->activeUser = $this->manager->get($uid);
 				return $this->activeUser;
 			} else {
