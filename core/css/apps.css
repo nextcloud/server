@@ -274,6 +274,10 @@ button.loading {
 	color: #555;
 	border-top: 1px solid #ddd;
 }
+/* no top border for first settings item */
+.section:first-child {
+	border-top: none;
+}
 .section h2 {
 	font-size: 20px;
 	margin-bottom: 7px;
