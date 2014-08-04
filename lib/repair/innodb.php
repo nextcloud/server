@@ -43,7 +43,7 @@ class InnoDB extends BasicEmitter implements \OC\RepairStep {
 	private function getAllMyIsamTables($connection) {
 		$dbName = \OC::$server->getConfig()->getSystemValue("dbname");
 		$result = $connection->fetchArray(
-			"SELECT table_name FROM information_schema.tables WHERE table_schema = ? AND engine = 'MyISAM'",
+			"SELECT table_name FROM information_schema.tables WHERE table_schema = ? AND engine = 'MyISAM' AND TABLE_NAME LIKE \"*PREFIX*%\"",
 			array($dbName)
 		);
 
