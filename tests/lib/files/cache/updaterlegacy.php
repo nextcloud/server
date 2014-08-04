@@ -132,7 +132,6 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 		$this->assertInternalType('string', $substorageCachedData['etag']);
 		$this->assertInternalType('string', $cachedData['etag']);
 		$this->assertNotSame($substorageCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($mtime, $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('folder');
 		$this->assertInternalType('string', $folderCachedData['etag']);

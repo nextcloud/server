@@ -382,7 +382,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$rootView->putFileInfo('foo.txt', array('storage_mtime' => 1000)); //make sure the watcher detects the change
 		$rootView->file_put_contents('foo.txt', 'asd');
 		$cachedData = $rootView->getFileInfo('foo.txt');
-		$this->assertGreaterThanOrEqual($cachedData['mtime'], $oldCachedData['mtime']);
+		$this->assertGreaterThanOrEqual($oldCachedData['mtime'], $cachedData['mtime']);
 		$this->assertEquals($cachedData['storage_mtime'], $cachedData['mtime']);
 	}
 
