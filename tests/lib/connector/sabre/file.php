@@ -13,7 +13,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSimplePutFails() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array(), '', false);
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array());
 		$view->expects($this->any())
 			->method('file_put_contents')
 			->will($this->returnValue(false));
@@ -38,8 +38,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	public function testSimplePutFailsOnRename() {
 		// setup
 		$view = $this->getMock('\OC\Files\View',
-			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'),
-			array(), '', false);
+			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'));
 		$view->expects($this->any())
 			->method('file_put_contents')
 			->withAnyParameters()
@@ -73,7 +72,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSimplePutInvalidChars() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array(), '', false);
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'));
 		$view->expects($this->any())
 			->method('file_put_contents')
 			->will($this->returnValue(false));
@@ -97,7 +96,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	 */
 	public function testSetNameInvalidChars() {
 		// setup
-		$view = $this->getMock('\OC\Files\View', array('getRelativePath'), array(), '', false);
+		$view = $this->getMock('\OC\Files\View', array('getRelativePath'));
 
 		$view->expects($this->any())
 			->method('getRelativePath')
@@ -116,8 +115,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 	public function testUploadAbort() {
 		// setup
 		$view = $this->getMock('\OC\Files\View',
-			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'),
-			array(), '', false);
+			array('file_put_contents', 'rename', 'getRelativePath', 'filesize'));
 		$view->expects($this->any())
 			->method('file_put_contents')
 			->withAnyParameters()
