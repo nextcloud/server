@@ -30,8 +30,10 @@ GroupList = {
 		var $groupLiElement = $(groupLiElement);
 		if (usercount === undefined || usercount === 0 || usercount < 0) {
 			usercount = '';
+			$groupLiElement.data('usercount', 0);
+		} else {
+			$groupLiElement.data('usercount', usercount);
 		}
-		$groupLiElement.data('usercount', usercount);
 		$groupLiElement.find('.usercount').text(usercount);
 	},
 
