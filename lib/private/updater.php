@@ -228,8 +228,6 @@ class Updater extends BasicEmitter {
 	}
 
 	protected function doCoreUpgrade() {
-		\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
-
 		// do the real upgrade
 		\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
 
