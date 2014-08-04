@@ -20,11 +20,8 @@ abstract class OC_Archive{
 			case '.gz':
 			case '.bz':
 			case '.bz2':
-				if(strpos($path, '.tar.')) {
-					return new OC_Archive_TAR($path);
-				}
-				break;
 			case '.tgz':
+			case '.tar':
 				return new OC_Archive_TAR($path);
 		}
 	}
