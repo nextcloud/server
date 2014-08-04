@@ -31,8 +31,14 @@ use OC\Files\Mount\MoveableMount;
 class View {
 	private $fakeRoot = '';
 
+	/**
+	 * @var \OC\Files\Cache\Updater
+	 */
+	protected $updater;
+
 	public function __construct($root = '') {
 		$this->fakeRoot = $root;
+		$this->updater = new Updater($this);
 	}
 
 	public function getAbsolutePath($path = '/') {
@@ -158,7 +164,10 @@ class View {
 	 * for \OC\Files\Storage\Storage via basicOperation().
 	 */
 	public function mkdir($path) {
-		return $this->basicOperation('mkdir', $path, array('create', 'write'));
+		$result = $this->basicOperation('mkdir', $path, array('create', 'write'));
+		$this->updater->update($path);
+		$this->updater->propagate();
+		return $result;
 	}
 
 	/**
@@ -168,10 +177,10 @@ class View {
 	 * @param string $path relative to data/
 	 * @return boolean
 	 */
-	protected function removeMount($mount, $path){
+	protected function removeMount($mount, $path) {
 		if ($mount instanceof MoveableMount) {
 			// cut of /user/files to get the relative path to data/user/files
-			$pathParts= explode('/', $path, 4);
+			$pathParts = explode('/', $path, 4);
 			$relPath = '/' . $pathParts[3];
 			\OC_Hook::emit(
 				Filesystem::CLASSNAME, "umount",
@@ -194,13 +203,16 @@ class View {
 	}
 
 	public function rmdir($path) {
-		$absolutePath= $this->getAbsolutePath($path);
+		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
 		if ($mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $path);
 		}
 		if ($this->is_dir($path)) {
-			return $this->basicOperation('rmdir', $path, array('delete'));
+			$result = $this->basicOperation('rmdir', $path, array('delete'));
+			$this->updater->remove($path);
+			$this->updater->propagate();
+			return $result;
 		} else {
 			return false;
 		}
@@ -310,9 +322,14 @@ class View {
 			if(!$this->file_exists($path)){
 				return false;
 			}
+			if (is_null($mtime)) {
+				$mtime = time();
+			}
 			//if native touch fails, we emulate it by changing the mtime in the cache
 			$this->putFileInfo($path, array('mtime' => $mtime));
 		}
+		$this->updater->update($path);
+		$this->updater->propagate($mtime);
 		return true;
 	}
 
@@ -374,10 +391,9 @@ class View {
 					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
+					$this->updater->update($path);
+					$this->updater->propagate();
 					if ($this->shouldEmitHooks($path) && $result !== false) {
-						Updater::writeHook(array(
-							'path' => $this->getHookPath($path)
-						));
 						$this->emit_file_hooks_post($exists, $path);
 					}
 					\OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
@@ -390,7 +406,10 @@ class View {
 			}
 		} else {
 			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
-			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
+			$result = $this->basicOperation('file_put_contents', $path, $hooks, $data);
+			$this->updater->update($path);
+			$this->updater->propagate();
+			return $result;
 		}
 	}
 
@@ -405,7 +424,10 @@ class View {
 		if ($mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
-		return $this->basicOperation('unlink', $path, array('delete'));
+		$result = $this->basicOperation('unlink', $path, array('delete'));
+		$this->updater->remove($path);
+		$this->updater->propagate();
+		return $result;
 	}
 
 	/**
@@ -495,15 +517,16 @@ class View {
 						}
 					}
 				}
-				if ($this->shouldEmitHooks() && (Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
+				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
-					Updater::writeHook(array('path' => $this->getHookPath($path2)));
-					$this->emit_file_hooks_post($exists, $path2);
+					$this->updater->update($path2);
+					$this->updater->propagate();
+					if ($this->shouldEmitHooks()) {
+						$this->emit_file_hooks_post($exists, $path2);
+					}
 				} elseif ($this->shouldEmitHooks() && $result !== false) {
-					Updater::renameHook(array(
-						'oldpath' => $this->getHookPath($path1),
-						'newpath' => $this->getHookPath($path2)
-					));
+					$this->updater->rename($path1, $path2);
+					$this->updater->propagate();
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -582,6 +605,8 @@ class View {
 						fclose($target);
 					}
 				}
+				$this->updater->update($path2);
+				$this->updater->propagate();
 				if ($this->shouldEmitHooks() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -805,16 +830,6 @@ class View {
 		$run = true;
 		if ($this->shouldEmitHooks($path)) {
 			foreach ($hooks as $hook) {
-				// manually triger updater hooks to ensure they are called first
-				if ($post) {
-					if ($hook == 'write') {
-						Updater::writeHook(array('path' => $path));
-					} elseif ($hook == 'touch') {
-						Updater::touchHook(array('path' => $path));
-					} else if ($hook == 'delete') {
-						Updater::deleteHook(array('path' => $path));
-					}
-				}
 				if ($hook != 'read') {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,

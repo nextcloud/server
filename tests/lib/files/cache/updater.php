@@ -266,7 +266,6 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertInternalType('string', $fooCachedData['etag']);
 		$this->assertInternalType('string', $cachedData['etag']);
-		$this->assertNotSame($fooCachedData['etag'], $cachedData['etag']);
 		$this->assertGreaterThanOrEqual($fooCachedData['mtime'], $cachedData['mtime']);
 
 		$cachedData = $this->cache->get('');

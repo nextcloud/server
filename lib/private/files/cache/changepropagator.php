@@ -57,9 +57,11 @@ class ChangePropagator {
 			 */
 
 			list($storage, $internalPath) = $this->view->resolvePath($parent);
-			$cache = $storage->getCache();
-			$id = $cache->getId($internalPath);
-			$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+			if ($storage) {
+				$cache = $storage->getCache();
+				$id = $cache->getId($internalPath);
+				$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+			}
 		}
 	}
 
