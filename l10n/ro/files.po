@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-31 05:31+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-04 01:54-0400\n"
+"PO-Revision-Date: 2014-08-04 00:10+0000\n"
+"Last-Translator: Liana Ioana Tascau <lianatascau@yahoo.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -226,7 +226,7 @@ msgstr "Șterge"
 
 #: js/fileactions.js:297
 msgid "Disconnect storage"
-msgstr ""
+msgstr "Stocare deconectata"
 
 #: js/fileactions.js:299
 msgid "Unshare"

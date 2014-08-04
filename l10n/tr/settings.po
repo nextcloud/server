@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-14 01:54-0400\n"
-"PO-Revision-Date: 2014-07-13 14:40+0000\n"
+"POT-Creation-Date: 2014-08-04 01:54-0400\n"
+"PO-Revision-Date: 2014-08-04 01:40+0000\n"
 "Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -309,19 +309,19 @@ msgstr "Şifreleme anahtarlarını geri yükle."
 msgid "Unable to delete {objName}"
 msgstr "{objName} silinemiyor"
 
-#: js/users/groups.js:92 js/users/groups.js:197
+#: js/users/groups.js:92 js/users/groups.js:200
 msgid "Error creating group"
 msgstr "Grup oluşturulurken hata"
 
-#: js/users/groups.js:196
+#: js/users/groups.js:199
 msgid "A valid group name must be provided"
 msgstr "Geçerli bir grup adı mutlaka sağlanmalı"
 
-#: js/users/groups.js:224
+#: js/users/groups.js:227
 msgid "deleted {groupName}"
 msgstr "{groupName} silindi"
 
-#: js/users/groups.js:225 js/users/users.js:296
+#: js/users/groups.js:228 js/users/users.js:296
 msgid "undo"
 msgstr "geri al"
 
@@ -349,23 +349,23 @@ msgstr "hiçbir zaman"
 msgid "deleted {userName}"
 msgstr "{userName} silindi"
 
-#: js/users/users.js:426
+#: js/users/users.js:431
 msgid "add group"
 msgstr "grup ekle"
 
-#: js/users/users.js:621
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Geçerli bir kullanıcı adı mutlaka sağlanmalı"
 
-#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Kullanıcı oluşturulurken hata"
 
-#: js/users/users.js:627
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
-#: js/users/users.js:657
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Uyarı: \"{user}\" kullanıcısı için zaten bir Ev dizini mevcut"
 
@@ -528,7 +528,7 @@ msgid ""
 "installation of 3rd party apps don´t work. Accessing files from remote and "
 "sending of notification emails might also not work. We suggest to enable "
 "internet connection for this server if you want to have all features."
-msgstr "Bu sunucunun çalışan bir internet bağlantısı yok. Bu, harici depolama alanı bağlama, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacak demektir. Uzak dosyalara erişim ve e-posta ile bildirim gönderme de çalışmayacaktır. Eğer bu özelliklerin tamamını kullanmak istiyorsanız, sunucu için internet bağlantısını etkinleştirmenizi öneriyoruz."
+msgstr "Bu sunucunun çalışan bir internet bağlantısı yok. Bu, harici depolama alanı bağlama, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacağı anlamına gelmektedir. Uzaktan dosyalara erişim ve e-posta ile bildirim gönderme de çalışmayacaktır. Eğer bu özelliklerin tamamını kullanmak istiyorsanız, sunucu için internet bağlantısını etkinleştirmenizi öneriyoruz."
 
 #: templates/admin.php:189
 msgid "Cron"
