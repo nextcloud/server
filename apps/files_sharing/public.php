@@ -100,6 +100,7 @@ if (isset($path)) {
 	$file = basename($path);
 	// Download the file
 	if (isset($_GET['download'])) {
+		\OC::$server->getSession()->close();
 		if (isset($_GET['files'])) { // download selected files
 			$files = urldecode($_GET['files']);
 			$files_list = json_decode($files);
