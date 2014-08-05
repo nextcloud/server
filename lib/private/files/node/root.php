@@ -169,32 +169,6 @@ class Root extends Folder implements Emitter {
 		}
 	}
 
-	/**
-	 * search file by id
-	 *
-	 * An array is returned because in the case where a single storage is mounted in different places the same file
-	 * can exist in different places
-	 *
-	 * @param int $id
-	 * @throws \OCP\Files\NotFoundException
-	 * @return Node[]
-	 */
-	public function getById($id) {
-		$result = Cache::getById($id);
-		if (is_null($result)) {
-			throw new NotFoundException();
-		} else {
-			list($storageId, $internalPath) = $result;
-			$nodes = array();
-			$mounts = $this->mountManager->findByStorageId($storageId);
-			foreach ($mounts as $mount) {
-				$nodes[] = $this->get($mount->getMountPoint() . $internalPath);
-			}
-			return $nodes;
-		}
-
-	}
-
 	//most operations cant be done on the root
 
 	/**
