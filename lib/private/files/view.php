@@ -164,10 +164,7 @@ class View {
 	 * for \OC\Files\Storage\Storage via basicOperation().
 	 */
 	public function mkdir($path) {
-		$result = $this->basicOperation('mkdir', $path, array('create', 'write'));
-		$this->updater->update($path);
-		$this->updater->propagate();
-		return $result;
+		return $this->basicOperation('mkdir', $path, array('create', 'write'));
 	}
 
 	/**
@@ -209,10 +206,7 @@ class View {
 			return $this->removeMount($mount, $path);
 		}
 		if ($this->is_dir($path)) {
-			$result = $this->basicOperation('rmdir', $path, array('delete'));
-			$this->updater->remove($path);
-			$this->updater->propagate();
-			return $result;
+			return $this->basicOperation('rmdir', $path, array('delete'));
 		} else {
 			return false;
 		}
@@ -328,8 +322,6 @@ class View {
 			//if native touch fails, we emulate it by changing the mtime in the cache
 			$this->putFileInfo($path, array('mtime' => $mtime));
 		}
-		$this->updater->update($path);
-		$this->updater->propagate($mtime);
 		return true;
 	}
 
@@ -406,10 +398,7 @@ class View {
 			}
 		} else {
 			$hooks = ($this->file_exists($path)) ? array('update', 'write') : array('create', 'write');
-			$result = $this->basicOperation('file_put_contents', $path, $hooks, $data);
-			$this->updater->update($path);
-			$this->updater->propagate();
-			return $result;
+			return $this->basicOperation('file_put_contents', $path, $hooks, $data);
 		}
 	}
 
@@ -421,13 +410,10 @@ class View {
 		$postFix = (substr($path, -1, 1) === '/') ? '/' : '';
 		$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 		$mount = Filesystem::getMountManager()->find($absolutePath . $postFix);
-		if ($mount->getInternalPath($absolutePath) === '') {
+		if ($mount and $mount->getInternalPath($absolutePath) === '') {
 			return $this->removeMount($mount, $absolutePath);
 		}
-		$result = $this->basicOperation('unlink', $path, array('delete'));
-		$this->updater->remove($path);
-		$this->updater->propagate();
-		return $result;
+		return $this->basicOperation('unlink', $path, array('delete'));
 	}
 
 	/**
@@ -779,7 +765,22 @@ class View {
 				} else {
 					$result = $storage->$operation($internalPath);
 				}
+
 				$result = \OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
+
+				if (in_array('delete', $hooks)) {
+					$this->updater->remove($path);
+					$this->updater->propagate();
+				}
+				if (in_array('write', $hooks)) {
+					$this->updater->update($path);
+					$this->updater->propagate();
+				}
+				if (in_array('touch', $hooks)) {
+					$this->updater->update($path);
+					$this->updater->propagate($extraParam);
+				}
+
 				if ($this->shouldEmitHooks($path) && $result !== false) {
 					if ($operation != 'fopen') { //no post hooks for fopen, the file stream is still open
 						$this->runHooks($hooks, $path, true);
