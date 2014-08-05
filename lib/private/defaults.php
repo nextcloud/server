@@ -186,7 +186,7 @@ class OC_Defaults {
 		if ($this->themeExist('getShortFooter')) {
 			$footer = $this->theme->getShortFooter();
 		} else {
-			$footer = '<a href=\"'. $this->getBaseUrl() . '\" target=\"_blank\">' .$this->getEntity() . '</a>'.
+			$footer = '<a href="'. $this->getBaseUrl() . '" target="_blank">' .$this->getEntity() . '</a>'.
 				' – ' . $this->getSlogan();
 		}
 
