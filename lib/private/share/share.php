@@ -1388,7 +1388,8 @@ class Share extends \OC\Share\Constants {
 					}
 					if ($mounts[$row['storage']]) {
 						$path = $mounts[$row['storage']]->getMountPoint().$row['path'];
-						$row['path'] = substr($path, $root);
+						$relPath = substr($path, $root); // path relative to data/user
+						$row['path'] = rtrim($relPath, '/');
 					}
 				}
 			}
