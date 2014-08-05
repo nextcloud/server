@@ -330,6 +330,15 @@ class Share extends \OC\Share\Constants {
 	public static function checkPasswordProtectedShare(array $linkItem) {
 		return \OC\Share\Share::checkPasswordProtectedShare($linkItem);
 	}
+
+	/**
+	 * Check if resharing is allowed
+	 *
+	 * @return boolean true if allowed or false
+	 */
+	public static function isResharingAllowed() {
+		return \OC\Share\Share::isResharingAllowed();
+	}
 }
 
 /**
