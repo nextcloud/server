@@ -488,7 +488,7 @@ OC.Share={
 				if (possiblePermissions & OC.PERMISSION_DELETE) {
 					permissions = permissions | OC.PERMISSION_DELETE;
 				}
-				if (possiblePermissions & OC.PERMISSION_SHARE) {
+				if (oc_appconfig.core.resharingAllowed && (possiblePermissions & OC.PERMISSION_SHARE)) {
 					permissions = permissions | OC.PERMISSION_SHARE;
 				}
 
@@ -620,7 +620,7 @@ OC.Share={
 				}
 				html += '<label><input type="checkbox" name="mailNotification" class="mailNotification" ' + checked + ' />'+t('core', 'notify by email')+'</label> ';
 			}
-			if (possiblePermissions & OC.PERMISSION_SHARE) {
+			if (oc_appconfig.core.resharingAllowed && (possiblePermissions & OC.PERMISSION_SHARE)) {
 				html += '<label><input type="checkbox" name="share" class="permissions" '+shareChecked+' data-permissions="'+OC.PERMISSION_SHARE+'" />'+t('core', 'can share')+'</label>';
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
