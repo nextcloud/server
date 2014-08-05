@@ -993,10 +993,10 @@ class Util {
 
 		// check if it is a group mount
 		if (\OCP\App::isEnabled("files_external")) {
-			$mount = \OC_Mount_Config::getSystemMountPoints();
-			foreach ($mount as $mountPoint => $data) {
-				if ($mountPoint == substr($ownerPath, 1, strlen($mountPoint))) {
-					$userIds = array_merge($userIds, $this->getUserWithAccessToMountPoint($data['applicable']['users'], $data['applicable']['groups']));
+			$mounts = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mounts as $mount) {
+				if ($mount['mountpoint'] == substr($ownerPath, 1, strlen($mount['mountpoint']))) {
+					$userIds = array_merge($userIds, $this->getUserWithAccessToMountPoint($mount['applicable']['users'], $mount['applicable']['groups']));
 				}
 			}
 		}
@@ -1454,11 +1454,36 @@ class Util {
 	public function isSystemWideMountPoint($path) {
 		$normalizedPath = ltrim($path, '/');
 		if (\OCP\App::isEnabled("files_external")) {
-			$mount = \OC_Mount_Config::getSystemMountPoints();
-			foreach ($mount as $mountPoint => $data) {
-				if ($mountPoint == substr($normalizedPath, 0, strlen($mountPoint))) {
-					return true;
+			$mounts = \OC_Mount_Config::getSystemMountPoints();
+			foreach ($mounts as $mount) {
+				if ($mount['mountpoint'] == substr($normalizedPath, 0, strlen($mount['mountpoint']))) {
+					if ($this->isMountPointApplicableToUser($mount)) {
+						return true;
+					}
 				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * check if mount point is applicable to user
+	 *
+	 * @param array $mount contains $mount['applicable']['users'], $mount['applicable']['groups']
+	 * @return boolean
+	 */
+	protected function isMountPointApplicableToUser($mount) {
+		$uid = \OCP\User::getUser();
+		$acceptedUids = array('all', $uid);
+		// check if mount point is applicable for the user
+		$intersection = array_intersect($acceptedUids, $mount['applicable']['users']);
+		if (!empty($intersection)) {
+			return true;
+		}
+		// check if mount point is applicable for group where the user is a member
+		foreach ($mount['applicable']['groups'] as $gid) {
+			if (\OC_Group::inGroup($uid, $gid)) {
+				return true;
 			}
 		}
 		return false;
