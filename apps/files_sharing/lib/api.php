@@ -64,7 +64,6 @@ class Api {
 						$share['isPreviewAvailable'] = true;
 					}
 				}
-				$newShares[] = $share;
 			}
 			return new \OC_OCS_Result($shares);
 		}
