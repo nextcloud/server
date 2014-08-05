@@ -74,16 +74,16 @@ class OC_Mail {
 			$toaddress = self::buildAsciiEmail($toaddress);
 			$mailo->AddAddress($toaddress, $toname);
 
-			if($ccaddress<>'') $mailo->AddCC($ccaddress, $ccname);
-			if($bcc<>'') $mailo->AddBCC($bcc);
+			if($ccaddress != '') $mailo->AddCC($ccaddress, $ccname);
+			if($bcc != '') $mailo->AddBCC($bcc);
 
 			$mailo->AddReplyTo($fromaddress, $fromname);
 
-			$mailo->WordWrap = 50;
-			if($html==1) $mailo->IsHTML(true); else $mailo->IsHTML(false);
+			$mailo->WordWrap = 78;
+			$mailo->IsHTML($html == 1);
 
 			$mailo->Subject = $subject;
-			if($altbody=='') {
+			if($altbody == '') {
 				$mailo->Body    = $mailtext.OC_MAIL::getfooter();
 				$mailo->AltBody = '';
 			}else{
