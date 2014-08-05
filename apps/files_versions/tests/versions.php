@@ -267,6 +267,40 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * test if we find all versions and if the versions array contain
+	 * the correct 'path' and 'name'
+	 */
+	public function testGetVersions() {
+
+		$t1 = time();
+		// second version is two weeks older, this way we make sure that no
+		// version will be expired
+		$t2 = $t1 - 60 * 60 * 24 * 14;
+
+		// create some versions
+		$v1 = self::USERS_VERSIONS_ROOT . '/subfolder/test.txt.v' . $t1;
+		$v2 = self::USERS_VERSIONS_ROOT . '/subfolder/test.txt.v' . $t2;
+
+		$this->rootView->mkdir(self::USERS_VERSIONS_ROOT . '/subfolder/');
+
+		$this->rootView->file_put_contents($v1, 'version1');
+		$this->rootView->file_put_contents($v2, 'version2');
+
+		// execute copy hook of versions app
+		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_VERSIONS_USER, '/subfolder/test.txt');
+
+		$this->assertSame(2, count($versions));
+
+		foreach ($versions as $version) {
+			$this->assertSame('/subfolder/test.txt', $version['path']);
+			$this->assertSame('test.txt', $version['name']);
+		}
+
+		//cleanup
+		$this->rootView->deleteAll(self::USERS_VERSIONS_ROOT . '/subfolder');
+	}
+
+	/**
 	 * @param string $user
 	 * @param bool $create
 	 * @param bool $password
