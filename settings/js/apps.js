@@ -237,7 +237,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 				element.val(t('settings','Uninstall'));
 			} else {
 				OC.Settings.Apps.removeNavigation(appid);
-				appitem.removeClass('active');
+				var appItem = $('#app-navigation li').filterAttr('data-id', appid);
+				appItem.removeClass('active');
 			}
 		},'json');
 	},
