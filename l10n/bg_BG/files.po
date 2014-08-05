@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-31 05:30+0000\n"
+"POT-Creation-Date: 2014-08-05 02:02-0400\n"
+"PO-Revision-Date: 2014-08-04 20:40+0000\n"
 "Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -208,7 +208,7 @@ msgstr "Грешка при отварянето на интернет адре�
 
 #: js/fileactions.js:285
 msgid "Share"
-msgstr "Споделена Папка"
+msgstr "Сподели"
 
 #: js/fileactions.js:295 templates/list.php:77 templates/list.php:78
 msgid "Delete"
@@ -392,7 +392,7 @@ msgstr "Нямаш разрешение да създаваш или качва�
 
 #: templates/list.php:52
 msgid "Nothing in here. Upload something!"
-msgstr "Тук няма нищо. Качете нещо!"
+msgstr "Тук няма нищо. Качи нещо!"
 
 #: templates/list.php:66
 msgid "Download"

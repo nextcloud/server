@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-30 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 17:40+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-08-05 02:03-0400\n"
+"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,33 +24,33 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: base.php:195 base.php:202
+#: base.php:200 base.php:207
 msgid "Cannot write into \"config\" directory!"
 msgstr "Nelze zapisovat do adresáře \"config\"!"
 
-#: base.php:196
+#: base.php:201
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
 msgstr "To bývá obyčejně vyřešeno povolením webovému serveru zapisovat do konfiguračního adresáře."
 
-#: base.php:198
+#: base.php:203
 #, php-format
 msgid "See %s"
 msgstr "Viz %s"
 
-#: base.php:203 private/util.php:428
+#: base.php:208 private/util.php:428
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr "To bývá obyčeně vyřešeno, když %s povolí webovému serveru zápis do konfiguračního adresáře %s."
 
-#: base.php:673
+#: base.php:688
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Přistupujete na server z nedůvěryhodné domény."
 
-#: base.php:674
+#: base.php:689
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -332,84 +332,84 @@ msgstr "Sdílení položky %s selhalo, protože skupina %s neexistuje"
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr "Sdílení položky %s selhalo, protože uživatel %s není členem skupiny %s"
 
-#: private/share/share.php:627
+#: private/share/share.php:628
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr "Pro vytvoření veřejného odkazu je nutné zadat heslo, jsou povoleny pouze chráněné odkazy"
 
-#: private/share/share.php:653
+#: private/share/share.php:654
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr "Sdílení položky %s selhalo, protože sdílení pomocí linků není povoleno"
 
-#: private/share/share.php:660
+#: private/share/share.php:661
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr "Sdílení typu %s není korektní pro %s"
 
-#: private/share/share.php:860
+#: private/share/share.php:861
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Nastavení oprávnění pro %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla povolena pro %s"
 
-#: private/share/share.php:921
+#: private/share/share.php:922
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Nastavení práv pro %s selhalo, protože položka nebyla nalezena"
 
-#: private/share/share.php:959
+#: private/share/share.php:960
 #, php-format
 msgid ""
-"Can not set expire date. Shares can not expire later then %s after they "
+"Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr "Nelze nastavit datum vypršení platnosti. Sdílení nemůže vypršet později než za %s po zveřejnění."
+msgstr ""
 
-#: private/share/share.php:967
-msgid "Can not set expire date. Expire date is in the past"
-msgstr "Nelze nastavit datum vypršení platnosti. Datum vypršení je v minulosti."
+#: private/share/share.php:968
+msgid "Cannot set expiration date. Expiration date is in the past"
+msgstr ""
 
-#: private/share/share.php:1092
+#: private/share/share.php:1093
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Podpůrná vrstva pro sdílení %s musí obsahovat rozhraní OCP\\Share_Backend"
 
-#: private/share/share.php:1099
+#: private/share/share.php:1100
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Podpůrná vrstva sdílení %s nenalezena"
 
-#: private/share/share.php:1105
+#: private/share/share.php:1106
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Podpůrná vrstva sdílení pro %s nenalezena"
 
-#: private/share/share.php:1522
+#: private/share/share.php:1523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první."
 
-#: private/share/share.php:1531
+#: private/share/share.php:1532
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Sdílení položky %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla %s povolena."
 
-#: private/share/share.php:1547
+#: private/share/share.php:1548
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Sdílení položky %s selhalo, protože sdílení dále není povoleno"
 
-#: private/share/share.php:1559
+#: private/share/share.php:1560
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Sdílení položky %s selhalo, protože podpůrná vrstva sdílení nenalezla zdrojový %s"
 
-#: private/share/share.php:1573
+#: private/share/share.php:1574
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-04 01:54-0400\n"
+"POT-Creation-Date: 2014-08-05 02:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,12 +357,12 @@ msgstr ""
 #: private/share/share.php:960
 #, php-format
 msgid ""
-"Can not set expire date. Shares can not expire later then %s after they "
+"Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
 msgstr ""
 
 #: private/share/share.php:968
-msgid "Can not set expire date. Expire date is in the past"
+msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
 #: private/share/share.php:1093

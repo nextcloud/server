@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-01 01:54-0400\n"
-"PO-Revision-Date: 2014-07-31 16:21+0000\n"
-"Last-Translator: Playerthe12 <a7652246@drdrb.net>\n"
+"POT-Creation-Date: 2014-08-05 02:03-0400\n"
+"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -363,13 +363,13 @@ msgstr "Ο ορισμός δικαιωμάτων για το %s απέτυχε, 
 #: private/share/share.php:960
 #, php-format
 msgid ""
-"Can not set expire date. Shares can not expire later then %s after they "
+"Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr "Δεν μπορείτε να ορίσετε ημερομηνία λήξης. Οι διαμοιρασμοί δεν μπορούν να λήγουν αργότερα από %s αφού διαμοιραστούν"
+msgstr ""
 
 #: private/share/share.php:968
-msgid "Can not set expire date. Expire date is in the past"
-msgstr "Δεν μπορείτε να ορίσετε ημερομηνία λήξης. Η ημερομηνία λήξης ανήκει στο παρελθόν"
+msgid "Cannot set expiration date. Expiration date is in the past"
+msgstr ""
 
 #: private/share/share.php:1093
 #, php-format

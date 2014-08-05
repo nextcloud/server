@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:40+0000\n"
-"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2014-08-05 02:03-0400\n"
+"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -358,13 +358,13 @@ msgstr "Non é posíbel estabelecer permisos para %s, non se atopa o elemento"
 #: private/share/share.php:960
 #, php-format
 msgid ""
-"Can not set expire date. Shares can not expire later then %s after they "
+"Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr "Non é posíbel estabelecer a data de caducidade. As comparticións non poden caducar máis aló de %s após de seren compartida"
+msgstr ""
 
 #: private/share/share.php:968
-msgid "Can not set expire date. Expire date is in the past"
-msgstr "Non é posíbel estabelecer a data de caducidade. A data de caducidade está no pasado."
+msgid "Cannot set expiration date. Expiration date is in the past"
+msgstr ""
 
 #: private/share/share.php:1093
 #, php-format

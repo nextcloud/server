@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-05 02:03-0400\n"
+"PO-Revision-Date: 2014-08-05 06:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/owncloud/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -17,33 +17,33 @@ msgstr ""
 "Language: ne\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:195 base.php:202
+#: base.php:200 base.php:207
 msgid "Cannot write into \"config\" directory!"
 msgstr ""
 
-#: base.php:196
+#: base.php:201
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
 msgstr ""
 
-#: base.php:198
+#: base.php:203
 #, php-format
 msgid "See %s"
 msgstr ""
 
-#: base.php:203 private/util.php:428
+#: base.php:208 private/util.php:428
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: base.php:673
+#: base.php:688
 msgid "You are accessing the server from an untrusted domain."
 msgstr ""
 
-#: base.php:674
+#: base.php:689
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -325,84 +325,84 @@ msgstr ""
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr ""
 
-#: private/share/share.php:627
+#: private/share/share.php:628
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
 msgstr ""
 
-#: private/share/share.php:653
+#: private/share/share.php:654
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: private/share/share.php:660
+#: private/share/share.php:661
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:860
+#: private/share/share.php:861
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:921
+#: private/share/share.php:922
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:959
+#: private/share/share.php:960
 #, php-format
 msgid ""
-"Can not set expire date. Shares can not expire later then %s after they "
+"Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
 msgstr ""
 
-#: private/share/share.php:967
-msgid "Can not set expire date. Expire date is in the past"
+#: private/share/share.php:968
+msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
-#: private/share/share.php:1092
+#: private/share/share.php:1093
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:1099
+#: private/share/share.php:1100
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:1105
+#: private/share/share.php:1106
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1522
+#: private/share/share.php:1523
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1531
+#: private/share/share.php:1532
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1547
+#: private/share/share.php:1548
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1559
+#: private/share/share.php:1560
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1573
+#: private/share/share.php:1574
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
