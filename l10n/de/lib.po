@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-06 01:54-0400\n"
+"PO-Revision-Date: 2014-08-05 06:50+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,7 +100,7 @@ msgstr "Unbekannter Dateityp"
 msgid "Invalid image"
 msgstr "Ungültiges Bild"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "Web-Services unter Deiner Kontrolle"
 
@@ -364,11 +364,11 @@ msgstr "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da das Objekt 
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr ""
+msgstr "Ablaufdatum kann nicht gesetzt werden. Freigaben können nach dem Teilen, nicht länger als %s gültig sein."
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Ablaufdatum kann nicht gesetzt werden. Ablaufdatum liegt in der Vergangenheit."
 
 #: private/share/share.php:1093
 #, php-format
@@ -385,30 +385,30 @@ msgstr "Freigabe-Backend %s nicht gefunden"
 msgid "Sharing backend for %s not found"
 msgstr "Freigabe-Backend für %s nicht gefunden"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Freigabe von %s fehlgeschlagen, da der Nutzer %s der offizielle Freigeber ist"
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Freigabe von %s fehlgeschlagen, da die Berechtigungen die erteilten Berechtigungen %s überschreiten"
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Freigabe von %s fehlgeschlagen, da das nochmalige Freigeben einer Freigabe nicht erlaubt ist"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Freigabe von %s fehlgeschlagen, da das Freigabe-Backend für %s nicht in dieser Quelle gefunden werden konnte"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

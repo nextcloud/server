@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-06 01:54-0400\n"
+"PO-Revision-Date: 2014-08-05 12:31+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "Tipo de arquivo desconhecido"
 msgid "Invalid image"
 msgstr "Imagem inválida"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "serviços web sob seu controle"
 
@@ -360,11 +360,11 @@ msgstr "Definir permissões para %s falhou, porque o item não foi encontrado"
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr ""
+msgstr "Não é possível definir a data de validade. Compartilhamentos não podem expirar depois que %s após eles serem compartilhados"
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Não é possível definir a data de validade. Data de expiração está no passado"
 
 #: private/share/share.php:1093
 #, php-format
@@ -381,30 +381,30 @@ msgstr "Compartilhamento backend %s não encontrado"
 msgid "Sharing backend for %s not found"
 msgstr "Compartilhamento backend para %s não encontrado"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Compartilhando %s falhou, porque o usuário %s é o compartilhador original"
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Compartilhamento %s falhou, porque as permissões excedem as permissões concedidas a %s"
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Compartilhamento %s falhou, porque recompartilhamentos não são permitidos"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Compartilhamento %s falhou, porque a infra-estrutura de compartilhamento para %s não conseguiu encontrar a sua fonte"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

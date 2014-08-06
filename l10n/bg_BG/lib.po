@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-06 01:54-0400\n"
+"PO-Revision-Date: 2014-08-05 08:34+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,7 +96,7 @@ msgstr "Непознат тип файл."
 msgid "Invalid image"
 msgstr "Невалидно изображение."
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "уеб услуги под твой контрол"
 
@@ -360,11 +360,11 @@ msgstr "Неуспешна промяна на правата за достъп 
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr ""
+msgstr "Неуспешно задаване на дата на изтичане. Споделени файлове и папки не могат да изтичат по-късно от %s след като са споделени"
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Неуспешно задаване на дата на изтичане. Датата на изтичане е в миналото"
 
 #: private/share/share.php:1093
 #, php-format
@@ -381,30 +381,30 @@ msgstr "Споделянето на сървърния %s не е открито
 msgid "Sharing backend for %s not found"
 msgstr "Споделянето на сървъра за %s не е открито."
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Споделяне на %s е неуспешно, защото потребител %s е оригиналния собственик."
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Неуспешно споделяне на %s, защото промените надвишават правата на достъп дадени на %s."
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Неуспешно споделяне на %s, защото повторно споделяне не е разрешено."
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Неуспешно споделяне на %s, защото не е открит първоизточникът на %s, за да бъде споделяне по сървъра."
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-06 01:54-0400\n"
+"PO-Revision-Date: 2014-08-05 21:20+0000\n"
+"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,7 +101,7 @@ msgstr "Neznámý typ souboru"
 msgid "Invalid image"
 msgstr "Chybný obrázek"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "webové služby pod Vaší kontrolou"
 
@@ -365,11 +365,11 @@ msgstr "Nastavení práv pro %s selhalo, protože položka nebyla nalezena"
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "where shared"
-msgstr ""
+msgstr "Nelze nastavit datum vypršení platnosti. Sdílení nemůže vypršet později než za %s po zveřejnění."
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Nelze nastavit datum vypršení platnosti. Datum vypršení je v minulosti."
 
 #: private/share/share.php:1093
 #, php-format
@@ -386,30 +386,30 @@ msgstr "Podpůrná vrstva sdílení %s nenalezena"
 msgid "Sharing backend for %s not found"
 msgstr "Podpůrná vrstva sdílení pro %s nenalezena"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první."
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Sdílení položky %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla %s povolena."
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Sdílení položky %s selhalo, protože sdílení dále není povoleno"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Sdílení položky %s selhalo, protože podpůrná vrstva sdílení nenalezla zdrojový %s"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
