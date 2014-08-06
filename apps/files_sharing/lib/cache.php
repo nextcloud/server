@@ -405,7 +405,7 @@ class Shared_Cache extends Cache {
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
 		if ($id === $this->storage->getSourceId()) {
-			return $pathEnd;
+			return ltrim($pathEnd, '/');
 		} else {
 			// if the item is a direct share we try and get the path of the parent and append the name of the item to it
 			list($parent, $name) = $this->getParentInfo($id);
