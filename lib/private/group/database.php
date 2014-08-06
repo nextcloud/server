@@ -185,7 +185,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	public function groupExists($gid) {
 		$query = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?');
 		$result = $query->execute(array($gid))->fetchOne();
-		if ($result) {
+		if ($result !== false) {
 			return true;
 		}
 		return false;

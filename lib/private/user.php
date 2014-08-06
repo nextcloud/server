@@ -337,7 +337,7 @@ class OC_User {
 	 * Checks if the user is logged in
 	 */
 	public static function isLoggedIn() {
-		if (\OC::$session->get('user_id') && self::$incognitoMode === false) {
+		if (\OC::$session->get('user_id') !== null && self::$incognitoMode === false) {
 			return self::userExists(\OC::$session->get('user_id'));
 		}
 		return false;

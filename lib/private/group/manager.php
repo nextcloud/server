@@ -126,7 +126,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 	 * @return \OC\Group\Group
 	 */
 	public function createGroup($gid) {
-		if (!$gid) {
+		if ($gid === '' || is_null($gid)) {
 			return false;
 		} else if ($group = $this->get($gid)) {
 			return $group;
