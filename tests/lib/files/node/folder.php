@@ -513,9 +513,6 @@ class Folder extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
-	/**
-	 * @expectedException \OCP\Files\NotFoundException
-	 */
 	public function testGetByIdOutsideFolder() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
 		/**
@@ -550,7 +547,8 @@ class Folder extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue($mount));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
-		$node->getById(1);
+		$result = $node->getById(1);
+		$this->assertCount(0, $result);
 	}
 
 	public function testGetByIdMultipleStorages() {
