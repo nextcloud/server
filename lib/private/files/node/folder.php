@@ -27,7 +27,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param string $path
-	 * @throws \OCP\Files\NotFoundException
 	 * @return string
 	 */
 	public function getRelativePath($path) {
@@ -37,7 +36,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		if ($path === $this->path) {
 			return '/';
 		} else if (strpos($path, $this->path . '/') !== 0) {
-			throw new NotFoundException();
+			return null;
 		} else {
 			$path = substr($path, strlen($this->path));
 			return $this->normalizePath($path);
