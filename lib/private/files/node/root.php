@@ -162,7 +162,7 @@ class Root extends Folder implements Emitter {
 			if ($this->view->file_exists($fullPath)) {
 				return $this->createNode($fullPath);
 			} else {
-				throw new NotFoundException();
+				throw new NotFoundException($path);
 			}
 		} else {
 			throw new NotPermittedException();
