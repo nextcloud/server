@@ -349,14 +349,15 @@ table td.filename .uploadtext {
 #fileList tr td.filename>input[type="checkbox"] + label,
 .select-all + label {
 	height: 50px;
-	position: absolute;
+	position: relative;
 	width: 50px;
 	z-index: 5;
 }
 #fileList tr td.filename>input[type="checkbox"]{
 	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
 	 * to prevent it to increase the height */
-	position: absolute;
+	position: relative;
+	z-index: 4;
 }
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
