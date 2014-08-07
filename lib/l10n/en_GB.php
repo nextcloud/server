@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "Share type %s is not valid for %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Setting permissions for %s failed, because the permissions exceed permissions granted to %s",
 "Setting permissions for %s failed, because the item was not found" => "Setting permissions for %s failed, because the item was not found",
+"Cannot set expiration date. Expiration date is in the past" => "Cannot set expiry date. Expiry date is in the past",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "Sharing backend %s must implement the interface OCP\\Share_Backend",
 "Sharing backend %s not found" => "Sharing backend %s not found",
 "Sharing backend for %s not found" => "Sharing backend for %s not found",

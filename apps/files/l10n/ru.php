@@ -76,7 +76,7 @@ $TRANSLATIONS = array(
 "max. possible: " => "макс. возможно: ",
 "Save" => "Сохранить",
 "WebDAV" => "WebDAV",
-"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Используйте этот адресс для <a href=\"%s\" target=\"_blank\">доступа к вашим файлам через WebDAV</a>",
+"Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" => "Используйте этот адрес для <a href=\"%s\" target=\"_blank\">доступа файлам через WebDAV</a>",
 "New" => "Новый",
 "New text file" => "Новый текстовый файл",
 "Text file" => "Текстовый файл",

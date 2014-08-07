@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-01 01:54-0400\n"
-"PO-Revision-Date: 2014-07-31 12:11+0000\n"
-"Last-Translator: Vladislav <slash.cyberpunk@gmail.com>\n"
+"POT-Creation-Date: 2014-08-07 01:54-0400\n"
+"PO-Revision-Date: 2014-08-06 06:40+0000\n"
+"Last-Translator: jekader <jekader@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,15 +38,15 @@ msgstr "Невозможно добавить удалённую общую па
 
 #: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr "Доступно мне"
+msgstr "Доступные для Вас"
 
 #: appinfo/app.php:42 js/app.js:53
 msgid "Shared with others"
-msgstr "Доступно другим"
+msgstr "Доступные для других"
 
 #: appinfo/app.php:51 js/app.js:72
 msgid "Shared by link"
-msgstr "Доступно по ссылке"
+msgstr "Доступные по ссылке"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."

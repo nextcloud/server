@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Alexander Shashkevych <alex@stunpix.com>, 2013
-# jekader <jekader@gmail.com>, 2013
+# jekader <jekader@gmail.com>, 2013-2014
 # Kalyuzhniy Aleksey, 2014
 # sbh12 <mail_123@mail.ru>, 2014
 # rodionc <rodionc@gmail.com>, 2014
@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"POT-Creation-Date: 2014-08-07 01:54-0400\n"
+"PO-Revision-Date: 2014-08-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -106,7 +106,7 @@ msgstr "Неизвестный тип файла"
 msgid "Invalid image"
 msgstr "Изображение повреждено"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "веб-сервисы под вашим управлением"
 
@@ -351,7 +351,7 @@ msgstr "Не удалось установить общий доступ для 
 #: private/share/share.php:661
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr "Такой втд общего доступа как %s не допустим для %s"
+msgstr "Такой тип общего доступа как %s не допустим для %s"
 
 #: private/share/share.php:861
 #, php-format
@@ -369,12 +369,12 @@ msgstr "Не удалось произвести настройку прав д�
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
-"where shared"
+"have been shared"
 msgstr ""
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Невозможно установить дату окончания. Дата окончания в прошлом."
 
 #: private/share/share.php:1093
 #, php-format
@@ -391,30 +391,30 @@ msgstr "Бэкэнд для общего доступа %s не найден"
 msgid "Sharing backend for %s not found"
 msgstr "Бэкэнд для общего доступа к %s не найден"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Публикация %s неудачна, т.к. пользователь %s - публикатор оригинала файла"
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Не удалось опубликовать %s, т.к. права %s превышают предоставленные права доступа "
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Публикация %s неудачна, т.к републикация запрещена"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Не удалось опубликовать %s, т.к. опубликованный бэкенд для %s не смог найти свой источник"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

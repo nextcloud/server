@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"POT-Creation-Date: 2014-08-07 01:54-0400\n"
+"PO-Revision-Date: 2014-08-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Tipus de fitxer desconegut"
 msgid "Invalid image"
 msgstr "Imatge no vàlida"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
 
@@ -358,7 +358,7 @@ msgstr "Ha fallat en establir els permisos per %s, perquè no s'ha trobat l'elem
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
-"where shared"
+"have been shared"
 msgstr ""
 
 #: private/share/share.php:968
@@ -380,30 +380,30 @@ msgstr "El rerefons de compartició %s no s'ha trobat"
 msgid "Sharing backend for %s not found"
 msgstr "El rerefons de compartició per a %s no s'ha trobat"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Ha fallat en compartir %s perquè l'usuari %s és qui comparteix inicialment"
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Ha fallat en compartir %s perquè els permisos excedeixen els permesos per a %s"
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Ha fallat en compartir %s, perquè no es permet compartir de nou"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Ha fallat en compartir %s, perquè el rerefons de compartir per %s no pot trobar la seva font"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

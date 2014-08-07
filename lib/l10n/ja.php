@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "%s の共有方法は、%s には適用できません。",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "%s の権限設定に失敗しました。%s に許可されている権限を越えています。",
 "Setting permissions for %s failed, because the item was not found" => "%s の権限設定に失敗しました。アイテムが存在しません。",
+"Cannot set expiration date. Expiration date is in the past" => "有効期限を設定できません。有効期限が過去を示しています。",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "%s のバックエンドの共有には、OCP\\Share_Backend　インターフェースを実装しなければなりません。",
 "Sharing backend %s not found" => "共有バックエンド %s が見つかりません",
 "Sharing backend for %s not found" => "%s のための共有バックエンドが見つかりません",

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"POT-Creation-Date: 2014-08-07 01:54-0400\n"
+"PO-Revision-Date: 2014-08-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "未知的檔案類型"
 msgid "Invalid image"
 msgstr "無效的圖片"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "由您控制的網路服務"
 
@@ -359,7 +359,7 @@ msgstr ""
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
-"where shared"
+"have been shared"
 msgstr ""
 
 #: private/share/share.php:968
@@ -381,30 +381,30 @@ msgstr ""
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

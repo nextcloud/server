@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "Sdílení typu %s není korektní pro %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Nastavení oprávnění pro %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla povolena pro %s",
 "Setting permissions for %s failed, because the item was not found" => "Nastavení práv pro %s selhalo, protože položka nebyla nalezena",
-"Cannot set expiration date. Shares cannot expire later than %s after they where shared" => "Nelze nastavit datum vypršení platnosti. Sdílení nemůže vypršet později než za %s po zveřejnění.",
 "Cannot set expiration date. Expiration date is in the past" => "Nelze nastavit datum vypršení platnosti. Datum vypršení je v minulosti.",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "Podpůrná vrstva pro sdílení %s musí obsahovat rozhraní OCP\\Share_Backend",
 "Sharing backend %s not found" => "Podpůrná vrstva sdílení %s nenalezena",

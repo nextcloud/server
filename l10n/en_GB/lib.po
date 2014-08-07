@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"POT-Creation-Date: 2014-08-07 01:54-0400\n"
+"PO-Revision-Date: 2014-08-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Unknown filetype"
 msgid "Invalid image"
 msgstr "Invalid image"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "web services under your control"
 
@@ -358,12 +358,12 @@ msgstr "Setting permissions for %s failed, because the item was not found"
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
-"where shared"
+"have been shared"
 msgstr ""
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Cannot set expiry date. Expiry date is in the past"
 
 #: private/share/share.php:1093
 #, php-format
@@ -380,30 +380,30 @@ msgstr "Sharing backend %s not found"
 msgid "Sharing backend for %s not found"
 msgstr "Sharing backend for %s not found"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Sharing %s failed, because the user %s is the original sharer"
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Sharing %s failed, because the permissions exceed permissions granted to %s"
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Sharing %s failed, because resharing is not allowed"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Sharing %s failed, because the sharing backend for %s could not find its source"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

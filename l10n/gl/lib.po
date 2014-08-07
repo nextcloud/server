@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:03-0400\n"
-"PO-Revision-Date: 2014-08-05 06:03+0000\n"
+"POT-Creation-Date: 2014-08-07 01:54-0400\n"
+"PO-Revision-Date: 2014-08-07 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "Tipo de ficheiro descoñecido"
 msgid "Invalid image"
 msgstr "Imaxe incorrecta"
 
-#: private/defaults.php:38
+#: private/defaults.php:42
 msgid "web services under your control"
 msgstr "servizos web baixo o seu control"
 
@@ -359,12 +359,12 @@ msgstr "Non é posíbel estabelecer permisos para %s, non se atopa o elemento"
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
-"where shared"
+"have been shared"
 msgstr ""
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Non é posíbel estabelecer a data de caducidade. A data de caducidade está no pasado."
 
 #: private/share/share.php:1093
 #, php-format
@@ -381,30 +381,30 @@ msgstr "Non se atopou a infraestrutura de compartición %s"
 msgid "Sharing backend for %s not found"
 msgstr "Non se atopou a infraestrutura de compartición para %s"
 
-#: private/share/share.php:1523
+#: private/share/share.php:1524
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Fallou a compartición de %s, a compartición orixinal é do usuario %s"
 
-#: private/share/share.php:1532
+#: private/share/share.php:1533
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Fallou a compartición de %s, os permisos superan os permisos concedidos a %s"
 
-#: private/share/share.php:1548
+#: private/share/share.php:1549
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Fallou a compartición de %s, non está permitido repetir a compartción"
 
-#: private/share/share.php:1560
+#: private/share/share.php:1561
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Fallou a compartición de %s, a infraestrutura de compartición para %s non foi quen de atopar a orixe"
 
-#: private/share/share.php:1574
+#: private/share/share.php:1575
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
