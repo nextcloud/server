@@ -9,14 +9,13 @@
 		<p>
 			<a name="changePKPasswd" />
 			<label for="changePrivateKeyPasswd">
-				<?php p( $l->t( "Your private key password no longer match your log-in password:" ) ); ?>
+				<em><?php p( $l->t( "Your private key password no longer match your log-in password." ) ); ?></em>
 			</label>
 			<br />
-			<em><?php p( $l->t( "Set your old private key password to your current log-in password." ) ); ?>
+			<?php p( $l->t( "Set your old private key password to your current log-in password:" ) ); ?>
 			<?php if (  $_["recoveryEnabledForUser"] ):
 					p( $l->t( " If you don't remember your old password you can ask your administrator to recover your files." ) );
 			endif; ?>
-			</em>
 			<br />
 			<input
 				type="password"
