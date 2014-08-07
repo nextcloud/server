@@ -67,7 +67,7 @@ class Scanner extends BasicEmitter {
 	public function getData($path) {
 		if (!$this->storage->isReadable($path)) {
 			//cant read, nothing we can do
-			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not readable !!!", \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('OC\Files\Cache\Scanner', "!!! Path '$path' is not accessible or present !!!", \OCP\Util::DEBUG);
 			return null;
 		}
 		$data = array();
