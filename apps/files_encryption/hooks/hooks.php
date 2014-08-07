@@ -137,6 +137,14 @@ class Hooks {
 	}
 
 	/**
+	 * remove keys from session during logout
+	 */
+	public static function logout() {
+		$session = new \OCA\Encryption\Session(new \OC\Files\View());
+		$session->removeKeys();
+	}
+
+	/**
 	 * setup encryption backend upon user created
 	 * @note This method should never be called for users using client side encryption
 	 */
@@ -187,7 +195,6 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase($params) {
-
 		if (\OCP\App::isEnabled('files_encryption') === false) {
 			return true;
 		}
