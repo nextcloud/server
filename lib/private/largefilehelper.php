@@ -148,7 +148,7 @@ class LargeFileHelper {
 		if (\OC_Helper::is_function_enabled('exec')) {
 			$os = strtolower(php_uname('s'));
 			$arg = escapeshellarg($filename);
-			$result = '';
+			$result = null;
 			if (strpos($os, 'linux') !== false) {
 				$result = $this->exec("stat -c %s $arg");
 			} else if (strpos($os, 'bsd') !== false || strpos($os, 'darwin') !== false) {
