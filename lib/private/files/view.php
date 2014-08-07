@@ -781,6 +781,9 @@ class View {
 			return false;
 		}
 		$defaultRoot = Filesystem::getRoot();
+		if ($defaultRoot === null) {
+			return false;
+		}
 		if ($this->fakeRoot === $defaultRoot) {
 			return true;
 		}

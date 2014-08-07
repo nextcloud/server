@@ -249,7 +249,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-<	 * Test that data that is read by the crypto stream wrapper
+	 * Test that data that is read by the crypto stream wrapper
 	 */
 	function testGetFileSize() {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);

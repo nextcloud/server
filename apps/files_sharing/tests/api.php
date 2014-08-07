@@ -52,8 +52,10 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 	}
 
 	function tearDown() {
-		$this->view->unlink($this->filename);
-		$this->view->deleteAll($this->folder);
+		if($this->view instanceof \OC\Files\View) {
+			$this->view->unlink($this->filename);
+			$this->view->deleteAll($this->folder);
+		}
 
 		self::$tempStorage = null;
 

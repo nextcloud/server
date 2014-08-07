@@ -1,0 +1,67 @@
+language: php
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+  - 5.6
+  - hhvm
+
+matrix:
+  include:
+    - php: 5.4
+      env: DB=oracle
+    - php: 5.4
+      env: DB=pgsql
+    - php: 5.4
+      env: DB=mysql
+    - php: 5.4
+      env: DB=mysql EXTERNAL=true
+  allow_failures:
+    - php: hhvm
+  fast_finish: true
+
+env:
+  global:
+    - EXTERNAL=false
+  matrix:
+    - DB=sqlite
+
+before_script:
+  # setup databases
+  - wget https://raw.githubusercontent.com/owncloud/administration/master/travis-ci/setup_databases.sh
+  - bash ./setup_databases.sh $DB
+
+  # Additional PHP config
+  - if [[ $HHVM == false ]] ; then phpenv config-add build/travis.php.ini ; fi
+
+  # fetch Ocular (for test coverage upload)
+  - wget https://scrutinizer-ci.com/ocular.phar
+
+  # call setup for tests
+  - build/prepareTests.sh $DB
+
+  # Enable/disable files_external to control it's unit test execution
+  - php occ --list
+  - if [[ $EXTERNAL == true ]] ; then php occ app:enable files_external ; fi
+  - if [[ $EXTERNAL == false ]] ; then php occ app:disable files_external ; fi
+
+script:
+  - phpunit --version
+  # Run PHP lint for each PHP version
+  - if [[ $DB == 'sqlite' ]] ; then ant -f build/build.xml -Dbasedir=. prepare lint ; fi
+
+  # Run tests
+  - phpunit --configuration tests/phpunit-autotest.xml --coverage-clover tests/autotest-clover-$DB.xml --verbose --debug
+
+  # Run JS tests just once (see test matrix - mysql is just run once)
+  - if [[ $DB == 'mysql' ]] ; then ./autotest-js.sh ; fi
+
+  # Upload coverage report
+  - php ocular.phar code-coverage:upload --format=php-clover tests/autotest-clover-$DB.xml
+
+branches:
+  only:
+    - master
+    - stable5
+    - stable6
+    - stable7
