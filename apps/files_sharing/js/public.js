@@ -73,6 +73,7 @@ OCA.Sharing.PublicApp = {
 
 			var params = {
 				x: $(document).width() * window.devicePixelRatio,
+				y: $(document).height() * window.devicePixelRatio,
 				a: 'true',
 				file: encodeURIComponent(this.initialDir + $('#filename').val()),
 				t: $('#sharingToken').val(),
