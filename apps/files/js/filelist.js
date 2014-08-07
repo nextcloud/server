@@ -400,7 +400,7 @@
 		 * This appends/renders the next page of entries when reaching the bottom.
 		 */
 		_onScroll: function(e) {
-			if (this.$container.scrollTop() + this.$container.height() > this.$el.height() - 100) {
+			if (this.$container.scrollTop() + this.$container.height() > this.$el.height() - 300) {
 				this._nextPage(true);
 			}
 		},
