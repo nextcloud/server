@@ -27,22 +27,19 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 	/**
 	 * @param string $path
-	 * @throws \OCP\Files\NotFoundException
 	 * @return string
 	 */
 	public function getRelativePath($path) {
 		if ($this->path === '' or $this->path === '/') {
 			return $this->normalizePath($path);
 		}
-		if (strpos($path, $this->path) !== 0) {
-			throw new NotFoundException();
+		if ($path === $this->path) {
+			return '/';
+		} else if (strpos($path, $this->path . '/') !== 0) {
+			return null;
 		} else {
 			$path = substr($path, strlen($this->path));
-			if (strlen($path) === 0) {
-				return '/';
-			} else {
-				return $this->normalizePath($path);
-			}
+			return $this->normalizePath($path);
 		}
 	}
 
@@ -295,15 +292,29 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return \OC\Files\Node\Node[]
 	 */
 	public function getById($id) {
-		$nodes = $this->root->getById($id);
-		$result = array();
-		foreach ($nodes as $node) {
-			$pathPart = substr($node->getPath(), 0, strlen($this->getPath()) + 1);
-			if ($this->path === '/' or $pathPart === $this->getPath() . '/') {
-				$result[] = $node;
+		$mounts = $this->root->getMountsIn($this->path);
+		$mounts[] = $this->root->getMount($this->path);
+		// reverse the array so we start with the storage this view is in
+		// which is the most likely to contain the file we're looking for
+		$mounts = array_reverse($mounts);
+
+		$nodes = array();
+		foreach ($mounts as $mount) {
+			/**
+			 * @var \OC\Files\Mount\Mount $mount
+			 */
+			if ($mount->getStorage()) {
+				$cache = $mount->getStorage()->getCache();
+				$internalPath = $cache->getPathById($id);
+				if (is_string($internalPath)) {
+					$fullPath = $mount->getMountPoint() . $internalPath;
+					if (!is_null($path = $this->getRelativePath($fullPath))) {
+						$nodes[] = $this->get($path);
+					}
+				}
 			}
 		}
-		return $result;
+		return $nodes;
 	}
 
 	public function getFreeSpace() {

@@ -9,6 +9,7 @@
 namespace Test\Files\Node;
 
 use OC\Files\Cache\Cache;
+use OC\Files\Mount\Mount;
 use OC\Files\Node\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -467,5 +468,131 @@ class Folder extends \PHPUnit_Framework_TestCase {
 
 		$file = new Node(null, null, '/foobar');
 		$this->assertFalse($folder->isSubNode($file));
+	}
+
+	public function testGetById() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+		$root->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($this->user));
+		$storage = $this->getMock('\OC\Files\Storage\Storage');
+		$mount = new Mount($storage, '/bar');
+		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
+
+		$view->expects($this->once())
+			->method('file_exists')
+			->will($this->returnValue(true));
+
+		$storage->expects($this->once())
+			->method('getCache')
+			->will($this->returnValue($cache));
+
+		$cache->expects($this->once())
+			->method('getPathById')
+			->with('1')
+			->will($this->returnValue('foo/qwerty'));
+
+		$root->expects($this->once())
+			->method('getMountsIn')
+			->with('/bar/foo')
+			->will($this->returnValue(array()));
+
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar/foo')
+			->will($this->returnValue($mount));
+
+		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
+		$result = $node->getById(1);
+		$this->assertEquals(1, count($result));
+		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
+	}
+
+	public function testGetByIdOutsideFolder() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+		$root->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($this->user));
+		$storage = $this->getMock('\OC\Files\Storage\Storage');
+		$mount = new Mount($storage, '/bar');
+		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
+
+		$storage->expects($this->once())
+			->method('getCache')
+			->will($this->returnValue($cache));
+
+		$cache->expects($this->once())
+			->method('getPathById')
+			->with('1')
+			->will($this->returnValue('foobar'));
+
+		$root->expects($this->once())
+			->method('getMountsIn')
+			->with('/bar/foo')
+			->will($this->returnValue(array()));
+
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar/foo')
+			->will($this->returnValue($mount));
+
+		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
+		$result = $node->getById(1);
+		$this->assertCount(0, $result);
+	}
+
+	public function testGetByIdMultipleStorages() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn', 'getMount'), array($manager, $view, $this->user));
+		$root->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($this->user));
+		$storage = $this->getMock('\OC\Files\Storage\Storage');
+		$mount1 = new Mount($storage, '/bar');
+		$mount2 = new Mount($storage, '/bar/foo/asd');
+		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
+
+		$view->expects($this->any())
+			->method('file_exists')
+			->will($this->returnValue(true));
+
+		$storage->expects($this->any())
+			->method('getCache')
+			->will($this->returnValue($cache));
+
+		$cache->expects($this->any())
+			->method('getPathById')
+			->with('1')
+			->will($this->returnValue('foo/qwerty'));
+
+		$root->expects($this->any())
+			->method('getMountsIn')
+			->with('/bar/foo')
+			->will($this->returnValue(array($mount2)));
+
+		$root->expects($this->once())
+			->method('getMount')
+			->with('/bar/foo')
+			->will($this->returnValue($mount1));
+
+		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
+		$result = $node->getById(1);
+		$this->assertEquals(2, count($result));
+		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
+		$this->assertEquals('/bar/foo/asd/foo/qwerty', $result[1]->getPath());
 	}
 }

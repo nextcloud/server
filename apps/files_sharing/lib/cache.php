@@ -43,6 +43,7 @@ class Shared_Cache extends Cache {
 
 	/**
 	 * Get the source cache of a shared file or folder
+	 *
 	 * @param string $target Shared target file path
 	 * @return \OC\Files\Cache\Cache
 	 */
@@ -275,7 +276,7 @@ class Shared_Cache extends Cache {
 	 */
 	public function search($pattern) {
 
-		$pattern = trim($pattern,'%');
+		$pattern = trim($pattern, '%');
 
 		$normalizedPattern = $this->normalize($pattern);
 
@@ -403,8 +404,7 @@ class Shared_Cache extends Cache {
 	 */
 	public function getPathById($id, $pathEnd = '') {
 		// direct shares are easy
-		$path = $this->getShareById($id);
-		if (is_string($path)) {
+		if ($id === $this->storage->getSourceId()) {
 			return ltrim($pathEnd, '/');
 		} else {
 			// if the item is a direct share we try and get the path of the parent and append the name of the item to it
@@ -419,28 +419,14 @@ class Shared_Cache extends Cache {
 
 	/**
 	 * @param integer $id
-	 */
-	private function getShareById($id) {
-		$item = \OCP\Share::getItemSharedWithBySource('file', $id);
-		if ($item) {
-			return trim($item['file_target'], '/');
-		}
-		$item = \OCP\Share::getItemSharedWithBySource('folder', $id);
-		if ($item) {
-			return trim($item['file_target'], '/');
-		}
-		return null;
-	}
-
-	/**
-	 * @param integer $id
+	 * @return array
 	 */
 	private function getParentInfo($id) {
 		$sql = 'SELECT `parent`, `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		$query = \OC_DB::prepare($sql);
 		$result = $query->execute(array($id));
 		if ($row = $result->fetchRow()) {
-			return array($row['parent'], $row['name']);
+			return array((int)$row['parent'], $row['name']);
 		} else {
 			return array(-1, '');
 		}
