@@ -635,7 +635,7 @@ var OCdialogs = {
 					type: entry.type,
 					dir: dir,
 					filename: entry.name,
-					date: OC.mtime2date(Math.floor(entry.mtime / 1000))
+					date: relative_modified_date(entry.mtime/1000)
 				});
 				if (entry.isPreviewAvailable) {
 					var urlSpec = {
