@@ -59,7 +59,8 @@ class Factory implements ICacheFactory {
 	 * @param string $prefix
 	 * @return null|Cache
 	 */
-	public static function createLowLatency($prefix = '') {
+	public function createLowLatency($prefix = '') {
+		$prefix = $this->globalPrefix . '/' . $prefix;
 		if (XCache::isAvailable()) {
 			return new XCache($prefix);
 		} elseif (APCu::isAvailable()) {
@@ -76,7 +77,7 @@ class Factory implements ICacheFactory {
 	 *
 	 * @return bool
 	 */
-	public static function isAvailableLowLatency() {
+	public function isAvailableLowLatency() {
 		return XCache::isAvailable() || APCu::isAvailable() || APC::isAvailable();
 	}
 
