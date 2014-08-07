@@ -215,7 +215,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		$sid = $this->getStorage()->getId();
 		if (!is_null($sid)) {
 			$sid = explode(':', $sid);
-			return ($sid[0] !== 'local' and $sid[0] !== 'home');
+			return ($sid[0] !== 'local' and $sid[0] !== 'home' and $sid[0] !== 'shared');
 		}
 
 		return false;
