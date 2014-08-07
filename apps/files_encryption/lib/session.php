@@ -122,6 +122,14 @@ class Session {
 	}
 
 	/**
+	 * remove keys from session
+	 */
+	public function removeKeys() {
+		\OC::$session->remove('publicSharePrivateKey');
+		\OC::$session->remove('privateKey');
+	}
+
+	/**
 	 * Sets status of encryption app
 	 * @param string $init INIT_SUCCESSFUL, INIT_EXECUTED, NOT_INITIALIZED
 	 * @return bool
