@@ -82,9 +82,41 @@ if($source) {
 		exit();
 	}
 
+	if (!ini_get('allow_url_fopen')) {
+		$eventSource->send('error',  $l10n->t('Server is not allowed to open URLs, please check the server configuration'));
+		$eventSource->close();
+		exit();
+	}
+
 	$ctx = stream_context_create(null, array('notification' =>'progress'));
-	$sourceStream=fopen($source, 'rb', false, $ctx);
-	$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
+	$sourceStream=@fopen($source, 'rb', false, $ctx);
+	$result = 0;
+	if (is_resource($sourceStream)) {
+		$meta = stream_get_meta_data($sourceStream);
+		if (isset($meta['wrapper_data']) && is_array($meta['wrapper_data'])) {
+			//check stream size
+			$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
+			$freeSpace = $storageStats['freeSpace'];
+
+			foreach($meta['wrapper_data'] as $header) {
+				list($name, $value) = explode(':', $header);
+				if ('content-length' === strtolower(trim($name))) {
+					$length = (int) trim($value);
+
+					if ($length > $freeSpace) {
+						$delta = $length - $freeSpace;
+						$humanDelta = OCP\Util::humanFileSize($delta);
+
+						$eventSource->send('error', (string)$l10n->t('The file exceeds your quota by %s', array($humanDelta)));
+						$eventSource->close();
+						fclose($sourceStream);
+						exit();
+					}
+				}
+			}
+		}
+		$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
+	}
 	if($result) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
 		$mime=$meta['mimetype'];
@@ -92,6 +124,9 @@ if($source) {
 		$eventSource->send('success', array('mime'=>$mime, 'size'=>\OC\Files\Filesystem::filesize($target), 'id' => $id, 'etag' => $meta['etag']));
 	} else {
 		$eventSource->send('error', $l10n->t('Error while downloading %s to %s', array($source, $target)));
+	}
+	if (is_resource($sourceStream)) {
+		fclose($sourceStream);
 	}
 	$eventSource->close();
 	exit();
