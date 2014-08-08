@@ -22,6 +22,8 @@
 
 namespace OCA\Files_Trashbin;
 
+use OC\Files\Filesystem;
+
 class Trashbin {
 	// how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
 
@@ -99,7 +101,9 @@ class Trashbin {
 	 * @param string $file_path path to the deleted file/directory relative to the files root directory
 	 */
 	public static function move2trash($file_path) {
-		$user = \OCP\User::getUser();
+		// get the user for which the filesystem is setup
+		$root = Filesystem::getRoot();
+		list(, $user) = explode('/', $root);
 		$size = 0;
 		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
 		self::setUpTrash($user);
