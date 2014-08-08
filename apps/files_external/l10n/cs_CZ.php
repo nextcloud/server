@@ -24,6 +24,7 @@ $TRANSLATIONS = array(
 "Root" => "Root",
 "Secure ftps://" => "Zabezpečené ftps://",
 "Client ID" => "Klientské ID",
+"OpenStack Object Storage" => "OpenStack Object Storage",
 "Username (required)" => "Uživatelské jméno (nutné)",
 "Region (optional for OpenStack Object Storage)" => "Region (nepovinný pro OpenStack Object Storage)",
 "Password (required for OpenStack Object Storage)" => "Heslo (vyžadováno pro OpenStack Object Storage)",

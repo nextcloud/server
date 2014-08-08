@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "请确认安装了 PHP 5.3.3 或更新版本，且 OpenSSL 及其 PHP 扩展已经启用并正确配置。加密应用现在已被禁用。"
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "以下用户还没有设置加密："
 
@@ -137,11 +137,11 @@ msgstr "恢复密钥密码"
 msgid "Repeat Recovery key password"
 msgstr "重复恢复密钥密码"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "开启"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "禁用"
 
@@ -166,12 +166,12 @@ msgid "Change Password"
 msgstr "修改密码"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "您的私钥密码不再匹配您的登录密码："
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "讲您旧的私钥密码改为当前登录密码。"
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -179,32 +179,32 @@ msgid ""
 "recover your files."
 msgstr "如果您记不住旧的密码，您可以请求管理员恢复您的文件。"
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "旧登录密码"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "当前登录密码"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "更新私钥密码"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "启用密码恢复："
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "启用该项将允许你在密码丢失后取回您的加密文件"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "文件恢复设置已更新"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "不能更新文件恢复"

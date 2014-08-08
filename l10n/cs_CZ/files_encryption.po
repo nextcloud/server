@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Ujistěte se prosím, že máte nainstalované PHP 5.3.3 nebo novější a že máte povolené a správně nakonfigurované OpenSSL včetně jeho rozšíření pro PHP. Prozatím byla aplikace pro šifrování vypnuta."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "Následující uživatelé nemají nastavené šifrování:"
 
@@ -139,11 +139,11 @@ msgstr "Heslo klíče pro obnovu"
 msgid "Repeat Recovery key password"
 msgstr "Zopakujte heslo klíče pro obnovu"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "Povoleno"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "Zakázáno"
 
@@ -168,12 +168,12 @@ msgid "Change Password"
 msgstr "Změnit heslo"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "Heslo vašeho soukromého klíče se již neshoduje s vaším přihlašovacím heslem:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "Změňte heslo vaše soukromého klíče na stejné jako vaše přihlašovací heslo."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -181,32 +181,32 @@ msgid ""
 "recover your files."
 msgstr "Pokud si nepamatujete vaše původní heslo, můžete požádat správce o obnovu vašich souborů."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "Původní přihlašovací heslo"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "Aktuální přihlašovací heslo"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "Změnit heslo soukromého klíče"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "Povolit obnovu hesla:"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Zapnutí této volby vám umožní znovu získat přístup k vašim zašifrovaným souborům pokud ztratíte heslo"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "Možnosti záchrany souborů aktualizovány"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "Nelze nastavit záchranu souborů"

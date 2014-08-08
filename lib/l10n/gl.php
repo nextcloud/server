@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "Non se admite a compartición do tipo %s para %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Non é posíbel estabelecer permisos para %s, os permisos superan os permisos concedidos a %s",
 "Setting permissions for %s failed, because the item was not found" => "Non é posíbel estabelecer permisos para %s, non se atopa o elemento",
+"Cannot set expiration date. Shares cannot expire later than %s after they have been shared" => "Non é posíbel estabelecer a data de caducidade. As comparticións non poden caducar máis aló de %s após de seren compartidas",
 "Cannot set expiration date. Expiration date is in the past" => "Non é posíbel estabelecer a data de caducidade. A data de caducidade está no pasado.",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "A infraestrutura de compartición %s ten que implementar a interface OCP\\Share_Backend",
 "Sharing backend %s not found" => "Non se atopou a infraestrutura de compartición %s",

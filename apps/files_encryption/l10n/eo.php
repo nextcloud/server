@@ -8,7 +8,6 @@ $TRANSLATIONS = array(
 "Enabled" => "Kapabligita",
 "Disabled" => "Malkapabligita",
 "Change Password" => "Ŝarĝi pasvorton",
-"Your private key password no longer match your log-in password:" => "La pasvorto de via malpublika klavo ne plu kongruas kun via ensaluta pasvorto:",
 "Old log-in password" => "Malnova ensaluta pasvorto",
 "Current log-in password" => "Nuna ensaluta pasvorto",
 "Update Private Key Password" => "Ĝisdatigi la pasvorton de la malpublika klavo",

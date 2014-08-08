@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "請確認已安裝 PHP 5.3.3 或是更新的版本以及 OpenSSL 也一併安裝在 PHP extension 裡面並啟用及設置完成。現在，加密功能是停用的。"
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "以下的使用者無法設定加密:"
 
@@ -135,11 +135,11 @@ msgstr "還原金鑰密碼"
 msgid "Repeat Recovery key password"
 msgstr "再輸入還原金鑰密碼一次"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "已啓用"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "已停用"
 
@@ -164,12 +164,12 @@ msgid "Change Password"
 msgstr "變更密碼"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "您的私人金鑰密碼不符合您的登入密碼:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "設定您的舊私人金鑰密碼到您現在的登入密碼。"
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -177,32 +177,32 @@ msgid ""
 "recover your files."
 msgstr "如果您忘記舊密碼，可以請求管理員協助取回檔案。"
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "舊登入密碼"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "目前的登入密碼"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "更新私人金鑰密碼"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "啟用密碼還原:"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "檔案還原設定已更新"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "無法更新檔案還原設定"

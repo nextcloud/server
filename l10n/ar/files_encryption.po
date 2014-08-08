@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "يرجى التاكد من ان اصدار PHP 5.3.3 او احدث , مثبت و التاكد من ان OpenSSL مفعل و مهيئ بشكل صحيح. حتى الان برنامج التتشفير تم تعطيلة."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "المستخدمين التاليين لم يتم تعيين لهم التشفيير:"
 
@@ -135,11 +135,11 @@ msgstr "استعادة كلمة مرور المفتاح"
 msgid "Repeat Recovery key password"
 msgstr "كرر كلمة المرور لـ استعادة المفتاح"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "مفعلة"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "معطلة"
 
@@ -164,12 +164,12 @@ msgid "Change Password"
 msgstr "عدل كلمة السر"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "كلمة مرور مفتاحك الخاص لا تتطابق مع كلمة المرور الخاصة الدخول:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "تعيين كلمة المرور القديمة لـ المفتاح الخاص الى كلمة المرور الخاصة بالدخول الحالية."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -177,32 +177,32 @@ msgid ""
 "recover your files."
 msgstr "اذا كنت لاتتذكر كلمة السر تستطيع ان تطلب من المدير ان يستعيد ملفاتك."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "كلمة المرور القديمة الخاصة بالدخول"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "كلمة المرور الحالية الخاصة بالدخول"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "تحديث كلمة المرور لـ المفتاح الخاص"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "تفعيل استعادة كلمة المرور:"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "تفعيل هذا الخيار يمكنك من اعادة الوصول الى ملفاتك المشفرة عند فقدان كلمة المرور"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "اعدادات ملف الاستعادة تم تحديثه"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "تعذر تحديث ملف الاستعادة"

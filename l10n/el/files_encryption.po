@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -97,7 +97,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Παρακαλώ επιβεβαιώστε ότι η PHP 5.3.3  ή νεότερη είναι εγκατεστημένη  και ότι το  OpenSSL μαζί με το PHP extension είναι ενεργοποιήμένο και έχει ρυθμιστεί σωστά. Προς το παρόν, η εφαρμογή κρυπτογράφησης είναι απενεργοποιημένη."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "Οι κάτωθι χρήστες δεν έχουν ρυθμιστεί για κρυπογράφηση:"
 
@@ -137,11 +137,11 @@ msgstr "Επαναφορά κωδικού κλειδιού"
 msgid "Repeat Recovery key password"
 msgstr "Επαναλάβετε το κλειδί επαναφοράς κωδικού"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "Ενεργοποιημένο"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "Απενεργοποιημένο"
 
@@ -166,12 +166,12 @@ msgid "Change Password"
 msgstr "Αλλαγή Κωδικού Πρόσβασης"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "Ο κωδικός του προσωπικού κλειδιού δεν ταιριάζει πλέον με τον κωδικό σύνδεσής σας:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "Ορίστε το παλιό σας προσωπικό κλειδί ως τον τρέχων κωδικό πρόσβασης."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -179,32 +179,32 @@ msgid ""
 "recover your files."
 msgstr "Εάν δεν θυμάστε τον παλιό σας κωδικό μπορείτε να ζητήσετε από τον διαχειριστή σας να επανακτήσει τα αρχεία σας."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "Παλαιό συνθηματικό εισόδου"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "Τρέχον συνθηματικό πρόσβασης"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "Ενημέρωση Προσωπικού Κλειδού Πρόσβασης"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "Αποτυχία ενημέρωσης ανάκτησης αρχείων"

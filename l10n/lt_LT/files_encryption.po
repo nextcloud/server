@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Prašome įsitikinti, kad PHP 5.3.3 ar naujesnė yra įdiegta ir kad OpenSSL kartu su PHP plėtiniu yra šjungti ir teisingai sukonfigūruoti. Kol kas šifravimo programa bus išjungta."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "Sekantys naudotojai nenustatyti šifravimui:"
 
@@ -134,11 +134,11 @@ msgstr "Atkūrimo rakto slaptažodis"
 msgid "Repeat Recovery key password"
 msgstr "Pakartokite atkūrimo rakto slaptažodį"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "Įjungta"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "Išjungta"
 
@@ -163,12 +163,12 @@ msgid "Change Password"
 msgstr "Pakeisti slaptažodį"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "Privatus rakto slaptažodis daugiau neatitinka Jūsų prisijungimo slaptažodžio:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "Nustatyti Jūsų privataus rakto slaptažodį į Jūsų dabartinį prisijungimo."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -176,32 +176,32 @@ msgid ""
 "recover your files."
 msgstr "Jei nepamenate savo seno slaptažodžio, galite paprašyti administratoriaus atkurti Jūsų failus."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "Senas prisijungimo slaptažodis"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "Dabartinis prisijungimo slaptažodis"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "Atnaujinti privataus rakto slaptažodį"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "Įjungti slaptažodžio atkūrimą:"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Įjungus šią funkciją jums bus suteiktas pakartotinis priėjimas prie Jūsų šifruotų failų pamiršus slaptažodį."
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "Failų atkūrimo nustatymai pakeisti"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "Neišėjo atnaujinti failų atkūrimo"

@@ -187,7 +187,7 @@ $TRANSLATIONS = array(
 "remember" => "запомнить",
 "Log in" => "Войти",
 "Alternative Logins" => "Альтернативные имена пользователя",
-"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Здравствуйте,<br><br>%s предоставил Вам доступ к <strong>%s</strong>.<br><a href=\"%s\">Посмотреть</a><br><br>",
+"Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Здравствуйте,<br><br>%s предоставил Вам доступ к <strong>%s</strong>.<br>Перейдите по <a href=\"%s\">ссылке</a>, чтобы загрузить информацию<br><br>",
 "This ownCloud instance is currently in single user mode." => "Эта установка ownCloud в настоящее время в однопользовательском режиме.",
 "This means only administrators can use the instance." => "Это значит, что только администраторы могут использовать эту установку.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Обратитесь к вашему системному администратору если это сообщение не исчезает или появляется неожиданно.",

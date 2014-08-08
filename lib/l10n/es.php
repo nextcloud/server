@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Cannot write into \"config\" directory!" => "No se puede escribir en el directorio de Configuración!",
+"Cannot write into \"config\" directory!" => "¡No se puede escribir en el directorio de Configuración!",
 "This can usually be fixed by giving the webserver write access to the config directory" => "Esto puede ser facilmente solucionado, dando permisos de escritura al directorio de configuración en el servidor Web",
 "See %s" => "Mirar %s",
 "This can usually be fixed by %sgiving the webserver write access to the config directory%s." => "Esto puede ser facilmente solucionado, %sdando permisos de escritura al directorio de configuración en el servidor Web%s.",
@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "Compartir tipo %s no es válido para %s",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Configuración de permisos para %s ha fallado, ya que los permisos superan los permisos dados a %s",
 "Setting permissions for %s failed, because the item was not found" => "Configuración de permisos para %s ha fallado, ya que el elemento no fue encontrado",
+"Cannot set expiration date. Shares cannot expire later than %s after they have been shared" => "No se puede fijar fecha de caducidad. Archivos compartidos no pueden caducar luego de %s de ser compartidos",
 "Cannot set expiration date. Expiration date is in the past" => "No se puede fijar la fecha de caducidad. La fecha de caducidad está en el pasado.",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "El motor compartido %s debe implementar la interfaz OCP\\Share_Backend",
 "Sharing backend %s not found" => "El motor compartido %s no se ha encontrado",

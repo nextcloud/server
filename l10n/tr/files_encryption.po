@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 18:15+0000\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,7 +93,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "PHP 5.3.3 veya daha sürümü ile birlikte OpenSSL ve OpenSSL PHP uzantısının birlikte etkin olduğundan ve doğru bir şekilde yapılandırıldığından emin olun. Şimdilik şifreleme uygulaması devre dışı bırakıldı."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "Aşağıdaki kullanıcılar şifreleme için ayarlanmamış:"
 
@@ -133,11 +133,11 @@ msgstr "Kurtarma anahtarı parolası"
 msgid "Repeat Recovery key password"
 msgstr "Kurtarma anahtarı parolasını yineleyin"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "Etkin"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "Devre Dışı"
 
@@ -162,12 +162,12 @@ msgid "Change Password"
 msgstr "Parola Değiştir"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "Özel anahtar parolanız artık oturum açma parolanızla eşleşmiyor:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "Eski özel anahtar parolanızı geçerli oturum açma parolanız olarak ayarlayın."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -175,32 +175,32 @@ msgid ""
 "recover your files."
 msgstr "Eğer eski parolanızı hatırlamıyorsanız, yöneticinizden dosyalarınızı kurtarmasını talep edebilirsiniz."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "Eski oturum açma parolası"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "Geçerli oturum açma parolası"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "Özel Anahtar Parolasını Güncelle"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "Parola kurtarmayı etkinleştir:"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Bu seçeneği etkinleştirmek, parola kaybı durumunda şifrelenmiş dosyalarınıza erişimi yeniden kazanmanızı sağlayacaktır"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "Dosya kurtarma ayarları güncellendi"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "Dosya kurtarma güncellenemedi"

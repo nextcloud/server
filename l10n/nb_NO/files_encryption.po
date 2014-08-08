@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Vennligst se til at PHP 5.3.3 eller nyere er installert og at OpenSSL sammen med PHP-utvidelsen er aktivert og riktig konfigurert. Enn så lenge er krypterings-appen deaktivert."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "Følgende brukere er ikke satt opp for kryptering:"
 
@@ -132,11 +132,11 @@ msgstr "Passord for gjenopprettingsnøkkel"
 msgid "Repeat Recovery key password"
 msgstr "Gjenta passord for gjenopprettingsnøkkel"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "Aktiv"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "Inaktiv"
 
@@ -161,12 +161,12 @@ msgid "Change Password"
 msgstr "Endre passord"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "Ditt passord for privat nøkkel stemmer ikke med påloggingspassordet ditt lenger:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "Sett ditt gamle passord for privat nøkkel til ditt nåværende påloggingspassord."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -174,32 +174,32 @@ msgid ""
 "recover your files."
 msgstr "Hvis du ikke husker det gamle passordet ditt kan du spørre administratoren om å gjenopprette filene dine."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "Gammelt påloggingspassord"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "Nåværende påloggingspassord"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "Oppdater passord for privat nøkkel"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "Aktiver gjenoppretting av passord:"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt."
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "Innstillinger for gjenoppretting av filer ble oppdatert"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "Klarte ikke å oppdatere gjenoppretting av filer"

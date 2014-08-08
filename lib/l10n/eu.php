@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "%s elkarbanaketa mota ez da %srentzako egokia",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "%srentzako baimenak ezartzea huts egin du, baimenak %sri emandakoak baino gehiago direlako",
 "Setting permissions for %s failed, because the item was not found" => "%srentzako baimenak ezartzea huts egin du, aurkitu ez delako",
+"Cannot set expiration date. Shares cannot expire later than %s after they have been shared" => "Ezin izan da jarri iraungitze data. Konpartitzea ezin da iraungi konpartitu eta %s ondoren.",
 "Cannot set expiration date. Expiration date is in the past" => "Ezin da jarri iraungitze data. Iraungitze data iragan da.",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "%s elkarbanaketa motorra  OCP\\Share_Backend interfazea inplementatu behar du ",
 "Sharing backend %s not found" => "Ez da %s elkarbanaketa motorra aurkitu",

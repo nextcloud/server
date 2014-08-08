@@ -22,7 +22,6 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Uusi palautusavaimen salasana",
 "Repeat New Recovery key password" => "Toista uusi palautusavaimen salasana",
 "Change Password" => "Vaihda salasana",
-"Your private key password no longer match your log-in password:" => "Yksityisen avaimesi salasana ei enää täsmää kirjautumisen salasanaasi:",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Jos et muista vanhaa salasanaasi, voit pyytää ylläpitäjää palauttamaan tiedostosi.",
 "Old log-in password" => "Vanha kirjautumis-salasana",
 "Current log-in password" => "Nykyinen kirjautumis-salasana",

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-30 06:10+0000\n"
+"POT-Creation-Date: 2014-08-08 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Kérem gondoskodjon arról, hogy PHP 5.3.3 vagy annál frissebb legyen telepítve, továbbá az OpenSSL a megfelelő PHP-bővítménnyel együtt rendelkezésre álljon és helyesen legyen konfigurálva! A titkosító modul egyelőre kikapcsolásra került."
 
-#: hooks/hooks.php:286
+#: hooks/hooks.php:293
 msgid "Following users are not set up for encryption:"
 msgstr "A következő felhasználók nem állították be a titkosítást:"
 
@@ -135,11 +135,11 @@ msgstr "A helyreállítási kulcs jelszava"
 msgid "Repeat Recovery key password"
 msgstr "Ismételje meg a helyreállítási kulcs jelszavát"
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:53
+#: templates/settings-admin.php:22 templates/settings-personal.php:52
 msgid "Enabled"
 msgstr "Bekapcsolva"
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:61
+#: templates/settings-admin.php:30 templates/settings-personal.php:60
 msgid "Disabled"
 msgstr "Kikapcsolva"
 
@@ -164,12 +164,12 @@ msgid "Change Password"
 msgstr "Jelszó megváltoztatása"
 
 #: templates/settings-personal.php:12
-msgid "Your private key password no longer match your log-in password:"
-msgstr "A személyes kulcs jelszava mostantól nem azonos a belépési jelszavával:"
+msgid "Your private key password no longer match your log-in password."
+msgstr ""
 
 #: templates/settings-personal.php:15
-msgid "Set your old private key password to your current log-in password."
-msgstr "Állítsuk be a személyes kulcs jelszavát a jelenlegi bejelentkezési jelszavunkra."
+msgid "Set your old private key password to your current log-in password:"
+msgstr ""
 
 #: templates/settings-personal.php:17
 msgid ""
@@ -177,32 +177,32 @@ msgid ""
 "recover your files."
 msgstr "Ha nem emlékszik a régi jelszavára akkor megkérheti a rendszergazdát, hogy állítsa vissza az állományait."
 
-#: templates/settings-personal.php:25
+#: templates/settings-personal.php:24
 msgid "Old log-in password"
 msgstr "Régi bejelentkezési jelszó"
 
-#: templates/settings-personal.php:31
+#: templates/settings-personal.php:30
 msgid "Current log-in password"
 msgstr "Jelenlegi bejelentkezési jelszó"
 
-#: templates/settings-personal.php:36
+#: templates/settings-personal.php:35
 msgid "Update Private Key Password"
 msgstr "A személyest kulcs jelszó frissítése"
 
-#: templates/settings-personal.php:44
+#: templates/settings-personal.php:43
 msgid "Enable password recovery:"
 msgstr "Jelszó-visszaállítás bekapcsolása"
 
-#: templates/settings-personal.php:46
+#: templates/settings-personal.php:45
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
 msgstr "Ez az opció lehetővé teszi, hogy a titkosított állományok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát"
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:61
 msgid "File recovery settings updated"
 msgstr "A fájlhelyreállítási beállítások frissültek"
 
-#: templates/settings-personal.php:63
+#: templates/settings-personal.php:62
 msgid "Could not update file recovery"
 msgstr "A fájlhelyreállítás nem frissíthető"

@@ -13,7 +13,6 @@ $TRANSLATIONS = array(
 "Enabled" => "Activat",
 "Disabled" => "Dezactivat",
 "Change Password" => "Schimbă parola",
-"Your private key password no longer match your log-in password:" => "Parola cheii private nu se mai potriveste cu parola ta de logare:",
 "File recovery settings updated" => "Setarile pentru recuperarea fisierelor au fost actualizate",
 "Could not update file recovery" => "Nu am putut actualiza recuperarea de fisiere"
 );

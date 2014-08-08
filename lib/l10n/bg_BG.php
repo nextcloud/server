@@ -67,6 +67,7 @@ $TRANSLATIONS = array(
 "Share type %s is not valid for %s" => "Споделянето на тип %s не валидно за %s.",
 "Setting permissions for %s failed, because the permissions exceed permissions granted to %s" => "Неуспешна промяна на правата за достъп за %s, защото промените надвишават правата на достъп дадени на %s.",
 "Setting permissions for %s failed, because the item was not found" => "Неуспешна промяна на правата за достъп за %s, защото съдържанието не е открито.",
+"Cannot set expiration date. Shares cannot expire later than %s after they have been shared" => "Неуспешно задаване на дата на изтичане. Споделни папки или файлове не могат да изтичат по-късно от %s след като са били споделени",
 "Cannot set expiration date. Expiration date is in the past" => "Неуспешно задаване на дата на изтичане. Датата на изтичане е в миналото",
 "Sharing backend %s must implement the interface OCP\\Share_Backend" => "Споделянето на сървърния %s трябва да поддържа OCP\\Share_Backend интерфейс.",
 "Sharing backend %s not found" => "Споделянето на сървърния %s не е открито.",
