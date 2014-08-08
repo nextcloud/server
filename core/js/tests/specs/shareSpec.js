@@ -259,6 +259,7 @@ describe('OC.Share tests', function() {
 				var shareData;
 				var shareItem;
 				var clock;
+				var expectedMinDate;
 
 				function showDropDown() {
 					OC.Share.showDropDown(
@@ -274,6 +275,7 @@ describe('OC.Share tests', function() {
 				beforeEach(function() {
 					// pick a fake date
 					clock = sinon.useFakeTimers(new Date(2014, 0, 20, 14, 0, 0).getTime());
+					expectedMinDate = new Date(2014, 0, 21, 14, 0, 0);
 					shareItem = {
 						displayname_owner: 'root',
 						expiration: null,
@@ -358,7 +360,7 @@ describe('OC.Share tests', function() {
 					showDropDown();
 					$('#dropdown [name=linkCheckbox]').click();
 					$('#dropdown [name=expirationCheckbox]').click();
-					expect($.datepicker._defaults.minDate).toEqual(new Date());
+					expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
 					expect($.datepicker._defaults.maxDate).toEqual(null);
 				});
 				it('limits the date range to X days after share time when enforced', function() {
@@ -367,7 +369,7 @@ describe('OC.Share tests', function() {
 					oc_appconfig.core.defaultExpireDateEnforced = true;
 					showDropDown();
 					$('#dropdown [name=linkCheckbox]').click();
-					expect($.datepicker._defaults.minDate).toEqual(new Date());
+					expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
 					expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
 				});
 				it('limits the date range to X days after share time when enforced, even when redisplayed the next days', function() {
@@ -380,7 +382,7 @@ describe('OC.Share tests', function() {
 					oc_appconfig.core.defaultExpireDateEnabled = true;
 					oc_appconfig.core.defaultExpireDateEnforced = true;
 					showDropDown();
-					expect($.datepicker._defaults.minDate).toEqual(new Date());
+					expect($.datepicker._defaults.minDate).toEqual(expectedMinDate);
 					expect($.datepicker._defaults.maxDate).toEqual(new Date(2014, 0, 27, 0, 0, 0, 0));
 				});
 			});
