@@ -100,13 +100,19 @@ class MailNotifications {
 			}
 
 			// Link to folder, or root folder if a file
+
 			if ($itemType === 'folder') {
-				$foldername =  $filename;
+				$args = array(
+					'dir' => $filename,
+				);
 			} else {
-				$foldername = "/";
+				$args = array(
+					'dir' => '/',
+					'scrollto' => $filename,
+				);
 			}
 
-			$link = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
+			$link = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
 
 			list($htmlMail, $alttextMail) = $this->createMailBody($filename, $link, $expiration);
 
