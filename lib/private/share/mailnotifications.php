@@ -99,12 +99,11 @@ class MailNotifications {
 				}
 			}
 
+			// Link to folder, or root folder if a file
 			if ($itemType === 'folder') {
-				$foldername = "/Shared/" . $filename;
+				$foldername =  $filename;
 			} else {
-				// if it is a file we can just link to the Shared folder,
-				// that's the place where the user will find the file
-				$foldername = "/Shared";
+				$foldername = "/";
 			}
 
 			$link = \OCP\Util::linkToAbsolute('files', 'index.php', array("dir" => $foldername));
