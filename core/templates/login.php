@@ -6,14 +6,6 @@
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . OC_Util::sanitizeHTML($_['redirect_url']) . '" />');
 	} ?>
-		<?php if (isset($_['invalidcookie']) && ($_['invalidcookie'])): ?>
-		<div class="warning">
-			<?php p($l->t('Automatic logon rejected!')); ?><br>
-			<small><?php p($l->t('If you did not change your password recently, your account may be compromised!')); ?></small>
-			<br>
-			<small><?php p($l->t('Please change your password to secure your account again.')); ?></small>
-		</div>
-		<?php endif; ?>
 		<?php if (isset($_['apacheauthfailed']) && ($_['apacheauthfailed'])): ?>
 			<div class="warning">
 				<?php p($l->t('Server side authentication failed!')); ?><br>
