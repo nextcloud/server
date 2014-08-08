@@ -108,6 +108,29 @@ if($source) {
 	$sourceStream=@fopen($source, 'rb', false, $ctx);
 	$result = 0;
 	if (is_resource($sourceStream)) {
+		$meta = stream_get_meta_data($sourceStream);
+		if (isset($meta['wrapper_data']) && is_array($meta['wrapper_data'])) {
+			//check stream size
+			$storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);
+			$freeSpace = $storageStats['freeSpace'];
+
+			foreach($meta['wrapper_data'] as $header) {
+				list($name, $value) = explode(':', $header);
+				if ('content-length' === strtolower(trim($name))) {
+					$length = (int) trim($value);
+
+					if ($length > $freeSpace) {
+						$delta = $length - $freeSpace;
+						$humanDelta = OCP\Util::humanFileSize($delta);
+
+						$eventSource->send('error', array('message' => (string)$l10n->t('The file exceeds your quota by %s', array($humanDelta))));
+						$eventSource->close();
+						fclose($sourceStream);
+						exit();
+					}
+				}
+			}
+		}
 		$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
 	}
 	if($result) {
