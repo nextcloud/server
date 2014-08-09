@@ -6,7 +6,15 @@
  * See the COPYING-README file.
  */
 
-/** @var $this OC\Route\Router */
+namespace OCA\Files\Appinfo;
+
+$application = new Application();
+$application->registerRoutes($this, array('routes' => array(
+	array('name' => 'API#getThumbnail', 'url' => '/api/v1/thumbnail/{x}/{y}/{file}', 'verb' => 'GET'),
+)));
+
+
+/** @var $this \OC\Route\Router */
 
 $this->create('files_index', '/')
 	->actionInclude('files/index.php');
@@ -38,4 +46,4 @@ $this->create('download', 'download{file}')
 	->actionInclude('files/download.php');
 	
 // Register with the capabilities API
-OC_API::register('get', '/cloud/capabilities', array('OCA\Files\Capabilities', 'getCapabilities'), 'files', OC_API::USER_AUTH);
+\OC_API::register('get', '/cloud/capabilities', array('OCA\Files\Capabilities', 'getCapabilities'), 'files', \OC_API::USER_AUTH);
