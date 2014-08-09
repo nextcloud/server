@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-08 01:54-0400\n"
-"PO-Revision-Date: 2014-08-08 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-09 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 06:20+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,11 +164,11 @@ msgstr "Modifica password"
 
 #: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password."
-msgstr ""
+msgstr "La password della chiave privata non corrisponde più alla password di accesso."
 
 #: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password:"
-msgstr ""
+msgstr "Imposta la vecchia password della chiave privata sull'attuale password di accesso:"
 
 #: templates/settings-personal.php:17
 msgid ""

@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-09 01:54-0400\n"
+"PO-Revision-Date: 2014-08-09 02:51+0000\n"
+"Last-Translator: Pellaeon Lin <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,47 +20,47 @@ msgstr ""
 
 #: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "伺服器對伺服器共享在這台伺服器上面並未啟用"
 
 #: ajax/external.php:47
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "無法加入遠端分享"
 
 #: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "與你分享"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "與其他人分享"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "由連結分享"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "目前沒有任何與你分享的檔案"
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "你尚未分享任何檔案"
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "你尚未使用連結分享任何檔案"
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "是否要加入來自 {owner}@{remote} 的遠端分享 {name} ？"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "遠端分享"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "遠端分享密碼"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -68,17 +68,17 @@ msgstr "取消"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
-
-#: js/public.js:203
-msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "加入遠端分享"
 
 #: js/public.js:204
-msgid "Invalid ownCloud url"
-msgstr ""
+msgid "No ownCloud installation found at {remote}"
+msgstr "沒有在 {remote} 找到 ownCloud"
 
-#: js/sharedfilelist.js:123
+#: js/public.js:205
+msgid "Invalid ownCloud url"
+msgstr "無效的 ownCloud URL"
+
+#: js/sharedfilelist.js:126
 msgid "Shared by"
 msgstr "由...分享"
 
@@ -100,7 +100,7 @@ msgstr "名稱"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "分享時間"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -126,31 +126,31 @@ msgstr "分享功能已停用"
 msgid "For more info, please ask the person who sent this link."
 msgstr "請詢問告訴您此連結的人以瞭解更多"
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "加入到你的 ownCloud"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "下載"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "下載 %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
-msgstr ""
+msgstr "直接連結"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr ""
+msgstr "遠端分享"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "允許其他伺服器掛載本地的公開分享"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "允許使用者掛載公開分享"

@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Chen-An Yeh <chnjsn1221@gmail.com>, 2013
-# Pellaeon Lin <nfsmwlin@gmail.com>, 2013
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-09 01:54-0400\n"
+"PO-Revision-Date: 2014-08-09 03:00+0000\n"
+"Last-Translator: Pellaeon Lin <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,12 +38,12 @@ msgstr "已更新資料庫"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "已檢查資料庫格式更新"
 
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr ""
+msgstr "停用不相容的應用程式：%s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -155,11 +155,11 @@ msgstr "資料夾"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "圖片"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "音訊"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -211,14 +211,14 @@ msgstr "幾年前"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "無法寄送重設 email ，請聯絡系統管理員"
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "重設密碼的連結已經 email 至你的信箱，如果你在一段時間內沒收到，請檢查垃圾郵件資料夾，如果還是找不到，請聯絡系統管理員。"
 
 #: js/lostpassword.js:7
 msgid ""
@@ -226,11 +226,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "您的檔案是加密的，如果您沒有啟用救援金鑰，當您重設密碼之後將無法存取您的資料。<br/>如果不確定該怎麼做，請聯絡您的系統管理員。<br/>您確定要繼續嗎？"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "我知道我在幹嘛"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"

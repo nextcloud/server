@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-31 01:54-0400\n"
-"PO-Revision-Date: 2014-07-31 05:30+0000\n"
-"Last-Translator: Kaijia Feng <fengkaijia@gmail.com>\n"
+"POT-Creation-Date: 2014-08-09 01:54-0400\n"
+"PO-Revision-Date: 2014-08-09 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,12 +82,17 @@ msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr "服务器没有允许打开URL网址，请检查服务器配置"
 
-#: ajax/newfile.php:118
+#: ajax/newfile.php:126
+#, php-format
+msgid "The file exceeds your quota by %s"
+msgstr ""
+
+#: ajax/newfile.php:141
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr "当下载 %s 到 %s 时出错"
 
-#: ajax/newfile.php:146
+#: ajax/newfile.php:169
 msgid "Error when creating the file"
 msgstr "当创建文件是出错"
 

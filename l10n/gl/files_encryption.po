@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-08 01:54-0400\n"
-"PO-Revision-Date: 2014-08-08 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-09 01:54-0400\n"
+"PO-Revision-Date: 2014-08-08 09:21+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,11 +165,11 @@ msgstr "Cambiar o contrasinal"
 
 #: templates/settings-personal.php:12
 msgid "Your private key password no longer match your log-in password."
-msgstr ""
+msgstr "O seu contrasinal da chave privada non coincide co seu contrasinal de acceso."
 
 #: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password:"
-msgstr ""
+msgstr "Estabeleza o seu contrasinal antigo da chave de recuperación ao seu contrasinal de acceso actual:"
 
 #: templates/settings-personal.php:17
 msgid ""
