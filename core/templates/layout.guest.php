@@ -32,7 +32,6 @@
 			?>
 		<?php endforeach; ?>
 	</head>
-	<?php flush(); ?>
 	<body id="body-login">
 		<div class="wrapper"><!-- for sticky footer -->
 			<div class="v-align"><!-- vertically centred box -->
