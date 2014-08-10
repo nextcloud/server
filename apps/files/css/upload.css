@@ -59,7 +59,7 @@
 	width: 200px;
 	height: 36px;
 	display:inline-block;
-    text-align: center;
+	text-align: center;
 }
 #uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
     height: 100%;
@@ -83,7 +83,7 @@
     position: relative;
     color: black;
 }
-#uploadprogresswrapper .percents{
+#uploadprogresswrapper .speed{
     margin-left: 3px;
     font-size: 13px;
     display:inline-block;

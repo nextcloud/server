@@ -38,10 +38,10 @@
 			</div>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar">
-					<em class="label outer" style="display:none">Uploading...</em>
+					<em class="label outer" style="display:none"><?php p($l->t('Uploading...'));?></em>
 				</div>
-				<div style="display:none" class="percents"></div>
-             <input type="button" class="stop icon-close" style="display:none" value="" />
+				<div style="display:none" class="speed"></div>
+				<input type="button" class="stop icon-close" style="display:none" value="" />
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
