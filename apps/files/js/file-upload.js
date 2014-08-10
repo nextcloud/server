@@ -181,6 +181,7 @@ OC.Upload = {
 
 	_hideProgressBar: function() {
 		$('#uploadprogresswrapper input.stop').fadeOut();
+		$('#uploadprogresswrapper .percents').fadeOut();
 		$('#uploadprogressbar').fadeOut(function() {
 			$('#file_upload_start').trigger(new $.Event('resized'));
 		});
@@ -454,7 +455,10 @@ OC.Upload = {
 				fileupload.on('fileuploadstart', function(e, data) {
 					OC.Upload.log('progress handle fileuploadstart', e, data);
 					$('#uploadprogresswrapper input.stop').show();
+					$('#uploadprogresswrapper .percents').show();
+					$('#uploadprogresswrapper .label').show();
 					$('#uploadprogressbar').progressbar({value: 0});
+					$('#uploadprogressbar .ui-progressbar-value').html('<em class="label inner">Uploading...</em>');
 					OC.Upload._showProgressBar();
 				});
 				fileupload.on('fileuploadprogress', function(e, data) {
@@ -464,11 +468,12 @@ OC.Upload = {
 				fileupload.on('fileuploadprogressall', function(e, data) {
 					OC.Upload.log('progress handle fileuploadprogressall', e, data);
 					var progress = (data.loaded / data.total) * 100;
+					$('#uploadprogressbar .label').text(humanFileSize(data.loaded)  + " of " + humanFileSize(data.total));
+					$('#uploadprogresswrapper .percents').text(humanFileSize(data.bitrate) + '/s')
 					$('#uploadprogressbar').progressbar('value', progress);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {
 					OC.Upload.log('progress handle fileuploadstop', e, data);
-
 					OC.Upload._hideProgressBar();
 				});
 				fileupload.on('fileuploadfail', function(e, data) {

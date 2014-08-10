@@ -59,11 +59,44 @@
 	width: 200px;
 	height: 36px;
 	display:inline-block;
+    text-align: center;
 }
+#uploadprogressbar .ui-progressbar-value.ui-widget-header.ui-corner-left {
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    overflow: hidden;
+}
+#uploadprogressbar .label {
+    font-weight: bold;
+    top: 6px;
+    opacity: 1;
+}
+#uploadprogressbar .label.inner {
+    color:white; 
+    position: absolute;
+    display: block;
+    width: 200px;
+}
+#uploadprogressbar .label.outer {
+    position: relative;
+    color: black;
+}
+#uploadprogresswrapper .percents{
+    margin-left: 3px;
+    font-size: 13px;
+    display:inline-block;
+    float: left;
+    width: 5em;
+    text-align: center;
+    position: relative;
+    top: 7px;
+}
+
 #uploadprogressbar + stop {
 	font-size: 13px;
 }
-
 .oc-dialog .fileexists table {
 	width: 100%;
 }
