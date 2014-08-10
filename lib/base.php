@@ -692,6 +692,9 @@ class OC {
 
 		if (!OC_User::isLoggedIn()) {
 			// Test it the user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+			if (!OC_Config::getValue('maintenance', false) && !self::checkUpgrade(false)) {
+				OC_App::loadApps(array('authentication'));
+			}
 			OC::tryBasicAuthLogin();
 		}
 
