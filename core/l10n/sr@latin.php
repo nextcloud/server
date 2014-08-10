@@ -96,7 +96,6 @@ $TRANSLATIONS = array(
 "Database host" => "Domaćin baze",
 "Finish setup" => "Završi podešavanje",
 "Log out" => "Odjava",
-"Automatic logon rejected!" => "Automatsko logovanje odbijeno!",
 "remember" => "upamti",
 "Log in" => "Prijavi se"
 );

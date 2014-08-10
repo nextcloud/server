@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-08 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 17:51+0000\n"
+"POT-Creation-Date: 2014-08-10 01:54-0400\n"
+"PO-Revision-Date: 2014-08-09 13:20+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr "Region (nepovinný pro OpenStack Object Storage)"
 
 #: appinfo/app.php:114
 msgid "API Key (required for Rackspace Cloud Files)"
-msgstr ""
+msgstr "API klíč (vyžadován pro Rackspace Cloud)"
 
 #: appinfo/app.php:115
 msgid "Tenantname (required for OpenStack Object Storage)"

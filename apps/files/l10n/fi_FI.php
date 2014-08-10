@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "Nimi %s on jo käytössä kansiossa %s. Valitse toinen nimi.",
 "Not a valid source" => "Virheellinen lähde",
 "Server is not allowed to open URLs, please check the server configuration" => "Palvelimen ei ole lupa avata verkko-osoitteita. Tarkista palvelimen asetukset",
+"The file exceeds your quota by %s" => "Tiedosto ylittää kiintiösi %s:lla",
 "Error while downloading %s to %s" => "Virhe ladatessa kohdetta %s sijaintiin %s",
 "Error when creating the file" => "Virhe tiedostoa luotaessa",
 "Folder name cannot be empty." => "Kansion nimi ei voi olla tyhjä.",

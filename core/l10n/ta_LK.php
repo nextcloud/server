@@ -92,9 +92,6 @@ $TRANSLATIONS = array(
 "Database host" => "தரவுத்தள ஓம்புனர்",
 "Finish setup" => "அமைப்பை முடிக்க",
 "Log out" => "விடுபதிகை செய்க",
-"Automatic logon rejected!" => "தன்னிச்சையான புகுபதிகை நிராகரிப்பட்டது!",
-"If you did not change your password recently, your account may be compromised!" => "உங்களுடைய கடவுச்சொல்லை அண்மையில் மாற்றவில்லையின், உங்களுடைய கணக்கு சமரசமாகிவிடும்!",
-"Please change your password to secure your account again." => "உங்களுடைய கணக்கை மீண்டும் பாதுகாக்க தயவுசெய்து உங்களுடைய கடவுச்சொல்லை மாற்றவும்.",
 "remember" => "ஞாபகப்படுத்துக",
 "Log in" => "புகுபதிகை"
 );

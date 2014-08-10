@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-10 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -560,7 +560,7 @@ msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
-#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
+#: templates/installation.php:54 templates/login.php:23 templates/login.php:27
 msgid "Username"
 msgstr "Tên đăng nhập"
 
@@ -608,7 +608,7 @@ msgstr "Cá nhân"
 msgid "Users"
 msgstr "Người dùng"
 
-#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
+#: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
 msgstr "Ứng dụng"
 
@@ -719,7 +719,7 @@ msgid "Create an <strong>admin account</strong>"
 msgstr "Tạo một <strong>tài khoản quản trị</strong>"
 
 #: templates/installation.php:59 templates/installation.php:62
-#: templates/login.php:41 templates/login.php:44
+#: templates/login.php:33 templates/login.php:36
 msgid "Password"
 msgstr "Mật khẩu"
 
@@ -774,57 +774,43 @@ msgstr "Cài đặt hoàn tất"
 msgid "Finishing …"
 msgstr "Đang hoàn thành ..."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:43
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Ứng dụng này yêu cầu JavaScript để hoạt động. Vui lòng <a href=\"http://enable-javascript.com/\" target=\"_blank\">kích hoạt JavaScript</a> và tải lại giao diện này."
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:47
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s còn trống. Xem thêm thông tin cách cập nhật."
 
-#: templates/layout.user.php:84 templates/singleuser.user.php:8
+#: templates/layout.user.php:83 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Đăng xuất"
 
 #: templates/login.php:11
-msgid "Automatic logon rejected!"
-msgstr "Tự động đăng nhập đã bị từ chối !"
-
-#: templates/login.php:12
-msgid ""
-"If you did not change your password recently, your account may be "
-"compromised!"
-msgstr "Nếu bạn không thay đổi mật khẩu gần đây của bạn, tài khoản của bạn có thể gặp nguy hiểm!"
-
-#: templates/login.php:14
-msgid "Please change your password to secure your account again."
-msgstr "Vui lòng thay đổi mật khẩu của bạn để đảm bảo tài khoản của bạn một lần nữa."
-
-#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Xác thực phía máy chủ không thành công!"
 
-#: templates/login.php:20
+#: templates/login.php:12
 msgid "Please contact your administrator."
 msgstr "Vui lòng liên hệ với quản trị viên."
 
-#: templates/login.php:50
+#: templates/login.php:42
 msgid "Forgot your password? Reset it!"
 msgstr ""
 
-#: templates/login.php:55
+#: templates/login.php:47
 msgid "remember"
 msgstr "ghi nhớ"
 
-#: templates/login.php:59
+#: templates/login.php:51
 msgid "Log in"
 msgstr "Đăng nhập"
 
-#: templates/login.php:65
+#: templates/login.php:57
 msgid "Alternative Logins"
 msgstr "Đăng nhập khác"
 

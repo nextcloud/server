@@ -98,9 +98,6 @@ $TRANSLATIONS = array(
 "Finish setup" => "Virkja uppsetningu",
 "%s is available. Get more information on how to update." => "%s er til boða. Fáðu meiri upplýsingar um hvernig þú uppfærir.",
 "Log out" => "Útskrá",
-"Automatic logon rejected!" => "Sjálfvirkri innskráningu hafnað!",
-"If you did not change your password recently, your account may be compromised!" => "Ef þú breyttir ekki lykilorðinu þínu fyrir skömmu, er mögulegt að einhver annar hafi komist inn á aðganginn þinn.",
-"Please change your password to secure your account again." => "Vinsamlegast breyttu lykilorðinu þínu til að tryggja öryggi þitt.",
 "remember" => "muna eftir mér",
 "Log in" => "<strong>Skrá inn</strong>"
 );

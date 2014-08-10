@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "Xa existe o nome %s no cartafol %s. Escolla outro nome.",
 "Not a valid source" => "Esta orixe non é correcta",
 "Server is not allowed to open URLs, please check the server configuration" => "O servidor non ten permisos para abrir os enderezos URL, comprobe a configuración do servidor",
+"The file exceeds your quota by %s" => "O ficheiro excede a súa cota en %s",
 "Error while downloading %s to %s" => "Produciuse un erro ao descargar %s en %s",
 "Error when creating the file" => "Produciuse un erro ao crear o ficheiro",
 "Folder name cannot be empty." => "O nome de cartafol non pode estar baleiro.",

@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-05 02:02-0400\n"
-"PO-Revision-Date: 2014-08-04 19:41+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-08-10 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -576,7 +576,7 @@ msgstr "E-mailem Vám bude zaslán odkaz pro obnovu hesla."
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
-#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
+#: templates/installation.php:54 templates/login.php:23 templates/login.php:27
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -624,7 +624,7 @@ msgstr "Osobní"
 msgid "Users"
 msgstr "Uživatelé"
 
-#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
+#: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
 msgstr "Aplikace"
 
@@ -735,7 +735,7 @@ msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvořit <strong>účet správce</strong>"
 
 #: templates/installation.php:59 templates/installation.php:62
-#: templates/login.php:41 templates/login.php:44
+#: templates/login.php:33 templates/login.php:36
 msgid "Password"
 msgstr "Heslo"
 
@@ -790,57 +790,43 @@ msgstr "Dokončit nastavení"
 msgid "Finishing …"
 msgstr "Dokončuji..."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:43
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Tato aplikace vyžaduje pro svou správnou funkčnost povolený JavaScript. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">povolte JavaScript</a> a znovu načtěte toto rozhraní."
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:47
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s je dostupná. Získejte více informací k postupu aktualizace."
 
-#: templates/layout.user.php:84 templates/singleuser.user.php:8
+#: templates/layout.user.php:83 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Odhlásit se"
 
 #: templates/login.php:11
-msgid "Automatic logon rejected!"
-msgstr "Automatické přihlášení odmítnuto!"
-
-#: templates/login.php:12
-msgid ""
-"If you did not change your password recently, your account may be "
-"compromised!"
-msgstr "Pokud jste v nedávné době neměnili své heslo, Váš účet může být kompromitován!"
-
-#: templates/login.php:14
-msgid "Please change your password to secure your account again."
-msgstr "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu."
-
-#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Autentizace na serveru selhala!"
 
-#: templates/login.php:20
+#: templates/login.php:12
 msgid "Please contact your administrator."
 msgstr "Kontaktujte prosím vašeho správce."
 
-#: templates/login.php:50
+#: templates/login.php:42
 msgid "Forgot your password? Reset it!"
 msgstr "Zapomenuté heslo? Zresetujte si ho!"
 
-#: templates/login.php:55
+#: templates/login.php:47
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:59
+#: templates/login.php:51
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:65
+#: templates/login.php:57
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 

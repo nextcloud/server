@@ -95,9 +95,6 @@ $TRANSLATIONS = array(
 "Database host" => "Домаћин базе",
 "Finish setup" => "Заврши подешавање",
 "Log out" => "Одјава",
-"Automatic logon rejected!" => "Аутоматска пријава је одбијена!",
-"If you did not change your password recently, your account may be compromised!" => "Ако ускоро не промените лозинку ваш налог може бити компромитован!",
-"Please change your password to secure your account again." => "Промените лозинку да бисте обезбедили налог.",
 "remember" => "упамти",
 "Log in" => "Пријава"
 );

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-10 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -564,7 +564,7 @@ msgstr "您将会收到包含可以重置密码链接的邮件。"
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
-#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
+#: templates/installation.php:54 templates/login.php:23 templates/login.php:27
 msgid "Username"
 msgstr "用户名"
 
@@ -612,7 +612,7 @@ msgstr "个人"
 msgid "Users"
 msgstr "用户"
 
-#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
+#: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
 msgstr "应用"
 
@@ -723,7 +723,7 @@ msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
 #: templates/installation.php:59 templates/installation.php:62
-#: templates/login.php:41 templates/login.php:44
+#: templates/login.php:33 templates/login.php:36
 msgid "Password"
 msgstr "密码"
 
@@ -778,57 +778,43 @@ msgstr "安装完成"
 msgid "Finishing …"
 msgstr "正在结束 ..."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:43
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "此程序需要启用JavaScript才能正常运行。请<a href=\"http://enable-javascript.com/\" target=\"_blank\">启用JavaScript</a> 并重新加载此接口。"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:47
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s 可用。获取更多关于如何升级的信息。"
 
-#: templates/layout.user.php:84 templates/singleuser.user.php:8
+#: templates/layout.user.php:83 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "注销"
 
 #: templates/login.php:11
-msgid "Automatic logon rejected!"
-msgstr "自动登录被拒绝！"
-
-#: templates/login.php:12
-msgid ""
-"If you did not change your password recently, your account may be "
-"compromised!"
-msgstr "如果您没有最近修改您的密码，您的帐户可能会受到影响！"
-
-#: templates/login.php:14
-msgid "Please change your password to secure your account again."
-msgstr "请修改您的密码，以保护您的账户安全。"
-
-#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "服务端验证失败！"
 
-#: templates/login.php:20
+#: templates/login.php:12
 msgid "Please contact your administrator."
 msgstr "请联系你的管理员。"
 
-#: templates/login.php:50
+#: templates/login.php:42
 msgid "Forgot your password? Reset it!"
 msgstr "忘记密码？立即重置！"
 
-#: templates/login.php:55
+#: templates/login.php:47
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:59
+#: templates/login.php:51
 msgid "Log in"
 msgstr "登录"
 
-#: templates/login.php:65
+#: templates/login.php:57
 msgid "Alternative Logins"
 msgstr "其他登录方式"
 

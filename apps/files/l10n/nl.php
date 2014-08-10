@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "De naam %s bestaat al in map %s. Kies een andere naam.",
 "Not a valid source" => "Geen geldige bron",
 "Server is not allowed to open URLs, please check the server configuration" => "Server mag geen URS's openen, controleer de server configuratie",
+"The file exceeds your quota by %s" => "Het bestand overschrijdt uw quotum met %s",
 "Error while downloading %s to %s" => "Fout bij downloaden %s naar %s",
 "Error when creating the file" => "Fout bij creëren bestand",
 "Folder name cannot be empty." => "Mapnaam mag niet leeg zijn.",

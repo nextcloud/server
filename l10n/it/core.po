@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-29 01:54-0400\n"
-"PO-Revision-Date: 2014-07-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-10 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -565,7 +565,7 @@ msgstr "Riceverai un collegamento per ripristinare la tua password via email"
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
-#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
+#: templates/installation.php:54 templates/login.php:23 templates/login.php:27
 msgid "Username"
 msgstr "Nome utente"
 
@@ -613,7 +613,7 @@ msgstr "Personale"
 msgid "Users"
 msgstr "Utenti"
 
-#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
+#: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
 msgstr "Applicazioni"
 
@@ -724,7 +724,7 @@ msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>account amministratore</strong>"
 
 #: templates/installation.php:59 templates/installation.php:62
-#: templates/login.php:41 templates/login.php:44
+#: templates/login.php:33 templates/login.php:36
 msgid "Password"
 msgstr "Password"
 
@@ -779,57 +779,43 @@ msgstr "Termina la configurazione"
 msgid "Finishing …"
 msgstr "Completamento..."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:43
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "L'applicazione richiede che JavaScript sia abilitato per un corretto funzionamento. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Abilita JavaScript</a> e ricarica questa interfaccia."
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:47
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s è disponibile. Ottieni ulteriori informazioni sull'aggiornamento."
 
-#: templates/layout.user.php:84 templates/singleuser.user.php:8
+#: templates/layout.user.php:83 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Esci"
 
 #: templates/login.php:11
-msgid "Automatic logon rejected!"
-msgstr "Accesso automatico rifiutato."
-
-#: templates/login.php:12
-msgid ""
-"If you did not change your password recently, your account may be "
-"compromised!"
-msgstr "Se non hai cambiato la password recentemente, il tuo account potrebbe essere compromesso."
-
-#: templates/login.php:14
-msgid "Please change your password to secure your account again."
-msgstr "Cambia la password per rendere nuovamente sicuro il tuo account."
-
-#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Autenticazione lato server non riuscita!"
 
-#: templates/login.php:20
+#: templates/login.php:12
 msgid "Please contact your administrator."
 msgstr "Contatta il tuo amministratore di sistema."
 
-#: templates/login.php:50
+#: templates/login.php:42
 msgid "Forgot your password? Reset it!"
 msgstr "Hai dimenticato la password? Reimpostala!"
 
-#: templates/login.php:55
+#: templates/login.php:47
 msgid "remember"
 msgstr "ricorda"
 
-#: templates/login.php:59
+#: templates/login.php:51
 msgid "Log in"
 msgstr "Accedi"
 
-#: templates/login.php:65
+#: templates/login.php:57
 msgid "Alternative Logins"
 msgstr "Accessi alternativi"
 

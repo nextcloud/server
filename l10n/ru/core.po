@@ -32,9 +32,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-08 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 13:41+0000\n"
-"Last-Translator: Pavel P. Zabortsev <ppz2001@mail.ru>\n"
+"POT-Creation-Date: 2014-08-10 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -591,7 +591,7 @@ msgstr "На ваш адрес Email выслана ссылка для сбро
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
-#: templates/installation.php:54 templates/login.php:31 templates/login.php:35
+#: templates/installation.php:54 templates/login.php:23 templates/login.php:27
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -639,7 +639,7 @@ msgstr "Личное"
 msgid "Users"
 msgstr "Пользователи"
 
-#: strings.php:7 templates/layout.user.php:57 templates/layout.user.php:122
+#: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
 msgstr "Приложения"
 
@@ -750,7 +750,7 @@ msgid "Create an <strong>admin account</strong>"
 msgstr "Создать <strong>учётную запись администратора</strong>"
 
 #: templates/installation.php:59 templates/installation.php:62
-#: templates/login.php:41 templates/login.php:44
+#: templates/login.php:33 templates/login.php:36
 msgid "Password"
 msgstr "Пароль"
 
@@ -805,57 +805,43 @@ msgstr "Завершить установку"
 msgid "Finishing …"
 msgstr "Завершаем..."
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:43
 msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
 msgstr "Это приложение требует включённый JavaScript для корректной работы. Пожалуйста, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включите JavaScript</a> и перезагрузите интерфейс."
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:47
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr "%s доступно. Получить дополнительную информацию о порядке обновления."
 
-#: templates/layout.user.php:84 templates/singleuser.user.php:8
+#: templates/layout.user.php:83 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr "Выйти"
 
 #: templates/login.php:11
-msgid "Automatic logon rejected!"
-msgstr "Автоматический вход в систему отключен!"
-
-#: templates/login.php:12
-msgid ""
-"If you did not change your password recently, your account may be "
-"compromised!"
-msgstr "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!"
-
-#: templates/login.php:14
-msgid "Please change your password to secure your account again."
-msgstr "Пожалуйста, смените пароль, чтобы обезопасить свою учетную запись."
-
-#: templates/login.php:19
 msgid "Server side authentication failed!"
 msgstr "Неудачная аутентификация с сервером!"
 
-#: templates/login.php:20
+#: templates/login.php:12
 msgid "Please contact your administrator."
 msgstr "Пожалуйста, свяжитесь с вашим администратором."
 
-#: templates/login.php:50
+#: templates/login.php:42
 msgid "Forgot your password? Reset it!"
 msgstr "Забыли пароль? Сбросьте его!"
 
-#: templates/login.php:55
+#: templates/login.php:47
 msgid "remember"
 msgstr "запомнить"
 
-#: templates/login.php:59
+#: templates/login.php:51
 msgid "Log in"
 msgstr "Войти"
 
-#: templates/login.php:65
+#: templates/login.php:57
 msgid "Alternative Logins"
 msgstr "Альтернативные имена пользователя"
 

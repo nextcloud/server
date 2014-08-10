@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "%s ismi zaten %s klasöründe kullanılıyor. Lütfen farklı bir isim seçin.",
 "Not a valid source" => "Geçerli bir kaynak değil",
 "Server is not allowed to open URLs, please check the server configuration" => "Sunucunun adresleri açma izni yok, lütfen sunucu yapılandırmasını denetleyin",
+"The file exceeds your quota by %s" => "Dosya, kotanızı %s aşıyor",
 "Error while downloading %s to %s" => "%s, %s içine indirilirken hata",
 "Error when creating the file" => "Dosya oluşturulurken hata",
 "Folder name cannot be empty." => "Klasör adı boş olamaz.",
