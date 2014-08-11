@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-02 01:54-0400\n"
-"PO-Revision-Date: 2014-08-01 11:19+0000\n"
+"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 14:56+0000\n"
 "Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "Nun pudo amestase una compartición remota"
 msgid "Shared with you"
 msgstr "Compartíos contigo"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
 msgstr "Compartíos con otros"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
 msgstr "Compartíos per enllaz"
 
@@ -50,7 +50,7 @@ msgstr "Entá nun compartiesti dengún ficheru."
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr "Entá nun compartiesti nengún ficheru por enllaz."
+msgstr "Entá nun compartiesti nengún ficheru per enllaz."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
@@ -72,11 +72,11 @@ msgstr "Encaboxar"
 msgid "Add remote share"
 msgstr "Amestar compartición remota"
 
-#: js/public.js:203
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Nun s'alcontró denguna instalación d'ownCloud en {remote}"
 
-#: js/public.js:204
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "Url ownCloud inválida"
 
@@ -128,20 +128,20 @@ msgstr "la compartición ta deshabilitada"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Pa más información, entrúga-y a la persona qu'unvió esti enllaz"
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
 msgstr "Amestar al to ownCloud"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "Baxar"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
 msgstr "Descargar %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
 msgstr "Enllaz direutu"
 

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-07 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 15:07+0000\n"
+"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -361,11 +361,11 @@ msgstr "Falló dar permisos a %s, porque l'elementu nun s'atopó"
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
-msgstr ""
+msgstr "Nun pue afitase la data de caducidá. Ficheros compartíos nun puen caducar dempués de %s de compartise"
 
 #: private/share/share.php:968
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Nun pue afitase la data d'espiración. La data d'espiración ta nel pasáu"
 
 #: private/share/share.php:1093
 #, php-format

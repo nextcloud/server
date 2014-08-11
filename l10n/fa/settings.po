@@ -5,14 +5,15 @@
 # Translators:
 # mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013
 # majid hajibaba <majid.hajibaba@gmail.com>, 2014
+# Mohammad <mohammadsharifi666@gmail.com>, 2014
 # wtayyeb, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-26 01:54-0400\n"
-"PO-Revision-Date: 2014-07-25 23:00+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 11:52+0000\n"
+"Last-Translator: Mohammad <mohammadsharifi666@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,15 +24,15 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "مقدار ارائه شده برای %s معتبر نیست"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "ذخیره شد"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "تنظیمات ایمیل آزمایشی"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
@@ -52,7 +53,7 @@ msgstr ""
 
 #: admin/controller.php:116 templates/admin.php:337
 msgid "Send mode"
-msgstr ""
+msgstr "حالت ارسال"
 
 #: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
 msgid "Encryption"
@@ -60,7 +61,7 @@ msgstr "رمزگذاری"
 
 #: admin/controller.php:120 templates/admin.php:374
 msgid "Authentication method"
-msgstr ""
+msgstr "روش احراز هویت"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -73,11 +74,11 @@ msgstr "خطا در اعتبار سنجی"
 
 #: ajax/changedisplayname.php:31
 msgid "Your full name has been changed."
-msgstr ""
+msgstr "نام کامل شما تغییر یافت"
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change full name"
-msgstr ""
+msgstr "امکان تغییر نام کامل وجود ندارد"
 
 #: ajax/creategroup.php:11
 msgid "Group already exists"
@@ -89,7 +90,7 @@ msgstr "افزودن گروه امکان پذیر نیست"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
-msgstr ""
+msgstr "فایل ها با موفقیت رمزگشایی شدند."
 
 #: ajax/decryptall.php:33
 msgid ""
@@ -103,7 +104,7 @@ msgstr ""
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "کلیدهای رمزگذاری به طور کامل حذف شدند"
 
 #: ajax/deletekeys.php:16
 msgid ""
@@ -113,7 +114,7 @@ msgstr ""
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "امکان حذف برنامه وجود ندارد."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -133,7 +134,7 @@ msgstr "حذف کاربر امکان پذیر نیست"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "پشتیبان ها با موفقیت بازیابی شدند"
 
 #: ajax/restorekeys.php:23
 msgid ""
@@ -198,7 +199,7 @@ msgstr "نمی‌توان رمز را تغییر داد"
 
 #: js/admin.js:128
 msgid "Sending..."
-msgstr ""
+msgstr "در حال ارسال..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
@@ -206,7 +207,7 @@ msgstr "مستندات کاربر"
 
 #: js/apps.js:54
 msgid "Admin Documentation"
-msgstr ""
+msgstr "مستند سازی مدیر"
 
 #: js/apps.js:82
 msgid "Update to {appversion}"
@@ -214,7 +215,7 @@ msgstr "بهنگام شده به  {appversion}"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "حذف برنامه"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
@@ -258,15 +259,15 @@ msgstr "بروز رسانی انجام شد"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "در حال حذف..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "خطا در هنگام حذف برنامه...."
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "حذف"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
@@ -298,29 +299,29 @@ msgstr "در حال بازگشایی رمز فایل‌ها... لطفاً صبر
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "کلید های رمزگذاری به طوز کامل حذف شوند."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "بازیابی کلیدهای  رمزگذاری."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "امکان حذف {objName} وجود ندارد"
 
-#: js/users/groups.js:92 js/users/groups.js:200
+#: js/users/groups.js:94 js/users/groups.js:202
 msgid "Error creating group"
-msgstr ""
+msgstr "خطا در هنگام ایجاد کروه"
 
-#: js/users/groups.js:199
+#: js/users/groups.js:201
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "نام کاربری معتبر می بایست وارد شود"
 
-#: js/users/groups.js:227
+#: js/users/groups.js:229
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "گروه {groupName} حذف شد"
 
-#: js/users/groups.js:228 js/users/users.js:296
+#: js/users/groups.js:230 js/users/users.js:296
 msgid "undo"
 msgstr "بازگشت"
 
@@ -346,7 +347,7 @@ msgstr "هرگز"
 
 #: js/users/users.js:295
 msgid "deleted {userName}"
-msgstr ""
+msgstr "کاربر {userName} حذف شد"
 
 #: js/users/users.js:431
 msgid "add group"
@@ -374,23 +375,23 @@ msgstr "__language_name__"
 
 #: templates/admin.php:8
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "همه موارد (مشکلات مهلک، خطاها، اخطارها، اطلاعات، خطایابی)"
 
 #: templates/admin.php:9
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "اطلاعات، اخطارها، خطاها، مشکلات اساسی"
 
 #: templates/admin.php:10
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "اخطارها، خطاها، مشکلات مهلک"
 
 #: templates/admin.php:11
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "خطاها و مشکلات اساسی"
 
 #: templates/admin.php:12
 msgid "Fatal issues only"
-msgstr ""
+msgstr "فقط مشکلات اساسی"
 
 #: templates/admin.php:16 templates/admin.php:23
 msgid "None"
@@ -402,19 +403,19 @@ msgstr "ورود"
 
 #: templates/admin.php:18
 msgid "Plain"
-msgstr ""
+msgstr "ساده"
 
 #: templates/admin.php:19
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "مدیر NT LAN"
 
 #: templates/admin.php:24
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:25
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:47 templates/admin.php:61
 msgid "Security Warning"
@@ -465,7 +466,7 @@ msgstr ""
 
 #: templates/admin.php:105
 msgid "Database Performance Info"
-msgstr ""
+msgstr "اطلاعات کارایی پایگاه داده"
 
 #: templates/admin.php:108
 msgid ""
@@ -486,7 +487,7 @@ msgstr "ماژول 'fileinfo' PHP از کار افتاده است.ما اکید�
 
 #: templates/admin.php:133
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "نسخه PHP شما قدیمی است"
 
 #: templates/admin.php:136
 msgid ""
@@ -585,19 +586,19 @@ msgstr "اجازه بارگذاری عمومی"
 
 #: templates/admin.php:256
 msgid "Set default expiration date"
-msgstr ""
+msgstr "اعمال تاریخ اتمام پیش فرض"
 
 #: templates/admin.php:260
 msgid "Expire after "
-msgstr ""
+msgstr "اتمام اعتبار بعد از"
 
 #: templates/admin.php:263
 msgid "days"
-msgstr ""
+msgstr "روز"
 
 #: templates/admin.php:266
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "اعمال تاریخ اتمام اشتراک گذاری"
 
 #: templates/admin.php:271
 msgid "Allow resharing"
@@ -642,23 +643,23 @@ msgstr "برای فعال سازی یا عدم فعال سازی اجبار اس
 
 #: templates/admin.php:332
 msgid "Email Server"
-msgstr ""
+msgstr "سرور ایمیل"
 
 #: templates/admin.php:334
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "این برای ارسال هشدار ها استفاده می شود"
 
 #: templates/admin.php:365
 msgid "From address"
-msgstr ""
+msgstr "آدرس فرستنده"
 
 #: templates/admin.php:366
 msgid "mail"
-msgstr ""
+msgstr "ایمیل"
 
 #: templates/admin.php:387
 msgid "Authentication required"
-msgstr ""
+msgstr "احراز هویت مورد نیاز است"
 
 #: templates/admin.php:391
 msgid "Server address"
@@ -674,19 +675,19 @@ msgstr "اعتبارهای"
 
 #: templates/admin.php:401
 msgid "SMTP Username"
-msgstr ""
+msgstr "نام کاربری SMTP"
 
 #: templates/admin.php:404
 msgid "SMTP Password"
-msgstr ""
+msgstr "رمز عبور SMTP"
 
 #: templates/admin.php:408
 msgid "Test email settings"
-msgstr ""
+msgstr "تنظیمات ایمیل آزمایشی"
 
 #: templates/admin.php:409
 msgid "Send email"
-msgstr ""
+msgstr "ارسال ایمیل"
 
 #: templates/admin.php:414
 msgid "Log"
@@ -732,7 +733,7 @@ msgstr "یک برنامه انتخاب کنید"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "مستند سازی:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -740,7 +741,7 @@ msgstr "صفحه این اٌپ را در apps.owncloud.com ببینید"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "مشاهده وب سایت برنامه"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -748,7 +749,7 @@ msgstr "<span class=\"licence\"></span>-مجاز از طرف <span class=\"autho
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "فعال سازی تنها برای گروه های خاص"
 
 #: templates/apps.php:61
 msgid "All"
@@ -901,11 +902,11 @@ msgstr ""
 
 #: templates/personal.php:190
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "بازیابی کلید های رمزگذاری"
 
 #: templates/personal.php:194
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "حذف کلید های رمزگذاری"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -928,23 +929,23 @@ msgstr "در حین تغییر رمز عبور به منظور بازیابی ف
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "جستجوی کاربران و گروه ها"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "افزودن گروه"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
-msgstr ""
+msgstr "گروه"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "همه"
 
 #: templates/users/part.grouplist.php:31
 msgid "Admins"
-msgstr ""
+msgstr "مدیران"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -952,7 +953,7 @@ msgstr "سهم پیش فرض"
 
 #: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
-msgstr ""
+msgstr "لطفا سهمیه ذخیره سازی را وارد کنید (به عنوان مثال: \" 512MB\" یا \"12GB\")"
 
 #: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
 msgid "Unlimited"
@@ -972,15 +973,15 @@ msgstr "سهم"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "محل فضای ذخیره سازی"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "اخرین ورود"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"
-msgstr ""
+msgstr "تغییر نام کامل"
 
 #: templates/users/part.userlist.php:34
 msgid "set new password"

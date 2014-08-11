@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Mapa 'config' nima določenih ustreznih dovoljenj za pisanje!",
+"See %s" => "Oglejte si %s",
 "Help" => "Pomoč",
 "Personal" => "Osebno",
 "Settings" => "Nastavitve",

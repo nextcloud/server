@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Deleted files" => "فایل های حذف شده",
 "Restore" => "بازیابی",
 "Error" => "خطا",
+"restored" => "بازیابی شد",
 "Nothing in here. Your trash bin is empty!" => "هیچ چیزی اینجا نیست. سطل زباله ی شما خالی است.",
 "Name" => "نام",
 "Deleted" => "حذف شده",

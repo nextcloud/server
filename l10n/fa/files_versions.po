@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
+# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013
+# Mohammad <mohammadsharifi666@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
-"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-07-28 01:56-0400\n"
-"PO-Revision-Date: 2013-07-27 06:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 11:14+0000\n"
+"Last-Translator: Mohammad <mohammadsharifi666@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,22 +24,22 @@ msgstr ""
 msgid "Could not revert: %s"
 msgstr "بازگردانی امکان ناپذیر است: %s"
 
-#: js/versions.js:7
+#: js/versions.js:48
 msgid "Versions"
 msgstr "نسخه ها"
 
-#: js/versions.js:53
+#: js/versions.js:70
 msgid "Failed to revert {file} to revision {timestamp}."
-msgstr ""
+msgstr "برگرداندن {file} به نسخه {timestamp} با شکست روبرو شد"
 
-#: js/versions.js:79
+#: js/versions.js:97
 msgid "More versions..."
-msgstr ""
+msgstr "نسخه های بیشتر"
 
-#: js/versions.js:116
+#: js/versions.js:135
 msgid "No other versions available"
-msgstr ""
+msgstr "نسخه ی دیگری در دسترس نیست"
 
-#: js/versions.js:149
+#: js/versions.js:165
 msgid "Restore"
 msgstr "بازیابی"

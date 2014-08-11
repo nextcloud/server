@@ -6,13 +6,14 @@
 # Amir Keshavarz <pnetsale@gmail.com>, 2014
 # mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013
 # majid hajibaba <majid.hajibaba@gmail.com>, 2014
+# Mohammad <mohammadsharifi666@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 12:17+0000\n"
+"Last-Translator: Mohammad <mohammadsharifi666@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -148,7 +149,7 @@ msgstr "تنظیمات"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "فایل"
 
 #: js/js.js:591
 msgid "Folder"
@@ -272,7 +273,7 @@ msgstr[0] ""
 
 #: js/oc-dialogs.js:444
 msgid "One file conflict"
-msgstr ""
+msgstr "یک فایل متضاد"
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
@@ -306,7 +307,7 @@ msgstr "(همه انتخاب شده اند)"
 
 #: js/oc-dialogs.js:522 js/oc-dialogs.js:536
 msgid "({count} selected)"
-msgstr ""
+msgstr "({count} انتخاب شده)"
 
 #: js/oc-dialogs.js:544
 msgid "Error loading file exists template"
@@ -436,7 +437,7 @@ msgstr "لغو اشتراک"
 
 #: js/share.js:621
 msgid "notify by email"
-msgstr ""
+msgstr "دریافت هشدار از طریق ایمیل"
 
 #: js/share.js:624
 msgid "can share"
@@ -492,7 +493,7 @@ msgstr "نوع شی تعیین نشده است."
 
 #: js/tags.js:19
 msgid "Enter new"
-msgstr ""
+msgstr "مورد جدید را وارد کنید"
 
 #: js/tags.js:33
 msgid "Delete"
@@ -504,7 +505,7 @@ msgstr "افزودن"
 
 #: js/tags.js:57
 msgid "Edit tags"
-msgstr ""
+msgstr "ویرایش تگ ها"
 
 #: js/tags.js:75
 msgid "Error loading dialog template: {error}"
@@ -621,31 +622,31 @@ msgstr "راه‌نما"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
-msgstr ""
+msgstr "خطا در هنگام بارگزاری تگ ها"
 
 #: tags/controller.php:48
 msgid "Tag already exists"
-msgstr ""
+msgstr "تگ از قبل وجود دارد"
 
 #: tags/controller.php:64
 msgid "Error deleting tag(s)"
-msgstr ""
+msgstr "خطا در هنگام حذف تگ (ها)"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "خطا در هنگام تگ گذاری"
 
 #: tags/controller.php:86
 msgid "Error untagging"
-msgstr ""
+msgstr "خطا در هنگام حذف تگ"
 
 #: tags/controller.php:97
 msgid "Error favoriting"
-msgstr ""
+msgstr "خطا هنگام افزودن به موارد محبوب"
 
 #: tags/controller.php:108
 msgid "Error unfavoriting"
-msgstr ""
+msgstr "خطا هنگام حذف از موارد محبوب"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -737,7 +738,7 @@ msgstr "پایگاه داده برنامه ریزی شدند"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "تنها %s موجود است."
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -771,7 +772,7 @@ msgstr "اتمام نصب"
 
 #: templates/installation.php:159
 msgid "Finishing …"
-msgstr ""
+msgstr "در حال اتمام ..."
 
 #: templates/layout.user.php:43
 msgid ""
@@ -836,7 +837,7 @@ msgstr ""
 
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
-msgstr ""
+msgstr "از صبر شما متشکریم"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -860,7 +861,7 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "اغاز به روز رسانی"
 
 #: templates/update.user.php:3
 msgid ""

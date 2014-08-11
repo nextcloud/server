@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "Ime %s je že v mapi %s že v uporabi. Izbrati je treba drugo ime.",
 "Not a valid source" => "Vir ni veljaven",
 "Server is not allowed to open URLs, please check the server configuration" => "Odpiranje naslovov URL preko strežnika ni dovoljeno. Preverite nastavitve strežnika.",
+"The file exceeds your quota by %s" => "Datoteka presega omejitev velikosti za %s",
 "Error while downloading %s to %s" => "Napaka med prejemanjem %s v mapo %s",
 "Error when creating the file" => "Napaka med ustvarjanjem datoteke",
 "Folder name cannot be empty." => "Ime mape ne more biti prazna vrednost.",

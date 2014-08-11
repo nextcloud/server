@@ -5,6 +5,7 @@
 # Translators:
 # Artopal <artopal@fastmail.fm>, 2013-2014
 # Carlos Andrés Burgos Urey <business@carlos-burgos.com>, 2014
+# manuelglz <cglzmtzg@gmail.com>, 2014
 # Guillermo G. <ggam@brainleakage.com>, 2013
 # Guillermo G. <ggam@brainleakage.com>, 2013
 # Stefano Gerli <stefano@aerosoles.net>, 2013
@@ -31,9 +32,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"PO-Revision-Date: 2014-08-10 22:13+0000\n"
+"Last-Translator: manuelglz <cglzmtzg@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -237,14 +238,14 @@ msgstr "hace años"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr "El mail de reset no pudo ser enviado. Por favor, contacte con su administrador."
+msgstr "La reiniciación de este  correo electrónico no pudo ser enviada. Por favor, contacte a su administrador."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr "Un enlace para reestablecer su contraseña ha sido enviado a su email. Si usted no lo recibe en un tiempo razonable, revise tu carpeta spam/correo no deseado.<br>Si no lo encuentra, pregunte a su administrador local."
+msgstr "Un enlace para reiniciar su contraseña ha sido enviado a su correo electrónico. Si usted no lo recibe en un tiempo razonable, revise su carpeta para spam/chatarra.<br>Si no lo encuentra, pregunte a su administrador local."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -252,11 +253,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr "Sus archivos están encriptados. Si no ha habilitado la clave de recuperación, no habrá manera de recuperar los datos despues de un reset de la contraseña. .<br /> Si no está seguro de lo que debe hacer, por favor contacte con su administrador antes de continuar.<br />¿Realmente desea continuar?"
+msgstr "Sus archivos están cifrados. Si no has activado la clave de recuperación, no habrá manera de recuperar los datos despues de que tu contraseña seá restablecida.<br /> Si no está seguro de lo que debe hacer, por favor contacte a su administrador antes de continuar.<br />¿Realmente desea continuar?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr "Yo soy consciente de lo que estoy haciendo"
+msgstr "Yo se lo que estoy haciendo"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -264,7 +265,7 @@ msgstr "Restablecer contraseña"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr "La contraseña no se puede cambiar. Por favor, contacte con su administrador."
+msgstr "La contraseña no se puede cambiar. Por favor, contacte a su administrador."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -558,17 +559,17 @@ msgstr "La actualización se ha realizado con éxito. Redireccionando a ownCloud
 
 #: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
-msgstr "No se puede restablecer la contraseña porque el token no es válido"
+msgstr "No se puede restablecer la contraseña porque el vale de identificación es nulo."
 
 #: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr "No se pudo resetear su correo electrónico. Por favor, asegúrese de que su nombre de usuario es correcto."
+msgstr "No se pudo enviar la reiniciación de su correo electrónico. Por favor, asegúrese de que su nombre de usuario es el correcto."
 
 #: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr "No se pudo resetear su correo electrónico, porque no hay una dirección de correo electrónico asociada para este nombre de usuario. Por favor, póngase en contacto con su administrador."
+msgstr "No se pudo enviar la reiniciación del correo electrónico, porque no hay una dirección de correo electrónico asociada con este nombre de usuario. Por favor, contacte a su administrador."
 
 #: lostpassword/controller/lostcontroller.php:191
 #, php-format
@@ -825,7 +826,7 @@ msgstr "Por favor, contacte con el administrador."
 
 #: templates/login.php:42
 msgid "Forgot your password? Reset it!"
-msgstr "¿Olvidó su contraseña? Reseteela!"
+msgstr "¿Olvidó su contraseña? ¡Reiniciala!"
 
 #: templates/login.php:47
 msgid "remember"

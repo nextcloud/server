@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "Името %s е вече в папка %s. Моля, избери друго име.",
 "Not a valid source" => "Невалиден източник.",
 "Server is not allowed to open URLs, please check the server configuration" => "На сървърът не му е разрешно да отваря интернет адреси, моля провери настройките на сървъра.",
+"The file exceeds your quota by %s" => "Файлът надвиши квотата ти с %s",
 "Error while downloading %s to %s" => "Грешка при тегленето на %s от %s.",
 "Error when creating the file" => "Грешка при създаването на файлът.",
 "Folder name cannot be empty." => "Името на папката не може да бъде оставено празно.",
