@@ -43,15 +43,26 @@
                 var areaSelector = $(button).data('apps-slide-toggle');
                 var area = $(areaSelector);
 
+				function hideArea() {
+					area.slideUp(function() {
+						area.trigger(new $.Event('hide'));
+					});
+				}
+				function showArea() {
+					area.slideDown(function() {
+						area.trigger(new $.Event('show'));
+					});
+				}
+
                 // do nothing if the area is animated
                 if (!area.is(':animated')) {
 
                     // button toggles the area
                     if (button === event.target) {
                         if (area.is(':visible')) {
-                            area.slideUp();
+                            hideArea();
                         } else {
-                            area.slideDown();
+                            showArea();
                         }
 
                     // all other areas that have not been clicked but are open
@@ -59,7 +70,7 @@
                     } else {
                         var closest = $(event.target).closest(areaSelector);
                         if (area.is(':visible') && closest[0] !== area[0]) {
-                            area.slideUp();
+                            hideArea();
                         }
                     }
                 }
