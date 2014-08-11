@@ -172,6 +172,7 @@ class OC_App {
 		if (!$forceRefresh && !empty(self::$enabledAppsCache)) {
 			return self::$enabledAppsCache;
 		}
+		$apps = array();
 		$appConfig = \OC::$server->getAppConfig();
 		$appStatus = $appConfig->getValues(false, 'enabled');
 		$user = \OC_User::getUser();
