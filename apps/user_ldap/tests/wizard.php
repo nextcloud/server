@@ -43,9 +43,11 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 	}
 
 	private function getWizardAndMocks() {
-		static $conMethods;
+		static $confMethods;
+		static $connMethods;
+		static $accMethods;
 
-		if(is_null($conMethods)) {
+		if(is_null($confMethods)) {
 			$confMethods = get_class_methods('\OCA\user_ldap\lib\Configuration');
 			$connMethods = get_class_methods('\OCA\user_ldap\lib\Connection');
 			$accMethods  = get_class_methods('\OCA\user_ldap\lib\Access');
