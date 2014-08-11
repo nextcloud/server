@@ -18,6 +18,18 @@ var UserList = {
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
 	currentGid: '',
 
+	/**
+	 * Initializes the user list
+	 * @param $el user list table element
+	 */
+	initialize: function($el) {
+		this.$el = $el;
+
+		// initially the list might already contain user entries (not fully ajaxified yet)
+		// initialize these entries
+		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
+	},
+
 	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
 		var $tr = $userListBody.find('tr:first-child').clone();
 		var subAdminsEl;
@@ -109,15 +121,7 @@ var UserList = {
 			UserList.doSort();
 		}
 
-		$quotaSelect.on('change', function () {
-			var uid = UserList.getUID(this);
-			var quota = $(this).val();
-			setQuota(uid, quota, function(returnedQuota){
-				if (quota !== returnedQuota) {
-					$($quotaSelect).find(':selected').text(returnedQuota);
-				}
-			});
-		});
+		$quotaSelect.on('change', UserList.onQuotaSelect);
 
 		// defer init so the user first sees the list appear more quickly
 		window.setTimeout(function(){
@@ -496,20 +500,41 @@ var UserList = {
 		if (UserList.scrollArea.scrollTop() + UserList.scrollArea.height() > UserList.scrollArea.get(0).scrollHeight - 500) {
 			UserList.update(UserList.currentGid, true);
 		}
+	},
+
+	/**
+	 * Event handler for when a quota has been changed through a single select.
+	 * This will save the value.
+	 */
+	onQuotaSelect: function(ev) {
+		var $select = $(ev.target);
+		var uid = UserList.getUID($select);
+		var quota = $select.val();
+		UserList._updateQuota(uid, quota, function(returnedQuota){
+			if (quota !== returnedQuota) {
+				$select.find(':selected').text(returnedQuota);
+			}
+		});
+	},
+
+	/**
+	 * Saves the quota for the given user
+	 * @param {String} [uid] optional user id, sets default quota if empty
+	 * @param {String} quota quota value
+	 * @param {Function} ready callback after save
+	 */
+	_updateQuota: function(uid, quota, ready) {
+		$.post(
+			OC.filePath('settings', 'ajax', 'setquota.php'),
+			{username: uid, quota: quota},
+			function (result) {
+				if (ready) {
+					ready(result.data.quota);
+				}
+			}
+		);
 	}
 };
-
-function setQuota (uid, quota, ready) {
-	$.post(
-		OC.filePath('settings', 'ajax', 'setquota.php'),
-		{username: uid, quota: quota},
-		function (result) {
-			if (ready) {
-				ready(result.data.quota);
-			}
-		}
-	);
-}
 
 $(document).ready(function () {
 	$userList = $('#userlist');
@@ -527,6 +552,9 @@ $(document).ready(function () {
 	UserList.scrollArea.scroll(function(e) {UserList._onScroll(e);});
 
 	$userList.after($('<div class="loading" style="height: 200px; visibility: hidden;"></div>'));
+
+	// TODO: move other init calls inside of initialize
+	UserList.initialize($('#userlist'));
 
 	$('.groupsselect').each(function (index, element) {
 		UserList.applyGroupSelect(element);
@@ -611,15 +639,9 @@ $(document).ready(function () {
 			});
 	});
 
-	$('#default_quota, .quota-user').singleSelect().on('change', function () {
-		var $select = $(this);
-		var uid = UserList.getUID($select);
-		var quota = $select.val();
-		setQuota(uid, quota, function(returnedQuota){
-			if (quota !== returnedQuota) {
-				$select.find(':selected').text(returnedQuota);
-			}
-		});
+	// init the quota field select box after it is shown the first time
+	$('#app-settings').one('show', function() {
+		$(this).find('#default_quota').singleSelect().on('change', UserList.onQuotaSelect);
 	});
 
 	$('#newuser').submit(function (event) {
