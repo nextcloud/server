@@ -285,6 +285,7 @@ class Wizard extends LDAPUtility {
 	 * fetches all groups from LDAP
 	 * @param string $dbKey
 	 * @param string $confKey
+	 * @return array $groupEntries
 	 */
 	public function fetchGroups($dbKey, $confKey) {
 		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
@@ -300,21 +301,21 @@ class Wizard extends LDAPUtility {
 		$filter = $ldapAccess->combineFilterWithOr($filterParts);
 		$filter = $ldapAccess->combineFilterWithAnd(array($filter, 'cn=*'));
 
-		$groupdns = array();
+		$groupEntries = array();
 		$limit = 400;
 		$offset = 0;
 		do {
 			$result = $ldapAccess->searchGroups($filter, array('cn','dn'), $limit, $offset);
 			foreach($result as $item) {
-				$groups[] = $item['cn'];
-				$groupdns[] = $item;
+				$groupNames[] = $item['cn'];
+				$groupEntries[] = $item;
 			}
 			$offset += $limit;
-		} while (count($groups) > 0 && count($groups) % $limit === 0);
+		} while (count($groupNames) > 0 && count($groupNames) % $limit === 0);
 
-		if(count($groups) > 0) {
-			natsort($groups);
-			$this->result->addOptions($dbKey, array_values($groups));
+		if(count($groupNames) > 0) {
+			natsort($groupNames);
+			$this->result->addOptions($dbKey, array_values($groupNames));
 		} else {
 			throw new \Exception(self::$l->t('Could not find the desired feature'));
 		}
@@ -324,7 +325,7 @@ class Wizard extends LDAPUtility {
 			//something is already configured? pre-select it.
 			$this->result->addChange($dbKey, $setFeatures);
 		}
-		return $groupdns;
+		return $groupEntries;
 	}
 
 	public function determineGroupMemberAssoc() {
@@ -656,6 +657,7 @@ class Wizard extends LDAPUtility {
 	 * Checks whether the server supports memberOf in LDAP Filter.
 	 * Requires that groups are determined, thus internally called from within
 	 * determineGroups()
+	 * @param array $groups
 	 * @return bool true if it does, false otherwise
 	 * @throws \Exception
 	 */
@@ -672,12 +674,12 @@ class Wizard extends LDAPUtility {
 		$filterPrefix = '(&(objectclass=*)(memberOf=';
 		$filterSuffix = '))';
 
-		foreach($groups as $properties) {
-			if(!isset($properties['cn'])) {
+		foreach($groups as $groupProperties) {
+			if(!isset($groupProperties['cn'])) {
 				//assuming only groups have their cn cached :)
 				continue;
 			}
-			$filter = strtolower($filterPrefix . $properties['dn'] . $filterSuffix);
+			$filter = strtolower($filterPrefix . $groupProperties['dn'] . $filterSuffix);
 			$rr = $this->ldap->search($cr, $base, $filter, array('dn'));
 			if(!$this->ldap->isResource($rr)) {
 				continue;
