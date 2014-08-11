@@ -73,10 +73,14 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$oldname = 'oldname';
 		$newname = 'newname';
 
-		$this->viewMock->expects($this->at(0))
+		$this->viewMock->expects($this->any())
 			->method('file_exists')
-			->with('/')
-			->will($this->returnValue(true));
+			->with($this->anything())
+			->will($this->returnValueMap(array(
+				array('/', true),
+				array('/oldname', true)
+				)));
+
 
 		$this->viewMock->expects($this->any())
 			->method('getFileInfo')
@@ -119,8 +123,42 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 
 		$this->viewMock->expects($this->at(0))
 			->method('file_exists')
-			->with('/unexist')
+			->with('/unexist/oldname')
 			->will($this->returnValue(false));
+
+		$this->viewMock->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue(array(
+				'fileid' => 123,
+				'type' => 'dir',
+				'mimetype' => 'httpd/unix-directory',
+				'size' => 18,
+				'etag' => 'abcdef',
+				'directory' => '/unexist',
+				'name' => 'new_name',
+			)));
+
+		$result = $this->files->rename($dir, $oldname, $newname);
+
+		$this->assertFalse($result['success']);
+		$this->assertEquals('sourcenotfound', $result['data']['code']);
+	}
+
+	/**
+	 * Test move to a folder that doesn't exist any more
+	 */
+	function testRenameToNonExistingFolder() {
+		$dir = '/';
+		$oldname = 'oldname';
+		$newname = '/unexist/newname';
+
+		$this->viewMock->expects($this->any())
+			->method('file_exists')
+			->with($this->anything())
+			->will($this->returnValueMap(array(
+				array('/oldname', true),
+				array('/unexist', false)
+				)));
 
 		$this->viewMock->expects($this->any())
 			->method('getFileInfo')
