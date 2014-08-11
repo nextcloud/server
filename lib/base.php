@@ -135,7 +135,7 @@ class OC {
 		OC::$THIRDPARTYROOT = OC_Config::getValue('3rdpartyroot', null);
 		OC::$THIRDPARTYWEBROOT = OC_Config::getValue('3rdpartyurl', null);
 		
-		if (is_null(OC::$THIRDPARTYROOT) && is_null(OC::$THIRDPARTYWEBROOT)) {
+		if (empty(OC::$THIRDPARTYROOT) && empty(OC::$THIRDPARTYWEBROOT)) {
 			if (file_exists(OC::$SERVERROOT . '/3rdparty')) {
 				OC::$THIRDPARTYROOT = OC::$SERVERROOT;
 				OC::$THIRDPARTYWEBROOT = OC::$WEBROOT;
@@ -144,7 +144,7 @@ class OC {
 				OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
 			}
 		}
-		if (is_null(OC::$THIRDPARTYROOT) || !file_exists(OC::$THIRDPARTYROOT)) {
+		if (empty(OC::$THIRDPARTYROOT) || !file_exists(OC::$THIRDPARTYROOT)) {
 			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				. ' folder in the ownCloud folder or the folder above.'
 				. ' You can also configure the location in the config.php file.');
