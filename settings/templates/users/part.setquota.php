@@ -1,5 +1,5 @@
 <div id="app-settings-header">
-	<button class="settings-button" tabindex="0"></button>
+	<button class="settings-button" tabindex="0" data-apps-slide-toggle="#app-settings-content"></button>
 </div>
 <div id="app-settings-content">
 	<div class="quota">
