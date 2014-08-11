@@ -180,6 +180,11 @@ class Updater {
 		$cache = $storage->getCache();
 		$parentId = $cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
+
+		if ($parent === '.' || $parent === '/' || $parent === '\\') {
+			$parent = '';
+		}
+
 		if ($parentId != -1) {
 			$cache->update($parentId, array('storage_mtime' => $storage->filemtime($parent)));
 		}
