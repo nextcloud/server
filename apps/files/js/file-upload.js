@@ -181,7 +181,6 @@ OC.Upload = {
 
 	_hideProgressBar: function() {
 		$('#uploadprogresswrapper input.stop').fadeOut();
-		$('#uploadprogresswrapper .speed').fadeOut();
 		$('#uploadprogressbar').fadeOut(function() {
 			$('#file_upload_start').trigger(new $.Event('resized'));
 		});
@@ -442,7 +441,13 @@ OC.Upload = {
 			window.file_upload_param = fileupload;
 
 			if (supportAjaxUploadWithProgress()) {
-
+				//remaining time
+				var lastUpdate = new Date().getMilliseconds();
+				var lastSize = 0;
+				var bufferSize = 10;
+				var buffer = new Array();// = new Array(bufferSize);
+				var bufferIndex = 0;
+				var bufferTotal = 0;
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
 					OC.Upload.log('progress handle fileuploadadd', e, data);
@@ -455,10 +460,10 @@ OC.Upload = {
 				fileupload.on('fileuploadstart', function(e, data) {
 					OC.Upload.log('progress handle fileuploadstart', e, data);
 					$('#uploadprogresswrapper input.stop').show();
-					$('#uploadprogresswrapper .speed').show();
 					$('#uploadprogresswrapper .label').show();
 					$('#uploadprogressbar').progressbar({value: 0});
 					$('#uploadprogressbar .ui-progressbar-value').html('<em class="label inner"><span class="desktop">' + t('files', 'Uploading...') + '</span><span class="mobile">' + t('files', '...') + '</span></em>');
+                    $('#uploadprogressbar').tipsy({gravity:'n', fade:true, live:true});
 					OC.Upload._showProgressBar();
 				});
 				fileupload.on('fileuploadprogress', function(e, data) {
@@ -468,9 +473,26 @@ OC.Upload = {
 				fileupload.on('fileuploadprogressall', function(e, data) {
 					OC.Upload.log('progress handle fileuploadprogressall', e, data);
 					var progress = (data.loaded / data.total) * 100;
+					var thisUpdate = new Date().getMilliseconds();
+					var diffUpdate = (thisUpdate - lastUpdate)/1000; // eg. 2s
+					lastUpdate = thisUpdate;
+					var diffSize = data.loaded - lastSize;
+					lastSize = data.loaded;
+					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1mb/2s = 0.5mb/s
+					var remainingSeconds = ((data.total - data.loaded) / diffSize);
+					if(remainingSeconds>0){ //buffer to make it smoother
+						bufferTotal = bufferTotal - (buffer[bufferIndex]||0) + remainingSeconds;
+						buffer[bufferIndex] = remainingSeconds;
+						bufferIndex = (bufferIndex + 1) % bufferSize;
+					}
+					var smoothRemaining = (bufferTotal/bufferSize);
+					var date = new Date(smoothRemaining * 1000);
+					var stringRemaining =  (date.getUTCHours() > 0 ? ('0' + date.getUTCHours()).slice(-2) + ':':'') +
+						('0' + date.getUTCMinutes()).slice(-2) + ':' +
+						('0' + date.getUTCSeconds()).slice(-2);
 					$('#uploadprogressbar .label .mobile').text(t('files', '{loadedSize}', {loadedSize: humanFileSize(data.loaded)}));
 					$('#uploadprogressbar .label .desktop').text(t('files', '{loadedSize} of {totalSize}', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total)}));
-					$('#uploadprogresswrapper .speed').text(t('files', '{bitrate}/s', {bitrate: humanFileSize(data.bitrate)}));
+					$('#uploadprogressbar').attr('title', t('files', '{bitrate}. {timeRemaining} seconds remaining.', {timeRemaining: stringRemaining, bitrate: humanFileSize(data.bitrate) + '/s'}));
 					$('#uploadprogressbar').progressbar('value', progress);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {

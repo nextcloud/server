@@ -69,11 +69,11 @@
     overflow: hidden;
 }
 #uploadprogressbar .label {
-    font-weight: bold;
     top: 6px;
     opacity: 1;
 	overflow: hidden;
 	white-space: nowrap;
+	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
     color:white; 
@@ -84,18 +84,6 @@
 #uploadprogressbar .label.outer {
     position: relative;
     color: black;
-}
-#uploadprogresswrapper .speed{
-    margin-left: 3px;
-    font-size: 13px;
-    display:inline-block;
-    float: left;
-    width: 5em;
-    text-align: center;
-    position: relative;
-    top: 7px;
-	overflow: hidden;
-	white-space: nowrap;
 }
 #uploadprogressbar .desktop {
 	display: block;
