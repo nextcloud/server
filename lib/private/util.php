@@ -1467,4 +1467,11 @@ class OC_Util {
 			return false;
 		}
 	}
+
+	/**
+	 * @return string
+	 */
+	public static function isPhpCharSetUtf8() {
+		return ini_get('default_charset') === 'UTF-8';
+	}
 }

@@ -129,14 +129,28 @@ if (!$_['has_fileinfo']) {
 // is PHP at least at 5.3.8?
 if ($_['old_php']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Your PHP version is outdated'));?></h2>
+	<div class="section">
+		<h2><?php p($l->t('Your PHP version is outdated'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly.')); ?>
 	</span>
 
-</div>
+	</div>
+<?php
+}
+
+// is PHP charset set to UTF8?
+if (!$_['isPhpCharSetUtf8']) {
+	?>
+	<div class="section">
+		<h2><?php p($l->t('PHP charset is not set to UTF-8'));?></h2>
+
+		<span class="connectionwarning">
+		<?php p($l->t("PHP charset is not set to UTF-8. This can cause major issues with non-acsii characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'.")); ?>
+	</span>
+
+	</div>
 <?php
 }
 
@@ -168,14 +182,14 @@ if (!$_['isLocaleWorking']) {
 // is internet connection working ?
 if (!$_['internetconnectionworking']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Internet connection not working'));?></h2>
+	<div class="section">
+		<h2><?php p($l->t('Internet connection not working'));?></h2>
 
 		<span class="connectionwarning">
 		<?php p($l->t('This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')); ?>
 	</span>
 
-</div>
+	</div>
 <?php
 }
 ?>
