@@ -354,8 +354,6 @@ table td.filename .uploadtext {
 	z-index: 5;
 }
 #fileList tr td.filename>input[type="checkbox"]{
-	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
-	 * to prevent it to increase the height */
 	position: relative;
 	z-index: 4;
 }
