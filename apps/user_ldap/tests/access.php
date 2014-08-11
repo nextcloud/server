@@ -156,4 +156,80 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 
 		$this->assertSame($expected, $access->getDomainDNFromDN($inputDN));
 	}
+
+	public function stringResemblesDNYes() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$input = 'foo=bar,bar=foo,dc=foobar';
+		$interResult = array(
+			'count' => 3,
+			0 => 'foo=bar',
+			1 => 'bar=foo',
+			2 => 'dc=foobar'
+		);
+
+		$lw->expects($this->once())
+			->method('explodeDN')
+			->will($this->returnValue($interResult));
+
+		$this->assertTrue($access->stringResemblesDN($input));
+	}
+
+	public function stringResemblesDNYesLDAPmod() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$lw = new \OCA\user_ldap\lib\LDAP();
+		$access = new Access($con, $lw, $um);
+
+		if(!function_exists('ldap_explode_dn')) {
+			$this->markTestSkipped('LDAP Module not available');
+		}
+
+		$input = 'foo=bar,bar=foo,dc=foobar';
+		$interResult = array(
+			'count' => 3,
+			0 => 'foo=bar',
+			1 => 'bar=foo',
+			2 => 'dc=foobar'
+		);
+
+		$lw->expects($this->once())
+			->method('explodeDN')
+			->will($this->returnValue($interResult));
+
+		$this->assertTrue($access->stringResemblesDN($input));
+	}
+
+	public function stringResemblesDNNo() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$input = 'foobarbarfoodcfoobar';
+		$interResult = false;
+
+		$lw->expects($this->once())
+			->method('explodeDN')
+			->will($this->returnValue($interResult));
+
+		$this->assertFalse($access->stringResemblesDN($input));
+	}
+
+	public function stringResemblesDNNoLDAPMod() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$lw = new \OCA\user_ldap\lib\LDAP();
+		$access = new Access($con, $lw, $um);
+
+		if(!function_exists('ldap_explode_dn')) {
+			$this->markTestSkipped('LDAP Module not available');
+		}
+
+		$input = 'foobarbarfoodcfoobar';
+		$interResult = false;
+
+		$lw->expects($this->once())
+			->method('explodeDN')
+			->will($this->returnValue($interResult));
+
+		$this->assertFalse($access->stringResemblesDN($input));
+	}
 }
