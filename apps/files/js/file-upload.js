@@ -458,7 +458,7 @@ OC.Upload = {
 					$('#uploadprogresswrapper .speed').show();
 					$('#uploadprogresswrapper .label').show();
 					$('#uploadprogressbar').progressbar({value: 0});
-					$('#uploadprogressbar .ui-progressbar-value').html('<em class="label inner">' + t('files', 'Uploading...') + '</em>');
+					$('#uploadprogressbar .ui-progressbar-value').html('<em class="label inner"><span class="desktop">' + t('files', 'Uploading...') + '</span><span class="mobile">' + t('files', '...') + '</span></em>');
 					OC.Upload._showProgressBar();
 				});
 				fileupload.on('fileuploadprogress', function(e, data) {
@@ -468,7 +468,8 @@ OC.Upload = {
 				fileupload.on('fileuploadprogressall', function(e, data) {
 					OC.Upload.log('progress handle fileuploadprogressall', e, data);
 					var progress = (data.loaded / data.total) * 100;
-					$('#uploadprogressbar .label').text(t('files', '{loadedSize} of {totalSize}', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total)}));
+					$('#uploadprogressbar .label .mobile').text(t('files', '{loadedSize}', {loadedSize: humanFileSize(data.loaded)}));
+					$('#uploadprogressbar .label .desktop').text(t('files', '{loadedSize} of {totalSize}', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total)}));
 					$('#uploadprogresswrapper .speed').text(t('files', '{bitrate}/s', {bitrate: humanFileSize(data.bitrate)}));
 					$('#uploadprogressbar').progressbar('value', progress);
 				});

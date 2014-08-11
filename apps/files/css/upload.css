@@ -93,6 +93,12 @@
     position: relative;
     top: 7px;
 }
+#uploadprogressbar .desktop {
+	display: block;
+}
+#uploadprogressbar .mobile {
+	display: none;
+}
 
 #uploadprogressbar + stop {
 	font-size: 13px;
