@@ -287,28 +287,4 @@ $(document).ready( function () {
 	$userGroupList.on('click', '.isgroup', function () {
 		GroupList.showGroup(GroupList.getElementGID(this));
 	});
-
-	// Implements Quota Settings Toggle.
-	var $appSettings = $('#app-settings');
-	$('#app-settings-header').on('click keydown',function(event) {
-		if(wrongKey(event)) {
-			return;
-		}
-		if($appSettings.hasClass('open')) {
-			$appSettings.switchClass('open', '');
-		} else {
-			$appSettings.switchClass('', 'open');
-		}
-	});
-	$('body').on('click', function(event){
-		if($appSettings.find(event.target).length === 0) {
-			$appSettings.switchClass('open', '');
-		}
-	});
-
 });
-
-var wrongKey = function(event) {
-	return ((event.type === 'keydown' || event.type === 'keypress') &&
-		(event.keyCode !== 32 && event.keyCode !== 13));
-};
