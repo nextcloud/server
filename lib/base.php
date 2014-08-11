@@ -472,9 +472,6 @@ class OC {
 		@ini_set('post_max_size', '10G');
 		@ini_set('file_uploads', '50');
 
-		// setting charset to UTF8
-		@ini_set('default_charset', 'UTF-8');
-
 		self::handleAuthHeaders();
 
 		self::initPaths();
