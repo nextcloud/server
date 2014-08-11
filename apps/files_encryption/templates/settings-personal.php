@@ -9,7 +9,7 @@
 		<p>
 			<a name="changePKPasswd" />
 			<label for="changePrivateKeyPasswd">
-				<em><?php p( $l->t( "Your private key password no longer match your log-in password." ) ); ?></em>
+				<em><?php p( $l->t( "Your private key password no longer matches your log-in password." ) ); ?></em>
 			</label>
 			<br />
 			<?php p( $l->t( "Set your old private key password to your current log-in password:" ) ); ?>
