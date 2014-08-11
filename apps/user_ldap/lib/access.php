@@ -141,6 +141,18 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * checks whether the given string is probably a DN
+	 * @param string $string
+	 * @return boolean
+	 */
+	public function stringResemblesDN($string) {
+		$r = $this->ldap->explodeDN($string, 0);
+		// if exploding a DN succeeds and does not end up in
+		// an empty array except for $r[count] being 0.
+		return (is_array($r) && count($r) > 1);
+	}
+
+	/**
 	 * sanitizes a DN received from the LDAP server
 	 * @param array $dn the DN in question
 	 * @return array the sanitized DN
