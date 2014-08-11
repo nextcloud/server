@@ -441,25 +441,14 @@ OC.Share={
 				});
 			}
 			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
-	//			if (cache[search.term]) {
-	//				response(cache[search.term]);
-	//			} else {
 					$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
 						if (result.status == 'success' && result.data.length > 0) {
 							$( "#shareWith" ).autocomplete( "option", "autoFocus", true );
 							response(result.data);
 						} else {
-							// Suggest sharing via email if valid email address
-//							var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
-//							if (pattern.test(search.term)) {
-//								response([{label: t('core', 'Share via email:')+' '+search.term, value: {shareType: OC.Share.SHARE_TYPE_EMAIL, shareWith: search.term}}]);
-//							} else {
-								$( "#shareWith" ).autocomplete( "option", "autoFocus", false );
-								response([t('core', 'No people found')]);
-//							}
+							response();
 						}
 					});
-	//			}
 			},
 			focus: function(event, focused) {
 				event.preventDefault();
