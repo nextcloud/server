@@ -724,8 +724,11 @@ OC.Share={
 	 */
 	showExpirationDate:function(date, shareTime) {
 		var now = new Date();
+		// min date should always be the next day
+		var minDate = new Date();
+		minDate.setDate(minDate.getDate()+1);
 		var datePickerOptions = {
-			minDate: now,
+			minDate: minDate,
 			maxDate: null
 		};
 		if (_.isNumber(shareTime)) {
@@ -757,6 +760,9 @@ OC.Share={
 $(document).ready(function() {
 
 	if(typeof monthNames != 'undefined'){
+		// min date should always be the next day
+		var minDate = new Date();
+		minDate.setDate(minDate.getDate()+1);
 		$.datepicker.setDefaults({
 			monthNames: monthNames,
 			monthNamesShort: $.map(monthNames, function(v) { return v.slice(0,3)+'.'; }),
@@ -764,7 +770,7 @@ $(document).ready(function() {
 			dayNamesMin: $.map(dayNames, function(v) { return v.slice(0,2); }),
 			dayNamesShort: $.map(dayNames, function(v) { return v.slice(0,3)+'.'; }),
 			firstDay: firstDay,
-			minDate : new Date()
+			minDate : minDate
 		});
 	}
 	$(document).on('click', 'a.share', function(event) {
