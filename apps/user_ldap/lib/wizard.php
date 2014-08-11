@@ -301,6 +301,7 @@ class Wizard extends LDAPUtility {
 		$filter = $ldapAccess->combineFilterWithOr($filterParts);
 		$filter = $ldapAccess->combineFilterWithAnd(array($filter, 'cn=*'));
 
+		$groupNames = array();
 		$groupEntries = array();
 		$limit = 400;
 		$offset = 0;
