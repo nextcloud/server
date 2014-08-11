@@ -32,6 +32,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				try {
 					$shareType = (int)$_POST['shareType'];
 					$shareWith = $_POST['shareWith'];
+					$itemSourceName = isset($_POST['itemSourceName']) ? $_POST['itemSourceName'] : null;
 					if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith == '') {
 						$shareWith = null;
 					}
@@ -42,7 +43,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$shareType,
 						$shareWith,
 						$_POST['permissions'],
-						$_POST['itemSourceName']
+						$itemSourceName
 					);
 
 					if (is_string($token)) {
