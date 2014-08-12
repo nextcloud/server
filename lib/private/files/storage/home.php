@@ -66,4 +66,14 @@ class Home extends Local implements \OCP\Files\IHomeStorage {
 	public function getUser() {
 		return $this->user;
 	}
+
+	/**
+	 * get the owner of a path
+	 *
+	 * @param string $path The path to get the owner
+	 * @return string uid or false
+	 */
+	public function getOwner($path) {
+		return $this->user->getUID();
+	}
 }
