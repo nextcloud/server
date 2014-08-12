@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
+ * Copyright (c) 2014 Robin Appelman <icewind@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -34,8 +34,9 @@ class Updater {
 	 * Update the cache for $path
 	 *
 	 * @param string $path
+	 * @param int $time
 	 */
-	public function update($path) {
+	public function update($path, $time = null) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
 		 * @var string $internalPath
@@ -48,6 +49,7 @@ class Updater {
 			$data = $scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$this->correctParentStorageMtime($storage, $internalPath);
 			$cache->correctFolderSize($internalPath, $data);
+			$this->propagator->propagateChanges($time);
 		}
 	}
 
@@ -72,6 +74,7 @@ class Updater {
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($parent);
 			$this->correctParentStorageMtime($storage, $internalPath);
+			$this->propagator->propagateChanges();
 		}
 	}
 
@@ -115,16 +118,8 @@ class Updater {
 				$this->remove($source);
 				$this->update($target);
 			}
+			$this->propagator->propagateChanges();
 		}
-	}
-
-	/**
-	 * propagate the updates to their parent folders
-	 *
-	 * @param int $time (optional) the mtime to set for the folders, if not set the current time is used
-	 */
-	public function propagate($time = null) {
-		$this->propagator->propagateChanges($time);
 	}
 
 	/**

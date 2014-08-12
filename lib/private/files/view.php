@@ -384,7 +384,6 @@ class View {
 					fclose($target);
 					fclose($data);
 					$this->updater->update($path);
-					$this->updater->propagate();
 					if ($this->shouldEmitHooks($path) && $result !== false) {
 						$this->emit_file_hooks_post($exists, $path);
 					}
@@ -506,13 +505,11 @@ class View {
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->updater->update($path2);
-					$this->updater->propagate();
 					if ($this->shouldEmitHooks()) {
 						$this->emit_file_hooks_post($exists, $path2);
 					}
 				} elseif ($this->shouldEmitHooks() && $result !== false) {
 					$this->updater->rename($path1, $path2);
-					$this->updater->propagate();
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
@@ -592,7 +589,6 @@ class View {
 					}
 				}
 				$this->updater->update($path2);
-				$this->updater->propagate();
 				if ($this->shouldEmitHooks() && $result !== false) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
@@ -770,15 +766,12 @@ class View {
 
 				if (in_array('delete', $hooks)) {
 					$this->updater->remove($path);
-					$this->updater->propagate();
 				}
 				if (in_array('write', $hooks)) {
 					$this->updater->update($path);
-					$this->updater->propagate();
 				}
 				if (in_array('touch', $hooks)) {
-					$this->updater->update($path);
-					$this->updater->propagate($extraParam);
+					$this->updater->update($path, $extraParam);
 				}
 
 				if ($this->shouldEmitHooks($path) && $result !== false) {
