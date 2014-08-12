@@ -183,6 +183,7 @@ class OC_Helper {
 			'application/x-gzip' => 'package/x-generic',
 			'application/x-rar-compressed' => 'package/x-generic',
 			'application/x-tar' => 'package/x-generic',
+			'application/vnd.android.package-archive' => 'package/x-generic',
 			'application/zip' => 'package/x-generic',
 
 			'application/msword' => 'x-office/document',
