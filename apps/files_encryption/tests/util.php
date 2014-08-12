@@ -473,8 +473,6 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-
-	/**
 	 * @dataProvider dataProviderFortestIsMountPointApplicableToUser
 	 */
 	function testIsMountPointApplicableToUser($mount, $expectedResult) {
