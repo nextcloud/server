@@ -115,6 +115,9 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 	public function testData() {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$raw = imagecreatefromstring(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.png'));
+		// Preserve transparency
+		imagealphablending($raw, true);
+		imagesavealpha($raw, true);
 		ob_start();
 		imagepng($raw);
 		$expected = ob_get_clean();

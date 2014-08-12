@@ -450,6 +450,9 @@ class OC_Image {
 			case IMAGETYPE_GIF:
 				if (imagetypes() & IMG_GIF) {
 					$this->resource = imagecreatefromgif($imagePath);
+					// Preserve transparency
+					imagealphablending($this->resource, true);
+					imagesavealpha($this->resource, true);
 				} else {
 					OC_Log::write('core',
 						'OC_Image->loadFromFile, GIF images not supported: '.$imagePath,
@@ -468,6 +471,9 @@ class OC_Image {
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
 					$this->resource = imagecreatefrompng($imagePath);
+					// Preserve transparency
+					imagealphablending($this->resource, true);
+					imagesavealpha($this->resource, true);
 				} else {
 					OC_Log::write('core',
 						'OC_Image->loadFromFile, PNG images not supported: '.$imagePath,
