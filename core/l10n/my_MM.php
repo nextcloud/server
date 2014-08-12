@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Cancel" => "ပယ်ဖျက်မည်",
 "Set expiration date" => "သက်တမ်းကုန်ဆုံးမည့်ရက်သတ်မှတ်မည်",
 "Expiration date" => "သက်တမ်းကုန်ဆုံးမည့်ရက်",
-"Share via email:" => "အီးမေးလ်ဖြင့်ဝေမျှမည် -",
 "Resharing is not allowed" => "ပြန်လည်ဝေမျှခြင်းခွင့်မပြုပါ",
 "can edit" => "ပြင်ဆင်နိုင်",
 "create" => "ဖန်တီးမည်",

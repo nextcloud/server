@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-09 01:54-0400\n"
-"PO-Revision-Date: 2014-07-09 05:54+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -48,15 +48,15 @@ msgstr "הודעת הדוא״ל נשלחה"
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:337
+#: admin/controller.php:116 templates/admin.php:351
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:364 templates/personal.php:156
 msgid "Encryption"
 msgstr "הצפנה"
 
-#: admin/controller.php:120 templates/admin.php:374
+#: admin/controller.php:120 templates/admin.php:388
 msgid "Authentication method"
 msgstr ""
 
@@ -306,23 +306,23 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:94 js/users/groups.js:202
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:201
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:229
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:230 js/users/users.js:296
 msgid "undo"
 msgstr "ביטול"
 
-#: js/users/users.js:37 templates/admin.php:292
+#: js/users/users.js:37 templates/admin.php:306
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -338,31 +338,31 @@ msgstr "מנהל הקבוצה"
 msgid "Delete"
 msgstr "מחיקה"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "לעולם לא"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "הוספת קבוצה"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "יש לספק שם משתמש תקני"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "יצירת המשתמש נכשלה"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "יש לספק ססמה תקנית"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
@@ -494,31 +494,42 @@ msgid ""
 msgstr ""
 
 #: templates/admin.php:147
+msgid "PHP charset is not set to UTF-8"
+msgstr ""
+
+#: templates/admin.php:150
+msgid ""
+"PHP charset is not set to UTF-8. This can cause major issues with non-acsii "
+"characters in file names. We highly recommend to change the value of "
+"'default_charset' php.ini to 'UTF-8'."
+msgstr ""
+
+#: templates/admin.php:161
 msgid "Locale not working"
 msgstr ""
 
-#: templates/admin.php:152
+#: templates/admin.php:166
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:156
+#: templates/admin.php:170
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr ""
 
-#: templates/admin.php:160
+#: templates/admin.php:174
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:172
+#: templates/admin.php:186
 msgid "Internet connection not working"
 msgstr "החיבור לאינטרנט אינו פעיל"
 
-#: templates/admin.php:175
+#: templates/admin.php:189
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -527,186 +538,186 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr ""
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:196
+#: templates/admin.php:210
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr ""
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr ""
 
-#: templates/admin.php:203
+#: templates/admin.php:217
 msgid "Cron was not executed yet!"
 msgstr ""
 
-#: templates/admin.php:213
+#: templates/admin.php:227
 msgid "Execute one task with each page loaded"
 msgstr "יש להפעיל משימה אחת עם כל עמוד שנטען"
 
-#: templates/admin.php:221
+#: templates/admin.php:235
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:229
+#: templates/admin.php:243
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
-#: templates/admin.php:234
+#: templates/admin.php:248
 msgid "Sharing"
 msgstr "שיתוף"
 
-#: templates/admin.php:238
+#: templates/admin.php:252
 msgid "Allow apps to use the Share API"
 msgstr "לאפשר ליישום להשתמש ב־API השיתוף"
 
-#: templates/admin.php:243
+#: templates/admin.php:257
 msgid "Allow users to share via link"
 msgstr ""
 
-#: templates/admin.php:249
+#: templates/admin.php:263
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:266
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:256
+#: templates/admin.php:270
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:260
+#: templates/admin.php:274
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:277
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:280
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:271
+#: templates/admin.php:285
 msgid "Allow resharing"
 msgstr "לאפשר שיתוף מחדש"
 
-#: templates/admin.php:276
+#: templates/admin.php:290
 msgid "Restrict users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:281
+#: templates/admin.php:295
 msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:286
+#: templates/admin.php:300
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:298
+#: templates/admin.php:312
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:303
+#: templates/admin.php:317
 msgid "Security"
 msgstr "אבטחה"
 
-#: templates/admin.php:314
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "לאלץ HTTPS"
 
-#: templates/admin.php:316
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:322
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr ""
 
-#: templates/admin.php:332
+#: templates/admin.php:346
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:334
+#: templates/admin.php:348
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:365
+#: templates/admin.php:379
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:366
+#: templates/admin.php:380
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:387
+#: templates/admin.php:401
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:391
+#: templates/admin.php:405
 msgid "Server address"
 msgstr "כתובת שרת"
 
-#: templates/admin.php:395
+#: templates/admin.php:409
 msgid "Port"
 msgstr "פורט"
 
-#: templates/admin.php:400
+#: templates/admin.php:414
 msgid "Credentials"
 msgstr "פרטי גישה"
 
-#: templates/admin.php:401
+#: templates/admin.php:415
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:404
+#: templates/admin.php:418
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:408
+#: templates/admin.php:422
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:409
+#: templates/admin.php:423
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:414
+#: templates/admin.php:428
 msgid "Log"
 msgstr "יומן"
 
-#: templates/admin.php:415
+#: templates/admin.php:429
 msgid "Log level"
 msgstr "רמת הדיווח"
 
-#: templates/admin.php:447
+#: templates/admin.php:461
 msgid "More"
 msgstr "יותר"
 
-#: templates/admin.php:448
+#: templates/admin.php:462
 msgid "Less"
 msgstr "פחות"
 
-#: templates/admin.php:454 templates/personal.php:208
+#: templates/admin.php:468 templates/personal.php:208
 msgid "Version"
 msgstr "גרסא"
 
-#: templates/admin.php:458 templates/personal.php:211
+#: templates/admin.php:472 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -45,7 +45,6 @@ $TRANSLATIONS = array(
 "Password protect" => "මුර පදයකින් ආරක්ශාකරන්න",
 "Set expiration date" => "කල් ඉකුත් විමේ දිනය දමන්න",
 "Expiration date" => "කල් ඉකුත් විමේ දිනය",
-"Share via email:" => "විද්‍යුත් තැපෑල මඟින් බෙදාගන්න: ",
 "group" => "කණ්ඩායම",
 "Unshare" => "නොබෙදු",
 "can edit" => "සංස්කරණය කළ හැක",

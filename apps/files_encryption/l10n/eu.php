@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Berreskuratze gako pasahitz berria",
 "Repeat New Recovery key password" => "Errepikatu berreskuratze gako berriaren pasahitza",
 "Change Password" => "Aldatu Pasahitza",
-"Your private key password no longer match your log-in password." => "Zure gako pribatuaren pasahitza ez da dagoeneko zure sarrera pasahitza.",
 "Set your old private key password to your current log-in password:" => "Set your old private key password to your current log-in password:",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Ez baduzu zure pasahitz zaharra gogoratzen eskatu zure administratzaileari zure fitxategiak berreskuratzeko.",
 "Old log-in password" => "Sartzeko pasahitz zaharra",

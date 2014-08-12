@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-10 04:58-0400\n"
-"PO-Revision-Date: 2014-07-10 07:11+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -49,15 +49,15 @@ msgstr "Email 已寄出"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "在準備要寄出測試郵件時您需要設定您的使用者郵件。"
 
-#: admin/controller.php:116 templates/admin.php:337
+#: admin/controller.php:116 templates/admin.php:351
 msgid "Send mode"
 msgstr "寄送模式"
 
-#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:364 templates/personal.php:156
 msgid "Encryption"
 msgstr "加密"
 
-#: admin/controller.php:120 templates/admin.php:374
+#: admin/controller.php:120 templates/admin.php:388
 msgid "Authentication method"
 msgstr "驗證方式"
 
@@ -307,23 +307,23 @@ msgstr ""
 msgid "Unable to delete {objName}"
 msgstr ""
 
-#: js/users/groups.js:73 js/users/groups.js:178
+#: js/users/groups.js:94 js/users/groups.js:202
 msgid "Error creating group"
 msgstr ""
 
-#: js/users/groups.js:177
+#: js/users/groups.js:201
 msgid "A valid group name must be provided"
 msgstr ""
 
-#: js/users/groups.js:205
+#: js/users/groups.js:229
 msgid "deleted {groupName}"
 msgstr ""
 
-#: js/users/groups.js:206 js/users/users.js:265
+#: js/users/groups.js:230 js/users/users.js:296
 msgid "undo"
 msgstr "復原"
 
-#: js/users/users.js:37 templates/admin.php:292
+#: js/users/users.js:37 templates/admin.php:306
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -339,31 +339,31 @@ msgstr "群組管理員"
 msgid "Delete"
 msgstr "刪除"
 
-#: js/users/users.js:85 templates/users/part.userlist.php:98
+#: js/users/users.js:84 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "永不"
 
-#: js/users/users.js:264
+#: js/users/users.js:295
 msgid "deleted {userName}"
 msgstr ""
 
-#: js/users/users.js:381
+#: js/users/users.js:431
 msgid "add group"
 msgstr "新增群組"
 
-#: js/users/users.js:578
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "必須提供一個有效的用戶名"
 
-#: js/users/users.js:579 js/users/users.js:585 js/users/users.js:600
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "建立用戶時出現錯誤"
 
-#: js/users/users.js:584
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "一定要提供一個有效的密碼"
 
-#: js/users/users.js:608
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：使用者 {user} 的家目錄已經存在"
 
@@ -495,31 +495,42 @@ msgid ""
 msgstr "您的 PHP 版本已過期。我們強烈建議更新到 5.3.8 或更新的版本，因為舊的版本已知會毀損。這個可能會在安裝後無法使用。"
 
 #: templates/admin.php:147
+msgid "PHP charset is not set to UTF-8"
+msgstr ""
+
+#: templates/admin.php:150
+msgid ""
+"PHP charset is not set to UTF-8. This can cause major issues with non-acsii "
+"characters in file names. We highly recommend to change the value of "
+"'default_charset' php.ini to 'UTF-8'."
+msgstr ""
+
+#: templates/admin.php:161
 msgid "Locale not working"
 msgstr "語系無法運作"
 
-#: templates/admin.php:152
+#: templates/admin.php:166
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "系統語系無法設定只支援 UTF-8"
 
-#: templates/admin.php:156
+#: templates/admin.php:170
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "這個意思是指在檔名中使用一些字元可能會有問題"
 
-#: templates/admin.php:160
+#: templates/admin.php:174
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "我們強烈建議在您的系統上安裝必要的套件來支援以下的語系: %s"
 
-#: templates/admin.php:172
+#: templates/admin.php:186
 msgid "Internet connection not working"
 msgstr "無網際網路存取"
 
-#: templates/admin.php:175
+#: templates/admin.php:189
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -528,186 +539,186 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功能像是掛載外部儲存空間、更新 ownCloud 或應用程式的通知沒有辦法運作。透過網際網路存取檔案還有電子郵件通知可能也無法運作。如果想要 ownCloud 完整的功能，建議您將這臺伺服器連接至網際網路。"
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:196
+#: templates/admin.php:210
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "最後的排程已執行於 %s。"
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "最後的排程已執行於 %s。現在過了好幾個小時，看起來是有錯誤。"
 
-#: templates/admin.php:203
+#: templates/admin.php:217
 msgid "Cron was not executed yet!"
 msgstr "排程沒有執行!"
 
-#: templates/admin.php:213
+#: templates/admin.php:227
 msgid "Execute one task with each page loaded"
 msgstr "當頁面載入時，執行"
 
-#: templates/admin.php:221
+#: templates/admin.php:235
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "已經與 webcron 服務註冊好，將會每15分鐘呼叫 cron.php"
 
-#: templates/admin.php:229
+#: templates/admin.php:243
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
-#: templates/admin.php:234
+#: templates/admin.php:248
 msgid "Sharing"
 msgstr "分享"
 
-#: templates/admin.php:238
+#: templates/admin.php:252
 msgid "Allow apps to use the Share API"
 msgstr "允許 apps 使用分享 API"
 
-#: templates/admin.php:243
+#: templates/admin.php:257
 msgid "Allow users to share via link"
 msgstr ""
 
-#: templates/admin.php:249
+#: templates/admin.php:263
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:252
+#: templates/admin.php:266
 msgid "Allow public uploads"
 msgstr "允許任何人上傳"
 
-#: templates/admin.php:256
+#: templates/admin.php:270
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:260
+#: templates/admin.php:274
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:263
+#: templates/admin.php:277
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:266
+#: templates/admin.php:280
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:271
+#: templates/admin.php:285
 msgid "Allow resharing"
 msgstr "允許轉貼分享"
 
-#: templates/admin.php:276
+#: templates/admin.php:290
 msgid "Restrict users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:281
+#: templates/admin.php:295
 msgid "Allow users to send mail notification for shared files"
 msgstr "允許使用者寄送有關分享檔案的郵件通知"
 
-#: templates/admin.php:286
+#: templates/admin.php:300
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:298
+#: templates/admin.php:312
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:303
+#: templates/admin.php:317
 msgid "Security"
 msgstr "安全性"
 
-#: templates/admin.php:314
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "強制啟用 HTTPS"
 
-#: templates/admin.php:316
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "強迫用戶端使用加密連線連接到 %s"
 
-#: templates/admin.php:322
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "請使用 HTTPS 連線到 %s 以啓用或停用強制 SSL 加密。"
 
-#: templates/admin.php:332
+#: templates/admin.php:346
 msgid "Email Server"
 msgstr "郵件伺服器"
 
-#: templates/admin.php:334
+#: templates/admin.php:348
 msgid "This is used for sending out notifications."
 msgstr "這是使用於寄送通知。"
 
-#: templates/admin.php:365
+#: templates/admin.php:379
 msgid "From address"
 msgstr "寄件地址"
 
-#: templates/admin.php:366
+#: templates/admin.php:380
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:387
+#: templates/admin.php:401
 msgid "Authentication required"
 msgstr "必須驗證"
 
-#: templates/admin.php:391
+#: templates/admin.php:405
 msgid "Server address"
 msgstr "伺服器位址"
 
-#: templates/admin.php:395
+#: templates/admin.php:409
 msgid "Port"
 msgstr "連接埠"
 
-#: templates/admin.php:400
+#: templates/admin.php:414
 msgid "Credentials"
 msgstr "認證"
 
-#: templates/admin.php:401
+#: templates/admin.php:415
 msgid "SMTP Username"
 msgstr "SMTP 帳號"
 
-#: templates/admin.php:404
+#: templates/admin.php:418
 msgid "SMTP Password"
 msgstr "SMTP 密碼"
 
-#: templates/admin.php:408
+#: templates/admin.php:422
 msgid "Test email settings"
 msgstr "測試郵件設定"
 
-#: templates/admin.php:409
+#: templates/admin.php:423
 msgid "Send email"
 msgstr "寄送郵件"
 
-#: templates/admin.php:414
+#: templates/admin.php:428
 msgid "Log"
 msgstr "紀錄"
 
-#: templates/admin.php:415
+#: templates/admin.php:429
 msgid "Log level"
 msgstr "紀錄層級"
 
-#: templates/admin.php:447
+#: templates/admin.php:461
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:448
+#: templates/admin.php:462
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:454 templates/personal.php:208
+#: templates/admin.php:468 templates/personal.php:208
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:458 templates/personal.php:211
+#: templates/admin.php:472 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-13 01:54-0400\n"
-"PO-Revision-Date: 2014-07-12 10:21+0000\n"
-"Last-Translator: Mikkel Bjerg Larsen <mikkelbjerglarsen@gmail.com>\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,15 +53,15 @@ msgstr "E-mail afsendt"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Du skal angive din bruger-email før der kan sendes test-email."
 
-#: admin/controller.php:116 templates/admin.php:337
+#: admin/controller.php:116 templates/admin.php:351
 msgid "Send mode"
 msgstr "Tilstand for afsendelse"
 
-#: admin/controller.php:118 templates/admin.php:350 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:364 templates/personal.php:156
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: admin/controller.php:120 templates/admin.php:374
+#: admin/controller.php:120 templates/admin.php:388
 msgid "Authentication method"
 msgstr "Godkendelsesmetode"
 
@@ -311,23 +311,23 @@ msgstr "Genopret krypteringsnøgler."
 msgid "Unable to delete {objName}"
 msgstr "Kunne ikke slette {objName}"
 
-#: js/users/groups.js:92 js/users/groups.js:197
+#: js/users/groups.js:94 js/users/groups.js:202
 msgid "Error creating group"
 msgstr "Fejl ved oprettelse af gruppe"
 
-#: js/users/groups.js:196
+#: js/users/groups.js:201
 msgid "A valid group name must be provided"
 msgstr "Et gyldigt gruppenavn skal angives "
 
-#: js/users/groups.js:224
+#: js/users/groups.js:229
 msgid "deleted {groupName}"
 msgstr "slettede {groupName}"
 
-#: js/users/groups.js:225 js/users/users.js:296
+#: js/users/groups.js:230 js/users/users.js:296
 msgid "undo"
 msgstr "fortryd"
 
-#: js/users/users.js:37 templates/admin.php:292
+#: js/users/users.js:37 templates/admin.php:306
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
@@ -351,23 +351,23 @@ msgstr "aldrig"
 msgid "deleted {userName}"
 msgstr "slettede {userName}"
 
-#: js/users/users.js:426
+#: js/users/users.js:431
 msgid "add group"
 msgstr "Tilføj gruppe"
 
-#: js/users/users.js:621
+#: js/users/users.js:631
 msgid "A valid username must be provided"
 msgstr "Et gyldigt brugernavn skal angives"
 
-#: js/users/users.js:622 js/users/users.js:628 js/users/users.js:643
+#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
 msgid "Error creating user"
 msgstr "Fejl ved oprettelse af bruger"
 
-#: js/users/users.js:627
+#: js/users/users.js:637
 msgid "A valid password must be provided"
 msgstr "En gyldig adgangskode skal angives"
 
-#: js/users/users.js:657
+#: js/users/users.js:669
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Advarsel: Hjemmemappen for bruger \"{user}\" findes allerede"
 
@@ -499,31 +499,42 @@ msgid ""
 msgstr "Din PHP-version er forældet. Vi anbefaler at du opgraderer til 5.3.8 eller nyere, fordi ældre versioner har kendte fejl. Det er derfor muligt at installationen ikke fungerer korrekt."
 
 #: templates/admin.php:147
+msgid "PHP charset is not set to UTF-8"
+msgstr ""
+
+#: templates/admin.php:150
+msgid ""
+"PHP charset is not set to UTF-8. This can cause major issues with non-acsii "
+"characters in file names. We highly recommend to change the value of "
+"'default_charset' php.ini to 'UTF-8'."
+msgstr ""
+
+#: templates/admin.php:161
 msgid "Locale not working"
 msgstr "Landestandard fungerer ikke"
 
-#: templates/admin.php:152
+#: templates/admin.php:166
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "Systemets locale kan ikke sættes til et der bruger UTF-8."
 
-#: templates/admin.php:156
+#: templates/admin.php:170
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Det betyder at der kan være problemer med visse tegn i filnavne."
 
-#: templates/admin.php:160
+#: templates/admin.php:174
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Vi anbefaler at du installerer den krævede pakke på dit system, for at understøtte følgende locales: %s."
 
-#: templates/admin.php:172
+#: templates/admin.php:186
 msgid "Internet connection not working"
 msgstr "Internetforbindelse fungerer ikke"
 
-#: templates/admin.php:175
+#: templates/admin.php:189
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -532,186 +543,186 @@ msgid ""
 "internet connection for this server if you want to have all features."
 msgstr "Denne ownCloud-server har ikke en fungerende forbindelse til internettet. Det betyder, at visse funktioner som montering af eksterne drev, oplysninger om opdatering eller installation af 3.-parts applikationer ikke fungerer. Det vil sandsynligvis heller ikke fungere at tilgå filer fra eksterne drev eller informationsemails. Vi opfordrer til at etablere forbindelse til internettet for denne server, såfremt du ønsker samtlige funktioner."
 
-#: templates/admin.php:189
+#: templates/admin.php:203
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:196
+#: templates/admin.php:210
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Seneste 'cron' blev kørt %s."
 
-#: templates/admin.php:199
+#: templates/admin.php:213
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Seneste 'cron' blev kørt %s. Dette er over en time siden - noget må være galt."
 
-#: templates/admin.php:203
+#: templates/admin.php:217
 msgid "Cron was not executed yet!"
 msgstr "Cron har ikke kørt endnu!"
 
-#: templates/admin.php:213
+#: templates/admin.php:227
 msgid "Execute one task with each page loaded"
 msgstr "Udføre en opgave med hver side indlæst"
 
-#: templates/admin.php:221
+#: templates/admin.php:235
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php er registreret til at en webcron service skal kalde cron.php hvert 15 minut over http."
 
-#: templates/admin.php:229
+#: templates/admin.php:243
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Brug systemets cron service til at kalde cron.php hver 15. minut"
 
-#: templates/admin.php:234
+#: templates/admin.php:248
 msgid "Sharing"
 msgstr "Deling"
 
-#: templates/admin.php:238
+#: templates/admin.php:252
 msgid "Allow apps to use the Share API"
 msgstr "Tillad apps til at bruge Share API"
 
-#: templates/admin.php:243
+#: templates/admin.php:257
 msgid "Allow users to share via link"
 msgstr "Tillad brugere at dele via link"
 
-#: templates/admin.php:249
+#: templates/admin.php:263
 msgid "Enforce password protection"
 msgstr "tving kodeords beskyttelse"
 
-#: templates/admin.php:252
+#: templates/admin.php:266
 msgid "Allow public uploads"
 msgstr "Tillad offentlig upload"
 
-#: templates/admin.php:256
+#: templates/admin.php:270
 msgid "Set default expiration date"
 msgstr "Vælg standard udløbsdato"
 
-#: templates/admin.php:260
+#: templates/admin.php:274
 msgid "Expire after "
 msgstr "Udløber efter"
 
-#: templates/admin.php:263
+#: templates/admin.php:277
 msgid "days"
 msgstr "dage"
 
-#: templates/admin.php:266
+#: templates/admin.php:280
 msgid "Enforce expiration date"
 msgstr "Påtving udløbsdato"
 
-#: templates/admin.php:271
+#: templates/admin.php:285
 msgid "Allow resharing"
 msgstr "Tillad videredeling"
 
-#: templates/admin.php:276
+#: templates/admin.php:290
 msgid "Restrict users to only share with users in their groups"
 msgstr "Begræns brugere til deling med brugere i deres gruppe"
 
-#: templates/admin.php:281
+#: templates/admin.php:295
 msgid "Allow users to send mail notification for shared files"
 msgstr "Tillad brugere at sende mail underretninger for delte filer"
 
-#: templates/admin.php:286
+#: templates/admin.php:300
 msgid "Exclude groups from sharing"
 msgstr "Ekskluder grupper fra at dele"
 
-#: templates/admin.php:298
+#: templates/admin.php:312
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Disse grupper vil stadig kunne modtage delefiler, dog ikke skabe dem."
 
-#: templates/admin.php:303
+#: templates/admin.php:317
 msgid "Security"
 msgstr "Sikkerhed"
 
-#: templates/admin.php:314
+#: templates/admin.php:328
 msgid "Enforce HTTPS"
 msgstr "Gennemtving HTTPS"
 
-#: templates/admin.php:316
+#: templates/admin.php:330
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Tving klienten til at forbinde til %s via en kryptetet forbindelse."
 
-#: templates/admin.php:322
+#: templates/admin.php:336
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Forbind venligst til din %s via HTTPS for at aktivere eller deaktivere SSL tvang."
 
-#: templates/admin.php:332
+#: templates/admin.php:346
 msgid "Email Server"
 msgstr "Email Server"
 
-#: templates/admin.php:334
+#: templates/admin.php:348
 msgid "This is used for sending out notifications."
 msgstr "Dette anvendes til udsendelse af notifikationer."
 
-#: templates/admin.php:365
+#: templates/admin.php:379
 msgid "From address"
 msgstr "Fra adresse"
 
-#: templates/admin.php:366
+#: templates/admin.php:380
 msgid "mail"
 msgstr "mail"
 
-#: templates/admin.php:387
+#: templates/admin.php:401
 msgid "Authentication required"
 msgstr "Godkendelse påkrævet"
 
-#: templates/admin.php:391
+#: templates/admin.php:405
 msgid "Server address"
 msgstr "Serveradresse"
 
-#: templates/admin.php:395
+#: templates/admin.php:409
 msgid "Port"
 msgstr "Port"
 
-#: templates/admin.php:400
+#: templates/admin.php:414
 msgid "Credentials"
 msgstr "Brugeroplysninger"
 
-#: templates/admin.php:401
+#: templates/admin.php:415
 msgid "SMTP Username"
 msgstr "SMTP Brugernavn"
 
-#: templates/admin.php:404
+#: templates/admin.php:418
 msgid "SMTP Password"
 msgstr "SMTP Kodeord"
 
-#: templates/admin.php:408
+#: templates/admin.php:422
 msgid "Test email settings"
 msgstr "Test email indstillinger"
 
-#: templates/admin.php:409
+#: templates/admin.php:423
 msgid "Send email"
 msgstr "Send email"
 
-#: templates/admin.php:414
+#: templates/admin.php:428
 msgid "Log"
 msgstr "Log"
 
-#: templates/admin.php:415
+#: templates/admin.php:429
 msgid "Log level"
 msgstr "Log niveau"
 
-#: templates/admin.php:447
+#: templates/admin.php:461
 msgid "More"
 msgstr "Mere"
 
-#: templates/admin.php:448
+#: templates/admin.php:462
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:454 templates/personal.php:208
+#: templates/admin.php:468 templates/personal.php:208
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:458 templates/personal.php:211
+#: templates/admin.php:472 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:116 ajax/share.php:158
+#: ajax/share.php:117 ajax/share.php:159
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nebylo možné odeslat e-mail následujícím uživatelům: %s"
@@ -361,12 +361,12 @@ msgstr "Sdíleno s {recipients}"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Chyba"
 
-#: js/share.js:328 js/share.js:1070
+#: js/share.js:328 js/share.js:1065
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -427,79 +427,71 @@ msgstr "Nastavit datum vypršení platnosti"
 msgid "Expiration date"
 msgstr "Datum vypršení platnosti"
 
-#: js/share.js:455
-msgid "Share via email:"
-msgstr "Sdílet e-mailem:"
-
-#: js/share.js:458
-msgid "No people found"
-msgstr "Žádní lidé nenalezeni"
-
-#: js/share.js:507 js/share.js:575
+#: js/share.js:496 js/share.js:564
 msgid "group"
 msgstr "skupina"
 
-#: js/share.js:540
+#: js/share.js:529
 msgid "Resharing is not allowed"
 msgstr "Sdílení již sdílené položky není povoleno"
 
-#: js/share.js:591
+#: js/share.js:580
 msgid "Shared in {item} with {user}"
 msgstr "Sdíleno v {item} s {user}"
 
-#: js/share.js:613
+#: js/share.js:602
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: js/share.js:621
+#: js/share.js:610
 msgid "notify by email"
 msgstr "upozornit e-mailem"
 
-#: js/share.js:624
+#: js/share.js:613
 msgid "can share"
 msgstr "může sdílet"
 
-#: js/share.js:627
+#: js/share.js:616
 msgid "can edit"
 msgstr "lze upravovat"
 
-#: js/share.js:629
+#: js/share.js:618
 msgid "access control"
 msgstr "řízení přístupu"
 
-#: js/share.js:632
+#: js/share.js:621
 msgid "create"
 msgstr "vytvořit"
 
-#: js/share.js:635
+#: js/share.js:624
 msgid "update"
 msgstr "aktualizovat"
 
-#: js/share.js:638
+#: js/share.js:627
 msgid "delete"
 msgstr "smazat"
 
-#: js/share.js:988
+#: js/share.js:983
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:1007
+#: js/share.js:1002
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:1028
+#: js/share.js:1023
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:1057
+#: js/share.js:1052
 msgid "Sending ..."
 msgstr "Odesílám ..."
 
-#: js/share.js:1068
+#: js/share.js:1063
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
-#: js/share.js:1092
+#: js/share.js:1087
 msgid "Warning"
 msgstr "Varování"
 

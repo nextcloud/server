@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-11 01:54-0400\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: app.php:366
+#: app.php:367
 msgid "Help"
 msgstr ""
 
-#: app.php:379
+#: app.php:380
 msgid "Personal"
 msgstr ""
 
-#: app.php:390
+#: app.php:391
 msgid "Settings"
 msgstr ""
 
-#: app.php:402
+#: app.php:403
 msgid "Users"
 msgstr ""
 
-#: app.php:415
+#: app.php:416
 msgid "Admin"
 msgstr ""
 
-#: app.php:985
+#: app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr ""
 
-#: app.php:1142
+#: app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: app.php:1154
+#: app.php:1155
 msgid "No app name specified"
 msgstr ""
 
@@ -238,7 +238,7 @@ msgstr ""
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: share/mailnotifications.php:91 share/mailnotifications.php:137
+#: share/mailnotifications.php:91 share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr ""

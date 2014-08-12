@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-11 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 21:59+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-11 17:49+0000\n"
 "Last-Translator: Ogre Sympathique\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -60,39 +60,39 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr "Veuillez contacter votre administrateur. Si vous être l'administrateur de cette instance, il faut configurer la variable \"trusted_domain\" dans le fichier config/config.php. Un exemple de configuration est fournit dans le fichier config/config.sample.php."
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "Aide"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "Personnel"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "Paramètres"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "Administration"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Echec de la mise à niveau \"%s\"."
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "L'application \\\"%s\\\" ne peut pas être installée car elle n'est pas compatible avec cette version de ownCloud."
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
 msgstr "Aucun nom d'application spécifié"
 
@@ -288,7 +288,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Veuillez vous référer au <a href='%s'>guide d'installation</a>."
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s partagé »%s« avec vous"

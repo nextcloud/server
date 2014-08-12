@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-11 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 15:07+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-11 17:49+0000\n"
 "Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -53,39 +53,39 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr "Por favor, contauta col alministrador. Si yes l'alministrador, configura l'axuste \"trusted_domain\" en config/config.php. Hai un exemplu en config/config.sample.php."
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "Ayuda"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "Personal"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "Axustes"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "Usuarios"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "Almin"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Fallu al anovar \"%s\"."
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "L'aplicación \\\"%s\\\" nun pue instalase porque nun ye compatible con esta versión d'ownCloud"
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
 msgstr "Nun s'especificó nome de l'aplicación"
 
@@ -281,7 +281,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Por favor, comprueba les <a href='%s'>guíes d'instalación</a>."
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s compartió »%s« contigo"

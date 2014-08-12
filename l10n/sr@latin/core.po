@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Language: sr@latin\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:116 ajax/share.php:158
+#: ajax/share.php:117 ajax/share.php:159
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -353,12 +353,12 @@ msgstr ""
 msgid "Share"
 msgstr "Podeli"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Greška"
 
-#: js/share.js:328 js/share.js:1070
+#: js/share.js:328 js/share.js:1065
 msgid "Error while sharing"
 msgstr "Greška pri deljenju"
 
@@ -419,79 +419,71 @@ msgstr "Datum isteka"
 msgid "Expiration date"
 msgstr "Datum isteka"
 
-#: js/share.js:455
-msgid "Share via email:"
-msgstr "Deli putem e-maila"
-
-#: js/share.js:458
-msgid "No people found"
-msgstr "Nema pronađenih ljudi"
-
-#: js/share.js:507 js/share.js:575
+#: js/share.js:496 js/share.js:564
 msgid "group"
 msgstr ""
 
-#: js/share.js:540
+#: js/share.js:529
 msgid "Resharing is not allowed"
 msgstr "Dalje deljenje nije dozvoljeno"
 
-#: js/share.js:591
+#: js/share.js:580
 msgid "Shared in {item} with {user}"
 msgstr "Deljeno u {item} sa {user}"
 
-#: js/share.js:613
+#: js/share.js:602
 msgid "Unshare"
 msgstr "Ukljoni deljenje"
 
-#: js/share.js:621
+#: js/share.js:610
 msgid "notify by email"
 msgstr ""
 
-#: js/share.js:624
+#: js/share.js:613
 msgid "can share"
 msgstr ""
 
-#: js/share.js:627
+#: js/share.js:616
 msgid "can edit"
 msgstr "dozvoljene izmene"
 
-#: js/share.js:629
+#: js/share.js:618
 msgid "access control"
 msgstr "kontrola pristupa"
 
-#: js/share.js:632
+#: js/share.js:621
 msgid "create"
 msgstr "napravi"
 
-#: js/share.js:635
+#: js/share.js:624
 msgid "update"
 msgstr "ažuriranje"
 
-#: js/share.js:638
+#: js/share.js:627
 msgid "delete"
 msgstr "brisanje"
 
-#: js/share.js:988
+#: js/share.js:983
 msgid "Password protected"
 msgstr "Zaštćeno lozinkom"
 
-#: js/share.js:1007
+#: js/share.js:1002
 msgid "Error unsetting expiration date"
 msgstr "Greška u uklanjanju datuma isteka"
 
-#: js/share.js:1028
+#: js/share.js:1023
 msgid "Error setting expiration date"
 msgstr "Greška u postavljanju datuma isteka"
 
-#: js/share.js:1057
+#: js/share.js:1052
 msgid "Sending ..."
 msgstr "Slanje..."
 
-#: js/share.js:1068
+#: js/share.js:1063
 msgid "Email sent"
 msgstr "Email poslat"
 
-#: js/share.js:1092
+#: js/share.js:1087
 msgid "Warning"
 msgstr ""
 

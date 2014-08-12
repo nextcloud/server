@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: ast\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:116 ajax/share.php:158
+#: ajax/share.php:117 ajax/share.php:159
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nun pudo unviase'l corréu a los usuarios siguientes: %s"
@@ -350,12 +350,12 @@ msgstr "Compartío con {recipients}"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Fallu"
 
-#: js/share.js:328 js/share.js:1070
+#: js/share.js:328 js/share.js:1065
 msgid "Error while sharing"
 msgstr "Fallu mientres la compartición"
 
@@ -416,79 +416,71 @@ msgstr "Afitar la data de caducidá"
 msgid "Expiration date"
 msgstr "Data de caducidá"
 
-#: js/share.js:455
-msgid "Share via email:"
-msgstr "Compartir vía corréu electrónicu:"
-
-#: js/share.js:458
-msgid "No people found"
-msgstr "Nun s'atoparon persones"
-
-#: js/share.js:507 js/share.js:575
+#: js/share.js:496 js/share.js:564
 msgid "group"
 msgstr "grupu"
 
-#: js/share.js:540
+#: js/share.js:529
 msgid "Resharing is not allowed"
 msgstr "Recompartir nun ta permitíu"
 
-#: js/share.js:591
+#: js/share.js:580
 msgid "Shared in {item} with {user}"
 msgstr "Compartíu en {item} con {user}"
 
-#: js/share.js:613
+#: js/share.js:602
 msgid "Unshare"
 msgstr "Dexar de compartir"
 
-#: js/share.js:621
+#: js/share.js:610
 msgid "notify by email"
 msgstr "notificar per corréu"
 
-#: js/share.js:624
+#: js/share.js:613
 msgid "can share"
 msgstr "pue compartir"
 
-#: js/share.js:627
+#: js/share.js:616
 msgid "can edit"
 msgstr "pue editar"
 
-#: js/share.js:629
+#: js/share.js:618
 msgid "access control"
 msgstr "control d'accesu"
 
-#: js/share.js:632
+#: js/share.js:621
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:635
+#: js/share.js:624
 msgid "update"
 msgstr "xubir"
 
-#: js/share.js:638
+#: js/share.js:627
 msgid "delete"
 msgstr "desaniciar"
 
-#: js/share.js:988
+#: js/share.js:983
 msgid "Password protected"
 msgstr "Contraseña protexida"
 
-#: js/share.js:1007
+#: js/share.js:1002
 msgid "Error unsetting expiration date"
 msgstr "Fallu desafitando la data de caducidá"
 
-#: js/share.js:1028
+#: js/share.js:1023
 msgid "Error setting expiration date"
 msgstr "Fallu afitando la fecha de caducidá"
 
-#: js/share.js:1057
+#: js/share.js:1052
 msgid "Sending ..."
 msgstr "Unviando ..."
 
-#: js/share.js:1068
+#: js/share.js:1063
 msgid "Email sent"
 msgstr "Corréu unviáu"
 
-#: js/share.js:1092
+#: js/share.js:1087
 msgid "Warning"
 msgstr "Avisu"
 

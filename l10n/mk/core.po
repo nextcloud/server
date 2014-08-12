@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
-#: ajax/share.php:116 ajax/share.php:158
+#: ajax/share.php:117 ajax/share.php:159
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
@@ -347,12 +347,12 @@ msgstr ""
 msgid "Share"
 msgstr "Сподели"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Грешка"
 
-#: js/share.js:328 js/share.js:1070
+#: js/share.js:328 js/share.js:1065
 msgid "Error while sharing"
 msgstr "Грешка при споделување"
 
@@ -413,79 +413,71 @@ msgstr "Постави рок на траење"
 msgid "Expiration date"
 msgstr "Рок на траење"
 
-#: js/share.js:455
-msgid "Share via email:"
-msgstr "Сподели по е-пошта:"
-
-#: js/share.js:458
-msgid "No people found"
-msgstr "Не се најдени луѓе"
-
-#: js/share.js:507 js/share.js:575
+#: js/share.js:496 js/share.js:564
 msgid "group"
 msgstr "група"
 
-#: js/share.js:540
+#: js/share.js:529
 msgid "Resharing is not allowed"
 msgstr "Повторно споделување не е дозволено"
 
-#: js/share.js:591
+#: js/share.js:580
 msgid "Shared in {item} with {user}"
 msgstr "Споделено во {item} со {user}"
 
-#: js/share.js:613
+#: js/share.js:602
 msgid "Unshare"
 msgstr "Не споделувај"
 
-#: js/share.js:621
+#: js/share.js:610
 msgid "notify by email"
 msgstr "извести преку електронска пошта"
 
-#: js/share.js:624
+#: js/share.js:613
 msgid "can share"
 msgstr ""
 
-#: js/share.js:627
+#: js/share.js:616
 msgid "can edit"
 msgstr "може да се измени"
 
-#: js/share.js:629
+#: js/share.js:618
 msgid "access control"
 msgstr "контрола на пристап"
 
-#: js/share.js:632
+#: js/share.js:621
 msgid "create"
 msgstr "креирај"
 
-#: js/share.js:635
+#: js/share.js:624
 msgid "update"
 msgstr "ажурирај"
 
-#: js/share.js:638
+#: js/share.js:627
 msgid "delete"
 msgstr "избриши"
 
-#: js/share.js:988
+#: js/share.js:983
 msgid "Password protected"
 msgstr "Заштитено со лозинка"
 
-#: js/share.js:1007
+#: js/share.js:1002
 msgid "Error unsetting expiration date"
 msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:1028
+#: js/share.js:1023
 msgid "Error setting expiration date"
 msgstr "Грешка при поставување на рок на траење"
 
-#: js/share.js:1057
+#: js/share.js:1052
 msgid "Sending ..."
 msgstr "Праќање..."
 
-#: js/share.js:1068
+#: js/share.js:1063
 msgid "Email sent"
 msgstr "Е-порака пратена"
 
-#: js/share.js:1092
+#: js/share.js:1087
 msgid "Warning"
 msgstr "Предупредување"
 

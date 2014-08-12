@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-10 05:54+0000\n"
+"POT-Creation-Date: 2014-08-12 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:116 ajax/share.php:158
+#: ajax/share.php:117 ajax/share.php:159
 #, php-format
 msgid "Couldn't send mail to following users: %s "
 msgstr "Nem sikerült e-mailt küldeni a következő felhasználóknak: %s"
@@ -350,12 +350,12 @@ msgstr "Megosztva ővelük: {recipients}"
 msgid "Share"
 msgstr "Megosztás"
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1007
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
 #: templates/installation.php:10
 msgid "Error"
 msgstr "Hiba"
 
-#: js/share.js:328 js/share.js:1070
+#: js/share.js:328 js/share.js:1065
 msgid "Error while sharing"
 msgstr "Nem sikerült létrehozni a megosztást"
 
@@ -416,79 +416,71 @@ msgstr "Legyen lejárati idő"
 msgid "Expiration date"
 msgstr "A lejárati idő"
 
-#: js/share.js:455
-msgid "Share via email:"
-msgstr "Megosztás emaillel:"
-
-#: js/share.js:458
-msgid "No people found"
-msgstr "Nincs találat"
-
-#: js/share.js:507 js/share.js:575
+#: js/share.js:496 js/share.js:564
 msgid "group"
 msgstr "csoport"
 
-#: js/share.js:540
+#: js/share.js:529
 msgid "Resharing is not allowed"
 msgstr "Ezt az állományt csak a tulajdonosa oszthatja meg másokkal"
 
-#: js/share.js:591
+#: js/share.js:580
 msgid "Shared in {item} with {user}"
 msgstr "Megosztva {item}-ben {user}-rel"
 
-#: js/share.js:613
+#: js/share.js:602
 msgid "Unshare"
 msgstr "A megosztás visszavonása"
 
-#: js/share.js:621
+#: js/share.js:610
 msgid "notify by email"
 msgstr "email értesítés"
 
-#: js/share.js:624
+#: js/share.js:613
 msgid "can share"
 msgstr "megosztható"
 
-#: js/share.js:627
+#: js/share.js:616
 msgid "can edit"
 msgstr "módosíthat"
 
-#: js/share.js:629
+#: js/share.js:618
 msgid "access control"
 msgstr "jogosultság"
 
-#: js/share.js:632
+#: js/share.js:621
 msgid "create"
 msgstr "létrehoz"
 
-#: js/share.js:635
+#: js/share.js:624
 msgid "update"
 msgstr "szerkeszt"
 
-#: js/share.js:638
+#: js/share.js:627
 msgid "delete"
 msgstr "töröl"
 
-#: js/share.js:988
+#: js/share.js:983
 msgid "Password protected"
 msgstr "Jelszóval van védve"
 
-#: js/share.js:1007
+#: js/share.js:1002
 msgid "Error unsetting expiration date"
 msgstr "Nem sikerült a lejárati időt törölni"
 
-#: js/share.js:1028
+#: js/share.js:1023
 msgid "Error setting expiration date"
 msgstr "Nem sikerült a lejárati időt beállítani"
 
-#: js/share.js:1057
+#: js/share.js:1052
 msgid "Sending ..."
 msgstr "Küldés ..."
 
-#: js/share.js:1068
+#: js/share.js:1063
 msgid "Email sent"
 msgstr "Az emailt elküldtük"
 
-#: js/share.js:1092
+#: js/share.js:1087
 msgid "Warning"
 msgstr "Figyelmeztetés"
 

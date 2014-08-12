@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Grant access" => " مجوز اعطا دسترسی",
 "Error configuring Google Drive storage" => "خطا به هنگام تنظیم فضای Google Drive",
 "Personal" => "شخصی",
+"Saved" => "ذخیره شد",
 "Name" => "نام",
 "External Storage" => "حافظه خارجی",
 "Folder name" => "نام پوشه",

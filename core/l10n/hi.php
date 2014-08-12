@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "Share" => "साझा करें",
 "Error" => "त्रुटि",
 "Send" => "भेजें",
-"No people found" => "कोई व्यक्ति नहीं मिले ",
 "Sending ..." => "भेजा जा रहा है",
 "Email sent" => "ईमेल भेज दिया गया है ",
 "Warning" => "चेतावनी ",
