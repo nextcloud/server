@@ -56,7 +56,7 @@ class Controller {
 			$recoveryAdminEnabled = \OC_Appconfig::getValue('files_encryption', 'recoveryAdminEnabled');
 
 			$validRecoveryPassword = false;
-			$recoveryPasswordSupported = false;
+			$recoveryEnabledForUser = false;
 			if ($recoveryAdminEnabled) {
 				$validRecoveryPassword = $util->checkRecoveryPassword($recoveryPassword);
 				$recoveryEnabledForUser = $util->recoveryEnabledForUser();
@@ -74,14 +74,14 @@ class Controller {
 				)));
 			} else { // now we know that everything is fine regarding the recovery password, let's try to change the password
 				$result = \OC_User::setPassword($username, $password, $recoveryPassword);
-				if (!$result && $recoveryPasswordSupported) {
+				if (!$result && $recoveryEnabledForUser) {
 					$l = new \OC_L10n('settings');
 					\OC_JSON::error(array(
 						"data" => array(
 							"message" => $l->t("Back-end doesn't support password change, but the users encryption key was successfully updated.")
 						)
 					));
-				} elseif (!$result && !$recoveryPasswordSupported) {
+				} elseif (!$result && !$recoveryEnabledForUser) {
 					$l = new \OC_L10n('settings');
 					\OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change password" ) )));
 				} else {
