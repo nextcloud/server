@@ -274,10 +274,11 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
+	 * @param string $recipient with whom was the item shared
 	 * @param bool $status
 	 */
-	public static function setSendMailStatus($itemType, $itemSource, $shareType, $status) {
-		return \OC\Share\Share::setSendMailStatus($itemType, $itemSource, $shareType, $status);
+	public static function setSendMailStatus($itemType, $itemSource, $shareType, $recipient, $status) {
+		return \OC\Share\Share::setSendMailStatus($itemType, $itemSource, $shareType, $recipient, $status);
 	}
 
 	/**

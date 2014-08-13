@@ -107,7 +107,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$mailNotification = new OC\Share\MailNotifications();
 			$result = $mailNotification->sendInternalShareMail($recipientList, $itemSource, $itemType);
 
-			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, true);
+			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, $recipient, true);
 
 			if (empty($result)) {
 				OCP\JSON::success();
@@ -126,7 +126,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$shareType = $_POST['shareType'];
 			$itemType = $_POST['itemType'];
 			$recipient = $_POST['recipient'];
-			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, false);
+			\OCP\Share::setSendMailStatus($itemType, $itemSource, $shareType, $recipient, false);
 			OCP\JSON::success();
 			break;
 
