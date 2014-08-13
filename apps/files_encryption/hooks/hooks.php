@@ -200,10 +200,14 @@ class Hooks {
 				$privateKey = $session->getPrivateKey();
 
 				// Encrypt private key with new user pwd as passphrase
-				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($privateKey, $params['password']);
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($privateKey, $params['password'], Helper::getCipher());
 
 				// Save private key
-				Keymanager::setPrivateKey($encryptedPrivateKey);
+				if ($encryptedPrivateKey) {
+					Keymanager::setPrivateKey($encryptedPrivateKey, \OCP\User::getUser());
+				} else {
+					\OCP\Util::writeLog('files_encryption', 'Could not update users encryption password', \OCP\Util::ERROR);
+				}
 
 				// NOTE: Session does not need to be updated as the
 				// private key has not changed, only the passphrase
@@ -238,16 +242,17 @@ class Hooks {
 					// Save public key
 					$view->file_put_contents('/public-keys/' . $user . '.public.key', $keypair['publicKey']);
 
-					// Encrypt private key empty passphrase
-					$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword);
+					// Encrypt private key with new password
+					$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword, Helper::getCipher());
+					if ($encryptedKey) {
+						Keymanager::setPrivateKey($encryptedKey, $user);
 
-					// Save private key
-					$view->file_put_contents(
-							'/' . $user . '/files_encryption/' . $user . '.private.key', $encryptedPrivateKey);
-
-					if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
-						$util = new Util($view, $user);
-						$util->recoverUsersFiles($recoveryPassword);
+						if ($recoveryPassword) { // if recovery key is set we can re-encrypt the key files
+							$util = new Util($view, $user);
+							$util->recoverUsersFiles($recoveryPassword);
+						}
+					} else {
+						\OCP\Util::writeLog('files_encryption', 'Could not update users encryption password', \OCP\Util::ERROR);
 					}
 
 					\OC_FileProxy::$enabled = $proxyStatus;

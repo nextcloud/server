@@ -277,6 +277,9 @@ $CONFIG = array(
 	//'config' => '/absolute/location/of/openssl.cnf',
 ),
 
+// default cipher used for file encryption, currently we support AES-128-CFB and AES-256-CFB
+'cipher' => 'AES-256-CFB',
+
 /* whether usage of the instance should be restricted to admin users only */
 'singleuser' => false,
 
