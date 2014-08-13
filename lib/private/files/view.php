@@ -1179,6 +1179,7 @@ class View {
 	 * @return string|null
 	 */
 	public function getPath($id) {
+		$id = (int) $id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
 		$mounts[] = $manager->find($this->fakeRoot);
