@@ -445,7 +445,7 @@ OC.Upload = {
 				var lastUpdate = new Date().getMilliseconds();
 				var lastSize = 0;
 				var bufferSize = 20;
-				var buffer = new Array(); 
+				var buffer = [];
 				var bufferIndex = 0;
 				var bufferTotal = 0;
 				for(var i = 0; i < bufferSize;i++){
@@ -465,7 +465,12 @@ OC.Upload = {
 					$('#uploadprogresswrapper input.stop').show();
 					$('#uploadprogresswrapper .label').show();
 					$('#uploadprogressbar').progressbar({value: 0});
-					$('#uploadprogressbar .ui-progressbar-value').html('<em class="label inner"><span class="desktop">' + t('files', 'Uploading...') + '</span><span class="mobile">' + t('files', '...') + '</span></em>');
+					$('#uploadprogressbar .ui-progressbar-value').
+						html('<em class="label inner"><span class="desktop">'
+							+ t('files', 'Uploading...')
+							+ '</span><span class="mobile">'
+							+ t('files', '...')
+							+ '</span></em>');
                     $('#uploadprogressbar').tipsy({gravity:'n', fade:true, live:true});
 					OC.Upload._showProgressBar();
 				});
@@ -483,41 +488,44 @@ OC.Upload = {
 					lastSize = data.loaded;
 					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1mb/2s = 0.5mb/s
 					var remainingSeconds = ((data.total - data.loaded) / diffSize);
-					if(remainingSeconds>0){ //buffer to make it smoother
+					if(remainingSeconds > 0){ //buffer to make it smoother
 						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds;
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 					}
-					var smoothRemaining = (bufferTotal/bufferSize);
+					var smoothRemaining = (bufferTotal / bufferSize);
 					var date = new Date(smoothRemaining * 1000);
 					var timeStringMobile = "";
 					var timeStringDesktop = "";
-					if(date.getUTCHours()>0){
-						timeStringDesktop = t('files', '{hours}:{minutes}:{seconds} hour{plural_s} left' , {
-						hours:date.getUTCHours(),
+					if(date.getUTCHours() > 0){
+						timeStringDesktop = t('files', '{hours}:{minutes}:{seconds} hour{plural_s} left' , { 
+							hours:date.getUTCHours(),
 							minutes: ('0' + date.getUTCMinutes()).slice(-2),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: (date.getUTCHours()== 1 && date.getUTCMinutes()== 0 && date.getUTCSeconds()== 0 ? "": "s")
-						});
+							plural_s: ( date.getUTCHours() === 1 
+								&& date.getUTCMinutes() === 0
+								&& date.getUTCSeconds() === 0 ? "": "s"
+							)
+						});						
 						timeStringMobile = t('files', '{hours}:{minutes}h' , {
 							hours:date.getUTCHours(),
 							minutes: ('0' + date.getUTCMinutes()).slice(-2),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2)
 						});
-					} else if(date.getUTCMinutes()>0){
+					} else if(date.getUTCMinutes() > 0){
 						timeStringDesktop = t('files', '{minutes}:{seconds} minute{plural_s} left' , {
 							minutes: date.getUTCMinutes(),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: (date.getUTCMinutes()== 1 && date.getUTCSeconds()== 0 ? "": "s")
-						});
+							plural_s: (date.getUTCMinutes() === 1 && date.getUTCSeconds() === 0 ? "": "s") 
+						}); 
 						timeStringMobile = t('files', '{minutes}:{seconds}m' , {
 							minutes: date.getUTCMinutes(),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2)
 						});
-					} else if(date.getUTCSeconds()>0){
+					} else if(date.getUTCSeconds() > 0){ 
 						timeStringDesktop = t('files', '{seconds} second{plural_s} left' , {
 							seconds: date.getUTCSeconds(),
-							plural_s: (date.getUTCSeconds() == 1 ? "": "s")
+							plural_s: (date.getUTCSeconds() === 1 ? "": "s")
 						});
 						timeStringMobile = t('files', '{seconds}s' , {seconds: date.getUTCSeconds()});
 					} else {
@@ -526,7 +534,13 @@ OC.Upload = {
 					}
 					$('#uploadprogressbar .label .mobile').text(timeStringMobile);
 					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);
-					$('#uploadprogressbar').attr('original-title', t('files', '{loadedSize} of {totalSize} ({bitrate})', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total), bitrate: humanFileSize(data.bitrate) + '/s'}));
+					$('#uploadprogressbar').attr('original-title',
+						t('files', '{loadedSize} of {totalSize} ({bitrate})' , {
+							loadedSize: humanFileSize(data.loaded),
+							totalSize: humanFileSize(data.total),
+							bitrate: humanFileSize(data.bitrate) + '/s'
+						})
+					);
 					$('#uploadprogressbar').progressbar('value', progress);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {
