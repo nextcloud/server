@@ -339,4 +339,9 @@ $CONFIG = array(
 	),
 ),
 
+/**
+ * define default folder for shared files and folders
+ */
+'share_folder' => '/',
+
 );

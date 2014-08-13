@@ -237,4 +237,24 @@ class Helper {
 		return ($result === 'yes') ? true : false;
 	}
 
+	/**
+	 * get default share folder
+	 *
+	 * @return string
+	 */
+	public static function getShareFolder() {
+		$shareFolder = \OCP\Config::getSystemValue('share_folder', '/');
+
+		return \OC\Files\Filesystem::normalizePath($shareFolder);
+	}
+
+	/**
+	 * set default share folder
+	 *
+	 * @param string $shareFolder
+	 */
+	public static function setShareFolder($shareFolder) {
+		\OCP\Config::setSystemValue('share_folder', $shareFolder);
+	}
+
 }
