@@ -15,6 +15,5 @@
 	<remote>
 		<files>appinfo/remote.php</files>
 		<webdav>appinfo/remote.php</webdav>
-		<filesync>appinfo/filesync.php</filesync>
 	</remote>
 </info>
