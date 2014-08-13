@@ -109,6 +109,33 @@ class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * Test renaming the APK mime type
+	 */
+	public function testRenameAPKMimeType() {
+		$this->addEntries(
+			array(
+				array('test.apk', 'application/octet-stream'),
+				array('bogus.apk', 'application/vnd.android.package-archive'),
+				array('bogus2.apk', 'application/wrong'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.apk', 'application/vnd.android.package-archive'),
+				array('bogus.apk', 'application/vnd.android.package-archive'),
+				array('bogus2.apk', 'application/vnd.android.package-archive'),
+			)
+		);
+	}
+
+	/**
 	 * Test renaming and splitting old office mime types when
 	 * new ones already exist
 	 */
