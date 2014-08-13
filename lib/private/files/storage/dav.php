@@ -295,6 +295,7 @@ class DAV extends \OC\Files\Storage\Common {
 			\OCP\Util::writeLog("webdav client", 'curl GET ' . curl_getinfo($curl, CURLINFO_EFFECTIVE_URL) . ' returned status code ' . $statusCode, \OCP\Util::ERROR);
 		}
 		curl_close($curl);
+		fclose($source);
 		$this->removeCachedFile($target);
 	}
 

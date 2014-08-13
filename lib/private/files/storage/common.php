@@ -226,6 +226,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		$tmpFile = \OC_Helper::tmpFile($extension);
 		$target = fopen($tmpFile, 'w');
 		\OC_Helper::streamCopy($source, $target);
+		fclose($target);
 		return $tmpFile;
 	}
 

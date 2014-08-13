@@ -670,6 +670,7 @@ class View {
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
 				$this->file_put_contents($path, $source);
+				fclose($source);
 				unlink($tmpFile);
 				return true;
 			} else {
