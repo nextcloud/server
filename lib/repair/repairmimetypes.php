@@ -123,7 +123,7 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		$insertStmt = \OC_DB::prepare('
 			INSERT INTO `*PREFIX*mimetypes` ( `mimetype` )
 			VALUES ( ? )
-				');
+		');
 
 
 		$updateByNameStmt = \OC_DB::prepare('
