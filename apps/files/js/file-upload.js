@@ -444,10 +444,13 @@ OC.Upload = {
 				//remaining time
 				var lastUpdate = new Date().getMilliseconds();
 				var lastSize = 0;
-				var bufferSize = 10;
-				var buffer = new Array();// = new Array(bufferSize);
+				var bufferSize = 20;
+				var buffer = new Array(); 
 				var bufferIndex = 0;
 				var bufferTotal = 0;
+				for(var i = 0; i < bufferSize;i++){
+					buffer[i] = 0;    
+				}
 				// add progress handlers
 				fileupload.on('fileuploadadd', function(e, data) {
 					OC.Upload.log('progress handle fileuploadadd', e, data);
@@ -481,7 +484,7 @@ OC.Upload = {
 					diffSize = diffSize / diffUpdate; // apply timing factor, eg. 1mb/2s = 0.5mb/s
 					var remainingSeconds = ((data.total - data.loaded) / diffSize);
 					if(remainingSeconds>0){ //buffer to make it smoother
-						bufferTotal = bufferTotal - (buffer[bufferIndex]||0) + remainingSeconds;
+						bufferTotal = bufferTotal - (buffer[bufferIndex]) + remainingSeconds;
 						buffer[bufferIndex] = remainingSeconds;
 						bufferIndex = (bufferIndex + 1) % bufferSize;
 					}
