@@ -71,9 +71,9 @@
 #uploadprogressbar .label {
     top: 6px;
     opacity: 1;
-	overflow: hidden;
-	white-space: nowrap;
-	font-weight: normal;
+    overflow: hidden;
+    white-space: nowrap;
+    font-weight: normal;
 }
 #uploadprogressbar .label.inner {
     color:white; 
