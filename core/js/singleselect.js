@@ -2,7 +2,7 @@
 	$.fn.singleSelect = function () {
 		return this.each(function (i, select) {
 			var input = $('<input/>'),
-				gravity = $(select).attr('data-gravity'),
+				gravity = $(select).attr('data-tipsy-gravity'),
 				inputTooltip = $(select).attr('data-inputtitle');
 			if (inputTooltip){
 				input.attr('title', inputTooltip);
