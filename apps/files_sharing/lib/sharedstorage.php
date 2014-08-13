@@ -48,10 +48,10 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	/**
 	 * get file cache of the shared item source
-	 * @return string
+	 * @return int
 	 */
 	public function getSourceId() {
-		return $this->share['file_source'];
+		return (int) $this->share['file_source'];
 	}
 
 	/**
