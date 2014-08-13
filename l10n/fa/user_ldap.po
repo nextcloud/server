@@ -4,13 +4,14 @@
 # 
 # Translators:
 # mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013
+# Mohammad <mohammadsharifi666@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-13 01:54-0400\n"
+"PO-Revision-Date: 2014-08-12 11:06+0000\n"
+"Last-Translator: Mohammad <mohammadsharifi666@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,15 +45,15 @@ msgstr ""
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "فعالیتی مشخص نشده است"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "هیچ پیکربندی مشخص نشده است"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "داده ای مشخص نشده است"
 
 #: ajax/wizard.php:89
 #, php-format
@@ -73,7 +74,7 @@ msgstr "آیا تنظیمات ذخیره شود ؟"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "سرور {nthServer}."
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
@@ -93,39 +94,39 @@ msgstr "خطا"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "لطفا نام دامنه (DN) پایه را مشخص کنید."
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "امکان تشخیص نام دامنه (DN) پایه وجود ندارد"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "لطفا پورت مورد نظر را مشخص کنید."
 
 #: js/settings.js:780
 msgid "Configuration OK"
-msgstr ""
+msgstr "پیکربندی صحیح است"
 
 #: js/settings.js:789
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "پیکربندی نادرست است"
 
 #: js/settings.js:798
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "پیکربندی کامل نیست"
 
 #: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
-msgstr ""
+msgstr "انتخاب گروه ها"
 
 #: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
-msgstr ""
+msgstr "انتخاب کلاس های اشیا"
 
 #: js/settings.js:821
 msgid "Select attributes"
-msgstr ""
+msgstr "انتخاب مشخصه ها"
 
 #: js/settings.js:848
 msgid "Connection test succeeded"
@@ -147,33 +148,33 @@ msgstr "تایید حذف"
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
-msgstr[0] ""
+msgstr[0] "%s گروه بافت شد"
 
 #: lib/wizard.php:126
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
-msgstr[0] ""
+msgstr[0] "%s کاربر بافت شد"
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:321 lib/wizard.php:1057
 msgid "Could not find the desired feature"
 msgstr ""
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:864 lib/wizard.php:876
 msgid "Invalid Host"
-msgstr ""
+msgstr "هاست نامعتبر است"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "سرور"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "فیلتر کاربر"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "فیلتر لاگین"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -216,7 +217,7 @@ msgstr ""
 #: templates/part.wizard-loginfilter.php:37
 #: templates/part.wizard-userfilter.php:30
 msgid "Raw LDAP filter"
-msgstr ""
+msgstr "فیلتر ال.دپ خام"
 
 #: templates/part.wizard-groupfilter.php:31
 #, php-format
@@ -226,7 +227,7 @@ msgstr ""
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "گروه های یافت شده"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
@@ -234,15 +235,15 @@ msgstr ""
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "نام کاربری LDAP:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "آدرس ایمیل LDAP:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "مشخصه های دیگر:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
@@ -251,60 +252,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
-#: templates/part.wizard-server.php:6
-msgid "1. Server"
-msgstr ""
-
 #: templates/part.wizard-server.php:13
+msgid "1. Server"
+msgstr "1. سرور"
+
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. سرور:"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr "افزودن پیکربندی سرور"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
-msgstr ""
+msgstr "حذف پیکربندی"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "میزبانی"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr ""
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "درگاه"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "کاربر DN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr ""
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "گذرواژه"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "برای دسترسی ناشناس، DN را رها نموده و رمزعبور را خالی بگذارید."
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr "یک پایه DN در هر خط"
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "شما می توانید پایه DN را برای کاربران و گروه ها در زبانه Advanced مشخص کنید."
 
@@ -321,7 +322,7 @@ msgstr ""
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "کاربران یافت شده"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
@@ -333,7 +334,7 @@ msgstr "ادامه"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "حرفه ای"
 
 #: templates/settings.php:8
 msgid "Advanced"

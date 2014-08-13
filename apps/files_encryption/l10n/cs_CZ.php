@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Nové heslo klíče pro obnovu",
 "Repeat New Recovery key password" => "Zopakujte nové heslo klíče pro obnovu",
 "Change Password" => "Změnit heslo",
+"Your private key password no longer matches your log-in password." => "Heslo vašeho soukromého klíče se již neshoduje s vaším přihlašovacím heslem.",
 "Set your old private key password to your current log-in password:" => "Změňte vaše staré heslo soukromého klíče na stejné, jako je vaše současné přihlašovací heslo:",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Pokud si nepamatujete vaše původní heslo, můžete požádat správce o obnovu vašich souborů.",
 "Old log-in password" => "Původní přihlašovací heslo",

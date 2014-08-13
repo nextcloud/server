@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Nova senha da chave de recuperação",
 "Repeat New Recovery key password" => "Repita Nova senha da chave de recuperação",
 "Change Password" => "Trocar Senha",
+"Your private key password no longer matches your log-in password." => "A sua senha de chave privada não corresponde a sua senha de login.",
 "Set your old private key password to your current log-in password:" => "Defina a sua antiga senha da chave privada para sua senha de login atual:",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Se você não se lembra de sua antiga senha você pode pedir ao administrador que recupere seus arquivos.",
 "Old log-in password" => "Senha antiga de login",
