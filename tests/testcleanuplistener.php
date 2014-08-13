@@ -41,20 +41,23 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 	}
 
 	public function endTestSuite(PHPUnit_Framework_TestSuite $suite) {
-		if ($this->cleanStorages() && $this->isShowSuiteWarning()) {
-			printf("TestSuite '%s': Did not clean up storages\n", $suite->getName());
-		}
-		if ($this->cleanFileCache() && $this->isShowSuiteWarning()) {
-			printf("TestSuite '%s': Did not clean up file cache\n", $suite->getName());
-		}
-		if ($this->cleanStrayDataFiles() && $this->isShowSuiteWarning()) {
-			printf("TestSuite '%s': Did not clean up data dir\n", $suite->getName());
-		}
-		if ($this->cleanStrayHooks() && $this->isShowSuiteWarning()) {
-			printf("TestSuite '%s': Did not clean up hooks\n", $suite->getName());
-		}
-		if ($this->cleanProxies() && $this->isShowSuiteWarning()) {
-			printf("TestSuite '%s': Did not clean up proxies\n", $suite->getName());
+		// don't clean up the test environment if a data provider finished
+		if (!($suite instanceof PHPUnit_Framework_TestSuite_DataProvider)) {
+			if ($this->cleanStorages() && $this->isShowSuiteWarning()) {
+				printf("TestSuite '%s': Did not clean up storages\n", $suite->getName());
+			}
+			if ($this->cleanFileCache() && $this->isShowSuiteWarning()) {
+				printf("TestSuite '%s': Did not clean up file cache\n", $suite->getName());
+			}
+			if ($this->cleanStrayDataFiles() && $this->isShowSuiteWarning()) {
+				printf("TestSuite '%s': Did not clean up data dir\n", $suite->getName());
+			}
+			if ($this->cleanStrayHooks() && $this->isShowSuiteWarning()) {
+				printf("TestSuite '%s': Did not clean up hooks\n", $suite->getName());
+			}
+			if ($this->cleanProxies() && $this->isShowSuiteWarning()) {
+				printf("TestSuite '%s': Did not clean up proxies\n", $suite->getName());
+			}
 		}
 	}
 
