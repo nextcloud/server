@@ -490,39 +490,39 @@ OC.Upload = {
 					var timeStringMobile = "";
 					var timeStringDesktop = "";
 					if(date.getUTCHours()>0){
-						timeStringDesktop = t('files', '{hours}:{minutes}:{seconds} Hour{plural_s} left' , {
+						timeStringDesktop = t('files', '{hours}:{minutes}:{seconds} hour{plural_s} left' , {
 						hours:date.getUTCHours(),
 							minutes: ('0' + date.getUTCMinutes()).slice(-2),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: (!(date.getUTCHours()== 1 && date.getUTCMinutes()== 0 && date.getUTCSeconds()== 0) ? "s": "")
+							plural_s: (date.getUTCHours()== 1 && date.getUTCMinutes()== 0 && date.getUTCSeconds()== 0 ? "": "s")
 						});
-						timeStringMobile = t('files', '{hours}:{minutes}:{seconds}h' , {
+						timeStringMobile = t('files', '{hours}:{minutes}h' , {
 							hours:date.getUTCHours(),
 							minutes: ('0' + date.getUTCMinutes()).slice(-2),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2)
 						});
 					} else if(date.getUTCMinutes()>0){
-						timeStringDesktop = t('files', '{minutes}:{seconds} Minute{plural_s} left' , {
+						timeStringDesktop = t('files', '{minutes}:{seconds} minute{plural_s} left' , {
 							minutes: date.getUTCMinutes(),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2),
-							plural_s: (!(date.getUTCMinutes()== 1 && date.getUTCSeconds()== 0)? "s": "")
+							plural_s: (date.getUTCMinutes()== 1 && date.getUTCSeconds()== 0 ? "": "s")
 						});
-						timeStringMobile = t('files', '{minutes}:{seconds}min' , {
+						timeStringMobile = t('files', '{minutes}:{seconds}m' , {
 							minutes: date.getUTCMinutes(),
 							seconds: ('0' + date.getUTCSeconds()).slice(-2)
 						});
 					} else if(date.getUTCSeconds()>0){
-						timeStringDesktop = t('files', '{seconds} Second{plural_s} left' , {
+						timeStringDesktop = t('files', '{seconds} second{plural_s} left' , {
 							seconds: date.getUTCSeconds(),
-							plural_s: (!date.getUTCSeconds()== 1 ? "s": "")
+							plural_s: (date.getUTCSeconds() == 1 ? "": "s")
 						});
 						timeStringMobile = t('files', '{seconds}s' , {seconds: date.getUTCSeconds()});
 					} else {
 						timeStringDesktop = t('files', 'Any moment now...');
 						timeStringMobile = t('files', 'Soon...');
 					}
-					$('#uploadprogressbar .label .mobile').text(timeStringMobile);//t('files', '{loadedSize}', {loadedSize: humanFileSize(data.loaded)}));
-					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);//
+					$('#uploadprogressbar .label .mobile').text(timeStringMobile);
+					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);
 					$('#uploadprogressbar').attr('title', t('files', '{loadedSize} of {totalSize} ({bitrate})', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total), bitrate: humanFileSize(data.bitrate) + '/s'}));
 					$('#uploadprogressbar').progressbar('value', progress);
 				});

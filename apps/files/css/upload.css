@@ -73,7 +73,7 @@
     opacity: 1;
     overflow: hidden;
     white-space: nowrap;
-    font-weight: normal;
+	font-weight: normal;
 }
 #uploadprogressbar .label.inner {
     color:white; 
