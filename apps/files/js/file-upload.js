@@ -526,7 +526,7 @@ OC.Upload = {
 					}
 					$('#uploadprogressbar .label .mobile').text(timeStringMobile);
 					$('#uploadprogressbar .label .desktop').text(timeStringDesktop);
-					$('#uploadprogressbar').attr('title', t('files', '{loadedSize} of {totalSize} ({bitrate})', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total), bitrate: humanFileSize(data.bitrate) + '/s'}));
+					$('#uploadprogressbar').attr('original-title', t('files', '{loadedSize} of {totalSize} ({bitrate})', {loadedSize: humanFileSize(data.loaded), totalSize: humanFileSize(data.total), bitrate: humanFileSize(data.bitrate) + '/s'}));
 					$('#uploadprogressbar').progressbar('value', progress);
 				});
 				fileupload.on('fileuploadstop', function(e, data) {
