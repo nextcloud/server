@@ -226,4 +226,11 @@ interface IServerContainer {
 	 */
 	function getSearch();
 
+	/**
+	 * Get the certificate manager for the user
+	 *
+	 * @param \OCP\IUser $user (optional) if not specified the current loggedin user is used
+	 * @return \OCP\ICertificateManager
+	 */
+	function getCertificateManager($user = null);
 }

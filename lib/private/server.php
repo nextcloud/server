@@ -469,4 +469,21 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getDb() {
 		return $this->query('Db');
 	}
+
+	/**
+	 * Get the certificate manager for the user
+	 *
+	 * @param \OCP\IUser $user (optional) if not specified the current loggedin user is used
+	 * @return \OCP\ICertificateManager
+	 */
+	function getCertificateManager($user = null) {
+		if (is_null($user)) {
+			$userSession = $this->getUserSession();
+			$user = $userSession->getUser();
+			if (is_null($user)) {
+				return null;
+			}
+		}
+		return new CertificateManager($user);
+	}
 }
