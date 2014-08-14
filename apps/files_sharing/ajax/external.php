@@ -33,16 +33,22 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 
 $name = OCP\Files::buildNotExistingFileName('/', $name);
 
-$mount = $externalManager->addShare($remote, $token, $password, $name, $owner);
-/**
- * @var \OCA\Files_Sharing\External\Storage $storage
- */
-$storage = $mount->getStorage();
-$result = $storage->file_exists('');
-if($result){
-	$storage->getScanner()->scanAll();
-	\OCP\JSON::success();
+// check for ssl cert
+if (substr($remote, 0, 5) === 'https' and !OC_Util::getUrlContent($remote)) {
+	\OCP\JSON::error(array('data' => array('message' => $l->t("Invalid or untrusted ssl certificate"))));
+	exit;
 } else {
-	$externalManager->removeShare($mount->getMountPoint());
-	\OCP\JSON::error(array('data' => array('message' => $l->t("Couldn't add remote share"))));
+	$mount = $externalManager->addShare($remote, $token, $password, $name, $owner);
+	/**
+	 * @var \OCA\Files_Sharing\External\Storage $storage
+	 */
+	$storage = $mount->getStorage();
+	$result = $storage->file_exists('');
+	if ($result) {
+		$storage->getScanner()->scanAll();
+		\OCP\JSON::success();
+	} else {
+		$externalManager->removeShare($mount->getMountPoint());
+		\OCP\JSON::error(array('data' => array('message' => $l->t("Couldn't add remote share"))));
+	}
 }
