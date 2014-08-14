@@ -620,6 +620,10 @@ label.infield {
 	color: black !important;
 }
 
+.warning-input {
+	border-color: #cc3333 !important;
+}
+
 /* Fixes for log in page, TODO should be removed some time */
 #body-login .update,
 #body-login .error {
