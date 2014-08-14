@@ -121,6 +121,7 @@ class Updater {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
 
+		$filename = (strpos($filename, '/') !== 0) ? '/' . $filename : $filename;
 		if ($uid != \OCP\User::getUser()) {
 			$info = \OC\Files\Filesystem::getFileInfo($filename);
 			if (!$info) {
