@@ -279,7 +279,7 @@ class OC {
 	 * check if the instance needs to preform an upgrade
 	 *
 	 * @return bool
-	 * @deprecated use \OCP\Util::needUpgrade instead
+	 * @deprecated use \OCP\Util::needUpgrade() instead
 	 */
 	public static function needUpgrade() {
 		return \OCP\Util::needUpgrade();
