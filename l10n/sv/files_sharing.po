@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -35,11 +35,11 @@ msgstr "Kunde inte lägga till fjärrutdelning"
 msgid "Shared with you"
 msgstr "Delat med dig"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
 msgstr "Delat med andra"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
 msgstr "Delad som länk"
 
@@ -75,15 +75,15 @@ msgstr "Avbryt"
 msgid "Add remote share"
 msgstr ""
 
-#: js/public.js:203
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Ingen ownCloudinstallation funnen på {remote}"
 
-#: js/public.js:204
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "Felaktig ownCloud url"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:126
 msgid "Shared by"
 msgstr "Delad av"
 
@@ -131,20 +131,20 @@ msgstr "delning är inaktiverat"
 msgid "For more info, please ask the person who sent this link."
 msgstr "För mer information, kontakta den person som skickade den här länken."
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
 msgstr "Lägg till i din ownCloud"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "Ladda ner"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
 msgstr "Ladda ner %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
 msgstr "Direkt länk"
 

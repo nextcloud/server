@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-13 01:54-0400\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,11 +34,11 @@ msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
 msgstr ""
 
-#: ajax/changeRecoveryPassword.php:49
+#: ajax/changeRecoveryPassword.php:50
 msgid "Password successfully changed."
 msgstr ""
 
-#: ajax/changeRecoveryPassword.php:51
+#: ajax/changeRecoveryPassword.php:52
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr ""
 
@@ -90,7 +90,7 @@ msgid ""
 "the encryption app has been disabled."
 msgstr ""
 
-#: hooks/hooks.php:293
+#: hooks/hooks.php:298
 msgid "Following users are not set up for encryption:"
 msgstr ""
 

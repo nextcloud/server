@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-28 01:54-0400\n"
-"PO-Revision-Date: 2014-07-27 20:30+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: Playerthe12 <a7652246@drdrb.net>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -34,11 +34,11 @@ msgstr "Αδυναμία προσθήκης απομακρυσμένου κοι�
 msgid "Shared with you"
 msgstr "Διαμοιρασμένο με εσάς"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
 msgstr "Διαμοιρασμένο με άλλους"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
 msgstr "Διαμοιρασμένο μέσω συνδέσμου"
 
@@ -74,15 +74,15 @@ msgstr "Άκυρο"
 msgid "Add remote share"
 msgstr "Προσθήκη απομακρυσμένου διαμοιρασμού"
 
-#: js/public.js:203
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Δεν βρέθηκε εγκατεστημένο ownCloud στο {remote}"
 
-#: js/public.js:204
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "Άκυρη url ownCloud "
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:126
 msgid "Shared by"
 msgstr "Διαμοιράστηκε από"
 
@@ -130,20 +130,20 @@ msgstr "ο διαμοιρασμός απενεργοποιήθηκε"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Για περισσότερες πληροφορίες, παρακαλώ ρωτήστε το άτομο που σας έστειλε αυτόν τον σύνδεσμο."
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
 msgstr "Προσθήκη στο ownCloud σου"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
 msgstr "Λήψη %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
 msgstr "Άμεσος σύνδεσμος"
 

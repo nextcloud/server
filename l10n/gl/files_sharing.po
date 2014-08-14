@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-16 01:54-0400\n"
-"PO-Revision-Date: 2014-07-16 05:54+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -31,11 +31,11 @@ msgstr "Non foi posíbel engadir a compartición remota"
 msgid "Shared with you"
 msgstr "Compartido con vostede"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
 msgstr "Compartido con outros"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
 msgstr "Compartido por ligazón"
 
@@ -71,15 +71,15 @@ msgstr "Cancelar"
 msgid "Add remote share"
 msgstr "Engadir unha compartición remota"
 
-#: js/public.js:203
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Non se atopou unha instalación do ownCloud en {remote}"
 
-#: js/public.js:204
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "URL incorrecta do ownCloud"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:126
 msgid "Shared by"
 msgstr "Compartido por"
 
@@ -127,20 +127,20 @@ msgstr "foi desactivada a compartición"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Para obter máis información, pregúntelle á persoa que lle enviou a ligazón."
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
 msgstr "Engadir ao seu ownCloud"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "Descargar"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
 msgstr "Descargar %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
 msgstr "Ligazón directa"
 

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 13:51+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -587,7 +587,7 @@ msgstr ""
 
 #: templates/admin.php:263
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Vsili zaščito z geslom"
 
 #: templates/admin.php:266
 msgid "Allow public uploads"
@@ -595,7 +595,7 @@ msgstr "Dovoli javno pošiljanje datotek v oblak"
 
 #: templates/admin.php:270
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Nastavitev privzetega datuma poteka"
 
 #: templates/admin.php:274
 msgid "Expire after "

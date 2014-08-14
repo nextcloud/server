@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-12 01:54-0400\n"
-"PO-Revision-Date: 2014-06-11 07:56+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: Marián Hvolka <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Nemožno zmazať %s navždy"
 msgid "Couldn't restore %s"
 msgstr "Nemožno obnoviť %s"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
 msgstr "Zmazané súbory"
 
@@ -40,7 +40,7 @@ msgstr "Obnoviť"
 msgid "Error"
 msgstr "Chyba"
 
-#: lib/trashbin.php:857 lib/trashbin.php:859
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
 msgstr "obnovené"
 

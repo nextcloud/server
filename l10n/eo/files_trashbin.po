@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Ne povis foriĝi %s por ĉiam"
 msgid "Couldn't restore %s"
 msgstr "Ne povis restaŭriĝi %s"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
 msgstr "Forigitaj dosieroj"
 
@@ -40,7 +40,7 @@ msgstr "Restaŭri"
 msgid "Error"
 msgstr "Eraro"
 
-#: lib/trashbin.php:857 lib/trashbin.php:859
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
 msgstr "restaŭrita"
 

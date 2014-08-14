@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 13:51+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -394,7 +394,7 @@ msgstr "Povezava za prejem"
 #: js/share.js:394
 msgid ""
 "The public link will expire no later than {days} days after it is created"
-msgstr ""
+msgstr "Javna povezava bo potekla {days} dni po ustvarjanju."
 
 #: js/share.js:398
 msgid "Password protect"
@@ -548,7 +548,7 @@ msgstr "Ni mogoče poslati elektronskega sporočila. Prepričajte se, da je upor
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Ni mogoče poslati elektronskega sporočila za ponastavitev gesla, ker ni navedenega elektronskega naslova. Stopite v stik s skrbnikom sistema."
 
 #: lostpassword/controller/lostcontroller.php:191
 #, php-format

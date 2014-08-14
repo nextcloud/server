@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-27 01:54-0400\n"
-"PO-Revision-Date: 2014-07-26 19:00+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: mcinp\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -33,11 +33,11 @@ msgstr "Nie można dodać zdalnego folderu"
 msgid "Shared with you"
 msgstr "Współdzielony z Tobą"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
 msgstr "Współdzielony z innymi"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
 msgstr "Współdzielony linkiem"
 
@@ -73,15 +73,15 @@ msgstr "Anuluj"
 msgid "Add remote share"
 msgstr "Dodaj zdalny zasób"
 
-#: js/public.js:203
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Nie znaleziono instalacji ownCloud na {remote}"
 
-#: js/public.js:204
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "Błędny adres URL"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:126
 msgid "Shared by"
 msgstr "Udostępniane przez"
 
@@ -129,20 +129,20 @@ msgstr "Udostępnianie jest wyłączone"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Aby uzyskać więcej informacji proszę poprosić osobę, która wysłał ten link."
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
 msgstr "Dodaj do twojego ownCloud"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "Pobierz"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
 msgstr "Pobierz %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
 msgstr "Bezpośredni link"
 

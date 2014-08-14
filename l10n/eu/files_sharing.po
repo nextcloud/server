@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-25 01:54-0400\n"
-"PO-Revision-Date: 2014-07-24 23:40+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -32,11 +32,11 @@ msgstr "Ezin izan da hurruneko elkarbanaketa gehitu"
 msgid "Shared with you"
 msgstr "Zurekin elkarbanatuta"
 
-#: appinfo/app.php:42 js/app.js:53
+#: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
 msgstr "Beste batzuekin elkarbanatuta"
 
-#: appinfo/app.php:51 js/app.js:72
+#: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
 msgstr "Lotura bidez elkarbanatuta"
 
@@ -72,15 +72,15 @@ msgstr "Ezeztatu"
 msgid "Add remote share"
 msgstr "Gehitu urrutiko parte hartzea"
 
-#: js/public.js:203
+#: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
 msgstr "Ez da ownClouden instalaziorik aurkitu {remote}n"
 
-#: js/public.js:204
+#: js/public.js:205
 msgid "Invalid ownCloud url"
 msgstr "ownCloud url baliogabea"
 
-#: js/sharedfilelist.js:123
+#: js/sharedfilelist.js:126
 msgid "Shared by"
 msgstr "Honek elkarbanatuta"
 
@@ -128,20 +128,20 @@ msgstr "elkarbanatzea ez dago gaituta"
 msgid "For more info, please ask the person who sent this link."
 msgstr "Informazio gehiagorako, mesedez eskatu lotura hau bidali zuen pertsonari"
 
-#: templates/public.php:22
+#: templates/public.php:27
 msgid "Add to your ownCloud"
 msgstr "Gehitu zure ownCloud-era"
 
-#: templates/public.php:30
+#: templates/public.php:35
 msgid "Download"
 msgstr "Deskargatu"
 
-#: templates/public.php:61
+#: templates/public.php:66
 #, php-format
 msgid "Download %s"
 msgstr "Deskargatu %s"
 
-#: templates/public.php:65
+#: templates/public.php:70
 msgid "Direct link"
 msgstr "Lotura zuzena"
 

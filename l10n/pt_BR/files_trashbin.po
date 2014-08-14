@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-19 01:54-0400\n"
-"PO-Revision-Date: 2014-06-18 10:10+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "Não foi possível excluir %s permanentemente"
 msgid "Couldn't restore %s"
 msgstr "Não foi possível restaurar %s"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
 msgstr "Arquivos apagados"
 
@@ -40,7 +40,7 @@ msgstr "Restaurar"
 msgid "Error"
 msgstr "Erro"
 
-#: lib/trashbin.php:891 lib/trashbin.php:893
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
 msgstr "restaurado"
 

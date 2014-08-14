@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-30 01:54-0400\n"
-"PO-Revision-Date: 2014-06-29 18:11+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: Vassilis Kehayas <vkehayas@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "Αδύνατη η μόνιμη διαγραφή του %s"
 msgid "Couldn't restore %s"
 msgstr "Αδυναμία επαναφοράς %s"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
 msgstr "Διεγραμμένα αρχεία"
 
@@ -41,7 +41,7 @@ msgstr "Επαναφορά"
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: lib/trashbin.php:891 lib/trashbin.php:893
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
 msgstr "επαναφέρθηκαν"
 

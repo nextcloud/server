@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Yeni Kurtarma anahtarı parolası",
 "Repeat New Recovery key password" => "Yeni Kurtarma anahtarı parolasını yineleyin",
 "Change Password" => "Parola Değiştir",
+"Your private key password no longer matches your log-in password." => "Özel anahtar parolanız artık oturum açma parolanız ile eşleşmiyor.",
 "Set your old private key password to your current log-in password:" => "Eski özel anahtar parolanızı, geçerli oturum açma parolanız olarak ayarlayın:",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Eğer eski parolanızı hatırlamıyorsanız, yöneticinizden dosyalarınızı kurtarmasını talep edebilirsiniz.",
 "Old log-in password" => "Eski oturum açma parolası",

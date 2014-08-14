@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Art O. Pal <artopal@fastmail.fm>, 2013
+# Artopal <artopal@fastmail.fm>, 2013
 # Rubén del Campo Gómez <yo@rubendelcampo.es>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-06-08 01:54-0400\n"
-"PO-Revision-Date: 2014-06-07 06:12+0000\n"
+"POT-Creation-Date: 2014-08-14 01:54-0400\n"
+"PO-Revision-Date: 2014-08-13 16:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgstr "No se puede eliminar %s permanentemente"
 msgid "Couldn't restore %s"
 msgstr "No se puede restaurar %s"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
 msgstr "Archivos eliminados"
 
@@ -41,7 +41,7 @@ msgstr "Recuperar"
 msgid "Error"
 msgstr "Error"
 
-#: lib/trashbin.php:857 lib/trashbin.php:859
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
 msgstr "recuperado"
 

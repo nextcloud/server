@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "OpenStack Object Storage" => "Shramba predmeta OpenStack",
 "Username (required)" => "Uporabniško ime (zahtevano)",
 "Region (optional for OpenStack Object Storage)" => "Območje (zahtevano za shrambo predmeta OpenStack)",
+"API Key (required for Rackspace Cloud Files)" => "Ključ programskega vmesnika (API) (zahtevan je za datoteke v oblaku Rackspace)",
 "Tenantname (required for OpenStack Object Storage)" => "Ime uporabnika (zahtevano za shrambo predmeta OpenStack)",
 "Password (required for OpenStack Object Storage)" => "Geslo (zahtevano za shrambo predmeta OpenStack)",
 "Service Name (required for OpenStack Object Storage)" => "Ime storitve (zahtevano za shrambo predmeta OpenStack)",
