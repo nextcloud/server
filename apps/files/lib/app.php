@@ -71,15 +71,25 @@ class App {
 			'data'		=> NULL
 		);
 
+		$normalizedOldPath = \OC\Files\Filesystem::normalizePath($dir . '/' . $oldname);
+		$normalizedNewPath = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
+
 		// rename to non-existing folder is denied
-		if (!$this->view->file_exists($dir)) {
+		if (!$this->view->file_exists($normalizedOldPath)) {
+			$result['data'] = array(
+				'message'	=> $this->l10n->t('%s could not be renamed as it has been deleted', array($oldname)),
+				'code' => 'sourcenotfound',
+				'oldname' => $oldname,
+				'newname' => $newname,
+			);
+		}else if (!$this->view->file_exists($dir)) {
 			$result['data'] = array('message' => (string)$this->l10n->t(
 					'The target folder has been moved or deleted.',
 					array($dir)),
 					'code' => 'targetnotfound'
 				);
 		// rename to existing file is denied
-		} else if ($this->view->file_exists($dir . '/' . $newname)) {
+		} else if ($this->view->file_exists($normalizedNewPath)) {
 
 			$result['data'] = array(
 				'message'	=> $this->l10n->t(
@@ -90,10 +100,10 @@ class App {
 			// rename to "." is denied
 			$newname !== '.' and
 			// THEN try to rename
-			$this->view->rename($dir . '/' . $oldname, $dir . '/' . $newname)
+			$this->view->rename($normalizedOldPath, $normalizedNewPath)
 		) {
 			// successful rename
-			$meta = $this->view->getFileInfo($dir . '/' . $newname);
+			$meta = $this->view->getFileInfo($normalizedNewPath);
 			$fileinfo = \OCA\Files\Helper::formatFileInfo($meta);
 			$result['success'] = true;
 			$result['data'] = $fileinfo;

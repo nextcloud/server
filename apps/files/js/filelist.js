@@ -1322,6 +1322,10 @@
 								if (!result || result.status === 'error') {
 									OC.dialogs.alert(result.data.message, t('files', 'Could not rename file'));
 									fileInfo = oldFileInfo;
+									if (result.data.code === 'sourcenotfound') {
+										self.remove(result.data.newname, {updateSummary: true});
+										return;
+									}
 								}
 								else {
 									fileInfo = result.data;
