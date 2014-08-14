@@ -200,7 +200,7 @@ class Storage extends DAV implements ISharedStorage {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
 		curl_setopt($ch, CURLOPT_CAINFO, $this->certificateManager->getCertificateBundle());
 
-			$result = curl_exec($ch);
+		$result = curl_exec($ch);
 
 		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 		curl_close($ch);
