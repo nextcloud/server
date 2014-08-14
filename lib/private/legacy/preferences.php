@@ -21,10 +21,11 @@
  *
  */
 
+OC_Preferences::$object = new \OC\Preferences(OC_DB::getConnection());
 /**
  * This class provides an easy way for storing user preferences.
+ * @deprecated use \OC\Preferences instead
  */
-OC_Preferences::$object = new \OC\Preferences(OC_DB::getConnection());
 class OC_Preferences{
 	public static $object;
 	/**

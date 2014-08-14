@@ -6,6 +6,11 @@
  * See the COPYING-README file.
  */
 
+/**
+ * provides an interface to all search providers
+ *
+ * @deprecated use \OC\Updater instead
+ */
 class OC_Updater {
 	public static function check() {
 		$updater = new \OC\Updater();

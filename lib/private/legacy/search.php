@@ -22,6 +22,7 @@
 
 /**
  * provides an interface to all search providers
+ *
  * @deprecated use \OCP\ISearch / \OC\Search instead
  */
 class OC_Search {

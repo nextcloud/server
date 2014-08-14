@@ -17,8 +17,10 @@
  *
  */
 
+/**
+ * @deprecated use \OCP\Search\Result instead
+ */
 class OC_Search_Result extends \OCP\Search\Result {
-    
 	/**
 	 * Create a new search result
 	 * @param string $id unique identifier from application: '[app_name]/[item_identifier_in_app]'

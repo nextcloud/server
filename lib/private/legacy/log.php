@@ -14,6 +14,9 @@
  */
 
 OC_Log::$object = new \OC\Log();
+/**
+ * @deprecated use \OC::$server->getLogger() to get an \OCP\ILogger instance
+ */
 class OC_Log {
 	public static $object;
 
