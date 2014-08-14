@@ -52,9 +52,11 @@ class Test_Files_Sharing_Storage extends Test_Files_Sharing_Base {
 	}
 
 	/**
+	 * if the parent of the mount point is gone then the mount point should move up
+	 *
 	 * @medium
 	 */
-	function testDeleteParentOfMountPoint() {
+	function testParentOfMountPointIsGone() {
 
 		// share to user
 		$fileinfo = $this->view->getFileInfo($this->folder);
@@ -79,8 +81,8 @@ class Test_Files_Sharing_Storage extends Test_Files_Sharing_Base {
 		$this->assertFalse($user2View->is_dir($this->folder));
 
 		// delete the local folder
-		$result = $user2View->unlink('/localfolder');
-		$this->assertTrue($result);
+		$fullPath = \OC_Config::getValue('datadirectory') . '/' . self::TEST_FILES_SHARING_API_USER2 . '/files/localfolder';
+		rmdir($fullPath);
 
 		//enforce reload of the mount points
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
