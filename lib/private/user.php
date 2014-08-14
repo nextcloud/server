@@ -64,7 +64,7 @@ class OC_User {
 	/**
 	 * registers backend
 	 * @param string $backend name of the backend
-	 * @deprecated Add classes by calling useBackend with a class instance instead
+	 * @deprecated Add classes by calling OC_User::useBackend() with a class instance instead
 	 * @return bool
 	 *
 	 * Makes a list of backends that can be used by other modules

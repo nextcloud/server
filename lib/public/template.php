@@ -97,7 +97,7 @@ function relative_modified_date( $timestamp, $dateOnly = false ) {
 
 /**
  * Return a human readable outout for a file size.
- * @deprecated human_file_size() instead
+ * @deprecated use human_file_size() instead
  * @param integer $bytes size of a file in byte
  * @return string human readable interpretation of a file size
  */

@@ -22,7 +22,7 @@
 
 /**
  * provides an interface to all search providers
- * @deprecated see lib/search.php
+ * @deprecated use \OCP\ISearch / \OC\Search instead
  */
 class OC_Search {
 	/**
