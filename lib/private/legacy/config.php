@@ -37,6 +37,8 @@
 /**
  * This class is responsible for reading and writing config.php, the very basic
  * configuration file of ownCloud.
+ *
+ * @deprecated use \OC::$server->getConfig() to get an \OCP\Config instance
  */
 class OC_Config {
 
