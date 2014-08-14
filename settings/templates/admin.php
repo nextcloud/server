@@ -147,7 +147,7 @@ if (!$_['isPhpCharSetUtf8']) {
 		<h2><?php p($l->t('PHP charset is not set to UTF-8'));?></h2>
 
 		<span class="connectionwarning">
-		<?php p($l->t("PHP charset is not set to UTF-8. This can cause major issues with non-acsii characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'.")); ?>
+		<?php p($l->t("PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'.")); ?>
 	</span>
 
 	</div>
