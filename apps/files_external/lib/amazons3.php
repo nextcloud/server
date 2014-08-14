@@ -56,6 +56,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	/**
 	 * @param string $path
+	 * @return string correctly encoded path
 	 */
 	private function normalizePath($path) {
 		$path = trim($path, '/');
@@ -441,7 +442,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$result = $this->connection->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path2),
-					'CopySource' => $this->bucket . '/' . $path1
+					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
@@ -457,7 +458,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$result = $this->connection->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $path2 . '/',
-					'CopySource' => $this->bucket . '/' . $path1 . '/'
+					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1 . '/')
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
