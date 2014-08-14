@@ -37,7 +37,7 @@ class CertificateManager implements ICertificateManager {
 			//path might not exist (e.g. non-standard OC_User::getHome() value)
 			//in this case create full path using 3rd (recursive=true) parameter.
 			//note that we use "normal" php filesystem functions here since the certs need to be local
-			mkdir($path, 0777, true);
+			mkdir($path, 0700, true);
 		}
 		$result = array();
 		$handle = opendir($path);
