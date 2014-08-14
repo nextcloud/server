@@ -8,10 +8,12 @@
 
 namespace OC;
 
+use OCP\ICertificateManager;
+
 /**
  * Manage trusted certificates for users
  */
-class CertificateManager {
+class CertificateManager implements ICertificateManager {
 	/**
 	 * @var \OCP\IUser
 	 */
@@ -76,6 +78,9 @@ class CertificateManager {
 	 * @return bool
 	 */
 	public function addCertificate($certificate, $name) {
+		if (!\OC\Files\Filesystem::isValidPath($name)) {
+			return false;
+		}
 		$isValid = openssl_pkey_get_public($certificate);
 
 		if (!$isValid) {
@@ -96,8 +101,12 @@ class CertificateManager {
 
 	/**
 	 * @param string $name
+	 * @return bool
 	 */
 	public function removeCertificate($name) {
+		if (!\OC\Files\Filesystem::isValidPath($name)) {
+			return false;
+		}
 		$path = $this->user->getHome() . '/files_external/uploads/';
 		if (file_exists($path . $name)) {
 			unlink($path . $name);
