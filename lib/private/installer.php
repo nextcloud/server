@@ -201,11 +201,10 @@ class OC_Installer{
 	/**
 	 * update an app by it's id
 	 * @param integer $ocsid
-	 * @param bool $isShipped
 	 * @return bool
 	 * @throws Exception
 	 */
-	public static function updateAppByOCSId($ocsid, $isShipped=false) {
+	public static function updateAppByOCSId($ocsid) {
 		$appdata = OC_OCSClient::getApplication($ocsid);
 		$download = OC_OCSClient::getApplicationDownload($ocsid, 1);
 

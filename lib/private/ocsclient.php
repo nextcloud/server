@@ -142,9 +142,11 @@ class OC_OCSClient{
 			$app['license']=(string)$tmp[$i]->license;
 			$app['detailpage']=(string)$tmp[$i]->detailpage;
 			$app['preview']=(string)$tmp[$i]->smallpreviewpic1;
+			$app['preview-full']=(string)$tmp[$i]->previewpic1;
 			$app['changed']=strtotime($tmp[$i]->changed);
 			$app['description']=(string)$tmp[$i]->description;
 			$app['score']=(string)$tmp[$i]->score;
+			$app['downloads'] = $tmp[$i]->downloads;
 
 			$apps[]=$app;
 		}

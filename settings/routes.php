@@ -69,10 +69,12 @@ $this->create('settings_cert_post', '/settings/ajax/addRootCertificate')
 $this->create('settings_cert_remove', '/settings/ajax/removeRootCertificate')
 	->actionInclude('settings/ajax/removeRootCertificate.php');
 // apps
-$this->create('settings_ajax_apps_ocs', '/settings/ajax/apps/ocs.php')
-	->actionInclude('settings/ajax/apps/ocs.php');
 $this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
 	->actionInclude('settings/ajax/enableapp.php');
+$this->create('settings_ajax_load_app_categories', '/settings/apps/categories')
+	->actionInclude('settings/ajax/apps/categories.php');
+$this->create('settings_ajax_load_apps', '/settings/apps/list')
+	->actionInclude('settings/ajax/apps/index.php');
 $this->create('settings_ajax_disableapp', '/settings/ajax/disableapp.php')
 	->actionInclude('settings/ajax/disableapp.php');
 $this->create('settings_ajax_updateapp', '/settings/ajax/updateapp.php')
@@ -81,8 +83,6 @@ $this->create('settings_ajax_uninstallapp', '/settings/ajax/uninstallapp.php')
 	->actionInclude('settings/ajax/uninstallapp.php');
 $this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect.php')
 	->actionInclude('settings/ajax/navigationdetect.php');
-$this->create('apps_custom', '/settings/js/apps-custom.js')
-	->actionInclude('settings/js/apps-custom.php');
 // admin
 $this->create('settings_ajax_getlog', '/settings/ajax/getlog.php')
 	->actionInclude('settings/ajax/getlog.php');
