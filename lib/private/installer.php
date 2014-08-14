@@ -532,10 +532,6 @@ class OC_Installer{
 	 */
 	public static function checkCode($appname, $folder) {
 		$blacklist=array(
-			'exec(',
-			'eval(',
-			// more evil pattern will go here later
-
 			// classes replaced by the public api
 			'OC_API::',
 			'OC_App::',
