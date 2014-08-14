@@ -152,8 +152,13 @@ class Test_Files_Sharing_Update_Routine extends Test_Files_Sharing_Base {
 			}
 		}
 
+		$shareFolder = \OCP\Config::getSystemValue('share_folder', '/');
+
+		$this->assertSame('/Shared', $shareFolder);
+
 		// cleanup
 		$this->cleanupSharedTable();
+		\OCP\Config::deleteSystemValue('share_folder');
 
 	}
 
