@@ -28,10 +28,20 @@ class Scanner extends \OC\Files\Cache\Scanner {
 	}
 
 	private function addResult($data, $path) {
-		$this->cache->put($path, $data);
+		$id = $this->cache->put($path, $data);
 		if (isset($data['children'])) {
+			$children = array();
 			foreach ($data['children'] as $child) {
+				$children[$child['name']] = true;
 				$this->addResult($child, ltrim($path . '/' . $child['name'], '/'));
+			}
+
+			$existingCache = $this->cache->getFolderContentsById($id);
+			foreach ($existingCache as $existingChild) {
+				// if an existing child is not in the new data, remove it
+				if (!isset($children[$existingChild['name']])) {
+					$this->cache->remove(ltrim($path . '/' . $existingChild['name'], '/'));
+				}
 			}
 		}
 	}
