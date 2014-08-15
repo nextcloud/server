@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-08 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 09:11+0000\n"
+"POT-Creation-Date: 2014-08-15 01:54-0400\n"
+"PO-Revision-Date: 2014-08-14 18:11+0000\n"
 "Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,41 +52,41 @@ msgid ""
 "example configuration is provided in config/config.sample.php."
 msgstr "Póñase en contacto co administrador. Se vostede é administrador desta instancia, configure o parámetro «trusted_domain» en config/config.php. Dispón dun exemplo de configuración en config/config.sample.php."
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "Axuda"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "Persoal"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "Axustes"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "Usuarios"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "Administración"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Non foi posíbel anovar «%s»."
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr "Non é posíbel instalar o aplicativo «%s» por non seren compatíbel con esta versión do ownCloud."
+msgstr "Non é posíbel instalar a aplicación «%s» por non seren compatíbel con esta versión do ownCloud."
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
-msgstr "Non se especificou o nome do aplicativo"
+msgstr "Non se especificou o nome da aplicación"
 
 #: private/avatar.php:66
 msgid "Unknown filetype"
@@ -102,24 +102,24 @@ msgstr "servizos web baixo o seu control"
 
 #: private/installer.php:77
 msgid "App directory already exists"
-msgstr "Xa existe o directorio do aplicativo"
+msgstr "Xa existe o directorio da aplicación"
 
 #: private/installer.php:90
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Non é posíbel crear o cartafol de aplicativos. Corrixa os permisos. %s"
+msgstr "Non é posíbel crear o cartafol de aplicacións. Corrixa os permisos. %s"
 
 #: private/installer.php:235
 msgid "No source specified when installing app"
-msgstr "Non foi especificada ningunha orixe ao instalar aplicativos"
+msgstr "Non foi especificada ningunha orixe ao instalar aplicacións"
 
 #: private/installer.php:243
 msgid "No href specified when installing app from http"
-msgstr "Non foi especificada ningunha href ao instalar aplicativos"
+msgstr "Non foi especificada ningunha href ao instalar aplicacións"
 
 #: private/installer.php:248
 msgid "No path specified when installing app from local file"
-msgstr "Non foi especificada ningunha ruta ao instalar aplicativos desde un ficheiro local"
+msgstr "Non foi especificada ningunha ruta ao instalar aplicacións desde un ficheiro local"
 
 #: private/installer.php:256
 #, php-format
@@ -128,37 +128,37 @@ msgstr "Os arquivos do tipo %s non están admitidos"
 
 #: private/installer.php:270
 msgid "Failed to open archive when installing app"
-msgstr "Non foi posíbel abrir o arquivo ao instalar aplicativos"
+msgstr "Non foi posíbel abrir o arquivo ao instalar aplicacións"
 
 #: private/installer.php:308
 msgid "App does not provide an info.xml file"
-msgstr "O aplicativo non fornece un ficheiro info.xml"
+msgstr "A aplicación non fornece un ficheiro info.xml"
 
 #: private/installer.php:314
 msgid "App can't be installed because of not allowed code in the App"
-msgstr "Non é posíbel instalar o aplicativo por mor de conter código non permitido"
+msgstr "Non é posíbel instalar a aplicación por mor de conter código non permitido"
 
 #: private/installer.php:320
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr "Non é posíbel instalar o aplicativo por non seren compatíbel  con esta versión do ownCloud."
+msgstr "Non é posíbel instalar a aplicación por non seren compatíbel  con esta versión do ownCloud."
 
 #: private/installer.php:326
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
-msgstr "Non é posíbel instalar o aplicativo por conter a etiqueta <shipped>true</shipped> que non está permitida para os aplicativos non expedidos"
+msgstr "Non é posíbel instalar a aplicación por conter a etiqueta <shipped>true</shipped> que non está permitida para as aplicacións non enviadas"
 
 #: private/installer.php:339
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr "Non é posíbel instalar o aplicativo xa que a versión en info.xml/version non é a mesma que a versión informada desde a App Store"
+msgstr "Non é posíbel instalar a aplicación xa que a versión en info.xml/version non é a mesma que a versión informada desde a App Store"
 
 #: private/json.php:29
 msgid "Application is not enabled"
-msgstr "O aplicativo non está activado"
+msgstr "A aplicación non está activada"
 
 #: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
@@ -280,7 +280,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s compartiu «%s» con vostede"
@@ -343,68 +343,68 @@ msgstr "Fallou a compartición de %s, non está permitido compartir con ligazón
 msgid "Share type %s is not valid for %s"
 msgstr "Non se admite a compartición do tipo %s para %s"
 
-#: private/share/share.php:861
+#: private/share/share.php:862
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Non é posíbel estabelecer permisos para %s, os permisos superan os permisos concedidos a %s"
 
-#: private/share/share.php:922
+#: private/share/share.php:923
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Non é posíbel estabelecer permisos para %s, non se atopa o elemento"
 
-#: private/share/share.php:960
+#: private/share/share.php:961
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "Non é posíbel estabelecer a data de caducidade. As comparticións non poden caducar máis aló de %s após de seren compartidas"
 
-#: private/share/share.php:968
+#: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Non é posíbel estabelecer a data de caducidade. A data de caducidade está no pasado."
 
-#: private/share/share.php:1093
+#: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "A infraestrutura de compartición %s ten que implementar a interface OCP\\Share_Backend"
 
-#: private/share/share.php:1100
+#: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Non se atopou a infraestrutura de compartición %s"
 
-#: private/share/share.php:1106
+#: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Non se atopou a infraestrutura de compartición para %s"
 
-#: private/share/share.php:1524
+#: private/share/share.php:1525
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Fallou a compartición de %s, a compartición orixinal é do usuario %s"
 
-#: private/share/share.php:1533
+#: private/share/share.php:1534
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Fallou a compartición de %s, os permisos superan os permisos concedidos a %s"
 
-#: private/share/share.php:1549
+#: private/share/share.php:1550
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Fallou a compartición de %s, non está permitido repetir a compartción"
 
-#: private/share/share.php:1561
+#: private/share/share.php:1562
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Fallou a compartición de %s, a infraestrutura de compartición para %s non foi quen de atopar a orixe"
 
-#: private/share/share.php:1575
+#: private/share/share.php:1576
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

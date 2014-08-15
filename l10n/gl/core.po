@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-15 01:54-0400\n"
+"PO-Revision-Date: 2014-08-14 18:01+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgstr "Comprobada a actualización do esquema da base de datos"
 #: ajax/update.php:27
 #, php-format
 msgid "Disabled incompatible apps: %s"
-msgstr "Aplicativos incompatíbeis desactivados: %s"
+msgstr "Aplicacións incompatíbeis desactivadas: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
@@ -605,7 +605,7 @@ msgstr "Usuarios"
 
 #: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
-msgstr "Aplicativos"
+msgstr "Aplicacións"
 
 #: strings.php:8
 msgid "Admin"
@@ -774,7 +774,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr "Este aplicativo require que o JavaScript estea activado para unha operativa correcta. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Active o JavaScript</a> e volva a cargar a interface."
+msgstr "Esta aplicación require que o JavaScript estea activado para unha operativa correcta. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Active o JavaScript</a> e volva a cargar a interface."
 
 #: templates/layout.user.php:47
 #, php-format
@@ -841,7 +841,7 @@ msgstr "%s actualizarase á versión %s."
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr "Os seguintes aplicativos van desactivarse:"
+msgstr "Van desactivarse as seguintes aplicacións:"
 
 #: templates/update.admin.php:17
 #, php-format

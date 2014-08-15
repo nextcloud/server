@@ -105,7 +105,6 @@ $TRANSLATIONS = array(
 "Your PHP version is outdated" => "Käytössä oleva PHP-versio on vanhentunut",
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Käytössä oleva PHP on vanhentunut. Päivitä versioon 5.3.8 tai uudempaan, koska aiemmat versiot eivät ole toimivia. On mahdollista, että tämä ownCloud-asennus ei toimi kunnolla.",
 "PHP charset is not set to UTF-8" => "PHP:n merkistöä ei ole asetettu UTF-8:ksi",
-"PHP charset is not set to UTF-8. This can cause major issues with non-acsii characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." => "PHP:n merkistö ei ole asetettu UTF-8:ksi. Tämä saattaa aiheuttaa suuria ongelmia sellaisten tiedostojen kanssa, jotka on nimetty ei-ascii-merkein. Suosittelemme vaihtamaan php.ini-tiedoston asetuksen 'default_charset' arvoksi 'UTF-8'.",
 "Locale not working" => "Maa-asetus ei toimi",
 "System locale can not be set to a one which supports UTF-8." => "Järjestelmän maa-asetusta ei voi asettaa UTF-8:aa tukevaksi.",
 "This means that there might be problems with certain characters in file names." => "Tämä tarkoittaa, että tiettyjen merkkien kanssa tiedostojen nimissä saattaa olla ongelmia.",

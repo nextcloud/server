@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-09 01:54-0400\n"
-"PO-Revision-Date: 2014-08-09 05:54+0000\n"
+"POT-Creation-Date: 2014-08-15 01:54-0400\n"
+"PO-Revision-Date: 2014-08-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Pirate English (http://www.transifex.com/projects/p/owncloud/language/en@pirate/)\n"
 "MIME-Version: 1.0\n"
@@ -55,11 +55,11 @@ msgid ""
 msgstr ""
 
 #: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:159
-#: lib/app.php:77
+#: lib/app.php:87
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:86
+#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:96
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different "
@@ -164,49 +164,49 @@ msgstr ""
 msgid "All files"
 msgstr ""
 
-#: js/file-upload.js:268
+#: js/file-upload.js:269
 msgid "Unable to upload {filename} as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/file-upload.js:281
+#: js/file-upload.js:284
 msgid "Total file size {size1} exceeds upload limit {size2}"
 msgstr ""
 
-#: js/file-upload.js:292
+#: js/file-upload.js:295
 msgid ""
 "Not enough free space, you are uploading {size1} but only {size2} is left"
 msgstr ""
 
-#: js/file-upload.js:369
+#: js/file-upload.js:372
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/file-upload.js:415
+#: js/file-upload.js:418
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:499
+#: js/file-upload.js:502
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/file-upload.js:564
+#: js/file-upload.js:567
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:568 js/filelist.js:1275
+#: js/file-upload.js:571 js/filelist.js:1275
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/file-upload.js:623
+#: js/file-upload.js:626
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:639
+#: js/file-upload.js:642
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:686
+#: js/file-upload.js:689
 msgid "Error fetching URL"
 msgstr ""
 
@@ -240,7 +240,7 @@ msgid ""
 "big."
 msgstr ""
 
-#: js/filelist.js:680 js/filelist.js:1799
+#: js/filelist.js:680 js/filelist.js:1803
 msgid "Pending"
 msgstr ""
 
@@ -260,35 +260,35 @@ msgstr ""
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1441
+#: js/filelist.js:1445
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1544 templates/list.php:61
+#: js/filelist.js:1548 templates/list.php:61
 msgid "Name"
 msgstr ""
 
-#: js/filelist.js:1545 templates/list.php:72
+#: js/filelist.js:1549 templates/list.php:72
 msgid "Size"
 msgstr ""
 
-#: js/filelist.js:1546 templates/list.php:75
+#: js/filelist.js:1550 templates/list.php:75
 msgid "Modified"
 msgstr ""
 
-#: js/filelist.js:1556 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1560 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1562 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1566 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1692 js/filelist.js:1731
+#: js/filelist.js:1696 js/filelist.js:1735
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""
@@ -329,7 +329,12 @@ msgstr ""
 msgid "{dirs} and {files}"
 msgstr ""
 
-#: lib/app.php:103
+#: lib/app.php:80
+#, php-format
+msgid "%s could not be renamed as it has been deleted"
+msgstr ""
+
+#: lib/app.php:113
 #, php-format
 msgid "%s could not be renamed"
 msgstr ""

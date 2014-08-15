@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-14 01:54-0400\n"
-"PO-Revision-Date: 2014-08-13 16:02+0000\n"
+"POT-Creation-Date: 2014-08-15 01:54-0400\n"
+"PO-Revision-Date: 2014-08-15 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,11 @@ msgstr ""
 msgid "Server to server sharing is not enabled on this server"
 msgstr ""
 
-#: ajax/external.php:47
+#: ajax/external.php:38
+msgid "Invalid or untrusted ssl certificate"
+msgstr ""
+
+#: ajax/external.php:52
 msgid "Couldn't add remote share"
 msgstr ""
 
