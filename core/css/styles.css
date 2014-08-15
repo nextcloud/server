@@ -567,8 +567,8 @@ label.infield {
 #body-login .warning, #body-login .update, #body-login .error {
 	display: block;
 	padding: 10px;
-	color: #d2322d;
 	background-color: rgba(0,0,0,.3);
+	color: #fff;
 	text-align: left;
 	border-radius: 3px;
 	cursor: default;
@@ -598,8 +598,7 @@ label.infield {
 .warning legend,
 .warning a,
 .error a {
-	color: #d2322d !important;
-	font-weight: bold;
+	font-weight: bold !important;
 }
 .error pre {
 	white-space: pre-wrap;
