@@ -495,13 +495,6 @@ class OC {
 		}
 		OC_Util::isSetLocaleWorking();
 
-		// set debug mode if an xdebug session is active
-		if (!defined('DEBUG') || !DEBUG) {
-			if (isset($_COOKIE['XDEBUG_SESSION'])) {
-				define('DEBUG', true);
-			}
-		}
-
 		if (!defined('PHPUNIT_RUN')) {
 			if (defined('DEBUG') and DEBUG) {
 				OC\Log\ErrorHandler::register(true);
