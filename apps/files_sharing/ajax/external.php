@@ -35,7 +35,7 @@ $name = OCP\Files::buildNotExistingFileName('/', $name);
 
 // check for ssl cert
 if (substr($remote, 0, 5) === 'https' and !OC_Util::getUrlContent($remote)) {
-	\OCP\JSON::error(array('data' => array('message' => $l->t("Invalid or untrusted ssl certificate"))));
+	\OCP\JSON::error(array('data' => array('message' => $l->t("Invalid or untrusted SSL certificate"))));
 	exit;
 } else {
 	$mount = $externalManager->addShare($remote, $token, $password, $name, $owner);
