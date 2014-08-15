@@ -231,7 +231,7 @@ OC.Share={
 		var shareFolderIcon;
 		var image = OC.imagePath('core', 'actions/share');
 		// update folder icon
-		if (type === 'dir' && (hasShares || hasLink)) {
+		if (type === 'dir' && (hasShares || hasLink || owner)) {
 			if (hasLink) {
 				shareFolderIcon = OC.imagePath('core', 'filetypes/folder-public');
 			}

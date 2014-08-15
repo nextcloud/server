@@ -82,6 +82,26 @@ window.Snap.prototype = {
 	var fakeServer = null,
 		$testArea = null;
 
+	/**
+	 * Utility functions for testing
+	 */
+	var TestUtil = {
+		/**
+		 * Returns the image URL set on the given element
+		 * @param $el element
+		 * @return {String} image URL
+		 */
+		getImageUrl: function($el) {
+			// might be slightly different cross-browser
+			var url = $el.css('background-image');
+			var r = url.match(/url\(['"]?([^'")]*)['"]?\)/);
+			if (!r) {
+				return url;
+			}
+			return r[1];
+		}
+	};
+
 	beforeEach(function() {
 		// test area for elements that need absolute selector access or measure widths/heights
 		// which wouldn't work for detached or hidden elements
@@ -103,6 +123,10 @@ window.Snap.prototype = {
 		// make it globally available, so that other tests can define
 		// custom responses
 		window.fakeServer = fakeServer;
+
+		if (!OC.TestUtil) {
+			OC.TestUtil = TestUtil;
+		}
 	});
 
 	afterEach(function() {
