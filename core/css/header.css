@@ -42,8 +42,7 @@
 }
 
 #header .logo {
-	background-image: url(../img/logo.svg);
-	background-repeat: no-repeat;
+	background: url(../img/logo.svg) no-repeat center;
 	width: 252px;
 	height: 120px;
 	margin: 0 auto;
