@@ -87,6 +87,10 @@
 					$(this).tipsy('hide');
 				}
 			});
+			input.click(function(ev) {
+				// prevent clicks to close any container
+				ev.stopPropagation();
+			});
 		});
 	};
 })(jQuery);
