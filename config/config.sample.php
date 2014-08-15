@@ -222,6 +222,11 @@ $CONFIG = array(
  */
 // "datadirectory" => "",
 
+/* The directory where the skeleton files are located. These files will be copied to the data
+ * directory of new users. Leave empty to not copy any skeleton files.
+ */
+// "skeletondirectory" => "",
+
 /* Enable maintenance mode to disable ownCloud
    If you want to prevent users to login to ownCloud before you start doing some maintenance work,
    you need to set the value of the maintenance parameter to true.

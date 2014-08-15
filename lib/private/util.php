@@ -208,7 +208,10 @@ class OC_Util {
 	 * @param string $userDirectory
 	 */
 	public static function copySkeleton($userDirectory) {
-		OC_Util::copyr(\OC::$SERVERROOT.'/core/skeleton' , $userDirectory);
+		$skeletonDirectory = OC_Config::getValue('skeletondirectory', \OC::$SERVERROOT.'/core/skeleton');
+		if (!empty($skeletonDirectory)) {
+			OC_Util::copyr($skeletonDirectory , $userDirectory);
+		}
 	}
 
 	/**
