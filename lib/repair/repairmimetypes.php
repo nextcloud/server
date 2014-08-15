@@ -113,12 +113,54 @@ class RepairMimeTypes extends BasicEmitter implements \OC\RepairStep {
 		}
 	}
 
+	private function fixAPKMimeType() {
+		$existsStmt = \OC_DB::prepare('
+			SELECT count(`mimetype`)
+			FROM   `*PREFIX*mimetypes`
+			WHERE  `mimetype` = ?
+		');
+
+		$insertStmt = \OC_DB::prepare('
+			INSERT INTO `*PREFIX*mimetypes` ( `mimetype` )
+			VALUES ( ? )
+		');
+
+
+		$updateByNameStmt = \OC_DB::prepare('
+			UPDATE `*PREFIX*filecache`
+			SET `mimetype` = (
+				SELECT `id`
+				FROM `*PREFIX*mimetypes`
+				WHERE `mimetype` = ?
+			) WHERE `name` LIKE ?
+		');
+
+
+		$mimeTypeExtension = 'apk';
+		$mimeTypeName = 'application/vnd.android.package-archive';
+
+		$result = \OC_DB::executeAudited($existsStmt, array($mimeTypeName));
+		$exists = $result->fetchOne();
+
+		if ( ! $exists ) {
+			// insert mimetype
+			\OC_DB::executeAudited($insertStmt, array($mimeTypeName));
+		}
+
+		// change mimetype for files with x extension
+		\OC_DB::executeAudited($updateByNameStmt, array($mimeTypeName, '%.'.$mimeTypeExtension));
+	}
+
 	/**
 	 * Fix mime types
 	 */
 	public function run() {
 		if ($this->fixOfficeMimeTypes()) {
 			$this->emit('\OC\Repair', 'info', array('Fixed office mime types'));
+		}
+
+		if ($this->fixAPKMimeType()) {
+			$this->emit('\OC\Repair', 'info', array('Fixed APK mime type'));
 		}
 	}
 }

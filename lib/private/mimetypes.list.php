@@ -32,6 +32,7 @@ return array(
 	'7z' => array('application/x-7z-compressed', null),
 	'accdb' => array('application/msaccess', null),
 	'ai' => array('application/illustrator', null),
+	'apk' => array('application/vnd.android.package-archive', null),
 	'avi' => array('video/x-msvideo', null),
 	'bash' => array('text/x-shellscript', null),
 	'blend' => array('application/x-blender', null),
