@@ -61,7 +61,7 @@ class Test_Encryption_Crypt extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
 		// set user id
-		\OC_User::setUserId(\Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1);
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1);
 		$this->userId = \Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1;
 		$this->pass = \Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1;
 
