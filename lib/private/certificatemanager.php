@@ -29,7 +29,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * Returns all certificates trusted by the user
 	 *
-	 * @return string[]
+	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates() {
 		$path = $this->user->getHome() . '/files_external/uploads/';
@@ -45,7 +45,9 @@ class CertificateManager implements ICertificateManager {
 			return array();
 		}
 		while (false !== ($file = readdir($handle))) {
-			if ($file != '.' && $file != '..') $result[] = $file;
+			if ($file != '.' && $file != '..') {
+				$result[] = new Certificate(file_get_contents($path . $file), $file);
+			}
 		}
 		return $result;
 	}
@@ -75,7 +77,7 @@ class CertificateManager implements ICertificateManager {
 	/**
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return bool
+	 * @return bool | \OCP\ICertificate
 	 */
 	public function addCertificate($certificate, $name) {
 		if (!\OC\Files\Filesystem::isValidPath($name)) {
@@ -93,7 +95,7 @@ class CertificateManager implements ICertificateManager {
 			$file = $this->user->getHome() . '/files_external/uploads/' . $name;
 			file_put_contents($file, $certificate);
 			$this->createCertificateBundle();
-			return true;
+			return new Certificate($certificate, $name);
 		} else {
 			return false;
 		}

@@ -354,7 +354,7 @@ class OC_L10N implements \OCP\IL10N {
 			case 'datetime':
 			case 'time':
 				if($data instanceof DateTime) {
-					return $data->format($this->localizations[$type]);
+					$data = $data->getTimestamp();
 				} elseif(is_string($data) && !is_numeric($data)) {
 					$data = strtotime($data);
 				}

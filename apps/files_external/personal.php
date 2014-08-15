@@ -23,12 +23,10 @@
 OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addStyle('files_external', 'settings');
 $backends = OC_Mount_Config::getPersonalBackends();
-$certificateManager = \OC::$server->getCertificateManager();
 
 $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('isAdminPage', false);
 $tmpl->assign('mounts', OC_Mount_Config::getPersonalMountPoints());
-$tmpl->assign('certs', $certificateManager->listCertificates());
 $tmpl->assign('dependencies', OC_Mount_Config::checkDependencies());
 $tmpl->assign('backends', $backends);
 return $tmpl->fetchPage();

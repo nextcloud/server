@@ -15,14 +15,14 @@ interface ICertificateManager {
 	/**
 	 * Returns all certificates trusted by the user
 	 *
-	 * @return string[]
+	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates();
 
 	/**
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return bool
+	 * @return bool | \OCP\ICertificate
 	 */
 	public function addCertificate($certificate, $name);
 
