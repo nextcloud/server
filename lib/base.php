@@ -491,13 +491,6 @@ class OC {
 			require_once $vendorAutoLoad;
 		}
 
-		// set debug mode if an xdebug session is active
-		if (!defined('DEBUG') || !DEBUG) {
-			if (isset($_COOKIE['XDEBUG_SESSION'])) {
-				define('DEBUG', true);
-			}
-		}
-
 		if (!defined('PHPUNIT_RUN')) {
 			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 			if (defined('DEBUG') and DEBUG) {
