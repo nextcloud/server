@@ -90,6 +90,13 @@
 		_sortComparator: null,
 
 		/**
+		 * Whether to do a client side sort.
+		 * When false, clicking on a table header will call reload().
+		 * When true, clicking on a table header will simply resort the list.
+		 */
+		_clientSideSort: false,
+
+		/**
 		 * Current directory
 		 */
 		_currentDirectory: null,
@@ -368,17 +375,16 @@
 			sort = $target.attr('data-sort');
 			if (sort) {
 				if (this._sort === sort) {
-					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc');
+					this.setSort(sort, (this._sortDirection === 'desc')?'asc':'desc', true);
 				}
 				else {
 					if ( sort === 'name' ) {	//default sorting of name is opposite to size and mtime
-						this.setSort(sort, 'asc');
+						this.setSort(sort, 'asc', true);
 					}
 					else {
-						this.setSort(sort, 'desc');
+						this.setSort(sort, 'desc', true);
 					}
 				}
-				this.reload();
 			}
 		},
 
@@ -915,8 +921,9 @@
 		 *
 		 * @param sort sort attribute name
 		 * @param direction sort direction, one of "asc" or "desc"
+		 * @param update true to update the list, false otherwise (default)
 		 */
-		setSort: function(sort, direction) {
+		setSort: function(sort, direction, update) {
 			var comparator = FileList.Comparators[sort] || FileList.Comparators.name;
 			this._sort = sort;
 			this._sortDirection = (direction === 'desc')?'desc':'asc';
@@ -938,6 +945,15 @@
 				.removeClass(this.SORT_INDICATOR_DESC_CLASS)
 				.toggleClass('hidden', false)
 				.addClass(direction === 'desc' ? this.SORT_INDICATOR_DESC_CLASS : this.SORT_INDICATOR_ASC_CLASS);
+			if (update) {
+				if (this._clientSideSort) {
+					this.files.sort(this._sortComparator);
+					this.setFiles(this.files);
+				}
+				else {
+					this.reload();
+				}
+			}
 		},
 
 		/**

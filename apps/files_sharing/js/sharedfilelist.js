@@ -28,6 +28,8 @@
 		_sharedWithUser: false,
 		_linksOnly: false,
 
+		_clientSideSort: true,
+
 		initialize: function($el, options) {
 			OCA.Files.FileList.prototype.initialize.apply(this, arguments);
 			if (this.initialized) {
