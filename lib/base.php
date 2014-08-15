@@ -71,7 +71,7 @@ class OC {
 	public static $CLI = false;
 
 	/**
-	 * @deprecated use \OC::$session->getSession() instead
+	 * @deprecated use \OC::$server->getSession() instead
 	 * @var \OC\Session\Session
 	 */
 	public static $session = null;
