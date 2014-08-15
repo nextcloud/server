@@ -562,7 +562,52 @@ describe('OC.Share tests', function() {
 			});
 		});
 
-		// TODO: add unit tests for folder icons
+		describe('displaying the folder icon', function() {
+			function checkIcon(expectedImage) {
+				var imageUrl = OC.TestUtil.getImageUrl($file.find('.filename'));
+				expectedIcon = OC.imagePath('core', expectedImage);
+				expect(imageUrl).toEqual(expectedIcon);
+			}
+
+			it('shows a plain folder icon for non-shared folders', function() {
+				$file.attr('data-type', 'dir');
+				OC.Share.markFileAsShared($file);
+
+				checkIcon('filetypes/folder');
+			});
+			it('shows a shared folder icon for folders shared with another user', function() {
+				$file.attr('data-type', 'dir');
+				OC.Share.markFileAsShared($file, true);
+
+				checkIcon('filetypes/folder-shared');
+			});
+			it('shows a shared folder icon for folders shared with the current user', function() {
+				$file.attr('data-type', 'dir');
+				$file.attr('data-share-owner', 'someoneelse');
+				OC.Share.markFileAsShared($file);
+
+				checkIcon('filetypes/folder-shared');
+			});
+			it('shows a link folder icon for folders shared with link', function() {
+				$file.attr('data-type', 'dir');
+				OC.Share.markFileAsShared($file, false, true);
+
+				checkIcon('filetypes/folder-public');
+			});
+			it('shows a link folder icon for folders shared with both link and another user', function() {
+				$file.attr('data-type', 'dir');
+				OC.Share.markFileAsShared($file, true, true);
+
+				checkIcon('filetypes/folder-public');
+			});
+			it('shows a link folder icon for folders reshared with link', function() {
+				$file.attr('data-type', 'dir');
+				$file.attr('data-share-owner', 'someoneelse');
+				OC.Share.markFileAsShared($file, false, true);
+
+				checkIcon('filetypes/folder-public');
+			});
+		});
 		// TODO: add unit tests for share recipients
 	});
 });
