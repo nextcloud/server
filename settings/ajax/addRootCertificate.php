@@ -1,6 +1,4 @@
 <?php
-
-OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::callCheck();
 
 $l = new OC_L10N('core');
