@@ -164,6 +164,8 @@ class Manager extends PublicEmitter implements IUserManager {
 				}
 			}
 		}
+
+		\OC::$server->getLogger()->warning('Login failed: \''. $loginname .'\' (Remote IP: \''. $_SERVER['REMOTE_ADDR'] .'\', X-Forwarded-For: \''. $_SERVER['HTTP_X_FORWARDED_FOR'] .'\')', array('app' => 'core'));
 		return false;
 	}
 

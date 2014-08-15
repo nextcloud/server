@@ -185,9 +185,6 @@ $CONFIG = array(
  (watch out, this option can increase the size of your log file)*/
 "log_query" => false,
 
-/* Enable or disable the logging of IP addresses in case of webform auth failures */
-"log_authfailip" => false,
-
 /* Whether ownCloud should log the last successfull cron exec */
 "cron_log" => true,
 
