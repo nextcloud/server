@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-07 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -45,50 +45,50 @@ msgid ""
 "config directory%s."
 msgstr ""
 
-#: base.php:688
+#: base.php:681
 msgid "You are accessing the server from an untrusted domain."
 msgstr "您正在访问来自不信任域名的服务器。"
 
-#: base.php:689
+#: base.php:682
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr ""
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "帮助"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "个人"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "设置"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "用户"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" 升级失败。"
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
 msgstr "没有指定的 App 名称"
 
@@ -284,7 +284,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s 向您分享了 »%s«"
@@ -347,68 +347,68 @@ msgstr "共享 %s 失败，因为不允许用链接共享"
 msgid "Share type %s is not valid for %s"
 msgstr "%s 不是 %s 的合法共享类型"
 
-#: private/share/share.php:861
+#: private/share/share.php:862
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "设置 %s 权限失败，因为权限超出了 %s 已有权限。"
 
-#: private/share/share.php:922
+#: private/share/share.php:923
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "设置 %s 的权限失败，因为未找到到对应项"
 
-#: private/share/share.php:960
+#: private/share/share.php:961
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr ""
 
-#: private/share/share.php:968
+#: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
-#: private/share/share.php:1093
+#: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "共享后端 %s 必须实现 OCP\\Share_Backend 接口"
 
-#: private/share/share.php:1100
+#: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "未找到共享后端 %s"
 
-#: private/share/share.php:1106
+#: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "%s 的共享后端未找到"
 
-#: private/share/share.php:1524
+#: private/share/share.php:1525
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "共享 %s 失败，因为用户 %s 不是原始共享者"
 
-#: private/share/share.php:1533
+#: private/share/share.php:1534
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "共享 %s 失败，因为权限超过了 %s 已有权限"
 
-#: private/share/share.php:1549
+#: private/share/share.php:1550
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "共享 %s 失败，因为不允许二次共享"
 
-#: private/share/share.php:1561
+#: private/share/share.php:1562
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "共享 %s 失败，因为 %s 使用的共享后端未找到它的来源"
 
-#: private/share/share.php:1575
+#: private/share/share.php:1576
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -463,21 +463,21 @@ msgstr "去年"
 msgid "years ago"
 msgstr "年前"
 
-#: private/user/manager.php:239
+#: private/user/manager.php:244
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "用户名只允许使用以下字符：“a-z”，“A-Z”，“0-9”，和“_.@-”"
 
-#: private/user/manager.php:244
+#: private/user/manager.php:249
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: private/user/manager.php:248
+#: private/user/manager.php:253
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
-#: private/user/manager.php:253
+#: private/user/manager.php:258
 msgid "The username is already being used"
 msgstr "用户名已被使用"
 

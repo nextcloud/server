@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Malspherus <pekittenberger@gmx.at>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 00:50+0000\n"
+"Last-Translator: Malspherus <pekittenberger@gmx.at>\n"
 "Language-Team: German (Austria) (http://www.transifex.com/projects/p/owncloud/language/de_AT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,44 +20,44 @@ msgstr ""
 
 #: ajax/clearMappings.php:34
 msgid "Failed to clear the mappings."
-msgstr ""
+msgstr "Löschen der Verbindungen gescheitert."
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Löschen der Server-Konfiguration gescheitert"
 
 #: ajax/testConfiguration.php:39
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Die Konfiguration ist gültig und eine Verbindung konnte hergestellt werden!"
 
 #: ajax/testConfiguration.php:42
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "Die Konfiguration ist gültig, aber die Bindung schlug fehl. Bitte überprüfe die Server-Einstellungen und Login-Daten."
 
 #: ajax/testConfiguration.php:46
 msgid ""
 "The configuration is invalid. Please have a look at the logs for further "
 "details."
-msgstr ""
+msgstr "DIe Konfiguration ist ungültig. Bitte wirf einen Blick auf die Logs für weitere Details."
 
 #: ajax/wizard.php:32
 msgid "No action specified"
-msgstr ""
+msgstr "Keine Aktion angegeben"
 
 #: ajax/wizard.php:38
 msgid "No configuration specified"
-msgstr ""
+msgstr "Keine Konfiguration angegeben"
 
 #: ajax/wizard.php:81
 msgid "No data specified"
-msgstr ""
+msgstr "Keine Daten angegeben"
 
 #: ajax/wizard.php:89
 #, php-format
 msgid " Could not set configuration %s"
-msgstr ""
+msgstr "Konfiguration %s konnte nicht gespeichert werden"
 
 #: js/settings.js:67
 msgid "Deletion failed"
@@ -64,83 +65,83 @@ msgstr "Löschen fehlgeschlagen"
 
 #: js/settings.js:83
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Server-Einstellungen von letztem Server übernehmen?"
 
 #: js/settings.js:84
 msgid "Keep settings?"
-msgstr ""
+msgstr "Einstellungen behalten?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
-msgstr ""
+msgstr "{nthServer}. Server"
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Server-Konfiguration konnte nicht hinzugefügt werden"
 
 #: js/settings.js:127
 msgid "mappings cleared"
-msgstr ""
+msgstr "Verbindungen gelöscht"
 
 #: js/settings.js:128
 msgid "Success"
-msgstr ""
+msgstr "Erfolg"
 
 #: js/settings.js:133
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr ""
+msgstr "Bitte einen Basis DN angeben"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr ""
+msgstr "Basis DN konnte nicht festgelegt werden"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr ""
+msgstr "Bitte den Port angeben"
 
 #: js/settings.js:780
 msgid "Configuration OK"
-msgstr ""
+msgstr "Konfiguration OK"
 
 #: js/settings.js:789
 msgid "Configuration incorrect"
-msgstr ""
+msgstr "Konfiguration fehlerhaft"
 
 #: js/settings.js:798
 msgid "Configuration incomplete"
-msgstr ""
+msgstr "Konfiguration unvollständig"
 
 #: js/settings.js:815 js/settings.js:824
 msgid "Select groups"
-msgstr ""
+msgstr "Gruppen wählen"
 
 #: js/settings.js:818 js/settings.js:827
 msgid "Select object classes"
-msgstr ""
+msgstr "Objekt-Klassen wählen"
 
 #: js/settings.js:821
 msgid "Select attributes"
-msgstr ""
+msgstr "Attribute wählen"
 
 #: js/settings.js:848
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Verbindungsversuch erfolgreich"
 
 #: js/settings.js:855
 msgid "Connection test failed"
-msgstr ""
+msgstr "Verbindungsversuch gescheitert"
 
 #: js/settings.js:864
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Soll die momentane Server-Konfiguration wirklich gelöscht werden?"
 
 #: js/settings.js:865
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Löschen bestätigen"
 
 #: lib/wizard.php:97 lib/wizard.php:112
 #, php-format
@@ -156,29 +157,29 @@ msgid_plural "%s users found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:321 lib/wizard.php:1057
 msgid "Could not find the desired feature"
-msgstr ""
+msgstr "Funktion konnte nicht gefunden werden"
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:864 lib/wizard.php:876
 msgid "Invalid Host"
-msgstr ""
+msgstr "Ungültiger Host"
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr ""
+msgstr "User Filter"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr ""
+msgstr "Login Filter"
 
 #: settings.php:55
 msgid "Group Filter"
-msgstr ""
+msgstr "Gruppen FIlter"
 
 #: templates/part.settingcontrols.php:2
 msgid "Save"
@@ -186,26 +187,26 @@ msgstr "Speichern"
 
 #: templates/part.settingcontrols.php:4
 msgid "Test Configuration"
-msgstr ""
+msgstr "Konfiguration testen"
 
 #: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
 msgid "Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "Gruppen die den Kriterien entsprechen sind verfügbar unter %s:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
 msgid "only those object classes:"
-msgstr ""
+msgstr "nur diese Objektklassen:"
 
 #: templates/part.wizard-groupfilter.php:17
 #: templates/part.wizard-userfilter.php:17
 msgid "only from those groups:"
-msgstr ""
+msgstr "nur von diesen Gruppen:"
 
 #: templates/part.wizard-groupfilter.php:25
 #: templates/part.wizard-loginfilter.php:32
@@ -227,7 +228,7 @@ msgstr ""
 
 #: templates/part.wizard-groupfilter.php:38
 msgid "groups found"
-msgstr ""
+msgstr "Gruppen gefunden"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
@@ -235,131 +236,131 @@ msgstr ""
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr ""
+msgstr "LDAP Benutzername:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
-msgstr ""
+msgstr "LDAP Email-Adresse:"
 
 #: templates/part.wizard-loginfilter.php:24
 msgid "Other Attributes:"
-msgstr ""
+msgstr "Andere Atribute:"
 
 #: templates/part.wizard-loginfilter.php:38
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action. Example: \"uid=%%uid\""
-msgstr ""
-
-#: templates/part.wizard-server.php:6
-msgid "1. Server"
-msgstr ""
+msgstr "Legt den beim Login verwendeten Filter fest. %%uid ersetzt den Benutzernamen beim Login. Beispiel: \"uid=%%uid\""
 
 #: templates/part.wizard-server.php:13
+msgid "1. Server"
+msgstr "1. Server"
+
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
-msgstr ""
+msgstr "%s. Server:"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Server-Konfiguration hinzufügen"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
-msgstr ""
+msgstr "Konfiguration löschen"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr ""
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
-msgstr ""
+msgstr "User DN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr ""
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "Passwort"
 
-#: templates/part.wizard-server.php:53
-msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
-
 #: templates/part.wizard-server.php:60
-msgid "One Base DN per line"
-msgstr ""
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Für anonymen Zugriff DN und Passwort frei lassen."
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:67
+msgid "One Base DN per line"
+msgstr "Ein Basis DN per Zeile"
+
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "Basis DN für User und Gruppen können im Fortgeschritten-Tab festgelegt werden"
 
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Zugang auf %s für User die diese Kriterien erfüllen limitieren:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
 msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
-msgstr ""
+msgstr "Der Filter spezifiziert welche LDAP User Zugang zu %s haben."
 
 #: templates/part.wizard-userfilter.php:38
 msgid "users found"
-msgstr ""
+msgstr "User gefunden"
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
-msgstr ""
+msgstr "Zurück"
 
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
-msgstr ""
+msgstr "Weiter"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Experte"
 
 #: templates/settings.php:8
 msgid "Advanced"
-msgstr "Erweitert"
+msgstr "Fortgeschritten"
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behavior. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Warnung:</b> Die Apps user_ldap und user_webdavauth sind Inkompatibel. Unerwartetes Verhalten kann auftreten. Bitte wende dich an den Systemadministrator um eine auszuschalten."
 
 #: templates/settings.php:14
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Warnung:</b> Das PHP LDAP Modul ist nicht installiert, das Backend wird nicht funktionieren. Bitte wende dich an den Systemadministrator um es zu installieren."
 
 #: templates/settings.php:20
 msgid "Connection Settings"
-msgstr ""
+msgstr "Verbindungseinstellungen"
 
 #: templates/settings.php:22
 msgid "Configuration Active"
-msgstr ""
+msgstr "Verbindung aktiv"
 
 #: templates/settings.php:22
 msgid "When unchecked, this configuration will be skipped."
@@ -381,7 +382,7 @@ msgstr ""
 
 #: templates/settings.php:25
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Hauptserver ausschalten"
 
 #: templates/settings.php:25
 msgid "Only connect to the replica server."
@@ -408,19 +409,19 @@ msgstr ""
 
 #: templates/settings.php:28
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "in Sekunden. Änderungen erneuern den Cache."
 
 #: templates/settings.php:30
 msgid "Directory Settings"
-msgstr ""
+msgstr "Verzeichniseinstellungen"
 
 #: templates/settings.php:32
 msgid "User Display Name Field"
-msgstr ""
+msgstr "User Display Name Feld"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the user's display name."
-msgstr ""
+msgstr "Das LDAP Atribut das für den Anzeigenamen des Users verwendet wird."
 
 #: templates/settings.php:33
 msgid "Base User Tree"
@@ -436,7 +437,7 @@ msgstr ""
 
 #: templates/settings.php:34 templates/settings.php:37
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Optional; ein Attribut pro Zeile"
 
 #: templates/settings.php:35
 msgid "Group Display Name Field"
@@ -444,7 +445,7 @@ msgstr ""
 
 #: templates/settings.php:35
 msgid "The LDAP attribute to use to generate the groups's display name."
-msgstr ""
+msgstr "Das LDAP Attribut das für den Anzeigenamen der Gruppe verwendet wird."
 
 #: templates/settings.php:36
 msgid "Base Group Tree"
@@ -464,7 +465,7 @@ msgstr ""
 
 #: templates/settings.php:39
 msgid "Nested Groups"
-msgstr ""
+msgstr "Verschachtelte Gruppen"
 
 #: templates/settings.php:39
 msgid ""
@@ -485,7 +486,7 @@ msgstr ""
 
 #: templates/settings.php:42
 msgid "Special Attributes"
-msgstr ""
+msgstr "Spezielle Attribute"
 
 #: templates/settings.php:44
 msgid "Quota Field"
@@ -497,11 +498,11 @@ msgstr ""
 
 #: templates/settings.php:45
 msgid "in bytes"
-msgstr ""
+msgstr "in Bytes"
 
 #: templates/settings.php:46
 msgid "Email Field"
-msgstr ""
+msgstr "Email-Feld"
 
 #: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
@@ -515,7 +516,7 @@ msgstr ""
 
 #: templates/settings.php:53
 msgid "Internal Username"
-msgstr ""
+msgstr "Interner Username"
 
 #: templates/settings.php:54
 msgid ""
@@ -554,11 +555,11 @@ msgstr ""
 
 #: templates/settings.php:58
 msgid "UUID Attribute for Users:"
-msgstr ""
+msgstr "UUID Attribut für User:"
 
 #: templates/settings.php:59
 msgid "UUID Attribute for Groups:"
-msgstr ""
+msgstr "UUID Attribut für Gruppen:"
 
 #: templates/settings.php:60
 msgid "Username-LDAP User Mapping"

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -202,7 +202,7 @@ msgstr "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuler
 msgid "URL cannot be empty"
 msgstr "URL kan ikke være tom"
 
-#: js/file-upload.js:571 js/filelist.js:1275
+#: js/file-upload.js:571 js/filelist.js:1291
 msgid "{new_name} already exists"
 msgstr "{new_name} eksisterer allerede"
 
@@ -242,61 +242,61 @@ msgstr "Slet permanent"
 msgid "Rename"
 msgstr "Omdøb"
 
-#: js/filelist.js:341
+#: js/filelist.js:348
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Dit download forberedes. Dette kan tage lidt tid ved større filer."
 
-#: js/filelist.js:680 js/filelist.js:1803
+#: js/filelist.js:686 js/filelist.js:1819
 msgid "Pending"
 msgstr "Afventer"
 
-#: js/filelist.js:1226
+#: js/filelist.js:1242
 msgid "Error moving file."
 msgstr "Fejl ved flytning af fil"
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error moving file"
 msgstr "Fejl ved flytning af fil"
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error"
 msgstr "Fejl"
 
-#: js/filelist.js:1323
+#: js/filelist.js:1339
 msgid "Could not rename file"
 msgstr "Kunne ikke omdøbe filen"
 
-#: js/filelist.js:1445
+#: js/filelist.js:1461
 msgid "Error deleting file."
 msgstr "Fejl ved sletnign af fil."
 
-#: js/filelist.js:1548 templates/list.php:61
+#: js/filelist.js:1564 templates/list.php:61
 msgid "Name"
 msgstr "Navn"
 
-#: js/filelist.js:1549 templates/list.php:72
+#: js/filelist.js:1565 templates/list.php:72
 msgid "Size"
 msgstr "Størrelse"
 
-#: js/filelist.js:1550 templates/list.php:75
+#: js/filelist.js:1566 templates/list.php:75
 msgid "Modified"
 msgstr "Ændret"
 
-#: js/filelist.js:1560 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1576 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappe"
 msgstr[1] "%n mapper"
 
-#: js/filelist.js:1566 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1582 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fil"
 msgstr[1] "%n filer"
 
-#: js/filelist.js:1696 js/filelist.js:1735
+#: js/filelist.js:1712 js/filelist.js:1751
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Uploader %n fil"

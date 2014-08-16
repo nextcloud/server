@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-07 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -51,50 +51,50 @@ msgid ""
 "config directory%s."
 msgstr "Обычно это можно исправить, %sпредоставив веб-серверу права на запись в папке конфигурации%s."
 
-#: base.php:688
+#: base.php:681
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Вы пытаетесь получить доступ к серверу с неподтверждённого домена."
 
-#: base.php:689
+#: base.php:682
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Пожалуйста, свяжитесь с администратором. Если вы администратор этого хранилища, сконфигурируйте \"trusted_domain\" в config/config.php. Пример настройки можно найти в /config/config.sample.php."
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "Помощь"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "Личное"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "Настройки"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "Пользователи"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "Администрирование"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ошибка обновления \"%s\"."
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Невозможно установить приложение \\\"%s\\\", т.к. оно несовместимо с этой версией ownCloud."
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
 msgstr "Не указано имя приложения"
 
@@ -290,7 +290,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s поделился »%s« с вами"
@@ -353,68 +353,68 @@ msgstr "Не удалось установить общий доступ для 
 msgid "Share type %s is not valid for %s"
 msgstr "Такой тип общего доступа как %s не допустим для %s"
 
-#: private/share/share.php:861
+#: private/share/share.php:862
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Настройка прав доступа для %s невозможна, поскольку права доступа превышают предоставленные права доступа %s"
 
-#: private/share/share.php:922
+#: private/share/share.php:923
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Не удалось произвести настройку прав доступа для %s , элемент не был найден."
 
-#: private/share/share.php:960
+#: private/share/share.php:961
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr ""
 
-#: private/share/share.php:968
+#: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Невозможно установить дату окончания. Дата окончания в прошлом."
 
-#: private/share/share.php:1093
+#: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Бэкенд для опубликования %s должен реализовывать интерфейс OCP\\Share_Backend"
 
-#: private/share/share.php:1100
+#: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Бэкэнд для общего доступа %s не найден"
 
-#: private/share/share.php:1106
+#: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Бэкэнд для общего доступа к %s не найден"
 
-#: private/share/share.php:1524
+#: private/share/share.php:1525
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Публикация %s неудачна, т.к. пользователь %s - публикатор оригинала файла"
 
-#: private/share/share.php:1533
+#: private/share/share.php:1534
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Не удалось опубликовать %s, т.к. права %s превышают предоставленные права доступа "
 
-#: private/share/share.php:1549
+#: private/share/share.php:1550
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Публикация %s неудачна, т.к републикация запрещена"
 
-#: private/share/share.php:1561
+#: private/share/share.php:1562
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Не удалось опубликовать %s, т.к. опубликованный бэкенд для %s не смог найти свой источник"
 
-#: private/share/share.php:1575
+#: private/share/share.php:1576
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -477,21 +477,21 @@ msgstr "в прошлом году"
 msgid "years ago"
 msgstr "несколько лет назад"
 
-#: private/user/manager.php:239
+#: private/user/manager.php:244
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Только следующие символы допускаются в имени пользователя: \"a-z\", \"A-Z\", \"0-9\", и \"_.@-\""
 
-#: private/user/manager.php:244
+#: private/user/manager.php:249
 msgid "A valid username must be provided"
 msgstr "Укажите правильное имя пользователя"
 
-#: private/user/manager.php:248
+#: private/user/manager.php:253
 msgid "A valid password must be provided"
 msgstr "Укажите валидный пароль"
 
-#: private/user/manager.php:253
+#: private/user/manager.php:258
 msgid "The username is already being used"
 msgstr "Имя пользователя уже используется"
 

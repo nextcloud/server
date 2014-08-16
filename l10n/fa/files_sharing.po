@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# alihosseinnejad <ali1360@gmail.com>, 2014
 # Amir Keshavarz <pnetsale@gmail.com>, 2014
 # mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013
 # majid hajibaba <majid.hajibaba@gmail.com>, 2014
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +27,7 @@ msgid "Server to server sharing is not enabled on this server"
 msgstr "اشتراک سرور به سرور در این سرور فعال نیست ."
 
 #: ajax/external.php:38
-msgid "Invalid or untrusted ssl certificate"
+msgid "Invalid or untrusted SSL certificate"
 msgstr ""
 
 #: ajax/external.php:52
@@ -85,7 +86,7 @@ msgstr "نمونه ای از ownCloud نصب شده در {remote} یافت نش�
 msgid "Invalid ownCloud url"
 msgstr "آدرس نمونه ownCloud  غیر معتبر است"
 
-#: js/sharedfilelist.js:126
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "اشتراک گذاشته شده به وسیله"
 

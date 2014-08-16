@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:02+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -198,7 +198,7 @@ msgstr "Envio de arquivo em andamento. Sair da página agora resultará no cance
 msgid "URL cannot be empty"
 msgstr "URL não pode estar vazia"
 
-#: js/file-upload.js:571 js/filelist.js:1275
+#: js/file-upload.js:571 js/filelist.js:1291
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
@@ -238,61 +238,61 @@ msgstr "Excluir permanentemente"
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:341
+#: js/filelist.js:348
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/filelist.js:680 js/filelist.js:1803
+#: js/filelist.js:686 js/filelist.js:1819
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:1226
+#: js/filelist.js:1242
 msgid "Error moving file."
 msgstr "Erro movendo o arquivo."
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error moving file"
 msgstr "Erro movendo o arquivo"
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error"
 msgstr "Erro"
 
-#: js/filelist.js:1323
+#: js/filelist.js:1339
 msgid "Could not rename file"
 msgstr "Não foi possível renomear o arquivo"
 
-#: js/filelist.js:1445
+#: js/filelist.js:1461
 msgid "Error deleting file."
 msgstr "Erro eliminando o arquivo."
 
-#: js/filelist.js:1548 templates/list.php:61
+#: js/filelist.js:1564 templates/list.php:61
 msgid "Name"
 msgstr "Nome"
 
-#: js/filelist.js:1549 templates/list.php:72
+#: js/filelist.js:1565 templates/list.php:72
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/filelist.js:1550 templates/list.php:75
+#: js/filelist.js:1566 templates/list.php:75
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/filelist.js:1560 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1576 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n pasta"
 msgstr[1] "%n pastas"
 
-#: js/filelist.js:1566 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1582 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n arquivo"
 msgstr[1] "%n arquivos"
 
-#: js/filelist.js:1696 js/filelist.js:1735
+#: js/filelist.js:1712 js/filelist.js:1751
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Enviando %n arquivo"
@@ -336,7 +336,7 @@ msgstr "{dirs} e {files}"
 #: lib/app.php:80
 #, php-format
 msgid "%s could not be renamed as it has been deleted"
-msgstr ""
+msgstr "%s não pode ser renomeado pois foi apagado"
 
 #: lib/app.php:113
 #, php-format

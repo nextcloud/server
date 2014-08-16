@@ -108,6 +108,7 @@ $TRANSLATIONS = array(
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Brak modułu PHP „fileinfo”. Zalecamy włączenie tego modułu, aby uzyskać najlepsze wyniki podczas wykrywania typów MIME.",
 "Your PHP version is outdated" => "Twoja wersja PHP jest za stara",
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Twoja wersja PHP jest za stara. Rekomendujemy przynajmniej wersje 5.3.8. Jeśli masz starsza wersję ownCloud może nie działać poprawnie.",
+"PHP charset is not set to UTF-8" => "Kodowanie PHP nie jest ustawione na UTF-8",
 "Locale not working" => "Lokalizacja nie działa",
 "System locale can not be set to a one which supports UTF-8." => "Ustawienia regionalne systemu nie można ustawić na jeden, który obsługuje UTF-8.",
 "This means that there might be problems with certain characters in file names." => "Oznacza to, że mogą być problemy z niektórymi znakami w nazwach plików.",

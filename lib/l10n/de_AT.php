@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Help" => "Hilfe",
 "Personal" => "Persönlich",
 "Settings" => "Einstellungen",
 "_%n minute ago_::_%n minutes ago_" => array("",""),

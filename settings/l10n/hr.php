@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Snimljeno",
 "Unable to load list from App Store" => "Nemogićnost učitavanja liste sa Apps Stora",
 "Authentication error" => "Greška kod autorizacije",
 "Email saved" => "Email spremljen",
@@ -17,6 +18,7 @@ $TRANSLATIONS = array(
 "__language_name__" => "__ime_jezika__",
 "Login" => "Prijava",
 "Cron" => "Cron",
+"Port" => "Port",
 "Log" => "dnevnik",
 "More" => "više",
 "Add your App" => "Dodajte vašu aplikaciju",

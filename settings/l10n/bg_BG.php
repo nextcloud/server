@@ -109,6 +109,7 @@ $TRANSLATIONS = array(
 "Your PHP version is outdated" => "PHP версията е остаряла.",
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "PHP версията е остаряла. Силно препоръчваме да я обновиш на 5.3.8 или по-нова, защото по-старите версии създават проблеми. Възможно е тази инсталация да не работи правилно.",
 "PHP charset is not set to UTF-8" => "PHP таблицата от символи не е настроена за UTF-8",
+"PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." => "PHP таблицата от символи не е настроена за UTF-8. Това може да предизвика големи проблеми с не ASCII символи в имена на файлове. Силно перпоръчваме да промените стойноста на 'defaul_charset' в php.ini до 'UTF-8'.",
 "Locale not working" => "Местоположението не работи",
 "System locale can not be set to a one which supports UTF-8." => "Системните настройки за местоположение не могат да бъдат промени на такива, подържащи UTF-8.",
 "This means that there might be problems with certain characters in file names." => "Това означва, че може да има проблеми с определини символи в имената на файловете.",

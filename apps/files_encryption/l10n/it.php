@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Nuova password della chiave di recupero",
 "Repeat New Recovery key password" => "Ripeti la nuova password della chiave di recupero",
 "Change Password" => "Modifica password",
+"Your private key password no longer matches your log-in password." => "La password della chiave privata non corrisponde più alla password di accesso.",
 "Set your old private key password to your current log-in password:" => "Imposta la vecchia password della chiave privata sull'attuale password di accesso:",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Se non ricordi la vecchia password puoi chiedere al tuo amministratore di recuperare i file.",
 "Old log-in password" => "Vecchia password di accesso",

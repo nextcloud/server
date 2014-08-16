@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-11 17:49+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:23+0000\n"
 "Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -42,11 +42,11 @@ msgid ""
 "config directory%s."
 msgstr "Davezu esto pue iguase %sdándo-y al sirvidor web accesu d'escritura al direutoriu de configuración%s."
 
-#: base.php:688
+#: base.php:681
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Tas accediendo al sirvidor dende un dominiu non confiáu."
 
-#: base.php:689
+#: base.php:682
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
@@ -344,68 +344,68 @@ msgstr "Compartir %s falló, porque nun se permite compartir con enllaces"
 msgid "Share type %s is not valid for %s"
 msgstr "La triba de compartición %s nun ye válida pa %s"
 
-#: private/share/share.php:861
+#: private/share/share.php:862
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Falló dar permisos a %s, porque los permisos son mayores que los otorgaos a %s"
 
-#: private/share/share.php:922
+#: private/share/share.php:923
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Falló dar permisos a %s, porque l'elementu nun s'atopó"
 
-#: private/share/share.php:960
+#: private/share/share.php:961
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "Nun pue afitase la data de caducidá. Ficheros compartíos nun puen caducar dempués de %s de compartise"
 
-#: private/share/share.php:968
+#: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Nun pue afitase la data d'espiración. La data d'espiración ta nel pasáu"
 
-#: private/share/share.php:1093
+#: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "El motor compartíu %s tien d'implementar la interfaz OCP\\Share_Backend"
 
-#: private/share/share.php:1100
+#: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Nun s'alcontró'l botón de compartición %s"
 
-#: private/share/share.php:1106
+#: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Nun s'alcontró'l botón de partición pa %s"
 
-#: private/share/share.php:1524
+#: private/share/share.php:1525
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Compartir %s falló, yá que l'usuariu %s ye'l compartidor orixinal"
 
-#: private/share/share.php:1533
+#: private/share/share.php:1534
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Compartir %s falló, porque los permisos perpasen los otorgaos a %s"
 
-#: private/share/share.php:1549
+#: private/share/share.php:1550
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Compartir %s falló, porque nun se permite la re-compartición"
 
-#: private/share/share.php:1561
+#: private/share/share.php:1562
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Compartir %s falló porque'l motor compartíu pa %s podría nun atopar el so orixe"
 
-#: private/share/share.php:1575
+#: private/share/share.php:1576
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -464,21 +464,21 @@ msgstr "añu caberu"
 msgid "years ago"
 msgstr "hai años"
 
-#: private/user/manager.php:239
+#: private/user/manager.php:244
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Namái tan permitíos los siguientes caráuteres nun nome d'usuariu: \"a-z\", \"A-Z\", \"0-9\", y \"_.@-\""
 
-#: private/user/manager.php:244
+#: private/user/manager.php:249
 msgid "A valid username must be provided"
 msgstr "Tien d'apurrise un nome d'usuariu válidu"
 
-#: private/user/manager.php:248
+#: private/user/manager.php:253
 msgid "A valid password must be provided"
 msgstr "Tien d'apurrise una contraseña válida"
 
-#: private/user/manager.php:253
+#: private/user/manager.php:258
 msgid "The username is already being used"
 msgstr "El nome d'usuariu yá ta usándose"
 

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-08 01:54-0400\n"
-"PO-Revision-Date: 2014-08-07 17:51+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:23+0000\n"
 "Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -46,50 +46,50 @@ msgid ""
 "config directory%s."
 msgstr "To bývá obyčeně vyřešeno, když %s povolí webovému serveru zápis do konfiguračního adresáře %s."
 
-#: base.php:688
+#: base.php:681
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Přistupujete na server z nedůvěryhodné domény."
 
-#: base.php:689
+#: base.php:682
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Kontaktujte prosím správce. Pokud jste správce této instalace, nastavte \"trusted_domain\" v souboru config/config.php. Příklad konfigurace najdete v souboru config/config.sample.php."
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "Nápověda"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "Osobní"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "Nastavení"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "Uživatelé"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "Administrace"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Selhala aktualizace verze \"%s\"."
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Aplikace \\\"%s\\\" nemůže být nainstalována, protože není kompatibilní s touto verzí ownCloud."
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
 msgstr "Nebyl zadan název aplikace"
 
@@ -285,7 +285,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s s vámi sdílí »%s«"
@@ -348,68 +348,68 @@ msgstr "Sdílení položky %s selhalo, protože sdílení pomocí linků není p
 msgid "Share type %s is not valid for %s"
 msgstr "Sdílení typu %s není korektní pro %s"
 
-#: private/share/share.php:861
+#: private/share/share.php:862
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Nastavení oprávnění pro %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla povolena pro %s"
 
-#: private/share/share.php:922
+#: private/share/share.php:923
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Nastavení práv pro %s selhalo, protože položka nebyla nalezena"
 
-#: private/share/share.php:960
+#: private/share/share.php:961
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "Nelze nastavit datum vypršení platnosti. Sdílení nemůže vypršet později než za %s po zveřejnění."
 
-#: private/share/share.php:968
+#: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Nelze nastavit datum vypršení platnosti. Datum vypršení je v minulosti."
 
-#: private/share/share.php:1093
+#: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Podpůrná vrstva pro sdílení %s musí obsahovat rozhraní OCP\\Share_Backend"
 
-#: private/share/share.php:1100
+#: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Podpůrná vrstva sdílení %s nenalezena"
 
-#: private/share/share.php:1106
+#: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Podpůrná vrstva sdílení pro %s nenalezena"
 
-#: private/share/share.php:1524
+#: private/share/share.php:1525
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první."
 
-#: private/share/share.php:1533
+#: private/share/share.php:1534
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Sdílení položky %s selhalo, protože jsou k tomu nutná vyšší oprávnění, než jaká byla %s povolena."
 
-#: private/share/share.php:1549
+#: private/share/share.php:1550
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Sdílení položky %s selhalo, protože sdílení dále není povoleno"
 
-#: private/share/share.php:1561
+#: private/share/share.php:1562
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Sdílení položky %s selhalo, protože podpůrná vrstva sdílení nenalezla zdrojový %s"
 
-#: private/share/share.php:1575
+#: private/share/share.php:1576
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -472,21 +472,21 @@ msgstr "minulý rok"
 msgid "years ago"
 msgstr "před lety"
 
-#: private/user/manager.php:239
+#: private/user/manager.php:244
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Pouze následující znaky jsou povoleny v uživatelském jménu: \"a-z\", \"A-Z\", \"0-9\" a \"_.@-\""
 
-#: private/user/manager.php:244
+#: private/user/manager.php:249
 msgid "A valid username must be provided"
 msgstr "Musíte zadat platné uživatelské jméno"
 
-#: private/user/manager.php:248
+#: private/user/manager.php:253
 msgid "A valid password must be provided"
 msgstr "Musíte zadat platné heslo"
 
-#: private/user/manager.php:253
+#: private/user/manager.php:258
 msgid "The username is already being used"
 msgstr "Uživatelské jméno je již využíváno"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgid "Server to server sharing is not enabled on this server"
 msgstr "Serverist serverisse jagamine pole antud serveris lubatud"
 
 #: ajax/external.php:38
-msgid "Invalid or untrusted ssl certificate"
+msgid "Invalid or untrusted SSL certificate"
 msgstr ""
 
 #: ajax/external.php:52
@@ -83,7 +83,7 @@ msgstr "Ei leitud ownCloud paigaldust asukohas {remote}"
 msgid "Invalid ownCloud url"
 msgstr "Vigane ownCloud url"
 
-#: js/sharedfilelist.js:126
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "Jagas"
 

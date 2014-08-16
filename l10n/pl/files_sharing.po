@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgid "Server to server sharing is not enabled on this server"
 msgstr "Współdzielenie między serwerami nie jest uruchomione na tym serwerze"
 
 #: ajax/external.php:38
-msgid "Invalid or untrusted ssl certificate"
+msgid "Invalid or untrusted SSL certificate"
 msgstr ""
 
 #: ajax/external.php:52
@@ -85,7 +85,7 @@ msgstr "Nie znaleziono instalacji ownCloud na {remote}"
 msgid "Invalid ownCloud url"
 msgstr "Błędny adres URL"
 
-#: js/sharedfilelist.js:126
+#: js/sharedfilelist.js:128
 msgid "Shared by"
 msgstr "Udostępniane przez"
 

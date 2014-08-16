@@ -90,6 +90,7 @@ $TRANSLATIONS = array(
 "Sharing" => "Megosztás",
 "Allow apps to use the Share API" => "Lehetővé teszi, hogy a programmodulok is használhassák a megosztást",
 "Allow public uploads" => "Feltöltést engedélyezése mindenki számára",
+"days" => "napok",
 "Allow resharing" => "A továbbosztás engedélyezése",
 "Security" => "Biztonság",
 "Enforce HTTPS" => "Kötelező HTTPS",

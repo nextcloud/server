@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.",
 "{dirs} and {files}" => "{dirs} and {files}",
+"%s could not be renamed as it has been deleted" => "%s could not be renamed as it has been deleted",
 "%s could not be renamed" => "%s could not be renamed",
 "Upload (max. %s)" => "Upload (max. %s)",
 "File handling" => "File handling",

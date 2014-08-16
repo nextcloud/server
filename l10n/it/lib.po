@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-10 01:54-0400\n"
-"PO-Revision-Date: 2014-08-09 06:10+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:23+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -43,50 +43,50 @@ msgid ""
 "config directory%s."
 msgstr "Ciò può essere normalmente corretto %sfornendo al server web accesso in scrittura alla cartella \"config\"%s"
 
-#: base.php:688
+#: base.php:681
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Stai accedendo al server da un dominio non affidabile."
 
-#: base.php:689
+#: base.php:682
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Contatta il tuo amministratore di sistema. Se sei un amministratore, configura l'impostazione \"trusted_domain\" in config/config.php. Un esempio di configurazione è disponibile in config/config.sample.php."
 
-#: private/app.php:366
+#: private/app.php:367
 msgid "Help"
 msgstr "Aiuto"
 
-#: private/app.php:379
+#: private/app.php:380
 msgid "Personal"
 msgstr "Personale"
 
-#: private/app.php:390
+#: private/app.php:391
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: private/app.php:402
+#: private/app.php:403
 msgid "Users"
 msgstr "Utenti"
 
-#: private/app.php:415
+#: private/app.php:416
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:985
+#: private/app.php:986
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Aggiornamento non riuscito \"%s\"."
 
-#: private/app.php:1142
+#: private/app.php:1143
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "L'applicazione \\\"%s\\\" non può essere installata poiché non è compatibile con questa versione di ownCloud."
 
-#: private/app.php:1154
+#: private/app.php:1155
 msgid "No app name specified"
 msgstr "Il nome dell'applicazione non è specificato"
 
@@ -282,7 +282,7 @@ msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Leggi attentamente le <a href='%s'>guide d'installazione</a>."
 
 #: private/share/mailnotifications.php:91
-#: private/share/mailnotifications.php:137
+#: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
 msgstr "%s ha condiviso «%s» con te"
@@ -345,68 +345,68 @@ msgstr "Condivisione di %s non riuscita, poiché i collegamenti non sono consent
 msgid "Share type %s is not valid for %s"
 msgstr "Il tipo di condivisione %s non è valido per %s"
 
-#: private/share/share.php:861
+#: private/share/share.php:862
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Impostazione permessi per %s non riuscita, poiché i permessi superano i permessi accordati a %s"
 
-#: private/share/share.php:922
+#: private/share/share.php:923
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Impostazione permessi per %s non riuscita, poiché l'elemento non è stato trovato"
 
-#: private/share/share.php:960
+#: private/share/share.php:961
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "Impossibile impostare la data di scadenza. Le condivisioni non possono scadere più tardi di %s dalla loro attivazione"
 
-#: private/share/share.php:968
+#: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Impossibile impostare la data di scadenza. La data di scadenza è nel passato."
 
-#: private/share/share.php:1093
+#: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Il motore di condivisione %s deve implementare l'interfaccia OCP\\Share_Backend"
 
-#: private/share/share.php:1100
+#: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Motore di condivisione %s non trovato"
 
-#: private/share/share.php:1106
+#: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Motore di condivisione di %s non trovato"
 
-#: private/share/share.php:1524
+#: private/share/share.php:1525
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Condivisione di %s non riuscita, poiché l'utente %s l'ha condiviso precedentemente"
 
-#: private/share/share.php:1533
+#: private/share/share.php:1534
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Condivisione di %s non riuscita, poiché i permessi superano quelli accordati a %s"
 
-#: private/share/share.php:1549
+#: private/share/share.php:1550
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Condivisione di %s non riuscita, poiché la ri-condivisione non è consentita"
 
-#: private/share/share.php:1561
+#: private/share/share.php:1562
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Condivisione di %s non riuscita, poiché il motore di condivisione per %s non riesce a trovare la sua fonte"
 
-#: private/share/share.php:1575
+#: private/share/share.php:1576
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -465,21 +465,21 @@ msgstr "anno scorso"
 msgid "years ago"
 msgstr "anni fa"
 
-#: private/user/manager.php:239
+#: private/user/manager.php:244
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr "Solo i seguenti caratteri sono ammessi in un nome utente: \"a-z\", \"A-Z\", \"0-9\", e \"_.@-\""
 
-#: private/user/manager.php:244
+#: private/user/manager.php:249
 msgid "A valid username must be provided"
 msgstr "Deve essere fornito un nome utente valido"
 
-#: private/user/manager.php:248
+#: private/user/manager.php:253
 msgid "A valid password must be provided"
 msgstr "Deve essere fornita una password valida"
 
-#: private/user/manager.php:253
+#: private/user/manager.php:258
 msgid "The username is already being used"
 msgstr "Il nome utente è già utilizzato"
 

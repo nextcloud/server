@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -197,7 +197,7 @@ msgstr "Fila lastar no opp. Viss du forlèt sida no vil opplastinga verta avbrot
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:571 js/filelist.js:1275
+#: js/file-upload.js:571 js/filelist.js:1291
 msgid "{new_name} already exists"
 msgstr "{new_name} finst allereie"
 
@@ -237,61 +237,61 @@ msgstr "Slett for godt"
 msgid "Rename"
 msgstr "Endra namn"
 
-#: js/filelist.js:341
+#: js/filelist.js:348
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Gjer klar nedlastinga di. Dette kan ta ei stund viss filene er store."
 
-#: js/filelist.js:680 js/filelist.js:1803
+#: js/filelist.js:686 js/filelist.js:1819
 msgid "Pending"
 msgstr "Under vegs"
 
-#: js/filelist.js:1226
+#: js/filelist.js:1242
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error moving file"
 msgstr "Feil ved flytting av fil"
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error"
 msgstr "Feil"
 
-#: js/filelist.js:1323
+#: js/filelist.js:1339
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1445
+#: js/filelist.js:1461
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1548 templates/list.php:61
+#: js/filelist.js:1564 templates/list.php:61
 msgid "Name"
 msgstr "Namn"
 
-#: js/filelist.js:1549 templates/list.php:72
+#: js/filelist.js:1565 templates/list.php:72
 msgid "Size"
 msgstr "Storleik"
 
-#: js/filelist.js:1550 templates/list.php:75
+#: js/filelist.js:1566 templates/list.php:75
 msgid "Modified"
 msgstr "Endra"
 
-#: js/filelist.js:1560 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1576 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n mappe"
 msgstr[1] "%n mapper"
 
-#: js/filelist.js:1566 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1582 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fil"
 msgstr[1] "%n filer"
 
-#: js/filelist.js:1696 js/filelist.js:1735
+#: js/filelist.js:1712 js/filelist.js:1751
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Lastar opp %n fil"

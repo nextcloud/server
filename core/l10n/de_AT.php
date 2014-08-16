@@ -26,13 +26,16 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("",""),
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Cancel" => "Abbrechen",
+"Continue" => "Weiter",
 "Share" => "Freigeben",
+"Error" => "Fehler",
 "group" => "Gruppe",
 "Unshare" => "Teilung zurücknehmen",
 "can share" => "Kann teilen",
 "can edit" => "kann bearbeiten",
 "Delete" => "Löschen",
 "Personal" => "Persönlich",
+"Help" => "Hilfe",
 "Password" => "Passwort"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

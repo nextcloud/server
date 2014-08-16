@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,7 @@ msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·l
 msgid "URL cannot be empty"
 msgstr "L'URL no pot ser buit"
 
-#: js/file-upload.js:571 js/filelist.js:1275
+#: js/file-upload.js:571 js/filelist.js:1291
 msgid "{new_name} already exists"
 msgstr "{new_name} ja existeix"
 
@@ -239,61 +239,61 @@ msgstr "Esborra permanentment"
 msgid "Rename"
 msgstr "Reanomena"
 
-#: js/filelist.js:341
+#: js/filelist.js:348
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans."
 
-#: js/filelist.js:680 js/filelist.js:1803
+#: js/filelist.js:686 js/filelist.js:1819
 msgid "Pending"
 msgstr "Pendent"
 
-#: js/filelist.js:1226
+#: js/filelist.js:1242
 msgid "Error moving file."
 msgstr "Error en moure el fitxer."
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error moving file"
 msgstr "Error en moure el fitxer"
 
-#: js/filelist.js:1234
+#: js/filelist.js:1250
 msgid "Error"
 msgstr "Error"
 
-#: js/filelist.js:1323
+#: js/filelist.js:1339
 msgid "Could not rename file"
 msgstr "No es pot canviar el nom de fitxer"
 
-#: js/filelist.js:1445
+#: js/filelist.js:1461
 msgid "Error deleting file."
 msgstr "Error en esborrar el fitxer."
 
-#: js/filelist.js:1548 templates/list.php:61
+#: js/filelist.js:1564 templates/list.php:61
 msgid "Name"
 msgstr "Nom"
 
-#: js/filelist.js:1549 templates/list.php:72
+#: js/filelist.js:1565 templates/list.php:72
 msgid "Size"
 msgstr "Mida"
 
-#: js/filelist.js:1550 templates/list.php:75
+#: js/filelist.js:1566 templates/list.php:75
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/filelist.js:1560 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1576 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] "%n carpeta"
 msgstr[1] "%n carpetes"
 
-#: js/filelist.js:1566 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1582 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] "%n fitxer"
 msgstr[1] "%n fitxers"
 
-#: js/filelist.js:1696 js/filelist.js:1735
+#: js/filelist.js:1712 js/filelist.js:1751
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] "Pujant %n fitxer"

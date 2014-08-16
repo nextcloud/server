@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
+"POT-Creation-Date: 2014-08-16 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 05:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Basque (Spain) (http://www.transifex.com/projects/p/owncloud/language/eu_ES/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +27,11 @@ msgstr ""
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
 msgstr ""
 
-#: js/app.js:53 templates/index.php:21 templates/index.php:23
+#: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
 msgstr ""
 
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: lib/trashbin.php:861 lib/trashbin.php:863
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
 msgstr ""
 

@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Salaussovelluksen salausavain on virheellinen. Ole hyvä ja päivitä salausavain henkilökohtaisissa asetuksissasi jotta voit taas avata salatuskirjoitetut tiedostosi.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Salaus poistettiin käytöstä, mutta tiedostosi ovat edelleen salattuina. Siirry henkilökohtaisiin asetuksiin avataksesi tiedostojesi salauksen.",
 "{dirs} and {files}" => "{dirs} ja {files}",
+"%s could not be renamed as it has been deleted" => "Kohdetta %s ei voitu nimetä uudelleen, koska se on poistettu",
 "%s could not be renamed" => "kohteen %s nimeäminen uudelleen epäonnistui",
 "Upload (max. %s)" => "Lähetys (enintään %s)",
 "File handling" => "Tiedostonhallinta",

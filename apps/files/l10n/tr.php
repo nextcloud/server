@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli dosyalarınıza erişimi tekrar kazanabilmek için kişisel ayarlarınızdan özel anahtar parolanızı güncelleyin.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Şifreleme işlemi durduruldu ancak dosyalarınız hala şifreli. Dosyalarınızın şifrelemesini kaldırmak için lütfen kişisel ayarlar kısmına geçin.",
 "{dirs} and {files}" => "{dirs} ve {files}",
+"%s could not be renamed as it has been deleted" => "%s, silindiği için adlandırılamadı",
 "%s could not be renamed" => "%s yeniden adlandırılamadı",
 "Upload (max. %s)" => "Yükle (azami: %s)",
 "File handling" => "Dosya işlemleri",
