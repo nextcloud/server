@@ -98,13 +98,9 @@ class OC_Archive_TAR extends OC_Archive {
 			$this->remove($path);
 		}
 		if ($source and $source[0] == '/' and file_exists($source)) {
-			$header = array();
-			$dummy = '';
-			$this->tar->_openAppend();
-			$result = $this->tar->_addfile($source, $header, $dummy, $dummy, $path);
-		} else {
-			$result = $this->tar->addString($path, $source);
+			$source = file_get_contents($source);
 		}
+		$result = $this->tar->addString($path, $source);
 		$this->fileList = false;
 		$this->cachedHeaders = false;
 		return $result;
