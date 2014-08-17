@@ -125,6 +125,7 @@ abstract class Mapper {
 	 * Updates an entry in the db from an entity
 	 * @throws \InvalidArgumentException if entity has no id
 	 * @param Entity $entity the entity that should be created
+	 * @return Entity the saved entity with the set id
 	 */
 	public function update(Entity $entity){
 		// if entity wasn't changed it makes no sense to run a db query
@@ -142,7 +143,7 @@ abstract class Mapper {
 
 		// get updated fields to save, fields have to be set using a setter to
 		// be saved
-		// dont update the id field
+		// do not update the id field
 		unset($properties['id']);
 
 		$columns = '';
@@ -171,6 +172,8 @@ abstract class Mapper {
 		array_push($params, $id);
 
 		$this->execute($sql, $params);
+
+		return $entity;
 	}
 
 
