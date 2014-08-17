@@ -833,7 +833,8 @@ class OC_App {
 			foreach ($appList as $app) {
 				foreach ($remoteApps AS $key => $remote) {
 					if ($app['name'] === $remote['name'] ||
-						$app['ocsid'] ===  $remote['id']) {
+						(isset($app['ocsid']) &&
+						$app['ocsid'] ===  $remote['id'])) {
 						unset($remoteApps[$key]);
 					}
 				}
