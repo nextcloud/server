@@ -70,6 +70,7 @@ class OC_Mail {
 		$mailo->From = $fromaddress;
 		$mailo->FromName = $fromname;;
 		$mailo->Sender = $fromaddress;
+		$mailo->XMailer = ' ';
 		try {
 			$toaddress = self::buildAsciiEmail($toaddress);
 			$mailo->AddAddress($toaddress, $toname);
