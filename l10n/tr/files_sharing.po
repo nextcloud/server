@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mert Salih Kaplan <mail@mertskaplan.com>, 2014
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 23:40+0000\n"
+"Last-Translator: Mert Salih Kaplan <mail@mertskaplan.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr "Sunucudan sunucuya paylaşım bu sunucuda etkin değil"
 
 #: ajax/external.php:38
 msgid "Invalid or untrusted SSL certificate"
-msgstr ""
+msgstr "Geçersiz veya güvenilmeyen SSL sertifikası"
 
 #: ajax/external.php:52
 msgid "Couldn't add remote share"

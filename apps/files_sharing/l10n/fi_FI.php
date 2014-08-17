@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Palvelimelta-palvelimelle-jakaminen ei ole käytössä tällä palvelimella",
+"Invalid or untrusted SSL certificate" => "Virheellinen tai ei-luotettu SSL-varmenne",
 "Couldn't add remote share" => "Etäjaon liittäminen epäonnistui",
 "Shared with you" => "Jaettu kanssasi",
 "Shared with others" => "Jaettu muiden kanssa",

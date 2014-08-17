@@ -109,6 +109,7 @@ $TRANSLATIONS = array(
 "Delete" => "حذف",
 "Add" => "افزودن",
 "Edit tags" => "ویرایش تگ ها",
+"The update was unsuccessful." => "بروزرسانی موفقیت آمیز نبود.",
 "The update was successful. Redirecting you to ownCloud now." => "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
 "You will receive a link to reset your password via Email." => "شما یک نامه الکترونیکی حاوی یک لینک جهت بازسازی گذرواژه دریافت خواهید کرد.",

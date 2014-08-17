@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# unixidzero <unixidzero@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-15 01:54-0400\n"
-"PO-Revision-Date: 2014-08-15 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 10:01+0000\n"
+"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,28 +21,28 @@ msgstr ""
 #: admin/controller.php:66
 #, php-format
 msgid "Invalid value supplied for %s"
-msgstr ""
+msgstr "%s üçün yalnış təyinat mənimsədildi"
 
 #: admin/controller.php:73
 msgid "Saved"
-msgstr ""
+msgstr "Saxlanıldı"
 
 #: admin/controller.php:90
 msgid "test email settings"
-msgstr ""
+msgstr "sınaq məktubu quraşdırmaları"
 
 #: admin/controller.php:91
 msgid "If you received this email, the settings seem to be correct."
-msgstr ""
+msgstr "Əgər siz bu məktubu aldınızsa, demək quraşdırmalar düzgündür."
 
 #: admin/controller.php:94
 msgid ""
 "A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
+msgstr "Məktubun göndərilməsində səhv baş verdi. Xahiş edirik öz configlərinizə yenidən baxasınız."
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr ""
+msgstr "Məktub göndərildi"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -243,7 +244,7 @@ msgstr ""
 
 #: js/apps.js:223 js/apps.js:236
 msgid "Error"
-msgstr ""
+msgstr "Səhv"
 
 #: js/apps.js:224 templates/apps.php:55
 msgid "Update"
@@ -784,7 +785,7 @@ msgstr ""
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Fayllarınızın sinxronizasiyası üçün proqramları götürün"
 
 #: templates/personal.php:21
 msgid ""
@@ -874,7 +875,7 @@ msgstr ""
 
 #: templates/personal.php:116
 msgid "Cancel"
-msgstr ""
+msgstr "Dayandır"
 
 #: templates/personal.php:117
 msgid "Choose as profile image"

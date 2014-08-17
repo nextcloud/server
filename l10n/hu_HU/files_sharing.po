@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# beni1999 <beni1099@gmail.com>, 2014
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 08:50+0000\n"
+"Last-Translator: beni1999 <beni1099@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,11 +33,11 @@ msgstr ""
 
 #: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Veled megosztott"
 
 #: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Másokkal megosztott"
 
 #: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"

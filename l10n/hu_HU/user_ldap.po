@@ -5,13 +5,14 @@
 # Translators:
 # ebela <bela@dandre.hu>, 2013-2014
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Melinda <ghostgirl1983@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-28 01:54-0400\n"
-"PO-Revision-Date: 2014-07-27 17:40+0000\n"
-"Last-Translator: ebela <bela@dandre.hu>\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 21:00+0000\n"
+"Last-Translator: Melinda <ghostgirl1983@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -158,11 +159,11 @@ msgid_plural "%s users found"
 msgstr[0] "%s felhasználó van"
 msgstr[1] "%s felhasználó van"
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:321 lib/wizard.php:1057
 msgid "Could not find the desired feature"
 msgstr "A kívánt funkció nem található"
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:864 lib/wizard.php:876
 msgid "Invalid Host"
 msgstr "Érvénytelen gépnév"
 
@@ -254,60 +255,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%uid változó helyére a bejelentkezési név kerül. Például: \"uid=%%uid\""
 
-#: templates/part.wizard-server.php:6
+#: templates/part.wizard-server.php:13
 msgid "1. Server"
 msgstr "1. Kiszolgáló"
 
-#: templates/part.wizard-server.php:13
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
 msgstr "%s. kiszolgáló"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr "Új kiszolgáló beállításának hozzáadása"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
 msgstr "Konfiguráció törlés"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "Kiszolgáló"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "A protokoll előtag elhagyható, kivéve, ha SSL-t kíván használni. Ebben az esetben kezdje így:  ldaps://"
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "Port"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "A kapcsolódó felhasználó DN-je"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "Annak a felhasználónak a DN-je, akinek a nevében bejelentkezve kapcsolódunk a kiszolgálóhoz, pl. uid=agent,dc=example,dc=com. Bejelentkezés nélküli eléréshez ne töltse ki a DN és Jelszó mezőket!"
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "Jelszó"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "Bejelentkezés nélküli eléréshez ne töltse ki a DN és Jelszó mezőket!"
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr "Soronként egy DN-gyökér"
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "A Haladó fülre kattintva külön DN-gyökér állítható be a felhasználók és a csoportok számára"
 
@@ -336,7 +337,7 @@ msgstr "Folytatás"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "Gyakorlott"
 
 #: templates/settings.php:8
 msgid "Advanced"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# unixidzero <unixidzero@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-17 05:23+0000\n"
+"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,23 +21,23 @@ msgstr ""
 #: ajax/share.php:117 ajax/share.php:159
 #, php-format
 msgid "Couldn't send mail to following users: %s "
-msgstr ""
+msgstr "Məktubu göstərilən istifadəçilərə göndərmək mümkün olmadı: %s"
 
 #: ajax/update.php:10
 msgid "Turned on maintenance mode"
-msgstr ""
+msgstr "Xidməti rejimə keçilmişdir"
 
 #: ajax/update.php:13
 msgid "Turned off maintenance mode"
-msgstr ""
+msgstr "Xidməti rejim söndürüldü"
 
 #: ajax/update.php:16
 msgid "Updated database"
-msgstr ""
+msgstr "Yenilənmiş verilənlər bazası"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr ""
+msgstr "Baza sxeminin yenilənməsi yoxlanıldı"
 
 #: ajax/update.php:27
 #, php-format
@@ -49,11 +50,11 @@ msgstr ""
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
-msgstr ""
+msgstr "Fayl tipi bəlli deyil."
 
 #: avatar/controller.php:90
 msgid "Invalid image"
-msgstr ""
+msgstr "Yalnış şəkil"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
@@ -141,7 +142,7 @@ msgstr ""
 
 #: js/js.js:501
 msgid "Settings"
-msgstr ""
+msgstr "Quraşdırmalar"
 
 #: js/js.js:590
 msgid "File"
@@ -161,7 +162,7 @@ msgstr ""
 
 #: js/js.js:607
 msgid "Saving..."
-msgstr ""
+msgstr "Saxlama..."
 
 #: js/js.js:1278
 msgid "seconds ago"
@@ -260,7 +261,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:282
 msgid "Ok"
-msgstr ""
+msgstr "Oldu"
 
 #: js/oc-dialogs.js:302
 msgid "Error loading message template: {error}"
@@ -296,7 +297,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:462
 msgid "Cancel"
-msgstr ""
+msgstr "Dayandır"
 
 #: js/oc-dialogs.js:472
 msgid "Continue"
@@ -344,12 +345,12 @@ msgstr ""
 
 #: js/share.js:266
 msgid "Share"
-msgstr ""
+msgstr "Yayımla"
 
 #: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
 #: templates/installation.php:10
 msgid "Error"
-msgstr ""
+msgstr "Səhv"
 
 #: js/share.js:328 js/share.js:1065
 msgid "Error while sharing"
@@ -474,7 +475,7 @@ msgstr ""
 
 #: js/share.js:1063
 msgid "Email sent"
-msgstr ""
+msgstr "Məktub göndərildi"
 
 #: js/share.js:1087
 msgid "Warning"
@@ -571,7 +572,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
-msgstr ""
+msgstr "Sıfırla"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "New password"

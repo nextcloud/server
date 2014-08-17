@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Nem írható a \"config\" könyvtár!",
 "Help" => "Súgó",
 "Personal" => "Személyes",
 "Settings" => "Beállítások",
@@ -25,6 +26,7 @@ $TRANSLATIONS = array(
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Azonosítási hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítse az oldalt.",
+"Unknown user" => "Ismeretlen felhasználó",
 "%s enter the database username." => "%s adja meg az adatbázist elérő felhasználó login nevét.",
 "%s enter the database name." => "%s adja meg az adatbázis nevét.",
 "%s you may not use dots in the database name" => "%s az adatbázis neve nem tartalmazhat pontot",
@@ -41,6 +43,8 @@ $TRANSLATIONS = array(
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik.",
 "Please double check the <a href='%s'>installation guides</a>." => "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
 "%s shared »%s« with you" => "%s megosztotta Önnel ezt:  »%s«",
+"Sharing %s failed, because the file does not exist" => "%s megosztása sikertelen, mert a fájl nem létezik",
+"Cannot set expiration date. Expiration date is in the past" => "Nem lehet beállítani a lejárati időt mivel már elmúlt.",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\"",
 "seconds ago" => "pár másodperce",
 "_%n minute ago_::_%n minutes ago_" => array("","%n perccel ezelőtt"),
@@ -54,6 +58,8 @@ $TRANSLATIONS = array(
 "years ago" => "több éve",
 "A valid username must be provided" => "Érvényes felhasználónevet kell megadnia",
 "A valid password must be provided" => "Érvényes jelszót kell megadnia",
-"The username is already being used" => "Ez a bejelentkezési név már foglalt"
+"The username is already being used" => "Ez a bejelentkezési név már foglalt",
+"Cannot write into \"config\" directory" => "Nem írható a \"config\" könyvtár",
+"Please upgrade your database version" => "Kérlek frissítsd az adatbázisodat"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

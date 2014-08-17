@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# beni1999 <beni1099@gmail.com>, 2014
 # David Szilagyi <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
 # Laszlo Tornoci <torlasz@gmail.com>, 2013
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-17 05:23+0000\n"
+"Last-Translator: beni1999 <beni1099@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 
 #: base.php:200 base.php:207
 msgid "Cannot write into \"config\" directory!"
-msgstr ""
+msgstr "Nem írható a \"config\" könyvtár!"
 
 #: base.php:201
 msgid ""
@@ -171,7 +172,7 @@ msgstr "A token lejárt. Frissítse az oldalt."
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Ismeretlen felhasználó"
 
 #: private/setup/abstractdatabase.php:26
 #, php-format
@@ -289,7 +290,7 @@ msgstr "%s megosztotta Önnel ezt:  »%s«"
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "%s megosztása sikertelen, mert a fájl nem létezik"
 
 #: private/share/share.php:501
 #, php-format
@@ -365,7 +366,7 @@ msgstr ""
 
 #: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Nem lehet beállítani a lejárati időt mivel már elmúlt."
 
 #: private/share/share.php:1094
 #, php-format
@@ -495,7 +496,7 @@ msgstr ""
 
 #: private/util.php:427
 msgid "Cannot write into \"config\" directory"
-msgstr ""
+msgstr "Nem írható a \"config\" könyvtár"
 
 #: private/util.php:440
 msgid "Cannot write into \"apps\" directory"
@@ -594,7 +595,7 @@ msgstr ""
 
 #: private/util.php:625
 msgid "Please upgrade your database version"
-msgstr ""
+msgstr "Kérlek frissítsd az adatbázisodat"
 
 #: private/util.php:632
 msgid "Error occurred while checking PostgreSQL version"

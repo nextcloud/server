@@ -3,17 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# beni1999 <beni1099@gmail.com>, 2014
 # David Szilagyi <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
 # János Fehér <feher.janos@mindworks.hu>, 2014
 # Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
+# Melinda <ghostgirl1983@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-17 05:23+0000\n"
+"Last-Translator: Melinda <ghostgirl1983@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -217,14 +219,14 @@ msgstr "több éve"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr ""
+msgstr "Visszaállítási mail nem küldhetö. Kérjük, lépj kapcsolatba az adminisztrátorral."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "A jelszó újramegadásához a linker elküldtük. Ha real is iron belül nem érkezik meg, ellenörízd a spam/hulladék könyvtárat.<br>Ha nincs ott, kérdezd meg a helyi rendszergazdádat."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -232,11 +234,11 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Az Ön állományai titkosítva vannak. Ha nem engedélyezte korábban az adatok visszanyeréséhez szükséges kulcs használatát, akkor a jelszó megváltoztatását követően nem fog hozzáférni az adataihoz. Ha nem biztos abban, hogy mit kellene tennie, akkor kérdezze meg a rendszergazdát, mielőtt továbbmenne. Biztos, hogy folytatni kívánja?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Tudom mit csinálok."
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -244,7 +246,7 @@ msgstr "Jelszó-visszaállítás"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "A jelszót nem lehet visszaállítani. Kérlek, lépj kapcsolatba a redszergazdával."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -530,17 +532,17 @@ msgstr "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatá
 
 #: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "Nem lehet a jelszót törölni, mert a token érvénytelen."
 
 #: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "Visszaállítási mail nem küldhetö. Kérjük, lépj kapcsolatba a rendszergazdával. "
 
 #: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "Visszaállítási mail nem küldhetö, mert nem tartozik email cím ehhez a felhasználóhoz. Kérjük, lépj kapcsolatba az adminisztrátorral."
 
 #: lostpassword/controller/lostcontroller.php:191
 #, php-format
@@ -583,7 +585,7 @@ msgstr "Az új jelszó"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "Új jelszó"
 
 #: setup/controller.php:140
 #, php-format
@@ -797,7 +799,7 @@ msgstr "Kérjük, lépjen kapcsolatba a rendszergazdával."
 
 #: templates/login.php:42
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "Elfelejtetted a jelszavad?"
 
 #: templates/login.php:47
 msgid "remember"

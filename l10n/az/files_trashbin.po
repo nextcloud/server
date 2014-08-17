@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# unixidzero <unixidzero@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-05-17 01:54-0400\n"
-"PO-Revision-Date: 2014-05-17 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 09:50+0000\n"
+"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,28 +21,28 @@ msgstr ""
 #: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Həmişəlik silmək olmaz %s-i"
 
 #: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Geri qaytarila bilmədi  %s"
 
-#: appinfo/app.php:13 js/filelist.js:34
+#: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
-msgstr ""
+msgstr "Silinmiş fayllar"
 
-#: js/app.js:53 templates/index.php:21 templates/index.php:23
+#: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
-msgstr ""
+msgstr "Geri qaytar"
 
 #: js/filelist.js:119 js/filelist.js:164 js/filelist.js:214
 msgid "Error"
-msgstr ""
+msgstr "Səhv"
 
-#: lib/trashbin.php:861 lib/trashbin.php:863
+#: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
-msgstr ""
+msgstr "geriqaytarılıb"
 
 #: templates/index.php:7
 msgid "Nothing in here. Your trash bin is empty!"
@@ -49,7 +50,7 @@ msgstr ""
 
 #: templates/index.php:18
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: templates/index.php:29
 msgid "Deleted"

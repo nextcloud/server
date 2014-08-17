@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# unixidzero <unixidzero@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-17 01:54-0400\n"
+"PO-Revision-Date: 2014-08-16 09:41+0000\n"
+"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,23 +20,23 @@ msgstr ""
 
 #: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "Bu serverdə, serverlərarası yayımlanma aktiv deyil"
 
 #: ajax/external.php:38
 msgid "Invalid or untrusted SSL certificate"
-msgstr ""
+msgstr "Yalnış yada inam listindən kənar SSL sertifikatı"
 
 #: ajax/external.php:52
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "Uzaqda olan yayımlanmanı əlavə etmək mümkün olmadı"
 
 #: appinfo/app.php:33 js/app.js:34
 msgid "Shared with you"
-msgstr ""
+msgstr "Sizinlə yayımlanan"
 
 #: appinfo/app.php:45 js/app.js:53
 msgid "Shared with others"
-msgstr ""
+msgstr "Hər kəsə yayımlanmış"
 
 #: appinfo/app.php:54 js/app.js:72
 msgid "Shared by link"
@@ -67,7 +68,7 @@ msgstr ""
 
 #: js/external.js:76
 msgid "Cancel"
-msgstr ""
+msgstr "Dayandır"
 
 #: js/external.js:77
 msgid "Add remote share"
@@ -99,7 +100,7 @@ msgstr ""
 
 #: templates/list.php:16
 msgid "Name"
-msgstr ""
+msgstr "Ad"
 
 #: templates/list.php:20
 msgid "Share time"
