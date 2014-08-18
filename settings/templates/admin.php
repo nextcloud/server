@@ -1,7 +1,11 @@
-<?php /**
+<?php
+/**
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
+ */
+/**
+ * @var array $_
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 $levelLabels = array(
@@ -176,6 +180,19 @@ if (!$_['internetconnectionworking']) {
 	</span>
 
 </div>
+<?php
+}
+
+if ($_['suggestedOverwriteWebroot']) {
+	?>
+	<div class="section">
+		<h2><?php p($l->t('URL generation in notification emails'));?></h2>
+
+		<span class="connectionwarning">
+		<?php p($l->t('If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwritewebroot" option in your config.php file to the webroot path of your installation (Suggested: "%s")', $_['suggestedOverwriteWebroot'])); ?>
+	</span>
+
+	</div>
 <?php
 }
 ?>
