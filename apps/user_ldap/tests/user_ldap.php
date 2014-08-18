@@ -131,6 +131,11 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 			   ->will($this->returnValue('gunslinger'));
 
 		$access->expects($this->any())
+			   ->method('stringResemblesDN')
+			   ->with($this->equalTo('dnOfRoland,dc=test'))
+			   ->will($this->returnValue(true));
+
+		$access->expects($this->any())
 			   ->method('areCredentialsValid')
 			   ->will($this->returnCallback(function($dn, $pwd) {
 					if($pwd === 'dt19') {

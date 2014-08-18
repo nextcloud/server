@@ -156,4 +156,61 @@ class Test_Access extends \PHPUnit_Framework_TestCase {
 
 		$this->assertSame($expected, $access->getDomainDNFromDN($inputDN));
 	}
+
+	private function getResemblesDNInputData() {
+		return  $cases = array(
+			array(
+				'input' => 'foo=bar,bar=foo,dc=foobar',
+				'interResult' => array(
+					'count' => 3,
+					0 => 'foo=bar',
+					1 => 'bar=foo',
+					2 => 'dc=foobar'
+				),
+				'expectedResult' => true
+			),
+			array(
+				'input' => 'foobarbarfoodcfoobar',
+				'interResult' => false,
+				'expectedResult' => false
+			)
+		);
+	}
+
+	public function testStringResemblesDN() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$access = new Access($con, $lw, $um);
+
+		$cases = $this->getResemblesDNInputData();
+
+		$lw->expects($this->exactly(2))
+			->method('explodeDN')
+			->will($this->returnCallback(function ($dn) use ($cases) {
+				foreach($cases as $case) {
+					if($dn === $case['input']) {
+						return $case['interResult'];
+					}
+				}
+			}));
+
+		foreach($cases as $case) {
+			$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
+		}
+	}
+
+	public function testStringResemblesDNLDAPmod() {
+		list($lw, $con, $um) = $this->getConnecterAndLdapMock();
+		$lw = new \OCA\user_ldap\lib\LDAP();
+		$access = new Access($con, $lw, $um);
+
+		if(!function_exists('ldap_explode_dn')) {
+			$this->markTestSkipped('LDAP Module not available');
+		}
+
+		$cases = $this->getResemblesDNInputData();
+
+		foreach($cases as $case) {
+			$this->assertSame($case['expectedResult'], $access->stringResemblesDN($case['input']));
+		}
+	}
 }

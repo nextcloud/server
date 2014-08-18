@@ -44,6 +44,11 @@ class Test_User_Manager extends \PHPUnit_Framework_TestCase {
         $inputDN = 'cn=foo,dc=foobar,dc=bar';
         $uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
+		$access->expects($this->once())
+            ->method('stringResemblesDN')
+            ->with($this->equalTo($inputDN))
+            ->will($this->returnValue(true));
+
         $access->expects($this->once())
             ->method('dn2username')
             ->with($this->equalTo($inputDN))
@@ -66,6 +71,38 @@ class Test_User_Manager extends \PHPUnit_Framework_TestCase {
         $inputDN = 'uid=foo,o=foobar,c=bar';
         $uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
 
+		$access->expects($this->once())
+            ->method('stringResemblesDN')
+            ->with($this->equalTo($inputDN))
+            ->will($this->returnValue(true));
+
+        $access->expects($this->once())
+            ->method('dn2username')
+            ->with($this->equalTo($inputDN))
+            ->will($this->returnValue($uid));
+
+        $access->expects($this->never())
+            ->method('username2dn');
+
+        $manager = new Manager($config, $filesys, $log, $avaMgr, $image);
+        $manager->setLdapAccess($access);
+        $user = $manager->get($inputDN);
+
+        $this->assertInstanceOf('\OCA\user_ldap\lib\user\User', $user);
+    }
+
+    public function testGetByExoticDN() {
+        list($access, $config, $filesys, $image, $log, $avaMgr) =
+            $this->getTestInstances();
+
+        $inputDN = 'ab=cde,f=ghei,mno=pq';
+        $uid = '563418fc-423b-1033-8d1c-ad5f418ee02e';
+
+		$access->expects($this->once())
+            ->method('stringResemblesDN')
+            ->with($this->equalTo($inputDN))
+            ->will($this->returnValue(true));
+
         $access->expects($this->once())
             ->method('dn2username')
             ->with($this->equalTo($inputDN))
@@ -86,6 +123,11 @@ class Test_User_Manager extends \PHPUnit_Framework_TestCase {
             $this->getTestInstances();
 
         $inputDN = 'cn=gone,dc=foobar,dc=bar';
+
+		$access->expects($this->once())
+            ->method('stringResemblesDN')
+            ->with($this->equalTo($inputDN))
+            ->will($this->returnValue(true));
 
         $access->expects($this->once())
             ->method('dn2username')
@@ -118,6 +160,11 @@ class Test_User_Manager extends \PHPUnit_Framework_TestCase {
             ->method('username2dn')
             ->with($this->equalTo($uid))
             ->will($this->returnValue($dn));
+
+        $access->expects($this->once())
+            ->method('stringResemblesDN')
+            ->with($this->equalTo($uid))
+            ->will($this->returnValue(false));
 
         $manager = new Manager($config, $filesys, $log, $avaMgr, $image);
         $manager->setLdapAccess($access);

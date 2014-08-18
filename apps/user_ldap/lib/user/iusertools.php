@@ -33,6 +33,8 @@ interface IUserTools {
 
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*');
 
+	public function stringResemblesDN($string);
+
 	public function dn2username($dn, $ldapname = null);
 
 	public function username2dn($name);
