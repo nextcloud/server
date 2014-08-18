@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "A chave privada para a aplicación de cifrado non é correcta. Actualice o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros cifrados.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "O cifrado foi desactivado, mais os ficheiros están cifrados. Vaia á configuración persoal para descifrar os ficheiros.",
 "{dirs} and {files}" => "{dirs} e {files}",
+"%s could not be renamed as it has been deleted" => "Non é posíbel renomear %s xa que foi eliminado",
 "%s could not be renamed" => "%s non pode cambiar de nome",
 "Upload (max. %s)" => "Envío (máx. %s)",
 "File handling" => "Manexo de ficheiro",

@@ -5,13 +5,14 @@
 # Translators:
 # Balša Lazarević <balsa.l@live.com>, 2014
 # Mile Jančić <lemi667@gmail.com>, 2013
+# Miroslav Mitic <miroslav@whitecircle-design.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-17 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-18 01:54-0400\n"
+"PO-Revision-Date: 2014-08-18 05:23+0000\n"
+"Last-Translator: Miroslav Mitic <miroslav@whitecircle-design.com>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -147,15 +148,15 @@ msgstr "Podešavanja"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "Fajl"
 
 #: js/js.js:591
 msgid "Folder"
-msgstr ""
+msgstr "Direktorijum"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "Slika"
 
 #: js/js.js:593
 msgid "Audio"
@@ -172,16 +173,16 @@ msgstr "Pre par sekundi"
 #: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pre %n minuta"
+msgstr[1] "pre %n minuta"
+msgstr[2] "pre %n minuta"
 
 #: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "pre %n sat"
+msgstr[1] "pre %n sati"
+msgstr[2] "pre %n sati"
 
 #: js/js.js:1281
 msgid "today"
@@ -194,9 +195,9 @@ msgstr "juče"
 #: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] "Prije %n dan."
-msgstr[1] "Prije %n dana."
-msgstr[2] "Prije %n dana."
+msgstr[0] "Pre %n dan."
+msgstr[1] "Pre %n dana."
+msgstr[2] "Pre %n dana."
 
 #: js/js.js:1284
 msgid "last month"
@@ -238,7 +239,7 @@ msgstr ""
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Znam šta radim"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -307,7 +308,7 @@ msgstr "Otkaži"
 
 #: js/oc-dialogs.js:472
 msgid "Continue"
-msgstr ""
+msgstr "Nastavi"
 
 #: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
@@ -323,23 +324,23 @@ msgstr ""
 
 #: js/setup.js:96
 msgid "Very weak password"
-msgstr ""
+msgstr "Veoma slaba lozinka"
 
 #: js/setup.js:97
 msgid "Weak password"
-msgstr ""
+msgstr "Slaba lozinka"
 
 #: js/setup.js:98
 msgid "So-so password"
-msgstr ""
+msgstr "Osrednja lozinka"
 
 #: js/setup.js:99
 msgid "Good password"
-msgstr ""
+msgstr "Dobra lozinka"
 
 #: js/setup.js:100
 msgid "Strong password"
-msgstr ""
+msgstr "Jaka lozinka"
 
 #: js/share.js:129 js/share.js:251
 msgid "Shared"
@@ -347,7 +348,7 @@ msgstr "Deljeno"
 
 #: js/share.js:257
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "Podeljeno sa {recipients}"
 
 #: js/share.js:266
 msgid "Share"
@@ -485,7 +486,7 @@ msgstr "Email poslat"
 
 #: js/share.js:1087
 msgid "Warning"
-msgstr ""
+msgstr "Upozorenje"
 
 #: js/tags.js:8
 msgid "The object type is not specified."

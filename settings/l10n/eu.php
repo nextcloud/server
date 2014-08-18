@@ -109,6 +109,7 @@ $TRANSLATIONS = array(
 "Your PHP version is outdated" => "Zure PHP bertsioa zaharkituta dago",
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Zure PHP bertsioa zaharkituta dago. Gure aholkua 5.3.8 edo bertsio berriago batera eguneratzea da, bertsio zaharragoak arazoak ematen baitituzte. Posible da instalazio honek ez funtzionatzea ongi.",
 "PHP charset is not set to UTF-8" => "PHP charset ez da UTF-8 gisa ezartzen",
+"PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." => "PHP charset ez da UTF-8 gisa ezartzen. Honek arazo larriak sor ditzake fitxategien izenetan ascii ez diren karaktereekin. Gomendatzen dizugu php.ini-ko 'default_charset'-en ordez 'UTF-8' ezartzea.",
 "Locale not working" => "Lokala ez dabil",
 "System locale can not be set to a one which supports UTF-8." => "Eskualdeko ezarpena ezin da UTF-8 onartzen duen batera ezarri.",
 "This means that there might be problems with certain characters in file names." => "Honek esan nahi du fitxategien izenetako karaktere batzuekin arazoak egon daitezkeela.",

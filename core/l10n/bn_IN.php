@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Warning" => "সতর্কীকরণ",
 "Delete" => "মুছে ফেলা",
 "Add" => "যোগ করা",
-"Username" => "ইউজারনেম"
+"Username" => "ইউজারনেম",
+"Reset" => "রিসেট করুন"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-17 05:02+0000\n"
+"POT-Creation-Date: 2014-08-18 01:54-0400\n"
+"PO-Revision-Date: 2014-08-18 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -271,23 +271,23 @@ msgstr ""
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "Veoma slaba lozinka"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "Slaba lozinka"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "Osrednja lozinka"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "Dobra lozinka"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "Jaka lozinka"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."

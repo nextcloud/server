@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-17 05:02+0000\n"
+"POT-Creation-Date: 2014-08-18 01:54-0400\n"
+"PO-Revision-Date: 2014-08-18 05:02+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: ajax/list.php:52
 msgid "Unknown error"
-msgstr ""
+msgstr "অজানা জটিলতা"
 
 #: ajax/move.php:15
 #, php-format
@@ -385,7 +385,7 @@ msgstr "টেক্সট ফাইল"
 
 #: templates/list.php:12
 msgid "New folder"
-msgstr ""
+msgstr "নব ফােলডার"
 
 #: templates/list.php:13
 msgid "Folder"

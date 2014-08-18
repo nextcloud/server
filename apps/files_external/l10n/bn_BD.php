@@ -14,6 +14,7 @@ $TRANSLATIONS = array(
 "Personal" => "ব্যক্তিগত",
 "Name" => "রাম",
 "External Storage" => "বাহ্যিক সংরক্ষণাগার",
+"Folder name" => "ফোলডারের নাম",
 "Configuration" => "কনফিগারেসন",
 "All Users" => "সমস্ত ব্যবহারকারী",
 "Groups" => "গোষ্ঠীসমূহ",

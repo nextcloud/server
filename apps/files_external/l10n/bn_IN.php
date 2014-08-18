@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Username" => "ইউজারনেম",
 "Share" => "শেয়ার",
 "URL" => "URL",
+"Saved" => "সংরক্ষিত",
 "Name" => "নাম",
 "Folder name" => "ফোল্ডারের নাম",
 "Delete" => "মুছে ফেলা"

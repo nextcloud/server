@@ -109,6 +109,7 @@ $TRANSLATIONS = array(
 "Your PHP version is outdated" => "Uw PHP versie is verouderd",
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." => "Uw PHP versie is verouderd. We adviseren met klem om bij te werken naar versie 5.3.8 of later, omdat oudere versies corrupt kunnen zijn. Het is mogelijk dat deze installatie niet goed werkt.",
 "PHP charset is not set to UTF-8" => "PHP characterset is niet ingesteld op UTF-8",
+"PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." => "PHP characterset is niet ingesteld op UTF-8. Dit kan flinke problemen opleveren met niet-ASCII tekens in bestandsnamen. We adviseren om de waarde van 'default_charset' in php.ini te wijzigen in 'UTF-8'.",
 "Locale not working" => "Taalbestand werkt niet",
 "System locale can not be set to a one which supports UTF-8." => "De systeemtaal kan niet worden ingesteld op een taal die UTF-8 ondersteunt.",
 "This means that there might be problems with certain characters in file names." => "Dat betekent dat er problemen kunnen optreden met bepaalde tekens in bestandsnamen.",

@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Ongeldige privésleutel voor crypto app. Werk het privésleutel wachtwoord bij in uw persoonlijke instellingen om opnieuw toegang te krijgen tot uw versleutelde bestanden.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Encryptie is uitgeschakeld maar uw bestanden zijn nog steeds versleuteld. Ga naar uw persoonlijke instellingen om uw bestanden te decoderen.",
 "{dirs} and {files}" => "{dirs} en {files}",
+"%s could not be renamed as it has been deleted" => "%s kon niet worden hernoemd, omdat het verwijderd is",
 "%s could not be renamed" => "%s kon niet worden hernoemd",
 "Upload (max. %s)" => "Upload (max. %s)",
 "File handling" => "Bestand",

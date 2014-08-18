@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-08-18 01:54-0400\n"
+"PO-Revision-Date: 2014-08-18 05:10+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -159,11 +159,11 @@ msgid_plural "%s users found"
 msgstr[0] "%s gebruiker gevonden"
 msgstr[1] "%s gebruikers gevonden"
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:321 lib/wizard.php:1057
 msgid "Could not find the desired feature"
 msgstr "Kon de gewenste functie niet vinden"
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:864 lib/wizard.php:876
 msgid "Invalid Host"
 msgstr "Ongeldige server"
 
@@ -255,60 +255,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Definiëert het toe te passen filter als er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam bij het inloggen. Bijvoorbeeld: \"uid=%%uid\""
 
-#: templates/part.wizard-server.php:6
+#: templates/part.wizard-server.php:13
 msgid "1. Server"
 msgstr "1. Server"
 
-#: templates/part.wizard-server.php:13
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
 msgstr "%s. Server:"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr "Toevoegen serverconfiguratie"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
 msgstr "Verwijder configuratie"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "Host"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval met ldaps://"
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "Poort"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "User DN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "De DN van de client gebruiker waarmee de verbinding zal worden gemaakt, bijv. uid=agent,dc=example,dc=com. Voor anonieme toegang laat je het DN en het wachtwoord leeg."
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "Voor anonieme toegang, laat de DN en het wachtwoord leeg."
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr "Een Base DN per regel"
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "Je kunt het Base DN voor gebruikers en groepen specificeren in het tab Geavanceerd."
 

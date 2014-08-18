@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Enkriptazio aplikaziorako gako pribatu okerra. Mesedez eguneratu zure gako pribatuaren pasahitza zure ezarpen pertsonaletan zure enkriptatuko fitxategietarako sarrera berreskuratzeko.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Enkriptazioa desgaitua izan da baina zure fitxategiak oraindik enkriptatuta daude. Mesedez  jo zure ezarpen pertsonaletara zure fitxategiak dekodifikatzeko.",
 "{dirs} and {files}" => "{dirs} eta {files}",
+"%s could not be renamed as it has been deleted" => "%s ezin izan da berrizendatu ezabatua zegoen eta",
 "%s could not be renamed" => "%s ezin da berrizendatu",
 "Upload (max. %s)" => "Igo (max. %s)",
 "File handling" => "Fitxategien kudeaketa",

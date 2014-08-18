@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "অনুমতিসমূহ  পরিবর্তন করতে সমস্যা দেখা দিয়েছে",
 "Shared with you and the group {group} by {owner}" => "{owner} আপনার এবং {group} গোষ্ঠীর সাথে ভাগাভাগি করেছেন",
 "Shared with you by {owner}" => "{owner} আপনার সাথে ভাগাভাগি করেছেন",
+"Share link" => "লিংক ভাগাভাগি করেন",
 "Password protect" => "কূটশব্দ সুরক্ষিত",
 "Email link to person" => "ব্যক্তির সাথে ই-মেইল যুক্ত কর",
 "Send" => "পাঠাও",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "অজানা জটিলতা",
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
 "File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
@@ -36,6 +37,7 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "New" => "নতুন",
 "Text file" => "টেক্সট ফাইল",
+"New folder" => "নব ফােলডার",
 "Folder" => "ফোল্ডার",
 "From link" => " লিংক থেকে",
 "Nothing in here. Upload something!" => "এখানে কিছুই নেই। কিছু আপলোড করুন !",

@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "_Uploading %n file_::_Uploading %n files_" => array("","",""),
 "Maximum upload size" => "Maksimalna veličina pošiljke",
 "Save" => "Snimi",
+"Folder" => "Direktorijum",
 "Nothing in here. Upload something!" => "Ovde nema ničeg. Pošaljite nešto!",
 "Download" => "Preuzmi",
 "Upload too large" => "Pošiljka je prevelika",

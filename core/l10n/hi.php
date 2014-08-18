@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "_%n day ago_::_%n days ago_" => array("",""),
 "_%n month ago_::_%n months ago_" => array("",""),
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
+"Cancel" => "रद्द करें ",
 "Share" => "साझा करें",
 "Error" => "त्रुटि",
 "Send" => "भेजें",

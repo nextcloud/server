@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cancel" => "रद्द करें ",
 "Shared by" => "द्वारा साझा",
 "Password" => "पासवर्ड"
 );
