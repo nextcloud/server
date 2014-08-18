@@ -598,6 +598,7 @@ label.infield {
 .warning legend,
 .warning a,
 .error a {
+	color: #fff !important;
 	font-weight: bold !important;
 }
 .error pre {
