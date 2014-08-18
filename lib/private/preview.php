@@ -477,12 +477,15 @@ class Preview {
 		$cached = $this->isCached($fileId);
 		if ($cached) {
 			$stream = $this->userView->fopen($cached, 'r');
-			$image = new \OC_Image();
-			$image->loadFromFileHandle($stream);
-			$this->preview = $image->valid() ? $image : null;
+			$this->preview = null;
+			if ($stream) {
+				$image = new \OC_Image();
+				$image->loadFromFileHandle($stream);
+				$this->preview = $image->valid() ? $image : null;
 
-			$this->resizeAndCrop();
-			fclose($stream);
+				$this->resizeAndCrop();
+				fclose($stream);
+			}
 		}
 
 		if (is_null($this->preview)) {
