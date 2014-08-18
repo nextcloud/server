@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OC;
+namespace OC\Certificate;
 
 use OCP\ICertificate;
 
@@ -75,7 +75,7 @@ class Certificate implements ICertificate {
 	 * @return string
 	 */
 	public function getSerial() {
-		return $this->getSerial();
+		return $this->serial;
 	}
 
 	/**

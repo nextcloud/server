@@ -6,6 +6,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
+use OC\Certificate\CertificateManager;
 use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
