@@ -24,6 +24,8 @@ if (empty($_POST['dirToken'])) {
 	// and the upload/file transfer code needs to be refactored into a utility method
 	// that could be used there
 
+	\OC_User::setIncognitoMode(true);
+
 	// return only read permissions for public upload
 	$allowedPermissions = OCP\PERMISSION_READ;
 	$publicDirectory = !empty($_POST['subdir']) ? $_POST['subdir'] : '/';
@@ -175,7 +177,7 @@ if (strpos($dir, '..') === false) {
 			} catch(Exception $ex) {
 				$error = $ex->getMessage();
 			}
-			
+
 		} else {
 			// file already exists
 			$meta = \OC\Files\Filesystem::getFileInfo($target);
