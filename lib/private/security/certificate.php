@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Certificate;
+namespace OC\Security;
 
 use OCP\ICertificate;
 
