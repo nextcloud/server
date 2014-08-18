@@ -8,6 +8,7 @@
 
 namespace OC\Certificate;
 
+use OC\Files\Filesystem;
 use OCP\ICertificateManager;
 
 /**
@@ -34,10 +35,7 @@ class CertificateManager implements ICertificateManager {
 	public function listCertificates() {
 		$path = $this->user->getHome() . '/files_external/uploads/';
 		if (!is_dir($path)) {
-			//path might not exist (e.g. non-standard OC_User::getHome() value)
-			//in this case create full path using 3rd (recursive=true) parameter.
-			//note that we use "normal" php filesystem functions here since the certs need to be local
-			mkdir($path, 0700, true);
+			return array();
 		}
 		$result = array();
 		$handle = opendir($path);
@@ -62,9 +60,7 @@ class CertificateManager implements ICertificateManager {
 		$fh_certs = fopen($path . '/rootcerts.crt', 'w');
 		foreach ($certs as $cert) {
 			$file = $path . '/uploads/' . $cert;
-			$fh = fopen($file, 'r');
-			$data = fread($fh, filesize($file));
-			fclose($fh);
+			$data = file_get_contents($file);
 			if (strpos($data, 'BEGIN CERTIFICATE')) {
 				fwrite($fh_certs, $data);
 				fwrite($fh_certs, "\r\n");
@@ -75,6 +71,8 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	/**
+	 * Save the certificate and re-generate the certificate bundle
+	 *
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
 	 * @return bool | \OCP\ICertificate
@@ -92,7 +90,14 @@ class CertificateManager implements ICertificateManager {
 		}
 
 		if ($isValid) {
-			$file = $this->user->getHome() . '/files_external/uploads/' . $name;
+			$dir = $this->user->getHome() . '/files_external/uploads/';
+			if (!file_exists($dir)) {
+				//path might not exist (e.g. non-standard OC_User::getHome() value)
+				//in this case create full path using 3rd (recursive=true) parameter.
+				//note that we use "normal" php filesystem functions here since the certs need to be local
+				mkdir($dir, 0700, true);
+			}
+			$file = $dir . $name;
 			file_put_contents($file, $certificate);
 			$this->createCertificateBundle();
 			return new Certificate($certificate, $name);
@@ -102,11 +107,13 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	/**
+	 * Remove the certificate and re-generate the certificate bundle
+	 *
 	 * @param string $name
 	 * @return bool
 	 */
 	public function removeCertificate($name) {
-		if (!\OC\Files\Filesystem::isValidPath($name)) {
+		if (!Filesystem::isValidPath($name)) {
 			return false;
 		}
 		$path = $this->user->getHome() . '/files_external/uploads/';
@@ -114,6 +121,7 @@ class CertificateManager implements ICertificateManager {
 			unlink($path . $name);
 			$this->createCertificateBundle();
 		}
+		return true;
 	}
 
 	/**

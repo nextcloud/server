@@ -27,6 +27,10 @@ class Certificate implements ICertificate {
 
 	protected $issuerOrganization;
 
+	/**
+	 * @param string $data base64 encoded certificate
+	 * @param string $name
+	 */
 	public function __construct($data, $name) {
 		$this->name = $name;
 		$info = openssl_x509_parse($data);
@@ -97,7 +101,7 @@ class Certificate implements ICertificate {
 	 */
 	public function isExpired() {
 		$now = new \DateTime();
-		return !($this->issueDate <= $now and $now <= $this->expireDate);
+		return $this->issueDate > $now or $now > $this->expireDate;
 	}
 
 	/**

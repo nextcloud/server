@@ -3,19 +3,18 @@ OCP\JSON::callCheck();
 
 $l = new OC_L10N('core');
 
-if (!($filename = $_FILES['rootcert_import']['name'])) {
-	header('Location:' . OCP\Util::linkToRoute("settings_personal"));
+if (!isset($_FILES['rootcert_import'])) {
+	OCP\JSON::error(array('error' => 'No certificate uploaded'));
 	exit;
 }
 
-$fh = fopen($_FILES['rootcert_import']['tmp_name'], 'r');
-$data = fread($fh, filesize($_FILES['rootcert_import']['tmp_name']));
-fclose($fh);
-$filename = $_FILES['rootcert_import']['name'];
+$data = file_get_contents($_FILES['rootcert_import']['tmp_name']);
+$filename = basename($_FILES['rootcert_import']['name']);
 
 $certificateManager = \OC::$server->getCertificateManager();
 
-if ($cert = $certificateManager->addCertificate($data, $filename)) {
+$cert = $certificateManager->addCertificate($data, $filename);
+if ($cert) {
 	OCP\JSON::success(array(
 		'name' => $cert->getName(),
 		'commonName' => $cert->getCommonName(),
