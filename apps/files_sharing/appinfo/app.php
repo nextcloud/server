@@ -24,19 +24,22 @@ OCP\Util::addScript('files_sharing', 'external');
 
 OC_FileProxy::register(new OCA\Files\Share\Proxy());
 
-\OCA\Files\App::getNavigationManager()->add(
-	array(
-		"id" => 'sharingin',
-		"appname" => 'files_sharing',
-		"script" => 'list.php',
-		"order" => 10,
-		"name" => $l->t('Shared with you')
-	)
-);
-
-if (\OCP\Util::isSharingDisabledForUser() === false) {
+$config = \OC::$server->getConfig();
+if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 
 	\OCA\Files\App::getNavigationManager()->add(
+		array(
+			"id" => 'sharingin',
+			"appname" => 'files_sharing',
+			"script" => 'list.php',
+			"order" => 10,
+			"name" => $l->t('Shared with you')
+		)
+	);
+
+	if (\OCP\Util::isSharingDisabledForUser() === false) {
+
+		\OCA\Files\App::getNavigationManager()->add(
 			array(
 				"id" => 'sharingout',
 				"appname" => 'files_sharing',
@@ -44,8 +47,8 @@ if (\OCP\Util::isSharingDisabledForUser() === false) {
 				"order" => 15,
 				"name" => $l->t('Shared with others')
 			)
-	);
-	\OCA\Files\App::getNavigationManager()->add(
+		);
+		\OCA\Files\App::getNavigationManager()->add(
 			array(
 				"id" => 'sharinglinks',
 				"appname" => 'files_sharing',
@@ -53,5 +56,6 @@ if (\OCP\Util::isSharingDisabledForUser() === false) {
 				"order" => 20,
 				"name" => $l->t('Shared by link')
 			)
-	);
+		);
+	}
 }
