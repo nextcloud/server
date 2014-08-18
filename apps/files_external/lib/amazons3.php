@@ -181,9 +181,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->connection->putObject(array(
 				'Bucket' => $this->bucket,
 				'Key' => $path . '/',
-				'Body' => '',
-				'ContentType' => 'httpd/unix-directory',
-				'ContentLength' => 0
+				'ContentType' => 'httpd/unix-directory'
 			));
 			$this->testTimeout();
 		} catch (S3Exception $e) {
