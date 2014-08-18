@@ -2,9 +2,13 @@
 	$.fn.singleSelect = function () {
 		return this.each(function (i, select) {
 			var input = $('<input/>'),
+				gravity = $(select).attr('data-tipsy-gravity'),
 				inputTooltip = $(select).attr('data-inputtitle');
 			if (inputTooltip){
 				input.attr('title', inputTooltip);
+			}
+			if (typeof gravity === 'undefined') {
+				gravity = 'n'
 			}
 			select = $(select);
 			input.css('position', 'absolute');
@@ -35,7 +39,7 @@
 					input.css(select.offset());
 					input.show();
 					if ($.fn.tipsy){
-						input.tipsy({gravity: 'n', trigger: 'manual'});
+						input.tipsy({gravity: gravity, trigger: 'manual'});
 						input.tipsy('show');
 					}
 					select.css('background-color', 'white');
@@ -82,6 +86,10 @@
 				if ($.fn.tipsy){
 					$(this).tipsy('hide');
 				}
+			});
+			input.click(function(ev) {
+				// prevent clicks to close any container
+				ev.stopPropagation();
 			});
 		});
 	};
