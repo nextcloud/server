@@ -1465,7 +1465,18 @@ class OC_Util {
 		if (OC_Config::getValue('installed', false)) {
 			$installedVersion = OC_Config::getValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());
-			return version_compare($currentVersion, $installedVersion, '>');
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				return true;
+			}
+
+			// also check for upgrades for apps
+			$apps = \OC_App::getEnabledApps();
+			foreach ($apps as $app) {
+				if (\OC_App::shouldUpgrade($app)) {
+					return true;
+				}
+			}
+			return false;
 		} else {
 			return false;
 		}

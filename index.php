@@ -27,6 +27,12 @@ try {
 
 	OC::handleRequest();
 
+} catch(\OC\ServiceUnavailableException $ex) {
+	\OCP\Util::logException('index', $ex);
+
+	//show the user a detailed error page
+	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+	OC_Template::printExceptionErrorPage($ex);
 } catch (Exception $ex) {
 	\OCP\Util::logException('index', $ex);
 

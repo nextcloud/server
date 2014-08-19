@@ -7,6 +7,7 @@
  */
 
 namespace OC;
+
 use OC\Hooks\BasicEmitter;
 
 /**
@@ -61,6 +62,7 @@ class Updater extends BasicEmitter {
 
 	/**
 	 * Check if a new version is available
+	 *
 	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array|bool
 	 */
@@ -161,7 +163,7 @@ class Updater extends BasicEmitter {
 		// create empty file in data dir, so we can later find
 		// out that this is indeed an ownCloud data directory
 		// (in case it didn't exist before)
-		file_put_contents(\OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data').'/.ocdata', '');
+		file_put_contents(\OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data') . '/.ocdata', '');
 
 		/*
 		 * START CONFIG CHANGES FOR OLDER VERSIONS
@@ -182,22 +184,11 @@ class Updater extends BasicEmitter {
 
 		// simulate DB upgrade
 		if ($this->simulateStepEnabled) {
-			// simulate core DB upgrade
-			\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+			$this->checkCoreUpgrade();
 
 			// simulate apps DB upgrade
-			$version = \OC_Util::getVersion();
-			$apps = \OC_App::getEnabledApps();
-			foreach ($apps as $appId) {
-				$info = \OC_App::getAppInfo($appId);
-				if (\OC_App::isAppCompatible($version, $info) && \OC_App::shouldUpgrade($appId)) {
-					if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
-						\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
-					}
-				}
-			}
+			$this->checkAppUpgrade($currentVersion);
 
-			$this->emit('\OC\Updater', 'dbSimulateUpgrade');
 		}
 
 		// upgrade from OC6 to OC7
@@ -208,16 +199,14 @@ class Updater extends BasicEmitter {
 		}
 
 		if ($this->updateStepEnabled) {
-			// do the real upgrade
-			\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
-			$this->emit('\OC\Updater', 'dbUpgrade');
+			$this->doCoreUpgrade();
 
 			$disabledApps = \OC_App::checkAppsRequirements();
 			if (!empty($disabledApps)) {
 				$this->emit('\OC\Updater', 'disabledApps', array($disabledApps));
 			}
-			// load all apps to also upgrade enabled apps
-			\OC_App::loadApps();
+
+			$this->doAppUpgrade();
 
 			// post-upgrade repairs
 			$repair = new \OC\Repair(\OC\Repair::getRepairSteps());
@@ -228,6 +217,56 @@ class Updater extends BasicEmitter {
 
 			// only set the final version if everything went well
 			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));
+		}
+	}
+
+	protected function checkCoreUpgrade() {
+		// simulate core DB upgrade
+		\OC_DB::simulateUpdateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+
+		$this->emit('\OC\Updater', 'dbSimulateUpgrade');
+	}
+
+	protected function doCoreUpgrade() {
+		// do the real upgrade
+		\OC_DB::updateDbFromStructure(\OC::$SERVERROOT . '/db_structure.xml');
+
+		$this->emit('\OC\Updater', 'dbUpgrade');
+	}
+
+	/**
+	 * @param string $version the oc version to check app compatibilty with
+	 */
+	protected function checkAppUpgrade($version) {
+		$apps = \OC_App::getEnabledApps();
+
+
+		foreach ($apps as $appId) {
+			if ($version) {
+				$info = \OC_App::getAppInfo($appId);
+				$compatible = \OC_App::isAppCompatible($version, $info);
+			} else {
+				$compatible = true;
+			}
+
+			if ($compatible && \OC_App::shouldUpgrade($appId)) {
+				if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
+					\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
+				}
+			}
+		}
+
+		$this->emit('\OC\Updater', 'appUpgradeCheck');
+	}
+
+	protected function doAppUpgrade() {
+		$apps = \OC_App::getEnabledApps();
+
+		foreach ($apps as $appId) {
+			if (\OC_App::shouldUpgrade($appId)) {
+				\OC_App::updateApp($appId);
+				$this->emit('\OC\Updater', 'appUpgrade', array($appId, \OC_App::getAppVersion($appId)));
+			}
 		}
 	}
 }

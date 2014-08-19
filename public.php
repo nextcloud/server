@@ -45,6 +45,11 @@ try {
 
 	require_once OC_App::getAppPath($app) . '/' . $parts[1];
 
+} catch (\OC\ServiceUnavailableException $ex) {
+	//show the user a detailed error page
+	OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
+	\OCP\Util::writeLog('remote', $ex->getMessage(), \OCP\Util::FATAL);
+	OC_Template::printExceptionErrorPage($ex);
 } catch (Exception $ex) {
 	//show the user a detailed error page
 	OC_Response::setStatus(OC_Response::STATUS_INTERNAL_SERVER_ERROR);
