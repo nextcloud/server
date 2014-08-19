@@ -28,8 +28,9 @@
 	max-width:100%;
 }
 
+/* fix multiselect bar offset on shared page */
 thead {
-	padding-left: 0 !important; /* fixes multiselect bar offset on shared page */
+	left: 0 !important;
 }
 
 #data-upload-form {
