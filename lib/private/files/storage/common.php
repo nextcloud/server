@@ -398,7 +398,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * @return int
 	 */
 	public function free_space($path) {
-		return \OC\Files\Filesystem::SPACE_UNKNOWN;
+		return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 	}
 
 	/**

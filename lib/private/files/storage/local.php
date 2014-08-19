@@ -218,7 +218,7 @@ if (\OC_Util::runningOnWindows()) {
 		public function free_space($path) {
 			$space = @disk_free_space($this->datadir . $path);
 			if ($space === false || is_null($space)) {
-				return \OC\Files\Filesystem::SPACE_UNKNOWN;
+				return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 			}
 			return $space;
 		}

@@ -11,6 +11,10 @@ interface FileInfo {
 	const TYPE_FILE = 'file';
 	const TYPE_FOLDER = 'dir';
 
+	const SPACE_NOT_COMPUTED = -1;
+	const SPACE_UNKNOWN = -2;
+	const SPACE_UNLIMITED = -3;
+
 	/**
 	 * Get the Etag of the file or folder
 	 *

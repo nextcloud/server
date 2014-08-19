@@ -377,7 +377,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
 			return $storage->free_space($internalPath);
 		}
-		return \OC\Files\Filesystem::SPACE_UNKNOWN;
+		return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 	}
 
 	public function getLocalFile($path) {

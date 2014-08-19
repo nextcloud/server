@@ -243,10 +243,10 @@ class DAV extends \OC\Files\Storage\Common {
 			if (isset($response['{DAV:}quota-available-bytes'])) {
 				return (int)$response['{DAV:}quota-available-bytes'];
 			} else {
-				return \OC\Files\Filesystem::SPACE_UNKNOWN;
+				return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 			}
 		} catch (\Exception $e) {
-			return \OC\Files\Filesystem::SPACE_UNKNOWN;
+			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
 		}
 	}
 

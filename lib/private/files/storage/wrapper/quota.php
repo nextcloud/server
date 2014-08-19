@@ -50,7 +50,7 @@ class Quota extends Wrapper {
 			}
 			return $data['size'];
 		} else {
-			return \OC\Files\Filesystem::SPACE_NOT_COMPUTED;
+			return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
 		}
 	}
 
@@ -66,7 +66,7 @@ class Quota extends Wrapper {
 		} else {
 			$used = $this->getSize($this->sizeRoot);
 			if ($used < 0) {
-				return \OC\Files\Filesystem::SPACE_NOT_COMPUTED;
+				return \OCP\Files\FileInfo::SPACE_NOT_COMPUTED;
 			} else {
 				$free = $this->storage->free_space($path);
 				$quotaFree = max($this->quota - $used, 0);
