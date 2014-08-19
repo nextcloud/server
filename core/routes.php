@@ -80,7 +80,8 @@ $this->create('core_ajax_preview', '/core/preview')
 	->actionInclude('core/ajax/preview.php');
 $this->create('core_ajax_preview', '/core/preview.png')
 	->actionInclude('core/ajax/preview.php');
-
+$this->create('core_ajax_update', '/core/ajax/update.php')
+	->actionInclude('core/ajax/update.php');
 // Avatar routes
 $this->create('core_avatar_get_tmp', '/avatar/tmp')
 	->get()
