@@ -11,8 +11,17 @@ interface FileInfo {
 	const TYPE_FILE = 'file';
 	const TYPE_FOLDER = 'dir';
 
+	/*
+	 * @const \OCP\Files\FileInfo::SPACE_NOT_COMPUTED Return value for a not computed space value
+	 */
 	const SPACE_NOT_COMPUTED = -1;
+	/*
+	 * @const \OCP\Files\FileInfo::SPACE_UNKNOWN Return value for unknown space value
+	 */
 	const SPACE_UNKNOWN = -2;
+	/*
+	 * @const \OCP\Files\FileInfo::SPACE_UNKNOWN Return value for unlimited space
+	 */
 	const SPACE_UNLIMITED = -3;
 
 	/**
