@@ -338,7 +338,6 @@
 			else {
 				files = _.pluck(this.getSelectedFiles(), 'name');
 			}
-			OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 			OC.redirect(this.getDownloadUrl(files, dir));
 			return false;
 		},
