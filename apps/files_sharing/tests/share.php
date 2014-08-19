@@ -125,6 +125,36 @@ class Test_Files_Sharing extends Test_Files_Sharing_Base {
 
 	}
 
+	function testShareWithDifferentShareFolder() {
+
+		$fileinfo = $this->view->getFileInfo($this->filename);
+		$folderinfo = $this->view->getFileInfo($this->folder);
+
+		$fileShare = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2, 31);
+		$this->assertTrue($fileShare);
+
+		\OCA\Files_Sharing\Helper::setShareFolder('/Shared/subfolder');
+
+		$folderShare = \OCP\Share::shareItem('folder', $folderinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2, 31);
+		$this->assertTrue($folderShare);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('/Shared/subfolder/' . $this->folder));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2);
+		\OCP\Share::unshare('folder', $folderinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+				self::TEST_FILES_SHARING_API_USER2);
+
+		\OCP\Config::deleteSystemValue('share_folder');
+	}
+
 	/**
 	 * shared files should never have delete permissions
 	 * @dataProvider  DataProviderTestFileSharePermissions

@@ -113,5 +113,8 @@ function removeSharedFolder($mkdirs = true, $chunkSize = 99) {
 			$query->execute(array());
 		}
 
+		// set config to keep the Shared folder as the default location for new shares
+		\OCA\Files_Sharing\Helper::setShareFolder('/Shared');
+
 	}
 }
