@@ -114,22 +114,23 @@ class Updater {
 	/**
 	 * get file owner and path
 	 * @param string $filename
-	 * @return string[] with the oweners uid and the owners path
+	 * @return string[] with the owner's uid and the owner's path
 	 */
 	private static function getUidAndFilename($filename) {
 
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
 
+		$filename = (strpos($filename, '/') !== 0) ? '/' . $filename : $filename;
 		if ($uid != \OCP\User::getUser()) {
 			$info = \OC\Files\Filesystem::getFileInfo($filename);
 			if (!$info) {
-				return array($uid, '/files/' . $filename);
+				return array($uid, '/files' . $filename);
 			}
 			$ownerView = new \OC\Files\View('/' . $uid . '/files');
 			$filename = $ownerView->getPath($info['fileid']);
 		}
-		return array($uid, '/files/' . $filename);
+		return array($uid, '/files' . $filename);
 	}
 
 	/**
@@ -139,8 +140,7 @@ class Updater {
 	 * @param string $time
 	 */
 	static public function correctFolder($path, $time) {
-		if ($path !== '' && $path !== '/') {
-
+		if ($path !== '' && $path !== '/' && $path !== '\\') {
 			list($owner, $realPath) = self::getUidAndFilename(dirname($path));
 
 			/**
@@ -181,6 +181,11 @@ class Updater {
 		$cache = $storage->getCache();
 		$parentId = $cache->getParentId($internalPath);
 		$parent = dirname($internalPath);
+
+		if ($parent === '.' || $parent === '/' || $parent === '\\') {
+			$parent = '';
+		}
+
 		if ($parentId != -1) {
 			$cache->update($parentId, array('storage_mtime' => $storage->filemtime($parent)));
 		}
