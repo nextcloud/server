@@ -51,7 +51,7 @@ interface ILDAPWrapper {
 	 * @param $link LDAP link resource
 	 * @param $pagesize number of results per page
 	 * @param $isCritical Indicates whether the pagination is critical of not.
-	 * @param $cookie structure sent by LDAP server
+	 * @param string $cookie structure sent by LDAP server
 	 * @return true on success, false otherwise
 	 */
 	public function controlPagedResult($link, $pagesize, $isCritical, $cookie);

@@ -28,7 +28,16 @@ class Access extends LDAPUtility {
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
+	/**
+	 * @var string[] $cookies an array of returned Paged Result cookies
+	 */
 	protected $cookies = array();
+
+	/**
+	 * @var string $lastCookie the last cookie returned from a Paged Results
+	 * operation, defaults to an empty string
+	 */
+	protected $lastCookie = '';
 
 	public function __construct(Connection $connection, ILDAPWrapper $ldap) {
 		parent::__construct($ldap);
@@ -62,8 +71,12 @@ class Access extends LDAPUtility {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
-		//all or nothing! otherwise we get in trouble with.
-		$this->initPagedSearch($filter, array($dn), $attr, 99999, 0);
+		//Cancel possibly running Paged Results operation, otherwise we run in
+		//LDAP protocol errors
+		$this->abandonPagedSearch();
+		// openLDAP requires that we init a new Paged Search. Not needed by AD,
+		// but does not hurt either.
+		$this->initPagedSearch($filter, array($dn), array($attr), 1, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
@@ -1252,12 +1265,19 @@ class Access extends LDAPUtility {
 	}
 
 	/**
-	 * @brief get a cookie for the next LDAP paged search
-	 * @param $base a string with the base DN for the search
-	 * @param $filter the search filter to identify the correct search
-	 * @param $limit the limit (or 'pageSize'), to identify the correct search well
-	 * @param $offset the offset for the new search to identify the correct search really good
-	 * @returns string containing the key or empty if none is cached
+	 * resets a running Paged Search operation
+	 */
+	private function abandonPagedSearch() {
+		if($this->connection->hasPagedResultSupport) {
+			$cr = $this->connection->getConnectionResource();
+			$this->ldap->controlPagedResult($cr, 0, false, $this->lastCookie);
+			$this->getPagedSearchResultState();
+			$this->lastCookie = '';
+			$this->cookies = array();
+		}
+	}
+
+	/**
 	 */
 	private function getPagedResultCookie($base, $filter, $limit, $offset) {
 		if($offset === 0) {
@@ -1289,6 +1309,7 @@ class Access extends LDAPUtility {
 		if(!empty($cookie)) {
 			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .intval($limit) . '-' . intval($offset);
 			$this->cookies[$cachekey] = $cookie;
+			$this->lastCookie = $cookie;
 		}
 	}
 
@@ -1340,9 +1361,8 @@ class Access extends LDAPUtility {
 					}
 				}
 				if(!is_null($cookie)) {
-					if($offset > 0) {
-						\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
-					}
+					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+					$this->abandonPagedSearch();
 					$pagedSearchOK = $this->ldap->controlPagedResult(
 						$this->connection->getConnectionResource(), $limit,
 						false, $cookie);
