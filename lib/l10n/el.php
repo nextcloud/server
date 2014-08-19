@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "Αδυναμία δημιουργίας του καταλόγου \"data\" (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Αυτό μπορεί συνήθως να διορθωθεί <a href=\"%s\" target=\"_blank\">δίνοντας δικαιώματα εγγραφής για το βασικό κατάλογο στο διακομιστή δικτύου</a>.",
 "Setting locale to %s failed" => "Ρύθμιση τοπικών ρυθμίσεων σε %s απέτυχε",
-"Please install one of theses locales on your system and restart your webserver." => "Παρακαλώ εγκαταστήστε μία από αυτές τις τοπικές ρυθμίσεις στο σύστημά σας και επανεκκινήστε το διακομιστή δικτύου.",
 "Please ask your server administrator to install the module." => "Παρακαλώ ζητήστε από το διαχειριστή του διακομιστή σας να εγκαταστήσει τη μονάδα.",
 "PHP module %s not installed." => "Η μονάδα %s PHP δεν είναι εγκατεστημένη. ",
 "PHP %s or higher is required." => "PHP %s ή νεώτερη απαιτείται.",

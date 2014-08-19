@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-18 18:50+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr ""
 
 #: js/settings.js:67
 msgid "Deletion failed"
-msgstr ""
+msgstr "মুছার আদেশ ব্যার্থ হলো"
 
 #: js/settings.js:83
 msgid "Take over settings from recent server configuration?"
@@ -156,11 +156,11 @@ msgid_plural "%s users found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:321 lib/wizard.php:1057
 msgid "Could not find the desired feature"
 msgstr ""
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:864 lib/wizard.php:876
 msgid "Invalid Host"
 msgstr ""
 
@@ -252,60 +252,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
-#: templates/part.wizard-server.php:6
+#: templates/part.wizard-server.php:13
 msgid "1. Server"
 msgstr ""
 
-#: templates/part.wizard-server.php:13
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
 msgstr ""
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr ""
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
 msgstr ""
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "হোস্ট"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "SSL আবশ্যক  না হলে  আপনি এই প্রটোকলটি মুছে ফেলতে পারেন । এরপর শুরু করুন এটা দিয়ে ldaps://"
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "পোর্ট"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "ব্যবহারকারি  DN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. পরিচয় গোপন রেখে অধিগমনের জন্য  DN এবং কূটশব্দটি ফাঁকা রাখুন।"
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "কূটশব্দ"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "অজ্ঞাতকুলশীল অধিগমনের জন্য DN এবং কূটশব্দটি ফাঁকা রাখুন।"
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr ""
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "সুচারু ট্যঅবে গিয়ে আপনি ব্যবহারকারি এবং গোষ্ঠীসমূহের জন্য ভিত্তি DN নির্ধারণ করতে পারেন।"
 

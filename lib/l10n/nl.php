@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "Kan de \"data\" directory (%s) niet aanmaken",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Dit kan worden hersteld door <a href=\"%s\" target=\"_blank\"> de webserver schrijfrechten te geven tot de hoofddirectory</a>.",
 "Setting locale to %s failed" => "Instellen taal op %s mislukte",
-"Please install one of theses locales on your system and restart your webserver." => "Installeer één van de talen op uw systeem en herstart uw webserver.",
 "Please ask your server administrator to install the module." => "Vraag uw beheerder om de module te installeren.",
 "PHP module %s not installed." => "PHP module %s niet geïnstalleerd.",
 "PHP %s or higher is required." => "PHP %s of hoger vereist.",

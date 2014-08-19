@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "\"data\" ディレクトリ (%s) を作成できません",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "多くの場合、これは<a href=\"%s\" target=\"_blank\">WEBサーバーにルートディレクトリへの書き込み権限を付与</a>することで解決が可能です。",
 "Setting locale to %s failed" => "ロケールを %s に設定できませんでした",
-"Please install one of theses locales on your system and restart your webserver." => "これらのロケールのいずれかをシステムにインストールし、WEBサーバーを再起動してください。",
 "Please ask your server administrator to install the module." => "サーバー管理者にモジュールのインストールを依頼してください。",
 "PHP module %s not installed." => "PHP のモジュール %s がインストールされていません。",
 "PHP %s or higher is required." => "PHP %s 以上が必要です。",

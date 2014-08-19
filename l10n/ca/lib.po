@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -71,19 +71,19 @@ msgstr "Usuaris"
 msgid "Admin"
 msgstr "Administració"
 
-#: private/app.php:986
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Ha fallat l'actualització \"%s\"."
 
-#: private/app.php:1143
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "L'aplicació \\\"%s\\\" no es pot instal·lar perquè no es compatible amb aquesta versió de ownCloud."
 
-#: private/app.php:1155
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr "No heu especificat cap nom d'aplicació"
 
@@ -525,9 +525,9 @@ msgstr "Ha fallat en establir la llengua a %s"
 
 #: private/util.php:478
 msgid ""
-"Please install one of theses locales on your system and restart your "
+"Please install one of these locales on your system and restart your "
 "webserver."
-msgstr "Instal·leu una d'aquestes llengües en el sistema i reinicieu el servidor web."
+msgstr ""
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."

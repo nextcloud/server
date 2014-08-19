@@ -6,8 +6,15 @@ $TRANSLATIONS = array(
 "If you received this email, the settings seem to be correct." => "Əgər siz bu məktubu aldınızsa, demək quraşdırmalar düzgündür.",
 "A problem occurred while sending the e-mail. Please revisit your settings." => "Məktubun göndərilməsində səhv baş verdi. Xahiş edirik öz configlərinizə yenidən baxasınız.",
 "Email sent" => "Məktub göndərildi",
+"Encryption" => "Şifrələnmə",
+"Authentication method" => "Qeydiyyat metodikası",
+"Unable to load list from App Store" => "Listi App Store-dan yükləmək mümkün deyil",
+"Authentication error" => "Təyinat metodikası",
+"Invalid request" => "Səhv müraciət",
 "Error" => "Səhv",
+"Delete" => "Sil",
 "Get the apps to sync your files" => "Fayllarınızın sinxronizasiyası üçün proqramları götürün",
-"Cancel" => "Dayandır"
+"Cancel" => "Dayandır",
+"Username" => "İstifadəçi adı"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

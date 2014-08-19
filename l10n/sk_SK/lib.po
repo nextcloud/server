@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# helix84 <helix84@centrum.sk>, 2014
 # Marián Hvolka <marian.hvolka@stuba.sk>, 2013-2014
 # StefanH <stefan.holent@gmail.com>, 2014
 # martin, 2013
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -28,19 +29,19 @@ msgstr "Nie je možné zapisovat do priečinka \"config\"!"
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "To je zvyčajne možné opraviť tým, že udelíte webovému serveru oprávnenie na zápis k adresáru s konfiguráciou."
 
 #: base.php:203
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Pozri %s"
 
 #: base.php:208 private/util.php:431
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr ""
+msgstr "To je zvyčajne možné opraviť tým, že %sudelíte webovému serveru oprávnenie na zápis k adresáru s konfiguráciou%s."
 
 #: base.php:681
 msgid "You are accessing the server from an untrusted domain."
@@ -73,19 +74,19 @@ msgstr "Používatelia"
 msgid "Admin"
 msgstr "Administrátor"
 
-#: private/app.php:986
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Zlyhala aktualizácia \"%s\"."
 
-#: private/app.php:1143
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Aplikáciu \\\"%s\\\" nemožno nainštalovať, pretože nie je kompatibilná s touto verziou systému ownCloud."
 
-#: private/app.php:1155
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr "Nešpecifikované meno aplikácie"
 
@@ -361,26 +362,26 @@ msgstr "Nastavenie povolení pre %s zlyhalo, pretože položka sa nenašla"
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
-msgstr ""
+msgstr "Nie je možné nastaviť dátum konca platnosti. Zdieľania nemôžu skončiť neskôr ako %s po zdieľaní."
 
 #: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Nie je možné nastaviť dátum konca platnosti. Dátum konca platnosti je v minulosti."
 
 #: private/share/share.php:1094
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "Backend zdieľania %s musí implementovať rozhranie OCP\\Share_Backend"
 
 #: private/share/share.php:1101
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "Backend zdieľania %s nebol nájdený"
 
 #: private/share/share.php:1107
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "Backend zdieľania pre %s nebol nájdený"
 
 #: private/share/share.php:1525
 #, php-format
@@ -495,7 +496,7 @@ msgstr "Ovládače databázy (sqlite, mysql, or postgresql) nie sú nainštalova
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr ""
+msgstr "Oprávnenia je zvyčajne možné opraviť tým, že %sudelíte webovému serveru oprávnenie na zápis do koreňového adresára%s."
 
 #: private/util.php:430
 msgid "Cannot write into \"config\" directory"
@@ -510,7 +511,7 @@ msgstr "Nie je možné zapisovať do priečinka \"apps\""
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
-msgstr ""
+msgstr "Toto je zvyčajne možné opraviť tým, že %sudelíte webovému serveru oprávnenie na zápis do adresára aplikácií%s alebo vypnete obchod s aplikáciami v konfiguračnom súbore."
 
 #: private/util.php:458
 #, php-format
@@ -522,16 +523,16 @@ msgstr "Nie je možné vytvoriť priečinok \"data\" (%s)"
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Toto je zvyčajne možné opraviť tým, že <a href=\"%s\" target=\"_blank\">udelíte webovému serveru oprávnenie na zápis do koreňového adresára</a>."
 
 #: private/util.php:475
 #, php-format
 msgid "Setting locale to %s failed"
-msgstr ""
+msgstr "Nastavenie locale na %s zlyhalo"
 
 #: private/util.php:478
 msgid ""
-"Please install one of theses locales on your system and restart your "
+"Please install one of these locales on your system and restart your "
 "webserver."
 msgstr ""
 
@@ -582,7 +583,7 @@ msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "Magic Quotes je zavrhovanou a zbytočnou voľbou, ktorú by ste mali ponechať vypnutú. Prosím, požiadajte správcu svojho servera, aby ju vypol v php.ini alebo v konfigurácii vášho webového servera."
 
 #: private/util.php:597
 msgid "PHP modules have been installed, but they are still listed as missing?"
@@ -608,31 +609,31 @@ msgstr "Nastala chyba pri overovaní verzie PostgreSQL"
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Prosím, uistite sa, že máte PostgreSQL >= 9 alebo sa pozrite do protokolu, kde nájdete podrobnejšie informácie o chybe"
 
 #: private/util.php:698
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "Prosím, zmeňte oprávnenia na 0770, aby tento adresár nemohli ostatní používatelia vypísať."
 
 #: private/util.php:707
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Adresár dát (%s) je prístupný na čítanie ostatným používateľom"
 
 #: private/util.php:728
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Adresár dát (%s) je neplatný"
 
 #: private/util.php:729
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Prosím, skontrolujte, či adresár dát obsahuje súbor „.ocdata“."
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Nepodarilo sa získať zámok typu %d na „%s“."

@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "Ei suuda luua \"data\" kataloogi (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Tavaliselt saab selle lahendada <a href=\"%s\" target=\"_blank\">andes veebiserverile juur-kataloogile kirjutusõigused</a>.",
 "Setting locale to %s failed" => "Lokaadi %s määramine ebaõnnestus.",
-"Please install one of theses locales on your system and restart your webserver." => "Palun paigalda mõni neist lokaatides oma süsteemi ning taaskäivita veebiserver.",
 "Please ask your server administrator to install the module." => "Palu oma serveri haldajal moodul paigadalda.",
 "PHP module %s not installed." => "PHP moodulit %s pole paigaldatud.",
 "PHP %s or higher is required." => "PHP %s või uuem on nõutav.",

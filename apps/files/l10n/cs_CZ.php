@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Chybný soukromý klíč pro šifrovací aplikaci. Aktualizujte prosím heslo svého soukromého klíče ve vašem osobním nastavení, abyste znovu získali přístup k vašim zašifrovaným souborům.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Šifrování bylo vypnuto, vaše soubory jsou však stále zašifrované. Běžte prosím do osobního nastavení, kde soubory odšifrujete.",
 "{dirs} and {files}" => "{dirs} a {files}",
+"%s could not be renamed as it has been deleted" => "%s nelze přejmenovat, protože byl vymazán",
 "%s could not be renamed" => "%s nemůže být přejmenován",
 "Upload (max. %s)" => "Nahrát (max. %s)",
 "File handling" => "Zacházení se soubory",

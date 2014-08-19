@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
-"Last-Translator: Artopal <artopal@fastmail.fm>\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,15 +65,15 @@ msgstr "Correo electrónico enviado"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "Tiene que configurar su dirección de correo electrónico antes de poder enviar mensajes de prueba."
 
-#: admin/controller.php:116 templates/admin.php:351
+#: admin/controller.php:116 templates/admin.php:368
 msgid "Send mode"
 msgstr "Modo de envío"
 
-#: admin/controller.php:118 templates/admin.php:364 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
 msgid "Encryption"
 msgstr "Cifrado"
 
-#: admin/controller.php:120 templates/admin.php:388
+#: admin/controller.php:120 templates/admin.php:405
 msgid "Authentication method"
 msgstr "Método de autenticación"
 
@@ -335,51 +335,51 @@ msgstr "Se debe dar un nombre válido para el grupo "
 msgid "deleted {groupName}"
 msgstr "borrado {groupName}"
 
-#: js/users/groups.js:230 js/users/users.js:296
+#: js/users/groups.js:230 js/users/users.js:300
 msgid "undo"
 msgstr "deshacer"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:49 templates/admin.php:323
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users/users.js:41 templates/users/part.userlist.php:12
+#: js/users/users.js:53 templates/users/part.userlist.php:12
 #: templates/users/part.userlist.php:57
 msgid "Group Admin"
 msgstr "Administrador del Grupo"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:46
+#: js/users/users.js:75 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:96 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "nunca"
 
-#: js/users/users.js:295
+#: js/users/users.js:299
 msgid "deleted {userName}"
 msgstr "borrado {userName}"
 
-#: js/users/users.js:431
+#: js/users/users.js:435
 msgid "add group"
 msgstr "añadir Grupo"
 
-#: js/users/users.js:631
+#: js/users/users.js:653
 msgid "A valid username must be provided"
 msgstr "Se debe proporcionar un nombre de usuario válido"
 
-#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
+#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
 msgid "Error creating user"
 msgstr "Error al crear usuario"
 
-#: js/users/users.js:637
+#: js/users/users.js:659
 msgid "A valid password must be provided"
 msgstr "Se debe proporcionar una contraseña válida"
 
-#: js/users/users.js:669
+#: js/users/users.js:691
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Atención: el directorio de inicio para el usuario \"{user}\" ya existe."
 
@@ -387,62 +387,62 @@ msgstr "Atención: el directorio de inicio para el usuario \"{user}\" ya existe.
 msgid "__language_name__"
 msgstr "Castellano"
 
-#: templates/admin.php:8
+#: templates/admin.php:12
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
 msgstr "Todo (Información, Avisos, Errores, debug y problemas fatales)"
 
-#: templates/admin.php:9
+#: templates/admin.php:13
 msgid "Info, warnings, errors and fatal issues"
 msgstr "Información, Avisos, Errores y problemas fatales"
 
-#: templates/admin.php:10
+#: templates/admin.php:14
 msgid "Warnings, errors and fatal issues"
 msgstr "Advertencias, errores y problemas fatales"
 
-#: templates/admin.php:11
+#: templates/admin.php:15
 msgid "Errors and fatal issues"
 msgstr "Errores y problemas fatales"
 
-#: templates/admin.php:12
+#: templates/admin.php:16
 msgid "Fatal issues only"
 msgstr "Problemas fatales solamente"
 
-#: templates/admin.php:16 templates/admin.php:23
+#: templates/admin.php:20 templates/admin.php:27
 msgid "None"
 msgstr "Ninguno"
 
-#: templates/admin.php:17
+#: templates/admin.php:21
 msgid "Login"
 msgstr "Iniciar sesión"
 
-#: templates/admin.php:18
+#: templates/admin.php:22
 msgid "Plain"
 msgstr "Plano"
 
-#: templates/admin.php:19
+#: templates/admin.php:23
 msgid "NT LAN Manager"
 msgstr "Gestor de NT LAN"
 
-#: templates/admin.php:24
+#: templates/admin.php:28
 msgid "SSL"
 msgstr "SSL"
 
-#: templates/admin.php:25
+#: templates/admin.php:29
 msgid "TLS"
 msgstr "TLS"
 
-#: templates/admin.php:47 templates/admin.php:61
+#: templates/admin.php:51 templates/admin.php:65
 msgid "Security Warning"
 msgstr "Advertencia de seguridad"
 
-#: templates/admin.php:50
+#: templates/admin.php:54
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr "Está ingresando a %s vía HTTP. Le recomendamos encarecidamente que configure su servidor para que requiera HTTPS."
 
-#: templates/admin.php:64
+#: templates/admin.php:68
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -451,102 +451,102 @@ msgid ""
 "root."
 msgstr "Su directorio de datos y archivos es probablemente accesible desde Internet pues el archivo .htaccess no está funcionando. Le sugerimos encarecidamente que configure su servidor web de modo que el directorio de datos no sea accesible o que mueva dicho directorio fuera de la raíz de documentos del servidor web."
 
-#: templates/admin.php:75 templates/admin.php:90
+#: templates/admin.php:79 templates/admin.php:94
 msgid "Setup Warning"
 msgstr "Advertencia de configuración"
 
-#: templates/admin.php:78
+#: templates/admin.php:82
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Su servidor web aún no está configurado adecuadamente para permitir la sincronización de archivos ya que la interfaz WebDAV parece no estar funcionando."
 
-#: templates/admin.php:79
+#: templates/admin.php:83
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>."
 
-#: templates/admin.php:93
+#: templates/admin.php:97
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
 msgstr "PHP está aparentemente configurado para eliminar bloques de documentos en línea. Esto hará que varias aplicaciones del principales no estén accesibles."
 
-#: templates/admin.php:94
+#: templates/admin.php:98
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
 msgstr "Probablemente esto sea causado por un cache o acelerador, como por ejemplo Zend OPcache o eAccelerator."
 
-#: templates/admin.php:105
+#: templates/admin.php:109
 msgid "Database Performance Info"
 msgstr "Información de rendimiento de la base de datos"
 
-#: templates/admin.php:108
+#: templates/admin.php:112
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
 msgstr "Se está usando SQLite como base de datos. Para instalaciones más grandes, recomendamos cambiar esto. Para migrar a otra base de datos, use la herramienta de línea de comandos: 'occ db:convert-type'"
 
-#: templates/admin.php:119
+#: templates/admin.php:123
 msgid "Module 'fileinfo' missing"
 msgstr "No se ha encontrado el módulo \"fileinfo\""
 
-#: templates/admin.php:122
+#: templates/admin.php:126
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "No se ha encontrado el modulo PHP 'fileinfo'. Le recomendamos encarecidamente que habilite este módulo para obtener mejores resultados con la detección de tipos MIME."
 
-#: templates/admin.php:133
+#: templates/admin.php:137
 msgid "Your PHP version is outdated"
 msgstr "Su versión de PHP no está actualizada"
 
-#: templates/admin.php:136
+#: templates/admin.php:140
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "Su versión de PHP ha caducado. Le sugerimos encarecidamente que la actualize a 5.3.8 o a una más nueva porque normalmente las versiones antiguas no funcionan bien. Puede ser que esta instalación no esté funcionando bien por ello."
 
-#: templates/admin.php:147
+#: templates/admin.php:151
 msgid "PHP charset is not set to UTF-8"
 msgstr "El conjunto de caracteres de PHP no está establecido en UTF-8"
 
-#: templates/admin.php:150
+#: templates/admin.php:154
 msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
 msgstr "El set de caracteres usado por PHP no es UTF-8. Esto puede causar grandes problemas con nombres de archivos que contengan caracteres que no sean ASCII. Recomendamos encarecidamente cambiar el valor de 'default_charset' en php.ini a 'UTF-8'."
 
-#: templates/admin.php:161
+#: templates/admin.php:165
 msgid "Locale not working"
 msgstr "La configuración regional no está funcionando"
 
-#: templates/admin.php:166
+#: templates/admin.php:170
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "No se puede escoger una configuración regional que soporte UTF-8."
 
-#: templates/admin.php:170
+#: templates/admin.php:174
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "Esto significa que puede haber problemas con ciertos caracteres en los nombres de los archivos."
 
-#: templates/admin.php:174
+#: templates/admin.php:178
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "Es muy recomendable instalar los paquetes necesarios para poder soportar una de las siguientes configuraciones regionales: %s. "
 
-#: templates/admin.php:186
+#: templates/admin.php:190
 msgid "Internet connection not working"
 msgstr "La conexión a Internet no está funcionando"
 
-#: templates/admin.php:189
+#: templates/admin.php:193
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -556,185 +556,198 @@ msgid ""
 msgstr "Este servidor no tiene conexión a Internet. Esto significa que algunas de las características no funcionarán, como el montaje de almacenamiento externo, las notificaciones sobre actualizaciones, la instalación de aplicaciones de terceros, el acceso a los archivos de forma remota o el envío de correos electrónicos de notificación. Sugerimos habilitar una conexión a Internet en este servidor para disfrutar de todas las funciones."
 
 #: templates/admin.php:203
+msgid "URL generation in notification emails"
+msgstr ""
+
+#: templates/admin.php:206
+#, php-format
+msgid ""
+"If your installation is not installed in the root of the domain and uses "
+"system cron, there can be issues with the URL generation. To avoid these "
+"problems, please set the \"overwritewebroot\" option in your config.php file"
+" to the webroot path of your installation (Suggested: \"%s\")"
+msgstr ""
+
+#: templates/admin.php:220
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:210
+#: templates/admin.php:227
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "Cron fue ejecutado por última vez a las %s."
 
-#: templates/admin.php:213
+#: templates/admin.php:230
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "Cron fue ejecutado por última vez a las %s. Esto fue hace más de una hora, algo anda mal."
 
-#: templates/admin.php:217
+#: templates/admin.php:234
 msgid "Cron was not executed yet!"
 msgstr "¡Cron aún no ha sido ejecutado!"
 
-#: templates/admin.php:227
+#: templates/admin.php:244
 msgid "Execute one task with each page loaded"
 msgstr "Ejecutar una tarea con cada página cargada"
 
-#: templates/admin.php:235
+#: templates/admin.php:252
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP."
 
-#: templates/admin.php:243
+#: templates/admin.php:260
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "Usar el servicio cron del sistema para llamar al archivo cron.php cada 15 minutos."
 
-#: templates/admin.php:248
+#: templates/admin.php:265
 msgid "Sharing"
 msgstr "Compartiendo"
 
-#: templates/admin.php:252
+#: templates/admin.php:269
 msgid "Allow apps to use the Share API"
 msgstr "Permitir a las aplicaciones utilizar la API de Compartición"
 
-#: templates/admin.php:257
+#: templates/admin.php:274
 msgid "Allow users to share via link"
 msgstr "Permite a los usuarios compartir por medio de enlaces"
 
-#: templates/admin.php:263
+#: templates/admin.php:280
 msgid "Enforce password protection"
 msgstr "Mejora la protección por contraseña."
 
-#: templates/admin.php:266
+#: templates/admin.php:283
 msgid "Allow public uploads"
 msgstr "Permitir subidas públicas"
 
-#: templates/admin.php:270
+#: templates/admin.php:287
 msgid "Set default expiration date"
 msgstr "Establecer fecha de caducidad predeterminada"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Expire after "
 msgstr "Caduca luego de"
 
-#: templates/admin.php:277
+#: templates/admin.php:294
 msgid "days"
 msgstr "días"
 
-#: templates/admin.php:280
+#: templates/admin.php:297
 msgid "Enforce expiration date"
 msgstr "Imponer fecha de caducidad"
 
-#: templates/admin.php:285
+#: templates/admin.php:302
 msgid "Allow resharing"
 msgstr "Permitir re-compartición"
 
-#: templates/admin.php:290
+#: templates/admin.php:307
 msgid "Restrict users to only share with users in their groups"
 msgstr "Restringe a los usuarios a compartir solo con otros usuarios en sus grupos"
 
-#: templates/admin.php:295
+#: templates/admin.php:312
 msgid "Allow users to send mail notification for shared files"
 msgstr "Permitir a los usuarios enviar mensajes de notificación para ficheros compartidos"
 
-#: templates/admin.php:300
+#: templates/admin.php:317
 msgid "Exclude groups from sharing"
 msgstr "Excluye grupos de compartir"
 
-#: templates/admin.php:312
+#: templates/admin.php:329
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "Estos grupos aún podrán recibir contenidos compartidos, pero no podrán, pero no podrán iniciarlos."
 
-#: templates/admin.php:317
+#: templates/admin.php:334
 msgid "Security"
 msgstr "Seguridad"
 
-#: templates/admin.php:328
+#: templates/admin.php:345
 msgid "Enforce HTTPS"
 msgstr "Forzar HTTPS"
 
-#: templates/admin.php:330
+#: templates/admin.php:347
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "Forzar a los clientes a conectarse a %s por medio de una conexión cifrada."
 
-#: templates/admin.php:336
+#: templates/admin.php:353
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "Por favor, conéctese a su %s a través de HTTPS para habilitar o deshabilitar la aplicación de SSL."
 
-#: templates/admin.php:346
+#: templates/admin.php:363
 msgid "Email Server"
 msgstr "Servidor de correo electrónico"
 
-#: templates/admin.php:348
+#: templates/admin.php:365
 msgid "This is used for sending out notifications."
 msgstr "Esto se usa para enviar notificaciones."
 
-#: templates/admin.php:379
+#: templates/admin.php:396
 msgid "From address"
 msgstr "Desde la dirección"
 
-#: templates/admin.php:380
+#: templates/admin.php:397
 msgid "mail"
 msgstr "correo electrónico"
 
-#: templates/admin.php:401
+#: templates/admin.php:418
 msgid "Authentication required"
 msgstr "Se necesita autenticación"
 
-#: templates/admin.php:405
+#: templates/admin.php:422
 msgid "Server address"
 msgstr "Dirección del servidor"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "Port"
 msgstr "Puerto"
 
-#: templates/admin.php:414
+#: templates/admin.php:431
 msgid "Credentials"
 msgstr "Credenciales"
 
-#: templates/admin.php:415
+#: templates/admin.php:432
 msgid "SMTP Username"
 msgstr "Nombre de usuario SMTP"
 
-#: templates/admin.php:418
+#: templates/admin.php:435
 msgid "SMTP Password"
 msgstr "Contraseña SMTP"
 
-#: templates/admin.php:422
+#: templates/admin.php:439
 msgid "Test email settings"
 msgstr "Probar configuración de correo electrónico"
 
-#: templates/admin.php:423
+#: templates/admin.php:440
 msgid "Send email"
 msgstr "Enviar mensaje"
 
-#: templates/admin.php:428
+#: templates/admin.php:445
 msgid "Log"
 msgstr "Registro"
 
-#: templates/admin.php:429
+#: templates/admin.php:446
 msgid "Log level"
 msgstr "Nivel de registro"
 
-#: templates/admin.php:461
+#: templates/admin.php:478
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:462
+#: templates/admin.php:479
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:468 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:208
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:472 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

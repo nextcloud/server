@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 09:30+0000\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-18 13:20+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
 "%s (e.g. your corporate directory). You can update your private key password"
 " in your personal settings to recover access to your encrypted files."
-msgstr ""
+msgstr "Sizin gizli açarınız doğru deyil! Təxmin edilir ki, sizin şifrə %s-dən kənarda dəyişdirilib(misal üçün sizin koorporativ qovluq). Siz öz şifrələnmiş fayllarınıza yetkinizi bərpa etmək üçün, öz şifrənizi şəxsi quraşdırmalarınızda yeniləyə bilərsiniz."
 
 #: files/error.php:20
 msgid ""
@@ -79,7 +79,7 @@ msgstr ""
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"
-msgstr ""
+msgstr "Tanınmayan səhv. Xahiş olunur sistem quraşdırmalarınızı yoxlayın yada öz inzibatçınızla əlaqə yaradın"
 
 #: hooks/hooks.php:66
 msgid "Missing requirements."
@@ -111,7 +111,7 @@ msgstr ""
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"
-msgstr ""
+msgstr "Şifrələnmə"
 
 #: templates/settings-admin.php:5 templates/settings-personal.php:6
 msgid ""

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
-"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgstr "Yalnış şəkil"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
-msgstr ""
+msgstr "Profaylın müvəqqəti şəklinə çatmaq mümkün olmadı, yenidən təkrarlayın."
 
 #: avatar/controller.php:140
 msgid "No crop data provided"
@@ -403,7 +403,7 @@ msgstr ""
 
 #: js/share.js:411
 msgid "Send"
-msgstr ""
+msgstr "Göndər"
 
 #: js/share.js:416
 msgid "Set expiration date"
@@ -455,7 +455,7 @@ msgstr ""
 
 #: js/share.js:627
 msgid "delete"
-msgstr ""
+msgstr "sil"
 
 #: js/share.js:983
 msgid "Password protected"
@@ -491,11 +491,11 @@ msgstr ""
 
 #: js/tags.js:33
 msgid "Delete"
-msgstr ""
+msgstr "Sil"
 
 #: js/tags.js:43
 msgid "Add"
-msgstr ""
+msgstr "Əlavə etmək"
 
 #: js/tags.js:57
 msgid "Edit tags"
@@ -556,7 +556,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
 #: templates/installation.php:54 templates/login.php:23 templates/login.php:27
 msgid "Username"
-msgstr ""
+msgstr "İstifadəçi adı"
 
 #: lostpassword/templates/lostpassword.php:13
 msgid ""
@@ -600,7 +600,7 @@ msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "İstifadəçilər"
 
 #: strings.php:7 templates/layout.user.php:56 templates/layout.user.php:121
 msgid "Apps"
@@ -608,7 +608,7 @@ msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "İnzibatçı"
 
 #: strings.php:9
 msgid "Help"
@@ -855,6 +855,12 @@ msgstr ""
 
 #: templates/update.admin.php:23
 msgid "Start update"
+msgstr ""
+
+#: templates/update.admin.php:25
+msgid ""
+"To avoid timeouts with larger installations, you can instead run the "
+"following command from your installation directory:"
 msgstr ""
 
 #: templates/update.user.php:3

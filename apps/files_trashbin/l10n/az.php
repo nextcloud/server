@@ -6,6 +6,8 @@ $TRANSLATIONS = array(
 "Restore" => "Geri qaytar",
 "Error" => "Səhv",
 "restored" => "geriqaytarılıb",
-"Name" => "Ad"
+"Name" => "Ad",
+"Deleted" => "Silinib",
+"Delete" => "Sil"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

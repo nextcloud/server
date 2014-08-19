@@ -86,7 +86,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "Kansion \"data\" luominen ei onnistu (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Tämä on yleensä korjattavissa <a href=\"%s\" target=\"_blank\">antamalla http-palvelimelle kirjoitusoikeuden juurihakemistoon</a>.",
 "Setting locale to %s failed" => "Maa-asetuksen %s asettaminen epäonnistui",
-"Please install one of theses locales on your system and restart your webserver." => "Asenna järjestelmään yksi näistä maa-asetuksista ja käynnistä http-palvelin uudelleen.",
 "Please ask your server administrator to install the module." => "Pyydä palvelimen ylläpitäjää asentamaan moduulin.",
 "PHP module %s not installed." => "PHP-moduulia %s ei ole asennettu.",
 "PHP %s or higher is required." => "PHP %s tai sitä uudempi vaaditaan.",

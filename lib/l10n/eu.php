@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "Ezin da \"data\" karpeta sortu (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Hau normalean konpondu daiteke  <a href=\"%s\" target=\"_blank\">web zerbitzarira erro karpetan idazteko baimenak emanez</a>.",
 "Setting locale to %s failed" => "Lokala %sra ezartzeak huts egin du",
-"Please install one of theses locales on your system and restart your webserver." => "Mesedez instalatu hauetako lokal bat zure sisteman eta berrabiarazi zure web zerbitzaria.",
 "Please ask your server administrator to install the module." => "Mesedez eskatu zure zerbitzariaren kudeatzaileari modulua instala dezan.",
 "PHP module %s not installed." => "PHPren %s modulua ez dago instalaturik.",
 "PHP %s or higher is required." => "PHP %s edo berriagoa behar da.",

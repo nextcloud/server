@@ -100,7 +100,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "\"Veri\" dizini oluşturulamıyor (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "İzinler genellikle, <a href=\"%s\" target=\"_blank\">web sunucusuna kök dizinine yazma erişimi verilerek</a> çözülebilir.",
 "Setting locale to %s failed" => "Dili %s olarak ayarlama başarısız",
-"Please install one of theses locales on your system and restart your webserver." => "Lütfen bu yerellerden birini sisteminize yükleyin ve web sunucunuzu yeniden başlatın.",
 "Please ask your server administrator to install the module." => "Lütfen modülün kurulması için sunucu yöneticinize danışın.",
 "PHP module %s not installed." => "PHP modülü %s yüklü değil.",
 "PHP %s or higher is required." => "PHP %s veya daha üst sürümü gerekli.",

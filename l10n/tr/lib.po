@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
-"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,19 +74,19 @@ msgstr "Kullanıcılar"
 msgid "Admin"
 msgstr "Yönetici"
 
-#: private/app.php:986
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "\"%s\" yükseltme başarısız oldu."
 
-#: private/app.php:1143
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "ownCloud yazılımının bu sürümü ile uyumlu  olmadığı için \\\"%s\\\" uygulaması kurulamaz."
 
-#: private/app.php:1155
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr "Uygulama adı belirtilmedi"
 
@@ -528,9 +528,9 @@ msgstr "Dili %s olarak ayarlama başarısız"
 
 #: private/util.php:478
 msgid ""
-"Please install one of theses locales on your system and restart your "
+"Please install one of these locales on your system and restart your "
 "webserver."
-msgstr "Lütfen bu yerellerden birini sisteminize yükleyin ve web sunucunuzu yeniden başlatın."
+msgstr ""
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."

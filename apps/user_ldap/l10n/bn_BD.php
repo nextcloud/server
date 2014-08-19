@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Deletion failed" => "মুছার আদেশ ব্যার্থ হলো",
 "Error" => "সমস্যা",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),

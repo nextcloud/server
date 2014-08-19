@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -56,15 +56,15 @@ msgstr "邮件已发送"
 msgid "You need to set your user email before being able to send test emails."
 msgstr "在发送测试邮件前您需要设置您的用户电子邮件。"
 
-#: admin/controller.php:116 templates/admin.php:351
+#: admin/controller.php:116 templates/admin.php:368
 msgid "Send mode"
 msgstr "发送模式"
 
-#: admin/controller.php:118 templates/admin.php:364 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
 msgid "Encryption"
 msgstr "加密"
 
-#: admin/controller.php:120 templates/admin.php:388
+#: admin/controller.php:120 templates/admin.php:405
 msgid "Authentication method"
 msgstr "认证方法"
 
@@ -326,51 +326,51 @@ msgstr "请提供一个有效的组名称"
 msgid "deleted {groupName}"
 msgstr "已删除 {groupName}"
 
-#: js/users/groups.js:230 js/users/users.js:296
+#: js/users/groups.js:230 js/users/users.js:300
 msgid "undo"
 msgstr "撤销"
 
-#: js/users/users.js:37 templates/admin.php:306
+#: js/users/users.js:49 templates/admin.php:323
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
 msgstr "组"
 
-#: js/users/users.js:41 templates/users/part.userlist.php:12
+#: js/users/users.js:53 templates/users/part.userlist.php:12
 #: templates/users/part.userlist.php:57
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: js/users/users.js:63 templates/users/part.grouplist.php:46
+#: js/users/users.js:75 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr "删除"
 
-#: js/users/users.js:84 templates/users/part.userlist.php:98
+#: js/users/users.js:96 templates/users/part.userlist.php:98
 msgid "never"
 msgstr "从不"
 
-#: js/users/users.js:295
+#: js/users/users.js:299
 msgid "deleted {userName}"
 msgstr "已删除 {userName}"
 
-#: js/users/users.js:431
+#: js/users/users.js:435
 msgid "add group"
 msgstr "增加组"
 
-#: js/users/users.js:631
+#: js/users/users.js:653
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users/users.js:632 js/users/users.js:638 js/users/users.js:653
+#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users/users.js:637
+#: js/users/users.js:659
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
-#: js/users/users.js:669
+#: js/users/users.js:691
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告：用户 \"{user}\" 的家目录已存在"
 
@@ -378,62 +378,62 @@ msgstr "警告：用户 \"{user}\" 的家目录已存在"
 msgid "__language_name__"
 msgstr "简体中文"
 
-#: templates/admin.php:8
+#: templates/admin.php:12
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
 msgstr "所有（灾难性问题，错误，警告，信息，调试）"
 
-#: templates/admin.php:9
+#: templates/admin.php:13
 msgid "Info, warnings, errors and fatal issues"
 msgstr "信息，警告，错误和灾难性问题"
 
-#: templates/admin.php:10
+#: templates/admin.php:14
 msgid "Warnings, errors and fatal issues"
 msgstr "警告，错误和灾难性问题"
 
-#: templates/admin.php:11
+#: templates/admin.php:15
 msgid "Errors and fatal issues"
 msgstr "错误和灾难性问题"
 
-#: templates/admin.php:12
+#: templates/admin.php:16
 msgid "Fatal issues only"
 msgstr "仅灾难性问题"
 
-#: templates/admin.php:16 templates/admin.php:23
+#: templates/admin.php:20 templates/admin.php:27
 msgid "None"
 msgstr "无"
 
-#: templates/admin.php:17
+#: templates/admin.php:21
 msgid "Login"
 msgstr "登录"
 
-#: templates/admin.php:18
+#: templates/admin.php:22
 msgid "Plain"
 msgstr "Plain"
 
-#: templates/admin.php:19
+#: templates/admin.php:23
 msgid "NT LAN Manager"
 msgstr "NT LAN 管理器"
 
-#: templates/admin.php:24
+#: templates/admin.php:28
 msgid "SSL"
 msgstr "SSL"
 
-#: templates/admin.php:25
+#: templates/admin.php:29
 msgid "TLS"
 msgstr "TLS"
 
-#: templates/admin.php:47 templates/admin.php:61
+#: templates/admin.php:51 templates/admin.php:65
 msgid "Security Warning"
 msgstr "安全警告"
 
-#: templates/admin.php:50
+#: templates/admin.php:54
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server"
 " to require using HTTPS instead."
 msgstr "您正通过 HTTP 访问 %s。我们强烈建议您配置你的服务器来要求使用 HTTPS。"
 
-#: templates/admin.php:64
+#: templates/admin.php:68
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -442,102 +442,102 @@ msgid ""
 "root."
 msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器以外。"
 
-#: templates/admin.php:75 templates/admin.php:90
+#: templates/admin.php:79 templates/admin.php:94
 msgid "Setup Warning"
 msgstr "设置警告"
 
-#: templates/admin.php:78
+#: templates/admin.php:82
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏."
 
-#: templates/admin.php:79
+#: templates/admin.php:83
 #, php-format
 msgid "Please double check the <a href=\"%s\">installation guides</a>."
 msgstr "请认真检查<a href='%s'>安装指南</a>."
 
-#: templates/admin.php:93
+#: templates/admin.php:97
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
 msgstr "PHP 被设置为移除行内 <doc> 块，这将导致数个核心应用无法访问。"
 
-#: templates/admin.php:94
+#: templates/admin.php:98
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
 msgstr "这可能是由缓存/加速器造成的，例如 Zend OPcache 或 eAccelerator。"
 
-#: templates/admin.php:105
+#: templates/admin.php:109
 msgid "Database Performance Info"
 msgstr "数据库性能信息"
 
-#: templates/admin.php:108
+#: templates/admin.php:112
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
 msgstr "SQLite 正在使用。我们建议大型网站切换到其他数据库。请使用命令行工具：“occ db:convert-type”迁移数据库"
 
-#: templates/admin.php:119
+#: templates/admin.php:123
 msgid "Module 'fileinfo' missing"
 msgstr "模块'文件信息'丢失"
 
-#: templates/admin.php:122
+#: templates/admin.php:126
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr "PHP模块'文件信息'丢失. 我们强烈建议启用此模块以便mime类型检测取得最佳结果."
 
-#: templates/admin.php:133
+#: templates/admin.php:137
 msgid "Your PHP version is outdated"
 msgstr "您的 PHP 版本不是最新版"
 
-#: templates/admin.php:136
+#: templates/admin.php:140
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr "您的 PHP 版本已过期。强烈建议更新至 5.3.8 或者更新版本因为老版本存在已知问题。本次安装可能并未正常工作。"
 
-#: templates/admin.php:147
+#: templates/admin.php:151
 msgid "PHP charset is not set to UTF-8"
 msgstr ""
 
-#: templates/admin.php:150
+#: templates/admin.php:154
 msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
 msgstr ""
 
-#: templates/admin.php:161
+#: templates/admin.php:165
 msgid "Locale not working"
 msgstr "本地化无法工作"
 
-#: templates/admin.php:166
+#: templates/admin.php:170
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr "系统语系无法设置为支持 UTF-8 的语系。"
 
-#: templates/admin.php:170
+#: templates/admin.php:174
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr "这意味着一些文件名中的特定字符可能有问题。"
 
-#: templates/admin.php:174
+#: templates/admin.php:178
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr "强烈建议在您的系统上安装需要的软件包来支持以下语系之一：%s。"
 
-#: templates/admin.php:186
+#: templates/admin.php:190
 msgid "Internet connection not working"
 msgstr "因特网连接无法工作"
 
-#: templates/admin.php:189
+#: templates/admin.php:193
 msgid ""
 "This server has no working internet connection. This means that some of the "
 "features like mounting of external storage, notifications about updates or "
@@ -547,185 +547,198 @@ msgid ""
 msgstr "此服务器上没有可用的因特网连接. 这意味着某些特性将无法工作，例如挂载外部存储器, 提醒更新或安装第三方应用等. 从远程访问文件和发送提醒电子邮件也可能无法工作. 如果你想要ownCloud的所有特性, 我们建议启用此服务器的因特网连接."
 
 #: templates/admin.php:203
+msgid "URL generation in notification emails"
+msgstr ""
+
+#: templates/admin.php:206
+#, php-format
+msgid ""
+"If your installation is not installed in the root of the domain and uses "
+"system cron, there can be issues with the URL generation. To avoid these "
+"problems, please set the \"overwritewebroot\" option in your config.php file"
+" to the webroot path of your installation (Suggested: \"%s\")"
+msgstr ""
+
+#: templates/admin.php:220
 msgid "Cron"
 msgstr "计划任务"
 
-#: templates/admin.php:210
+#: templates/admin.php:227
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr "上次定时任务执行于 %s。"
 
-#: templates/admin.php:213
+#: templates/admin.php:230
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
 msgstr "上次定时任务执行于 %s。这是在一个小时之前执行的，可能出了什么问题。"
 
-#: templates/admin.php:217
+#: templates/admin.php:234
 msgid "Cron was not executed yet!"
 msgstr "定时任务还未被执行！"
 
-#: templates/admin.php:227
+#: templates/admin.php:244
 msgid "Execute one task with each page loaded"
 msgstr "每个页面加载后执行一个任务"
 
-#: templates/admin.php:235
+#: templates/admin.php:252
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr "cron.php 已注册于一个 webcron 服务来通过 http 每 15 分钟执行 cron.php。"
 
-#: templates/admin.php:243
+#: templates/admin.php:260
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr "使用系统 CRON 服务每 15 分钟执行一次 cron.php 文件。"
 
-#: templates/admin.php:248
+#: templates/admin.php:265
 msgid "Sharing"
 msgstr "共享"
 
-#: templates/admin.php:252
+#: templates/admin.php:269
 msgid "Allow apps to use the Share API"
 msgstr "允许应用软件使用共享API"
 
-#: templates/admin.php:257
+#: templates/admin.php:274
 msgid "Allow users to share via link"
 msgstr "允许用户通过链接分享文件"
 
-#: templates/admin.php:263
+#: templates/admin.php:280
 msgid "Enforce password protection"
 msgstr "强制密码保护"
 
-#: templates/admin.php:266
+#: templates/admin.php:283
 msgid "Allow public uploads"
 msgstr "允许公开上传"
 
-#: templates/admin.php:270
+#: templates/admin.php:287
 msgid "Set default expiration date"
 msgstr "设置默认过期日期"
 
-#: templates/admin.php:274
+#: templates/admin.php:291
 msgid "Expire after "
 msgstr "过期于"
 
-#: templates/admin.php:277
+#: templates/admin.php:294
 msgid "days"
 msgstr "天"
 
-#: templates/admin.php:280
+#: templates/admin.php:297
 msgid "Enforce expiration date"
 msgstr "强制过期日期"
 
-#: templates/admin.php:285
+#: templates/admin.php:302
 msgid "Allow resharing"
 msgstr "允许再次共享"
 
-#: templates/admin.php:290
+#: templates/admin.php:307
 msgid "Restrict users to only share with users in their groups"
 msgstr "限制仅与组内用户分享"
 
-#: templates/admin.php:295
+#: templates/admin.php:312
 msgid "Allow users to send mail notification for shared files"
 msgstr "允许用户发送共享文件的邮件通知"
 
-#: templates/admin.php:300
+#: templates/admin.php:317
 msgid "Exclude groups from sharing"
 msgstr "在分享中排除组"
 
-#: templates/admin.php:312
+#: templates/admin.php:329
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr "这些组将仍可以获取分享，但无法向他人分享。"
 
-#: templates/admin.php:317
+#: templates/admin.php:334
 msgid "Security"
 msgstr "安全"
 
-#: templates/admin.php:328
+#: templates/admin.php:345
 msgid "Enforce HTTPS"
 msgstr "强制使用 HTTPS"
 
-#: templates/admin.php:330
+#: templates/admin.php:347
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr "强制客户端通过加密连接连接到%s。"
 
-#: templates/admin.php:336
+#: templates/admin.php:353
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
 msgstr "请经由HTTPS连接到这个%s 实例来启用或禁用强制SSL."
 
-#: templates/admin.php:346
+#: templates/admin.php:363
 msgid "Email Server"
 msgstr "电子邮件服务器"
 
-#: templates/admin.php:348
+#: templates/admin.php:365
 msgid "This is used for sending out notifications."
 msgstr "这被用于发送通知。"
 
-#: templates/admin.php:379
+#: templates/admin.php:396
 msgid "From address"
 msgstr "来自地址"
 
-#: templates/admin.php:380
+#: templates/admin.php:397
 msgid "mail"
 msgstr "邮件"
 
-#: templates/admin.php:401
+#: templates/admin.php:418
 msgid "Authentication required"
 msgstr "需要认证"
 
-#: templates/admin.php:405
+#: templates/admin.php:422
 msgid "Server address"
 msgstr "服务器地址"
 
-#: templates/admin.php:409
+#: templates/admin.php:426
 msgid "Port"
 msgstr "端口"
 
-#: templates/admin.php:414
+#: templates/admin.php:431
 msgid "Credentials"
 msgstr "凭证"
 
-#: templates/admin.php:415
+#: templates/admin.php:432
 msgid "SMTP Username"
 msgstr "SMTP 用户名"
 
-#: templates/admin.php:418
+#: templates/admin.php:435
 msgid "SMTP Password"
 msgstr "SMTP 密码"
 
-#: templates/admin.php:422
+#: templates/admin.php:439
 msgid "Test email settings"
 msgstr "测试电子邮件设置"
 
-#: templates/admin.php:423
+#: templates/admin.php:440
 msgid "Send email"
 msgstr "发送邮件"
 
-#: templates/admin.php:428
+#: templates/admin.php:445
 msgid "Log"
 msgstr "日志"
 
-#: templates/admin.php:429
+#: templates/admin.php:446
 msgid "Log level"
 msgstr "日志级别"
 
-#: templates/admin.php:461
+#: templates/admin.php:478
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:462
+#: templates/admin.php:479
 msgid "Less"
 msgstr "更少"
 
-#: templates/admin.php:468 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:208
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:472 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:211
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

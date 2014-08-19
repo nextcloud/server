@@ -98,7 +98,6 @@ $TRANSLATIONS = array(
 "Cannot create \"data\" directory (%s)" => "Nie można utworzyć katalogu \"data\" (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Można to zwykle rozwiązać przez <a href=\"%s\" target=\"_blank\">dodanie serwerowi www uprawnień zapisu do katalogu głównego</a>.",
 "Setting locale to %s failed" => "Nie udało się zmienić języka na %s",
-"Please install one of theses locales on your system and restart your webserver." => "Proszę zainstalować jeden z tych języków w twoim systemie i zrestartować serwer www.",
 "Please ask your server administrator to install the module." => "Proszę poproś administratora serwera aby zainstalował ten moduł.",
 "PHP module %s not installed." => "Moduł PHP %s nie jest zainstalowany.",
 "PHP %s or higher is required." => "PHP %s lub wyższe jest wymagane.",

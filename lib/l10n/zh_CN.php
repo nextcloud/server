@@ -90,7 +90,6 @@ $TRANSLATIONS = array(
 "Cannot write into \"apps\" directory" => "无法写入“apps”目录",
 "Cannot create \"data\" directory (%s)" => "无法创建“apps”目录 (%s)",
 "Setting locale to %s failed" => "设置语言为 %s 失败",
-"Please install one of theses locales on your system and restart your webserver." => "请在您的系统中安装这些语言并重新启动您的网页服务器。",
 "Please ask your server administrator to install the module." => "请联系服务器管理员安装模块。",
 "PHP module %s not installed." => "PHP %s 模块未安装。",
 "PHP %s or higher is required." => "要求 PHP 版本 %s 或者更高。",

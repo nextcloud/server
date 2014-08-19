@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:23+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-08-19 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,19 +72,19 @@ msgstr "Usuários"
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:986
+#: private/app.php:987
 #, php-format
 msgid "Failed to upgrade \"%s\"."
 msgstr "Falha na atualização de \"%s\"."
 
-#: private/app.php:1143
+#: private/app.php:1144
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Aplicação \\\"%s\\\" não pode ser instalada porque não é compatível com esta versão do ownCloud."
 
-#: private/app.php:1155
+#: private/app.php:1156
 msgid "No app name specified"
 msgstr "O nome do aplicativo não foi especificado."
 
@@ -526,9 +526,9 @@ msgstr "Falha ao configurar localidade para %s"
 
 #: private/util.php:478
 msgid ""
-"Please install one of theses locales on your system and restart your "
+"Please install one of these locales on your system and restart your "
 "webserver."
-msgstr "Por favor, instale um dessas localidades em seu sistema e reinicie seu servidor web."
+msgstr ""
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."

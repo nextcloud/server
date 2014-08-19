@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Checked database schema update" => "Baza sxeminin yenilənməsi yoxlanıldı",
 "Unknown filetype" => "Fayl tipi bəlli deyil.",
 "Invalid image" => "Yalnış şəkil",
+"No temporary profile picture available, try again" => "Profaylın müvəqqəti şəklinə çatmaq mümkün olmadı, yenidən təkrarlayın.",
 "Settings" => "Quraşdırmalar",
 "Saving..." => "Saxlama...",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
@@ -18,7 +19,14 @@ $TRANSLATIONS = array(
 "Cancel" => "Dayandır",
 "Share" => "Yayımla",
 "Error" => "Səhv",
+"Send" => "Göndər",
+"delete" => "sil",
 "Email sent" => "Məktub göndərildi",
-"Reset" => "Sıfırla"
+"Delete" => "Sil",
+"Add" => "Əlavə etmək",
+"Username" => "İstifadəçi adı",
+"Reset" => "Sıfırla",
+"Users" => "İstifadəçilər",
+"Admin" => "İnzibatçı"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
