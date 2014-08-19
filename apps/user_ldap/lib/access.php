@@ -36,8 +36,16 @@ class Access extends LDAPUtility implements user\IUserTools {
 	//never ever check this var directly, always use getPagedSearchResultState
 	protected $pagedSearchedSuccessful;
 
+	/**
+	 * @var string[] $cookies an array of returned Paged Result cookies
+	 */
 	protected $cookies = array();
 
+	/**
+	 * @var string $lastCookie the last cookie returned from a Paged Results
+	 * operation, defaults to an empty string
+	 */
+	protected $lastCookie = '';
 
 	public function __construct(Connection $connection, ILDAPWrapper $ldap,
 		user\Manager $userManager) {
@@ -84,7 +92,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
-		//all or nothing! otherwise we get in trouble with.
+		//Cancel possibly running Paged Results operation, otherwise we run in
+		//LDAP protocol errors
+		$this->abandonPagedSearch();
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
@@ -805,9 +815,6 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$linkResources = array_pad(array(), count($base), $cr);
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
 		$error = $this->ldap->errno($cr);
-		if ($pagedSearchOK) {
-			$this->ldap->controlPagedResult($cr, 999999, false, "");
-		}
 		if(!is_array($sr) || $error !== 0) {
 			\OCP\Util::writeLog('user_ldap',
 				'Error when searching: '.$this->ldap->error($cr).
@@ -1366,6 +1373,19 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * resets a running Paged Search operation
+	 */
+	private function abandonPagedSearch() {
+		if(count($this->cookies) > 0) {
+			$cr = $this->connection->getConnectionResource();
+			$this->ldap->controlPagedResult($cr, 0, false, $this->lastCookie);
+			$this->getPagedSearchResultState();
+			$this->lastCookie = '';
+			$this->cookies = array();
+		}
+	}
+
+	/**
 	 * get a cookie for the next LDAP paged search
 	 * @param string $base a string with the base DN for the search
 	 * @param string $filter the search filter to identify the correct search
@@ -1403,6 +1423,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		if(!empty($cookie)) {
 			$cacheKey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .intval($limit) . '-' . intval($offset);
 			$this->cookies[$cacheKey] = $cookie;
+			$this->lastCookie = $cookie;
 		}
 	}
 
