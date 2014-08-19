@@ -197,7 +197,7 @@ class OC_Util {
 			$userQuota = $config->getAppValue('files', 'default_quota', 'none');
 		}
 		if($userQuota === 'none') {
-			return \OC\Files\Filesystem::SPACE_UNLIMITED;
+			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}else{
 			return OC_Helper::computerFileSize($userQuota);
 		}
