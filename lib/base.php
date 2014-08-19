@@ -567,6 +567,18 @@ class OC {
 				OC_Util::addScript('backgroundjobs');
 			}
 		}
+
+		// Check whether the sample configuration has been copied
+		if(OC_Config::getValue('copied_sample_config', false)) {
+			$l = \OC_L10N::get('lib');
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			OC_Template::printErrorPage(
+				$l->t('Sample configuration detected'),
+				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php')
+			);
+			return;
+		}
 	}
 
 	private static function registerLocalAddressBook() {

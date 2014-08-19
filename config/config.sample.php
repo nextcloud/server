@@ -172,6 +172,10 @@ $CONFIG = array(
 /* File for the owncloud logger to log to, (default is ownloud.log in the data dir) */
 "logfile" => "",
 
+/* This entry is just here to show a warning in case somebody copied the sample configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!  */
+/* If you, brave person, have read until here be aware that you should not modify *ANY* settings in this file without reading the documentation */
+"copied_sample_config" => true,
+
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
