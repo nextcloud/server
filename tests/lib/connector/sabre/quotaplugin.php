@@ -63,7 +63,7 @@ class Test_OC_Connector_Sabre_QuotaPlugin extends PHPUnit_Framework_TestCase {
 			array(1024, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
 			array(1024, array('HTTP_CONTENT_LENGTH' => '512')),
 			array(1024, array('HTTP_OC_TOTAL_LENGTH' => '1024', 'HTTP_CONTENT_LENGTH' => '512')),
-			// OC\Files\FREE_SPACE_UNKNOWN = -2
+			// \OCP\Files\FileInfo::SPACE_UNKNOWN = -2
 			array(-2, array()),
 			array(-2, array('HTTP_X_EXPECTED_ENTITY_LENGTH' => '1024')),
 			array(-2, array('HTTP_CONTENT_LENGTH' => '512')),

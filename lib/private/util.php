@@ -105,7 +105,7 @@ class OC_Util {
 					if (is_object($storage->getUser())) {
 						$user = $storage->getUser()->getUID();
 						$quota = OC_Util::getUserQuota($user);
-						if ($quota !== \OC\Files\SPACE_UNLIMITED) {
+						if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 							return new \OC\Files\Storage\Wrapper\Quota(array('storage' => $storage, 'quota' => $quota, 'root' => 'files'));
 						}
 					}
@@ -197,7 +197,7 @@ class OC_Util {
 			$userQuota = $config->getAppValue('files', 'default_quota', 'none');
 		}
 		if($userQuota === 'none') {
-			return \OC\Files\SPACE_UNLIMITED;
+			return \OCP\Files\FileInfo::SPACE_UNLIMITED;
 		}else{
 			return OC_Helper::computerFileSize($userQuota);
 		}
@@ -1244,7 +1244,7 @@ class OC_Util {
 		if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
 			throw new Exception('$url must start with https:// or http://', 1);
 		}
-		
+
 		if (function_exists('curl_init')) {
 			$curl = curl_init();
 			$max_redirects = 10;

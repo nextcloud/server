@@ -887,7 +887,7 @@ class OC_Helper {
 	 */
 	public static function freeSpace($dir) {
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		if ($freeSpace !== \OC\Files\SPACE_UNKNOWN) {
+		if ($freeSpace !== \OCP\Files\FileInfo::SPACE_UNKNOWN) {
 			$freeSpace = max($freeSpace, 0);
 			return $freeSpace;
 		} else {
@@ -960,7 +960,7 @@ class OC_Helper {
 		}
 		if ($includeExtStorage) {
 			$quota = OC_Util::getUserQuota(\OCP\User::getUser());
-			if ($quota !== \OC\Files\SPACE_UNLIMITED) {
+			if ($quota !== \OCP\Files\FileInfo::SPACE_UNLIMITED) {
 				// always get free space / total space from root + mount points
 				$path = '';
 				return self::getGlobalStorageInfo();
