@@ -33,6 +33,11 @@ class OC_Connector_Sabre_Server extends Sabre\DAV\Server {
 	 */
 	private $overLoadedUri = null;
 
+	/**
+	 * @var boolean
+	 */
+	private $ignoreRangeHeader = false;
+
 	public function getRequestUri() {
 
 		if (!is_null($this->overLoadedUri)) {
@@ -57,6 +62,23 @@ class OC_Connector_Sabre_Server extends Sabre\DAV\Server {
 		$result = parent::checkPreconditions($handleAsGET);
 		$this->overLoadedUri = null;
 		return $result;
+	}
+
+	public function getHTTPRange() {
+		if ($this->ignoreRangeHeader) {
+			return null;
+		}
+		return parent::getHTTPRange();
+	}
+
+	protected function httpGet($uri) {
+		$range = $this->getHTTPRange();
+
+		if (OC_App::isEnabled('files_encryption') && $range) {
+			// encryption does not support range requests
+			$this->ignoreRangeHeader = true;	
+		}
+		return parent::httpGet($uri);
 	}
 
 	/**
