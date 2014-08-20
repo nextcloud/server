@@ -4,6 +4,7 @@ if ( isset($_['expiration']) ) {
 	print_unescaped($l->t("The share will expire on %s.", array($_['expiration'])));
 	print_unescaped('\n\n');
 }
+// TRANSLATORS term at the end of a mail
 p($l->t("Cheers!"));
 ?>
 
