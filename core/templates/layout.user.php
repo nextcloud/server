@@ -90,7 +90,7 @@
 			<form class="searchbox" action="#" method="post">
 				<input id="searchbox" class="svg" type="search" name="query"
 					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
-					autocomplete="off" x-webkit-speech />
+					autocomplete="off" />
 			</form>
 		</div></header>
 
