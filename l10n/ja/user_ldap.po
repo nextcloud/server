@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
-"Last-Translator: YANO Tetsu <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 14:11+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -159,11 +159,11 @@ msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s ユーザーが見つかりました"
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:321 lib/wizard.php:1057
 msgid "Could not find the desired feature"
 msgstr "望ましい機能は見つかりませんでした"
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:864 lib/wizard.php:876
 msgid "Invalid Host"
 msgstr "無効なホスト"
 
@@ -238,7 +238,7 @@ msgstr "この属性でユーザーログイン:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
-msgstr "LDAP ユーザー名:"
+msgstr "LDAPユーザー名:"
 
 #: templates/part.wizard-loginfilter.php:16
 msgid "LDAP Email Address:"
@@ -255,60 +255,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "ログイン実行時に適用するフィルタを定義します。%%uid にはログイン操作におけるユーザー名が入ります。例： \"uid=%%uid\""
 
-#: templates/part.wizard-server.php:6
+#: templates/part.wizard-server.php:13
 msgid "1. Server"
 msgstr "1. Server"
 
-#: templates/part.wizard-server.php:13
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
 msgstr "%s. サーバー:"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr "サーバー設定を追加"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
 msgstr "設定を削除"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "ホスト"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "SSL通信しない場合には、プロトコル名を省略することができます。そうでない場合には、ldaps:// から始めてください。"
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "ポート"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "ユーザーDN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "クライアントユーザーのDNは、特定のものに結びつけることはしません。 例えば uid=agent,dc=example,dc=com. だと匿名アクセスの場合、DNとパスワードは空のままです。"
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "パスワード"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "匿名アクセスの場合は、DNとパスワードを空にしてください。"
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr "1行に1つのベースDN"
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "拡張タブでユーザーとグループのベースDNを指定することができます。"
 

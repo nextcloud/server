@@ -40,7 +40,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Bỏ chia sẻ",
 "Delete permanently" => "Xóa vĩnh vễn",
 "Rename" => "Sửa tên",
-"Your download is being prepared. This might take some time if the files are big." => "Your download is being prepared. This might take some time if the files are big.",
 "Pending" => "Đang chờ",
 "Error moving file" => "Lỗi di chuyển tập tin",
 "Error" => "Lỗi",

@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "설정",
 "Users" => "사용자",
 "Admin" => "관리자",
-"Failed to upgrade \"%s\"." => "\"%s\" 업그레이드에 실패했습니다.",
 "No app name specified" => "앱 이름이 지정되지 않았습니다.",
 "Unknown filetype" => "알 수 없는 파일 형식",
 "Invalid image" => "잘못된 그림",

@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Ez elkarbanatu",
 "Delete permanently" => "Ezabatu betirako",
 "Rename" => "Berrizendatu",
-"Your download is being prepared. This might take some time if the files are big." => "Zure deskarga prestatu egin behar da. Denbora bat har lezake fitxategiak handiak badira. ",
 "Pending" => "Zain",
 "Error moving file." => "Errorea fitxategia mugitzean.",
 "Error moving file" => "Errorea fitxategia mugitzean",

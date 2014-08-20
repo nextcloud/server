@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Fjern deling",
 "Delete permanently" => "Slet permanent",
 "Rename" => "Omdøb",
-"Your download is being prepared. This might take some time if the files are big." => "Dit download forberedes. Dette kan tage lidt tid ved større filer.",
 "Pending" => "Afventer",
 "Error moving file." => "Fejl ved flytning af fil",
 "Error moving file" => "Fejl ved flytning af fil",

@@ -28,7 +28,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Hiq ndarjen",
 "Delete permanently" => "Fshi përfundimisht",
 "Rename" => "Riemëro",
-"Your download is being prepared. This might take some time if the files are big." => "Shkarkimi juaj është duke u përgatitur. Kjo mund të kërkojë kohë nëse skedarët janë të mëdhenj.",
 "Pending" => "Në vijim",
 "Error moving file" => "Gabim lëvizjen dokumentave",
 "Error" => "Gabim",

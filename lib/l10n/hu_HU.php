@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "Settings" => "Beállítások",
 "Users" => "Felhasználók",
 "Admin" => "Adminsztráció",
-"Failed to upgrade \"%s\"." => "Sikertelen Frissítés \"%s\".",
 "No app name specified" => "Nincs az alkalmazás név megadva.",
 "Unknown filetype" => "Ismeretlen file tipús",
 "Invalid image" => "Hibás kép",

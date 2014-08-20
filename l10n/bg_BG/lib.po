@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -41,50 +41,56 @@ msgid ""
 "config directory%s."
 msgstr "Това обикновено може да бъде оправено като %s даде разрешение на уеб сървъра да записва в config папката %s."
 
-#: base.php:681
+#: base.php:577
+msgid "Sample configuration detected"
+msgstr ""
+
+#: base.php:578
+msgid ""
+"It has been detected that the sample configuration has been copied. This can"
+" break your installation and is unsupported. Please read the documentation "
+"before performing changes on config.php"
+msgstr ""
+
+#: base.php:693
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Свръзваш се със сървъра от неодобрен домейн."
 
-#: base.php:682
+#: base.php:694
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Моля, свържи се с администратора. Ако ти си администраторът, на този сървър, промени \"trusted_domain\" настройките в  config/config.php. Примерна конфигурация е приложена в config/config.sample.php."
 
-#: private/app.php:367
+#: private/app.php:374
 msgid "Help"
 msgstr "Помощ"
 
-#: private/app.php:380
+#: private/app.php:387
 msgid "Personal"
 msgstr "Лични"
 
-#: private/app.php:391
+#: private/app.php:398
 msgid "Settings"
 msgstr "Настройки"
 
-#: private/app.php:403
+#: private/app.php:410
 msgid "Users"
 msgstr "Потребители"
 
-#: private/app.php:416
+#: private/app.php:423
 msgid "Admin"
 msgstr "Админ"
 
-#: private/app.php:987
-#, php-format
-msgid "Failed to upgrade \"%s\"."
-msgstr "Неуспешно обновяване на \"%s\"."
-
-#: private/app.php:1144
+#: private/app.php:1118
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Приложението \\\"%s\\\" не може да бъде инсталирано, защото не е съвместимо с тази версия на ownCloud."
 
-#: private/app.php:1156
+#: private/app.php:1130
 msgid "No app name specified"
 msgstr "Не е зададено име на преложението"
 
@@ -528,7 +534,7 @@ msgstr "Неуспешно задаване на %s като настройка 
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Моля, инсталирай едно от следните език-държава на сървъра и рестартирай уеб сървъра."
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."

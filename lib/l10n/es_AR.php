@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "Configuración",
 "Users" => "Usuarios",
 "Admin" => "Administración",
-"Failed to upgrade \"%s\"." => "No se pudo actualizar \"%s\".",
 "No app name specified" => "No fue especificado el nombre de la app",
 "Unknown filetype" => "Tipo de archivo desconocido",
 "Invalid image" => "Imagen inválida",

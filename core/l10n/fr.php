@@ -192,6 +192,7 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Le thème %s a été désactivé.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Veuillez vous assurer qu'une copie de sauvegarde de la base de données, du dossier de configuration et du dossier de données a été réalisée avant le commencement de la procédure.",
 "Start update" => "Démarrer la mise à jour.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Afin d'éviter les délais d'interruption avec les installations de plus grande ampleur, vous pouvez plutôt exécuter la commande suivante depuis le répertoire d'installation :",
 "This ownCloud instance is currently being updated, which may take a while." => "Cette instance d'ownCloud est en cours de mise à jour, cela peut prendre du temps.",
 "Please reload this page after a short time to continue using ownCloud." => "Merci de recharger cette page après un moment pour continuer à utiliser ownCloud."
 );

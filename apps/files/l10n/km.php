@@ -15,7 +15,6 @@ $TRANSLATIONS = array(
 "Unshare" => "លែង​ចែក​រំលែក",
 "Delete permanently" => "លុប​ជា​អចិន្ត្រៃយ៍",
 "Rename" => "ប្ដូរ​ឈ្មោះ",
-"Your download is being prepared. This might take some time if the files are big." => "ការ​ទាញយក​របស់​អ្នក​កំពុង​ត្រូវ​បាន​រៀបចំ​ហើយ។ នេះ​អាច​ចំណាយ​ពេល​មួយ​សំទុះ ប្រសិន​បើ​ឯកសារ​ធំ។",
 "Pending" => "កំពុង​រង់ចាំ",
 "Error" => "កំហុស",
 "Name" => "ឈ្មោះ",

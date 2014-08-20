@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "Einstellungen",
 "Users" => "Benutzer",
 "Admin" => "Administrator",
-"Failed to upgrade \"%s\"." => "Konnte \"%s\" nicht aktualisieren.",
 "No app name specified" => "Kein App-Name spezifiziert",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
 "App directory already exists" => "Anwendungsverzeichnis existiert bereits",

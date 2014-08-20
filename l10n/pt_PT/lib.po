@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -47,50 +47,56 @@ msgid ""
 "config directory%s."
 msgstr "Isto pode ser resolvido normalmente %sdando ao servidor web direitos de escrita no directório de configuração%s."
 
-#: base.php:681
+#: base.php:577
+msgid "Sample configuration detected"
+msgstr ""
+
+#: base.php:578
+msgid ""
+"It has been detected that the sample configuration has been copied. This can"
+" break your installation and is unsupported. Please read the documentation "
+"before performing changes on config.php"
+msgstr ""
+
+#: base.php:693
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Está a aceder ao servidor a partir de um domínio que não é de confiança."
 
-#: base.php:682
+#: base.php:694
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Por favor contacte o seu administrador. Se é um administrador desta instância, configure as definições \"trusted_domain\" em config/config.php. Um exemplo de configuração é fornecido em config/config.sample.php."
 
-#: private/app.php:367
+#: private/app.php:374
 msgid "Help"
 msgstr "Ajuda"
 
-#: private/app.php:380
+#: private/app.php:387
 msgid "Personal"
 msgstr "Pessoal"
 
-#: private/app.php:391
+#: private/app.php:398
 msgid "Settings"
 msgstr "Configurações"
 
-#: private/app.php:403
+#: private/app.php:410
 msgid "Users"
 msgstr "Utilizadores"
 
-#: private/app.php:416
+#: private/app.php:423
 msgid "Admin"
 msgstr "Admin"
 
-#: private/app.php:987
-#, php-format
-msgid "Failed to upgrade \"%s\"."
-msgstr "A actualização \"%s\" falhou."
-
-#: private/app.php:1144
+#: private/app.php:1118
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "A Aplicação \\\"%s\\\" não pode ser instalada porque não é compatível com esta versão do owncloud."
 
-#: private/app.php:1156
+#: private/app.php:1130
 msgid "No app name specified"
 msgstr "O nome da aplicação não foi especificado"
 

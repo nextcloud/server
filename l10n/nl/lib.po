@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,50 +42,56 @@ msgid ""
 "config directory%s."
 msgstr "Dit kan hersteld worden door de webserver schrijfrechten te %sgeven op de de config directory%s"
 
-#: base.php:681
+#: base.php:577
+msgid "Sample configuration detected"
+msgstr ""
+
+#: base.php:578
+msgid ""
+"It has been detected that the sample configuration has been copied. This can"
+" break your installation and is unsupported. Please read the documentation "
+"before performing changes on config.php"
+msgstr ""
+
+#: base.php:693
 msgid "You are accessing the server from an untrusted domain."
 msgstr "U benadert de server vanaf een niet vertrouwd domein."
 
-#: base.php:682
+#: base.php:694
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Neem contact op met uw beheerder. Als u de beheerder van deze service bent, configureer dan de \"trusted_domain\" instelling in config/config.php. Een voorbeeldconfiguratie is gegeven in config/config.sample.php."
 
-#: private/app.php:367
+#: private/app.php:374
 msgid "Help"
 msgstr "Help"
 
-#: private/app.php:380
+#: private/app.php:387
 msgid "Personal"
 msgstr "Persoonlijk"
 
-#: private/app.php:391
+#: private/app.php:398
 msgid "Settings"
 msgstr "Instellingen"
 
-#: private/app.php:403
+#: private/app.php:410
 msgid "Users"
 msgstr "Gebruikers"
 
-#: private/app.php:416
+#: private/app.php:423
 msgid "Admin"
 msgstr "Beheerder"
 
-#: private/app.php:987
-#, php-format
-msgid "Failed to upgrade \"%s\"."
-msgstr "Upgrade \"%s\" mislukt."
-
-#: private/app.php:1144
+#: private/app.php:1118
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "App \\\"%s\\\" kan niet worden geïnstalleerd omdat de app niet compatible is met deze versie van ownCloud."
 
-#: private/app.php:1156
+#: private/app.php:1130
 msgid "No app name specified"
 msgstr "De app naam is niet gespecificeerd."
 
@@ -529,7 +535,7 @@ msgstr "Instellen taal op %s mislukte"
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Installeer één van de talen op uw systeem en herstart uw webserver."
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."

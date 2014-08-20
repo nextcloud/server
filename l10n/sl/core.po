@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -38,9 +38,18 @@ msgstr "Posodobljena podatkovna zbirka"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
+msgstr "Izbrana posodobitev sheme podatkovne zbirke"
+
+#: ajax/update.php:22
+msgid "Checked database schema update for apps"
 msgstr ""
 
-#: ajax/update.php:27
+#: ajax/update.php:25
+#, php-format
+msgid "Updated \"%s\" to %s"
+msgstr ""
+
+#: ajax/update.php:33
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Onemogočeni neskladni programi: %s"
@@ -230,7 +239,7 @@ msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr ""
+msgstr "Povezava za ponastavitev gesla je bila poslana na naveden elektronski naslov. V kolikor sporočila ne dobite v kratkem, preverite tudi mapo neželene pošte.<br> Če sporočila ni niti v tej mapi, stopite v stik s skrbnikom."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -238,7 +247,7 @@ msgid ""
 "will be no way to get your data back after your password is reset.<br />If "
 "you are not sure what to do, please contact your administrator before you "
 "continue. <br />Do you really want to continue?"
-msgstr ""
+msgstr "Datoteke so šifrirane. Če niste omogočili obnovitvenega ključa, po ponastavitvi gesla ne bo mogoč dostop do datotek.<br />V primeru, da niste prepričani, kaj storiti, stopite v stik s skrbnikom sistema.<br />Ali ste prepričani, da želite nadaljevati?"
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
@@ -872,7 +881,7 @@ msgstr "Začni posodobitev"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "Za razreševanje časovnih zahtev večjih namestitev lahko uporabite ukaz iz namestitvene mape:"
 
 #: templates/update.user.php:3
 msgid ""

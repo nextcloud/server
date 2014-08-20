@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 15:21+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,11 +41,11 @@ msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
 msgstr "Não foi possível desativar a chave de recuperação. Por favor, verifique a senha da chave de recuperação."
 
-#: ajax/changeRecoveryPassword.php:49
+#: ajax/changeRecoveryPassword.php:50
 msgid "Password successfully changed."
 msgstr "Senha alterada com sucesso."
 
-#: ajax/changeRecoveryPassword.php:51
+#: ajax/changeRecoveryPassword.php:52
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Não foi possível alterar a senha. Possivelmente a senha antiga não está correta."
 
@@ -97,7 +97,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Por favor, certifique-se que o PHP 5.3.3 ou superior está instalado e que  o OpenSSL juntamente com a extensão PHP estão ativados e devidamente configurados. Por agora, a app de encriptação foi desativada."
 
-#: hooks/hooks.php:293
+#: hooks/hooks.php:298
 msgid "Following users are not set up for encryption:"
 msgstr "Os utilizadores seguintes não estão configurados para encriptação:"
 
@@ -167,7 +167,7 @@ msgstr "Alterar a Senha"
 
 #: templates/settings-personal.php:12
 msgid "Your private key password no longer matches your log-in password."
-msgstr ""
+msgstr "A Password da sua chave privada não coincide mais com a password do seu login."
 
 #: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password:"

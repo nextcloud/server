@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." => "Pridobivanje žetonov za zahteve je spodletelo. Preverite, da sta ključ in skrivno geslo programa Dropbox navedena pravilno.",
+"Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." => "Pridobivanje žetonov za dostop je spodletelo. Preverite, da sta ključ in skrivno geslo programa Dropbox navedena pravilno.",
 "Please provide a valid Dropbox app key and secret." => "Vpisati je treba veljaven ključ programa in kodo za Dropbox",
 "Step 1 failed. Exception: %s" => "1. korak je spodletel. Izjemna napaka: %s",
 "Step 2 failed. Exception: %s" => "2. korak je spodletel. Izjemna napaka: %s",

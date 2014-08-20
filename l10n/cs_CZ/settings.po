@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:23+0000\n"
+"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,7 +169,7 @@ msgstr "Nelze přidat uživatele do skupiny %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nelze odebrat uživatele ze skupiny %s"
 
-#: ajax/updateapp.php:41
+#: ajax/updateapp.php:44
 msgid "Couldn't update app."
 msgstr "Nelze aktualizovat aplikaci."
 
@@ -510,7 +510,7 @@ msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
-msgstr ""
+msgstr "Znaková sada PHP není nastavena na UTF-8. Toto může způsobit závažné problémy ve jménech souborů se znaky neobsaženými v ASCII. Doporučujeme změnit hodnotu 'default_charset' v php.ini na 'UTF-8'."
 
 #: templates/admin.php:165
 msgid "Locale not working"
@@ -548,7 +548,7 @@ msgstr "Server nemá funkční připojení k internetu. Některé moduly jako na
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "Generování adresy URL v oznamovacích e-mailech"
 
 #: templates/admin.php:206
 #, php-format
@@ -557,7 +557,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Instalace mimo kořenový adresář domény a používání systémového příkazu cron může způsobit problém s generováním správné URL. Pro zabránění chyb v rozpoznání specifikujte prosím správnou cestu ve svém config.php souboru pod hodnotu \"overwritewebroot\" (Doporučujeme: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

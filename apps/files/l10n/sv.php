@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Sluta dela",
 "Delete permanently" => "Radera permanent",
 "Rename" => "Byt namn",
-"Your download is being prepared. This might take some time if the files are big." => "Din nedladdning förbereds. Det kan ta tid om det är stora filer.",
 "Pending" => "Väntar",
 "Error moving file." => "Fel vid flytt av fil.",
 "Error moving file" => "Fel uppstod vid flyttning av fil",

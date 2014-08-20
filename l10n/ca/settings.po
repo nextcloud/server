@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr "No es pot afegir l'usuari al grup %s"
 msgid "Unable to remove user from group %s"
 msgstr "No es pot eliminar l'usuari del grup %s"
 
-#: ajax/updateapp.php:41
+#: ajax/updateapp.php:44
 msgid "Couldn't update app."
 msgstr "No s'ha pogut actualitzar l'aplicació."
 

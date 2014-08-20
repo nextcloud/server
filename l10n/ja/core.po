@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,16 @@ msgstr "データベース更新完了"
 msgid "Checked database schema update"
 msgstr "指定データベースのスキーマを更新"
 
-#: ajax/update.php:27
+#: ajax/update.php:22
+msgid "Checked database schema update for apps"
+msgstr ""
+
+#: ajax/update.php:25
+#, php-format
+msgid "Updated \"%s\" to %s"
+msgstr ""
+
+#: ajax/update.php:33
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "無効化された非互換アプリ：%s"
@@ -700,7 +709,7 @@ msgstr "セキュアな乱数生成器が無い場合、攻撃者がパスワー
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。"
+msgstr ".htaccessファイルが動作していないため、おそらくあなたのデータディレクトリまたはファイルはインターネットからアクセス可能になっています。"
 
 #: templates/installation.php:42
 #, php-format
@@ -852,7 +861,7 @@ msgstr "テーマ %s が無効になっています。"
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr "データベースを確認してください。実行前にconfig フォルダとdata フォルダをバックアップします。"
+msgstr "データベースを確認してください。実行前にconfigフォルダーとdataフォルダーをバックアップします。"
 
 #: templates/update.admin.php:23
 msgid "Start update"
@@ -867,8 +876,8 @@ msgstr ""
 #: templates/update.user.php:3
 msgid ""
 "This ownCloud instance is currently being updated, which may take a while."
-msgstr "この ownCloud インスタンスは現在アップデート中のため、しばらく時間がかかります。"
+msgstr "このownCloudインスタンスは現在アップデート中のため、しばらく時間がかかります。"
 
 #: templates/update.user.php:4
 msgid "Please reload this page after a short time to continue using ownCloud."
-msgstr "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。"
+msgstr "ownCloudを続けて利用するには、しばらく待ってからページを再読み込みしてください。"

@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "Delete" => "ลบ",
 "Unshare" => "ยกเลิกการแชร์",
 "Rename" => "เปลี่ยนชื่อ",
-"Your download is being prepared. This might take some time if the files are big." => "กำลังเตรียมดาวน์โหลดข้อมูล หากไฟล์มีขนาดใหญ่ อาจใช้เวลาสักครู่",
 "Pending" => "อยู่ระหว่างดำเนินการ",
 "Error" => "ข้อผิดพลาด",
 "Name" => "ชื่อ",

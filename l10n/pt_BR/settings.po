@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:23+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -163,7 +163,7 @@ msgstr "Não foi possível adicionar usuário ao grupo %s"
 msgid "Unable to remove user from group %s"
 msgstr "Não foi possível remover usuário do grupo %s"
 
-#: ajax/updateapp.php:41
+#: ajax/updateapp.php:44
 msgid "Couldn't update app."
 msgstr "Não foi possível atualizar a app."
 
@@ -542,7 +542,7 @@ msgstr "Este servidor não tem conexão com a internet. Isso significa que algum
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "Geração de URL em e-mails de notificação"
 
 #: templates/admin.php:206
 #, php-format
@@ -551,7 +551,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Se a sua instalação não estiver instalada na raiz do domínio e usa cron do sistema, pode haver problemas com a geração de URL. Para evitar esses problemas, por favor, defina a opção \"overwritewebroot\" em seu arquivo config.php para o caminho webroot de sua instalação (Sugestão: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

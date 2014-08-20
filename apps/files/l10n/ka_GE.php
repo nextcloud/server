@@ -24,7 +24,6 @@ $TRANSLATIONS = array(
 "Unshare" => "გაუზიარებადი",
 "Delete permanently" => "სრულად წაშლა",
 "Rename" => "გადარქმევა",
-"Your download is being prepared. This might take some time if the files are big." => "გადმოწერის მოთხოვნა მუშავდება. ის მოითხოვს გარკვეულ დროს რაგდან ფაილები არის დიდი ზომის.",
 "Pending" => "მოცდის რეჟიმში",
 "Error" => "შეცდომა",
 "Name" => "სახელი",

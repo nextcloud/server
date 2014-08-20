@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Διακοπή διαμοιρασμού",
 "Delete permanently" => "Μόνιμη διαγραφή",
 "Rename" => "Μετονομασία",
-"Your download is being prepared. This might take some time if the files are big." => "Η λήψη προετοιμάζεται. Αυτό μπορεί να πάρει ώρα εάν τα αρχεία έχουν μεγάλο μέγεθος.",
 "Pending" => "Εκκρεμεί",
 "Error moving file." => "Σφάλμα κατά τη μετακίνηση του αρχείου.",
 "Error moving file" => "Σφάλμα κατά τη μετακίνηση του αρχείου",

@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Zrušit sdílení",
 "Delete permanently" => "Trvale odstranit",
 "Rename" => "Přejmenovat",
-"Your download is being prepared. This might take some time if the files are big." => "Vaše soubory ke stažení se připravují. Pokud jsou velké, může to chvíli trvat.",
 "Pending" => "Nevyřízené",
 "Error moving file." => "Chyba při přesunu souboru.",
 "Error moving file" => "Chyba při přesunu souboru",

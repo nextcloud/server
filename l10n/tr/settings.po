@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:23+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,7 +164,7 @@ msgstr "Kullanıcı %s grubuna eklenemiyor"
 msgid "Unable to remove user from group %s"
 msgstr "%s grubundan kullanıcı kaldırılamıyor"
 
-#: ajax/updateapp.php:41
+#: ajax/updateapp.php:44
 msgid "Couldn't update app."
 msgstr "Uygulama güncellenemedi."
 
@@ -543,7 +543,7 @@ msgstr "Bu sunucunun çalışan bir internet bağlantısı yok. Bu, harici depol
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "Bildirim e-postalarında URL oluşturulması"
 
 #: templates/admin.php:206
 #, php-format
@@ -552,7 +552,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Eğer kurulumunuz alan adının köküne yapılmamışsa ve sistem cron'u kullanıyorsa, URL oluşturma ile ilgili sorunlar olabilir. Bu sorunların önüne geçmek için, kurulumunuzun web kök yolundaki config.php dosyasında \"overwritewebroot\" seçeneğini ayarlayın (Önerilen: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

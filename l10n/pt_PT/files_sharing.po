@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 15:21+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,21 +31,21 @@ msgstr "A partilha entre servidores não se encontra disponível"
 
 #: ajax/external.php:38
 msgid "Invalid or untrusted SSL certificate"
-msgstr ""
+msgstr "Certificado SSL inválido ou não confiável"
 
 #: ajax/external.php:52
 msgid "Couldn't add remote share"
 msgstr "Ocorreu um erro ao adicionar a partilha remota"
 
-#: appinfo/app.php:33 js/app.js:34
+#: appinfo/app.php:36 js/app.js:34
 msgid "Shared with you"
 msgstr "Partilhado consigo "
 
-#: appinfo/app.php:45 js/app.js:53
+#: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
 msgstr "Partilhado com outros"
 
-#: appinfo/app.php:54 js/app.js:72
+#: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
 msgstr "Partilhado pela hiperligação"
 

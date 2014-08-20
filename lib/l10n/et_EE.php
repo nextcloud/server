@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Settings" => "Seaded",
 "Users" => "Kasutajad",
 "Admin" => "Admin",
-"Failed to upgrade \"%s\"." => "Ebaõnnestunud uuendus \"%s\".",
 "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "Rakendit \\\"%s\\\" ei saa paigaldada, kuna see pole ühilduv selle ownCloud versiooniga.",
 "No app name specified" => "Ühegi rakendi nime pole määratletud",
 "Unknown filetype" => "Tundmatu failitüüp",

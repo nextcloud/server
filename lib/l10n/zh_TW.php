@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "設定",
 "Users" => "使用者",
 "Admin" => "管理",
-"Failed to upgrade \"%s\"." => "升級失敗：%s",
 "No app name specified" => "沒有指定應用程式名稱",
 "Unknown filetype" => "未知的檔案類型",
 "Invalid image" => "無效的圖片",

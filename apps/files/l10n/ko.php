@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Unshare" => "공유 해제",
 "Delete permanently" => "영구히 삭제",
 "Rename" => "이름 바꾸기",
-"Your download is being prepared. This might take some time if the files are big." => "다운로드 준비 중입니다. 파일 크기가 크면 시간이 오래 걸릴 수도 있습니다.",
 "Pending" => "대기 중",
 "Error moving file" => "파일 이동 오류",
 "Error" => "오류",

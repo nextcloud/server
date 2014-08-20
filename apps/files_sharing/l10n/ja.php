@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "このサーバーでは、サーバー間の共有が有効ではありません",
+"Invalid or untrusted SSL certificate" => "無効または信頼できないSSL証明書",
 "Couldn't add remote share" => "リモート共有を追加できませんでした",
 "Shared with you" => "他ユーザーがあなたと共有中",
 "Shared with others" => "他ユーザーと共有中",
@@ -13,8 +14,8 @@ $TRANSLATIONS = array(
 "Remote share password" => "リモート共有のパスワード",
 "Cancel" => "キャンセル",
 "Add remote share" => "リモート共有を追加",
-"No ownCloud installation found at {remote}" => "{remote} には ownCloud がインストールされていません",
-"Invalid ownCloud url" => "無効な ownCloud URL です",
+"No ownCloud installation found at {remote}" => "{remote} にはownCloudがインストールされていません",
+"Invalid ownCloud url" => "無効なownCloud URL です",
 "Shared by" => "共有者：",
 "This share is password-protected" => "この共有はパスワードで保護されています",
 "The password is wrong. Try again." => "パスワードが間違っています。再試行してください。",

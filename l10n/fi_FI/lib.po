@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -40,50 +40,56 @@ msgid ""
 "config directory%s."
 msgstr ""
 
-#: base.php:681
+#: base.php:577
+msgid "Sample configuration detected"
+msgstr ""
+
+#: base.php:578
+msgid ""
+"It has been detected that the sample configuration has been copied. This can"
+" break your installation and is unsupported. Please read the documentation "
+"before performing changes on config.php"
+msgstr ""
+
+#: base.php:693
 msgid "You are accessing the server from an untrusted domain."
 msgstr "Olet yhteydessä palvelimeen epäluotettavasta verkko-osoitteesta."
 
-#: base.php:682
+#: base.php:694
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "Ota yhteys ylläpitäjään. Jos olet tämän ownCloudin ylläpitäjä, määritä \"trusted_domain\"-asetus tiedostossa config/config.php. Esimerkkimääritys on nähtävillä tiedostossa config/config.sample.php."
 
-#: private/app.php:367
+#: private/app.php:374
 msgid "Help"
 msgstr "Ohje"
 
-#: private/app.php:380
+#: private/app.php:387
 msgid "Personal"
 msgstr "Henkilökohtainen"
 
-#: private/app.php:391
+#: private/app.php:398
 msgid "Settings"
 msgstr "Asetukset"
 
-#: private/app.php:403
+#: private/app.php:410
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: private/app.php:416
+#: private/app.php:423
 msgid "Admin"
 msgstr "Ylläpito"
 
-#: private/app.php:987
-#, php-format
-msgid "Failed to upgrade \"%s\"."
-msgstr "Kohteen \"%s\" päivitys epäonnistui."
-
-#: private/app.php:1144
+#: private/app.php:1118
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr "Sovellusta \\\"%s\\\" ei voi asentaa, koska se ei ole yhteensopiva tämän ownCloud-version kanssa."
 
-#: private/app.php:1156
+#: private/app.php:1130
 msgid "No app name specified"
 msgstr "Sovelluksen nimeä ei määritelty"
 
@@ -527,7 +533,7 @@ msgstr "Maa-asetuksen %s asettaminen epäonnistui"
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Asenna ainakin yksi kyseisistä maa-asetuksista järjestelmään ja käynnistä http-palvelin uudelleen."
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."
@@ -563,7 +569,7 @@ msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "PHP:n Safe Mode on vanhennettu ja muutenkin lähes hyödytön asetus, joka tulee poistaa käytöstä. Pyydä järjestelmän ylläpitäjää poistamaan ominaisuus käytöstä php.ini-tiedoston kautta tai http-palvelimen asetuksista."
 
 #: private/util.php:582
 msgid ""

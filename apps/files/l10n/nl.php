@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Stop met delen",
 "Delete permanently" => "Verwijder definitief",
 "Rename" => "Hernoem",
-"Your download is being prepared. This might take some time if the files are big." => "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden.",
 "Pending" => "In behandeling",
 "Error moving file." => "Fout bij verplaatsen bestand",
 "Error moving file" => "Fout bij verplaatsen bestand",

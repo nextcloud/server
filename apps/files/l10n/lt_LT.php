@@ -41,7 +41,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Nebesidalinti",
 "Delete permanently" => "Ištrinti negrįžtamai",
 "Rename" => "Pervadinti",
-"Your download is being prepared. This might take some time if the files are big." => "Jūsų atsisiuntimas yra paruošiamas. tai gali užtrukti jei atsisiunčiamas didelis failas.",
 "Pending" => "Laukiantis",
 "Error moving file" => "Klaida perkeliant failą",
 "Error" => "Klaida",

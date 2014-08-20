@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Paylaşmayı Kaldır",
 "Delete permanently" => "Kalıcı olarak sil",
 "Rename" => "Yeniden adlandır",
-"Your download is being prepared. This might take some time if the files are big." => "İndirme hazırlanıyor. Dosyalar büyük ise bu biraz zaman alabilir.",
 "Pending" => "Bekliyor",
 "Error moving file." => "Dosya taşıma hatası.",
 "Error moving file" => "Dosya taşıma hatası",

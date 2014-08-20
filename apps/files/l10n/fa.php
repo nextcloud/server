@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Unshare" => "لغو اشتراک",
 "Delete permanently" => "حذف قطعی",
 "Rename" => "تغییرنام",
-"Your download is being prepared. This might take some time if the files are big." => "دانلود شما در حال آماده شدن است. در صورتیکه پرونده ها بزرگ باشند ممکن است مدتی طول بکشد.",
 "Pending" => "در انتظار",
 "Error" => "خطا",
 "Name" => "نام",

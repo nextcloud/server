@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-19 15:10+0000\n"
+"Last-Translator: kuromabo <md81bird@hitaki.net>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,21 +28,21 @@ msgstr "このサーバーでは、サーバー間の共有が有効ではあり
 
 #: ajax/external.php:38
 msgid "Invalid or untrusted SSL certificate"
-msgstr ""
+msgstr "無効または信頼できないSSL証明書"
 
 #: ajax/external.php:52
 msgid "Couldn't add remote share"
 msgstr "リモート共有を追加できませんでした"
 
-#: appinfo/app.php:33 js/app.js:34
+#: appinfo/app.php:36 js/app.js:34
 msgid "Shared with you"
 msgstr "他ユーザーがあなたと共有中"
 
-#: appinfo/app.php:45 js/app.js:53
+#: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
 msgstr "他ユーザーと共有中"
 
-#: appinfo/app.php:54 js/app.js:72
+#: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
 msgstr "URLリンクで共有中"
 
@@ -80,11 +80,11 @@ msgstr "リモート共有を追加"
 
 #: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
-msgstr "{remote} には ownCloud がインストールされていません"
+msgstr "{remote} にはownCloudがインストールされていません"
 
 #: js/public.js:205
 msgid "Invalid ownCloud url"
-msgstr "無効な ownCloud URL です"
+msgstr "無効なownCloud URL です"
 
 #: js/sharedfilelist.js:128
 msgid "Shared by"

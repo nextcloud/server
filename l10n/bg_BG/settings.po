@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:23+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,7 +161,7 @@ msgstr "Неуспешно добавяне на потребител към г�
 msgid "Unable to remove user from group %s"
 msgstr "Неуспешно премахване на потребител от групата %s."
 
-#: ajax/updateapp.php:41
+#: ajax/updateapp.php:44
 msgid "Couldn't update app."
 msgstr "Неуспешно обновяване на приложението."
 
@@ -540,7 +540,7 @@ msgstr "Сървърът няма работеща интернет връзка
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "Генериране на URL в имейлите за известяване"
 
 #: templates/admin.php:206
 #, php-format
@@ -549,7 +549,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Ако инсталацията не e инсталиранa в root на домейна и използва cron, може да има проблеми с генерирането на URL. За да избегнеш тези проблеми, моля, промени \"overwritewebroot\" в config.php с webroot пътя (Препоръчително: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

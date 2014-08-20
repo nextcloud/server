@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -25,13 +25,13 @@ msgstr ""
 
 #: base.php:200 base.php:207
 msgid "Cannot write into \"config\" directory!"
-msgstr "\"config\" ディレクトリに書き込みができません！"
+msgstr "\"config\"ディレクトリに書き込めません！"
 
 #: base.php:201
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr "多くの場合、これはWEBサーバーに config ディレクトリへの書き込み権限を付与することで解決が可能です。"
+msgstr "多くの場合、これはWebサーバーにconfigディレクトリへの書き込み権限を与えることで解決できます。"
 
 #: base.php:203
 #, php-format
@@ -43,52 +43,58 @@ msgstr "%s を閲覧"
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr "多くの場合、これは %sWEBサーバーに config ディレクトリへの書き込み権限を付与%s することで解決が可能です。"
+msgstr "多くの場合、これは %s Webサーバーにconfigディレクトリ %s への書き込み権限を与えることで解決できます。"
 
-#: base.php:681
+#: base.php:577
+msgid "Sample configuration detected"
+msgstr ""
+
+#: base.php:578
+msgid ""
+"It has been detected that the sample configuration has been copied. This can"
+" break your installation and is unsupported. Please read the documentation "
+"before performing changes on config.php"
+msgstr ""
+
+#: base.php:693
 msgid "You are accessing the server from an untrusted domain."
 msgstr "信頼されていないドメインからサーバーにアクセスしています。"
 
-#: base.php:682
+#: base.php:694
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
 msgstr "管理者に連絡してください。このサーバーの管理者の場合は、\"trusted_domain\" の設定を config/config.php に設定してください。config/config.sample.php にサンプルの設定方法が記載してあります。"
 
-#: private/app.php:367
+#: private/app.php:374
 msgid "Help"
 msgstr "ヘルプ"
 
-#: private/app.php:380
+#: private/app.php:387
 msgid "Personal"
 msgstr "個人"
 
-#: private/app.php:391
+#: private/app.php:398
 msgid "Settings"
 msgstr "設定"
 
-#: private/app.php:403
+#: private/app.php:410
 msgid "Users"
 msgstr "ユーザー"
 
-#: private/app.php:416
+#: private/app.php:423
 msgid "Admin"
 msgstr "管理"
 
-#: private/app.php:987
-#, php-format
-msgid "Failed to upgrade \"%s\"."
-msgstr "\"%s\" へのアップグレードに失敗しました。"
-
-#: private/app.php:1144
+#: private/app.php:1118
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr "アプリ \\\"%s\\\" をインストールできません。現在の owncloud のバージョンと互換性がありません。"
+msgstr "アプリ \\\"%s\\\" をインストールできません。現在のownCloudのバージョンと互換性がありません。"
 
-#: private/app.php:1156
+#: private/app.php:1130
 msgid "No app name specified"
 msgstr "アプリ名が未指定"
 
@@ -102,7 +108,7 @@ msgstr "無効な画像"
 
 #: private/defaults.php:42
 msgid "web services under your control"
-msgstr "管理下のウェブサービス"
+msgstr "あなたの管理下のウェブサービス"
 
 #: private/installer.php:77
 msgid "App directory already exists"
@@ -194,7 +200,7 @@ msgstr "%s ではデータベース名にドットを利用できないかもし
 #: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "MS SQL サーバーのユーザー名/パスワードが正しくありません: %s"
+msgstr "MS SQL Serverのユーザー名/パスワードが正しくありません: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
 #: private/setup/oci.php:114 private/setup/postgresql.php:31
@@ -490,7 +496,7 @@ msgstr "データベースドライバー (sqlite, mysql, postgresql) がイン�
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr "多くの場合、パーミッションは %sWEBサーバーにルートディレクトリへの書き込み権限を付与%s することで解決が可能です。"
+msgstr "多くの場合、パーミッションは %s Webサーバーにルートディレクトリ %s への書き込み権限を与えることで解決できます。"
 
 #: private/util.php:430
 msgid "Cannot write into \"config\" directory"
@@ -505,7 +511,7 @@ msgstr "\"apps\" ディレクトリに書き込みができません"
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
-msgstr "多くの場合、これは %sWEBサーバーに apps ディレクトリへの書き込み権限を付与%s するか、設定ファイルでアプリストアを無効化することで解決が可能です。"
+msgstr "多くの場合、これは %s Webサーバーにappsディレクトリ %s への書き込み権限を与えるか、設定ファイルでアプリストアを無効化することで解決できます。"
 
 #: private/util.php:458
 #, php-format
@@ -517,7 +523,7 @@ msgstr "\"data\" ディレクトリ (%s) を作成できません"
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr "多くの場合、これは<a href=\"%s\" target=\"_blank\">WEBサーバーにルートディレクトリへの書き込み権限を付与</a>することで解決が可能です。"
+msgstr "多くの場合、これは<a href=\"%s\" target=\"_blank\">Webサーバーにルートディレクトリへの書き込み権限を与える</a>ことで解決できます。"
 
 #: private/util.php:475
 #, php-format
@@ -528,7 +534,7 @@ msgstr "ロケールを %s に設定できませんでした"
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "これらのロケールのうちいずれかをシステムにインストールし、Webサーバーを再起動してください。"
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."
@@ -551,33 +557,33 @@ msgstr "PHP %s 以上が必要です。"
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr "PHPを最新バージョンに更新するようサーバー管理者に依頼してください。現在のPHPのバージョンは、ownCloud および PHP コミュニティでサポートされていません。"
+msgstr "PHPを最新バージョンに更新するようサーバー管理者に依頼してください。現在のPHPのバージョンは、ownCloudおよびPHPコミュニティでサポートされていません。"
 
 #: private/util.php:574
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr "PHPセーフモードは有効です。ownCloud を適切に動作させるには無効化する必要があります。"
+msgstr "PHPセーフモードは有効です。ownCloudを適切に動作させるには無効化する必要があります。"
 
 #: private/util.php:575
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr "PHPセーフモードは多くの場合において役に立たない設定のため、無効化すべきです。サーバー管理者に php.ini もしくはWEBサーバー設定で無効化するよう依頼してください。"
+msgstr "PHPセーフモードは推奨されておらず、ほとんど役に立たない設定のため、無効化すべきです。サーバー管理者に、php.iniもしくはWebサーバー設定で無効化するよう依頼してください。"
 
 #: private/util.php:582
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr "マジッククォートは有効です。ownCloud を適切に動作させるには無効化する必要があります。"
+msgstr "マジッククォートは有効です。ownCloudを適切に動作させるには無効にする必要があります。"
 
 #: private/util.php:583
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr "マジッククォートは多くの場合において役に立たない設定のため、無効化すべきです。サーバー管理者に php.ini もしくはWEBサーバー設定で無効化するよう依頼してください。"
+msgstr "マジッククォートは推奨されておらず、ほとんど役に立たない設定のため、無効化すべきです。サーバー管理者に、php.iniもしくはWebサーバー設定で無効化するよう依頼してください。"
 
 #: private/util.php:597
 msgid "PHP modules have been installed, but they are still listed as missing?"

@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,16 @@ msgstr "Zaktualizována databáze"
 msgid "Checked database schema update"
 msgstr "Aktualizace schéma databáze ověřeno"
 
-#: ajax/update.php:27
+#: ajax/update.php:22
+msgid "Checked database schema update for apps"
+msgstr ""
+
+#: ajax/update.php:25
+#, php-format
+msgid "Updated \"%s\" to %s"
+msgstr ""
+
+#: ajax/update.php:33
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Zakázané nekompatibilní aplikace: %s"
@@ -875,7 +884,7 @@ msgstr "Aktualizovat"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "Na větších instalacích můžete spustit následující příkaz v hlavním adresáři, pro omezení chyb vypršení časového intervalu:"
 
 #: templates/update.user.php:3
 msgid ""

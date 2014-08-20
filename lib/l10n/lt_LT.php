@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "Nustatymai",
 "Users" => "Vartotojai",
 "Admin" => "Administravimas",
-"Failed to upgrade \"%s\"." => "Nepavyko pakelti  „%s“ versijos.",
 "No app name specified" => "Nenurodytas programos pavadinimas",
 "Unknown filetype" => "Nežinomas failo tipas",
 "Invalid image" => "Netinkamas paveikslėlis",

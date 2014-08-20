@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "Settings" => "Nastavitve",
 "Users" => "Uporabniki",
 "Admin" => "Skrbništvo",
-"Failed to upgrade \"%s\"." => "Posodabljanje \"%s\" je spodletelo.",
 "No app name specified" => "Ni podanega imena programa",
 "Unknown filetype" => "Neznana vrsta datoteke",
 "Invalid image" => "Neveljavna slika",

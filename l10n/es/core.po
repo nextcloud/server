@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:54+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -63,7 +63,16 @@ msgstr "Base de datos actualizada"
 msgid "Checked database schema update"
 msgstr "Actualización del esquema de base de datos revisado"
 
-#: ajax/update.php:27
+#: ajax/update.php:22
+msgid "Checked database schema update for apps"
+msgstr ""
+
+#: ajax/update.php:25
+#, php-format
+msgid "Updated \"%s\" to %s"
+msgstr ""
+
+#: ajax/update.php:33
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Aplicaciones incompatibles desactivadas: %s"
@@ -802,7 +811,7 @@ msgstr "Esta aplicación requiere que se habilite JavaScript para su correcta op
 #: templates/layout.user.php:47
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr "%s esta disponible. Obtener mas información de como actualizar."
+msgstr "%s está disponible. Obtener más información de como actualizar."
 
 #: templates/layout.user.php:83 templates/singleuser.user.php:8
 msgid "Log out"

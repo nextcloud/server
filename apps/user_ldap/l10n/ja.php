@@ -49,7 +49,7 @@ $TRANSLATIONS = array(
 "The filter specifies which LDAP groups shall have access to the %s instance." => "フィルタは、どの LDAP グループが %s にアクセスするかを指定します。",
 "groups found" => "グループが見つかりました",
 "Users login with this attribute:" => "この属性でユーザーログイン:",
-"LDAP Username:" => "LDAP ユーザー名:",
+"LDAP Username:" => "LDAPユーザー名:",
 "LDAP Email Address:" => "LDAPメールアドレス:",
 "Other Attributes:" => "他の属性:",
 "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action. Example: \"uid=%%uid\"" => "ログイン実行時に適用するフィルタを定義します。%%uid にはログイン操作におけるユーザー名が入ります。例： \"uid=%%uid\"",

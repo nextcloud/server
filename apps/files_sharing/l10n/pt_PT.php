@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "A partilha entre servidores não se encontra disponível",
+"Invalid or untrusted SSL certificate" => "Certificado SSL inválido ou não confiável",
 "Couldn't add remote share" => "Ocorreu um erro ao adicionar a partilha remota",
 "Shared with you" => "Partilhado consigo ",
 "Shared with others" => "Partilhado com outros",

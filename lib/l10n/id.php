@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "Pengaturan",
 "Users" => "Pengguna",
 "Admin" => "Admin",
-"Failed to upgrade \"%s\"." => "Gagal memperbarui \"%s\".",
 "No app name specified" => "Tidak ada nama apl yang ditentukan",
 "Unknown filetype" => "Tipe berkas tak dikenal",
 "Invalid image" => "Gambar tidak sah",

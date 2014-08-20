@@ -192,6 +192,7 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Het thema %s is uitgeschakeld.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Let erop dat de database, de config map en de data map zijn gebackupped voordat u verder gaat.",
 "Start update" => "Begin de update",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Om time-outs tijdens grotere installaties te voorkomen, kunt u in plaats hiervan de volgende opdracht geven vanaf uw installatiedirectory:",
 "This ownCloud instance is currently being updated, which may take a while." => "Deze ownCloud dienst wordt nu bijgewerkt, dat kan even duren.",
 "Please reload this page after a short time to continue using ownCloud." => "Laad deze pagina straks opnieuw om verder te gaan met ownCloud."
 );

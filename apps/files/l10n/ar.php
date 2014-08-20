@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Unshare" => "إلغاء المشاركة",
 "Delete permanently" => "حذف بشكل دائم",
 "Rename" => "إعادة تسميه",
-"Your download is being prepared. This might take some time if the files are big." => "جاري تجهيز عملية التحميل. قد تستغرق بعض الوقت اذا كان حجم الملفات كبير.",
 "Pending" => "قيد الانتظار",
 "Error moving file" => "حدث خطأ أثناء نقل الملف",
 "Error" => "خطأ",

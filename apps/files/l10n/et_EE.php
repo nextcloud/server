@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Lõpeta jagamine",
 "Delete permanently" => "Kustuta jäädavalt",
 "Rename" => "Nimeta ümber",
-"Your download is being prepared. This might take some time if the files are big." => "Valmistatakse allalaadimist. See võib võtta veidi aega, kui on tegu suurte failidega. ",
 "Pending" => "Ootel",
 "Error moving file." => "Viga faili liigutamisel.",
 "Error moving file" => "Viga faili eemaldamisel",

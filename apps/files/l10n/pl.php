@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Zatrzymaj współdzielenie",
 "Delete permanently" => "Trwale usuń",
 "Rename" => "Zmień nazwę",
-"Your download is being prepared. This might take some time if the files are big." => "Pobieranie jest przygotowywane. Może to zająć trochę czasu jeśli pliki są duże.",
 "Pending" => "Oczekujące",
 "Error moving file." => "Błąd podczas przenoszenia pliku.",
 "Error moving file" => "Błąd prz przenoszeniu pliku",

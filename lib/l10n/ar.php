@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "إعدادات",
 "Users" => "المستخدمين",
 "Admin" => "المدير",
-"Failed to upgrade \"%s\"." => "خطا في ترقية \"%s\".",
 "No app name specified" => "لا يوجد برنامج بهذا الاسم",
 "Unknown filetype" => "نوع الملف غير معروف",
 "Invalid image" => "الصورة غير صالحة",

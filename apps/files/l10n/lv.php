@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Pārtraukt dalīšanos",
 "Delete permanently" => "Dzēst pavisam",
 "Rename" => "Pārsaukt",
-"Your download is being prepared. This might take some time if the files are big." => "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes ir lielas.",
 "Pending" => "Gaida savu kārtu",
 "Error" => "Kļūda",
 "Name" => "Nosaukums",

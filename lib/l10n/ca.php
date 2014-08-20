@@ -11,7 +11,6 @@ $TRANSLATIONS = array(
 "Settings" => "Configuració",
 "Users" => "Usuaris",
 "Admin" => "Administració",
-"Failed to upgrade \"%s\"." => "Ha fallat l'actualització \"%s\".",
 "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "L'aplicació \\\"%s\\\" no es pot instal·lar perquè no es compatible amb aquesta versió de ownCloud.",
 "No app name specified" => "No heu especificat cap nom d'aplicació",
 "Unknown filetype" => "Tipus de fitxer desconegut",

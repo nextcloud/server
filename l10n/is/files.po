@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-19 05:02+0000\n"
+"POT-Creation-Date: 2014-08-20 01:54-0400\n"
+"PO-Revision-Date: 2014-08-20 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgid ""
 "allowed."
 msgstr "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð."
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:159
+#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:161
 #: lib/app.php:87
 msgid "The target folder has been moved or deleted."
 msgstr ""
@@ -97,62 +97,62 @@ msgstr ""
 msgid "Error when creating the folder"
 msgstr ""
 
-#: ajax/upload.php:19 ajax/upload.php:57
+#: ajax/upload.php:19 ajax/upload.php:59
 msgid "Unable to set upload directory."
 msgstr ""
 
-#: ajax/upload.php:33
+#: ajax/upload.php:35
 msgid "Invalid Token"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:79
 msgid "No file was uploaded. Unknown error"
 msgstr "Engin skrá var send inn. Óþekkt villa."
 
-#: ajax/upload.php:84
+#: ajax/upload.php:86
 msgid "There is no error, the file uploaded with success"
 msgstr "Engin villa, innsending heppnaðist"
 
-#: ajax/upload.php:85
+#: ajax/upload.php:87
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Innsend skrá er stærri en upload_max stillingin í php.ini:"
 
-#: ajax/upload.php:87
+#: ajax/upload.php:89
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Innsenda skráin er stærri en MAX_FILE_SIZE sem skilgreint er í HTML sniðinu."
 
-#: ajax/upload.php:88
+#: ajax/upload.php:90
 msgid "The uploaded file was only partially uploaded"
 msgstr "Einungis hluti af innsendri skrá skilaði sér"
 
-#: ajax/upload.php:89
+#: ajax/upload.php:91
 msgid "No file was uploaded"
 msgstr "Engin skrá skilaði sér"
 
-#: ajax/upload.php:90
+#: ajax/upload.php:92
 msgid "Missing a temporary folder"
 msgstr "Vantar bráðabirgðamöppu"
 
-#: ajax/upload.php:91
+#: ajax/upload.php:93
 msgid "Failed to write to disk"
 msgstr "Tókst ekki að skrifa á disk"
 
-#: ajax/upload.php:111
+#: ajax/upload.php:113
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:173
+#: ajax/upload.php:175
 msgid "Upload failed. Could not find uploaded file"
 msgstr ""
 
-#: ajax/upload.php:183
+#: ajax/upload.php:185
 msgid "Upload failed. Could not get file info."
 msgstr ""
 
-#: ajax/upload.php:198
+#: ajax/upload.php:200
 msgid "Invalid directory."
 msgstr "Ógild mappa."
 
@@ -194,7 +194,7 @@ msgstr "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending mis
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:571 js/filelist.js:1291
+#: js/file-upload.js:571 js/filelist.js:1290
 msgid "{new_name} already exists"
 msgstr "{new_name} er þegar til"
 
@@ -234,61 +234,55 @@ msgstr ""
 msgid "Rename"
 msgstr "Endurskýra"
 
-#: js/filelist.js:348
-msgid ""
-"Your download is being prepared. This might take some time if the files are "
-"big."
-msgstr ""
-
-#: js/filelist.js:686 js/filelist.js:1819
+#: js/filelist.js:685 js/filelist.js:1818
 msgid "Pending"
 msgstr "Bíður"
 
-#: js/filelist.js:1242
+#: js/filelist.js:1241
 msgid "Error moving file."
 msgstr ""
 
-#: js/filelist.js:1250
+#: js/filelist.js:1249
 msgid "Error moving file"
 msgstr ""
 
-#: js/filelist.js:1250
+#: js/filelist.js:1249
 msgid "Error"
 msgstr "Villa"
 
-#: js/filelist.js:1339
+#: js/filelist.js:1338
 msgid "Could not rename file"
 msgstr ""
 
-#: js/filelist.js:1461
+#: js/filelist.js:1460
 msgid "Error deleting file."
 msgstr ""
 
-#: js/filelist.js:1564 templates/list.php:61
+#: js/filelist.js:1563 templates/list.php:61
 msgid "Name"
 msgstr "Nafn"
 
-#: js/filelist.js:1565 templates/list.php:72
+#: js/filelist.js:1564 templates/list.php:72
 msgid "Size"
 msgstr "Stærð"
 
-#: js/filelist.js:1566 templates/list.php:75
+#: js/filelist.js:1565 templates/list.php:75
 msgid "Modified"
 msgstr "Breytt"
 
-#: js/filelist.js:1576 js/filesummary.js:141 js/filesummary.js:168
+#: js/filelist.js:1575 js/filesummary.js:141 js/filesummary.js:168
 msgid "%n folder"
 msgid_plural "%n folders"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1582 js/filesummary.js:142 js/filesummary.js:169
+#: js/filelist.js:1581 js/filesummary.js:142 js/filesummary.js:169
 msgid "%n file"
 msgid_plural "%n files"
 msgstr[0] ""
 msgstr[1] ""
 
-#: js/filelist.js:1712 js/filelist.js:1751
+#: js/filelist.js:1711 js/filelist.js:1750
 msgid "Uploading %n file"
 msgid_plural "Uploading %n files"
 msgstr[0] ""

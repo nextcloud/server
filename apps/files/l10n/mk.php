@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Не споделувај",
 "Delete permanently" => "Трајно избришани",
 "Rename" => "Преименувај",
-"Your download is being prepared. This might take some time if the files are big." => "Вашето преземање се подготвува. Ова може да потрае до колку датотеките се големи.",
 "Pending" => "Чека",
 "Error moving file" => "Грешка при префрлање на датотека",
 "Error" => "Грешка",

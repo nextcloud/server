@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "Iestatījumi",
 "Users" => "Lietotāji",
 "Admin" => "Administratori",
-"Failed to upgrade \"%s\"." => "Kļūda atjauninot \"%s\"",
 "web services under your control" => "tīmekļa servisi tavā varā",
 "Application is not enabled" => "Lietotne nav aktivēta",
 "Authentication error" => "Autentifikācijas kļūda",

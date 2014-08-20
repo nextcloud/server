@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Malkunhavigi",
 "Delete permanently" => "Forigi por ĉiam",
 "Rename" => "Alinomigi",
-"Your download is being prepared. This might take some time if the files are big." => "Via elŝuto pretiĝatas. Ĉi tio povas daŭri iom da tempo se la dosieroj grandas.",
 "Pending" => "Traktotaj",
 "Error moving file" => "Eraris movo de dosiero",
 "Error" => "Eraro",

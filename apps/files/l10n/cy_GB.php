@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "Unshare" => "Dad-rannu",
 "Delete permanently" => "Dileu'n barhaol",
 "Rename" => "Ailenwi",
-"Your download is being prepared. This might take some time if the files are big." => "Wrthi'n paratoi i lwytho i lawr. Gall gymryd peth amser os yw'r ffeiliau'n fawr.",
 "Pending" => "I ddod",
 "Error" => "Gwall",
 "Name" => "Enw",

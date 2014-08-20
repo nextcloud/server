@@ -116,6 +116,7 @@ $TRANSLATIONS = array(
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Es muy recomendable instalar los paquetes necesarios para poder soportar una de las siguientes configuraciones regionales: %s. ",
 "Internet connection not working" => "La conexión a Internet no está funcionando",
 "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." => "Este servidor no tiene conexión a Internet. Esto significa que algunas de las características no funcionarán, como el montaje de almacenamiento externo, las notificaciones sobre actualizaciones, la instalación de aplicaciones de terceros, el acceso a los archivos de forma remota o el envío de correos electrónicos de notificación. Sugerimos habilitar una conexión a Internet en este servidor para disfrutar de todas las funciones.",
+"URL generation in notification emails" => "Generación de URL en mensajes de notificación",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Cron fue ejecutado por última vez a las %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Cron fue ejecutado por última vez a las %s. Esto fue hace más de una hora, algo anda mal.",

@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Unshare" => "取消分享",
 "Delete permanently" => "永久刪除",
 "Rename" => "重新命名",
-"Your download is being prepared. This might take some time if the files are big." => "正在準備您的下載，若您的檔案較大，將會需要更多時間。",
 "Pending" => "等候中",
 "Error moving file." => "移動檔案發生錯誤",
 "Error moving file" => "移動檔案失敗",

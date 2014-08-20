@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "Agordo",
 "Users" => "Uzantoj",
 "Admin" => "Administranto",
-"Failed to upgrade \"%s\"." => "Malsukcesis ĝisdatigo de “%s”.",
 "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "La aplikaĵo “%s” ne povas instaliĝi ĉar ĝi ne kongruas kun ĉi tiu eldono de ownCloud.",
 "Unknown filetype" => "Ne konatas dosiertipo",
 "Invalid image" => "Ne validas bildo",

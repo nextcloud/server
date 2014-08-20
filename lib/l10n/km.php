@@ -5,7 +5,6 @@ $TRANSLATIONS = array(
 "Settings" => "ការកំណត់",
 "Users" => "អ្នកប្រើ",
 "Admin" => "អ្នក​គ្រប់​គ្រង",
-"Failed to upgrade \"%s\"." => "បរាជ័យ​ការធ្វើការបន្ទាន់សម័យ\"%s\".",
 "No app name specified" => "មិន​បាន​បញ្ជាក់​ឈ្មោះ​កម្មវិធី",
 "Unknown filetype" => "មិន​ស្គាល់​ប្រភេទ​ឯកសារ",
 "Invalid image" => "រូបភាព​មិន​ត្រឹម​ត្រូវ",
