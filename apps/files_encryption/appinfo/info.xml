@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <info>
 	<id>files_encryption</id>
-	<name>Encryption</name>
-	<description>The ownCloud files encryption system provides server side-encryption. After the app is enabled you need to re-login to initialize your encryption keys. Please note that server side encryption requires that the ownCloud server admin can be trusted. The main purpose of this app is the encryption of files that are stored on externally mounted storages.</description>
+	<name>Server-side Encryption</name>
+	<description>This app encrypts and decrypts your data on the server. This means that a malicious administrator could intercept your data or encryption keys. The main purpose of server-side encryption is to encrypt files stored on externally mounted storages. The administrator of the external storage will not be able to access your encryption keys or your unencrypted data. Before you activate the app, please read up on encryption in the User and Administrator Manual</description>
 	<licence>AGPL</licence>
 	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<requiremin>4</requiremin>
