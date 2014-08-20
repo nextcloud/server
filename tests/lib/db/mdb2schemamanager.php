@@ -12,6 +12,11 @@ namespace Test\DB;
 class MDB2SchemaManager extends \PHPUnit_Framework_TestCase {
 
 	public function tearDown() {
+		// do not drop the table for Oracle as it will create a bogus transaction
+		// that will break the following test suites requiring transactions
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			return;
+		}
 		\OC_DB::dropTable('table');
 	}
 
