@@ -173,15 +173,10 @@
 		opacity: .5;
 	}
 	#navigation a:hover img, #navigation a:focus img,
-	#navigation a:hover span, #navigation a:focus span {
-		/* 80% opacity when hovered or focused */
-		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-		filter: alpha(opacity=80);
-		opacity: .8;
-	}
+	#navigation a:hover span, #navigation a:focus span,
 	#navigation a.active img,
 	#navigation a.active span {
-		 /* full opacity for the active app */
+		 /* full opacity for the active app or when hovered/focused */
 		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 		filter: alpha(opacity=100);
 		opacity: 1;
