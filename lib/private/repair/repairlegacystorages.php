@@ -89,6 +89,7 @@ class RepairLegacyStorages extends BasicEmitter {
 			$result = $this->findStorageInCacheStatement->execute(array($oldNumericId, $newNumericId));
 			$row1 = $this->findStorageInCacheStatement->fetch();
 			$row2 = $this->findStorageInCacheStatement->fetch();
+			$this->findStorageInCacheStatement->closeCursor();
 			if ($row2 !== false) {
 				// two results means both storages have data, not auto-fixable
 				throw new \OC\RepairException(
@@ -123,6 +124,7 @@ class RepairLegacyStorages extends BasicEmitter {
 		$newId = \OC\Files\Cache\Storage::adjustStorageId($newId);
 		$oldId = \OC\Files\Cache\Storage::adjustStorageId($oldId);
 		$rowCount = $this->renameStorageStatement->execute(array($newId, $oldId));
+		$this->renameStorageStatement->closeCursor();
 		return ($rowCount === 1);
 	}
 
