@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: Volkan Gezer <volkangezer@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,12 +44,12 @@ msgstr "Veritabanı şema güncellemesi denetlendi"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Uygulamalar için veritabanı şema güncellemesi denetlendi"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "\"%s\", %s sürümüne güncellendi"
 
 #: ajax/update.php:33
 #, php-format
@@ -677,7 +677,8 @@ msgstr "Merhaba,\n\nSadece %s sizinle %s paylaşımını yaptığını bildiriyo
 msgid "The share will expire on %s."
 msgstr "Bu paylaşım %s tarihinde sona erecek."
 
-#: templates/altmail.php:7 templates/mail.php:20
+#. TRANSLATORS term at the end of a mail
+#: templates/altmail.php:8 templates/mail.php:21
 msgid "Cheers!"
 msgstr "Hoşça kalın!"
 

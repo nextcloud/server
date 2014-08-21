@@ -20,7 +20,10 @@ $TRANSLATIONS = array(
 "November" => "নভেম্বর",
 "December" => "ডিসেম্বর",
 "Settings" => "নিয়ামকসমূহ",
+"File" => "ফাইল",
 "Folder" => "ফোল্ডার",
+"Image" => "চিত্র",
+"Audio" => "অডিও",
 "Saving..." => "সংরক্ষণ করা হচ্ছে..",
 "seconds ago" => "সেকেন্ড পূর্বে",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
@@ -94,8 +97,10 @@ $TRANSLATIONS = array(
 "Database tablespace" => "ডাটাবেজ টেবলস্পেস",
 "Database host" => "ডাটাবেজ হোস্ট",
 "Finish setup" => "সেটআপ সুসম্পন্ন কর",
+"Finishing …" => "সম্পন্ন হচ্ছে....",
 "Log out" => "প্রস্থান",
 "remember" => "মনে রাখ",
-"Log in" => "প্রবেশ"
+"Log in" => "প্রবেশ",
+"Alternative Logins" => "বিকল্প লগইন"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

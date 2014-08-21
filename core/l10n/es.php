@@ -5,6 +5,8 @@ $TRANSLATIONS = array(
 "Turned off maintenance mode" => "Modo mantenimiento desactivado",
 "Updated database" => "Base de datos actualizada",
 "Checked database schema update" => "Actualización del esquema de base de datos revisado",
+"Checked database schema update for apps" => "Chequeada actualización de esquema de la base de datos para aplicaciones",
+"Updated \"%s\" to %s" => "Se ha actualizado \"%s\" a %s",
 "Disabled incompatible apps: %s" => "Aplicaciones incompatibles desactivadas: %s",
 "No image or file provided" => "No se especificó ningún archivo o imagen",
 "Unknown filetype" => "Tipo de archivo desconocido",
@@ -192,6 +194,7 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "El tema %s ha sido desactivado.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Antes de proceder, asegúrese de que se haya hecho un respaldo de la base de datos, la carpeta de configuración y la carpeta de datos.",
 "Start update" => "Iniciar actualización",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tiempos de espera en grandes instalaciones, en su lugar puede ejecutar el siguiente comando desde el directorio de instalación:",
 "This ownCloud instance is currently being updated, which may take a while." => "Esta versión de owncloud se está actualizando, esto puede demorar un tiempo.",
 "Please reload this page after a short time to continue using ownCloud." => "Por favor, recargue la página tras un corto periodo de tiempo para continuar usando ownCloud"
 );

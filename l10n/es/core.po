@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Artopal <artopal@fastmail.fm>, 2013-2014
+# Artopal <artopal@fastmail.fm>, 2014
 # Carlos Andrés Burgos Urey <business@carlos-burgos.com>, 2014
 # manuelglz <cglzmtzg@gmail.com>, 2014
 # Guillermo G. <ggam@brainleakage.com>, 2013
@@ -32,9 +33,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: juanman <juanma@kde.org.ar>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,12 +66,12 @@ msgstr "Actualización del esquema de base de datos revisado"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Chequeada actualización de esquema de la base de datos para aplicaciones"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "Se ha actualizado \"%s\" a %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -698,7 +699,8 @@ msgstr "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMí
 msgid "The share will expire on %s."
 msgstr "El objeto dejará de ser compartido el %s."
 
-#: templates/altmail.php:7 templates/mail.php:20
+#. TRANSLATORS term at the end of a mail
+#: templates/altmail.php:8 templates/mail.php:21
 msgid "Cheers!"
 msgstr "¡Saludos!"
 
@@ -894,7 +896,7 @@ msgstr "Iniciar actualización"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "Para evitar tiempos de espera en grandes instalaciones, en su lugar puede ejecutar el siguiente comando desde el directorio de instalación:"
 
 #: templates/update.user.php:3
 msgid ""

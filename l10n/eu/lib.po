@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,14 +45,14 @@ msgstr "Hau normalean konpondu daiteke %sweb zerbitzarira config karpetan idazte
 
 #: base.php:577
 msgid "Sample configuration detected"
-msgstr ""
+msgstr "Adibide-ezarpena detektatua"
 
 #: base.php:578
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
 "before performing changes on config.php"
-msgstr ""
+msgstr "Detektatu da adibide-ezarpena kopiatu dela. Honek zure instalazioa apur dezake eta ez da onartzen. Irakurri dokumentazioa config.php fitxategia aldatu aurretik."
 
 #: base.php:693
 msgid "You are accessing the server from an untrusted domain."

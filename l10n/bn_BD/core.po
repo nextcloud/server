@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# azizul <aziz.murad3@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "নিয়ামকসমূহ"
 
 #: js/js.js:590
 msgid "File"
-msgstr ""
+msgstr "ফাইল"
 
 #: js/js.js:591
 msgid "Folder"
@@ -162,11 +163,11 @@ msgstr "ফোল্ডার"
 
 #: js/js.js:592
 msgid "Image"
-msgstr ""
+msgstr "চিত্র"
 
 #: js/js.js:593
 msgid "Audio"
-msgstr ""
+msgstr "অডিও"
 
 #: js/js.js:607
 msgid "Saving..."
@@ -673,7 +674,8 @@ msgstr ""
 msgid "The share will expire on %s."
 msgstr ""
 
-#: templates/altmail.php:7 templates/mail.php:20
+#. TRANSLATORS term at the end of a mail
+#: templates/altmail.php:8 templates/mail.php:21
 msgid "Cheers!"
 msgstr ""
 
@@ -774,7 +776,7 @@ msgstr "সেটআপ সুসম্পন্ন কর"
 
 #: templates/installation.php:159
 msgid "Finishing …"
-msgstr ""
+msgstr "সম্পন্ন হচ্ছে...."
 
 #: templates/layout.user.php:43
 msgid ""
@@ -814,7 +816,7 @@ msgstr "প্রবেশ"
 
 #: templates/login.php:57
 msgid "Alternative Logins"
-msgstr ""
+msgstr "বিকল্প লগইন"
 
 #: templates/mail.php:15
 #, php-format

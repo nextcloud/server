@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: Darren Richardson <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,14 +42,14 @@ msgstr "This can usually be fixed by %sgiving the webserver write access to the 
 
 #: base.php:577
 msgid "Sample configuration detected"
-msgstr ""
+msgstr "Sample configuration detected"
 
 #: base.php:578
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
 "before performing changes on config.php"
-msgstr ""
+msgstr "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php"
 
 #: base.php:693
 msgid "You are accessing the server from an untrusted domain."

@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Bruno Jamalaro <bjamalaro@yahoo.com.br>, 2013
+# dudanogueira <dudanogueira@gmail.com>, 2014
 # Flávio Veras <flaviove@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: dudanogueira <dudanogueira@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,12 +43,12 @@ msgstr "Verificado atualização do esquema de banco de dados"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Verificar atualização do esquema de banco de dados para aplicativos"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "Atualizado \"%s\" para %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -181,14 +182,14 @@ msgstr "segundos atrás"
 #: js/js.js:1279
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
-msgstr[0] " ha %n minuto"
-msgstr[1] "ha %n minutos"
+msgstr[0] " há %n minuto"
+msgstr[1] "há %n minutos"
 
 #: js/js.js:1280
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
-msgstr[0] "ha %n hora"
-msgstr[1] "ha %n horas"
+msgstr[0] "há %n hora"
+msgstr[1] "há %n horas"
 
 #: js/js.js:1281
 msgid "today"
@@ -201,8 +202,8 @@ msgstr "ontem"
 #: js/js.js:1283
 msgid "%n day ago"
 msgid_plural "%n days ago"
-msgstr[0] "ha %n dia"
-msgstr[1] "ha %n dias"
+msgstr[0] "há %n dia"
+msgstr[1] "há %n dias"
 
 #: js/js.js:1284
 msgid "last month"
@@ -211,8 +212,8 @@ msgstr "último mês"
 #: js/js.js:1285
 msgid "%n month ago"
 msgid_plural "%n months ago"
-msgstr[0] "ha %n mês"
-msgstr[1] "ha %n meses"
+msgstr[0] "há %n mês"
+msgstr[1] "há %n meses"
 
 #: js/js.js:1286
 msgid "last year"
@@ -388,7 +389,7 @@ msgstr "Compartilhar com usuário ou grupo ..."
 
 #: js/share.js:389
 msgid "Share link"
-msgstr "Compartilher link"
+msgstr "Compartilhar link"
 
 #: js/share.js:394
 msgid ""
@@ -675,7 +676,8 @@ msgstr "Olá,\n\ngostaria que você soubesse que %s compartilhou %s com você.\n
 msgid "The share will expire on %s."
 msgstr "O compartilhamento irá expirar em %s."
 
-#: templates/altmail.php:7 templates/mail.php:20
+#. TRANSLATORS term at the end of a mail
+#: templates/altmail.php:8 templates/mail.php:21
 msgid "Cheers!"
 msgstr "Saúde!"
 

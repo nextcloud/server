@@ -5,15 +5,16 @@
 # Translators:
 # André Marcelo Alvarenga <alvarenga@kde.org>, 2014
 # Bruno Jamalaro <bjamalaro@yahoo.com.br>, 2013
+# dudanogueira <dudanogueira@gmail.com>, 2014
 # Flávio Veras <flaviove@gmail.com>, 2013-2014
 # Tulio Simoes Martins Padilha, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:02+0000\n"
+"Last-Translator: dudanogueira <dudanogueira@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -399,7 +400,7 @@ msgstr "Você não tem permissão para enviar ou criar arquivos aqui"
 
 #: templates/list.php:52
 msgid "Nothing in here. Upload something!"
-msgstr "Nada aqui. Carrege alguma coisa!"
+msgstr "Nada aqui. Carregue alguma coisa!"
 
 #: templates/list.php:66
 msgid "Download"

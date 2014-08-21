@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-20 01:54-0400\n"
-"PO-Revision-Date: 2014-08-20 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-21 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,11 +40,11 @@ msgstr "Datu basea eguneratu da"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr "Egiaztatutako datu-basearen eskemaren eguneraketa"
+msgstr "Egiaztatuta datu-basearen zerbitzariaren eguneraketa"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Egiaztatuta aplikazioen datu-basearen zerbitzariaren eguneraketa"
 
 #: ajax/update.php:25
 #, php-format
@@ -677,7 +677,8 @@ msgstr "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %
 msgid "The share will expire on %s."
 msgstr "Elkarbanaketa %s-n iraungiko da."
 
-#: templates/altmail.php:7 templates/mail.php:20
+#. TRANSLATORS term at the end of a mail
+#: templates/altmail.php:8 templates/mail.php:21
 msgid "Cheers!"
 msgstr "Ongi izan!"
 

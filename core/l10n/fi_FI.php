@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Turned off maintenance mode" => "Ylläpitotila laitettu pois päältä",
 "Updated database" => "Tietokanta ajan tasalla",
 "Checked database schema update" => "Tarkistettu tietokannan skeemapäivitys",
+"Updated \"%s\" to %s" => "Päivitetty \"%s\" versioon %s",
 "Disabled incompatible apps: %s" => "Yhteensopimattomat sovellukset poistettiin käytöstä: %s",
 "No image or file provided" => "Kuvaa tai tiedostoa ei määritelty",
 "Unknown filetype" => "Tuntematon tiedostotyyppi",
