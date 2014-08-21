@@ -11,6 +11,14 @@ function updateStatus(statusEl, result){
 	}
 }
 
+function getSelection($row) {
+	var values = $row.find('.applicableUsers').select2('val');
+	if (!values || values.length === 0) {
+		values = ['all'];
+	}
+	return values;
+}
+
 OC.MountConfig={
 	saveStorage:function(tr, callback) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
@@ -42,12 +50,7 @@ OC.MountConfig={
 			}
 		});
 		if ($('#externalStorage').data('admin') === true) {
-			var multiselect = $(tr).find('.applicableUsers').select2('val');
-			if (multiselect == null) {
-				return false;
-			 } else if (multiselect instanceof Array && multiselect.length === 0) {
-				 multiselect.push('all');
-			}
+			var multiselect = getSelection($(tr));
 		}
 		if (addMountPoint) {
 			var status = false;
@@ -202,7 +205,7 @@ $(document).ready(function() {
 						return {
 							pattern: term, //search term
 							limit: userListLimit, // page size
-							offset: userListLimit*(page-1), // page number starts with 0
+							offset: userListLimit*(page-1) // page number starts with 0
 						};
 					},
 					results: function (data, page) {
@@ -417,20 +420,18 @@ $(document).ready(function() {
 
 		if ($('#externalStorage').data('admin') === true) {
 			var isPersonal = false;
-			var multiselect = $(tr).find('.chzn-select').val();
-			if (multiselect != null) {
-				$.each(multiselect, function(index, value) {
-					var pos = value.indexOf('(group)');
-					if (pos != -1) {
-						var mountType = 'group';
-						var applicable = value.substr(0, pos);
-					} else {
-						var mountType = 'user';
-						var applicable = value;
-					}
-					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
-				});
-			}
+			var multiselect = getSelection($(tr));
+			$.each(multiselect, function(index, value) {
+				var pos = value.indexOf('(group)');
+				if (pos != -1) {
+					var mountType = 'group';
+					var applicable = value.substr(0, pos);
+				} else {
+					var mountType = 'user';
+					var applicable = value;
+				}
+				$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+			});
 		} else {
 			var mountType = 'user';
 			var applicable = OC.currentUser;
