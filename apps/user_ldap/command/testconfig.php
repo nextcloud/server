@@ -31,7 +31,8 @@ class TestConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$availableConfigs = Helper::getServerConfigurationPrefixes();
+		$helper = new Helper();
+		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if(!in_array($configID, $availableConfigs)) {
 			$output->writeln("Invalid configID");

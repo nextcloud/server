@@ -183,7 +183,7 @@ class Test_User_Manager extends \Test\TestCase {
         $access->expects($this->never())
             ->method('dn2username');
 
-        $access->expects($this->exactly(2))
+        $access->expects($this->exactly(1))
             ->method('username2dn')
             ->with($this->equalTo($uid))
             ->will($this->returnValue(false));

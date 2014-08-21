@@ -123,7 +123,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			   ->method('fetchListOfUsers')
 			   ->will($this->returnCallback(function($filter) {
 					if($filter === 'roland') {
-						return array('dnOfRoland,dc=test');
+						return array(array('dn' => 'dnOfRoland,dc=test'));
 					}
 					return array();
 			   }));
@@ -228,6 +228,24 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 		$result = \OCP\User::checkPassword('mallory', 'evil');
 		$this->assertFalse($result);
+	}
+
+	public function testDeleteUserCancel() {
+		$access = $this->getAccessMock();
+		$backend = new UserLDAP($access);
+		$result = $backend->deleteUser('notme');
+		$this->assertFalse($result);
+	}
+
+	public function testDeleteUserSuccess() {
+		$access = $this->getAccessMock();
+		$backend = new UserLDAP($access);
+
+		$pref = \OC::$server->getConfig();
+		$pref->setUserValue('jeremy', 'user_ldap', 'isDeleted', 1);
+
+		$result = $backend->deleteUser('jeremy');
+		$this->assertTrue($result);
 	}
 
 	/**

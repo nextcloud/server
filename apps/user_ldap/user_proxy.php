@@ -24,6 +24,7 @@
 namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
+use OCA\User_LDAP\lib\User\User;
 
 class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterface {
 	private $backends = array();
@@ -153,6 +154,17 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 	}
 
 	/**
+	 * check if a user exists on LDAP
+	 * @param string|OCA\User_LDAP\lib\User\User $user either the ownCloud user
+	 * name or an instance of that user
+	 * @return boolean
+	 */
+	public function userExistsOnLDAP($user) {
+		$id = ($user instanceof User) ? $user->getUsername() : $user;
+		return $this->handleRequest($id, 'userExistsOnLDAP', array($user));
+	}
+
+	/**
 	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
@@ -217,7 +229,7 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 	 * Deletes a user
 	 */
 	public function deleteUser($uid) {
-		return false;
+		return $this->handleRequest($uid, 'deleteUser', array($uid));
 	}
 
 	/**
