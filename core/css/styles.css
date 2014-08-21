@@ -611,6 +611,10 @@ label.infield {
 	margin-left: -200px !important;
 }
 
+.error-wide .button {
+	color: black !important;
+}
+
 /* Fixes for log in page, TODO should be removed some time */
 #body-login .update,
 #body-login .error {
