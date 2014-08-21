@@ -503,7 +503,7 @@ OC.Share={
 					.append( insert )
 					.appendTo( ul );
 			};
-			if (link) {
+			if (link && linksAllowed) {
 				$('#email').autocomplete({
 					minLength: 1,
 					source: function (search, response) {

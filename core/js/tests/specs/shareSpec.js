@@ -44,6 +44,12 @@ describe('OC.Share tests', function() {
 
 			autocompleteStub = sinon.stub($.fn, 'autocomplete', function() {
 				// dummy container with the expected attributes
+				if (!$(this).length) {
+					// simulate the real autocomplete that returns
+					// nothing at all when no element is specified
+					// (and potentially break stuff)
+					return null;
+				}
 				var $el = $('<div></div>').data('ui-autocomplete', {});
 				return $el;
 			});
@@ -60,7 +66,7 @@ describe('OC.Share tests', function() {
 				'file',
 			   	123,
 			   	$container,
-				'http://localhost/dummylink',
+				true,
 				31,
 				'shared_file_name.txt'
 			);
@@ -73,7 +79,7 @@ describe('OC.Share tests', function() {
 				'file',
 			   	123,
 			   	$container,
-				'http://localhost/dummylink',
+				true,
 				31,
 				'shared_file_name.txt'
 			);
@@ -92,7 +98,7 @@ describe('OC.Share tests', function() {
 					'file',
 					123,
 					$container,
-					'http://localhost/dummylink',
+					true,		
 					31,
 					'shared_file_name.txt'
 				);
@@ -104,7 +110,7 @@ describe('OC.Share tests', function() {
 					'file',
 					123,
 					$container,
-					'http://localhost/dummylink',
+					true,		
 					31,
 					'shared_file_name.txt'
 				);
@@ -138,7 +144,7 @@ describe('OC.Share tests', function() {
 					'file',
 					123,
 					$container,
-					'http://localhost/dummylink',
+					true,
 					31,
 					'folder'
 				);
@@ -176,7 +182,7 @@ describe('OC.Share tests', function() {
 					'file',
 					456, // another file
 					$container,
-					'http://localhost/dummylink',
+					true,
 					31,
 					'folder'
 				);
@@ -230,7 +236,7 @@ describe('OC.Share tests', function() {
 					'folder',
 					123,
 					$container,
-					'http://localhost/dummylink',
+					true,
 					31,
 					'folder'
 				);
@@ -245,7 +251,7 @@ describe('OC.Share tests', function() {
 					'file',
 					456,
 					$container,
-					'http://localhost/dummylink',
+					true,
 					31,
 					'file_in_folder.txt'
 				);
@@ -266,7 +272,7 @@ describe('OC.Share tests', function() {
 						'file',
 						123,
 						$container,
-						'http://localhost/dummylink',
+						true,
 						31,
 						'folder'
 					);
@@ -407,7 +413,7 @@ describe('OC.Share tests', function() {
 					'file',
 					123,
 					$container,
-					'http://localhost/dummylink',
+					true,
 					31,
 					'shared_file_name.txt'
 				);
