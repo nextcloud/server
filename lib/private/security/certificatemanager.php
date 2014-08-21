@@ -78,7 +78,7 @@ class CertificateManager implements ICertificateManager {
 	 * @return bool | \OCP\ICertificate
 	 */
 	public function addCertificate($certificate, $name) {
-		if (!\OC\Files\Filesystem::isValidPath($name)) {
+		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
 			return false;
 		}
 		$isValid = openssl_pkey_get_public($certificate);
