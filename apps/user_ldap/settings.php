@@ -36,8 +36,9 @@ OCP\Util::addStyle('core', 'jquery-ui-1.10.0.custom');
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
-$prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
-$hosts = \OCA\user_ldap\lib\Helper::getServerConfigurationHosts();
+$helper = new \OCA\user_ldap\lib\Helper();
+$prefixes = $helper->getServerConfigurationPrefixes();
+$hosts = $helper->getServerConfigurationHosts();
 
 $wizardHtml = '';
 $toc = array();

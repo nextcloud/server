@@ -182,7 +182,7 @@ class Preferences {
 			// no changes
 			return true;
 		}
-		
+
 		$affectedRows = 0;
 
 		if (!$exists && $preCondition === null) {
@@ -264,9 +264,11 @@ class Preferences {
 	 * @param string $app
 	 * @param string $key
 	 * @param string $value
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 * @return array
 	 */
-	public function getUsersForValue($app, $key, $value) {
+	public function getUsersForValue($app, $key, $value, $limit = null, $offset = null) {
 		$users = array();
 
 		$query = 'SELECT `userid` '
@@ -280,9 +282,10 @@ class Preferences {
 			$query .= ' `configvalue` = ?';
 		}
 
-		$result = $this->conn->executeQuery($query, array($app, $key, $value));
+		$stmt = $this->conn->prepare($query, $limit, $offset);
+		$stmt->execute(array($app, $key, $value));
 
-		while ($row = $result->fetch()) {
+		while ($row = $stmt->fetch()) {
 			$users[] = $row['userid'];
 		}
 

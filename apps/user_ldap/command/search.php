@@ -74,7 +74,8 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configPrefixes = Helper::getServerConfigurationPrefixes(true);
+		$helper = new Helper();
+		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 
 		$offset = intval($input->getOption('offset'));

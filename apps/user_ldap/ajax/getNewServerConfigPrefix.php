@@ -26,7 +26,8 @@ OCP\JSON::checkAdminUser();
 OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
-$serverConnections = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
+$helper = new \OCA\user_ldap\lib\Helper();
+$serverConnections = $helper->getServerConfigurationPrefixes();
 sort($serverConnections);
 $lk = array_pop($serverConnections);
 $ln = intval(str_replace('s', '', $lk));

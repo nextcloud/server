@@ -209,7 +209,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 * Deletes a user
 	 */
 	public function deleteUser($uid) {
-		return false;
+		return $this->handleRequest($uid, 'deleteUser', array($uid));
 	}
 
 	/**

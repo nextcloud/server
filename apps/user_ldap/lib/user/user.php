@@ -213,6 +213,31 @@ class User {
 	}
 
 	/**
+	 * Stores a key-value pair in relation to this user
+	 * @param string $key
+	 * @param string $value
+	 */
+	private function store($key, $value) {
+		$this->config->setUserValue($this->uid, 'user_ldap', $key, $value);
+	}
+
+	/**
+	 * Stores the display name in the databae
+	 * @param string $displayName
+	 */
+	public function storeDisplayName($displayName) {
+		$this->store('displayName', $displayName);
+	}
+
+	/**
+	 * Stores the LDAP Username in the Database
+	 * @param string $userName
+	 */
+	public function storeLDAPUserName($userName) {
+		$this->store('uid', $userName);
+	}
+
+	/**
 	 * @brief checks whether an update method specified by feature was run
 	 * already. If not, it will marked like this, because it is expected that
 	 * the method will be run, when false is returned.

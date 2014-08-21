@@ -27,7 +27,8 @@ OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
 $subject = $_POST['ldap_clear_mapping'];
-if(\OCA\user_ldap\lib\Helper::clearMapping($subject)) {
+$helper = new \OCA\user_ldap\lib\Helper();
+if($helper->clearMapping($subject)) {
 	OCP\JSON::success();
 } else {
 	$l=OC_L10N::get('user_ldap');
