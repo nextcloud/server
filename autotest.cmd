@@ -110,8 +110,6 @@ goto:eof
 
 	:: trigger installation
 	php -f index.php
-        :: no external files on windows for now
-        php occ app:disable files_external
 
 	::test execution
 	echo "Testing with %~1 ..."
@@ -119,6 +117,8 @@ goto:eof
 	rmdir /s /q coverage-html-%~1
 	md coverage-html-%~1
 	php -f enable_all.php
+        :: no external files on windows for now
+        php occ app:disable files_external
 
 	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
 
