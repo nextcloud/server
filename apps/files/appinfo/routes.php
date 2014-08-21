@@ -6,6 +6,33 @@
  * See the COPYING-README file.
  */
 
+/** @var $this OC\Route\Router */
+
+$this->create('files_index', '/')
+	->actionInclude('files/index.php');
+$this->create('files_ajax_delete', 'ajax/delete.php')
+	->actionInclude('files/ajax/delete.php');
+$this->create('files_ajax_download', 'ajax/download.php')
+	->actionInclude('files/ajax/download.php');
+$this->create('files_ajax_getstoragestats', 'ajax/getstoragestats.php')
+	->actionInclude('files/ajax/getstoragestats.php');
+$this->create('files_ajax_list', 'ajax/list.php')
+	->actionInclude('files/ajax/list.php');
+$this->create('files_ajax_mimeicon', 'ajax/mimeicon.php')
+	->actionInclude('files/ajax/mimeicon.php');
+$this->create('files_ajax_move', 'ajax/move.php')
+	->actionInclude('files/ajax/move.php');
+$this->create('files_ajax_newfile', 'ajax/newfile.php')
+	->actionInclude('files/ajax/newfile.php');
+$this->create('files_ajax_newfolder', 'ajax/newfolder.php')
+	->actionInclude('files/ajax/newfolder.php');
+$this->create('files_ajax_rename', 'ajax/rename.php')
+	->actionInclude('files/ajax/rename.php');
+$this->create('files_ajax_scan', 'ajax/scan.php')
+	->actionInclude('files/ajax/scan.php');
+$this->create('files_ajax_upload', 'ajax/upload.php')
+	->actionInclude('files/ajax/upload.php');
+
 $this->create('download', 'download{file}')
 	->requirements(array('file' => '.*'))
 	->actionInclude('files/download.php');
