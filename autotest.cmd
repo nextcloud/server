@@ -110,6 +110,8 @@ goto:eof
 
 	:: trigger installation
 	php -f index.php
+        :: no external files on windows for now
+        php occ app:disable files_external
 
 	::test execution
 	echo "Testing with %~1 ..."
