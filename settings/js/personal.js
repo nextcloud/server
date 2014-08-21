@@ -306,7 +306,7 @@ $(document).ready(function () {
 
 	$('#sslCertificate').on('click', 'td.remove > img', function () {
 		var row = $(this).parent().parent();
-		$.post(OC.filePath('settings', 'ajax', 'removeRootCertificate.php'), {
+		$.post(OC.generateUrl('settings/ajax/removeRootCertificate'), {
 			cert: row.data('name')
 		});
 		row.remove();
@@ -317,7 +317,6 @@ $(document).ready(function () {
 
 	$('#rootcert_import').fileupload({
 		done: function (e, data) {
-			console.log(data.result);
 			var issueDate = new Date(data.result.validFrom * 1000);
 			var expireDate = new Date(data.result.validTill * 1000);
 			var now = new Date();
