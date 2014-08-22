@@ -35,6 +35,10 @@ $this->create('core_ajax_share', '/core/ajax/share.php')
 // Translations
 $this->create('core_ajax_translations', '/core/ajax/translations.php')
 	->actionInclude('core/ajax/translations.php');
+// User display names
+$this->create('core_user_displaynames', '/displaynames')
+	->get()
+	->action('OC\Core\User\Controller', 'getDisplayNames');
 // Tags
 $this->create('core_tags_tags', '/tags/{type}')
 	->get()
