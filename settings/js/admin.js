@@ -38,6 +38,24 @@ var SharingGroupList = {
 };
 
 $(document).ready(function(){
+	var params = OC.Util.History.parseUrlQuery();
+
+	// Hack to add a trusted domain
+	if (params.trustDomain) {
+		OC.dialogs.confirm(t('core', 'Are you really sure you want add "{domain}" as trusted domain?', {domain: params.trustDomain}),
+			t('core', 'Add trusted domain'), function(answer) {
+				if(answer) {
+					$.ajax({
+						type: 'POST',
+						url: OC.generateUrl('settings/ajax/setsecurity.php'),
+						data: { trustedDomain: params.trustDomain }
+					}).done(function() {
+						window.location.replace(OC.generateUrl('settings/admin'));
+					});
+				}
+			});
+	}
+
 
 	$('select#excludedGroups[multiple]').each(function (index, element) {
 		SharingGroupList.applyMultipleSelect($(element));

@@ -18,11 +18,10 @@ class AllConfig implements \OCP\IConfig {
 	 *
 	 * @param string $key the key of the value, under which will be saved
 	 * @param mixed $value the value that should be stored
-	 * @todo need a use case for this
 	 */
-// 	public function setSystemValue($key, $value) {
-// 		\OCP\Config::setSystemValue($key, $value);
-// 	}
+ 	public function setSystemValue($key, $value) {
+ 		\OCP\Config::setSystemValue($key, $value);
+	}
 
 	/**
 	 * Looks up a system wide defined value
