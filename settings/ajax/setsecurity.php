@@ -9,13 +9,13 @@ OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
 if(isset($_POST['enforceHTTPS'])) {
-	OC_Config::setValue( 'forcessl', filter_var($_POST['enforceHTTPS'], FILTER_VALIDATE_BOOLEAN));
+	 \OC::$server->getConfig()->setSystemValue('forcessl', filter_var($_POST['enforceHTTPS'], FILTER_VALIDATE_BOOLEAN));
 }
 
 if(isset($_POST['trustedDomain'])) {
-	$trustedDomains = OC_Config::getValue('trusted_domains');
+	$trustedDomains = \OC::$server->getConfig()->getSystemValue('trusted_domains');
 	$trustedDomains[] = $_POST['trustedDomain'];
-	OC_Config::setValue('trusted_domains', $trustedDomains);
+	\OC::$server->getConfig()->setSystemValue('trusted_domains', $trustedDomains);
 }
 
 echo 'true';
