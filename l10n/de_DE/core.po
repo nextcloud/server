@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-21 01:54-0400\n"
-"PO-Revision-Date: 2014-08-21 05:23+0000\n"
+"POT-Creation-Date: 2014-08-22 01:54-0400\n"
+"PO-Revision-Date: 2014-08-22 05:25+0000\n"
 "Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -33,32 +33,32 @@ msgstr ""
 msgid "Couldn't send mail to following users: %s "
 msgstr "An folgende Benutzer konnte keine E-Mail gesendet werden: %s"
 
-#: ajax/update.php:10
+#: ajax/update.php:9
 msgid "Turned on maintenance mode"
 msgstr "Wartungsmodus eingeschaltet "
 
-#: ajax/update.php:13
+#: ajax/update.php:12
 msgid "Turned off maintenance mode"
 msgstr "Wartungsmodus ausgeschaltet"
 
-#: ajax/update.php:16
+#: ajax/update.php:15
 msgid "Updated database"
 msgstr "Datenbank aktualisiert"
 
-#: ajax/update.php:19
+#: ajax/update.php:18
 msgid "Checked database schema update"
 msgstr "Datenbank-Schemenaktualisierung geprüft"
 
-#: ajax/update.php:22
+#: ajax/update.php:21
 msgid "Checked database schema update for apps"
 msgstr "Datenbank-Schemenaktualisierung für Apps geprüft"
 
-#: ajax/update.php:25
+#: ajax/update.php:24
 #, php-format
 msgid "Updated \"%s\" to %s"
 msgstr "\"%s\" zu %s aktualisiert"
 
-#: ajax/update.php:33
+#: ajax/update.php:32
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Deaktivierte inkompatible Apps: %s"

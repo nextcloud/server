@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 13:20+0000\n"
+"POT-Creation-Date: 2014-08-22 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 14:21+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -102,12 +102,12 @@ msgstr ""
 
 #: js/detect-migration.js:25
 msgid "Initial encryption running... Please try again later."
-msgstr ""
+msgstr "İlkin şifrələnmə işləyir... Xahiş olunur birazdan yenidən müraciət edəsiniz."
 
 #: templates/invalid_private_key.php:8
 #, php-format
 msgid "Go directly to your %spersonal settings%s."
-msgstr ""
+msgstr "Birbaşa öz %sşəxsi quraşdırmalarınıza%s gedin."
 
 #: templates/settings-admin.php:2 templates/settings-personal.php:2
 msgid "Encryption"

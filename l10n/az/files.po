@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-21 01:54-0400\n"
-"PO-Revision-Date: 2014-08-21 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-22 01:54-0400\n"
+"PO-Revision-Date: 2014-08-22 05:02+0000\n"
+"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgstr "Yerdəyişmə mükün olmadı %s"
 
 #: ajax/newfile.php:58 js/files.js:103
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Faylın adı boş ola bilməz."
 
 #: ajax/newfile.php:63
 #, php-format
@@ -92,7 +92,7 @@ msgstr ""
 
 #: ajax/newfolder.php:22
 msgid "Folder name cannot be empty."
-msgstr ""
+msgstr "Qovluğun adı boş ola bilməz"
 
 #: ajax/newfolder.php:66
 msgid "Error when creating the folder"
@@ -100,11 +100,11 @@ msgstr ""
 
 #: ajax/upload.php:19 ajax/upload.php:59
 msgid "Unable to set upload directory."
-msgstr ""
+msgstr "Əlavələr qovluğunu təyin etmək mümkün olmadı."
 
 #: ajax/upload.php:35
 msgid "Invalid Token"
-msgstr ""
+msgstr "Yalnış token"
 
 #: ajax/upload.php:79
 msgid "No file was uploaded. Unknown error"
@@ -384,7 +384,7 @@ msgstr ""
 
 #: templates/list.php:13
 msgid "Folder"
-msgstr ""
+msgstr "Qovluq"
 
 #: templates/list.php:16
 msgid "From link"
@@ -400,7 +400,7 @@ msgstr ""
 
 #: templates/list.php:66
 msgid "Download"
-msgstr ""
+msgstr "Yüklə"
 
 #: templates/list.php:91
 msgid "Upload too large"

@@ -10,6 +10,10 @@ $TRANSLATIONS = array(
 "Remote share" => "Uzaq yayımlanma",
 "Remote share password" => "Uzaq yayımlanma şifrəsi",
 "Cancel" => "Dayandır",
-"Name" => "Ad"
+"Invalid ownCloud url" => "Yalnış ownCloud url-i",
+"Shared by" => "Tərəfindən yayımlanıb",
+"Password" => "Şifrə",
+"Name" => "Ad",
+"Download" => "Yüklə"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

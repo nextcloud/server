@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Invalid image" => "Yalnış şəkil",
 "No temporary profile picture available, try again" => "Profaylın müvəqqəti şəklinə çatmaq mümkün olmadı, yenidən təkrarlayın.",
 "Settings" => "Quraşdırmalar",
+"Folder" => "Qovluq",
 "Saving..." => "Saxlama...",
 "_%n minute ago_::_%n minutes ago_" => array("",""),
 "_%n hour ago_::_%n hours ago_" => array("",""),
@@ -20,6 +21,8 @@ $TRANSLATIONS = array(
 "Share" => "Yayımla",
 "Error" => "Səhv",
 "Send" => "Göndər",
+"group" => "qrup",
+"can share" => "yayımlaya bilərsiniz",
 "delete" => "sil",
 "Email sent" => "Məktub göndərildi",
 "Delete" => "Sil",
@@ -27,6 +30,7 @@ $TRANSLATIONS = array(
 "Username" => "İstifadəçi adı",
 "Reset" => "Sıfırla",
 "Users" => "İstifadəçilər",
-"Admin" => "İnzibatçı"
+"Admin" => "İnzibatçı",
+"Password" => "Şifrə"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

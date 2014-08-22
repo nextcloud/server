@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 13:20+0000\n"
+"POT-Creation-Date: 2014-08-22 01:54-0400\n"
+"PO-Revision-Date: 2014-08-21 14:41+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -30,15 +30,15 @@ msgstr "Yalnış yada inam listindən kənar SSL sertifikatı"
 msgid "Couldn't add remote share"
 msgstr "Uzaqda olan yayımlanmanı əlavə etmək mümkün olmadı"
 
-#: appinfo/app.php:33 js/app.js:34
+#: appinfo/app.php:36 js/app.js:34
 msgid "Shared with you"
 msgstr "Sizinlə yayımlanan"
 
-#: appinfo/app.php:45 js/app.js:53
+#: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
 msgstr "Hər kəsə yayımlanmış"
 
-#: appinfo/app.php:54 js/app.js:72
+#: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
 msgstr ""
 
@@ -80,11 +80,11 @@ msgstr ""
 
 #: js/public.js:205
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Yalnış ownCloud url-i"
 
 #: js/sharedfilelist.js:128
 msgid "Shared by"
-msgstr ""
+msgstr "Tərəfindən yayımlanıb"
 
 #: templates/authenticate.php:4
 msgid "This share is password-protected"
@@ -96,7 +96,7 @@ msgstr ""
 
 #: templates/authenticate.php:10 templates/authenticate.php:12
 msgid "Password"
-msgstr ""
+msgstr "Şifrə"
 
 #: templates/list.php:16
 msgid "Name"
@@ -136,7 +136,7 @@ msgstr ""
 
 #: templates/public.php:35
 msgid "Download"
-msgstr ""
+msgstr "Yüklə"
 
 #: templates/public.php:66
 #, php-format
