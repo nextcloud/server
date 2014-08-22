@@ -48,7 +48,9 @@ $(document).ready(function(){
 					$.ajax({
 						type: 'POST',
 						url: OC.generateUrl('settings/ajax/setsecurity.php'),
-						data: { trustedDomain: params.trustDomain}
+						data: { trustedDomain: params.trustDomain }
+					}).done(function() {
+						window.location.replace(OC.generateUrl('settings/admin'));
 					});
 				}
 			});
