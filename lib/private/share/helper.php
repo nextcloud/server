@@ -35,8 +35,7 @@ class Helper extends \OC\Share\Constants {
 	 * @throws \Exception
 	 * @return string Item target
 	 */
-	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
-		$suggestedTarget = null, $groupParent = null) {
+	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
 		$backend = \OC\Share\Share::getBackend($itemType);
 		if ($shareType == self::SHARE_TYPE_LINK) {
 			if (isset($suggestedTarget)) {
@@ -58,87 +57,51 @@ class Helper extends \OC\Share\Constants {
 			} else {
 				$userAndGroups = false;
 			}
-			$exclude = null;
-			// Backend has 3 opportunities to generate a unique target
-			for ($i = 0; $i < 2; $i++) {
-				// Check if suggested target exists first
-				if ($i == 0 && isset($suggestedTarget)) {
-					$target = $suggestedTarget;
+			$exclude = array();
+			// Find similar targets to improve backend's chances to generate a unqiue target
+			if ($userAndGroups) {
+				if ($column == 'file_target') {
+					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
+									. ' WHERE `item_type` IN (\'file\', \'folder\')'
+									. ' AND `share_type` IN (?,?,?)'
+									. ' AND `share_with` IN (\'' . implode('\',\'', $userAndGroups) . '\')');
+					$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP,
+						self::$shareTypeGroupUserUnique));
 				} else {
-					if ($shareType == self::SHARE_TYPE_GROUP) {
-						$target = $backend->generateTarget($itemSource, false, $exclude);
-					} else {
-						$target = $backend->generateTarget($itemSource, $shareWith, $exclude);
-					}
-					if (is_array($exclude) && in_array($target, $exclude)) {
-						break;
-					}
+					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
+									. ' WHERE `item_type` = ? AND `share_type` IN (?,?,?)'
+									. ' AND `share_with` IN (\'' . implode('\',\'', $userAndGroups) . '\')');
+					$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER,
+						self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
 				}
-				// Check if target already exists
-				$checkTarget = \OC\Share\Share::getItems($itemType, $target, $shareType, $shareWith);
-				if (!empty($checkTarget)) {
-					foreach ($checkTarget as $item) {
-						// Skip item if it is the group parent row
-						if (isset($groupParent) && $item['id'] == $groupParent) {
-							if (count($checkTarget) == 1) {
-								return $target;
-							} else {
-								continue;
-							}
-						}
-						if ($item['uid_owner'] == $uidOwner) {
-							if ($itemType == 'file' || $itemType == 'folder') {
-								$meta = \OC\Files\Filesystem::getFileInfo($itemSource);
-								if ($item['file_source'] == $meta['fileid']) {
-									return $target;
-								}
-							} else if ($item['item_source'] == $itemSource) {
-								return $target;
-							}
-						}
-					}
-					if (!isset($exclude)) {
-						$exclude = array();
-					}
-					// Find similar targets to improve backend's chances to generate a unqiue target
-					if ($userAndGroups) {
-						if ($column == 'file_target') {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` IN (\'file\', \'folder\')'
-								.' AND `share_type` IN (?,?,?)'
-								.' AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
-							$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP,
-								self::$shareTypeGroupUserUnique));
-						} else {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` = ? AND `share_type` IN (?,?,?)'
-								.' AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
-							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER,
-								self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
-						}
-					} else {
-						if ($column == 'file_target') {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` IN (\'file\', \'folder\')'
-								.' AND `share_type` = ? AND `share_with` = ?');
-							$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
-						} else {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
-							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
-						}
-					}
-					while ($row = $result->fetchRow()) {
-						$exclude[] = $row[$column];
-					}
+			} else {
+				if ($column == 'file_target') {
+					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
+									. ' WHERE `item_type` IN (\'file\', \'folder\')'
+									. ' AND `share_type` = ? AND `share_with` = ?');
+					$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
 				} else {
-					return $target;
+					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
+									. ' WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
+					$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
 				}
 			}
+			while ($row = $result->fetchRow()) {
+				$exclude[] = $row[$column];
+			}
+
+			// Check if suggested target exists first
+			if (!isset($suggestedTarget)) {
+				$suggestedTarget = $itemSource;
+			}
+			if ($shareType == self::SHARE_TYPE_GROUP) {
+				$target = $backend->generateTarget($suggestedTarget, false, $exclude);
+			} else {
+				$target = $backend->generateTarget($suggestedTarget, $shareWith, $exclude);
+			}
+
+			return $target;
 		}
-		$message = 'Sharing backend registered for '.$itemType.' did not generate a unique target for '.$itemSource;
-		\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-		throw new \Exception($message);
 	}
 
 	/**

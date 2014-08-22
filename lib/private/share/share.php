@@ -296,7 +296,7 @@ class Share extends \OC\Share\Constants {
 
 		// first check if there is a db entry for the specific user
 		$query = \OC_DB::prepare(
-				'SELECT `file_target`, `permissions`, `expiration`
+				'SELECT `file_target`, `item_target`, `permissions`, `expiration`
 					FROM
 					`*PREFIX*share`
 					WHERE
@@ -1290,13 +1290,17 @@ class Share extends \OC\Share\Constants {
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
 			}
 		}
+
+		if ($shareType == self::$shareTypeUserAndGroups) {
+			// Make sure the unique user target is returned if it exists,
+			// unique targets should follow the group share in the database
+			// If the limit is not 1, the filtering can be done later
+			$where .= ' ORDER BY `*PREFIX*share`.`id` DESC';
+		} else {
+			$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
+		}
+
 		if ($limit != -1 && !$includeCollections) {
-			if ($shareType == self::$shareTypeUserAndGroups) {
-				// Make sure the unique user target is returned if it exists,
-				// unique targets should follow the group share in the database
-				// If the limit is not 1, the filtering can be done later
-				$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
-			}
 			// The limit must be at least 3, because filtering needs to be done
 			if ($limit < 3) {
 				$queryLimit = 3;
@@ -1305,7 +1309,6 @@ class Share extends \OC\Share\Constants {
 			}
 		} else {
 			$queryLimit = null;
-			$where .= ' ORDER BY `*PREFIX*share`.`id` ASC';
 		}
 		$select = self::createSelectStatement($format, $fileDependent, $uidOwner);
 		$root = strlen($root);
@@ -1334,10 +1337,10 @@ class Share extends \OC\Share\Constants {
 				}
 			} else if (!isset($uidOwner)) {
 				// Check if the same target already exists
-				if (isset($targets[$row[$column]])) {
+				if (isset($targets[$row['id']])) {
 					// Check if the same owner shared with the user twice
 					// through a group and user share - this is allowed
-					$id = $targets[$row[$column]];
+					$id = $targets[$row['id']];
 					if (isset($items[$id]) && $items[$id]['uid_owner'] == $row['uid_owner']) {
 						// Switch to group share type to ensure resharing conditions aren't bypassed
 						if ($items[$id]['share_type'] != self::SHARE_TYPE_GROUP) {
@@ -1353,12 +1356,12 @@ class Share extends \OC\Share\Constants {
 							unset($items[$id]);
 							$id = $row['id'];
 						}
-						// Combine the permissions for the item
 						$items[$id]['permissions'] |= (int)$row['permissions'];
-						continue;
+
 					}
-				} else {
-					$targets[$row[$column]] = $row['id'];
+					continue;
+				} elseif (!empty($row['parent'])) {
+					$targets[$row['parent']] = $row['id'];
 				}
 			}
 			// Remove root from file source paths if retrieving own shared items
@@ -1413,10 +1416,13 @@ class Share extends \OC\Share\Constants {
 				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
 			}
 
-			$items[$row['id']] = $row;
+			if ($row['permissions'] > 0) {
+				$items[$row['id']] = $row;
+			}
 
 		}
 
+		// group items if we are looking for items shared with the current user
 		if (isset($shareWith) && $shareWith === \OCP\User::getUser()) {
 			$items = self::groupItems($items, $itemType);
 		}
@@ -1642,7 +1648,8 @@ class Share extends \OC\Share\Constants {
 		}
 
 		foreach ($users as $user) {
-			$sourceExists = self::getItemSharedWithBySource($itemType, $itemSource, self::FORMAT_NONE, null, true, $user);
+			$sourceId = ($itemType === 'file' || $itemType === 'folder') ? $fileSource : $itemSource;
+			$sourceExists = self::getItemSharedWithBySource($itemType, $sourceId, self::FORMAT_NONE, null, true, $user);
 
 			$shareType = ($isGroupShare) ? self::$shareTypeGroupUserUnique : $shareType;
 
@@ -1675,9 +1682,23 @@ class Share extends \OC\Share\Constants {
 				}
 
 			} else {
-                // move to the next user if it is neither a unique group share
-				// nor a single share without adding it to the share table
-				continue;
+
+				// group share which doesn't exists until now, check if we need a unique target for this user
+
+				$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $user,
+					$uidOwner, $suggestedItemTarget, $parent);
+
+				// do we also need a file target
+				if (isset($fileSource)) {
+					$fileTarget = Helper::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $user,
+							$uidOwner, $suggestedFileTarget, $parent);
+				} else {
+					$fileTarget = null;
+				}
+
+				if ($itemTarget === $groupItemTarget) {
+					continue;
+				}
 			}
 
 			$queriesToExecute[] = array(
