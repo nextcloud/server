@@ -120,12 +120,11 @@ class Swift implements IObjectStore {
 		$objectContent = $object->getContent();
 		$objectContent->rewind();
 
-		// directly returning the object stream does not work because the GC seems to collect it, so we need a copy
-		$tmpStream = fopen('php://temp', 'r+');
-		stream_copy_to_stream($objectContent->getStream(), $tmpStream);
-		rewind($tmpStream);
+		$stream = $objectContent->getStream();
+		// save the object content in the context of the stream to prevent it being gc'd until the stream is closed
+		stream_context_set_option($stream, 'swift','content', $objectContent);
 
-		return $tmpStream;
+		return $stream;
 	}
 
 	/**
