@@ -69,9 +69,10 @@ if($_['passwordChangeSupported']) {
 	script('jquery-showpassword');
 ?>
 <form id="passwordform" class="section">
-	<h2><?php p($l->t('Password'));?></h2>
-	<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
-	<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
+	<h2 class="inlineblock"><?php p($l->t('Password'));?></h2>
+	<div class="hidden icon-checkmark" id="password-changed"></div>
+	<div class="hidden" id="password-error"><?php p($l->t('Unable to change your password'));?></div>
+	<br>
 	<input type="password" id="pass1" name="oldpassword"
 		placeholder="<?php echo $l->t('Current password');?>"
 		autocomplete="off" autocapitalize="off" autocorrect="off" />

@@ -182,20 +182,25 @@ $(document).ready(function () {
 				if (data.status === "success") {
 					$('#pass1').val('');
 					$('#pass2').val('');
-					$('#passwordchanged').show();
+					// Hide a possible errormsg and show successmsg
+					$('#password-changed').removeClass('hidden').addClass('inlineblock');
+					$('#password-error').removeClass('inlineblock').addClass('hidden');
 				} else {
 					if (typeof(data.data) !== "undefined") {
 						$('#passworderror').html(data.data.message);
 					} else {
 						$('#passworderror').html(t('Unable to change password'));
 					}
-					$('#passworderror').show();
+					// Hide a possible successmsg and show errormsg
+					$('#password-changed').removeClass('inlineblock').addClass('hidden');
+					$('#password-error').removeClass('hidden').addClass('inlineblock');
 				}
 			});
 			return false;
 		} else {
-			$('#passwordchanged').hide();
-			$('#passworderror').show();
+			// Hide a possible successmsg and show errormsg
+			$('#password-changed').removeClass('inlineblock').addClass('hidden');
+			$('#password-error').removeClass('hidden').addClass('inlineblock');
 			return false;
 		}
 
