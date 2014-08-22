@@ -28,9 +28,7 @@ class Storage {
 		} else {
 			$this->storageId = $storage;
 		}
-		if (strlen($this->storageId) > 64) {
-			$this->storageId = md5($this->storageId);
-		}
+		$this->storageId = self::adjustStorageId($this->storageId);
 
 		$sql = 'SELECT `numeric_id` FROM `*PREFIX*storages` WHERE `id` = ?';
 		$result = \OC_DB::executeAudited($sql, array($this->storageId));
@@ -41,6 +39,19 @@ class Storage {
 			\OC_DB::executeAudited($sql, array($this->storageId));
 			$this->numericId = \OC_DB::insertid('*PREFIX*storages');
 		}
+	}
+
+	/**
+	 * Adjusts the storage id to use md5 if too long
+	 * @param string $storageId storage id
+	 * @return unchanged $storageId if its length is less than 64 characters,
+	 * else returns the md5 of $storageId
+	 */
+	public static function adjustStorageId($storageId) {
+		if (strlen($storageId) > 64) {
+			return md5($storageId);
+		}
+		return $storageId;
 	}
 
 	/**
@@ -68,9 +79,7 @@ class Storage {
 	 * @return string|null
 	 */
 	public static function getNumericStorageId($storageId) {
-		if (strlen($storageId) > 64) {
-			$storageId = md5($storageId);
-		}
+		$storageId = self::adjustStorageId($storageId);
 
 		$sql = 'SELECT `numeric_id` FROM `*PREFIX*storages` WHERE `id` = ?';
 		$result = \OC_DB::executeAudited($sql, array($storageId));
@@ -95,9 +104,7 @@ class Storage {
 	 * @param string $storageId
 	 */
 	public static function remove($storageId) {
-		if (strlen($storageId) > 64) {
-			$storageId = md5($storageId);
-		}
+		$storageId = self::adjustStorageId($storageId);
 		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
 		\OC_DB::executeAudited($sql, array($storageId));
 

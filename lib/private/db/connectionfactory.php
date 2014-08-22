@@ -102,6 +102,11 @@ class ConnectionFactory {
 				/** @var $connection \OC\DB\Connection */
 				$connection->disableQueryStatementCaching();
 				break;
+			case 'oci':
+				// oracle seems to have issues with cached statements which have been closed
+				/** @var $connection \OC\DB\Connection */
+				$connection->disableQueryStatementCaching();
+				break;
 		}
 		return $connection;
 	}
