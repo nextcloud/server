@@ -233,10 +233,17 @@ $(document).ready(function() {
 					}
 				},
 				initSelection: function(element, callback) {
+					var users = {};
+					users['users'] = [];
+					var toSplit = element.val().split(",");
+					for (var i = 0; i < toSplit.length; i++) {
+						users['users'].push(toSplit[i]);
+					}
+
 					$.ajax(OC.generateUrl('displaynames'), {
-						data: {
-							users: element.val().split(",")
-						},
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(users),
 						dataType: "json"
 					}).done(function(data) {
 						var results = [];

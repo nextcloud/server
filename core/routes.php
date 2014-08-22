@@ -6,13 +6,14 @@
  * See the COPYING-README file.
  */
 
-use OC\Core\LostPassword\Application;
+use OC\Core\Application;
 
 $application = new Application();
 $application->registerRoutes($this, array('routes' => array(
 		array('name' => 'lost#email', 'url' => '/lostpassword/email', 'verb' => 'POST'),
 		array('name' => 'lost#resetform', 'url' => '/lostpassword/reset/form/{token}/{userId}', 'verb' => 'GET'),
 		array('name' => 'lost#setPassword', 'url' => '/lostpassword/set/{token}/{userId}', 'verb' => 'POST'),
+		array('name' => 'user#getDisplayNames', 'url' => '/displaynames', 'verb' => 'POST'),
 	)
 ));
 
@@ -35,10 +36,6 @@ $this->create('core_ajax_share', '/core/ajax/share.php')
 // Translations
 $this->create('core_ajax_translations', '/core/ajax/translations.php')
 	->actionInclude('core/ajax/translations.php');
-// User display names
-$this->create('core_user_displaynames', '/displaynames')
-	->get()
-	->action('OC\Core\User\Controller', 'getDisplayNames');
 // Tags
 $this->create('core_tags_tags', '/tags/{type}')
 	->get()
