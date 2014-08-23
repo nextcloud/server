@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:25+0000\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -203,7 +203,15 @@ msgstr "Το βασικό πλαίσιο δεν υποστηρίζει αλλα�
 msgid "Unable to change password"
 msgstr "Αδυναμία αλλαγής συνθηματικού"
 
-#: js/admin.js:128
+#: js/admin.js:45
+msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
+msgstr ""
+
+#: js/admin.js:46
+msgid "Add trusted domain"
+msgstr ""
+
+#: js/admin.js:146
 msgid "Sending..."
 msgstr "Αποστέλεται..."
 

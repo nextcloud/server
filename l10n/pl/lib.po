@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:25+0000\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -48,25 +48,14 @@ msgstr "Można to zwykle rozwiązać przez %sdodanie serwerowi www uprawnień za
 
 #: base.php:577
 msgid "Sample configuration detected"
-msgstr ""
+msgstr "Wykryto przykładową konfigurację"
 
 #: base.php:578
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
 "before performing changes on config.php"
-msgstr ""
-
-#: base.php:693
-msgid "You are accessing the server from an untrusted domain."
-msgstr "Dostajesz się do serwera z niezaufanej domeny."
-
-#: base.php:694
-msgid ""
-"Please contact your administrator. If you are an administrator of this "
-"instance, configure the \"trusted_domain\" setting in config/config.php. An "
-"example configuration is provided in config/config.sample.php."
-msgstr "Proszę skontaktuj się z administratorem. Jeśli jesteś administratorem tej instancji, skonfiguruj parametr \"trusted_domain\" w pliku config/config.php. Przykładowa konfiguracja jest dostępna w pliku config/config.sample.php."
+msgstr "Wykryto skopiowanie przykładowej konfiguracji. To może popsuć Twoją instalację i nie jest wspierane. Proszę przeczytać dokumentację przed dokonywaniem zmian w config.php"
 
 #: private/app.php:374
 msgid "Help"
@@ -371,11 +360,11 @@ msgstr "Ustawienie uprawnień dla %s nie powiodło się, ponieważ element nie z
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
-msgstr ""
+msgstr "Nie można ustawić daty wygaśnięcia. Udziały nie mogą wygasać później niż %s od momentu udostępnienia"
 
 #: private/share/share.php:969
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr ""
+msgstr "Nie można ustawić daty wygaśnięcia. Data wygaśnięcia jest w przeszłości."
 
 #: private/share/share.php:1094
 #, php-format
@@ -543,7 +532,7 @@ msgstr "Nie udało się zmienić języka na %s"
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Proszę zainstalować jedno z poniższych locale w Twoim systemie i uruchomić ponownie serwer www."
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."

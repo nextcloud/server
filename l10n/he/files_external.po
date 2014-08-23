@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:02+0000\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr ""
 
 #: appinfo/app.php:44
 msgid "Local"
-msgstr ""
+msgstr "מקומי"
 
 #: appinfo/app.php:47
 msgid "Location"
@@ -233,7 +233,7 @@ msgstr ""
 
 #: js/settings.js:325 js/settings.js:332
 msgid "Saved"
-msgstr ""
+msgstr "נשמר"
 
 #: lib/config.php:712
 msgid "<b>Note:</b> "

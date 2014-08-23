@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:25+0000\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -199,7 +199,15 @@ msgstr "Zaplecze nie obsługuje zmiany hasła, ale klucz szyfrowania użytkownik
 msgid "Unable to change password"
 msgstr "Nie można zmienić hasła"
 
-#: js/admin.js:128
+#: js/admin.js:45
+msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
+msgstr ""
+
+#: js/admin.js:46
+msgid "Add trusted domain"
+msgstr ""
+
+#: js/admin.js:146
 msgid "Sending..."
 msgstr "Wysyłam..."
 
@@ -507,7 +515,7 @@ msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
-msgstr ""
+msgstr "Zestaw znaków PHP nie jest ustawiony na UTF-8. Może to spowodować poważne problemy ze znakami non-ASCII w nazwach plików. Gorąco doradzamy zmianę wartości 'default_charset' w php.ini na 'UTF-8'."
 
 #: templates/admin.php:165
 msgid "Locale not working"
@@ -545,7 +553,7 @@ msgstr "Ten serwer OwnCloud nie ma połączenia z Internetem. Oznacza to, że ni
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "Generowanie URL w powiadomieniach email"
 
 #: templates/admin.php:206
 #, php-format
@@ -554,7 +562,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Jeśli Twoja instalacja nie jest zainstalowana w katalogu głównym serwera www, a system używa cron-a, mogą występować problemy z generowaniem URL-i. Aby uniknąć tych problemów, proszę  ustawić opcję \"overwritewebroot\" w pliku config.php na ścieżkę z adresu www Twojej instalacji (Sugerowane: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

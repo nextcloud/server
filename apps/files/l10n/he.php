@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
 "Your storage is almost full ({usedSpacePercent}%)" => "שטח האחסון שלך כמעט מלא ({usedSpacePercent}%)",
+"Upload (max. %s)" => "העלאה (מקסימום %s)",
 "File handling" => "טיפול בקבצים",
 "Maximum upload size" => "גודל העלאה מקסימלי",
 "max. possible: " => "המרבי האפשרי: ",

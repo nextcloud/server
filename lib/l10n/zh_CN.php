@@ -2,7 +2,6 @@
 $TRANSLATIONS = array(
 "Cannot write into \"config\" directory!" => "无法写入“config”目录！",
 "See %s" => "查看 %s",
-"You are accessing the server from an untrusted domain." => "您正在访问来自不信任域名的服务器。",
 "Help" => "帮助",
 "Personal" => "个人",
 "Settings" => "设置",

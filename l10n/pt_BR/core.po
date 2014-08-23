@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:25+0000\n"
-"Last-Translator: dudanogueira <dudanogueira@gmail.com>\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,32 +25,32 @@ msgstr ""
 msgid "Couldn't send mail to following users: %s "
 msgstr "Não foi possível enviar e-mail para os seguintes usuários: %s"
 
-#: ajax/update.php:9
+#: ajax/update.php:10
 msgid "Turned on maintenance mode"
 msgstr "Ativar modo de manutenção"
 
-#: ajax/update.php:12
+#: ajax/update.php:13
 msgid "Turned off maintenance mode"
 msgstr "Desligar o modo de manutenção"
 
-#: ajax/update.php:15
+#: ajax/update.php:16
 msgid "Updated database"
 msgstr "Atualizar o banco de dados"
 
-#: ajax/update.php:18
+#: ajax/update.php:19
 msgid "Checked database schema update"
 msgstr "Verificado atualização do esquema de banco de dados"
 
-#: ajax/update.php:21
+#: ajax/update.php:22
 msgid "Checked database schema update for apps"
 msgstr "Verificar atualização do esquema de banco de dados para aplicativos"
 
-#: ajax/update.php:24
+#: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
 msgstr "Atualizado \"%s\" para %s"
 
-#: ajax/update.php:32
+#: ajax/update.php:33
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr "Desabilitar aplicativos incompatíveis : %s"
@@ -844,6 +844,28 @@ msgstr "Contacte o seu administrador do sistema se esta mensagem persistir ou ap
 #: templates/singleuser.user.php:7 templates/update.user.php:6
 msgid "Thank you for your patience."
 msgstr "Obrigado pela sua paciência."
+
+#: templates/untrustedDomain.php:5
+msgid "You are accessing the server from an untrusted domain."
+msgstr ""
+
+#: templates/untrustedDomain.php:8
+msgid ""
+"Please contact your administrator. If you are an administrator of this "
+"instance, configure the \"trusted_domain\" setting in config/config.php. An "
+"example configuration is provided in config/config.sample.php."
+msgstr ""
+
+#: templates/untrustedDomain.php:10
+msgid ""
+"Depending on your configuration, as an administrator you might also be able "
+"to use the button below to trust this domain."
+msgstr ""
+
+#: templates/untrustedDomain.php:14
+#, php-format
+msgid "Add \"%s\" as trusted domain"
+msgstr ""
 
 #: templates/update.admin.php:3
 #, php-format

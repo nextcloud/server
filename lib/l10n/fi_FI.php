@@ -1,8 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Cannot write into \"config\" directory!" => "Hakemistoon \"config\" kirjoittaminen ei onnistu!",
-"You are accessing the server from an untrusted domain." => "Olet yhteydessä palvelimeen epäluotettavasta verkko-osoitteesta.",
-"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Ota yhteys ylläpitäjään. Jos olet tämän ownCloudin ylläpitäjä, määritä \"trusted_domain\"-asetus tiedostossa config/config.php. Esimerkkimääritys on nähtävillä tiedostossa config/config.sample.php.",
 "Help" => "Ohje",
 "Personal" => "Henkilökohtainen",
 "Settings" => "Asetukset",

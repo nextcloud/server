@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "נשמר",
 "Email sent" => "הודעת הדוא״ל נשלחה",
 "Encryption" => "הצפנה",
 "Unable to load list from App Store" => "לא ניתן לטעון רשימה מה־App Store",

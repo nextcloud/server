@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:25+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,17 +52,6 @@ msgid ""
 " break your installation and is unsupported. Please read the documentation "
 "before performing changes on config.php"
 msgstr "Blijkbaar is de voorbeeldconfiguratie gekopieerd. Dit kan uw installatie beschadigen en wordt niet dan ook ondersteund. Lees de documentatie voordat u wijzigingen aan config.php doorvoert"
-
-#: base.php:693
-msgid "You are accessing the server from an untrusted domain."
-msgstr "U benadert de server vanaf een niet vertrouwd domein."
-
-#: base.php:694
-msgid ""
-"Please contact your administrator. If you are an administrator of this "
-"instance, configure the \"trusted_domain\" setting in config/config.php. An "
-"example configuration is provided in config/config.sample.php."
-msgstr "Neem contact op met uw beheerder. Als u de beheerder van deze service bent, configureer dan de \"trusted_domain\" instelling in config/config.php. Een voorbeeldconfiguratie is gegeven in config/config.sample.php."
 
 #: private/app.php:374
 msgid "Help"

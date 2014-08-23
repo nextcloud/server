@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-22 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-23 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 05:10+0000\n"
+"Last-Translator: Maciej Przybecki <maciej.przybecki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +86,7 @@ msgstr "Serwer nie mógł otworzyć adresów URL, należy sprawdzić konfiguracj
 #: ajax/newfile.php:126
 #, php-format
 msgid "The file exceeds your quota by %s"
-msgstr ""
+msgstr "Ten plik przekracza twój limit o %s"
 
 #: ajax/newfile.php:141
 #, php-format
@@ -337,7 +337,7 @@ msgstr "{dirs} i {files}"
 #: lib/app.php:80
 #, php-format
 msgid "%s could not be renamed as it has been deleted"
-msgstr ""
+msgstr "%s nie może mieć zmienionej nazwy, ponieważ został usunięty"
 
 #: lib/app.php:113
 #, php-format

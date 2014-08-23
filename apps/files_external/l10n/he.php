@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "נא לספק קוד יישום וסוד תקניים של Dropbox.",
+"Local" => "מקומי",
 "Location" => "מיקום",
 "Host" => "מארח",
 "Username" => "שם משתמש",
@@ -12,6 +13,7 @@ $TRANSLATIONS = array(
 "Grant access" => "הענקת גישה",
 "Error configuring Google Drive storage" => "אירעה שגיאה בעת הגדרת אחסון ב־Google Drive",
 "Personal" => "אישי",
+"Saved" => "נשמר",
 "Name" => "שם",
 "External Storage" => "אחסון חיצוני",
 "Folder name" => "שם התיקייה",
