@@ -8,6 +8,8 @@ $TRANSLATIONS = array(
 "Unknown filetype" => "Fayl tipi bəlli deyil.",
 "Invalid image" => "Yalnış şəkil",
 "No temporary profile picture available, try again" => "Profaylın müvəqqəti şəklinə çatmaq mümkün olmadı, yenidən təkrarlayın.",
+"Sunday" => "Bazar",
+"Monday" => "Bazar ertəsi",
 "Settings" => "Quraşdırmalar",
 "Folder" => "Qovluq",
 "Saving..." => "Saxlama...",
@@ -31,6 +33,8 @@ $TRANSLATIONS = array(
 "Reset" => "Sıfırla",
 "Users" => "İstifadəçilər",
 "Admin" => "İnzibatçı",
-"Password" => "Şifrə"
+"Password" => "Şifrə",
+"You are accessing the server from an untrusted domain." => "Siz serverə inamsız domain-dən girməyə çalışırsız.",
+"Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Xahiş olunur inzibatçı ilə əlaqə saxlayasınız. Eger siz bu xidmətin inzibatçısısınizsa, \"trusted_domain\" configini config/config.php faylinda düzgün qeyd edin.  Config nüsxəsi config/config.sample.php faylında qeyd edilmişdir."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

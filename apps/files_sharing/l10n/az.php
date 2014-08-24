@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Remote share" => "Uzaq yayımlanma",
 "Remote share password" => "Uzaq yayımlanma şifrəsi",
 "Cancel" => "Dayandır",
+"Add remote share" => "Uzaq yayımlanmanı əlavə et",
 "Invalid ownCloud url" => "Yalnış ownCloud url-i",
 "Shared by" => "Tərəfindən yayımlanıb",
 "Password" => "Şifrə",

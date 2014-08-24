@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -199,11 +199,11 @@ msgstr "Kunne ikke endre passord"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "Ønsker du virkelig å legge til \"{domain}\" som tiltrodd domene?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Legg til et tiltrodd domene"
 
 #: js/admin.js:146
 msgid "Sending..."
@@ -506,14 +506,14 @@ msgstr "PHP-versjonen din er utdatert. Vi anbefaler på det sterkeste at du oppd
 
 #: templates/admin.php:151
 msgid "PHP charset is not set to UTF-8"
-msgstr ""
+msgstr "PHP-tegnsett er ikke satt til UTF-8"
 
 #: templates/admin.php:154
 msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
-msgstr ""
+msgstr "PHP-tegnsett er ikke satt til UTF-8. Dette kan forårsake store problemer med tegn som ikke er ASCII i filnavn. Vi anbefaler på det sterkeste å endre verdien av 'default_charset' i php.ini til 'UTF-8'."
 
 #: templates/admin.php:165
 msgid "Locale not working"
@@ -551,7 +551,7 @@ msgstr "Denne serveren har ikke en fungerende Internett-tilkobling. Dette betyr 
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "URL-generering i varsel-eposter"
 
 #: templates/admin.php:206
 #, php-format
@@ -560,7 +560,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Hvis installasjonen din ikke er installert i roten av domenet og bruker system cron, kan det bli problemer med URL-generering. For å forhindre disse problemene, sett \"overwritewebroot\" i filen config.php til webroot-stien for installasjonen din (Forslag: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

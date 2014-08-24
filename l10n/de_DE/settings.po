@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: Mario Siegmann <mario_siegmann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -207,11 +207,11 @@ msgstr "Passwort konnte nicht geändert werden"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "Sind Sie sich wirklich sicher, dass Sie \"{domain}\" als vertrauenswürdige Domain hinzufügen möchten?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Vertrauenswürdige Domain hinzufügen"
 
 #: js/admin.js:146
 msgid "Sending..."

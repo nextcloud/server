@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Server til server-deling er ikke aktivert på denne serveren",
+"Invalid or untrusted SSL certificate" => "Ugyldig eller ikke tiltrodd SSL-sertifikat",
 "Couldn't add remote share" => "Klarte ikke å legge til ekstern deling",
 "Shared with you" => "Delt med deg",
 "Shared with others" => "Delt med andre",

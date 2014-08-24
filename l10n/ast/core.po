@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -848,14 +848,14 @@ msgstr "Gracies pola to paciencia."
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Tas accediendo al sirvidor dende un dominiu non confiáu."
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Por favor, contauta col alministrador. Si yes l'alministrador, configura l'axuste \"trusted_domain\" en config/config.php. Hai un exemplu en config/config.sample.php."
 
 #: templates/untrustedDomain.php:10
 msgid ""

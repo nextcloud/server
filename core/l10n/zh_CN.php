@@ -187,6 +187,7 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "这意味着只有管理员才能在实例上操作。",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "如果这个消息一直存在或不停出现，请联系你的系统管理员。",
 "Thank you for your patience." => "感谢让你久等了。",
+"You are accessing the server from an untrusted domain." => "您正在访问来自不信任域名的服务器。",
 "%s will be updated to version %s." => "%s 将会更新到版本 %s。",
 "The following apps will be disabled:" => "以下应用将会被禁用：",
 "The theme %s has been disabled." => "%s 主题已被禁用。",

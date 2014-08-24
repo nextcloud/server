@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-12 01:54-0400\n"
-"PO-Revision-Date: 2014-08-12 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 15:01+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,11 +36,11 @@ msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
 msgstr "Klarte ikke å deaktivere gjenopprettingsnøkkel. Sjekk passordet for gjenopprettingsnøkkelen."
 
-#: ajax/changeRecoveryPassword.php:49
+#: ajax/changeRecoveryPassword.php:50
 msgid "Password successfully changed."
 msgstr "Passordet ble endret."
 
-#: ajax/changeRecoveryPassword.php:51
+#: ajax/changeRecoveryPassword.php:52
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr "Klarte ikke å endre passordet. Kanskje gammelt passord ikke var korrekt."
 
@@ -92,7 +92,7 @@ msgid ""
 " the encryption app has been disabled."
 msgstr "Vennligst se til at PHP 5.3.3 eller nyere er installert og at OpenSSL sammen med PHP-utvidelsen er aktivert og riktig konfigurert. Enn så lenge er krypterings-appen deaktivert."
 
-#: hooks/hooks.php:293
+#: hooks/hooks.php:298
 msgid "Following users are not set up for encryption:"
 msgstr "Følgende brukere er ikke satt opp for kryptering:"
 
@@ -162,11 +162,11 @@ msgstr "Endre passord"
 
 #: templates/settings-personal.php:12
 msgid "Your private key password no longer matches your log-in password."
-msgstr ""
+msgstr "Passordet for din private nøkkel stemmer ikke lenger med påloggingspassordet ditt."
 
 #: templates/settings-personal.php:15
 msgid "Set your old private key password to your current log-in password:"
-msgstr ""
+msgstr "Sett ditt gamle passord for privat nøkkel til ditt nåværende påloggingspassord:"
 
 #: templates/settings-personal.php:17
 msgid ""

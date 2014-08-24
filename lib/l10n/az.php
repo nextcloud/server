@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Settings" => "Quraşdırmalar",
 "Users" => "İstifadəçilər",
 "Admin" => "İnzibatçı",
+"No app name specified" => "Proqram adı təyin edilməyib",
 "Unknown filetype" => "Fayl tipi bəlli deyil.",
 "Invalid image" => "Yalnış şəkil",
 "Authentication error" => "Təyinat metodikası",

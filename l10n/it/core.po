@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -848,25 +848,25 @@ msgstr "Grazie per la pazienza."
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Stai accedendo al server da un dominio non attendibile."
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Contatta il tuo amministratore di sistema. Se sei un amministratore, configura l'impostazione \"trusted_domain\" in config/config.php. Un esempio di configurazione è disponibile in config/config.sample.php."
 
 #: templates/untrustedDomain.php:10
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "In base alla tua configurazione, come amministratore potrai utilizzare anche il pulsante in basso per rendere attendibile questo dominio."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Aggiungi \"%s\" come dominio attendibile"
 
 #: templates/update.admin.php:3
 #, php-format

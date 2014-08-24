@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -846,25 +846,25 @@ msgstr "Благодарим за търпението."
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Свръзваш се със сървъра от неодобрен домейн."
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Моля, свържи се с администратора. Ако ти си администраторът, на този сървър, промени \"trusted_domain\" настройките в  config/config.php. Примерна конфигурация е приложена в config/config.sample.php."
 
 #: templates/untrustedDomain.php:10
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "В зависимост от конфигурацията ти, като администратор може натискайки бутонът по-долу да отбележиш домейнът като сигурен."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Добави \"%s\" като сигурен домейн"
 
 #: templates/update.admin.php:3
 #, php-format

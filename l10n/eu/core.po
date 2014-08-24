@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: Alexander Gabilondo <alexgabi@openmailbox.org>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +49,7 @@ msgstr "Egiaztatuta aplikazioen datu-basearen zerbitzariaren eguneraketa"
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "\"%s\" %s-ra eguneratua"
 
 #: ajax/update.php:33
 #, php-format
@@ -848,25 +848,25 @@ msgstr "Milesker zure patzientziagatik."
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Zerbitzaria domeinu ez fidagarri batetik eskuratzen ari zara."
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Mesedez harremanetan jarri kudeatzailearekin. Zu kudeatzailea bazara, konfiguratu \"trusted_domain\" ezarpena config/config.php fitxategian. Adibidezko konfigurazko bat  config/config.sample.php fitxategian dago."
 
 #: templates/untrustedDomain.php:10
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "Zure ezarpenen gorabehera, administratzaile bezala posible duzu ere azpiko botoia erabiltzea fidatzeko domeinu horrekin."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Gehitu \"%s\" domeinu fidagarri gisa"
 
 #: templates/update.admin.php:3
 #, php-format

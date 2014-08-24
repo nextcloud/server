@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: Ivo\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -196,11 +196,11 @@ msgstr "Неуспешна смяна на паролата."
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "Сигурен ли си, че искащ да добавиш \"{domain}\" сигурен домейн?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Добави сигурен домейн"
 
 #: js/admin.js:146
 msgid "Sending..."

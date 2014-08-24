@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-22 01:54-0400\n"
-"PO-Revision-Date: 2014-08-21 14:41+0000\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-23 10:01+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr ""
 
 #: js/settings.js:84
 msgid "Keep settings?"
-msgstr ""
+msgstr "Ayarlar qalsın?"
 
 #: js/settings.js:93
 msgid "{nthServer}. Server"
@@ -77,7 +77,7 @@ msgstr ""
 
 #: js/settings.js:99
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Server quraşdırmalarını əlavə etmək mümkün olmadı"
 
 #: js/settings.js:127
 msgid "mappings cleared"

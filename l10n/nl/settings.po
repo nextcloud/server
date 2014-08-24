@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
+"Last-Translator: Koen Willems <kwillems@zonnet.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -199,11 +199,11 @@ msgstr "Kan wachtwoord niet wijzigen"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "Weet u zeker dat u \"{domain}\" als een vertrouwd domein wilt toevoegen?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Vertrouwd domein toevoegen"
 
 #: js/admin.js:146
 msgid "Sending..."
@@ -749,7 +749,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Ontwikkeld door de <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud gemeenschap</a>, de <a href=\"https://github.com/owncloud\" target=\"_blank\">bron code</a> is gelicenseerd onder de <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr "Ontwikkeld door de <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud gemeenschap</a>, de <a href=\"https://github.com/owncloud\" target=\"_blank\">broncode</a> is gelicenseerd onder de <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:14
 msgid "Add your App"
@@ -828,7 +828,7 @@ msgstr "Toon de Eerste start Wizard opnieuw"
 #: templates/personal.php:39
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Je hebt <strong>%s</strong> gebruikt van de beschikbare <strong>%s<strong>"
+msgstr "U heeft <strong>%s</strong> gebruikt van de beschikbare <strong>%s</strong>"
 
 #: templates/personal.php:50 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:02+0000\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:02+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +74,7 @@ msgstr "Düzgün mənbə yoxdur"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr ""
+msgstr "URL-ləri açmaq üçün server izin vermir, xahış olunur server quraşdırmalarını yoxlayasınız"
 
 #: ajax/newfile.php:126
 #, php-format
@@ -84,7 +84,7 @@ msgstr ""
 #: ajax/newfile.php:141
 #, php-format
 msgid "Error while downloading %s to %s"
-msgstr ""
+msgstr "%s-i %s-ə yükləmə zamanı səhv baş verdi"
 
 #: ajax/newfile.php:169
 msgid "Error when creating the file"
@@ -380,7 +380,7 @@ msgstr ""
 
 #: templates/list.php:12
 msgid "New folder"
-msgstr ""
+msgstr "Yeni qovluq"
 
 #: templates/list.php:13
 msgid "Folder"

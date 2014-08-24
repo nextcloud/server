@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -855,14 +855,14 @@ msgstr "Σας ευχαριστούμε για την υπομονή σας."
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "Η προσπέλαση του διακομιστή γίνεται από μη έμπιστο τομέα."
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Παρακαλώ επικοινωνήστε με τον διαχειριστή συστημάτων σας. Αν είστε διαχειριστής αυτού του στιγμιοτύπο, ρυθμίστε το κλειδί \"trusted_domain\" στο αρχείο config/config.php. Ένα παράδειγμα παρέχεται στο αρχείο config/config.sample.php."
 
 #: templates/untrustedDomain.php:10
 msgid ""

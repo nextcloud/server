@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-23 01:54-0400\n"
-"PO-Revision-Date: 2014-08-23 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-24 01:54-0400\n"
+"PO-Revision-Date: 2014-08-24 05:24+0000\n"
+"Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,14 +43,14 @@ msgstr "Dette kan vanligvis ordnes ved %så gi web-serveren skrivetilgang til co
 
 #: base.php:577
 msgid "Sample configuration detected"
-msgstr ""
+msgstr "Eksempelkonfigurasjon oppdaget"
 
 #: base.php:578
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
 "before performing changes on config.php"
-msgstr ""
+msgstr "Det ble oppdaget at eksempelkonfigurasjonen er blitt kopiert. Dette kan ødelegge installasjonen din og støttes ikke. Les dokumentasjonen før du gjør endringer i config.php"
 
 #: private/app.php:374
 msgid "Help"
@@ -523,7 +523,7 @@ msgstr "Setting av nasjonale innstillinger til %s feilet."
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Vennligst installer en av disse nasjonale innstillingene på systemet ditt og start webserveren på nytt."
 
 #: private/util.php:482
 msgid "Please ask your server administrator to install the module."
