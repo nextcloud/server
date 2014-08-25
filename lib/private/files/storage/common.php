@@ -95,7 +95,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function isDeletable($path) {
-		return $this->isUpdatable($path);
+		if ($path === '' or $path === '/') {
+			return false;
+		}
+		$parent = dirname($path);
+		return $this->isUpdatable($parent);
 	}
 
 	public function isSharable($path) {
