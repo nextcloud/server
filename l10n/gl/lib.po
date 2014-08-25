@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-24 01:54-0400\n"
-"PO-Revision-Date: 2014-08-24 05:24+0000\n"
+"POT-Creation-Date: 2014-08-25 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Polo xeral, isto pode ser fixado para permitirlle ao servidor web acceso
 msgid "See %s"
 msgstr "Vexa %s"
 
-#: base.php:208 private/util.php:431
+#: base.php:208 private/util.php:442
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
@@ -476,147 +476,147 @@ msgstr "Debe fornecer un contrasinal"
 msgid "The username is already being used"
 msgstr "Este nome de usuario xa está a ser usado"
 
-#: private/util.php:416
+#: private/util.php:427
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
 msgstr "Non hay controladores de base de datos (sqlite, mysql, ou postgresql) instalados."
 
-#: private/util.php:423
+#: private/util.php:434
 #, php-format
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
 msgstr "Polo xeral, isto pode ser fixado para %spermitirlle ao servidor web acceso de escritura  ao directorio «root»%s."
 
-#: private/util.php:430
+#: private/util.php:441
 msgid "Cannot write into \"config\" directory"
 msgstr "Non é posíbel escribir no directorio «config»"
 
-#: private/util.php:443
+#: private/util.php:455
 msgid "Cannot write into \"apps\" directory"
 msgstr "Non é posíbel escribir no directorio «apps»"
 
-#: private/util.php:444
+#: private/util.php:456
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
 msgstr "Polo xeral, isto pode ser fixado para %spermitirlle ao servidor web acceso de escritura  ao directorio «apps»%s ou a desactivación da «appstore» no ficheiro de configuración."
 
-#: private/util.php:458
+#: private/util.php:470
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
 msgstr "Non é posíbel crear o directorio «data» (%s)"
 
-#: private/util.php:459
+#: private/util.php:471
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
 msgstr "Polo xeral, isto pode ser fixado para <a href=\"%s\" target=\"_blank\">permitirlle ao servidor web acceso de escritura  ao directorio «root»</a>."
 
-#: private/util.php:475
+#: private/util.php:487
 #, php-format
 msgid "Setting locale to %s failed"
 msgstr "Fallou o axuste da configuración local a %s"
 
-#: private/util.php:478
+#: private/util.php:490
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
 msgstr "Instale unha destas configuracións locais no seu sistema e reinicie o servidor web."
 
-#: private/util.php:482
+#: private/util.php:494
 msgid "Please ask your server administrator to install the module."
 msgstr "Pregúntelle ao administrador do servidor pola instalación do módulo."
 
-#: private/util.php:486 private/util.php:493 private/util.php:500
-#: private/util.php:514 private/util.php:521 private/util.php:528
-#: private/util.php:535 private/util.php:542 private/util.php:549
-#: private/util.php:564
+#: private/util.php:498 private/util.php:505 private/util.php:512
+#: private/util.php:526 private/util.php:533 private/util.php:540
+#: private/util.php:547 private/util.php:554 private/util.php:561
+#: private/util.php:576
 #, php-format
 msgid "PHP module %s not installed."
 msgstr "O módulo PHP %s non está instalado."
 
-#: private/util.php:556
+#: private/util.php:568
 #, php-format
 msgid "PHP %s or higher is required."
 msgstr "Requirese PHP %s ou superior."
 
-#: private/util.php:557
+#: private/util.php:569
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
 msgstr "Pregúntelle ao administrador do servidor pola actualización de PHP á versión máis recente. A súa versión de PHP xa non é asistida polas comunidades de ownCloud e PHP."
 
-#: private/util.php:574
+#: private/util.php:587
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr "O modo seguro de PHP está activado. ownCloud precisa que estea desactivado para traballar doadamente."
 
-#: private/util.php:575
+#: private/util.php:588
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr "O modo seguro de PHP é un entorno en desuso e maiormente inútil que ten que seren desactivado. Pregúntelle ao administrador do servidor pola desactivación en php.ini ou na configuración do servidor web."
 
-#: private/util.php:582
+#: private/util.php:595
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr "«Magic Quotes» está activado. ownCloud precisa que estea desactivado para traballar doadamente."
 
-#: private/util.php:583
+#: private/util.php:596
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr "«Magic Quotes» é un entorno en desuso e maiormente inútil que ten que seren desactivado. Pregúntelle ao administrador do servidor pola desactivación en php.ini ou na configuración do servidor web."
 
-#: private/util.php:597
+#: private/util.php:610
 msgid "PHP modules have been installed, but they are still listed as missing?"
 msgstr "Instaláronse os módulos de PHP, mais aínda aparecen listados como perdidos?"
 
-#: private/util.php:598
+#: private/util.php:611
 msgid "Please ask your server administrator to restart the web server."
 msgstr "Pregúntelle ao administrador do servidor polo reinicio do servidor web.."
 
-#: private/util.php:627
+#: private/util.php:641
 msgid "PostgreSQL >= 9 required"
 msgstr "Requírese PostgreSQL >= 9"
 
-#: private/util.php:628
+#: private/util.php:642
 msgid "Please upgrade your database version"
 msgstr "Anove a versión da súa base de datos"
 
-#: private/util.php:635
+#: private/util.php:649
 msgid "Error occurred while checking PostgreSQL version"
 msgstr "Produciuse un erro mentres comprobaba a versión de PostgreSQL"
 
-#: private/util.php:636
+#: private/util.php:650
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
 msgstr "Asegúrese de que dispón do PostgreSQL >= 9 ou comprobe os rexistros para obter máis información sobre este erro"
 
-#: private/util.php:698
+#: private/util.php:715
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
 msgstr "Cambie os permisos a 0770 para que o directorio non poida seren listado por outros usuarios."
 
-#: private/util.php:707
+#: private/util.php:724
 #, php-format
 msgid "Data directory (%s) is readable by other users"
 msgstr "O directorio de datos (%s) é lexíbel por outros usuarios"
 
-#: private/util.php:728
+#: private/util.php:745
 #, php-format
 msgid "Data directory (%s) is invalid"
 msgstr "O directorio de datos (%s) non é correcto"
 
-#: private/util.php:729
+#: private/util.php:746
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-24 01:54-0400\n"
-"PO-Revision-Date: 2014-08-24 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-25 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 05:23+0000\n"
+"Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr "Elektronska pošta je poslana"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Pred preizkusnim pošiljanjem sporočil je treba nastaviti elektronski naslov uporabnika."
 
 #: admin/controller.php:116 templates/admin.php:368
 msgid "Send mode"
@@ -201,7 +201,7 @@ msgstr ""
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Dodaj varno domeno"
 
 #: js/admin.js:146
 msgid "Sending..."

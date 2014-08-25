@@ -6,6 +6,7 @@
 # Playerthe12 <a7652246@drdrb.net>, 2014
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# evigiannakou <evigian@in.gr>, 2014
 # Αικατερίνη Χ. Καταπόδη <spanish.katerina@gmail.com>, 2013
 # Spyros Melissovas <peppe@cs.uoi.gr>, 2014
 # Theodore Grammenos <theodorewii121@hotmail.com>, 2013
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-24 01:54-0400\n"
-"PO-Revision-Date: 2014-08-24 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-25 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 05:23+0000\n"
+"Last-Translator: evigiannakou <evigian@in.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -205,11 +206,11 @@ msgstr "Αδυναμία αλλαγής συνθηματικού"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "Είστε πραγματικά σίγουροι ότι θέλετε να προσθέσετε το \"{domain}\" σαν αξιόπιστη περιοχή;"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Προσθέστε αξιόπιστη περιοχή"
 
 #: js/admin.js:146
 msgid "Sending..."
@@ -512,14 +513,14 @@ msgstr "Η έκδοση PHP είναι απαρχαιωμένη. Συνιστο�
 
 #: templates/admin.php:151
 msgid "PHP charset is not set to UTF-8"
-msgstr ""
+msgstr "Το σύνολο χαρακτήρων PHP δεν έχει οριστεί στο UTF-8"
 
 #: templates/admin.php:154
 msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
-msgstr ""
+msgstr "Το σύνολο χαρακτήρων PHP δεν έχει οριστεί στο UTF-8. Αυτό μπορεί να προκαλέσει τεράστια ζητήματα με χωρίς-ASCII χαρακτήρες στα ονόματα των αρχείων. Συνιστούμε ανεπιφύλακτα να αλλάξετε την αξία του 'default_charset' php.ini στο 'UTF-8'."
 
 #: templates/admin.php:165
 msgid "Locale not working"
@@ -557,7 +558,7 @@ msgstr "Αυτός ο διακομιστής δεν έχει ενεργή σύν
 
 #: templates/admin.php:203
 msgid "URL generation in notification emails"
-msgstr ""
+msgstr "Δημιουργία URL στις ειδοποιήσεις ηλεκτρονικού ταχυδρομείου"
 
 #: templates/admin.php:206
 #, php-format
@@ -566,7 +567,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr ""
+msgstr "Αν η εγκατάστασή σας δεν είναι εγκατεστημένη στη ρίζα της περιοχής και χρησιμοποιεί το cron του συστήματος, μπορεί να υπάρξουν ζητήματα με τη δημιουργία URL. Για να αποφύγετε αυτά τα προβλήματα, παρακαλώ ρυθμίστε την επιλογή \"overwritewebroot\" στον config.php φάκελό σας στη διαδρομή webroot της εγκατάστασής σας (Suggested: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"

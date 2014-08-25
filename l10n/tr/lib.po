@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-24 01:54-0400\n"
-"PO-Revision-Date: 2014-08-24 05:24+0000\n"
+"POT-Creation-Date: 2014-08-25 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Bu genellikle, web sunucusuna config dizinine yazma erişimi verilerek �
 msgid "See %s"
 msgstr "Bakınız: %s"
 
-#: base.php:208 private/util.php:431
+#: base.php:208 private/util.php:442
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
@@ -478,147 +478,147 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 msgid "The username is already being used"
 msgstr "Bu kullanıcı adı zaten kullanımda"
 
-#: private/util.php:416
+#: private/util.php:427
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
 msgstr "Yüklü veritabanı sürücüsü (sqlite, mysql veya postgresql) yok."
 
-#: private/util.php:423
+#: private/util.php:434
 #, php-format
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
 msgstr "İzinler genellikle, %sweb sunucusuna kök dizinine yazma erişimi verilerek%s çözülebilir"
 
-#: private/util.php:430
+#: private/util.php:441
 msgid "Cannot write into \"config\" directory"
 msgstr "\"config\" dizinine yazılamıyor"
 
-#: private/util.php:443
+#: private/util.php:455
 msgid "Cannot write into \"apps\" directory"
 msgstr "\"apps\" dizinine yazılamıyor"
 
-#: private/util.php:444
+#: private/util.php:456
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
 msgstr "Bu genellikle, %sweb sunucusuna apps dizinine yazma erişimi verilerek%s veya yapılandırma dosyasında appstore (uygulama mağazası) devre dışı bırakılarak çözülebilir."
 
-#: private/util.php:458
+#: private/util.php:470
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
 msgstr "\"Veri\" dizini oluşturulamıyor (%s)"
 
-#: private/util.php:459
+#: private/util.php:471
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
 msgstr "İzinler genellikle, <a href=\"%s\" target=\"_blank\">web sunucusuna kök dizinine yazma erişimi verilerek</a> çözülebilir."
 
-#: private/util.php:475
+#: private/util.php:487
 #, php-format
 msgid "Setting locale to %s failed"
 msgstr "Dili %s olarak ayarlama başarısız"
 
-#: private/util.php:478
+#: private/util.php:490
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
 msgstr "Lütfen bu yerellerden birini sisteminize yükleyin ve web sunucunuzu yeniden başlatın."
 
-#: private/util.php:482
+#: private/util.php:494
 msgid "Please ask your server administrator to install the module."
 msgstr "Lütfen modülün kurulması için sunucu yöneticinize danışın."
 
-#: private/util.php:486 private/util.php:493 private/util.php:500
-#: private/util.php:514 private/util.php:521 private/util.php:528
-#: private/util.php:535 private/util.php:542 private/util.php:549
-#: private/util.php:564
+#: private/util.php:498 private/util.php:505 private/util.php:512
+#: private/util.php:526 private/util.php:533 private/util.php:540
+#: private/util.php:547 private/util.php:554 private/util.php:561
+#: private/util.php:576
 #, php-format
 msgid "PHP module %s not installed."
 msgstr "PHP modülü %s yüklü değil."
 
-#: private/util.php:556
+#: private/util.php:568
 #, php-format
 msgid "PHP %s or higher is required."
 msgstr "PHP %s veya daha üst sürümü gerekli."
 
-#: private/util.php:557
+#: private/util.php:569
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
 msgstr "Lütfen PHP'yi en son sürüme güncellemesi için sunucu yönetinize danışın. PHP sürümünüz ownCloud ve PHP topluluğu tarafından artık desteklenmemektedir."
 
-#: private/util.php:574
+#: private/util.php:587
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr "PHP Güvenli Kip (Safe Mode) etkin. ownCloud düzgün çalışabilmesi için bunun devre dışı olmasını gerektirir."
 
-#: private/util.php:575
+#: private/util.php:588
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr "PHP Güvenli Kip (Safe Mode), eskimiş ve devre dışı bırakılması gereken en kullanışsız ayardır. Lütfen php.ini veya web sunucu yapılandırması içerisinde devre dışı bırakması için sunucu yöneticinize danışın."
 
-#: private/util.php:582
+#: private/util.php:595
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr "Sihirli Tırnaklar (Magic Quotes) etkin. ownCloud çalışabilmesi için bunun devre dışı bırakılması gerekli."
 
-#: private/util.php:583
+#: private/util.php:596
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr "Sihirli Tırnaklar (Magic Quotes), eskimiş ve devre dışı bırakılması gereken en kullanışsız ayardır. Lütfen php.ini veya web sunucu yapılandırması içerisinde devre dışı bırakması için sunucu yöneticinize danışın."
 
-#: private/util.php:597
+#: private/util.php:610
 msgid "PHP modules have been installed, but they are still listed as missing?"
 msgstr "PHP modülleri yüklü, ancak hala eksik olarak mı görünüyorlar?"
 
-#: private/util.php:598
+#: private/util.php:611
 msgid "Please ask your server administrator to restart the web server."
 msgstr "Lütfen web sunucusunu yeniden başlatması için sunucu yöneticinize danışın."
 
-#: private/util.php:627
+#: private/util.php:641
 msgid "PostgreSQL >= 9 required"
 msgstr "PostgreSQL >= 9 gerekli"
 
-#: private/util.php:628
+#: private/util.php:642
 msgid "Please upgrade your database version"
 msgstr "Lütfen veritabanı sürümünüzü yükseltin"
 
-#: private/util.php:635
+#: private/util.php:649
 msgid "Error occurred while checking PostgreSQL version"
 msgstr "PostgreSQL sürümü denetlenirken hata oluştu"
 
-#: private/util.php:636
+#: private/util.php:650
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
 msgstr "PostgreSQL >= 9 sürümüne sahip olduğunuzu doğrulayın veya hata hakkında daha fazla bilgi için günlükleri denetleyin"
 
-#: private/util.php:698
+#: private/util.php:715
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
 msgstr "Lütfen izinleri 0770 ayarlayarak dizinin diğer kullanıcılar tarafından görülememesini sağlayın."
 
-#: private/util.php:707
+#: private/util.php:724
 #, php-format
 msgid "Data directory (%s) is readable by other users"
 msgstr "Veri dizini (%s) diğer kullanıcılar tarafından okunabilir"
 
-#: private/util.php:728
+#: private/util.php:745
 #, php-format
 msgid "Data directory (%s) is invalid"
 msgstr "Veri dizini (%s) geçersiz"
 
-#: private/util.php:729
+#: private/util.php:746
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."

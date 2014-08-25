@@ -6,6 +6,7 @@
 # Playerthe12 <a7652246@drdrb.net>, 2014
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013-2014
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2013
+# evigiannakou <evigian@in.gr>, 2014
 # Georgios Tsamis <gtsamis@yahoo.com>, 2013
 # ggoniotakis <ioannis.goniotakis@gmail.com>, 2014
 # Petros Freris (Πέτρος Φρέρης) <petrosfreris@gmail.com>, 2013
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-24 01:54-0400\n"
-"PO-Revision-Date: 2014-08-24 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-25 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 05:02+0000\n"
+"Last-Translator: evigiannakou <evigian@in.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,7 +88,7 @@ msgstr "Ο διακομιστής δεν επιτρέπεται να ανοίγ�
 #: ajax/newfile.php:126
 #, php-format
 msgid "The file exceeds your quota by %s"
-msgstr ""
+msgstr "Ο φάκελλος ξεπερνάει το όριό σας κατά %s"
 
 #: ajax/newfile.php:141
 #, php-format
@@ -335,7 +336,7 @@ msgstr "{Κατάλογοι αρχείων} και {αρχεία}"
 #: lib/app.php:80
 #, php-format
 msgid "%s could not be renamed as it has been deleted"
-msgstr ""
+msgstr "%s δεν μπορούσε να μετονομαστεί εφόσον είχε διαγραφεί"
 
 #: lib/app.php:113
 #, php-format
