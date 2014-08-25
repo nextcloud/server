@@ -187,7 +187,7 @@ class Swift extends \OC\Files\Storage\Common {
 	public function rmdir($path) {
 		$path = $this->normalizePath($path);
 
-		if (!$this->is_dir($path) or !$this->isDeletable($path)) {
+		if (!$this->is_dir($path) || !$this->isDeletable($path)) {
 			return false;
 		}
 
