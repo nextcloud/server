@@ -238,17 +238,21 @@ class OC_Mount_Config {
 			}
 		}
 
+		$personalBackends = self::getPersonalBackends();
+
 		// Load personal mount points
 		$mountConfig = self::readData($user);
 		if (isset($mountConfig[self::MOUNT_TYPE_USER][$user])) {
 			foreach ($mountConfig[self::MOUNT_TYPE_USER][$user] as $mountPoint => $options) {
-				$options['personal'] = true;
-				$options['options'] = self::decryptPasswords($options['options']);
+				if (isset($personalBackends[$options['class']])) {
+					$options['personal'] = true;
+					$options['options'] = self::decryptPasswords($options['options']);
 
-				// Always override previous config
-				$options['priority_type'] = self::MOUNT_TYPE_PERSONAL;
-				$options['backend'] = $backends[$options['class']]['backend'];
-				$mountPoints[$mountPoint] = $options;
+					// Always override previous config
+					$options['priority_type'] = self::MOUNT_TYPE_PERSONAL;
+					$options['backend'] = $backends[$options['class']]['backend'];
+					$mountPoints[$mountPoint] = $options;
+				}
 			}
 		}
 
