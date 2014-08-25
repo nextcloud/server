@@ -579,8 +579,20 @@ class OC_Helper {
 	public static function tmpFile($postfix = '') {
 		$file = get_temp_dir() . '/' . md5(time() . rand()) . $postfix;
 		$fh = fopen($file, 'w');
-		fclose($fh);
-		self::$tmpFiles[] = $file;
+		if ($fh!==false){
+			fclose($fh);
+			self::$tmpFiles[] = $file;
+		} else {
+			OC_Log::write(
+				'OC_Helper',
+				sprintf(
+					'Can not create a temporary file in directory %s. Check it exists and has correct permissions',
+					get_temp_dir()
+				),
+				OC_Log::WARN
+			);
+			$file = false;
+		}
 		return $file;
 	}
 
