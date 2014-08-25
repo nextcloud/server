@@ -58,7 +58,20 @@ class Mapper extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('D:/folder.name.with.peri-ods', $this->mapper->slugifyPath('D:/folder.name.with.peri ods'));
 		$this->assertEquals('D:/folder.name.with.peri-ods/te-st-2.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t', 2));
 		$this->assertEquals('D:/folder.name.with.peri-ods/te-st.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t'));
+	}
 
-		
+	/**
+	 * If a foldername is empty, after we stripped out some unicode and other characters,
+	 * the resulting name must be reproducable otherwise uploading a file into that folder
+	 * will not write the file into the same folder.
+	 */
+	public function slugifyEmptyUnicodeFoldername() {
+		// Slugify the folder
+		$slugifiedFolder = $this->mapper->slugifyPath('D:/ありがとう');
+		$this->assertEquals('D:/' . md5('ありがとう'), $slugifiedFolder);
+
+		// Slugify a file in the folder
+		$slugifiedFileInUtf8Folder = $this->mapper->slugifyPath('D:/ありがとう/issue6722.txt');
+		$this->assertEquals('D:/' . md5('ありがとう') . '/issue6722.txt', $slugifiedFileInUtf8Folder);
 	}
 }
