@@ -216,6 +216,7 @@ class Mapper
 	 * @return string
 	 */
 	private function slugify($text) {
+		$originalText = $text;
 		// replace non letter or digits or dots by -
 		$text = preg_replace('~[^\\pL\d\.]+~u', '-', $text);
 
@@ -237,7 +238,17 @@ class Mapper
 		$text = preg_replace('~\.+$~', '', $text);
 
 		if (empty($text)) {
-			return uniqid();
+			/**
+			 * Item slug would be empty. Previously we used uniqid() here.
+			 * However this means that the behaviour is not reproducible, so
+			 * when uploading files into a "empty" folder, the folders name is
+			 * different.
+			 *
+			 * If there would be a md5() hash collision, the deduplicate check
+			 * will spot this and append an index later, so this should not be
+			 * a problem.
+			 */
+			return md5($originalText);
 		}
 
 		return $text;
