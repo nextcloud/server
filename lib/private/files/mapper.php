@@ -177,14 +177,12 @@ class Mapper
 	/**
 	 * @param integer $index
 	 */
-	public function slugifyPath($path, $index=null) {
+	public function slugifyPath($path, $index = null) {
 		$path = $this->stripRootFolder($path, $this->unchangedPhysicalRoot);
 
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
-		
-		$last= end($pathElements);
-		
+
 		foreach ($pathElements as $pathElement) {
 			// remove empty elements
 			if (empty($pathElement)) {
@@ -196,19 +194,18 @@ class Mapper
 
 		// apply index to file name
 		if ($index !== null) {
-			$last= array_pop($sluggedElements);
+			$last = array_pop($sluggedElements);
 			
 			// if filename contains periods - add index number before last period
-			if (preg_match('~\.[^\.]+$~i',$last,$extension)){
-				array_push($sluggedElements, substr($last,0,-(strlen($extension[0]))).'-'.$index.$extension[0]);
+			if (preg_match('~\.[^\.]+$~i', $last, $extension)) {
+				array_push($sluggedElements, substr($last, 0, -(strlen($extension[0]))) . '-' . $index . $extension[0]);
 			} else {
 				// if filename doesn't contain periods add index ofter the last char
-				array_push($sluggedElements, $last.'-'.$index);
-				}
-
+				array_push($sluggedElements, $last . '-' . $index);
+			}
 		}
 
-		$sluggedPath = $this->unchangedPhysicalRoot.implode('/', $sluggedElements);
+		$sluggedPath = $this->unchangedPhysicalRoot . implode('/', $sluggedElements);
 		return $this->stripLast($sluggedPath);
 	}
 
@@ -218,8 +215,7 @@ class Mapper
 	 * @param string $text
 	 * @return string
 	 */
-	private function slugify($text)
-	{
+	private function slugify($text) {
 		// replace non letter or digits or dots by -
 		$text = preg_replace('~[^\\pL\d\.]+~u', '-', $text);
 
