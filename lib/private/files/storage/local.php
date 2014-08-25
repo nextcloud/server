@@ -39,6 +39,9 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function rmdir($path) {
+			if (!$this->isDeletable($path)) {
+				return false;
+			}
 			try {
 				$it = new \RecursiveIteratorIterator(
 					new \RecursiveDirectoryIterator($this->datadir . $path),
