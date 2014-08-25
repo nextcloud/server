@@ -33,45 +33,47 @@ class Mapper extends \PHPUnit_Framework_TestCase {
 		$this->mapper = new \OC\Files\Mapper('D:/');
 	}
 
-	public function testSlugifyPath() {
-		// with extension
-		$this->assertEquals('D:/text.txt', $this->mapper->slugifyPath('D:/text.txt'));
-		$this->assertEquals('D:/text-2.txt', $this->mapper->slugifyPath('D:/text.txt', 2));
-		$this->assertEquals('D:/a/b/text.txt', $this->mapper->slugifyPath('D:/a/b/text.txt'));
+	public function slugifyPathData() {
+		return array(
+			// with extension
+			array('D:/text.txt', 'D:/text.txt'),
+			array('D:/text-2.txt', 'D:/text.txt', 2),
+			array('D:/a/b/text.txt', 'D:/a/b/text.txt'),
 
-		// without extension
-		$this->assertEquals('D:/text', $this->mapper->slugifyPath('D:/text'));
-		$this->assertEquals('D:/text-2', $this->mapper->slugifyPath('D:/text', 2));
-		$this->assertEquals('D:/a/b/text', $this->mapper->slugifyPath('D:/a/b/text'));
+			// without extension
+			array('D:/text', 'D:/text'),
+			array('D:/text-2', 'D:/text', 2),
+			array('D:/a/b/text', 'D:/a/b/text'),
 
-		// with double dot
-		$this->assertEquals('D:/text.text.txt', $this->mapper->slugifyPath('D:/text.text.txt'));
-		$this->assertEquals('D:/text.text-2.txt', $this->mapper->slugifyPath('D:/text.text.txt', 2));
-		$this->assertEquals('D:/a/b/text.text.txt', $this->mapper->slugifyPath('D:/a/b/text.text.txt'));
-			
-		// foldername and filename with periods
-		$this->assertEquals('D:/folder.name.with.periods', $this->mapper->slugifyPath('D:/folder.name.with.periods'));
-		$this->assertEquals('D:/folder.name.with.periods/test-2.txt', $this->mapper->slugifyPath('D:/folder.name.with.periods/test.txt', 2));
-		$this->assertEquals('D:/folder.name.with.periods/test.txt', $this->mapper->slugifyPath('D:/folder.name.with.periods/test.txt'));
+			// with double dot
+			array('D:/text.text.txt', 'D:/text.text.txt'),
+			array('D:/text.text-2.txt', 'D:/text.text.txt', 2),
+			array('D:/a/b/text.text.txt', 'D:/a/b/text.text.txt'),
 
-		// foldername and filename with periods and spaces
-		$this->assertEquals('D:/folder.name.with.peri-ods', $this->mapper->slugifyPath('D:/folder.name.with.peri ods'));
-		$this->assertEquals('D:/folder.name.with.peri-ods/te-st-2.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t', 2));
-		$this->assertEquals('D:/folder.name.with.peri-ods/te-st.t-x-t', $this->mapper->slugifyPath('D:/folder.name.with.peri ods/te st.t x t'));
+			// foldername and filename with periods
+			array('D:/folder.name.with.periods', 'D:/folder.name.with.periods'),
+			array('D:/folder.name.with.periods/test-2.txt', 'D:/folder.name.with.periods/test.txt', 2),
+			array('D:/folder.name.with.periods/test.txt', 'D:/folder.name.with.periods/test.txt'),
+
+			// foldername and filename with periods and spaces
+			array('D:/folder.name.with.peri-ods', 'D:/folder.name.with.peri ods'),
+			array('D:/folder.name.with.peri-ods/te-st-2.t-x-t', 'D:/folder.name.with.peri ods/te st.t x t', 2),
+			array('D:/folder.name.with.peri-ods/te-st.t-x-t', 'D:/folder.name.with.peri ods/te st.t x t'),
+
+			/**
+			 * If a foldername is empty, after we stripped out some unicode and other characters,
+			 * the resulting name must be reproducable otherwise uploading a file into that folder
+			 * will not write the file into the same folder.
+			 */
+			array('D:/' . md5('ありがとう'), 'D:/ありがとう'),
+			array('D:/' . md5('ありがとう') . '/issue6722.txt', 'D:/ありがとう/issue6722.txt'),
+		);
 	}
 
 	/**
-	 * If a foldername is empty, after we stripped out some unicode and other characters,
-	 * the resulting name must be reproducable otherwise uploading a file into that folder
-	 * will not write the file into the same folder.
+	 * @dataProvider slugifyPathData
 	 */
-	public function slugifyEmptyUnicodeFoldername() {
-		// Slugify the folder
-		$slugifiedFolder = $this->mapper->slugifyPath('D:/ありがとう');
-		$this->assertEquals('D:/' . md5('ありがとう'), $slugifiedFolder);
-
-		// Slugify a file in the folder
-		$slugifiedFileInUtf8Folder = $this->mapper->slugifyPath('D:/ありがとう/issue6722.txt');
-		$this->assertEquals('D:/' . md5('ありがとう') . '/issue6722.txt', $slugifiedFileInUtf8Folder);
+	public function testSlugifyPath($slug, $path, $index = null) {
+		$this->assertEquals($slug, $this->mapper->slugifyPath($path, $index));
 	}
 }
