@@ -86,7 +86,7 @@ if($_['passwordChangeSupported']) {
 ?>
 <form id="lostpassword" class="section">
 	<h2><?php p($l->t('Email'));?></h2>
-	<input type="text" name="email" id="email" value="<?php p($_['email']); ?>"
+	<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 		placeholder="<?php p($l->t('Your email address'));?>"
 		autocomplete="on" autocapitalize="off" autocorrect="off" />
 	<span class="msg"></span><br />
