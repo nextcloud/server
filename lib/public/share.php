@@ -361,7 +361,7 @@ interface Share_Backend {
 	 * Get a unique name of the item for the specified user
 	 * @param string $itemSource
 	 * @param string|false $shareWith User the item is being shared with
-	 * @param array|null $exclude List of similar item names already existing as shared items
+	 * @param array|null $exclude List of similar item names already existing as shared items @deprecated since version OC7
 	 * @return string Target name
 	 *
 	 * This function needs to verify that the user does not already have an item with this name.
