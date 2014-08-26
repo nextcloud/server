@@ -205,7 +205,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new SecureRandom();
 		});
 		$this->registerService('Crypto', function($c) {
-			return new Crypto();
+			return new Crypto(\OC::$server->getConfig(), \OC::$server->getSecureRandom());
 		});
 		$this->registerService('Db', function ($c) {
 			return new Db();

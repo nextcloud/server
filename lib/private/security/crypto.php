@@ -12,7 +12,9 @@ namespace OC\Security;
 use Crypt_AES;
 use Crypt_Hash;
 use OCP\Security\ICrypto;
+use OCP\Security\ISecureRandom;
 use OCP\Security\StringUtils;
+use OCP\IConfig;
 
 /**
  * Class Crypto provides a high-level encryption layer using AES-CBC. If no key has been provided
@@ -29,9 +31,15 @@ class Crypto implements ICrypto {
 	private $cipher;
 	/** @var int */
 	private $ivLength = 16;
+	/** @var IConfig */
+	private $config;
+	/** @var ISecureRandom */
+	private $random;
 
-	function __construct() {
+	function __construct(IConfig $config, ISecureRandom $random) {
 		$this->cipher = new Crypt_AES();
+		$this->config = $config;
+		$this->random = $random;
 	}
 
 	/**
@@ -41,7 +49,7 @@ class Crypto implements ICrypto {
 	 */
 	public function calculateHMAC($message, $password = '') {
 		if($password === '') {
-			$password = \OC::$server->getConfig()->getSystemValue('secret');
+			$password = $this->config->getSystemValue('secret');
 		}
 
 		$hash = new Crypt_Hash('sha512');
@@ -57,11 +65,11 @@ class Crypto implements ICrypto {
 	 */
 	public function encrypt($plaintext, $password = '') {
 		if($password === '') {
-			$password = \OC::$server->getConfig()->getSystemValue('secret');
+			$password = $this->config->getSystemValue('secret');
 		}
 		$this->cipher->setPassword($password);
 
-		$iv = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate($this->ivLength);
+		$iv = $this->random->getLowStrengthGenerator()->generate($this->ivLength);
 		$this->cipher->setIV($iv);
 
 		$ciphertext = bin2hex($this->cipher->encrypt($plaintext));
@@ -79,7 +87,7 @@ class Crypto implements ICrypto {
 	 */
 	public function decrypt($authenticatedCiphertext, $password = '') {
 		if($password === '') {
-			$password = \OC::$server->getConfig()->getSystemValue('secret');
+			$password = $this->config->getSystemValue('secret');
 		}
 		$this->cipher->setPassword($password);
 
