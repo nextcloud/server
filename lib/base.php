@@ -344,6 +344,7 @@ class OC {
 		OC_Util::addScript("oc-requesttoken");
 		OC_Util::addScript("apps");
 		OC_Util::addScript("snap");
+		OC_Util::addScript("moment");
 
 		// avatars
 		if (\OC_Config::getValue('enable_avatars', true) === true) {
