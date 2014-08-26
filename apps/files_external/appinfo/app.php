@@ -22,6 +22,8 @@ OC::$CLASSPATH['OC\Files\Storage\SFTP_Key'] = 'files_external/lib/sftp_key.php';
 OC::$CLASSPATH['OC_Mount_Config'] = 'files_external/lib/config.php';
 OC::$CLASSPATH['OCA\Files\External\Api'] = 'files_external/lib/api.php';
 
+require_once __DIR__ . '/../3rdparty/autoload.php';
+
 OCP\App::registerAdmin('files_external', 'settings');
 if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
 	OCP\App::registerPersonal('files_external', 'personal');

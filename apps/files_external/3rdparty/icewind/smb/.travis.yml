@@ -1,0 +1,50 @@
+language: php
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+env:
+  global:
+    - CURRENT_DIR=`pwd`
+
+before_install:
+  - pass=$(perl -e 'print crypt("test", "password")')
+  - sudo useradd -m -p $pass test
+  - sudo apt-get update -qq
+  - sudo apt-get install samba smbclient libsmbclient-dev libsmbclient
+  - wget -O /tmp/libsmbclient-php.zip https://github.com/eduardok/libsmbclient-php/archive/master.zip
+  - unzip /tmp/libsmbclient-php.zip -d /tmp
+  - cd /tmp/libsmbclient-php-master
+  - phpize && ./configure && make && sudo make install
+  - echo 'extension="libsmbclient.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - cd $CURRENT_DIR
+  - chmod go+w $HOME
+  - printf "%s\n%s\n" test test|sudo smbpasswd -s test
+  - sudo mkdir /home/test/test
+  - sudo chown test /home/test/test
+  - |
+    echo "[test]
+    comment = test
+    path = /home/test
+    guest ok = yes
+    writeable = yes
+    map archive = yes
+    map system = yes
+    map hidden = yes
+    create mask = 0777
+    inherit permissions = yes" | sudo tee -a /etc/samba/smb.conf
+  - sudo service smbd restart
+  - testparm -s
+
+install:
+  - composer install --dev --no-interaction
+
+script:
+  - mkdir -p build/logs
+  - cd tests
+  - phpunit --coverage-clover ../build/logs/clover.xml --configuration phpunit.xml
+
+after_script:
+ - cd $CURRENT_DIR
+ - php vendor/bin/coveralls -v

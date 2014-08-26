@@ -1,0 +1,87 @@
+[
+    {
+        "name": "icewind/streams",
+        "version": "0.2",
+        "version_normalized": "0.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/icewind1991/Streams.git",
+            "reference": "5aae45f2ddd3d1a6e2a496dd5d1e7857bfeb605a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/icewind1991/Streams/zipball/5aae45f2ddd3d1a6e2a496dd5d1e7857bfeb605a",
+            "reference": "5aae45f2ddd3d1a6e2a496dd5d1e7857bfeb605a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "satooshi/php-coveralls": "dev-master"
+        },
+        "time": "2014-07-30 23:46:15",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Icewind\\Streams\\Tests\\": "tests/",
+                "Icewind\\Streams\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Robin Appelman",
+                "email": "icewind@owncloud.com"
+            }
+        ],
+        "description": "A set of generic stream wrappers"
+    },
+    {
+        "name": "icewind/smb",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/icewind1991/SMB.git",
+            "reference": "ededbfbaa3d7124ce8d4b6c119cd225fa342916d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/icewind1991/SMB/zipball/ededbfbaa3d7124ce8d4b6c119cd225fa342916d",
+            "reference": "ededbfbaa3d7124ce8d4b6c119cd225fa342916d",
+            "shasum": ""
+        },
+        "require": {
+            "icewind/streams": "0.2.x",
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "satooshi/php-coveralls": "dev-master"
+        },
+        "time": "2015-02-10 16:37:37",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Icewind\\SMB\\": "src/",
+                "Icewind\\SMB\\Test\\": "tests/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Robin Appelman",
+                "email": "icewind@owncloud.com"
+            }
+        ],
+        "description": "php wrapper for smbclient and libsmbclient-php"
+    }
+]
