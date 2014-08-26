@@ -9,6 +9,8 @@ use OC\Cache\UserCache;
 use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
+use OC\Security\Crypto;
+use OC\Security\SecureRandom;
 use OCP\IServerContainer;
 
 /**
@@ -198,6 +200,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('Search', function ($c) {
 			return new Search();
+		});
+		$this->registerService('SecureRandom', function($c) {
+			return new SecureRandom();
+		});
+		$this->registerService('Crypto', function($c) {
+			return new Crypto();
 		});
 		$this->registerService('Db', function ($c) {
 			return new Db();
@@ -453,6 +461,24 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getSearch() {
 		return $this->query('Search');
+	}
+
+	/**
+	 * Returns a SecureRandom instance
+	 *
+	 * @return \OCP\Security\ISecureRandom
+	 */
+	function getSecureRandom() {
+		return $this->query('SecureRandom');
+	}
+
+	/**
+	 * Returns a Crypto instance
+	 *
+	 * @return \OCP\Security\ICrypto
+	 */
+	function getCrypto() {
+		return $this->query('Crypto');
 	}
 
 	/**

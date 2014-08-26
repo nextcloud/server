@@ -35,6 +35,9 @@ $CONFIG = array(
 /* Define the salt used to hash the user passwords. All your user passwords are lost if you lose this string. */
 "passwordsalt" => "",
 
+/* Secret used by ownCloud for various purposes, e.g. to encrypt data. If you lose this string there will be data corruption. */
+"secret" => "",
+
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 

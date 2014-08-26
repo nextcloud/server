@@ -67,14 +67,19 @@ class OC_Setup {
 		}
 
 		//generate a random salt that is used to salt the local user passwords
-		$salt = OC_Util::generateRandomBytes(30);
-		OC_Config::setValue('passwordsalt', $salt);
+		$salt = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(30);
+		\OC::$server->getConfig()->setSystemValue('passwordsalt', $salt);
+
+		// generate a secret
+		$secret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(48);
+		\OC::$server->getConfig()->setSystemValue('secret', $secret);
 
 		//write the config file
-		OC_Config::setValue('trusted_domains', $trustedDomains);
-		OC_Config::setValue('datadirectory', $datadir);
-		OC_Config::setValue('dbtype', $dbtype);
-		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
+		\OC::$server->getConfig()->setSystemValue('trusted_domains', $trustedDomains);
+		\OC::$server->getConfig()->setSystemValue('datadirectory', $datadir);
+		\OC::$server->getConfig()->setSystemValue('dbtype', $dbtype);
+		\OC::$server->getConfig()->setSystemValue('version', implode('.', OC_Util::getVersion()));
+
 		try {
 			$dbSetup->initialize($options);
 			$dbSetup->setupDatabase($username);
