@@ -390,11 +390,6 @@ var OC={
 		}
 	}, 500),
 	dialogs:OCdialogs,
-	mtime2date:function(mtime) {
-		mtime = parseInt(mtime,10);
-		var date = new Date(1000*mtime);
-		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
-	},
 	
 	/**
 	 * Parses a URL query string into a JS map
@@ -1242,14 +1237,11 @@ function humanFileSize(size, skipSmallSizes) {
 
 /**
  * Format an UNIX timestamp to a human understandable format
- * @param {number} date UNIX timestamp
+ * @param {number} timestamp UNIX timestamp
  * @return {string} Human readable format
  */
-function formatDate(date){
-	if(typeof date=='number'){
-		date=new Date(date);
-	}
-	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+function formatDate(timestamp){
+	return OC.Util.formatDate(timestamp);
 }
 
 // 
@@ -1270,21 +1262,11 @@ function getURLParameter(name) {
  * @param {number} timestamp A Unix timestamp
  */
 function relative_modified_date(timestamp) {
-	var timeDiff = Math.round((new Date()).getTime() / 1000) - timestamp;
-	var diffMinutes = Math.round(timeDiff/60);
-	var diffHours = Math.round(diffMinutes/60);
-	var diffDays = Math.round(diffHours/24);
-	var diffMonths = Math.round(diffDays/31);
-	if(timeDiff < 60) { return t('core','seconds ago'); }
-	else if(timeDiff < 3600) { return n('core','%n minute ago', '%n minutes ago', diffMinutes); }
-	else if(timeDiff < 86400) { return n('core', '%n hour ago', '%n hours ago', diffHours); }
-	else if(timeDiff < 86400) { return t('core','today'); }
-	else if(timeDiff < 172800) { return t('core','yesterday'); }
-	else if(timeDiff < 2678400) { return n('core', '%n day ago', '%n days ago', diffDays); }
-	else if(timeDiff < 5184000) { return t('core','last month'); }
-	else if(timeDiff < 31556926) { return n('core', '%n month ago', '%n months ago', diffMonths); }
-	else if(timeDiff < 63113852) { return t('core','last year'); }
-	else { return t('core','years ago'); }
+	/*
+	 Were multiplying by 1000 to bring the timestamp back to its original value
+	 per https://github.com/owncloud/core/pull/10647#discussion_r16790315
+	  */
+	return OC.Util.relativeModifiedDate(timestamp * 1000);
 }
 
 /**
@@ -1293,7 +1275,24 @@ function relative_modified_date(timestamp) {
 OC.Util = {
 	// TODO: remove original functions from global namespace
 	humanFileSize: humanFileSize,
-	formatDate: formatDate,
+
+	/**
+	 * @param timestamp
+	 * @param format
+	 * @returns {string} timestamp formatted as requested
+	 */
+	formatDate: function (timestamp, format) {
+		format = format || "MMMM D, YYYY h:mm";
+		return moment(timestamp).format(format);
+	},
+
+	/**
+	 * @param timestamp
+	 * @returns {string} human readable difference from now
+	 */
+	relativeModifiedDate: function (timestamp) {
+		return moment(timestamp).fromNow();
+	},
 	/**
 	 * Returns whether the browser supports SVG
 	 * @return {boolean} true if the browser supports SVG, false otherwise
