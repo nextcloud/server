@@ -202,7 +202,7 @@ class OC_Image {
 			return false;
 		}
 
-		$imageType = null;
+		$imageType = $this->imageType;
 		if($mimeType !== null) {
 			switch($mimeType) {
 				case 'image/gif':
@@ -222,10 +222,7 @@ class OC_Image {
 					break;
 				default:
 					throw new Exception('\OC_Image::_output(): "' . $mimeType . '" is not supported when forcing a specific output format');
-					break;
 			}
-		} else {
-			$imageType = $this->imageType;
 		}
 
 		switch($imageType) {
