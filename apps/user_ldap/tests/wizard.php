@@ -280,7 +280,7 @@ class Test_Wizard extends \PHPUnit_Framework_TestCase {
 
 		# The following expectations are the real test #
 		$filters = array('f1', 'f2', '*');
-		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', true, 0);
+		$resultArray = $wizard->cumulativeSearchOnAttribute($filters, 'cn', 0);
 		$this->assertSame(6, count($resultArray));
 		unset($mark);
 	}
