@@ -234,6 +234,7 @@ var OC={
 	 */
 	generateUrl: function(url, params) {
 		var _build = function (text, vars) {
+			var vars = vars || [];
 			return text.replace(/{([^{}]*)}/g,
 				function (a, b) {
 					var r = vars[b];
