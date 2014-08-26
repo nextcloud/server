@@ -122,8 +122,10 @@ try {
 			// Work and success :-)
 			$jobList = \OC::$server->getJobList();
 			$job = $jobList->getNext();
-			$job->execute($jobList, $logger);
-			$jobList->setLastJob($job);
+			if ($job != null) {
+				$job->execute($jobList, $logger);
+				$jobList->setLastJob($job);
+			}
 			OC_JSON::success();
 		}
 	}
