@@ -48,8 +48,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
 		OC_Group::useBackend(new OC_Group_Dummy);
-		$this->group1 = uniqid('group_');
-		$this->group2 = uniqid('group_');
+		$this->group1 = uniqid('group1_');
+		$this->group2 = uniqid('group2_');
 		OC_Group::createGroup($this->group1);
 		OC_Group::createGroup($this->group2);
 		OC_Group::addToGroup($this->user1, $this->group1);
