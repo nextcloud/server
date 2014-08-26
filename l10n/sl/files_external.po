@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-25 01:54-0400\n"
-"PO-Revision-Date: 2014-08-25 05:02+0000\n"
+"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"PO-Revision-Date: 2014-08-26 05:02+0000\n"
 "Last-Translator: Matej Urbančič <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Skrivni ključ"
 
 #: appinfo/app.php:55 appinfo/app.php:64
 msgid "Bucket"
-msgstr ""
+msgstr "Pomnilniško vedro"
 
 #: appinfo/app.php:59
 msgid "Amazon S3 and compliant"
@@ -154,7 +154,7 @@ msgstr "Uporabniško ime (zahtevano)"
 
 #: appinfo/app.php:112
 msgid "Bucket (required)"
-msgstr ""
+msgstr "Pomnilniško vedro (zahtevano)"
 
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
@@ -236,29 +236,29 @@ msgstr "Sistem"
 msgid "Saved"
 msgstr "Shranjeno"
 
-#: lib/config.php:712
+#: lib/config.php:716
 msgid "<b>Note:</b> "
 msgstr "<b>Opomba:</b> "
 
-#: lib/config.php:722
+#: lib/config.php:726
 msgid " and "
 msgstr "in"
 
-#: lib/config.php:744
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Opomba:</b> Podpora za naslove cURL v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika."
 
-#: lib/config.php:746
+#: lib/config.php:750
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Opomba:</b> Podpora za protokol FTP v PHP ni omogočena, ali pa ni ustrezno nameščenih programov. Priklapljanje %s ni mogoče. Za pomoč pri namestitvi se obrnite na sistemskega skrbnika."
 
-#: lib/config.php:748
+#: lib/config.php:752
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

@@ -4,14 +4,14 @@
 # 
 # Translators:
 # beni1999 <beni1099@gmail.com>, 2014
-# Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 08:50+0000\n"
-"Last-Translator: beni1999 <beni1099@gmail.com>\n"
+"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 09:20+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,51 +21,51 @@ msgstr ""
 
 #: ajax/external.php:17
 msgid "Server to server sharing is not enabled on this server"
-msgstr ""
+msgstr "A kiszolgálók közötti megosztás nincs engedélyezve ezen a kiszolgálón"
 
 #: ajax/external.php:38
 msgid "Invalid or untrusted SSL certificate"
-msgstr ""
+msgstr "Érvénytelen vagy nem megbízható az SSL tanúsítvány"
 
 #: ajax/external.php:52
 msgid "Couldn't add remote share"
-msgstr ""
+msgstr "A távoli megosztás nem hozható létre"
 
-#: appinfo/app.php:33 js/app.js:34
+#: appinfo/app.php:36 js/app.js:34
 msgid "Shared with you"
-msgstr "Veled megosztott"
+msgstr "Velem osztották meg"
 
-#: appinfo/app.php:45 js/app.js:53
+#: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
-msgstr "Másokkal megosztott"
+msgstr "Én osztottam meg másokkal"
 
-#: appinfo/app.php:54 js/app.js:72
+#: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
-msgstr ""
+msgstr "Linkkel osztottam meg"
 
 #: js/app.js:35
 msgid "No files have been shared with you yet."
-msgstr ""
+msgstr "Még nem osztottak meg Önnel semmit."
 
 #: js/app.js:54
 msgid "You haven't shared any files yet."
-msgstr ""
+msgstr "Még nem osztott meg másokkal semmit"
 
 #: js/app.js:73
 msgid "You haven't shared any files by link yet."
-msgstr ""
+msgstr "Még nem osztott meg link segítségével semmit."
 
 #: js/external.js:48 js/external.js:59
 msgid "Do you want to add the remote share {name} from {owner}@{remote}?"
-msgstr ""
+msgstr "Használatba kívánja venni a {name} távoli megosztást, amit a {owner}@{remote} címről kapott?"
 
 #: js/external.js:51 js/external.js:62
 msgid "Remote share"
-msgstr ""
+msgstr "Távoli megosztás"
 
 #: js/external.js:65
 msgid "Remote share password"
-msgstr ""
+msgstr "Jelszó a távoli megosztáshoz"
 
 #: js/external.js:76
 msgid "Cancel"
@@ -73,15 +73,15 @@ msgstr "Mégsem"
 
 #: js/external.js:77
 msgid "Add remote share"
-msgstr ""
+msgstr "Távoli megosztás létrehozása"
 
 #: js/public.js:204
 msgid "No ownCloud installation found at {remote}"
-msgstr ""
+msgstr "Nem található ownCloud telepítés ezen a címen {remote}"
 
 #: js/public.js:205
 msgid "Invalid ownCloud url"
-msgstr ""
+msgstr "Érvénytelen ownCloud webcím"
 
 #: js/sharedfilelist.js:128
 msgid "Shared by"
@@ -105,7 +105,7 @@ msgstr "Név"
 
 #: templates/list.php:20
 msgid "Share time"
-msgstr ""
+msgstr "A megosztás időpontja"
 
 #: templates/part.404.php:3
 msgid "Sorry, this link doesn’t seem to work anymore."
@@ -133,7 +133,7 @@ msgstr "További információért forduljon ahhoz, aki ezt a linket küldte Önn
 
 #: templates/public.php:27
 msgid "Add to your ownCloud"
-msgstr ""
+msgstr "Adjuk hozzá a saját ownCloudunkhoz"
 
 #: templates/public.php:35
 msgid "Download"
@@ -142,7 +142,7 @@ msgstr "Letöltés"
 #: templates/public.php:66
 #, php-format
 msgid "Download %s"
-msgstr ""
+msgstr "%s letöltése"
 
 #: templates/public.php:70
 msgid "Direct link"
@@ -150,12 +150,12 @@ msgstr "Közvetlen link"
 
 #: templates/settings-admin.php:3
 msgid "Remote Shares"
-msgstr ""
+msgstr "Távoli megosztások"
 
 #: templates/settings-admin.php:7
 msgid "Allow other instances to mount public links shared from this server"
-msgstr ""
+msgstr "Engedélyezzük más ownCloud telepítéseknek, hogy becsatolják ennek a kiszolgálónak a nyilvános linkkel megadott megosztásait"
 
 #: templates/settings-admin.php:11
 msgid "Allow users to mount public link shares"
-msgstr ""
+msgstr "Engedélyezzük, hogy felhasználóink becsatolják más kiszolgálók nyilvános, linkkel megadott megosztásait"

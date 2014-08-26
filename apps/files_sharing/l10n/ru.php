@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "На данном сервере выключено межсерверное предоставление общих папок",
+"Invalid or untrusted SSL certificate" => "Не верный или недостоверный сертификат SSL",
 "Couldn't add remote share" => "Невозможно добавить удалённую общую папку",
 "Shared with you" => "Доступные для Вас",
 "Shared with others" => "Доступные для других",

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-25 01:54-0400\n"
-"PO-Revision-Date: 2014-08-25 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,16 +42,16 @@ msgstr "Az adatbázis frissítése megtörtént"
 
 #: ajax/update.php:19
 msgid "Checked database schema update"
-msgstr "Az adatbázis séma frissítését ellenőrztük"
+msgstr "Az adatbázis séma frissítését ellenőriztük"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Az adatbázis séma frissítését ellenőriztük az alkalmazásokra vontakozóan"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "Frissítettük  \"%s\"-t erre: %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -60,7 +60,7 @@ msgstr "Letiltásra került inkompatibilis alkalmazások: %s"
 
 #: avatar/controller.php:69
 msgid "No image or file provided"
-msgstr "Nincs kép vagy file megadva"
+msgstr "Nincs kép vagy fájl megadva"
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
@@ -228,14 +228,14 @@ msgstr "több éve"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
-msgstr "Visszaállítási mail nem küldhetö. Kérjük, lépj kapcsolatba az adminisztrátorral."
+msgstr "Visszaállítási e-mail nem küldhető. Kérjük, lépjen kapcsolatba a rendszergazdával."
 
 #: js/lostpassword.js:5
 msgid ""
 "The link to reset your password has been sent to your email. If you do not "
 "receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator."
-msgstr "A jelszó újramegadásához a linker elküldtük. Ha real is iron belül nem érkezik meg, ellenörízd a spam/hulladék könyvtárat.<br>Ha nincs ott, kérdezd meg a helyi rendszergazdádat."
+msgstr "A jelszó felülírásához a linket e-mailben elküldtük. Ha a levél elfogadható időn belül nem érkezik meg, ellenőrizze a spam/levélszemét mappát.<br>Ha nincs ott, kérdezze meg a helyi rendszergazdát."
 
 #: js/lostpassword.js:7
 msgid ""
@@ -255,7 +255,7 @@ msgstr "Jelszó-visszaállítás"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr "A jelszót nem lehet visszaállítani. Kérlek, lépj kapcsolatba a redszergazdával."
+msgstr "A jelszót nem lehet visszaállítani. Kérjük, lépjen kapcsolatba a redszergazdával."
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -289,7 +289,7 @@ msgstr[1] "{count} fájl ütközik"
 
 #: js/oc-dialogs.js:444
 msgid "One file conflict"
-msgstr "Egy file ütközik"
+msgstr "Egy fájl ütközik"
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
@@ -445,7 +445,7 @@ msgstr "A megosztás visszavonása"
 
 #: js/share.js:610
 msgid "notify by email"
-msgstr "email értesítés"
+msgstr "e-mail értesítés"
 
 #: js/share.js:613
 msgid "can share"
@@ -489,7 +489,7 @@ msgstr "Küldés ..."
 
 #: js/share.js:1063
 msgid "Email sent"
-msgstr "Az emailt elküldtük"
+msgstr "Az e-mailt elküldtük"
 
 #: js/share.js:1087
 msgid "Warning"
@@ -545,13 +545,13 @@ msgstr "Nem lehet a jelszót törölni, mert a token érvénytelen."
 
 #: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr "Visszaállítási mail nem küldhetö. Kérjük, lépj kapcsolatba a rendszergazdával. "
+msgstr "Visszaállítási e-mail nem küldhető. Kérjük, lépjen kapcsolatba a rendszergazdával. "
 
 #: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr "Visszaállítási mail nem küldhetö, mert nem tartozik email cím ehhez a felhasználóhoz. Kérjük, lépj kapcsolatba az adminisztrátorral."
+msgstr "Visszaállítási e-mail nem küldhető, mert nem tartozik e-mail cím ehhez a felhasználóhoz. Kérjük, lépjen kapcsolatba a rendszergazdával."
 
 #: lostpassword/controller/lostcontroller.php:191
 #, php-format
@@ -564,7 +564,7 @@ msgstr "Használja ezt a linket a jelszó ismételt beállításához: {link}"
 
 #: lostpassword/templates/lostpassword.php:6
 msgid "You will receive a link to reset your password via Email."
-msgstr "Egy emailben fog értesítést kapni a jelszóbeállítás módjáról."
+msgstr "Egy e-mailben fog értesítést kapni a jelszóbeállítás módjáról."
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:51
@@ -601,7 +601,7 @@ msgstr "Új jelszó"
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr "A Mac OS X nem támogatott és %s nem lesz teljesen működőképes. Felhasználás csak saját felelősségre!"
+msgstr "A Mac OS X nem támogatott és %s nem lesz teljesen működőképes. Csak saját felelősségre használja!"
 
 #: setup/controller.php:144
 msgid ""
@@ -809,7 +809,7 @@ msgstr "Kérjük, lépjen kapcsolatba a rendszergazdával."
 
 #: templates/login.php:42
 msgid "Forgot your password? Reset it!"
-msgstr "Elfelejtetted a jelszavad?"
+msgstr "Elfelejtette a jelszavát? Állítsa vissza!"
 
 #: templates/login.php:47
 msgid "remember"
@@ -850,25 +850,25 @@ msgstr "Köszönjük a türelmét."
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "A kiszolgálót nem megbízható tartományból éri el."
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "Kérjük keresse fel a rendszergazdát! Ha ennek a telepítésnek Ön a rendszergazdája, akkor állítsa be a config/config.php állományban a \"trusted_domain\" paramétert! A config/config.sample.php állományban talál példát a beállításra."
 
 #: templates/untrustedDomain.php:10
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "A beállításoktól függően, rendszergazdaként lehetséges, hogy az alábbi gombot is használhatja a tartomány megbízhatóvá tételéhez."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Adjuk hozzá \"%s\"-t a megbízható tartományokhoz!"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -898,7 +898,7 @@ msgstr "A frissítés megkezdése"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "Nagyobb telepítések esetén úgy kerülhetők el az időtúllépések, ha inkább a következő parancsot adja ki a telepítési alkönyvtárban:"
 
 #: templates/update.user.php:3
 msgid ""

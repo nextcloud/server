@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-25 01:54-0400\n"
-"PO-Revision-Date: 2014-08-25 05:02+0000\n"
+"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"PO-Revision-Date: 2014-08-26 05:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -236,29 +236,29 @@ msgstr "Systeem"
 msgid "Saved"
 msgstr "Bewaard"
 
-#: lib/config.php:712
+#: lib/config.php:716
 msgid "<b>Note:</b> "
 msgstr "<b>Let op:</b> "
 
-#: lib/config.php:722
+#: lib/config.php:726
 msgid " and "
 msgstr "en"
 
-#: lib/config.php:744
+#: lib/config.php:748
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Let op:</b> Curl ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw systeembeheerder dit te installeren."
 
-#: lib/config.php:746
+#: lib/config.php:750
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Let op:</b> FTP ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw beheerder dit te installeren."
 
-#: lib/config.php:748
+#: lib/config.php:752
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

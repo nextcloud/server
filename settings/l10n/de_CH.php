@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Gespeichert",
 "Email sent" => "Email gesendet",
 "Encryption" => "Verschlüsselung",
 "Unable to load list from App Store" => "Die Liste der Anwendungen im Store konnte nicht geladen werden.",

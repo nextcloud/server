@@ -4,15 +4,15 @@
 # 
 # Translators:
 # ebela <bela@dandre.hu>, 2013-2014
-# Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
 # Melinda <ghostgirl1983@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 21:00+0000\n"
-"Last-Translator: Melinda <ghostgirl1983@gmail.com>\n"
+"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"PO-Revision-Date: 2014-08-25 20:41+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -173,11 +173,11 @@ msgstr "Kiszolgáló"
 
 #: settings.php:53
 msgid "User Filter"
-msgstr "Felhasználó Szűrő"
+msgstr "Felhasználói szűrő"
 
 #: settings.php:54
 msgid "Login Filter"
-msgstr "Bejelntkezési Szűrő"
+msgstr "Bejelentkezési szűrő"
 
 #: settings.php:55
 msgid "Group Filter"
@@ -198,7 +198,7 @@ msgstr "Súgó"
 #: templates/part.wizard-groupfilter.php:4
 #, php-format
 msgid "Groups meeting these criteria are available in %s:"
-msgstr ""
+msgstr "A %s szolgáltatás azon csoportok létezését veszi figyelembe, amik a következő feltételeknek felelnek meg:"
 
 #: templates/part.wizard-groupfilter.php:8
 #: templates/part.wizard-userfilter.php:8
@@ -234,7 +234,7 @@ msgstr "csoport van"
 
 #: templates/part.wizard-loginfilter.php:4
 msgid "Users login with this attribute:"
-msgstr ""
+msgstr "A felhasználók ezzel az attribútummal jelentkeznek be:"
 
 #: templates/part.wizard-loginfilter.php:8
 msgid "LDAP Username:"
@@ -315,7 +315,7 @@ msgstr "A Haladó fülre kattintva külön DN-gyökér állítható be a felhasz
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
-msgstr ""
+msgstr "Korlátozzuk a %s szolgáltatás elérését azokra a felhasználókra, akik megfelelnek a következő feltételeknek:"
 
 #: templates/part.wizard-userfilter.php:31
 #, php-format
@@ -473,18 +473,18 @@ msgstr "Egymásba ágyazott csoportok"
 msgid ""
 "When switched on, groups that contain groups are supported. (Only works if "
 "the group member attribute contains DNs.)"
-msgstr ""
+msgstr "Amikor be van kapcsolva, akkor azokat a csoportokat is kezelni tudjuk, melyekben a személyek mellett csoportok is vannak. (Csak akkor működik, ha a csoportok \"member\" attribútuma DN-eket tartalmaz.)"
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Lapméret paging esetén"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "A lapméret megadásával korlátozható az egy fordulóban kapott találatok száma, akkor is, ha az LDAP-keresés nagyon sok találatot ad, ha ezt az LDAP-kiszolgáló támogatja. (Ha 0-ra állítjuk, akkor ezáltal letiltjuk ezt a lapozó funkciót.)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"
@@ -504,7 +504,7 @@ msgstr "bájtban"
 
 #: templates/settings.php:46
 msgid "Email Field"
-msgstr "Email mező"
+msgstr "E-mail mező"
 
 #: templates/settings.php:47
 msgid "User Home Folder Naming Rule"
@@ -534,7 +534,7 @@ msgid ""
 "behavior as before ownCloud 5 enter the user display name attribute in the "
 "following field. Leave it empty for default behavior. Changes will have "
 "effect only on newly mapped (added) LDAP users."
-msgstr "Alapértelmezetten a belső felhasználónév az UUID tulajdonságból jön létre. Ez biztosítja a felhasználónév egyediségét és hogy a nem kell konvertálni a karaktereket benne. A belső felhasználónévnél a megkötés az, hogy csak a következő karakterek engdélyezettek benne: [ a-zA-Z0-9_.@- ]. Ezeken a karaktereken kivül minden karakter le lesz cserélve az adott karakter ASCII kódtáblában használható párjára vagy ha ilyen nincs akkor egyszerűen ki lesz hagyva. Ha így mégis ütköznének a nevek akkor hozzá lesz füzve egy folyamatosan növekvő számláló rész. A  belső felhasználónevet lehet használni a felhasználó azonosítására a programon belül. Illetve ez lesz az alapáértelmezett neve a felhasználó kezdő könyvtárának az ownCloud-ban. Illetve..............................."
+msgstr "Alapértelmezetten a belső felhasználónév az UUID attribútumból jön létre. Ez biztosítja a felhasználónév egyediségét, ill. azt, hogy a karaktereket nem kell konvertálni benne. A belső felhasználónévben csak a következő karakterek engdélyezettek: [ a-zA-Z0-9_.@- ]. Minden más karakter vagy az ASCII kódtáblában levő megfelelőjére cserélődik ki, vagy ha ilyen nincs, akkor egyszerűen kihagyódik. Ha az így kapott nevek mégis ütköznének, akkor a végükön kiegészülnek egy növekvő sorszámmal. A  belső felhasználónév a programon belül azonosítja a felhasználót, valamint alapértelmezetten ez lesz a felhasználó személyes home könyvtárának a neve is. A belső felhasználónév adja a távoli elérések webcímének egy részét is, ilyenek pl. a *DAV szolgáltatások URL-jei. Ezzel a beállítással felülbírálhatjuk az alapértelmezett viselkedést. Ha az ownCloud 5-ös változata előtti viselkedést szeretné elérni, akkor a következő mezőben adja meg a felhasználó megjelenítési nevének attribútumát. Az alapértelmezett viselkedéshez hagyja üresen. A változtatás csak az újonnan létrejövő (újonnan megfeleltetett) LDAP felhasználók esetén érvényesül."
 
 #: templates/settings.php:55
 msgid "Internal Username Attribute:"

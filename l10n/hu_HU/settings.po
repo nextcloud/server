@@ -6,14 +6,14 @@
 # Adam Toth <adazlord@gmail.com>, 2013
 # David Szilagyi <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013-2014
-# Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-25 01:54-0400\n"
-"PO-Revision-Date: 2014-08-25 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: admin/controller.php:99
 msgid "Email sent"
-msgstr "Az emailt elküldtük"
+msgstr "Az e-mailt elküldtük"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
@@ -61,7 +61,7 @@ msgstr "Titkosítás"
 
 #: admin/controller.php:120 templates/admin.php:405
 msgid "Authentication method"
-msgstr "Autentikációs metódus"
+msgstr "A felhasználóazonosítás módszere"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -114,15 +114,15 @@ msgstr ""
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Az alkalmazást nem sikerült eltávolítani."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Email mentve"
+msgstr "Elmentettük az e-mail címet"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Hibás email"
+msgstr "Hibás e-mail"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -174,24 +174,24 @@ msgstr "Hibás jelszó"
 
 #: changepassword/controller.php:36
 msgid "No user supplied"
-msgstr "Nincs felhasználó által mellékelve"
+msgstr "Nincs megadva felhasználó"
 
 #: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr "Add meg az admin helyreállító jelszót, máskülönben az összes felhasználói adat elveszik."
+msgstr "Adja meg az admin helyreállítási jelszót, máskülönben az összes felhasználói adat elveszik!"
 
 #: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr "Hibás admin helyreállítási jelszó. Ellenörizd a jelszót és próbáld újra."
+msgstr "Hibás admin helyreállítási jelszó. Ellenőrizze a jelszót és próbálja újra!"
 
 #: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr "A back-end nem támogatja a jelszó módosítást, de felhasználó titkosítási kulcsa sikeresen frissítve lett."
+msgstr "A háttér-alrendszer nem támogatja a jelszómódosítást, de felhasználó titkosítási kulcsa sikeresen frissítve lett."
 
 #: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
@@ -279,7 +279,7 @@ msgstr ""
 
 #: js/personal.js:256
 msgid "Select a profile picture"
-msgstr "Válassz profil képet"
+msgstr "Válasszon profilképet!"
 
 #: js/personal.js:287
 msgid "Very weak password"
@@ -303,15 +303,15 @@ msgstr "Erős jelszó"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr "File-ok kititkosítása folyamatban... Kérlek várj, ez hosszabb ideig is eltarthat ..."
+msgstr "A fájlok titkosítástól történő mentesítése folyamatban. van... Kérem várjon, ez hosszabb ideig is eltarthat ..."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "A tikosítási kulcsok végleges törlése."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "A titkosítási kulcsok visszaállítása."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
@@ -407,23 +407,23 @@ msgstr "Egyik sem"
 
 #: templates/admin.php:21
 msgid "Login"
-msgstr "Bejelentkezés"
+msgstr "Login"
 
 #: templates/admin.php:22
 msgid "Plain"
-msgstr ""
+msgstr "Plain"
 
 #: templates/admin.php:23
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:28
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:29
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:51 templates/admin.php:65
 msgid "Security Warning"
@@ -569,18 +569,18 @@ msgstr "Ütemezett feladatok"
 #: templates/admin.php:227
 #, php-format
 msgid "Last cron was executed at %s."
-msgstr ""
+msgstr "Az utolsó cron feladat ekkor futott le: %s."
 
 #: templates/admin.php:230
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems"
 " wrong."
-msgstr ""
+msgstr "Az utolsó cron feladat ekkor futott le: %s. Ez több, mint 1 órája történt, valami nincs rendben."
 
 #: templates/admin.php:234
 msgid "Cron was not executed yet!"
-msgstr ""
+msgstr "A cron feladat még nem futott le!"
 
 #: templates/admin.php:244
 msgid "Execute one task with each page loaded"
@@ -594,7 +594,7 @@ msgstr "A cron.php webcron szolgáltatásként van regisztrálva, hogy 15 percen
 
 #: templates/admin.php:260
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr ""
+msgstr "A rendszer cron szolgáltatását használjuk, mely a cron.php állományt futtatja le 15 percenként."
 
 #: templates/admin.php:265
 msgid "Sharing"
@@ -606,52 +606,52 @@ msgstr "Lehetővé teszi, hogy a programmodulok is használhassák a megosztást
 
 #: templates/admin.php:274
 msgid "Allow users to share via link"
-msgstr ""
+msgstr "Engedjük meg az állományok linkekkel történő megosztását"
 
 #: templates/admin.php:280
 msgid "Enforce password protection"
-msgstr ""
+msgstr "Legyen kötelező a linkek jelszóval való védelme"
 
 #: templates/admin.php:283
 msgid "Allow public uploads"
-msgstr "Feltöltést engedélyezése mindenki számára"
+msgstr "Nyilvános feltöltés engedélyezése"
 
 #: templates/admin.php:287
 msgid "Set default expiration date"
-msgstr ""
+msgstr "Alapértelmezett lejárati idő beállítása"
 
 #: templates/admin.php:291
 msgid "Expire after "
-msgstr ""
+msgstr "A lejárat legyen"
 
 #: templates/admin.php:294
 msgid "days"
-msgstr "napok"
+msgstr "nap"
 
 #: templates/admin.php:297
 msgid "Enforce expiration date"
-msgstr ""
+msgstr "A beállított lejárati idő legyen kötelezően érvényes"
 
 #: templates/admin.php:302
 msgid "Allow resharing"
-msgstr "A továbbosztás engedélyezése"
+msgstr "A megosztás továbbadásának engedélyezése"
 
 #: templates/admin.php:307
 msgid "Restrict users to only share with users in their groups"
-msgstr ""
+msgstr "A csoporttagok csak a saját csoportjukon belül oszthassanak meg anyagokat"
 
 #: templates/admin.php:312
 msgid "Allow users to send mail notification for shared files"
-msgstr ""
+msgstr "A felhasználók küldhessenek e-mail értesítést a megosztás létrejöttéről"
 
 #: templates/admin.php:317
 msgid "Exclude groups from sharing"
-msgstr ""
+msgstr "Csoportok megosztási jogának tiltása"
 
 #: templates/admin.php:329
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
-msgstr ""
+msgstr "E csoportok tagjaival meg lehet osztani anyagokat, de ők nem hozhatnak létre megosztást."
 
 #: templates/admin.php:334
 msgid "Security"
@@ -671,27 +671,27 @@ msgstr "Kötelezővé teszi, hogy a böngészőprogramok titkosított csatornán
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL "
 "enforcement."
-msgstr "Kérjük kapcsolodjon a %s rendszerhez HTTPS protokollon keresztül, hogy be vagy ki kapcsoljaa kötelező SSL beállítást."
+msgstr "Kérjük, hogy HTTPS protokollon keresztül kapcsolódjon a %s rendszerhez, ha be- vagy ki akarja kapcsolni a kötelező SSL-beállítást!"
 
 #: templates/admin.php:363
 msgid "Email Server"
-msgstr ""
+msgstr "E-mail kiszolgáló"
 
 #: templates/admin.php:365
 msgid "This is used for sending out notifications."
-msgstr ""
+msgstr "Ezt használjuk a jelentések kiküldésére."
 
 #: templates/admin.php:396
 msgid "From address"
-msgstr ""
+msgstr "A feladó címe"
 
 #: templates/admin.php:397
 msgid "mail"
-msgstr ""
+msgstr "mail"
 
 #: templates/admin.php:418
 msgid "Authentication required"
-msgstr ""
+msgstr "Felhasználóazonosítás szükséges"
 
 #: templates/admin.php:422
 msgid "Server address"
@@ -707,19 +707,19 @@ msgstr "Azonosítók"
 
 #: templates/admin.php:432
 msgid "SMTP Username"
-msgstr ""
+msgstr "SMTP felhasználónév"
 
 #: templates/admin.php:435
 msgid "SMTP Password"
-msgstr ""
+msgstr "SMTP jelszó"
 
 #: templates/admin.php:439
 msgid "Test email settings"
-msgstr ""
+msgstr "Az e-mail beállítások ellenőrzése"
 
 #: templates/admin.php:440
 msgid "Send email"
-msgstr ""
+msgstr "E-mail küldése"
 
 #: templates/admin.php:445
 msgid "Log"
@@ -765,7 +765,7 @@ msgstr "Válasszon egy alkalmazást"
 
 #: templates/apps.php:43
 msgid "Documentation:"
-msgstr ""
+msgstr "Leírások:"
 
 #: templates/apps.php:49
 msgid "See application page at apps.owncloud.com"
@@ -773,7 +773,7 @@ msgstr "Lásd apps.owncloud.com, alkalmazások oldal"
 
 #: templates/apps.php:51
 msgid "See application website"
-msgstr ""
+msgstr "Lásd az alkalmazások weboldalát"
 
 #: templates/apps.php:53
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -781,7 +781,7 @@ msgstr "<span class=\"licence\"></span>-a jogtuladonos <span class=\"author\"></
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
+msgstr "Csak bizonyos csoportok számára tegyük elérhetővé"
 
 #: templates/apps.php:61
 msgid "All"
@@ -809,7 +809,7 @@ msgstr "Megvásárolható támogatás"
 
 #: templates/personal.php:8
 msgid "Get the apps to sync your files"
-msgstr "Töltse le az állományok szinkronizációjához szükséges programokat"
+msgstr "Töltse le az állományok szinkronizációjához szükséges programokat!"
 
 #: templates/personal.php:21
 msgid ""
@@ -861,17 +861,17 @@ msgstr "Teljes név"
 
 #: templates/personal.php:88
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: templates/personal.php:90
 msgid "Your email address"
-msgstr "Az Ön email címe"
+msgstr "Az Ön e-mail címe"
 
 #: templates/personal.php:93
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
-msgstr ""
+msgstr "Adja meg az e-mail címét, hogy vissza tudja állítani a jelszavát, illetve, hogy rendszeres jelentéseket kaphasson!"
 
 #: templates/personal.php:101
 msgid "Profile picture"
@@ -883,19 +883,19 @@ msgstr "Új feltöltése"
 
 #: templates/personal.php:108
 msgid "Select new from Files"
-msgstr "Új kiválasztása Fileokból"
+msgstr "Új kiválasztása a Fájlokból"
 
 #: templates/personal.php:109
 msgid "Remove image"
-msgstr "Kép eltávolítása"
+msgstr "A kép eltávolítása"
 
 #: templates/personal.php:110
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
-msgstr "Egyaránt png vagy jpg. Az ideális ha négyzet alaku, de késöbb még átszabható"
+msgstr "A kép png vagy jpg formátumban legyen. Legjobb, ha négyzet alakú, de később még átszabható."
 
 #: templates/personal.php:112
 msgid "Your avatar is provided by your original account."
-msgstr "Az avatarod az eredeti fiókod alapján van beállítva."
+msgstr "A kép az eredeti bejelentkezési adatai alapján lett beállítva."
 
 #: templates/personal.php:116
 msgid "Cancel"
@@ -903,7 +903,7 @@ msgstr "Mégsem"
 
 #: templates/personal.php:117
 msgid "Choose as profile image"
-msgstr "Válassz profil képet"
+msgstr "Válasszuk ki profilképnek"
 
 #: templates/personal.php:123 templates/personal.php:124
 msgid "Language"
@@ -915,7 +915,7 @@ msgstr "Segítsen a fordításban!"
 
 #: templates/personal.php:162
 msgid "The encryption app is no longer enabled, please decrypt all your files"
-msgstr "A titkosító alkalmazás továbbiakban nem lesz engedélyezve, szüntesd meg a titkosítását a file-jaidnak."
+msgstr "A titkosító alkalmazás a továbbiakban nincs engedélyezve, kérem állítsa vissza az állományait titkostásmentes állapotba!"
 
 #: templates/personal.php:168
 msgid "Log-in password"
@@ -923,22 +923,22 @@ msgstr "Bejelentkezési jelszó"
 
 #: templates/personal.php:173
 msgid "Decrypt all Files"
-msgstr "Kititkosítja az összes file-t"
+msgstr "Mentesíti a titkosítástól az összes fájlt"
 
 #: templates/personal.php:186
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr ""
+msgstr "A titkosító kulcsai egy mentési területre kerültek. Ha valami hiba történik, még vissza tudja állítani a titkosító kulcsait. Csak akkor törölje őket véglegesen, ha biztos benne, hogy minden állományt sikerült a visszaállítani a titkosított állapotából."
 
 #: templates/personal.php:190
 msgid "Restore Encryption Keys"
-msgstr ""
+msgstr "A titkosító kulcsok visszaállítása"
 
 #: templates/personal.php:194
 msgid "Delete Encryption Keys"
-msgstr ""
+msgstr "A titkosító kulcsok törlése"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -950,7 +950,7 @@ msgstr "Létrehozás"
 
 #: templates/users/part.createuser.php:26
 msgid "Admin Recovery Password"
-msgstr "A jelszóvisszaállítás adminisztrációja"
+msgstr "Adminisztrátori jelszó az állományok visszanyerésére"
 
 #: templates/users/part.createuser.php:27
 #: templates/users/part.createuser.php:28
@@ -961,11 +961,11 @@ msgstr "Adja meg az adatok visszanyeréséhez szükséges jelszót arra az esetr
 
 #: templates/users/part.createuser.php:32
 msgid "Search Users and Groups"
-msgstr ""
+msgstr "Keresés a felhasználók és a csoportok között"
 
 #: templates/users/part.grouplist.php:5
 msgid "Add Group"
-msgstr ""
+msgstr "Csoport létrehozása"
 
 #: templates/users/part.grouplist.php:10
 msgid "Group"
@@ -973,11 +973,11 @@ msgstr "Csoport"
 
 #: templates/users/part.grouplist.php:18
 msgid "Everyone"
-msgstr ""
+msgstr "Mindenki"
 
 #: templates/users/part.grouplist.php:31
 msgid "Admins"
-msgstr ""
+msgstr "Adminok"
 
 #: templates/users/part.setquota.php:7
 msgid "Default Quota"
@@ -1005,11 +1005,11 @@ msgstr "Kvóta"
 
 #: templates/users/part.userlist.php:15
 msgid "Storage Location"
-msgstr ""
+msgstr "A háttértár helye"
 
 #: templates/users/part.userlist.php:16
 msgid "Last Login"
-msgstr ""
+msgstr "Utolsó bejelentkezés"
 
 #: templates/users/part.userlist.php:30
 msgid "change full name"

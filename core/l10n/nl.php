@@ -187,7 +187,7 @@ $TRANSLATIONS = array(
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" => "Hallo,<br><br>%s deelt <strong>%s</strong> met u.<br><a href=\"%s\">Bekijk het!</a><br><br>",
 "This ownCloud instance is currently in single user mode." => "Deze ownCloud werkt momenteel in enkele gebruiker modus.",
 "This means only administrators can use the instance." => "Dat betekent dat alleen beheerders deze installatie kunnen gebruiken.",
-"Contact your system administrator if this message persists or appeared unexpectedly." => "Beem contact op met uw systeembeheerder als deze melding aanhoudt of plotseling verscheen.",
+"Contact your system administrator if this message persists or appeared unexpectedly." => "Neem contact op met uw systeembeheerder als deze melding aanhoudt of onverwacht verscheen.",
 "Thank you for your patience." => "Bedankt voor uw geduld.",
 "You are accessing the server from an untrusted domain." => "U benadert de server vanaf een niet vertrouwd domein.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Neem contact op met uw beheerder. Als u de beheerder van deze service bent, configureer dan de \"trusted_domain\" instelling in config/config.php. Een voorbeeldconfiguratie is gegeven in config/config.sample.php.",
