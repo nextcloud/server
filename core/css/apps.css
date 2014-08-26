@@ -44,13 +44,24 @@
 #app-navigation .active a {
 	background-color: #ddd;
 }
+
+#app-navigation .active.with-menu > a,
+#app-navigation .with-counter > a {
+	padding-right: 50px;
+}
+
+#app-navigation .active.with-menu.with-counter > a {
+	padding-right: 90px;
+}
+
 #app-navigation li:hover > a,
 #app-navigation .selected,
 #app-navigation .selected a {
 	background-color: #ccc;
 }
 
-#app-navigation .with-icon a {
+#app-navigation .with-icon a,
+#app-navigation .app-navigation-entry-loading a {
 	padding-left: 44px;
 	background-size: 16px 16px;
 	background-position: 14px center;
@@ -114,12 +125,13 @@
 #app-navigation > ul ul li > a {
 	padding-left: 32px;
 }
-#app-navigation > .with-icon ul li > a {
+#app-navigation > .with-icon ul li > a,
+#app-navigation > .with-icon ul li.app-navigation-entry-loading > a {
 	padding-left: 68px;
 	background-position: 44px center;
 }
 
-#app-navigation .open {
+#app-navigation .collapsible.open {
 	background-image: linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
 	background-image: -o-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
 	background-image: -moz-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
@@ -127,16 +139,16 @@
 	background-image: -ms-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
 }
 
-#app-navigation > ul .open:hover {
+#app-navigation > ul .collapsible.open:hover {
 	box-shadow: inset 0 0 3px #ccc;
 }
 
-#app-navigation > ul .open ul {
+#app-navigation > ul .collapsible.open ul {
 	display: block;
 }
 
 
-/* counter and actions */
+/* counter and actions, legacy code */
 #app-navigation .utils {
 	position: absolute;
 	padding: 7px 7px 0 0;
@@ -170,8 +182,179 @@
 	border-bottom: 1px solid #ddd;
 }
 
+/**
+ * App navigation utils, buttons and counters for drop down menu
+ */
+#app-navigation .app-navigation-entry-utils {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 105;
+}
+
+	#app-navigation .app-navigation-entry-utils ul {
+		display: block !important;
+	}
 
 
+	#app-navigation .app-navigation-entry-utils li {
+		float: left;
+		width: 44px !important;
+		height: 44px;
+		line-height: 44px;
+	}
+
+	#app-navigation .active > .app-navigation-entry-utils li {
+		display: inline-block;
+	}
+
+	#app-navigation .app-navigation-entry-utils button {
+		height: 38px;
+		width: 38px;
+		line-height: 38px;
+		float: left;
+	}
+
+	#app-navigation .app-navigation-entry-utils-menu-button {
+		display: none;
+	}
+	#app-navigation .app-navigation-entry-utils-menu-button button {
+		border: 0;
+		opacity: .5;
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: center;
+		background-image: url('../img/actions/more.svg');
+	}
+
+	#app-navigation .app-navigation-entry-utils-menu-button:hover button,
+	#app-navigation .app-navigation-entry-utils-menu-button:focus button {
+		background-color: transparent;
+		opacity: 1;
+	}
+
+	#app-navigation .app-navigation-entry-utils-counter {
+		overflow: hidden;
+		text-overflow: hidden;
+		text-align: right;
+		font-size: 9pt;
+		width: 38px;
+		line-height: 44px;
+		padding: 0 10px;
+	}
+
+	#app-navigation .app-navigation-entry-utils ul,
+	#app-navigation .app-navigation-entry-menu ul {
+		list-style-type: none;
+	}
+
+#app-navigation .app-navigation-entry-menu {
+	display: none;
+	position: absolute;
+	background-color: #eee;
+	color: #333;
+	border-radius: 3px;
+	border-top-right-radius: 0px;
+	z-index: 110;
+	margin: -5px 14px 5px 10px;
+	right: 0;
+	border: 1px solid #bbb;
+	-webkit-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-moz-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-ms-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	-o-filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+	filter: drop-shadow(0 0 5px rgba(150, 150, 150, 0.75));
+}
+
+#app-navigation .app-navigation-entry-menu.open {
+	display: block;
+}
+
+/* miraculous border arrow stuff */
+#app-navigation .app-navigation-entry-menu:after,
+#app-navigation .app-navigation-entry-menu:before {
+	bottom: 100%;
+	right: 0; /* change this to adjust the arrow position */
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+#app-navigation .app-navigation-entry-menu:after {
+	border-color: rgba(238, 238, 238, 0);
+	border-bottom-color: #eee;
+	border-width: 10px;
+	margin-left: -10px;
+}
+#app-navigation .app-navigation-entry-menu:before {
+	border-color: rgba(187, 187, 187, 0);
+	border-bottom-color: #bbb;
+	border-width: 11px;
+	margin-left: -11px;
+}
+
+	/* list of options for an entry */
+	#app-navigation .app-navigation-entry-menu ul {
+		display: block !important;
+	}
+
+	#app-navigation .app-navigation-entry-menu li {
+		float: left;
+		width: 38px !important;
+	}
+
+		#app-navigation .app-navigation-entry-menu li button {
+			float: right;
+			width: 36px !important;
+			height: 36px;
+			line-height: 36px;
+			border: 0;
+			opacity: .5;
+			background-color: transparent;
+		}
+
+		#app-navigation .app-navigation-entry-menu li button:hover,
+		#app-navigation .app-navigation-entry-menu li button:focus {
+			opacity: 1;
+			background-color: transparent;
+		}
+
+/* editing an entry */
+#app-navigation .app-navigation-entry-edit {
+	padding-left: 5px;
+	padding-right: 5px;
+	display: inline-block;
+	height: 39px;
+	width: 100%;
+}
+
+	#app-navigation .app-navigation-entry-edit input {
+		border-bottom-right-radius: 0;
+		border-top-right-radius: 0;
+		width: 204px;
+		padding: 5px;
+		margin-right: 0;
+		height: 38px;
+		float: left;
+		border: 1px solid rgba(190,190,190,.9);
+	}
+
+	#app-navigation .app-navigation-entry-edit button {
+		width: 36px;
+		height: 38px;
+		float: left;
+	}
+
+	#app-navigation .app-navigation-entry-edit .icon-checkmark {
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+		border-left: 0;
+		margin-right: 0;
+	}
 
 
 /* APP-CONTENT ---------------------------------------------------------------*/
@@ -184,6 +367,12 @@
 	overflow-y: auto;
 }
 
+#app-content-wrapper {
+	min-width: 100%;
+	min-height: 100%;
+	overflow-y: auto;
+}
+
 
 
 /* APP-SETTINGS ---------------------------------------------------------------*/
@@ -193,6 +382,7 @@
 	position: fixed;
 	width: 250px; /* change to 100% when layout positions are absolute */
 	bottom: 0;
+	z-index: 140;
 }
 #app-settings.opened #app-settings-content {
 	display: block;
