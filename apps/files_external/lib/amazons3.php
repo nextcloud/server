@@ -416,7 +416,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$result = $this->connection->putObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
-					'Metadata' => $metadata
+					'Metadata' => $metadata,
+					'Body' => ''
 				));
 				$this->testTimeout();
 			}
