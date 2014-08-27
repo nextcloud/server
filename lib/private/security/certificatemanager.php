@@ -44,7 +44,9 @@ class CertificateManager implements ICertificateManager {
 		}
 		while (false !== ($file = readdir($handle))) {
 			if ($file != '.' && $file != '..') {
-				$result[] = new Certificate(file_get_contents($path . $file), $file);
+				try {
+					$result[] = new Certificate(file_get_contents($path . $file), $file);
+				} catch(\Exception $e) {}
 			}
 		}
 		return $result;
@@ -59,7 +61,7 @@ class CertificateManager implements ICertificateManager {
 
 		$fh_certs = fopen($path . '/rootcerts.crt', 'w');
 		foreach ($certs as $cert) {
-			$file = $path . '/uploads/' . $cert;
+			$file = $path . '/uploads/' . $cert->getName();
 			$data = file_get_contents($file);
 			if (strpos($data, 'BEGIN CERTIFICATE')) {
 				fwrite($fh_certs, $data);
@@ -75,35 +77,32 @@ class CertificateManager implements ICertificateManager {
 	 *
 	 * @param string $certificate the certificate data
 	 * @param string $name the filename for the certificate
-	 * @return bool | \OCP\ICertificate
+	 * @return \OCP\ICertificate|void|bool
+	 * @throws \Exception If the certificate could not get added
 	 */
 	public function addCertificate($certificate, $name) {
 		if (!Filesystem::isValidPath($name) or Filesystem::isFileBlacklisted($name)) {
 			return false;
 		}
-		$isValid = openssl_pkey_get_public($certificate);
 
-		if (!$isValid) {
-			$data = chunk_split(base64_encode($certificate), 64, "\n");
-			$data = "-----BEGIN CERTIFICATE-----\n" . $data . "-----END CERTIFICATE-----\n";
-			$isValid = openssl_pkey_get_public($data);
+		$dir = $this->user->getHome() . '/files_external/uploads/';
+		if (!file_exists($dir)) {
+			//path might not exist (e.g. non-standard OC_User::getHome() value)
+			//in this case create full path using 3rd (recursive=true) parameter.
+			//note that we use "normal" php filesystem functions here since the certs need to be local
+			mkdir($dir, 0700, true);
 		}
 
-		if ($isValid) {
-			$dir = $this->user->getHome() . '/files_external/uploads/';
-			if (!file_exists($dir)) {
-				//path might not exist (e.g. non-standard OC_User::getHome() value)
-				//in this case create full path using 3rd (recursive=true) parameter.
-				//note that we use "normal" php filesystem functions here since the certs need to be local
-				mkdir($dir, 0700, true);
-			}
+		try {
 			$file = $dir . $name;
+			$certificateObject = new Certificate($certificate, $name);
 			file_put_contents($file, $certificate);
 			$this->createCertificateBundle();
-			return new Certificate($certificate, $name);
-		} else {
-			return false;
+			return $certificateObject;
+		} catch (\Exception $e) {
+			throw $e;
 		}
+
 	}
 
 	/**

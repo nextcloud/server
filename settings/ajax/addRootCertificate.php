@@ -1,4 +1,5 @@
 <?php
+OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 $l = new OC_L10N('core');
@@ -13,8 +14,8 @@ $filename = basename($_FILES['rootcert_import']['name']);
 
 $certificateManager = \OC::$server->getCertificateManager();
 
-$cert = $certificateManager->addCertificate($data, $filename);
-if ($cert) {
+try {
+	$cert = $certificateManager->addCertificate($data, $filename);
 	OCP\JSON::success(array(
 		'name' => $cert->getName(),
 		'commonName' => $cert->getCommonName(),
@@ -26,6 +27,6 @@ if ($cert) {
 		'issuer' => $cert->getIssuerName(),
 		'issuerOrganization' => $cert->getIssuerOrganization()
 	));
-} else {
+} catch(\Exception $e) {
 	OCP\JSON::error(array('error' => 'Couldn\'t import SSL root certificate, allowed formats: PEM and DER'));
 }

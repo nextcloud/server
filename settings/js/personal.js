@@ -325,7 +325,7 @@ $(document).ready(function () {
 			var row = $('<tr/>');
 			row.addClass(isExpired? 'expired': 'valid');
 			row.append($('<td/>').attr('title', data.result.organization).text(data.result.commonName));
-			row.append($('<td/>').attr('title', t('core,', 'Valid from {date}', {date: data.result.validFromString}))
+			row.append($('<td/>').attr('title', t('core,', 'Valid until {date}', {date: data.result.validFromString}))
 				.text(data.result.validTillString));
 			row.append($('<td/>').attr('title', data.result.issuerOrganization).text(data.result.issuer));
 			row.append($('<td/>').addClass('remove').append(

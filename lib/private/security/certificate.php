@@ -30,17 +30,22 @@ class Certificate implements ICertificate {
 	/**
 	 * @param string $data base64 encoded certificate
 	 * @param string $name
+	 * @throws \Exception If the certificate could not get parsed
 	 */
 	public function __construct($data, $name) {
 		$this->name = $name;
-		$info = openssl_x509_parse($data);
-		$this->commonName = $info['subject']['CN'];
-		$this->organization = isset($info['subject']['O']) ? $info['subject']['O'] : null;
-		$this->serial = $this->formatSerial($info['serialNumber']);
-		$this->issueDate = new \DateTime('@' . $info['validFrom_time_t']);
-		$this->expireDate = new \DateTime('@' . $info['validTo_time_t']);
-		$this->issuerName = $info['issuer']['CN'];
-		$this->issuerOrganization = isset($info['issuer']['O']) ? $info['issuer']['O'] : null;
+		try {
+			$info = openssl_x509_parse($data);
+			$this->commonName = isset($info['subject']['CN']) ? $info['subject']['CN'] : null;
+			$this->organization = isset($info['subject']['O']) ? $info['subject']['O'] : null;
+			$this->serial = $this->formatSerial($info['serialNumber']);
+			$this->issueDate = new \DateTime('@' . $info['validFrom_time_t']);
+			$this->expireDate = new \DateTime('@' . $info['validTo_time_t']);
+			$this->issuerName = isset($info['issuer']['CN']) ? $info['issuer']['CN'] : null;
+			$this->issuerOrganization = isset($info['issuer']['O']) ? $info['issuer']['O'] : null;
+		} catch (\Exception $e) {
+			throw new \Exception('Certificate could not get parsed.');
+		}
 	}
 
 	/**
@@ -62,7 +67,7 @@ class Certificate implements ICertificate {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getCommonName() {
 		return $this->commonName;
@@ -105,14 +110,14 @@ class Certificate implements ICertificate {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getIssuerName() {
 		return $this->issuerName;
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
 	public function getIssuerOrganization() {
 		return $this->issuerOrganization;

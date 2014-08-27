@@ -2,7 +2,10 @@
  * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
- */?>
+ */
+
+/** @var $_ array */
+?>
 
 <div class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
@@ -160,12 +163,12 @@ if($_['passwordChangeSupported']) {
 			<th/>
 		</thead>
 		<tbody>
-			<?php foreach ($_['certs'] as $rootCert): /**@var \OCP\ICertificate $rootCert*/?>
+			<?php foreach ($_['certs'] as $rootCert): /**@var \OCP\ICertificate $rootCert*/ ?>
 				<tr class="<?php echo ($rootCert->isExpired()) ? 'expired' : 'valid' ?>" data-name="<?php p($rootCert->getName()) ?>">
 					<td class="rootCert" title="<?php p($rootCert->getOrganization())?>">
 						<?php p($rootCert->getCommonName()) ?>
 					</td>
-					<td title="<?php p($l->t('Valid from %s', $l->l('date', $rootCert->getExpireDate()))) ?>">
+					<td title="<?php p($l->t('Valid until %s', $l->l('date', $rootCert->getExpireDate()))) ?>">
 						<?php echo $l->l('date', $rootCert->getExpireDate()) ?>
 					</td>
 					<td title="<?php p($rootCert->getIssuerOrganization()) ?>">
