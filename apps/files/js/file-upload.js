@@ -668,7 +668,11 @@ $(document).ready(function() {
 						});
 						eventSource.listen('error',function(error) {
 							$('#uploadprogressbar').fadeOut();
-							alert(error);
+							OC.Notification.show(error);
+							// hide notification after 10 sec
+							setTimeout(function() {
+								OC.Notification.hide();
+							}, 10000);
 						});
 						break;
 				}
