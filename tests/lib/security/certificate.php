@@ -71,9 +71,7 @@ class CertificateTest extends \PHPUnit_Framework_TestCase {
 	function testIsExpired() {
 		$this->assertSame(false, $this->goodCertificate->isExpired());
 		$this->assertSame(false, $this->invalidCertificate->isExpired());
-
-		// TODO: Change to false after tomorrow
-		$this->assertSame(false, $this->expiredCertificate->isExpired());
+		$this->assertSame(true, $this->expiredCertificate->isExpired());
 	}
 
 	function testGetIssuerName() {
