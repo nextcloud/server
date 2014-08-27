@@ -265,8 +265,8 @@ class Share extends \OC\Share\Constants {
 	 *
 	 * Unsharing from self is not allowed for items inside collections
 	 */
-	public static function unshareFromSelf($itemType, $itemTarget) {
-		return \OC\Share\Share::unshareFromSelf($itemType, $itemTarget);
+	public static function unshareFromSelf($itemType, $itemOrigin, $originIsSource = false) {
+		return \OC\Share\Share::unshareFromSelf($itemType, $itemOrigin, $originIsSource);
 	}
 
 	/**
