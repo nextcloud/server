@@ -58,10 +58,8 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
    public function getLoadClassTests()
    {
        return array(
-           array('\\Apc\\Namespaced\\Foo', '\\Apc\\Namespaced\\Foo',   '->loadClass() loads Apc\Namespaced\Foo class'),
+           array('\\Apc\\Namespaced\\Foo', 'Apc\\Namespaced\\Foo',   '->loadClass() loads Apc\Namespaced\Foo class'),
            array('Apc_Pearlike_Foo',    'Apc_Pearlike_Foo',      '->loadClass() loads Apc_Pearlike_Foo class'),
-           array('\\Apc\\Namespaced\\Bar', '\\Apc\\Namespaced\\Bar', '->loadClass() loads Apc\Namespaced\Bar class with a leading slash'),
-           array('Apc_Pearlike_Bar',    '\\Apc_Pearlike_Bar',    '->loadClass() loads Apc_Pearlike_Bar class with a leading slash'),
        );
    }
 
@@ -82,9 +80,9 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
    public function getLoadClassFromFallbackTests()
    {
        return array(
-           array('\\Apc\\Namespaced\\Baz',    '\\Apc\\Namespaced\\Baz',    '->loadClass() loads Apc\Namespaced\Baz class'),
+           array('\\Apc\\Namespaced\\Baz',    'Apc\\Namespaced\\Baz',    '->loadClass() loads Apc\Namespaced\Baz class'),
            array('Apc_Pearlike_Baz',       'Apc_Pearlike_Baz',       '->loadClass() loads Apc_Pearlike_Baz class'),
-           array('\\Apc\\Namespaced\\FooBar', '\\Apc\\Namespaced\\FooBar', '->loadClass() loads Apc\Namespaced\Baz class from fallback dir'),
+           array('\\Apc\\Namespaced\\FooBar', 'Apc\\Namespaced\\FooBar', '->loadClass() loads Apc\Namespaced\Baz class from fallback dir'),
            array('Apc_Pearlike_FooBar',    'Apc_Pearlike_FooBar',    '->loadClass() loads Apc_Pearlike_Baz class from fallback dir'),
        );
    }
@@ -110,7 +108,7 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
                    'Apc\\NamespaceCollision\\A' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/alpha',
                    'Apc\\NamespaceCollision\\A\\B' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/beta',
                ),
-               '\Apc\NamespaceCollision\A\Foo',
+               'Apc\NamespaceCollision\A\Foo',
                '->loadClass() loads NamespaceCollision\A\Foo from alpha.',
            ),
            array(
@@ -118,7 +116,7 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
                    'Apc\\NamespaceCollision\\A\\B' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/beta',
                    'Apc\\NamespaceCollision\\A' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/alpha',
                ),
-               '\Apc\NamespaceCollision\A\Bar',
+               'Apc\NamespaceCollision\A\Bar',
                '->loadClass() loads NamespaceCollision\A\Bar from alpha.',
            ),
            array(
@@ -126,7 +124,7 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
                    'Apc\\NamespaceCollision\\A' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/alpha',
                    'Apc\\NamespaceCollision\\A\\B' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/beta',
                ),
-               '\Apc\NamespaceCollision\A\B\Foo',
+               'Apc\NamespaceCollision\A\B\Foo',
                '->loadClass() loads NamespaceCollision\A\B\Foo from beta.',
            ),
            array(
@@ -134,7 +132,7 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
                    'Apc\\NamespaceCollision\\A\\B' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/beta',
                    'Apc\\NamespaceCollision\\A' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/alpha',
                ),
-               '\Apc\NamespaceCollision\A\B\Bar',
+               'Apc\NamespaceCollision\A\B\Bar',
                '->loadClass() loads NamespaceCollision\A\B\Bar from beta.',
            ),
        );

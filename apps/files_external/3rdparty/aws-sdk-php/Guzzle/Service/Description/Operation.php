@@ -507,7 +507,7 @@ class Operation implements OperationInterface
     /**
      * Get the additionalParameters of the operation
      *
-     * @return Paramter|null
+     * @return Parameter|null
      */
     public function getAdditionalParameters()
     {
@@ -535,16 +535,13 @@ class Operation implements OperationInterface
      */
     protected function inferResponseType()
     {
-        if (!$this->responseClass || $this->responseClass == 'array' || $this->responseClass == 'string'
-            || $this->responseClass == 'boolean' || $this->responseClass == 'integer'
-        ) {
+        static $primitives = array('array' => 1, 'boolean' => 1, 'string' => 1, 'integer' => 1, '' => 1);
+        if (isset($primitives[$this->responseClass])) {
             $this->responseType = self::TYPE_PRIMITIVE;
         } elseif ($this->description && $this->description->hasModel($this->responseClass)) {
             $this->responseType = self::TYPE_MODEL;
-        } elseif (strpos($this->responseClass, '\\') !== false) {
-            $this->responseType = self::TYPE_CLASS;
         } else {
-            $this->responseType = self::TYPE_PRIMITIVE;
+            $this->responseType = self::TYPE_CLASS;
         }
     }
 }

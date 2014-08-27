@@ -19,7 +19,7 @@ namespace Aws\S3\Sync;
 use \FilesystemIterator as FI;
 use Aws\Common\Model\MultipartUpload\AbstractTransfer;
 use Aws\S3\Model\Acp;
-use Aws\S3\S3Client;
+use Guzzle\Common\HasDispatcherInterface;
 use Guzzle\Common\Event;
 use Guzzle\Service\Command\CommandInterface;
 
@@ -40,7 +40,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
      */
     public function uploadFromDirectory($path)
     {
-        $this->baseDir = $path;
+        $this->baseDir = realpath($path);
         $this->sourceIterator = $this->filterIterator(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(
             $path,
             FI::SKIP_DOTS | FI::UNIX_PATHS | FI::FOLLOW_SYMLINKS
@@ -125,6 +125,21 @@ class UploadSyncBuilder extends AbstractSyncBuilder
         return $sync;
     }
 
+    protected function addCustomParamListener(HasDispatcherInterface $sync)
+    {
+        // Handle the special multi-part upload event
+        parent::addCustomParamListener($sync);
+        $params = $this->params;
+        $sync->getEventDispatcher()->addListener(
+            UploadSync::BEFORE_MULTIPART_BUILD,
+            function (Event $e) use ($params) {
+                foreach ($params as $k => $v) {
+                    $e['builder']->setOption($k, $v);
+                }
+            }
+        );
+    }
+
     protected function getTargetIterator()
     {
         return $this->createS3Iterator();
@@ -167,7 +182,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
                     $size = $command['Body']->getContentLength();
                     $percentage = number_format(($progress / $totalSize) * 100, 2);
                     fwrite($resource, "- Part {$command['PartNumber']} ({$size} bytes, {$percentage}%)\n");
-                    $progress .=  $size;
+                    $progress += $size;
                 }
             );
         });

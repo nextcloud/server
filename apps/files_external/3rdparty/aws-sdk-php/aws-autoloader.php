@@ -25,9 +25,11 @@ $classLoader->registerNamespaces(array(
     'Aws'      => AWS_FILE_PREFIX,
     'Guzzle'   => AWS_FILE_PREFIX,
     'Symfony'  => AWS_FILE_PREFIX,
-    'Doctrine' => AWS_FILE_PREFIX,
-    'Psr'      => AWS_FILE_PREFIX,
-    'Monolog'  => AWS_FILE_PREFIX
+
+    // Not needed for basic S3-functionality.
+    //'Doctrine' => AWS_FILE_PREFIX,
+    //'Psr'      => AWS_FILE_PREFIX,
+    //'Monolog'  => AWS_FILE_PREFIX
 ));
 
 $classLoader->register();

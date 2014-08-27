@@ -12,11 +12,11 @@ use Guzzle\Service\Command\LocationVisitor\Request\AbstractRequestVisitor;
  */
 class AwsQueryVisitor extends AbstractRequestVisitor
 {
-    /**
-     * {@inheritdoc}
-     */
+    private $fqname;
+
     public function visit(CommandInterface $command, RequestInterface $request, Parameter $param, $value)
     {
+        $this->fqname = $command->getName();
         $query = array();
         $this->customResolver($value, $param, $query, $param->getWireName());
         $request->addPostFields($query);
@@ -66,8 +66,11 @@ class AwsQueryVisitor extends AbstractRequestVisitor
             } elseif ($hasAdditionalProperties) {
                 // Handle map cases like &Attribute.1.Name=<name>&Attribute.1.Value=<value>
                 $additionalPropertyCount++;
-                $query["{$prefix}.{$additionalPropertyCount}.Name"] = $name;
-                $newPrefix = "{$prefix}.{$additionalPropertyCount}.Value";
+                $data = $param->getData();
+                $keyName = isset($data['keyName']) ? $data['keyName'] : 'key';
+                $valueName = isset($data['valueName']) ? $data['valueName'] : 'value';
+                $query["{$prefix}.{$additionalPropertyCount}.{$keyName}"] = $name;
+                $newPrefix = "{$prefix}.{$additionalPropertyCount}.{$valueName}";
                 if (is_array($v)) {
                     $this->customResolver($v, $param->getAdditionalProperties(), $query, $newPrefix);
                 } else {
@@ -87,6 +90,20 @@ class AwsQueryVisitor extends AbstractRequestVisitor
      */
     protected function resolveArray(Parameter $param, array $value, $prefix, array &$query)
     {
+        static $serializeEmpty = array(
+            'SetLoadBalancerPoliciesForBackendServer' => 1,
+            'SetLoadBalancerPoliciesOfListener' => 1,
+            'UpdateStack' => 1
+        );
+
+        // For BC, serialize empty lists for specific operations
+        if (!$value) {
+            if (isset($serializeEmpty[$this->fqname])) {
+                $query[$prefix] = '';
+            }
+            return;
+        }
+
         $offset = $param->getData('offset') ?: 1;
         foreach ($value as $index => $v) {
             $index += $offset;

@@ -3,7 +3,6 @@
 namespace Guzzle\Service\Command;
 
 use Guzzle\Http\Message\RequestInterface;
-use Guzzle\Http\Url;
 use Guzzle\Service\Command\LocationVisitor\Request\RequestVisitorInterface;
 use Guzzle\Service\Command\LocationVisitor\VisitorFlyweight;
 use Guzzle\Service\Description\OperationInterface;

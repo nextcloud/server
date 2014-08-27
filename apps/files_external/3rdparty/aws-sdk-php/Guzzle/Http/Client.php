@@ -30,6 +30,8 @@ class Client extends AbstractHasDispatcher implements ClientInterface
     const CURL_OPTIONS = 'curl.options';
     const SSL_CERT_AUTHORITY = 'ssl.certificate_authority';
     const DISABLE_REDIRECTS = RedirectPlugin::DISABLE;
+    const DEFAULT_SELECT_TIMEOUT = 1.0;
+    const MAX_HANDLES = 3;
 
     /** @var Collection Default HTTP headers to set on each request */
     protected $defaultHeaders;
@@ -109,11 +111,8 @@ class Client extends AbstractHasDispatcher implements ClientInterface
      */
     public function setDefaultOption($keyOrPath, $value)
     {
-        if (strpos($keyOrPath, '/')) {
-            $this->config->setPath($keyOrPath, $value);
-        } else {
-            $this->config[$keyOrPath] = $value;
-        }
+        $keyOrPath = self::REQUEST_OPTIONS . '/' . $keyOrPath;
+        $this->config->setPath($keyOrPath, $value);
 
         return $this;
     }
@@ -127,7 +126,9 @@ class Client extends AbstractHasDispatcher implements ClientInterface
      */
     public function getDefaultOption($keyOrPath)
     {
-        return strpos($keyOrPath, '/') ? $this->config->getPath($keyOrPath) : $this->config[$keyOrPath];
+        $keyOrPath = self::REQUEST_OPTIONS . '/' . $keyOrPath;
+
+        return $this->config->getPath($keyOrPath);
     }
 
     final public function setSslVerification($certificateAuthority = true, $verifyPeer = true, $verifyHost = 2)
@@ -142,7 +143,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
         } elseif ($certificateAuthority === false) {
             unset($opts[CURLOPT_CAINFO]);
             $opts[CURLOPT_SSL_VERIFYPEER] = false;
-            $opts[CURLOPT_SSL_VERIFYHOST] = 2;
+            $opts[CURLOPT_SSL_VERIFYHOST] = 0;
         } elseif ($verifyPeer !== true && $verifyPeer !== false && $verifyPeer !== 1 && $verifyPeer !== 0) {
             throw new InvalidArgumentException('verifyPeer must be 1, 0 or boolean');
         } elseif ($verifyHost !== 0 && $verifyHost !== 1 && $verifyHost !== 2) {
@@ -178,7 +179,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
             } else {
                 list($uri, $templateVars) = $uri;
             }
-            if (substr($uri, 0, 4) === 'http') {
+            if (strpos($uri, '://')) {
                 // Use absolute URLs as-is
                 $url = $this->expandTemplate($uri, $templateVars);
             } else {
@@ -244,7 +245,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
 
     public function head($uri = null, $headers = null, array $options = array())
     {
-        return $this->createRequest('HEAD', $uri, $headers, $options);
+        return $this->createRequest('HEAD', $uri, $headers, null, $options);
     }
 
     public function delete($uri = null, $headers = null, $body = null, array $options = array())
@@ -307,7 +308,10 @@ class Client extends AbstractHasDispatcher implements ClientInterface
     public function getCurlMulti()
     {
         if (!$this->curlMulti) {
-            $this->curlMulti = new CurlMultiProxy();
+            $this->curlMulti = new CurlMultiProxy(
+                self::MAX_HANDLES,
+                $this->getConfig('select_timeout') ?: self::DEFAULT_SELECT_TIMEOUT
+            );
         }
 
         return $this->curlMulti;
@@ -332,31 +336,6 @@ class Client extends AbstractHasDispatcher implements ClientInterface
         $this->uriTemplate = $uriTemplate;
 
         return $this;
-    }
-
-    /**
-     * Copy the cacert.pem file from the phar if it is not in the temp folder and validate the MD5 checksum
-     *
-     * @param bool $md5Check Set to false to not perform the MD5 validation
-     *
-     * @return string Returns the path to the extracted cacert
-     * @throws RuntimeException if the file cannot be copied or there is a MD5 mismatch
-     */
-    public function preparePharCacert($md5Check = true)
-    {
-        $from = __DIR__ . '/Resources/cacert.pem';
-        $certFile = sys_get_temp_dir() . '/guzzle-cacert.pem';
-        if (!file_exists($certFile) && !copy($from, $certFile)) {
-            throw new RuntimeException("Could not copy {$from} to {$certFile}: " . var_export(error_get_last(), true));
-        } elseif ($md5Check) {
-            $actualMd5 = md5_file($certFile);
-            $expectedMd5 = trim(file_get_contents("{$from}.md5"));
-            if ($actualMd5 != $expectedMd5) {
-                throw new RuntimeException("{$certFile} MD5 mismatch: expected {$expectedMd5} but got {$actualMd5}");
-            }
-        }
-
-        return $certFile;
     }
 
     /**
@@ -458,7 +437,9 @@ class Client extends AbstractHasDispatcher implements ClientInterface
      */
     protected function initSsl()
     {
-        if ('system' == ($authority = $this->config[self::SSL_CERT_AUTHORITY])) {
+        $authority = $this->config[self::SSL_CERT_AUTHORITY];
+
+        if ($authority === 'system') {
             return;
         }
 
@@ -467,13 +448,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
         }
 
         if ($authority === true && substr(__FILE__, 0, 7) == 'phar://') {
-            $authority = $this->preparePharCacert();
-            $that = $this;
-            $this->getEventDispatcher()->addListener('request.before_send', function ($event) use ($authority, $that) {
-                if ($authority == $event['request']->getCurlOptions()->get(CURLOPT_CAINFO)) {
-                    $that->preparePharCacert(false);
-                }
-            });
+            $authority = self::extractPharCacert(__DIR__ . '/Resources/cacert.pem');
         }
 
         $this->setSslVerification($authority);
@@ -503,5 +478,47 @@ class Client extends AbstractHasDispatcher implements ClientInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @deprecated
+     */
+    public function preparePharCacert($md5Check = true)
+    {
+        return sys_get_temp_dir() . '/guzzle-cacert.pem';
+    }
+
+    /**
+     * Copies the phar cacert from a phar into the temp directory.
+     *
+     * @param string $pharCacertPath Path to the phar cacert. For example:
+     *                               'phar://aws.phar/Guzzle/Http/Resources/cacert.pem'
+     *
+     * @return string Returns the path to the extracted cacert file.
+     * @throws \RuntimeException Throws if the phar cacert cannot be found or
+     *                           the file cannot be copied to the temp dir.
+     */
+    public static function extractPharCacert($pharCacertPath)
+    {
+        // Copy the cacert.pem file from the phar if it is not in the temp
+        // folder.
+        $certFile = sys_get_temp_dir() . '/guzzle-cacert.pem';
+
+        if (!file_exists($pharCacertPath)) {
+            throw new \RuntimeException("Could not find $pharCacertPath");
+        }
+
+        if (!file_exists($certFile) ||
+            filesize($certFile) != filesize($pharCacertPath)
+        ) {
+            if (!copy($pharCacertPath, $certFile)) {
+                throw new \RuntimeException(
+                    "Could not copy {$pharCacertPath} to {$certFile}: "
+                    . var_export(error_get_last(), true)
+                );
+            }
+        }
+
+        return $certFile;
     }
 }

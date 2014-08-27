@@ -109,7 +109,7 @@ class SchemaFormatter
      */
     public static function formatTimestamp($value)
     {
-        return self::dateFormatter($value, 'U');
+        return (int) self::dateFormatter($value, 'U');
     }
 
     /**

@@ -97,12 +97,7 @@ class Parameter
         if ($description) {
             if (isset($data['$ref'])) {
                 if ($model = $description->getModel($data['$ref'])) {
-                    // The name of the original parameter should override the ref name if one is available
-                    $name = empty($data['name']) ? null : $data['name'];
-                    $data = $model->toArray();
-                    if ($name) {
-                        $data['name'] = $name;
-                    }
+                    $data = $model->toArray() + $data;
                 }
             } elseif (isset($data['extends'])) {
                 // If this parameter extends from another parameter then start with the actual data
@@ -138,10 +133,11 @@ class Parameter
      */
     public function toArray()
     {
-        $result = array();
-        $checks = array('required', 'description', 'static', 'type', 'format', 'instanceOf', 'location', 'sentAs',
+        static $checks = array('required', 'description', 'static', 'type', 'format', 'instanceOf', 'location', 'sentAs',
             'pattern', 'minimum', 'maximum', 'minItems', 'maxItems', 'minLength', 'maxLength', 'data', 'enum',
             'filters');
+
+        $result = array();
 
         // Anything that is in the `Items` attribute of an array *must* include it's name if available
         if ($this->parent instanceof self && $this->parent->getType() == 'array' && isset($this->name)) {
@@ -188,9 +184,11 @@ class Parameter
      */
     public function getValue($value)
     {
-        return $this->static || ($this->default !== null && !$value && ($this->type != 'boolean' || $value !== false))
-            ? $this->default
-            : $value;
+        if ($this->static || ($this->default !== null && $value === null)) {
+            return $this->default;
+        }
+
+        return $value;
     }
 
     /**

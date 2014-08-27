@@ -72,7 +72,7 @@ class ClassLoaderTest extends \PHPUnit_Framework_TestCase
     public function getLoadNonexistentClassTests()
     {
         return array(
-            array('\\Pearlike3_Bar', '\\Pearlike3_Bar', '->loadClass() loads non exising Pearlike3_Bar class with a leading slash'),
+            array('\\Pearlike3_Bar', '\\Pearlike3_Bar', '->loadClass() loads non existing Pearlike3_Bar class with a leading slash'),
         );
     }
 

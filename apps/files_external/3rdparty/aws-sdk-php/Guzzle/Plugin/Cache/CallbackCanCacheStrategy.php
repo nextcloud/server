@@ -41,7 +41,7 @@ class CallbackCanCacheStrategy extends DefaultCanCacheStrategy
     {
         return $this->requestCallback
             ? call_user_func($this->requestCallback, $request)
-            : parent::canCache($request);
+            : parent::canCacheRequest($request);
     }
 
     public function canCacheResponse(Response $response)

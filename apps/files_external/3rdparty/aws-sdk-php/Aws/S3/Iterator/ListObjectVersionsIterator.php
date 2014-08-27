@@ -23,7 +23,8 @@ use Guzzle\Service\Resource\Model;
  * Iterator for an S3 ListObjectVersions command
  *
  * This iterator includes the following additional options:
- * @option bool return_prefixes Set to true to receive both prefixes and versions in results
+ *
+ * - return_prefixes: Set to true to receive both prefixes and versions in results
  */
 class ListObjectVersionsIterator extends AwsResourceIterator
 {

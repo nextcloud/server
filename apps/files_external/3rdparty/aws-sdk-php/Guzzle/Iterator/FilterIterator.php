@@ -15,12 +15,12 @@ class FilterIterator extends \FilterIterator
     protected $callback;
 
     /**
-     * @param \Traversable   $iterator Traversable iterator
+     * @param \Iterator      $iterator Traversable iterator
      * @param array|\Closure $callback Callback used for filtering. Return true to keep or false to filter.
      *
      * @throws InvalidArgumentException if the callback if not callable
      */
-    public function __construct(\Traversable $iterator, $callback)
+    public function __construct(\Iterator $iterator, $callback)
     {
         parent::__construct($iterator);
         if (!is_callable($callback)) {

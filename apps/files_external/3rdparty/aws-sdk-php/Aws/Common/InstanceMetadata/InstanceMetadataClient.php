@@ -45,6 +45,10 @@ class InstanceMetadataClient extends AbstractClient
         $config = Collection::fromConfig($config, array(
             Options::BASE_URL => 'http://169.254.169.254/{version}/',
             'version'         => 'latest',
+            'request.options' => array(
+                'connect_timeout' => 5,
+                'timeout'         => 10
+            )
         ), array('base_url', 'version'));
 
         return new self($config);
@@ -71,15 +75,14 @@ class InstanceMetadataClient extends AbstractClient
     {
         try {
             $request = $this->get('meta-data/iam/security-credentials/');
-            $request->getCurlOptions()->set(CURLOPT_TIMEOUT, 1)->set(CURLOPT_CONNECTTIMEOUT, 1);
             $credentials = trim($request->send()->getBody(true));
             $result = $this->get("meta-data/iam/security-credentials/{$credentials}")->send()->json();
         } catch (\Exception $e) {
-            $message = 'Error retrieving credentials from the instance profile metadata server.  When you are not'
-                . ' running inside of Amazon EC2, you must provide your AWS access key ID and secret access key in'
+            $message = sprintf('Error retrieving credentials from the instance profile metadata server. When you are'
+                . ' not running inside of Amazon EC2, you must provide your AWS access key ID and secret access key in'
                 . ' the "key" and "secret" options when creating a client or provide an instantiated'
-                . ' Aws\\Common\\Credentials\\CredentialsInterface object.';
-            throw new InstanceProfileCredentialsException($message, $e->getCode(), $e);
+                . ' Aws\\Common\\Credentials\\CredentialsInterface object. (%s)', $e->getMessage());
+            throw new InstanceProfileCredentialsException($message, $e->getCode());
         }
 
         // Ensure that the status code was successful

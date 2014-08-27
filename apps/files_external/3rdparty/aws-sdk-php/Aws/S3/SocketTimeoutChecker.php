@@ -65,18 +65,6 @@ class SocketTimeoutChecker extends AbstractBackoffStrategy
             && $response->getStatusCode() == 400
             && strpos($response->getBody(), self::ERR)
         ) {
-            // Check if the request is sending a local file, and if so, clear the stat cache and recalculate the size.
-            if ($request instanceof EntityEnclosingRequestInterface) {
-                if ($request->getBody()->getWrapper() == 'plainfile') {
-                    $filename = $request->getBody()->getUri();
-                    // Clear the cache so that we send accurate file sizes
-                    clearstatcache(true, $filename);
-                    $length = filesize($filename);
-                    $request->getBody()->setSize($length);
-                    $request->setHeader('Content-Length', $length);
-                }
-            }
-
             return true;
         }
     }

@@ -865,18 +865,38 @@ class Response extends AbstractMessage implements \Serializable
     }
 
     /**
-     * Parse the XML response body and return a SimpleXMLElement
+     * Parse the XML response body and return a \SimpleXMLElement.
+     *
+     * In order to prevent XXE attacks, this method disables loading external
+     * entities. If you rely on external entities, then you must parse the
+     * XML response manually by accessing the response body directly.
      *
      * @return \SimpleXMLElement
      * @throws RuntimeException if the response body is not in XML format
+     * @link http://websec.io/2012/08/27/Preventing-XXE-in-PHP.html
      */
     public function xml()
     {
+        $errorMessage = null;
+        $internalErrors = libxml_use_internal_errors(true);
+        $disableEntities = libxml_disable_entity_loader(true);
+        libxml_clear_errors();
+
         try {
-            // Allow XML to be retrieved even if there is no response body
-            $xml = new \SimpleXMLElement((string) $this->body ?: '<root />');
+            $xml = new \SimpleXMLElement((string) $this->body ?: '<root />', LIBXML_NONET);
+            if ($error = libxml_get_last_error()) {
+                $errorMessage = $error->message;
+            }
         } catch (\Exception $e) {
-            throw new RuntimeException('Unable to parse response body into XML: ' . $e->getMessage());
+            $errorMessage = $e->getMessage();
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($internalErrors);
+        libxml_disable_entity_loader($disableEntities);
+
+        if ($errorMessage) {
+            throw new RuntimeException('Unable to parse response body into XML: ' . $errorMessage);
         }
 
         return $xml;

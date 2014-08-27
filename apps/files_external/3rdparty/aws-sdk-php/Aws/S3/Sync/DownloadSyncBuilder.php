@@ -17,9 +17,7 @@
 namespace Aws\S3\Sync;
 
 use Aws\Common\Exception\RuntimeException;
-use Aws\Common\Model\MultipartUpload\AbstractTransfer;
 use Aws\S3\ResumableDownload;
-use Aws\S3\S3Client;
 use Guzzle\Common\Event;
 use Guzzle\Http\EntityBodyInterface;
 use Guzzle\Service\Command\CommandInterface;

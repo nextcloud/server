@@ -36,11 +36,27 @@ interface PostFileInterface
     public function setFilename($path);
 
     /**
+     * Set the post name of the file
+     *
+     * @param string $name The new name of the file
+     *
+     * @return self
+     */
+    public function setPostname($name);
+
+    /**
      * Get the full path to the file
      *
      * @return string
      */
     public function getFilename();
+
+    /**
+     * Get the post name of the file
+     *
+     * @return string
+     */
+    public function getPostname();
 
     /**
      * Set the Content-Type of the file

@@ -21,7 +21,7 @@ namespace Symfony\Component\EventDispatcher;
 class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
 {
     /**
-     * Observer pattern subject.
+     * Event subject.
      *
      * @var mixed usually object or callable
      */
@@ -118,7 +118,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $key Key of arguments array.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasArgument($key)
     {
@@ -167,7 +167,7 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $key Array key.
      *
-     * @return boolean
+     * @return bool
      */
     public function offsetExists($key)
     {

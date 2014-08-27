@@ -25,16 +25,13 @@ use Guzzle\Http\Message\RequestInterface;
  */
 class SignatureV2 extends AbstractSignature
 {
-    /**
-     * {@inheritDoc}
-     */
     public function signRequest(RequestInterface $request, CredentialsInterface $credentials)
     {
         // refresh the cached timestamp
-        $this->getTimestamp(true);
+        $timestamp = $this->getTimestamp(true);
 
         // set values we need in CanonicalizedParameterString
-        $this->addParameter($request, 'Timestamp', $this->getDateTime('c'));
+        $this->addParameter($request, 'Timestamp', gmdate('c', $timestamp));
         $this->addParameter($request, 'SignatureVersion', '2');
         $this->addParameter($request, 'SignatureMethod', 'HmacSHA256');
         $this->addParameter($request, 'AWSAccessKeyId', $credentials->getAccessKeyId());
@@ -90,7 +87,7 @@ class SignatureV2 extends AbstractSignature
      *
      * @return string
      */
-    public function getCanonicalizedParameterString(RequestInterface $request)
+    private function getCanonicalizedParameterString(RequestInterface $request)
     {
         if ($request->getMethod() == 'POST') {
             $params = $request->getPostFields()->toArray();

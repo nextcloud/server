@@ -24,5 +24,5 @@ use Aws\Common\Enum;
 class Status extends Enum
 {
     const ENABLED = 'Enabled';
-    const DISABLED = 'Disabled';
+    const SUSPENDED = 'Suspended';
 }

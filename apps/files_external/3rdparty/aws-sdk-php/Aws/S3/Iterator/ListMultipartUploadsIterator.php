@@ -23,7 +23,8 @@ use Aws\Common\Iterator\AwsResourceIterator;
  * Iterator for the S3 ListMultipartUploads command
  *
  * This iterator includes the following additional options:
- * @option bool return_prefixes Set to true to return both prefixes and uploads
+ *
+ * - return_prefixes: Set to true to return both prefixes and uploads
  */
 class ListMultipartUploadsIterator extends AwsResourceIterator
 {

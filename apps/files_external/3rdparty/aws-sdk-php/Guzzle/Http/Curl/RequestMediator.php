@@ -114,7 +114,12 @@ class RequestMediator
             ));
         }
 
-        return $this->request->getResponse()->getBody()->write($write);
+        if ($response = $this->request->getResponse()) {
+            return $response->getBody()->write($write);
+        } else {
+            // Unexpected data received before response headers - abort transfer
+            return 0;
+        }
     }
 
     /**
@@ -128,18 +133,15 @@ class RequestMediator
      */
     public function readRequestBody($ch, $fd, $length)
     {
-        $read = '';
-
-        if ($this->request->getBody()) {
-            $read = $this->request->getBody()->read($length);
-            if ($this->emitIo) {
-                $this->request->dispatch('curl.callback.read', array(
-                    'request' => $this->request,
-                    'read'    => $read
-                ));
-            }
+        if (!($body = $this->request->getBody())) {
+            return '';
         }
 
-        return !$read ? '' : $read;
+        $read = (string) $body->read($length);
+        if ($this->emitIo) {
+            $this->request->dispatch('curl.callback.read', array('request' => $this->request, 'read' => $read));
+        }
+
+        return $read;
     }
 }

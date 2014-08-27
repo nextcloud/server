@@ -16,8 +16,6 @@
 
 namespace Aws\S3\Sync;
 
-use Aws\S3\S3Client;
-
 /**
  * Iterator used to filter an internal iterator to only yield files that do not exist in the target iterator or files
  * that have changed
@@ -60,7 +58,7 @@ class ChangedFilesIterator extends \FilterIterator
     public function accept()
     {
         $current = $this->current();
-        $key = $this->sourceConverter->convert((string) $current);
+        $key = $this->sourceConverter->convert($this->normalize($current));
         if (!($data = $this->getTargetData($key))) {
             return true;
         }
@@ -88,6 +86,8 @@ class ChangedFilesIterator extends \FilterIterator
      */
     protected function getTargetData($key)
     {
+        $key = $this->cleanKey($key);
+
         if (isset($this->cache[$key])) {
             $result = $this->cache[$key];
             unset($this->cache[$key]);
@@ -99,14 +99,27 @@ class ChangedFilesIterator extends \FilterIterator
         while ($it->valid()) {
             $value = $it->current();
             $data = array($value->getSize(), $value->getMTime());
-            $filename = $this->targetConverter->convert((string) $value);
+            $filename = $this->targetConverter->convert($this->normalize($value));
+            $filename = $this->cleanKey($filename);
+
             if ($filename == $key) {
                 return $data;
             }
+
             $this->cache[$filename] = $data;
             $it->next();
         }
 
         return false;
+    }
+
+    private function normalize($current)
+    {
+        return $current->getRealPath() ?: (string) $current;
+    }
+
+    private function cleanKey($key)
+    {
+        return ltrim($key, '/');
     }
 }

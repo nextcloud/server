@@ -11,10 +11,12 @@
 
 namespace Symfony\Component\EventDispatcher\Debug;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+
 /**
  * @author Fabien Potencier <fabien@symfony.com>
  */
-interface TraceableEventDispatcherInterface
+interface TraceableEventDispatcherInterface extends EventDispatcherInterface
 {
     /**
      * Gets the called listeners.

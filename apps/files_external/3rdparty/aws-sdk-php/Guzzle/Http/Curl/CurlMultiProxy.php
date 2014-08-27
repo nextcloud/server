@@ -15,13 +15,16 @@ class CurlMultiProxy extends AbstractHasDispatcher implements CurlMultiInterface
     protected $groups = array();
     protected $queued = array();
     protected $maxHandles;
+    protected $selectTimeout;
 
     /**
-     * @param int $maxHandles The maximum number of idle CurlMulti handles to allow to remain open
+     * @param int   $maxHandles The maximum number of idle CurlMulti handles to allow to remain open
+     * @param float $selectTimeout timeout for curl_multi_select
      */
-    public function __construct($maxHandles = 3)
+    public function __construct($maxHandles = 3, $selectTimeout = 1.0)
     {
         $this->maxHandles = $maxHandles;
+        $this->selectTimeout = $selectTimeout;
         // You can get some weird "Too many open files" errors when sending a large amount of requests in parallel.
         // These two statements autoload classes before a system runs out of file descriptors so that you can get back
         // valuable error messages if you run out.
@@ -122,7 +125,7 @@ class CurlMultiProxy extends AbstractHasDispatcher implements CurlMultiInterface
         }
 
         // All are claimed, so create one
-        $handle = new CurlMulti();
+        $handle = new CurlMulti($this->selectTimeout);
         $handle->setEventDispatcher($this->getEventDispatcher());
         $this->handles[] = $handle;
 

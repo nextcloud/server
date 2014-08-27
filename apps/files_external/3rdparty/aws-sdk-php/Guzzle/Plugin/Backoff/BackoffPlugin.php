@@ -6,8 +6,8 @@ use Guzzle\Common\Event;
 use Guzzle\Common\AbstractHasDispatcher;
 use Guzzle\Http\Message\EntityEnclosingRequestInterface;
 use Guzzle\Http\Message\RequestInterface;
-use Guzzle\Http\Message\Response;
 use Guzzle\Http\Curl\CurlMultiInterface;
+use Guzzle\Http\Exception\CurlException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -92,7 +92,7 @@ class BackoffPlugin extends AbstractHasDispatcher implements EventSubscriberInte
             $this->dispatch(self::RETRY_EVENT, array(
                 'request'  => $request,
                 'response' => $response,
-                'handle'   => $exception ? $exception->getCurlHandle() : null,
+                'handle'   => ($exception && $exception instanceof CurlException) ? $exception->getCurlHandle() : null,
                 'retries'  => $retries,
                 'delay'    => $delay
             ));

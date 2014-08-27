@@ -28,8 +28,8 @@ class ClassCollectionLoader
      * @param array   $classes    An array of classes to load
      * @param string  $cacheDir   A cache directory
      * @param string  $name       The cache name prefix
-     * @param Boolean $autoReload Whether to flush the cache when the cache is stale or not
-     * @param Boolean $adaptive   Whether to remove already declared classes or not
+     * @param bool    $autoReload Whether to flush the cache when the cache is stale or not
+     * @param bool    $adaptive   Whether to remove already declared classes or not
      * @param string  $extension  File extension of the resulting file
      *
      * @throws \InvalidArgumentException When class can't be loaded
@@ -53,7 +53,7 @@ class ClassCollectionLoader
             $classes = array_diff($classes, $declared);
 
             // the cache is different depending on which classes are already declared
-            $name = $name.'-'.substr(md5(implode('|', $classes)), 0, 5);
+            $name = $name.'-'.substr(hash('sha256', implode('|', $classes)), 0, 5);
         }
 
         $classes = array_unique($classes);
@@ -200,7 +200,7 @@ class ClassCollectionLoader
      */
     public static function enableTokenizer($bool)
     {
-        self::$useTokenizer = (Boolean) $bool;
+        self::$useTokenizer = (bool) $bool;
     }
 
     /**

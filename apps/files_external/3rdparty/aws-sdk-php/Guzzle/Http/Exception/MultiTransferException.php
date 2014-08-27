@@ -12,6 +12,7 @@ class MultiTransferException extends ExceptionCollection
 {
     protected $successfulRequests = array();
     protected $failedRequests = array();
+    protected $exceptionForRequest = array();
 
     /**
      * Get all of the requests in the transfer
@@ -49,6 +50,37 @@ class MultiTransferException extends ExceptionCollection
         $this->failedRequests[] = $request;
 
         return $this;
+    }
+
+    /**
+     * Add to the array of failed requests and associate with exceptions
+     *
+     * @param RequestInterface $request   Failed request
+     * @param \Exception       $exception Exception to add and associate with
+     *
+     * @return self
+     */
+    public function addFailedRequestWithException(RequestInterface $request, \Exception $exception)
+    {
+        $this->add($exception)
+             ->addFailedRequest($request)
+             ->exceptionForRequest[spl_object_hash($request)] = $exception;
+
+        return $this;
+    }
+
+    /**
+     * Get the Exception that caused the given $request to fail
+     *
+     * @param RequestInterface $request Failed command
+     *
+     * @return \Exception|null
+     */
+    public function getExceptionForFailedRequest(RequestInterface $request)
+    {
+        $oid = spl_object_hash($request);
+
+        return isset($this->exceptionForRequest[$oid]) ? $this->exceptionForRequest[$oid] : null;
     }
 
     /**

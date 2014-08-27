@@ -89,6 +89,16 @@ abstract class AbstractWaiter extends AbstractHasDispatcher implements WaiterInt
      */
     public function setConfig(array $config)
     {
+        if (isset($config['waiter.before_attempt'])) {
+            $this->getEventDispatcher()->addListener('waiter.before_attempt', $config['waiter.before_attempt']);
+            unset($config['waiter.before_attempt']);
+        }
+
+        if (isset($config['waiter.before_wait'])) {
+            $this->getEventDispatcher()->addListener('waiter.before_wait', $config['waiter.before_wait']);
+            unset($config['waiter.before_wait']);
+        }
+
         $this->config = $config;
 
         return $this;

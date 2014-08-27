@@ -18,9 +18,6 @@ namespace Aws\S3\Sync;
 
 use Aws\Common\Exception\RuntimeException;
 use Aws\S3\ResumableDownload;
-use Aws\S3\S3Client;
-use Aws\S3\Model\MultipartUpload\AbstractTransfer;
-use Guzzle\Http\EntityBody;
 
 /**
  * Downloads and Amazon S3 bucket to a local directory
@@ -31,8 +28,7 @@ class DownloadSync extends AbstractSync
     {
         $sourceFilename = $file->getPathname();
         list($bucket, $key) = explode('/', substr($sourceFilename, 5), 2);
-        $filename = '/' . ltrim($this->options['source_converter']->convert($sourceFilename), '/');
-
+        $filename = $this->options['source_converter']->convert($sourceFilename);
         $this->createDirectory($filename);
 
         // Some S3 buckets contains nested files under the same name as a directory

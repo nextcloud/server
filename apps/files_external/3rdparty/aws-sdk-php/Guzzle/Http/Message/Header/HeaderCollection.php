@@ -2,7 +2,6 @@
 
 namespace Guzzle\Http\Message\Header;
 
-use Guzzle\Common\Collection;
 use Guzzle\Common\ToArrayInterface;
 
 /**

@@ -100,8 +100,8 @@ class Stream implements StreamInterface
         }
 
         $ctx = hash_init($algo);
-        while ($data = $stream->read(8192)) {
-            hash_update($ctx, $data);
+        while (!$stream->feof()) {
+            hash_update($ctx, $stream->read(8192));
         }
 
         $out = hash_final($ctx, (bool) $rawOutput);
@@ -234,20 +234,15 @@ class Stream implements StreamInterface
 
     public function read($length)
     {
-        return $this->cache[self::IS_READABLE] ? fread($this->stream, $length) : false;
+        return fread($this->stream, $length);
     }
 
     public function write($string)
     {
-        if (!$this->cache[self::IS_WRITABLE]) {
-            return 0;
-        }
-
-        $bytes = fwrite($this->stream, $string);
         // We can't know the size after writing anything
         $this->size = null;
 
-        return $bytes;
+        return fwrite($this->stream, $string);
     }
 
     public function ftell()

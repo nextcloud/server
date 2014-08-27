@@ -51,12 +51,13 @@ class JsonVisitor extends AbstractRequestVisitor
     public function after(CommandInterface $command, RequestInterface $request)
     {
         if (isset($this->data[$command])) {
-            $request->setBody(json_encode($this->data[$command]));
-            unset($this->data[$command]);
             // Don't overwrite the Content-Type if one is set
             if ($this->jsonContentType && !$request->hasHeader('Content-Type')) {
                 $request->setHeader('Content-Type', $this->jsonContentType);
             }
+
+            $request->setBody(json_encode($this->data[$command]));
+            unset($this->data[$command]);
         }
     }
 }

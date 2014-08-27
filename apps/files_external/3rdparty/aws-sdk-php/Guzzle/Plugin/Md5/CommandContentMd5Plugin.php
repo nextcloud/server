@@ -43,7 +43,9 @@ class CommandContentMd5Plugin  implements EventSubscriberInterface
             && $command->getOperation()->hasParam($this->contentMd5Param)) {
             // Check if an MD5 checksum value should be passed along to the request
             if ($command[$this->contentMd5Param] === true) {
-                $request->setHeader('Content-MD5', $request->getBody()->getContentMd5(true, true));
+                if (false !== ($md5 = $request->getBody()->getContentMd5(true, true))) {
+                    $request->setHeader('Content-MD5', $md5);
+                }
             }
         }
 
