@@ -33,6 +33,7 @@ $TRANSLATIONS = array(
 "Reset" => "Sıfırla",
 "Users" => "İstifadəçilər",
 "Admin" => "İnzibatçı",
+"Help" => "Kömək",
 "Password" => "Şifrə",
 "You are accessing the server from an untrusted domain." => "Siz serverə inamsız domain-dən girməyə çalışırsız.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Xahiş olunur inzibatçı ilə əlaqə saxlayasınız. Eger siz bu xidmətin inzibatçısısınizsa, \"trusted_domain\" configini config/config.php faylinda düzgün qeyd edin.  Config nüsxəsi config/config.sample.php faylında qeyd edilmişdir."
