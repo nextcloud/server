@@ -808,6 +808,10 @@ class Preview {
 	}
 
 
+	/**
+	 * @param int $fileId
+	 * @return string
+	 */
 	private function getPreviewPath($fileId) {
 		return $this->getThumbnailsFolder() . '/' . $fileId . '/';
 	}
