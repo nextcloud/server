@@ -37,10 +37,10 @@ namespace OCP\AppFramework\Db;
  * @method void setPreName(string $preName)
  */
 class TestEntity extends Entity {
-	public $name;
-	public $email;
-	public $testId;
-	public $preName;
+	protected $name;
+	protected $email;
+	protected $testId;
+	protected $preName;
 
 	public function __construct($name=null){
 		$this->addType('testId', 'integer');		
