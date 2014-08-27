@@ -811,6 +811,11 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 	height: 16px;
 }
 
+/* ---- TOOLTIPS ---- */
+.extra-data {
+	padding-right: 5px !important;
+}
+
 /* ---- TAGS ---- */
 #tagsdialog .content {
 	width: 100%; height: 280px;

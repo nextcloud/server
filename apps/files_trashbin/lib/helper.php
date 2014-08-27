@@ -35,6 +35,7 @@ class Helper
 		$absoluteDir = $view->getAbsolutePath($dir);
 
 		if (is_resource($dirContent)) {
+			$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($user);
 			while (($entryName = readdir($dirContent)) !== false) {
 				if (!\OC\Files\Filesystem::isIgnoredDir($entryName)) {
 					$id = $entryName;
@@ -47,6 +48,13 @@ class Helper
 						$parts = explode('/', ltrim($dir, '/'));
 						$timestamp = substr(pathinfo($parts[0], PATHINFO_EXTENSION), 1);
 					}
+					$originalPath = '';
+					if (isset($originalLocations[$id][$timestamp])) {
+						$originalPath = $originalLocations[$id][$timestamp];
+						if (substr($originalPath, -1) === '/') {
+							$originalPath = substr($originalPath, 0, -1);
+						}
+					}
 					$i = array(
 						'name' => $id,
 						'mtime' => $timestamp,
@@ -54,6 +62,9 @@ class Helper
 						'type' => $view->is_dir($dir . '/' . $entryName) ? 'dir' : 'file',
 						'directory' => ($dir === '/') ? '' : $dir,
 					);
+					if ($originalPath) {
+						$i['extraData'] = $originalPath.'/'.$id;
+					}
 					$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i);
 				}
 			}

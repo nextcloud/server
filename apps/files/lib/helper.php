@@ -138,6 +138,9 @@ class Helper
 			}
 			$entry['mountType'] = $mountType;
 		}
+		if (isset($i['extraData'])) {
+			$entry['extraData'] = $i['extraData'];
+		}
 		return $entry;
 	}
 
