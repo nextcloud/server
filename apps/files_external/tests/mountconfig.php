@@ -58,7 +58,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 
 		\OC_User::setUserId(self::TEST_USER1);
 		$this->userHome = \OC_User::getHome(self::TEST_USER1);
-		mkdir($this->userHome);
+		@mkdir($this->userHome);
 
 		$this->dataDir = \OC_Config::getValue(
 			'datadirectory',
