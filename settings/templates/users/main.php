@@ -22,7 +22,23 @@ $userlistParams['subadmingroups'] = array_flip($items);
 <div id="app-navigation">
 	<?php print_unescaped($this->inc('users/part.grouplist')); ?>
 	<div id="app-settings">
-		<?php print_unescaped($this->inc('users/part.setquota')); ?>
+		<div id="app-settings-header">
+			<button class="settings-button" tabindex="0" data-apps-slide-toggle="#app-settings-content"></button>
+		</div>
+		<div id="app-settings-content">
+			<?php print_unescaped($this->inc('users/part.setquota')); ?>
+
+			<div id="userlistoptions">
+				<p><label>
+						<input type="checkbox" name="StorageLocation" value="StorageLocation" id="CheckboxStorageLocation">
+						<?php p($l->t('Show storage location')) ?>
+				</label></p>
+				<p><label>
+					<input type="checkbox" name="LastLogin" value="LastLogin" id="CheckboxLastLogin">
+					<?php p($l->t('Show last log in')) ?>
+				</label></p>
+			</div>
+		</div>
 	</div>
 </div>
 
