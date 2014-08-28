@@ -703,7 +703,7 @@
 				"class": "modified",
 				"title": formatDate(mtime),
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
-			}).text( relative_modified_date(mtime / 1000) ));
+			}).text(OC.Util.relativeModifiedDate(mtime)));
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;
