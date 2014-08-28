@@ -302,6 +302,10 @@ input[type="submit"].enabled {
 	-moz-box-sizing:border-box;
 	box-sizing:border-box;
 }
+/* allow horizontal scrollbar for personal and admin settings */
+#body-settings:not(.snapjs-left) .app-settings {
+	overflow-x: auto;
+}
 
 #emptycontent {
 	font-size: 16px;
