@@ -208,23 +208,30 @@ class Manager extends PublicEmitter {
 		if(is_null($group)) {
 			return array();
 		}
-		// only user backends have the capability to do a complex search for users
-		$groupUsers  = $group->searchUsers('');
+
 		$search = trim($search);
+		$groupUsers = array();
+
 		if(!empty($search)) {
-			//TODO: for OC 7 earliest: user backend should get a method to check selected users against a pattern
+			// only user backends have the capability to do a complex search for users
 			$filteredUsers = $this->userManager->search($search);
-			$testUsers = true;
+			foreach($filteredUsers as $filteredUser) {
+				if($group->inGroup($filteredUser)) {
+					$groupUsers []= $filteredUser;
+				}
+			}
+			if($limit === -1) {
+				$groupUsers = array_slice($groupUsers, $offset);
+			} else {
+				$groupUsers = array_slice($groupUsers, $offset, $limit);
+			}
 		} else {
-			$filteredUsers = array();
-			$testUsers = false;
+			$groupUsers = $group->searchUsers('', $limit, $offset);
 		}
 
 		$matchingUsers = array();
-		foreach($groupUsers as $user) {
-			if(!$testUsers || isset($filteredUsers[$user->getUID()])) {
-				$matchingUsers[$user->getUID()] = $user->getDisplayName();
-			}
+		foreach($groupUsers as $groupUser) {
+			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}
