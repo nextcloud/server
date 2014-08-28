@@ -100,11 +100,6 @@ tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:point
 tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 
-div.quota {
-	margin: 10px;
-	display: block;
-}
-div.quota-select-wrapper { position: relative; }
 div.recoveryPassword { left:50em; display:block; position:absolute; top:-1px; }
 input#recoveryPassword {width:15em;}
 #controls select.quota {
@@ -113,11 +108,6 @@ input#recoveryPassword {width:15em;}
 	height: 37px;
 }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
-div.quota>span {
-	white-space: nowrap;
-	color: #888;
-	text-shadow: 0 1px 0 #fff;
-}
 select.quota.active { background: #fff; }
 
 input.userFilter {width: 200px;}

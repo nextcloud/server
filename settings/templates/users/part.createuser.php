@@ -28,17 +28,6 @@
 		   alt="<?php p($l->t('Enter the recovery password in order to recover the users files during password change'))?>"/>
 	</div>
 	<?php endif; ?>
-	
-	<form id="userlistoptions">
-		<?php p($l->t('Display')) ?> : 
-		<label><input type="checkbox" name="StorageLocation" value="StorageLocation" id="CheckboxStorageLocation">
-			<?php p($l->t('Location')) ?>
-		</label>
-		<label><input type="checkbox" name="LastLogin" value="LastLogin" id="CheckboxLastLogin">
-			<?php p($l->t('Last login')) ?>
-		</label>
-	</form>
-	
 	<form autocomplete="off" id="usersearchform">
 		<input type="text" class="input userFilter" placeholder="<?php p($l->t('Search Users and Groups')); ?>" />
 	</form>
