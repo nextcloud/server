@@ -272,19 +272,19 @@ class OC_Template extends \OC\Template\Base {
 		if (defined('DEBUG') and DEBUG) {
 			$hint = $exception->getTraceAsString();
 			if (!empty($hint)) {
-				$hint = '<pre>'.$hint.'</pre>';
+				$hint = '<pre>'.OC_Util::sanitizeHTML($hint).'</pre>';
 			}
 			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
 				$error_msg .= '<br/>Caused by:' . ' ';
 				if ($exception->getCode()) {
-					$error_msg .= '['.$exception->getCode().'] ';
+					$error_msg .= '['.OC_Util::sanitizeHTML($exception->getCode()).'] ';
 				}
-				$error_msg .= $exception->getMessage();
+				$error_msg .= OC_Util::sanitizeHTML($exception->getMessage());
 			};
 		} else {
 			$hint = '';
 			if ($exception instanceof \OC\HintException) {
-				$hint = $exception->getHint();
+				$hint = OC_Util::sanitizeHTML($exception->getHint());
 			}
 		}
 		self::printErrorPage($error_msg, $hint);
