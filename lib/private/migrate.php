@@ -62,7 +62,7 @@ class OC_Migrate{
 		foreach($apps as $app) {
 			$path = OC_App::getAppPath($app) . '/appinfo/migrate.php';
 			if( file_exists( $path ) ) {
-				include $path;
+				include_once $path;
 			}
 		}
 	}
