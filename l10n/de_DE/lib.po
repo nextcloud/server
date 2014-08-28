@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -45,11 +45,11 @@ msgid ""
 "config directory%s."
 msgstr "Dies kann normalerweise repariert werden, indem dem Webserver %s Schreibzugriff auf das config-Verzeichnis %s gegeben wird."
 
-#: base.php:577
+#: base.php:578
 msgid "Sample configuration detected"
 msgstr "Beispielkonfiguration gefunden"
 
-#: base.php:578
+#: base.php:579
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
@@ -342,68 +342,68 @@ msgstr "Freigabe von %s fehlgeschlagen, da das Teilen von Verknüpfungen nicht e
 msgid "Share type %s is not valid for %s"
 msgstr "Freigabetyp %s ist nicht gültig für %s"
 
-#: private/share/share.php:862
+#: private/share/share.php:863
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da die Berechtigungen, die erteilten Berechtigungen %s überschreiten"
 
-#: private/share/share.php:923
+#: private/share/share.php:924
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Das Setzen der Berechtigungen für %s ist fehlgeschlagen, da das Objekt nicht gefunden wurde"
 
-#: private/share/share.php:961
+#: private/share/share.php:962
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "Ablaufdatum kann nicht gesetzt werden. Freigaben können nach dem Teilen, nicht länger als %s gültig sein."
 
-#: private/share/share.php:969
+#: private/share/share.php:970
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Ablaufdatum kann nicht gesetzt werden. Ablaufdatum liegt in der Vergangenheit."
 
-#: private/share/share.php:1094
+#: private/share/share.php:1095
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Freigabe-Backend %s muss in der OCP\\Share_Backend - Schnittstelle implementiert werden"
 
-#: private/share/share.php:1101
+#: private/share/share.php:1102
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Freigabe-Backend %s nicht gefunden"
 
-#: private/share/share.php:1107
+#: private/share/share.php:1108
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Freigabe-Backend für %s nicht gefunden"
 
-#: private/share/share.php:1525
+#: private/share/share.php:1526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Freigabe von %s fehlgeschlagen, da der Nutzer %s der offizielle Freigeber ist"
 
-#: private/share/share.php:1534
+#: private/share/share.php:1535
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Freigabe von %s fehlgeschlagen, da die Berechtigungen die erteilten Berechtigungen %s überschreiten"
 
-#: private/share/share.php:1550
+#: private/share/share.php:1551
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Freigabe von %s fehlgeschlagen, da das nochmalige Freigeben einer Freigabe nicht erlaubt ist"
 
-#: private/share/share.php:1562
+#: private/share/share.php:1563
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Freigabe von %s fehlgeschlagen, da das Freigabe-Backend für %s nicht in dieser Quelle gefunden werden konnte"
 
-#: private/share/share.php:1576
+#: private/share/share.php:1577
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

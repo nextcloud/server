@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Restore" => "ফিরিয়ে দাও",
 "Error" => "সমস্যা",
 "Name" => "রাম",
 "Delete" => "মুছে"

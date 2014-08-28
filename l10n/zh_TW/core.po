@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"Last-Translator: Pellaeon Lin <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,12 +42,12 @@ msgstr "已檢查資料庫格式更新"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "已檢查應用程式的資料庫格式更新"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "已更新 %s 到 %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -247,7 +247,7 @@ msgstr "重設密碼"
 
 #: js/lostpassword.js:16
 msgid "Password can not be changed. Please contact your administrator."
-msgstr ""
+msgstr "無法變更密碼，請聯絡您的系統管理員"
 
 #: js/oc-dialogs.js:108 js/oc-dialogs.js:255
 msgid "No"
@@ -288,7 +288,7 @@ msgstr "新檔案"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "已經存在的檔案"
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
@@ -346,7 +346,7 @@ msgstr "已分享"
 
 #: js/share.js:257
 msgid "Shared with {recipients}"
-msgstr ""
+msgstr "與 {recipients} 分享"
 
 #: js/share.js:266
 msgid "Share"
@@ -396,7 +396,7 @@ msgstr "密碼保護"
 
 #: js/share.js:400
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "為公開連結選一個密碼"
 
 #: js/share.js:406
 msgid "Allow Public Upload"
@@ -516,15 +516,15 @@ msgstr "沒有選擇要刪除的標籤"
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."
-msgstr ""
+msgstr "正在更新 {productName} 到版本 {version} ，請稍候"
 
 #: js/update.js:43
 msgid "Please reload the page."
-msgstr ""
+msgstr "請重新整理頁面"
 
 #: js/update.js:52
 msgid "The update was unsuccessful."
-msgstr ""
+msgstr "更新失敗"
 
 #: js/update.js:61
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -532,17 +532,17 @@ msgstr "升級成功，正將您重新導向至 ownCloud 。"
 
 #: lostpassword/controller/lostcontroller.php:133
 msgid "Couldn't reset password because the token is invalid"
-msgstr ""
+msgstr "無法重設密碼因為 token 無效"
 
 #: lostpassword/controller/lostcontroller.php:159
 msgid "Couldn't send reset email. Please make sure your username is correct."
-msgstr ""
+msgstr "無法寄送重設 email ，請確認您的帳號輸入正確"
 
 #: lostpassword/controller/lostcontroller.php:174
 msgid ""
 "Couldn't send reset email because there is no email address for this "
 "username. Please contact your administrator."
-msgstr ""
+msgstr "無法寄送重設 email ，因為這個帳號沒有設定 email 地址，請聯絡您的系統管理員"
 
 #: lostpassword/controller/lostcontroller.php:191
 #, php-format
@@ -585,19 +585,19 @@ msgstr "新密碼"
 
 #: lostpassword/templates/resetpassword.php:6
 msgid "New Password"
-msgstr ""
+msgstr "新密碼"
 
 #: setup/controller.php:140
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
-msgstr ""
+msgstr "不支援 Mac OS X 而且 %s 在這個平台上面無法正常運作，請自行衡量風險！"
 
 #: setup/controller.php:144
 msgid ""
 "For the best results, please consider using a GNU/Linux server instead."
-msgstr ""
+msgstr "請考慮使用 GNU/Linux 伺服器以取得最好的效果"
 
 #: strings.php:5
 msgid "Personal"
@@ -633,7 +633,7 @@ msgstr "刪除標籤出錯"
 
 #: tags/controller.php:75
 msgid "Error tagging"
-msgstr ""
+msgstr "貼標籤發生錯誤"
 
 #: tags/controller.php:86
 msgid "Error untagging"
@@ -668,7 +668,7 @@ msgstr "嗨，\n\n%s 和你分享了 %s ，到這裡看它：%s\n"
 #: templates/altmail.php:4 templates/mail.php:17
 #, php-format
 msgid "The share will expire on %s."
-msgstr ""
+msgstr "這個分享將會於 %s 過期"
 
 #. TRANSLATORS term at the end of a mail
 #: templates/altmail.php:8 templates/mail.php:21
@@ -725,7 +725,7 @@ msgstr "密碼"
 
 #: templates/installation.php:72
 msgid "Storage & database"
-msgstr ""
+msgstr "儲存空間和資料庫"
 
 #: templates/installation.php:79
 msgid "Data folder"
@@ -738,7 +738,7 @@ msgstr "設定資料庫"
 #: templates/installation.php:96
 #, php-format
 msgid "Only %s is available."
-msgstr ""
+msgstr "剩下 %s 可使用"
 
 #: templates/installation.php:111 templates/installation.php:113
 msgid "Database user"
@@ -764,7 +764,7 @@ msgstr "資料庫主機"
 msgid ""
 "SQLite will be used as database. For larger installations we recommend to "
 "change this."
-msgstr ""
+msgstr "將會使用 SQLite 作為資料庫，在大型安裝中建議使用其他種資料庫"
 
 #: templates/installation.php:159
 msgid "Finish setup"
@@ -779,7 +779,7 @@ msgid ""
 "This application requires JavaScript to be enabled for correct operation.  "
 "Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
 "JavaScript</a> and re-load this interface."
-msgstr ""
+msgstr "這個應用程式需要啟用 Javascript 才能正常運作，請<a href=\"http://enable-javascript.com/\" target=\"_blank\">啟用 Javascript</a> 然後重新載入頁面"
 
 #: templates/layout.user.php:47
 #, php-format
@@ -800,7 +800,7 @@ msgstr "請聯絡系統管理員。"
 
 #: templates/login.php:42
 msgid "Forgot your password? Reset it!"
-msgstr ""
+msgstr "忘了密碼？重設它！"
 
 #: templates/login.php:47
 msgid "remember"
@@ -819,15 +819,15 @@ msgstr "其他登入方法"
 msgid ""
 "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> "
 "with you.<br><a href=\"%s\">View it!</a><br><br>"
-msgstr ""
+msgstr "嗨，<br><br>%s 與你分享了<strong>%s</strong>。<br><a href=\"%s\">檢視</a><br><br>"
 
 #: templates/singleuser.user.php:3
 msgid "This ownCloud instance is currently in single user mode."
-msgstr ""
+msgstr "這個 ownCloud 伺服器目前運作於單一使用者模式"
 
 #: templates/singleuser.user.php:4
 msgid "This means only administrators can use the instance."
-msgstr ""
+msgstr "這表示只有系統管理員能夠使用"
 
 #: templates/singleuser.user.php:5 templates/update.user.php:5
 msgid ""
@@ -841,55 +841,55 @@ msgstr "感謝您的耐心"
 
 #: templates/untrustedDomain.php:5
 msgid "You are accessing the server from an untrusted domain."
-msgstr ""
+msgstr "你正在從一個未信任的網域存取伺服器"
 
 #: templates/untrustedDomain.php:8
 msgid ""
 "Please contact your administrator. If you are an administrator of this "
 "instance, configure the \"trusted_domain\" setting in config/config.php. An "
 "example configuration is provided in config/config.sample.php."
-msgstr ""
+msgstr "請聯絡您的系統管理員，如果您就是系統管理員，請設定 config/config.php 中的 \"trusted_domain\" 選項。範例設定提供於 config/config.sample.php"
 
 #: templates/untrustedDomain.php:10
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "依照設定而定，您身為系統管理員可能也可以使用底下的按鈕來信任這個網域"
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "將 %s 加入到信任的網域"
 
 #: templates/update.admin.php:3
 #, php-format
 msgid "%s will be updated to version %s."
-msgstr ""
+msgstr "%s 將會被升級到版本 %s"
 
 #: templates/update.admin.php:7
 msgid "The following apps will be disabled:"
-msgstr ""
+msgstr "這些應用程式會被停用："
 
 #: templates/update.admin.php:17
 #, php-format
 msgid "The theme %s has been disabled."
-msgstr ""
+msgstr "主題 %s 已經被停用"
 
 #: templates/update.admin.php:21
 msgid ""
 "Please make sure that the database, the config folder and the data folder "
 "have been backed up before proceeding."
-msgstr ""
+msgstr "在繼續之前，請備份資料庫、config 目錄及資料目錄"
 
 #: templates/update.admin.php:23
 msgid "Start update"
-msgstr ""
+msgstr "開始升級"
 
 #: templates/update.admin.php:25
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "在大型安裝上，為了避免升級請求逾時，你也可以在安裝目錄執行下列指令："
 
 #: templates/update.user.php:3
 msgid ""

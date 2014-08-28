@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
 "Last-Translator: vidaren <news@vidartysse.net>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -41,11 +41,11 @@ msgid ""
 "config directory%s."
 msgstr "Dette kan vanligvis ordnes ved %så gi web-serveren skrivetilgang til config-mappen%s."
 
-#: base.php:577
+#: base.php:578
 msgid "Sample configuration detected"
 msgstr "Eksempelkonfigurasjon oppdaget"
 
-#: base.php:578
+#: base.php:579
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
@@ -338,68 +338,68 @@ msgstr "Deling av %s feilet, fordi deling med lenker ikke er tillatt"
 msgid "Share type %s is not valid for %s"
 msgstr "Delingstype %s er ikke gyldig for %s"
 
-#: private/share/share.php:862
+#: private/share/share.php:863
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Setting av tillatelser for %s feilet, fordi tillatelsene gikk ut over tillatelsene som er gitt til %s"
 
-#: private/share/share.php:923
+#: private/share/share.php:924
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Setting av tillatelser for %s feilet, fordi elementet ikke ble funnet"
 
-#: private/share/share.php:961
+#: private/share/share.php:962
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "Kan ikke sette utøpsdato. Delinger kan ikke utløpe senere enn %s etter at de har blitt delt"
 
-#: private/share/share.php:969
+#: private/share/share.php:970
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "Kan ikke sette utløpsdato. Utløpsdato er tilbake i tid"
 
-#: private/share/share.php:1094
+#: private/share/share.php:1095
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "Delings-server %s må implementere grensesnittet OCP\\Share_Backend"
 
-#: private/share/share.php:1101
+#: private/share/share.php:1102
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "Delings-server %s ikke funnet"
 
-#: private/share/share.php:1107
+#: private/share/share.php:1108
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Delings-server for %s ikke funnet"
 
-#: private/share/share.php:1525
+#: private/share/share.php:1526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Deling av %s feilet, fordi brukeren %s er den opprinnelige eieren"
 
-#: private/share/share.php:1534
+#: private/share/share.php:1535
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Deling av %s feilet, fordi tillatelsene går utover tillatelsene som er gitt til %s"
 
-#: private/share/share.php:1550
+#: private/share/share.php:1551
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Deling av %s feilet, fordi videre-deling ikke er tillatt"
 
-#: private/share/share.php:1562
+#: private/share/share.php:1563
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Deling av %s feilet, fordi delings-serveren for %s ikke kunne finne kilden"
 
-#: private/share/share.php:1576
+#: private/share/share.php:1577
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

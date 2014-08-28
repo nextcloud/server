@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013
+# Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013-2014
 # brekkjen <leif.brekke@oppstryn.no>, 2014
 # Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013
 # Kevin Brubeck Unhammer <unhammer+dill@mm.st>, 2013
@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"Last-Translator: Kevin Brubeck Unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -245,7 +245,7 @@ msgstr ""
 
 #: js/lostpassword.js:10
 msgid "I know what I'm doing"
-msgstr ""
+msgstr "Eg veit kva eg gjer"
 
 #: js/lostpassword.js:13 lostpassword/templates/resetpassword.php:9
 msgid "Reset password"
@@ -329,11 +329,11 @@ msgstr "Klarte ikkje å lasta fil-finst-mal"
 
 #: js/setup.js:96
 msgid "Very weak password"
-msgstr ""
+msgstr "Veldig svakt passord"
 
 #: js/setup.js:97
 msgid "Weak password"
-msgstr ""
+msgstr "Svakt passord"
 
 #: js/setup.js:98
 msgid "So-so password"
@@ -390,7 +390,7 @@ msgstr ""
 
 #: js/share.js:389
 msgid "Share link"
-msgstr ""
+msgstr "Del lenkje"
 
 #: js/share.js:394
 msgid ""
@@ -403,7 +403,7 @@ msgstr "Passordvern"
 
 #: js/share.js:400
 msgid "Choose a password for the public link"
-msgstr ""
+msgstr "Vel eit passord for den offentlege lenkja"
 
 #: js/share.js:406
 msgid "Allow Public Upload"
@@ -447,7 +447,7 @@ msgstr ""
 
 #: js/share.js:613
 msgid "can share"
-msgstr ""
+msgstr "kan dela"
 
 #: js/share.js:616
 msgid "can edit"

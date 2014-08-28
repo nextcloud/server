@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "দয়া করে সঠিক এবং বৈধ Dropbox app key and secret প্রদান করুন।",
-"Location" => "াবস্থান",
+"Location" => "অবস্থান",
 "Host" => "হোস্ট",
 "Username" => "ব্যবহারকারী",
 "Password" => "কূটশব্দ",

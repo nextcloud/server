@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "WebDAV" => "WebDAV",
 "New" => "חדש",
 "Text file" => "קובץ טקסט",
+"New folder" => "תיקייה חדשה",
 "Folder" => "תיקייה",
 "From link" => "מקישור",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",

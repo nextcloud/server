@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-19 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 18:50+0000\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-27 18:51+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -330,7 +330,7 @@ msgstr ""
 
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
-msgstr ""
+msgstr "চালিয়ে যাও"
 
 #: templates/settings.php:7
 msgid "Expert"

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -288,11 +288,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
-msgstr ""
+msgstr "নতুন ফাইল"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "বিদ্যমান ফাইল"
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
@@ -306,11 +306,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:462
 msgid "Cancel"
-msgstr "বাতির"
+msgstr "বাতিল"
 
 #: js/oc-dialogs.js:472
 msgid "Continue"
-msgstr ""
+msgstr "চালিয়ে যাও"
 
 #: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"

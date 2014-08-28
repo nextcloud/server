@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -53,11 +53,11 @@ msgid ""
 "config directory%s."
 msgstr "Esto puede ser facilmente solucionado, %sdando permisos de escritura al directorio de configuración en el servidor Web%s."
 
-#: base.php:577
+#: base.php:578
 msgid "Sample configuration detected"
 msgstr "Ejemplo de configuración detectado"
 
-#: base.php:578
+#: base.php:579
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
@@ -350,68 +350,68 @@ msgstr "Compartiendo %s ha fallado, ya que compartir con enlaces no está permit
 msgid "Share type %s is not valid for %s"
 msgstr "Compartir tipo %s no es válido para %s"
 
-#: private/share/share.php:862
+#: private/share/share.php:863
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr "Configuración de permisos para %s ha fallado, ya que los permisos superan los permisos dados a %s"
 
-#: private/share/share.php:923
+#: private/share/share.php:924
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr "Configuración de permisos para %s ha fallado, ya que el elemento no fue encontrado"
 
-#: private/share/share.php:961
+#: private/share/share.php:962
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr "No se puede fijar fecha de caducidad. Archivos compartidos no pueden caducar luego de %s de ser compartidos"
 
-#: private/share/share.php:969
+#: private/share/share.php:970
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr "No se puede fijar la fecha de caducidad. La fecha de caducidad está en el pasado."
 
-#: private/share/share.php:1094
+#: private/share/share.php:1095
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr "El motor compartido %s debe implementar la interfaz OCP\\Share_Backend"
 
-#: private/share/share.php:1101
+#: private/share/share.php:1102
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr "El motor compartido %s no se ha encontrado"
 
-#: private/share/share.php:1107
+#: private/share/share.php:1108
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr "Motor compartido para %s no encontrado"
 
-#: private/share/share.php:1525
+#: private/share/share.php:1526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr "Compartiendo %s ha fallado, ya que el usuario %s es el compartidor original"
 
-#: private/share/share.php:1534
+#: private/share/share.php:1535
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr "Compartiendo %s ha fallado, ya que los permisos superan los permisos otorgados a %s"
 
-#: private/share/share.php:1550
+#: private/share/share.php:1551
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr "Compartiendo %s ha fallado, ya que volver a compartir no está permitido"
 
-#: private/share/share.php:1562
+#: private/share/share.php:1563
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr "Compartir %s falló porque el motor compartido para %s podría no encontrar su origen"
 
-#: private/share/share.php:1576
+#: private/share/share.php:1577
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

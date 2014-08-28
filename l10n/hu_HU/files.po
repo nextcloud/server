@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:02+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -77,12 +77,12 @@ msgstr "A kiinduló állomány érvénytelen"
 #: ajax/newfile.php:102
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
-msgstr "A kiszolgálón nincs engedélyezve URL-ek megnyitása, kérem ellenőrizze a beállításokat"
+msgstr "A kiszolgálón nincs engedélyezve URL-ek megnyitása, kérem ellenőrizze a beállításokat!"
 
 #: ajax/newfile.php:126
 #, php-format
 msgid "The file exceeds your quota by %s"
-msgstr "A fájl meghaladja kvótádat %s-kal"
+msgstr "A fájl ennyivel meghaladja a kvótáját: %s"
 
 #: ajax/newfile.php:141
 #, php-format
@@ -107,7 +107,7 @@ msgstr "Nem található a mappa, ahova feltölteni szeretne."
 
 #: ajax/upload.php:35
 msgid "Invalid Token"
-msgstr "Hibás mappacím"
+msgstr "Hibás token"
 
 #: ajax/upload.php:79
 msgid "No file was uploaded. Unknown error"
@@ -162,7 +162,7 @@ msgstr "Érvénytelen mappa."
 
 #: appinfo/app.php:11 js/filelist.js:25
 msgid "Files"
-msgstr "Fájlok"
+msgstr "Fájlkezelő"
 
 #: appinfo/app.php:27
 msgid "All files"
@@ -187,7 +187,7 @@ msgstr "A feltöltést megszakítottuk."
 
 #: js/file-upload.js:418
 msgid "Could not get result from server."
-msgstr "A kiszolgálótól nem kapható meg az eredmény."
+msgstr "A kiszolgálótól nem kapható meg a művelet eredménye."
 
 #: js/file-upload.js:502
 msgid ""
@@ -375,7 +375,7 @@ msgstr "Új"
 
 #: templates/list.php:8
 msgid "New text file"
-msgstr "Új szöveges file"
+msgstr "Új szövegfájl"
 
 #: templates/list.php:9
 msgid "Text file"

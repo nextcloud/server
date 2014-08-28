@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "無法寫入 config 目錄！",
 "Help" => "說明",
 "Personal" => "個人",
 "Settings" => "設定",

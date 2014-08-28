@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -282,11 +282,11 @@ msgstr "Vel eit profilbilete"
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "Veldig svakt passord"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "Svakt passord"
 
 #: js/personal.js:289
 msgid "So-so password"

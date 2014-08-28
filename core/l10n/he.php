@@ -48,6 +48,7 @@ $TRANSLATIONS = array(
 "Error while changing permissions" => "שגיאה במהלך שינוי ההגדרות",
 "Shared with you and the group {group} by {owner}" => "שותף אתך ועם הקבוצה {group} שבבעלות {owner}",
 "Shared with you by {owner}" => "שותף אתך על ידי {owner}",
+"Share link" => "קישור לשיתוף",
 "Password protect" => "הגנה בססמה",
 "Email link to person" => "שליחת קישור בדוא״ל למשתמש",
 "Send" => "שליחה",

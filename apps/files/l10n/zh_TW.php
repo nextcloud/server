@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "%s 已經被使用於資料夾 %s ，請換一個名字",
 "Not a valid source" => "不是有效的來源",
 "Server is not allowed to open URLs, please check the server configuration" => "伺服器上不允許開啓 URL ，請檢查伺服器設定",
+"The file exceeds your quota by %s" => "這個檔案大小超出配額 %s",
 "Error while downloading %s to %s" => "下載 %s 到 %s 失敗",
 "Error when creating the file" => "建立檔案失敗",
 "Folder name cannot be empty." => "資料夾名稱不能留空",

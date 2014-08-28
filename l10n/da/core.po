@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-28 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,12 +52,12 @@ msgstr "Tjekket database schema opdatering"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Tjekkede databaseskemaets opdatering for apps"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "Opdaterede \"%s\" til %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -869,12 +869,12 @@ msgstr "Kontakt venligst din administrator. Hvis du er administrator, konfigurer
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "Afhænger af din konfiguration, da du som administrator eventuelt også er i stand til at gøre brug af knappen nedenfor til at tildele tillid til dette domæne."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Tilføj \"%s\" som et troværdigt domæne"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -904,7 +904,7 @@ msgstr "Begynd opdatering"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:"
 
 #: templates/update.user.php:3
 msgid ""
