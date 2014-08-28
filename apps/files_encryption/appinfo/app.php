@@ -35,22 +35,6 @@ if (!OC_Config::getValue('maintenance', false)) {
 	if(!in_array('crypt', stream_get_wrappers())) {
 		stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
 	}
-
-	// check if we are logged in
-	if (OCP\User::isLoggedIn()) {
-
-		// ensure filesystem is loaded
-		if (!\OC\Files\Filesystem::$loaded) {
-			\OC_Util::setupFS();
-		}
-
-		$view = new OC\Files\View('/');
-
-		$sessionReady = OCA\Encryption\Helper::checkRequirements();
-		if($sessionReady) {
-			$session = new \OCA\Encryption\Session($view);
-		}
-	}
 } else {
 	// logout user if we are in maintenance to force re-login
 	OCP\User::logout();
