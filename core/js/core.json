@@ -18,6 +18,7 @@
 		"eventsource.js",
 		"config.js",
 		"multiselect.js",
-		"oc-requesttoken.js"
+		"oc-requesttoken.js",
+		"moment.js"
 	]
 }
