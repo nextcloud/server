@@ -6,7 +6,7 @@ var parseXml = require('xml2js').parseString;
 
 var flow = protractor.promise.controlFlow();
 
-ddescribe('Share Api', function() {
+describe('Share Api', function() {
   var params = browser.params;
   var shareApi;
   var loginPage;
