@@ -9,10 +9,14 @@ Install node.js and run the following to install the dependencies
 
 ```
 npm install
+```
+
+Install the webdriver
+```
 ./node_modules/protractor/bin/webdriver-manager update
 ```
 
-Install as global commands
+Install as global commands ( optional )
 ```
 npm install -g protractor
 ```
