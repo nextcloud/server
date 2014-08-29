@@ -8,7 +8,7 @@
   },
   "author": "Felix Böhm",
   "dependencies": {
-    "protractor": "^1.0.0",
+    "protractor": "^1.1.1",
     "request": "^2.40.0",
     "xml2js": "^0.4.4",
     "jasmine-spec-reporter": "^0.6.0",
