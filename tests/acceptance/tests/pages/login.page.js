@@ -11,15 +11,16 @@
     // On Page when logged in     
     this.menuButton = element(by.id('expand'));
     this.logoutButton = element(by.id('logout'));
-    this.newButton = element(by.css('#new a'));
+    this.newButton = element(by.id('expandDisplayName'));
   };
   
   LoginPage.prototype.get = function() {
     browser.get(this.url);
   };
   
-  LoginPage.prototype.isLoginPage = function() {
-    return !!this.loginForm;
+  LoginPage.prototype.isCurrentPage = function() {
+    
+    return this.loginForm.isPresent();
   };
   
   LoginPage.prototype.fillUserCredentilas = function(user, pass) {
@@ -32,7 +33,7 @@
     this.loginButton.click();
     var button = this.newButton;
     browser.wait(function() {
-      return button.isDisplayed();
+      return button.isPresent();
     }, 5000, 'load files content');
   };
   

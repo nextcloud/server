@@ -3,7 +3,7 @@ var UserPage = require('../pages/user.page.js');
 var FirstRunWizardPage = require('../pages/firstRunWizard.page.js');
 var Screenshot = require('../helper/screenshot.js');
 
-describe('Authentication', function() {
+ddescribe('Authentication', function() {
   var params = browser.params;
   var loginPage;
   
@@ -31,7 +31,7 @@ describe('Authentication', function() {
         new Screenshot(png, 'LoginPage.png');
     });
 
-    expect(loginPage.isLoginPage()).toBeTruthy();
+    expect(loginPage.isCurrentPage()).toBeTruthy();
   });
   
   it('should meet the locator dependencies', function() {
@@ -57,6 +57,7 @@ describe('Authentication', function() {
         new Screenshot(png, 'LoginAsAdmin.png');
     });
     expect(browser.getCurrentUrl()).toContain('index.php/apps/files/');
+    expect(loginPage.isCurrentPage()).toBeFalsy();
   });
   
   it('should return to the login page after logout', function() {
@@ -68,11 +69,13 @@ describe('Authentication', function() {
   });
   
   it('should not login with wrong credentials', function() {    
-    loginPage.login('wrongName', 'wrongPass');
+    loginPage.fillUserCredentilas('wrongName', 'wrongPass');
+    loginPage.loginButton.click();
     browser.takeScreenshot().then(function (png) {
         new Screenshot(png, 'LoginWrong.png');
     });
     expect(browser.getCurrentUrl()).not.toContain('index.php/apps/files/');
+    expect(loginPage.isCurrentPage()).toBeTruthy();
   });
   
   it('should have rights to visit user management after admin login', function() {    
