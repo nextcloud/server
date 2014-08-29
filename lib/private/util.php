@@ -114,16 +114,6 @@ class OC_Util {
 				return $storage;
 			});
 
-			// copy skeleton for local storage only
-			if ( ! isset( $objectStore ) ) {
-				$userRoot = OC_User::getHome($user);
-				$userDirectory = $userRoot . '/files';
-				if( !is_dir( $userDirectory )) {
-					mkdir( $userDirectory, 0755, true );
-					OC_Util::copySkeleton($userDirectory);
-				}
-			}
-
 			$userDir = '/'.$user.'/files';
 
 			//jail the user into his "home" directory
@@ -132,7 +122,11 @@ class OC_Util {
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($fileOperationProxy);
 
+			//trigger creation of user home and /files folder
+			\OC::$server->getUserFolder($user);
+
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $userDir));
+
 		}
 		return true;
 	}
@@ -204,31 +198,44 @@ class OC_Util {
 	}
 
 	/**
-	 * copies the user skeleton files into the fresh user home files
-	 * @param string $userDirectory
+	 * copies the skeleton to the users /files
+	 *
+	 * @param \OC\User\User $user
+	 * @param \OCP\Files\Folder $userDirectory
 	 */
-	public static function copySkeleton($userDirectory) {
-		$skeletonDirectory = OC_Config::getValue('skeletondirectory', \OC::$SERVERROOT.'/core/skeleton');
+	public static function copySkeleton(\OC\User\User $user, \OCP\Files\Folder $userDirectory) {
+
+		$skeletonDirectory = \OCP\Config::getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+
 		if (!empty($skeletonDirectory)) {
-			OC_Util::copyr($skeletonDirectory , $userDirectory);
+			\OCP\Util::writeLog(
+				'files_skeleton',
+				'copying skeleton for '.$user->getUID().' from '.$skeletonDirectory.' to '.$userDirectory->getFullPath('/'),
+				\OCP\Util::DEBUG
+			);
+			self::copyr($skeletonDirectory, $userDirectory);
+			// update the file cache
+			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
 		}
 	}
 
 	/**
-	 * copies a directory recursively
+	 * copies a directory recursively by using streams
+	 *
 	 * @param string $source
-	 * @param string $target
+	 * @param \OCP\Files\Folder $target
 	 * @return void
 	 */
-	public static function copyr($source,$target) {
+	public static function copyr($source, \OCP\Files\Folder $target) {
 		$dir = opendir($source);
-		@mkdir($target);
-		while(false !== ( $file = readdir($dir)) ) {
-			if ( !\OC\Files\Filesystem::isIgnoredDir($file) ) {
-				if ( is_dir($source . '/' . $file) ) {
-					OC_Util::copyr($source . '/' . $file , $target . '/' . $file);
+		while (false !== ($file = readdir($dir))) {
+			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+				if (is_dir($source . '/' . $file)) {
+					$child = $target->newFolder($file);
+					self::copyr($source . '/' . $file, $child);
 				} else {
-					copy($source . '/' . $file,$target . '/' . $file);
+					$child = $target->newFile($file);
+					stream_copy_to_stream(fopen($source . '/' . $file,'r'), $child->fopen('w'));
 				}
 			}
 		}
