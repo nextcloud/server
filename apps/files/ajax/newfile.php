@@ -16,7 +16,7 @@ $content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
 $source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
 
 if($source) {
-	$eventSource=new OC_EventSource();
+	$eventSource = \OC::$server->getEventSource();
 } else {
 	OC_JSON::callCheck();
 }

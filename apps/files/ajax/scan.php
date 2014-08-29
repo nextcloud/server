@@ -15,7 +15,7 @@ if (isset($_GET['users'])) {
 	$users = array(OC_User::getUser());
 }
 
-$eventSource = new OC_EventSource();
+$eventSource = \OC::$server->getEventSource();
 $listener = new ScanListener($eventSource);
 
 foreach ($users as $user) {
@@ -39,12 +39,12 @@ class ScanListener {
 	private $lastCount = 0;
 
 	/**
-	 * @var \OC_EventSource event source to pass events to
+	 * @var \OCP\IEventSource event source to pass events to
 	 */
 	private $eventSource;
 
 	/**
-	 * @param \OC_EventSource $eventSource
+	 * @param \OCP\IEventSource $eventSource
 	 */
 	public function __construct($eventSource) {
 		$this->eventSource = $eventSource;

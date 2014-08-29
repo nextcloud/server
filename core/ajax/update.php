@@ -4,7 +4,7 @@ require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
 	$l = new \OC_L10N('core');
-	$eventSource = new OC_EventSource();
+	$eventSource = \OC::$server->getEventSource();
 	$updater = new \OC\Updater(\OC_Log::$object);
 	$updater->listen('\OC\Updater', 'maintenanceStart', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned on maintenance mode'));
