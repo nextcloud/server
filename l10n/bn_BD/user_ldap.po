@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# azizul <aziz.murad3@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-28 01:54-0400\n"
-"PO-Revision-Date: 2014-08-27 18:51+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-29 01:54-0400\n"
+"PO-Revision-Date: 2014-08-28 18:01+0000\n"
+"Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -84,7 +85,7 @@ msgstr ""
 
 #: js/settings.js:128
 msgid "Success"
-msgstr ""
+msgstr "সাফল্য"
 
 #: js/settings.js:133
 msgid "Error"
@@ -166,7 +167,7 @@ msgstr ""
 
 #: settings.php:52
 msgid "Server"
-msgstr ""
+msgstr "সার্ভার"
 
 #: settings.php:53
 msgid "User Filter"
@@ -326,7 +327,7 @@ msgstr ""
 
 #: templates/part.wizardcontrols.php:5
 msgid "Back"
-msgstr ""
+msgstr "পেছনে যাও"
 
 #: templates/part.wizardcontrols.php:8
 msgid "Continue"
@@ -334,7 +335,7 @@ msgstr "চালিয়ে যাও"
 
 #: templates/settings.php:7
 msgid "Expert"
-msgstr ""
+msgstr "দক্ষ"
 
 #: templates/settings.php:8
 msgid "Advanced"

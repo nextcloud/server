@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-28 01:54-0400\n"
-"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"POT-Creation-Date: 2014-08-29 01:54-0400\n"
+"PO-Revision-Date: 2014-08-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Spanish (Chile) (http://www.transifex.com/projects/p/owncloud/language/es_CL/)\n"
 "MIME-Version: 1.0\n"
@@ -149,77 +149,29 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
-#: js/js.js:501
+#: js/js.js:496
 msgid "Settings"
 msgstr "Configuración"
 
-#: js/js.js:590
+#: js/js.js:585
 msgid "File"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:586
 msgid "Folder"
 msgstr ""
 
-#: js/js.js:592
+#: js/js.js:587
 msgid "Image"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:588
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:607
+#: js/js.js:602
 msgid "Saving..."
 msgstr ""
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "segundos antes"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1281
-msgid "today"
-msgstr "hoy"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "ayer"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "mes anterior"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "último año"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "años anteriores"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."

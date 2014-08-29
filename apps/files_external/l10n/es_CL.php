@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "Password" => "Clave",
 "Share" => "Compartir",
 "Personal" => "Personal",
-"Folder name" => "Nombre del directorio",
-"Users" => "Usuarios"
+"Folder name" => "Nombre del directorio"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

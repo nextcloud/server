@@ -17,9 +17,6 @@ $TRANSLATIONS = array(
 "Folder name" => "ឈ្មោះ​ថត",
 "Configuration" => "ការ​កំណត់​សណ្ឋាន",
 "Add storage" => "បន្ថែម​ឃ្លាំងផ្ទុក",
-"All Users" => "អ្នក​ប្រើ​ទាំងអស់",
-"Groups" => "ក្រុ",
-"Users" => "អ្នកប្រើ",
 "Delete" => "លុប"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

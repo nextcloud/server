@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-28 01:54-0400\n"
-"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"POT-Creation-Date: 2014-08-29 01:54-0400\n"
+"PO-Revision-Date: 2014-08-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -150,81 +150,29 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:501
+#: js/js.js:496
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:590
+#: js/js.js:585
 msgid "File"
 msgstr "Súbor"
 
-#: js/js.js:591
+#: js/js.js:586
 msgid "Folder"
 msgstr "Priečinok"
 
-#: js/js.js:592
+#: js/js.js:587
 msgid "Image"
 msgstr "Obrázok"
 
-#: js/js.js:593
+#: js/js.js:588
 msgid "Audio"
 msgstr "Zvuk"
 
-#: js/js.js:607
+#: js/js.js:602
 msgid "Saving..."
 msgstr "Ukladám..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "pred sekundami"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "pred %n minútou"
-msgstr[1] "pred %n minútami"
-msgstr[2] "pred %n minútami"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "pred %n hodinou"
-msgstr[1] "pred %n hodinami"
-msgstr[2] "pred %n hodinami"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "dnes"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "včera"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "pred %n dňom"
-msgstr[1] "pred %n dňami"
-msgstr[2] "pred %n dňami"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "minulý mesiac"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "pred %n mesiacom"
-msgstr[1] "pred %n mesiacmi"
-msgstr[2] "pred %n mesiacmi"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "minulý rok"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "pred rokmi"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."

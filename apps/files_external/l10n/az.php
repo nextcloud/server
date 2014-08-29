@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "Saved" => "Saxlanıldı",
 "Name" => "Ad",
 "Folder name" => "Qovluq adı",
-"Users" => "İstifadəçilər",
 "Delete" => "Sil"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

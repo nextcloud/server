@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-28 01:54-0400\n"
-"PO-Revision-Date: 2014-08-28 05:02+0000\n"
+"POT-Creation-Date: 2014-08-29 01:54-0400\n"
+"PO-Revision-Date: 2014-08-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -236,7 +236,15 @@ msgstr "Persönlich"
 msgid "System"
 msgstr "System"
 
-#: js/settings.js:325 js/settings.js:332
+#: js/settings.js:196
+msgid "All users. Type to select user or group."
+msgstr ""
+
+#: js/settings.js:279
+msgid "(group)"
+msgstr ""
+
+#: js/settings.js:445 js/settings.js:452
 msgid "Saved"
 msgstr "Gespeichert"
 
@@ -305,39 +313,23 @@ msgstr "Verfügbar für"
 msgid "Add storage"
 msgstr "Speicher hinzufügen"
 
-#: templates/settings.php:93
-msgid "No user or group"
-msgstr "Kein Nutzer oder Gruppe"
-
-#: templates/settings.php:96
-msgid "All Users"
-msgstr "Alle Benutzer"
-
-#: templates/settings.php:98
-msgid "Groups"
-msgstr "Gruppen"
-
-#: templates/settings.php:106
-msgid "Users"
-msgstr "Benutzer"
-
-#: templates/settings.php:119 templates/settings.php:120
-#: templates/settings.php:159 templates/settings.php:160
+#: templates/settings.php:96 templates/settings.php:97
+#: templates/settings.php:136 templates/settings.php:137
 msgid "Delete"
 msgstr "Löschen"
 
-#: templates/settings.php:133
+#: templates/settings.php:110
 msgid "Enable User External Storage"
 msgstr "Externen Speicher für Benutzer aktivieren"
 
-#: templates/settings.php:136
+#: templates/settings.php:113
 msgid "Allow users to mount the following external storage"
 msgstr "Erlauben Sie Benutzern, folgende externe Speicher einzubinden"
 
-#: templates/settings.php:151
+#: templates/settings.php:128
 msgid "SSL root certificates"
 msgstr "SSL-Root-Zertifikate"
 
-#: templates/settings.php:169
+#: templates/settings.php:146
 msgid "Import Root Certificate"
 msgstr "Root-Zertifikate importieren"

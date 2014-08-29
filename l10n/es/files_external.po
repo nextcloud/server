@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-28 01:54-0400\n"
-"PO-Revision-Date: 2014-08-28 05:02+0000\n"
-"Last-Translator: victormce <victormce@gmail.com>\n"
+"POT-Creation-Date: 2014-08-29 01:54-0400\n"
+"PO-Revision-Date: 2014-08-29 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +236,15 @@ msgstr "Personal"
 msgid "System"
 msgstr "Sistema"
 
-#: js/settings.js:325 js/settings.js:332
+#: js/settings.js:196
+msgid "All users. Type to select user or group."
+msgstr ""
+
+#: js/settings.js:279
+msgid "(group)"
+msgstr ""
+
+#: js/settings.js:445 js/settings.js:452
 msgid "Saved"
 msgstr "Guardado"
 
@@ -305,39 +313,23 @@ msgstr "Disponible para"
 msgid "Add storage"
 msgstr "Añadir almacenamiento"
 
-#: templates/settings.php:93
-msgid "No user or group"
-msgstr "Ningún usuario o grupo"
-
-#: templates/settings.php:96
-msgid "All Users"
-msgstr "Todos los usuarios"
-
-#: templates/settings.php:98
-msgid "Groups"
-msgstr "Grupos"
-
-#: templates/settings.php:106
-msgid "Users"
-msgstr "Usuarios"
-
-#: templates/settings.php:119 templates/settings.php:120
-#: templates/settings.php:159 templates/settings.php:160
+#: templates/settings.php:96 templates/settings.php:97
+#: templates/settings.php:136 templates/settings.php:137
 msgid "Delete"
 msgstr "Eliminar"
 
-#: templates/settings.php:133
+#: templates/settings.php:110
 msgid "Enable User External Storage"
 msgstr "Habilitar almacenamiento externo de usuario"
 
-#: templates/settings.php:136
+#: templates/settings.php:113
 msgid "Allow users to mount the following external storage"
 msgstr "Permitir a los usuarios montar el siguiente almacenamiento externo"
 
-#: templates/settings.php:151
+#: templates/settings.php:128
 msgid "SSL root certificates"
 msgstr "Certificados raíz SSL"
 
-#: templates/settings.php:169
+#: templates/settings.php:146
 msgid "Import Root Certificate"
 msgstr "Importar certificado raíz"

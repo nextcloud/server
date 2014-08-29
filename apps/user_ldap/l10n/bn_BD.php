@@ -1,9 +1,11 @@
 <?php
 $TRANSLATIONS = array(
 "Deletion failed" => "মুছার আদেশ ব্যার্থ হলো",
+"Success" => "সাফল্য",
 "Error" => "সমস্যা",
 "_%s group found_::_%s groups found_" => array("",""),
 "_%s user found_::_%s users found_" => array("",""),
+"Server" => "সার্ভার",
 "Group Filter" => "গোষ্ঠী ছাঁকনী",
 "Save" => "সংরক্ষণ",
 "Help" => "সহায়িকা",
@@ -15,7 +17,9 @@ $TRANSLATIONS = array(
 "Password" => "কূটশব্দ",
 "For anonymous access, leave DN and Password empty." => "অজ্ঞাতকুলশীল অধিগমনের জন্য DN এবং কূটশব্দটি ফাঁকা রাখুন।",
 "You can specify Base DN for users and groups in the Advanced tab" => "সুচারু ট্যঅবে গিয়ে আপনি ব্যবহারকারি এবং গোষ্ঠীসমূহের জন্য ভিত্তি DN নির্ধারণ করতে পারেন।",
+"Back" => "পেছনে যাও",
 "Continue" => "চালিয়ে যাও",
+"Expert" => "দক্ষ",
 "Advanced" => "সুচারু",
 "Turn off SSL certificate validation." => "SSL সনদপত্র যাচাইকরণ বন্ধ রাক।",
 "in seconds. A change empties the cache." => "সেকেন্ডে। কোন পরিবর্তন ক্যাসে খালি করবে।",

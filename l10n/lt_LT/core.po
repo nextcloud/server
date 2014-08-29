@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-28 01:54-0400\n"
-"PO-Revision-Date: 2014-08-28 05:23+0000\n"
+"POT-Creation-Date: 2014-08-29 01:54-0400\n"
+"PO-Revision-Date: 2014-08-29 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -153,81 +153,29 @@ msgstr "Lapkritis"
 msgid "December"
 msgstr "Gruodis"
 
-#: js/js.js:501
+#: js/js.js:496
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:590
+#: js/js.js:585
 msgid "File"
 msgstr "Failas"
 
-#: js/js.js:591
+#: js/js.js:586
 msgid "Folder"
 msgstr "Katalogas"
 
-#: js/js.js:592
+#: js/js.js:587
 msgid "Image"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:588
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:607
+#: js/js.js:602
 msgid "Saving..."
 msgstr "Saugoma..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "prieš sekundę"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] " prieš %n minutę"
-msgstr[1] " prieš %n minučių"
-msgstr[2] " prieš %n minučių"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "prieš %n valandą"
-msgstr[1] "prieš %n valandų"
-msgstr[2] "prieš %n valandų"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "šiandien"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "vakar"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "prieš %n dieną"
-msgstr[1] "prieš %n dienas"
-msgstr[2] "prieš %n dienų"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "praeitą mėnesį"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "prieš %n mėnesį"
-msgstr[1] "prieš %n mėnesius"
-msgstr[2] "prieš %n mėnesių"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "praeitais metais"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "prieš metus"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."

@@ -7,8 +7,6 @@ $TRANSLATIONS = array(
 "URL" => "URL",
 "Personal" => "Personal",
 "Name" => "Nom",
-"Groups" => "Grops",
-"Users" => "Usancièrs",
 "Delete" => "Escafa"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";
