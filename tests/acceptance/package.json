@@ -1,0 +1,19 @@
+{
+  "name": "specs",
+  "version": "0.0.0",
+  "description": "ownCloud specs for automated acceptance tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felix Böhm",
+  "dependencies": {
+    "protractor": "^1.0.0",
+    "request": "^2.40.0",
+    "xml2js": "^0.4.4",
+    "jasmine-spec-reporter": "^0.6.0",
+    "phantomjs": "^1.9.7-15"
+  },
+  "devDependencies": {
+  }
+}
