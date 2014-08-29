@@ -168,7 +168,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * Returns a list with all groups
 	 */
 	public function getGroups($search = '', $limit = null, $offset = null) {
-		$stmt = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` LIKE ?', $limit, $offset);
+		$stmt = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` LIKE ? ORDER BY `gid` ASC', $limit, $offset);
 		$result = $stmt->execute(array('%' . $search . '%'));
 		$groups = array();
 		while ($row = $result->fetchRow()) {
@@ -200,7 +200,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @return array with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
-		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?',
+		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ? ORDER BY `uid` ASC',
 			$limit,
 			$offset);
 		$result = $stmt->execute(array($gid, '%'.$search.'%'));
