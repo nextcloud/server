@@ -12,7 +12,7 @@
  *
  * use server side events with caution, to many open requests can hang the server
  */
-class OC_EventSource {
+class OC_EventSource implements \OCP\IEventSource {
 	/**
 	 * @var bool
 	 */
