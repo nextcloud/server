@@ -742,6 +742,10 @@ code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono
 }
 #quotatext {padding:.6em 1em;}
 
+#quota div.quota-warning {
+	background-color: #fc4;
+}
+
 .pager { list-style:none; float:right; display:inline; margin:.7em 13em 0 0; }
 .pager li { display:inline-block; }
 
