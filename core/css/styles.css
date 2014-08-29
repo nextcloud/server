@@ -737,6 +737,7 @@ code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono
 	white-space: nowrap;
 	border-bottom-left-radius: 3px;
 	border-top-left-radius: 3px;
+	min-width: 1%;
 	max-width: 100%;
 }
 #quotatext {padding:.6em 1em;}
