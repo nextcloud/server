@@ -29,7 +29,7 @@ require_once __DIR__.'/template/functions.php';
 class OC_Template extends \OC\Template\Base {
 	private $renderas; // Create a full page?
 	private $path; // The path to the template
-	private $headers=array(); //custom headers
+	private $headers = array(); //custom headers
 	protected $app; // app id
 
 	/**
@@ -37,6 +37,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $app app providing the template
 	 * @param string $name of the template file (without suffix)
 	 * @param string $renderas = ""; produce a full page
+	 * @param bool $registerCall = true
 	 * @return OC_Template object
 	 *
 	 * This function creates an OC_Template object.
@@ -45,14 +46,14 @@ class OC_Template extends \OC\Template\Base {
 	 * according layout. For now, renderas can be set to "guest", "user" or
 	 * "admin".
 	 */
-	public function __construct( $app, $name, $renderas = "" ) {
+	public function __construct( $app, $name, $renderas = "", $registerCall = true ) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
 
-		$requesttoken = OC::$server->getSession() ? OC_Util::callRegister() : '';
+		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = OC_L10N::get($parts[0]);
@@ -253,7 +254,7 @@ class OC_Template extends \OC\Template\Base {
 		* Warning: All data passed to $hint needs to get sanitized using OC_Util::sanitizeHTML
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
-		$content = new OC_Template( '', 'error', 'error' );
+		$content = new \OC_Template( '', 'error', 'error', false );
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
 		$content->assign( 'errors', $errors );
 		$content->printPage();
