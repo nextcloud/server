@@ -376,6 +376,9 @@ describe('Core base tests', function() {
 		it('substitutes parameters', function() {
 			expect(OC.generateUrl('apps/files/download{file}', {file: '/Welcome.txt'})).toEqual(OC.webroot + '/index.php/apps/files/download/Welcome.txt');
 		});
+		it('doesnt error out with no params provided', function  () {
+			expect(OC.generateUrl('apps/files/download{file}')).toEqual(OC.webroot + '/index.php/apps/files/download{file}');
+		});
 	});
 	describe('Main menu mobile toggle', function() {
 		var clock;
