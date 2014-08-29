@@ -26,7 +26,7 @@ class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
 	private $appKey;
 
 	public function setUp() {
-		\OC::$session->set('user_id', 'user1');
+		\OC::$server->getSession()->set('user_id', 'user1');
 		$this->appKey = uniqid('app');
 	}
 

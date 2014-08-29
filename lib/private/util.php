@@ -384,11 +384,11 @@ class OC_Util {
 	 * @return string timestamp
 	 * @description adjust to clients timezone if we know it
 	 */
-	public static function formatDate($timestamp, $dateOnly = false) {
-		if (\OC::$session->exists('timezone')) {
+	public static function formatDate( $timestamp, $dateOnly = false) {
+		if(\OC::$server->getSession()->exists('timezone')) {
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone = (round($systemTimeZone / 100, 0) * 60) + ($systemTimeZone % 100);
-			$clientTimeZone = \OC::$session->get('timezone') * 60;
+			$clientTimeZone = \OC::$server->getSession()->get('timezone') * 60;
 			$offset = $clientTimeZone - $systemTimeZone;
 			$timestamp = $timestamp + $offset * 60;
 		}
@@ -412,7 +412,7 @@ class OC_Util {
 		}
 
 		// Assume that if checkServer() succeeded before in this session, then all is fine.
-		if (\OC::$session->exists('checkServer_succeeded') && \OC::$session->get('checkServer_succeeded')) {
+		if (\OC::$server->getSession()->exists('checkServer_succeeded') && \OC::$server->getSession()->get('checkServer_succeeded')) {
 			return $errors;
 		}
 
@@ -615,7 +615,7 @@ class OC_Util {
 		$errors = array_merge($errors, self::checkDatabaseVersion());
 
 		// Cache the result of this function
-		\OC::$session->set('checkServer_succeeded', count($errors) == 0);
+		\OC::$server->getSession()->set('checkServer_succeeded', count($errors) == 0);
 
 		return $errors;
 	}
@@ -938,13 +938,13 @@ class OC_Util {
 	 */
 	public static function callRegister() {
 		// Check if a token exists
-		if (!\OC::$session->exists('requesttoken')) {
+		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
 			$requestToken = self::generateRandomBytes(20);
-			\OC::$session->set('requesttoken', $requestToken);
+			\OC::$server->getSession()->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it
-			$requestToken = \OC::$session->get('requesttoken');
+			$requestToken = \OC::$server->getSession()->get('requesttoken');
 		}
 		return ($requestToken);
 	}

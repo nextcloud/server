@@ -2,7 +2,7 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-\OC::$session->close();
+\OC::$server->getSession()->close();
 
 // Get data
 $dir = stripslashes($_POST["dir"]);

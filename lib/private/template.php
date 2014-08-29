@@ -52,7 +52,7 @@ class OC_Template extends \OC\Template\Base {
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
 
-		$requesttoken = OC::$session ? OC_Util::callRegister() : '';
+		$requesttoken = OC::$server->getSession() ? OC_Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = OC_L10N::get($parts[0]);
@@ -101,20 +101,20 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	static public function getFormFactorExtension()
 	{
-		if (!\OC::$session) {
+		if (!\OC::$server->getSession()) {
 			return '';
 		}
 		// if the formfactor is not yet autodetected do the
 		// autodetection now. For possible formfactors check the
 		// detectFormfactor documentation
-		if (!\OC::$session->exists('formfactor')) {
-			\OC::$session->set('formfactor', self::detectFormfactor());
+		if (!\OC::$server->getSession()->exists('formfactor')) {
+			\OC::$server->getSession()->set('formfactor', self::detectFormfactor());
 		}
 		// allow manual override via GET parameter
 		if(isset($_GET['formfactor'])) {
-			\OC::$session->set('formfactor', $_GET['formfactor']);
+			\OC::$server->getSession()->set('formfactor', $_GET['formfactor']);
 		}
-		$formfactor = \OC::$session->get('formfactor');
+		$formfactor = \OC::$server->getSession()->get('formfactor');
 		if($formfactor==='default') {
 			$fext='';
 		}elseif($formfactor==='mobile') {

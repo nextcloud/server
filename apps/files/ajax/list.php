@@ -1,7 +1,7 @@
 <?php
 
 OCP\JSON::checkLoggedIn();
-\OC::$session->close();
+\OC::$server->getSession()->close();
 $l = OC_L10N::get('files');
 
 // Load the files

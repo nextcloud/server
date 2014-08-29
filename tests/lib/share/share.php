@@ -740,7 +740,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	 * @param $item
 	 */
 	public function testCheckPasswordProtectedShare($expected, $item) {
-		\OC::$session->set('public_link_authenticated', 100);
+		\OC::$server->getSession()->set('public_link_authenticated', 100);
 		$result = \OCP\Share::checkPasswordProtectedShare($item);
 		$this->assertEquals($expected, $result);
 	}
@@ -767,8 +767,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			return true;
 		}
 
-		if ( \OC::$session->exists('public_link_authenticated')
-			&& \OC::$session->get('public_link_authenticated') === $linkItem['id'] ) {
+		if ( \OC::$server->getSession()->exists('public_link_authenticated')
+			&& \OC::$server->getSession()->get('public_link_authenticated') === $linkItem['id'] ) {
 			return true;
 		}
 		 * */
