@@ -60,13 +60,13 @@ $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
 
 // load users and quota
 foreach($accessibleUsers as $uid => $displayName) {
-	$quota=OC_Preferences::getValue($uid, 'files', 'quota', 'default');
-	$isQuotaUserDefined=array_search($quota, $quotaPreset)===false
-		&& array_search($quota, array('none', 'default'))===false;
+	$quota = OC_Preferences::getValue($uid, 'files', 'quota', 'default');
+	$isQuotaUserDefined = array_search($quota, $quotaPreset) === false
+		&& array_search($quota, array('none', 'default')) === false;
 
 	$name = $displayName;
-	if ( $displayName !== $uid ) {
-		$name = $name . ' ('.$uid.')';
+	if ($displayName !== $uid) {
+		$name = $name . ' (' . $uid . ')';
 	}
 
 	$user = $userManager->get($uid);
@@ -82,17 +82,16 @@ foreach($accessibleUsers as $uid => $displayName) {
 	);
 }
 
-$tmpl = new OC_Template( "settings", "users/main", "user" );
-$tmpl->assign( 'users', $users );
-$tmpl->assign( 'groups', $groups );
-$tmpl->assign( 'adminGroup', $adminGroup );
-$tmpl->assign( 'isAdmin', (int) $isAdmin);
-$tmpl->assign( 'subadmins', $subadmins);
-$tmpl->assign('usercount', count($users));
-$tmpl->assign( 'numofgroups', count($groups) + count($adminGroup));
-$tmpl->assign( 'quota_preset', $quotaPreset);
-$tmpl->assign( 'default_quota', $defaultQuota);
-$tmpl->assign( 'defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
-$tmpl->assign( 'recoveryAdminEnabled', $recoveryAdminEnabled);
-$tmpl->assign( 'enableAvatars', \OC_Config::getValue('enable_avatars', true));
+$tmpl = new OC_Template("settings", "users/main", "user");
+$tmpl->assign('users', $users);
+$tmpl->assign('groups', $groups);
+$tmpl->assign('adminGroup', $adminGroup);
+$tmpl->assign('isAdmin', (int)$isAdmin);
+$tmpl->assign('subadmins', $subadmins);
+$tmpl->assign('numofgroups', count($groups) + count($adminGroup));
+$tmpl->assign('quota_preset', $quotaPreset);
+$tmpl->assign('default_quota', $defaultQuota);
+$tmpl->assign('defaultQuotaIsUserDefined', $defaultQuotaIsUserDefined);
+$tmpl->assign('recoveryAdminEnabled', $recoveryAdminEnabled);
+$tmpl->assign('enableAvatars', \OC::$server->getConfig()->getSystemValue('enable_avatars', true));
 $tmpl->printPage();
