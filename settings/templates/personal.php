@@ -34,7 +34,8 @@
 
 
 <div id="quota" class="section">
-	<div style="width:<?php p($_['usage_relative']);?>%;">
+	<div style="width:<?php p($_['usage_relative']);?>%;
+		<?php if($_['usage_relative'] > 80): ?>background-color:#fc4;<?php endif; ?>">
 		<p id="quotatext">
 			<?php print_unescaped($l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>',
 			array($_['usage'], $_['total_space'])));?>
