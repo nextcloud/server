@@ -1208,6 +1208,7 @@ class OC_Util {
 	 *
 	 * @param int $length of the random string
 	 * @return string
+	 * @throws Exception when no secure RNG source is available
 	 * Please also update secureRNGAvailable if you change something here
 	 */
 	public static function generateRandomBytes($length = 30) {
@@ -1228,17 +1229,8 @@ class OC_Util {
 			}
 		}
 
-		// Fallback to mt_rand()
-		$characters = '0123456789';
-		$characters .= 'abcdefghijklmnopqrstuvwxyz';
-		$charactersLength = strlen($characters) - 1;
-		$pseudoByte = "";
-
-		// Select some random characters
-		for ($i = 0; $i < $length; $i++) {
-			$pseudoByte .= $characters[mt_rand(0, $charactersLength)];
-		}
-		return $pseudoByte;
+		// No random numbers are better then bad random numbers
+		throw new \Exception('No secure random number generator available, please install the php-openssl extension');
 	}
 
 	/**
