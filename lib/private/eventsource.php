@@ -40,7 +40,7 @@ class OC_EventSource implements \OCP\IEventSource {
 		header('X-Accel-Buffering: no');
 		$this->fallback = isset($_GET['fallback']) and $_GET['fallback'] == 'true';
 		if ($this->fallback) {
-			$this->fallBackId = $_GET['fallback_id'];
+			$this->fallBackId = (int)$_GET['fallback_id'];
 			header("Content-Type: text/html");
 			echo str_repeat('<span></span>' . PHP_EOL, 10); //dummy data to keep IE happy
 		} else {
@@ -60,18 +60,21 @@ class OC_EventSource implements \OCP\IEventSource {
 	 * @param string $type
 	 * @param mixed $data
 	 *
+	 * @throws \BadMethodCallException
 	 * if only one parameter is given, a typeless message will be send with that parameter as data
 	 */
 	public function send($type, $data = null) {
+		if ($data and !preg_match('/^[A-Za-z0-9_]+$/', $type)) {
+			throw new BadMethodCallException('Type needs to be alphanumeric ('. $type .')');
+		}
 		$this->init();
 		if (is_null($data)) {
 			$data = $type;
 			$type = null;
 		}
 		if ($this->fallback) {
-			$fallBackId = OC_Util::sanitizeHTML($this->fallBackId);
 			$response = '<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('
-				. $fallBackId . ',"' . $type . '",' . OCP\JSON::encode($data) . ')</script>' . PHP_EOL;
+				. $this->fallBackId . ',"' . $type . '",' . OCP\JSON::encode($data) . ')</script>' . PHP_EOL;
 			echo $response;
 		} else {
 			if ($type) {
