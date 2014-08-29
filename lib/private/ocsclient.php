@@ -29,6 +29,18 @@
 class OC_OCSClient{
 
 	/**
+	 * Returns whether the AppStore is enabled (i.e. because the AppStore is disabled for EE)
+	 * @return bool
+	 */
+	protected static function isAppstoreEnabled() {
+		if(OC::$server->getConfig()->getSystemValue('appstoreenabled', true) === false OR OC_Util::getEditionString() !== '') {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get the url of the OCS AppStore server.
 	 * @return string of the AppStore server
 	 *
@@ -36,15 +48,8 @@ class OC_OCSClient{
 	 * to set it in the config file or it will fallback to the default
 	 */
 	private static function getAppStoreURL() {
-		if(OC_Util::getEditionString()===''){
-			$default='https://api.owncloud.com/v1';
-		}else{
-			$default='';
-		}
-		$url = OC_Config::getValue('appstoreurl', $default);
-		return($url);
+		return OC::$server->getConfig()->getSystemValue('appstoreurl', 'https://api.owncloud.com/v1');
 	}
-
 
 	/**
 	 * Get the content of an OCS url call.
@@ -64,7 +69,7 @@ class OC_OCSClient{
 	 * This function returns a list of all the application categories on the OCS server
 	 */
 	public static function getCategories() {
-		if(OC_Config::getValue('appstoreenabled', true)==false) {
+		if(!self::isAppstoreEnabled()) {
 			return null;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/categories';
@@ -100,7 +105,7 @@ class OC_OCSClient{
 	 * @param string $filter
 	 */
 	public static function getApplications($categories, $page, $filter) {
-		if(OC_Config::getValue('appstoreenabled', true)==false) {
+		if(!self::isAppstoreEnabled()) {
 			return(array());
 		}
 
@@ -155,7 +160,7 @@ class OC_OCSClient{
 	 * This function returns an applications from the OCS server
 	 */
 	public static function getApplication($id) {
-		if(OC_Config::getValue('appstoreenabled', true)==false) {
+		if(!self::isAppstoreEnabled()) {
 			return null;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/data/'.urlencode($id);
@@ -203,7 +208,7 @@ class OC_OCSClient{
 	 * @param integer $item
 	 */
 	public static function getApplicationDownload($id, $item) {
-		if(OC_Config::getValue('appstoreenabled', true)==false) {
+		if(!self::isAppstoreEnabled()) {
 			return null;
 		}
 		$url=OC_OCSClient::getAppStoreURL().'/content/download/'.urlencode($id).'/'.urlencode($item);
