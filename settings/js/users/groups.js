@@ -249,12 +249,23 @@ GroupList = {
 
 	getElementGID: function (element) {
 		return ($(element).closest('li').data('gid') || '').toString();
+	},
+	getEveryoneCount: function () {
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: OC.generateUrl('/settings/ajax/geteveryonecount')
+		}).success(function (data) {
+			$('#everyonegroup').data('usercount', data.count);
+			$('#everyonecount').text(data.count);
+		});
 	}
 };
 
 $(document).ready( function () {
 	$userGroupList = $('#usergrouplist');
 	GroupList.initDeleteHandling();
+	GroupList.getEveryoneCount();
 
 	// Display or hide of Create Group List Element
 	$('#newgroup-form').hide();
