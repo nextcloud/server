@@ -126,9 +126,9 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		}
 
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
-		\OC_User::setUserId($user);
+		\OC::$server->getUserSession()->login($user, $password);
 		\OC_Util::setupFS($user);
 	}
 
