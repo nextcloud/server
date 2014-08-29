@@ -174,7 +174,24 @@ class FilesPlugin extends \Sabre\DAV\ServerPlugin {
 			if (!is_null($fileId)) {
 				$this->server->httpResponse->setHeader('OC-FileId', $fileId);
 			}
+			$eTag = $this->getETag($node);
+			if (!is_null($eTag)) {
+				$this->server->httpResponse->setHeader('OC-ETag', $eTag);
+			}
 		}
+	}
+
+	/**
+	 * @param \OC\Connector\Sabre\Node $node
+	 */
+	private function getETag($node) {
+		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+			if (isset($_SERVER['X-CHUNKING_COMPLETE'])) {
+				return $node->getETag();
+			}
+			return null;
+		}
+		return $node->getETag();
 	}
 
 }
