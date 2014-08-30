@@ -15,14 +15,13 @@ namespace OC\Session;
  *
  * @package OC\Session
  */
-class Internal extends Memory {
+class Internal extends Session {
 	public function __construct($name) {
 		session_name($name);
 		session_start();
 		if (!isset($_SESSION)) {
 			throw new \Exception('Failed to start session');
 		}
-		$this->data = $_SESSION;
 	}
 
 	public function __destruct() {
@@ -31,30 +30,61 @@ class Internal extends Memory {
 
 	/**
 	 * @param string $key
+	 * @param integer $value
+	 */
+	public function set($key, $value) {
+		$this->validateSession();
+		$_SESSION[$key] = $value;
+	}
+
+	/**
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function get($key) {
+		if (!$this->exists($key)) {
+			return null;
+		}
+		return $_SESSION[$key];
+	}
+
+	/**
+	 * @param string $key
+	 * @return bool
+	 */
+	public function exists($key) {
+		return isset($_SESSION[$key]);
+	}
+
+	/**
+	 * @param string $key
 	 */
 	public function remove($key) {
-		// also remove it from $_SESSION to prevent re-setting the old value during the merge
 		if (isset($_SESSION[$key])) {
 			unset($_SESSION[$key]);
 		}
-		parent::remove($key);
 	}
+
 
 	public function clear() {
 		session_unset();
 		@session_regenerate_id(true);
 		@session_start();
-		$this->data = $_SESSION = array();
+		$_SESSION = array();
 	}
 
 	public function close() {
-		$_SESSION = array_merge($_SESSION, $this->data);
 		session_write_close();
-
 		parent::close();
 	}
 
     public function reopen() {
         throw new \Exception('The session cannot be reopened - reopen() is ony to be used in unit testing.');
     }
+
+    private function validateSession() {
+		if ($this->sessionClosed) {
+			throw new \Exception('Session has been closed - no further changes to the session as allowed');
+		}
+	}
 }
