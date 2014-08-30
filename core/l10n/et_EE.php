@@ -179,6 +179,7 @@ $TRANSLATIONS = array(
 "Thank you for your patience." => "Täname kannatlikkuse eest.",
 "You are accessing the server from an untrusted domain." => "Sa kasutad serverit usalduseta asukohast",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Palun võta ühendust oma saidi administraatoriga. Kui sa oled ise administraator, siis seadista failis config/config.php sätet \"trusted_domain\". Näidis seadistused leiad failist config/config.sample.php.",
+"Add \"%s\" as trusted domain" => "Lisa \"%s\" usaldusväärse domeenina",
 "%s will be updated to version %s." => "%s uuendatakse versioonile %s.",
 "The following apps will be disabled:" => "Järgnevad rakendid keelatakse:",
 "The theme %s has been disabled." => "Teema %s on keelatud.",

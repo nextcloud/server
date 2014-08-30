@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:03+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -244,29 +244,29 @@ msgstr ""
 msgid "Saved"
 msgstr ""
 
-#: lib/config.php:716
+#: lib/config.php:717
 msgid "<b>Note:</b> "
 msgstr ""
 
-#: lib/config.php:726
+#: lib/config.php:727
 msgid " and "
 msgstr ""
 
-#: lib/config.php:748
+#: lib/config.php:749
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:750
+#: lib/config.php:751
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:752
+#: lib/config.php:753
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

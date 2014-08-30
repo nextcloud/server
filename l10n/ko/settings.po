@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:24+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
 msgid "Encryption"
 msgstr "암호화"
 
@@ -738,11 +738,11 @@ msgstr "더 중요함"
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:485 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:209
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:489 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:212
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -826,120 +826,128 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr "첫 실행 마법사 다시 보이기"
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "현재 공간 중 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다"
 
-#: templates/personal.php:50 templates/users/part.createuser.php:8
+#: templates/personal.php:51 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "암호"
 
-#: templates/personal.php:51
+#: templates/personal.php:52
 msgid "Your password was changed"
 msgstr "암호가 변경되었습니다"
 
-#: templates/personal.php:52
+#: templates/personal.php:53
 msgid "Unable to change your password"
 msgstr "암호를 변경할 수 없음"
 
-#: templates/personal.php:54
+#: templates/personal.php:55
 msgid "Current password"
 msgstr "현재 암호"
 
-#: templates/personal.php:57
+#: templates/personal.php:58
 msgid "New password"
 msgstr "새 암호"
 
-#: templates/personal.php:61
+#: templates/personal.php:62
 msgid "Change password"
 msgstr "암호 변경"
 
-#: templates/personal.php:73 templates/users/part.userlist.php:8
+#: templates/personal.php:74 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "전체 이름"
 
-#: templates/personal.php:88
+#: templates/personal.php:89
 msgid "Email"
 msgstr "이메일"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Your email address"
 msgstr "이메일 주소"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:101
+#: templates/personal.php:102
 msgid "Profile picture"
 msgstr "프로필 사진"
 
-#: templates/personal.php:106
+#: templates/personal.php:107
 msgid "Upload new"
 msgstr "새로 업로드"
 
-#: templates/personal.php:108
+#: templates/personal.php:109
 msgid "Select new from Files"
 msgstr "파일에서 선택"
 
-#: templates/personal.php:109
+#: templates/personal.php:110
 msgid "Remove image"
 msgstr "그림 삭제"
 
-#: templates/personal.php:110
+#: templates/personal.php:111
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "png나 jpg를 사용하십시오. 정사각형 형태가 가장 좋지만 잘라낼 수 있습니다."
 
-#: templates/personal.php:112
+#: templates/personal.php:113
 msgid "Your avatar is provided by your original account."
 msgstr "원본 계정의 아바타를 사용합니다."
 
-#: templates/personal.php:116
+#: templates/personal.php:117
 msgid "Cancel"
 msgstr "취소"
 
-#: templates/personal.php:117
+#: templates/personal.php:118
 msgid "Choose as profile image"
 msgstr "프로필 이미지로 사용"
 
-#: templates/personal.php:123 templates/personal.php:124
+#: templates/personal.php:124 templates/personal.php:125
 msgid "Language"
 msgstr "언어"
 
-#: templates/personal.php:143
+#: templates/personal.php:144
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:162
+#: templates/personal.php:163
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "암호화 앱이 비활성화되었습니다. 모든 파일을 복호화해야 합니다."
 
-#: templates/personal.php:168
+#: templates/personal.php:169
 msgid "Log-in password"
 msgstr "로그인 암호"
 
-#: templates/personal.php:173
+#: templates/personal.php:174
 msgid "Decrypt all Files"
 msgstr "모든 파일 복호화"
 
-#: templates/personal.php:186
+#: templates/personal.php:187
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:190
+#: templates/personal.php:191
 msgid "Restore Encryption Keys"
 msgstr "암호화 키 복원"
 
-#: templates/personal.php:194
+#: templates/personal.php:195
 msgid "Delete Encryption Keys"
 msgstr "암호화 키 삭제"
+
+#: templates/users/main.php:34
+msgid "Show storage location"
+msgstr ""
+
+#: templates/users/main.php:38
+msgid "Show last log in"
+msgstr ""
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -980,19 +988,19 @@ msgstr ""
 msgid "Admins"
 msgstr "관리자"
 
-#: templates/users/part.setquota.php:7
+#: templates/users/part.setquota.php:3
 msgid "Default Quota"
 msgstr "기본 할당량"
 
-#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
+#: templates/users/part.setquota.php:5 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "저장소 할당량을 입력하십시오 (예: \"512 MB\", \"12 GB\")"
 
-#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
+#: templates/users/part.setquota.php:7 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "무제한"
 
-#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
+#: templates/users/part.setquota.php:22 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "기타"
 

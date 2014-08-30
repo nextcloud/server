@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:24+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:24+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Slovak (http://www.transifex.com/projects/p/owncloud/language/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -17,33 +17,33 @@ msgstr ""
 "Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: base.php:200 base.php:207
+#: base.php:201 base.php:208
 msgid "Cannot write into \"config\" directory!"
 msgstr ""
 
-#: base.php:201
+#: base.php:202
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
 msgstr ""
 
-#: base.php:203
+#: base.php:204
 #, php-format
 msgid "See %s"
 msgstr ""
 
-#: base.php:208 private/util.php:442
+#: base.php:209 private/util.php:442
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: base.php:578
+#: base.php:581
 msgid "Sample configuration detected"
 msgstr ""
 
-#: base.php:579
+#: base.php:582
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
@@ -165,12 +165,12 @@ msgstr ""
 msgid "Unknown user"
 msgstr ""
 
-#: private/setup/abstractdatabase.php:26
+#: private/setup/abstractdatabase.php:26 private/setup/oci.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr ""
 
-#: private/setup/abstractdatabase.php:29
+#: private/setup/abstractdatabase.php:29 private/setup/oci.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr ""
@@ -186,7 +186,7 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/oci.php:128 private/setup/postgresql.php:31
 #: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
@@ -195,23 +195,23 @@ msgstr ""
 msgid "MySQL/MariaDB username and/or password not valid"
 msgstr ""
 
-#: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:144
-#: private/setup/oci.php:151 private/setup/oci.php:162
-#: private/setup/oci.php:169 private/setup/oci.php:178
-#: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/mysql.php:67 private/setup/oci.php:68
+#: private/setup/oci.php:135 private/setup/oci.php:158
+#: private/setup/oci.php:165 private/setup/oci.php:176
+#: private/setup/oci.php:183 private/setup/oci.php:192
+#: private/setup/oci.php:200 private/setup/oci.php:209
+#: private/setup/oci.php:215 private/setup/postgresql.php:103
 #: private/setup/postgresql.php:112 private/setup/postgresql.php:129
 #: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
-#: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:145
-#: private/setup/oci.php:152 private/setup/oci.php:163
-#: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/mysql.php:68 private/setup/oci.php:69
+#: private/setup/oci.php:136 private/setup/oci.php:159
+#: private/setup/oci.php:166 private/setup/oci.php:177
+#: private/setup/oci.php:193 private/setup/oci.php:201
+#: private/setup/oci.php:210 private/setup/postgresql.php:104
 #: private/setup/postgresql.php:113 private/setup/postgresql.php:130
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
@@ -236,15 +236,15 @@ msgstr ""
 msgid "Drop this user from MySQL/MariaDB."
 msgstr ""
 
-#: private/setup/oci.php:34
+#: private/setup/oci.php:48
 msgid "Oracle connection could not be established"
 msgstr ""
 
-#: private/setup/oci.php:41 private/setup/oci.php:113
+#: private/setup/oci.php:55 private/setup/oci.php:127
 msgid "Oracle username and/or password not valid"
 msgstr ""
 
-#: private/setup/oci.php:170 private/setup/oci.php:202
+#: private/setup/oci.php:184 private/setup/oci.php:216
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""

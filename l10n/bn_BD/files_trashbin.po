@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:03+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:03+0000\n"
 "Last-Translator: azizul <aziz.murad3@gmail.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -21,16 +21,16 @@ msgstr ""
 #: ajax/delete.php:59
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "%s স্থায়ীভাবে মুছে ফেলা গেলনা"
 
 #: ajax/undelete.php:64
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "%s ফেরত আনা গেলনা"
 
 #: appinfo/app.php:15 js/filelist.js:34
 msgid "Deleted files"
-msgstr ""
+msgstr "মুছে ফেলা ফাইলসমূহ"
 
 #: js/app.js:52 templates/index.php:21 templates/index.php:23
 msgid "Restore"
@@ -42,19 +42,19 @@ msgstr "সমস্যা"
 
 #: lib/trashbin.php:903 lib/trashbin.php:905
 msgid "restored"
-msgstr ""
+msgstr "পূণঃসংরক্ষিত"
 
 #: templates/index.php:7
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "এখানে কিছু নেই। আপনার ট্র্যাসবিন শুন্য"
 
 #: templates/index.php:18
 msgid "Name"
-msgstr "রাম"
+msgstr "নাম"
 
 #: templates/index.php:29
 msgid "Deleted"
-msgstr ""
+msgstr "মুছে ফেলা"
 
 #: templates/index.php:32 templates/index.php:33
 msgid "Delete"

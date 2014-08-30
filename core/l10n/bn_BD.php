@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown filetype" => "অজানা প্রকৃতির ফাইল",
+"Invalid image" => "অবৈধ চিত্র",
 "Sunday" => "রবিবার",
 "Monday" => "সোমবার",
 "Tuesday" => "মঙ্গলবার",

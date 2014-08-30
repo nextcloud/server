@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:24+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -149,27 +149,27 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:496
+#: js/js.js:497
 msgid "Settings"
 msgstr "Settings"
 
-#: js/js.js:585
+#: js/js.js:586
 msgid "File"
 msgstr "File"
 
-#: js/js.js:586
+#: js/js.js:587
 msgid "Folder"
 msgstr "Folder"
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "Image"
 msgstr "Image"
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Audio"
 msgstr "Audio"
 
-#: js/js.js:602
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Saving..."
 

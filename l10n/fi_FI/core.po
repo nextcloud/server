@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:23+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -151,27 +151,27 @@ msgstr "marraskuu"
 msgid "December"
 msgstr "joulukuu"
 
-#: js/js.js:496
+#: js/js.js:497
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:585
+#: js/js.js:586
 msgid "File"
 msgstr "Tiedosto"
 
-#: js/js.js:586
+#: js/js.js:587
 msgid "Folder"
 msgstr "Kansio"
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "Image"
 msgstr "Kuva"
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Audio"
 msgstr "Ääni"
 
-#: js/js.js:602
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
@@ -812,7 +812,7 @@ msgstr "Ota yhteys ylläpitäjään. Jos olet tämän ownCloudin ylläpitäjä, 
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "Riippuen määrityksistä, ylläpitäjänä saatat kyetä käyttämään alla olevaa painiketta luodaksesi luottamussuhteen tähän toimialueeseen."
 
 #: templates/untrustedDomain.php:14
 #, php-format

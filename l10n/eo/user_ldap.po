@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-05 01:54-0400\n"
-"PO-Revision-Date: 2014-07-04 15:13+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:40+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -50,11 +50,11 @@ msgstr ""
 msgid "No configuration specified"
 msgstr ""
 
-#: ajax/wizard.php:81
+#: ajax/wizard.php:97
 msgid "No data specified"
 msgstr ""
 
-#: ajax/wizard.php:89
+#: ajax/wizard.php:105
 #, php-format
 msgid " Could not set configuration %s"
 msgstr ""
@@ -103,65 +103,65 @@ msgstr ""
 msgid "Please specify the port"
 msgstr ""
 
-#: js/settings.js:780
+#: js/settings.js:792
 msgid "Configuration OK"
 msgstr "La agordaro ĝustas"
 
-#: js/settings.js:789
+#: js/settings.js:801
 msgid "Configuration incorrect"
 msgstr "La agordaro malĝustas"
 
-#: js/settings.js:798
+#: js/settings.js:810
 msgid "Configuration incomplete"
 msgstr "La agordaro neplenas"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:827 js/settings.js:836
 msgid "Select groups"
 msgstr "Elekti grupojn"
 
-#: js/settings.js:818 js/settings.js:827
+#: js/settings.js:830 js/settings.js:839
 msgid "Select object classes"
 msgstr "Elekti objektoklasojn"
 
-#: js/settings.js:821
+#: js/settings.js:833
 msgid "Select attributes"
 msgstr "Elekti atribuojn"
 
-#: js/settings.js:848
+#: js/settings.js:860
 msgid "Connection test succeeded"
 msgstr "Provo de konekto sukcesis"
 
-#: js/settings.js:855
+#: js/settings.js:867
 msgid "Connection test failed"
 msgstr "Provo de konekto malsukcesis"
 
-#: js/settings.js:864
+#: js/settings.js:876
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr ""
 
-#: js/settings.js:865
+#: js/settings.js:877
 msgid "Confirm Deletion"
 msgstr "Konfirmi forigon"
 
-#: lib/wizard.php:97 lib/wizard.php:112
+#: lib/wizard.php:98 lib/wizard.php:113
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s grupo troviĝis"
 msgstr[1] "%s grupoj troviĝis"
 
-#: lib/wizard.php:126
+#: lib/wizard.php:127
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s uzanto troviĝis"
 msgstr[1] "%s uzanto troviĝis"
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:392 lib/wizard.php:1128
 msgid "Could not find the desired feature"
 msgstr ""
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:935 lib/wizard.php:947
 msgid "Invalid Host"
 msgstr "Nevalida gastigo"
 
@@ -253,60 +253,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr ""
 
-#: templates/part.wizard-server.php:6
+#: templates/part.wizard-server.php:13
 msgid "1. Server"
 msgstr "1. Servilo"
 
-#: templates/part.wizard-server.php:13
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
 msgstr "%s. Servilo:"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr "Aldoni agordon de servilo"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
 msgstr "Forigi agordaron"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "Gastigo"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "Vi povas neglekti la protokolon, escepte se vi bezonas SSL-on. Tiuokaze, komencu per ldaps://"
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "Pordo"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "Uzanto-DN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr ""
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "Pasvorto"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "Por sennoman aliron, lasu DN-on kaj Pasvorton malplenaj."
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr ""
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr ""
 

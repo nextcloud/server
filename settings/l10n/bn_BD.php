@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Forum" => "ফোরাম",
 "Bugtracker" => "বাগট্র্যাকার",
 "Commercial Support" => "বাণিজ্যিক সাপোর্ট",
+"Get the apps to sync your files" => "আপনার ফাইলসমূহ সিংক করতে অ্যাপস নিন",
 "Show First Run Wizard again" => "প্রথমবার চালানোর যাদুকর পূনরায় প্রদর্শন কর",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "আপনি ব্যবহার করছেন  <strong>%s</strong>, সুলভ  <strong>%s</strong> এর মধ্যে।",
 "Password" => "কূটশব্দ",

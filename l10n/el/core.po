@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:24+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -160,27 +160,27 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:496
+#: js/js.js:497
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:585
+#: js/js.js:586
 msgid "File"
 msgstr "Αρχείο"
 
-#: js/js.js:586
+#: js/js.js:587
 msgid "Folder"
 msgstr "Φάκελος"
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "Image"
 msgstr "Εικόνα"
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Audio"
 msgstr "Ήχος"
 
-#: js/js.js:602
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Γίνεται αποθήκευση..."
 

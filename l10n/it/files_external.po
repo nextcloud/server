@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:03+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -237,39 +237,39 @@ msgstr "Sistema"
 
 #: js/settings.js:196
 msgid "All users. Type to select user or group."
-msgstr ""
+msgstr "Tutti gli utenti. Digita per selezionare utente o gruppo."
 
 #: js/settings.js:279
 msgid "(group)"
-msgstr ""
+msgstr "(gruppo)"
 
 #: js/settings.js:445 js/settings.js:452
 msgid "Saved"
 msgstr "Salvato"
 
-#: lib/config.php:716
+#: lib/config.php:717
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b>"
 
-#: lib/config.php:726
+#: lib/config.php:727
 msgid " and "
 msgstr "e"
 
-#: lib/config.php:748
+#: lib/config.php:749
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> il supporto a cURL di PHP non è abilitato o installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo."
 
-#: lib/config.php:750
+#: lib/config.php:751
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> il supporto a FTP in PHP non è abilitato o installato. Impossibile montare %s. Chiedi al tuo amministratore di sistema di installarlo."
 
-#: lib/config.php:752
+#: lib/config.php:753
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"

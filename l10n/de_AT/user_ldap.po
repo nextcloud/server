@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-16 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 00:50+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:40+0000\n"
 "Last-Translator: Malspherus <pekittenberger@gmx.at>\n"
 "Language-Team: German (Austria) (http://www.transifex.com/projects/p/owncloud/language/de_AT/)\n"
 "MIME-Version: 1.0\n"
@@ -50,11 +50,11 @@ msgstr "Keine Aktion angegeben"
 msgid "No configuration specified"
 msgstr "Keine Konfiguration angegeben"
 
-#: ajax/wizard.php:81
+#: ajax/wizard.php:97
 msgid "No data specified"
 msgstr "Keine Daten angegeben"
 
-#: ajax/wizard.php:89
+#: ajax/wizard.php:105
 #, php-format
 msgid " Could not set configuration %s"
 msgstr "Konfiguration %s konnte nicht gespeichert werden"
@@ -103,65 +103,65 @@ msgstr "Basis DN konnte nicht festgelegt werden"
 msgid "Please specify the port"
 msgstr "Bitte den Port angeben"
 
-#: js/settings.js:780
+#: js/settings.js:792
 msgid "Configuration OK"
 msgstr "Konfiguration OK"
 
-#: js/settings.js:789
+#: js/settings.js:801
 msgid "Configuration incorrect"
 msgstr "Konfiguration fehlerhaft"
 
-#: js/settings.js:798
+#: js/settings.js:810
 msgid "Configuration incomplete"
 msgstr "Konfiguration unvollständig"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:827 js/settings.js:836
 msgid "Select groups"
 msgstr "Gruppen wählen"
 
-#: js/settings.js:818 js/settings.js:827
+#: js/settings.js:830 js/settings.js:839
 msgid "Select object classes"
 msgstr "Objekt-Klassen wählen"
 
-#: js/settings.js:821
+#: js/settings.js:833
 msgid "Select attributes"
 msgstr "Attribute wählen"
 
-#: js/settings.js:848
+#: js/settings.js:860
 msgid "Connection test succeeded"
 msgstr "Verbindungsversuch erfolgreich"
 
-#: js/settings.js:855
+#: js/settings.js:867
 msgid "Connection test failed"
 msgstr "Verbindungsversuch gescheitert"
 
-#: js/settings.js:864
+#: js/settings.js:876
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Soll die momentane Server-Konfiguration wirklich gelöscht werden?"
 
-#: js/settings.js:865
+#: js/settings.js:877
 msgid "Confirm Deletion"
 msgstr "Löschen bestätigen"
 
-#: lib/wizard.php:97 lib/wizard.php:112
+#: lib/wizard.php:98 lib/wizard.php:113
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:126
+#: lib/wizard.php:127
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:321 lib/wizard.php:1057
+#: lib/wizard.php:392 lib/wizard.php:1128
 msgid "Could not find the desired feature"
 msgstr "Funktion konnte nicht gefunden werden"
 
-#: lib/wizard.php:864 lib/wizard.php:876
+#: lib/wizard.php:935 lib/wizard.php:947
 msgid "Invalid Host"
 msgstr "Ungültiger Host"
 

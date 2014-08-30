@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -59,11 +59,11 @@ msgstr ""
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
-msgstr ""
+msgstr "অজানা প্রকৃতির ফাইল"
 
 #: avatar/controller.php:90
 msgid "Invalid image"
-msgstr ""
+msgstr "অবৈধ চিত্র"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
@@ -149,27 +149,27 @@ msgstr "নভেম্বর"
 msgid "December"
 msgstr "ডিসেম্বর"
 
-#: js/js.js:496
+#: js/js.js:497
 msgid "Settings"
 msgstr "নিয়ামকসমূহ"
 
-#: js/js.js:585
+#: js/js.js:586
 msgid "File"
 msgstr "ফাইল"
 
-#: js/js.js:586
+#: js/js.js:587
 msgid "Folder"
 msgstr "ফোল্ডার"
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "Image"
 msgstr "চিত্র"
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Audio"
 msgstr "অডিও"
 
-#: js/js.js:602
+#: js/js.js:603
 msgid "Saving..."
 msgstr "সংরক্ষণ করা হচ্ছে.."
 

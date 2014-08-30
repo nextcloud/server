@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-29 01:54-0400\n"
-"PO-Revision-Date: 2014-08-29 05:54+0000\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:24+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -148,27 +148,27 @@ msgstr "พฤศจิกายน"
 msgid "December"
 msgstr "ธันวาคม"
 
-#: js/js.js:496
+#: js/js.js:497
 msgid "Settings"
 msgstr "ตั้งค่า"
 
-#: js/js.js:585
+#: js/js.js:586
 msgid "File"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:587
 msgid "Folder"
 msgstr "แฟ้มเอกสาร"
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "Image"
 msgstr "รูปภาพ"
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:602
+#: js/js.js:603
 msgid "Saving..."
 msgstr "กำลังบันทึกข้อมูล..."
 

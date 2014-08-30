@@ -180,6 +180,7 @@ $TRANSLATIONS = array(
 "Thank you for your patience." => "Kiitos kärsivällisyydestäsi.",
 "You are accessing the server from an untrusted domain." => "Olet yhteydessä palvelimeen epäluotettavasta verkko-osoitteesta.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Ota yhteys ylläpitäjään. Jos olet tämän ownCloudin ylläpitäjä, määritä \"trusted_domain\"-asetus tiedostossa config/config.php. Esimerkkimääritys on nähtävillä tiedostossa config/config.sample.php.",
+"Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." => "Riippuen määrityksistä, ylläpitäjänä saatat kyetä käyttämään alla olevaa painiketta luodaksesi luottamussuhteen tähän toimialueeseen.",
 "Add \"%s\" as trusted domain" => "Lisää \"%s\" luotetuksi toimialueeksi",
 "%s will be updated to version %s." => "%s päivitetään versioon %s.",
 "The following apps will be disabled:" => "Seuraavat sovellukset poistetaan käytöstä:",

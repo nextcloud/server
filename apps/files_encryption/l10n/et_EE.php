@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "New Recovery key password" => "Uus taastevõtme parool",
 "Repeat New Recovery key password" => "Korda uut taastevõtme parooli",
 "Change Password" => "Muuda parooli",
+"Your private key password no longer matches your log-in password." => "Sinu provaatvõtme parool ei kattu enam sinu sisselogimise parooliga.",
 " If you don't remember your old password you can ask your administrator to recover your files." => "Kui sa ei mäleta oma vana parooli, siis palu oma süsteemihalduril taastada ligipääs failidele.",
 "Old log-in password" => "Vana sisselogimise parool",
 "Current log-in password" => "Praegune sisselogimise parool",
