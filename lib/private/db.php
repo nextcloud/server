@@ -417,6 +417,7 @@ class OC_DB {
 	 * @param bool $enabled
 	 */
 	static public function enableCaching($enabled) {
+		self::connect();
 		if ($enabled) {
 			self::$connection->enableQueryStatementCaching();
 		} else {
