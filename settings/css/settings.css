@@ -6,9 +6,11 @@ select#languageinput, select#timezone { width:15em; }
 input#openid, input#webdav { width:20em; }
 
 /* PERSONAL */
-#rootcert_import {
-	margin: 0 0 10px 0;
-	display: block;
+#sslCertificate tr.expired {
+	background-color: rgba(255, 0, 0, 0.5);
+}
+#sslCertificate td {
+	padding: 5px;
 }
 
 /* Sync clients */

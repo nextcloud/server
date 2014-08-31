@@ -8,6 +8,7 @@
 OC_Util::checkLoggedIn();
 
 $defaults = new OC_Defaults(); // initialize themable default strings and urls
+$certificateManager = \OC::$server->getCertificateManager();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
@@ -98,6 +99,7 @@ $tmpl->assign('backupKeysExists' , $backupKeysExists);
 $tmpl->assign('filesStillEncrypted' , $filesStillEncrypted);
 $tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
+$tmpl->assign('certs', $certificateManager->listCertificates());
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());
