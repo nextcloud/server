@@ -100,7 +100,7 @@ try {
 		if (file_exists(TemporaryCronClass::$lockfile)) {
 			TemporaryCronClass::$keeplock = true;
 			TemporaryCronClass::$sent = true;
-			echo "Another instance of cron.php is still running!";
+			echo "Another instance of cron.php is still running!" . PHP_EOL;
 			exit(1);
 		}
 
