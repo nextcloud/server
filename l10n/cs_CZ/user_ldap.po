@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:40+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 19:00+0000\n"
+"Last-Translator: Petr Šťastný <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,15 +100,15 @@ msgstr "Chyba"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr "Uveď prosím základní DN"
+msgstr "Uveďte prosím Base DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr "Nelze určit základní DN"
+msgstr "Nelze určit Base DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr "Prosím zadej port"
+msgstr "Prosím zadejte port"
 
 #: js/settings.js:792
 msgid "Configuration OK"
@@ -484,14 +484,14 @@ msgstr "Pokud zapnuto, je možno používat skupiny, které obsahují jiné skup
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Velikost bloku stránkování"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "Velikost bloku použitá pro stránkování vyhledávání v LDAP, které může vracet objemné výsledky jako třeba výčet uživatelů či skupin. (Nastavení na 0 zakáže stránkovaná vyhledávání pro tyto situace.)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"

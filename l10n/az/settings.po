@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
+"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -196,59 +196,59 @@ msgstr "Şifrəni dəyişmək olmur"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "\"{domain}\" adını inamlı domainlər siyahısına əlavə etməyinizdən əminsinizmi?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "İnamlı domainlərə əlavə et"
 
 #: js/admin.js:146
 msgid "Sending..."
-msgstr ""
+msgstr "Göndərilir..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
-msgstr ""
+msgstr "İstifadəçi sənədləri"
 
 #: js/apps.js:54
 msgid "Admin Documentation"
-msgstr ""
+msgstr "İnzibatçı sənədləri"
 
 #: js/apps.js:82
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "{appversion} -a yenilə"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Proqram təminatını sil"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
-msgstr ""
+msgstr "Dayandır"
 
 #: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
-msgstr ""
+msgstr "İşə sal"
 
 #: js/apps.js:147
 msgid "Please wait...."
-msgstr ""
+msgstr "Xahiş olunur gözləyəsiniz."
 
 #: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Proqram təminatını dayandırdıqda səhv baş verdi"
 
 #: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Proqram təminatını işə saldıqda səhv baş verdi"
 
 #: js/apps.js:220
 msgid "Updating...."
-msgstr ""
+msgstr "Yenilənir..."
 
 #: js/apps.js:223
 msgid "Error while updating app"
-msgstr ""
+msgstr "Proqram təminatı yeniləndikdə səhv baş verdi"
 
 #: js/apps.js:223 js/apps.js:236
 msgid "Error"
@@ -256,90 +256,90 @@ msgstr "Səhv"
 
 #: js/apps.js:224 templates/apps.php:55
 msgid "Update"
-msgstr ""
+msgstr "Yenilənmə"
 
 #: js/apps.js:227
 msgid "Updated"
-msgstr ""
+msgstr "Yeniləndi"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Silinir..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Proqram təminatını sildikdə səhv baş verdi"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Sil"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Profil üçün şəkli seç"
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "Çox asan şifrə"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "Asan şifrə"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "Elə-belə şifrə"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "Yaxşı şifrə"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "Çətin şifrə"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Fayllar deşifrə edilir... Xahiş olunur gözləyəsiniz, bu biraz vaxt alacaq."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Şifrələnmə açarlarını həmişəlik sil."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Şifrələnmə açarlarını geri qaytar"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "{objName} silmək olmur"
 
 #: js/users/groups.js:94 js/users/groups.js:202
 msgid "Error creating group"
-msgstr ""
+msgstr "Qrup yaranmasında səhv baş verdi"
 
 #: js/users/groups.js:201
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Düzgün qrup adı təyin edilməlidir"
 
 #: js/users/groups.js:229
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "{groupName} silindi"
 
 #: js/users/groups.js:230 js/users/users.js:299
 msgid "undo"
-msgstr ""
+msgstr "geriyə"
 
 #: js/users/users.js:49 templates/admin.php:323
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
-msgstr ""
+msgstr "Qruplar"
 
 #: js/users/users.js:53 templates/users/part.userlist.php:12
 #: templates/users/part.userlist.php:57
 msgid "Group Admin"
-msgstr ""
+msgstr "Qrup İnzibatçısı"
 
 #: js/users/users.js:75 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
@@ -348,83 +348,83 @@ msgstr "Sil"
 
 #: js/users/users.js:96 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "heç vaxt"
 
 #: js/users/users.js:298
 msgid "deleted {userName}"
-msgstr ""
+msgstr "{userName} silindi"
 
 #: js/users/users.js:434
 msgid "add group"
-msgstr ""
+msgstr "qrupu əlavə et"
 
 #: js/users/users.js:652
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Düzgün istifadəçi adı daxil edilməlidir"
 
 #: js/users/users.js:653 js/users/users.js:659 js/users/users.js:674
 msgid "Error creating user"
-msgstr ""
+msgstr "İstifadəçi yaratdıqda səhv baş verdi"
 
 #: js/users/users.js:658
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Düzgün şifrə daxil edilməlidir"
 
 #: js/users/users.js:690
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Xəbərdarlıq: \"{user}\" istfadəçisi üçün ev qovluğu artıq mövcuddur."
 
 #: personal.php:50 personal.php:51
 msgid "__language_name__"
-msgstr ""
+msgstr "__AZ_Azerbaijan__"
 
 #: templates/admin.php:12
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Hər şey(ən pis hadisələr, səhvlər, xəbərdarlıqlar, məlmat, araşdırma səhvləri)"
 
 #: templates/admin.php:13
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Məlmat, xəbərdarlıqlar, səhvlər və ən pis hadisələr"
 
 #: templates/admin.php:14
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Xəbərdarlıqlar, səhvlər və ən pis hadisələr"
 
 #: templates/admin.php:15
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Səhvlər və ən pis hadisələr"
 
 #: templates/admin.php:16
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Yalnız ən pis hadisələr"
 
 #: templates/admin.php:20 templates/admin.php:27
 msgid "None"
-msgstr ""
+msgstr "Heç bir"
 
 #: templates/admin.php:21
 msgid "Login"
-msgstr ""
+msgstr "Giriş"
 
 #: templates/admin.php:22
 msgid "Plain"
-msgstr ""
+msgstr "Adi"
 
 #: templates/admin.php:23
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:28
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:29
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:51 templates/admin.php:65
 msgid "Security Warning"
-msgstr ""
+msgstr "Təhlükəsizlik xəbərdarlığı"
 
 #: templates/admin.php:54
 #, php-format
@@ -444,7 +444,7 @@ msgstr ""
 
 #: templates/admin.php:79 templates/admin.php:94
 msgid "Setup Warning"
-msgstr ""
+msgstr "Quruluş xəbərdarlığı"
 
 #: templates/admin.php:82
 msgid ""
@@ -471,7 +471,7 @@ msgstr ""
 
 #: templates/admin.php:109
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Verilənlər  bazasının davamiyyəti məlumatı"
 
 #: templates/admin.php:112
 msgid ""
@@ -482,7 +482,7 @@ msgstr ""
 
 #: templates/admin.php:123
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "'fileinfo' modulu çatışmır"
 
 #: templates/admin.php:126
 msgid ""
@@ -492,7 +492,7 @@ msgstr ""
 
 #: templates/admin.php:137
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Sizin PHP versiyası köhnəlib"
 
 #: templates/admin.php:140
 msgid ""
@@ -503,7 +503,7 @@ msgstr ""
 
 #: templates/admin.php:151
 msgid "PHP charset is not set to UTF-8"
-msgstr ""
+msgstr "PHP simvol tipi UTF-8 deyil"
 
 #: templates/admin.php:154
 msgid ""
@@ -535,7 +535,7 @@ msgstr ""
 
 #: templates/admin.php:190
 msgid "Internet connection not working"
-msgstr ""
+msgstr "İnternet qoşulması işləmir"
 
 #: templates/admin.php:193
 msgid ""

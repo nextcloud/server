@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
+"Last-Translator: Petr Šťastný <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -820,12 +820,12 @@ msgstr "Kontaktujte prosím správce. Pokud jste správce této instalace, nasta
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr "V závislosti na vaší konfiguraci vám může být, jako administrátorovi, umožněno použití tlačítka níže a označit tuto doménu jako důvěryhodnou."
+msgstr "V závislosti na vaší konfiguraci vám může být, jako administrátorovi, umožněno použití tlačítka níže k označení této domény jako důvěryhodné."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr "Přidat \"%s\" jako důvěryhodnou doménu."
+msgstr "Přidat \"%s\" jako důvěryhodnou doménu"
 
 #: templates/update.admin.php:3
 #, php-format

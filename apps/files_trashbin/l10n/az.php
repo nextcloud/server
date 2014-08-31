@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Restore" => "Geri qaytar",
 "Error" => "Səhv",
 "restored" => "geriqaytarılıb",
+"Nothing in here. Your trash bin is empty!" => "Burda heçnə yoxdur. Sizin zibil qutusu boşdur!",
 "Name" => "Ad",
 "Deleted" => "Silinib",
 "Delete" => "Sil"

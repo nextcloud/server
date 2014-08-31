@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2014
 # thea_rad <inactive+thea_rad@transifex.com>, 2014
 # ggoniotakis <ioannis.goniotakis@gmail.com>, 2014
 # Spyros Melissovas <peppe@cs.uoi.gr>, 2014
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:03+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -72,7 +73,7 @@ msgstr "Κλειδί"
 msgid "Secret"
 msgstr "Μυστικό"
 
-#: appinfo/app.php:55 appinfo/app.php:64
+#: appinfo/app.php:55 appinfo/app.php:64 appinfo/app.php:112
 msgid "Bucket"
 msgstr "Κάδος"
 
@@ -89,16 +90,16 @@ msgid "Secret Key"
 msgstr "Μυστικό κλειδί"
 
 #: appinfo/app.php:65
-msgid "Hostname (optional)"
-msgstr "Όνομα μηχανήματος (προαιρετικά)"
+msgid "Hostname"
+msgstr ""
 
 #: appinfo/app.php:66
-msgid "Port (optional)"
-msgstr "Πόρτα (προαιρετικά)"
+msgid "Port"
+msgstr ""
 
 #: appinfo/app.php:67
-msgid "Region (optional)"
-msgstr "Περιοχή (προαιρετικά)"
+msgid "Region"
+msgstr ""
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -121,8 +122,8 @@ msgstr "Μυστικό εφαρμογής"
 msgid "Host"
 msgstr "Διακομιστής"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
-#: appinfo/app.php:163 appinfo/app.php:174
+#: appinfo/app.php:89 appinfo/app.php:111 appinfo/app.php:130
+#: appinfo/app.php:152 appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
@@ -152,14 +153,6 @@ msgstr "Μυστικό πελάτη"
 msgid "OpenStack Object Storage"
 msgstr "Αποθήκη αντικειμένων OpenStack"
 
-#: appinfo/app.php:111
-msgid "Username (required)"
-msgstr "Όνομα χρήστη (απαιτείται)"
-
-#: appinfo/app.php:112
-msgid "Bucket (required)"
-msgstr "Κάδος (απαιτείται)"
-
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Περιοχή (προαιρετικά για την αποθήκευση αντικειμένων OpenStack)"
@@ -185,8 +178,8 @@ msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "Διεύθυνση URL της ταυτότητας τελικού σημείου (απαιτείται για την αποθήκευση αντικειμένων OpenStack)"
 
 #: appinfo/app.php:119
-msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr "Χρονικό όριο των αιτήσεων HTTP σε δευτερόλεπτα (προαιρετικά)"
+msgid "Timeout of HTTP requests in seconds"
+msgstr ""
 
 #: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
@@ -236,15 +229,15 @@ msgstr "Προσωπικά"
 msgid "System"
 msgstr "Σύστημα"
 
-#: js/settings.js:196
+#: js/settings.js:208
 msgid "All users. Type to select user or group."
 msgstr ""
 
-#: js/settings.js:279
+#: js/settings.js:291
 msgid "(group)"
-msgstr ""
+msgstr "(ομάδα)"
 
-#: js/settings.js:445 js/settings.js:452
+#: js/settings.js:467 js/settings.js:474
 msgid "Saved"
 msgstr "Αποθηκεύτηκαν"
 

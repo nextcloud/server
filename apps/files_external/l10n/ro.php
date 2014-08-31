@@ -4,7 +4,6 @@ $TRANSLATIONS = array(
 "External storage" => "Stocare externă",
 "Location" => "Locație",
 "Amazon S3" => "Amazon S3",
-"Region (optional)" => "Regiune",
 "Host" => "Gazdă",
 "Username" => "Nume utilizator",
 "Password" => "Parolă",

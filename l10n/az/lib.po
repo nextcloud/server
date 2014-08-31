@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:24+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 07:40+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -38,11 +38,11 @@ msgstr "Bax %s"
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr ""
+msgstr "Bu adətən %s config qovluğuna web server üçün yazma yetkisi verdikdə, %s tərəfindən fix edilə bilir. "
 
 #: base.php:581
 msgid "Sample configuration detected"
-msgstr ""
+msgstr "Konfiqurasiya nüsxəsi təyin edildi"
 
 #: base.php:582
 msgid ""
@@ -57,7 +57,7 @@ msgstr "Kömək"
 
 #: private/app.php:387
 msgid "Personal"
-msgstr ""
+msgstr "Şəxsi"
 
 #: private/app.php:398
 msgid "Settings"
@@ -96,12 +96,12 @@ msgstr ""
 
 #: private/installer.php:77
 msgid "App directory already exists"
-msgstr ""
+msgstr "Proqram təminatı qovluğu artıq mövcuddur."
 
 #: private/installer.php:90
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr ""
+msgstr "Proqram təminatı qovluğunu yaratmaq mümkün olmadı. Xahiş edilir yetkiləri düzgün təyin edəsiniz. %s"
 
 #: private/installer.php:235
 msgid "No source specified when installing app"
@@ -152,7 +152,7 @@ msgstr ""
 
 #: private/json.php:29
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Proqram təminatı aktiv edilməyib"
 
 #: private/json.php:40 private/json.php:62 private/json.php:87
 msgid "Authentication error"
@@ -160,21 +160,21 @@ msgstr "Təyinat metodikası"
 
 #: private/json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Token vaxtı bitib. Xahiş olunur səhifəni yenidən yükləyəsiniz."
 
 #: private/json.php:74
 msgid "Unknown user"
-msgstr ""
+msgstr "Istifadəçi tanınmır "
 
 #: private/setup/abstractdatabase.php:26 private/setup/oci.php:26
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "Verilənlər bazası istifadəçi adını %s daxil et."
 
 #: private/setup/abstractdatabase.php:29 private/setup/oci.php:29
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "Verilənlər bazası adını %s daxil et."
 
 #: private/setup/abstractdatabase.php:32
 #, php-format
@@ -184,7 +184,7 @@ msgstr ""
 #: private/setup/mssql.php:20
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL istifadəçi adı və/ya şifrəsi düzgün deyil : %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
 #: private/setup/oci.php:128 private/setup/postgresql.php:31
@@ -194,7 +194,7 @@ msgstr ""
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "MySQL/MariaDB istifadəçi adı və/ya şifrəsi düzgün deyil :"
 
 #: private/setup/mysql.php:67 private/setup/oci.php:68
 #: private/setup/oci.php:135 private/setup/oci.php:158
@@ -206,7 +206,7 @@ msgstr ""
 #: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB səhvi: \"%s\""
 
 #: private/setup/mysql.php:68 private/setup/oci.php:69
 #: private/setup/oci.php:136 private/setup/oci.php:159
@@ -226,7 +226,7 @@ msgstr ""
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Bu istifadəçini MySQL/MariaDB-dən sil"
 
 #: private/setup/mysql.php:91
 #, php-format
@@ -235,15 +235,15 @@ msgstr ""
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Bu istifadəçini MySQL/MariaDB-dən sil."
 
 #: private/setup/oci.php:48
 msgid "Oracle connection could not be established"
-msgstr ""
+msgstr "Oracle qoşulması alınmır"
 
 #: private/setup/oci.php:55 private/setup/oci.php:127
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle istifadəçi adı və/ya şifrəsi düzgün deyil"
 
 #: private/setup/oci.php:184 private/setup/oci.php:216
 #, php-format
@@ -256,11 +256,11 @@ msgstr ""
 
 #: private/setup.php:28
 msgid "Set an admin username."
-msgstr ""
+msgstr "İnzibatçı istifadəçi adını təyin et."
 
 #: private/setup.php:31
 msgid "Set an admin password."
-msgstr ""
+msgstr "İnzibatçı şifrəsini təyin et."
 
 #: private/setup.php:170
 msgid ""
@@ -277,17 +277,17 @@ msgstr ""
 #: private/share/mailnotifications.php:142
 #, php-format
 msgid "%s shared »%s« with you"
-msgstr ""
+msgstr "%s yayımlandı »%s« sizinlə"
 
 #: private/share/share.php:494
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
-msgstr ""
+msgstr "%s yayımlanmasında səhv baş verdi ona görə ki, fayl mövcud deyil."
 
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "%s-in yayimlanmasına sizə izin verilmir"
 
 #: private/share/share.php:531
 #, php-format
@@ -335,7 +335,7 @@ msgstr ""
 #: private/share/share.php:661
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "Yayımlanma  tipi %s etibarlı deyil %s üçün"
 
 #: private/share/share.php:863
 #, php-format
@@ -465,11 +465,11 @@ msgstr ""
 
 #: private/user/manager.php:249
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Düzgün istifadəçi adı daxil edilməlidir"
 
 #: private/user/manager.php:253
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Düzgün şifrə daxil edilməlidir"
 
 #: private/user/manager.php:258
 msgid "The username is already being used"

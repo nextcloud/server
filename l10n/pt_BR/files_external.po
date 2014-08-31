@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:03+0000\n"
-"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-31 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +68,7 @@ msgstr "Chave"
 msgid "Secret"
 msgstr "Segredo"
 
-#: appinfo/app.php:55 appinfo/app.php:64
+#: appinfo/app.php:55 appinfo/app.php:64 appinfo/app.php:112
 msgid "Bucket"
 msgstr "Cesta"
 
@@ -85,16 +85,16 @@ msgid "Secret Key"
 msgstr "Chave Secreta"
 
 #: appinfo/app.php:65
-msgid "Hostname (optional)"
-msgstr "Nome do Host (opcional)"
+msgid "Hostname"
+msgstr ""
 
 #: appinfo/app.php:66
-msgid "Port (optional)"
-msgstr "Porta (opcional)"
+msgid "Port"
+msgstr ""
 
 #: appinfo/app.php:67
-msgid "Region (optional)"
-msgstr "Região (opcional)"
+msgid "Region"
+msgstr ""
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -117,8 +117,8 @@ msgstr "Segredo da Aplicação"
 msgid "Host"
 msgstr "Host"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
-#: appinfo/app.php:163 appinfo/app.php:174
+#: appinfo/app.php:89 appinfo/app.php:111 appinfo/app.php:130
+#: appinfo/app.php:152 appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Nome de Usuário"
 
@@ -148,14 +148,6 @@ msgstr "Segredo do cliente"
 msgid "OpenStack Object Storage"
 msgstr "Armazenamento de Objetos OpenStack"
 
-#: appinfo/app.php:111
-msgid "Username (required)"
-msgstr "Nome do Usuário (requerido)"
-
-#: appinfo/app.php:112
-msgid "Bucket (required)"
-msgstr "Cesta (requerido)"
-
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Região (opcional para armazenamento de objetos OpenStack)"
@@ -181,8 +173,8 @@ msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "Ponto final de identidade da URL (obrigatório para armazenamento de objetos OpenStack)"
 
 #: appinfo/app.php:119
-msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr "Tempo limite de solicitações HTTP em segundos (opcional)"
+msgid "Timeout of HTTP requests in seconds"
+msgstr ""
 
 #: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
@@ -232,15 +224,15 @@ msgstr "Pessoal"
 msgid "System"
 msgstr "Sistema"
 
-#: js/settings.js:196
+#: js/settings.js:208
 msgid "All users. Type to select user or group."
 msgstr "Todos os usuários. Digite para selecionar usuário ou grupo."
 
-#: js/settings.js:279
+#: js/settings.js:291
 msgid "(group)"
 msgstr "(grupo)"
 
-#: js/settings.js:445 js/settings.js:452
+#: js/settings.js:467 js/settings.js:474
 msgid "Saved"
 msgstr "Salvo"
 

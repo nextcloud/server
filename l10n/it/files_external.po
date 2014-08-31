@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:03+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-31 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -71,7 +71,7 @@ msgstr "Chiave"
 msgid "Secret"
 msgstr "Segreto"
 
-#: appinfo/app.php:55 appinfo/app.php:64
+#: appinfo/app.php:55 appinfo/app.php:64 appinfo/app.php:112
 msgid "Bucket"
 msgstr "Bucket"
 
@@ -88,16 +88,16 @@ msgid "Secret Key"
 msgstr "Chiave segreta"
 
 #: appinfo/app.php:65
-msgid "Hostname (optional)"
-msgstr "Nome host (opzionale)"
+msgid "Hostname"
+msgstr ""
 
 #: appinfo/app.php:66
-msgid "Port (optional)"
-msgstr "Porta (opzionale)"
+msgid "Port"
+msgstr ""
 
 #: appinfo/app.php:67
-msgid "Region (optional)"
-msgstr "Regione (opzionale)"
+msgid "Region"
+msgstr ""
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -120,8 +120,8 @@ msgstr "Segreto applicazione"
 msgid "Host"
 msgstr "Host"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
-#: appinfo/app.php:163 appinfo/app.php:174
+#: appinfo/app.php:89 appinfo/app.php:111 appinfo/app.php:130
+#: appinfo/app.php:152 appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Nome utente"
 
@@ -151,14 +151,6 @@ msgstr "Segreto del client"
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Object Storage"
 
-#: appinfo/app.php:111
-msgid "Username (required)"
-msgstr "Nome utente (richiesto)"
-
-#: appinfo/app.php:112
-msgid "Bucket (required)"
-msgstr "Bucket (richiesto)"
-
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Regione (facoltativa per OpenStack Object Storage)"
@@ -184,8 +176,8 @@ msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "URL del servizio di identità (richiesto per OpenStack Object Storage)"
 
 #: appinfo/app.php:119
-msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr "Tempo massimo in secondi delle richieste HTTP (opzionale)"
+msgid "Timeout of HTTP requests in seconds"
+msgstr ""
 
 #: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
@@ -235,15 +227,15 @@ msgstr "Personale"
 msgid "System"
 msgstr "Sistema"
 
-#: js/settings.js:196
+#: js/settings.js:208
 msgid "All users. Type to select user or group."
 msgstr "Tutti gli utenti. Digita per selezionare utente o gruppo."
 
-#: js/settings.js:279
+#: js/settings.js:291
 msgid "(group)"
 msgstr "(gruppo)"
 
-#: js/settings.js:445 js/settings.js:452
+#: js/settings.js:467 js/settings.js:474
 msgid "Saved"
 msgstr "Salvato"
 

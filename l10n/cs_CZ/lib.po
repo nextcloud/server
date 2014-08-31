@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:24+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 17:40+0000\n"
+"Last-Translator: Petr Šťastný <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "Nelze zapisovat do adresáře \"config\"!"
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr "To bývá obyčejně vyřešeno povolením webovému serveru zapisovat do konfiguračního adresáře."
+msgstr "To lze obvykle vyřešit povolením zápisu webovému serveru do konfiguračního adresáře"
 
 #: base.php:204
 #, php-format
@@ -44,7 +44,7 @@ msgstr "Viz %s"
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr "To bývá obyčeně vyřešeno, když %s povolí webovému serveru zápis do konfiguračního adresáře %s."
+msgstr "To lze obvykle vyřešit %spovolením zápisu webovému serveru do konfiguračního adresáře%s."
 
 #: base.php:581
 msgid "Sample configuration detected"
@@ -360,31 +360,31 @@ msgstr "Nastavení práv pro %s selhalo, protože položka nebyla nalezena"
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
-msgstr "Nelze nastavit datum vypršení platnosti. Sdílení nemůže vypršet později než za %s po zveřejnění."
+msgstr "Nelze nastavit datum vypršení platnosti. Sdílení nemůže vypršet později než za %s po zveřejnění"
 
 #: private/share/share.php:970
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr "Nelze nastavit datum vypršení platnosti. Datum vypršení je v minulosti."
+msgstr "Nelze nastavit datum vypršení platnosti. Datum vypršení je v minulosti"
 
 #: private/share/share.php:1095
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr "Podpůrná vrstva pro sdílení %s musí obsahovat rozhraní OCP\\Share_Backend"
+msgstr "Úložiště pro sdílení %s musí implementovat rozhraní OCP\\Share_Backend"
 
 #: private/share/share.php:1102
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr "Podpůrná vrstva sdílení %s nenalezena"
+msgstr "Úložiště sdílení %s nenalezeno"
 
 #: private/share/share.php:1108
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr "Podpůrná vrstva sdílení pro %s nenalezena"
+msgstr "Úložiště  sdílení pro %s nenalezeno"
 
 #: private/share/share.php:1526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první."
+msgstr "Sdílení položky %s selhalo, protože byla sdílena uživatelem %s jako první"
 
 #: private/share/share.php:1535
 #, php-format
@@ -395,20 +395,20 @@ msgstr "Sdílení položky %s selhalo, protože jsou k tomu nutná vyšší opr�
 #: private/share/share.php:1551
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr "Sdílení položky %s selhalo, protože sdílení dále není povoleno"
+msgstr "Sdílení položky %s selhalo, protože znovu-sdílení není povoleno"
 
 #: private/share/share.php:1563
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr "Sdílení položky %s selhalo, protože podpůrná vrstva sdílení nenalezla zdrojový %s"
+msgstr "Sdílení položky %s selhalo, protože úložiště sdílení %s nenalezla zdroj"
 
 #: private/share/share.php:1577
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr "Sdílení položky %s selhalo, protože soubor nebyl nalezen v dočasném úložišti"
+msgstr "Sdílení položky %s selhalo, protože soubor nebyl nalezen ve vyrovnávací paměti"
 
 #: private/tags.php:183
 #, php-format
@@ -494,7 +494,7 @@ msgstr "Nejsou instalovány ovladače databází (sqlite, mysql nebo postresql).
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr "Oprávnění bývají obvykle napravena, když %s povolí webovému serveru zápis do kořenového adresáře %s."
+msgstr "Oprávnění lze obvykle napravit %spovolením zápisu webovému serveru do kořenového adresáře%s."
 
 #: private/util.php:441
 msgid "Cannot write into \"config\" directory"
@@ -509,19 +509,19 @@ msgstr "Nelze zapisovat do adresáře \"apps\""
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
-msgstr "To bývá obyčeně vyřešeno, když %s povolí webovému serveru zápis do apps adresáře%s nebo vypnutím položky appstore v konfiguračním souboru."
+msgstr "To lze obvykle vyřešit %spovolením zápisu webovému serveru do adresáře apps%s nebo zakázáním appstore v konfiguračním souboru."
 
 #: private/util.php:470
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr "Nelze vytvořit \"data\" adresář (%s)"
+msgstr "Nelze vytvořit adresář \"data\" (%s)"
 
 #: private/util.php:471
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr "To bývá obvykle vyřešeno, když <a href=\"%s\" target=\"_blank\"> povolí webovému serveru zápis do kořenového adresáře</a>."
+msgstr "To lze obvykle vyřešit <a href=\"%s\" target=\"_blank\">povolením zápisu webovému serveru do kořenového adresáře</a>."
 
 #: private/util.php:487
 #, php-format
@@ -536,7 +536,7 @@ msgstr "Prosím nainstalujte alespoň jeden z těchto jazyků do svého systému
 
 #: private/util.php:494
 msgid "Please ask your server administrator to install the module."
-msgstr "Požádejte svého administrátora, ať nainstaluje příslušný modul."
+msgstr "Požádejte svého administrátora o instalaci tohoto modulu."
 
 #: private/util.php:498 private/util.php:505 private/util.php:512
 #: private/util.php:526 private/util.php:533 private/util.php:540
@@ -555,7 +555,7 @@ msgstr "Je vyžadováno PHP %s nebo vyšší."
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr "Požádejte svého administrátora, aby provedl aktualizaci PHP na nejvyšší verzi. Vaše verze PHP již není podporována komunitami ownCloud a PHP."
+msgstr "Požádejte svého administrátora o aktualizaci PHP na nejnovější verzi. Vaše verze PHP již není podporována komunitami ownCloud a PHP."
 
 #: private/util.php:587
 msgid ""
@@ -568,7 +568,7 @@ msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr "PHP Safe Mode je zastaralé a víceméně zbytečné nastavení, které je třeba vypnout. Požádejte prosím svého administrátora, ať toto provede v php.ini nebo v nastavení konfigurace webového serveru."
+msgstr "PHP Safe Mode je zastaralé a většinou zbytečné nastavení, které je třeba vypnout. Požádejte prosím svého administrátora o zakázání v php.ini nebo v konfiguraci webového serveru."
 
 #: private/util.php:595
 msgid ""
@@ -581,19 +581,19 @@ msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr "Magic Quotes je zastaralé a víceméně zbytečné nastavení, které je třeba vypnout. Požádejte prosím svého administrátora, ať toto provede v php.ini nebo v nastavení konfigurace webového serveru."
+msgstr "Magic Quotes je zastaralé a většinou zbytečné nastavení, které je třeba vypnout. Požádejte prosím svého administrátora o zakázání v php.ini nebo v konfiguraci webového serveru."
 
 #: private/util.php:610
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr "PHP moduly jsou nainstalovány, ale stále vykázány jako chybějící?"
+msgstr "PHP moduly jsou nainstalovány, ale stále se tváří jako chybějící?"
 
 #: private/util.php:611
 msgid "Please ask your server administrator to restart the web server."
-msgstr "Požádejte svého administrátora, ať restartuje webový server."
+msgstr "Požádejte svého administrátora o restart webového serveru."
 
 #: private/util.php:641
 msgid "PostgreSQL >= 9 required"
-msgstr "Je třeba PostgreSQL >= 9"
+msgstr "Je vyžadováno PostgreSQL >= 9"
 
 #: private/util.php:642
 msgid "Please upgrade your database version"
@@ -607,23 +607,23 @@ msgstr "Při zjišťování verze PostgreSQL došlo k chybě"
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr "Zajistěte prosím PostgreSQL >=9 nebo zkontrolujte logy pro více informací o chybě."
+msgstr "Ujistěte se, že máte PostgreSQL >= 9, a zkontrolujte logy pro více informací o chybě."
 
 #: private/util.php:715
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr "Změntě prosím práva na 0770, aby adresář nemohl být otevřen ostatními uživateli."
+msgstr "Změňte prosím práva na 0770, aby adresář nemohl být otevřen ostatními uživateli."
 
 #: private/util.php:724
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr "Data adresář (%s) je čitelný i ostatními uživateli"
+msgstr "Datový adresář (%s) je čitelný i ostatními uživateli"
 
 #: private/util.php:745
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr "Data adresář (%s) je neplatný"
+msgstr "Datový adresář (%s) je neplatný"
 
 #: private/util.php:746
 msgid ""
@@ -634,4 +634,4 @@ msgstr "Ověřte prosím, že kořenový adresář s daty obsahuje soubor \".ocd
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr "Nelze zjistit typ zámku %d na \"%s\"."
+msgstr "Nelze získat zámek typu %d na \"%s\"."

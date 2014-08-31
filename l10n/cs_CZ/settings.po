@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
-"PO-Revision-Date: 2014-08-30 05:54+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 19:00+0000\n"
+"Last-Translator: Petr Šťastný <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,7 +109,7 @@ msgstr "Nebylo možno dešifrovat soubory, zkontrolujte své heslo a zkuste znov
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr "Šifrovací  klíče trvale smazány"
+msgstr "Šifrovací klíče trvale smazány"
 
 #: ajax/deletekeys.php:16
 msgid ""
@@ -119,7 +119,7 @@ msgstr "Nebylo možno trvale smazat vaše šifrovací klíče, zkontrolujte pros
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr "Nepodařilo se odstranit aplikaci."
+msgstr "Nepodařilo se odebrat aplikaci."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -312,11 +312,11 @@ msgstr "Probíhá dešifrování souborů... Čekejte prosím, tato operace mů�
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr "Trvale smazat šifrovací klíče"
+msgstr "Trvale smazat šifrovací klíče."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr "Obnovit šifrovací klíče"
+msgstr "Obnovit šifrovací klíče."
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
@@ -469,7 +469,7 @@ msgstr "Zkontrolujte prosím znovu <a href=\"%s\">instalační příručku</a>."
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
-msgstr "PHP je patrně nastaveno tak, aby odstraňovalo vnitřní části dokumentů. Toto bude mít za následek množsví nedostupných hlavních aplikací."
+msgstr "PHP je patrně nastaveno tak, aby odstraňovalo bloky komentářů. Toto bude mít za následek nedostupnost množství hlavních aplikací."
 
 #: templates/admin.php:98
 msgid ""
@@ -486,7 +486,7 @@ msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db"
 ":convert-type'"
-msgstr "Je použita databáze SQLite. Pro větší instalace doporučujeme toto změnit. Pro migraci na jiný typ databáze lze použít příkaz: 'occ db:convert-type'"
+msgstr "Je použita databáze SQLite. Pro větší instalace doporučujeme toto změnit. Pro migraci na jiný typ databáze lze použít nástroj pro příkazový řádek: 'occ db:convert-type'"
 
 #: templates/admin.php:123
 msgid "Module 'fileinfo' missing"
@@ -518,7 +518,7 @@ msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
-msgstr "Znaková sada PHP není nastavena na UTF-8. Toto může způsobit závažné problémy ve jménech souborů se znaky neobsaženými v ASCII. Doporučujeme změnit hodnotu 'default_charset' v php.ini na 'UTF-8'."
+msgstr "Znaková sada PHP není nastavena na UTF-8. To může způsobit závažné problémy se jmény souborů se znaky neobsaženými v ASCII. Důrazně doporučujeme změnit hodnotu 'default_charset' v php.ini na 'UTF-8'."
 
 #: templates/admin.php:165
 msgid "Locale not working"
@@ -565,7 +565,7 @@ msgid ""
 "system cron, there can be issues with the URL generation. To avoid these "
 "problems, please set the \"overwritewebroot\" option in your config.php file"
 " to the webroot path of your installation (Suggested: \"%s\")"
-msgstr "Instalace mimo kořenový adresář domény a používání systémového příkazu cron může způsobit problém s generováním správné URL. Pro zabránění chyb v rozpoznání specifikujte prosím správnou cestu ve svém config.php souboru pod hodnotu \"overwritewebroot\" (Doporučujeme: \"%s\")"
+msgstr "Instalace mimo kořenový adresář domény a používání systémového příkazu cron může způsobit problém s generováním správné URL. Pro zabránění těmto chybám nastavte prosím správnou cestu ve svém config.php souboru v hodnotě \"overwritewebroot\" (Doporučujeme: \"%s\")"
 
 #: templates/admin.php:220
 msgid "Cron"
@@ -599,7 +599,7 @@ msgstr "cron.php je registrován u služby webcron, aby volal cron.php jednou za
 
 #: templates/admin.php:260
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
-msgstr "Použít systémovou službu cron pro spuštění souboru cron.php každých 15 minut."
+msgstr "Použít systémovou službu cron pro volání cron.php každých 15 minut."
 
 #: templates/admin.php:265
 msgid "Sharing"
@@ -935,7 +935,7 @@ msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
-msgstr "Vaše šifrovací klíče byly zálohovány. Pokud se něco pokazilo, dají se znovu obnovit. Smažte je trvale pouze pokud jste jisti, že jsou všechny vaše soubory bezchybně dešifrovány."
+msgstr "Vaše šifrovací klíče byly zálohovány. Pokud se něco pokazí, můžete je obnovit. Smažte je trvale pouze pokud jste jisti, že jsou všechny vaše soubory bezchybně dešifrovány."
 
 #: templates/personal.php:191
 msgid "Restore Encryption Keys"
@@ -947,11 +947,11 @@ msgstr "Smazat šifrovací klíče"
 
 #: templates/users/main.php:34
 msgid "Show storage location"
-msgstr ""
+msgstr "Zobrazit umístění úložiště"
 
 #: templates/users/main.php:38
 msgid "Show last log in"
-msgstr ""
+msgstr "Zobrazit poslední přihlášení"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
