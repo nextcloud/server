@@ -90,6 +90,7 @@
 	left: 0 !important;
 	background-color: #fff;
 	overflow-x: hidden !important;
+	z-index: 1000;
 }
 /* allow horizontal scrollbar in settings
 	otherwise user management is not usable on mobile */
