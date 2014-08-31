@@ -19,8 +19,8 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $key the key of the value, under which will be saved
 	 * @param mixed $value the value that should be stored
 	 */
- 	public function setSystemValue($key, $value) {
- 		\OCP\Config::setSystemValue($key, $value);
+	public function setSystemValue($key, $value) {
+		\OCP\Config::setSystemValue($key, $value);
 	}
 
 	/**
@@ -32,6 +32,15 @@ class AllConfig implements \OCP\IConfig {
 	 */
 	public function getSystemValue($key, $default = '') {
 		return \OCP\Config::getSystemValue($key, $default);
+	}
+
+	/**
+	 * Delete a system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 */
+	public function deleteSystemValue($key) {
+		\OCP\Config::deleteSystemValue($key);
 	}
 
 
@@ -58,6 +67,16 @@ class AllConfig implements \OCP\IConfig {
 		return \OCP\Config::getAppValue($appName, $key, $default);
 	}
 
+	/**
+	 * Delete an app wide defined value
+	 *
+	 * @param string $appName the appName that we stored the value under
+	 * @param string $key the key of the value, under which it was saved
+	 */
+	public function deleteAppValue($appName, $key) {
+		\OC_Appconfig::deleteKey($appName, $key);
+	}
+
 
 	/**
 	 * Set a user defined value
@@ -82,5 +101,27 @@ class AllConfig implements \OCP\IConfig {
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
 		return \OCP\Config::getUserValue($userId, $appName, $key, $default);
+	}
+
+	/**
+	 * Get the keys of all stored by an app for the user
+	 *
+	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param string $appName the appName that we stored the value under
+	 * @return string[]
+	 */
+	public function getUserKeys($userId, $appName) {
+		return \OC_Preferences::getKeys($userId, $appName);
+	}
+
+	/**
+	 * Delete a user value
+	 *
+	 * @param string $userId the userId of the user that we want to store the value under
+	 * @param string $appName the appName that we stored the value under
+	 * @param string $key the key under which the value is being stored
+	 */
+	public function deleteUserValue($userId, $appName, $key) {
+		\OC_Preferences::deleteKey($userId, $appName, $key);
 	}
 }
