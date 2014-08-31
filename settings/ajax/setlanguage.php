@@ -1,6 +1,6 @@
 <?php
 
-$l=OC_L10N::get('settings');
+$l = \OC::$server->getL10N('settings');
 
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();

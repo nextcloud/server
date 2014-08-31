@@ -30,6 +30,6 @@ $subject = $_POST['ldap_clear_mapping'];
 if(\OCA\user_ldap\lib\Helper::clearMapping($subject)) {
 	OCP\JSON::success();
 } else {
-	$l=OC_L10N::get('user_ldap');
+	$l = \OC::$server->getL10N('user_ldap');
 	OCP\JSON::error(array('message' => $l->t('Failed to clear the mappings.')));
 }

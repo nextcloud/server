@@ -2,7 +2,7 @@
 
 OCP\JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
-$l = OC_L10N::get('files');
+$l = \OC::$server->getL10N('files');
 
 // Load the files
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';

@@ -60,7 +60,7 @@ if ( $error ) {
 	foreach ( $error as $e ) {
 		$filelist .= $e.', ';
 	}
-	$l = OC_L10N::get('files_trashbin');
+	$l = OC::$server->getL10N('files_trashbin');
 	$message = $l->t("Couldn't restore %s", array(rtrim($filelist, ', ')));
 	OCP\JSON::error(array("data" => array("message" => $message,
 										  "success" => $success, "error" => $error)));

@@ -27,7 +27,7 @@ class OC_Defaults {
 	private $defaultMailHeaderColor;
 
 	function __construct() {
-		$this->l = OC_L10N::get('lib');
+		$this->l = \OC::$server->getL10N('lib');
 		$version = OC_Util::getVersion();
 
 		$this->defaultEntity = 'ownCloud'; /* e.g. company name, used for footers and copyright notices */

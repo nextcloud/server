@@ -4,7 +4,7 @@
 OCP\JSON::callCheck();
 OC_JSON::checkLoggedIn();
 
-$l=OC_L10N::get('settings');
+$l = \OC::$server->getL10N('settings');
 
 $username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
 $displayName = $_POST["displayName"];

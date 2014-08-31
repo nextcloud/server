@@ -3,7 +3,7 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$l = \OC_L10N::get('settings');
+$l = \OC::$server->getL10N('settings');
 $user = \OC_User::getUser();
 $view = new \OC\Files\View('/' . $user . '/files_encryption');
 

@@ -479,7 +479,7 @@ class Share extends \OC\Share\Constants {
 	public static function shareItem($itemType, $itemSource, $shareType, $shareWith, $permissions, $itemSourceName = null, \DateTime $expirationDate = null) {
 		$uidOwner = \OC_User::getUser();
 		$shareWithinGroupOnly = self::shareWithGroupMembersOnly();
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 
 		if (is_null($itemSourceName)) {
 			$itemSourceName = $itemSource;
@@ -849,7 +849,7 @@ class Share extends \OC\Share\Constants {
 	 * @return boolean true on success or false on failure
 	 */
 	public static function setPermissions($itemType, $itemSource, $shareType, $shareWith, $permissions) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith,
 			\OC_User::getUser(), self::FORMAT_NONE, null, 1, false)) {
 			// Check if this item is a reshare and verify that the permissions
@@ -938,7 +938,7 @@ class Share extends \OC\Share\Constants {
 	 * @throws \Exception
 	 */
 	private static function validateExpireDate($expireDate, $shareTime, $itemType, $itemSource) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$date = new \DateTime($expireDate);
 		$today = new \DateTime('now');
 
@@ -1083,7 +1083,7 @@ class Share extends \OC\Share\Constants {
 	 * @return \OCP\Share_Backend
 	 */
 	public static function getBackend($itemType) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		if (isset(self::$backends[$itemType])) {
 			return self::$backends[$itemType];
 		} else if (isset(self::$backendTypes[$itemType]['class'])) {
@@ -1516,7 +1516,7 @@ class Share extends \OC\Share\Constants {
 	private static function put($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
 		$permissions, $parentFolder = null, $token = null, $itemSourceName = null, \DateTime $expirationDate = null) {
 		$backend = self::getBackend($itemType);
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		// Check if this is a reshare
 		if ($checkReshare = self::getItemSharedWithBySource($itemType, $itemSource, self::FORMAT_NONE, null, true)) {
 

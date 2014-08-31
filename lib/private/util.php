@@ -392,7 +392,7 @@ class OC_Util {
 			$offset = $clientTimeZone - $systemTimeZone;
 			$timestamp = $timestamp + $offset * 60;
 		}
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);
 	}
 
@@ -402,7 +402,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -626,7 +626,7 @@ class OC_Util {
 	 * @return array errors array
 	 */
 	public static function checkDatabaseVersion() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
@@ -707,7 +707,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		if (self::runningOnWindows()) {
 			//TODO: permissions checks for windows hosts
@@ -738,7 +738,7 @@ class OC_Util {
 	 * @return bool true if the data directory is valid, false otherwise
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		if (!file_exists($dataDirectory . '/.ocdata')) {
 			$errors[] = array(

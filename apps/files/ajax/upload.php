@@ -10,7 +10,7 @@ OCP\JSON::setContentTypeHeader('text/plain');
 $allowedPermissions = OCP\PERMISSION_ALL;
 $errorCode = null;
 
-$l = OC_L10N::get('files');
+$l = \OC::$server->getL10N('files');
 if (empty($_POST['dirToken'])) {
 	// The standard case, files are uploaded through logged in users :)
 	OCP\JSON::checkLoggedIn();
