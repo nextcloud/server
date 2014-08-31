@@ -359,7 +359,7 @@ class OC_App {
 	 * entries are sorted by the key 'order' ascending.
 	 */
 	public static function getSettingsNavigation() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 
 		$settings = array();
 		// by default, settings only contain the help menu
@@ -1094,7 +1094,7 @@ class OC_App {
 	 * @throws Exception if no app-name was specified
 	 */
 	public static function installApp($app) {
-		$l = OC_L10N::get('core');
+		$l = \OC::$server->getL10N('core');
 		$appData=OC_OCSClient::getApplication($app);
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string

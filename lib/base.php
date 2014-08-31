@@ -193,7 +193,7 @@ class OC {
 	}
 
 	public static function checkConfig() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		if (file_exists(self::$configDir . "/config.php")
 			and !is_writable(self::$configDir . "/config.php")
 		) {
@@ -574,7 +574,7 @@ class OC {
 
 		// Check whether the sample configuration has been copied
 		if(OC_Config::getValue('copied_sample_config', false)) {
-			$l = \OC_L10N::get('lib');
+			$l = \OC::$server->getL10N('lib');
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
 			OC_Template::printErrorPage(
@@ -672,7 +672,6 @@ class OC {
 	 * Handle the request
 	 */
 	public static function handleRequest() {
-		$l = \OC_L10N::get('lib');
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();

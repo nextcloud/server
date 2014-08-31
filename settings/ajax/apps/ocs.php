@@ -8,7 +8,7 @@
 
 OC_JSON::checkAdminUser();
 
-$l = OC_L10N::get('settings');
+$l = \OC::$server->getL10N('settings');
 
 if(OC_Config::getValue('appstoreenabled', true)==false) {
 	OCP\JSON::success(array('type' => 'external', 'data' => array()));

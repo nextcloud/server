@@ -62,7 +62,7 @@ class OC_Installer{
 	 * @return integer
 	 */
 	public static function installApp( $data = array()) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 
 		list($extractDir, $path) = self::downloadApp($data);
 		$info = self::checkAppsIntegrity($data, $extractDir, $path);
@@ -229,7 +229,7 @@ class OC_Installer{
 	 * @throws Exception
 	 */
 	public static function downloadApp($data = array()) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 
 		if(!isset($data['source'])) {
 			throw new \Exception($l->t("No source specified when installing app"));
@@ -285,7 +285,7 @@ class OC_Installer{
 	 * @throws \Exception
 	 */
 	public static function checkAppsIntegrity($data = array(), $extractDir, $path, $isShipped=false) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		//load the info.xml file of the app
 		if(!is_file($extractDir.'/appinfo/info.xml')) {
 			//try to find it in a subdir

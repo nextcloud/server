@@ -132,7 +132,7 @@ class Controller {
 		}
 
 		if (\OC_Util::runningOnMac()) {
-			$l10n = \OC_L10N::get('core');
+			$l10n = \OC::$server->getL10N('core');
 			$themeName = \OC_Util::getTheme();
 			$theme = new \OC_Defaults();
 			$errors[] = array(

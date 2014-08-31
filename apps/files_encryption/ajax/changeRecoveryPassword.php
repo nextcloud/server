@@ -15,7 +15,7 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
 
-$l = OC_L10N::get('core');
+$l = \OC::$server->getL10N('core');
 
 $return = false;
 

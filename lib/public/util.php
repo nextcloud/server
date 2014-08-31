@@ -132,7 +132,7 @@ class Util {
 	 * @return \OC_L10N
 	 */
 	public static function getL10N($application, $language = null) {
-		return \OC_L10N::get($application, $language);
+		return \OC::$server->getL10N($application, $language);
 	}
 
 	/**

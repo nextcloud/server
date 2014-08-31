@@ -13,7 +13,7 @@ $username = isset($_POST["username"])?$_POST["username"]:'';
 if(($username === '' && !OC_User::isAdminUser(OC_User::getUser()))
 	|| (!OC_User::isAdminUser(OC_User::getUser())
 		&& !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username))) {
-	$l = OC_L10N::get('core');
+	$l = \OC::$server->getL10N('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 	exit();
 }

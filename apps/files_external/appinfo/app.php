@@ -6,7 +6,7 @@
  * later.
  * See the COPYING-README file.
  */
-$l = \OC_L10N::get('files_external');
+$l = \OC::$server->getL10N('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';

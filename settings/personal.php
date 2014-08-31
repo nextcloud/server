@@ -46,7 +46,7 @@ $languageNames=include 'languageCodes.php';
 $languages=array();
 $commonlanguages = array();
 foreach($languageCodes as $lang) {
-	$l=OC_L10N::get('settings', $lang);
+	$l = \OC::$server->getL10N('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1) !== '_') {//first check if the language name is in the translation file
 		$ln=array('code'=>$lang, 'name'=> (string)$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])) {

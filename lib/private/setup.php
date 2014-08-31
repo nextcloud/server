@@ -15,7 +15,7 @@ class OC_Setup {
 	);
 
 	public static function getTrans(){
-		return OC_L10N::get('lib');
+		return \OC::$server->getL10N('lib');
 	}
 
 	public static function install($options) {

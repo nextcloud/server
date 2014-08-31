@@ -26,7 +26,7 @@ OCP\JSON::checkAdminUser();
 OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
-$l=OC_L10N::get('user_ldap');
+$l = \OC::$server->getL10N('user_ldap');
 
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
 $connection = new \OCA\user_ldap\lib\Connection($ldapWrapper, '', null);

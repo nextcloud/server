@@ -1,5 +1,5 @@
 <?php
-$l = OC_L10N::get('files_sharing');
+$l = \OC::$server->getL10N('files_sharing');
 
 OC::$CLASSPATH['OC_Share_Backend_File'] = 'files_sharing/lib/share/file.php';
 OC::$CLASSPATH['OC_Share_Backend_Folder'] = 'files_sharing/lib/share/folder.php';

@@ -36,7 +36,7 @@ class LockNotAcquiredException extends \Exception {
 	public $lockType;
 
 	public function __construct($path, $lockType, $code = 0, \Exception $previous = null) {
-		$message = \OC_L10N::get('core')->t('Could not obtain lock type %d on "%s".', array($lockType, $path));
+		$message = \OC::$server->getL10N('core')->t('Could not obtain lock type %d on "%s".', array($lockType, $path));
 		parent::__construct($message, $code, $previous);
 	}
 
