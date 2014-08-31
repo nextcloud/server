@@ -35,12 +35,13 @@ class Certificate implements ICertificate {
 	public function __construct($data, $name) {
 		$this->name = $name;
 		try {
+			$gmt = new \DateTimeZone('GMT');
 			$info = openssl_x509_parse($data);
 			$this->commonName = isset($info['subject']['CN']) ? $info['subject']['CN'] : null;
 			$this->organization = isset($info['subject']['O']) ? $info['subject']['O'] : null;
 			$this->serial = $this->formatSerial($info['serialNumber']);
-			$this->issueDate = new \DateTime('@' . $info['validFrom_time_t']);
-			$this->expireDate = new \DateTime('@' . $info['validTo_time_t']);
+			$this->issueDate = new \DateTime('@' . $info['validFrom_time_t'], $gmt);
+			$this->expireDate = new \DateTime('@' . $info['validTo_time_t'], $gmt);
 			$this->issuerName = isset($info['issuer']['CN']) ? $info['issuer']['CN'] : null;
 			$this->issuerOrganization = isset($info['issuer']['O']) ? $info['issuer']['O'] : null;
 		} catch (\Exception $e) {

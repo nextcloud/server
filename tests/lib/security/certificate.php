@@ -55,14 +55,14 @@ class CertificateTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testGetIssueDate() {
-		$this->assertEquals(new DateTime('2014-08-27 08:45:52'), $this->goodCertificate->getIssueDate());
-		$this->assertEquals(new DateTime('2014-08-27 08:48:51'), $this->invalidCertificate->getIssueDate());
+		$this->assertEquals((new DateTime('2014-08-27 08:45:52 GMT'))->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
+		$this->assertEquals((new DateTime('2014-08-27 08:48:51 GMT'))->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
 	function testGetExpireDate() {
-		$this->assertEquals(new DateTime('2015-08-27 08:45:52'), $this->goodCertificate->getExpireDate());
-		$this->assertEquals(new DateTime('2015-08-27 08:48:51'), $this->invalidCertificate->getExpireDate());
-		$this->assertEquals(new DateTime('2014-08-28 09:12:43'), $this->expiredCertificate->getExpireDate());
+		$this->assertEquals((new DateTime('2015-08-27 08:45:52 GMT'))->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
+		$this->assertEquals((new DateTime('2015-08-27 08:48:51 GMT'))->getTimestamp(), $this->invalidCertificate->getExpireDate()->getTimestamp());
+		$this->assertEquals((new DateTime('2014-08-28 09:12:43 GMT'))->getTimestamp(), $this->expiredCertificate->getExpireDate()->getTimestamp());
 	}
 
 	/**
