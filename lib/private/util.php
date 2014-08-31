@@ -1303,6 +1303,7 @@ class OC_Util {
 					curl_setopt($rcurl, CURLOPT_NOBODY, true);
 					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
 					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($rcurl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 					do {
 						curl_setopt($rcurl, CURLOPT_URL, $newURL);
 						$header = curl_exec($rcurl);
@@ -1337,6 +1338,7 @@ class OC_Util {
 			if (OC_Config::getValue('proxy', '') != '') {
 				$contextArray = array(
 					'http' => array(
+						'header' => "User-Agent: ownCloud Server Crawler\r\n",
 						'timeout' => 10,
 						'proxy' => OC_Config::getValue('proxy')
 					)
@@ -1344,6 +1346,7 @@ class OC_Util {
 			} else {
 				$contextArray = array(
 					'http' => array(
+						'header' => "User-Agent: ownCloud Server Crawler\r\n",
 						'timeout' => 10
 					)
 				);
