@@ -207,6 +207,7 @@ $TRANSLATIONS = array(
 "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly." => "Τα κλειδιά κρυπτογράφησής σας μεταφέρονται σε θέση αντιγράφου ασφαλείας. Αν κάτι πάει στραβά, μπορείτε να τα επαναφέρετε. Διαγράψτε τα οριστικά μόνο αν είστε βέβαιοι ότι όλα τα αρχεία αποκρυπτογραφήθηκαν σωστά.",
 "Restore Encryption Keys" => "Επαναφορά κλειδιών κρυπτογράφησης",
 "Delete Encryption Keys" => "Διαγραφή κλειδιών κρυπτογράφησης",
+"Show last log in" => "Εμφάνιση τελευταίας εισόδου",
 "Login Name" => "Όνομα Σύνδεσης",
 "Create" => "Δημιουργία",
 "Admin Recovery Password" => "Κωδικός Επαναφοράς Διαχειριστή ",

@@ -36,8 +36,8 @@ use Test\AppFramework\Db\MapperTestUtility;
  * @method void setPreName(string $preName)
  */
 class Example extends Entity {
-	public $preName;
-	public $email;
+	protected $preName;
+	protected $email;
 };
 
 

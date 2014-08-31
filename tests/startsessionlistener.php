@@ -31,9 +31,9 @@ class StartSessionListener implements PHPUnit_Framework_TestListener {
 
 	public function endTest(PHPUnit_Framework_Test $test, $time) {
 		// reopen the session - only allowed for memory session
-		if (\OC::$session instanceof \OC\Session\Memory) {
+		if (\OC::$server->getSession() instanceof \OC\Session\Memory) {
 			/** @var $session \OC\Session\Memory */
-			$session = \OC::$session;
+			$session = \OC::$server->getSession();
 			$session->reopen();
 		}
 	}

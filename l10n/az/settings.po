@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:02+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
 "Last-Translator: unixidzero <unixidzero@gmail.com>\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
@@ -46,13 +46,13 @@ msgstr "Məktub göndərildi"
 
 #: admin/controller.php:101
 msgid "You need to set your user email before being able to send test emails."
-msgstr ""
+msgstr "Test məktubu göndərməzdən öncə, siz öz istifadəçi poçtunuzu təyiin etməlisiniz."
 
 #: admin/controller.php:116 templates/admin.php:368
 msgid "Send mode"
-msgstr ""
+msgstr "Göndərmə rejimi"
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
 msgid "Encryption"
 msgstr "Şifrələnmə"
 
@@ -83,7 +83,7 @@ msgstr "Qrup artıq mövcuddur"
 
 #: ajax/creategroup.php:20
 msgid "Unable to add group"
-msgstr ""
+msgstr "Qrupu əlavə etmək olmur"
 
 #: ajax/decryptall.php:31
 msgid "Files decrypted successfully"
@@ -93,55 +93,55 @@ msgstr "Fayllar uğurla deşifrə edildi"
 msgid ""
 "Couldn't decrypt your files, please check your owncloud.log or ask your "
 "administrator"
-msgstr ""
+msgstr "Sizin faylları deşifrə etmək olmur, xahiş olunur owncloud.log faylını yoxlaya vəya inzibatçıya müraciət edəsiniz."
 
 #: ajax/decryptall.php:36
 msgid "Couldn't decrypt your files, check your password and try again"
-msgstr ""
+msgstr "Sizin faylları deşifrə etmək olmur, xahiş olunur şifrəni yoxlaya və yenidən təkrar edəsiniz."
 
 #: ajax/deletekeys.php:14
 msgid "Encryption keys deleted permanently"
-msgstr ""
+msgstr "Şifrələmə açarları həmişəlik silindi"
 
 #: ajax/deletekeys.php:16
 msgid ""
 "Couldn't permanently delete your encryption keys, please check your "
 "owncloud.log or ask your administrator"
-msgstr ""
+msgstr "Sizin şifrələnmə açarlarınızı həmişəlik silmək mümkün olmadı, xahış olunur owncloud.log faylını yoxlaya və ya inzibatçıya müraciət edəsiniz."
 
 #: ajax/installapp.php:18 ajax/uninstallapp.php:18
 msgid "Couldn't remove app."
-msgstr ""
+msgstr "Proqram təminatını silmək mümkün olmadı."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Məktub yadda saxlanıldı"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Yalnış məktub"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Qrupu silmək olmur"
 
 #: ajax/removeuser.php:25
 msgid "Unable to delete user"
-msgstr ""
+msgstr "İstifadəçini silmək olmur"
 
 #: ajax/restorekeys.php:14
 msgid "Backups restored successfully"
-msgstr ""
+msgstr "Ehtiyyat nüsxələr uğurla geri qaytarıldı"
 
 #: ajax/restorekeys.php:23
 msgid ""
 "Couldn't restore your encryption keys, please check your owncloud.log or ask"
 " your administrator"
-msgstr ""
+msgstr "Sizin şifrələnmə açarlarınızı geri qaytarmaq mümkün olmadı, xahış olunur owncloud.log faylını yoxlaya və ya inzibatçıya müraciət edəsiniz."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "Dil dəyişdirildi"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
@@ -149,106 +149,106 @@ msgstr "Səhv müraciət"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "İnzibatçılar özlərini inzibatçı qrupundan silə bilməz"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "İstifadəçini %s qrupuna əlavə etmək mümkün olmadı"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "İstifadəçini %s qrupundan silmək mümkün olmadı"
 
 #: ajax/updateapp.php:44
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Proqram təminatını yeniləmək mümkün deyil."
 
 #: changepassword/controller.php:17
 msgid "Wrong password"
-msgstr ""
+msgstr "Yalnış şifrə"
 
 #: changepassword/controller.php:36
 msgid "No user supplied"
-msgstr ""
+msgstr "Heç bir istifadəçiyə mənimsədilmir"
 
 #: changepassword/controller.php:68
 msgid ""
 "Please provide an admin recovery password, otherwise all user data will be "
 "lost"
-msgstr ""
+msgstr "Xahış olunur inzibatçı geriyə qayıdış şifrəsini təqdim edəsiniz, əks halda bütün istfadəçi datası itəcək."
 
 #: changepassword/controller.php:73
 msgid ""
 "Wrong admin recovery password. Please check the password and try again."
-msgstr ""
+msgstr "İnzibatçı geriyə qayıdış şifrəsi yalnışdır. Xahiş olunur şifrəni yoxlayıb yenidən təkrar edəsiniz."
 
 #: changepassword/controller.php:81
 msgid ""
 "Back-end doesn't support password change, but the users encryption key was "
 "successfully updated."
-msgstr ""
+msgstr "İnzibatçı mərkəzi şifrə dəyişilməsini dəstəkləmir ancaq, istifadəçi şifrələnmə açarı uğurla yeniləndi."
 
 #: changepassword/controller.php:86 changepassword/controller.php:97
 msgid "Unable to change password"
-msgstr ""
+msgstr "Şifrəni dəyişmək olmur"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "\"{domain}\" adını inamlı domainlər siyahısına əlavə etməyinizdən əminsinizmi?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "İnamlı domainlərə əlavə et"
 
 #: js/admin.js:146
 msgid "Sending..."
-msgstr ""
+msgstr "Göndərilir..."
 
 #: js/apps.js:45 templates/help.php:7
 msgid "User Documentation"
-msgstr ""
+msgstr "İstifadəçi sənədləri"
 
 #: js/apps.js:54
 msgid "Admin Documentation"
-msgstr ""
+msgstr "İnzibatçı sənədləri"
 
 #: js/apps.js:82
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "{appversion} -a yenilə"
 
 #: js/apps.js:90
 msgid "Uninstall App"
-msgstr ""
+msgstr "Proqram təminatını sil"
 
 #: js/apps.js:96 js/apps.js:158 js/apps.js:191
 msgid "Disable"
-msgstr ""
+msgstr "Dayandır"
 
 #: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
 msgid "Enable"
-msgstr ""
+msgstr "İşə sal"
 
 #: js/apps.js:147
 msgid "Please wait...."
-msgstr ""
+msgstr "Xahiş olunur gözləyəsiniz."
 
 #: js/apps.js:155 js/apps.js:156 js/apps.js:182
 msgid "Error while disabling app"
-msgstr ""
+msgstr "Proqram təminatını dayandırdıqda səhv baş verdi"
 
 #: js/apps.js:181 js/apps.js:210 js/apps.js:211
 msgid "Error while enabling app"
-msgstr ""
+msgstr "Proqram təminatını işə saldıqda səhv baş verdi"
 
 #: js/apps.js:220
 msgid "Updating...."
-msgstr ""
+msgstr "Yenilənir..."
 
 #: js/apps.js:223
 msgid "Error while updating app"
-msgstr ""
+msgstr "Proqram təminatı yeniləndikdə səhv baş verdi"
 
 #: js/apps.js:223 js/apps.js:236
 msgid "Error"
@@ -256,90 +256,90 @@ msgstr "Səhv"
 
 #: js/apps.js:224 templates/apps.php:55
 msgid "Update"
-msgstr ""
+msgstr "Yenilənmə"
 
 #: js/apps.js:227
 msgid "Updated"
-msgstr ""
+msgstr "Yeniləndi"
 
 #: js/apps.js:233
 msgid "Uninstalling ...."
-msgstr ""
+msgstr "Silinir..."
 
 #: js/apps.js:236
 msgid "Error while uninstalling app"
-msgstr ""
+msgstr "Proqram təminatını sildikdə səhv baş verdi"
 
 #: js/apps.js:237 templates/apps.php:56
 msgid "Uninstall"
-msgstr ""
+msgstr "Sil"
 
 #: js/personal.js:256
 msgid "Select a profile picture"
-msgstr ""
+msgstr "Profil üçün şəkli seç"
 
 #: js/personal.js:287
 msgid "Very weak password"
-msgstr ""
+msgstr "Çox asan şifrə"
 
 #: js/personal.js:288
 msgid "Weak password"
-msgstr ""
+msgstr "Asan şifrə"
 
 #: js/personal.js:289
 msgid "So-so password"
-msgstr ""
+msgstr "Elə-belə şifrə"
 
 #: js/personal.js:290
 msgid "Good password"
-msgstr ""
+msgstr "Yaxşı şifrə"
 
 #: js/personal.js:291
 msgid "Strong password"
-msgstr ""
+msgstr "Çətin şifrə"
 
 #: js/personal.js:310
 msgid "Decrypting files... Please wait, this can take some time."
-msgstr ""
+msgstr "Fayllar deşifrə edilir... Xahiş olunur gözləyəsiniz, bu biraz vaxt alacaq."
 
 #: js/personal.js:324
 msgid "Delete encryption keys permanently."
-msgstr ""
+msgstr "Şifrələnmə açarlarını həmişəlik sil."
 
 #: js/personal.js:338
 msgid "Restore encryption keys."
-msgstr ""
+msgstr "Şifrələnmə açarlarını geri qaytar"
 
 #: js/users/deleteHandler.js:166
 msgid "Unable to delete {objName}"
-msgstr ""
+msgstr "{objName} silmək olmur"
 
 #: js/users/groups.js:94 js/users/groups.js:202
 msgid "Error creating group"
-msgstr ""
+msgstr "Qrup yaranmasında səhv baş verdi"
 
 #: js/users/groups.js:201
 msgid "A valid group name must be provided"
-msgstr ""
+msgstr "Düzgün qrup adı təyin edilməlidir"
 
 #: js/users/groups.js:229
 msgid "deleted {groupName}"
-msgstr ""
+msgstr "{groupName} silindi"
 
-#: js/users/groups.js:230 js/users/users.js:300
+#: js/users/groups.js:230 js/users/users.js:299
 msgid "undo"
-msgstr ""
+msgstr "geriyə"
 
 #: js/users/users.js:49 templates/admin.php:323
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
 #: templates/users/part.userlist.php:41
 msgid "Groups"
-msgstr ""
+msgstr "Qruplar"
 
 #: js/users/users.js:53 templates/users/part.userlist.php:12
 #: templates/users/part.userlist.php:57
 msgid "Group Admin"
-msgstr ""
+msgstr "Qrup İnzibatçısı"
 
 #: js/users/users.js:75 templates/users/part.grouplist.php:46
 #: templates/users/part.userlist.php:108
@@ -348,83 +348,83 @@ msgstr "Sil"
 
 #: js/users/users.js:96 templates/users/part.userlist.php:98
 msgid "never"
-msgstr ""
+msgstr "heç vaxt"
 
-#: js/users/users.js:299
+#: js/users/users.js:298
 msgid "deleted {userName}"
-msgstr ""
+msgstr "{userName} silindi"
 
-#: js/users/users.js:435
+#: js/users/users.js:434
 msgid "add group"
-msgstr ""
+msgstr "qrupu əlavə et"
 
-#: js/users/users.js:653
+#: js/users/users.js:652
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Düzgün istifadəçi adı daxil edilməlidir"
 
-#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
+#: js/users/users.js:653 js/users/users.js:659 js/users/users.js:674
 msgid "Error creating user"
-msgstr ""
+msgstr "İstifadəçi yaratdıqda səhv baş verdi"
 
-#: js/users/users.js:659
+#: js/users/users.js:658
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Düzgün şifrə daxil edilməlidir"
 
-#: js/users/users.js:691
+#: js/users/users.js:690
 msgid "Warning: Home directory for user \"{user}\" already exists"
-msgstr ""
+msgstr "Xəbərdarlıq: \"{user}\" istfadəçisi üçün ev qovluğu artıq mövcuddur."
 
 #: personal.php:50 personal.php:51
 msgid "__language_name__"
-msgstr ""
+msgstr "__AZ_Azerbaijan__"
 
 #: templates/admin.php:12
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
-msgstr ""
+msgstr "Hər şey(ən pis hadisələr, səhvlər, xəbərdarlıqlar, məlmat, araşdırma səhvləri)"
 
 #: templates/admin.php:13
 msgid "Info, warnings, errors and fatal issues"
-msgstr ""
+msgstr "Məlmat, xəbərdarlıqlar, səhvlər və ən pis hadisələr"
 
 #: templates/admin.php:14
 msgid "Warnings, errors and fatal issues"
-msgstr ""
+msgstr "Xəbərdarlıqlar, səhvlər və ən pis hadisələr"
 
 #: templates/admin.php:15
 msgid "Errors and fatal issues"
-msgstr ""
+msgstr "Səhvlər və ən pis hadisələr"
 
 #: templates/admin.php:16
 msgid "Fatal issues only"
-msgstr ""
+msgstr "Yalnız ən pis hadisələr"
 
 #: templates/admin.php:20 templates/admin.php:27
 msgid "None"
-msgstr ""
+msgstr "Heç bir"
 
 #: templates/admin.php:21
 msgid "Login"
-msgstr ""
+msgstr "Giriş"
 
 #: templates/admin.php:22
 msgid "Plain"
-msgstr ""
+msgstr "Adi"
 
 #: templates/admin.php:23
 msgid "NT LAN Manager"
-msgstr ""
+msgstr "NT LAN Manager"
 
 #: templates/admin.php:28
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: templates/admin.php:29
 msgid "TLS"
-msgstr ""
+msgstr "TLS"
 
 #: templates/admin.php:51 templates/admin.php:65
 msgid "Security Warning"
-msgstr ""
+msgstr "Təhlükəsizlik xəbərdarlığı"
 
 #: templates/admin.php:54
 #, php-format
@@ -444,7 +444,7 @@ msgstr ""
 
 #: templates/admin.php:79 templates/admin.php:94
 msgid "Setup Warning"
-msgstr ""
+msgstr "Quruluş xəbərdarlığı"
 
 #: templates/admin.php:82
 msgid ""
@@ -471,7 +471,7 @@ msgstr ""
 
 #: templates/admin.php:109
 msgid "Database Performance Info"
-msgstr ""
+msgstr "Verilənlər  bazasının davamiyyəti məlumatı"
 
 #: templates/admin.php:112
 msgid ""
@@ -482,7 +482,7 @@ msgstr ""
 
 #: templates/admin.php:123
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "'fileinfo' modulu çatışmır"
 
 #: templates/admin.php:126
 msgid ""
@@ -492,7 +492,7 @@ msgstr ""
 
 #: templates/admin.php:137
 msgid "Your PHP version is outdated"
-msgstr ""
+msgstr "Sizin PHP versiyası köhnəlib"
 
 #: templates/admin.php:140
 msgid ""
@@ -503,7 +503,7 @@ msgstr ""
 
 #: templates/admin.php:151
 msgid "PHP charset is not set to UTF-8"
-msgstr ""
+msgstr "PHP simvol tipi UTF-8 deyil"
 
 #: templates/admin.php:154
 msgid ""
@@ -535,7 +535,7 @@ msgstr ""
 
 #: templates/admin.php:190
 msgid "Internet connection not working"
-msgstr ""
+msgstr "İnternet qoşulması işləmir"
 
 #: templates/admin.php:193
 msgid ""
@@ -734,11 +734,11 @@ msgstr "Yenə"
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:485 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:209
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:489 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:212
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -822,119 +822,127 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
-#: templates/personal.php:50 templates/users/part.createuser.php:8
+#: templates/personal.php:51 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Şifrə"
 
-#: templates/personal.php:51
+#: templates/personal.php:52
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:52
+#: templates/personal.php:53
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:54
+#: templates/personal.php:55
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:57
+#: templates/personal.php:58
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:61
+#: templates/personal.php:62
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:73 templates/users/part.userlist.php:8
+#: templates/personal.php:74 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr ""
 
-#: templates/personal.php:88
+#: templates/personal.php:89
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:101
+#: templates/personal.php:102
 msgid "Profile picture"
 msgstr ""
 
-#: templates/personal.php:106
+#: templates/personal.php:107
 msgid "Upload new"
 msgstr ""
 
-#: templates/personal.php:108
+#: templates/personal.php:109
 msgid "Select new from Files"
 msgstr ""
 
-#: templates/personal.php:109
+#: templates/personal.php:110
 msgid "Remove image"
 msgstr ""
 
-#: templates/personal.php:110
+#: templates/personal.php:111
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
-#: templates/personal.php:112
+#: templates/personal.php:113
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:116
+#: templates/personal.php:117
 msgid "Cancel"
 msgstr "Dayandır"
 
-#: templates/personal.php:117
+#: templates/personal.php:118
 msgid "Choose as profile image"
 msgstr ""
 
-#: templates/personal.php:123 templates/personal.php:124
+#: templates/personal.php:124 templates/personal.php:125
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:143
+#: templates/personal.php:144
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:162
+#: templates/personal.php:163
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:168
+#: templates/personal.php:169
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:173
+#: templates/personal.php:174
 msgid "Decrypt all Files"
 msgstr ""
 
-#: templates/personal.php:186
+#: templates/personal.php:187
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:190
+#: templates/personal.php:191
 msgid "Restore Encryption Keys"
 msgstr ""
 
-#: templates/personal.php:194
+#: templates/personal.php:195
 msgid "Delete Encryption Keys"
+msgstr ""
+
+#: templates/users/main.php:34
+msgid "Show storage location"
+msgstr ""
+
+#: templates/users/main.php:38
+msgid "Show last log in"
 msgstr ""
 
 #: templates/users/part.createuser.php:4
@@ -976,19 +984,19 @@ msgstr ""
 msgid "Admins"
 msgstr ""
 
-#: templates/users/part.setquota.php:7
+#: templates/users/part.setquota.php:3
 msgid "Default Quota"
 msgstr ""
 
-#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
+#: templates/users/part.setquota.php:5 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr ""
 
-#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
+#: templates/users/part.setquota.php:7 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
+#: templates/users/part.setquota.php:22 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr ""
 

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:02+0000\n"
-"Last-Translator: Iñigo Varela <ivarela@softastur.org>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-31 05:54+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -69,7 +69,7 @@ msgstr "Clave"
 msgid "Secret"
 msgstr "Secretu"
 
-#: appinfo/app.php:55 appinfo/app.php:64
+#: appinfo/app.php:55 appinfo/app.php:64 appinfo/app.php:112
 msgid "Bucket"
 msgstr "Depósitu"
 
@@ -86,16 +86,16 @@ msgid "Secret Key"
 msgstr "Clave Secreta"
 
 #: appinfo/app.php:65
-msgid "Hostname (optional)"
-msgstr "Nome d'equipu (opcional)"
+msgid "Hostname"
+msgstr ""
 
 #: appinfo/app.php:66
-msgid "Port (optional)"
-msgstr "Puertu (opcional)"
+msgid "Port"
+msgstr ""
 
 #: appinfo/app.php:67
-msgid "Region (optional)"
-msgstr "Rexón (opcional)"
+msgid "Region"
+msgstr ""
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -118,8 +118,8 @@ msgstr "App secreta"
 msgid "Host"
 msgstr "Sirvidor"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
-#: appinfo/app.php:163 appinfo/app.php:174
+#: appinfo/app.php:89 appinfo/app.php:111 appinfo/app.php:130
+#: appinfo/app.php:152 appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Nome d'usuariu"
 
@@ -149,14 +149,6 @@ msgstr "Veceru secretu"
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Object Storage"
 
-#: appinfo/app.php:111
-msgid "Username (required)"
-msgstr "Nome d'usuariu (necesariu)"
-
-#: appinfo/app.php:112
-msgid "Bucket (required)"
-msgstr "Depósitu (necesariu)"
-
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Rexón (opcional pa OpenStack Object Storage)"
@@ -182,8 +174,8 @@ msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "URL d'identidá de puntu final (necesariu pa OpenStack Object Storage)"
 
 #: appinfo/app.php:119
-msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr "Tiempu d'espera de peticiones HTTP en segundos (opcional)"
+msgid "Timeout of HTTP requests in seconds"
+msgstr ""
 
 #: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
@@ -233,33 +225,41 @@ msgstr "Personal"
 msgid "System"
 msgstr "Sistema"
 
-#: js/settings.js:325 js/settings.js:332
+#: js/settings.js:208
+msgid "All users. Type to select user or group."
+msgstr ""
+
+#: js/settings.js:291
+msgid "(group)"
+msgstr ""
+
+#: js/settings.js:467 js/settings.js:474
 msgid "Saved"
 msgstr "Guardáu"
 
-#: lib/config.php:716
+#: lib/config.php:717
 msgid "<b>Note:</b> "
 msgstr "<b>Nota:</b> "
 
-#: lib/config.php:726
+#: lib/config.php:727
 msgid " and "
 msgstr "y"
 
-#: lib/config.php:748
+#: lib/config.php:749
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El soporte de cURL en PHP nun ta activáu o instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale."
 
-#: lib/config.php:750
+#: lib/config.php:751
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Nota:</b> El soporte de FTP en PHP nun ta activáu o instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale."
 
-#: lib/config.php:752
+#: lib/config.php:753
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -302,39 +302,23 @@ msgstr "Disponible pa"
 msgid "Add storage"
 msgstr "Amestar almacenamientu"
 
-#: templates/settings.php:93
-msgid "No user or group"
-msgstr "Nengún usuariu o grupu"
-
-#: templates/settings.php:96
-msgid "All Users"
-msgstr "Tolos usuarios"
-
-#: templates/settings.php:98
-msgid "Groups"
-msgstr "Grupos"
-
-#: templates/settings.php:106
-msgid "Users"
-msgstr "Usuarios"
-
-#: templates/settings.php:119 templates/settings.php:120
-#: templates/settings.php:159 templates/settings.php:160
+#: templates/settings.php:96 templates/settings.php:97
+#: templates/settings.php:136 templates/settings.php:137
 msgid "Delete"
 msgstr "Desaniciar"
 
-#: templates/settings.php:133
+#: templates/settings.php:110
 msgid "Enable User External Storage"
 msgstr "Habilitar almacenamientu esterno d'usuariu"
 
-#: templates/settings.php:136
+#: templates/settings.php:113
 msgid "Allow users to mount the following external storage"
 msgstr "Permitir a los usuarios montar el siguiente almacenamientu esternu"
 
-#: templates/settings.php:151
+#: templates/settings.php:128
 msgid "SSL root certificates"
 msgstr "Certificaos raíz SSL"
 
-#: templates/settings.php:169
+#: templates/settings.php:146
 msgid "Import Root Certificate"
 msgstr "Importar certificáu raíz"

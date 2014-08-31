@@ -1,6 +1,8 @@
 [class^="icon-"], [class*=" icon-"] {
 	background-repeat: no-repeat;
 	background-position: center;
+	min-width: 16px;
+	min-height: 16px;
 }
 
 

@@ -62,12 +62,12 @@ class OC_Avatar implements \OCP\IAvatar {
 			$type = 'jpg';
 		}
 		if ($type !== 'jpg' && $type !== 'png') {
-			$l = \OC_L10N::get('lib');
+			$l = \OC::$server->getL10N('lib');
 			throw new \Exception($l->t("Unknown filetype"));
 		}
 
 		if (!$img->valid()) {
-			$l = \OC_L10N::get('lib');
+			$l = \OC::$server->getL10N('lib');
 			throw new \Exception($l->t("Invalid image"));
 		}
 

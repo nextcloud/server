@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,12 +133,12 @@ msgstr ""
 msgid "Unknown user"
 msgstr ""
 
-#: setup/abstractdatabase.php:26
+#: setup/abstractdatabase.php:26 setup/oci.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr ""
 
-#: setup/abstractdatabase.php:29
+#: setup/abstractdatabase.php:29 setup/oci.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr ""
@@ -153,7 +153,7 @@ msgstr ""
 msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
-#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:114
+#: setup/mssql.php:21 setup/mysql.php:13 setup/oci.php:128
 #: setup/postgresql.php:31 setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr ""
@@ -162,18 +162,18 @@ msgstr ""
 msgid "MySQL/MariaDB username and/or password not valid"
 msgstr ""
 
-#: setup/mysql.php:67 setup/oci.php:54 setup/oci.php:121 setup/oci.php:144
-#: setup/oci.php:151 setup/oci.php:162 setup/oci.php:169 setup/oci.php:178
-#: setup/oci.php:186 setup/oci.php:195 setup/oci.php:201
+#: setup/mysql.php:67 setup/oci.php:68 setup/oci.php:135 setup/oci.php:158
+#: setup/oci.php:165 setup/oci.php:176 setup/oci.php:183 setup/oci.php:192
+#: setup/oci.php:200 setup/oci.php:209 setup/oci.php:215
 #: setup/postgresql.php:103 setup/postgresql.php:112 setup/postgresql.php:129
 #: setup/postgresql.php:139 setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
-#: setup/mysql.php:68 setup/oci.php:55 setup/oci.php:122 setup/oci.php:145
-#: setup/oci.php:152 setup/oci.php:163 setup/oci.php:179 setup/oci.php:187
-#: setup/oci.php:196 setup/postgresql.php:104 setup/postgresql.php:113
+#: setup/mysql.php:68 setup/oci.php:69 setup/oci.php:136 setup/oci.php:159
+#: setup/oci.php:166 setup/oci.php:177 setup/oci.php:193 setup/oci.php:201
+#: setup/oci.php:210 setup/postgresql.php:104 setup/postgresql.php:113
 #: setup/postgresql.php:130 setup/postgresql.php:140 setup/postgresql.php:149
 #, php-format
 msgid "Offending command was: \"%s\""
@@ -197,15 +197,15 @@ msgstr ""
 msgid "Drop this user from MySQL/MariaDB."
 msgstr ""
 
-#: setup/oci.php:34
+#: setup/oci.php:48
 msgid "Oracle connection could not be established"
 msgstr ""
 
-#: setup/oci.php:41 setup/oci.php:113
+#: setup/oci.php:55 setup/oci.php:127
 msgid "Oracle username and/or password not valid"
 msgstr ""
 
-#: setup/oci.php:170 setup/oci.php:202
+#: setup/oci.php:184 setup/oci.php:216
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
@@ -296,68 +296,68 @@ msgstr ""
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: share/share.php:862
+#: share/share.php:863
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: share/share.php:923
+#: share/share.php:924
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: share/share.php:961
+#: share/share.php:962
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr ""
 
-#: share/share.php:969
+#: share/share.php:970
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
-#: share/share.php:1094
+#: share/share.php:1095
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: share/share.php:1101
+#: share/share.php:1102
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: share/share.php:1107
+#: share/share.php:1108
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: share/share.php:1525
+#: share/share.php:1526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: share/share.php:1534
+#: share/share.php:1535
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: share/share.php:1550
+#: share/share.php:1551
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: share/share.php:1562
+#: share/share.php:1563
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: share/share.php:1576
+#: share/share.php:1577
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

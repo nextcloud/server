@@ -116,6 +116,7 @@ $TRANSLATIONS = array(
 "Enforce password protection" => "Vsili zaščito z geslom",
 "Allow public uploads" => "Dovoli javno pošiljanje datotek v oblak",
 "Set default expiration date" => "Nastavitev privzetega datuma poteka",
+"days" => "dni",
 "Allow resharing" => "Dovoli nadaljnjo souporabo",
 "Allow users to send mail notification for shared files" => "Dovoli uporabnikom pošiljati obvestila o souporabi datotek po elektronski pošti.",
 "Security" => "Varnost",

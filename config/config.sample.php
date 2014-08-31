@@ -65,6 +65,12 @@ $CONFIG = array(
 /* List of trusted domains, to prevent host header poisoning ownCloud is only using these Host headers */
 'trusted_domains' => array('demo.owncloud.org', 'otherdomain.owncloud.org:8080'),
 
+/* List of trusted proxy servers */
+'trusted_proxies' => array('203.0.113.45', '198.51.100.128'),
+
+/* Headers that should be trusted as client IP address in combination with `trusted_proxies` */
+'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
+
 /* Theme to use for ownCloud */
 "theme" => "",
 

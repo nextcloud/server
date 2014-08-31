@@ -90,7 +90,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			}
 			break;
 		case 'informRecipients':
-			$l = OC_L10N::get('core');
+			$l = \OC::$server->getL10N('core');
 			$shareType = (int) $_POST['shareType'];
 			$itemType = $_POST['itemType'];
 			$itemSource = $_POST['itemSource'];
@@ -153,7 +153,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			if(empty($result)) {
 				\OCP\JSON::success();
 			} else {
-				$l = OC_L10N::get('core');
+				$l = \OC::$server->getL10N('core');
 				OCP\JSON::error(array(
 					'data' => array(
 						'message' => $l->t("Couldn't send mail to following users: %s ",
@@ -287,7 +287,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$count = 0;
 
 				// enable l10n support
-				$l = OC_L10N::get('core');
+				$l = \OC::$server->getL10N('core');
 
 				foreach ($groups as $group) {
 					if ($count < 15) {

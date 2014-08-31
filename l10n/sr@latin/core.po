@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -151,81 +151,29 @@ msgstr "Novembar"
 msgid "December"
 msgstr "Decembar"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "Podešavanja"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "Fajl"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "Direktorijum"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "Slika"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr ""
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "Pre par sekundi"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "pre %n minuta"
-msgstr[1] "pre %n minuta"
-msgstr[2] "pre %n minuta"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "pre %n sat"
-msgstr[1] "pre %n sati"
-msgstr[2] "pre %n sati"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "Danas"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "juče"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "Pre %n dan."
-msgstr[1] "Pre %n dana."
-msgstr[2] "Pre %n dana."
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "prošlog meseca"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "prošle godine"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "pre nekoliko godina"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."

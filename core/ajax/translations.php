@@ -25,6 +25,6 @@ $app = isset($_POST["app"]) ? $_POST["app"] : "";
 
 $app = OC_App::cleanAppId($app);
 
-$l = OC_L10N::get( $app );
+$l = \OC::$server->getL10N($app);
 
 OC_JSON::success(array('data' => $l->getTranslations(), 'plural_form' => $l->getPluralFormString()));

@@ -106,7 +106,7 @@ class Helper {
 					return false;
 				} else {
 					// Save item id in session for future requests
-					\OC::$session->set('public_link_authenticated', $linkItem['id']);
+					\OC::$server->getSession()->set('public_link_authenticated', $linkItem['id']);
 				}
 			} else {
 				\OCP\Util::writeLog('share', 'Unknown share type '.$linkItem['share_type']
@@ -117,8 +117,8 @@ class Helper {
 		}
 		else {
 			// not authenticated ?
-			if ( ! \OC::$session->exists('public_link_authenticated')
-				|| \OC::$session->get('public_link_authenticated') !== $linkItem['id']) {
+			if ( ! \OC::$server->getSession()->exists('public_link_authenticated')
+				|| \OC::$server->getSession()->get('public_link_authenticated') !== $linkItem['id']) {
 				return false;
 			}
 		}

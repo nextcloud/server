@@ -23,9 +23,10 @@
 OC_Util::checkAdminUser();
 
 OCP\Util::addScript('files_external', 'settings');
-OCP\Util::addscript('3rdparty', 'chosen/chosen.jquery.min');
 OCP\Util::addStyle('files_external', 'settings');
-OCP\Util::addStyle('3rdparty', 'chosen/chosen');
+
+OCP\Util::addScript('files_external', '../3rdparty/select2/select2');
+OCP\Util::addStyle('files_external', '../3rdparty/select2/select2');
 
 $backends = OC_Mount_Config::getBackends();
 $personal_backends = array();
@@ -46,9 +47,6 @@ $tmpl->assign('isAdminPage', true);
 $tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
 $tmpl->assign('backends', $backends);
 $tmpl->assign('personal_backends', $personal_backends);
-$tmpl->assign('groups', OC_Group::getGroups());
-$tmpl->assign('users', OCP\User::getUsers());
-$tmpl->assign('userDisplayNames', OC_User::getDisplayNames());
 $tmpl->assign('dependencies', OC_Mount_Config::checkDependencies());
 $tmpl->assign('allowUserMounting', OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes'));
 return $tmpl->fetchPage();

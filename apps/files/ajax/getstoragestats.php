@@ -7,7 +7,7 @@ if (isset($_GET['dir'])) {
 }
 
 OCP\JSON::checkLoggedIn();
-\OC::$session->close();
+\OC::$server->getSession()->close();
 
 // send back json
 OCP\JSON::success(array('data' => \OCA\Files\Helper::buildFileStorageStatistics($dir)));

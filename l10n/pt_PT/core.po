@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -52,12 +52,12 @@ msgstr "Atualização do esquema da base de dados verificada."
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Atualização do esquema da base de dados verificada."
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "Actualizado \"%s\" para %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -160,77 +160,29 @@ msgstr "Novembro"
 msgid "December"
 msgstr "Dezembro"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "Configurações"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "Ficheiro"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "Pasta"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "Imagem"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr "Audio"
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "A guardar..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "Minutos atrás"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "%n minuto atrás"
-msgstr[1] "%n minutos atrás"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "%n hora atrás"
-msgstr[1] "%n horas atrás"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "hoje"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "ontem"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "%n dia atrás"
-msgstr[1] "%n dias atrás"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "ultímo mês"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "%n mês atrás"
-msgstr[1] "%n meses atrás"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "ano passado"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "anos atrás"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
@@ -869,12 +821,12 @@ msgstr "Por favor contacte o seu administrador. Se é um administrador desta ins
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "Dependendo da configuração, como administrador, você também pode ser capaz de usar o botão abaixo para confiar neste domínio."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Adicionar \"%s\" como um domínio de confiança"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -904,7 +856,7 @@ msgstr "Iniciar atualização"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "Para evitar tempos de espera com instalações maiores, você pode em vez disso, executar o seguinte comando a partir do diretório de instalação:"
 
 #: templates/update.user.php:3
 msgid ""

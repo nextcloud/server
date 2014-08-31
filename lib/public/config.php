@@ -43,7 +43,7 @@ class Config {
 	 * Gets a value from config.php
 	 * @param string $key key
 	 * @param mixed $default = null default value
-	 * @return string the value or $default
+	 * @return mixed the value or $default
 	 *
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.

@@ -6,14 +6,14 @@
 # beni1999 <beni1099@gmail.com>, 2014
 # David Szilagyi <inactive+sherlock79@transifex.com>, 2013
 # ebela <bela@dandre.hu>, 2013
-# Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Laszlo Tornoci <torlasz@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:24+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,38 +21,38 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: base.php:200 base.php:207
+#: base.php:201 base.php:208
 msgid "Cannot write into \"config\" directory!"
 msgstr "Nem írható a \"config\" könyvtár!"
 
-#: base.php:201
+#: base.php:202
 msgid ""
 "This can usually be fixed by giving the webserver write access to the config"
 " directory"
-msgstr ""
+msgstr "Ez rendszerint úgy oldható meg, hogy írási jogot adunk a webszervernek a config könyvtárra."
 
-#: base.php:203
+#: base.php:204
 #, php-format
 msgid "See %s"
-msgstr ""
+msgstr "Lásd %s"
 
-#: base.php:208 private/util.php:442
+#: base.php:209 private/util.php:442
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
-msgstr ""
+msgstr "Ez rendszerint úgy oldható meg, hogy %sírási jogot adunk a webszervernek a config könyvtárra%s."
 
-#: base.php:577
+#: base.php:581
 msgid "Sample configuration detected"
-msgstr ""
+msgstr "A példabeállítások vannak beállítva"
 
-#: base.php:578
+#: base.php:582
 msgid ""
 "It has been detected that the sample configuration has been copied. This can"
 " break your installation and is unsupported. Please read the documentation "
 "before performing changes on config.php"
-msgstr ""
+msgstr "Úgy tűnik a példakonfigurációt próbálja ténylegesen használni. Ez nem támogatott, és működésképtelenné teheti a telepítést. Kérjük olvassa el a dokumentációt és azt követően változtasson a config.php-n!"
 
 #: private/app.php:374
 msgid "Help"
@@ -79,7 +79,7 @@ msgstr "Adminsztráció"
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
-msgstr ""
+msgstr " \\\"%s\\\" alkalmazás nem telepíthető, mert nem kompatibilis az ownCloud jelen változatával."
 
 #: private/app.php:1130
 msgid "No app name specified"
@@ -104,7 +104,7 @@ msgstr "Az alkalmazás mappája már létezik"
 #: private/installer.php:90
 #, php-format
 msgid "Can't create app folder. Please fix permissions. %s"
-msgstr "Nem lehetett létrehozni az alkalmzás mappáját. Kérlek ellenőrizd a jogosultásgokat. %s"
+msgstr "Nem lehetett létrehozni az alkalmazás mappáját. Kérem ellenőrizze a jogosultságokat. %s"
 
 #: private/installer.php:235
 msgid "No source specified when installing app"
@@ -139,7 +139,7 @@ msgstr "Az alkalmazást nem lehet telepíteni, mert abban nem engedélyezett pro
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
-msgstr "Az alalmazás nem telepíthető, mert nem kompatibilis az ownClod ezzel a verziójával."
+msgstr "Az alkalmazás nem telepíthető, mert nem kompatibilis az ownCloud jelen verziójával."
 
 #: private/installer.php:326
 msgid ""
@@ -151,7 +151,7 @@ msgstr "Az alkalmazást nem lehet telepíteni, mert tartalmazza a \n<shipped>\nt
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"
-msgstr "Az alkalmazást nem lehet telepíteni, mert az info.xml/version-ben megadott verzió nem egyezik az alkalmazás-áruházban feltüntetett verzióval."
+msgstr "Az alkalmazást nem lehet telepíteni, mert az info.xml/version-ben megadott verzió nem egyezik az alkalmazás-kiszolgálón feltüntetett verzióval."
 
 #: private/json.php:29
 msgid "Application is not enabled"
@@ -169,12 +169,12 @@ msgstr "A token lejárt. Frissítse az oldalt."
 msgid "Unknown user"
 msgstr "Ismeretlen felhasználó"
 
-#: private/setup/abstractdatabase.php:26
+#: private/setup/abstractdatabase.php:26 private/setup/oci.php:26
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s adja meg az adatbázist elérő felhasználó login nevét."
 
-#: private/setup/abstractdatabase.php:29
+#: private/setup/abstractdatabase.php:29 private/setup/oci.php:29
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s adja meg az adatbázis nevét."
@@ -190,32 +190,32 @@ msgid "MS SQL username and/or password not valid: %s"
 msgstr "Az MS SQL felhasználónév és/vagy jelszó érvénytelen: %s"
 
 #: private/setup/mssql.php:21 private/setup/mysql.php:13
-#: private/setup/oci.php:114 private/setup/postgresql.php:31
+#: private/setup/oci.php:128 private/setup/postgresql.php:31
 #: private/setup/postgresql.php:84
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Vagy egy létező felhasználó vagy az adminisztrátor bejelentkezési nevét kell megadnia"
 
 #: private/setup/mysql.php:12
 msgid "MySQL/MariaDB username and/or password not valid"
-msgstr ""
+msgstr "A MySQL/MariaDB felhasználónév és/vagy jelszó nem megfelelő"
 
-#: private/setup/mysql.php:67 private/setup/oci.php:54
-#: private/setup/oci.php:121 private/setup/oci.php:144
-#: private/setup/oci.php:151 private/setup/oci.php:162
-#: private/setup/oci.php:169 private/setup/oci.php:178
-#: private/setup/oci.php:186 private/setup/oci.php:195
-#: private/setup/oci.php:201 private/setup/postgresql.php:103
+#: private/setup/mysql.php:67 private/setup/oci.php:68
+#: private/setup/oci.php:135 private/setup/oci.php:158
+#: private/setup/oci.php:165 private/setup/oci.php:176
+#: private/setup/oci.php:183 private/setup/oci.php:192
+#: private/setup/oci.php:200 private/setup/oci.php:209
+#: private/setup/oci.php:215 private/setup/postgresql.php:103
 #: private/setup/postgresql.php:112 private/setup/postgresql.php:129
 #: private/setup/postgresql.php:139 private/setup/postgresql.php:148
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Adatbázis hiba: \"%s\""
 
-#: private/setup/mysql.php:68 private/setup/oci.php:55
-#: private/setup/oci.php:122 private/setup/oci.php:145
-#: private/setup/oci.php:152 private/setup/oci.php:163
-#: private/setup/oci.php:179 private/setup/oci.php:187
-#: private/setup/oci.php:196 private/setup/postgresql.php:104
+#: private/setup/mysql.php:68 private/setup/oci.php:69
+#: private/setup/oci.php:136 private/setup/oci.php:159
+#: private/setup/oci.php:166 private/setup/oci.php:177
+#: private/setup/oci.php:193 private/setup/oci.php:201
+#: private/setup/oci.php:210 private/setup/postgresql.php:104
 #: private/setup/postgresql.php:113 private/setup/postgresql.php:130
 #: private/setup/postgresql.php:140 private/setup/postgresql.php:149
 #, php-format
@@ -225,30 +225,30 @@ msgstr "A hibát ez a parancs okozta: \"%s\""
 #: private/setup/mysql.php:85
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "A MySQL/MariaDB felhasználó '%s'@'localhost' már létezik."
 
 #: private/setup/mysql.php:86
 msgid "Drop this user from MySQL/MariaDB"
-msgstr ""
+msgstr "Töröljük ez a felhasználót a MySQL/MariaDB-rendszerből"
 
 #: private/setup/mysql.php:91
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
-msgstr ""
+msgstr "A MySQL/MariaDB felhasználó '%s'@'%%' már létezik."
 
 #: private/setup/mysql.php:92
 msgid "Drop this user from MySQL/MariaDB."
-msgstr ""
+msgstr "Töröljük ez a felhasználót a MySQL/MariaDB-rendszerből."
 
-#: private/setup/oci.php:34
+#: private/setup/oci.php:48
 msgid "Oracle connection could not be established"
 msgstr "Az Oracle kapcsolat nem hozható létre"
 
-#: private/setup/oci.php:41 private/setup/oci.php:113
+#: private/setup/oci.php:55 private/setup/oci.php:127
 msgid "Oracle username and/or password not valid"
 msgstr "Az Oracle felhasználói név és/vagy jelszó érvénytelen"
 
-#: private/setup/oci.php:170 private/setup/oci.php:202
+#: private/setup/oci.php:184 private/setup/oci.php:216
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "A hibát okozó parancs ez volt: \"%s\", login név: %s, jelszó: %s"
@@ -290,122 +290,122 @@ msgstr "%s megosztása sikertelen, mert a fájl nem létezik"
 #: private/share/share.php:501
 #, php-format
 msgid "You are not allowed to share %s"
-msgstr ""
+msgstr "Önnek nincs jogosultsága %s megosztására"
 
 #: private/share/share.php:531
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s felhasználó az állomány tulajdonosa"
 
 #: private/share/share.php:537
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s felhasználó nem létezik"
 
 #: private/share/share.php:546
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s"
 " is a member of"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s felhasználó nem tagja egyik olyan csoportnak sem, aminek %s tagja"
 
 #: private/share/share.php:559 private/share/share.php:587
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert ez már meg van osztva %s-vel"
 
 #: private/share/share.php:567
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s csoport nem létezik"
 
 #: private/share/share.php:574
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s felhasználó nem tagja a %s csoportnak"
 
 #: private/share/share.php:628
 msgid ""
 "You need to provide a password to create a public link, only protected links"
 " are allowed"
-msgstr ""
+msgstr "Meg kell adnia egy jelszót is, mert a nyilvános linkek csak jelszóval védetten használhatók"
 
 #: private/share/share.php:654
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert a linkekkel történő megosztás nincs engedélyezve"
 
 #: private/share/share.php:661
 #, php-format
 msgid "Share type %s is not valid for %s"
-msgstr ""
+msgstr "A %s megosztási típus nem érvényes %s-re"
 
-#: private/share/share.php:862
+#: private/share/share.php:863
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
-msgstr ""
+msgstr "Nem sikerült %s-re beállítani az elérési jogosultságokat, mert a megadottak túllépik a %s-re érvényes jogosultságokat"
 
-#: private/share/share.php:923
+#: private/share/share.php:924
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
-msgstr ""
+msgstr "Nem sikerült %s-re beállítani az elérési jogosultságokat, mert a kérdéses állomány nem található"
 
-#: private/share/share.php:961
+#: private/share/share.php:962
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
-msgstr ""
+msgstr "Nem lehet beállítani a lejárati időt. A megosztások legfeljebb ennyi idővel járhatnak le a létrehozásukat követően: %s"
 
-#: private/share/share.php:969
+#: private/share/share.php:970
 msgid "Cannot set expiration date. Expiration date is in the past"
-msgstr "Nem lehet beállítani a lejárati időt mivel már elmúlt."
+msgstr "Nem lehet beállítani a lejárati időt, mivel a megadott lejárati időpont már elmúlt."
 
-#: private/share/share.php:1094
+#: private/share/share.php:1095
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
-msgstr ""
+msgstr "Az %s megosztási alrendszernek támogatnia kell az OCP\\Share_Backend interface-t"
 
-#: private/share/share.php:1101
+#: private/share/share.php:1102
 #, php-format
 msgid "Sharing backend %s not found"
-msgstr ""
+msgstr "A %s megosztási alrendszer nem található"
 
-#: private/share/share.php:1107
+#: private/share/share.php:1108
 #, php-format
 msgid "Sharing backend for %s not found"
-msgstr ""
+msgstr "%s megosztási alrendszere nem található"
 
-#: private/share/share.php:1525
+#: private/share/share.php:1526
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s felhasználó az eredeti megosztó"
 
-#: private/share/share.php:1534
+#: private/share/share.php:1535
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert a jogosultságok túllépik azt, ami %s rendelkezésére áll"
 
-#: private/share/share.php:1550
+#: private/share/share.php:1551
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert a megosztás továbbadása nincs engedélyezve"
 
-#: private/share/share.php:1562
+#: private/share/share.php:1563
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert %s megosztási alrendszere nem találja"
 
-#: private/share/share.php:1576
+#: private/share/share.php:1577
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
-msgstr ""
+msgstr "%s megosztása nem sikerült, mert a fájl nem található a gyorsítótárban"
 
 #: private/tags.php:183
 #, php-format
@@ -464,7 +464,7 @@ msgstr "több éve"
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
-msgstr ""
+msgstr "A felhasználónévben csak a következő karakterek fordulhatnak elő: \"a-z\", \"A-Z\", \"0-9\", és \"_.@-\""
 
 #: private/user/manager.php:249
 msgid "A valid username must be provided"
@@ -480,14 +480,14 @@ msgstr "Ez a bejelentkezési név már foglalt"
 
 #: private/util.php:427
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
-msgstr ""
+msgstr "Nincs telepítve adatbázis-meghajtóprogram (sqlite, mysql vagy postgresql)."
 
 #: private/util.php:434
 #, php-format
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
-msgstr ""
+msgstr "Az elérési problémák rendszerint megoldhatók azzal, ha a %swebszervernek írásjogot adunk a gyökérkönyvtárra%s."
 
 #: private/util.php:441
 msgid "Cannot write into \"config\" directory"
@@ -495,41 +495,41 @@ msgstr "Nem írható a \"config\" könyvtár"
 
 #: private/util.php:455
 msgid "Cannot write into \"apps\" directory"
-msgstr ""
+msgstr "Nem írható az \"apps\" könyvtár"
 
 #: private/util.php:456
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps"
 " directory%s or disabling the appstore in the config file."
-msgstr ""
+msgstr "Ez rendszerint úgy oldható meg, hogy %sírási jogot adunk a webszervernek az app könyvtárra%s, vagy letiltjuk a config fájlban az appstore használatát."
 
 #: private/util.php:470
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
-msgstr ""
+msgstr "Nem sikerült létrehozni a \"data\" könyvtárt (%s)"
 
 #: private/util.php:471
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
-msgstr ""
+msgstr "Ez rendszerint úgy oldható meg, hogy <a href=\"%s\" target=\"_blank\">írásjogot adunk a webszervernek a gyökérkönyvtárra</a>."
 
 #: private/util.php:487
 #, php-format
 msgid "Setting locale to %s failed"
-msgstr ""
+msgstr "A lokalizáció %s-re való állítása nem sikerült"
 
 #: private/util.php:490
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
-msgstr ""
+msgstr "Kérjük állítsa be a következő lokalizációk valamelyikét a rendszeren és indítsa újra a webszervert!"
 
 #: private/util.php:494
 msgid "Please ask your server administrator to install the module."
-msgstr ""
+msgstr "Kérje meg a rendszergazdát, hogy telepítse a modult!"
 
 #: private/util.php:498 private/util.php:505 private/util.php:512
 #: private/util.php:526 private/util.php:533 private/util.php:540
@@ -537,94 +537,94 @@ msgstr ""
 #: private/util.php:576
 #, php-format
 msgid "PHP module %s not installed."
-msgstr ""
+msgstr "A %s PHP modul nincs telepítve."
 
 #: private/util.php:568
 #, php-format
 msgid "PHP %s or higher is required."
-msgstr ""
+msgstr "PHP %s vagy ennél újabb szükséges."
 
 #: private/util.php:569
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
-msgstr ""
+msgstr "Kérje meg a rendszergazdát, hogy frissítse a PHP-t újabb változatra! Ezt a PHP változatot már nem támogatja az ownCloud és a PHP fejlesztői közösség."
 
 #: private/util.php:587
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Be van állítva a PHP Safe Mode. Az ownCloud megfelelő működéséhez szükséges, hogy ez ki legyen kapcsolva."
 
 #: private/util.php:588
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "A PHP Safe Mode egy régi, már nem támogatott és haszontalan üzemmód, amit érdemes letiltani. Kérje meg a rendszergazdát, hogy tiltsa le vagy a php.ini-ben, vagy a webszerver beállításokban!"
 
 #: private/util.php:595
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
-msgstr ""
+msgstr "Be van álltva a Magic Quotes. Az ownCloud megfelelő működéséhez szükséges, hogy ez le legyen tiltva."
 
 #: private/util.php:596
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
-msgstr ""
+msgstr "A Magic Quotes egy régi, már nem támogatott és haszontalan üzemmód, amit érdemes letiltani. Kérje meg a rendszergazdát, hogy tiltsa le vagy a php.ini-ben, vagy a webszerver beállításokban!"
 
 #: private/util.php:610
 msgid "PHP modules have been installed, but they are still listed as missing?"
-msgstr ""
+msgstr "A PHP modulok telepítve vannak, de a listában mégsincsenek felsorolva?"
 
 #: private/util.php:611
 msgid "Please ask your server administrator to restart the web server."
-msgstr ""
+msgstr "Kérje meg a rendszergazdát, hogy indítsa újra a webszervert!"
 
 #: private/util.php:641
 msgid "PostgreSQL >= 9 required"
-msgstr ""
+msgstr "PostgreSQL >= 9 szükséges"
 
 #: private/util.php:642
 msgid "Please upgrade your database version"
-msgstr "Kérlek frissítsd az adatbázisodat"
+msgstr "Kérem frissítse az adatbázis-szoftvert!"
 
 #: private/util.php:649
 msgid "Error occurred while checking PostgreSQL version"
-msgstr ""
+msgstr "Hiba történt a PostgreSQL verziójának ellenőrzése közben"
 
 #: private/util.php:650
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
-msgstr ""
+msgstr "Kérjük gondoskodjon róla, hogy a PostgreSQL legalább 9-es verziójú legyen, vagy ellenőrizze a naplófájlokat, hogy mi okozta a hibát!"
 
 #: private/util.php:715
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed"
 " by other users."
-msgstr ""
+msgstr "Kérjük módosítsa a könyvtár elérhetőségi engedélybeállítását 0770-re, hogy a tartalmát más felhasználó ne listázhassa!"
 
 #: private/util.php:724
 #, php-format
 msgid "Data directory (%s) is readable by other users"
-msgstr ""
+msgstr "Az adatkönyvtár (%s) más felhasználók számára is olvasható "
 
 #: private/util.php:745
 #, php-format
 msgid "Data directory (%s) is invalid"
-msgstr ""
+msgstr "Érvénytelen a megadott adatkönyvtár (%s) "
 
 #: private/util.php:746
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its "
 "root."
-msgstr ""
+msgstr "Kérjük ellenőrizze, hogy az adatkönyvtár tartalmaz a gyökerében egy \".ocdata\" nevű állományt!"
 
 #: public/files/locknotacquiredexception.php:39
 #, php-format
 msgid "Could not obtain lock type %d on \"%s\"."
-msgstr ""
+msgstr "Nem sikerült %d típusú zárolást elérni itt: \"%s\"."

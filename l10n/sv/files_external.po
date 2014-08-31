@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:02+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "Nyckel"
 msgid "Secret"
 msgstr "Hemlig"
 
-#: appinfo/app.php:55 appinfo/app.php:64
+#: appinfo/app.php:55 appinfo/app.php:64 appinfo/app.php:112
 msgid "Bucket"
 msgstr "Bucket"
 
@@ -90,16 +90,16 @@ msgid "Secret Key"
 msgstr "Hemlig nyckel"
 
 #: appinfo/app.php:65
-msgid "Hostname (optional)"
-msgstr "Värdnamn (valfritt)"
+msgid "Hostname"
+msgstr ""
 
 #: appinfo/app.php:66
-msgid "Port (optional)"
-msgstr "Port (valfritt)"
+msgid "Port"
+msgstr ""
 
 #: appinfo/app.php:67
-msgid "Region (optional)"
-msgstr "Region (valfritt)"
+msgid "Region"
+msgstr ""
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -122,8 +122,8 @@ msgstr "App-hemlighet"
 msgid "Host"
 msgstr "Server"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
-#: appinfo/app.php:163 appinfo/app.php:174
+#: appinfo/app.php:89 appinfo/app.php:111 appinfo/app.php:130
+#: appinfo/app.php:152 appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Användarnamn"
 
@@ -153,14 +153,6 @@ msgstr "klient secret"
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Object Storage"
 
-#: appinfo/app.php:111
-msgid "Username (required)"
-msgstr "Användarnamn (måste anges)"
-
-#: appinfo/app.php:112
-msgid "Bucket (required)"
-msgstr "Bucket (krävs)"
-
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Region (valfritt för OpenStack Object Storage)"
@@ -186,8 +178,8 @@ msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "URL för identitetens slutpunkt (krävs för OpenStack Object Storage)"
 
 #: appinfo/app.php:119
-msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr "Timeout för HTTP-förfrågningar i sekunder (tillval)"
+msgid "Timeout of HTTP requests in seconds"
+msgstr ""
 
 #: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
@@ -237,33 +229,41 @@ msgstr "Personligt"
 msgid "System"
 msgstr "System"
 
-#: js/settings.js:325 js/settings.js:332
+#: js/settings.js:208
+msgid "All users. Type to select user or group."
+msgstr ""
+
+#: js/settings.js:291
+msgid "(group)"
+msgstr ""
+
+#: js/settings.js:467 js/settings.js:474
 msgid "Saved"
 msgstr "Sparad"
 
-#: lib/config.php:716
+#: lib/config.php:717
 msgid "<b>Note:</b> "
 msgstr "<b> OBS: </ b>"
 
-#: lib/config.php:726
+#: lib/config.php:727
 msgid " and "
 msgstr "och"
 
-#: lib/config.php:748
+#: lib/config.php:749
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b> OBS: </ b> cURL stöd i PHP inte är aktiverat eller installeras. Montering av %s är inte möjlig. Be din systemadministratör att installera det."
 
-#: lib/config.php:750
+#: lib/config.php:751
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b> OBS: </ b> Den FTP-stöd i PHP inte är aktiverat eller installeras. Montering av %s är inte möjlig. Be din systemadministratör att installera det."
 
-#: lib/config.php:752
+#: lib/config.php:753
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -306,39 +306,23 @@ msgstr "Tillgänglig för"
 msgid "Add storage"
 msgstr "Lägg till lagring"
 
-#: templates/settings.php:93
-msgid "No user or group"
-msgstr "Ingen användare eller grupp"
-
-#: templates/settings.php:96
-msgid "All Users"
-msgstr "Alla användare"
-
-#: templates/settings.php:98
-msgid "Groups"
-msgstr "Grupper"
-
-#: templates/settings.php:106
-msgid "Users"
-msgstr "Användare"
-
-#: templates/settings.php:119 templates/settings.php:120
-#: templates/settings.php:159 templates/settings.php:160
+#: templates/settings.php:96 templates/settings.php:97
+#: templates/settings.php:136 templates/settings.php:137
 msgid "Delete"
 msgstr "Radera"
 
-#: templates/settings.php:133
+#: templates/settings.php:110
 msgid "Enable User External Storage"
 msgstr "Aktivera extern lagring för användare"
 
-#: templates/settings.php:136
+#: templates/settings.php:113
 msgid "Allow users to mount the following external storage"
 msgstr "Tillåt användare att montera följande extern lagring"
 
-#: templates/settings.php:151
+#: templates/settings.php:128
 msgid "SSL root certificates"
 msgstr "SSL rotcertifikat"
 
-#: templates/settings.php:169
+#: templates/settings.php:146
 msgid "Import Root Certificate"
 msgstr "Importera rotcertifikat"

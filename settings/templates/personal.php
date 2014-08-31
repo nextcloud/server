@@ -34,7 +34,8 @@
 
 
 <div id="quota" class="section">
-	<div style="width:<?php p($_['usage_relative']);?>%;">
+	<div style="width:<?php p($_['usage_relative']);?>%"
+		<?php if($_['usage_relative'] > 80): ?> class="quota-warning" <?php endif; ?>>
 		<p id="quotatext">
 			<?php print_unescaped($l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>',
 			array($_['usage'], $_['total_space'])));?>
@@ -86,7 +87,7 @@ if($_['passwordChangeSupported']) {
 ?>
 <form id="lostpassword" class="section">
 	<h2><?php p($l->t('Email'));?></h2>
-	<input type="text" name="email" id="email" value="<?php p($_['email']); ?>"
+	<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 		placeholder="<?php p($l->t('Your email address'));?>"
 		autocomplete="on" autocapitalize="off" autocorrect="off" />
 	<span class="msg"></span><br />

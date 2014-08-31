@@ -47,10 +47,10 @@ class Session implements IUserSession, Emitter {
 	protected $activeUser;
 
 	/**
-	 * @param \OC\User\Manager $manager
-	 * @param \OC\Session\Session $session
+	 * @param \OCP\IUserManager $manager
+	 * @param \OCP\ISession $session
 	 */
-	public function __construct($manager, $session) {
+	public function __construct(\OCP\IUserManager $manager, \OCP\ISession $session) {
 		$this->manager = $manager;
 		$this->session = $session;
 	}
@@ -80,6 +80,44 @@ class Session implements IUserSession, Emitter {
 	 */
 	public function getManager() {
 		return $this->manager;
+	}
+
+	/**
+	 * get the session object
+	 *
+	 * @return \OCP\ISession
+	 */
+	public function getSession() {
+		// fetch the deprecated \OC::$session if it changed for backwards compatibility
+		if (isset(\OC::$session) && \OC::$session !== $this->session) {
+			\OC::$server->getLogger()->warning(
+				'One of your installed apps still seems to use the deprecated '.
+				'\OC::$session and has replaced it with a new instance. Please file a bug against it.'.
+				'Closing and replacing session in UserSession instance.'
+			);
+			$this->setSession(\OC::$session);
+		}
+		return $this->session;
+	}
+
+	/**
+	 * set the session object
+	 *
+	 * @param \OCP\ISession $session
+	 */
+	public function setSession(\OCP\ISession $session) {
+		if ($this->session instanceof \OCP\ISession) {
+			$this->session->close();
+		}
+		$this->session = $session;
+
+		// maintain deprecated \OC::$session
+		if (\OC::$session !== $this->session) {
+			if (\OC::$session instanceof \OCP\ISession) {
+				\OC::$session->close();
+			}
+			\OC::$session = $session;
+		}
 	}
 
 	/**

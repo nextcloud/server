@@ -16,6 +16,34 @@ class OC_Request {
 	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)(:[0-9]+|)$/';
 
 	/**
+	 * Returns the remote address, if the connection came from a trusted proxy and `forwarded_for_headers` has been configured
+	 * then the IP address specified in this header will be returned instead.
+	 * Do always use this instead of $_SERVER['REMOTE_ADDR']
+	 * @return string IP address
+	 */
+	public static function getRemoteAddress() {
+		$remoteAddress = $_SERVER['REMOTE_ADDR'];
+		$trustedProxies = \OC::$server->getConfig()->getSystemValue('trusted_proxies', array());
+
+		if(is_array($trustedProxies) && in_array($remoteAddress, $trustedProxies)) {
+			$forwardedForHeaders = \OC::$server->getConfig()->getSystemValue('forwarded_for_headers', array());
+
+			foreach($forwardedForHeaders as $header) {
+				if (array_key_exists($header, $_SERVER) === true) {
+					foreach (explode(',', $_SERVER[$header]) as $IP) {
+						$IP = trim($IP);
+						if (filter_var($IP, FILTER_VALIDATE_IP) !== false) {
+							return $IP;
+						}
+					}
+				}
+			}
+		}
+
+		return $remoteAddress;
+	}
+
+	/**
 	 * Check overwrite condition
 	 * @param string $type
 	 * @return bool
