@@ -4,7 +4,7 @@
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
-*/
+ */
 
 use \OC\Security\Certificate;
 
@@ -18,11 +18,11 @@ class CertificateTest extends \PHPUnit_Framework_TestCase {
 	protected $expiredCertificate;
 
 	function setUp() {
-		$goodCertificate = file_get_contents(__DIR__.'/../../data/certificates/goodCertificate.crt');
+		$goodCertificate = file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt');
 		$this->goodCertificate = new Certificate($goodCertificate, 'GoodCertificate');
-		$badCertificate = file_get_contents(__DIR__.'/../../data/certificates/badCertificate.crt');
+		$badCertificate = file_get_contents(__DIR__ . '/../../data/certificates/badCertificate.crt');
 		$this->invalidCertificate = new Certificate($badCertificate, 'BadCertificate');
-		$expiredCertificate = file_get_contents(__DIR__.'/../../data/certificates/expiredCertificate.crt');
+		$expiredCertificate = file_get_contents(__DIR__ . '/../../data/certificates/expiredCertificate.crt');
 		$this->expiredCertificate = new Certificate($expiredCertificate, 'ExpiredCertificate');
 	}
 
@@ -55,14 +55,19 @@ class CertificateTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testGetIssueDate() {
-		$this->assertEquals((new DateTime('2014-08-27 08:45:52 GMT'))->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
-		$this->assertEquals((new DateTime('2014-08-27 08:48:51 GMT'))->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
+		$expected = new DateTime('2014-08-27 08:45:52 GMT');
+		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
+		$expected = new DateTime('2014-08-27 08:48:51 GMT');
+		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getIssueDate()->getTimestamp());
 	}
 
 	function testGetExpireDate() {
-		$this->assertEquals((new DateTime('2015-08-27 08:45:52 GMT'))->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
-		$this->assertEquals((new DateTime('2015-08-27 08:48:51 GMT'))->getTimestamp(), $this->invalidCertificate->getExpireDate()->getTimestamp());
-		$this->assertEquals((new DateTime('2014-08-28 09:12:43 GMT'))->getTimestamp(), $this->expiredCertificate->getExpireDate()->getTimestamp());
+		$expected = new DateTime('2015-08-27 08:45:52 GMT');
+		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getExpireDate()->getTimestamp());
+		$expected = new DateTime('2015-08-27 08:48:51 GMT');
+		$this->assertEquals($expected->getTimestamp(), $this->invalidCertificate->getExpireDate()->getTimestamp());
+		$expected = new DateTime('2014-08-28 09:12:43 GMT');
+		$this->assertEquals($expected->getTimestamp(), $this->expiredCertificate->getExpireDate()->getTimestamp());
 	}
 
 	/**
