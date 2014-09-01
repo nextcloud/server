@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 ve uyumlu olanlar",
 "Access Key" => "Erişim Anahtarı",
 "Secret Key" => "Gizli Anahtar",
+"Port" => "Port",
+"Region" => "Bölge",
 "Enable SSL" => "SSL'yi Etkinleştir",
 "Enable Path Style" => "Yol Biçemini Etkinleştir",
 "App key" => "Uyg. anahtarı",
@@ -64,8 +66,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Depo ekle",
 "Delete" => "Sil",
 "Enable User External Storage" => "Kullanıcılar için Harici Depolamayı Etkinleştir",
-"Allow users to mount the following external storage" => "Kullanıcıların aşağıdaki harici depolamayı bağlamalarına izin ver",
-"SSL root certificates" => "SSL kök sertifikaları",
-"Import Root Certificate" => "Kök Sertifikalarını İçe Aktar"
+"Allow users to mount the following external storage" => "Kullanıcıların aşağıdaki harici depolamayı bağlamalarına izin ver"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 in podobno",
 "Access Key" => "Ključ za dostop",
 "Secret Key" => "Skrivni ključ",
+"Port" => "Vrata",
+"Region" => "Regija",
 "Enable SSL" => "Omogoči SSL",
 "Enable Path Style" => "Omogoči slog poti",
 "App key" => "Programski ključ",
@@ -64,8 +66,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Dodaj shrambo",
 "Delete" => "Izbriši",
 "Enable User External Storage" => "Omogoči zunanjo uporabniško podatkovno shrambo",
-"Allow users to mount the following external storage" => "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb.",
-"SSL root certificates" => "Korenska potrdila SSL",
-"Import Root Certificate" => "Uvozi korensko potrdilo"
+"Allow users to mount the following external storage" => "Dovoli uporabnikom priklapljanje navedenih zunanjih shramb."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

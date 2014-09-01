@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 и совместимый",
 "Access Key" => "Ключ доступа",
 "Secret Key" => "Секретный ключ",
+"Port" => "Порт",
+"Region" => "Область",
 "Enable SSL" => "Включить SSL",
 "Enable Path Style" => "Включить стиль пути",
 "App key" => "Ключ приложения",
@@ -62,8 +64,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Добавить хранилище",
 "Delete" => "Удалить",
 "Enable User External Storage" => "Включить пользовательские внешние носители",
-"Allow users to mount the following external storage" => "Разрешить пользователям монтировать следующее внешнее хранилище данных",
-"SSL root certificates" => "Корневые сертификаты SSL",
-"Import Root Certificate" => "Импортировать корневые сертификаты"
+"Allow users to mount the following external storage" => "Разрешить пользователям монтировать следующее внешнее хранилище данных"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

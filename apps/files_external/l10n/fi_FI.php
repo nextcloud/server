@@ -9,6 +9,8 @@ $TRANSLATIONS = array(
 "Amazon S3" => "Amazon S3",
 "Key" => "Avain",
 "Amazon S3 and compliant" => "Amazon S3 ja yhteensopivat",
+"Port" => "Portti",
+"Region" => "Alue",
 "Enable SSL" => "Käytä SSL:ää",
 "Host" => "Isäntä",
 "Username" => "Käyttäjätunnus",
@@ -41,8 +43,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Lisää tallennustila",
 "Delete" => "Poista",
 "Enable User External Storage" => "Ota käyttöön ulkopuoliset tallennuspaikat",
-"Allow users to mount the following external storage" => "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet",
-"SSL root certificates" => "SSL-juurivarmenteet",
-"Import Root Certificate" => "Tuo juurivarmenne"
+"Allow users to mount the following external storage" => "Salli käyttäjien liittää seuraavat erilliset tallennusvälineet"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

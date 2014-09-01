@@ -3,6 +3,8 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "لطفا یک کلید و کد امنیتی صحیح دراپ باکس وارد کنید.",
 "External storage" => "حافظه خارجی",
 "Location" => "محل",
+"Port" => "درگاه",
+"Region" => "ناحیه",
 "Host" => "میزبانی",
 "Username" => "نام کاربری",
 "Password" => "گذرواژه",
@@ -20,8 +22,6 @@ $TRANSLATIONS = array(
 "Configuration" => "پیکربندی",
 "Add storage" => "اضافه کردن حافظه",
 "Delete" => "حذف",
-"Enable User External Storage" => "فعال سازی حافظه خارجی کاربر",
-"SSL root certificates" => "گواهی های اصلی SSL ",
-"Import Root Certificate" => "وارد کردن گواهی اصلی"
+"Enable User External Storage" => "فعال سازی حافظه خارجی کاربر"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

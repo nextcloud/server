@@ -15,6 +15,9 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 a kompatibilní",
 "Access Key" => "Přístupový klíč",
 "Secret Key" => "Tajný klíč",
+"Hostname" => "Hostname",
+"Port" => "Port",
+"Region" => "Kraj",
 "Enable SSL" => "Povolit SSL",
 "Enable Path Style" => "Povolit Path Style",
 "App key" => "Klíč aplikace",
@@ -33,6 +36,7 @@ $TRANSLATIONS = array(
 "Password (required for OpenStack Object Storage)" => "Heslo (vyžadováno pro OpenStack Object Storage)",
 "Service Name (required for OpenStack Object Storage)" => "Název služby (vyžadováno pro OpenStack Object Storage)",
 "URL of identity endpoint (required for OpenStack Object Storage)" => "URL identity koncového bodu (vyžadováno pro OpenStack Object Storage)",
+"Timeout of HTTP requests in seconds" => "Vypršení HTTP požadavků v sekundách",
 "Share" => "Sdílet",
 "SMB / CIFS using OC login" => "SMB / CIFS za použití přihlašovacího jména OC",
 "Username as share" => "Uživatelské jméno jako sdílený adresář",
@@ -64,8 +68,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Přidat úložiště",
 "Delete" => "Smazat",
 "Enable User External Storage" => "Zapnout externí uživatelské úložiště",
-"Allow users to mount the following external storage" => "Povolit uživatelů připojit následující externí úložiště",
-"SSL root certificates" => "Kořenové certifikáty SSL",
-"Import Root Certificate" => "Importovat kořenového certifikátu"
+"Allow users to mount the following external storage" => "Povolit uživatelů připojit následující externí úložiště"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

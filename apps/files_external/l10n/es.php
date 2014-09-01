@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 y compatibilidad",
 "Access Key" => "Clave de Acceso",
 "Secret Key" => "Clave Secreta",
+"Port" => "Puerto",
+"Region" => "Región",
 "Enable SSL" => "Habilitar SSL",
 "Enable Path Style" => "Habilitar Estilo de Ruta",
 "App key" => "App principal",
@@ -64,8 +66,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Añadir almacenamiento",
 "Delete" => "Eliminar",
 "Enable User External Storage" => "Habilitar almacenamiento externo de usuario",
-"Allow users to mount the following external storage" => "Permitir a los usuarios montar el siguiente almacenamiento externo",
-"SSL root certificates" => "Certificados raíz SSL",
-"Import Root Certificate" => "Importar certificado raíz"
+"Allow users to mount the following external storage" => "Permitir a los usuarios montar el siguiente almacenamiento externo"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

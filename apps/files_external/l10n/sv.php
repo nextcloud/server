@@ -13,6 +13,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 och compliant",
 "Access Key" => "Accessnyckel",
 "Secret Key" => "Hemlig nyckel",
+"Port" => "Port",
+"Region" => "Län",
 "Enable SSL" => "Aktivera SSL",
 "Enable Path Style" => "Aktivera Path Style",
 "App key" => "App-nyckel",
@@ -60,8 +62,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Lägg till lagring",
 "Delete" => "Radera",
 "Enable User External Storage" => "Aktivera extern lagring för användare",
-"Allow users to mount the following external storage" => "Tillåt användare att montera följande extern lagring",
-"SSL root certificates" => "SSL rotcertifikat",
-"Import Root Certificate" => "Importera rotcertifikat"
+"Allow users to mount the following external storage" => "Tillåt användare att montera följande extern lagring"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

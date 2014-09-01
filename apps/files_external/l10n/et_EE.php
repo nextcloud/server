@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 ja ühilduv",
 "Access Key" => "Ligipääsu võti",
 "Secret Key" => "Salavõti",
+"Port" => "Port",
+"Region" => "Piirkond",
 "Enable SSL" => "SSL-i kasutamine",
 "Enable Path Style" => "Luba otsingtee stiilis",
 "App key" => "Rakenduse võti",
@@ -64,8 +66,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Lisa andmehoidla",
 "Delete" => "Kustuta",
 "Enable User External Storage" => "Luba kasutajatele väline salvestamine",
-"Allow users to mount the following external storage" => "Võimalda kasutajatel ühendada järgmist välist andmehoidlat",
-"SSL root certificates" => "SSL root sertifikaadid",
-"Import Root Certificate" => "Impordi root sertifikaadid"
+"Allow users to mount the following external storage" => "Võimalda kasutajatel ühendada järgmist välist andmehoidlat"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

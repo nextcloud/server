@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Lokasi",
+"Region" => "Wilayah",
 "Username" => "Nama pengguna",
 "Password" => "Kata laluan",
 "Share" => "Kongsi",

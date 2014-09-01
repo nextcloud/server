@@ -8,6 +8,8 @@ $TRANSLATIONS = array(
 "Key" => "鑰",
 "Secret" => "密",
 "Secret Key" => "密鑰",
+"Port" => "連接埠",
+"Region" => "地區",
 "Enable SSL" => "啟用 SSL",
 "Host" => "主機",
 "Username" => "使用者名稱：",
@@ -35,8 +37,6 @@ $TRANSLATIONS = array(
 "Add storage" => "增加儲存區",
 "Delete" => "刪除",
 "Enable User External Storage" => "啓用使用者外部儲存",
-"Allow users to mount the following external storage" => "允許使用者自行掛載以下的外部儲存",
-"SSL root certificates" => "SSL 根憑證",
-"Import Root Certificate" => "匯入根憑證"
+"Allow users to mount the following external storage" => "允許使用者自行掛載以下的外部儲存"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

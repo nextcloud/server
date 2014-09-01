@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 a kompatibilné",
 "Access Key" => "Prístupový kľúč",
 "Secret Key" => "Tajný kľúč",
+"Port" => "Port",
+"Region" => "Región",
 "Enable SSL" => "Povoliť SSL",
 "Enable Path Style" => "Povoliť štýl cesty",
 "App key" => "Kľúč aplikácie",
@@ -62,8 +64,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Pridať úložisko",
 "Delete" => "Zmazať",
 "Enable User External Storage" => "Povoliť externé úložisko",
-"Allow users to mount the following external storage" => "Povoliť používateľom pripojiť tieto externé úložiská",
-"SSL root certificates" => "Koreňové SSL certifikáty",
-"Import Root Certificate" => "Importovať koreňový certifikát"
+"Allow users to mount the following external storage" => "Povoliť používateľom pripojiť tieto externé úložiská"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

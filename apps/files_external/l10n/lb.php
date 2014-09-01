@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Uert",
+"Region" => "Regioun",
 "Host" => "Host",
 "Username" => "Benotzernumm",
 "Password" => "Passwuert",

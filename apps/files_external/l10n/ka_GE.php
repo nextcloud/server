@@ -3,6 +3,8 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "გთხოვთ მიუთითოთ Dropbox აპლიკაციის გასაღები და კოდი.",
 "External storage" => "ექსტერნალ საცავი",
 "Location" => "ადგილმდებარეობა",
+"Port" => "პორტი",
+"Region" => "რეგიონი",
 "Host" => "ჰოსტი",
 "Username" => "მომხმარებლის სახელი",
 "Password" => "პაროლი",
@@ -19,8 +21,6 @@ $TRANSLATIONS = array(
 "Configuration" => "კონფიგურაცია",
 "Add storage" => "საცავის დამატება",
 "Delete" => "წაშლა",
-"Enable User External Storage" => "მომხმარებლის ექსტერნალ საცავის აქტივირება",
-"SSL root certificates" => "SSL root სერთიფიკატები",
-"Import Root Certificate" => "Root სერთიფიკატის იმპორტირება"
+"Enable User External Storage" => "მომხმარებლის ექსტერნალ საცავის აქტივირება"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

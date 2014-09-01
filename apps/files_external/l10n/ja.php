@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 と互換ストレージ",
 "Access Key" => "アクセスキー",
 "Secret Key" => "シークレットキー",
+"Port" => "ポート",
+"Region" => "都道府県",
 "Enable SSL" => "SSLを有効",
 "Enable Path Style" => "パス形式を有効",
 "App key" => "アプリキー",
@@ -62,8 +64,6 @@ $TRANSLATIONS = array(
 "Add storage" => "ストレージを追加",
 "Delete" => "削除",
 "Enable User External Storage" => "ユーザーの外部ストレージを有効にする",
-"Allow users to mount the following external storage" => "ユーザーに以下の外部ストレージのマウントを許可する",
-"SSL root certificates" => "SSLルート証明書",
-"Import Root Certificate" => "ルート証明書をインポート"
+"Allow users to mount the following external storage" => "ユーザーに以下の外部ストレージのマウントを許可する"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Lokacija",
+"Region" => "Regija",
 "Username" => "Korisničko ime",
 "Password" => "Lozinka",
 "Share" => "Podeli",

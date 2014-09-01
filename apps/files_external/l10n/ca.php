@@ -15,6 +15,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 i similars",
 "Access Key" => "Clau d'accés",
 "Secret Key" => "Clau secreta",
+"Port" => "Port",
+"Region" => "Comarca",
 "Enable SSL" => "Habilita SSL",
 "Enable Path Style" => "Permet l'estil del camí",
 "App key" => "Clau de l'aplicació",
@@ -62,8 +64,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Afegeix emmagatzemament",
 "Delete" => "Esborra",
 "Enable User External Storage" => "Habilita l'emmagatzemament extern d'usuari",
-"Allow users to mount the following external storage" => "Permet als usuaris muntar els dispositius externs següents",
-"SSL root certificates" => "Certificats SSL root",
-"Import Root Certificate" => "Importa certificat root"
+"Allow users to mount the following external storage" => "Permet als usuaris muntar els dispositius externs següents"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

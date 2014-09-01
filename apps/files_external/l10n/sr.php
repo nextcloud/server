@@ -1,6 +1,8 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Локација",
+"Port" => "Порт",
+"Region" => "Регија",
 "Host" => "Домаћин",
 "Username" => "Корисничко име",
 "Password" => "Лозинка",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Port" => "連接埠",
 "Username" => "用戶名稱",
 "Password" => "密碼",
 "Share" => "分享",

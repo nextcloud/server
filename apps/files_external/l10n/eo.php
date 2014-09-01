@@ -9,6 +9,8 @@ $TRANSLATIONS = array(
 "Secret" => "Sekreto",
 "Access Key" => "Aliroklavo",
 "Secret Key" => "Sekretoklavo",
+"Port" => "Pordo",
+"Region" => "Regiono",
 "Enable SSL" => "Kapabligi SSL-on",
 "App key" => "Aplikaĵoklavo",
 "App secret" => "Aplikaĵosekreto",
@@ -44,8 +46,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Aldoni memorilon",
 "Delete" => "Forigi",
 "Enable User External Storage" => "Kapabligi malenan memorilon de uzanto",
-"Allow users to mount the following external storage" => "Permesi uzantojn munti la jenajn malenajn memorilojn",
-"SSL root certificates" => "Radikaj SSL-atestoj",
-"Import Root Certificate" => "Enporti radikan ateston"
+"Allow users to mount the following external storage" => "Permesi uzantojn munti la jenajn malenajn memorilojn"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

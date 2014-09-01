@@ -14,6 +14,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 eta baliokideak",
 "Access Key" => "Sarbide gakoa",
 "Secret Key" => "Giltza Sekretua",
+"Port" => "Portua",
+"Region" => "Eskualdea",
 "Enable SSL" => "Gaitu SSL",
 "Enable Path Style" => "Gaitu Bide Estiloa",
 "App key" => "Aplikazio gakoa",
@@ -60,8 +62,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Gehitu biltegiratzea",
 "Delete" => "Ezabatu",
 "Enable User External Storage" => "Gaitu erabiltzaileentzako kanpo biltegiratzea",
-"Allow users to mount the following external storage" => "Baimendu erabiltzaileak hurrengo kanpo biltegiratzeak muntatzen",
-"SSL root certificates" => "SSL erro ziurtagiriak",
-"Import Root Certificate" => "Inportatu erro ziurtagiria"
+"Allow users to mount the following external storage" => "Baimendu erabiltzaileak hurrengo kanpo biltegiratzeak muntatzen"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

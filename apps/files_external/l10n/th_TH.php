@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "กรุณากรอกรหัส app key ของ Dropbox และรหัสลับ",
 "Location" => "ตำแหน่งที่อยู่",
+"Port" => "พอร์ต",
+"Region" => "พื้นที่",
 "Host" => "โฮสต์",
 "Username" => "ชื่อผู้ใช้งาน",
 "Password" => "รหัสผ่าน",
@@ -17,8 +19,6 @@ $TRANSLATIONS = array(
 "Folder name" => "ชื่อโฟลเดอร์",
 "Configuration" => "การกำหนดค่า",
 "Delete" => "ลบ",
-"Enable User External Storage" => "เปิดให้มีการใช้พื้นที่จัดเก็บข้อมูลของผู้ใช้งานจากภายนอกได้",
-"SSL root certificates" => "ใบรับรองความปลอดภัยด้วยระบบ SSL จาก Root",
-"Import Root Certificate" => "นำเข้าข้อมูลใบรับรองความปลอดภัยจาก Root"
+"Enable User External Storage" => "เปิดให้มีการใช้พื้นที่จัดเก็บข้อมูลของผู้ใช้งานจากภายนอกได้"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

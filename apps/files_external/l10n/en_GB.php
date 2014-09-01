@@ -15,6 +15,9 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 and compliant",
 "Access Key" => "Access Key",
 "Secret Key" => "Secret Key",
+"Hostname" => "Hostname",
+"Port" => "Port",
+"Region" => "Region",
 "Enable SSL" => "Enable SSL",
 "Enable Path Style" => "Enable Path Style",
 "App key" => "App key",
@@ -33,6 +36,7 @@ $TRANSLATIONS = array(
 "Password (required for OpenStack Object Storage)" => "Password (required for OpenStack Object Storage)",
 "Service Name (required for OpenStack Object Storage)" => "Service Name (required for OpenStack Object Storage)",
 "URL of identity endpoint (required for OpenStack Object Storage)" => "URL of identity endpoint (required for OpenStack Object Storage)",
+"Timeout of HTTP requests in seconds" => "Timeout of HTTP requests in seconds",
 "Share" => "Share",
 "SMB / CIFS using OC login" => "SMB / CIFS using OC login",
 "Username as share" => "Username as share",
@@ -64,8 +68,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Add storage",
 "Delete" => "Delete",
 "Enable User External Storage" => "Enable User External Storage",
-"Allow users to mount the following external storage" => "Allow users to mount the following external storage",
-"SSL root certificates" => "SSL root certificates",
-"Import Root Certificate" => "Import Root Certificate"
+"Allow users to mount the following external storage" => "Allow users to mount the following external storage"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

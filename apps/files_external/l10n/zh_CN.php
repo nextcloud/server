@@ -10,6 +10,8 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 和兼容协议",
 "Access Key" => "访问密钥",
 "Secret Key" => "秘钥",
+"Port" => "端口",
+"Region" => "地区",
 "Enable SSL" => "启用 SSL",
 "Enable Path Style" => "启用 Path Style",
 "Host" => "主机",
@@ -43,8 +45,6 @@ $TRANSLATIONS = array(
 "Add storage" => "增加存储",
 "Delete" => "删除",
 "Enable User External Storage" => "启用用户外部存储",
-"Allow users to mount the following external storage" => "允许用户挂载以下外部存储",
-"SSL root certificates" => "SSL根证书",
-"Import Root Certificate" => "导入根证书"
+"Allow users to mount the following external storage" => "允许用户挂载以下外部存储"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

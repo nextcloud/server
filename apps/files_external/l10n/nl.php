@@ -15,6 +15,9 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 en overeenkomstig",
 "Access Key" => "Access Key",
 "Secret Key" => "Secret Key",
+"Hostname" => "Hostnaam",
+"Port" => "Poort",
+"Region" => "Regio",
 "Enable SSL" => "Activeren SSL",
 "Enable Path Style" => "Activeren pad stijl",
 "App key" => "App key",
@@ -33,6 +36,7 @@ $TRANSLATIONS = array(
 "Password (required for OpenStack Object Storage)" => "Wachtwoord (verplicht voor OpenStack Object Storage)",
 "Service Name (required for OpenStack Object Storage)" => "Service Name (verplicht voor OpenStack Object Storage)",
 "URL of identity endpoint (required for OpenStack Object Storage)" => "URL van identity endpoint (verplicht voor OpenStack Object Storage)",
+"Timeout of HTTP requests in seconds" => "Time-out van HTTP-verzoeken in seconden",
 "Share" => "Share",
 "SMB / CIFS using OC login" => "SMB / CIFS via OC inlog",
 "Username as share" => "Gebruikersnaam als share",
@@ -64,8 +68,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Toevoegen opslag",
 "Delete" => "Verwijder",
 "Enable User External Storage" => "Externe opslag voor gebruikers activeren",
-"Allow users to mount the following external storage" => "Sta gebruikers toe de volgende externe opslag aan te koppelen",
-"SSL root certificates" => "SSL root certificaten",
-"Import Root Certificate" => "Importeer root certificaat"
+"Allow users to mount the following external storage" => "Sta gebruikers toe de volgende externe opslag aan te koppelen"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

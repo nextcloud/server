@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "External storage" => "سىرتقى ساقلىغۇچ",
 "Location" => "ئورنى",
+"Port" => "ئېغىز",
 "Host" => "باش ئاپپارات",
 "Username" => "ئىشلەتكۈچى ئاتى",
 "Password" => "ئىم",

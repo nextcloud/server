@@ -1,6 +1,8 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "المكان",
+"Port" => "المنفذ",
+"Region" => "المنطقة",
 "Host" => "المضيف",
 "Username" => "إسم المستخدم",
 "Password" => "كلمة السر",
