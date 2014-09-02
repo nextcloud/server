@@ -343,7 +343,8 @@
 		border: 1px solid rgba(190,190,190,.9);
 	}
 
-	#app-navigation .app-navigation-entry-edit button {
+	#app-navigation .app-navigation-entry-edit button,
+	#app-navigation .app-navigation-entry-edit input[type="submit"] {
 		width: 36px;
 		height: 38px;
 		float: left;
