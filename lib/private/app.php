@@ -172,17 +172,29 @@ class OC_App {
 	 */
 	protected static $enabledAppsCache = array();
 
-	public static function getEnabledApps($forceRefresh = false) {
+	/**
+	 * Returns apps enabled for the current user.
+	 *
+	 * @param bool $forceRefresh whether to refresh the cache
+	 * @param bool $all whether to return apps for all users, not only the
+	 * currently logged in one
+	 */
+	public static function getEnabledApps($forceRefresh = false, $all = false) {
 		if (!OC_Config::getValue('installed', false)) {
 			return array();
 		}
-		if (!$forceRefresh && !empty(self::$enabledAppsCache)) {
+		// in incognito mode or when logged out, $user will be false,
+		// which is also the case during an upgrade
+		$user = null;
+		if (!$all) {
+			$user = \OC_User::getUser();
+		}
+		if (is_string($user) && !$forceRefresh && !empty(self::$enabledAppsCache)) {
 			return self::$enabledAppsCache;
 		}
 		$apps = array();
 		$appConfig = \OC::$server->getAppConfig();
 		$appStatus = $appConfig->getValues(false, 'enabled');
-		$user = \OC_User::getUser();
 		foreach ($appStatus as $app => $enabled) {
 			if ($app === 'files') {
 				continue;
@@ -192,11 +204,16 @@ class OC_App {
 			} else if ($enabled !== 'no') {
 				$groups = json_decode($enabled);
 				if (is_array($groups)) {
-					foreach ($groups as $group) {
-						if (\OC_Group::inGroup($user, $group)) {
-							$apps[] = $app;
-							break;
+					if (is_string($user)) {
+						foreach ($groups as $group) {
+							if (\OC_Group::inGroup($user, $group)) {
+								$apps[] = $app;
+								break;
+							}
 						}
+					} else {
+						// global, consider app as enabled
+						$apps[] = $app;
 					}
 				}
 			}

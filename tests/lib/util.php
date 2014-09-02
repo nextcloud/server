@@ -303,6 +303,8 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		\OC::$WEBROOT = '';
 
 		Dummy_OC_App::setEnabledApps($enabledApps);
+		// need to set a user id to make sure enabled apps are read from cache
+		\OC_User::setUserId(uniqid());
 		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
 		$this->assertEquals('http://localhost/' . $expectedPath, \OC_Util::getDefaultPageUrl());
 
@@ -310,6 +312,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		\OC::$WEBROOT = $oldWebRoot;
 		Dummy_OC_App::restore();
 		\OCP\Config::setSystemValue('defaultapp', $oldDefaultApps);
+		\OC_User::setUserId(null);
 	}
 
 	function defaultAppsProvider() {
