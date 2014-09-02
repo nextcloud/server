@@ -135,7 +135,7 @@
 	display: none;
 	overflow-y: auto;
 	overflow-x: hidden;
-	z-index: 150;
+	z-index: 5000;
 }
 #navigation, #navigation * {
 	-moz-box-sizing:border-box;
