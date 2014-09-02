@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Shared with you" => "Опубликованы вами",
-"Shared with others" => "Опубликованы другими",
+"Shared with you" => "Доступные для Вас",
+"Shared with others" => "Доступные для других",
 "Shared by link" => "Доступно по ссылке",
 "No files have been shared with you yet." => "Вы ещё не опубликовали файлы",
 "You haven't shared any files yet." => "Вы не имеете файлов в открытом доступе",
