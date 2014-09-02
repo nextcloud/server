@@ -26,18 +26,18 @@ Run
 
 Run the tests with protractor
 ```
-protractor protractor.conf.js
+protractor protractor_conf.js
 ```
 
 Run only a specific test suite or spec
 ```
-protractor protractor.conf.js --suite install
+protractor protractor_conf.js --suite install
 protractor protractor_conf.js --params.baseUrl="http://127.0.0.1/ownClouds/test-community-7.0.1/" --suite=login
 protractor protractor_conf.js --params.baseUrl="http://127.0.0.1/ownClouds/test-community-7.0.1/" --specs tests/login/newUser_spec.js
 ```
 
-More Test Suits
----------------
+More Test Suites
+----------------
 
 You can find and define suites in ```protractor_conf.js```
 
