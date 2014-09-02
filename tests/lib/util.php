@@ -344,6 +344,25 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/**
+	 * Test needUpgrade() when the core version is increased
+	 */
+	public function testNeedUpgradeCore() {
+		$oldConfigVersion = OC_Config::getValue('version', '0.0.0');
+		$oldSessionVersion = \OC::$server->getSession()->get('OC_Version');
+
+		$this->assertFalse(\OCP\Util::needUpgrade());
+
+		OC_Config::setValue('version', '7.0.0.0');
+		\OC::$server->getSession()->set('OC_Version', array(7, 0, 0, 1));
+
+		$this->assertTrue(\OCP\Util::needUpgrade());
+
+		OC_Config::setValue('version', $oldConfigVersion);
+		$oldSessionVersion = \OC::$server->getSession()->set('OC_Version', $oldSessionVersion);
+
+		$this->assertFalse(\OCP\Util::needUpgrade());
+	}
 }
 
 /**
