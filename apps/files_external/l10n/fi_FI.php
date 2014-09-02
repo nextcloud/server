@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Username" => "Käyttäjätunnus",
 "Password" => "Salasana",
 "Secure ftps://" => "Salattu ftps://",
+"Timeout of HTTP requests in seconds" => "HTTP-pyyntöjen aikakatkaisu sekunneissa",
 "Share" => "Jaa",
 "URL" => "Verkko-osoite",
 "Secure https://" => "Salattu https://",

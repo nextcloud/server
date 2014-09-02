@@ -35,6 +35,7 @@ $TRANSLATIONS = array(
 "Password (required for OpenStack Object Storage)" => "Contraseña (requerida para OpenStack Object Storage)",
 "Service Name (required for OpenStack Object Storage)" => "Nombre de Servicio (requerido para OpenStack Object Storage)",
 "URL of identity endpoint (required for OpenStack Object Storage)" => "URL de identidad de punto final (requerido para OpenStack Object Storage)",
+"Timeout of HTTP requests in seconds" => "Tiempo de espera de solicitudes HTTP en segundos",
 "Share" => "Compartir",
 "SMB / CIFS using OC login" => "SMB / CIFS usando acceso OC",
 "Username as share" => "Nombre de Usuario como compartir",
