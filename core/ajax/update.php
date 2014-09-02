@@ -3,6 +3,10 @@ set_time_limit(0);
 require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
+	// if a user is currently logged in, their session must be ignored to
+	// avoid side effects
+	\OC_User::setIncognitoMode(true);
+
 	$l = new \OC_L10N('core');
 	$eventSource = new OC_EventSource();
 	$updater = new \OC\Updater(\OC_Log::$object);
