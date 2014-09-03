@@ -32,7 +32,7 @@ if (!\OC_Util::runningOnWindows()) {
 			$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir) . ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ';
 			$clParameters = \OCP\Config::getSystemValue('preview_office_cl_parameters', $defaultParameters);
 
-			$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
+			$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath) . ' -env:UserInstallation=file://' . escapeshellarg(get_temp_dir() . '/owncloud-' . \OC_Util::getInstanceId().'/');
 
 			shell_exec($exec);
 
