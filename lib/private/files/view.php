@@ -305,7 +305,7 @@ class View {
 		}
 		$result = $this->basicOperation('touch', $path, $hooks, $mtime);
 		if (!$result) {
-			// If create file fails because of permissions on external extorage like sharepoint,
+			// If create file fails because of permissions on external storage like SMB folders,
 			// check file exists and return false if not.
 			if(!$this->file_exists($path)){
 				return false;
