@@ -137,3 +137,27 @@
 .oc-dialog .oc-dialog-buttonrow .cancel {
 	float:left;
 }
+
+.highlightUploaded {
+	-webkit-animation: highlightAnimation 2s 1;
+	-moz-animation: highlightAnimation 2s 1;
+	-o-animation: highlightAnimation 2s 1;
+	animation: highlightAnimation 2s 1;
+}
+
+@-webkit-keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
+@-moz-keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
+@-o-keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
+@keyframes highlightAnimation {
+  0% { background-color: rgba(255, 255, 140, 1); }
+  100% { background-color: rgba(0, 0, 0, 0); }
+}
