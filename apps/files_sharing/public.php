@@ -1,5 +1,7 @@
 <?php
 // Load other apps for file previews
+use OCA\Files_Sharing\Helper;
+
 OC_App::loadApps();
 
 $appConfig = \OC::$server->getAppConfig();
@@ -132,6 +134,7 @@ if (isset($path)) {
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('dirToken', $linkItem['token']);
 		$tmpl->assign('sharingToken', $token);
+		$tmpl->assign('server2serversharing', Helper::isOutgoingServer2serverShareEnabled());
 		$tmpl->assign('protected', isset($linkItem['share_with']) ? 'true' : 'false');
 
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
