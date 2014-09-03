@@ -231,7 +231,7 @@ $(document).ready(function() {
 					data.errorThrown = errorMessage;
 				}
 
-				if (file.type === '' && file.size === 4096) {
+				if ((file.type === '' && file.size === 4096) || file.relativePath) {
 					data.textStatus = 'dirorzero';
 					data.errorThrown = t('files', 'Unable to upload {filename} as it is a directory or has 0 bytes',
 						{filename: file.name}
