@@ -5,6 +5,8 @@
  *
  */
 class OC_Util {
+	const USER_AGENT = 'ownCloud Server Crawler';
+	
 	public static $scripts = array();
 	public static $styles = array();
 	public static $headers = array();
@@ -1281,7 +1283,7 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_URL, $url);
 
 
-			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+			curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
 			if (OC_Config::getValue('proxy', '') != '') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
 			}
@@ -1303,7 +1305,7 @@ class OC_Util {
 					curl_setopt($rcurl, CURLOPT_NOBODY, true);
 					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
 					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
-					curl_setopt($rcurl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+					curl_setopt($rcurl, CURLOPT_USERAGENT, self::USER_AGENT);
 					do {
 						curl_setopt($rcurl, CURLOPT_URL, $newURL);
 						$header = curl_exec($rcurl);
@@ -1338,7 +1340,7 @@ class OC_Util {
 			if (OC_Config::getValue('proxy', '') != '') {
 				$contextArray = array(
 					'http' => array(
-						'header' => "User-Agent: ownCloud Server Crawler\r\n",
+						'header' => 'User-Agent: ' . self::USER_AGENT . "\r\n",
 						'timeout' => 10,
 						'proxy' => OC_Config::getValue('proxy')
 					)
@@ -1346,7 +1348,7 @@ class OC_Util {
 			} else {
 				$contextArray = array(
 					'http' => array(
-						'header' => "User-Agent: ownCloud Server Crawler\r\n",
+						'header' => 'User-Agent: ' . self::USER_AGENT . "\r\n",
 						'timeout' => 10
 					)
 				);
