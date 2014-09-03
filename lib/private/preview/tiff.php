@@ -26,7 +26,7 @@ if (extension_loaded('imagick')) {
 
                                 //create imagick object from TIFF
                                 try{
-                                        $tiff = new Imagick($tmpPath . '[0]');
+                                        $tiff = new Imagick($tmpPath);
                                         $tiff->setImageFormat('png');
                                 } catch (\Exception $e) {
                                         \OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
