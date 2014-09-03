@@ -209,10 +209,17 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Returns a view to ownCloud's files folder
 	 *
+	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
 	 */
-	function getUserFolder() {
-		$dir = '/' . \OCP\User::getUser();
+	function getUserFolder($userId = null) {
+		if($userId === null) {
+			$userId = \OCP\User::getUser();
+			if (!$userId) {
+				return null;
+			}
+		}
+		$dir = '/' . $userId;
 		$root = $this->getRootFolder();
 		$folder = null;
 
