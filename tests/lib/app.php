@@ -337,15 +337,7 @@ class Test_App extends PHPUnit_Framework_TestCase {
 
 		\OC_User::setUserId($user);
 
-		$appConfig = $this->getMock(
-			'\OC\AppConfig',
-			array('getValues'),
-			array(\OC_DB::getConnection()),
-			'',
-			false
-		);
-
-		$appConfig->expects($this->once())
+		$this->setupAppConfigMock()->expects($this->once())
 			->method('getValues')
 			->will($this->returnValue(
 				array(
@@ -358,7 +350,6 @@ class Test_App extends PHPUnit_Framework_TestCase {
 				)
 			)
 		);
-		$this->registerAppConfig($appConfig);
 
 		$apps = \OC_App::getEnabledApps(true, $forceAll);
 		$this->assertEquals($expectedApps, $apps);
@@ -375,6 +366,79 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		$userManager->delete(self::TEST_USER3);
 		$group1->delete();
 		$group2->delete();
+	}
+
+	/**
+	 * Test isEnabledApps() with cache, not re-reading the list of
+	 * enabled apps more than once when a user is set.
+	 */
+	public function testEnabledAppsCache() {
+		$userManager = \OC::$server->getUserManager();
+		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
+
+		\OC_User::setUserId(self::TEST_USER1);
+
+		$this->setupAppConfigMock()->expects($this->once())
+			->method('getValues')
+			->will($this->returnValue(
+				array(
+					'app3' => 'yes',
+					'app2' => 'no',
+				)
+			)
+		);
+
+		$apps = \OC_App::getEnabledApps(true);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		// mock should not be called again here
+		$apps = \OC_App::getEnabledApps(false);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		$this->restoreAppConfig();
+		\OC_User::setUserId(null);
+
+		$user1->delete();
+		// clear user cache...
+		$userManager->delete(self::TEST_USER1);
+	}
+
+	/**
+	 * Tests that the apps list is re-requested (not cached) when
+	 * no user is set.
+	 */
+	public function testEnabledAppsNoCache() {
+		$this->setupAppConfigMock()->expects($this->exactly(2))
+			->method('getValues')
+			->will($this->returnValue(
+				array(
+					'app3' => 'yes',
+					'app2' => 'no',
+				)
+			)
+		);
+
+		$apps = \OC_App::getEnabledApps(true);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		// mock should be called again here
+		$apps = \OC_App::getEnabledApps(false);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		$this->restoreAppConfig();
+	}
+
+	private function setupAppConfigMock() {
+		$appConfig = $this->getMock(
+			'\OC\AppConfig',
+			array('getValues'),
+			array(\OC_DB::getConnection()),
+			'',
+			false
+		);
+
+		$this->registerAppConfig($appConfig);
+		return $appConfig;
 	}
 
 	/**
