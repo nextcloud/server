@@ -21,6 +21,14 @@ namespace OCP\Security;
 interface ISecureRandom {
 
 	/**
+	 * Flags for characters that can be used for <code>generate($length, $characters)</code>
+	 */
+	const CHAR_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	const CHAR_LOWER = 'abcdefghijklmnopqrstuvwxyz';
+	const CHAR_DIGITS = '0123456789';
+	const CHAR_SYMBOLS = 'CHAR_SYMBOLS';
+
+	/**
 	 * Convenience method to get a low strength random number generator.
 	 *
 	 * Low Strength should be used anywhere that random strings are needed

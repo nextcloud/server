@@ -15,6 +15,10 @@ class StringUtils {
 	 * length this is done by comparing two hashes against each other and afterwards
 	 * a comparison of the real string to prevent against the unlikely chance of
 	 * collisions.
+	 *
+	 * Be aware that this function may leak whether the string to compare have a different
+	 * length.
+	 *
 	 * @param string $expected The expected value
 	 * @param string $input The input to compare against
 	 * @return bool True if the two strings are equal, otherwise false.
@@ -25,7 +29,7 @@ class StringUtils {
 			return hash_equals($expected, $input);
 		}
 
-		$randomString = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(10);
+		$randomString = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10);
 
 		if(hash('sha512', $expected.$randomString) === hash('sha512', $input.$randomString)) {
 			if($expected === $input) {
