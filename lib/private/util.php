@@ -1211,7 +1211,7 @@ class OC_Util {
 	 * @deprecated Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
 	 */
 	public static function generateRandomBytes($length = 30) {
-		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length);
+		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**
