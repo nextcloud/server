@@ -230,4 +230,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 		return $props;
 	}
 
+	/**
+	 * Returns the size of the node, in bytes
+	 *
+	 * @return int
+	 */
+	public function getSize() {
+		return $this->info->getSize();
+	}
+
 }
