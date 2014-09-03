@@ -10,7 +10,7 @@ OCP\JSON::setContentTypeHeader('text/plain');
 $allowedPermissions = OCP\PERMISSION_ALL;
 $errorCode = null;
 
-$l = OC_L10N::get('files');
+$l = \OC::$server->getL10N('files');
 if (empty($_POST['dirToken'])) {
 	// The standard case, files are uploaded through logged in users :)
 	OCP\JSON::checkLoggedIn();
@@ -68,7 +68,7 @@ if (empty($_POST['dirToken'])) {
 OCP\JSON::callCheck();
 if (!\OCP\App::isEnabled('files_encryption')) {
 	// encryption app need to create keys later, so can't close too early
-	\OC::$session->close();
+	\OC::$server->getSession()->close();
 }
 
 

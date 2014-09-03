@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Failed to write to disk" => "ডিস্কে লিখতে ব্যর্থ",
 "Invalid directory." => "ভুল ডিরেক্টরি",
 "Files" => "ফাইল",
+"All files" => "সব ফাইল",
 "Upload cancelled." => "আপলোড বাতিল করা হয়েছে।",
 "File upload is in progress. Leaving the page now will cancel the upload." => "ফাইল আপলোড চলমান। এই পৃষ্ঠা পরিত্যাগ করলে আপলোড বাতিল করা হবে।",
 "{new_name} already exists" => "{new_name} টি বিদ্যমান",

@@ -166,6 +166,9 @@ class SFTP extends \OC\Files\Storage\Common {
 	public function opendir($path) {
 		try {
 			$list = $this->client->nlist($this->absPath($path));
+			if ($list === false) {
+				return false;
+			}
 
 			$id = md5('sftp:' . $path);
 			$dirStream = array();

@@ -81,9 +81,10 @@ interface IServerContainer {
 	/**
 	 * Returns a view to ownCloud's files folder
 	 *
+	 * @param string $userId user ID
 	 * @return \OCP\Files\Folder
 	 */
-	function getUserFolder();
+	function getUserFolder($userId = null);
 
 	/**
 	 * Returns an app-specific view in ownClouds data directory
@@ -145,9 +146,10 @@ interface IServerContainer {
 	/**
 	 * get an L10N instance
 	 * @param string $app appid
+	 * @param string $lang
 	 * @return \OCP\IL10N
 	 */
-	function getL10N($app);
+	function getL10N($app, $lang = null);
 
 	/**
 	 * Returns the URL generator

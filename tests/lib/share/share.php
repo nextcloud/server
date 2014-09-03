@@ -314,6 +314,25 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(in_array('test.txt', $to_test));
 		$this->assertTrue(in_array('test1.txt', $to_test));
 
+		// Unshare from self
+		$this->assertTrue(OCP\Share::unshareFromSelf('test', 'test.txt'));
+		$this->assertEquals(array('test1.txt'), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
+
+		// Unshare from self via source
+		$this->assertTrue(OCP\Share::unshareFromSelf('test', 'share.txt', true));
+		$this->assertEquals(array(), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ));
+		OC_User::setUserId($this->user3);
+		$this->assertTrue(OCP\Share::shareItem('test', 'share.txt', OCP\Share::SHARE_TYPE_USER, $this->user2, OCP\PERMISSION_READ));
+
+		OC_User::setUserId($this->user2);
+		$to_test = OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET);
+		$this->assertEquals(2, count($to_test));
+		$this->assertTrue(in_array('test.txt', $to_test));
+		$this->assertTrue(in_array('test1.txt', $to_test));
+
 		// Remove user
 		OC_User::setUserId($this->user1);
 		OC_User::deleteUser($this->user1);
@@ -568,6 +587,11 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user2);
 		$this->assertEquals(array('test.txt'), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
 
+		// Unshare from self via source
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(OCP\Share::unshareFromSelf('test', 'share.txt', true));
+		$this->assertEquals(array(), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
+
 		// Remove group
 		OC_Group::deleteGroup($this->group1);
 		OC_User::setUserId($this->user4);
@@ -716,7 +740,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	 * @param $item
 	 */
 	public function testCheckPasswordProtectedShare($expected, $item) {
-		\OC::$session->set('public_link_authenticated', 100);
+		\OC::$server->getSession()->set('public_link_authenticated', 100);
 		$result = \OCP\Share::checkPasswordProtectedShare($item);
 		$this->assertEquals($expected, $result);
 	}
@@ -743,8 +767,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 			return true;
 		}
 
-		if ( \OC::$session->exists('public_link_authenticated')
-			&& \OC::$session->get('public_link_authenticated') === $linkItem['id'] ) {
+		if ( \OC::$server->getSession()->exists('public_link_authenticated')
+			&& \OC::$server->getSession()->get('public_link_authenticated') === $linkItem['id'] ) {
 			return true;
 		}
 		 * */

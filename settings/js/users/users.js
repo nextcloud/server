@@ -96,9 +96,8 @@ var UserList = {
 		var lastLoginRel = t('settings', 'never');
 		var lastLoginAbs = lastLoginRel;
 		if(lastLogin !== 0) {
-			lastLogin = new Date(lastLogin * 1000);
-			lastLoginRel = relative_modified_date(lastLogin.getTime() / 1000);
-			lastLoginAbs = formatDate(lastLogin.getTime());
+			lastLoginRel = OC.Util.relativeModifiedDate(lastLogin);
+			lastLoginAbs = OC.Util.formatDate(lastLogin);
 		}
 		var $tdLastLogin = $tr.find('td.lastLogin');
 		$tdLastLogin.text(lastLoginRel);
@@ -707,5 +706,28 @@ $(document).ready(function () {
 			}
 		);
 	});
+
+	// Option to display/hide the "Storage location" column
+	$('#CheckboxStorageLocation').click(function() {
+		if ($('#CheckboxStorageLocation').is(':checked')) {
+			$("#headerStorageLocation").show();
+			$("#userlist td.storageLocation").show();
+		} else {
+			$("#headerStorageLocation").hide();
+			$("#userlist td.storageLocation").hide();
+		}
+	});
+	// Option to display/hide the "Last Login" column
+	$('#CheckboxLastLogin').click(function() {
+		if ($('#CheckboxLastLogin').is(':checked')) {
+			$("#headerLastLogin").show();
+			$("#userlist td.lastLogin").show();
+		} else {
+			$("#headerLastLogin").hide();
+			$("#userlist td.lastLogin").hide();
+		}
+	});
+
+
 
 });

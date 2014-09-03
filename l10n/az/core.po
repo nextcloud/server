@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: unixidzero <unixidzero@gmail.com>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Azerbaijani (http://www.transifex.com/projects/p/owncloud/language/az/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,77 +149,29 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "Quraşdırmalar"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr ""
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "Qovluq"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr ""
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Saxlama..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr ""
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1281
-msgid "today"
-msgstr ""
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr ""
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1284
-msgid "last month"
-msgstr ""
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1286
-msgid "last year"
-msgstr ""
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr ""
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
@@ -326,23 +278,23 @@ msgstr ""
 
 #: js/setup.js:96
 msgid "Very weak password"
-msgstr ""
+msgstr "Çox asan şifrə"
 
 #: js/setup.js:97
 msgid "Weak password"
-msgstr ""
+msgstr "Asan şifrə"
 
 #: js/setup.js:98
 msgid "So-so password"
-msgstr ""
+msgstr "Elə-belə şifrə"
 
 #: js/setup.js:99
 msgid "Good password"
-msgstr ""
+msgstr "Yaxşı şifrə"
 
 #: js/setup.js:100
 msgid "Strong password"
-msgstr ""
+msgstr "Çətin şifrə"
 
 #: js/share.js:129 js/share.js:251
 msgid "Shared"
@@ -488,7 +440,7 @@ msgstr "Məktub göndərildi"
 
 #: js/share.js:1087
 msgid "Warning"
-msgstr ""
+msgstr "Xəbərdarlıq"
 
 #: js/tags.js:8
 msgid "The object type is not specified."
@@ -605,7 +557,7 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Şəxsi"
 
 #: strings.php:6
 msgid "Users"
@@ -621,7 +573,7 @@ msgstr "İnzibatçı"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Kömək"
 
 #: tags/controller.php:22
 msgid "Error loading tags"
@@ -682,7 +634,7 @@ msgstr ""
 #: templates/installation.php:25 templates/installation.php:32
 #: templates/installation.php:39
 msgid "Security Warning"
-msgstr ""
+msgstr "Təhlükəsizlik xəbərdarlığı"
 
 #: templates/installation.php:26
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"

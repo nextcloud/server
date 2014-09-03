@@ -29,7 +29,7 @@ require_once __DIR__.'/template/functions.php';
 class OC_Template extends \OC\Template\Base {
 	private $renderas; // Create a full page?
 	private $path; // The path to the template
-	private $headers=array(); //custom headers
+	private $headers = array(); //custom headers
 	protected $app; // app id
 
 	/**
@@ -37,6 +37,7 @@ class OC_Template extends \OC\Template\Base {
 	 * @param string $app app providing the template
 	 * @param string $name of the template file (without suffix)
 	 * @param string $renderas = ""; produce a full page
+	 * @param bool $registerCall = true
 	 * @return OC_Template object
 	 *
 	 * This function creates an OC_Template object.
@@ -45,17 +46,17 @@ class OC_Template extends \OC\Template\Base {
 	 * according layout. For now, renderas can be set to "guest", "user" or
 	 * "admin".
 	 */
-	public function __construct( $app, $name, $renderas = "" ) {
+	public function __construct( $app, $name, $renderas = "", $registerCall = true ) {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
 
-		$requesttoken = OC::$session ? OC_Util::callRegister() : '';
+		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
-		$l10n = OC_L10N::get($parts[0]);
+		$l10n = \OC::$server->getL10N($parts[0]);
 		$themeDefaults = new OC_Defaults();
 
 		list($path, $template) = $this->findTemplate($theme, $app, $name, $fext);
@@ -101,20 +102,20 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	static public function getFormFactorExtension()
 	{
-		if (!\OC::$session) {
+		if (!\OC::$server->getSession()) {
 			return '';
 		}
 		// if the formfactor is not yet autodetected do the
 		// autodetection now. For possible formfactors check the
 		// detectFormfactor documentation
-		if (!\OC::$session->exists('formfactor')) {
-			\OC::$session->set('formfactor', self::detectFormfactor());
+		if (!\OC::$server->getSession()->exists('formfactor')) {
+			\OC::$server->getSession()->set('formfactor', self::detectFormfactor());
 		}
 		// allow manual override via GET parameter
 		if(isset($_GET['formfactor'])) {
-			\OC::$session->set('formfactor', $_GET['formfactor']);
+			\OC::$server->getSession()->set('formfactor', $_GET['formfactor']);
 		}
-		$formfactor = \OC::$session->get('formfactor');
+		$formfactor = \OC::$server->getSession()->get('formfactor');
 		if($formfactor==='default') {
 			$fext='';
 		}elseif($formfactor==='mobile') {
@@ -253,7 +254,7 @@ class OC_Template extends \OC\Template\Base {
 		* Warning: All data passed to $hint needs to get sanitized using OC_Util::sanitizeHTML
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
-		$content = new OC_Template( '', 'error', 'error' );
+		$content = new \OC_Template( '', 'error', 'error', false );
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
 		$content->assign( 'errors', $errors );
 		$content->printPage();
@@ -272,19 +273,19 @@ class OC_Template extends \OC\Template\Base {
 		if (defined('DEBUG') and DEBUG) {
 			$hint = $exception->getTraceAsString();
 			if (!empty($hint)) {
-				$hint = '<pre>'.$hint.'</pre>';
+				$hint = '<pre>'.OC_Util::sanitizeHTML($hint).'</pre>';
 			}
 			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
 				$error_msg .= '<br/>Caused by:' . ' ';
 				if ($exception->getCode()) {
-					$error_msg .= '['.$exception->getCode().'] ';
+					$error_msg .= '['.OC_Util::sanitizeHTML($exception->getCode()).'] ';
 				}
-				$error_msg .= $exception->getMessage();
+				$error_msg .= OC_Util::sanitizeHTML($exception->getMessage());
 			};
 		} else {
 			$hint = '';
 			if ($exception instanceof \OC\HintException) {
-				$hint = $exception->getHint();
+				$hint = OC_Util::sanitizeHTML($exception->getHint());
 			}
 		}
 		self::printErrorPage($error_msg, $hint);

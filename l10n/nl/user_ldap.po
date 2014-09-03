@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-18 01:54-0400\n"
-"PO-Revision-Date: 2014-08-18 05:10+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,11 +52,11 @@ msgstr "Geen actie opgegeven"
 msgid "No configuration specified"
 msgstr "Geen configuratie opgegeven"
 
-#: ajax/wizard.php:81
+#: ajax/wizard.php:97
 msgid "No data specified"
 msgstr "Geen gegevens verstrekt"
 
-#: ajax/wizard.php:89
+#: ajax/wizard.php:105
 #, php-format
 msgid " Could not set configuration %s"
 msgstr "Kon configuratie %s niet instellen"
@@ -105,65 +105,65 @@ msgstr "Kon de Base DN niet vaststellen"
 msgid "Please specify the port"
 msgstr "Geef de poort op"
 
-#: js/settings.js:780
+#: js/settings.js:792
 msgid "Configuration OK"
 msgstr "Configuratie OK"
 
-#: js/settings.js:789
+#: js/settings.js:801
 msgid "Configuration incorrect"
 msgstr "Configuratie onjuist"
 
-#: js/settings.js:798
+#: js/settings.js:810
 msgid "Configuration incomplete"
 msgstr "Configuratie incompleet"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:827 js/settings.js:836
 msgid "Select groups"
 msgstr "Selecteer groepen"
 
-#: js/settings.js:818 js/settings.js:827
+#: js/settings.js:830 js/settings.js:839
 msgid "Select object classes"
 msgstr "Selecteer objectklasse"
 
-#: js/settings.js:821
+#: js/settings.js:833
 msgid "Select attributes"
 msgstr "Selecteer attributen"
 
-#: js/settings.js:848
+#: js/settings.js:860
 msgid "Connection test succeeded"
 msgstr "Verbindingstest geslaagd"
 
-#: js/settings.js:855
+#: js/settings.js:867
 msgid "Connection test failed"
 msgstr "Verbindingstest mislukt"
 
-#: js/settings.js:864
+#: js/settings.js:876
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Wilt u werkelijk de huidige Serverconfiguratie verwijderen?"
 
-#: js/settings.js:865
+#: js/settings.js:877
 msgid "Confirm Deletion"
 msgstr "Bevestig verwijderen"
 
-#: lib/wizard.php:97 lib/wizard.php:112
+#: lib/wizard.php:98 lib/wizard.php:113
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
 msgstr[0] "%s groep gevonden"
 msgstr[1] "%s groepen gevonden"
 
-#: lib/wizard.php:126
+#: lib/wizard.php:127
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
 msgstr[0] "%s gebruiker gevonden"
 msgstr[1] "%s gebruikers gevonden"
 
-#: lib/wizard.php:321 lib/wizard.php:1057
+#: lib/wizard.php:392 lib/wizard.php:1128
 msgid "Could not find the desired feature"
 msgstr "Kon de gewenste functie niet vinden"
 
-#: lib/wizard.php:864 lib/wizard.php:876
+#: lib/wizard.php:935 lib/wizard.php:947
 msgid "Invalid Host"
 msgstr "Ongeldige server"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:03+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-31 05:54+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Võti"
 msgid "Secret"
 msgstr "Salasõna"
 
-#: appinfo/app.php:55 appinfo/app.php:64
+#: appinfo/app.php:55 appinfo/app.php:64 appinfo/app.php:112
 msgid "Bucket"
 msgstr "Korv"
 
@@ -86,16 +86,16 @@ msgid "Secret Key"
 msgstr "Salavõti"
 
 #: appinfo/app.php:65
-msgid "Hostname (optional)"
-msgstr "Hostinimi (valikuline)"
+msgid "Hostname"
+msgstr ""
 
 #: appinfo/app.php:66
-msgid "Port (optional)"
-msgstr "Post (valikuline)"
+msgid "Port"
+msgstr ""
 
 #: appinfo/app.php:67
-msgid "Region (optional)"
-msgstr "Regioon (valikuline)"
+msgid "Region"
+msgstr ""
 
 #: appinfo/app.php:68
 msgid "Enable SSL"
@@ -118,8 +118,8 @@ msgstr "Rakenduse salasõna"
 msgid "Host"
 msgstr "Host"
 
-#: appinfo/app.php:89 appinfo/app.php:130 appinfo/app.php:152
-#: appinfo/app.php:163 appinfo/app.php:174
+#: appinfo/app.php:89 appinfo/app.php:111 appinfo/app.php:130
+#: appinfo/app.php:152 appinfo/app.php:163 appinfo/app.php:174
 msgid "Username"
 msgstr "Kasutajanimi"
 
@@ -149,14 +149,6 @@ msgstr "Kliendi salasõna"
 msgid "OpenStack Object Storage"
 msgstr "OpenStack Object Storage"
 
-#: appinfo/app.php:111
-msgid "Username (required)"
-msgstr "Kasutajanimi (kohustuslik)"
-
-#: appinfo/app.php:112
-msgid "Bucket (required)"
-msgstr "Korv (kohustuslik)"
-
 #: appinfo/app.php:113
 msgid "Region (optional for OpenStack Object Storage)"
 msgstr "Regioon (valikuline OpenStack Object Storage puhul)"
@@ -182,8 +174,8 @@ msgid "URL of identity endpoint (required for OpenStack Object Storage)"
 msgstr "Tuvastuse URL lõpp-punkt (vajalik OpenStack Object Storage puhul)"
 
 #: appinfo/app.php:119
-msgid "Timeout of HTTP requests in seconds (optional)"
-msgstr "HTTP päringu aegumine sekundites (valikuline)"
+msgid "Timeout of HTTP requests in seconds"
+msgstr ""
 
 #: appinfo/app.php:132 appinfo/app.php:142
 msgid "Share"
@@ -233,33 +225,41 @@ msgstr "Isiklik"
 msgid "System"
 msgstr "Süsteem"
 
-#: js/settings.js:325 js/settings.js:332
+#: js/settings.js:208
+msgid "All users. Type to select user or group."
+msgstr "Kõik kasutajad. Kirjuta, et valida kasutaja või grupp."
+
+#: js/settings.js:291
+msgid "(group)"
+msgstr "(grupp)"
+
+#: js/settings.js:467 js/settings.js:474
 msgid "Saved"
 msgstr "Salvestatud"
 
-#: lib/config.php:716
+#: lib/config.php:717
 msgid "<b>Note:</b> "
 msgstr "<b>Märkus:</b>"
 
-#: lib/config.php:726
+#: lib/config.php:727
 msgid " and "
 msgstr "ja"
 
-#: lib/config.php:748
+#: lib/config.php:749
 #, php-format
 msgid ""
 "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting "
 "of %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Märkus:</b> cURL tugi puudub PHP paigalduses. FTP %s hoidla ühendamine pole võimalik. Palu oma süsteemihalduril paigaldata cURL tugi."
 
-#: lib/config.php:750
+#: lib/config.php:751
 #, php-format
 msgid ""
 "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of"
 " %s is not possible. Please ask your system administrator to install it."
 msgstr "<b>Märkus:</b> FTP tugi puudub PHP paigalduses. FTP %s hoidla ühendamine pole võimalik. Palu oma süsteemihalduril paigaldata FTP tugi."
 
-#: lib/config.php:752
+#: lib/config.php:753
 #, php-format
 msgid ""
 "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please"
@@ -302,39 +302,23 @@ msgstr "Saadaval"
 msgid "Add storage"
 msgstr "Lisa andmehoidla"
 
-#: templates/settings.php:93
-msgid "No user or group"
-msgstr "Ühtki kasutajat või gruppi"
-
-#: templates/settings.php:96
-msgid "All Users"
-msgstr "Kõik kasutajad"
-
-#: templates/settings.php:98
-msgid "Groups"
-msgstr "Grupid"
-
-#: templates/settings.php:106
-msgid "Users"
-msgstr "Kasutajad"
-
-#: templates/settings.php:119 templates/settings.php:120
-#: templates/settings.php:159 templates/settings.php:160
+#: templates/settings.php:96 templates/settings.php:97
+#: templates/settings.php:136 templates/settings.php:137
 msgid "Delete"
 msgstr "Kustuta"
 
-#: templates/settings.php:133
+#: templates/settings.php:110
 msgid "Enable User External Storage"
 msgstr "Luba kasutajatele väline salvestamine"
 
-#: templates/settings.php:136
+#: templates/settings.php:113
 msgid "Allow users to mount the following external storage"
 msgstr "Võimalda kasutajatel ühendada järgmist välist andmehoidlat"
 
-#: templates/settings.php:151
+#: templates/settings.php:128
 msgid "SSL root certificates"
 msgstr "SSL root sertifikaadid"
 
-#: templates/settings.php:169
+#: templates/settings.php:146
 msgid "Import Root Certificate"
 msgstr "Impordi root sertifikaadid"

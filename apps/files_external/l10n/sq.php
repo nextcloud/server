@@ -10,8 +10,6 @@ $TRANSLATIONS = array(
 "Saved" => "U ruajt",
 "Name" => "Emri",
 "Folder name" => "Emri i Skedarit",
-"Groups" => "Grupet",
-"Users" => "Përdoruesit",
 "Delete" => "Elimino"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

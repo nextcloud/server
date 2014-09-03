@@ -7,7 +7,6 @@ $TRANSLATIONS = array(
 "URL" => "یو ار ایل",
 "Personal" => "شخصی",
 "Name" => "اسم",
-"Users" => "یوزرز",
 "Delete" => "حذف کریں"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -8,16 +8,16 @@ $TRANSLATIONS = array(
 "Location" => "Yerləşdiyiniz ünvan",
 "Key" => "Açar",
 "Secret" => "Gizli",
-"Hostname (optional)" => "Avadanlığın adı(məcburi deyil)",
 "Enable SSL" => "SSL-i işə sal",
 "Host" => "Şəbəkədə ünvan",
 "Username" => "İstifadəçi adı",
 "Password" => "Şifrə",
 "Share" => "Yayımla",
+"URL" => "URL",
+"Personal" => "Şəxsi",
 "Saved" => "Saxlanıldı",
 "Name" => "Ad",
 "Folder name" => "Qovluq adı",
-"Users" => "İstifadəçilər",
 "Delete" => "Sil"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -8,10 +8,11 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Core\LostPassword;
+namespace OC\Core;
 
 use \OCP\AppFramework\App;
 use OC\Core\LostPassword\Controller\LostController;
+use OC\Core\User\UserController;
 
 class Application extends App {
 
@@ -36,6 +37,14 @@ class Application extends App {
 				$c->query('ServerContainer')->getUserSession(),
 				\OCP\Util::getDefaultEmailAddress('lostpassword-noreply'),
 				\OC_App::isEnabled('files_encryption')
+			);
+		});
+		$container->registerService('UserController', function($c) {
+			return new UserController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('ServerContainer')->getUserManager(),
+				new \OC_Defaults()
 			);
 		});
 	}

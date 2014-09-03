@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +57,7 @@ msgstr "ユーザーメールを設定して初めて、テストメールを送
 msgid "Send mode"
 msgstr "送信モード"
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
 msgid "Encryption"
 msgstr "暗号化"
 
@@ -331,7 +331,7 @@ msgstr "有効なグループ名を指定する必要があります"
 msgid "deleted {groupName}"
 msgstr "{groupName} を削除しました"
 
-#: js/users/groups.js:230 js/users/users.js:300
+#: js/users/groups.js:230 js/users/users.js:299
 msgid "undo"
 msgstr "元に戻す"
 
@@ -355,27 +355,27 @@ msgstr "削除"
 msgid "never"
 msgstr "なし"
 
-#: js/users/users.js:299
+#: js/users/users.js:298
 msgid "deleted {userName}"
 msgstr "{userName} を削除しました"
 
-#: js/users/users.js:435
+#: js/users/users.js:434
 msgid "add group"
 msgstr "グループを追加"
 
-#: js/users/users.js:653
+#: js/users/users.js:652
 msgid "A valid username must be provided"
 msgstr "有効なユーザー名を指定する必要があります"
 
-#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
+#: js/users/users.js:653 js/users/users.js:659 js/users/users.js:674
 msgid "Error creating user"
 msgstr "ユーザー作成エラー"
 
-#: js/users/users.js:659
+#: js/users/users.js:658
 msgid "A valid password must be provided"
 msgstr "有効なパスワードを指定する必要があります"
 
-#: js/users/users.js:691
+#: js/users/users.js:690
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "警告: ユーザー \"{user}\" のホームディレクトリはすでに存在します"
 
@@ -739,11 +739,11 @@ msgstr "もっと見る"
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:485 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:209
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:489 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:212
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -827,120 +827,128 @@ msgstr "もしプロジェクトをサポートしていただけるなら、\n\
 msgid "Show First Run Wizard again"
 msgstr "初回ウィザードを再表示する"
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "現在 <strong>%s</strong> / <strong>%s</strong> を利用しています"
 
-#: templates/personal.php:50 templates/users/part.createuser.php:8
+#: templates/personal.php:51 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "パスワード"
 
-#: templates/personal.php:51
+#: templates/personal.php:52
 msgid "Your password was changed"
 msgstr "パスワードを変更しました"
 
-#: templates/personal.php:52
+#: templates/personal.php:53
 msgid "Unable to change your password"
 msgstr "パスワードを変更することができません"
 
-#: templates/personal.php:54
+#: templates/personal.php:55
 msgid "Current password"
 msgstr "現在のパスワード"
 
-#: templates/personal.php:57
+#: templates/personal.php:58
 msgid "New password"
 msgstr "新しいパスワード"
 
-#: templates/personal.php:61
+#: templates/personal.php:62
 msgid "Change password"
 msgstr "パスワードを変更"
 
-#: templates/personal.php:73 templates/users/part.userlist.php:8
+#: templates/personal.php:74 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "名前"
 
-#: templates/personal.php:88
+#: templates/personal.php:89
 msgid "Email"
 msgstr "メール"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Your email address"
 msgstr "あなたのメールアドレス"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "パスワードの回復を有効にし、通知を受け取るにはメールアドレスを入力してください"
 
-#: templates/personal.php:101
+#: templates/personal.php:102
 msgid "Profile picture"
 msgstr "プロフィール写真"
 
-#: templates/personal.php:106
+#: templates/personal.php:107
 msgid "Upload new"
 msgstr "新たにアップロード"
 
-#: templates/personal.php:108
+#: templates/personal.php:109
 msgid "Select new from Files"
 msgstr "新しいファイルを選択"
 
-#: templates/personal.php:109
+#: templates/personal.php:110
 msgid "Remove image"
 msgstr "画像を削除"
 
-#: templates/personal.php:110
+#: templates/personal.php:111
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "pngまたはjpg形式。正方形が理想ですが、切り取って加工することもできます。"
 
-#: templates/personal.php:112
+#: templates/personal.php:113
 msgid "Your avatar is provided by your original account."
 msgstr "あなたのアバターは、あなたのオリジナルのアカウントで提供されています。"
 
-#: templates/personal.php:116
+#: templates/personal.php:117
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: templates/personal.php:117
+#: templates/personal.php:118
 msgid "Choose as profile image"
 msgstr "プロファイル画像として選択"
 
-#: templates/personal.php:123 templates/personal.php:124
+#: templates/personal.php:124 templates/personal.php:125
 msgid "Language"
 msgstr "言語"
 
-#: templates/personal.php:143
+#: templates/personal.php:144
 msgid "Help translate"
 msgstr "翻訳に協力する"
 
-#: templates/personal.php:162
+#: templates/personal.php:163
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "暗号化アプリはもはや有効ではありません、すべてのファイルを複合してください"
 
-#: templates/personal.php:168
+#: templates/personal.php:169
 msgid "Log-in password"
 msgstr "ログインパスワード"
 
-#: templates/personal.php:173
+#: templates/personal.php:174
 msgid "Decrypt all Files"
 msgstr "すべてのファイルを複合する"
 
-#: templates/personal.php:186
+#: templates/personal.php:187
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr "暗号化キーはバックアップ場所に移動されました。何か問題があった場合は、キーを復元することができます。すべてのファイルが正しく復号化されたことが確信できる場合にのみ、キーを完全に削除してください。"
 
-#: templates/personal.php:190
+#: templates/personal.php:191
 msgid "Restore Encryption Keys"
 msgstr "暗号化キーを復元する"
 
-#: templates/personal.php:194
+#: templates/personal.php:195
 msgid "Delete Encryption Keys"
 msgstr "暗号化キーを削除する"
+
+#: templates/users/main.php:34
+msgid "Show storage location"
+msgstr ""
+
+#: templates/users/main.php:38
+msgid "Show last log in"
+msgstr ""
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -981,19 +989,19 @@ msgstr "すべてのユーザー"
 msgid "Admins"
 msgstr "管理者"
 
-#: templates/users/part.setquota.php:7
+#: templates/users/part.setquota.php:3
 msgid "Default Quota"
 msgstr "デフォルトのクォータサイズ"
 
-#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
+#: templates/users/part.setquota.php:5 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "ストレージのクォータを入力してください (例: \"512MB\" や \"12 GB\")"
 
-#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
+#: templates/users/part.setquota.php:7 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "無制限"
 
-#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
+#: templates/users/part.setquota.php:22 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "その他"
 

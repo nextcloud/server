@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -149,77 +149,29 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "Settings"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "File"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "Folder"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "Image"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr "Audio"
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Saving..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "seconds ago"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "%n minute ago"
-msgstr[1] "%n minutes ago"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "%n hour ago"
-msgstr[1] "%n hours ago"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "today"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "yesterday"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "%n day ago"
-msgstr[1] "%n days ago"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "last month"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "%n month ago"
-msgstr[1] "%n months ago"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "last year"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "years ago"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
@@ -858,12 +810,12 @@ msgstr "Please contact your administrator. If you are an administrator of this i
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Add \"%s\" as a trusted domain"
 
 #: templates/update.admin.php:3
 #, php-format

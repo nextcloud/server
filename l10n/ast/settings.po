@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Asturian (http://www.transifex.com/projects/p/owncloud/language/ast/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Tienes de configurar la direición de corréu-e enantes de poder unviar 
 msgid "Send mode"
 msgstr "Mou d'unviu"
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
 msgid "Encryption"
 msgstr "Cifráu"
 
@@ -327,7 +327,7 @@ msgstr "Hai d'escribir un nome de grupu válidu"
 msgid "deleted {groupName}"
 msgstr "desaniciáu {groupName}"
 
-#: js/users/groups.js:230 js/users/users.js:300
+#: js/users/groups.js:230 js/users/users.js:299
 msgid "undo"
 msgstr "desfacer"
 
@@ -351,27 +351,27 @@ msgstr "Desaniciar"
 msgid "never"
 msgstr "enxamás"
 
-#: js/users/users.js:299
+#: js/users/users.js:298
 msgid "deleted {userName}"
 msgstr "desaniciáu {userName}"
 
-#: js/users/users.js:435
+#: js/users/users.js:434
 msgid "add group"
 msgstr "amestar Grupu"
 
-#: js/users/users.js:653
+#: js/users/users.js:652
 msgid "A valid username must be provided"
 msgstr "Tien d'apurrise un nome d'usuariu válidu"
 
-#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
+#: js/users/users.js:653 js/users/users.js:659 js/users/users.js:674
 msgid "Error creating user"
 msgstr "Fallu al crear usuariu"
 
-#: js/users/users.js:659
+#: js/users/users.js:658
 msgid "A valid password must be provided"
 msgstr "Tien d'apurrise una contraseña válida"
 
-#: js/users/users.js:691
+#: js/users/users.js:690
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Avisu: el direutoriu d'aniciu pal usuariu \"{user}\" yá esiste."
 
@@ -735,11 +735,11 @@ msgstr "Más"
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:485 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:209
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:489 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:212
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -823,120 +823,128 @@ msgstr "Si quies sofitar el proyeutu\n\t\t<a href=\"https://owncloud.org/contrib
 msgid "Show First Run Wizard again"
 msgstr "Amosar nuevamente l'Encontu d'execución inicial"
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Usasti <strong>%s</strong> de los <strong>%s</strong> disponibles"
 
-#: templates/personal.php:50 templates/users/part.createuser.php:8
+#: templates/personal.php:51 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Contraseña"
 
-#: templates/personal.php:51
+#: templates/personal.php:52
 msgid "Your password was changed"
 msgstr "Camudóse la contraseña"
 
-#: templates/personal.php:52
+#: templates/personal.php:53
 msgid "Unable to change your password"
 msgstr "Nun pudo camudase la contraseña"
 
-#: templates/personal.php:54
+#: templates/personal.php:55
 msgid "Current password"
 msgstr "Contraseña actual"
 
-#: templates/personal.php:57
+#: templates/personal.php:58
 msgid "New password"
 msgstr "Contraseña nueva"
 
-#: templates/personal.php:61
+#: templates/personal.php:62
 msgid "Change password"
 msgstr "Camudar contraseña"
 
-#: templates/personal.php:73 templates/users/part.userlist.php:8
+#: templates/personal.php:74 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Nome completu"
 
-#: templates/personal.php:88
+#: templates/personal.php:89
 msgid "Email"
 msgstr "Corréu-e"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Your email address"
 msgstr "Direición de corréu-e"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Introducir una direición de corréu-e p'activar la recuperación de contraseñes y recibir notificaciones"
 
-#: templates/personal.php:101
+#: templates/personal.php:102
 msgid "Profile picture"
 msgstr "Semeya de perfil"
 
-#: templates/personal.php:106
+#: templates/personal.php:107
 msgid "Upload new"
 msgstr "Xubir otra"
 
-#: templates/personal.php:108
+#: templates/personal.php:109
 msgid "Select new from Files"
 msgstr "Esbillar otra dende Ficheros"
 
-#: templates/personal.php:109
+#: templates/personal.php:110
 msgid "Remove image"
 msgstr "Desaniciar imaxe"
 
-#: templates/personal.php:110
+#: templates/personal.php:111
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Ficheru PNG o JPG. Preferiblemente cuadráu, pero vas poder retayalu."
 
-#: templates/personal.php:112
+#: templates/personal.php:113
 msgid "Your avatar is provided by your original account."
 msgstr "L'avatar ta proporcionáu pola to cuenta orixinal."
 
-#: templates/personal.php:116
+#: templates/personal.php:117
 msgid "Cancel"
 msgstr "Encaboxar"
 
-#: templates/personal.php:117
+#: templates/personal.php:118
 msgid "Choose as profile image"
 msgstr "Esbillar como imaxe de perfil"
 
-#: templates/personal.php:123 templates/personal.php:124
+#: templates/personal.php:124 templates/personal.php:125
 msgid "Language"
 msgstr "Llingua"
 
-#: templates/personal.php:143
+#: templates/personal.php:144
 msgid "Help translate"
 msgstr "Ayúdanos nes traducciones"
 
-#: templates/personal.php:162
+#: templates/personal.php:163
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "L'aplicación de cifráu yá nun ta activada, descifra tolos ficheros"
 
-#: templates/personal.php:168
+#: templates/personal.php:169
 msgid "Log-in password"
 msgstr "Contraseña d'accesu"
 
-#: templates/personal.php:173
+#: templates/personal.php:174
 msgid "Decrypt all Files"
 msgstr "Descifrar ficheros"
 
-#: templates/personal.php:186
+#: templates/personal.php:187
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr "Les claves de cifráu van guardase nuna llocalización segura. D'esta miente, en casu de que daqué saliere mal, vas poder recuperar les claves. Desanicia dafechu les claves de cifráu namái si tas seguru de que los ficheros descifráronse correcho."
 
-#: templates/personal.php:190
+#: templates/personal.php:191
 msgid "Restore Encryption Keys"
 msgstr "Restaurar claves de cifráu."
 
-#: templates/personal.php:194
+#: templates/personal.php:195
 msgid "Delete Encryption Keys"
 msgstr "Desaniciar claves de cifráu"
+
+#: templates/users/main.php:34
+msgid "Show storage location"
+msgstr ""
+
+#: templates/users/main.php:38
+msgid "Show last log in"
+msgstr ""
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -977,19 +985,19 @@ msgstr "Toos"
 msgid "Admins"
 msgstr "Almins"
 
-#: templates/users/part.setquota.php:7
+#: templates/users/part.setquota.php:3
 msgid "Default Quota"
 msgstr "Cuota predeterminada"
 
-#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
+#: templates/users/part.setquota.php:5 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "Por favor indica la cuota d'almacenamientu (ex: \"512 MB\" o \"12 GB\")"
 
-#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
+#: templates/users/part.setquota.php:7 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "Non llendáu"
 
-#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
+#: templates/users/part.setquota.php:22 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "Otru"
 

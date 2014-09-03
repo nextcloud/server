@@ -27,7 +27,7 @@ class Controller {
 		\OC_Util::checkAdminUser();
 		\OCP\JSON::callCheck();
 
-		$l = \OC_L10N::get('settings');
+		$l = \OC::$server->getL10N('settings');
 
 		$smtp_settings = array(
 			'mail_domain'		=> null,
@@ -80,7 +80,7 @@ class Controller {
 		\OC_Util::checkAdminUser();
 		\OCP\JSON::callCheck();
 
-		$l = \OC_L10N::get('settings');
+		$l = \OC::$server->getL10N('settings');
 		$email = \OC_Preferences::getValue(\OC_User::getUser(), 'settings', 'email', '');
 		if (!empty($email)) {
 			$defaults = new \OC_Defaults();

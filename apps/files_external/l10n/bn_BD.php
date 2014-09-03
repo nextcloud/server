@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "দয়া করে সঠিক এবং বৈধ Dropbox app key and secret প্রদান করুন।",
-"Location" => "াবস্থান",
+"Location" => "অবস্থান",
 "Host" => "হোস্ট",
 "Username" => "ব্যবহারকারী",
 "Password" => "কূটশব্দ",
@@ -12,13 +12,11 @@ $TRANSLATIONS = array(
 "Grant access" => "অধিগমনের  অনুমতি প্রদান কর",
 "Error configuring Google Drive storage" => "Google Drive সংরক্ষণাগার নির্ধারণ করতে সমস্যা ",
 "Personal" => "ব্যক্তিগত",
+"Saved" => "সংরক্ষণ করা হলো",
 "Name" => "রাম",
 "External Storage" => "বাহ্যিক সংরক্ষণাগার",
 "Folder name" => "ফোলডারের নাম",
 "Configuration" => "কনফিগারেসন",
-"All Users" => "সমস্ত ব্যবহারকারী",
-"Groups" => "গোষ্ঠীসমূহ",
-"Users" => "ব্যবহারকারী",
 "Delete" => "মুছে",
 "Enable User External Storage" => "ব্যবহারকারীর বাহ্যিক সংরক্ষণাগার সক্রিয় কর",
 "SSL root certificates" => "SSL  রুট সনদপত্র",

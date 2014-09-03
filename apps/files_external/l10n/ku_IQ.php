@@ -6,7 +6,6 @@ $TRANSLATIONS = array(
 "Share" => "هاوبەشی کردن",
 "URL" => "ناونیشانی به‌سته‌ر",
 "Name" => "ناو",
-"Folder name" => "ناوی بوخچه",
-"Users" => "به‌كارهێنه‌ر"
+"Folder name" => "ناوی بوخچه"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

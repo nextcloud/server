@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -156,73 +156,29 @@ msgstr "十一月"
 msgid "December"
 msgstr "十二月"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "文件"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "文件夹"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "图像"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr "声音"
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "保存中"
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "秒前"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "%n 分钟前"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "%n 小时前"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "今天"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "昨天"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "%n 天前"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "上月"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "%n 月前"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "去年"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "年前"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."

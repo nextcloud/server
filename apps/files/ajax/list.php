@@ -1,8 +1,8 @@
 <?php
 
 OCP\JSON::checkLoggedIn();
-\OC::$session->close();
-$l = OC_L10N::get('files');
+\OC::$server->getSession()->close();
+$l = \OC::$server->getL10N('files');
 
 // Load the files
 $dir = isset($_GET['dir']) ? $_GET['dir'] : '';

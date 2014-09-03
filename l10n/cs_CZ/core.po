@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
+"Last-Translator: Petr Šťastný <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -158,81 +158,29 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Prosinec"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "Soubor"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "Složka"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "Obrázek"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr "Audio"
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Ukládám..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "před pár vteřinami"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "před %n minutou"
-msgstr[1] "před %n minutami"
-msgstr[2] "před %n minutami"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "před %n hodinou"
-msgstr[1] "před %n hodinami"
-msgstr[2] "před %n hodinami"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "dnes"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "včera"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "před %n dnem"
-msgstr[1] "před %n dny"
-msgstr[2] "před %n dny"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "minulý měsíc"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "před %n měsícem"
-msgstr[1] "před %n měsíci"
-msgstr[2] "před %n měsíci"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "minulý rok"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "před lety"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
@@ -872,12 +820,12 @@ msgstr "Kontaktujte prosím správce. Pokud jste správce této instalace, nasta
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "V závislosti na vaší konfiguraci vám může být, jako administrátorovi, umožněno použití tlačítka níže k označení této domény jako důvěryhodné."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Přidat \"%s\" jako důvěryhodnou doménu"
 
 #: templates/update.admin.php:3
 #, php-format

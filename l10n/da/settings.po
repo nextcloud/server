@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: Aputsiaĸ Niels Janussen <aj@isit.gl>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
+"Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "Du skal angive din bruger-email før der kan sendes test-email."
 msgid "Send mode"
 msgstr "Tilstand for afsendelse"
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
 msgid "Encryption"
 msgstr "Kryptering"
 
@@ -331,7 +331,7 @@ msgstr "Et gyldigt gruppenavn skal angives "
 msgid "deleted {groupName}"
 msgstr "slettede {groupName}"
 
-#: js/users/groups.js:230 js/users/users.js:300
+#: js/users/groups.js:230 js/users/users.js:299
 msgid "undo"
 msgstr "fortryd"
 
@@ -355,27 +355,27 @@ msgstr "Slet"
 msgid "never"
 msgstr "aldrig"
 
-#: js/users/users.js:299
+#: js/users/users.js:298
 msgid "deleted {userName}"
 msgstr "slettede {userName}"
 
-#: js/users/users.js:435
+#: js/users/users.js:434
 msgid "add group"
 msgstr "Tilføj gruppe"
 
-#: js/users/users.js:653
+#: js/users/users.js:652
 msgid "A valid username must be provided"
 msgstr "Et gyldigt brugernavn skal angives"
 
-#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
+#: js/users/users.js:653 js/users/users.js:659 js/users/users.js:674
 msgid "Error creating user"
 msgstr "Fejl ved oprettelse af bruger"
 
-#: js/users/users.js:659
+#: js/users/users.js:658
 msgid "A valid password must be provided"
 msgstr "En gyldig adgangskode skal angives"
 
-#: js/users/users.js:691
+#: js/users/users.js:690
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Advarsel: Hjemmemappen for bruger \"{user}\" findes allerede"
 
@@ -739,11 +739,11 @@ msgstr "Mere"
 msgid "Less"
 msgstr "Mindre"
 
-#: templates/admin.php:485 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:209
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:489 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:212
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -827,120 +827,128 @@ msgstr "Hvis du vil støtte projektet\n\t\t<a href=\"https://owncloud.org/contri
 msgid "Show First Run Wizard again"
 msgstr "Vis Første Kørsels Guiden igen."
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Du har brugt <strong>%s</strong> af den tilgængelige <strong>%s</strong>"
 
-#: templates/personal.php:50 templates/users/part.createuser.php:8
+#: templates/personal.php:51 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Kodeord"
 
-#: templates/personal.php:51
+#: templates/personal.php:52
 msgid "Your password was changed"
 msgstr "Din adgangskode blev ændret"
 
-#: templates/personal.php:52
+#: templates/personal.php:53
 msgid "Unable to change your password"
 msgstr "Ude af stand til at ændre dit kodeord"
 
-#: templates/personal.php:54
+#: templates/personal.php:55
 msgid "Current password"
 msgstr "Nuværende adgangskode"
 
-#: templates/personal.php:57
+#: templates/personal.php:58
 msgid "New password"
 msgstr "Nyt kodeord"
 
-#: templates/personal.php:61
+#: templates/personal.php:62
 msgid "Change password"
 msgstr "Skift kodeord"
 
-#: templates/personal.php:73 templates/users/part.userlist.php:8
+#: templates/personal.php:74 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Fulde navn"
 
-#: templates/personal.php:88
+#: templates/personal.php:89
 msgid "Email"
 msgstr "E-mail"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Your email address"
 msgstr "Din emailadresse"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Angiv en emailadresse for at aktivere gendannelse af adgangskode og modtage notifikationer"
 
-#: templates/personal.php:101
+#: templates/personal.php:102
 msgid "Profile picture"
 msgstr "Profilbillede"
 
-#: templates/personal.php:106
+#: templates/personal.php:107
 msgid "Upload new"
 msgstr "Upload nyt"
 
-#: templates/personal.php:108
+#: templates/personal.php:109
 msgid "Select new from Files"
 msgstr "Vælg nyt fra Filer"
 
-#: templates/personal.php:109
+#: templates/personal.php:110
 msgid "Remove image"
 msgstr "Fjern billede"
 
-#: templates/personal.php:110
+#: templates/personal.php:111
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Enten png eller jpg. Ideelt firkantet men du har mulighed for at beskære det. "
 
-#: templates/personal.php:112
+#: templates/personal.php:113
 msgid "Your avatar is provided by your original account."
 msgstr "Din avatar kommer fra din oprindelige konto."
 
-#: templates/personal.php:116
+#: templates/personal.php:117
 msgid "Cancel"
 msgstr "Annuller"
 
-#: templates/personal.php:117
+#: templates/personal.php:118
 msgid "Choose as profile image"
 msgstr "Vælg som profilbillede"
 
-#: templates/personal.php:123 templates/personal.php:124
+#: templates/personal.php:124 templates/personal.php:125
 msgid "Language"
 msgstr "Sprog"
 
-#: templates/personal.php:143
+#: templates/personal.php:144
 msgid "Help translate"
 msgstr "Hjælp med oversættelsen"
 
-#: templates/personal.php:162
+#: templates/personal.php:163
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "Krypteringsprogrammet er ikke længere aktiveret. Dekrypter venligst alle dine filer"
 
-#: templates/personal.php:168
+#: templates/personal.php:169
 msgid "Log-in password"
 msgstr "Log-in kodeord"
 
-#: templates/personal.php:173
+#: templates/personal.php:174
 msgid "Decrypt all Files"
 msgstr "Dekrypter alle Filer "
 
-#: templates/personal.php:186
+#: templates/personal.php:187
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr "Din krypteringsmøgler er flyttet til en backup lokation . hvis noget gik galt kan du genskabe nøglerne. Slet kun nøgler permanent hvis du er sikker på at alle filer er dekrypteret korrekt."
 
-#: templates/personal.php:190
+#: templates/personal.php:191
 msgid "Restore Encryption Keys"
 msgstr "Genopret Krypteringsnøgler"
 
-#: templates/personal.php:194
+#: templates/personal.php:195
 msgid "Delete Encryption Keys"
 msgstr "Slet Krypteringsnøgler"
+
+#: templates/users/main.php:34
+msgid "Show storage location"
+msgstr ""
+
+#: templates/users/main.php:38
+msgid "Show last log in"
+msgstr ""
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -981,19 +989,19 @@ msgstr "Alle"
 msgid "Admins"
 msgstr "Administratore"
 
-#: templates/users/part.setquota.php:7
+#: templates/users/part.setquota.php:3
 msgid "Default Quota"
 msgstr "Standard kvote"
 
-#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
+#: templates/users/part.setquota.php:5 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "Indtast venligst lagerkvote (f.eks. \"512 MB\" eller \"12 GB\")"
 
-#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
+#: templates/users/part.setquota.php:7 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "Ubegrænset"
 
-#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
+#: templates/users/part.setquota.php:22 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "Andet"
 

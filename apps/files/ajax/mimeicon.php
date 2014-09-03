@@ -1,4 +1,4 @@
 <?php
-\OC::$session->close();
+\OC::$server->getSession()->close();
 
 print OC_Helper::mimetypeIcon($_GET['mime']);

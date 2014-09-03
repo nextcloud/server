@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -52,12 +52,12 @@ msgstr "Tjekket database schema opdatering"
 
 #: ajax/update.php:22
 msgid "Checked database schema update for apps"
-msgstr ""
+msgstr "Tjekkede databaseskemaets opdatering for apps"
 
 #: ajax/update.php:25
 #, php-format
 msgid "Updated \"%s\" to %s"
-msgstr ""
+msgstr "Opdaterede \"%s\" til %s"
 
 #: ajax/update.php:33
 #, php-format
@@ -160,77 +160,29 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "Fil"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "Mappe"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "Billede"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr "Lyd"
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "Gemmer..."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "sekunder siden"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] "%n minut siden"
-msgstr[1] "%n minutter siden"
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] "%n time siden"
-msgstr[1] "%n timer siden"
-
-#: js/js.js:1281
-msgid "today"
-msgstr "i dag"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "i går"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] "%n dag siden"
-msgstr[1] "%n dage siden"
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "sidste måned"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] "%n måned siden"
-msgstr[1] "%n måneder siden"
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "sidste år"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "år siden"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
@@ -869,12 +821,12 @@ msgstr "Kontakt venligst din administrator. Hvis du er administrator, konfigurer
 msgid ""
 "Depending on your configuration, as an administrator you might also be able "
 "to use the button below to trust this domain."
-msgstr ""
+msgstr "Afhænger af din konfiguration, da du som administrator eventuelt også er i stand til at gøre brug af knappen nedenfor til at tildele tillid til dette domæne."
 
 #: templates/untrustedDomain.php:14
 #, php-format
 msgid "Add \"%s\" as trusted domain"
-msgstr ""
+msgstr "Tilføj \"%s\" som et troværdigt domæne"
 
 #: templates/update.admin.php:3
 #, php-format
@@ -904,7 +856,7 @@ msgstr "Begynd opdatering"
 msgid ""
 "To avoid timeouts with larger installations, you can instead run the "
 "following command from your installation directory:"
-msgstr ""
+msgstr "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:"
 
 #: templates/update.user.php:3
 msgid ""

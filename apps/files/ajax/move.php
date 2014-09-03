@@ -2,14 +2,14 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
-\OC::$session->close();
+\OC::$server->getSession()->close();
 
 // Get data
 $dir = stripslashes($_POST["dir"]);
 $file = stripslashes($_POST["file"]);
 $target = stripslashes(rawurldecode($_POST["target"]));
 
-$l = OC_L10N::get('files');
+$l = \OC::$server->getL10N('files');
 
 if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
 	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not move %s - File with this name already exists", array($file)) )));

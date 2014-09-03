@@ -14,7 +14,21 @@ class OCI extends AbstractDatabase {
 		} else {
 			$this->dbtablespace = 'USERS';
 		}
+		// allow empty hostname for oracle
+		$this->dbhost = $config['dbhost'];
+		\OC_Config::setValue('dbhost', $this->dbhost);
 		\OC_Config::setValue('dbtablespace', $this->dbtablespace);
+	}
+
+	public function validate($config) {
+		$errors = array();
+		if(empty($config['dbuser'])) {
+			$errors[] = $this->trans->t("%s enter the database username.", array($this->dbprettyname));
+		}
+		if(empty($config['dbname'])) {
+			$errors[] = $this->trans->t("%s enter the database name.", array($this->dbprettyname));
+		}
+		return $errors;
 	}
 
 	public function setupDatabase($username) {

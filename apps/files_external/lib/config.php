@@ -169,6 +169,7 @@ class OC_Mount_Config {
 				foreach ($options as &$option) {
 					$option = self::setUserVars($user, $option);
 				}
+				$options['personal'] = false;
 				$options['options'] = self::decryptPasswords($options['options']);
 				if (!isset($options['priority'])) {
 					$options['priority'] = $backends[$options['class']]['priority'];

@@ -25,6 +25,7 @@ namespace OCA\user_ldap\lib;
 
 class Wizard extends LDAPUtility {
 	static protected $l;
+	protected $access;
 	protected $cr;
 	protected $configuration;
 	protected $result;
@@ -48,12 +49,13 @@ class Wizard extends LDAPUtility {
 	 * @param Configuration $configuration an instance of Configuration
 	 * @param ILDAPWrapper $ldap an instance of ILDAPWrapper
 	 */
-	public function __construct(Configuration $configuration, ILDAPWrapper $ldap) {
+	public function __construct(Configuration $configuration, ILDAPWrapper $ldap, Access $access) {
 		parent::__construct($ldap);
 		$this->configuration = $configuration;
 		if(is_null(Wizard::$l)) {
-			Wizard::$l = \OC_L10N::get('user_ldap');
+			Wizard::$l = \OC::$server->getL10N('user_ldap');
 		}
+		$this->access = $access;
 		$this->result = new WizardResult;
 	}
 
@@ -78,11 +80,10 @@ class Wizard extends LDAPUtility {
 			throw new \Exception('Requirements not met', 400);
 		}
 
-		$ldapAccess = $this->getAccess();
 		if($type === 'groups') {
-			$result =  $ldapAccess->countGroups($filter);
+			$result =  $this->access->countGroups($filter);
 		} else if($type === 'users') {
-			$result = $ldapAccess->countUsers($filter);
+			$result = $this->access->countUsers($filter);
 		} else {
 			throw new \Exception('internal error: invald object type', 500);
 		}
@@ -125,6 +126,77 @@ class Wizard extends LDAPUtility {
 		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
 		$output = self::$l->n('%s user found', '%s users found', $usersTotal, $usersTotal);
 		$this->result->addChange('ldap_user_count', $output);
+		return $this->result;
+	}
+
+	/**
+	 * counts users with a specified attribute
+	 * @param string $attr
+	 * @return int|bool
+	 */
+	public function countUsersWithAttribute($attr) {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+
+		$filter = $this->access->combineFilterWithAnd(array(
+			$this->configuration->ldapUserFilter,
+			$attr . '=*'
+		));
+
+		return $this->access->countUsers($filter);
+	}
+
+	/**
+	 * detects the most often used email attribute for users applying to the
+	 * user list filter. If a setting is already present that returns at least
+	 * one hit, the detection will be canceled.
+	 * @return WizardResult|bool
+	 */
+	public function detectEmailAttribute() {
+		if(!$this->checkRequirements(array('ldapHost',
+										   'ldapPort',
+										   'ldapBase',
+										   'ldapUserFilter',
+										   ))) {
+			return  false;
+		}
+
+		$attr = $this->configuration->ldapEmailAttribute;
+		if(!empty($attr)) {
+			$count = intval($this->countUsersWithAttribute($attr));
+			if($count > 0) {
+				return false;
+			}
+			$writeLog = true;
+		} else {
+			$writeLog = false;
+		}
+
+		$emailAttributes = array('mail', 'mailPrimaryAddress');
+		$winner = '';
+		$maxUsers = 0;
+		foreach($emailAttributes as $attr) {
+			$count = $this->countUsersWithAttribute($attr);
+			if($count > $maxUsers) {
+				$maxUsers = $count;
+				$winner = $attr;
+			}
+		}
+
+		if($winner !== '') {
+			$this->result->addChange('ldap_email_attr', $winner);
+			if($writeLog) {
+				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
+					'automatically been reset, because the original value ' .
+					'did not return any results.', \OCP\Util::INFO);
+			}
+		}
+
 		return $this->result;
 	}
 
@@ -289,7 +361,6 @@ class Wizard extends LDAPUtility {
 	 */
 	public function fetchGroups($dbKey, $confKey) {
 		$obclasses = array('posixGroup', 'group', 'zimbraDistributionList', 'groupOfNames');
-		$ldapAccess = $this->getAccess();
 
 		$filterParts = array();
 		foreach($obclasses as $obclass) {
@@ -298,15 +369,15 @@ class Wizard extends LDAPUtility {
 		//we filter for everything
 		//- that looks like a group and
 		//- has the group display name set
-		$filter = $ldapAccess->combineFilterWithOr($filterParts);
-		$filter = $ldapAccess->combineFilterWithAnd(array($filter, 'cn=*'));
+		$filter = $this->access->combineFilterWithOr($filterParts);
+		$filter = $this->access->combineFilterWithAnd(array($filter, 'cn=*'));
 
 		$groupNames = array();
 		$groupEntries = array();
 		$limit = 400;
 		$offset = 0;
 		do {
-			$result = $ldapAccess->searchGroups($filter, array('cn','dn'), $limit, $offset);
+			$result = $this->access->searchGroups($filter, array('cn'), $limit, $offset);
 			foreach($result as $item) {
 				$groupNames[] = $item['cn'];
 				$groupEntries[] = $item;
@@ -994,6 +1065,7 @@ class Wizard extends LDAPUtility {
 					if(!$this->ldap->isResource($entry)) {
 						continue 2;
 					}
+					$rr = $entry; //will be expected by nextEntry next round
 					$attributes = $this->ldap->getAttributes($cr, $entry);
 					$dn = $this->ldap->getDN($cr, $entry);
 					if($dn === false || in_array($dn, $dnRead)) {
@@ -1007,7 +1079,6 @@ class Wizard extends LDAPUtility {
 					$foundItems = array_merge($foundItems, $newItems);
 					$this->resultCache[$dn][$attr] = $newItems;
 					$dnRead[] = $dn;
-					$rr = $entry; //will be expected by nextEntry next round
 				} while(($state === self::LRESULT_PROCESSED_SKIP
 						|| $this->ldap->isResource($entry))
 						&& ($dnReadLimit === 0 || $dnReadCount < $dnReadLimit));
@@ -1102,27 +1173,6 @@ class Wizard extends LDAPUtility {
 		} else {
 			return self::LRESULT_PROCESSED_SKIP;
 		}
-	}
-
-	/**
-	 * creates and returns an Access instance
-	 * @return \OCA\user_ldap\lib\Access
-	 */
-	private function getAccess() {
-		$con = new Connection($this->ldap, '', null);
-		$con->setConfiguration($this->configuration->getConfiguration());
-		$con->ldapConfigurationActive = true;
-		$con->setIgnoreValidation(true);
-
-		$userManager = new user\Manager(
-			\OC::$server->getConfig(),
-			new FilesystemHelper(),
-			new LogWrapper(),
-			\OC::$server->getAvatarManager(),
-			new \OCP\Image());
-
-		$ldapAccess = new Access($con, $this->ldap, $userManager);
-		return $ldapAccess;
 	}
 
 	/**

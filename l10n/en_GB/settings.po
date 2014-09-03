@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
+"Last-Translator: Darren Richardson <transifex@mnestis.net>\n"
 "Language-Team: English (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/en_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,7 +52,7 @@ msgstr "You need to set your user email before being able to send test emails."
 msgid "Send mode"
 msgstr "Send mode"
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:156
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
 msgid "Encryption"
 msgstr "Encryption"
 
@@ -196,11 +196,11 @@ msgstr "Unable to change password"
 
 #: js/admin.js:45
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
-msgstr ""
+msgstr "Are you really sure you want add \"{domain}\" as a trusted domain?"
 
 #: js/admin.js:46
 msgid "Add trusted domain"
-msgstr ""
+msgstr "Add trusted domain"
 
 #: js/admin.js:146
 msgid "Sending..."
@@ -326,7 +326,7 @@ msgstr "A valid group name must be provided"
 msgid "deleted {groupName}"
 msgstr "deleted {groupName}"
 
-#: js/users/groups.js:230 js/users/users.js:300
+#: js/users/groups.js:230 js/users/users.js:299
 msgid "undo"
 msgstr "undo"
 
@@ -350,27 +350,27 @@ msgstr "Delete"
 msgid "never"
 msgstr "never"
 
-#: js/users/users.js:299
+#: js/users/users.js:298
 msgid "deleted {userName}"
 msgstr "deleted {userName}"
 
-#: js/users/users.js:435
+#: js/users/users.js:434
 msgid "add group"
 msgstr "add group"
 
-#: js/users/users.js:653
+#: js/users/users.js:652
 msgid "A valid username must be provided"
 msgstr "A valid username must be provided"
 
-#: js/users/users.js:654 js/users/users.js:660 js/users/users.js:675
+#: js/users/users.js:653 js/users/users.js:659 js/users/users.js:674
 msgid "Error creating user"
 msgstr "Error creating user"
 
-#: js/users/users.js:659
+#: js/users/users.js:658
 msgid "A valid password must be provided"
 msgstr "A valid password must be provided"
 
-#: js/users/users.js:691
+#: js/users/users.js:690
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr "Warning: Home directory for user \"{user}\" already exists"
 
@@ -734,11 +734,11 @@ msgstr "More"
 msgid "Less"
 msgstr "Less"
 
-#: templates/admin.php:485 templates/personal.php:208
+#: templates/admin.php:485 templates/personal.php:209
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:489 templates/personal.php:211
+#: templates/admin.php:489 templates/personal.php:212
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -822,120 +822,128 @@ msgstr "If you want to support the project\n\t\t<a href=\"https://owncloud.org/c
 msgid "Show First Run Wizard again"
 msgstr "Show First Run Wizard again"
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 
-#: templates/personal.php:50 templates/users/part.createuser.php:8
+#: templates/personal.php:51 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr "Password"
 
-#: templates/personal.php:51
+#: templates/personal.php:52
 msgid "Your password was changed"
 msgstr "Your password was changed"
 
-#: templates/personal.php:52
+#: templates/personal.php:53
 msgid "Unable to change your password"
 msgstr "Unable to change your password"
 
-#: templates/personal.php:54
+#: templates/personal.php:55
 msgid "Current password"
 msgstr "Current password"
 
-#: templates/personal.php:57
+#: templates/personal.php:58
 msgid "New password"
 msgstr "New password"
 
-#: templates/personal.php:61
+#: templates/personal.php:62
 msgid "Change password"
 msgstr "Change password"
 
-#: templates/personal.php:73 templates/users/part.userlist.php:8
+#: templates/personal.php:74 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr "Full Name"
 
-#: templates/personal.php:88
+#: templates/personal.php:89
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:90
+#: templates/personal.php:91
 msgid "Your email address"
 msgstr "Your email address"
 
-#: templates/personal.php:93
+#: templates/personal.php:94
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr "Fill in an email address to enable password recovery and receive notifications"
 
-#: templates/personal.php:101
+#: templates/personal.php:102
 msgid "Profile picture"
 msgstr "Profile picture"
 
-#: templates/personal.php:106
+#: templates/personal.php:107
 msgid "Upload new"
 msgstr "Upload new"
 
-#: templates/personal.php:108
+#: templates/personal.php:109
 msgid "Select new from Files"
 msgstr "Select new from Files"
 
-#: templates/personal.php:109
+#: templates/personal.php:110
 msgid "Remove image"
 msgstr "Remove image"
 
-#: templates/personal.php:110
+#: templates/personal.php:111
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr "Either png or jpg. Ideally square but you will be able to crop it."
 
-#: templates/personal.php:112
+#: templates/personal.php:113
 msgid "Your avatar is provided by your original account."
 msgstr "Your avatar is provided by your original account."
 
-#: templates/personal.php:116
+#: templates/personal.php:117
 msgid "Cancel"
 msgstr "Cancel"
 
-#: templates/personal.php:117
+#: templates/personal.php:118
 msgid "Choose as profile image"
 msgstr "Choose as profile image"
 
-#: templates/personal.php:123 templates/personal.php:124
+#: templates/personal.php:124 templates/personal.php:125
 msgid "Language"
 msgstr "Language"
 
-#: templates/personal.php:143
+#: templates/personal.php:144
 msgid "Help translate"
 msgstr "Help translate"
 
-#: templates/personal.php:162
+#: templates/personal.php:163
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr "The encryption app is no longer enabled, please decrypt all your files"
 
-#: templates/personal.php:168
+#: templates/personal.php:169
 msgid "Log-in password"
 msgstr "Log-in password"
 
-#: templates/personal.php:173
+#: templates/personal.php:174
 msgid "Decrypt all Files"
 msgstr "Decrypt all Files"
 
-#: templates/personal.php:186
+#: templates/personal.php:187
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong"
 " you can restore the keys. Only delete them permanently if you are sure that"
 " all files are decrypted correctly."
 msgstr "Your encryption keys are moved to a backup location. If something went wrong you can restore the keys. Only delete them permanently if you are sure that all files are decrypted correctly."
 
-#: templates/personal.php:190
+#: templates/personal.php:191
 msgid "Restore Encryption Keys"
 msgstr "Restore Encryption Keys"
 
-#: templates/personal.php:194
+#: templates/personal.php:195
 msgid "Delete Encryption Keys"
 msgstr "Delete Encryption Keys"
+
+#: templates/users/main.php:34
+msgid "Show storage location"
+msgstr "Show storage location"
+
+#: templates/users/main.php:38
+msgid "Show last log in"
+msgstr "Show last log in"
 
 #: templates/users/part.createuser.php:4
 msgid "Login Name"
@@ -976,19 +984,19 @@ msgstr "Everyone"
 msgid "Admins"
 msgstr "Admins"
 
-#: templates/users/part.setquota.php:7
+#: templates/users/part.setquota.php:3
 msgid "Default Quota"
 msgstr "Default Quota"
 
-#: templates/users/part.setquota.php:9 templates/users/part.userlist.php:66
+#: templates/users/part.setquota.php:5 templates/users/part.userlist.php:66
 msgid "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")"
 msgstr "Please enter storage quota (e.g. \"512 MB\" or \"12 GB\")"
 
-#: templates/users/part.setquota.php:11 templates/users/part.userlist.php:75
+#: templates/users/part.setquota.php:7 templates/users/part.userlist.php:75
 msgid "Unlimited"
 msgstr "Unlimited"
 
-#: templates/users/part.setquota.php:26 templates/users/part.userlist.php:90
+#: templates/users/part.setquota.php:22 templates/users/part.userlist.php:90
 msgid "Other"
 msgstr "Other"
 

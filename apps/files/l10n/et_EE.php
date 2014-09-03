@@ -68,6 +68,7 @@ $TRANSLATIONS = array(
 "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." => "Vigane Krüpteerimisrakendi privaatvõti . Palun uuenda oma privaatse võtme parool oma personaasete seadete all taastamaks ligipääsu oma krüpteeritud failidele.",
 "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." => "Krüpteering on keelatud, kuid sinu failid on endiselt krüpteeritud. Palun vaata oma personaalseid seadeid oma failide dekrüpteerimiseks.",
 "{dirs} and {files}" => "{dirs} ja {files}",
+"%s could not be renamed as it has been deleted" => "%s ei saa ümber nimetada, kuna see on kustutatud",
 "%s could not be renamed" => "%s ümbernimetamine ebaõnnestus",
 "Upload (max. %s)" => "Üleslaadimine (max. %s)",
 "File handling" => "Failide käsitlemine",

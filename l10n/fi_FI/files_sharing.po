@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-17 01:54-0400\n"
-"PO-Revision-Date: 2014-08-16 09:00+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:23+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -30,15 +30,15 @@ msgstr "Virheellinen tai ei-luotettu SSL-varmenne"
 msgid "Couldn't add remote share"
 msgstr "Etäjaon liittäminen epäonnistui"
 
-#: appinfo/app.php:33 js/app.js:34
+#: appinfo/app.php:36 js/app.js:34
 msgid "Shared with you"
 msgstr "Jaettu kanssasi"
 
-#: appinfo/app.php:45 js/app.js:53
+#: appinfo/app.php:48 js/app.js:53
 msgid "Shared with others"
 msgstr "Jaettu muiden kanssa"
 
-#: appinfo/app.php:54 js/app.js:72
+#: appinfo/app.php:57 js/app.js:72
 msgid "Shared by link"
 msgstr "Jaettu linkin kautta"
 

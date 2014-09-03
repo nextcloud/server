@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:02+0000\n"
-"Last-Translator: I Robot\n"
+"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 05:02+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,7 +86,7 @@ msgstr "O servidor não consegue abrir URLs, por favor verifique a configuraçã
 #: ajax/newfile.php:126
 #, php-format
 msgid "The file exceeds your quota by %s"
-msgstr ""
+msgstr "O ficheiro excede a sua quota por %s"
 
 #: ajax/newfile.php:141
 #, php-format
@@ -334,7 +334,7 @@ msgstr "{dirs} e {files}"
 #: lib/app.php:80
 #, php-format
 msgid "%s could not be renamed as it has been deleted"
-msgstr ""
+msgstr "Não foi possível renomear %s devido a ter sido eliminado"
 
 #: lib/app.php:113
 #, php-format

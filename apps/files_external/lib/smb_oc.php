@@ -14,12 +14,12 @@ class SMB_OC extends \OC\Files\Storage\SMB {
 	private $username_as_share;
 
 	public function __construct($params) {
-		if (isset($params['host']) && \OC::$session->exists('smb-credentials')) {
+		if (isset($params['host']) && \OC::$server->getSession()->exists('smb-credentials')) {
 			$host=$params['host'];
 			$this->username_as_share = ($params['username_as_share'] === 'true');
 
-			$params_auth = \OC::$session->get('smb-credentials');
-			$user = \OC::$session->get('loginname');
+			$params_auth = \OC::$server->getSession()->get('smb-credentials');
+			$user = \OC::$server->getSession()->get('loginname');
 			$password = $params_auth['password'];
 
 			$root=isset($params['root'])?$params['root']:'/';
@@ -45,7 +45,7 @@ class SMB_OC extends \OC\Files\Storage\SMB {
 	}
 
 	public static function login( $params ) {
-		\OC::$session->set('smb-credentials', $params);
+		\OC::$server->getSession()->set('smb-credentials', $params);
 	}
 
 	public function isSharable($path) {

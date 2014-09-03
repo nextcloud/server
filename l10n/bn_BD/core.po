@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-26 01:54-0400\n"
-"PO-Revision-Date: 2014-08-26 05:23+0000\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 16:22+0000\n"
 "Last-Translator: I Robot\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -59,11 +59,11 @@ msgstr ""
 
 #: avatar/controller.php:86
 msgid "Unknown filetype"
-msgstr ""
+msgstr "অজানা প্রকৃতির ফাইল"
 
 #: avatar/controller.php:90
 msgid "Invalid image"
-msgstr ""
+msgstr "অবৈধ চিত্র"
 
 #: avatar/controller.php:120 avatar/controller.php:147
 msgid "No temporary profile picture available, try again"
@@ -149,77 +149,29 @@ msgstr "নভেম্বর"
 msgid "December"
 msgstr "ডিসেম্বর"
 
-#: js/js.js:501
+#: js/js.js:497
 msgid "Settings"
 msgstr "নিয়ামকসমূহ"
 
-#: js/js.js:590
+#: js/js.js:586
 msgid "File"
 msgstr "ফাইল"
 
-#: js/js.js:591
+#: js/js.js:587
 msgid "Folder"
 msgstr "ফোল্ডার"
 
-#: js/js.js:592
+#: js/js.js:588
 msgid "Image"
 msgstr "চিত্র"
 
-#: js/js.js:593
+#: js/js.js:589
 msgid "Audio"
 msgstr "অডিও"
 
-#: js/js.js:607
+#: js/js.js:603
 msgid "Saving..."
 msgstr "সংরক্ষণ করা হচ্ছে.."
-
-#: js/js.js:1278
-msgid "seconds ago"
-msgstr "সেকেন্ড পূর্বে"
-
-#: js/js.js:1279
-msgid "%n minute ago"
-msgid_plural "%n minutes ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1280
-msgid "%n hour ago"
-msgid_plural "%n hours ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1281
-msgid "today"
-msgstr "আজ"
-
-#: js/js.js:1282
-msgid "yesterday"
-msgstr "গতকাল"
-
-#: js/js.js:1283
-msgid "%n day ago"
-msgid_plural "%n days ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1284
-msgid "last month"
-msgstr "গত মাস"
-
-#: js/js.js:1285
-msgid "%n month ago"
-msgid_plural "%n months ago"
-msgstr[0] ""
-msgstr[1] ""
-
-#: js/js.js:1286
-msgid "last year"
-msgstr "গত বছর"
-
-#: js/js.js:1287
-msgid "years ago"
-msgstr "বছর পূর্বে"
 
 #: js/lostpassword.js:3 lostpassword/controller/lostcontroller.php:198
 msgid "Couldn't send reset email. Please contact your administrator."
@@ -288,11 +240,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:450
 msgid "New Files"
-msgstr ""
+msgstr "নতুন ফাইল"
 
 #: js/oc-dialogs.js:451
 msgid "Already existing files"
-msgstr ""
+msgstr "বিদ্যমান ফাইল"
 
 #: js/oc-dialogs.js:453
 msgid "Which files do you want to keep?"
@@ -306,11 +258,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:462
 msgid "Cancel"
-msgstr "বাতির"
+msgstr "বাতিল"
 
 #: js/oc-dialogs.js:472
 msgid "Continue"
-msgstr ""
+msgstr "চালিয়ে যাও"
 
 #: js/oc-dialogs.js:519 js/oc-dialogs.js:532
 msgid "(all selected)"
@@ -581,7 +533,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:18
 msgid "Reset"
-msgstr ""
+msgstr "পূণঃনির্ধানণ"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "New password"

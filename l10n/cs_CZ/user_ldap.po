@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-07-19 01:54-0400\n"
-"PO-Revision-Date: 2014-07-18 09:41+0000\n"
-"Last-Translator: Jaroslav Lichtblau <jaroslav@lichtblau.cz>\n"
+"POT-Creation-Date: 2014-08-31 01:54-0400\n"
+"PO-Revision-Date: 2014-08-30 19:00+0000\n"
+"Last-Translator: Petr Šťastný <petr@stastny.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,11 +57,11 @@ msgstr "Neurčena žádná akce"
 msgid "No configuration specified"
 msgstr "Neurčena žádná konfigurace"
 
-#: ajax/wizard.php:81
+#: ajax/wizard.php:97
 msgid "No data specified"
 msgstr "Neurčena žádná data"
 
-#: ajax/wizard.php:89
+#: ajax/wizard.php:105
 #, php-format
 msgid " Could not set configuration %s"
 msgstr "Nelze nastavit konfiguraci %s"
@@ -100,57 +100,57 @@ msgstr "Chyba"
 
 #: js/settings.js:244
 msgid "Please specify a Base DN"
-msgstr "Uveď prosím základní DN"
+msgstr "Uveďte prosím Base DN"
 
 #: js/settings.js:245
 msgid "Could not determine Base DN"
-msgstr "Nelze určit základní DN"
+msgstr "Nelze určit Base DN"
 
 #: js/settings.js:276
 msgid "Please specify the port"
-msgstr "Prosím zadej port"
+msgstr "Prosím zadejte port"
 
-#: js/settings.js:780
+#: js/settings.js:792
 msgid "Configuration OK"
 msgstr "Konfigurace v pořádku"
 
-#: js/settings.js:789
+#: js/settings.js:801
 msgid "Configuration incorrect"
 msgstr "Nesprávná konfigurace"
 
-#: js/settings.js:798
+#: js/settings.js:810
 msgid "Configuration incomplete"
 msgstr "Nekompletní konfigurace"
 
-#: js/settings.js:815 js/settings.js:824
+#: js/settings.js:827 js/settings.js:836
 msgid "Select groups"
 msgstr "Vyberte skupiny"
 
-#: js/settings.js:818 js/settings.js:827
+#: js/settings.js:830 js/settings.js:839
 msgid "Select object classes"
 msgstr "Vyberte objektové třídy"
 
-#: js/settings.js:821
+#: js/settings.js:833
 msgid "Select attributes"
 msgstr "Vyberte atributy"
 
-#: js/settings.js:848
+#: js/settings.js:860
 msgid "Connection test succeeded"
 msgstr "Test spojení byl úspěšný"
 
-#: js/settings.js:855
+#: js/settings.js:867
 msgid "Connection test failed"
 msgstr "Test spojení selhal"
 
-#: js/settings.js:864
+#: js/settings.js:876
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr "Opravdu si přejete smazat současné nastavení serveru?"
 
-#: js/settings.js:865
+#: js/settings.js:877
 msgid "Confirm Deletion"
 msgstr "Potvrdit smazání"
 
-#: lib/wizard.php:97 lib/wizard.php:112
+#: lib/wizard.php:98 lib/wizard.php:113
 #, php-format
 msgid "%s group found"
 msgid_plural "%s groups found"
@@ -158,7 +158,7 @@ msgstr[0] "nalezena %s skupina"
 msgstr[1] "nalezeny %s skupiny"
 msgstr[2] "nalezeno %s skupin"
 
-#: lib/wizard.php:126
+#: lib/wizard.php:127
 #, php-format
 msgid "%s user found"
 msgid_plural "%s users found"
@@ -166,11 +166,11 @@ msgstr[0] "nalezen %s uživatel"
 msgstr[1] "nalezeni %s uživatelé"
 msgstr[2] "nalezeno %s uživatelů"
 
-#: lib/wizard.php:317 lib/wizard.php:1051
+#: lib/wizard.php:392 lib/wizard.php:1128
 msgid "Could not find the desired feature"
 msgstr "Nelze nalézt požadovanou vlastnost"
 
-#: lib/wizard.php:858 lib/wizard.php:870
+#: lib/wizard.php:935 lib/wizard.php:947
 msgid "Invalid Host"
 msgstr "Neplatný hostitel"
 
@@ -262,60 +262,60 @@ msgid ""
 "username in the login action. Example: \"uid=%%uid\""
 msgstr "Určuje použitý filtr při pokusu o přihlášení. %%uid nahrazuje uživatelské jméno v činnosti přihlášení. Příklad: \"uid=%%uid\""
 
-#: templates/part.wizard-server.php:6
+#: templates/part.wizard-server.php:13
 msgid "1. Server"
 msgstr "1. Server"
 
-#: templates/part.wizard-server.php:13
+#: templates/part.wizard-server.php:20
 #, php-format
 msgid "%s. Server:"
 msgstr "%s. Server:"
 
-#: templates/part.wizard-server.php:18
+#: templates/part.wizard-server.php:25
 msgid "Add Server Configuration"
 msgstr "Přidat nastavení serveru"
 
-#: templates/part.wizard-server.php:21
+#: templates/part.wizard-server.php:28
 msgid "Delete Configuration"
 msgstr "Odstranit konfiguraci"
 
-#: templates/part.wizard-server.php:30
+#: templates/part.wizard-server.php:37
 msgid "Host"
 msgstr "Počítač"
 
-#: templates/part.wizard-server.php:31
+#: templates/part.wizard-server.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "Můžete vynechat protokol, vyjma pokud požadujete SSL. Tehdy začněte s ldaps://"
 
-#: templates/part.wizard-server.php:36
+#: templates/part.wizard-server.php:43
 msgid "Port"
 msgstr "Port"
 
-#: templates/part.wizard-server.php:44
+#: templates/part.wizard-server.php:51
 msgid "User DN"
 msgstr "Uživatelské DN"
 
-#: templates/part.wizard-server.php:45
+#: templates/part.wizard-server.php:52
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "DN klientského uživatele, ke kterému tvoříte vazbu, např. uid=agent,dc=example,dc=com. Pro anonymní přístup ponechte DN a heslo prázdné."
 
-#: templates/part.wizard-server.php:52
+#: templates/part.wizard-server.php:59
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/part.wizard-server.php:53
+#: templates/part.wizard-server.php:60
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "Pro anonymní přístup ponechte údaje DN and heslo prázdné."
 
-#: templates/part.wizard-server.php:60
+#: templates/part.wizard-server.php:67
 msgid "One Base DN per line"
 msgstr "Jedna základní DN na řádku"
 
-#: templates/part.wizard-server.php:61
+#: templates/part.wizard-server.php:68
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "V rozšířeném nastavení můžete určit základní DN pro uživatele a skupiny"
 
@@ -484,14 +484,14 @@ msgstr "Pokud zapnuto, je možno používat skupiny, které obsahují jiné skup
 
 #: templates/settings.php:40
 msgid "Paging chunksize"
-msgstr ""
+msgstr "Velikost bloku stránkování"
 
 #: templates/settings.php:40
 msgid ""
 "Chunksize used for paged LDAP searches that may return bulky results like "
 "user or group enumeration. (Setting it 0 disables paged LDAP searches in "
 "those situations.)"
-msgstr ""
+msgstr "Velikost bloku použitá pro stránkování vyhledávání v LDAP, které může vracet objemné výsledky jako třeba výčet uživatelů či skupin. (Nastavení na 0 zakáže stránkovaná vyhledávání pro tyto situace.)"
 
 #: templates/settings.php:42
 msgid "Special Attributes"

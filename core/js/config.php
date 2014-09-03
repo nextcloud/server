@@ -14,7 +14,7 @@ header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 
 // Enable l10n support
-$l = OC_L10N::get('core');
+$l = \OC::$server->getL10N('core');
 
 // Enable OC_Defaults support
 $defaults = new OC_Defaults();

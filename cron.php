@@ -56,10 +56,10 @@ try {
 	// load all apps to get all api routes properly setup
 	OC_App::loadApps();
 
-	\OC::$session->close();
+	\OC::$server->getSession()->close();
 
 	// initialize a dummy memory session
-	\OC::$session = new \OC\Session\Memory('');
+	\OC::$server->setSession(new \OC\Session\Memory(''));
 
 	$logger = \OC_Log::$object;
 

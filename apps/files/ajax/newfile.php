@@ -7,7 +7,7 @@ if(!OC_User::isLoggedIn()) {
 	exit;
 }
 
-\OC::$session->close();
+\OC::$server->getSession()->close();
 
 // Get the params
 $dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
@@ -46,7 +46,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
-$l10n = \OC_L10n::get('files');
+$l10n = \OC::$server->getL10N('files');
 
 $result = array(
 	'success' 	=> false,

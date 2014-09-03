@@ -8,7 +8,7 @@ $username = $_POST["username"];
 $group = $_POST["group"];
 
 if($username === OC_User::getUser() && $group === "admin" &&  OC_User::isAdminUser($username)) {
-	$l = OC_L10N::get('core');
+	$l = \OC::$server->getL10N('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Admins can\'t remove themself from the admin group'))));
 	exit();
 }
@@ -16,7 +16,7 @@ if($username === OC_User::getUser() && $group === "admin" &&  OC_User::isAdminUs
 if(!OC_User::isAdminUser(OC_User::getUser())
 	&& (!OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)
 		|| !OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group))) {
-	$l = OC_L10N::get('core');
+	$l = \OC::$server->getL10N('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 	exit();
 }
@@ -25,7 +25,7 @@ if(!OC_Group::groupExists($group)) {
 	OC_Group::createGroup($group);
 }
 
-$l = OC_L10N::get('settings');
+$l = \OC::$server->getL10N('settings');
 
 $error = $l->t("Unable to add user to group %s", $group);
 $action = "add";

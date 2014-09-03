@@ -11,8 +11,6 @@ $TRANSLATIONS = array(
 "Name" => "ئاتى",
 "Folder name" => "قىسقۇچ ئاتى",
 "Configuration" => "سەپلىمە",
-"Groups" => "گۇرۇپپا",
-"Users" => "ئىشلەتكۈچىلەر",
 "Delete" => "ئۆچۈر"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

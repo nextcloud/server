@@ -2,7 +2,7 @@
 
 function updateStatus(statusEl, result){
 	statusEl.removeClass('success error loading-small');
-	if (result && result.status == 'success' && result.data.message) {
+	if (result && result.status === 'success' && result.data.message) {
 		statusEl.addClass('success');
 		return true;
 	} else {
@@ -11,11 +11,31 @@ function updateStatus(statusEl, result){
 	}
 }
 
+function getSelection($row) {
+	var values = $row.find('.applicableUsers').select2('val');
+	if (!values || values.length === 0) {
+		values = ['all'];
+	}
+	return values;
+}
+
+function highlightBorder(element, highlight) {
+	$(element).toggleClass('warning-input', highlight);
+	return highlight;
+}
+
+function highlightInput(input) {
+	if ($(input).attr('type') === 'text' || $(input).attr('type') === 'password') {
+		return highlightBorder(input,
+			($(input).val() === '' && !$(input).hasClass('optional')));
+	}
+}
+
 OC.MountConfig={
 	saveStorage:function(tr, callback) {
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		var oldMountPoint = $(tr).find('.mountPoint input').data('mountpoint');
-		if (mountPoint == '') {
+		if (mountPoint === '') {
 			return false;
 		}
 		var statusSpan = $(tr).closest('tr').find('.status span');
@@ -27,7 +47,7 @@ OC.MountConfig={
 		}
 		var classOptions = {};
 		$.each(configuration, function(index, input) {
-			if ($(input).val() == '' && !$(input).hasClass('optional')) {
+			if ($(input).val() === '' && !$(input).hasClass('optional')) {
 				addMountPoint = false;
 				return false;
 			}
@@ -42,10 +62,7 @@ OC.MountConfig={
 			}
 		});
 		if ($('#externalStorage').data('admin') === true) {
-			var multiselect = $(tr).find('.chzn-select').val();
-			if (multiselect == null) {
-				return false;
-			}
+			var multiselect = getSelection($(tr));
 		}
 		if (addMountPoint) {
 			var status = false;
@@ -166,16 +183,137 @@ OC.MountConfig={
 };
 
 $(document).ready(function() {
-	$('.chzn-select').chosen();
+	//initialize hidden input field with list of users and groups
+	$('#externalStorage').find('tr:not(#addMountPoint)').each(function(i,tr) {
+		var applicable = $(tr).find('.applicable');
+		if (applicable.length > 0) {
+			var groups = applicable.data('applicable-groups');
+			var groupsId = [];
+			$.each(groups, function () {
+				groupsId.push(this+"(group)");
+			});
+			var users = applicable.data('applicable-users');
+			if (users.indexOf('all') > -1) {
+				$(tr).find('.applicableUsers').val('');
+			} else {
+				$(tr).find('.applicableUsers').val(groupsId.concat(users).join(','));
+			}
+		}
+	});
 
+	var userListLimit = 30;
+	function addSelect2 ($elements) {
+		if ($elements.length > 0) {
+			$elements.select2({
+				placeholder: t('files_external', 'All users. Type to select user or group.'),
+				allowClear: true,
+				multiple: true,
+				//minimumInputLength: 1,
+				ajax: {
+					url: OC.generateUrl('apps/files_external/applicable'),
+					dataType: 'json',
+					quietMillis: 100,
+					data: function (term, page) { // page is the one-based page number tracked by Select2
+						return {
+							pattern: term, //search term
+							limit: userListLimit, // page size
+							offset: userListLimit*(page-1) // page number starts with 0
+						};
+					},
+					results: function (data, page) {
+						if (data.status === "success") {
+
+							var results = [];
+							var userCount = 0; // users is an object
+
+							// add groups
+							$.each(data.groups, function(i, group) {
+								results.push({name:group+'(group)', displayname:group, type:'group' });
+							});
+							// add users
+							$.each(data.users, function(id, user) {
+								userCount++;
+								results.push({name:id, displayname:user, type:'user' });
+							});
+
+
+							var more = (userCount >= userListLimit) || (data.groups.length >= userListLimit);
+							return {results: results, more: more};
+						} else {
+							//FIXME add error handling
+						}
+					}
+				},
+				initSelection: function(element, callback) {
+					var users = {};
+					users['users'] = [];
+					var toSplit = element.val().split(",");
+					for (var i = 0; i < toSplit.length; i++) {
+						users['users'].push(toSplit[i]);
+					}
+
+					$.ajax(OC.generateUrl('displaynames'), {
+						type: 'POST',
+						contentType: 'application/json',
+						data: JSON.stringify(users),
+						dataType: "json"
+					}).done(function(data) {
+						var results = [];
+						if (data.status === "success") {
+							$.each(data.users, function(user, displayname) {
+								if (displayname !== false) {
+									results.push({name:user, displayname:displayname, type:'user'});
+								}
+							});
+							callback(results);
+						} else {
+							//FIXME add error handling
+						}
+					});
+				},
+				id: function(element) {
+					return element.name;
+				},
+				formatResult: function (element) {
+					var $result = $('<span><div class="avatardiv"/><span>'+escapeHTML(element.displayname)+'</span></span>');
+					var $div = $result.find('.avatardiv')
+						.attr('data-type', element.type)
+						.attr('data-name', element.name)
+						.attr('data-displayname', element.displayname);
+					if (element.type === 'group') {
+						var url = OC.imagePath('core','places/contacts-dark'); // TODO better group icon
+						$div.html('<img width="32" height="32" src="'+url+'">');
+					}
+					return $result.get(0).outerHTML;
+				},
+				formatSelection: function (element) {
+					if (element.type === 'group') {
+						return '<span title="'+escapeHTML(element.name)+'" class="group">'+escapeHTML(element.displayname+' '+t('files_external', '(group)'))+'</span>';
+					} else {
+						return '<span title="'+escapeHTML(element.name)+'" class="user">'+escapeHTML(element.displayname)+'</span>';
+					}
+				},
+				escapeMarkup: function (m) { return m; } // we escape the markup in formatResult and formatSelection
+			}).on("select2-loaded", function() {
+				$.each($(".avatardiv"), function(i, div) {
+					$div = $(div);
+					if ($div.data('type') === 'user') {
+						$div.avatar($div.data('name'),32);
+					}
+				})
+			});
+		}
+	}
+	addSelect2($('tr:not(#addMountPoint) .applicableUsers'));
+	
 	$('#externalStorage').on('change', '#selectBackend', function() {
-		var tr = $(this).parent().parent();
+		var tr = $(this).closest("tr");
 		$('#externalStorage tbody').append($(tr).clone());
 		$('#externalStorage tbody tr').last().find('.mountPoint input').val('');
 		var selected = $(this).find('option:selected').text();
 		var backendClass = $(this).val();
-		$(this).parent().text(selected);
-		if ($(tr).find('.mountPoint input').val() == '') {
+		$(tr).find('.backend').text(selected);
+		if ($(tr).find('.mountPoint input').val() === '') {
 			$(tr).find('.mountPoint input').val(suggestMountPoint(selected));
 		}
 		$(tr).addClass(backendClass);
@@ -184,40 +322,40 @@ $(document).ready(function() {
 		var configurations = $(this).data('configurations');
 		var td = $(tr).find('td.configuration');
 		$.each(configurations, function(backend, parameters) {
-			if (backend == backendClass) {
+			if (backend === backendClass) {
 				$.each(parameters['configuration'], function(parameter, placeholder) {
 					var is_optional = false;
 					if (placeholder.indexOf('&') === 0) {
 						is_optional = true;
 						placeholder = placeholder.substring(1);
 					}
+					var newElement;
 					if (placeholder.indexOf('*') === 0) {
 						var class_string = is_optional ? ' optional' : '';
-						td.append('<input type="password" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
+						newElement = $('<input type="password" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder.substring(1)+'" />');
 					} else if (placeholder.indexOf('!') === 0) {
-						td.append('<label><input type="checkbox" class="added" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
+						newElement = $('<label><input type="checkbox" class="added" data-parameter="'+parameter+'" />'+placeholder.substring(1)+'</label>');
 					} else if (placeholder.indexOf('#') === 0) {
-						td.append('<input type="hidden" class="added" data-parameter="'+parameter+'" />');
+						newElement = $('<input type="hidden" class="added" data-parameter="'+parameter+'" />');
 					} else {
 						var class_string = is_optional ? ' optional' : '';
-						td.append('<input type="text" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
+						newElement = $('<input type="text" class="added' + class_string + '" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
+					highlightInput(newElement);
+					td.append(newElement);
 				});
-				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length == 1) {
+				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length === 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
+				td.children().not('[type=hidden]').first().focus();
 				return false;
 			}
 		});
-		// Reset chosen
-		var chosen = $(tr).find('.applicable select');
-		chosen.parent().find('div').remove();
-		chosen.removeAttr('id').removeClass('chzn-done').css({display:'inline-block'});
-		chosen.chosen();
 		$(tr).find('td').last().attr('class', 'remove');
 		$(tr).find('td').last().removeAttr('style');
 		$(tr).removeAttr('id');
 		$(this).remove();
+		addSelect2($('tr:not(#addMountPoint) .applicableUsers'));
 	});
 
 	function suggestMountPoint(defaultMountPoint) {
@@ -232,7 +370,7 @@ $(document).ready(function() {
 		while (match && i < 20) {
 			match = false;
 			$('#externalStorage tbody td.mountPoint input').each(function(index, mountPoint) {
-				if ($(mountPoint).val() == defaultMountPoint+append) {
+				if ($(mountPoint).val() === defaultMountPoint+append) {
 					match = true;
 					return false;
 				}
@@ -247,9 +385,11 @@ $(document).ready(function() {
 		return defaultMountPoint+append;
 	}
 
-	$('#externalStorage').on('paste', 'td', function() {
-		var tr = $(this).parent();
+	$('#externalStorage').on('paste', 'td input', function() {
+		var tr = $(this).closest("tr");
+		var me = this;
 		setTimeout(function() {
+			highlightInput($(me));
 			OC.MountConfig.saveStorage(tr);
 		}, 20);
 	});
@@ -258,7 +398,8 @@ $(document).ready(function() {
 
 	$('#externalStorage').on('keyup', 'td input', function() {
 		clearTimeout(timer);
-		var tr = $(this).parent().parent();
+		var tr = $(this).closest("tr");
+		highlightInput($(this));
 		if ($(this).val) {
 			timer = setTimeout(function() {
 				OC.MountConfig.saveStorage(tr);
@@ -267,41 +408,42 @@ $(document).ready(function() {
 	});
 
 	$('#externalStorage').on('change', 'td input:checkbox', function() {
-		OC.MountConfig.saveStorage($(this).parent().parent().parent());
+		OC.MountConfig.saveStorage($(this).closest("tr"));
 	});
 
-	$('#externalStorage').on('change', '.applicable .chzn-select', function() {
-		OC.MountConfig.saveStorage($(this).parent().parent());
+	$('#externalStorage').on('change', '.applicable', function() {
+		OC.MountConfig.saveStorage($(this).closest("tr"));
+	});
+
+	$('#externalStorage').on('click', '.status>span', function() {
+		OC.MountConfig.saveStorage($(this).closest("tr"));
 	});
 
 	$('#sslCertificate').on('click', 'td.remove>img', function() {
-		var $tr = $(this).parent().parent();
-		var row = this.parentNode.parentNode;
-		$.post(OC.filePath('files_external', 'ajax', 'removeRootCertificate.php'), {cert: row.id});
+		var $tr = $(this).closest("tr");
+		$.post(OC.filePath('files_external', 'ajax', 'removeRootCertificate.php'), {cert: $tr.attr('id')});
 		$tr.remove();
 		return true;
 	});
 
 	$('#externalStorage').on('click', 'td.remove>img', function() {
-		var tr = $(this).parent().parent();
+		var tr = $(this).closest('tr');
 		var mountPoint = $(tr).find('.mountPoint input').val();
 
 		if ($('#externalStorage').data('admin') === true) {
 			var isPersonal = false;
-			var multiselect = $(tr).find('.chzn-select').val();
-			if (multiselect != null) {
-				$.each(multiselect, function(index, value) {
-					var pos = value.indexOf('(group)');
-					if (pos != -1) {
-						var mountType = 'group';
-						var applicable = value.substr(0, pos);
-					} else {
-						var mountType = 'user';
-						var applicable = value;
-					}
-					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
-				});
-			}
+			var multiselect = getSelection($(tr));
+			$.each(multiselect, function(index, value) {
+				var pos = value.indexOf('(group)');
+				if (pos != -1) {
+					var mountType = 'group';
+					var applicable = value.substr(0, pos);
+				} else {
+					var mountType = 'user';
+					var applicable = value;
+				}
+				$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+			});
 		} else {
 			var mountType = 'user';
 			var applicable = OC.currentUser;
