@@ -234,7 +234,7 @@ class Session implements IUserSession, Emitter {
 		}
 		// replace successfully used token with a new one
 		\OC_Preferences::deleteKey($uid, 'login_token', $currentToken);
-		$newToken = \OC_Util::generateRandomBytes(32);
+		$newToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
 		\OC_Preferences::setValue($uid, 'login_token', $newToken, time());
 		$this->setMagicInCookie($user->getUID(), $newToken);
 

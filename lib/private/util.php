@@ -940,7 +940,7 @@ class OC_Util {
 		// Check if a token exists
 		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
-			$requestToken = self::generateRandomBytes(20);
+			$requestToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(30);
 			\OC::$server->getSession()->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it

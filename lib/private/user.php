@@ -428,7 +428,7 @@ class OC_User {
 	 * generates a password
 	 */
 	public static function generatePassword() {
-		return OC_Util::generateRandomBytes(30);
+		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(30);
 	}
 
 	/**
