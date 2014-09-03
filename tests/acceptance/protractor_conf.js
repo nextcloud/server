@@ -19,13 +19,14 @@ exports.config = {
     baseUrl: "http://127.0.0.1/",
     login: {
       user: 'admin',
-      password: 'password' 
+      password: 'password'
     }
   },
 
   suites: {
     install: 'tests/install/**/*_spec.js',
     login:  'tests/login/**/*_spec.js',
+    apps:  'tests/apps/**/*_spec.js',
     files: 'tests/files/**/*_spec.js',
     share: 'tests/share/**/*_spec.js',
   },
