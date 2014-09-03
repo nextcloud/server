@@ -1,8 +1,9 @@
 <?php
 $TRANSLATIONS = array(
-"Server to server sharing is not enabled on this server" => "La compartició entre servidors no està activat en aquest servidor",
+"Server to server sharing is not enabled on this server" => "La compartició entre servidors no està activada en aquest servidor",
+"Invalid or untrusted SSL certificate" => "El certificat SSL és invàlid o no és fiable",
 "Couldn't add remote share" => "No s'ha pogut afegir una compartició remota",
-"Shared with you" => "Compartit per vós",
+"Shared with you" => "Compartit amb vós",
 "Shared with others" => "Compartit amb altres",
 "Shared by link" => "Compartit amb enllaç",
 "No files have been shared with you yet." => "Encara no hi ha fitxers compartits amb vós.",
