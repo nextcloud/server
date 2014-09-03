@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+use \OC\Security\SecureRandom;
+
 class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 
 	public function stringGenerationProvider() {
@@ -20,12 +22,18 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	/** @var SecureRandom */
+	protected $rng;
+
+	protected function setUp() {
+		$this->rng = new \OC\Security\SecureRandom();
+	}
+
 	/**
 	 * @dataProvider stringGenerationProvider
 	 */
 	function testGetLowStrengthGeneratorLength($length, $expectedLength) {
-		$rng = new \OC\Security\SecureRandom();
-		$generator = $rng->getLowStrengthGenerator();
+		$generator = $this->rng->getLowStrengthGenerator();
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
@@ -34,8 +42,7 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider stringGenerationProvider
 	 */
 	function testMediumLowStrengthGeneratorLength($length, $expectedLength) {
-		$rng = new \OC\Security\SecureRandom();
-		$generator = $rng->getMediumStrengthGenerator();
+		$generator = $this->rng->getMediumStrengthGenerator();
 
 		$this->assertEquals($expectedLength, strlen($generator->generate($length)));
 	}
@@ -45,7 +52,6 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage Generator is not initialized
 	 */
 	function testUninitializedGenerate() {
-		$rng = new \OC\Security\SecureRandom();
-		$rng->generate(30);
+		$this->rng->generate(30);
 	}
 }

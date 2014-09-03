@@ -10,12 +10,29 @@ use \OC\Security\StringUtils;
 
 class StringUtilsTest extends \PHPUnit_Framework_TestCase {
 
-	function testEquals() {
-		$this->assertTrue(StringUtils::equals('GpKY9fSnWRaeFNJbES99zVGvA', 'GpKY9fSnWRaeFNJbES99zVGvA'));
-		$this->assertFalse(StringUtils::equals('GpKY9fSnWNJbES99zVGvA', 'GpKY9fSnWRaeFNJbES99zVGvA'));
-		$this->assertFalse(StringUtils::equals('', 'GpKY9fSnWRaeFNJbES99zVGvA'));
-		$this->assertFalse(StringUtils::equals('GpKY9fSnWRaeFNJbES99zVGvA', ''));
-		$this->assertTrue(StringUtils::equals('', ''));
+	public function dataProvider()
+	{
+		return array(
+			array('Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.', 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt.'),
+			array('', ''),
+			array('我看这本书。 我看這本書', '我看这本书。 我看這本書'),
+			array('GpKY9fSnWNJbES99zVGvA', 'GpKY9fSnWNJbES99zVGvA')
+		);
+	}
+
+	/**
+	 * @dataProvider dataProvider
+	 */
+	function testWrongEquals($string) {
+		$this->assertFalse(StringUtils::equals($string, 'A Completely Wrong String'));
+		$this->assertFalse(StringUtils::equals($string, null));
+	}
+
+	/**
+	 * @dataProvider dataProvider
+	 */
+	function testTrueEquals($string, $expected) {
+		$this->assertTrue(StringUtils::equals($string, $expected));
 	}
 
 }
