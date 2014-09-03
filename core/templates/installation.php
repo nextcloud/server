@@ -27,13 +27,6 @@
 		<?php p($l->t('Please update your PHP installation to use %s securely.', $theme->getName() )); ?></p>
 	</fieldset>
 	<?php endif; ?>
-	<?php if(!$_['secureRNG']): ?>
-	<fieldset class="warning">
-		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
-		<p><?php p($l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.'));?><br/>
-		<?php p($l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.'));?></p>
-	</fieldset>
-	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
 	<fieldset class="warning">
 		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>

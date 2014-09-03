@@ -153,7 +153,6 @@ class Controller {
 			'hasMSSQL' => $hasMSSQL,
 			'databases' => $databases,
 			'directory' => $datadir,
-			'secureRNG' => \OC_Util::secureRNGAvailable(),
 			'htaccessWorking' => $htaccessWorking,
 			'vulnerableToNullByte' => $vulnerableToNullByte,
 			'errors' => $errors,

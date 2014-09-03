@@ -71,6 +71,7 @@ class Repair extends BasicEmitter {
 		return array(
 			new \OC\Repair\RepairMimeTypes(),
 			new \OC\Repair\RepairLegacyStorages(\OC::$server->getConfig(), \OC_DB::getConnection()),
+			new \OC\Repair\RepairConfig(),
 		);
 	}
 

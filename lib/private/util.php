@@ -905,7 +905,7 @@ class OC_Util {
 		$id = OC_Config::getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . self::generateRandomBytes(10);
+			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10);
 			OC_Config::$object->setValue('instanceid', $id);
 		}
 		return $id;
@@ -1208,54 +1208,20 @@ class OC_Util {
 	 *
 	 * @param int $length of the random string
 	 * @return string
-	 * @throws Exception when no secure RNG source is available
-	 * Please also update secureRNGAvailable if you change something here
+	 * @deprecated Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
 	 */
 	public static function generateRandomBytes($length = 30) {
-		// Try to use openssl_random_pseudo_bytes
-		if (function_exists('openssl_random_pseudo_bytes')) {
-			$pseudoByte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
-			if ($strong == true) {
-				return substr($pseudoByte, 0, $length); // Truncate it to match the length
-			}
-		}
-
-		// Try to use /dev/urandom
-		if (!self::runningOnWindows()) {
-			$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
-			if ($fp !== false) {
-				$string = substr(bin2hex($fp), 0, $length);
-				return $string;
-			}
-		}
-
-		// No random numbers are better then bad random numbers
-		throw new \Exception('No secure random number generator available, please install the php-openssl extension');
+		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length);
 	}
 
 	/**
 	 * Checks if a secure random number generator is available
 	 *
-	 * @return bool
+	 * @return true
+	 * @deprecated Function will be removed in the future and does only return true.
 	 */
 	public static function secureRNGAvailable() {
-		// Check openssl_random_pseudo_bytes
-		if (function_exists('openssl_random_pseudo_bytes')) {
-			openssl_random_pseudo_bytes(1, $strong);
-			if ($strong == true) {
-				return true;
-			}
-		}
-
-		// Check /dev/urandom
-		if (!self::runningOnWindows()) {
-			$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
-			if ($fp !== false) {
-				return true;
-			}
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
