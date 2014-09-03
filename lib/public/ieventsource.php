@@ -13,6 +13,8 @@ namespace OCP;
  * includes a fallback for older browsers and IE
  *
  * use server side events with caution, to many open requests can hang the server
+ *
+ * The event source will initialize the connection to the client when the first data is sent
  */
 interface IEventSource {
 	/**

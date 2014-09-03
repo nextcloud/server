@@ -15,7 +15,7 @@ if (isset($_GET['users'])) {
 	$users = array(OC_User::getUser());
 }
 
-$eventSource = \OC::$server->getEventSource();
+$eventSource = \OC::$server->createEventSource();
 $listener = new ScanListener($eventSource);
 
 foreach ($users as $user) {
