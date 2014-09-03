@@ -19,6 +19,7 @@ class OC_Defaults {
 	private $defaultBaseUrl;
 	private $defaultSyncClientUrl;
 	private $defaultiOSClientUrl;
+	private $defaultiTunesAppId;
 	private $defaultAndroidClientUrl;
 	private $defaultDocBaseUrl;
 	private $defaultDocVersion;
@@ -36,6 +37,7 @@ class OC_Defaults {
 		$this->defaultBaseUrl = 'https://owncloud.org';
 		$this->defaultSyncClientUrl = 'https://owncloud.org/sync-clients/';
 		$this->defaultiOSClientUrl = 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8';
+		$this->defaultiTunesAppId = '543672169';
 		$this->defaultAndroidClientUrl = 'https://play.google.com/store/apps/details?id=com.owncloud.android';
 		$this->defaultDocBaseUrl = 'http://doc.owncloud.org';
 		$this->defaultDocVersion = $version[0] . '.0'; // used to generate doc links
@@ -91,6 +93,18 @@ class OC_Defaults {
 			return $this->theme->getiOSClientUrl();
 		} else {
 			return $this->defaultiOSClientUrl;
+		}
+	}
+
+	/**
+	 * Returns the AppId for the App Store for the iOS Client
+	 * @return string AppId
+	 */
+	public function getiTunesAppId() {
+		if ($this->themeExist('getiTunesAppId')) {
+			return $this->theme->getiTunesAppId();
+		} else {
+			return $this->defaultiTunesAppId;
 		}
 	}
 
