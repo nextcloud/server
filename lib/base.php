@@ -943,7 +943,7 @@ class OC {
 				if (defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = OC_Util::generateRandomBytes(32);
+				$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
 				OC_Preferences::setValue($userid, 'login_token', $token, time());
 				OC_User::setMagicInCookie($userid, $token);
 			} else {
