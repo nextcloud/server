@@ -24,6 +24,7 @@ require_once 'preview/svg.php';
 require_once 'preview/txt.php';
 require_once 'preview/unknown.php';
 require_once 'preview/office.php';
+require_once 'preview/tiff.php';
 
 class Preview {
 	//the thumbnail folder
