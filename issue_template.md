@@ -35,6 +35,8 @@ Insert your config.php content here
 
 **Are you using encryption:** yes/no
 
+**Are you using an external user-backend, if yes which one:** LDAP/ActiveDirectory/Webdav/...
+
 ### Client configuration
 **Browser:**
 
