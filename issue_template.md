@@ -37,6 +37,15 @@ Insert your config.php content here
 
 **Are you using an external user-backend, if yes which one:** LDAP/ActiveDirectory/Webdav/...
 
+#### LDAP configuration (delete this part if not used)
+
+```
+run: sqlite3 data/owncloud.db
+then execute:  select * from oc_appconfig where appid='user_ldap';
+
+Eventually replace sensitive data as the name/IP-address of your LDAP server or groups.
+```
+
 ### Client configuration
 **Browser:**
 
