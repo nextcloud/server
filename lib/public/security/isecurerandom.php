@@ -26,7 +26,7 @@ interface ISecureRandom {
 	const CHAR_UPPER = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	const CHAR_LOWER = 'abcdefghijklmnopqrstuvwxyz';
 	const CHAR_DIGITS = '0123456789';
-	const CHAR_SYMBOLS = 'CHAR_SYMBOLS';
+	const CHAR_SYMBOLS = "!\"#$%&\'()* +,-./:;<=>?@[\]^_`{|}~";
 
 	/**
 	 * Convenience method to get a low strength random number generator.
