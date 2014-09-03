@@ -22,6 +22,14 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 		);
 	}
 
+	public static function charCombinations() {
+		return array(
+			array('CHAR_LOWER', '[a-z]'),
+			array('CHAR_UPPER', '[A-Z]'),
+			array('CHAR_DIGITS', '[0-9]'),
+		);
+	}
+
 	/** @var SecureRandom */
 	protected $rng;
 
@@ -53,5 +61,16 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 	 */
 	function testUninitializedGenerate() {
 		$this->rng->generate(30);
+	}
+
+	/**
+	 * @dataProvider charCombinations
+	 */
+	public function testScheme($charName, $chars) {
+		$generator = $this->rng->getMediumStrengthGenerator();
+		$scheme = constant('OCP\Security\ISecureRandom::' . $charName);
+		$randomString = $generator->generate(100, $scheme);
+		$matchesRegex = preg_match('/^'.$chars.'+$/', $randomString);
+		$this->assertSame(1, $matchesRegex);
 	}
 }
