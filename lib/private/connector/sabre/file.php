@@ -102,13 +102,16 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		}
 
+		// if content length is sent by client:
 		// double check if the file was fully received
 		// compare expected and actual size
-		$expected = $_SERVER['CONTENT_LENGTH'];
-		$actual = $this->fileView->filesize($partFilePath);
-		if ($actual != $expected) {
-			$this->fileView->unlink($partFilePath);
-			throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+		if (isset($_SERVER['CONTENT_LENGTH'])) {
+			$expected = $_SERVER['CONTENT_LENGTH'];
+			$actual = $this->fileView->filesize($partFilePath);
+			if ($actual != $expected) {
+				$this->fileView->unlink($partFilePath);
+				throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+			}
 		}
 
 		// rename to correct path
