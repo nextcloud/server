@@ -640,22 +640,11 @@ class Share extends \OC\Share\Constants {
 				if (isset($oldToken)) {
 					$token = $oldToken;
 				} else {
-					// Determine how long the token should be
-					switch (\OC_Config::getValue("sharing_token_length", 3)) {
-						case 1:
-							$tokenLength = 4;
-							break;
-						case 2:
-							$tokenLength = 8;
-							break;
-						// Default is 3, so skip the 3 block
-						case 4:
-							$tokenLength = 32;
-							break;
-						// Anything other than 1-4 should be default 3
-						default:
-							$tokenLength = 16;
-							break;
+					$tokenLength = \OC_Config::getValue("sharing_token_length", 13);
+
+					// Enforce a limit on token length
+					if ($tokenLength < 3 || $tokenLength > 64) {
+						$tokenLength = 13;
 					}
 					$token = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate($tokenLength,
 						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS
