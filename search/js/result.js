@@ -80,7 +80,7 @@ OC.search.showResults=function(results){
 							containerName = '/';
 						}
 						var containerLink = OC.linkTo('files', 'index.php')
-							+'?dir='+encodeURIComponent(parent)
+							+'/?dir='+encodeURIComponent(parent)
 							+'&scrollto='+encodeURIComponent(type[i].name);
 						row.find('td.result a')
 							.attr('href', containerLink)
