@@ -640,7 +640,7 @@ class Share extends \OC\Share\Constants {
 				if (isset($oldToken)) {
 					$token = $oldToken;
 				} else {
-					$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength,
+					$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(self::TOKEN_LENGTH,
 						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_UPPER.
 						\OCP\Security\ISecureRandom::CHAR_DIGITS
 					);
