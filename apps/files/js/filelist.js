@@ -716,9 +716,10 @@
 		 *
 		 * @param fileData map of file attributes
 		 * @param options map of attributes:
-		 * - "updateSummary": true to update the summary after adding (default), false otherwise
-		 * - "silent": true to prevent firing events like "fileActionsReady"
-		 * - "animate": true to animate preview loading (defaults to true here)
+		 * @param options.updateSummary true to update the summary after adding (default), false otherwise
+		 * @param options.silent true to prevent firing events like "fileActionsReady"
+		 * @param options.animate true to animate preview loading (defaults to true here)
+		 * @param options.scrollTo true to automatically scroll to the file's location
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
@@ -765,6 +766,10 @@
 				window.setTimeout(function() {
 					$tr.removeClass('transparent');
 				});
+			}
+
+			if (options.scrollTo) {
+				this.scrollTo(fileData.name);
 			}
 
 			// defaults to true if not defined

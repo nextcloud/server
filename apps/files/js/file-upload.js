@@ -629,7 +629,7 @@ OC.Upload = {
 								},
 								function(result) {
 									if (result.status === 'success') {
-										FileList.add(result.data, {hidden: hidden, animate: true});
+										FileList.add(result.data, {hidden: hidden, animate: true, scrollTo: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create file'));
 									}
@@ -645,7 +645,7 @@ OC.Upload = {
 								},
 								function(result) {
 									if (result.status === 'success') {
-										FileList.add(result.data, {hidden: hidden, animate: true});
+										FileList.add(result.data, {hidden: hidden, animate: true, scrollTo: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
 									}
