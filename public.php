@@ -37,7 +37,9 @@ try {
 	OC_App::loadApps(array('authentication'));
 	OC_App::loadApps(array('filesystem', 'logging'));
 
-	OC_Util::checkAppEnabled($app);
+	if (!\OC::$server->getAppManager()->isInstalled($app)) {
+		throw new Exception('App not installed: ' . $app);
+	}
 	OC_App::loadApp($app);
 	OC_User::setIncognitoMode(true);
 
