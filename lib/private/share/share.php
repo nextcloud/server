@@ -640,14 +640,9 @@ class Share extends \OC\Share\Constants {
 				if (isset($oldToken)) {
 					$token = $oldToken;
 				} else {
-					$tokenLength = \OC_Config::getValue("sharing_token_length", 13);
-
-					// Enforce a limit on token length
-					if ($tokenLength < 3 || $tokenLength > 64) {
-						$tokenLength = 13;
-					}
 					$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength,
-						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS
+						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_UPPER.
+						\OCP\Security\ISecureRandom::CHAR_DIGITS
 					);
 				}
 				$result = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions,

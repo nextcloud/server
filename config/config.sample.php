@@ -202,20 +202,6 @@ $CONFIG = array(
 "cron_log" => true,
 
 /*
- * Length of sharing tokens and the resulting links.
- * This value defines how many possible sharing links there are, choosing a low value like 3 will make it easy to guess
- * sharing links and will also limit the maximum number of shares. Behaviour after all tokens are used is undefined and
- * may result in breakage. The minimum value is 3, the maximum value is 64. Default is 13. Some example values:
- * Length of 3 (This value is not recommended). Maximum of 46656 tokens. Links may look like this: example.com/s/1ek
- * Length of 8. Maximum of 2.8*10^12 tokens. Links may look like this: example.com/s/1z1a41z3
- * Length of 13 (Default). Maximum of 1.7*10^20 tokens. Links may look like this: example.com/s/3w5e11264sgsf
- * Length of 25 (Near old default). Maximum of 8*10^38 tokens. Links may look like this: example.com/s/f5lxx1zz5pnorynqglhzmsp33
- * Length of 40. Maximum of 1.8*10^62 tokens. Links may look like this: example.com/s/8rnpuh6h4mnepp1hrnlicj80yxhyw8lq49gtid4n
- * Length of 64. Maximum of 4*10^99 tokens. Links may look like this: example.com/s/i5yli3xmet7crsf2frc1o12ygsb824im9dmyikg45fvo3vym9tswzr0r4wmtgx7i
- */
-"sharing_token_length" => 13,
-
-/*
  * Configure the size in bytes log rotation should happen, 0 or false disables the rotation.
  * This rotates the current owncloud logfile to a new name, this way the total log usage
  * will stay limited and older entries are available for a while longer. The
