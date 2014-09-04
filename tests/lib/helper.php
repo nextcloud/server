@@ -443,15 +443,33 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 	public function testLinkToPublic() {
 		\OC::$WEBROOT = '';
 		$result = \OC_Helper::linkToPublic('files');
-		$this->assertEquals('http://localhost/public.php?service=files', $result);
+		$this->assertEquals('http://localhost/s', $result);
 		$result = \OC_Helper::linkToPublic('files', false);
-		$this->assertEquals('http://localhost/public.php?service=files', $result);
+		$this->assertEquals('http://localhost/s', $result);
+		$result = \OC_Helper::linkToPublic('files', true);
+		$this->assertEquals('http://localhost/s/', $result);
+
+		$result = \OC_Helper::linkToPublic('other');
+		$this->assertEquals('http://localhost/public.php?service=other', $result);
+		$result = \OC_Helper::linkToPublic('other', false);
+		$this->assertEquals('http://localhost/public.php?service=other', $result);
+		$result = \OC_Helper::linkToPublic('other', true);
+		$this->assertEquals('http://localhost/public.php?service=other/', $result);
 
 		\OC::$WEBROOT = '/owncloud';
 		$result = \OC_Helper::linkToPublic('files');
-		$this->assertEquals('http://localhost/owncloud/public.php?service=files', $result);
+		$this->assertEquals('http://localhost/owncloud/s', $result);
 		$result = \OC_Helper::linkToPublic('files', false);
-		$this->assertEquals('http://localhost/owncloud/public.php?service=files', $result);
+		$this->assertEquals('http://localhost/owncloud/s', $result);
+		$result = \OC_Helper::linkToPublic('files', true);
+		$this->assertEquals('http://localhost/owncloud/s/', $result);
+
+		$result = \OC_Helper::linkToPublic('other');
+		$this->assertEquals('http://localhost/owncloud/public.php?service=other', $result);
+		$result = \OC_Helper::linkToPublic('other', false);
+		$this->assertEquals('http://localhost/owncloud/public.php?service=other', $result);
+		$result = \OC_Helper::linkToPublic('other', true);
+		$this->assertEquals('http://localhost/owncloud/public.php?service=other/', $result);
 	}
 
 	/**
