@@ -1835,7 +1835,6 @@ describe('OCA.Files.FileList tests', function() {
 			// but it makes it possible to simulate the event triggering to
 			// test the response of the handlers
 			$uploader = $('#file_upload_start');
-			fileList.setupUploadEvents();
 			fileList.setFiles(testFiles);
 		});
 
@@ -1912,6 +1911,16 @@ describe('OCA.Files.FileList tests', function() {
 				ev = dropOn(fileList.$fileList.find('th:first'));
 
 				expect(ev.result).toEqual(false);
+				expect(notificationStub.calledOnce).toEqual(true);
+			});
+			it('drop on an folder does not trigger upload if no upload permission on that folder', function() {
+				var $tr = fileList.findFileEl('somedir');
+				var ev;
+				$tr.data('permissions', OC.PERMISSION_READ);
+				ev = dropOn($tr);
+
+				expect(ev.result).toEqual(false);
+				expect(notificationStub.calledOnce).toEqual(true);
 			});
 			it('drop on a file row inside the table triggers upload to current folder', function() {
 				var ev;
