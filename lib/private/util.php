@@ -1461,9 +1461,11 @@ class OC_Util {
 	}
 
 	/**
-	 * Check whether the instance needs to preform an upgrade
+	 * Check whether the instance needs to perform an upgrade,
+	 * either when the core version is higher or any app requires
+	 * an upgrade.
 	 *
-	 * @return bool
+	 * @return bool whether the core or any app needs an upgrade
 	 */
 	public static function needUpgrade() {
 		if (OC_Config::getValue('installed', false)) {
@@ -1473,14 +1475,16 @@ class OC_Util {
 				return true;
 			}
 
-			// also check for upgrades for apps
-			$apps = \OC_App::getEnabledApps();
+			// also check for upgrades for apps (independently from the user)
+			$apps = \OC_App::getEnabledApps(false, true);
+			$shouldUpgrade = false;
 			foreach ($apps as $app) {
 				if (\OC_App::shouldUpgrade($app)) {
-					return true;
+					$shouldUpgrade = true;
+					break;
 				}
 			}
-			return false;
+			return $shouldUpgrade;
 		} else {
 			return false;
 		}
