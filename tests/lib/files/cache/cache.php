@@ -94,20 +94,22 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('size' => 12, 'mtime' => 15), $this->cache->get($file1));
 	}
 
-	public function testFolder() {
-		$file1 = 'folder';
-		$file2 = 'folder/bar';
-		$file3 = 'folder/foo';
+	/**
+	 * @dataProvider folderDataProvider
+	 */
+	public function testFolder($folder) {
+		$file2 = $folder.'/bar';
+		$file3 = $folder.'/foo';
 		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 		$fileData = array();
 		$fileData['bar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
 		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
 
-		$this->cache->put($file1, $data1);
+		$this->cache->put($folder, $data1);
 		$this->cache->put($file2, $fileData['bar']);
 		$this->cache->put($file3, $fileData['foo']);
 
-		$content = $this->cache->getFolderContents($file1);
+		$content = $this->cache->getFolderContents($folder);
 		$this->assertEquals(count($content), 2);
 		foreach ($content as $cachedData) {
 			$data = $fileData[$cachedData['name']];
@@ -116,25 +118,38 @@ class Cache extends \PHPUnit_Framework_TestCase {
 			}
 		}
 
-		$file4 = 'folder/unkownSize';
+		$file4 = $folder.'/unkownSize';
 		$fileData['unkownSize'] = array('size' => -1, 'mtime' => 25, 'mimetype' => 'foo/file');
 		$this->cache->put($file4, $fileData['unkownSize']);
 
-		$this->assertEquals(-1, $this->cache->calculateFolderSize($file1));
+		$this->assertEquals(-1, $this->cache->calculateFolderSize($folder));
 
 		$fileData['unkownSize'] = array('size' => 5, 'mtime' => 25, 'mimetype' => 'foo/file');
 		$this->cache->put($file4, $fileData['unkownSize']);
 
-		$this->assertEquals(1025, $this->cache->calculateFolderSize($file1));
+		$this->assertEquals(1025, $this->cache->calculateFolderSize($folder));
 
 		$this->cache->remove($file2);
 		$this->cache->remove($file3);
 		$this->cache->remove($file4);
-		$this->assertEquals(0, $this->cache->calculateFolderSize($file1));
+		$this->assertEquals(0, $this->cache->calculateFolderSize($folder));
 
-		$this->cache->remove('folder');
-		$this->assertFalse($this->cache->inCache('folder/foo'));
-		$this->assertFalse($this->cache->inCache('folder/bar'));
+		$this->cache->remove($folder);
+		$this->assertFalse($this->cache->inCache($folder.'/foo'));
+		$this->assertFalse($this->cache->inCache($folder.'/bar'));
+	}
+
+	public function folderDataProvider() {
+
+		return array(
+			array('folder'),
+			// that was too easy, try something harder
+			array('☺, WHITE SMILING FACE, UTF-8 hex E298BA'),
+			// what about 4 byte utf-8
+			array('😐, NEUTRAL_FACE, UTF-8 hex F09F9890'),
+			// now the crazy stuff
+			array(', UNASSIGNED PRIVATE USE, UTF-8 hex EF9890'),
+		);
 	}
 
 	public function testEncryptedFolder() {
