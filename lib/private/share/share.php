@@ -646,7 +646,7 @@ class Share extends \OC\Share\Constants {
 					if ($tokenLength < 3 || $tokenLength > 64) {
 						$tokenLength = 13;
 					}
-					$token = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate($tokenLength,
+					$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($tokenLength,
 						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS
 					);
 				}
