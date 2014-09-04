@@ -20,8 +20,10 @@
  *
  */
 
+$this->create('files_external_list_applicable', '/applicable')->actionInclude('files_external/ajax/applicable.php');
+
 OC_API::register('get',
-		'/apps/files_external/api/v1/mounts',
-		array('\OCA\Files\External\Api', 'getUserMounts'),
-		'files_external');
+	'/apps/files_external/api/v1/mounts',
+	array('\OCA\Files\External\Api', 'getUserMounts'),
+	'files_external');
 
