@@ -38,7 +38,7 @@ $tmpl->assign('mail_smtppassword', OC_Config::getValue( "mail_smtppassword", '' 
 $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);
-$tmpl->assign('internetconnectionworking', OC_Util::isInternetConnectionEnabled() ? OC_Util::isInternetConnectionWorking() : false);
+$tmpl->assign('internetconnectionworking', OC_Util::isInternetConnectionEnabled() ? OC_Util::isInternetConnectionWorking() : 'disabled');
 $tmpl->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $tmpl->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
 $tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());

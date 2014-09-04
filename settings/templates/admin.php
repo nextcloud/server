@@ -170,7 +170,7 @@ if (!$_['isLocaleWorking']) {
 }
 
 // is internet connection working ?
-if (!$_['internetconnectionworking']) {
+if ($_['internetconnectionworking'] === false) {
 	?>
 <div class="section">
 	<h2><?php p($l->t('Internet connection not working'));?></h2>
