@@ -103,9 +103,10 @@
 		 * @param $el container element with existing markup for the #controls
 		 * and a table
 		 * @param options map of options, see other parameters
-		 * @param scrollContainer scrollable container, defaults to $(window)
-		 * @param dragOptions drag options, disabled by default
-		 * @param folderDropOptions folder drop options, disabled by default
+		 * @param options.scrollContainer scrollable container, defaults to $(window)
+		 * @param options.dragOptions drag options, disabled by default
+		 * @param options.folderDropOptions folder drop options, disabled by default
+		 * @param options.scrollTo name of file to scroll to after the first load
 		 */
 		initialize: function($el, options) {
 			var self = this;
@@ -165,6 +166,12 @@
 			this.setupUploadEvents();
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
+
+			if (options.scrollTo) {
+				this.$fileList.one('updated', function() {
+					self.scrollTo(options.scrollTo);
+				});
+			}
 		},
 
 		/**
@@ -1507,16 +1514,15 @@
 			this.$table.removeClass('hidden');
 		},
 		scrollTo:function(file) {
-			//scroll to and highlight preselected file
-			var $scrollToRow = this.findFileEl(file);
-			if ($scrollToRow.exists()) {
-				$scrollToRow.addClass('searchresult');
-				$(window).scrollTop($scrollToRow.position().top);
-				//remove highlight when hovered over
-				$scrollToRow.one('hover', function() {
-					$scrollToRow.removeClass('searchresult');
-				});
+			if (!_.isArray(file)) {
+				file = [file];
 			}
+			this.highlightFiles(file, function($tr) {
+				$tr.addClass('searchresult');
+				$tr.one('hover', function() {
+					$tr.removeClass('searchresult');
+				});
+			});
 		},
 		filter:function(query) {
 			this.$fileList.find('tr').each(function(i,e) {
@@ -1864,9 +1870,11 @@
 		/**
 		 * Scroll to the last file of the given list
 		 * Highlight the list of files
-		 * @param files array of filenames
+		 * @param files array of filenames,
+		 * @param {Function} [highlightFunction] optional function
+		 * to be called after the scrolling is finished
 		 */
-		highlightFiles: function(files) {
+		highlightFiles: function(files, highlightFunction) {
 			// Detection of the uploaded element
 			var filename = files[files.length - 1];
 			var $fileRow = this.findFileEl(filename);
@@ -1891,12 +1899,16 @@
 				duration: 500,
 				complete: function() {
 					// Highlighting function
-					var highlightRow = function($fileRow) {
-						$fileRow.addClass("highlightUploaded");
-						setTimeout(function() {
-							$fileRow.removeClass("highlightUploaded");
-						}, 2500);
-					};
+					var highlightRow = highlightFunction;
+
+					if (!highlightRow) {
+						highlightRow = function($fileRow) {
+							$fileRow.addClass("highlightUploaded");
+							setTimeout(function() {
+								$fileRow.removeClass("highlightUploaded");
+							}, 2500);
+						};
+					}
 
 					// Loop over uploaded files
 					for(var i=0; i<files.length; i++) {
