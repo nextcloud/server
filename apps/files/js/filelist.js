@@ -1632,6 +1632,18 @@
 		},
 
 		/**
+		 * Shows a "permission denied" notification
+		 */
+		_showPermissionDeniedNotification: function() {
+			var message = t('core', 'You don’t have permission to upload or create files here');
+			OC.Notification.show(message);
+			//hide notification after 10 sec
+			setTimeout(function() {
+				OC.Notification.hide();
+			}, 5000);
+		},
+
+		/**
 		 * Setup file upload events related to the file-upload plugin
 		 */
 		setupUploadEvents: function() {
@@ -1662,6 +1674,12 @@
 					// remember as context
 					data.context = dropTarget;
 
+					// if permissions are specified, only allow if create permission is there
+					var permissions = dropTarget.data('permissions');
+					if (!_.isUndefined(permissions) && (permissions & OC.PERMISSION_CREATE) === 0) {
+						self._showPermissionDeniedNotification();
+						return false;
+					}
 					var dir = dropTarget.data('file');
 					// if from file list, need to prepend parent dir
 					if (dir) {
@@ -1686,6 +1704,7 @@
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
+						self._showPermissionDeniedNotification();
 						return false;
 					}
 				}

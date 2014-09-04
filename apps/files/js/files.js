@@ -433,7 +433,12 @@ var folderDropOptions = {
 			return false;
 		}
 
-		var targetPath = FileList.getCurrentDirectory() + '/' + $(this).closest('tr').data('file');
+		var $tr = $(this).closest('tr');
+		if (($tr.data('permissions') & OC.PERMISSION_CREATE) === 0) {
+			FileList._showPermissionDeniedNotification();
+			return false;
+		}
+		var targetPath = FileList.getCurrentDirectory() + '/' + $tr.data('file');
 
 		var files = FileList.getSelectedFiles();
 		if (files.length === 0) {
