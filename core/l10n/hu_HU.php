@@ -147,8 +147,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Biztonsági figyelmeztetés",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Az Ön PHP verziója sebezhető a NULL bájtos támadással szemben (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Kérjük frissítse a telepített PHP csomagjait, hogy biztonságos legyen az %s szolgáltatása.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nem érhető el megfelelő véletlenszám-generátor, telepíteni kellene a PHP OpenSSL kiegészítését.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Megfelelő véletlenszám-generátor hiányában egy támadó szándékú idegen képes lehet megjósolni a jelszóvisszaállító tokent, és Ön helyett belépni.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Az adatkönyvtár és a benne levő állományok valószínűleg közvetlenül is elérhetők az internetről, mert a .htaccess állomány nem érvényesül.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "A kiszolgáló megfelelő beállításához kérjük olvassa el a <a href=\"%sl\" target=\"_blank\">dokumentációt</a>.",
 "Create an <strong>admin account</strong>" => "<strong>Rendszergazdai belépés</strong> létrehozása",

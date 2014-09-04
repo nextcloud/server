@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Amazon S3 and compliant" => "Amazon S3 y compatibilidad",
 "Access Key" => "Clave de Acceso",
 "Secret Key" => "Clave Secreta",
+"Hostname" => "Nombre de equipo",
 "Port" => "Puerto",
 "Region" => "Región",
 "Enable SSL" => "Habilitar SSL",

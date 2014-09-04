@@ -145,8 +145,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Turvahoiatus",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga.",
 "Please update your PHP installation to use %s securely." => "Palun uuenda oma paigaldatud PHP-d tagamaks %s turvalisus.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Turvalist juhuslike numbrite generaatorit pole saadaval. Palun luba PHP-s OpenSSL laiendus.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Ilma turvalise juhuslike numbrite generaatorita võib ründaja ennustada paroolivahetuse võtme ning hõivata su konto.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Su andmete kataloog ja failid on tõenäoliselt internetist vabalt saadaval kuna .htaccess fail ei toimi.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Serveri korrektseks seadistuseks palun tutvu <a href=\"%s\" target=\"_blank\">dokumentatsiooniga</a>.",
 "Create an <strong>admin account</strong>" => "Loo <strong>admini konto</strong>",

@@ -147,8 +147,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Bezpečnostní upozornění",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Verze vašeho PHP je napadnutelná pomocí techniky \"NULL Byte\" (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Aktualizujte prosím vaši instanci PHP pro bezpečné používání %s.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Není dostupný žádný bezpečný generátor náhodných čísel. Povolte, prosím, rozšíření OpenSSL v PHP.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez bezpečného generátoru náhodných čísel může útočník předpovědět token pro obnovu hesla a převzít kontrolu nad Vaším účtem.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Váš adresář s daty a soubory jsou dostupné z internetu, protože soubor .htaccess nefunguje.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Pro informace, jak správně nastavit váš server, se podívejte do <a href=\"%s\" target=\"_blank\">dokumentace</a>.",
 "Create an <strong>admin account</strong>" => "Vytvořit <strong>účet správce</strong>",

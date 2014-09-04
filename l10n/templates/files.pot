@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-03 01:54-0400\n"
+"POT-Creation-Date: 2014-09-04 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,28 +185,28 @@ msgstr ""
 msgid "Could not get result from server."
 msgstr ""
 
-#: js/file-upload.js:502
+#: js/file-upload.js:510
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/file-upload.js:567
+#: js/file-upload.js:575
 msgid "URL cannot be empty"
 msgstr ""
 
-#: js/file-upload.js:571 js/filelist.js:1290
+#: js/file-upload.js:579 js/filelist.js:1290
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/file-upload.js:626
+#: js/file-upload.js:634
 msgid "Could not create file"
 msgstr ""
 
-#: js/file-upload.js:642
+#: js/file-upload.js:650
 msgid "Could not create folder"
 msgstr ""
 
-#: js/file-upload.js:689
+#: js/file-upload.js:697
 msgid "Error fetching URL"
 msgstr ""
 

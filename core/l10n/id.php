@@ -127,8 +127,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Peringatan Keamanan",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Versi PHP Anda rentan terhadap serangan NULL Byte (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Silakan perbarui instalasi PHP anda untuk menggunakan %s dengan aman.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Generator acak yang aman tidak tersedia, silakan aktifkan ekstensi OpenSSL pada PHP.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Tanpa generator acak, penyerang mungkin dapat menebak token penyetelan sandi dan mengambil alih akun Anda.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Kemungkinan direktori data dan berkas anda dapat diakses dari internet karena berkas .htaccess tidak berfungsi.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Untuk informasi cara mengkonfigurasi server anda dengan benar, silakan lihat <a href=\"%s\" target=\"_blank\">dokumentasi</a>.",
 "Create an <strong>admin account</strong>" => "Buat sebuah <strong>akun admin</strong>",

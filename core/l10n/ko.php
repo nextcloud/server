@@ -129,8 +129,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "보안 경고",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "사용 중인 PHP 버전이 NULL 바이트 공격에 취약합니다 (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "%s의 보안을 위하여 PHP 버전을 업데이트하십시오.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "안전한 난수 생성기를 사용할 수 없습니다. PHP의 OpenSSL 확장을 활성화해 주십시오.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "안전한 난수 생성기를 사용하지 않으면 공격자가 암호 초기화 토큰을 추측하여 계정을 탈취할 수 있습니다.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파일을 인터넷에서 접근할 수 없을 수도 있습니다.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "올바른 서버 설정을 위한 정보는 <a href=\"%s\" target=\"_blank\">문서</a>를 참조하십시오.",
 "Create an <strong>admin account</strong>" => "<strong>관리자 계정</strong> 만들기",

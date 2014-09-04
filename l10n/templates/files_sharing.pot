@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-03 01:54-0400\n"
+"POT-Creation-Date: 2014-09-04 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,20 +129,20 @@ msgstr ""
 msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
-#: templates/public.php:27
+#: templates/public.php:31
 msgid "Add to your ownCloud"
 msgstr ""
 
-#: templates/public.php:35
+#: templates/public.php:40
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:66
+#: templates/public.php:71
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:70
+#: templates/public.php:75
 msgid "Direct link"
 msgstr ""
 
