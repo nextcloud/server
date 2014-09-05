@@ -47,7 +47,6 @@ $tmpl->assign('isAdminPage', true);
 $tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
 $tmpl->assign('backends', $backends);
 $tmpl->assign('personal_backends', $personal_backends);
-$tmpl->assign('userDisplayNames', OC_User::getDisplayNames());
 $tmpl->assign('dependencies', OC_Mount_Config::checkDependencies());
 $tmpl->assign('allowUserMounting', OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes'));
 return $tmpl->fetchPage();
