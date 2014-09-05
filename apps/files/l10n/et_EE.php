@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "The name %s is already used in the folder %s. Please choose a different name." => "Nimi %s on juba kasutusel kataloogis %s. Palun vali mõni teine nimi.",
 "Not a valid source" => "Pole korrektne lähteallikas",
 "Server is not allowed to open URLs, please check the server configuration" => "Server ei võimalda URL-ide avamist, palun kontrolli serveri seadistust",
+"The file exceeds your quota by %s" => "Fail ületab sinu limiidi: %s",
 "Error while downloading %s to %s" => "Viga %s allalaadimisel %s",
 "Error when creating the file" => "Viga faili loomisel",
 "Folder name cannot be empty." => "Kataloogi nimi ei saa olla tühi.",

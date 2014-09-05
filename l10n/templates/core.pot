@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-04 01:54-0400\n"
+"POT-Creation-Date: 2014-09-05 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,32 +23,32 @@ msgstr ""
 msgid "Couldn't send mail to following users: %s "
 msgstr ""
 
-#: ajax/update.php:10
+#: ajax/update.php:14
 msgid "Turned on maintenance mode"
 msgstr ""
 
-#: ajax/update.php:13
+#: ajax/update.php:17
 msgid "Turned off maintenance mode"
 msgstr ""
 
-#: ajax/update.php:16
+#: ajax/update.php:20
 msgid "Updated database"
 msgstr ""
 
-#: ajax/update.php:19
+#: ajax/update.php:23
 msgid "Checked database schema update"
 msgstr ""
 
-#: ajax/update.php:22
+#: ajax/update.php:26
 msgid "Checked database schema update for apps"
 msgstr ""
 
-#: ajax/update.php:25
+#: ajax/update.php:29
 #, php-format
 msgid "Updated \"%s\" to %s"
 msgstr ""
 
-#: ajax/update.php:33
+#: ajax/update.php:37
 #, php-format
 msgid "Disabled incompatible apps: %s"
 msgstr ""
