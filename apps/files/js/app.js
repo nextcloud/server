@@ -24,6 +24,7 @@
 		initialize: function() {
 			this.navigation = new OCA.Files.Navigation($('#app-navigation'));
 
+			var urlParams = OC.Util.History.parseUrlQuery();
 			var fileActions = new OCA.Files.FileActions();
 			// default actions
 			fileActions.registerDefaultActions();
@@ -47,7 +48,8 @@
 					dragOptions: dragOptions,
 					folderDropOptions: folderDropOptions,
 					fileActions: fileActions,
-					allowLegacyActions: true
+					allowLegacyActions: true,
+					scrollTo: urlParams.scrollto
 				}
 			);
 			this.files.initialize();
@@ -58,7 +60,7 @@
 
 			this._setupEvents();
 			// trigger URL change event handlers
-			this._onPopState(OC.Util.History.parseUrlQuery());
+			this._onPopState(urlParams);
 		},
 
 		/**
