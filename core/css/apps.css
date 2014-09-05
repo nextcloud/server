@@ -148,6 +148,41 @@
 }
 
 
+/* Deleted entries with undo button */
+#app-navigation .app-navigation-entry-deleted {
+	display: inline-block;
+	height: 44px;
+	width: 100%;
+}
+
+	#app-navigation .app-navigation-entry-deleted-description {
+		padding-left: 12px;
+		position: relative;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		display: inline-block;
+		width: 201px; /* fallback for IE8 */
+		width: calc(100% - 49px);
+		line-height: 44px;
+		float: left;
+	}
+
+	#app-navigation .app-navigation-entry-deleted-button {
+		margin: 0;
+		height: 44px;
+		width: 44px;
+		line-height: 44px;
+		border: 0;
+		display: inline-block;
+		background-color: transparent;
+		opacity: .5;
+	}
+
+	#app-navigation .app-navigation-entry-deleted-button:hover {
+		opacity: 1;
+	}
+
 /* counter and actions, legacy code */
 #app-navigation .utils {
 	position: absolute;
