@@ -130,6 +130,7 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function filemtime($path) {
+			clearstatcache($this->datadir . $path);
 			return filemtime($this->datadir . $path);
 		}
 
