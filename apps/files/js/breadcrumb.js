@@ -224,6 +224,8 @@
 						this.$el.find('.crumb.ellipsized')
 							.attr('title', $crumb.attr('data-dir'))
 							.tipsy();
+						this.$el.find('.ellipsis')
+							.wrap('<a class="ellipsislink" href="' + encodeURI(OC.generateUrl('apps/files/?dir=' + $crumb.attr('data-dir'))) + '"></a>');
 					}
 					// and all the previous ones (going backwards)
 					firstHidden = false;

@@ -874,6 +874,11 @@ div.crumb.last {
 	font-weight: bold;
 	margin-right: 10px;
 }
+div.crumb a.ellipsislink {
+	padding: 0 !important;
+	position: relative;
+	top: 8px !important;
+}
 
 /* some feedback for hover/tap on breadcrumbs */
 div.crumb:hover,
