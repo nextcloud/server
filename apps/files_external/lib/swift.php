@@ -509,6 +509,28 @@ class Swift extends \OC\Files\Storage\Common {
 		unlink($tmpFile);
 	}
 
+	public function hasUpdated($path, $time) {
+		if ($this->is_file($path)) {
+			return parent::hasUpdated($path, $time);
+		}
+		$path = $this->normalizePath($path);
+		$dh = $this->opendir($path);
+		$content = array();
+		while (($file = readdir($dh)) !== false) {
+			$content[] = $file;
+		}
+		if ($path === '.') {
+			$path = '';
+		}
+		$cachedContent = $this->getCache()->getFolderContents($path);
+		$cachedNames = array_map(function ($content) {
+			return $content['name'];
+		}, $cachedContent);
+		sort($cachedNames);
+		sort($content);
+		return $cachedNames != $content;
+	}
+
 	/**
 	 * check if curl is installed
 	 */
