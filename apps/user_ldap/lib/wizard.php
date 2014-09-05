@@ -379,7 +379,7 @@ class Wizard extends LDAPUtility {
 		do {
 			$result = $this->access->searchGroups($filter, array('cn'), $limit, $offset);
 			foreach($result as $item) {
-				$groupNames[] = $item['cn'];
+				$groupNames[] = $item[0];
 				$groupEntries[] = $item;
 			}
 			$offset += $limit;
