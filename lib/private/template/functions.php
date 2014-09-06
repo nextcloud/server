@@ -24,6 +24,24 @@ function print_unescaped($string) {
 }
 
 /**
+ * Shortcut for adding scripts to a page
+ * @param string $app the appname
+ * @param string $file the filename
+ */
+function script($app, $file) {
+	OC_Util::addScript($app, $file);
+}
+
+/**
+ * Shortcut for adding styles to a page
+ * @param string $app the appname
+ * @param string $file the filename
+ */
+function style($app, $file) {
+	OC_Util::addStyle($app, $file);
+}
+
+/**
  * make OC_Helper::linkTo available as a simple function
  * @param string $app app
  * @param string $file file
