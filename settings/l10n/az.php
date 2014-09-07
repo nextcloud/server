@@ -106,6 +106,7 @@ $TRANSLATIONS = array(
 "More" => "Yenə",
 "Get the apps to sync your files" => "Fayllarınızın sinxronizasiyası üçün proqramları götürün",
 "Password" => "Şifrə",
+"Change password" => "Şifrəni dəyiş",
 "Cancel" => "Dayandır",
 "Username" => "İstifadəçi adı"
 );
