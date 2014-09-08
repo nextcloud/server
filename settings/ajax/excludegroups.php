@@ -1,5 +1,5 @@
 <?php
-OC_JSON::checkSubAdminUser();
+OC_JSON::checkAdminUser();
 OCP\JSON::callCheck();
 
 $selectedGroups = isset($_POST["selectedGroups"]) ? json_decode($_POST["selectedGroups"]) : array();
