@@ -18,7 +18,7 @@
 	top: 0;
 	left: 0;
 	right: 0;
-	z-index: 100;
+	z-index: 2000;
 	height: 45px;
 	line-height: 2.5em;
 	background-color: #1d2d44;
@@ -135,7 +135,7 @@
 	display: none;
 	overflow-y: auto;
 	overflow-x: hidden;
-	z-index: 5000;
+	z-index: 2000;
 }
 #navigation, #navigation * {
 	-moz-box-sizing:border-box;
@@ -265,7 +265,7 @@
 	position: absolute;
 	right: 0;
 	top: 45px;
-	z-index: 150;
+	z-index: 2000;
 	display: none;
 	background-color: #383c43;
 	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
