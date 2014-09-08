@@ -543,7 +543,9 @@ class OC {
 		OC_Group::useBackend(new OC_Group_Database());
 
 		//setup extra user backends
-		OC_User::setupBackends();
+		if (!self::checkUpgrade(false)) {
+			OC_User::setupBackends();
+		}
 
 		self::registerCacheHooks();
 		self::registerFilesystemHooks();
