@@ -26,6 +26,7 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 use OpenCloud;
 use OpenCloud\Common\Exceptions;
 use OpenCloud\OpenStack;
+use OpenCloud\Rackspace;
 use OpenCloud\ObjectStore\Resource\DataObject;
 use OpenCloud\ObjectStore\Exception;
 
@@ -67,15 +68,16 @@ class Swift extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
-	const SUBCONTAINER_FILE='.subcontainers';
+	const SUBCONTAINER_FILE = '.subcontainers';
 
 	/**
 	 * translate directory path to container name
+	 *
 	 * @param string $path
 	 * @return string
 	 */
 	private function getContainerName($path) {
-		$path=trim(trim($this->root, '/') . "/".$path, '/.');
+		$path = trim(trim($this->root, '/') . "/" . $path, '/.');
 		return str_replace('/', '\\', $path);
 	}
 
@@ -93,20 +95,21 @@ class Swift extends \OC\Files\Storage\Common {
 	}
 
 	public function __construct($params) {
-		if ((!isset($params['key']) and !isset($params['password']))
-		 	or !isset($params['user']) or !isset($params['bucket'])
-			or !isset($params['region'])) {
+		if ((empty($params['key']) and empty($params['password']))
+			or empty($params['user']) or empty($params['bucket'])
+			or empty($params['region'])
+		) {
 			throw new \Exception("API Key or password, Username, Bucket and Region have to be configured.");
 		}
 
 		$this->id = 'swift::' . $params['user'] . md5($params['bucket']);
 		$this->bucket = $params['bucket'];
 
-		if (!isset($params['url'])) {
+		if (empty($params['url'])) {
 			$params['url'] = 'https://identity.api.rackspacecloud.com/v2.0/';
 		}
 
-		if (!isset($params['service_name'])) {
+		if (empty($params['service_name'])) {
 			$params['service_name'] = 'cloudFiles';
 		}
 
@@ -114,21 +117,25 @@ class Swift extends \OC\Files\Storage\Common {
 			'username' => $params['user'],
 		);
 
-		if (isset($params['password'])) {
+		if (!empty($params['password'])) {
 			$settings['password'] = $params['password'];
-		} else if (isset($params['key'])) {
+		} else if (!empty($params['key'])) {
 			$settings['apiKey'] = $params['key'];
 		}
 
-		if (isset($params['tenant'])) {
+		if (!empty($params['tenant'])) {
 			$settings['tenantName'] = $params['tenant'];
 		}
 
-		if (isset($params['timeout'])) {
+		if (!empty($params['timeout'])) {
 			$settings['timeout'] = $params['timeout'];
 		}
 
-		$this->anchor = new OpenStack($params['url'], $settings);
+		if (isset($settings['apiKey'])) {
+			$this->anchor = new Rackspace($params['url'], $settings);
+		} else {
+			$this->anchor = new OpenStack($params['url'], $settings);
+		}
 
 		$this->connection = $this->anchor->objectStoreService($params['service_name'], $params['region']);
 
@@ -150,7 +157,7 @@ class Swift extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		if($path !== '.') {
+		if ($path !== '.') {
 			$path .= '/';
 		}
 
@@ -236,7 +243,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 			\OC\Files\Stream\Dir::register('swift' . $path, $files);
 			return opendir('fakedir://swift' . $path);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
@@ -246,11 +253,14 @@ class Swift extends \OC\Files\Storage\Common {
 	public function stat($path) {
 		$path = $this->normalizePath($path);
 
-		if ($this->is_dir($path) && $path != '.') {
+		if ($path === '.') {
+			$path = '';
+		} else if ($this->is_dir($path)) {
 			$path .= '/';
 		}
 
 		try {
+			/** @var DataObject $object */
 			$object = $this->container->getPartialObject($path);
 		} catch (ClientErrorResponseException $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -274,7 +284,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		$stat = array();
-		$stat['size'] = (int) $object->getContentLength();
+		$stat['size'] = (int)$object->getContentLength();
 		$stat['mtime'] = $mtime;
 		$stat['atime'] = time();
 		return $stat;
@@ -416,7 +426,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 			try {
 				$source = $this->container->getPartialObject($path1);
-				$source->copy($this->bucket.'/'.$path2);
+				$source->copy($this->bucket . '/' . $path2);
 			} catch (ClientErrorResponseException $e) {
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 				return false;
@@ -429,7 +439,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 			try {
 				$source = $this->container->getPartialObject($path1 . '/');
-				$source->copy($this->bucket.'/'.$path2 . '/');
+				$source->copy($this->bucket . '/' . $path2 . '/');
 			} catch (ClientErrorResponseException $e) {
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 				return false;
@@ -497,6 +507,28 @@ class Swift extends \OC\Files\Storage\Common {
 		$fileData = fopen($tmpFile, 'r');
 		$this->container->uploadObject(self::$tmpFiles[$tmpFile], $fileData);
 		unlink($tmpFile);
+	}
+
+	public function hasUpdated($path, $time) {
+		if ($this->is_file($path)) {
+			return parent::hasUpdated($path, $time);
+		}
+		$path = $this->normalizePath($path);
+		$dh = $this->opendir($path);
+		$content = array();
+		while (($file = readdir($dh)) !== false) {
+			$content[] = $file;
+		}
+		if ($path === '.') {
+			$path = '';
+		}
+		$cachedContent = $this->getCache()->getFolderContents($path);
+		$cachedNames = array_map(function ($content) {
+			return $content['name'];
+		}, $cachedContent);
+		sort($cachedNames);
+		sort($content);
+		return $cachedNames != $content;
 	}
 
 	/**
