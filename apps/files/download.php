@@ -34,7 +34,7 @@ if(!\OC\Files\Filesystem::file_exists($filename)) {
 	exit;
 }
 
-$ftype=\OC\Files\Filesystem::getMimeType( $filename );
+$ftype=\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType( $filename ));
 
 header('Content-Type:'.$ftype);
 OCP\Response::setContentDispositionHeader(basename($filename), 'attachment');
