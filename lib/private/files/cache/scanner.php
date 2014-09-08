@@ -45,7 +45,7 @@ class Scanner extends BasicEmitter {
 	protected $cacheActive;
 
 	/**
-	 * @var bool $transactions whether to use transactions
+	 * @var bool $useTransactions whether to use transactions
 	 */
 	protected $useTransactions = true;
 
