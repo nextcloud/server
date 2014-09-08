@@ -19,6 +19,7 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 	 */
 	protected function getConfig($systemOptions) {
 		$systemOptions['datadirectory'] = $this->datadir;
+		$systemOptions['appstoreenabled'] = false; //it's likely that there is no app folder we can write in
 		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
@@ -35,6 +36,7 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 		$this->datadir = \OC_Helper::tmpFolder();
 
 		file_put_contents($this->datadir . '/.ocdata', '');
+		\OC::$server->getSession()->set('checkServer_succeeded', false);
 	}
 
 	public function tearDown() {
@@ -121,4 +123,39 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 		$this->assertCount(1, $result);
 	}
 
+	/**
+	 * Tests that no error is given when the datadir is writable
+	 */
+	public function testDataDirWritable() {
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => true,
+			'version' => implode('.', OC_Util::getVersion())
+		)));
+		$this->assertEmpty($result);
+	}
+
+	/**
+	 * Tests an error is given when the datadir is not writable
+	 */
+	public function testDataDirNotWritable() {
+		chmod($this->datadir, 0300);
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => true,
+			'version' => implode('.', OC_Util::getVersion())
+		)));
+		$this->assertCount(1, $result);
+	}
+
+	/**
+	 * Tests no error is given when the datadir is not writable during setup
+	 */
+	public function testDataDirNotWritableSetup() {
+		chmod($this->datadir, 0300);
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => false,
+			'version' => implode('.', OC_Util::getVersion())
+		)));
+		chmod($this->datadir, 0700); //needed for cleanup
+		$this->assertEmpty($result);
+	}
 }
