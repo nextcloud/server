@@ -13,8 +13,26 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 
 	private $datadir;
 
+	/**
+	 * @param array $systemOptions
+	 * @return \OCP\IConfig | PHPUnit_Framework_MockObject_MockObject
+	 */
+	protected function getConfig($systemOptions) {
+		$systemOptions['datadirectory'] = $this->datadir;
+		$config = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$config->expects($this->any())
+			->method('getSystemValue')
+			->will($this->returnCallback(function ($key, $default) use ($systemOptions) {
+				return isset($systemOptions[$key]) ? $systemOptions[$key] : $default;
+			}));
+		return $config;
+	}
+
 	public function setUp() {
-		$this->datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data');
+		$this->datadir = \OC_Helper::tmpFolder();
 
 		file_put_contents($this->datadir . '/.ocdata', '');
 	}
@@ -28,7 +46,9 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 	 * Test that checkServer() returns no errors in the regular case.
 	 */
 	public function testCheckServer() {
-		$result = \OC_Util::checkServer();
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => true
+		)));
 		$this->assertEmpty($result);
 	}
 
@@ -41,19 +61,12 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 		// simulate old version that didn't have it
 		unlink($this->datadir . '/.ocdata');
 
-		$session = \OC::$server->getSession();
-		$oldInstalled = \OC_Config::getValue('installed', false);
-
-		// simulate that the server isn't setup yet
-		\OC_Config::setValue('installed', false);
-
 		// even though ".ocdata" is missing, the error isn't
 		// triggered to allow setup to run
-		$result = \OC_Util::checkServer();
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => false
+		)));
 		$this->assertEmpty($result);
-
-		// restore config
-		\OC_Config::setValue('installed', $oldInstalled);
 	}
 
 	/**
@@ -67,20 +80,20 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 
 		$session = \OC::$server->getSession();
 		$oldCurrentVersion = $session->get('OC_Version');
-		$oldInstallVersion = \OC_Config::getValue('version', '0.0.0');
 
 		// upgrade condition to simulate needUpgrade() === true
 		$session->set('OC_Version', array(6, 0, 0, 2));
-		\OC_Config::setValue('version', '6.0.0.1');
 
 		// even though ".ocdata" is missing, the error isn't
 		// triggered to allow for upgrade
-		$result = \OC_Util::checkServer();
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => true,
+			'version' => '6.0.0.1'
+		)));
 		$this->assertEmpty($result);
 
 		// restore versions
 		$session->set('OC_Version', $oldCurrentVersion);
-		\OC_Config::setValue('version', $oldInstallVersion);
 	}
 
 	/**
@@ -93,7 +106,7 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * Test that checkDataDirectoryValidity and checkServer 
+	 * Test that checkDataDirectoryValidity and checkServer
 	 * both return an error when ".ocdata" is missing.
 	 */
 	public function testCheckDataDirValidityWhenFileMissing() {
@@ -101,8 +114,11 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 		$result = \OC_Util::checkDataDirectoryValidity($this->datadir);
 		$this->assertEquals(1, count($result));
 
-		$result = \OC_Util::checkServer();
-		$this->assertEquals(1, count($result));
+		$result = \OC_Util::checkServer($this->getConfig(array(
+			'installed' => true,
+			'version' => implode('.', OC_Util::getVersion())
+		)));
+		$this->assertCount(1, $result);
 	}
 
 }

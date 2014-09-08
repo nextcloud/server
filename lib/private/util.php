@@ -389,14 +389,16 @@ class OC_Util {
 
 	/**
 	 * check if the current server configuration is suitable for ownCloud
+	 *
+	 * @param \OCP\IConfig $config
 	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer() {
-		$l = OC_L10N::get('lib');
+	public static function checkServer($config) {
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
-		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
+		$CONFIG_DATADIRECTORY = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
 
-		if (!self::needUpgrade() && OC_Config::getValue('installed', false)) {
+		if (!self::needUpgrade($config) && $config->getSystemValue('installed', false)) {
 			// this check needs to be done every time
 			$errors = self::checkDataDirectoryValidity($CONFIG_DATADIRECTORY);
 		}
@@ -435,8 +437,8 @@ class OC_Util {
 		}
 
 		// Check if there is a writable install folder.
-		if(OC_Config::getValue('appstoreenabled', true)) {
-			if( OC_App::getInstallPath() === null
+		if ($config->getSystemValue('appstoreenabled', true)) {
+			if (OC_App::getInstallPath() === null
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath()) ) {
 				$errors[] = array(
@@ -1332,11 +1334,12 @@ class OC_Util {
 	 * either when the core version is higher or any app requires
 	 * an upgrade.
 	 *
+	 * @param \OCP\IConfig $config
 	 * @return bool whether the core or any app needs an upgrade
 	 */
-	public static function needUpgrade() {
-		if (OC_Config::getValue('installed', false)) {
-			$installedVersion = OC_Config::getValue('version', '0.0.0');
+	public static function needUpgrade($config) {
+		if ($config->getSystemValue('installed', false)) {
+			$installedVersion = $config->getSystemValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				return true;
