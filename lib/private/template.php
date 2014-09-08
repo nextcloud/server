@@ -56,7 +56,7 @@ class OC_Template extends \OC\Template\Base {
 		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
-		$l10n = OC_L10N::get($parts[0]);
+		$l10n = \OC::$server->getL10N($parts[0]);
 		$themeDefaults = new OC_Defaults();
 
 		list($path, $template) = $this->findTemplate($theme, $app, $name, $fext);

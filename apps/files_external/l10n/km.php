@@ -2,6 +2,7 @@
 $TRANSLATIONS = array(
 "External storage" => "ឃ្លាំងផ្ទុក​ខាងក្រៅ",
 "Location" => "ទីតាំង",
+"Port" => "ច្រក",
 "Host" => "ម៉ាស៊ីន​ផ្ទុក",
 "Username" => "ឈ្មោះ​អ្នកប្រើ",
 "Password" => "ពាក្យសម្ងាត់",

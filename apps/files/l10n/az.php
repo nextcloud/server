@@ -26,6 +26,7 @@ $TRANSLATIONS = array(
 "Save" => "Saxlamaq",
 "New folder" => "Yeni qovluq",
 "Folder" => "Qovluq",
+"Nothing in here. Upload something!" => "Burda heçnə yoxdur. Nese yükləyin!",
 "Download" => "Yüklə"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

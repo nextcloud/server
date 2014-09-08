@@ -62,6 +62,10 @@ $this->create('settings_ajax_restorekeys', '/settings/ajax/restorekeys.php')
 	->actionInclude('settings/ajax/restorekeys.php');
 $this->create('settings_ajax_deletekeys', '/settings/ajax/deletekeys.php')
 	->actionInclude('settings/ajax/deletekeys.php');
+$this->create('settings_cert_post', '/settings/ajax/addRootCertificate')
+	->actionInclude('settings/ajax/addRootCertificate.php');
+$this->create('settings_cert_remove', '/settings/ajax/removeRootCertificate')
+	->actionInclude('settings/ajax/removeRootCertificate.php');
 // apps
 $this->create('settings_ajax_apps_ocs', '/settings/ajax/apps/ocs.php')
 	->actionInclude('settings/ajax/apps/ocs.php');

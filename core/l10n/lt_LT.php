@@ -118,8 +118,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Saugumo pranešimas",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Jūsų PHP versija yra pažeidžiama prieš NULL Byte ataką (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Prašome atnaujinti savo PHP, kad saugiai naudoti %s.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Saugaus atsitiktinių skaičių generatoriaus nėra, prašome įjungti PHP OpenSSL modulį.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Be saugaus atsitiktinių skaičių generatoriaus, piktavaliai gali atspėti Jūsų slaptažodį ir pasisavinti paskyrą.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Jūsų failai yra tikriausiai prieinami per internetą nes .htaccess failas neveikia.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Kad gauti informaciją apie tai kaip tinkamai sukonfigūruoti savo serverį, prašome skaityti <a href=\"%s\" target=\"_blank\">dokumentaciją</a>.",
 "Create an <strong>admin account</strong>" => "Sukurti <strong>administratoriaus paskyrą</strong>",

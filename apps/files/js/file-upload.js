@@ -427,6 +427,14 @@ OC.Upload = {
 						data.textStatus = 'servererror';
 						data.errorThrown = result[0].data.message; // error message has been translated on server
 						fu._trigger('fail', e, data);
+					} else { // Successful upload
+						// Checking that the uploaded file is the last one and contained in the current directory
+						if (data.files[0] === data.originalFiles[data.originalFiles.length - 1] &&
+							result[0].directory === FileList.getCurrentDirectory()) {
+							// Scroll to the last uploaded file and highlight all of them
+							var fileList = _.pluck(data.originalFiles, 'name');
+							FileList.highlightFiles(fileList);
+						}
 					}
 				},
 				/**
@@ -621,7 +629,7 @@ OC.Upload = {
 								},
 								function(result) {
 									if (result.status === 'success') {
-										FileList.add(result.data, {hidden: hidden, animate: true});
+										FileList.add(result.data, {hidden: hidden, animate: true, scrollTo: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create file'));
 									}
@@ -637,7 +645,7 @@ OC.Upload = {
 								},
 								function(result) {
 									if (result.status === 'success') {
-										FileList.add(result.data, {hidden: hidden, animate: true});
+										FileList.add(result.data, {hidden: hidden, animate: true, scrollTo: true});
 									} else {
 										OC.dialogs.alert(result.data.message, t('core', 'Could not create folder'));
 									}

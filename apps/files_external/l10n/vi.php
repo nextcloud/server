@@ -3,6 +3,8 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã bí mật.",
 "External storage" => "Lưu trữ ngoài",
 "Location" => "Vị trí",
+"Port" => "Cổng",
+"Region" => "Vùng/miền",
 "Host" => "Máy chủ",
 "Username" => "Tên đăng nhập",
 "Password" => "Mật khẩu",
@@ -19,8 +21,6 @@ $TRANSLATIONS = array(
 "Configuration" => "Cấu hình",
 "Add storage" => "Thêm bộ nhớ",
 "Delete" => "Xóa",
-"Enable User External Storage" => "Kích hoạt tính năng lưu trữ ngoài",
-"SSL root certificates" => "Chứng chỉ SSL root",
-"Import Root Certificate" => "Nhập Root Certificate"
+"Enable User External Storage" => "Kích hoạt tính năng lưu trữ ngoài"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

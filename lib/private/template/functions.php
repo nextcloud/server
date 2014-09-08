@@ -117,7 +117,7 @@ function strip_time($timestamp){
  * @return OC_L10N_String timestamp
  */
 function relative_modified_date($timestamp, $fromTime = null, $dateOnly = false) {
-	$l=OC_L10N::get('lib');
+	$l = \OC::$server->getL10N('lib');
 	if (!isset($fromTime) || $fromTime === null){
 		$fromTime = time();
 	}

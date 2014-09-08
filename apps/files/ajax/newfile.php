@@ -46,7 +46,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 	}
 }
 
-$l10n = \OC_L10n::get('files');
+$l10n = \OC::$server->getL10N('files');
 
 $result = array(
 	'success' 	=> false,

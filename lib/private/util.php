@@ -5,6 +5,8 @@
  *
  */
 class OC_Util {
+	const USER_AGENT = 'ownCloud Server Crawler';
+	
 	public static $scripts = array();
 	public static $styles = array();
 	public static $headers = array();
@@ -392,7 +394,7 @@ class OC_Util {
 			$offset = $clientTimeZone - $systemTimeZone;
 			$timestamp = $timestamp + $offset * 60;
 		}
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);
 	}
 
@@ -402,7 +404,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkServer() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		$CONFIG_DATADIRECTORY = OC_Config::getValue('datadirectory', OC::$SERVERROOT . '/data');
 
@@ -626,7 +628,7 @@ class OC_Util {
 	 * @return array errors array
 	 */
 	public static function checkDatabaseVersion() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		$dbType = \OC_Config::getValue('dbtype', 'sqlite');
 		if ($dbType === 'pgsql') {
@@ -707,7 +709,7 @@ class OC_Util {
 	 * @return array arrays with error messages and hints
 	 */
 	public static function checkDataDirectoryPermissions($dataDirectory) {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		if (self::runningOnWindows()) {
 			//TODO: permissions checks for windows hosts
@@ -738,7 +740,7 @@ class OC_Util {
 	 * @return bool true if the data directory is valid, false otherwise
 	 */
 	public static function checkDataDirectoryValidity($dataDirectory) {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		if (!file_exists($dataDirectory . '/.ocdata')) {
 			$errors[] = array(
@@ -905,7 +907,7 @@ class OC_Util {
 		$id = OC_Config::getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . self::generateRandomBytes(10);
+			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10);
 			OC_Config::$object->setValue('instanceid', $id);
 		}
 		return $id;
@@ -940,7 +942,7 @@ class OC_Util {
 		// Check if a token exists
 		if (!\OC::$server->getSession()->exists('requesttoken')) {
 			// No valid token found, generate a new one.
-			$requestToken = self::generateRandomBytes(20);
+			$requestToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(30);
 			\OC::$server->getSession()->set('requesttoken', $requestToken);
 		} else {
 			// Valid token already exists, send it
@@ -1208,54 +1210,20 @@ class OC_Util {
 	 *
 	 * @param int $length of the random string
 	 * @return string
-	 * @throws Exception when no secure RNG source is available
-	 * Please also update secureRNGAvailable if you change something here
+	 * @deprecated Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
 	 */
 	public static function generateRandomBytes($length = 30) {
-		// Try to use openssl_random_pseudo_bytes
-		if (function_exists('openssl_random_pseudo_bytes')) {
-			$pseudoByte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
-			if ($strong == true) {
-				return substr($pseudoByte, 0, $length); // Truncate it to match the length
-			}
-		}
-
-		// Try to use /dev/urandom
-		if (!self::runningOnWindows()) {
-			$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
-			if ($fp !== false) {
-				$string = substr(bin2hex($fp), 0, $length);
-				return $string;
-			}
-		}
-
-		// No random numbers are better then bad random numbers
-		throw new \Exception('No secure random number generator available, please install the php-openssl extension');
+		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**
 	 * Checks if a secure random number generator is available
 	 *
-	 * @return bool
+	 * @return true
+	 * @deprecated Function will be removed in the future and does only return true.
 	 */
 	public static function secureRNGAvailable() {
-		// Check openssl_random_pseudo_bytes
-		if (function_exists('openssl_random_pseudo_bytes')) {
-			openssl_random_pseudo_bytes(1, $strong);
-			if ($strong == true) {
-				return true;
-			}
-		}
-
-		// Check /dev/urandom
-		if (!self::runningOnWindows()) {
-			$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
-			if ($fp !== false) {
-				return true;
-			}
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -1281,7 +1249,7 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_URL, $url);
 
 
-			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+			curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
 			if (OC_Config::getValue('proxy', '') != '') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
 			}
@@ -1303,6 +1271,7 @@ class OC_Util {
 					curl_setopt($rcurl, CURLOPT_NOBODY, true);
 					curl_setopt($rcurl, CURLOPT_FORBID_REUSE, false);
 					curl_setopt($rcurl, CURLOPT_RETURNTRANSFER, true);
+					curl_setopt($rcurl, CURLOPT_USERAGENT, self::USER_AGENT);
 					do {
 						curl_setopt($rcurl, CURLOPT_URL, $newURL);
 						$header = curl_exec($rcurl);
@@ -1337,6 +1306,7 @@ class OC_Util {
 			if (OC_Config::getValue('proxy', '') != '') {
 				$contextArray = array(
 					'http' => array(
+						'header' => 'User-Agent: ' . self::USER_AGENT . "\r\n",
 						'timeout' => 10,
 						'proxy' => OC_Config::getValue('proxy')
 					)
@@ -1344,6 +1314,7 @@ class OC_Util {
 			} else {
 				$contextArray = array(
 					'http' => array(
+						'header' => 'User-Agent: ' . self::USER_AGENT . "\r\n",
 						'timeout' => 10
 					)
 				);
@@ -1490,9 +1461,11 @@ class OC_Util {
 	}
 
 	/**
-	 * Check whether the instance needs to preform an upgrade
+	 * Check whether the instance needs to perform an upgrade,
+	 * either when the core version is higher or any app requires
+	 * an upgrade.
 	 *
-	 * @return bool
+	 * @return bool whether the core or any app needs an upgrade
 	 */
 	public static function needUpgrade() {
 		if (OC_Config::getValue('installed', false)) {
@@ -1502,14 +1475,16 @@ class OC_Util {
 				return true;
 			}
 
-			// also check for upgrades for apps
-			$apps = \OC_App::getEnabledApps();
+			// also check for upgrades for apps (independently from the user)
+			$apps = \OC_App::getEnabledApps(false, true);
+			$shouldUpgrade = false;
 			foreach ($apps as $app) {
 				if (\OC_App::shouldUpgrade($app)) {
-					return true;
+					$shouldUpgrade = true;
+					break;
 				}
 			}
-			return false;
+			return $shouldUpgrade;
 		} else {
 			return false;
 		}

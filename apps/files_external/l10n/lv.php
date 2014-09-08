@@ -3,6 +3,7 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Lūdzu, norādiet derīgu Dropbox lietotnes atslēgu un noslēpumu.",
 "External storage" => "Ārējā krātuve",
 "Location" => "Vieta",
+"Port" => "Ports",
 "Host" => "Resursdators",
 "Username" => "Lietotājvārds",
 "Password" => "Parole",
@@ -19,8 +20,6 @@ $TRANSLATIONS = array(
 "Configuration" => "Konfigurācija",
 "Add storage" => "Pievienot krātuvi",
 "Delete" => "Dzēst",
-"Enable User External Storage" => "Aktivēt lietotāja ārējo krātuvi",
-"SSL root certificates" => "SSL saknes sertifikāti",
-"Import Root Certificate" => "Importēt saknes sertifikātus"
+"Enable User External Storage" => "Aktivēt lietotāja ārējo krātuvi"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);";

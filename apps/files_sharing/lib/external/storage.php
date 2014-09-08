@@ -37,6 +37,11 @@ class Storage extends DAV implements ISharedStorage {
 	 */
 	private $token;
 
+	/**
+	 * @var \OCP\ICertificateManager
+	 */
+	private $certificateManager;
+
 	private $updateChecked = false;
 
 	/**
@@ -46,6 +51,7 @@ class Storage extends DAV implements ISharedStorage {
 
 	public function __construct($options) {
 		$this->manager = $options['manager'];
+		$this->certificateManager = $options['certificateManager'];
 		$this->remote = $options['remote'];
 		$this->remoteUser = $options['owner'];
 		list($protocol, $remote) = explode('://', $this->remote);
@@ -189,6 +195,10 @@ class Storage extends DAV implements ISharedStorage {
 		curl_setopt($ch, CURLOPT_POSTFIELDS,
 			http_build_query(array('password' => $password)));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_CAINFO, $this->certificateManager->getCertificateBundle());
 
 		$result = curl_exec($ch);
 

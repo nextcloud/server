@@ -110,9 +110,10 @@
 		 * @param $el container element with existing markup for the #controls
 		 * and a table
 		 * @param options map of options, see other parameters
-		 * @param scrollContainer scrollable container, defaults to $(window)
-		 * @param dragOptions drag options, disabled by default
-		 * @param folderDropOptions folder drop options, disabled by default
+		 * @param options.scrollContainer scrollable container, defaults to $(window)
+		 * @param options.dragOptions drag options, disabled by default
+		 * @param options.folderDropOptions folder drop options, disabled by default
+		 * @param options.scrollTo name of file to scroll to after the first load
 		 */
 		initialize: function($el, options) {
 			var self = this;
@@ -172,6 +173,12 @@
 			this.setupUploadEvents();
 
 			this.$container.on('scroll', _.bind(this._onScroll, this));
+
+			if (options.scrollTo) {
+				this.$fileList.one('updated', function() {
+					self.scrollTo(options.scrollTo);
+				});
+			}
 		},
 
 		/**
@@ -715,9 +722,10 @@
 		 *
 		 * @param fileData map of file attributes
 		 * @param options map of attributes:
-		 * - "updateSummary": true to update the summary after adding (default), false otherwise
-		 * - "silent": true to prevent firing events like "fileActionsReady"
-		 * - "animate": true to animate preview loading (defaults to true here)
+		 * @param options.updateSummary true to update the summary after adding (default), false otherwise
+		 * @param options.silent true to prevent firing events like "fileActionsReady"
+		 * @param options.animate true to animate preview loading (defaults to true here)
+		 * @param options.scrollTo true to automatically scroll to the file's location
 		 * @return new tr element (not appended to the table)
 		 */
 		add: function(fileData, options) {
@@ -764,6 +772,10 @@
 				window.setTimeout(function() {
 					$tr.removeClass('transparent');
 				});
+			}
+
+			if (options.scrollTo) {
+				this.scrollTo(fileData.name);
 			}
 
 			// defaults to true if not defined
@@ -1523,16 +1535,15 @@
 			this.$table.removeClass('hidden');
 		},
 		scrollTo:function(file) {
-			//scroll to and highlight preselected file
-			var $scrollToRow = this.findFileEl(file);
-			if ($scrollToRow.exists()) {
-				$scrollToRow.addClass('searchresult');
-				$(window).scrollTop($scrollToRow.position().top);
-				//remove highlight when hovered over
-				$scrollToRow.one('hover', function() {
-					$scrollToRow.removeClass('searchresult');
-				});
+			if (!_.isArray(file)) {
+				file = [file];
 			}
+			this.highlightFiles(file, function($tr) {
+				$tr.addClass('searchresult');
+				$tr.one('hover', function() {
+					$tr.removeClass('searchresult');
+				});
+			});
 		},
 		filter:function(query) {
 			this.$fileList.find('tr').each(function(i,e) {
@@ -1632,6 +1643,18 @@
 		},
 
 		/**
+		 * Shows a "permission denied" notification
+		 */
+		_showPermissionDeniedNotification: function() {
+			var message = t('core', 'You don’t have permission to upload or create files here');
+			OC.Notification.show(message);
+			//hide notification after 10 sec
+			setTimeout(function() {
+				OC.Notification.hide();
+			}, 5000);
+		},
+
+		/**
 		 * Setup file upload events related to the file-upload plugin
 		 */
 		setupUploadEvents: function() {
@@ -1662,6 +1685,12 @@
 					// remember as context
 					data.context = dropTarget;
 
+					// if permissions are specified, only allow if create permission is there
+					var permissions = dropTarget.data('permissions');
+					if (!_.isUndefined(permissions) && (permissions & OC.PERMISSION_CREATE) === 0) {
+						self._showPermissionDeniedNotification();
+						return false;
+					}
 					var dir = dropTarget.data('file');
 					// if from file list, need to prepend parent dir
 					if (dir) {
@@ -1686,6 +1715,7 @@
 					// cancel uploads to current dir if no permission
 					var isCreatable = (self.getDirectoryPermissions() & OC.PERMISSION_CREATE) !== 0;
 					if (!isCreatable) {
+						self._showPermissionDeniedNotification();
 						return false;
 					}
 				}
@@ -1856,6 +1886,62 @@
 				self.updateStorageStatistics();
 			});
 
+		},
+
+		/**
+		 * Scroll to the last file of the given list
+		 * Highlight the list of files
+		 * @param files array of filenames,
+		 * @param {Function} [highlightFunction] optional function
+		 * to be called after the scrolling is finished
+		 */
+		highlightFiles: function(files, highlightFunction) {
+			// Detection of the uploaded element
+			var filename = files[files.length - 1];
+			var $fileRow = this.findFileEl(filename);
+
+			while(!$fileRow.exists() && this._nextPage(false) !== false) { // Checking element existence
+				$fileRow = this.findFileEl(filename);
+			}
+
+			if (!$fileRow.exists()) { // Element not present in the file list
+				return;
+			}
+
+			var currentOffset = this.$container.scrollTop();
+			var additionalOffset = this.$el.find("#controls").height()+this.$el.find("#controls").offset().top;
+
+			// Animation
+			var _this = this;
+			this.$container.animate({
+				// Scrolling to the top of the new element
+				scrollTop: currentOffset + $fileRow.offset().top - $fileRow.height() * 2 - additionalOffset
+			}, {
+				duration: 500,
+				complete: function() {
+					// Highlighting function
+					var highlightRow = highlightFunction;
+
+					if (!highlightRow) {
+						highlightRow = function($fileRow) {
+							$fileRow.addClass("highlightUploaded");
+							setTimeout(function() {
+								$fileRow.removeClass("highlightUploaded");
+							}, 2500);
+						};
+					}
+
+					// Loop over uploaded files
+					for(var i=0; i<files.length; i++) {
+						var $fileRow = _this.findFileEl(files[i]);
+
+						if($fileRow.length !== 0) { // Checking element existence
+							highlightRow($fileRow);
+						}
+					}
+
+				}
+			});
 		}
 	};
 

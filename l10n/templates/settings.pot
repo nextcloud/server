@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-08-30 01:54-0400\n"
+"POT-Creation-Date: 2014-09-07 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,7 +51,7 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:157
+#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:198
 msgid "Encryption"
 msgstr ""
 
@@ -296,15 +296,25 @@ msgstr ""
 msgid "Strong password"
 msgstr ""
 
-#: js/personal.js:310
+#: js/personal.js:328
+msgid "Valid until {date}"
+msgstr ""
+
+#: js/personal.js:333 js/personal.js:334 js/users/users.js:75
+#: templates/personal.php:179 templates/personal.php:180
+#: templates/users/part.grouplist.php:46 templates/users/part.userlist.php:108
+msgid "Delete"
+msgstr ""
+
+#: js/personal.js:350
 msgid "Decrypting files... Please wait, this can take some time."
 msgstr ""
 
-#: js/personal.js:324
+#: js/personal.js:364
 msgid "Delete encryption keys permanently."
 msgstr ""
 
-#: js/personal.js:338
+#: js/personal.js:378
 msgid "Restore encryption keys."
 msgstr ""
 
@@ -339,11 +349,6 @@ msgstr ""
 msgid "Group Admin"
 msgstr ""
 
-#: js/users/users.js:75 templates/users/part.grouplist.php:46
-#: templates/users/part.userlist.php:108
-msgid "Delete"
-msgstr ""
-
 #: js/users/users.js:96 templates/users/part.userlist.php:98
 msgid "never"
 msgstr ""
@@ -372,7 +377,7 @@ msgstr ""
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:50 personal.php:51
+#: personal.php:51 personal.php:52
 msgid "__language_name__"
 msgstr ""
 
@@ -731,11 +736,11 @@ msgstr ""
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:485 templates/personal.php:209
+#: templates/admin.php:485 templates/personal.php:247
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:489 templates/personal.php:212
+#: templates/admin.php:489 templates/personal.php:250
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
@@ -801,11 +806,11 @@ msgstr ""
 msgid "Commercial Support"
 msgstr ""
 
-#: templates/personal.php:8
+#: templates/personal.php:11
 msgid "Get the apps to sync your files"
 msgstr ""
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid ""
 "If you want to support the project\n"
 "\t\t<a href=\"https://owncloud.org/contribute\"\n"
@@ -815,122 +820,147 @@ msgid ""
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
 msgstr ""
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:40
+#: templates/personal.php:43
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
-#: templates/personal.php:51 templates/users/part.createuser.php:8
+#: templates/personal.php:54 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr ""
 
-#: templates/personal.php:52
+#: templates/personal.php:55
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:53
+#: templates/personal.php:56
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:55
+#: templates/personal.php:58
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:58
+#: templates/personal.php:61
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:62
+#: templates/personal.php:65
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:74 templates/users/part.userlist.php:8
+#: templates/personal.php:77 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr ""
 
-#: templates/personal.php:89
+#: templates/personal.php:92
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:94
+#: templates/personal.php:97
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:102
+#: templates/personal.php:105
 msgid "Profile picture"
 msgstr ""
 
-#: templates/personal.php:107
+#: templates/personal.php:110
 msgid "Upload new"
 msgstr ""
 
-#: templates/personal.php:109
+#: templates/personal.php:112
 msgid "Select new from Files"
 msgstr ""
 
-#: templates/personal.php:110
+#: templates/personal.php:113
 msgid "Remove image"
 msgstr ""
 
-#: templates/personal.php:111
+#: templates/personal.php:114
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
-#: templates/personal.php:113
+#: templates/personal.php:116
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:117
+#: templates/personal.php:120
 msgid "Cancel"
 msgstr ""
 
-#: templates/personal.php:118
+#: templates/personal.php:121
 msgid "Choose as profile image"
 msgstr ""
 
-#: templates/personal.php:124 templates/personal.php:125
+#: templates/personal.php:127 templates/personal.php:128
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:144
+#: templates/personal.php:147
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:163
+#: templates/personal.php:157
+msgid "SSL root certificates"
+msgstr ""
+
+#: templates/personal.php:160
+msgid "Common Name"
+msgstr ""
+
+#: templates/personal.php:161
+msgid "Valid until"
+msgstr ""
+
+#: templates/personal.php:162
+msgid "Issued By"
+msgstr ""
+
+#: templates/personal.php:171
+#, php-format
+msgid "Valid until %s"
+msgstr ""
+
+#: templates/personal.php:190
+msgid "Import Root Certificate"
+msgstr ""
+
+#: templates/personal.php:204
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:169
+#: templates/personal.php:210
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:174
+#: templates/personal.php:215
 msgid "Decrypt all Files"
 msgstr ""
 
-#: templates/personal.php:187
+#: templates/personal.php:225
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong "
 "you can restore the keys. Only delete them permanently if you are sure that "
 "all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:191
+#: templates/personal.php:229
 msgid "Restore Encryption Keys"
 msgstr ""
 
-#: templates/personal.php:195
+#: templates/personal.php:233
 msgid "Delete Encryption Keys"
 msgstr ""
 

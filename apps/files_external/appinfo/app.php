@@ -6,7 +6,7 @@
  * later.
  * See the COPYING-README file.
  */
-$l = \OC_L10N::get('files_external');
+$l = \OC::$server->getL10N('files_external');
 
 OC::$CLASSPATH['OC\Files\Storage\StreamWrapper'] = 'files_external/lib/streamwrapper.php';
 OC::$CLASSPATH['OC\Files\Storage\FTP'] = 'files_external/lib/ftp.php';
@@ -62,9 +62,9 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\AmazonS3', array(
 		'key' => (string)$l->t('Access Key'),
 		'secret' => '*'.$l->t('Secret Key'),
 		'bucket' => (string)$l->t('Bucket'),
-		'hostname' => '&'.$l->t('Hostname (optional)'),
-		'port' => '&'.$l->t('Port (optional)'),
-		'region' => '&'.$l->t('Region (optional)'),
+		'hostname' => '&'.$l->t('Hostname'),
+		'port' => '&'.$l->t('Port'),
+		'region' => '&'.$l->t('Region'),
 		'use_ssl' => '!'.$l->t('Enable SSL'),
 		'use_path_style' => '!'.$l->t('Enable Path Style')),
 	'has_dependencies' => true));
@@ -108,15 +108,15 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\Swift', array(
 	'backend' => (string)$l->t('OpenStack Object Storage'),
 	'priority' => 100,
 	'configuration' => array(
-		'user' => (string)$l->t('Username (required)'),
-		'bucket' => (string)$l->t('Bucket (required)'),
+		'user' => (string)$l->t('Username'),
+		'bucket' => (string)$l->t('Bucket'),
 		'region' => '&'.$l->t('Region (optional for OpenStack Object Storage)'),
 		'key' => '*'.$l->t('API Key (required for Rackspace Cloud Files)'),
 		'tenant' => '&'.$l->t('Tenantname (required for OpenStack Object Storage)'),
 		'password' => '*'.$l->t('Password (required for OpenStack Object Storage)'),
 		'service_name' => '&'.$l->t('Service Name (required for OpenStack Object Storage)'),
 		'url' => '&'.$l->t('URL of identity endpoint (required for OpenStack Object Storage)'),
-		'timeout' => '&'.$l->t('Timeout of HTTP requests in seconds (optional)'),
+		'timeout' => '&'.$l->t('Timeout of HTTP requests in seconds'),
 	),
 	'has_dependencies' => true));
 

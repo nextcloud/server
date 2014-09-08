@@ -4,6 +4,8 @@ $TRANSLATIONS = array(
 "External storage" => "Külső tárolók",
 "Local" => "Helyi",
 "Location" => "Hely",
+"Port" => "Port",
+"Region" => "Megye",
 "Host" => "Kiszolgáló",
 "Username" => "Felhasználónév",
 "Password" => "Jelszó",
@@ -21,8 +23,6 @@ $TRANSLATIONS = array(
 "Configuration" => "Beállítások",
 "Add storage" => "Tároló becsatolása",
 "Delete" => "Törlés",
-"Enable User External Storage" => "Külső tárolók engedélyezése a felhasználók részére",
-"SSL root certificates" => "SSL tanúsítványok",
-"Import Root Certificate" => "SSL tanúsítványok importálása"
+"Enable User External Storage" => "Külső tárolók engedélyezése a felhasználók részére"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

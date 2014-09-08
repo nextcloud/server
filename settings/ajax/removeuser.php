@@ -11,7 +11,7 @@ if(OC_User::getUser() === $username) {
 }
 
 if(!OC_User::isAdminUser(OC_User::getUser()) && !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
-	$l = OC_L10N::get('core');
+	$l = \OC::$server->getL10N('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 	exit();
 }
@@ -21,6 +21,6 @@ if( OC_User::deleteUser( $username )) {
 	OC_JSON::success(array("data" => array( "username" => $username )));
 }
 else{
-	$l = OC_L10N::get('core');
+	$l = \OC::$server->getL10N('core');
 	OC_JSON::error(array("data" => array( "message" => $l->t("Unable to delete user") )));
 }

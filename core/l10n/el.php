@@ -147,8 +147,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Προειδοποίηση Ασφαλείας",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Η PHP ειναι ευαλωτη στην NULL Byte επιθεση (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Παρακαλώ ενημερώστε την εγκατάσταση της PHP ώστε να χρησιμοποιήσετε το %s με ασφάλεια.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Δεν είναι διαθέσιμο το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, παρακαλώ ενεργοποιήστε το πρόσθετο της PHP, OpenSSL.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Χωρίς το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, μπορεί να διαρρεύσει ο λογαριασμός σας από επιθέσεις στο διαδίκτυο.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανό προσβάσιμα από το internet γιατί δεν δουλεύει το αρχείο .htaccess.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Για πληροφορίες πως να ρυθμίσετε ορθά τον διακομιστή σας, παρακαλώ δείτε την <a href=\"%s\" target=\"_blank\">τεκμηρίωση</a>.",
 "Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",

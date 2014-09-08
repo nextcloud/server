@@ -132,7 +132,7 @@ class Util {
 	 * @return \OC_L10N
 	 */
 	public static function getL10N($application, $language = null) {
-		return \OC_L10N::get($application, $language);
+		return \OC::$server->getL10N($application, $language);
 	}
 
 	/**
@@ -505,6 +505,7 @@ class Util {
 	 * Generates a cryptographic secure pseudo-random string
 	 * @param int $length of the random string
 	 * @return string
+	 * @deprecated Use \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate($length); instead
 	 */
 	public static function generateRandomBytes($length = 30) {
 		return \OC_Util::generateRandomBytes($length);

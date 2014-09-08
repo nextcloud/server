@@ -2,6 +2,8 @@
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "தயவுசெய்து ஒரு செல்லுபடியான Dropbox செயலி சாவி மற்றும் இரகசியத்தை வழங்குக. ",
 "Location" => "இடம்",
+"Port" => "துறை ",
+"Region" => "பிரதேசம்",
 "Host" => "ஓம்புனர்",
 "Username" => "பயனாளர் பெயர்",
 "Password" => "கடவுச்சொல்",
@@ -17,8 +19,6 @@ $TRANSLATIONS = array(
 "Folder name" => "கோப்புறை பெயர்",
 "Configuration" => "தகவமைப்பு",
 "Delete" => "நீக்குக",
-"Enable User External Storage" => "பயனாளர் வெளி சேமிப்பை இயலுமைப்படுத்துக",
-"SSL root certificates" => "SSL வேர் சான்றிதழ்கள்",
-"Import Root Certificate" => "வேர் சான்றிதழை இறக்குமதி செய்க"
+"Enable User External Storage" => "பயனாளர் வெளி சேமிப்பை இயலுமைப்படுத்துக"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

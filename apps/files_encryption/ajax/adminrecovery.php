@@ -13,7 +13,7 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
 
-$l = OC_L10N::get('files_encryption');
+$l = \OC::$server->getL10N('files_encryption');
 
 $return = false;
 // Enable recoveryAdmin

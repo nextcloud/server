@@ -38,6 +38,7 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 		$server->xmlNamespaces[self::NS_OWNCLOUD] = 'oc';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}id';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}permissions';
+		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}size';
 
 		$this->server = $server;
 		$this->server->subscribeEvent('beforeGetProperties', array($this, 'beforeGetProperties'));
@@ -74,12 +75,17 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 			}
 
 			$permissions = $node->getDavPermissions();
-			if (!is_null($fileId)) {
+			if (!is_null($permissions)) {
 				$returnedProperties[200][$permissionsPropertyName] = $permissions;
 			}
-
 		}
 
+		if ($node instanceof OC_Connector_Sabre_Directory) {
+			$sizePropertyName = '{' . self::NS_OWNCLOUD . '}size';
+
+			/** @var $node OC_Connector_Sabre_Directory */
+			$returnedProperties[200][$sizePropertyName] = $node->getSize();
+		}
 	}
 
 	/**
@@ -106,6 +112,10 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 			$fileId = $node->getFileId();
 			if (!is_null($fileId)) {
 				$this->server->httpResponse->setHeader('OC-FileId', $fileId);
+			}
+			$eTag = $node->getETag();
+			if (!is_null($eTag)) {
+				$this->server->httpResponse->setHeader('OC-ETag', $eTag);
 			}
 		}
 	}

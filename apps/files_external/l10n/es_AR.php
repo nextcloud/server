@@ -3,6 +3,8 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "Por favor, proporcioná un secreto y una contraseña válida para la aplicación Dropbox.",
 "External storage" => "Almacenamiento externo",
 "Location" => "Ubicación",
+"Port" => "Puerto",
+"Region" => "Provincia",
 "Host" => "Servidor",
 "Username" => "Nombre de usuario",
 "Password" => "Contraseña",
@@ -20,8 +22,6 @@ $TRANSLATIONS = array(
 "Configuration" => "Configuración",
 "Add storage" => "Añadir almacenamiento",
 "Delete" => "Borrar",
-"Enable User External Storage" => "Habilitar almacenamiento de usuario externo",
-"SSL root certificates" => "certificados SSL raíz",
-"Import Root Certificate" => "Importar certificado raíz"
+"Enable User External Storage" => "Habilitar almacenamiento de usuario externo"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

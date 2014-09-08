@@ -193,7 +193,7 @@ class OC {
 	}
 
 	public static function checkConfig() {
-		$l = OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		if (file_exists(self::$configDir . "/config.php")
 			and !is_writable(self::$configDir . "/config.php")
 		) {
@@ -574,13 +574,28 @@ class OC {
 
 		// Check whether the sample configuration has been copied
 		if(OC_Config::getValue('copied_sample_config', false)) {
-			$l = \OC_L10N::get('lib');
+			$l = \OC::$server->getL10N('lib');
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
 			OC_Template::printErrorPage(
 				$l->t('Sample configuration detected'),
 				$l->t('It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php')
 			);
+			return;
+		}
+
+		$host = OC_Request::insecureServerHost();
+		// if the host passed in headers isn't trusted
+		if (!OC::$CLI
+			// overwritehost is always trusted
+			&& OC_Request::getOverwriteHost() === null
+			&& !OC_Request::isTrustedDomain($host)
+		) {
+			header('HTTP/1.1 400 Bad Request');
+			header('Status: 400 Bad Request');
+			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
+			$tmpl->assign('domain', $_SERVER['SERVER_NAME']);
+			$tmpl->printPage();
 			return;
 		}
 	}
@@ -672,7 +687,6 @@ class OC {
 	 * Handle the request
 	 */
 	public static function handleRequest() {
-		$l = \OC_L10N::get('lib');
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
@@ -682,21 +696,6 @@ class OC {
 			$controller = new OC\Core\Setup\Controller();
 			$controller->run($_POST);
 			exit();
-		}
-
-		$host = OC_Request::insecureServerHost();
-		// if the host passed in headers isn't trusted
-		if (!OC::$CLI
-			// overwritehost is always trusted
-			&& OC_Request::getOverwriteHost() === null
-			&& !OC_Request::isTrustedDomain($host)
-		) {
-			header('HTTP/1.1 400 Bad Request');
-			header('Status: 400 Bad Request');
-			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-			$tmpl->assign('domain', $_SERVER['SERVER_NAME']);
-			$tmpl->printPage();
-			return;
 		}
 
 		$request = OC_Request::getPathInfo();
@@ -722,6 +721,7 @@ class OC {
 					OC_App::loadApps();
 				}
 				self::checkSingleUserMode();
+				OC_Util::setupFS();
 				OC::$server->getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
@@ -777,6 +777,7 @@ class OC {
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
 			OC_User::setupBackends();
+			OC_Util::setupFS();
 			if (isset($_GET["logout"]) and ($_GET["logout"])) {
 				OC_JSON::callCheck();
 				if (isset($_COOKIE['oc_token'])) {
@@ -942,7 +943,7 @@ class OC {
 				if (defined("DEBUG") && DEBUG) {
 					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
 				}
-				$token = OC_Util::generateRandomBytes(32);
+				$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
 				OC_Preferences::setValue($userid, 'login_token', $token, time());
 				OC_User::setMagicInCookie($userid, $token);
 			} else {

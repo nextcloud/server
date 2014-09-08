@@ -794,5 +794,3 @@ class Filesystem {
 		return self::$defaultInstance->getETag($path);
 	}
 }
-
-\OC_Util::setupFS();

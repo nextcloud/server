@@ -53,7 +53,7 @@ class Wizard extends LDAPUtility {
 		parent::__construct($ldap);
 		$this->configuration = $configuration;
 		if(is_null(Wizard::$l)) {
-			Wizard::$l = \OC_L10N::get('user_ldap');
+			Wizard::$l = \OC::$server->getL10N('user_ldap');
 		}
 		$this->access = $access;
 		$this->result = new WizardResult;

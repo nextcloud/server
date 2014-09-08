@@ -147,8 +147,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Segurtasun abisua",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Zure PHP bertsioa NULL Byte erasoak (CVE-2006-7243) mendera dezake.",
 "Please update your PHP installation to use %s securely." => "Mesedez eguneratu zure PHP instalazioa %s seguru erabiltzeko",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ez dago hausazko zenbaki sortzaile segururik eskuragarri, mesedez gatiu PHP OpenSSL extensioa.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Hausazko zenbaki sortzaile segururik gabe erasotzaile batek pasahitza berrezartzeko kodeak iragarri ditzake eta zure kontuaz jabetu.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Zure data karpeta eta fitxategiak interneten bidez eskuragarri egon daitezke .htaccess fitxategia ez delako funtzionatzen ari.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Zure zerbitrzaria ongi konfiguratzeko, mezedez <a href=\"%s\" target=\"_blank\">dokumentazioa</a> ikusi.",
 "Create an <strong>admin account</strong>" => "Sortu <strong>kudeatzaile kontu<strong> bat",

@@ -40,6 +40,6 @@ $result = OC_Installer::updateAppByOCSId($appId, $isShipped);
 if($result !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appId)));
 } else {
-	$l = OC_L10N::get('settings');
+	$l = \OC::$server->getL10N('settings');
 	OC_JSON::error(array("data" => array( "message" => $l->t("Couldn't update app.") )));
 }

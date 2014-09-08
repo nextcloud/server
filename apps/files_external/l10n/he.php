@@ -3,6 +3,8 @@ $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "נא לספק קוד יישום וסוד תקניים של Dropbox.",
 "Local" => "מקומי",
 "Location" => "מיקום",
+"Port" => "פורט",
+"Region" => "אזור",
 "Host" => "מארח",
 "Username" => "שם משתמש",
 "Password" => "סיסמא",
@@ -19,8 +21,6 @@ $TRANSLATIONS = array(
 "Folder name" => "שם התיקייה",
 "Configuration" => "הגדרות",
 "Delete" => "מחיקה",
-"Enable User External Storage" => "הפעלת אחסון חיצוני למשתמשים",
-"SSL root certificates" => "שורש אישורי אבטחת SSL ",
-"Import Root Certificate" => "ייבוא אישור אבטחת שורש"
+"Enable User External Storage" => "הפעלת אחסון חיצוני למשתמשים"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

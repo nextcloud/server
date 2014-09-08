@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "External storage" => "Externer Speicher",
 "Local" => "Lokal",
 "Location" => "Ort",
+"Port" => "Port",
 "Host" => "Host",
 "Username" => "Benutzername",
 "Password" => "Passwort",
@@ -21,8 +22,6 @@ $TRANSLATIONS = array(
 "Configuration" => "Konfiguration",
 "Add storage" => "Speicher hinzufügen",
 "Delete" => "Löschen",
-"Enable User External Storage" => "Externen Speicher für Benutzer aktivieren",
-"SSL root certificates" => "SSL-Root-Zertifikate",
-"Import Root Certificate" => "Root-Zertifikate importieren"
+"Enable User External Storage" => "Externen Speicher für Benutzer aktivieren"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

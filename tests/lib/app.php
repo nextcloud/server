@@ -9,6 +9,14 @@
 
 class Test_App extends PHPUnit_Framework_TestCase {
 
+	private $oldAppConfigService;
+
+	const TEST_USER1 = 'user1';
+	const TEST_USER2 = 'user2';
+	const TEST_USER3 = 'user3';
+	const TEST_GROUP1 = 'group1';
+	const TEST_GROUP2 = 'group2';
+
 	function appVersionsProvider() {
 		return array(
 			// exact match
@@ -236,4 +244,222 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		array_unshift($sortedApps, 'files');
 		$this->assertEquals($sortedApps, $apps);
 	}
+
+	/**
+	 * Providers for the app config values
+	 */
+	function appConfigValuesProvider() {
+		return array(
+			// logged in user1
+			array(
+				self::TEST_USER1,
+				array(
+					'files',
+					'app1',
+					'app3',
+					'appforgroup1',
+					'appforgroup12',
+				),
+				false
+			),
+			// logged in user2
+			array(
+				self::TEST_USER2,
+				array(
+					'files',
+					'app1',
+					'app3',
+					'appforgroup12',
+					'appforgroup2',
+				),
+				false
+			),
+			// logged in user3
+			array(
+				self::TEST_USER3,
+				array(
+					'files',
+					'app1',
+					'app3',
+					'appforgroup1',
+					'appforgroup12',
+					'appforgroup2',
+				),
+				false
+			),
+			//  no user, returns all apps
+			array(
+				null,
+				array(
+					'files',
+					'app1',
+					'app3',
+					'appforgroup1',
+					'appforgroup12',
+					'appforgroup2',
+				),
+				false,
+			),
+			//  user given, but ask for all
+			array(
+				self::TEST_USER1,
+				array(
+					'files',
+					'app1',
+					'app3',
+					'appforgroup1',
+					'appforgroup12',
+					'appforgroup2',
+				),
+				true,
+			),
+		);
+	}
+
+	/**
+	 * Test enabled apps
+	 *
+	 * @dataProvider appConfigValuesProvider
+	 */
+	public function testEnabledApps($user, $expectedApps, $forceAll) {
+		$userManager = \OC::$server->getUserManager();
+		$groupManager = \OC::$server->getGroupManager();
+		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
+		$user2 = $userManager->createUser(self::TEST_USER2, self::TEST_USER2);
+		$user3 = $userManager->createUser(self::TEST_USER3, self::TEST_USER3);
+
+		$group1 = $groupManager->createGroup(self::TEST_GROUP1);
+		$group1->addUser($user1);
+		$group1->addUser($user3);
+		$group2 = $groupManager->createGroup(self::TEST_GROUP2);
+		$group2->addUser($user2);
+		$group2->addUser($user3);
+
+		\OC_User::setUserId($user);
+
+		$this->setupAppConfigMock()->expects($this->once())
+			->method('getValues')
+			->will($this->returnValue(
+				array(
+					'app3' => 'yes',
+					'app2' => 'no',
+					'app1' => 'yes',
+					'appforgroup1' => '["group1"]',
+					'appforgroup2' => '["group2"]',
+					'appforgroup12' => '["group2","group1"]',
+				)
+			)
+		);
+
+		$apps = \OC_App::getEnabledApps(true, $forceAll);
+		$this->assertEquals($expectedApps, $apps);
+
+		$this->restoreAppConfig();
+		\OC_User::setUserId(null);
+
+		$user1->delete();
+		$user2->delete();
+		$user3->delete();
+		// clear user cache...
+		$userManager->delete(self::TEST_USER1);
+		$userManager->delete(self::TEST_USER2);
+		$userManager->delete(self::TEST_USER3);
+		$group1->delete();
+		$group2->delete();
+	}
+
+	/**
+	 * Test isEnabledApps() with cache, not re-reading the list of
+	 * enabled apps more than once when a user is set.
+	 */
+	public function testEnabledAppsCache() {
+		$userManager = \OC::$server->getUserManager();
+		$user1 = $userManager->createUser(self::TEST_USER1, self::TEST_USER1);
+
+		\OC_User::setUserId(self::TEST_USER1);
+
+		$this->setupAppConfigMock()->expects($this->once())
+			->method('getValues')
+			->will($this->returnValue(
+				array(
+					'app3' => 'yes',
+					'app2' => 'no',
+				)
+			)
+		);
+
+		$apps = \OC_App::getEnabledApps(true);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		// mock should not be called again here
+		$apps = \OC_App::getEnabledApps(false);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		$this->restoreAppConfig();
+		\OC_User::setUserId(null);
+
+		$user1->delete();
+		// clear user cache...
+		$userManager->delete(self::TEST_USER1);
+	}
+
+	/**
+	 * Tests that the apps list is re-requested (not cached) when
+	 * no user is set.
+	 */
+	public function testEnabledAppsNoCache() {
+		$this->setupAppConfigMock()->expects($this->exactly(2))
+			->method('getValues')
+			->will($this->returnValue(
+				array(
+					'app3' => 'yes',
+					'app2' => 'no',
+				)
+			)
+		);
+
+		$apps = \OC_App::getEnabledApps(true);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		// mock should be called again here
+		$apps = \OC_App::getEnabledApps(false);
+		$this->assertEquals(array('files', 'app3'), $apps);
+
+		$this->restoreAppConfig();
+	}
+
+	private function setupAppConfigMock() {
+		$appConfig = $this->getMock(
+			'\OC\AppConfig',
+			array('getValues'),
+			array(\OC_DB::getConnection()),
+			'',
+			false
+		);
+
+		$this->registerAppConfig($appConfig);
+		return $appConfig;
+	}
+
+	/**
+	 * Register an app config mock for testing purposes.
+	 * @param $appConfig app config mock
+	 */
+	private function registerAppConfig($appConfig) {
+		$this->oldAppConfigService = \OC::$server->query('AppConfig');
+		\OC::$server->registerService('AppConfig', function ($c) use ($appConfig) {
+			return $appConfig;
+		});
+	}
+
+	/**
+	 * Restore the original app config service.
+	 */
+	private function restoreAppConfig() {
+		$oldService = $this->oldAppConfigService;
+		\OC::$server->registerService('AppConfig', function ($c) use ($oldService){
+			return $oldService;
+		});
+	}
 }
+

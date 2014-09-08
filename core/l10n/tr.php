@@ -147,8 +147,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Güvenlik Uyarısı",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "PHP sürümünüz NULL Byte saldırısına açık (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "%s yazılımını güvenli olarak kullanmak için, lütfen PHP kurulumunuzu güncelleyin.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Güvenli rastgele sayı üreticisi bulunamadı. Lütfen PHP OpenSSL eklentisini etkinleştirin.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Güvenli rastgele sayı üreticisi olmadan saldırganlar parola sıfırlama simgelerini tahmin edip hesabınızı ele geçirebilir.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığı için İnternet'ten erişime açık.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Sunucunuzu nasıl ayarlayacağınıza dair bilgi için, lütfen <a href=\"%s\" target=\"_blank\">belgelendirme sayfasını</a> ziyaret edin.",
 "Create an <strong>admin account</strong>" => "Bir <strong>yönetici hesabı</strong> oluşturun",

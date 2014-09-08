@@ -5,15 +5,13 @@ $TRANSLATIONS = array(
 "Local" => "Lokal",
 "Location" => "lokasi",
 "Amazon S3" => "Amazon S3",
-"Hostname (optional)" => "Hostname (tambahan)",
-"Port (optional)" => "Port (tambahan)",
-"Region (optional)" => "Wilayah (tambahan)",
+"Port" => "port",
+"Region" => "daerah",
 "Enable SSL" => "Aktifkan SSL",
 "Host" => "Host",
 "Username" => "Nama Pengguna",
 "Password" => "Sandi",
 "Root" => "Root",
-"Username (required)" => "Nama pengguna (dibutuhkan)",
 "Share" => "Bagikan",
 "URL" => "tautan",
 "Access granted" => "Akses diberikan",
@@ -35,8 +33,6 @@ $TRANSLATIONS = array(
 "Add storage" => "Tambahkan penyimpanan",
 "Delete" => "Hapus",
 "Enable User External Storage" => "Aktifkan Penyimpanan Eksternal Pengguna",
-"Allow users to mount the following external storage" => "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut",
-"SSL root certificates" => "Sertifikat root SSL",
-"Import Root Certificate" => "Impor Sertifikat Root"
+"Allow users to mount the following external storage" => "Izinkan pengguna untuk mengaitkan penyimpanan eksternal berikut"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

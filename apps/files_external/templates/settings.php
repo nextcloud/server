@@ -119,30 +119,3 @@
 		</p>
 	<?php endif; ?>
 </form>
-
-<?php if ( ! $_['isAdminPage']):  ?>
-<form id="files_external" class="section"
-	  method="post"
-	  enctype="multipart/form-data"
-	  action="<?php p(OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php')); ?>">
-		<h2><?php p($l->t('SSL root certificates'));?></h2>
-		<table id="sslCertificate" data-admin='<?php print_unescaped(json_encode($_['isAdminPage'])); ?>'>
-			<tbody>
-			<?php foreach ($_['certs'] as $rootCert): ?>
-			<tr id="<?php p($rootCert) ?>">
-			<td class="rootCert"><?php p($rootCert) ?></td>
-			<td <?php if ($rootCert != ''): ?>class="remove"
-				<?php else: ?>style="visibility:hidden;"
-				<?php endif; ?>><img alt="<?php p($l->t('Delete')); ?>"
-									 title="<?php p($l->t('Delete')); ?>"
-									 class="svg action"
-									 src="<?php print_unescaped(image_path('core', 'actions/delete.svg')); ?>" /></td>
-			</tr>
-			<?php endforeach; ?>
-			</tbody>
-		</table>
-		<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']); ?>">
-		<input type="file" id="rootcert_import" name="rootcert_import">
-		<input type="submit" name="cert_import" value="<?php p($l->t('Import Root Certificate')); ?>" />
-</form>
-<?php endif; ?>

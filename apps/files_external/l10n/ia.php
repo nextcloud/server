@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Location" => "Loco",
+"Region" => "Region",
 "Username" => "Nomine de usator",
 "Password" => "Contrasigno",
 "Share" => "Compartir",

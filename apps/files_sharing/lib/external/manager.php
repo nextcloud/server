@@ -113,9 +113,11 @@ class Manager {
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
+		$user = $this->userSession->getUser();
 		$data['manager'] = $this;
-		$mountPoint = '/' . $this->userSession->getUser()->getUID() . '/files' . $data['mountpoint'];
+		$mountPoint = '/' . $user->getUID() . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
+		$data['certificateManager'] = \OC::$server->getCertificateManager($user);
 		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 		$this->mountManager->addMount($mount);
 		return $mount;

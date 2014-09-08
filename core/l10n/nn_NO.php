@@ -103,8 +103,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Tryggleiksåtvaring",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "PHP-utgåva di er sårbar for NULL-byteåtaket (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Ver venleg og oppdater PHP-installasjonen din til å brukar %s trygt.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ingen tilgjengeleg tilfeldig nummer-generator, ver venleg og aktiver OpenSSL-utvidinga i PHP.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Utan ein trygg tilfeldig nummer-generator er det enklare for ein åtakar å gjetta seg fram til passordnullstillingskodar og dimed ta over kontoen din.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett sidan .htaccess-fila ikkje fungerer.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Ver venleg og les <a href=\"%s\" target=\"_blank\">dokumentasjonen</a> for meir informasjon om korleis du konfigurerer tenaren din.",
 "Create an <strong>admin account</strong>" => "Lag ein <strong>admin-konto</strong>",

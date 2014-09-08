@@ -80,8 +80,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Brīdinājums par drošību",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Jūsu PHP ir ievainojamība pret NULL Byte uzbrukumiem (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Lūdzu atjauniniet PHP instalāciju lai varētu droši izmantot %s.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nav pieejams drošs nejaušu skaitļu ģenerators. Lūdzu, aktivējiet PHP OpenSSL paplašinājumu.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez droša nejaušu skaitļu ģeneratora uzbrucējs var paredzēt paroļu atjaunošanas marķierus un pārņem jūsu kontu.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas.",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Vairāk informācijai kā konfigurēt serveri, lūdzu skatiet <a href=\"%s\" target=\"_blank\">dokumentāciju</a>.",
 "Create an <strong>admin account</strong>" => "Izveidot <strong>administratora kontu</strong>",

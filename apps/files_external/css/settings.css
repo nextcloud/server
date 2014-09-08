@@ -20,6 +20,9 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 #externalStorage td.backend {
 	white-space: normal;
 }
+#externalStorage td.configuration > * {
+	white-space: nowrap;
+}
 
 #externalStorage td.configuration input.added  {
 	margin-right: 6px;

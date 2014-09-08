@@ -17,7 +17,7 @@ if (extension_loaded('imagick')) {
 		if (!\OC_Util::runningOnWindows()) {
 			$whichLibreOffice = ($isShellExecEnabled ? shell_exec('command -v libreoffice') : '');
 			$isLibreOfficeAvailable = !empty($whichLibreOffice);
-			$whichOpenOffice = ($isShellExecEnabled ? shell_exec('command -v libreoffice') : '');
+			$whichOpenOffice = ($isShellExecEnabled ? shell_exec('command -v openoffice') : '');
 			$isOpenOfficeAvailable = !empty($whichOpenOffice);
 			//let's see if there is libreoffice or openoffice on this machine
 			if($isShellExecEnabled && ($isLibreOfficeAvailable || $isOpenOfficeAvailable || is_string(\OC_Config::getValue('preview_libreoffice_path', null)))) {

@@ -8,6 +8,7 @@
 OC_Util::checkLoggedIn();
 
 $defaults = new OC_Defaults(); // initialize themable default strings and urls
+$certificateManager = \OC::$server->getCertificateManager();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
@@ -46,7 +47,7 @@ $languageNames=include 'languageCodes.php';
 $languages=array();
 $commonlanguages = array();
 foreach($languageCodes as $lang) {
-	$l=OC_L10N::get('settings', $lang);
+	$l = \OC::$server->getL10N('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1) !== '_') {//first check if the language name is in the translation file
 		$ln=array('code'=>$lang, 'name'=> (string)$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])) {
@@ -98,6 +99,7 @@ $tmpl->assign('backupKeysExists' , $backupKeysExists);
 $tmpl->assign('filesStillEncrypted' , $filesStillEncrypted);
 $tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
+$tmpl->assign('certs', $certificateManager->listCertificates());
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());

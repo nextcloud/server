@@ -27,7 +27,7 @@ OCP\JSON::callCheck();
 
 $files = new \OCA\Files\App(
 	\OC\Files\Filesystem::getView(),
-	\OC_L10n::get('files')
+	\OC::$server->getL10N('files')
 );
 $result = $files->rename(
 	$_GET["dir"],

@@ -116,8 +116,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Cảnh bảo bảo mật",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Phiên bản PHP của bạn có lỗ hổng NULL Byte attack (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Vui lòng cập nhật bản cài đặt PHP để sử dụng %s một cách an toàn.",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "Không an toàn ! chức năng random number generator đã có sẵn ,vui lòng bật  PHP OpenSSL extension.",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Nếu không có random number generator , Hacker có thể  thiết lập lại mật khẩu và chiếm tài khoản của bạn.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Thư mục và file dữ liệu của bạn có thể được truy cập từ internet bởi vì file .htaccess không hoạt động",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "Để biết thêm thông tin và cách cấu hình đúng vui lòng xem thêm <a href=\"%s\" target=\"_blank\">tài l</a>.",
 "Create an <strong>admin account</strong>" => "Tạo một <strong>tài khoản quản trị</strong>",

@@ -10,7 +10,7 @@ OCP\JSON::callCheck();
 OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('files_sharing');
 
-$l = OC_L10N::get('files_sharing');
+$l = \OC::$server->getL10N('files_sharing');
 
 // check if server admin allows to mount public links from other servers
 if (OCA\Files_Sharing\Helper::isIncomingServer2serverShareEnabled() === false) {

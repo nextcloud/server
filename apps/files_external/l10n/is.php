@@ -17,8 +17,6 @@ $TRANSLATIONS = array(
 "Folder name" => "Nafn möppu",
 "Configuration" => "Uppsetning",
 "Delete" => "Eyða",
-"Enable User External Storage" => "Virkja ytra gagnasvæði notenda",
-"SSL root certificates" => "SSL rótar skilríki",
-"Import Root Certificate" => "Flytja inn rótar skilríki"
+"Enable User External Storage" => "Virkja ytra gagnasvæði notenda"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

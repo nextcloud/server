@@ -1,9 +1,12 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "সংরক্ষণের স্থান নেই",
+"Storage invalid" => "সংরক্ষণাগার বৈধ নয়",
 "Unknown error" => "অজানা জটিলতা",
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
 "File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
+"\"%s\" is an invalid file name." => "\"%s\" টি একটি অননুমোদিত ফাইল নাম।",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",
 "No file was uploaded. Unknown error" => "কোন ফাইল আপলোড করা হয় নি। সমস্যার কারণটি অজ্ঞাত।",
 "There is no error, the file uploaded with success" => "কোন সমস্যা হয় নি, ফাইল আপলোড সুসম্পন্ন হয়েছে।",

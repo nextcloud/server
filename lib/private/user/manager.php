@@ -237,7 +237,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return bool|\OC\User\User the created user of false
 	 */
 	public function createUser($uid, $password) {
-		$l = \OC_L10N::get('lib');
+		$l = \OC::$server->getL10N('lib');
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if (preg_match('/[^a-zA-Z0-9 _\.@\-]/', $uid)) {

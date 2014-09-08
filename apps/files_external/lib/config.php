@@ -620,53 +620,6 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * Returns all user uploaded ssl root certificates
-	 * @return array
-	 */
-	public static function getCertificates() {
-		$path=OC_User::getHome(OC_User::getUser()) . '/files_external/uploads/';
-		\OCP\Util::writeLog('files_external', 'checking path '.$path, \OCP\Util::INFO);
-		if ( ! is_dir($path)) {
-			//path might not exist (e.g. non-standard OC_User::getHome() value)
-			//in this case create full path using 3rd (recursive=true) parameter.
-			mkdir($path, 0777, true);
-		}
-		$result = array();
-		$handle = opendir($path);
-		if(!is_resource($handle)) {
-			return array();
-		}
-		while (false !== ($file = readdir($handle))) {
-			if ($file != '.' && $file != '..') $result[] = $file;
-		}
-		return $result;
-	}
-
-	/**
-	 * creates certificate bundle
-	 */
-	public static function createCertificateBundle() {
-		$path=OC_User::getHome(OC_User::getUser()) . '/files_external';
-
-		$certs = OC_Mount_Config::getCertificates();
-		$fh_certs = fopen($path."/rootcerts.crt", 'w');
-		foreach ($certs as $cert) {
-			$file=$path.'/uploads/'.$cert;
-			$fh = fopen($file, "r");
-			$data = fread($fh, filesize($file));
-			fclose($fh);
-			if (strpos($data, 'BEGIN CERTIFICATE')) {
-				fwrite($fh_certs, $data);
-				fwrite($fh_certs, "\r\n");
-			}
-		}
-
-		fclose($fh_certs);
-
-		return true;
-	}
-
-	/**
 	 * check dependencies
 	 */
 	public static function checkDependencies() {

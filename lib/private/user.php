@@ -232,7 +232,11 @@ class OC_User {
 	 */
 	public static function login($uid, $password) {
 		session_regenerate_id(true);
-		return self::getUserSession()->login($uid, $password);
+		$result = self::getUserSession()->login($uid, $password);
+		if ($result) {
+			OC_Util::setupFS($uid);
+		}
+		return $result;
 	}
 
 	/**
@@ -424,7 +428,7 @@ class OC_User {
 	 * generates a password
 	 */
 	public static function generatePassword() {
-		return OC_Util::generateRandomBytes(30);
+		return \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(30);
 	}
 
 	/**

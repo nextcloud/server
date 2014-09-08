@@ -4,6 +4,8 @@ $TRANSLATIONS = array(
 "External storage" => "외부 저장소",
 "Location" => "장소",
 "Amazon S3" => "Amazon S3",
+"Port" => "포트",
+"Region" => "지역",
 "Host" => "호스트",
 "Username" => "사용자 이름",
 "Password" => "암호",
@@ -21,8 +23,6 @@ $TRANSLATIONS = array(
 "Configuration" => "설정",
 "Add storage" => "저장소 추가",
 "Delete" => "삭제",
-"Enable User External Storage" => "사용자 외부 저장소 사용",
-"SSL root certificates" => "SSL 루트 인증서",
-"Import Root Certificate" => "루트 인증서 가져오기"
+"Enable User External Storage" => "사용자 외부 저장소 사용"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

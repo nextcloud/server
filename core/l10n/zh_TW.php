@@ -146,8 +146,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "安全性警告",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "您的 PHP 版本無法抵抗 NULL Byte 攻擊 (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "請更新 PHP 以安全地使用 %s。",
-"No secure random number generator is available, please enable the PHP OpenSSL extension." => "沒有可用的亂數產生器，請啟用 PHP 中的 OpenSSL 擴充功能。",
-"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "若沒有安全的亂數產生器，攻擊者可能可以預測密碼重設信物，然後控制您的帳戶。",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "您的資料目錄看起來可以被 Internet 公開存取，因為 .htaccess 設定並未生效。",
 "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." => "請參考<a href=\"%s\" target=\"_blank\">說明文件</a>以瞭解如何正確設定您的伺服器。",
 "Create an <strong>admin account</strong>" => "建立一個<strong>管理者帳號</strong>",
