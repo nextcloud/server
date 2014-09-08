@@ -149,6 +149,8 @@ class Cache extends \PHPUnit_Framework_TestCase {
 			array('😐, NEUTRAL_FACE, UTF-8 hex F09F9890'),
 			// now the crazy stuff
 			array(', UNASSIGNED PRIVATE USE, UTF-8 hex EF9890'),
+			// and my favorite
+			array('w͢͢͝h͡o͢͡ ̸͢k̵͟n̴͘ǫw̸̛s͘ ̀́w͘͢ḩ̵a҉̡͢t ̧̕h́o̵r͏̵rors̡ ̶͡͠lį̶e͟͟ ̶͝in͢ ͏t̕h̷̡͟e ͟͟d̛a͜r̕͡k̢̨ ͡h̴e͏a̷̢̡rt́͏ ̴̷͠ò̵̶f̸ u̧͘ní̛͜c͢͏o̷͏d̸͢e̡͝')
 		);
 	}
 
