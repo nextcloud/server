@@ -463,26 +463,28 @@ class OC_Util {
 				);
 			}
 		}
-
-		if (!is_dir($CONFIG_DATADIRECTORY)) {
-			$success = @mkdir($CONFIG_DATADIRECTORY);
-			if ($success) {
-				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
-			} else {
+		// Create root dir.
+		if ($config->getSystemValue('installed', false)) {
+			if (!is_dir($CONFIG_DATADIRECTORY)) {
+				$success = @mkdir($CONFIG_DATADIRECTORY);
+				if ($success) {
+					$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
+				} else {
+					$errors[] = array(
+						'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
+						'hint' => $l->t('This can usually be fixed by '
+							. '<a href="%s" target="_blank">giving the webserver write access to the root directory</a>.',
+							array(OC_Helper::linkToDocs('admin-dir_permissions')))
+					);
+				}
+			} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 				$errors[] = array(
-					'error' => $l->t('Cannot create "data" directory (%s)', array($CONFIG_DATADIRECTORY)),
-					'hint' => $l->t('This can usually be fixed by '
-						. '<a href="%s" target="_blank">giving the webserver write access to the root directory</a>.',
-						array(OC_Helper::linkToDocs('admin-dir_permissions')))
+					'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
+					'hint' => $permissionsHint
 				);
+			} else {
+				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			}
-		} else if (!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-			$errors[] = array(
-				'error' => 'Data directory (' . $CONFIG_DATADIRECTORY . ') not writable by ownCloud',
-				'hint' => $permissionsHint
-			);
-		} else {
-			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 		}
 
 		if (!OC_Util::isSetLocaleWorking()) {
