@@ -12,15 +12,15 @@
 		</form>
 	</li>
 	<!-- Everyone -->
-	<li data-gid="_everyone" data-usercount="<?php p($_["usercount"]); ?>" class="isgroup">
+	<li id="everyonegroup" data-gid="_everyone" data-usercount="" class="isgroup">
 		<a href="#">
 			<span class="groupname">
 				<?php p($l->t('Everyone')); ?>
 			</span>
 		</a>
 		<span class="utils">
-			<span class="usercount">
-				<?php p($_["usercount"]); ?>
+			<span class="usercount" id="everyonecount">
+
 			</span>
 		</span>
 	</li>
