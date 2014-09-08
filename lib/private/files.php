@@ -49,7 +49,7 @@ class OC_Files {
 			header('Content-Type: application/zip');
 		} else {
 			$filesize = \OC\Files\Filesystem::filesize($filename);
-			header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
+			header('Content-Type: '.\OC_Helper::getSecureMimeType(\OC\Files\Filesystem::getMimeType($filename)));
 			if ($filesize > -1) {
 				header("Content-Length: ".$filesize);
 			}
