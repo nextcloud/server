@@ -47,7 +47,7 @@ function style($app, $file) {
  * @param string $file the path relative to the app's component folder
  */
 function component($app, $file) {
-	$url = link_to($app, 'component/' . $file);
+	$url = link_to($app, 'component/' . $file . '.html');
 	OC_Util::addHeader('link', array('rel' => 'import', 'href' => $url));
 }
 
