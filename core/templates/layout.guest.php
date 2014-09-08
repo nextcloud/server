@@ -34,6 +34,7 @@
 	</head>
 	<?php flush(); ?>
 	<body id="body-login">
+		<noscript><div id="nojavascript"><div><?php print_unescaped($l->t('This application requires JavaScript for correct operation. Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and reload the page.')); ?></div></div></noscript>
 		<div class="wrapper"><!-- for sticky footer -->
 			<div class="v-align"><!-- vertically centred box -->
 				<header><div id="header">

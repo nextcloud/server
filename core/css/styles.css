@@ -39,7 +39,7 @@ body {
 
 
 #nojavascript {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
 	z-index: 9000;
@@ -54,7 +54,7 @@ body {
 	display: block;
 	position: relative;
 	width: 50%;
-	top: 30%;
+	top: 35%;
 	margin: 0px auto;
 }
 #nojavascript a {
