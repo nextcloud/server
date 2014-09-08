@@ -531,7 +531,7 @@ class OC {
 		self::checkSSL();
 		OC_Response::addSecurityHeaders();
 
-		$errors = OC_Util::checkServer();
+		$errors = OC_Util::checkServer(\OC::$server->getConfig());
 		if (count($errors) > 0) {
 			if (self::$CLI) {
 				foreach ($errors as $error) {

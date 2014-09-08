@@ -545,6 +545,6 @@ class Util {
 	 * @return bool true if upgrade is needed, false otherwise
 	 */
 	public static function needUpgrade() {
-		return \OC_Util::needUpgrade();
+		return \OC_Util::needUpgrade(\OC::$server->getConfig());
 	}
 }
