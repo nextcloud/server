@@ -8,7 +8,7 @@ if (OC::checkUpgrade(false)) {
 	\OC_User::setIncognitoMode(true);
 
 	$l = new \OC_L10N('core');
-	$eventSource = new OC_EventSource();
+	$eventSource = \OC::$server->createEventSource();
 	$updater = new \OC\Updater(\OC_Log::$object);
 	$updater->listen('\OC\Updater', 'maintenanceStart', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned on maintenance mode'));

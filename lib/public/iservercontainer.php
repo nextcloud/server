@@ -235,4 +235,11 @@ interface IServerContainer {
 	 * @return \OCP\ICertificateManager
 	 */
 	function getCertificateManager($user = null);
+	
+	/**
+	 * Create a new event source
+	 *
+	 * @return \OCP\IEventSource
+	 */
+	function createEventSource();
 }

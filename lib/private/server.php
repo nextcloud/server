@@ -518,4 +518,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		}
 		return new CertificateManager($user);
 	}
+
+	/**
+	 * Create a new event source
+	 *
+	 * @return \OCP\IEventSource
+	 */
+	function createEventSource() {
+		return new \OC_EventSource();
+	}
 }

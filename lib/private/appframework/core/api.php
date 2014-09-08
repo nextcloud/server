@@ -110,12 +110,11 @@ class API implements IApi{
 
 
 	/**
-	 * used to return and open a new eventsource
-	 * @return \OC_EventSource a new open EventSource class
+	 * used to return and open a new event source
+	 * @return \OCP\IEventSource a new open EventSource class
 	 */
 	public function openEventSource(){
-		# TODO: use public api
-		return new \OC_EventSource();
+		return \OC::$server->createEventSource();
 	}
 
 	/**
