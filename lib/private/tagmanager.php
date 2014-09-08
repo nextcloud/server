@@ -33,6 +33,8 @@
 
 namespace OC;
 
+use OC\Tagging\TagMapper;
+
 class TagManager implements \OCP\ITagManager {
 
 	/**
@@ -43,12 +45,21 @@ class TagManager implements \OCP\ITagManager {
 	private $user;
 
 	/**
+	 * TagMapper
+	 *
+	 * @var TagMapper
+	 */
+	private $mapper;
+
+	/**
 	* Constructor.
 	*
-	* @param string $user The user whos data the object will operate on.
+	* @param TagMapper $mapper Instance of the TagMapper abstraction layer.
+	* @param string $user The user whose data the object will operate on.
 	*/
-	public function __construct($user) {
+	public function __construct(TagMapper $mapper, $user) {
 
+		$this->mapper = $mapper;
 		$this->user = $user;
 
 	}
@@ -62,7 +73,7 @@ class TagManager implements \OCP\ITagManager {
 	* @return \OCP\ITags
 	*/
 	public function load($type, $defaultTags=array()) {
-		return new Tags($this->user, $type, $defaultTags);
+		return new Tags($this->mapper, $this->user, $type, $defaultTags);
 	}
 
 }
