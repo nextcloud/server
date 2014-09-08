@@ -162,7 +162,7 @@ interface ITags {
 	public function unTag($objid, $tag);
 
 	/**
-	* Delete tags from the
+	* Delete tags from the database
 	*
 	* @param string[] $names An array of tags to delete
 	* @return bool Returns false on error
