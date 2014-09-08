@@ -39,31 +39,31 @@ body {
 
 
 #nojavascript {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	bottom: 0;
-	z-index: 999;
+	z-index: 9000;
 	width: 100%;
 	text-align: center;
-	background-color: rgba(50,0,0,0.5);
-	color: white;
-	text-shadow: 0px 0px 5px black;
+	background-color: rgba(0,0,0,0.5);
+	color: #fff;
 	line-height: 125%;
-	font-size: x-large;
+	font-size: 24px;
 }
 #nojavascript div {
+	display: block;
+	position: relative;
 	width: 50%;
-	top: 40%;
-	position: absolute;
-	left: 50%;
-	margin-left: -25%;
+	top: 35%;
+	margin: 0px auto;
 }
 #nojavascript a {
-	color: #ccc;
-	text-decoration: underline;
+	color: #fff;
+	border-bottom: 2px dotted #fff;
 }
-#nojavascript a:hover {
-	color: #aaa;
+#nojavascript a:hover,
+#nojavascript a:focus {
+	color: #ddd;
 }
 
 
