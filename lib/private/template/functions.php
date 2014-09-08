@@ -42,6 +42,16 @@ function style($app, $file) {
 }
 
 /**
+ * Shortcut for HTML imports
+ * @param string $app the appname
+ * @param string $file the path relative to the app's component folder
+ */
+function component($app, $file) {
+	$url = link_to($app, 'component/' . $file);
+	OC_Util::addHeader('link', array('rel' => 'import', 'href' => $url));
+}
+
+/**
  * make OC_Helper::linkTo available as a simple function
  * @param string $app app
  * @param string $file file
