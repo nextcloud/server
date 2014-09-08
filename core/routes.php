@@ -100,6 +100,11 @@ $this->create('core_avatar_post_cropped', '/avatar/cropped')
 	->post()
 	->action('OC\Core\Avatar\Controller', 'postCroppedAvatar');
 
+// Sharing routes
+$this->create('core_share_show_share', '/s/{token}')
+	->get()
+	->action('OC\Core\Share\Controller', 'showShare');
+
 // used for heartbeat
 $this->create('heartbeat', '/heartbeat')->action(function(){
 	// do nothing

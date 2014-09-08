@@ -129,12 +129,12 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToPublic($service, $add_slash = false) {
-		return OC::$server->getURLGenerator()->getAbsoluteURL(
-			self::linkTo(
-				'', 'public.php') . '?service=' . $service
-				. (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : ''
-			)
-		);
+		if ($service === 'files') {
+			$url = OC::$server->getURLGenerator()->getAbsoluteURL('/s');
+		} else {
+			$url = OC::$server->getURLGenerator()->getAbsoluteURL(self::linkTo('', 'public.php').'?service='.$service);
+		}
+		return $url . (($add_slash && $service[strlen($service) - 1] != '/') ? '/' : '');
 	}
 
 	/**

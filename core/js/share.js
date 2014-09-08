@@ -672,8 +672,11 @@ OC.Share={
 			}
 
 			// TODO: use oc webroot ?
-			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
-
+			if (service !== 'files') {
+				var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service='+service+'&t='+token;
+			} else {
+				var link = parent.location.protocol+'//'+location.host+OC.generateUrl('/s/')+token;
+			}
 		}
 		$('#linkText').val(link);
 		$('#linkText').show('blind');

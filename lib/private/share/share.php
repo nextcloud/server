@@ -640,7 +640,10 @@ class Share extends \OC\Share\Constants {
 				if (isset($oldToken)) {
 					$token = $oldToken;
 				} else {
-					$token = \OC_Util::generateRandomBytes(self::TOKEN_LENGTH);
+					$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(self::TOKEN_LENGTH,
+						\OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_UPPER.
+						\OCP\Security\ISecureRandom::CHAR_DIGITS
+					);
 				}
 				$result = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions,
 					null, $token, $itemSourceName, $expirationDate);

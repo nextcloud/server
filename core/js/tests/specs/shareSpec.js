@@ -151,7 +151,7 @@ describe('OC.Share tests', function() {
 				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(true);
 				// this is how the OC.Share class does it...
 				var link = parent.location.protocol + '//' + location.host +
-					OC.linkTo('', 'public.php')+'?service=files&t=tehtoken';
+					OC.generateUrl('/s/') + 'tehtoken';
 				expect($('#dropdown #linkText').val()).toEqual(link);
 			});
 			it('does not show populated link share when a link share exists for a different file', function() {
@@ -243,7 +243,7 @@ describe('OC.Share tests', function() {
 				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(true);
 				// this is how the OC.Share class does it...
 				var link = parent.location.protocol + '//' + location.host +
-					OC.linkTo('', 'public.php')+'?service=files&t=tehtoken';
+					OC.generateUrl('/s/') + 'tehtoken';
 				expect($('#dropdown #linkText').val()).toEqual(link);
 
 				// nested one
@@ -258,7 +258,7 @@ describe('OC.Share tests', function() {
 				expect($('#dropdown #linkCheckbox').prop('checked')).toEqual(true);
 				// this is how the OC.Share class does it...
 				link = parent.location.protocol + '//' + location.host +
-					OC.linkTo('', 'public.php')+'?service=files&t=anothertoken';
+					OC.generateUrl('/s/') + 'anothertoken';
 				expect($('#dropdown #linkText').val()).toEqual(link);
 			});
 			describe('expiration date', function() {
