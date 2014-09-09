@@ -24,17 +24,17 @@
 OC_Util::checkAdminUser();
 
 // Load the files we need
-OC_Util::addStyle( "settings", "settings" );
-OC_Util::addScript("core", "multiselect");
+OCP\Util::addStyle('settings', 'settings' );
+OCP\Util::addScript('settings', 'settings');
+OCP\Util::addScript('core', 'select2/select2');
+OCP\Util::addStyle('core', 'select2/select2');
 OC_App::setActiveNavigationEntry( "core_apps" );
 
 $combinedApps = OC_App::listAllApps();
-$groups = \OC_Group::getGroups();
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
 
 $tmpl->assign('apps', $combinedApps);
-$tmpl->assign('groups', $groups);
 
 $appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
 

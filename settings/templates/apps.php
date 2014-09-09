@@ -58,11 +58,7 @@
 	<input class="hidden" type="checkbox" id="groups_enable"/>
 	<label class="hidden" for="groups_enable"><?php p($l->t('Enable only for specific groups')); ?></label>
 	<br />
-	<select class="hidden" id="group_select" multiple="multiple" title="<?php p($l->t('All')); ?>">
-		<?php foreach($_['groups'] as $group):?>
-			<option value="<?php p($group);?>"><?php p($group); ?></option>
-		<?php endforeach;?>
-	</select>
+	<input type="hidden" id="group_select" title="<?php p($l->t('All')); ?>" style="width: 200px">
 
 	<div class="warning hidden"></div>
 	</div>
