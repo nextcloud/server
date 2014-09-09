@@ -54,22 +54,8 @@ $tmpl->assign('shareExpireAfterNDays', OC_Appconfig::getValue('core', 'shareapi_
 $tmpl->assign('shareEnforceExpireDate', OC_Appconfig::getValue('core', 'shareapi_enforce_expire_date', 'no'));
 $excludeGroups = OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
 $tmpl->assign('shareExcludeGroups', $excludeGroups);
-$allGroups =  OC_Group::getGroups();
 $excludedGroupsList = OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
-$excludedGroups = $excludedGroupsList !== '' ? explode(',', $excludedGroupsList) : array();
-$groups = array();
-foreach ($allGroups as $group) {
-	if (in_array($group, $excludedGroups)) {
-		$groups[$group] = array('gid' => $group,
-			'excluded' => true);
-	} else {
-		$groups[$group] = array('gid' => $group,
-			'excluded' => false);
-	}
-}
-ksort($groups);
-$tmpl->assign('groups', $groups);
-
+$tmpl->assign('shareExcludedGroupsList', $excludedGroupsList);
 
 // Check if connected using HTTPS
 $tmpl->assign('isConnectedViaHTTPS', OC_Request::serverProtocol() === 'https');

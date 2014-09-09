@@ -1,38 +1,60 @@
 var SharingGroupList = {
-	applyMultipleSelect: function(element) {
-		var checked = [];
-		if ($(element).hasClass('groupsselect')) {
-			if (element.data('userGroups')) {
-				checked = element.data('userGroups');
-			}
-			var checkHandeler = function(group) {
-					$.post(OC.filePath('settings', 'ajax', 'excludegroups.php'),
-						{changedGroup: group, selectedGroups: JSON.stringify(checked)},
-						function() {});
-				};
+	setupGroupsSelect: function($elements) {
+		if ($elements.length > 0) {
+			// note: settings are saved through a "change" event registered
+			// on all input fields
+			$elements.select2({
+				placeholder: t('core', 'Groups'),
+				allowClear: true,
+				multiple: true,
+				ajax: {
+					url: OC.generateUrl('/settings/ajax/grouplist'),
+					dataType: 'json',
+					quietMillis: 100,
+					data: function (term) {
+						return {
+							pattern: term, //search term
+						};
+					},
+					results: function (data) {
+						if (data.status === "success") {
+							var results = [];
 
+							// add groups
+							$.each(data.data.adminGroups, function(i, group) {
+								results.push({id:group.id, displayname:group.name});
+							});
+							$.each(data.data.groups, function(i, group) {
+								results.push({id:group.id, displayname:group.name});
+							});
 
-			var addGroup = function(select, group) {
-				$(this).each(function(index, element) {
-					if ($(element).find('option[value="' + group + '"]').length === 0 &&
-							select.data('msid') !== $(element).data('msid')) {
-						$(element).append('<option value="' + escapeHTML(group) + '">' +
-								escapeHTML(group) + '</option>');
+							return {results: results};
+						} else {
+							//FIXME add error handling
+						}
 					}
-				});
-			};
-
-			var label = null;
-			element.multiSelect({
-				createCallback: addGroup,
-				createText: label,
-				selectedFirst: true,
-				checked: checked,
-				oncheck: checkHandeler,
-				onuncheck: checkHandeler,
-				minWidth: 100
+				},
+				id: function(element) {
+					return element.id;
+				},
+				initSelection: function(element, callback) {
+					var selection =
+						_.map(($(element).val() || []).split(',').sort(),
+							function(groupName) {
+						return {
+							id: groupName,
+							displayname: groupName
+						};
+					});
+					callback(selection);
+				},
+				formatResult: function (element) {
+					return element.displayname;
+				},
+				formatSelection: function (element) {
+					return element.displayname;
+				}
 			});
-
 		}
 	}
 };
@@ -57,8 +79,8 @@ $(document).ready(function(){
 	}
 
 
-	$('select#excludedGroups[multiple]').each(function (index, element) {
-		SharingGroupList.applyMultipleSelect($(element));
+	$('#excludedGroups').each(function (index, element) {
+		SharingGroupList.setupGroupsSelect($(element));
 	});
 
 
