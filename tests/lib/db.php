@@ -263,4 +263,19 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare("UPDATE `*PREFIX*{$this->table2}` SET `uri` = ? WHERE `fullname` = ?");
 		return $query->execute(array($uri, $fullname));
 	}
+
+	public function testILIKE() {
+		$table = "*PREFIX*{$this->table2}";
+
+		$query = OC_DB::prepare("INSERT INTO `$table` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)");
+		$query->execute(array('fooBAR', 'foo', 'bar'));
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` LIKE ?");
+		$result = $query->execute(array('foobar'));
+		$this->assertCount(0, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
+		$result = $query->execute(array('foobar'));
+		$this->assertCount(1, $result->fetchAll());
+	}
 }

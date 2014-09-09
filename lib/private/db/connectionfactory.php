@@ -26,7 +26,7 @@ class ConnectionFactory {
 			'wrapperClass' => 'OC\DB\Connection',
 		),
 		'mysql' => array(
-			'adapter' => '\OC\DB\Adapter',
+			'adapter' => '\OC\DB\AdapterMySQL',
 			'charset' => 'UTF8',
 			'driver' => 'pdo_mysql',
 			'wrapperClass' => 'OC\DB\Connection',
