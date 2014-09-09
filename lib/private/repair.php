@@ -82,7 +82,8 @@ class Repair extends BasicEmitter {
 	public static function getBeforeUpgradeRepairSteps() {
 		return array(
 			new \OC\Repair\InnoDB(),
-			new \OC\Repair\Collation(\OC::$server->getConfig(), \OC_DB::getConnection())
+			new \OC\Repair\Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
+			new \OC\Repair\SearchLuceneTables()
 		);
 	}
 

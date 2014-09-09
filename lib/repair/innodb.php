@@ -23,7 +23,7 @@ class InnoDB extends BasicEmitter implements \OC\RepairStep {
 	public function run() {
 		$connection = \OC_DB::getConnection();
 		if (!$connection->getDatabasePlatform() instanceof MySqlPlatform) {
-			$this->emit('\OC\Repair', 'info', array('Not a mysql database -> nothing to no'));
+			$this->emit('\OC\Repair', 'info', array('Not a mysql database -> nothing to do'));
 			return;
 		}
 
