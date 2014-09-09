@@ -35,11 +35,18 @@ class Scanner extends PublicEmitter {
 	protected $propagator;
 
 	/**
-	 * @param string $user
+	 * @var \OCP\IDBConnection
 	 */
-	public function __construct($user) {
+	protected $db;
+
+	/**
+	 * @param string $user
+	 * @param \OCP\IDBConnection $db
+	 */
+	public function __construct($user, $db) {
 		$this->user = $user;
 		$this->propagator = new ChangePropagator(new View(''));
+		$this->db = $db;
 	}
 
 	/**
@@ -121,8 +128,11 @@ class Scanner extends PublicEmitter {
 				throw new ForbiddenException();
 			}
 			$scanner = $storage->getScanner();
+			$scanner->useTransactions(false);
 			$this->attachListener($mount);
+			$this->db->beginTransaction();
 			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			$this->db->commit();
 		}
 		$this->propagator->propagateChanges(time());
 	}

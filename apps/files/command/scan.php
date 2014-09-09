@@ -46,7 +46,7 @@ class Scan extends Command {
 	}
 
 	protected function scanFiles($user, OutputInterface $output) {
-		$scanner = new \OC\Files\Utils\Scanner($user);
+		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 			$output->writeln("Scanning <info>$path</info>");
 		});
