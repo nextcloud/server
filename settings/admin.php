@@ -7,7 +7,8 @@
 
 OC_Util::checkAdminUser();
 
-OC_Util::addStyle( "settings", "settings" );
+OCP\Util::addStyle('settings', 'settings');
+OCP\Util::addScript('settings', 'settings');
 OC_Util::addScript( "settings", "admin" );
 OC_Util::addScript( "settings", "log" );
 OC_Util::addScript( 'core', 'multiselect' );
