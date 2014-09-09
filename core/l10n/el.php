@@ -163,7 +163,6 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "Η SQLIte θα χρησιμοποιηθεί ως βάση δεδομένων. Για μεγαλύτερες εγκαταστάσεις σας συνιστούμε να το αλλάξετε.",
 "Finish setup" => "Ολοκλήρωση εγκατάστασης",
 "Finishing …" => "Ολοκλήρωση...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Αυτή η εφαρμογή απαιτεί η JavaScript να είναι ενεργοποιημένη για σωστή λειτουργία. Παρακαλώ <a href=\"http://enable-javascript.com/\" target=\"_blank\">ενεργοποιήστε τη JavaScript</a> και επαναφορτώστε αυτή τη διεπαφή.",
 "%s is available. Get more information on how to update." => "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε.",
 "Log out" => "Αποσύνδεση",
 "Server side authentication failed!" => "Η διαδικασία επικύρωσης απέτυχε από την πλευρά του διακομιστή!",

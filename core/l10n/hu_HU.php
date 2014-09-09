@@ -163,7 +163,6 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "Adatbázisként az SQLite-ot fogjuk használni. Nagyobb telepítések esetén javasoljuk, hogy változtassa meg ezt a beállítást.",
 "Finish setup" => "A beállítások befejezése",
 "Finishing …" => "Befejezés ...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Az alkalmazás megfelelő működéséhez szükség van JavaScriptre. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Engedélyezze a JavaScriptet</a> és frissítse az oldalt!",
 "%s is available. Get more information on how to update." => "%s rendelkezésre áll. További információ a frissítéshez.",
 "Log out" => "Kilépés",
 "Server side authentication failed!" => "A szerveroldali hitelesítés sikertelen!",

@@ -162,7 +162,6 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "將會使用 SQLite 作為資料庫，在大型安裝中建議使用其他種資料庫",
 "Finish setup" => "完成設定",
 "Finishing …" => "即將完成…",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "這個應用程式需要啟用 Javascript 才能正常運作，請<a href=\"http://enable-javascript.com/\" target=\"_blank\">啟用 Javascript</a> 然後重新載入頁面",
 "%s is available. Get more information on how to update." => "%s 已經釋出，瞭解更多資訊以進行更新。",
 "Log out" => "登出",
 "Server side authentication failed!" => "伺服器端認證失敗！",

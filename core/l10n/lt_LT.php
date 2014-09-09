@@ -131,7 +131,6 @@ $TRANSLATIONS = array(
 "Database host" => "Duomenų bazės serveris",
 "Finish setup" => "Baigti diegimą",
 "Finishing …" => "Baigiama ...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Šiai programai reikia įjungti  JavaScript, kad ji veiktų tvarkingai.  Prašome <a href=\"http://enable-javascript.com/\" target=\"_blank\">įjungti JavaScript</a> ir perkrauti šią sąsają.",
 "%s is available. Get more information on how to update." => "%s yra prieinama. Gaukite daugiau informacijos apie atnaujinimą.",
 "Log out" => "Atsijungti",
 "Server side authentication failed!" => "Autentikacija serveryje nepavyko!",

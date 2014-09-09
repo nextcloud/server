@@ -161,7 +161,6 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLite をデータベースとして利用します。大規模な運用では、利用しないことをお勧めします。",
 "Finish setup" => "セットアップを完了します",
 "Finishing …" => "作業を完了しています ...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "このアプリケーションを使用するにはJavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、インターフェースを更新してください。 ",
 "%s is available. Get more information on how to update." => "%s が利用可能です。アップデート方法について詳細情報を確認してください。",
 "Log out" => "ログアウト",
 "Server side authentication failed!" => "サーバーサイドの認証に失敗しました！",

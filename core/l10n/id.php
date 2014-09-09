@@ -141,7 +141,6 @@ $TRANSLATIONS = array(
 "Database host" => "Host basis data",
 "Finish setup" => "Selesaikan instalasi",
 "Finishing …" => "Menyelesaikan ...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Aplikasi ini memerlukan JavaScript yang diaktifkan untuk beroperasi dengan benar. Silahkan <a href=\"http://enable-javascript.com/\" target=\"_blank\">aktifkan JavaScript</a> and re-load this interface.",
 "%s is available. Get more information on how to update." => "%s tersedia. Dapatkan informasi lebih lanjut tentang cara memperbarui.",
 "Log out" => "Keluar",
 "Server side authentication failed!" => "Otentikasi dari sisi server gagal!",

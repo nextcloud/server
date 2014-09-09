@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-07 01:54-0400\n"
+"POT-Creation-Date: 2014-09-09 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,11 @@ msgid ""
 "config directory%s."
 msgstr ""
 
-#: base.php:581
+#: base.php:583
 msgid "Sample configuration detected"
 msgstr ""
 
-#: base.php:582
+#: base.php:584
 msgid ""
 "It has been detected that the sample configuration has been copied. This can "
 "break your installation and is unsupported. Please read the documentation "
@@ -327,78 +327,78 @@ msgid ""
 "are allowed"
 msgstr ""
 
-#: private/share/share.php:654
+#: private/share/share.php:657
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: private/share/share.php:661
+#: private/share/share.php:664
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: private/share/share.php:863
+#: private/share/share.php:866
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:924
+#: private/share/share.php:927
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: private/share/share.php:962
+#: private/share/share.php:965
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr ""
 
-#: private/share/share.php:970
+#: private/share/share.php:973
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
-#: private/share/share.php:1095
+#: private/share/share.php:1098
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: private/share/share.php:1102
+#: private/share/share.php:1105
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: private/share/share.php:1108
+#: private/share/share.php:1111
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1526
+#: private/share/share.php:1529
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1535
+#: private/share/share.php:1538
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1551
+#: private/share/share.php:1554
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1563
+#: private/share/share.php:1566
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1577
+#: private/share/share.php:1580
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -409,51 +409,51 @@ msgstr ""
 msgid "Could not find category \"%s\""
 msgstr ""
 
-#: private/template/functions.php:134
+#: private/template/functions.php:152
 msgid "seconds ago"
 msgstr ""
 
-#: private/template/functions.php:135
+#: private/template/functions.php:153
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:136
+#: private/template/functions.php:154
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:137
+#: private/template/functions.php:155
 msgid "today"
 msgstr ""
 
-#: private/template/functions.php:138
+#: private/template/functions.php:156
 msgid "yesterday"
 msgstr ""
 
-#: private/template/functions.php:140
+#: private/template/functions.php:158
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:142
+#: private/template/functions.php:160
 msgid "last month"
 msgstr ""
 
-#: private/template/functions.php:143
+#: private/template/functions.php:161
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: private/template/functions.php:145
+#: private/template/functions.php:163
 msgid "last year"
 msgstr ""
 
-#: private/template/functions.php:146
+#: private/template/functions.php:164
 msgid "years ago"
 msgstr ""
 

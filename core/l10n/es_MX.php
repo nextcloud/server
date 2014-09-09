@@ -131,7 +131,6 @@ $TRANSLATIONS = array(
 "Database host" => "Host de la base de datos",
 "Finish setup" => "Completar la instalación",
 "Finishing …" => "Finalizando …",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Esta aplicación requiere que se habilite JavaScript para su correcta operación.  Por favor <a href=\"http://enable-javascript.com/es\" target=\"_blank\">habilite JavaScript</a> y vuelva a cargar esta interfaz.",
 "%s is available. Get more information on how to update." => "%s esta disponible. Obtener mas información de como actualizar.",
 "Log out" => "Salir",
 "Server side authentication failed!" => "La autenticación a fallado en el servidor.",

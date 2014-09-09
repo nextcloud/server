@@ -163,7 +163,6 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "S'utilitzarà SQLite com a base de dades. Per instal·lacions grans recomanem que la canvieu.",
 "Finish setup" => "Acaba la configuració",
 "Finishing …" => "Acabant...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Aquesta aplicació necessita tenir JavaScript activat per funcionar correctament. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeu JavaScript</a> i carregueu aquesta interfície de nou.",
 "%s is available. Get more information on how to update." => "%s està disponible. Obtingueu més informació de com actualitzar.",
 "Log out" => "Surt",
 "Server side authentication failed!" => "L'autenticació del servidor ha fallat!",

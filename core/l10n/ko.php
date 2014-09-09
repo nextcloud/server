@@ -144,7 +144,6 @@ $TRANSLATIONS = array(
 "Database host" => "데이터베이스 호스트",
 "Finish setup" => "설치 완료",
 "Finishing …" => "완료 중 ...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "이 애플리케이션을 올바르게 사용하려면 자바스크립트를 활성화해야 합니다. <a href=\"http://enable-javascript.com/\" target=\"_blank\">자바스크립트를 활성화</a>한 다음 인터페이스를 새로 고치십시오.",
 "%s is available. Get more information on how to update." => "%s을(를) 사용할 수 있습니다. 업데이트하는 방법에 대해서 자세한 정보를 얻으십시오.",
 "Log out" => "로그아웃",
 "Server side authentication failed!" => "서버 인증 실패!",

@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "None" => "কোনটিই নয়",
 "Login" => "প্রবেশ",
 "Security Warning" => "নিরাপত্তাজনিত সতর্কতা",
+"days" => "দিনগুলি",
 "Server address" => "সার্ভার ঠিকানা",
 "Port" => "পোর্ট",
 "More" => "বেশী",

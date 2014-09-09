@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-07 01:54-0400\n"
+"POT-Creation-Date: 2014-09-09 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -286,78 +286,78 @@ msgid ""
 "are allowed"
 msgstr ""
 
-#: share/share.php:654
+#: share/share.php:657
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: share/share.php:661
+#: share/share.php:664
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: share/share.php:863
+#: share/share.php:866
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: share/share.php:924
+#: share/share.php:927
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: share/share.php:962
+#: share/share.php:965
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr ""
 
-#: share/share.php:970
+#: share/share.php:973
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
-#: share/share.php:1095
+#: share/share.php:1098
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: share/share.php:1102
+#: share/share.php:1105
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: share/share.php:1108
+#: share/share.php:1111
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: share/share.php:1526
+#: share/share.php:1529
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: share/share.php:1535
+#: share/share.php:1538
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: share/share.php:1551
+#: share/share.php:1554
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: share/share.php:1563
+#: share/share.php:1566
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: share/share.php:1577
+#: share/share.php:1580
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
@@ -368,51 +368,51 @@ msgstr ""
 msgid "Could not find category \"%s\""
 msgstr ""
 
-#: template/functions.php:134
+#: template/functions.php:152
 msgid "seconds ago"
 msgstr ""
 
-#: template/functions.php:135
+#: template/functions.php:153
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:136
+#: template/functions.php:154
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:137
+#: template/functions.php:155
 msgid "today"
 msgstr ""
 
-#: template/functions.php:138
+#: template/functions.php:156
 msgid "yesterday"
 msgstr ""
 
-#: template/functions.php:140
+#: template/functions.php:158
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:142
+#: template/functions.php:160
 msgid "last month"
 msgstr ""
 
-#: template/functions.php:143
+#: template/functions.php:161
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:145
+#: template/functions.php:163
 msgid "last year"
 msgstr ""
 
-#: template/functions.php:146
+#: template/functions.php:164
 msgid "years ago"
 msgstr ""
 

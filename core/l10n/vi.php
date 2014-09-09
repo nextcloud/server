@@ -129,7 +129,6 @@ $TRANSLATIONS = array(
 "Database host" => "Database host",
 "Finish setup" => "Cài đặt hoàn tất",
 "Finishing …" => "Đang hoàn thành ...",
-"This application requires JavaScript to be enabled for correct operation.  Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and re-load this interface." => "Ứng dụng này yêu cầu JavaScript để hoạt động. Vui lòng <a href=\"http://enable-javascript.com/\" target=\"_blank\">kích hoạt JavaScript</a> và tải lại giao diện này.",
 "%s is available. Get more information on how to update." => "%s còn trống. Xem thêm thông tin cách cập nhật.",
 "Log out" => "Đăng xuất",
 "Server side authentication failed!" => "Xác thực phía máy chủ không thành công!",

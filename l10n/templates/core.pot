@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-07 01:54-0400\n"
+"POT-Creation-Date: 2014-09-09 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,27 +149,27 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:497
+#: js/js.js:498
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:586
+#: js/js.js:587
 msgid "File"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "Folder"
 msgstr ""
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Image"
 msgstr ""
 
-#: js/js.js:589
+#: js/js.js:590
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:603
+#: js/js.js:604
 msgid "Saving..."
 msgstr ""
 
@@ -308,12 +308,12 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1002
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1005
 #: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:328 js/share.js:1065
+#: js/share.js:328 js/share.js:1068
 msgid "Error while sharing"
 msgstr ""
 
@@ -418,27 +418,27 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: js/share.js:983
+#: js/share.js:986
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:1002
+#: js/share.js:1005
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:1023
+#: js/share.js:1026
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:1052
+#: js/share.js:1055
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:1063
+#: js/share.js:1066
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:1087
+#: js/share.js:1090
 msgid "Warning"
 msgstr ""
 
@@ -716,11 +716,12 @@ msgstr ""
 msgid "Finishing …"
 msgstr ""
 
+#: templates/layout.base.php:34 templates/layout.guest.php:36
 #: templates/layout.user.php:43
 msgid ""
-"This application requires JavaScript to be enabled for correct operation.  "
-"Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable "
-"JavaScript</a> and re-load this interface."
+"This application requires JavaScript for correct operation. Please <a href="
+"\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> "
+"and reload the page."
 msgstr ""
 
 #: templates/layout.user.php:47
