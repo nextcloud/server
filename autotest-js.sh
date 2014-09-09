@@ -7,6 +7,9 @@
 # @author Vincent Petry
 # @copyright 2014 Vincent Petry <pvince81@owncloud.com>
 #
+
+set -e
+
 NPM="$(which npm 2>/dev/null)"
 PREFIX="build"
 
