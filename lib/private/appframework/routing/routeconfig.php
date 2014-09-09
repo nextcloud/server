@@ -93,6 +93,12 @@ class RouteConfig {
 			if(array_key_exists('requirements', $simpleRoute)) {
 				$router->requirements($simpleRoute['requirements']);
 			}
+
+			// optionally register defaults for route. This is used to
+			// tell the route parser how url parameters should be default valued
+			if(array_key_exists('defaults', $simpleRoute)) {
+				$router->defaults($simpleRoute['defaults']);
+			}
 		}
 	}
 

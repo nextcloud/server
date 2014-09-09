@@ -45,6 +45,15 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array('something'));
 	}
 
+	public function testSimpleRouteWithDefaults()
+	{
+		$routes = array('routes' => array(
+			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', array(), 'defaults' => array('param' => 'foobar'))
+		));
+
+		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array('param' => 'foobar'));
+	}
+
 
 	/**
 	 * @expectedException \UnexpectedValueException
@@ -95,10 +104,10 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 	 * @param string $controllerName
 	 * @param string $actionName
 	 */
-	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=array())
+	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=array(), array $defaults=array())
 	{
 		// route mocks
-		$route = $this->mockRoute($verb, $controllerName, $actionName, $requirements);
+		$route = $this->mockRoute($verb, $controllerName, $actionName, $requirements, $defaults);
 
 		// router mock
 		$router = $this->getMock("\OC\Route\Router", array('create'));
@@ -181,10 +190,10 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 	 * @param string $actionName
 	 * @return \PHPUnit_Framework_MockObject_MockObject
 	 */
-	private function mockRoute($verb, $controllerName, $actionName, array $requirements=array())
+	private function mockRoute($verb, $controllerName, $actionName, array $requirements=array(), array $defaults=array())
 	{
 		$container = new DIContainer('app1');
-		$route = $this->getMock("\OC\Route\Route", array('method', 'action', 'requirements'), array(), '', false);
+		$route = $this->getMock("\OC\Route\Route", array('method', 'action', 'requirements', 'defaults'), array(), '', false);
 		$route
 			->expects($this->exactly(1))
 			->method('method')
@@ -204,6 +213,15 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 				->with($this->equalTo($requirements))
 				->will($this->returnValue($route));
 		}
+
+		if (count($defaults) > 0) {
+			$route
+				->expects($this->exactly(1))
+				->method('defaults')
+				->with($this->equalTo($defaults))
+				->will($this->returnValue($route));
+		}
+
 		return $route;
 	}
 
