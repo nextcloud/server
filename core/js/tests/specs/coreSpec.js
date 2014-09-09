@@ -135,19 +135,21 @@ describe('Core base tests', function() {
 		});
 	});
 	describe('filePath', function() {
-		it('Uses a direct link for css and images,' , function() {
+		beforeEach(function() {
 			OC.webroot = 'http://localhost';
 			OC.appswebroots['files'] = OC.webroot + '/apps3/files';
+		});
+		afterEach(function() {
+			delete OC.appswebroots['files'];
+		});
 
+		it('Uses a direct link for css and images,' , function() {
 			expect(OC.filePath('core', 'css', 'style.css')).toEqual('http://localhost/core/css/style.css');
 			expect(OC.filePath('files', 'css', 'style.css')).toEqual('http://localhost/apps3/files/css/style.css');
 			expect(OC.filePath('core', 'img', 'image.png')).toEqual('http://localhost/core/img/image.png');
 			expect(OC.filePath('files', 'img', 'image.png')).toEqual('http://localhost/apps3/files/img/image.png');
 		});
 		it('Routes PHP files via index.php,' , function() {
-			OC.webroot = 'http://localhost';
-			OC.appswebroots['files'] = OC.webroot + '/apps3/files';
-
 			expect(OC.filePath('core', 'ajax', 'test.php')).toEqual('http://localhost/index.php/core/ajax/test.php');
 			expect(OC.filePath('files', 'ajax', 'test.php')).toEqual('http://localhost/index.php/apps/files/ajax/test.php');
 		});
