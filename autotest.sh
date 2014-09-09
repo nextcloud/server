@@ -6,6 +6,8 @@
 # @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 #
 
+set -e
+
 #$EXECUTOR_NUMBER is set by Jenkins and allows us to run autotest in parallel
 DATABASENAME=oc_autotest$EXECUTOR_NUMBER
 DATABASEUSER=oc_autotest$EXECUTOR_NUMBER
