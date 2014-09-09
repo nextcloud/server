@@ -23,18 +23,21 @@ $(document).ready(function() {
 		$('#use_other_db').slideUp(250);
 		$('#use_oracle_db').slideUp(250);
 		$('#sqliteInformation').show();
+		$('#dbname').attr('pattern','[0-9a-zA-Z$_-]+');
 	});
 
 	$('#mysql,#pgsql,#mssql').click(function() {
 		$('#use_other_db').slideDown(250);
 		$('#use_oracle_db').slideUp(250);
 		$('#sqliteInformation').hide();
+		$('#dbname').attr('pattern','[0-9a-zA-Z$_-]+');
 	});
 
 	$('#oci').click(function() {
 		$('#use_other_db').slideDown(250);
 		$('#use_oracle_db').show(250);
 		$('#sqliteInformation').hide();
+		$('#dbname').attr('pattern','[0-9a-zA-Z$_-.]+');
 	});
 
 	$('input[checked]').trigger('click');
