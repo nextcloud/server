@@ -760,8 +760,8 @@ class OC_Util {
 		foreach ($errors as $value) {
 			$parameters[$value] = true;
 		}
-		if (!empty($_POST['user'])) {
-			$parameters["username"] = $_POST['user'];
+		if (!empty($_REQUEST['user'])) {
+			$parameters["username"] = $_REQUEST['user'];
 			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters["username"] = '';
