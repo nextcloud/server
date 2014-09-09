@@ -11,6 +11,8 @@ OC_Util::addStyle( "settings", "settings" );
 OC_Util::addScript( "settings", "admin" );
 OC_Util::addScript( "settings", "log" );
 OC_Util::addScript( 'core', 'multiselect' );
+OCP\Util::addScript('core', 'select2/select2');
+OCP\Util::addStyle('core', 'select2/select2');
 OC_App::setActiveNavigationEntry( "admin" );
 
 $tmpl = new OC_Template( 'settings', 'admin', 'user');
