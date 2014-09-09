@@ -19,6 +19,10 @@
 				OCA.Files.FileList.prototype._createRow = function(fileData) {
 					var tr = oldCreateRow.apply(this, arguments);
 					var sharePermissions = fileData.permissions;
+					if (fileData.mountType && fileData.mountType === "external-root"){
+						// for external storages we cant use the permissions of the mountpoint
+						sharePermissions = OC.PERMISSION_ALL;
+					}
 					if (fileData.type === 'file') {
 						// files can't be shared with delete permissions
 						sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
