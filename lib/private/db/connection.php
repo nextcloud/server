@@ -11,8 +11,9 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
+use OCP\IDBConnection;
 
-class Connection extends \Doctrine\DBAL\Connection {
+class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
 	 * @var string $tablePrefix
 	 */
@@ -184,14 +185,5 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	protected function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->tablePrefix, $statement );
-	}
-
-	public function enableQueryStatementCaching() {
-		$this->cachingQueryStatementEnabled = true;
-	}
-
-	public function disableQueryStatementCaching() {
-		$this->cachingQueryStatementEnabled = false;
-		$this->preparedQueries = array();
 	}
 }

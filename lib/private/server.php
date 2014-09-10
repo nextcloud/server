@@ -469,7 +469,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\IDBConnection
 	 */
 	function getDatabaseConnection() {
-		return new ConnectionWrapper(\OC_DB::getConnection());
+		return \OC_DB::getConnection();
 	}
 
 	/**
