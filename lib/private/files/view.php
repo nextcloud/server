@@ -304,7 +304,13 @@ class View {
 			$hooks[] = 'write';
 		}
 		$result = $this->basicOperation('touch', $path, $hooks, $mtime);
-		if (!$result) { //if native touch fails, we emulate it by changing the mtime in the cache
+		if (!$result) {
+			// If create file fails because of permissions on external storage like SMB folders,
+			// check file exists and return false if not.
+			if(!$this->file_exists($path)){
+				return false;
+			}
+			//if native touch fails, we emulate it by changing the mtime in the cache
 			$this->putFileInfo($path, array('mtime' => $mtime));
 		}
 		return true;
