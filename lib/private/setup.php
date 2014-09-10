@@ -77,6 +77,7 @@ class OC_Setup {
 		//write the config file
 		\OC::$server->getConfig()->setSystemValue('trusted_domains', $trustedDomains);
 		\OC::$server->getConfig()->setSystemValue('datadirectory', $datadir);
+		\OC::$server->getConfig()->setSystemValue('overwritewebroot', OC::$WEBROOT);
 		\OC::$server->getConfig()->setSystemValue('dbtype', $dbtype);
 		\OC::$server->getConfig()->setSystemValue('version', implode('.', OC_Util::getVersion()));
 
