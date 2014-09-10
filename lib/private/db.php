@@ -41,19 +41,6 @@ class DatabaseException extends Exception {
  * Doctrine with some adaptions.
  */
 class OC_DB {
-	/**
-	 * @var \OC\DB\Connection $connection
-	 */
-	static private $connection; //the preferred connection to use, only Doctrine
-
-	/**
-	 * The existing database connection is closed and connected again
-	 */
-	public static function reconnect() {
-		$connection = \OC::$server->getDatabaseConnection();
-		$connection->close();
-		$connection->connect();
-	}
 
 	/**
 	 * @return \OCP\IDBConnection
@@ -69,7 +56,7 @@ class OC_DB {
 	 */
 	private static function getMDB2SchemaManager()
 	{
-		return new \OC\DB\MDB2SchemaManager(self::getConnection());
+		return new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
 	}
 
 	/**
@@ -282,17 +269,17 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-
+		$connection = \OC::$server->getDatabaseConnection();
 		$tableName = OC_Config::getValue('dbtableprefix', 'oc_' ) . trim($tableName);
 
-		self::$connection->beginTransaction();
+		$connection->beginTransaction();
 
-		$platform = self::$connection->getDatabasePlatform();
+		$platform = $connection->getDatabasePlatform();
 		$sql = $platform->getDropTableSQL($platform->quoteIdentifier($tableName));
 
-		self::$connection->query($sql);
+		$connection->executeQuery($sql);
 
-		self::$connection->commit();
+		$connection->commit();
 	}
 
 	/**
@@ -332,8 +319,8 @@ class OC_DB {
 	}
 
 	public static function getErrorCode($error) {
-		$code = self::$connection->errorCode();
-		return $code;
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->errorCode();
 	}
 	/**
 	 * returns the error code and message as a string for logging
@@ -342,10 +329,8 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if (self::$connection) {
-			return self::$connection->getError();
-		}
-		return '';
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->getError();
 	}
 
 	/**

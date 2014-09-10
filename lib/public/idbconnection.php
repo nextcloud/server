@@ -150,4 +150,12 @@ interface IDBConnection {
 	 * @return string The quoted parameter.
 	 */
 	public function quote($input, $type = \PDO::PARAM_STR);
+
+	/**
+	 * Gets the DatabasePlatform instance that provides all the metadata about
+	 * the platform this driver connects to.
+	 *
+	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
+	 */
+	public function getDatabasePlatform();
 }

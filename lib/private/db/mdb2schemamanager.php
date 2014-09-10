@@ -21,7 +21,7 @@ class MDB2SchemaManager {
 	protected $conn;
 
 	/**
-	 * @param \OC\DB\Connection $conn
+	 * @param \OCP\IDBConnection $conn
 	 */
 	public function __construct($conn) {
 		$this->conn = $conn;
@@ -154,7 +154,8 @@ class MDB2SchemaManager {
 		$this->conn->commit();
 
 		if ($this->conn->getDatabasePlatform() instanceof SqlitePlatform) {
-			\OC_DB::reconnect();
+			$this->conn->close();
+			$this->conn->connect();
 		}
 		return true;
 	}
