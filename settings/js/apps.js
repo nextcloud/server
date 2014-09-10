@@ -123,10 +123,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find("label[for='groups_enable']").hide();
 			page.find("#groups_enable").attr('checked', null);
 		} else {
-			$('#group_select').val((app.groups || []).join(','));
 			if (app.active) {
 				if (app.groups.length) {
 					OC.Settings.Apps.setupGroupsSelect();
+					$('#group_select').select2('val', app.groups || []);
 					page.find("#groups_enable").attr('checked','checked');
 				} else {
 					page.find("#groups_enable").attr('checked', null);
@@ -378,14 +378,10 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#group_select').change(function() {
+	$('#group_select').change(function(ev) {
 		var element = $('#app-content input.enable');
-		var groups = $(this).val();
-		if (groups && groups !== '') {
-			groups = groups.split(',');
-		} else {
-			groups = [];
-		}
+		// getting an array of values from select2
+		var groups = ev.val || [];
 		var appid = element.data('appid');
 		if (appid) {
 			OC.Settings.Apps.enableApp(appid, false, element, groups);

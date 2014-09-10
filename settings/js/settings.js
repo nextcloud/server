@@ -7,6 +7,11 @@ OC.Settings = OC.Settings || {};
 OC.Settings = _.extend(OC.Settings, {
 	/**
 	 * Setup selection box for group selection.
+	 *
+	 * Values need to be separated by a pipe "|" character.
+	 * (mostly because a comma is more likely to be used
+	 * for groups)
+	 *
 	 * @param $elements jQuery element (hidden input) to setup select2 on
 	 * @param [extraOptions] extra options hash to pass to select2
 	 */
@@ -18,6 +23,7 @@ OC.Settings = _.extend(OC.Settings, {
 				placeholder: t('core', 'Groups'),
 				allowClear: true,
 				multiple: true,
+				separator: '|',
 				ajax: {
 					url: OC.generateUrl('/settings/ajax/grouplist'),
 					dataType: 'json',
@@ -50,7 +56,7 @@ OC.Settings = _.extend(OC.Settings, {
 				},
 				initSelection: function(element, callback) {
 					var selection =
-						_.map(($(element).val() || []).split(',').sort(),
+						_.map(($(element).val() || []).split('|').sort(),
 							function(groupName) {
 						return {
 							id: groupName,
@@ -60,10 +66,14 @@ OC.Settings = _.extend(OC.Settings, {
 					callback(selection);
 				},
 				formatResult: function (element) {
-					return element.displayname;
+					return escapeHTML(element.displayname);
 				},
 				formatSelection: function (element) {
-					return element.displayname;
+					return escapeHTML(element.displayname);
+				},
+				escapeMarkup: function(m) {
+					// prevent double markup escape
+					return m;
 				}
 			}, extraOptions || {}));
 		}
