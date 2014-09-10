@@ -20,6 +20,15 @@ $(document).ready(function(){
 
 	$('#excludedGroups').each(function (index, element) {
 		OC.Settings.setupGroupsSelect($(element));
+		$(element).change(function(ev) {
+			var groups = ev.val || [];
+			if (groups.length > 0) {
+				groups = ev.val.join(','); // FIXME: make this JSON
+			} else {
+				groups = '';
+			}
+			OC.AppConfig.setValue('core', $(this).attr('name'), groups);
+		});
 	});
 
 
@@ -42,7 +51,7 @@ $(document).ready(function(){
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
 	});
 
-	$('#shareAPI input').change(function() {
+	$('#shareAPI input:not(#excludedGroups)').change(function() {
 		if ($(this).attr('type') === 'checkbox') {
 			if (this.checked) {
 				var value = 'yes';

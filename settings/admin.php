@@ -57,7 +57,8 @@ $tmpl->assign('shareEnforceExpireDate', OC_Appconfig::getValue('core', 'shareapi
 $excludeGroups = OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
 $tmpl->assign('shareExcludeGroups', $excludeGroups);
 $excludedGroupsList = OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
-$tmpl->assign('shareExcludedGroupsList', $excludedGroupsList);
+$excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
+$tmpl->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 
 // Check if connected using HTTPS
 $tmpl->assign('isConnectedViaHTTPS', OC_Request::serverProtocol() === 'https');
