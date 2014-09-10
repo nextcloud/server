@@ -15,14 +15,18 @@ GroupList = {
 	filter: '',
 	filterGroups: false,
 
-	addGroup: function (gid, usercount) {
-		var $li = $userGroupList.find('.isgroup:last-child').clone();
+	addGroup: function (gid, usercount, isAdmin) {
+		var $li = $userGroupList.find('.isgroup.template').clone();
+		$li.removeClass('template hidden');
 		$li
 			.data('gid', gid)
 			.find('.groupname').text(gid);
 		GroupList.setUserCount($li, usercount);
 
 		$li.appendTo($userGroupList);
+		if (isAdmin) {
+			$li.find('.action.delete').remove();
+		}
 
 		GroupList.sortGroups();
 
@@ -140,11 +144,22 @@ GroupList = {
 					$('.groupsselect, .subadminsselect')
 						.append($('<option>', { value: result.groupname })
 							.text(result.groupname));
+				} else {
+					if (result.data.groupname) {
+						var addedGroup = result.data.groupname;
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups || [], [addedGroup]));
+						GroupList.addGroup(result.data.groupname);
+
+						$('.groupsselect, .subadminsselect')
+							.append($('<option>', { value: result.data.groupname })
+								.text(result.data.groupname));
+					}
+					GroupList.toggleAddGroup();
 				}
-				GroupList.toggleAddGroup();
-			}).fail(function(result, textStatus, errorThrown) {
-				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating group'));
-			});
+			}
+		).fail(function(result, textStatus, errorThrown) {
+			OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating group'));
+		});
 	},
 
 	update: function () {
@@ -152,6 +167,10 @@ GroupList = {
 			return;
 		}
 		GroupList.updating = true;
+
+		$userGroupList.addClass('hidden');
+		$userGroupList.before('<div class="loading" style="height:50px; margin-top: 20px"></div>');
+
 		$.get(
 			OC.generateUrl('/settings/users/groups'),
 			{
@@ -160,38 +179,41 @@ GroupList = {
 				sortGroups: $sortGroupBy
 			},
 			function (result) {
+				$userGroupList.removeClass('hidden');
+				$userGroupList.parent().find('.loading').remove();
 
 				var lis = [];
-				if (result.status === 'success') {
-					$.each(result.data, function (i, subset) {
-						$.each(subset, function (index, group) {
-							if (GroupList.getGroupLI(group.name).length > 0) {
-								GroupList.setUserCount(GroupList.getGroupLI(group.name).first(), group.usercount);
-							}
-							else {
-								var $li = GroupList.addGroup(group.name, group.usercount);
+				$.each(result.data, function (subsetName, subset) {
+					var isAdmin = (subsetName === 'adminGroups');
+					$.each(subset, function (index, group) {
+						if (GroupList.getGroupLI(group.name).length > 0) {
+							GroupList.setUserCount(GroupList.getGroupLI(group.name).first(), group.usercount);
+						}
+						else {
+							var $li = GroupList.addGroup(group.name, group.usercount, isAdmin);
 
-								$li.addClass('appear transparent');
-								lis.push($li);
-							}
-						});
+							$li.addClass('appear transparent');
+							lis.push($li);
+						}
 					});
-					if (result.data.length > 0) {
-						GroupList.doSort();
-					}
-					else {
-						GroupList.noMoreEntries = true;
-					}
-					_.defer(function () {
-						$(lis).each(function () {
-							this.removeClass('transparent');
-						});
-					});
+				});
+				if (result.data.length > 0) {
+					GroupList.doSort();
 				}
+				else {
+					GroupList.noMoreEntries = true;
+				}
+				_.defer(function () {
+					$(lis).each(function () {
+						this.removeClass('transparent');
+					});
+				});
 				GroupList.updating = false;
 
 			}
-		);
+		).fail(function(result) {
+			OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error retrieving groups'));
+		});
 	},
 
 	elementBelongsToAddGroup: function (el) {
@@ -356,4 +378,6 @@ $(document).ready( function () {
 	$('#newgroupname').on('input', function(){
 		GroupList.handleAddGroupInput(this.value);
 	});
+
+	GroupList.update();
 });

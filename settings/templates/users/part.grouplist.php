@@ -25,21 +25,15 @@
 		</span>
 	</li>
 
-	<!-- The Admin Group -->
-	<?php foreach($_["adminGroup"] as $adminGroup): ?>
-		<li data-gid="admin" data-usercount="<?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?>" class="isgroup">
-			<a href="#"><span class="groupname"><?php p($l->t('Admins')); ?></span></a>
-			<span class="utils">
-				<span class="usercount"><?php if($adminGroup['usercount'] > 0) { p($adminGroup['usercount']); } ?></span>
-			</span>
-		</li>
-	<?php endforeach; ?>
-
-	<!--List of Groups-->
-	<?php foreach($_["groups"] as $group): ?>
-		<li data-gid="<?php p($group['name']) ?>" data-usercount="<?php p($group['usercount']) ?>" class="isgroup">
-			<a href="#" class="dorename">
-				<span class="groupname"><?php p($group['name']); ?></span>
+	<!-- Group template -->
+	<li class="template isgroup hidden">
+		<a href="#" class="dorename">
+			<span class="groupname">{{name}}</span>
+		</a>
+		<span class="utils">
+			<span class="usercount">{{userCount}}</span>
+			<a href="#" class="action delete" original-title="<?php p($l->t('Delete'))?>">
+				<img src="<?php print_unescaped(image_path('core', 'actions/delete.svg')) ?>" class="svg" />
 			</a>
 			<span class="utils">
 				<span class="usercount"><?php if($group['usercount'] > 0) { p($group['usercount']); } ?></span>
@@ -49,6 +43,6 @@
 				</a>
 				<?php endif; ?>
 			</span>
-		</li>
-	<?php endforeach; ?>
+		</span>
+	</li>
 </ul>
