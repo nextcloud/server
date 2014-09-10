@@ -5,6 +5,7 @@
  * See the COPYING-README file.
  */
 
+/* global UserList */
 var $userGroupList,
 	$sortGroupBy;
 
@@ -15,16 +16,52 @@ GroupList = {
 	filter: '',
 	filterGroups: false,
 
-	addGroup: function (gid, usercount) {
-		var $li = $userGroupList.find('.isgroup:last-child').clone();
-		$li
-			.data('gid', gid)
-			.find('.groupname').text(gid);
-		GroupList.setUserCount($li, usercount);
+	_GROUP_TEMPLATE:
+		'<li class="isgroup">' +
+		'<a href="#" class="dorename">' +
+		'	<span class="groupname">{{name}}</span>' +
+		'</a>' +
+		'<span class="utils">' +
+		'	<span class="usercount">{{#if hasUserCount}}{{userCount}}{{/if}}</span>' +
+		'	{{#if canDelete}}' +
+		'	<a href="#" class="action delete" original-title="{{deleteLabel}}">' +
+		'		<img src="{{deleteIconUrl}}" class="svg" />' +
+		'	</a>' +
+		'	{{/if}}' +
+		'	</span>' +
+		'</li>',
 
+	groupTemplate: function(data) {
+		if (!this._groupTemplate) {
+			this._groupTemplate = Handlebars.compile(this._GROUP_TEMPLATE);
+		}
+		return this._groupTemplate(data);
+	},
+
+	/**
+	 * Add group
+	 *
+	 * @param {string} gid group id
+	 * @param {int} usercount user count in the group
+	 * @param {bool} [isAdminGroup=false] whether the added group is the admin group
+	 * @param {bool} [sort=false} whether to insert sort the value
+	 */
+	addGroup: function (gid, userCount, isAdminGroup, doSort) {
+		var $li = $(this.groupTemplate({
+			name: isAdminGroup ? t('settings', 'Admins') : gid,
+			userCount: userCount,
+			hasUserCount: userCount > 0,
+			canDelete: !isAdminGroup,
+			deleteLabel: t('settings', 'Delete'),
+			deleteIconUrl: OC.imagePath('core', 'actions/delete')
+		}));
+		$li.data('gid', gid);
 		$li.appendTo($userGroupList);
 
-		GroupList.sortGroups();
+		if (doSort) {
+			// TODO: find insertion point instead of doing a full sort
+			GroupList.sortGroups();
+		}
 
 		return $li;
 	},
@@ -135,23 +172,49 @@ GroupList = {
 				if (result.groupname) {
 					var addedGroup = result.groupname;
 					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
-					GroupList.addGroup(result.groupname);
+					GroupList.addGroup(result.groupname, 0, false, true);
 
 					$('.groupsselect, .subadminsselect')
 						.append($('<option>', { value: result.groupname })
 							.text(result.groupname));
+				} else {
+					if (result.data.groupname) {
+						var addedGroup = result.data.groupname;
+						UserList.availableGroups = $.unique($.merge(UserList.availableGroups || [], [addedGroup]));
+						GroupList.addGroup(result.data.groupname, 0, false, true);
+
+						$('.groupsselect, .subadminsselect')
+							.append($('<option>', { value: result.data.groupname })
+								.text(result.data.groupname));
+					}
+					GroupList.toggleAddGroup();
 				}
-				GroupList.toggleAddGroup();
-			}).fail(function(result, textStatus, errorThrown) {
-				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating group'));
-			});
+			}
+		).fail(function(result, textStatus, errorThrown) {
+			OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating group'));
+		});
 	},
 
+	/**
+	 * Clear group list
+	 */
+	clear: function() {
+		$userGroupList.find('li.isgroup').remove();
+	},
+
+	/**
+	 * Update group list
+	 */
 	update: function () {
 		if (GroupList.updating) {
 			return;
 		}
 		GroupList.updating = true;
+
+		$userGroupList.addClass('hidden');
+		this.clear();
+		$userGroupList.before('<div class="loading" style="height:50px; margin-top: 20px"></div>');
+
 		$.get(
 			OC.generateUrl('/settings/users/groups'),
 			{
@@ -160,38 +223,38 @@ GroupList = {
 				sortGroups: $sortGroupBy
 			},
 			function (result) {
+				$userGroupList.removeClass('hidden');
+				$userGroupList.parent().find('.loading').remove();
 
 				var lis = [];
-				if (result.status === 'success') {
-					$.each(result.data, function (i, subset) {
-						$.each(subset, function (index, group) {
-							if (GroupList.getGroupLI(group.name).length > 0) {
-								GroupList.setUserCount(GroupList.getGroupLI(group.name).first(), group.usercount);
-							}
-							else {
-								var $li = GroupList.addGroup(group.name, group.usercount);
+				$.each(result.data, function (subsetName, subset) {
+					var isAdmin = (subsetName === 'adminGroups');
+					$.each(subset, function (index, group) {
+						if (GroupList.getGroupLI(group.name).length > 0) {
+							GroupList.setUserCount(GroupList.getGroupLI(group.name).first(), group.usercount);
+						}
+						else {
+							var $li = GroupList.addGroup(group.name, group.usercount, isAdmin, false);
 
-								$li.addClass('appear transparent');
-								lis.push($li);
-							}
-						});
+							$li.addClass('appear transparent');
+							lis.push($li);
+						}
 					});
-					if (result.data.length > 0) {
-						GroupList.doSort();
-					}
-					else {
-						GroupList.noMoreEntries = true;
-					}
-					_.defer(function () {
-						$(lis).each(function () {
-							this.removeClass('transparent');
-						});
-					});
+				});
+				if (!result.groups || !result.groups.length) {
+					GroupList.noMoreEntries = true;
 				}
+				_.defer(function () {
+					$(lis).each(function () {
+						this.removeClass('transparent');
+					});
+				});
 				GroupList.updating = false;
 
 			}
-		);
+		).fail(function(result) {
+			OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error retrieving groups'));
+		});
 	},
 
 	elementBelongsToAddGroup: function (el) {
@@ -356,4 +419,6 @@ $(document).ready( function () {
 	$('#newgroupname').on('input', function(){
 		GroupList.handleAddGroupInput(this.value);
 	});
+
+	GroupList.update();
 });

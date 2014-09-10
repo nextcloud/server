@@ -561,3 +561,7 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 #warning {
 	color: red;
 }
+
+#usergrouplist {
+	padding-bottom: 40px;
+}
