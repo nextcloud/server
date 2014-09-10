@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Неизвестная ошибка",
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",
+"Permission denied" => "В доступе отказано",
 "File name cannot be empty." => "Имя файла не может быть пустым.",
 "\"%s\" is an invalid file name." => "\"%s\" это не правильное имя файла.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправильное имя: символы '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы.",

@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Tundmatu viga",
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
+"Permission denied" => "Ligipääs keelatud",
 "File name cannot be empty." => "Faili nimi ei saa olla tühi.",
 "\"%s\" is an invalid file name." => "\"%s\" on vigane failinimi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud.",

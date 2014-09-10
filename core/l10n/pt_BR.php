@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "O SQLite será usado como banco de dados. Para grandes instalações nós recomendamos mudar isto.",
 "Finish setup" => "Concluir configuração",
 "Finishing …" => "Finalizando ...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Esta aplicação requer JavaScript para sua correta operação. Por favor <a href=\"http://enable-javascript.com/\" target=\"_blank\">habilite JavaScript</a> e recerregue a página.",
 "%s is available. Get more information on how to update." => "%s está disponível. Obtenha mais informações sobre como atualizar.",
 "Log out" => "Sair",
 "Server side authentication failed!" => "Autenticação do servidor falhou!",

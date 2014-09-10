@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Error desconocido",
 "Could not move %s - File with this name already exists" => "No se pudo mover %s - Ya existe un archivo con ese nombre.",
 "Could not move %s" => "No se pudo mover %s",
+"Permission denied" => "Permiso denegado",
 "File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
 "\"%s\" is an invalid file name." => "\"%s\" es un nombre de archivo inválido.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre inválido, los caracteres \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos ",

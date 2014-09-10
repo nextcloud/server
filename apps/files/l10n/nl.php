@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Onbekende fout",
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
+"Permission denied" => "Toegang geweigerd",
 "File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "\"%s\" is an invalid file name." => "\"%s\" is een ongeldige bestandsnaam.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",

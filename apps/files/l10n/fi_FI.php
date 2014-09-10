@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Tuntematon virhe",
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
+"Permission denied" => "Ei käyttöoikeutta",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "\"%s\" is an invalid file name." => "\"%s\" on virheellinen tiedostonimi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",

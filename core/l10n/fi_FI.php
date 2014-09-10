@@ -162,6 +162,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLitea käytetään tietokantana. Laajoja asennuksia varten tämä asetus kannattaa muuttaa. ",
 "Finish setup" => "Viimeistele asennus",
 "Finishing …" => "Valmistellaan…",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Tämä sovellus vaatii JavaScript-tuen toimiakseen. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Ota JavaScript käyttöön</a> ja päivitä sivu.",
 "%s is available. Get more information on how to update." => "%s on saatavilla. Lue lisätietoja, miten päivitys asennetaan.",
 "Log out" => "Kirjaudu ulos",
 "Server side authentication failed!" => "Palvelimen puoleinen tunnistautuminen epäonnistui!",

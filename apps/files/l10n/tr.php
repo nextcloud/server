@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Bilinmeyen hata",
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten mevcut",
 "Could not move %s" => "%s taşınamadı",
+"Permission denied" => "Erişim reddedildi",
 "File name cannot be empty." => "Dosya adı boş olamaz.",
 "\"%s\" is an invalid file name." => "\"%s\" geçersiz bir dosya adı.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Geçersiz isim. '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir.",

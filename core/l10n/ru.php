@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLite будет использован в качестве базы данных. Мы рекомендуем изменить это для крупных установок.",
 "Finish setup" => "Завершить установку",
 "Finishing …" => "Завершаем...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Этому приложению нужен включенный Джаваскрипт. Пожалуйста, <a href=\"http://www.enable-javascript.com/ru/\" target=\"_blank\">включите Джаваскрипт</a> и перезагрузите страницу.",
 "%s is available. Get more information on how to update." => "%s доступно. Получить дополнительную информацию о порядке обновления.",
 "Log out" => "Выйти",
 "Server side authentication failed!" => "Неудачная аутентификация с сервером!",
@@ -178,11 +179,14 @@ $TRANSLATIONS = array(
 "Thank you for your patience." => "Спасибо за терпение.",
 "You are accessing the server from an untrusted domain." => "Вы пытаетесь получить доступ к серверу с неподтверждённого домена.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Пожалуйста, свяжитесь с администратором. Если вы администратор этого хранилища, сконфигурируйте \"trusted_domain\" в config/config.php. Пример настройки можно найти в /config/config.sample.php.",
+"Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." => "В зависимости от конфигурации, вы, будучи администратором, можете также внести домен в доверенные при помощи кнопки снизу.",
+"Add \"%s\" as trusted domain" => "Добавить \"%s\" как доверенный домен",
 "%s will be updated to version %s." => "%s будет обновлено до версии %s.",
 "The following apps will be disabled:" => "Следующие приложения будут отключены:",
 "The theme %s has been disabled." => "Тема %s была отключена.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Пожалуйста, перед тем, как продолжить, убедитесь в том, что вы сделали резервную копию базы данных, директории конфигурации и директории с данными.",
 "Start update" => "Запустить обновление",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Чтобы избежать задержек при больших объёмах, вы можете выполнить следующую команду в директории установки:",
 "This ownCloud instance is currently being updated, which may take a while." => "Производится обновление ownCloud, это может занять некоторое время.",
 "Please reload this page after a short time to continue using ownCloud." => "Перезагрузите эту страницу через некоторое время чтобы продолжить использовать ownCloud."
 );

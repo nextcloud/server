@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-09 01:54-0400\n"
+"POT-Creation-Date: 2014-09-10 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -368,51 +368,51 @@ msgstr ""
 msgid "Could not find category \"%s\""
 msgstr ""
 
-#: template/functions.php:152
+#: template/functions.php:184
 msgid "seconds ago"
 msgstr ""
 
-#: template/functions.php:153
+#: template/functions.php:185
 msgid "%n minute ago"
 msgid_plural "%n minutes ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:154
+#: template/functions.php:186
 msgid "%n hour ago"
 msgid_plural "%n hours ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:155
+#: template/functions.php:187
 msgid "today"
 msgstr ""
 
-#: template/functions.php:156
+#: template/functions.php:188
 msgid "yesterday"
 msgstr ""
 
-#: template/functions.php:158
+#: template/functions.php:190
 msgid "%n day go"
 msgid_plural "%n days ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:160
+#: template/functions.php:192
 msgid "last month"
 msgstr ""
 
-#: template/functions.php:161
+#: template/functions.php:193
 msgid "%n month ago"
 msgid_plural "%n months ago"
 msgstr[0] ""
 msgstr[1] ""
 
-#: template/functions.php:163
+#: template/functions.php:195
 msgid "last year"
 msgstr ""
 
-#: template/functions.php:164
+#: template/functions.php:196
 msgid "years ago"
 msgstr ""
 
