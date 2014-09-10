@@ -25,13 +25,6 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	protected $adapter;
 
 	/**
-	 * @var \Doctrine\DBAL\Driver\Statement[] $preparedQueries
-	 */
-	protected $preparedQueries = array();
-
-	protected $cachingQueryStatementEnabled = true;
-
-	/**
 	 * Initializes a new instance of the Connection class.
 	 *
 	 * @param array $params  The connection parameters.
@@ -70,9 +63,6 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 			$platform = $this->getDatabasePlatform();
 			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
 		} else {
-			if (isset($this->preparedQueries[$statement]) && $this->cachingQueryStatementEnabled) {
-				return $this->preparedQueries[$statement];
-			}
 			$origStatement = $statement;
 		}
 		$statement = $this->replaceTablePrefix($statement);
@@ -81,11 +71,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 		if(\OC_Config::getValue( 'log_query', false)) {
 			\OC_Log::write('core', 'DB prepare : '.$statement, \OC_Log::DEBUG);
 		}
-		$result = parent::prepare($statement);
-		if (is_null($limit) && $this->cachingQueryStatementEnabled) {
-			$this->preparedQueries[$origStatement] = $result;
-		}
-		return $result;
+		return parent::prepare($statement);
 	}
 
 	/**

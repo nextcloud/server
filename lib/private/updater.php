@@ -129,7 +129,6 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
-		\OC_DB::enableCaching(false);
 		\OC_Config::setValue('maintenance', true);
 
 		$installedVersion = \OC_Config::getValue('version', '0.0.0');

@@ -35,10 +35,6 @@ class Repair extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		// TODO: inject DB connection/factory when possible
-		$connection = \OC_DB::getConnection();
-		$connection->disableQueryStatementCaching();
-
 		$maintenanceMode = $this->config->getValue('maintenance', false);
 		$this->config->setValue('maintenance', true);
 

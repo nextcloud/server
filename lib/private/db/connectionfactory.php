@@ -98,19 +98,6 @@ class ConnectionFactory {
 			new \Doctrine\DBAL\Configuration(),
 			$eventManager
 		);
-		switch ($normalizedType) {
-			case 'sqlite3':
-				// Sqlite doesn't handle query caching and schema changes
-				// TODO: find a better way to handle this
-				/** @var $connection \OC\DB\Connection */
-				$connection->disableQueryStatementCaching();
-				break;
-			case 'oci':
-				// oracle seems to have issues with cached statements which have been closed
-				/** @var $connection \OC\DB\Connection */
-				$connection->disableQueryStatementCaching();
-				break;
-		}
 		return $connection;
 	}
 
