@@ -139,6 +139,18 @@ input[type="time"] {
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 
+.select2-choices {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	color: #333;
+	background-image: none;
+}
+.select2-dropdown-open .select2-choices {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+	border: 1px solid #3875d7;
+}
+
 /* correctly align images inside of buttons */
 input img, button img, .button img {
 	vertical-align: text-bottom;
