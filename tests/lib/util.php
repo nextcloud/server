@@ -39,7 +39,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 
 	function testCallRegister() {
 		$result = strlen(OC_Util::callRegister());
-		$this->assertEquals(20, $result);
+		$this->assertEquals(30, $result);
 	}
 
 	function testSanitizeHTML() {
