@@ -52,7 +52,7 @@ class MailNotifications {
 	 * @param string $sender user id (if nothing is set we use the currently logged-in user)
 	 */
 	public function __construct($sender = null) {
-		$this->l = \OC_L10N::get('core');
+		$this->l = \OC::$server->getL10N('lib');
 
 		$this->senderId = $sender;
 
