@@ -128,7 +128,7 @@ class Scanner extends PublicEmitter {
 				throw new ForbiddenException();
 			}
 			$scanner = $storage->getScanner();
-			$scanner->useTransactions(false);
+			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 			$this->db->beginTransaction();
 			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
