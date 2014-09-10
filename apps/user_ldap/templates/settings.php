@@ -1,5 +1,5 @@
-<form id="ldap" action="#" method="post">
-	<div id="ldapSettings" class="section">
+<form id="ldap" action="#" method="post" class="section">
+	<div id="ldapSettings">
 	<ul>
 		<?php foreach($_['toc'] as $id => $title) { ?>
 			<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
