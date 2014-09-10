@@ -67,8 +67,14 @@ OC.Settings = _.extend(OC.Settings, {
 					return element.id;
 				},
 				initSelection: function(element, callback) {
+					var value = $(element).val();
+					if (value && value !== '') {
+						value = value.split('|');
+					} else {
+						value = [];
+					}
 					var selection =
-						_.map(($(element).val() || []).split('|').sort(),
+						_.map(value.sort(),
 							function(groupName) {
 						return {
 							id: groupName,

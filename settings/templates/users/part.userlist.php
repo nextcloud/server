@@ -38,10 +38,23 @@
 				src="<?php p(image_path('core', 'actions/rename.svg'))?>"
 				alt="<?php p($l->t('change email address'))?>" title="<?php p($l->t('change email address'))?>"/>
 			</td>
-			<td class="groups"></td>
-		<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
-			<td class="subadmins"></td>
-		<?php endif;?>
+			<td class="groups">
+				<input
+					type="hidden"
+					class="groupsselect"
+					data-username="<?php p($user['name']) ;?>"
+					value="<?php p(implode('|', $user['groups'])) ;?>">
+			</td>
+			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
+				<td class="subadmins">
+					<input
+						type="hidden"
+						class="subadminsselect"
+						data-username="<?php p($user['name']) ;?>"
+						value="<?php p(implode('|', $user['subadmin']));?>"
+					</select>
+				</td>
+			<?php endif;?>
 			<td class="quota">
 				<select class="quota-user" data-inputtitle="<?php p($l->t('Please enter storage quota (ex: "512 MB" or "12 GB")')) ?>">
 					<option	value='default'>

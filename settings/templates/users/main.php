@@ -5,7 +5,10 @@
  * See the COPYING-README file.
  */
 
+vendor_script('select2/select2');
+vendor_style('select2/select2');
 script('settings', [
+	'settings',
 	'users/deleteHandler',
 	'users/filter',
 	'users/users',
