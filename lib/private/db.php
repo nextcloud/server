@@ -47,66 +47,6 @@ class OC_DB {
 	static private $connection; //the preferred connection to use, only Doctrine
 
 	/**
-	 * connects to the database
-	 * @return boolean|null true if connection can be established or false on error
-	 *
-	 * Connects to the database as specified in config.php
-	 */
-	public static function connect() {
-		if(self::$connection) {
-			return true;
-		}
-
-		$type = OC_Config::getValue('dbtype', 'sqlite');
-		$factory = new \OC\DB\ConnectionFactory();
-		if (!$factory->isValidType($type)) {
-			return false;
-		}
-
-		$connectionParams = array(
-			'user' => OC_Config::getValue('dbuser', ''),
-			'password' => OC_Config::getValue('dbpassword', ''),
-		);
-		$name = OC_Config::getValue('dbname', 'owncloud');
-
-		if ($factory->normalizeType($type) === 'sqlite3') {
-			$datadir = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data');
-			$connectionParams['path'] = $datadir.'/'.$name.'.db';
-		} else {
-			$host = OC_Config::getValue('dbhost', '');
-			if (strpos($host, ':')) {
-				// Host variable may carry a port or socket.
-				list($host, $portOrSocket) = explode(':', $host, 2);
-				if (ctype_digit($portOrSocket)) {
-					$connectionParams['port'] = $portOrSocket;
-				} else {
-					$connectionParams['unix_socket'] = $portOrSocket;
-				}
-			}
-			$connectionParams['host'] = $host;
-			$connectionParams['dbname'] = $name;
-		}
-
-		$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_');
-
-		try {
-			self::$connection = $factory->getConnection($type, $connectionParams);
-			self::$connection->getConfiguration()->setSQLLogger(\OC::$server->getQueryLogger());
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
-			OC_User::setUserId(null);
-
-			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
-			OC_Template::printErrorPage('Failed to connect to database');
-			die();
-		}
-
-		return true;
-	}
-
-	/**
 	 * The existing database connection is closed and connected again
 	 */
 	public static function reconnect() {
@@ -116,11 +56,10 @@ class OC_DB {
 	}
 
 	/**
-	 * @return \OC\DB\Connection
+	 * @return \OCP\IDBConnection
 	 */
 	static public function getConnection() {
-		self::connect();
-		return self::$connection;
+		return \OC::$server->getDatabaseConnection();
 	}
 
 	/**

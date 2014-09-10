@@ -217,8 +217,25 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('Crypto', function ($c) {
 			return new Crypto(\OC::$server->getConfig(), \OC::$server->getSecureRandom());
 		});
+		$this->registerService('DatabaseConnection', function ($c) {
+			/**
+			 * @var Server $c
+			 */
+			$factory = new \OC\DB\ConnectionFactory();
+			$type = $c->getConfig()->getSystemValue('dbtype', 'sqlite');
+			if (!$factory->isValidType($type)) {
+				throw new \DatabaseException('Invalid database type');
+			}
+			$connectionParams = $factory->createConnectionParams($c->getConfig());
+			$connection = $factory->getConnection($type, $connectionParams);
+			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
+			return $connection;
+		});
 		$this->registerService('Db', function ($c) {
-			return new Db();
+			/**
+			 * @var Server $c
+			 */
+			return new Db($c->getDatabaseConnection());
 		});
 		$this->registerService('HTTPHelper', function (SimpleContainer $c) {
 			$config = $c->query('AllConfig');
@@ -469,7 +486,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\IDBConnection
 	 */
 	function getDatabaseConnection() {
-		return \OC_DB::getConnection();
+		return $this->query('DatabaseConnection');
 	}
 
 	/**
