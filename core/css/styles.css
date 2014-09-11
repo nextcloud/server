@@ -701,7 +701,7 @@ label.infield {
 #notification, #update-notification {
 	margin: 0 auto;
 	max-width: 60%;
-	z-index: 101;
+	z-index: 8000;
 	background-color: #fc4;
 	border: 0;
 	padding: 1px 8px;
