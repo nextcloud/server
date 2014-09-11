@@ -66,7 +66,15 @@ module.exports = function(config) {
 					'apps/files_external/js/mountsfilelist.js'
 				],
 				testFiles: ['apps/files_external/tests/js/*.js']
-			}];
+			},
+			{
+				name: 'settings',
+				srcFiles: [
+					'settings/js/users/deleteHandler.js'
+				],
+				testFiles: ['settings/tests/js/users/deleteHandlerSpec.js']
+			}
+		];
 	}
 
 	// respect NOCOVERAGE env variable
