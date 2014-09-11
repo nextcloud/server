@@ -49,7 +49,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('');
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -71,7 +71,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('');
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
 		$scanner->addMount($mount);
 
 		$scanner->scan('');
@@ -98,7 +98,7 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 		$storage->file_put_contents('foo.txt', 'qwerty');
 		$storage->file_put_contents('folder/bar.txt', 'qwerty');
 
-		$scanner = new TestScanner('');
+		$scanner = new TestScanner('', \OC::$server->getDatabaseConnection());
 		$originalPropagator = $scanner->getPropagator();
 		$scanner->setPropagator($propagator);
 		$scanner->addMount($mount);
