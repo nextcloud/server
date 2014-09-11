@@ -3,11 +3,12 @@
 	/** @var OC_L10N $l */
 ?>
 <span class="error error-wide">
-	<h2><strong><?php p('Internal Server Error') ?></strong></h2><br/>
+	<h2><strong><?php p('Internal Server Error') ?></strong></h2>
 		<p><?php p($l->t('The server encountered an internal error and was unable to complete your request.')) ?></p>
 		<p><?php p($l->t('Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report.')) ?></p>
 		<p><?php p($l->t('More details can be found in the server log.')) ?></p>
-	<hr/>
+	<br />
+
 	<h2><strong><?php p($l->t('Technical details')) ?></strong></h2>
 	<ul>
 		<li><?php p($l->t('Remote Address: %s', $_['remoteAddr'])) ?></li>
@@ -21,7 +22,7 @@
 	</ul>
 
 	<?php if($_['debugMode']): ?>
-		<hr/>
+		<br />
 		<h2><strong><?php p($l->t('Trace')) ?></strong></h2>
 		<pre><?php p($_['trace']) ?></pre>
 	<?php endif; ?>
