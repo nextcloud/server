@@ -212,6 +212,10 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('Db', function ($c) {
 			return new Db();
 		});
+		$this->registerService('HTTPHelper', function (SimpleContainer $c) {
+			$config = $c->query('AllConfig');
+			return new HTTPHelper($config);
+		});
 	}
 
 	/**
@@ -500,6 +504,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getDb() {
 		return $this->query('Db');
+	}
+
+	/**
+	 * Returns an instance of the HTTP helper class
+	 * @return \OC\HTTPHelper
+	 */
+	function getHTTPHelper() {
+		return $this->query('HTTPHelper');
 	}
 
 	/**

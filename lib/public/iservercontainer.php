@@ -242,4 +242,10 @@ interface IServerContainer {
 	 * @return \OCP\IEventSource
 	 */
 	function createEventSource();
+
+	/**
+	 * Returns an instance of the HTTP helper class
+	 * @return \OC\HTTPHelper
+	 */
+	function getHTTPHelper();
 }
