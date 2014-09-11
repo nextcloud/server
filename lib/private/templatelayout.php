@@ -63,6 +63,7 @@ class OC_TemplateLayout extends OC_Template {
 			parent::__construct('core', 'layout.guest', '', false);
 		} else if ($renderas == 'guest') {
 			parent::__construct('core', 'layout.guest');
+			$this->assign('bodyid', 'body-login');
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
