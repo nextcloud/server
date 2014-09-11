@@ -5,6 +5,9 @@
  */
 OC.Settings = OC.Settings || {};
 OC.Settings = _.extend(OC.Settings, {
+
+	_cachedGroups: null,
+
 	/**
 	 * Setup selection box for group selection.
 	 *
@@ -16,6 +19,7 @@ OC.Settings = _.extend(OC.Settings, {
 	 * @param [extraOptions] extra options hash to pass to select2
 	 */
 	setupGroupsSelect: function($elements, extraOptions) {
+		var self = this;
 		if ($elements.length > 0) {
 			// note: settings are saved through a "change" event registered
 			// on all input fields
@@ -24,33 +28,45 @@ OC.Settings = _.extend(OC.Settings, {
 				allowClear: true,
 				multiple: true,
 				separator: '|',
-				ajax: {
-					url: OC.generateUrl('/settings/ajax/grouplist'),
-					dataType: 'json',
-					quietMillis: 100,
-					data: function (term) {
-						return {
-							pattern: term, //search term
-						};
-					},
-					results: function (data) {
-						if (data.status === "success") {
-							var results = [];
-
-							// add groups
-							$.each(data.data.adminGroups, function(i, group) {
-								results.push({id:group.id, displayname:group.name});
-							});
-							$.each(data.data.groups, function(i, group) {
-								results.push({id:group.id, displayname:group.name});
-							});
-
-							return {results: results};
-						} else {
-							//FIXME add error handling
-						}
+				query: _.debounce(function(query) {
+					var queryData = {};
+					if (self._cachedGroups && query.term === '') {
+						query.callback({results: self._cachedGroups});
+						return;
 					}
-				},
+					if (query.term !== '') {
+						queryData = {
+							pattern: query.term,
+							filterGroups: 1
+						};
+					}
+					$.ajax({
+						url: OC.generateUrl('/settings/ajax/grouplist'),
+						data: queryData,
+						dataType: 'json',
+						success: function(data) {
+							if (data.status === "success") {
+								var results = [];
+
+								// add groups
+								$.each(data.data.adminGroups, function(i, group) {
+									results.push({id:group.id, displayname:group.name});
+								});
+								$.each(data.data.groups, function(i, group) {
+									results.push({id:group.id, displayname:group.name});
+								});
+
+								if (query.term === '') {
+									// cache full list
+									self._cachedGroups = results;
+								}
+								query.callback({results: results});
+							} else {
+								//FIXME add error handling
+							}
+						}
+					});
+				}, 100, true),
 				id: function(element) {
 					return element.id;
 				},
