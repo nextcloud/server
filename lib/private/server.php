@@ -149,6 +149,10 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AvatarManager', function($c) {
 			return new AvatarManager();
 		});
+		$this->registerService('HTTPHelper', function (SimpleContainer $c) {
+			$config = $c->query('AllConfig');
+			return new HTTPHelper($config);
+		});
 	}
 
 	/**
@@ -343,4 +347,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getActivityManager() {
 		return $this->query('ActivityManager');
 	}
+
+	/**
+	 * Returns an instance of the HTTP helper class
+	 * @return \OC\HTTPHelper
+	 */
+	function getHTTPHelper() {
+		return $this->query('HTTPHelper');
+	}
+
 }
