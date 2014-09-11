@@ -429,27 +429,6 @@
 	background-color: transparent;
 }
 
-/* icons */
-.folder-icon, .delete-icon, .edit-icon, .progress-icon {
-	background-repeat: no-repeat;
-	background-position: center;
-}
-.folder-icon { background-image: url('../img/places/folder.svg'); }
-.delete-icon { background-image: url('../img/actions/delete.svg'); }
-.delete-icon:hover, .delete-icon:focus {
-	background-image: url('../img/actions/delete-hover.svg');
-}
-.edit-icon { background-image: url('../img/actions/rename.svg'); }
-.progress-icon {
-	background-image: url('../img/loading.gif');
-	background-size: 16px;
-	/* force show the loading icon, not only on hover */
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-	filter:alpha(opacity=100);
-	opacity: 1 !important;
-	display: inline !important;
-}
-
 /* buttons */
 button.loading {
 	background-image: url('../img/loading.gif');
