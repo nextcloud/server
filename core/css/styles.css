@@ -42,8 +42,9 @@ body {
 	position: fixed;
 	top: 0;
 	bottom: 0;
-	z-index: 9000;
+	height: 100%;
 	width: 100%;
+	z-index: 9000;
 	text-align: center;
 	background-color: rgba(0,0,0,0.5);
 	color: #fff;
