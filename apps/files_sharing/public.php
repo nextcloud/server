@@ -105,7 +105,7 @@ if (isset($path)) {
 			\OC::$server->getSession()->close();
 		}
 		if (isset($_GET['files'])) { // download selected files
-			$files = urldecode($_GET['files']);
+			$files = $_GET['files'];
 			$files_list = json_decode($files);
 			// in case we get only a single file
 			if ($files_list === NULL ) {
