@@ -25,9 +25,11 @@ try {
 
 	require_once 'lib/base.php';
 
-	if(OC_Config::getValue('installed')==1) $installed='true'; else $installed='false';
+	$installed = OC_Config::getValue('installed') == 1;
+	$maintenance = OC_Config::getValue('maintenance', false);
 	$values=array(
 		'installed'=>$installed,
+		'maintenance' => $maintenance,
 		'version'=>implode('.', OC_Util::getVersion()),
 		'versionstring'=>OC_Util::getVersionString(),
 		'edition'=>OC_Util::getEditionString());
