@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Saved" => "সংরক্ষণ করা হলো",
+"test email settings" => "ইমেইল নিয়ামকসমূহ পরীক্ষা করুন",
 "Email sent" => "ই-মেইল পাঠানো হয়েছে",
 "Encryption" => "সংকেতায়ন",
 "Unable to load list from App Store" => "অ্যাপস্টোর থেকে তালিকা লোড করতে সক্ষম নয়",
