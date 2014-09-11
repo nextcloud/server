@@ -57,7 +57,7 @@
 #app-navigation li:hover > a,
 #app-navigation .selected,
 #app-navigation .selected a {
-	background-color: #ccc;
+	background-color: #ddd;
 }
 
 #app-navigation .with-icon a,
@@ -140,7 +140,7 @@
 }
 
 #app-navigation > ul .collapsible.open:hover {
-	box-shadow: inset 0 0 3px #ccc;
+	box-shadow: inset 0 0 3px #ddd;
 }
 
 #app-navigation > ul .collapsible.open ul {
