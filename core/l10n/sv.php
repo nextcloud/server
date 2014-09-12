@@ -180,7 +180,6 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Temat  %s har blivit inaktiverat.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Vänligen säkerställ att en säkerhetskopia har gjorts av databasen, konfigurations- och datamappen innan du fortsätter.",
 "Start update" => "Starta uppdateringen",
-"This ownCloud instance is currently being updated, which may take a while." => "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag.",
-"Please reload this page after a short time to continue using ownCloud." => "Var god och ladda om denna sida efter en kort stund för att fortsätta använda ownCloud."
+"This ownCloud instance is currently being updated, which may take a while." => "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

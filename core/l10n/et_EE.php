@@ -187,7 +187,6 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Enne jätkamist veendu, et andmebaas, seadete ning andmete kataloog on varundatud.",
 "Start update" => "Käivita uuendus",
 "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Suurtel saitidel aegumise vältimiseks võid sa paigalduskaustas käivitada järgmise käsu:",
-"This ownCloud instance is currently being updated, which may take a while." => "Seda ownCloud instantsi hetkel uuendatakse, võib võtta veidi aega.",
-"Please reload this page after a short time to continue using ownCloud." => "Palun laadi see leht uuesti veidi aja pärast jätkamaks ownCloud kasutamist."
+"This ownCloud instance is currently being updated, which may take a while." => "Seda ownCloud instantsi hetkel uuendatakse, võib võtta veidi aega."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -5,6 +5,8 @@ $TRANSLATIONS = array(
 "Turned off maintenance mode" => "メンテナンスモードがオフになりました",
 "Updated database" => "データベース更新完了",
 "Checked database schema update" => "指定データベースのスキーマを更新",
+"Checked database schema update for apps" => "アプリの指定データベースのスキーマを更新",
+"Updated \"%s\" to %s" => "\"%s\" を %s にアップデートしました。",
 "Disabled incompatible apps: %s" => "無効化された非互換アプリ：%s",
 "No image or file provided" => "画像もしくはファイルが提供されていません",
 "Unknown filetype" => "不明なファイルタイプ",
@@ -161,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLite をデータベースとして利用します。大規模な運用では、利用しないことをお勧めします。",
 "Finish setup" => "セットアップを完了します",
 "Finishing …" => "作業を完了しています ...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "このアプリケーションは使用する為、JavaScriptが必要です。\n<a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScriptを有効にし</a>、ページを更新してください。 ",
 "%s is available. Get more information on how to update." => "%s が利用可能です。アップデート方法について詳細情報を確認してください。",
 "Log out" => "ログアウト",
 "Server side authentication failed!" => "サーバーサイドの認証に失敗しました！",
@@ -176,12 +179,14 @@ $TRANSLATIONS = array(
 "Thank you for your patience." => "しばらくお待ちください。",
 "You are accessing the server from an untrusted domain." => "信頼されていないドメインからサーバーにアクセスしています。",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "管理者に連絡してください。このサーバーの管理者の場合は、\"trusted_domain\" の設定を config/config.php に設定してください。config/config.sample.php にサンプルの設定方法が記載してあります。",
+"Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." => "環境により、下のボタンで信頼するドメインに追加する必要があるかもしれません。",
+"Add \"%s\" as trusted domain" => "\"%s\" を信頼するドメイン名に追加",
 "%s will be updated to version %s." => "%s はバージョン %s にアップデートされました。",
 "The following apps will be disabled:" => "以下のアプリは無効です：",
 "The theme %s has been disabled." => "テーマ %s が無効になっています。",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "データベースを確認してください。実行前にconfigフォルダーとdataフォルダーをバックアップします。",
 "Start update" => "アップデートを開始",
-"This ownCloud instance is currently being updated, which may take a while." => "このownCloudインスタンスは現在アップデート中のため、しばらく時間がかかります。",
-"Please reload this page after a short time to continue using ownCloud." => "ownCloudを続けて利用するには、しばらく待ってからページを再読み込みしてください。"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "大規模なサイトの場合、ブラウザーがタイムアウトする可能性がある為、インストールディレクトリで次のコマンドを実行しても構いません。",
+"This ownCloud instance is currently being updated, which may take a while." => "このownCloudインスタンスは現在アップデート中のため、しばらく時間がかかります。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

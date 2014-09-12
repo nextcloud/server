@@ -142,7 +142,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Tai reiškia, kad tik administratorius gali naudotis sistema.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Susisiekite su savo sistemos administratoriumi jei šis pranešimas nedingsta arba jei jis pasirodė netikėtai.",
 "Thank you for your patience." => "Dėkojame už jūsų kantrumą.",
-"This ownCloud instance is currently being updated, which may take a while." => "Šiuo metu vyksta ownCloud atnaujinamas, tai gali šiek tiek užtrukti.",
-"Please reload this page after a short time to continue using ownCloud." => "Po trupučio laiko atnaujinkite šį puslapį kad galėtumėte toliau naudoti ownCloud."
+"This ownCloud instance is currently being updated, which may take a while." => "Šiuo metu vyksta ownCloud atnaujinamas, tai gali šiek tiek užtrukti."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);";

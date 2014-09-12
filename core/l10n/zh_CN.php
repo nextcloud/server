@@ -180,7 +180,6 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "%s 主题已被禁用。",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "在继续之前，请确认数据库、配置文件夹和数据文件夹已经备份。",
 "Start update" => "开始更新",
-"This ownCloud instance is currently being updated, which may take a while." => "当前ownCloud实例正在更新，可能需要一段时间。",
-"Please reload this page after a short time to continue using ownCloud." => "请稍后重新加载这个页面，以继续使用ownCloud。"
+"This ownCloud instance is currently being updated, which may take a while." => "当前ownCloud实例正在更新，可能需要一段时间。"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

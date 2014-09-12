@@ -186,7 +186,6 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Venligst sikrer dig en backup af databasen, config-mappen og data-mappen inden vi fortsætter.",
 "Start update" => "Begynd opdatering",
 "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
-"This ownCloud instance is currently being updated, which may take a while." => "Opdatere Owncloud, dette kan tage et stykke tid.",
-"Please reload this page after a short time to continue using ownCloud." => "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud."
+"This ownCloud instance is currently being updated, which may take a while." => "Opdatere Owncloud, dette kan tage et stykke tid."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

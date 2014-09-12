@@ -181,7 +181,6 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Téma %s bola zakázaná.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Pred vykonaním ďalšieho kroku sa presvedčte, že databáza, konfiguračný a dátový priečinok sú zazálohované.",
 "Start update" => "Spustiť aktualizáciu",
-"This ownCloud instance is currently being updated, which may take a while." => "Táto inštancia ownCloud sa práve aktualizuje, čo môže nejaký čas trvať.",
-"Please reload this page after a short time to continue using ownCloud." => "Prosím obnovte túto stránku a po krátkej dobe môžete pokračovať v používaní."
+"This ownCloud instance is currently being updated, which may take a while." => "Táto inštancia ownCloud sa práve aktualizuje, čo môže nejaký čas trvať."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

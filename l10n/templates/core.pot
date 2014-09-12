@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-11 01:54-0400\n"
+"POT-Creation-Date: 2014-09-12 03:27-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -716,7 +716,7 @@ msgstr ""
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.base.php:34 templates/layout.guest.php:36
+#: templates/layout.base.php:35 templates/layout.guest.php:37
 #: templates/layout.user.php:43
 msgid ""
 "This application requires JavaScript for correct operation. Please <a href="
@@ -840,5 +840,6 @@ msgid ""
 msgstr ""
 
 #: templates/update.user.php:4
-msgid "Please reload this page after a short time to continue using ownCloud."
+msgid ""
+"This page will refresh itself when the ownCloud instance is available again."
 msgstr ""

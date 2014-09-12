@@ -152,7 +152,6 @@ $TRANSLATIONS = array(
 "This means only administrators can use the instance." => "Ini berarti hanya administrator yang dapat menggunakan ownCloud.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
 "Thank you for your patience." => "Terima kasih atas kesabaran anda.",
-"This ownCloud instance is currently being updated, which may take a while." => "ownCloud ini sedang diperbarui, yang mungkin memakan waktu cukup lama.",
-"Please reload this page after a short time to continue using ownCloud." => "Muat ulang halaman ini setelah beberapa saat untuk tetap menggunakan ownCloud."
+"This ownCloud instance is currently being updated, which may take a while." => "ownCloud ini sedang diperbarui, yang mungkin memakan waktu cukup lama."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

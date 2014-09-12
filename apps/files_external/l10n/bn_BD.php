@@ -1,6 +1,9 @@
 <?php
 $TRANSLATIONS = array(
 "Please provide a valid Dropbox app key and secret." => "দয়া করে সঠিক এবং বৈধ Dropbox app key and secret প্রদান করুন।",
+"Step 1 failed. Exception: %s" => "প্রথম ধাপ ব্যার্থ। ব্যতিক্রম: %s",
+"External storage" => "বাহ্যিক সংরক্ষণাগার",
+"Local" => "স্থানীয়",
 "Location" => "অবস্থান",
 "Port" => "পোর্ট",
 "Region" => "এলাকা",

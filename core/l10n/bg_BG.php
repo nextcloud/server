@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLite ще бъде използван за база данни. За по-големи инсталации препоръчваме това да бъде променено.",
 "Finish setup" => "Завършване на настройките",
 "Finishing …" => "Завършване...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Програмата изисква JavaScript, за да функционира правилно. Моля, <a href=\"http://enable-javascript.com/\" target=\"_blank\">включи JavaScript</a> и презареди страницата.",
 "%s is available. Get more information on how to update." => "%s е на разположение. Прочети повече как да обновиш. ",
 "Log out" => "Отписване",
 "Server side authentication failed!" => "Заверяването в сървъра неуспешно!",
@@ -186,7 +187,6 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Моля, увери се, че си направил копия на базата данни, папките с настройки и данни, преди да продължиш.",
 "Start update" => "Започни обновяването",
 "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "За да избегнеш таймаутове при по-големи инсталации, можеш да изпълниш следните команди в инсталанционната директория:",
-"This ownCloud instance is currently being updated, which may take a while." => "В момента този ownCloud се обновява, а това може да отнеме време.",
-"Please reload this page after a short time to continue using ownCloud." => "Моля, презареди тази страница, след малко, за да продължиш да използваш ownCloud."
+"This ownCloud instance is currently being updated, which may take a while." => "В момента този ownCloud се обновява, а това може да отнеме време."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -186,7 +186,6 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Pred nadaljevanjem se prepričajte se, da je ustvarjena varnostna kopija podatkovne zbirke, nastavitvenih datotek in podatkovne mape.",
 "Start update" => "Začni posodobitev",
 "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Za razreševanje časovnih zahtev večjih namestitev lahko uporabite ukaz iz namestitvene mape:",
-"This ownCloud instance is currently being updated, which may take a while." => "Nastavitev oblaka ownCloud se trenutno posodablja. Opravilo je lahko dolgotrajno ...",
-"Please reload this page after a short time to continue using ownCloud." => "Ponovno naložite to stran po krajšem preteku časa in nadaljujte z uporabo oblaka ownCloud."
+"This ownCloud instance is currently being updated, which may take a while." => "Nastavitev oblaka ownCloud se trenutno posodablja. Opravilo je lahko dolgotrajno ..."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";
