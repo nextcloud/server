@@ -25,6 +25,10 @@ class StringUtils {
 	 */
 	public static function equals($expected, $input) {
 
+		if(!is_string($expected) || !is_string($input)) {
+			return false;
+		}
+
 		if(function_exists('hash_equals')) {
 			return hash_equals($expected, $input);
 		}
