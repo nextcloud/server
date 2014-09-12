@@ -166,7 +166,7 @@ function execute_tests {
 		mysql -u $DATABASEUSER -powncloud -e "DROP DATABASE $DATABASENAME"
 	fi
 	if [ "$1" == "pgsql" ] ; then
-		dropdb -U $DATABASEUSER $DATABASENAME
+		dropdb -U $DATABASEUSER $DATABASENAME || true
 	fi
 	if [ "$1" == "oci" ] ; then
 		echo "drop the database"
