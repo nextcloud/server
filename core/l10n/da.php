@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLite bliver brugt som database. For større installationer anbefaler vi at ændre dette.",
 "Finish setup" => "Afslut opsætning",
 "Finishing …" => "Færdigbehandler ...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Applikationen kræver JavaScript for at fungere korrekt. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Slå venligst JavaScript til</a> og genindlæs siden.",
 "%s is available. Get more information on how to update." => "%s er tilgængelig. Få mere information om, hvordan du opdaterer.",
 "Log out" => "Log ud",
 "Server side authentication failed!" => "Server side godkendelse mislykkedes!",
@@ -186,6 +187,7 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Venligst sikrer dig en backup af databasen, config-mappen og data-mappen inden vi fortsætter.",
 "Start update" => "Begynd opdatering",
 "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
-"This ownCloud instance is currently being updated, which may take a while." => "Opdatere Owncloud, dette kan tage et stykke tid."
+"This ownCloud instance is currently being updated, which may take a while." => "Opdatere Owncloud, dette kan tage et stykke tid.",
+"This page will refresh itself when the ownCloud instance is available again." => "Denne side vil genopfriske sig selv, når ownCloud-instancen er tilgængelig igen."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

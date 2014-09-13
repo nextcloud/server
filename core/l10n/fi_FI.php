@@ -186,6 +186,7 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Varmista ennen jatkamista, että tietokanta, asetuskansio ja datakansio on varmuuskopioitu.",
 "Start update" => "Käynnistä päivitys",
 "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Välttääksesi aikakatkaisuja suurikokoisten asennusten kanssa, voit suorittaa vaihtoehtoisesti seuraavan komennon asennushakemistossa:",
-"This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki."
+"This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki.",
+"This page will refresh itself when the ownCloud instance is available again." => "Tämä sivu päivittää itsensä, kun kyseinen ownCloud on jälleen käytettävissä."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
