@@ -247,7 +247,7 @@ class Proxy extends \OC_FileProxy {
 	 * @param resource $result
 	 * @return resource
 	 */
-	public function postFopen($path, &$result) {
+	public function postFopen($path, $result) {
 
 		$path = \OC\Files\Filesystem::normalizePath($path);
 
