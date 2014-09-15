@@ -33,17 +33,20 @@
 			?>
 		<?php endforeach; ?>
 	</head>
-	<body id="body-login">
+	<body id="<?php p($_['bodyid']);?>">
 		<noscript><div id="nojavascript"><div><?php print_unescaped($l->t('This application requires JavaScript for correct operation. Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and reload the page.')); ?></div></div></noscript>
 		<div class="wrapper"><!-- for sticky footer -->
 			<div class="v-align"><!-- vertically centred box -->
-				<header><div id="header">
-					<div class="logo svg"></div>
-					<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
-				</div></header>
-
+				<?php if ($_['bodyid'] === 'body-login' ): ?>
+					<header>
+						<div id="header">
+							<div class="logo svg"></div>
+							<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
+						</div>
+					</header>
+				<?php endif; ?>
 				<?php print_unescaped($_['content']); ?>
-			<div class="push"></div><!-- for sticky footer -->
+				<div class="push"></div><!-- for sticky footer -->
 			</div>
 		</div>
 
