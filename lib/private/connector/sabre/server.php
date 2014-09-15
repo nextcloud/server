@@ -38,6 +38,14 @@ class OC_Connector_Sabre_Server extends Sabre\DAV\Server {
 	 */
 	private $ignoreRangeHeader = false;
 
+	/**
+	 * @see \Sabre\DAV\Server
+	 */
+	public function __construct($treeOrNode = null) {
+		parent::__construct($treeOrNode);
+		self::$exposeVersion = false;
+	}
+
 	public function getRequestUri() {
 
 		if (!is_null($this->overLoadedUri)) {
