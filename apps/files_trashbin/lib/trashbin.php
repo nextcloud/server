@@ -799,7 +799,7 @@ class Trashbin {
 		foreach ($files as $file) {
 			$timestamp = $file['mtime'];
 			$filename = $file['name'];
-			if ($timestamp < $limit) {
+			if ($timestamp <= $limit) {
 				$count++;
 				$size += self::delete($filename, $user, $timestamp);
 				\OC_Log::write('files_trashbin', 'remove "' . $filename . '" from trash bin because it is older than ' . $retention_obligation, \OC_log::INFO);
