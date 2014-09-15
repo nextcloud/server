@@ -652,6 +652,12 @@ class OC_Image {
 		}
 		// create gd image
 		$im = imagecreatetruecolor($meta['width'], $meta['height']);
+		if ($im == FALSE) {
+			fclose($fh);
+			trigger_error('imagecreatefrombmp(): imagecreatetruecolor failed for file "' . $fileName . '" with dimensions ' . $meta['width'] . 'x' . $meta['height'], E_USER_WARNING);
+			return FALSE;
+		}
+
 		$data = fread($fh, $meta['imagesize']);
 		$p = 0;
 		$vide = chr(0);
