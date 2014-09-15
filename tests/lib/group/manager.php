@@ -369,17 +369,31 @@ class Manager extends \PHPUnit_Framework_TestCase {
                                 }
                         }));
 
+		$backend->expects($this->once())
+			->method('implementsActions')
+			->will($this->returnValue(true));
+
+		$backend->expects($this->once())
+			->method('countUsersInGroup')
+			->with('testgroup', '')
+			->will($this->returnValue(2));
+
 		/**
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
 		$userBackend = $this->getMock('\OC_User_Backend');
 
-		$userManager->expects($this->once())
+		$userManager->expects($this->any())
 			->method('search')
 			->with('user3')
-			->will($this->returnValue(array('user3' => new User('user3', $userBackend),
-                                                        'user33' => new User('user33', $userBackend))));
+			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
+                                switch($offset) {
+                                        case 0 : return array('user3' => new User('user3', $userBackend),
+                                                        'user33' => new User('user33', $userBackend));
+                                        case 2 : return array();
+                                }
+                        }));
 
 		$userManager->expects($this->any())
 			->method('get')
@@ -435,12 +449,16 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$userManager = $this->getMock('\OC\User\Manager');
 		$userBackend = $this->getMock('\OC_User_Backend');
 
-		$userManager->expects($this->once())
+		$userManager->expects($this->any())
 			->method('search')
 			->with('user3')
-			->will($this->returnValue(array('user3' => new User('user3', $userBackend),
-                                                        'user33' => new User('user33', $userBackend),
-                                                        'user333' => new User('user333', $userBackend))));
+			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
+                                switch($offset) {
+                                        case 0 : return array('user3' => new User('user3', $userBackend),
+                                                        'user33' => new User('user33', $userBackend));
+                                        case 2 : return array('user333' => new User('user333', $userBackend));
+                                }
+                        }));
 
 		$userManager->expects($this->any())
 			->method('get')
@@ -498,12 +516,16 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		$userManager = $this->getMock('\OC\User\Manager');
 		$userBackend = $this->getMock('\OC_User_Backend');
 
-		$userManager->expects($this->once())
+		$userManager->expects($this->any())
 			->method('search')
 			->with('user3')
-			->will($this->returnValue(array('user3' => new User('user3', $userBackend),
-                                                        'user33' => new User('user33', $userBackend),
-                                                        'user333' => new User('user333', $userBackend))));
+			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
+                                switch($offset) {
+                                        case 0 : return array('user3' => new User('user3', $userBackend),
+                                                        'user33' => new User('user33', $userBackend));
+                                        case 2 : return array('user333' => new User('user333', $userBackend));
+                                }
+                        }));
 
 		$userManager->expects($this->any())
 			->method('get')

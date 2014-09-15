@@ -214,12 +214,23 @@ class Manager extends PublicEmitter {
 
 		if(!empty($search)) {
 			// only user backends have the capability to do a complex search for users
-			$filteredUsers = $this->userManager->search($search);
-			foreach($filteredUsers as $filteredUser) {
-				if($group->inGroup($filteredUser)) {
-					$groupUsers []= $filteredUser;
-				}
+			$searchOffset = 0;
+			if($limit === -1) {
+				$searchLimit = $group->count('');
+			} else {
+				$searchLimit = $limit * 2;
 			}
+
+			do {
+				$filteredUsers = $this->userManager->search($search, $searchLimit, $searchOffset);
+				foreach($filteredUsers as $filteredUser) {
+					if($group->inGroup($filteredUser)) {
+						$groupUsers []= $filteredUser;
+					}
+				}
+				$searchOffset += $searchLimit;
+			} while(sizeof($groupUsers) < $searchLimit+$offset && sizeof($filteredUsers) > 0 && sizeof($filteredUsers) === $searchLimit);
+
 			if($limit === -1) {
 				$groupUsers = array_slice($groupUsers, $offset);
 			} else {
