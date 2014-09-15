@@ -334,7 +334,7 @@
 	#app-navigation .app-navigation-entry-edit input {
 		border-bottom-right-radius: 0;
 		border-top-right-radius: 0;
-		width: 190px;
+		width: 204px; /* fallback for IE8 */
 		width: calc(100% - 36px);
 		padding: 5px;
 		margin-right: 0;

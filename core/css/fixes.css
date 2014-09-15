@@ -105,3 +105,7 @@ select {
 	overflow-y: auto;
 }
 
+.ie8 #app-navigation .app-navigation-entry-edit input {
+	line-height: 38px;
+}
+
