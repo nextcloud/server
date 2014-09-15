@@ -35,6 +35,16 @@ function DeleteHandler(endpoint, paramID, markCallback, removeCallback) {
 }
 
 /**
+ * Number of milliseconds after which the operation is performed.
+ */
+DeleteHandler.TIMEOUT_MS = 7000;
+
+/**
+ * Timer after which the action will be performed anyway.
+ */
+DeleteHandler.prototype._timeout = null;
+
+/**
  * The function to be called after successfully marking the object for deletion
  * @callback markCallback
  * @param {string} oid the ID of the specific user or group
@@ -72,7 +82,9 @@ DeleteHandler.prototype.setNotification = function(notifier, dataID, message, un
 
 	var dh = this;
 
-	$('#notification').on('click', '.undo', function () {
+	$('#notification')
+		.off('click.deleteHandler_' + dataID)
+		.on('click.deleteHandler_' + dataID, '.undo', function () {
 		if ($('#notification').data(dh.notificationDataID)) {
 			var oid = dh.oidToDelete;
 			dh.cancel();
@@ -116,18 +128,36 @@ DeleteHandler.prototype.hideNotification = function() {
  */
 DeleteHandler.prototype.mark = function(oid) {
 	if(this.oidToDelete !== false) {
-		this.deleteEntry();
+		// passing true to avoid hiding the notification
+		// twice and causing the second notification
+		// to disappear immediately
+		this.deleteEntry(true);
 	}
 	this.oidToDelete = oid;
 	this.canceled = false;
 	this.markCallback(oid);
 	this.showNotification();
+	if (this._timeout) {
+		clearTimeout(this._timeout);
+		this._timeout = null;
+	}
+	if (DeleteHandler.TIMEOUT_MS > 0) {
+		this._timeout = window.setTimeout(
+				_.bind(this.deleteEntry, this),
+			   	DeleteHandler.TIMEOUT_MS
+		);
+	}
 };
 
 /**
  * cancels a delete operation
  */
 DeleteHandler.prototype.cancel = function() {
+	if (this._timeout) {
+		clearTimeout(this._timeout);
+		this._timeout = null;
+	}
+
 	this.canceled = true;
 	this.oidToDelete = false;
 };
@@ -137,15 +167,23 @@ DeleteHandler.prototype.cancel = function() {
  * initialized by mark(). On error, it will show a message via
  * OC.dialogs.alert. On success, a callback is fired so that the client can
  * update the web interface accordingly.
+ *
+ * @param {boolean} [keepNotification] true to keep the notification, false to hide
+ * it, defaults to false
  */
-DeleteHandler.prototype.deleteEntry = function() {
+DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 	if(this.canceled || this.oidToDelete === false) {
 		return false;
 	}
 
 	var dh = this;
-	if($('#notification').data(this.notificationDataID) === true) {
+	if(!keepNotification && $('#notification').data(this.notificationDataID) === true) {
 		dh.hideNotification();
+	}
+
+	if (this._timeout) {
+		clearTimeout(this._timeout);
+		this._timeout = null;
 	}
 
 	var payload = {};
@@ -153,6 +191,7 @@ DeleteHandler.prototype.deleteEntry = function() {
 	$.ajax({
 		type: 'POST',
 		url: OC.filePath('settings', 'ajax', dh.ajaxEndpoint),
+		// FIXME: do not use synchronous ajax calls as they block the browser !
 		async: false,
 		data: payload,
 		success: function (result) {
