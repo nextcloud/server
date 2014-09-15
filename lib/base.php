@@ -496,6 +496,9 @@ class OC {
 			require_once $vendorAutoLoad;
 		}
 
+		// initialize intl fallback is necessary
+		\Patchwork\Utf8\Bootup::initIntl();
+
 		if (!defined('PHPUNIT_RUN')) {
 			OC\Log\ErrorHandler::setLogger(OC_Log::$object);
 			if (defined('DEBUG') and DEBUG) {

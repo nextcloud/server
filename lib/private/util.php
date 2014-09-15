@@ -1402,13 +1402,11 @@ class OC_Util {
 	 * @return bool|string
 	 */
 	public static function normalizeUnicode($value) {
-		if (class_exists('Patchwork\PHP\Shim\Normalizer')) {
-			$normalizedValue = \Patchwork\PHP\Shim\Normalizer::normalize($value);
-			if ($normalizedValue === false) {
-				\OC_Log::write('core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
-			} else {
-				$value = $normalizedValue;
-			}
+		$normalizedValue = normalizer_normalize($value);
+		if ($normalizedValue === null || $normalizedValue === false) {
+			\OC_Log::write('core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
+		} else {
+			$value = $normalizedValue;
 		}
 
 		return $value;
