@@ -29,9 +29,10 @@ class Test_Share_Backend implements OCP\Share_Backend {
 
 	private $testItem1 = 'test.txt';
 	private $testItem2 = 'share.txt';
+	private $testId = 1;
 
 	public function isValidSource($itemSource, $uidOwner) {
-		if ($itemSource == $this->testItem1 || $itemSource == $this->testItem2) {
+		if ($itemSource == $this->testItem1 || $itemSource == $this->testItem2 || $itemSource == 1) {
 			return true;
 		}
 	}

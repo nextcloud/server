@@ -68,11 +68,34 @@ class Tags implements \OCP\ITags {
 	private $user;
 
 	/**
+	 * Are we including tags for shared items?
+	 *
+	 * @var bool
+	 */
+	private $includeShared = false;
+
+	/**
+	 * The current user, plus any owners of the items shared with the current
+	 * user, if $this->includeShared === true.
+	 *
+	 * @var array
+	 */
+	private $owners = array();
+
+	/**
 	 * The Mapper we're using to communicate our Tag objects to the database.
 	 *
 	 * @var TagMapper
 	 */
 	private $mapper;
+
+	/**
+	 * The sharing backend for objects of $this->type. Required if
+	 * $this->includeShared === true to determine ownership of items.
+	 *
+	 * @var \OCP\Share_Backend
+	 */
+	private $backend;
 
 	const TAG_TABLE = '*PREFIX*vcategory';
 	const RELATION_TABLE = '*PREFIX*vcategory_to_object';
@@ -86,11 +109,18 @@ class Tags implements \OCP\ITags {
 	* @param string $user The user whose data the object will operate on.
 	* @param string $type The type of items for which tags will be loaded.
 	* @param array $defaultTags Tags that should be created at construction.
+	* @param boolean $includeShared Whether to include tags for items shared with this user by others.
 	*/
-	public function __construct(TagMapper $mapper, $user, $type, $defaultTags = array()) {
+	public function __construct(TagMapper $mapper, $user, $type, $defaultTags = array(), $includeShared = false) {
 		$this->mapper = $mapper;
 		$this->user = $user;
 		$this->type = $type;
+		$this->includeShared = $includeShared;
+		$this->owners = array($this->user);
+		if ($this->includeShared) {
+			$this->owners = array_merge($this->owners, \OC\Share\Share::getSharedItemsOwners($this->user, $this->type, true));
+			$this->backend = \OC\Share\Share::getBackend($this->type);
+		}
 		$this->loadTags($defaultTags);
 	}
 
@@ -99,14 +129,13 @@ class Tags implements \OCP\ITags {
 	*
 	*/
 	protected function loadTags($defaultTags=array()) {
-		$this->tags = $this->mapper->loadTags(array($this->user), $this->type);
+		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
 
 		if(count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
 		}
 		\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
 			\OCP\Util::DEBUG);
-
 	}
 
 	/**
@@ -151,6 +180,21 @@ class Tags implements \OCP\ITags {
 		}
 		return $tagMap;
 
+	}
+
+	/**
+	* Return only the tags owned by the given user, omitting any tags shared
+	* by other users.
+	*
+	* @param string $user The user whose tags are to be checked.
+	* @return array An array of Tag objects.
+	*/
+	public function getTagsForUser($user) {
+		return array_filter($this->tags,
+			function($tag) use($user) {
+				return $tag->getOwner() === $user;
+			}
+		);
 	}
 
 	/**
@@ -200,7 +244,22 @@ class Tags implements \OCP\ITags {
 
 		if(!is_null($result)) {
 			while( $row = $result->fetchRow()) {
-				$ids[] = (int)$row['objid'];
+				$id = (int)$row['objid'];
+
+				if ($this->includeShared) {
+					// We have to check if we are really allowed to access the
+					// items that are tagged with $tag. To that end, we ask the
+					// corresponding sharing backend if the item identified by $id
+					// is owned by any of $this->owners.
+					foreach ($this->owners as $owner) {
+						if ($this->backend->isValidSource($id, $owner)) {
+							$ids[] = $id;
+							break;
+						}
+					}
+				} else {
+					$ids[] = $id;
+				}
 			}
 		}
 
@@ -208,9 +267,22 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
-	* Checks whether a tag is already saved.
+	* Checks whether a tag is saved for the given user,
+	* disregarding the ones shared with him or her.
 	*
-	* @param string $name The name to check for.
+	* @param string $name The tag name to check for.
+	* @param string $user The user whose tags are to be checked.
+	* @return bool
+	*/
+	public function userHasTag($name, $user) {
+		$key = $this->array_searchi($name, $this->getTagsForUser($user));
+		return ($key !== false) ? $this->tags[$key]->getId() : false;
+	}
+
+	/**
+	* Checks whether a tag is saved for or shared with the current user.
+	*
+	* @param string $name The tag name to check for.
 	* @return bool
 	*/
 	public function hasTag($name) {
@@ -230,7 +302,7 @@ class Tags implements \OCP\ITags {
 			\OCP\Util::writeLog('core', __METHOD__.', Cannot add an empty tag', \OCP\Util::DEBUG);
 			return false;
 		}
-		if($this->hasTag($name)) { // FIXME
+		if($this->userHasTag($name, $this->user)) {
 			\OCP\Util::writeLog('core', __METHOD__.', name: ' . $name. ' exists already', \OCP\Util::DEBUG);
 			return false;
 		}
@@ -263,7 +335,11 @@ class Tags implements \OCP\ITags {
 			return false;
 		}
 
-		$key = $this->array_searchi($from, $this->tags); // FIXME: owner. or renameById() ?
+		if (is_numeric($from)) {
+			$key = $this->getTagById($from);
+		} else {
+			$key = $this->getTagByName($from);
+		}
 		if($key === false) {
 			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', \OCP\Util::DEBUG);
 			return false;
@@ -285,7 +361,7 @@ class Tags implements \OCP\ITags {
 	* Add a list of new tags.
 	*
 	* @param string[] $names A string with a name or an array of strings containing
-	* the name(s) of the to add.
+	* the name(s) of the tag(s) to add.
 	* @param bool $sync When true, save the tags
 	* @param int|null $id int Optional object id to add to this|these tag(s)
 	* @return bool Returns false on error.
@@ -467,7 +543,7 @@ class Tags implements \OCP\ITags {
 	* @return boolean
 	*/
 	public function addToFavorites($objid) {
-		if(!$this->hasTag(self::TAG_FAVORITE)) {
+		if(!$this->userHasTag(self::TAG_FAVORITE, $this->user)) {
 			$this->add(self::TAG_FAVORITE);
 		}
 		return $this->tagAs($objid, self::TAG_FAVORITE);
@@ -554,7 +630,7 @@ class Tags implements \OCP\ITags {
 	/**
 	* Delete tags from the database.
 	*
-	* @param string[] $names An array of tags to delete
+	* @param string[] $names An array of tags (names or IDs) to delete
 	* @return bool Returns false on error
 	*/
 	public function delete($names) {
@@ -570,8 +646,12 @@ class Tags implements \OCP\ITags {
 		foreach($names as $name) {
 			$id = null;
 
-			if($this->hasTag($name)) {
-				$key = $this->array_searchi($name, $this->tags);
+			if (is_numeric($name)) {
+				$key = $this->getTagById($name);
+			} else {
+				$key = $this->getTagByName($name);
+			}
+			if ($key !== false) {
 				$tag = $this->tags[$key];
 				$id = $tag->getId();
 				unset($this->tags[$key]);
@@ -618,12 +698,35 @@ class Tags implements \OCP\ITags {
 	* Get a tag's ID.
 	*
 	* @param string $name The tag name to look for.
-	* @return string The tag's id or false if it hasn't been saved yet.
+	* @return string|bool The tag's id or false if no matching tag is found.
 	*/
 	private function getTagId($name) {
-		if (($key = $this->array_searchi($name, $this->tags)) === false) {
-			return false;
+		$key = $this->array_searchi($name, $this->tags);
+		if ($key !== false) {
+			return $this->tags[$key]->getId();
 		}
-		return $this->tags[$key]->getId();
+		return false;
+	}
+
+	/**
+	* Get a tag by its name.
+	*
+	* @param string $name The tag name.
+	* @return integer|bool The tag object's offset within the $this->tags
+	*                      array or false if it doesn't exist.
+	*/
+	private function getTagByName($name) {
+		return $this->array_searchi($name, $this->tags, 'getName');
+	}
+
+	/**
+	* Get a tag by its ID.
+	*
+	* @param string $id The tag ID to look for.
+	* @return integer|bool The tag object's offset within the $this->tags
+	*                      array or false if it doesn't exist.
+	*/
+	private function getTagById($id) {
+		return $this->array_searchi($id, $this->tags, 'getId');
 	}
 }

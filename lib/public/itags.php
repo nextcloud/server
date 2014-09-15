@@ -85,6 +85,16 @@ interface ITags {
 	public function hasTag($name);
 
 	/**
+	* Checks whether a tag is saved for the given user,
+	* disregarding the ones shared with him or her.
+	*
+	* @param string $name The tag name to check for.
+	* @param string $user The user whose tags are to be checked.
+	* @return bool
+	*/
+	public function userHasTag($name, $user);
+
+	/**
 	* Add a new tag.
 	*
 	* @param string $name A string with a name of the tag

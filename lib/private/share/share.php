@@ -1181,7 +1181,7 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 		// TODO Add option for collections to be collection of themselves, only 'folder' does it now...
-		if (!self::getBackend($itemType) instanceof \OCP\Share_Backend_Collection || $itemType != 'folder') {
+		if (isset(self::$backendTypes[$itemType]) && (!self::getBackend($itemType) instanceof \OCP\Share_Backend_Collection || $itemType != 'folder')) {
 			unset($collectionTypes[0]);
 		}
 		// Return array if collections were found or the item type is a
@@ -1190,6 +1190,57 @@ class Share extends \OC\Share\Constants {
 			return $collectionTypes;
 		}
 		return false;
+	}
+
+	/**
+	* Get the owners of items shared with a user.
+	*
+	* @param string $user The user the items are shared with.
+	* @param string $type The type of the items shared with the user.
+	* @param boolean $includeCollections Include collection item types (optional)
+	* @param boolean $includeOwner include owner in the list of users the item is shared with (optional)
+	* @return array
+	*/
+	public static function getSharedItemsOwners($user, $type, $includeCollections = false, $includeOwner = false) {
+		// First, we find out if $type is part of a collection (and if that collection is part of
+		// another one and so on).
+		$collectionTypes = array();
+		if (!$includeCollections || !$collectionTypes = self::getCollectionItemTypes($type)) {
+			$collectionTypes[] = $type;
+		}
+
+		// Of these collection types, along with our original $type, we make a
+		// list of the ones for which a sharing backend has been registered.
+		// FIXME: Ideally, we wouldn't need to nest getItemsSharedWith in this loop but just call it
+		// with its $includeCollections parameter set to true. Unfortunately, this fails currently.
+		$allMaybeSharedItems = array();
+		foreach ($collectionTypes as $collectionType) {
+			if (isset(self::$backends[$collectionType])) {
+				$allMaybeSharedItems[$collectionType] = self::getItemsSharedWithUser(
+					$collectionType,
+					$user,
+					self::FORMAT_NONE
+				);
+			}
+		}
+
+		$owners = array();
+		if ($includeOwner) {
+			$owners[] = $user;
+		}
+
+		// We take a look at all shared items of the given $type (or of the collections it is part of)
+		// and find out their owners. Then, we gather the tags for the original $type from all owners,
+		// and return them as elements of a list that look like "Tag (owner)".
+		foreach ($allMaybeSharedItems as $collectionType => $maybeSharedItems) {
+			foreach ($maybeSharedItems as $sharedItem) {
+				if (isset($sharedItem['id'])) { //workaround for https://github.com/owncloud/core/issues/2814
+					$owners[] = $sharedItem['uid_owner'];
+				}
+			}
+		}
+
+		return $owners;
 	}
 
 	/**

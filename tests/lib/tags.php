@@ -195,4 +195,28 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $tagger->getFavorites());
 	}
 
+	public function testShareTags() {
+		$test_tag = 'TestTag';
+		OCP\Share::registerBackend('test', 'Test_Share_Backend');
+
+		$tagger = $this->tagMgr->load('test');
+		$tagger->tagAs(1, $test_tag);
+
+		$other_user = uniqid('user2_');
+		OC_User::createUser($other_user, 'pass');
+
+		OC_User::setUserId($other_user);
+		$other_tagMgr = new OC\TagManager($this->tagMapper, $other_user);
+		$other_tagger = $other_tagMgr->load('test');
+		$this->assertFalse($other_tagger->hasTag($test_tag));
+
+		OC_User::setUserId($this->user);
+		OCP\Share::shareItem('test', 1, OCP\Share::SHARE_TYPE_USER, $other_user, OCP\PERMISSION_READ);
+
+		OC_User::setUserId($other_user);
+		$other_tagger = $other_tagMgr->load('test', array(), true); // Update tags, load shared ones.
+		$this->assertTrue($other_tagger->hasTag($test_tag));
+		$this->assertContains(1, $other_tagger->getIdsForTag($test_tag));
+	}
+
 }
