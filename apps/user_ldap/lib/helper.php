@@ -172,7 +172,7 @@ class Helper {
 	}
 
 	/**
-	 * extractsthe domain from a given URL
+	 * extracts the domain from a given URL
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
 	 */
