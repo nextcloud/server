@@ -1526,6 +1526,22 @@ class Util {
 	}
 
 	/**
+	 * create a backup of all keys from the user
+	 *
+	 * @param string $purpose (optional) define the purpose of the backup, will be part of the backup folder
+	 */
+	public function backupAllKeys($purpose = '') {
+		$this->userId;
+		$backupDir = $this->encryptionDir . '/backup.';
+		$backupDir .= ($purpose === '') ? date("Y-m-d_H-i-s") . '/' : $purpose . '.' . date("Y-m-d_H-i-s") . '/';
+		$this->view->mkdir($backupDir);
+		$this->view->copy($this->shareKeysPath, $backupDir . 'share-keys/');
+		$this->view->copy($this->keyfilesPath, $backupDir . 'keyfiles/');
+		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.private.key');
+		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.public.key');
+	}
+
+	/**
 	 * check if the file is stored on a system wide mount point
 	 * @param string $path relative to /data/user with leading '/'
 	 * @return boolean

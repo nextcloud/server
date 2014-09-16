@@ -426,6 +426,48 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * test if all keys get moved to the backup folder correctly
+	 */
+	function testBackupAllKeys() {
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
+
+		// create some dummy key files
+		$encPath = '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '/files_encryption';
+		$this->view->file_put_contents($encPath . '/keyfiles/foo.key', 'key');
+		$this->view->file_put_contents($encPath . '/share-keys/foo.user1.shareKey', 'share key');
+
+		$util = new \OCA\Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
+
+		$util->backupAllKeys('testing');
+
+		$encFolderContent = $this->view->getDirectoryContent($encPath);
+
+		$backupPath = '';
+		foreach ($encFolderContent as $c) {
+			$name = $c['name'];
+			if (substr($name, 0, strlen('backup'))  === 'backup') {
+				$backupPath = $encPath . '/'. $c['name'];
+				break;
+			}
+		}
+
+		$this->assertTrue($backupPath !== '');
+
+		// check backupDir Content
+		$this->assertTrue($this->view->is_dir($backupPath . '/keyfiles'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/share-keys'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keyfiles/foo.key'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/share-keys/foo.user1.shareKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.private.key'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.public.key'));
+
+		//cleanup
+		$this->view->deleteAll($backupPath);
+		$this->view->unlink($encPath . '/keyfiles/foo.key', 'key');
+		$this->view->unlink($encPath . '/share-keys/foo.user1.shareKey', 'share key');
+	}
+
 
 	function testDescryptAllWithBrokenFiles() {
 

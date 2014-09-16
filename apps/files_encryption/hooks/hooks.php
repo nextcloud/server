@@ -242,6 +242,9 @@ class Hooks {
 						|| !$util->userKeysExists()
 						|| !$view->file_exists($user . '/files')) {
 
+					// backup old keys
+					$util->backupAllKeys('recovery');
+
 					$newUserPassword = $params['password'];
 
 					// make sure that the users home is mounted
