@@ -27,6 +27,11 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	 */
 	private $table3;
 
+	/**
+	 * @var string
+	 */
+	private $table4;
+
 	public function setUp() {
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
