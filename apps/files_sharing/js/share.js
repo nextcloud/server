@@ -21,7 +21,8 @@
 					var sharePermissions = fileData.permissions;
 					if (fileData.mountType && fileData.mountType === "external-root"){
 						// for external storages we cant use the permissions of the mountpoint
-						sharePermissions = OC.PERMISSION_ALL;
+						// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
+						sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
 					}
 					if (fileData.type === 'file') {
 						// files can't be shared with delete permissions
