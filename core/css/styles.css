@@ -815,6 +815,11 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 .extra-data {
 	padding-right: 5px !important;
 }
+.tipsy-inner {
+	max-width: 400px !important;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
 
 /* ---- TAGS ---- */
 #tagsdialog .content {
