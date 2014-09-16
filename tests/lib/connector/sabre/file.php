@@ -56,6 +56,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(123456));
 
 		$_SERVER['CONTENT_LENGTH'] = 123456;
+		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
 			'permissions' => \OCP\PERMISSION_ALL
@@ -133,6 +134,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(123456));
 
 		$_SERVER['CONTENT_LENGTH'] = 12345;
+		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
 			'permissions' => \OCP\PERMISSION_ALL
