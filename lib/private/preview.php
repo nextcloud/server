@@ -15,6 +15,7 @@ namespace OC;
 
 use OC\Files\Filesystem;
 use OC\Preview\Provider;
+use OCP\Files\NotFoundException;
 
 require_once 'preview/image.php';
 require_once 'preview/movies.php';
@@ -109,6 +110,11 @@ class Preview {
 		if (empty(self::$providers)) {
 			\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
 			throw new \Exception('No preview providers');
+		}
+
+		// Check if file is valid
+		if($this->isFileValid() === false) {
+			throw new NotFoundException('File not found.');
 		}
 	}
 
