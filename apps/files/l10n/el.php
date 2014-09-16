@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Άγνωστο σφάλμα",
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
+"Permission denied" => "Η πρόσβαση απορρίφθηκε",
 "File name cannot be empty." => "Το όνομα αρχείου δεν μπορεί να είναι κενό.",
 "\"%s\" is an invalid file name." => "Το \"%s\" είναι ένα μη έγκυρο όνομα αρχείου.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται.",

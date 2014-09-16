@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "test email settings" => "ইমেইল নিয়ামকসমূহ পরীক্ষা করুন",
 "If you received this email, the settings seem to be correct." => "এই ইমেইলের অর্থ নিয়ামকসমূহ সঠিক।",
 "Email sent" => "ই-মেইল পাঠানো হয়েছে",
+"Send mode" => "পাঠানো মোড",
 "Encryption" => "সংকেতায়ন",
 "Unable to load list from App Store" => "অ্যাপস্টোর থেকে তালিকা লোড করতে সক্ষম নয়",
 "Authentication error" => "অনুমোদন ঘটিত সমস্যা",

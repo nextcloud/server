@@ -4,6 +4,7 @@ $TRANSLATIONS = array(
 "Turned on maintenance mode" => "রক্ষণাবেক্ষণ মোড চালু হয়েছে",
 "Turned off maintenance mode" => "রক্ষণাবেক্ষণ মোড বন্ধ হয়েছে",
 "Updated database" => "ডাটাবেজ নবায়ন করা হয়েছে",
+"No image or file provided" => "কোন ইমেজ বা ফাইল প্রদান করা হয়নি",
 "Unknown filetype" => "অজানা প্রকৃতির ফাইল",
 "Invalid image" => "অবৈধ চিত্র",
 "Sunday" => "রবিবার",

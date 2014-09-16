@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "অজানা জটিলতা",
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
+"Permission denied" => "অনুমতি দেয়া হয়নি",
 "File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
 "\"%s\" is an invalid file name." => "\"%s\" টি একটি অননুমোদিত ফাইল নাম।",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",

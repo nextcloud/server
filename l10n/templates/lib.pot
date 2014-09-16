@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-15 01:54-0400\n"
+"POT-Creation-Date: 2014-09-16 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,11 @@ msgid ""
 "config directory%s."
 msgstr ""
 
-#: base.php:584
+#: base.php:587
 msgid "Sample configuration detected"
 msgstr ""
 
-#: base.php:585
+#: base.php:588
 msgid ""
 "It has been detected that the sample configuration has been copied. This can "
 "break your installation and is unsupported. Please read the documentation "
