@@ -493,90 +493,62 @@ class OC_Util {
 			);
 		}
 
+		// Contains the dependencies that should be checked against
+		// classes = class_exists
+		// functions = function_exists
+		// defined = defined
+		// If the dependency is not found the missing module name is shown to the EndUser
+		$dependencies = array(
+			'classes' => array(
+				'ZipArchive' => 'zip',
+				'DOMDocument' => 'dom',
+			),
+			'functions' => array(
+				'xml_parser_create' => 'libxml',
+				'mb_detect_encoding' => 'mb multibyte',
+				'ctype_digit' => 'ctype',
+				'json_encode' => 'JSON',
+				'gd_info' => 'GD',
+				'gzencode' => 'zlib',
+				'iconv' => 'iconv',
+				'simplexml_load_string' => 'SimpleXML'
+			),
+			'defined' => array(
+				'PDO::ATTR_DRIVER_NAME' => 'PDO'
+			)
+		);
+		$missingDependencies = array();
 		$moduleHint = $l->t('Please ask your server administrator to install the module.');
-		// check if all required php modules are present
-		if (!class_exists('ZipArchive')) {
+
+		foreach ($dependencies['classes'] as $class => $module) {
+			if (!class_exists($class)) {
+				$missingDependencies[] = $module;
+			}
+		}
+		foreach ($dependencies['functions'] as $function => $module) {
+			if (!function_exists($function)) {
+				$missingDependencies[] = $module;
+			}
+		}
+		foreach ($dependencies['defined'] as $defined => $module) {
+			if (!defined($defined)) {
+				$missingDependencies[] = $module;
+			}
+		}
+
+		foreach($missingDependencies as $missingDependency) {
 			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('zip')),
+				'error' => $l->t('PHP module %s not installed.', array($missingDependency)),
 				'hint' => $moduleHint
 			);
 			$webServerRestart = true;
 		}
-		if (!class_exists('DOMDocument')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('dom')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('xml_parser_create')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('libxml')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('mb_detect_encoding')) {
-			$errors[] = array(
-				'error' => 'PHP module mb multibyte not installed.',
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('ctype_digit')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('ctype')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('json_encode')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('JSON')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!extension_loaded('gd') || !function_exists('gd_info')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('GD')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('gzencode')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('zlib')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('iconv')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('iconv')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
-		if (!function_exists('simplexml_load_string')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('SimpleXML')),
-				'hint' => $moduleHint
-			);
-			$webServerRestart = true;
-		}
+
 		if (version_compare(phpversion(), '5.3.3', '<')) {
 			$errors[] = array(
 				'error' => $l->t('PHP %s or higher is required.', '5.3.3'),
 				'hint' => $l->t('Please ask your server administrator to update PHP to the latest version.'
 					. ' Your PHP version is no longer supported by ownCloud and the PHP community.')
-			);
-			$webServerRestart = true;
-		}
-		if (!defined('PDO::ATTR_DRIVER_NAME')) {
-			$errors[] = array(
-				'error' => $l->t('PHP module %s not installed.', array('PDO')),
-				'hint' => $moduleHint
 			);
 			$webServerRestart = true;
 		}
