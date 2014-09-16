@@ -679,6 +679,7 @@ label.infield {
 #body-login .wrapper {
 	min-height: 100%;
 	margin: 0 auto -70px;
+	width: 300px;
 }
 #body-login footer, #body-login .push {
 	height: 70px;
