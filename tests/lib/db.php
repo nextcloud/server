@@ -283,4 +283,35 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$result = $query->execute(array('foobar'));
 		$this->assertCount(1, $result->fetchAll());
 	}
+
+	public function testILIKEWildcard() {
+		$table = "*PREFIX*{$this->table2}";
+
+		$query = OC_DB::prepare("INSERT INTO `$table` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)");
+		$query->execute(array('FooBAR', 'foo', 'bar'));
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` LIKE ?");
+		$result = $query->execute(array('%bar'));
+		$this->assertCount(0, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` LIKE ?");
+		$result = $query->execute(array('foo%'));
+		$this->assertCount(0, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` LIKE ?");
+		$result = $query->execute(array('%ba%'));
+		$this->assertCount(0, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
+		$result = $query->execute(array('%bar'));
+		$this->assertCount(1, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
+		$result = $query->execute(array('foo%'));
+		$this->assertCount(1, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
+		$result = $query->execute(array('%ba%'));
+		$this->assertCount(1, $result->fetchAll());
+	}
 }
