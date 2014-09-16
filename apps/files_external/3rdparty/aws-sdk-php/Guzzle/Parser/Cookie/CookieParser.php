@@ -36,7 +36,7 @@ class CookieParser implements CookieParserInterface
         $data = array_merge(array_fill_keys(array_keys(self::$cookieParts), null), array(
             'cookies'   => array(),
             'data'      => array(),
-            'path'      => $path ?: '/',
+            'path'      => null,
             'http_only' => false,
             'discard'   => false,
             'domain'    => $host
@@ -81,6 +81,51 @@ class CookieParser implements CookieParserInterface
             $data['expires'] = time() + (int) $data['max_age'];
         }
 
+        // Check path attribute according RFC6265 http://tools.ietf.org/search/rfc6265#section-5.2.4
+        // "If the attribute-value is empty or if the first character of the
+        // attribute-value is not %x2F ("/"):
+        //   Let cookie-path be the default-path.
+        // Otherwise:
+        //   Let cookie-path be the attribute-value."
+        if (!$data['path'] || substr($data['path'], 0, 1) !== '/') {
+            $data['path'] = $this->getDefaultPath($path);
+        }
+
         return $data;
+    }
+
+    /**
+     * Get default cookie path according to RFC 6265
+     * http://tools.ietf.org/search/rfc6265#section-5.1.4 Paths and Path-Match
+     *
+     * @param string $path Request uri-path
+     *
+     * @return string
+     */
+    protected function getDefaultPath($path) {
+        // "The user agent MUST use an algorithm equivalent to the following algorithm
+        // to compute the default-path of a cookie:"
+
+        // "2. If the uri-path is empty or if the first character of the uri-path is not
+        // a %x2F ("/") character, output %x2F ("/") and skip the remaining steps.
+        if (empty($path) || substr($path, 0, 1) !== '/') {
+            return '/';
+        }
+
+        // "3. If the uri-path contains no more than one %x2F ("/") character, output
+        // %x2F ("/") and skip the remaining step."
+        if ($path === "/") {
+            return $path;
+        }
+
+        $rightSlashPos = strrpos($path, '/');
+        if ($rightSlashPos === 0) {
+            return "/";
+        }
+
+        // "4. Output the characters of the uri-path from the first character up to,
+        // but not including, the right-most %x2F ("/")."
+        return substr($path, 0, $rightSlashPos);
+
     }
 }

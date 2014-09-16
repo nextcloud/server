@@ -29,6 +29,6 @@ class MonologLogAdapter extends AbstractLogAdapter
 
     public function log($message, $priority = LOG_INFO, $extras = array())
     {
-        $this->log->addRecord(self::$mapping[$priority], $message);
+        $this->log->addRecord(self::$mapping[$priority], $message, $extras);
     }
 }

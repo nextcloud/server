@@ -48,9 +48,16 @@ class CurlHandle
         $method = $request->getMethod();
         $bodyAsString = $requestCurlOptions->get(self::BODY_AS_STRING);
 
+        // Prepare url
+        $url = (string)$request->getUrl();
+        if(($pos = strpos($url, '#')) !== false ){
+            // strip fragment from url
+            $url = substr($url, 0, $pos);
+        }
+
         // Array of default cURL options.
         $curlOptions = array(
-            CURLOPT_URL            => $request->getUrl(),
+            CURLOPT_URL            => $url,
             CURLOPT_CONNECTTIMEOUT => 150,
             CURLOPT_RETURNTRANSFER => false,
             CURLOPT_HEADER         => false,
@@ -200,6 +207,12 @@ class CurlHandle
             $curlOptions[CURLOPT_PROGRESSFUNCTION] = function () use ($mediator, $handle) {
                 $args = func_get_args();
                 $args[] = $handle;
+
+                // PHP 5.5 pushed the handle onto the start of the args
+                if (is_resource($args[0])) {
+                    array_shift($args);
+                }
+
                 call_user_func_array(array($mediator, 'progress'), $args);
             };
             $curlOptions[CURLOPT_NOPROGRESS] = false;

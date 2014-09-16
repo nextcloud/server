@@ -68,7 +68,7 @@ class RedirectPlugin implements EventSubscriberInterface
         // Trace the original request based on parameter history
         $original = $this->getOriginalRequest($request);
 
-        // Terminating condition to set the effective repsonse on the original request
+        // Terminating condition to set the effective response on the original request
         if (!$response->isRedirect() || !$response->hasHeader('Location')) {
             if ($request !== $original) {
                 // This is a terminating redirect response, so set it on the original request
@@ -123,9 +123,9 @@ class RedirectPlugin implements EventSubscriberInterface
         $redirectRequest = null;
         $strict = $original->getParams()->get(self::STRICT_REDIRECTS);
 
-        // Use a GET request if this is an entity enclosing request and we are not forcing RFC compliance, but rather
-        // emulating what all browsers would do
-        if ($request instanceof EntityEnclosingRequestInterface && !$strict && $statusCode <= 302) {
+        // Switch method to GET for 303 redirects.  301 and 302 redirects also switch to GET unless we are forcing RFC
+        // compliance to emulate what most browsers do.  NOTE: IE only switches methods on 301/302 when coming from a POST.
+        if ($request instanceof EntityEnclosingRequestInterface && ($statusCode == 303 || (!$strict && $statusCode <= 302))) {
             $redirectRequest = RequestFactory::getInstance()->cloneRequestWithMethod($request, 'GET');
         } else {
             $redirectRequest = clone $request;
@@ -141,7 +141,7 @@ class RedirectPlugin implements EventSubscriberInterface
             $originalUrl = $redirectRequest->getUrl(true);
             // Remove query string parameters and just take what is present on the redirect Location header
             $originalUrl->getQuery()->clear();
-            $location = $originalUrl->combine((string) $location);
+            $location = $originalUrl->combine((string) $location, true);
         }
 
         $redirectRequest->setUrl($location);
@@ -174,7 +174,7 @@ class RedirectPlugin implements EventSubscriberInterface
     /**
      * Prepare the request for redirection and enforce the maximum number of allowed redirects per client
      *
-     * @param RequestInterface $original  Origina request
+     * @param RequestInterface $original  Original request
      * @param RequestInterface $request   Request to prepare and validate
      * @param Response         $response  The current response
      *

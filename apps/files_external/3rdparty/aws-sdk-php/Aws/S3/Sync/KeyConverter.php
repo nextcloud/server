@@ -37,20 +37,31 @@ class KeyConverter implements FilenameConverterInterface
      */
     public function __construct($baseDir = '', $prefix = '', $delimiter = '/')
     {
-        $this->baseDir = $baseDir;
+        $this->baseDir = (string) $baseDir;
         $this->prefix = $prefix;
         $this->delimiter = $delimiter;
     }
 
     public function convert($filename)
     {
-        // Remove base directory from the key
-        $key = str_replace($this->baseDir, '', $filename);
+        $key = $filename;
+
+        // Remove base directory from the key (only the first occurrence)
+        if ($this->baseDir && (false !== $pos = strpos($filename, $this->baseDir))) {
+            $key = substr_replace($key, '', $pos, strlen($this->baseDir));
+        }
+
         // Replace Windows directory separators to become Unix style, and convert that to the custom dir separator
         $key = str_replace('/', $this->delimiter, str_replace('\\', '/', $key));
-        // Add the key prefix and remove double slashes
-        $key = str_replace($this->delimiter . $this->delimiter, $this->delimiter, $this->prefix . $key);
 
-        return ltrim($key, $this->delimiter);
+        // Add the key prefix and remove double slashes that are not in the protocol (e.g. prefixed with ":")
+        $delim = preg_quote($this->delimiter);
+        $key = preg_replace(
+            "#(?<!:){$delim}{$delim}#",
+            $this->delimiter,
+            $this->prefix . $key
+        );
+
+        return $key;
     }
 }

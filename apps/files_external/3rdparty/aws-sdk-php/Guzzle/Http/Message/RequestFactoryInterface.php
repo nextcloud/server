@@ -88,6 +88,12 @@ interface RequestFactoryInterface
      *            indefinitely.
      *        "verify": Set to true to enable SSL cert validation (the default), false to disable, or supply the path
      *            to a CA bundle to enable verification using a custom certificate.
+     *        "cert": Set to a string to specify the path to a file containing a PEM formatted certificate. If a
+     *            password is required, then set an array containing the path to the PEM file followed by the the
+     *            password required for the certificate.
+     *        "ssl_key": Specify the path to a file containing a private SSL key in PEM format. If a password is
+     *            required, then set an array containing the path to the SSL key followed by the password required for
+     *            the certificate.
      *        "proxy": Specify an HTTP proxy (e.g. "http://username:password@192.168.16.1:10")
      *        "debug": Set to true to display all data sent over the wire
      * @param int $flags Bitwise flags to apply when applying the options to the request. Defaults to no special

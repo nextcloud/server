@@ -35,7 +35,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->event = new Event;
+        $this->event = new Event();
         $this->dispatcher = new EventDispatcher();
     }
 
@@ -46,7 +46,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->event = null;
-        $this->eventDispatcher = null;
+        $this->dispatcher = null;
     }
 
     public function testIsPropagationStopped()

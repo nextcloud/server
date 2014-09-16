@@ -17,10 +17,8 @@
 namespace Aws\S3\Sync;
 
 use Aws\S3\S3Client;
-use Aws\S3\Model\MultipartUpload\AbstractTransfer;
 use Guzzle\Common\AbstractHasDispatcher;
 use Guzzle\Common\Collection;
-use Guzzle\Http\EntityBody;
 use Guzzle\Iterator\ChunkedIterator;
 use Guzzle\Service\Command\CommandInterface;
 

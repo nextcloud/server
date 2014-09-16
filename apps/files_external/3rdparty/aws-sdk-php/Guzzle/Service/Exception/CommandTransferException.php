@@ -23,10 +23,28 @@ class CommandTransferException extends MultiTransferException
     public static function fromMultiTransferException(MultiTransferException $e)
     {
         $ce = new self($e->getMessage(), $e->getCode(), $e->getPrevious());
+        $ce->setSuccessfulRequests($e->getSuccessfulRequests());
 
-        return $ce->setExceptions($e->getIterator()->getArrayCopy())
-            ->setSuccessfulRequests($e->getSuccessfulRequests())
-            ->setFailedRequests($e->getFailedRequests());
+        $alreadyAddedExceptions = array();
+        foreach ($e->getFailedRequests() as $request) {
+            if ($re = $e->getExceptionForFailedRequest($request)) {
+                $alreadyAddedExceptions[] = $re;
+                $ce->addFailedRequestWithException($request, $re);
+            } else {
+                $ce->addFailedRequest($request);
+            }
+        }
+
+        // Add any exceptions that did not map to a request
+        if (count($alreadyAddedExceptions) < count($e)) {
+            foreach ($e as $ex) {
+                if (!in_array($ex, $alreadyAddedExceptions)) {
+                    $ce->add($ex);
+                }
+            }
+        }
+
+        return $ce;
     }
 
     /**
@@ -85,5 +103,17 @@ class CommandTransferException extends MultiTransferException
     public function getFailedCommands()
     {
         return $this->failedCommands;
+    }
+
+    /**
+     * Get the Exception that caused the given $command to fail
+     *
+     * @param CommandInterface $command Failed command
+     *
+     * @return \Exception|null
+     */
+    public function getExceptionForFailedCommand(CommandInterface $command)
+    {
+        return $this->getExceptionForFailedRequest($command->getRequest());
     }
 }

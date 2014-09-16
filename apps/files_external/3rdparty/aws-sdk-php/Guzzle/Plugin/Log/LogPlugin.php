@@ -8,7 +8,6 @@ use Guzzle\Log\MessageFormatter;
 use Guzzle\Log\ClosureLogAdapter;
 use Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\EntityEnclosingRequestInterface;
-use Guzzle\Http\Message\Response;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -21,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class LogPlugin implements EventSubscriberInterface
 {
     /** @var LogAdapterInterface Adapter responsible for writing log data */
-    private $logAdapter;
+    protected $logAdapter;
 
     /** @var MessageFormatter Formatter used to format messages before logging */
     protected $formatter;

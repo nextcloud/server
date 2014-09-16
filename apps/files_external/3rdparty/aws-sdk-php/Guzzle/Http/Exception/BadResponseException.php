@@ -32,7 +32,6 @@ class BadResponseException extends RequestException
         } else {
             $label = 'Unsuccessful response';
             $class = __CLASS__;
-            $e = new self();
         }
 
         $message = $label . PHP_EOL . implode(PHP_EOL, array(

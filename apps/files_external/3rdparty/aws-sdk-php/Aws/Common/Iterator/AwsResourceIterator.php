@@ -32,7 +32,8 @@ class AwsResourceIterator extends ResourceIterator
     protected $lastResult = null;
 
     /**
-     * Provides access to the most recent result obtained by the iterator.
+     * Provides access to the most recent result obtained by the iterator. This makes it easier to extract any
+     * additional information from the result which you do not have access to from the values emitted by the iterator
      *
      * @return Model|null
      */
@@ -71,45 +72,37 @@ class AwsResourceIterator extends ResourceIterator
         return $resources;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepareRequest()
     {
         // Get the limit parameter key to set
-        $param = $this->get('limit_param');
-        if ($param && ($limit = $this->command->get($param))) {
+        $limitKey = $this->get('limit_key');
+        if ($limitKey && ($limit = $this->command->get($limitKey))) {
             $pageSize = $this->calculatePageSize();
 
             // If the limit of the command is different than the pageSize of the iterator, use the smaller value
             if ($limit && $pageSize) {
-                $this->command->set('limit', min($limit, $pageSize));
+                $realLimit = min($limit, $pageSize);
+                $this->command->set($limitKey, $realLimit);
             }
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function handleResults(Model $result)
     {
         $results = array();
 
         // Get the result key that contains the results
         if ($resultKey = $this->get('result_key')) {
-            $results = $result->getPath($resultKey) ?: array();
+            $results = $this->getValueFromResult($result, $resultKey) ?: array();
         }
 
         return $results;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function applyNextToken()
     {
         // Get the token parameter key to set
-        if ($tokenParam = $this->get('token_param')) {
+        if ($tokenParam = $this->get('input_token')) {
             // Set the next token. Works with multi-value tokens
             if (is_array($tokenParam)) {
                 if (is_array($this->nextToken) && count($tokenParam) === count($this->nextToken)) {
@@ -126,24 +119,51 @@ class AwsResourceIterator extends ResourceIterator
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function determineNextToken(Model $result)
     {
         $this->nextToken = null;
 
-        // If the value of "more key" is true or there is no "more key" to check, then try to get the next token
-        $moreKey = $this->get('more_key');
-        if ($moreKey === null || $result->getPath($moreKey)) {
+        // If the value of "more_results" is true or there is no "more_results" to check, then try to get the next token
+        $moreKey = $this->get('more_results');
+        if ($moreKey === null || $this->getValueFromResult($result, $moreKey)) {
             // Get the token key to check
-            if ($tokenKey = $this->get('token_key')) {
+            if ($tokenKey = $this->get('output_token')) {
                 // Get the next token's value. Works with multi-value tokens
-                $getToken = function ($key) use ($result) {
-                    return $result->getPath((string) $key);
-                };
-                $this->nextToken = is_array($tokenKey) ? array_map($getToken, $tokenKey) : $getToken($tokenKey);
+                if (is_array($tokenKey)) {
+                    $this->nextToken = array();
+                    foreach ($tokenKey as $key) {
+                        $this->nextToken[] = $this->getValueFromResult($result, $key);
+                    }
+                } else {
+                    $this->nextToken = $this->getValueFromResult($result, $tokenKey);
+                }
             }
         }
+    }
+
+    /**
+     * Extracts the value from the result using Collection::getPath. Also adds some additional logic for keys that need
+     * to access n-1 indexes (e.g., ImportExport, Kinesis). The n-1 logic only works for the known cases. We will switch
+     * to a jmespath implementation in the future to cover all cases
+     *
+     * @param Model  $result
+     * @param string $key
+     *
+     * @return mixed|null
+     */
+    protected function getValueFromResult(Model $result, $key)
+    {
+        // Special handling for keys that need to access n-1 indexes
+        if (strpos($key, '#') !== false) {
+            $keyParts = explode('#', $key, 2);
+            $items = $result->getPath(trim($keyParts[0], '/'));
+            if ($items && is_array($items)) {
+                $index = count($items) - 1;
+                $key = strtr($key, array('#' => $index));
+            }
+        }
+
+        // Get the value
+        return $result->getPath($key);
     }
 }

@@ -226,17 +226,20 @@ class MockPlugin extends AbstractHasDispatcher implements EventSubscriberInterfa
      * Called when a request is about to be sent
      *
      * @param Event $event
+     * @throws \OutOfBoundsException When queue is empty
      */
     public function onRequestBeforeSend(Event $event)
     {
-        if ($this->queue) {
-            $request = $event['request'];
-            $this->received[] = $request;
-            // Detach the filter from the client so it's a one-time use
-            if ($this->temporary && count($this->queue) == 1 && $request->getClient()) {
-                $request->getClient()->getEventDispatcher()->removeSubscriber($this);
-            }
-            $this->dequeue($request);
+        if (!$this->queue) {
+            throw new \OutOfBoundsException('Mock queue is empty');
         }
+
+        $request = $event['request'];
+        $this->received[] = $request;
+        // Detach the filter from the client so it's a one-time use
+        if ($this->temporary && count($this->queue) == 1 && $request->getClient()) {
+            $request->getClient()->getEventDispatcher()->removeSubscriber($this);
+        }
+        $this->dequeue($request);
     }
 }

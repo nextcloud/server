@@ -20,7 +20,6 @@ use Aws\Common\Enum\UaString as Ua;
 use Aws\Common\Exception\InvalidArgumentException;
 use Aws\Common\Model\MultipartUpload\AbstractUploadBuilder;
 use Aws\S3\Model\Acp;
-use Guzzle\Common\Collection;
 
 /**
  * Easily create a multipart uploader used to quickly and reliably upload a
@@ -266,8 +265,10 @@ class UploadBuilder extends AbstractUploadBuilder
     protected function initiateMultipartUpload()
     {
         // Determine Content-Type
-        if ($mimeType = $this->source->getContentType()) {
-            $this->commandOptions['ContentType'] = $mimeType;
+        if (!isset($this->commandOptions['ContentType'])) {
+            if ($mimeType = $this->source->getContentType()) {
+                $this->commandOptions['ContentType'] = $mimeType;
+            }
         }
 
         $params = array_replace(array(

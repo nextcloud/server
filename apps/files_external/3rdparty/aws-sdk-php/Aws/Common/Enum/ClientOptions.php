@@ -39,6 +39,11 @@ class ClientOptions extends Enum
     const CREDENTIALS = 'credentials';
 
     /**
+     * @var string Name of a credential profile to read from your ~/.aws/credentials file
+     */
+    const PROFILE = 'profile';
+
+    /**
      * @var string Custom AWS security token to use with request authentication
      */
     const TOKEN = 'token';

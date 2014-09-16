@@ -48,7 +48,7 @@ class DebugUniversalClassLoader extends UniversalClassLoader
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function loadClass($class)
     {

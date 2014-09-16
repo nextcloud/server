@@ -103,7 +103,7 @@ class ClassLoader
     /**
      * Turns on searching the include for class files.
      *
-     * @param Boolean $useIncludePath
+     * @param bool    $useIncludePath
      */
     public function setUseIncludePath($useIncludePath)
     {
@@ -114,7 +114,7 @@ class ClassLoader
      * Can be used to check if the autoloader uses the include path to check
      * for classes.
      *
-     * @return Boolean
+     * @return bool
      */
     public function getUseIncludePath()
     {
@@ -124,7 +124,7 @@ class ClassLoader
     /**
      * Registers this instance as an autoloader.
      *
-     * @param Boolean $prepend Whether to prepend the autoloader or not
+     * @param bool    $prepend Whether to prepend the autoloader or not
      */
     public function register($prepend = false)
     {
@@ -144,7 +144,7 @@ class ClassLoader
      *
      * @param string $class The name of the class
      *
-     * @return Boolean|null True, if loaded
+     * @return bool|null    True, if loaded
      */
     public function loadClass($class)
     {
@@ -177,7 +177,7 @@ class ClassLoader
         $classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className).'.php';
 
         foreach ($this->prefixes as $prefix => $dirs) {
-            if (0 === strpos($class, $prefix)) {
+            if ($class === strstr($class, $prefix)) {
                 foreach ($dirs as $dir) {
                     if (file_exists($dir.DIRECTORY_SEPARATOR.$classPath)) {
                         return $dir.DIRECTORY_SEPARATOR.$classPath;

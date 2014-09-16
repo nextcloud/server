@@ -17,39 +17,55 @@
 namespace Aws\S3;
 
 use Aws\Common\Credentials\CredentialsInterface;
-use Aws\Common\Enum\DateFormat;
 use Guzzle\Http\Message\RequestInterface;
 use Guzzle\Http\QueryString;
 use Guzzle\Http\Url;
 
 /**
  * Default Amazon S3 signature implementation
- * @link http://docs.amazonwebservices.com/AmazonS3/latest/dev/RESTAuthentication.html
+ * @link http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html
  */
 class S3Signature implements S3SignatureInterface
 {
     /**
      * @var array Query string values that must be signed
      */
-    protected $signableQueryString = array(
-        'acl', 'delete', 'lifecycle', 'location', 'logging', 'notification',
-        'partNumber', 'policy', 'requestPayment', 'torrent', 'uploadId',
-        'uploads', 'versionId', 'versioning', 'versions', 'website',
-        'response-cache-control', 'response-content-disposition',
-        'response-content-encoding', 'response-content-language',
-        'response-content-type', 'response-expires', 'restore', 'tagging', 'cors'
+    protected $signableQueryString = array (
+        'acl',
+        'cors',
+        'delete',
+        'lifecycle',
+        'location',
+        'logging',
+        'notification',
+        'partNumber',
+        'policy',
+        'requestPayment',
+        'response-cache-control',
+        'response-content-disposition',
+        'response-content-encoding',
+        'response-content-language',
+        'response-content-type',
+        'response-expires',
+        'restore',
+        'tagging',
+        'torrent',
+        'uploadId',
+        'uploads',
+        'versionId',
+        'versioning',
+        'versions',
+        'website',
     );
 
-    /**
-     * @var array Sorted headers that must be signed
-     */
-    protected $signableHeaders = array('Content-MD5', 'Content-Type');
+    /** @var array Sorted headers that must be signed */
+    private $signableHeaders = array('Content-MD5', 'Content-Type');
 
-    /**
-     * {@inheritdoc}
-     */
     public function signRequest(RequestInterface $request, CredentialsInterface $credentials)
     {
+        // Ensure that the signable query string parameters are sorted
+        sort($this->signableQueryString);
+
         // Add the security token header if one is being used by the credentials
         if ($token = $credentials->getSecurityToken()) {
             $request->setHeader('x-amz-security-token', $token);
@@ -57,7 +73,7 @@ class S3Signature implements S3SignatureInterface
 
         // Add a date header if one is not set
         if (!$request->hasHeader('date') && !$request->hasHeader('x-amz-date')) {
-            $request->setHeader('Date', gmdate(DateFormat::RFC2822));
+            $request->setHeader('Date', gmdate(\DateTime::RFC2822));
         }
 
         $stringToSign = $this->createCanonicalizedString($request);
@@ -69,17 +85,57 @@ class S3Signature implements S3SignatureInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function createPresignedUrl(
+        RequestInterface $request,
+        CredentialsInterface $credentials,
+        $expires
+    ) {
+        if ($expires instanceof \DateTime) {
+            $expires = $expires->getTimestamp();
+        } elseif (!is_numeric($expires)) {
+            $expires = strtotime($expires);
+        }
+
+        // Operate on a clone of the request, so the original is not altered
+        $request = clone $request;
+
+        // URL encoding already occurs in the URI template expansion. Undo that and encode using the same encoding as
+        // GET object, PUT object, etc.
+        $path = S3Client::encodeKey(rawurldecode($request->getPath()));
+        $request->setPath($path);
+
+        // Make sure to handle temporary credentials
+        if ($token = $credentials->getSecurityToken()) {
+            $request->setHeader('x-amz-security-token', $token);
+            $request->getQuery()->set('x-amz-security-token', $token);
+        }
+
+        // Set query params required for pre-signed URLs
+        $request->getQuery()
+            ->set('AWSAccessKeyId', $credentials->getAccessKeyId())
+            ->set('Expires', $expires)
+            ->set('Signature', $this->signString(
+                $this->createCanonicalizedString($request, $expires),
+                $credentials
+            ));
+
+        // Move X-Amz-* headers to the query string
+        foreach ($request->getHeaders() as $name => $header) {
+            $name = strtolower($name);
+            if (strpos($name, 'x-amz-') === 0) {
+                $request->getQuery()->set($name, (string) $header);
+                $request->removeHeader($name);
+            }
+        }
+
+        return $request->getUrl();
+    }
+
     public function signString($string, CredentialsInterface $credentials)
     {
         return base64_encode(hash_hmac('sha1', $string, $credentials->getSecretKey(), true));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function createCanonicalizedString(RequestInterface $request, $expires = null)
     {
         $buffer = $request->getMethod() . "\n";
@@ -106,12 +162,11 @@ class S3Signature implements S3SignatureInterface
      *
      * @return string Returns canonicalized AMZ headers.
      */
-    protected function createCanonicalizedAmzHeaders(RequestInterface $request)
+    private function createCanonicalizedAmzHeaders(RequestInterface $request)
     {
         $headers = array();
-        foreach ($request->getHeaders(true) as $header) {
-            /** @var $header \Guzzle\Http\Message\Header */
-            $name = strtolower($header->getName());
+        foreach ($request->getHeaders() as $name => $header) {
+            $name = strtolower($name);
             if (strpos($name, 'x-amz-') === 0) {
                 $value = trim((string) $header);
                 if ($value || $value === '0') {
@@ -120,13 +175,13 @@ class S3Signature implements S3SignatureInterface
             }
         }
 
-        if (empty($headers)) {
+        if (!$headers) {
             return '';
-        } else {
-            ksort($headers);
-
-            return implode("\n", $headers) . "\n";
         }
+
+        ksort($headers);
+
+        return implode("\n", $headers) . "\n";
     }
 
     /**
@@ -136,7 +191,7 @@ class S3Signature implements S3SignatureInterface
      *
      * @return string
      */
-    protected function createCanonicalizedResource(RequestInterface $request)
+    private function createCanonicalizedResource(RequestInterface $request)
     {
         $buffer = $request->getParams()->get('s3.resource');
         // When sending a raw HTTP request (e.g. $client->get())
@@ -157,11 +212,17 @@ class S3Signature implements S3SignatureInterface
         $query = $request->getQuery();
         $first = true;
         foreach ($this->signableQueryString as $key) {
-            if ($value = $query->get($key)) {
+            if ($query->hasKey($key)) {
+                $value = $query[$key];
                 $buffer .= $first ? '?' : '&';
                 $first = false;
                 $buffer .= $key;
-                if ($value !== QueryString::BLANK) {
+                // Don't add values for empty sub-resources
+                if ($value !== '' &&
+                    $value !== false &&
+                    $value !== null &&
+                    $value !== QueryString::BLANK
+                ) {
                     $buffer .= "={$value}";
                 }
             }
@@ -177,7 +238,7 @@ class S3Signature implements S3SignatureInterface
      *
      * @return string
      */
-    protected function parseBucketName(RequestInterface $request)
+    private function parseBucketName(RequestInterface $request)
     {
         $baseUrl = Url::factory($request->getClient()->getBaseUrl());
         $baseHost = $baseUrl->getHost();

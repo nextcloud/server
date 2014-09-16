@@ -1,0 +1,27 @@
+{
+    "name": "guzzle/plugin-mock",
+    "description": "Guzzle Mock plugin",
+    "homepage": "http://guzzlephp.org/",
+    "keywords": ["mock", "plugin", "guzzle"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Dowling",
+            "email": "mtdowling@gmail.com",
+            "homepage": "https://github.com/mtdowling"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "guzzle/http": "self.version"
+    },
+    "autoload": {
+        "psr-0": { "Guzzle\\Plugin\\Mock": "" }
+    },
+    "target-dir": "Guzzle/Plugin/Mock",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.7-dev"
+        }
+    }
+}

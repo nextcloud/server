@@ -33,7 +33,7 @@ class HostNameUtils
      * @param Url $url HTTP URL
      *
      * @return string
-     * @link http://docs.amazonwebservices.com/general/latest/gr/rande.html
+     * @link http://docs.aws.amazon.com/general/latest/gr/rande.html
      */
     public static function parseRegionName(Url $url)
     {
@@ -68,7 +68,7 @@ class HostNameUtils
      * @param Url $url HTTP URL
      *
      * @return string Returns a service name (or empty string)
-     * @link http://docs.amazonwebservices.com/general/latest/gr/rande.html
+     * @link http://docs.aws.amazon.com/general/latest/gr/rande.html
      */
     public static function parseServiceName(Url $url)
     {

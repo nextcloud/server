@@ -189,7 +189,7 @@ class ClassCollectionLoaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException InvalidArgumentException
+     * @expectedException \InvalidArgumentException
      */
     public function testUnableToLoadClassException()
     {

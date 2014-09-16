@@ -60,7 +60,7 @@ class DefaultRevalidation implements RevalidationInterface
             ($resCache && ($resCache->hasDirective('no-cache') || $resCache->hasDirective('must-revalidate')));
 
         // Use the strong ETag validator if available and the response contains no Cache-Control directive
-        if (!$revalidate && !$reqCache && $response->hasHeader('ETag')) {
+        if (!$revalidate && !$resCache && $response->hasHeader('ETag')) {
             $revalidate = true;
         }
 
@@ -95,19 +95,21 @@ class DefaultRevalidation implements RevalidationInterface
     protected function createRevalidationRequest(RequestInterface $request, Response $response)
     {
         $revalidate = clone $request;
-        $revalidate->removeHeader('Pragma')
-            ->removeHeader('Cache-Control')
-            ->setHeader('If-Modified-Since', $response->getLastModified() ?: $response->getDate());
+        $revalidate->removeHeader('Pragma')->removeHeader('Cache-Control');
+
+        if ($response->getLastModified()) {
+            $revalidate->setHeader('If-Modified-Since', $response->getLastModified());
+        }
 
         if ($response->getEtag()) {
-            $revalidate->setHeader('If-None-Match', '"' . $response->getEtag() . '"');
+            $revalidate->setHeader('If-None-Match', $response->getEtag());
         }
 
         // Remove any cache plugins that might be on the request to prevent infinite recursive revalidations
         $dispatcher = $revalidate->getEventDispatcher();
         foreach ($dispatcher->getListeners() as $eventName => $listeners) {
             foreach ($listeners as $listener) {
-                if ($listener[0] instanceof CachePlugin) {
+                if (is_array($listener) && $listener[0] instanceof CachePlugin) {
                     $dispatcher->removeListener($eventName, $listener);
                 }
             }

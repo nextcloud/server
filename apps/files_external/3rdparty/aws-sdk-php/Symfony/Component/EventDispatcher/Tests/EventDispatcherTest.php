@@ -23,6 +23,9 @@ class EventDispatcherTest extends \PHPUnit_Framework_TestCase
     const preBar = 'pre.bar';
     const postBar = 'post.bar';
 
+    /**
+     * @var EventDispatcher
+     */
     private $dispatcher;
 
     private $listener;
@@ -237,12 +240,23 @@ class EventDispatcherTest extends \PHPUnit_Framework_TestCase
 
     public function testEventReceivesTheDispatcherInstance()
     {
-        $test = $this;
+        $dispatcher = null;
         $this->dispatcher->addListener('test', function ($event) use (&$dispatcher) {
             $dispatcher = $event->getDispatcher();
         });
         $this->dispatcher->dispatch('test');
         $this->assertSame($this->dispatcher, $dispatcher);
+    }
+
+    public function testEventReceivesTheDispatcherInstanceAsArgument()
+    {
+        $listener = new TestWithDispatcher();
+        $this->dispatcher->addListener('test', array($listener, 'foo'));
+        $this->assertNull($listener->name);
+        $this->assertNull($listener->dispatcher);
+        $this->dispatcher->dispatch('test');
+        $this->assertEquals('test', $listener->name);
+        $this->assertSame($this->dispatcher, $listener->dispatcher);
     }
 
     /**
@@ -257,8 +271,30 @@ class EventDispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener('bug.62976', new CallableClass());
-        $dispatcher->removeListener('bug.62976', function() {});
+        $dispatcher->removeListener('bug.62976', function () {});
         $this->assertTrue($dispatcher->hasListeners('bug.62976'));
+    }
+
+    public function testHasListenersWhenAddedCallbackListenerIsRemoved()
+    {
+        $listener = function () {};
+        $this->dispatcher->addListener('foo', $listener);
+        $this->dispatcher->removeListener('foo', $listener);
+        $this->assertFalse($this->dispatcher->hasListeners());
+    }
+
+    public function testGetListenersWhenAddedCallbackListenerIsRemoved()
+    {
+        $listener = function () {};
+        $this->dispatcher->addListener('foo', $listener);
+        $this->dispatcher->removeListener('foo', $listener);
+        $this->assertSame(array(), $this->dispatcher->getListeners());
+    }
+
+    public function testHasListenersWithoutEventsReturnsFalseAfterHasListenersWithEventHasBeenCalled()
+    {
+        $this->assertFalse($this->dispatcher->hasListeners('foo'));
+        $this->assertFalse($this->dispatcher->hasListeners());
     }
 }
 
@@ -286,6 +322,18 @@ class TestEventListener
         $this->postFooInvoked = true;
 
         $e->stopPropagation();
+    }
+}
+
+class TestWithDispatcher
+{
+    public $name;
+    public $dispatcher;
+
+    public function foo(Event $e, $name, $dispatcher)
+    {
+        $this->name = $name;
+        $this->dispatcher = $dispatcher;
     }
 }
 

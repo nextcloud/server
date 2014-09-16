@@ -30,7 +30,7 @@ namespace Symfony\Component\EventDispatcher;
 class Event
 {
     /**
-     * @var Boolean Whether no further event listeners should be triggered
+     * @var bool    Whether no further event listeners should be triggered
      */
     private $propagationStopped = false;
 
@@ -48,7 +48,7 @@ class Event
      * Returns whether further event listeners should be triggered.
      *
      * @see Event::stopPropagation
-     * @return Boolean Whether propagation was already stopped for this event.
+     * @return bool    Whether propagation was already stopped for this event.
      *
      * @api
      */
@@ -76,6 +76,8 @@ class Event
      *
      * @param EventDispatcherInterface $dispatcher
      *
+     * @deprecated Deprecated in 2.4, to be removed in 3.0. The event dispatcher is passed to the listener call.
+     *
      * @api
      */
     public function setDispatcher(EventDispatcherInterface $dispatcher)
@@ -87,6 +89,8 @@ class Event
      * Returns the EventDispatcher that dispatches this Event
      *
      * @return EventDispatcherInterface
+     *
+     * @deprecated Deprecated in 2.4, to be removed in 3.0. The event dispatcher is passed to the listener call.
      *
      * @api
      */
@@ -100,6 +104,8 @@ class Event
      *
      * @return string
      *
+     * @deprecated Deprecated in 2.4, to be removed in 3.0. The event name is passed to the listener call.
+     *
      * @api
      */
     public function getName()
@@ -111,6 +117,8 @@ class Event
      * Sets the event's name property.
      *
      * @param string $name The event name.
+     *
+     * @deprecated Deprecated in 2.4, to be removed in 3.0. The event name is passed to the listener call.
      *
      * @api
      */

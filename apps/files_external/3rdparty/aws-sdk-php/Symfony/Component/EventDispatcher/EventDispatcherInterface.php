@@ -42,7 +42,7 @@ interface EventDispatcherInterface
      *
      * @param string   $eventName The event to listen on
      * @param callable $listener  The listener
-     * @param integer  $priority  The higher this value, the earlier an event
+     * @param int      $priority  The higher this value, the earlier an event
      *                            listener will be triggered in the chain (defaults to 0)
      *
      * @api
@@ -90,7 +90,7 @@ interface EventDispatcherInterface
      *
      * @param string $eventName The name of the event
      *
-     * @return Boolean true if the specified event has any listeners, false otherwise
+     * @return bool    true if the specified event has any listeners, false otherwise
      */
     public function hasListeners($eventName = null);
 }

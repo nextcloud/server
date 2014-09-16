@@ -53,10 +53,51 @@ return array(
             'class'   => 'Aws\CloudSearch\CloudSearchClient'
         ),
 
+        'cloudsearch_20110201' => array(
+            'extends' => 'cloudsearch',
+            'params' => array(
+                'version' => '2011-02-01'
+            )
+        ),
+
+        'cloudsearchdomain' => array(
+            'alias'   => 'CloudSearchDomain',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\CloudSearchDomain\CloudSearchDomainClient'
+        ),
+
+        'cloudtrail' => array(
+            'alias'   => 'CloudTrail',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\CloudTrail\CloudTrailClient'
+        ),
+
         'cloudwatch' => array(
             'alias'   => 'CloudWatch',
             'extends' => 'default_settings',
             'class'   => 'Aws\CloudWatch\CloudWatchClient'
+        ),
+
+        'cognito-identity' => array(
+            'alias'   => 'CognitoIdentity',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\CognitoIdentity\CognitoIdentityClient'
+        ),
+
+        'cognitoidentity' => array('extends' => 'cognito-identity'),
+
+        'cognito-sync' => array(
+            'alias'   => 'CognitoSync',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\CognitoSync\CognitoSyncClient'
+        ),
+
+        'cognitosync' => array('extends' => 'cognito-sync'),
+
+        'cloudwatchlogs' => array(
+            'alias'   => 'CloudWatchLogs',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\CloudWatchLogs\CloudWatchLogsClient'
         ),
 
         'datapipeline' => array(
@@ -126,6 +167,12 @@ return array(
             'class'   => 'Aws\Glacier\GlacierClient'
         ),
 
+        'kinesis' => array(
+            'alias'   => 'Kinesis',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\Kinesis\KinesisClient'
+        ),
+
         'iam' => array(
             'alias'   => 'Iam',
             'extends' => 'default_settings',
@@ -160,6 +207,12 @@ return array(
             'alias'   => 'Route53',
             'extends' => 'default_settings',
             'class'   => 'Aws\Route53\Route53Client'
+        ),
+
+        'route53domains' => array(
+            'alias'   => 'Route53Domains',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\Route53Domains\Route53DomainsClient'
         ),
 
         's3' => array(

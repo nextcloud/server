@@ -136,7 +136,7 @@ class SchemaValidator implements ValidatorInterface
                             $current = null;
                             $this->recursiveProcess($property, $current, $path, $depth + 1);
                             // Only set the value if it was populated with something
-                            if ($current) {
+                            if (null !== $current) {
                                 $value[$name] = $current;
                             }
                         }
@@ -157,8 +157,9 @@ class SchemaValidator implements ValidatorInterface
                             }
                         } else {
                             // if additionalProperties is set to false and there are additionalProperties in the values, then fail
-                            $keys = array_keys($value);
-                            $this->errors[] = sprintf('%s[%s] is not an allowed property', $path, reset($keys));
+                            foreach ($diff as $prop) {
+                                $this->errors[] = sprintf('%s[%s] is not an allowed property', $path, $prop);
+                            }
                         }
                     }
                 }

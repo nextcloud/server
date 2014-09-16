@@ -17,7 +17,6 @@
 namespace Aws\S3\Model;
 
 use Aws\Common\Client\AwsClientInterface;
-use Aws\Common\Iterator\AwsResourceIterator;
 use Guzzle\Common\AbstractHasDispatcher;
 use Guzzle\Batch\FlushingBatch;
 use Guzzle\Batch\ExceptionBufferingBatch;

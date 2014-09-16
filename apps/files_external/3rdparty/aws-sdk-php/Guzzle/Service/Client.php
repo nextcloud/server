@@ -57,7 +57,8 @@ class Client extends HttpClient implements ClientInterface
             'command.before_prepare',
             'command.after_prepare',
             'command.before_send',
-            'command.after_send'
+            'command.after_send',
+            'command.parse_response'
         ));
     }
 
@@ -145,6 +146,10 @@ class Client extends HttpClient implements ClientInterface
     public function setDescription(ServiceDescriptionInterface $service)
     {
         $this->serviceDescription = $service;
+
+        if ($this->getCommandFactory() && $this->getCommandFactory() instanceof CompositeFactory) {
+            $this->commandFactory->add(new Command\Factory\ServiceDescriptionFactory($service));
+        }
 
         // If a baseUrl was set on the description, then update the client
         if ($baseUrl = $service->getBaseUrl()) {

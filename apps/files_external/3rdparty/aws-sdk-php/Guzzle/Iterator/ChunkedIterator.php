@@ -16,25 +16,31 @@ class ChunkedIterator extends \IteratorIterator
     /**
      * @param \Traversable $iterator  Traversable iterator
      * @param int          $chunkSize Size to make each chunk
+     * @throws \InvalidArgumentException
      */
     public function __construct(\Traversable $iterator, $chunkSize)
     {
+        $chunkSize = (int) $chunkSize;
+        if ($chunkSize < 0 ) {
+            throw new \InvalidArgumentException("The chunk size must be equal or greater than zero; $chunkSize given");
+        }
+
         parent::__construct($iterator);
         $this->chunkSize = $chunkSize;
     }
 
     public function rewind()
     {
+        parent::rewind();
         $this->next();
     }
 
     public function next()
     {
         $this->chunk = array();
-        $inner = $this->getInnerIterator();
-        for ($i = 0; $i < $this->chunkSize && $inner->valid(); $i++) {
-            $this->chunk[] = $inner->current();
-            $inner->next();
+        for ($i = 0; $i < $this->chunkSize && parent::valid(); $i++) {
+            $this->chunk[] = parent::current();
+            parent::next();
         }
     }
 
@@ -45,6 +51,6 @@ class ChunkedIterator extends \IteratorIterator
 
     public function valid()
     {
-        return !empty($this->chunk);
+        return (bool) $this->chunk;
     }
 }

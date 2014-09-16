@@ -57,7 +57,7 @@ class ContainerAwareEventDispatcher extends EventDispatcher
      * @param string $eventName Event for which the listener is added
      * @param array  $callback  The service ID of the listener service & the method
      *                            name that has to be called
-     * @param integer $priority The higher this value, the earlier an event listener
+     * @param int     $priority The higher this value, the earlier an event listener
      *                            will be triggered in the chain.
      *                            Defaults to 0.
      *
@@ -105,7 +105,7 @@ class ContainerAwareEventDispatcher extends EventDispatcher
     public function hasListeners($eventName = null)
     {
         if (null === $eventName) {
-            return (Boolean) count($this->listenerIds) || (Boolean) count($this->listeners);
+            return (bool) count($this->listenerIds) || (bool) count($this->listeners);
         }
 
         if (isset($this->listenerIds[$eventName])) {
@@ -153,7 +153,7 @@ class ContainerAwareEventDispatcher extends EventDispatcher
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * Lazily loads listeners for this event from the dependency injection
      * container.
