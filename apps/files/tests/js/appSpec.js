@@ -23,6 +23,7 @@ describe('OCA.Files.App tests', function() {
 	var App = OCA.Files.App;
 	var pushStateStub;
 	var parseUrlQueryStub;
+	var oldLegacyFileActions;
 
 	beforeEach(function() {
 		$('#testArea').append(
@@ -41,6 +42,7 @@ describe('OCA.Files.App tests', function() {
 			'</div>'
 		);
 
+		oldLegacyFileActions = window.FileActions;
 		window.FileActions = new OCA.Files.FileActions();
 		OCA.Files.legacyFileActions = window.FileActions;
 		OCA.Files.fileActions = new OCA.Files.FileActions();
@@ -53,6 +55,8 @@ describe('OCA.Files.App tests', function() {
 	});
 	afterEach(function() {
 		App.destroy();
+
+		window.FileActions = oldLegacyFileActions;
 
 		pushStateStub.restore();
 		parseUrlQueryStub.restore();
