@@ -1971,7 +1971,7 @@
 			if (fileInfo1.type !== 'dir' && fileInfo2.type === 'dir') {
 				return 1;
 			}
-			return fileInfo1.name.localeCompare(fileInfo2.name);
+			return OC.Util.naturalSortCompare(fileInfo1.name, fileInfo2.name);
 		},
 		/**
 		 * Compares two file infos by size.

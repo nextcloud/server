@@ -1367,8 +1367,58 @@ OC.Util = {
 		// FIXME: likely to break when crossing DST
 		// would be better to use a library like momentJS
 		return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+	},
+
+	_chunkify: function(t) {
+		// Adapted from http://my.opera.com/GreyWyvern/blog/show.dml/1671288
+		var tz = [], x = 0, y = -1, n = 0, code, c;
+
+		while (x < t.length) {
+			c = t.charAt(x);
+			// only include the dot in strings
+			var m = ((!n && c === '.') || (c >= '0' && c <= '9'));
+			if (m !== n) {
+				// next chunk
+				y++;
+				tz[y] = '';
+				n = m;
+			}
+			tz[y] += c;
+			x++;
+		}
+		return tz;
+	},
+	/**
+	 * Compare two strings to provide a natural sort
+	 * @param a first string to compare
+	 * @param b second string to compare
+	 * @return -1 if b comes before a, 1 if a comes before b
+	 * or 0 if the strings are identical
+	 */
+	naturalSortCompare: function(a, b) {
+		var x;
+		var aa = OC.Util._chunkify(a);
+		var bb = OC.Util._chunkify(b);
+
+		for (x = 0; aa[x] && bb[x]; x++) {
+			if (aa[x] !== bb[x]) {
+				var aNum = Number(aa[x]), bNum = Number(bb[x]);
+				// note: == is correct here
+				if (aNum == aa[x] && bNum == bb[x]) {
+					return aNum - bNum;
+				} else {
+					// Forcing 'en' locale to match the server-side locale which is
+					// always 'en'.
+					//
+					// Note: This setting isn't supported by all browsers but for the ones
+					// that do there will be more consistency between client-server sorting
+					return aa[x].localeCompare(bb[x], 'en');
+				}
+			}
+		}
+		return aa.length - bb.length;
 	}
-};
+}
 
 /**
  * Utility class for the history API,
