@@ -89,6 +89,9 @@ class ConnectionFactory {
 			case 'oci':
 				$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\OracleSessionInit);
 				break;
+			case 'sqlite3':
+				$eventManager->addEventSubscriber(new SQLiteSessionInit);
+				break;
 		}
 		$connection = \Doctrine\DBAL\DriverManager::getConnection(
 			array_merge($this->getDefaultConnectionParams($type), $additionalConnectionParams),
