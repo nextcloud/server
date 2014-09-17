@@ -61,6 +61,7 @@ class OC_TemplateLayout extends OC_Template {
 			$this->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 		} else if ($renderas == 'error') {
 			parent::__construct('core', 'layout.guest', '', false);
+			$this->assign('bodyid', 'body-login');
 		} else if ($renderas == 'guest') {
 			parent::__construct('core', 'layout.guest');
 			$this->assign('bodyid', 'body-login');
