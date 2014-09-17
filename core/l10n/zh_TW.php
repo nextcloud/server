@@ -184,7 +184,6 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "主題 %s 已經被停用",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "在繼續之前，請備份資料庫、config 目錄及資料目錄",
 "Start update" => "開始升級",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "在大型安裝上，為了避免升級請求逾時，你也可以在安裝目錄執行下列指令：",
-"This ownCloud instance is currently being updated, which may take a while." => "ownCloud 正在升級，請稍待一會。"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "在大型安裝上，為了避免升級請求逾時，你也可以在安裝目錄執行下列指令："
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

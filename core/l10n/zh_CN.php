@@ -179,7 +179,6 @@ $TRANSLATIONS = array(
 "The following apps will be disabled:" => "以下应用将会被禁用：",
 "The theme %s has been disabled." => "%s 主题已被禁用。",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "在继续之前，请确认数据库、配置文件夹和数据文件夹已经备份。",
-"Start update" => "开始更新",
-"This ownCloud instance is currently being updated, which may take a while." => "当前ownCloud实例正在更新，可能需要一段时间。"
+"Start update" => "开始更新"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

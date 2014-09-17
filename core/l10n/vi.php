@@ -139,7 +139,6 @@ $TRANSLATIONS = array(
 "This ownCloud instance is currently in single user mode." => "OwnCloud trong trường hợp này đang ở chế độ người dùng duy nhất.",
 "This means only administrators can use the instance." => "Điều này có nghĩa chỉ có người quản trị có thể sử dụng trong trường hợp này.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Liên hệ với người quản trị nếu lỗi này vẫn tồn tại hoặc xuất hiện bất ngờ.",
-"Thank you for your patience." => "Cảm ơn sự kiên nhẫn của bạn.",
-"This ownCloud instance is currently being updated, which may take a while." => "Phiên bản ownCloud này hiện đang được cập nhật, có thể sẽ mất một ít thời gian."
+"Thank you for your patience." => "Cảm ơn sự kiên nhẫn của bạn."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

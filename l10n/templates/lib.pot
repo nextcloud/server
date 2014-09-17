@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-16 01:54-0400\n"
+"POT-Creation-Date: 2014-09-17 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -196,7 +196,7 @@ msgstr ""
 msgid "MySQL/MariaDB username and/or password not valid"
 msgstr ""
 
-#: private/setup/mysql.php:67 private/setup/oci.php:68
+#: private/setup/mysql.php:81 private/setup/oci.php:68
 #: private/setup/oci.php:135 private/setup/oci.php:158
 #: private/setup/oci.php:165 private/setup/oci.php:176
 #: private/setup/oci.php:183 private/setup/oci.php:192
@@ -208,7 +208,7 @@ msgstr ""
 msgid "DB Error: \"%s\""
 msgstr ""
 
-#: private/setup/mysql.php:68 private/setup/oci.php:69
+#: private/setup/mysql.php:82 private/setup/oci.php:69
 #: private/setup/oci.php:136 private/setup/oci.php:159
 #: private/setup/oci.php:166 private/setup/oci.php:177
 #: private/setup/oci.php:193 private/setup/oci.php:201
@@ -219,21 +219,21 @@ msgstr ""
 msgid "Offending command was: \"%s\""
 msgstr ""
 
-#: private/setup/mysql.php:85
+#: private/setup/mysql.php:99
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'localhost' exists already."
 msgstr ""
 
-#: private/setup/mysql.php:86
+#: private/setup/mysql.php:100
 msgid "Drop this user from MySQL/MariaDB"
 msgstr ""
 
-#: private/setup/mysql.php:91
+#: private/setup/mysql.php:105
 #, php-format
 msgid "MySQL/MariaDB user '%s'@'%%' already exists"
 msgstr ""
 
-#: private/setup/mysql.php:92
+#: private/setup/mysql.php:106
 msgid "Drop this user from MySQL/MariaDB."
 msgstr ""
 
@@ -524,98 +524,95 @@ msgid ""
 "webserver."
 msgstr ""
 
-#: private/util.php:496
+#: private/util.php:521
 msgid "Please ask your server administrator to install the module."
 msgstr ""
 
-#: private/util.php:500 private/util.php:507 private/util.php:514
-#: private/util.php:528 private/util.php:535 private/util.php:542
-#: private/util.php:549 private/util.php:556 private/util.php:563
-#: private/util.php:578
+#: private/util.php:541
 #, php-format
 msgid "PHP module %s not installed."
 msgstr ""
 
-#: private/util.php:570
+#: private/util.php:549
 #, php-format
 msgid "PHP %s or higher is required."
 msgstr ""
 
-#: private/util.php:571
+#: private/util.php:550
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
 msgstr ""
 
-#: private/util.php:589
+#: private/util.php:561
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr ""
 
-#: private/util.php:590
+#: private/util.php:562
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr ""
 
-#: private/util.php:597
+#: private/util.php:569
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr ""
 
-#: private/util.php:598
+#: private/util.php:570
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr ""
 
-#: private/util.php:612
+#: private/util.php:584
 msgid "PHP modules have been installed, but they are still listed as missing?"
 msgstr ""
 
-#: private/util.php:613
+#: private/util.php:585
 msgid "Please ask your server administrator to restart the web server."
 msgstr ""
 
-#: private/util.php:643
+#: private/util.php:615
 msgid "PostgreSQL >= 9 required"
 msgstr ""
 
-#: private/util.php:644
+#: private/util.php:616
 msgid "Please upgrade your database version"
 msgstr ""
 
-#: private/util.php:651
+#: private/util.php:623
 msgid "Error occurred while checking PostgreSQL version"
 msgstr ""
 
-#: private/util.php:652
+#: private/util.php:624
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
 msgstr ""
 
-#: private/util.php:717
+#: private/util.php:689
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed "
 "by other users."
 msgstr ""
 
-#: private/util.php:726
+#: private/util.php:698
 #, php-format
 msgid "Data directory (%s) is readable by other users"
 msgstr ""
 
-#: private/util.php:747
+#: private/util.php:719
 #, php-format
 msgid "Data directory (%s) is invalid"
 msgstr ""
 
-#: private/util.php:748
+#: private/util.php:720
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its root."
 msgstr ""

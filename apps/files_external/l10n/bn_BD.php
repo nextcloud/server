@@ -10,6 +10,7 @@ $TRANSLATIONS = array(
 "Secret" => "গোপণীয়",
 "Bucket" => "বালতি",
 "Secret Key" => "গোপণ চাবি",
+"Hostname" => "হোস্টনেম",
 "Port" => "পোর্ট",
 "Region" => "এলাকা",
 "Host" => "হোস্ট",

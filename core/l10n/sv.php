@@ -179,7 +179,6 @@ $TRANSLATIONS = array(
 "The following apps will be disabled:" => "Följande appar kommer att inaktiveras:",
 "The theme %s has been disabled." => "Temat  %s har blivit inaktiverat.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Vänligen säkerställ att en säkerhetskopia har gjorts av databasen, konfigurations- och datamappen innan du fortsätter.",
-"Start update" => "Starta uppdateringen",
-"This ownCloud instance is currently being updated, which may take a while." => "Denna ownCloud instans håller på att uppdatera, vilket kan ta ett tag."
+"Start update" => "Starta uppdateringen"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

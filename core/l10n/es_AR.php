@@ -148,7 +148,6 @@ $TRANSLATIONS = array(
 "This ownCloud instance is currently in single user mode." => "Esta instancia de ownCloud está en modo de usuario único.",
 "This means only administrators can use the instance." => "Esto significa que solo administradores pueden usar esta instancia.",
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Contacte su administrador de sistema si este mensaje persiste o aparece inesperadamente.",
-"Thank you for your patience." => "Gracias por su paciencia.",
-"This ownCloud instance is currently being updated, which may take a while." => "Esta instancia de ownClod está siendo actualizada, puede tardar un momento."
+"Thank you for your patience." => "Gracias por su paciencia."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

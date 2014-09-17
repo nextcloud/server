@@ -182,7 +182,6 @@ $TRANSLATIONS = array(
 "The following apps will be disabled:" => "Deshabilitaránse les siguientes aplicaciones:",
 "The theme %s has been disabled." => "Deshabilitóse'l tema %s.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Enantes de siguir, asegúrate de que se fizo una copia de seguridá de la base de datos, la carpeta de configuración y la carpeta de datos.",
-"Start update" => "Aniciar anovamientu",
-"This ownCloud instance is currently being updated, which may take a while." => "Esta instancia de OwnCloud ta anguaño anovándose, polo que pue tardar un pocoñín."
+"Start update" => "Aniciar anovamientu"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -186,8 +186,6 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "The theme %s has been disabled.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Please make sure that the database, the config folder and the data folder have been backed up before proceeding.",
 "Start update" => "Start update",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:",
-"This ownCloud instance is currently being updated, which may take a while." => "This ownCloud instance is currently being updated, which may take a while.",
-"This page will refresh itself when the ownCloud instance is available again." => "This page will refresh itself when the ownCloud instance is available again."
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

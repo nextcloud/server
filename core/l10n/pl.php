@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "Jako baza danych zostanie użyty SQLite. Dla większych instalacji doradzamy zmianę na inną.",
 "Finish setup" => "Zakończ konfigurowanie",
 "Finishing …" => "Kończę ...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Ta aplikacja wymaga JavaScript do poprawnego działania. Proszę <a href=\"http://enable-javascript.com/\" target=\"_blank\">włącz JavaScript</a> i przeładuj stronę.",
 "%s is available. Get more information on how to update." => "%s jest dostępna. Dowiedz się więcej na temat aktualizacji.",
 "Log out" => "Wyloguj",
 "Server side authentication failed!" => "Uwierzytelnianie po stronie serwera nie powiodło się!",
@@ -185,7 +186,6 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Motyw %s został wyłączony.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Proszę się upewnić, że baza danych, folder konfiguracji oraz folder danych zostały zarchiwizowane przed przejściem dalej.",
 "Start update" => "Rozpocznij aktualizację",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Aby uniknąć timeout-ów przy większych instalacjach, możesz zamiast tego uruchomić następującą komendę w katalogu Twojej instalacji:",
-"This ownCloud instance is currently being updated, which may take a while." => "Ta instalacja ownCloud jest w tej chwili aktualizowana, co może chwilę potrwać"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Aby uniknąć timeout-ów przy większych instalacjach, możesz zamiast tego uruchomić następującą komendę w katalogu Twojej instalacji:"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

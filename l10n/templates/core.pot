@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-16 01:54-0400\n"
+"POT-Creation-Date: 2014-09-17 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -835,11 +835,11 @@ msgid ""
 msgstr ""
 
 #: templates/update.user.php:3
-msgid ""
-"This ownCloud instance is currently being updated, which may take a while."
+#, php-format
+msgid "This %s instance is currently being updated, which may take a while."
 msgstr ""
 
 #: templates/update.user.php:4
-msgid ""
-"This page will refresh itself when the ownCloud instance is available again."
+#, php-format
+msgid "This page will refresh itself when the %s instance is available again."
 msgstr ""

@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Neznana napaka",
 "Could not move %s - File with this name already exists" => "Datoteke %s ni mogoče premakniti  - datoteka s tem imenom že obstaja.",
 "Could not move %s" => "Datoteke %s ni mogoče premakniti",
+"Permission denied" => "Za to opravilo ni ustreznih dovoljenj.",
 "File name cannot be empty." => "Ime datoteke ne sme biti prazno polje.",
 "\"%s\" is an invalid file name." => "\"%s\" je neveljavno ime datoteke.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neveljavno ime; znaki '\\', '/', '<', '>', ':', '\"', '|', '?' in '*' niso dovoljeni.",
