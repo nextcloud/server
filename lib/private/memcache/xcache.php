@@ -118,7 +118,7 @@ class XCache extends Cache implements IMemcache {
 		if (\OC::$CLI && !getenv('XCACHE_TEST')) {
 			return false;
 		}
-		if (!function_exists('xcache_unset_by_prefix') && ini_get('xcache.admin.enable_auth')) {
+		if (!function_exists('xcache_unset_by_prefix') && \OC::$server->getIniWrapper()->getBool('xcache.admin.enable_auth')) {
 			// We do not want to use XCache if we can not clear it without
 			// using the administration function xcache_clear_cache()
 			// AND administration functions are password-protected.

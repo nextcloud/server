@@ -462,7 +462,7 @@ class OC_Helper {
 		// Default check will be done with $path directories :
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
-		$obd = ini_get('open_basedir');
+		$obd = OC::$server->getIniWrapper()->getString('open_basedir');
 		if ($obd != "none") {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
 			if (count($obd_values) > 0 and $obd_values[0]) {

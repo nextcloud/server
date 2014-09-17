@@ -115,9 +115,9 @@ class APC extends Cache implements IMemcache {
 	static public function isAvailable() {
 		if (!extension_loaded('apc')) {
 			return false;
-		} elseif (!ini_get('apc.enabled')) {
+		} elseif (!\OC::$server->getIniWrapper()->getBool('apc.enabled')) {
 			return false;
-		} elseif (!ini_get('apc.enable_cli') && \OC::$CLI) {
+		} elseif (!\OC::$server->getIniWrapper()->getBool('apc.enable_cli') && \OC::$CLI) {
 			return false;
 		} else {
 			return true;
