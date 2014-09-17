@@ -99,7 +99,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return false;
 		}
 		$parent = dirname($path);
-		return $this->isUpdatable($parent) and $this->isUpdatable($path);
+		return $this->isUpdatable($parent) && $this->isUpdatable($path);
 	}
 
 	public function isSharable($path) {
