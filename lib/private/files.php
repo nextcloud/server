@@ -116,7 +116,6 @@ class OC_Files {
 		} elseif (!\OC\Files\Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template('', '404', 'guest');
-			$tmpl->assign('file', $name);
 			$tmpl->printPage();
 		} else {
 			header("HTTP/1.0 403 Forbidden");
