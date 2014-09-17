@@ -36,6 +36,25 @@ class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedResult, $result);
 	}
 
+	/**
+	 * @dataProvider provideRoutes
+	 */
+	public function testLinkToRouteAbsolute($route, $expected) {
+		\OC::$WEBROOT = '/owncloud';
+		$config = $this->getMock('\OCP\IConfig');
+		$urlGenerator = new \OC\URLGenerator($config);
+		$result = $urlGenerator->linkToRouteAbsolute($route);
+		$this->assertEquals($expected, $result);
+
+	}
+
+	public function provideRoutes() {
+		return array(
+			array('files_index', 'http://localhost/owncloud/index.php/apps/files/'),
+			array('core_ajax_preview', 'http://localhost/owncloud/index.php/core/preview.png'),
+		);
+	}
+
 	public function provideDocRootAppUrlParts() {
 		return array(
 			array('files', 'index.php', array(), '/index.php/apps/files'),
