@@ -53,12 +53,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
 
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
+		self::setupHooks();
 
 		// create test user
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1, true);
@@ -132,6 +127,15 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		//cleanup groups
 		\OC_Group::deleteGroup(self::TEST_ENCRYPTION_UTIL_GROUP1);
 		\OC_Group::deleteGroup(self::TEST_ENCRYPTION_UTIL_GROUP2);
+	}
+
+	public static function setupHooks() {
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerFilesystemHooks();
+
+		// clear and register hooks
+		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 	}
 
 	/**
