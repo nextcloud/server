@@ -57,6 +57,16 @@ describe('OCA.Sharing.App tests', function() {
 		});
 	});
 	describe('file actions', function() {
+		var oldLegacyFileActions;
+
+		beforeEach(function() {
+			oldLegacyFileActions = window.FileActions;
+			window.FileActions = new OCA.Files.FileActions();
+		});
+
+		afterEach(function() {
+			window.FileActions = oldLegacyFileActions;
+		});
 		it('provides default file actions', function() {
 			_.each([fileListIn, fileListOut], function(fileList) {
 				var fileActions = fileList.fileActions;
