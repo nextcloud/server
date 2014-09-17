@@ -567,8 +567,6 @@ class Preview {
 			return;
 		}
 
-		$image->fixOrientation();
-
 		$realX = (int)$image->width();
 		$realY = (int)$image->height();
 
