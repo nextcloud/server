@@ -6,6 +6,9 @@ if (!isset($_)) { //also provide standalone error page
 
 	$l = OC_L10N::get('files_encryption');
 
+	OC_JSON::checkAppEnabled('files_encryption');
+	OC_App::loadApp('files_encryption');
+
 	if (isset($_GET['errorCode'])) {
 		$errorCode = $_GET['errorCode'];
 		switch ($errorCode) {
