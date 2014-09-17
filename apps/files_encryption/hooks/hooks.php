@@ -636,7 +636,13 @@ class Hooks {
 
 
 			// handle share-keys
-			$matches = Helper::findShareKeys($oldShareKeyPath, $view);
+			$matches = Helper::findShareKeys($pathOld, $oldShareKeyPath, $view);
+			if (count($matches) === 0) {
+				\OC_Log::write(
+					'Encryption library', 'No share keys found for "' . $pathOld . '"',
+					\OC_Log::WARN
+				);
+			}
 			foreach ($matches as $src) {
 				$dst = \OC\Files\Filesystem::normalizePath(str_replace($pathOld, $pathNew, $src));
 				$view->$operation($src, $dst);

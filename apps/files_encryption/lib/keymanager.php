@@ -441,13 +441,17 @@ class Keymanager {
 			\OCP\Util::writeLog('files_encryption', 'delAllShareKeys: delete share keys: ' . $baseDir . $filePath, \OCP\Util::DEBUG);
 			$result = $view->unlink($baseDir . $filePath);
 		} else {
-			$parentDir = dirname($baseDir . $filePath);
-			$filename = pathinfo($filePath, PATHINFO_BASENAME);
-			foreach($view->getDirectoryContent($parentDir) as $content) {
-				$path = $content['path'];
-				if (self::getFilenameFromShareKey($content['name'])  === $filename) {
-					\OCP\Util::writeLog('files_encryption', 'dellAllShareKeys: delete share keys: ' . '/' . $userId . '/' . $path, \OCP\Util::DEBUG);
-					$result &= $view->unlink('/' . $userId . '/' . $path);
+			$sharingEnabled = \OCP\Share::isEnabled();
+			$users = $util->getSharingUsersArray($sharingEnabled, $filePath);
+			foreach($users as $user) {
+				$keyName = $baseDir . $filePath . '.' . $user . '.shareKey';
+				if ($view->file_exists($keyName)) {
+					\OCP\Util::writeLog(
+						'files_encryption',
+						'dellAllShareKeys: delete share keys: "' . $keyName . '"',
+						\OCP\Util::DEBUG
+					);
+					$result &= $view->unlink($keyName);
 				}
 			}
 		}
@@ -520,17 +524,20 @@ class Keymanager {
 					if ($view->is_dir($dir . '/' . $file)) {
 						self::recursiveDelShareKeys($dir . '/' . $file, $userIds, $owner, $view);
 					} else {
-						$realFile = $realFileDir . self::getFilenameFromShareKey($file);
 						foreach ($userIds as $userId) {
-							if (preg_match("/(.*)." . $userId . ".shareKey/", $file)) {
-								if ($userId === $owner &&
-										$view->file_exists($realFile)) {
-									\OCP\Util::writeLog('files_encryption', 'original file still exists, keep owners share key!', \OCP\Util::ERROR);
-									continue;
-								}
-								\OCP\Util::writeLog('files_encryption', 'recursiveDelShareKey: delete share key: ' . $file, \OCP\Util::DEBUG);
-								$view->unlink($dir . '/' . $file);
+							$fileNameFromShareKey = self::getFilenameFromShareKey($file, $userId);
+							if (!$fileNameFromShareKey) {
+								continue;
 							}
+							$realFile = $realFileDir . $fileNameFromShareKey;
+
+							if ($userId === $owner &&
+									$view->file_exists($realFile)) {
+								\OCP\Util::writeLog('files_encryption', 'original file still exists, keep owners share key!', \OCP\Util::ERROR);
+								continue;
+							}
+							\OCP\Util::writeLog('files_encryption', 'recursiveDelShareKey: delete share key: ' . $file, \OCP\Util::DEBUG);
+							$view->unlink($dir . '/' . $file);
 						}
 					}
 				}
@@ -570,16 +577,18 @@ class Keymanager {
 	/**
 	 * @brief extract filename from share key name
 	 * @param string $shareKey (filename.userid.sharekey)
-	 * @return mixed filename or false
+	 * @return string|false filename or false
 	 */
-	protected static function getFilenameFromShareKey($shareKey) {
-		$parts = explode('.', $shareKey);
+	protected static function getFilenameFromShareKey($shareKey, $userId) {
+		$expectedSuffix = '.' . $userId . '.' . 'shareKey';
+		$suffixLen = strlen($expectedSuffix);
 
-		$filename = false;
-		if(count($parts) > 2) {
-			$filename = implode('.', array_slice($parts, 0, count($parts)-2));
+		$suffix = substr($shareKey, -$suffixLen);
+
+		if ($suffix !== $expectedSuffix) {
+			return false;
 		}
 
-		return $filename;
+		return substr($shareKey, 0, -$suffixLen);
 	}
 }
