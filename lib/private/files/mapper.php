@@ -66,8 +66,8 @@ class Mapper
 	 */
 	public function copy($path1, $path2)
 	{
-		$path1 = $this->stripLast($path1);
-		$path2 = $this->stripLast($path2);
+		$path1 = $this->resolveRelativePath($path1);
+		$path2 = $this->resolveRelativePath($path2);
 		$physicPath1 = $this->logicToPhysical($path1, true);
 		$physicPath2 = $this->logicToPhysical($path2, true);
 
@@ -113,18 +113,11 @@ class Mapper
 		return '';
 	}
 
-	private function stripLast($path) {
-		if (substr($path, -1) == '/') {
-			$path = substr_replace($path, '', -1);
-		}
-		return $path;
-	}
-
 	/**
 	 * @param string $logicPath
 	 */
 	private function resolveLogicPath($logicPath) {
-		$logicPath = $this->stripLast($logicPath);
+		$logicPath = $this->resolveRelativePath($logicPath);
 		$sql = 'SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?';
 		$result = \OC_DB::executeAudited($sql, array(md5($logicPath)));
 		$result = $result->fetchRow();
@@ -136,7 +129,7 @@ class Mapper
 	}
 
 	private function resolvePhysicalPath($physicalPath) {
-		$physicalPath = $this->stripLast($physicalPath);
+		$physicalPath = $this->resolveRelativePath($physicalPath);
 		$sql = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `physic_path_hash` = ?');
 		$result = \OC_DB::executeAudited($sql, array(md5($physicalPath)));
 		$result = $result->fetchRow();
@@ -144,12 +137,35 @@ class Mapper
 		return $result['logic_path'];
 	}
 
+	private function resolveRelativePath($path) {
+		$explodedPath = explode('/', $path);
+		$pathArray = array();
+		foreach ($explodedPath as $pathElement) {
+			if (empty($pathElement) || ($pathElement == '.')) {
+				continue;
+			} elseif ($pathElement == '..') {
+				if (count($pathArray) == 0) {
+					return false;
+				}
+				array_pop($pathArray);
+			} else {
+				array_push($pathArray, $pathElement);
+			}
+		}
+		if (substr($path, 0, 1) == '/') {
+			$path = '/';
+		} else {
+			$path = '';
+		}
+		return $path.implode('/', $pathArray);
+	}
+
 	/**
 	 * @param string $logicPath
 	 * @param boolean $store
 	 */
 	private function create($logicPath, $store) {
-		$logicPath = $this->stripLast($logicPath);
+		$logicPath = $this->resolveRelativePath($logicPath);
 		$index = 0;
 
 		// create the slugified path
@@ -205,8 +221,8 @@ class Mapper
 			}
 		}
 
-		$sluggedPath = $this->unchangedPhysicalRoot . implode('/', $sluggedElements);
-		return $this->stripLast($sluggedPath);
+		$sluggedPath = $this->unchangedPhysicalRoot.implode('/', $sluggedElements);
+		return $this->resolveRelativePath($sluggedPath);
 	}
 
 	/**

@@ -38,6 +38,9 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function rmdir($path) {
+		if (!$this->isDeletable($path)) {
+			return false;
+		}
 		try {
 			$it = new \RecursiveIteratorIterator(
 				new \RecursiveDirectoryIterator($this->buildPath($path)),

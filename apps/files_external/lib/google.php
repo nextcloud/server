@@ -204,6 +204,9 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function rmdir($path) {
+		if (!$this->isDeletable($path)) {
+			return false;
+		}
 		if (trim($path, '/') === '') {
 			$dir = $this->opendir($path);
 			if(is_resource($dir)) {

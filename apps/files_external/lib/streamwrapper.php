@@ -21,7 +21,7 @@ abstract class StreamWrapper extends Common {
 	}
 
 	public function rmdir($path) {
-		if ($this->file_exists($path)) {
+		if ($this->file_exists($path) && $this->isDeletable($path)) {
 			$dh = $this->opendir($path);
 			while (($file = readdir($dh)) !== false) {
 				if ($this->is_dir($path . '/' . $file)) {
