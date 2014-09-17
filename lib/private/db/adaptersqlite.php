@@ -11,7 +11,7 @@ namespace OC\DB;
 
 class AdapterSqlite extends Adapter {
 	public function fixupStatement($statement) {
-		$statement = str_replace(' ILIKE ', ' LIKE ', $statement);
+		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'LOWER($1) LIKE LOWER(?)', $statement);
 		$statement = str_replace( '`', '"', $statement );
 		$statement = str_ireplace( 'NOW()', 'datetime(\'now\')', $statement );
 		$statement = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $statement );
