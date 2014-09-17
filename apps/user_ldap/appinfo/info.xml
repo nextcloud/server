@@ -15,7 +15,7 @@
 		<authentication/>
 	</types>
 	<documentation>
-		<admin>http://doc.owncloud.org/server/6.0/go.php?to=admin-ldap</admin>
+		<admin>http://doc.owncloud.org/server/7.0/go.php?to=admin-ldap</admin>
 	</documentation>
 	<ocsid>166061</ocsid>
 </info>
