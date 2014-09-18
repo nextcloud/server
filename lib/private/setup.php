@@ -38,18 +38,28 @@ class OC_Setup {
 			$dbtype = 'sqlite';
 		}
 
+		$username = htmlspecialchars_decode($options['adminlogin']);
+		$password = htmlspecialchars_decode($options['adminpass']);
+		$datadir = htmlspecialchars_decode($options['directory']);
+
 		$class = self::$dbSetupClasses[$dbtype];
+		/** @var \OC\Setup\AbstractDatabase $dbSetup */
 		$dbSetup = new $class(self::getTrans(), 'db_structure.xml');
 		$error = array_merge($error, $dbSetup->validate($options));
+
+		// validate the data directory
+		if (
+			(!is_dir($datadir) and !mkdir($datadir)) or
+			!is_writable($datadir)
+		) {
+			$error[] = $l->t("Can't create or write into the data directory %s", array($datadir));
+		}
 
 		if(count($error) != 0) {
 			return $error;
 		}
 
 		//no errors, good
-		$username = htmlspecialchars_decode($options['adminlogin']);
-		$password = htmlspecialchars_decode($options['adminpass']);
-		$datadir = htmlspecialchars_decode($options['directory']);
 		if(    isset($options['trusted_domains'])
 		    && is_array($options['trusted_domains'])) {
 			$trustedDomains = $options['trusted_domains'];
