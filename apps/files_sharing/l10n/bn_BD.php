@@ -7,11 +7,17 @@ $TRANSLATIONS = array(
 "Shared by link" => "লিঙ্কের মাধ্যমে ভাগাভাগিকৃত",
 "Remote share" => "দুরবর্তী ভাগাভাগি",
 "Cancel" => "বাতিল",
+"No ownCloud installation found at {remote}" => "{remote}এ কোন ওউনক্লাউড ইনস্টলেসন পাওয়া গেলনা",
 "Invalid ownCloud url" => "অবৈধ ওউনক্লাউড url",
 "Shared by" => "যাদের মাঝে ভাগাভাগি করা হয়েছে",
 "This share is password-protected" => "এই শেয়ারটি কূটশব্দদ্বারা সুরক্ষিত",
+"The password is wrong. Try again." => "কুটশব্দটি ভুল। আবার চেষ্টা করুন।",
 "Password" => "কূটশব্দ",
 "Name" => "নাম",
+"Share time" => "ভাগাভাগির সময়",
+"Reasons might be:" => "কারণসমূহ হতে পারে:",
+"the item was removed" => "আইটেমটি অপসারণ করা হয়েছিল",
+"the link expired" => "মেয়াদোত্তীর্ন লিঙ্ক",
 "Download" => "ডাউনলোড"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

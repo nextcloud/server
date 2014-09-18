@@ -6,14 +6,14 @@ $TRANSLATIONS = array(
 "Shared with you" => "Διαμοιρασμένο με εσάς",
 "Shared with others" => "Διαμοιρασμένο με άλλους",
 "Shared by link" => "Διαμοιρασμένο μέσω συνδέσμου",
-"No files have been shared with you yet." => "Κανένα αρχείο δνε έχει διαμοιραστεί ακόμα με εσάς.",
+"No files have been shared with you yet." => "Κανένα αρχείο δεν έχει διαμοιραστεί ακόμα με εσάς.",
 "You haven't shared any files yet." => "Δεν έχετε διαμοιραστεί κανένα αρχείο ακόμα.",
 "You haven't shared any files by link yet." => "Δεν έχετε διαμοιραστεί κανένα αρχείο μέσω συνδέσμου ακόμα.",
-"Do you want to add the remote share {name} from {owner}@{remote}?" => "Θέλετε να προσθέσουμε τον απομακρυσμένο διαμοιρασμό {name} από {owner}@{remote}?",
-"Remote share" => "Απομακρυσμένος διαμοιρασμός",
-"Remote share password" => "απομακρυσμένος διαμοιρασμός συνθηματικού",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
+"Remote share" => "Απομακρυσμένος κοινόχρηστος φάκελος",
+"Remote share password" => "Κωδικός πρόσβασης απομακρυσμένου κοινόχρηστου φακέλου",
 "Cancel" => "Άκυρο",
-"Add remote share" => "Προσθήκη απομακρυσμένου διαμοιρασμού",
+"Add remote share" => "Προσθήκη απομακρυσμένου κοινόχρηστου φακέλου",
 "No ownCloud installation found at {remote}" => "Δεν βρέθηκε εγκατεστημένο ownCloud στο {remote}",
 "Invalid ownCloud url" => "Άκυρη url ownCloud ",
 "Shared by" => "Διαμοιράστηκε από",
@@ -34,6 +34,6 @@ $TRANSLATIONS = array(
 "Direct link" => "Άμεσος σύνδεσμος",
 "Remote Shares" => "Απομακρυσμένοι Κοινόχρηστοι Φάκελοι",
 "Allow other instances to mount public links shared from this server" => "Να επιτρέπεται σε άλλες εγκαταστάσεις να επιθέτουν δημόσιους συνδέσμους που έχουν διαμοιραστεί από αυτόν το διακομιστή",
-"Allow users to mount public link shares" => "Να επιτρέπεται στους χρήστες να επιθέτουν κοινόχρηστους φακέλους με δημόσιους συνδέσμους"
+"Allow users to mount public link shares" => "Να επιτρέπεται στους χρήστες να επιθέτουν κοινόχρηστους φακέλους από δημόσιους συνδέσμους"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

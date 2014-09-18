@@ -161,6 +161,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "SQLite va être utilisée comme base de donnée. Pour des installations plus volumineuse, nous vous conseillons de changer ce réglage.",
 "Finish setup" => "Terminer l'installation",
 "Finishing …" => "En cours de finalisation...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Cette application nécessite JavaScript pour fonctionner correctement.  Veuillez <a href=\"http://enable-javascript.com/\" target=\"_blank\">activer JavaScript</a> puis charger à nouveau cette page.",
 "%s is available. Get more information on how to update." => "%s est disponible. Obtenez plus d'informations sur la façon de mettre à jour.",
 "Log out" => "Se déconnecter",
 "Server side authentication failed!" => "L'authentification côté serveur a échoué !",
@@ -176,11 +177,15 @@ $TRANSLATIONS = array(
 "Thank you for your patience." => "Merci de votre patience.",
 "You are accessing the server from an untrusted domain." => "Vous accédez au serveur à partir d'un domaine non-approuvé.",
 "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." => "Veuillez contacter votre administrateur. Si vous être l'administrateur de cette instance, il faut configurer la variable \"trusted_domain\" dans le fichier config/config.php. Un exemple de configuration est fournit dans le fichier config/config.sample.php.",
+"Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." => "En fonction de votre configuration, en tant qu'administrateur vous pouvez également utiliser le bouton ci-dessous pour faire confiance à ce domaine.",
+"Add \"%s\" as trusted domain" => "Ajouter \"%s\" comme domaine de confiance",
 "%s will be updated to version %s." => "%s sera mis à jour vers la version %s.",
 "The following apps will be disabled:" => "Les applications suivantes seront désactivées :",
 "The theme %s has been disabled." => "Le thème %s a été désactivé.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Veuillez vous assurer qu'une copie de sauvegarde de la base de données, du dossier de configuration et du dossier de données a été réalisée avant le commencement de la procédure.",
 "Start update" => "Démarrer la mise à jour.",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Afin d'éviter les délais d'interruption avec les installations de plus grande ampleur, vous pouvez plutôt exécuter la commande suivante depuis le répertoire d'installation :"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Afin d'éviter les délais d'interruption avec les installations de plus grande ampleur, vous pouvez plutôt exécuter la commande suivante depuis le répertoire d'installation :",
+"This %s instance is currently being updated, which may take a while." => "Cette instance de %s est en cours de mise à jour, cela peut prendre du temps.",
+"This page will refresh itself when the %s instance is available again." => "Cette page se rafraîchira d'elle-même lorsque l'instance %s sera à nouveau disponible."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

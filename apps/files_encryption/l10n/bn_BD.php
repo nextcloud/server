@@ -4,11 +4,14 @@ $TRANSLATIONS = array(
 "Recovery key successfully disabled" => "পূনরুদ্ধার চাবি সার্থকভাবে অকার্যকর করা হয়েছে",
 "Password successfully changed." => "আপনার কূটশব্দটি সার্থকভাবে পরিবর্তন করা হয়েছে ",
 "Missing requirements." => "প্রয়োজনানুযায়ী ঘাটতি আছে।",
+"Following users are not set up for encryption:" => "নিম্নবর্ণিত ব্যবহারকারীগণ এনক্রিপসনের জন্য অধিকারপ্রাপ্ত নন:",
+"Initial encryption started... This can take some time. Please wait." => "প্রাথমিক এনক্রিপসন শুরু হয়েছে.... এটি কিছুটা সময় নিতে পারে। অপেক্ষা করুন।",
 "Initial encryption running... Please try again later." => "প্রাথমিক এনক্রিপসন চলছে.... দয়া করে পরে আবার চেষ্টা করুন।",
 "Go directly to your %spersonal settings%s." => "সরাসরি আপনার %spersonal settings%s এ যান।",
 "Encryption" => "সংকেতায়ন",
 "Enabled" => "কার্যকর",
 "Disabled" => "অকার্যকর",
+"Change recovery key password:" => "পূণরূদ্ধার কি এর কুটশব্দ পরিবর্তন করুন:",
 "Change Password" => "কূটশব্দ পরিবর্তন করুন"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

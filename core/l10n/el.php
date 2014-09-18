@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "Η SQLIte θα χρησιμοποιηθεί ως βάση δεδομένων. Για μεγαλύτερες εγκαταστάσεις σας συνιστούμε να το αλλάξετε.",
 "Finish setup" => "Ολοκλήρωση εγκατάστασης",
 "Finishing …" => "Ολοκλήρωση...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Αυτή η εφαρμογή απαιτεί JavaScript για τη σωστή λειτουργία. Παρακαλώ  <a href=\"http://enable-javascript.com/\" target=\"_blank\">ενεργοποιήστε τη JavaScript</a> και επαναφορτώστε τη σελίδα.",
 "%s is available. Get more information on how to update." => "%s είναι διαθέσιμη. Δείτε περισσότερες πληροφορίες στο πώς να αναβαθμίσετε.",
 "Log out" => "Αποσύνδεση",
 "Server side authentication failed!" => "Η διαδικασία επικύρωσης απέτυχε από την πλευρά του διακομιστή!",
@@ -185,6 +186,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Το θέμα %s έχει απενεργοποιηθεί.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Παρακαλώ βεβαιωθείτε ότι έχουν ληψθεί αντίγραφα ασφαλείας της βάσης δεδομένων, του φακέλου ρυθμίσεων και του φακέλου δεδομένων πριν προχωρήσετε.",
 "Start update" => "Έναρξη ενημέρωσης",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Για να αποφύγετε τη λήξη χρόνου με μεγαλύτερες εγκαταστάσεις, μπορείτε αντί αυτού να τρέξετε την ακόλουθη εντολή από τον κατάλογο αρχείων εφαρμογών:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Για να αποφύγετε τη λήξη χρόνου με μεγαλύτερες εγκαταστάσεις, μπορείτε αντί αυτού να τρέξετε την ακόλουθη εντολή από τον κατάλογο αρχείων εφαρμογών:",
+"This %s instance is currently being updated, which may take a while." => "Αυτή %s η εγκατάσταση είναι υπό ενημέρωση, η οποία μπορεί να πάρει κάποιο χρόνο.",
+"This page will refresh itself when the %s instance is available again." => "Αυτή η σελίδα θα ανανεωθεί από μόνη της όταν η %s εγκατάσταση είναι διαθέσιμη ξανά."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

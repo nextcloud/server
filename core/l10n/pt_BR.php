@@ -186,6 +186,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "O tema %s foi desativado.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Por favor, certifique-se de que o banco de dados, a pasta config e a pasta de dados foram copiados antes de prosseguir.",
 "Start update" => "Iniciar atualização",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tempos de espera com instalações maiores, você pode em vez disso executar o seguinte comando a partir do diretório de instalação:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tempos de espera com instalações maiores, você pode em vez disso executar o seguinte comando a partir do diretório de instalação:",
+"This %s instance is currently being updated, which may take a while." => "Esta instância %s está sendo atualizada, o que pode demorar um pouco.",
+"This page will refresh itself when the %s instance is available again." => "Esta página será atualizada automaticamente quando esta instância %s estiver disponível novamente."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

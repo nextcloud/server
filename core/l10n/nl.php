@@ -186,6 +186,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Het thema %s is uitgeschakeld.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Let erop dat de database, de config map en de data map zijn gebackupped voordat u verder gaat.",
 "Start update" => "Begin de update",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Om time-outs tijdens grotere installaties te voorkomen, kunt u in plaats hiervan de volgende opdracht geven vanaf uw installatiedirectory:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Om time-outs tijdens grotere installaties te voorkomen, kunt u in plaats hiervan de volgende opdracht geven vanaf uw installatiedirectory:",
+"This %s instance is currently being updated, which may take a while." => "Deze %s-installatie wordt momenteel geüpdatet. Dat kan enige tijd duren.",
+"This page will refresh itself when the %s instance is available again." => "Deze pagina wordt ververst als de %s-installatie weer beschikbaar is."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

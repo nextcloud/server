@@ -163,6 +163,7 @@ $TRANSLATIONS = array(
 "SQLite will be used as database. For larger installations we recommend to change this." => "Za podatkovno zbirko bo uporabljen SQLite. Za večje zbirke je priporočljivo to zamenjati.",
 "Finish setup" => "Končaj nastavitev",
 "Finishing …" => "Poteka zaključevanje opravila ...",
+"This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." => "Program zahteva podporo JavaScript za pravilno delovanje. Omogočite <a href=\"http://enable-javascript.com/\" target=\"_blank\">JavaScript</a> in ponovno osvežite stran.",
 "%s is available. Get more information on how to update." => "%s je na voljo. Pridobite več podrobnosti za posodobitev.",
 "Log out" => "Odjava",
 "Server side authentication failed!" => "Overitev s strežnika je spodletela!",
@@ -185,6 +186,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Tema %s je onemogočena za uporabo.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Pred nadaljevanjem se prepričajte se, da je ustvarjena varnostna kopija podatkovne zbirke, nastavitvenih datotek in podatkovne mape.",
 "Start update" => "Začni posodobitev",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Za razreševanje časovnih zahtev večjih namestitev lahko uporabite ukaz iz namestitvene mape:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Za razreševanje časovnih zahtev večjih namestitev lahko uporabite ukaz iz namestitvene mape:",
+"This %s instance is currently being updated, which may take a while." => "Povezava %s se posodablja. Opravilo je lahko dolgotrajno.",
+"This page will refresh itself when the %s instance is available again." => "Stran bo osvežena ko bo %s spet na voljo."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

@@ -13,6 +13,7 @@ $TRANSLATIONS = array(
 "Group already exists" => "গোষ্ঠীটি পূর্ব থেকেই বিদ্যমান",
 "Unable to add group" => "গোষ্ঠী যোগ করা সম্ভব হলো না",
 "Files decrypted successfully" => "সার্থকভাবে ফাইল ডিক্রিপ্ট করা হয়েছে",
+"Couldn't remove app." => "অ্যাপ অপসারণ করা গেলনা",
 "Email saved" => "ই-মেইল সংরক্ষন করা হয়েছে",
 "Invalid email" => "ই-মেইলটি সঠিক নয়",
 "Unable to delete group" => "গোষ্ঠী মুছে ফেলা সম্ভব হলো না ",
