@@ -1316,32 +1316,38 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * converts a binary SID into a string representation
 	 * @param string $sid
 	 * @return string
-	 * @link http://blogs.freebsdish.org/tmclaugh/2010/07/21/finding-a-users-primary-group-in-ad/#comment-2855
 	 */
 	public function convertSID2Str($sid) {
-		try {
-			if(!function_exists('bcadd')) {
-				\OCP\Util::writeLog('user_ldap',
-					'You need to install bcmath module for PHP to have support ' .
-					'for AD primary groups', \OCP\Util::WARN);
-				throw new \Exception('missing bcmath module');
-			}
-			$srl = ord($sid[0]);
-			$numberSubID = ord($sid[1]);
-			$x = substr($sid, 2, 6);
-			$h = unpack('N', "\x0\x0" . substr($x,0,2));
-			$l = unpack('N', substr($x,2,6));
-			$iav = bcadd(bcmul($h[1], bcpow(2,32)), $l[1]);
-			$subIDs = array();
-			for ($i=0; $i<$numberSubID; $i++) {
-				$subID = unpack('V', substr($sid, 8+4*$i, 4));
-				$subIDs[] = $subID[1];
-			}
-		} catch (\Exception $e) {
+		// The format of a SID binary string is as follows:
+		// 1 byte for the revision level
+		// 1 byte for the number n of variable sub-ids
+		// 6 bytes for identifier authority value
+		// n*4 bytes for n sub-ids
+		//
+		// Example: 010400000000000515000000a681e50e4d6c6c2bca32055f
+		//  Legend: RRNNAAAAAAAAAAAA11111111222222223333333344444444
+		$revision = ord($sid[0]);
+		$numberSubID = ord($sid[1]);
+
+		$subIdStart = 8; // 1 + 1 + 6
+		$subIdLength = 4;
+		if (strlen($sid) !== $subIdStart + $subIdLength * $numberSubID) {
+			// Incorrect number of bytes present.
 			return '';
 		}
 
-		return sprintf('S-%d-%d-%s', $srl, $iav, implode('-', $subIDs));
+		// 6 bytes = 48 bits can be represented using floats without loss of
+		// precision (see https://gist.github.com/bantu/886ac680b0aef5812f71)
+		$iav = number_format(hexdec(bin2hex(substr($sid, 2, 6))), 0, '', '');
+
+		$subIDs = array();
+		for ($i = 0; $i < $numberSubID; $i++) {
+			$subID = unpack('V', substr($sid, $subIdStart + $subIdLength * $i, $subIdLength));
+			$subIDs[] = sprintf('%u', $subID[1]);
+		}
+
+		// Result for example above: S-1-5-21-249921958-728525901-1594176202
+		return sprintf('S-%d-%s-%s', $revision, $iav, implode('-', $subIDs));
 	}
 
 	/**
