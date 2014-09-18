@@ -8,8 +8,8 @@
 	<requiremin>4</requiremin>
 	<shipped>true</shipped>
 	<documentation>
-		<user>http://doc.owncloud.org/server/6.0/user_manual/files/encryption.html</user>
-		<admin>http://doc.owncloud.org/server/6.0/admin_manual/configuration/configuration_encryption.html</admin>
+		<user>http://doc.owncloud.org/server/7.0/user_manual/files/encryption.html</user>
+		<admin>http://doc.owncloud.org/server/7.0/admin_manual/configuration/configuration_encryption.html</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
 	<types>
