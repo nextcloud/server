@@ -39,7 +39,6 @@ class Certificate implements ICertificate {
 			$info = openssl_x509_parse($data);
 			$this->commonName = isset($info['subject']['CN']) ? $info['subject']['CN'] : null;
 			$this->organization = isset($info['subject']['O']) ? $info['subject']['O'] : null;
-			$this->serial = $this->formatSerial($info['serialNumber']);
 			$this->issueDate = new \DateTime('@' . $info['validFrom_time_t'], $gmt);
 			$this->expireDate = new \DateTime('@' . $info['validTo_time_t'], $gmt);
 			$this->issuerName = isset($info['issuer']['CN']) ? $info['issuer']['CN'] : null;
@@ -47,17 +46,6 @@ class Certificate implements ICertificate {
 		} catch (\Exception $e) {
 			throw new \Exception('Certificate could not get parsed.');
 		}
-	}
-
-	/**
-	 * Format the numeric serial into AA:BB:CC hex format
-	 *
-	 * @param int $serial
-	 * @return string
-	 */
-	protected function formatSerial($serial) {
-		$hex = strtoupper(dechex($serial));
-		return trim(chunk_split($hex, 2, ':'), ':');
 	}
 
 	/**
@@ -79,13 +67,6 @@ class Certificate implements ICertificate {
 	 */
 	public function getOrganization() {
 		return $this->organization;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getSerial() {
-		return $this->serial;
 	}
 
 	/**
