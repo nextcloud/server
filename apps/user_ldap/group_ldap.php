@@ -29,6 +29,16 @@ use OCA\user_ldap\lib\BackendUtility;
 class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	protected $enabled = false;
 
+	/**
+	 * @var string[] $cachedGroupMembers array of users with gid as key
+	 */
+	protected $cachedGroupMembers = array();
+
+	/**
+	 * @var string[] $cachedGroupsByMember array of groups with uid as key
+	 */
+	protected $cachedGroupsByMember = array();
+
 	public function __construct(Access $access) {
 		parent::__construct($access);
 		$filter = $this->access->connection->ldapGroupFilter;
@@ -56,6 +66,21 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		$userDN = $this->access->username2dn($uid);
+
+		if(isset($this->cachedGroupMembers[$gid])) {
+			$isInGroup = in_array($userDN, $this->cachedGroupMembers[$gid]);
+			return $isInGroup;
+		}
+
+		$cacheKeyMembers = 'inGroup-members:'.$gid;
+		if($this->access->connection->isCached($cacheKeyMembers)) {
+			$members = $this->access->connection->getFromCache($cacheKeyMembers);
+			$this->cachedGroupMembers[$gid] = $members;
+			$isInGroup = in_array($userDN, $members);
+			$this->access->connection->writeToCache($cacheKey, $isInGroup);
+			return $isInGroup;
+		}
+
 		$groupDN = $this->access->groupname2dn($gid);
 		// just in case
 		if(!$groupDN || !$userDN) {
@@ -70,29 +95,44 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$members = array_keys($this->_groupMembers($groupDN));
-		if(!$members) {
+		$members = $this->_groupMembers($groupDN);
+		$members = array_keys($members); // uids are returned as keys
+		if(!is_array($members) || count($members) === 0) {
 			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
 
 		//extra work if we don't get back user DNs
-		//TODO: this can be done with one LDAP query
 		if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
 			$dns = array();
+			$filterParts = array();
+			$bytes = 0;
 			foreach($members as $mid) {
 				$filter = str_replace('%uid', $mid, $this->access->connection->ldapLoginFilter);
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
-				if(count($ldap_users) < 1) {
-					continue;
+				$filterParts[] = $filter;
+				$bytes += strlen($filter);
+				if($bytes >= 9000000) {
+					// AD has a default input buffer of 10 MB, we do not want
+					// to take even the chance to exceed it
+					$filter = $this->access->combineFilterWithOr($filterParts);
+					$bytes = 0;
+					$filterParts = array();
+					$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+					$dns = array_merge($dns, $users);
 				}
-				$dns[] = $ldap_users[0];
+			}
+			if(count($filterParts) > 0) {
+				$filter = $this->access->combineFilterWithOr($filterParts);
+				$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+				$dns = array_merge($dns, $users);
 			}
 			$members = $dns;
 		}
 
 		$isInGroup = in_array($userDN, $members);
 		$this->access->connection->writeToCache($cacheKey, $isInGroup);
+		$this->access->connection->writeToCache($cacheKeyMembers, $members);
+		$this->cachedGroupMembers[$gid] = $members;
 
 		return $isInGroup;
 	}
@@ -293,8 +333,13 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$uid = $userDN;
 		}
 
-		$groups = array_values($this->getGroupsByMember($uid));
-		$groups = $this->access->ownCloudGroupNames($groups);
+		if(isset($this->cachedGroupsByMember[$uid])) {
+			$groups = $this->cachedGroupsByMember[$uid];
+		} else {
+			$groups = array_values($this->getGroupsByMember($uid));
+			$groups = $this->access->ownCloudGroupNames($groups);
+			$this->cachedGroupsByMember[$uid] = $groups;
+		}
 
 		$primaryGroup = $this->getUserPrimaryGroup($userDN);
 		if($primaryGroup !== false) {
