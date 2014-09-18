@@ -21,7 +21,7 @@ class AdapterOCI8 extends Adapter {
 	const UNIX_TIMESTAMP_REPLACEMENT = "(cast(sys_extract_utc(systimestamp) as date) - date'1970-01-01') * 86400";
 
 	public function fixupStatement($statement) {
-		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'REGEXP_LIKE(`$1`, TRIM(BOTH \'%\' FROM ?), \'i\')', $statement);
+		$statement = preg_replace('/`(\w+)` ILIKE \?/', 'REGEXP_LIKE(`$1`, \'^\' || REPLACE(?, \'%\', \'.*\') || \'$\', \'i\')', $statement);
 		$statement = str_replace('`', '"', $statement);
 		$statement = str_ireplace('NOW()', 'CURRENT_TIMESTAMP', $statement);
 		$statement = str_ireplace('UNIX_TIMESTAMP()', self::UNIX_TIMESTAMP_REPLACEMENT, $statement);

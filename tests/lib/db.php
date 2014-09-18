@@ -282,6 +282,10 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
 		$result = $query->execute(array('foobar'));
 		$this->assertCount(1, $result->fetchAll());
+
+		$query = OC_DB::prepare("SELECT * FROM `$table` WHERE `fullname` ILIKE ?");
+		$result = $query->execute(array('foo'));
+		$this->assertCount(0, $result->fetchAll());
 	}
 
 	public function testILIKEWildcard() {
