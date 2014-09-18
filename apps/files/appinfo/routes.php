@@ -10,7 +10,7 @@ namespace OCA\Files\Appinfo;
 
 $application = new Application();
 $application->registerRoutes($this, array('routes' => array(
-	array('name' => 'API#getThumbnail', 'url' => '/api/v1/thumbnail/{x}/{y}/{file}', 'verb' => 'GET'),
+	array('name' => 'API#getThumbnail', 'url' => '/api/v1/thumbnail/{x}/{y}/{file}', 'verb' => 'GET', 'requirements' => array('file' => '.+')),
 )));
 
 
