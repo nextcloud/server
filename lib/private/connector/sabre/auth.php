@@ -76,7 +76,7 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 		$result = $this->auth($server, $realm);
 
 		// close the session - right after authentication there is not need to write to the session any more
-		\OC::$session->close();
+		session_write_close();
 
 		return $result;
     }
