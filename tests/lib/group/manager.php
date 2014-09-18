@@ -367,15 +367,6 @@ class Manager extends \PHPUnit_Framework_TestCase {
                                 }
                         }));
 
-		$backend->expects($this->once())
-			->method('implementsActions')
-			->will($this->returnValue(true));
-
-		$backend->expects($this->once())
-			->method('countUsersInGroup')
-			->with('testgroup', '')
-			->will($this->returnValue(2));
-
 		/**
 		 * @var \OC\User\Manager $userManager
 		 */
@@ -494,9 +485,9 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->with('testgroup')
 			->will($this->returnValue(true));
 
-                $backend->expects($this->any())
-			->method('InGroup')
-			->will($this->returnCallback(function($uid, $gid) {
+        $backend->expects($this->any())
+			->method('inGroup')
+			->will($this->returnCallback(function($uid) {
                                 switch($uid) {
                                         case 'user1' : return false;
                                         case 'user2' : return true;
@@ -519,9 +510,12 @@ class Manager extends \PHPUnit_Framework_TestCase {
 			->with('user3')
 			->will($this->returnCallback(function($search, $limit, $offset) use ($userBackend) {
                                 switch($offset) {
-                                        case 0 : return array('user3' => new User('user3', $userBackend),
-                                                        'user33' => new User('user33', $userBackend));
-                                        case 2 : return array('user333' => new User('user333', $userBackend));
+                                        case 0 :
+											return array(
+												'user3' => new User('user3', $userBackend),
+                                                'user33' => new User('user33', $userBackend),
+												'user333' => new User('user333', $userBackend)
+											);
                                 }
                         }));
 

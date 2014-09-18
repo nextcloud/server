@@ -179,10 +179,9 @@ class Manager extends PublicEmitter {
 		if(!empty($search)) {
 			// only user backends have the capability to do a complex search for users
 			$searchOffset = 0;
+			$searchLimit = $limit * 100;
 			if($limit === -1) {
-				$searchLimit = $group->count('');
-			} else {
-				$searchLimit = $limit * 2;
+				$searchLimit = 500;
 			}
 
 			do {
@@ -193,7 +192,7 @@ class Manager extends PublicEmitter {
 					}
 				}
 				$searchOffset += $searchLimit;
-			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) === $searchLimit);
+			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) >= $searchLimit);
 
 			if($limit === -1) {
 				$groupUsers = array_slice($groupUsers, $offset);

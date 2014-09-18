@@ -1250,7 +1250,7 @@ class Access extends LDAPUtility {
 	 * @param $bases array containing the allowed base DN or DNs
 	 * @returns Boolean
 	 */
-	private function isDNPartOfBase($dn, $bases) {
+	public function isDNPartOfBase($dn, $bases) {
 		$bases = $this->sanitizeDN($bases);
 		foreach($bases as $base) {
 			$belongsToBase = true;
