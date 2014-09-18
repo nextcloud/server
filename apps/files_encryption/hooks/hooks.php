@@ -484,6 +484,7 @@ class Hooks {
 			unset(self::$renamedFiles[$params['oldpath']]);
 		} else {
 			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::DEBUG);
+			\OC_FileProxy::$enabled = $proxyStatus;
 			return false;
 		}
 
