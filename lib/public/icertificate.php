@@ -25,11 +25,6 @@ interface ICertificate {
 	public function getOrganization();
 
 	/**
-	 * @return string
-	 */
-	public function getSerial();
-
-	/**
 	 * @return \DateTime
 	 */
 	public function getIssueDate();

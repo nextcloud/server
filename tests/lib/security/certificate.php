@@ -49,11 +49,6 @@ class CertificateTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame('Internet Widgits Pty Ltd', $this->invalidCertificate->getOrganization());
 	}
 
-	function testGetSerial() {
-		$this->assertSame('7F:FF:FF:FF:FF:FF:FF:FF', $this->goodCertificate->getSerial());
-		$this->assertSame('7F:FF:FF:FF:FF:FF:FF:FF', $this->invalidCertificate->getSerial());
-	}
-
 	function testGetIssueDate() {
 		$expected = new DateTime('2014-08-27 08:45:52 GMT');
 		$this->assertEquals($expected->getTimestamp(), $this->goodCertificate->getIssueDate()->getTimestamp());
