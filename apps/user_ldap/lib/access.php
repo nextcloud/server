@@ -1376,7 +1376,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * resets a running Paged Search operation
 	 */
 	private function abandonPagedSearch() {
-		if(count($this->cookies) > 0) {
+		if(!empty($this->lastCookie)) {
 			$cr = $this->connection->getConnectionResource();
 			$this->ldap->controlPagedResult($cr, 0, false, $this->lastCookie);
 			$this->getPagedSearchResultState();
@@ -1475,9 +1475,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 					}
 				}
 				if(!is_null($cookie)) {
-					if($offset > 0) {
-						\OCP\Util::writeLog('user_ldap', 'Cookie '.CRC32($cookie), \OCP\Util::INFO);
-					}
+					//since offset = 0, this is a new search. We abandon other searches that might be ongoing.
+					$this->abandonPagedSearch();
 					$pagedSearchOK = $this->ldap->controlPagedResult(
 						$this->connection->getConnectionResource(), $limit,
 						false, $cookie);
