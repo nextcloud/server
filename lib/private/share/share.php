@@ -775,7 +775,7 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 
-		if (!$itemUnshared && isset($groupShare)) {
+		if (!$itemUnshared && isset($groupShare) && !isset($uniqueGroupShare)) {
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share`'
 					.' (`item_type`, `item_source`, `item_target`, `parent`, `share_type`,'
 					.' `share_with`, `uid_owner`, `permissions`, `stime`, `file_source`, `file_target`)'
