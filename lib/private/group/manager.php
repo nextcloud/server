@@ -225,11 +225,11 @@ class Manager extends PublicEmitter {
 				$filteredUsers = $this->userManager->search($search, $searchLimit, $searchOffset);
 				foreach($filteredUsers as $filteredUser) {
 					if($group->inGroup($filteredUser)) {
-						$groupUsers []= $filteredUser;
+						$groupUsers[]= $filteredUser;
 					}
 				}
 				$searchOffset += $searchLimit;
-			} while(sizeof($groupUsers) < $searchLimit+$offset && sizeof($filteredUsers) > 0 && sizeof($filteredUsers) === $searchLimit);
+			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) === $searchLimit);
 
 			if($limit === -1) {
 				$groupUsers = array_slice($groupUsers, $offset);
