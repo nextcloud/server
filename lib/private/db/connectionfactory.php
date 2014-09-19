@@ -26,7 +26,7 @@ class ConnectionFactory {
 			'wrapperClass' => 'OC\DB\Connection',
 		),
 		'mysql' => array(
-			'adapter' => '\OC\DB\Adapter',
+			'adapter' => '\OC\DB\AdapterMySQL',
 			'charset' => 'UTF8',
 			'driver' => 'pdo_mysql',
 			'wrapperClass' => 'OC\DB\Connection',
@@ -88,6 +88,9 @@ class ConnectionFactory {
 				break;
 			case 'oci':
 				$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\OracleSessionInit);
+				break;
+			case 'sqlite3':
+				$eventManager->addEventSubscriber(new SQLiteSessionInit);
 				break;
 		}
 		$connection = \Doctrine\DBAL\DriverManager::getConnection(

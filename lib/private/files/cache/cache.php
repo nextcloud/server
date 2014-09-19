@@ -464,19 +464,7 @@ class Cache {
 				`mimetype`, `mimepart`, `size`, `mtime`, `encrypted`,
 				`unencrypted_size`, `etag`, `permissions`
 			FROM `*PREFIX*filecache`
-			WHERE `storage` = ? AND ';
-		$dbtype = \OC_Config::getValue( 'dbtype', 'sqlite' );
-		if($dbtype === 'oci') {
-			//remove starting and ending % from the pattern
-			$pattern = '^'.str_replace('%', '.*', $pattern).'$';
-			$sql .= 'REGEXP_LIKE(`name`, ?, \'i\')';
-		} else if($dbtype === 'pgsql') {
-			$sql .= '`name` ILIKE ?';
-		} else if ($dbtype === 'mysql') {
-			$sql .= '`name` COLLATE utf8_general_ci LIKE ?';
-		} else {
-			$sql .= '`name` LIKE ?';
-		}
+			WHERE `storage` = ? AND `name` ILIKE ?';
 		$result = \OC_DB::executeAudited($sql,
 			array($this->getNumericStorageId(), $pattern)
 		);
