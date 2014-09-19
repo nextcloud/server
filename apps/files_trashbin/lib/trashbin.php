@@ -97,6 +97,12 @@ class Trashbin {
 		$user = \OCP\User::getUser();
 		$size = 0;
 		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+
+		// file has been deleted in between
+		if (empty($ownerPath)) {
+			return false;
+		}
+
 		self::setUpTrash($user);
 
 		$view = new \OC\Files\View('/' . $user);
@@ -191,6 +197,10 @@ class Trashbin {
 			$rootView = new \OC\Files\View('/');
 
 			list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+			// file has been deleted in between
+			if (empty($ownerPath)) {
+				return 0;
+			}
 
 			if ($rootView->is_dir($owner . '/files_versions/' . $ownerPath)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $owner . '/files_versions/' . $ownerPath));
@@ -233,6 +243,11 @@ class Trashbin {
 			$rootView = new \OC\Files\View('/');
 
 			list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+
+			// file has been deleted in between
+			if (empty($ownerPath)) {
+				return 0;
+			}
 
 			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $user);
 
@@ -433,6 +448,12 @@ class Trashbin {
 
 			list($owner, $ownerPath) = self::getUidAndFilename($target);
 
+			// file has been deleted in between
+			if (empty($ownerPath)) {
+				\OC_FileProxy::$enabled = $proxyStatus;
+				return false;
+			}
+
 			if ($timestamp) {
 				$versionedFile = $filename;
 			} else {
@@ -482,6 +503,11 @@ class Trashbin {
 			$target = \OC\Files\Filesystem::normalizePath('/' . $location . '/' . $uniqueFilename);
 
 			list($owner, $ownerPath) = self::getUidAndFilename($target);
+
+			// file has been deleted in between
+			if (empty($ownerPath)) {
+				return false;
+			}
 
 			$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), $user);
 
