@@ -780,15 +780,6 @@ class OC {
 				if (isset($_COOKIE['oc_token'])) {
 					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				}
-				if (isset($_SERVER['PHP_AUTH_USER'])) {
-					if (isset($_COOKIE['oc_ignore_php_auth_user'])) {
-						// Ignore HTTP Authentication for 5 more mintues.
-						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], time() + 300, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
-					} elseif ($_SERVER['PHP_AUTH_USER'] === self::$server->getSession()->get('loginname')) {
-						// Ignore HTTP Authentication to allow a different user to log in.
-						setcookie('oc_ignore_php_auth_user', $_SERVER['PHP_AUTH_USER'], 0, OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
-					}
-				}
 				OC_User::logout();
 				// redirect to webroot and add slash if webroot is empty
 				header("Location: " . OC::$WEBROOT.(empty(OC::$WEBROOT) ? '/' : ''));
@@ -833,9 +824,8 @@ class OC {
 		} // remember was checked after last login
 		elseif (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
-		} // logon via web form or WebDAV
-		elseif (OC::tryFormLogin()) {}
-		elseif (OC::tryBasicAuthLogin()) {
+		} // logon via web form
+		elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
 		}
 
@@ -953,25 +943,6 @@ class OC {
 		return true;
 	}
 
-	/**
-	 * Try to login a user using HTTP authentication.
-	 * @return bool
-	 */
-	protected static function tryBasicAuthLogin() {
-		if (!isset($_SERVER["PHP_AUTH_USER"])
-			|| !isset($_SERVER["PHP_AUTH_PW"])
-			|| (isset($_COOKIE['oc_ignore_php_auth_user']) && $_COOKIE['oc_ignore_php_auth_user'] === $_SERVER['PHP_AUTH_USER'])
-		) {
-			return false;
-		}
-
-		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
-			OC_User::unsetMagicInCookie();
-			$_SERVER['HTTP_REQUESTTOKEN'] = OC_Util::callRegister();
-		}
-
-		return true;
-	}
 
 }
 
