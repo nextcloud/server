@@ -385,7 +385,7 @@ class Crypt {
 		// openssl_seal returns false without errors if $plainContent
 		// is empty, so trigger our own error
 		if (empty($plainContent)) {
-			throw new Exceptions\MultiKeyEncryptException('Cannot mutliKeyEncrypt empty plain content', 10);
+			throw new Exceptions\MultiKeyEncryptException('Cannot multiKeyEncrypt empty plain content', 10);
 		}
 
 		// Set empty vars to be set by openssl by reference
