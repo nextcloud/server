@@ -78,7 +78,6 @@ $TRANSLATIONS = array(
 "Admin" => "Admin",
 "Help" => "Ndihmë",
 "Access forbidden" => "Ndalohet hyrja",
-"Cloud not found" => "Cloud-i nuk u gjet",
 "Security Warning" => "Paralajmërim sigurie",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Versioni juaj i PHP-së është i cënueshëm nga sulmi NULL Byte (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Ju lutem azhurnoni instalimin tuaj të PHP-së që të përdorni %s -in në mënyrë të sigurt.",

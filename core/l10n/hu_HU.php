@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Hiba a kedvencekhez adáskor",
 "Error unfavoriting" => "Hiba a kedvencekből törléskor",
 "Access forbidden" => "A hozzáférés nem engedélyezett",
-"Cloud not found" => "A felhő nem található",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Üdv!\\n\n\\n\nÉrtesítjük, hogy %s megosztotta Önnel a következőt: %s.\\n\nItt lehet megnézni: %s\\n\n\\n",
 "The share will expire on %s." => "A megosztás lejár ekkor %s",
 "Cheers!" => "Üdv.",

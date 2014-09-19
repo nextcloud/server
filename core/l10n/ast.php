@@ -139,7 +139,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Fallu al marcar favoritos",
 "Error unfavoriting" => "Fallu al desmarcar favoritos",
 "Access forbidden" => "Accesu denegáu",
-"Cloud not found" => "Ñube non atopada",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hola, ¿qué hai?\n\nnamái déxanos dicite que %s compartió %s contigo.\nVelu: %s\n\n",
 "The share will expire on %s." => "La compartición va caducar el %s.",
 "Cheers!" => "¡Salú!",

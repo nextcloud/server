@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Fout bij favoriet maken",
 "Error unfavoriting" => "Fout bij verwijderen favorietstatus",
 "Access forbidden" => "Toegang verboden",
-"Cloud not found" => "Cloud niet gevonden",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hallo,\n\n%s deelt %s met u.\nBekijk het hier: %s\n\n",
 "The share will expire on %s." => "De share vervalt op %s.",
 "Cheers!" => "Proficiat!",

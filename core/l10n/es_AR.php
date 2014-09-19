@@ -118,7 +118,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Error al favorecer",
 "Error unfavoriting" => "Error al desfavorecer",
 "Access forbidden" => "Acceso prohibido",
-"Cloud not found" => "No se encontró ownCloud",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "¡Hola!\n\nsólo te quería decir que %s acaba de compartir %s contigo.\nVerlo: %s\n\n",
 "The share will expire on %s." => "El compartir expirará en %s.",
 "Cheers!" => "¡Saludos!",

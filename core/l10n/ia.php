@@ -107,7 +107,6 @@ $TRANSLATIONS = array(
 "Error loading tags" => "Error quando on cargava etiquettas",
 "Tag already exists" => "Etiquetta ja existe",
 "Access forbidden" => "Accesso prohibite",
-"Cloud not found" => "Nube non trovate",
 "The share will expire on %s." => "Le compartir expirara le %s.",
 "Cheers!" => "Acclamationes!",
 "Security Warning" => "Aviso de securitate",

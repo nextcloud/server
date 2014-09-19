@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-18 01:54-0400\n"
+"POT-Creation-Date: 2014-09-19 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,14 +52,14 @@ msgid ""
 "correct."
 msgstr ""
 
-#: files/error.php:13
+#: files/error.php:16
 msgid ""
 "Encryption app not initialized! Maybe the encryption app was re-enabled "
 "during your session. Please try to log out and log back in to initialize the "
 "encryption app."
 msgstr ""
 
-#: files/error.php:17
+#: files/error.php:20
 #, php-format
 msgid ""
 "Your private key is not valid! Likely your password was changed outside of "
@@ -67,13 +67,13 @@ msgid ""
 "in your personal settings to recover access to your encrypted files."
 msgstr ""
 
-#: files/error.php:20
+#: files/error.php:23
 msgid ""
 "Can not decrypt this file, probably this is a shared file. Please ask the "
 "file owner to reshare the file with you."
 msgstr ""
 
-#: files/error.php:23 files/error.php:28
+#: files/error.php:26 files/error.php:31
 msgid ""
 "Unknown error. Please check your system settings or contact your "
 "administrator"

@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Admin" => "Admin",
 "Help" => "Bantuan",
 "Access forbidden" => "Larangan akses",
-"Cloud not found" => "Awan tidak dijumpai",
 "Security Warning" => "Amaran keselamatan",
 "Create an <strong>admin account</strong>" => "buat <strong>akaun admin</strong>",
 "Password" => "Kata laluan",

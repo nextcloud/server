@@ -79,7 +79,6 @@ $TRANSLATIONS = array(
 "Admin" => "Adninistracija",
 "Help" => "Pomoć",
 "Access forbidden" => "Pristup zabranjen",
-"Cloud not found" => "Oblak nije nađen",
 "Security Warning" => "Bezbednosno upozorenje",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Vaša PHP verzija je ranjiva na ",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Vaši podaci i direktorijumi su verovatno dostupni sa interneta jer .htaccess fajl ne funkcioniše.",

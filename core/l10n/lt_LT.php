@@ -111,7 +111,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Klaida įtraukiant į mėgstamus.",
 "Error unfavoriting" => "Klaida pašalinant iš mėgstamų.",
 "Access forbidden" => "Priėjimas draudžiamas",
-"Cloud not found" => "Negalima rasti",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Labas,\n\nInformuojame, kad %s pasidalino su Jumis %s.\nPažiūrėti tai: %s\n",
 "The share will expire on %s." => "Bendrinimo laikas baigsis %s.",
 "Cheers!" => "Sveikinimai!",

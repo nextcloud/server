@@ -57,7 +57,6 @@ $TRANSLATIONS = array(
 "Admin" => "පරිපාලක",
 "Help" => "උදව්",
 "Access forbidden" => "ඇතුල් වීම තහනම්",
-"Cloud not found" => "සොයා ගත නොහැක",
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",
 "Password" => "මුර පදය",
 "Data folder" => "දත්ත ෆෝල්ඩරය",

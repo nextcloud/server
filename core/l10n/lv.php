@@ -76,7 +76,6 @@ $TRANSLATIONS = array(
 "Admin" => "Administratori",
 "Help" => "Palīdzība",
 "Access forbidden" => "Pieeja ir liegta",
-"Cloud not found" => "Mākonis netika atrasts",
 "Security Warning" => "Brīdinājums par drošību",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Jūsu PHP ir ievainojamība pret NULL Byte uzbrukumiem (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Lūdzu atjauniniet PHP instalāciju lai varētu droši izmantot %s.",

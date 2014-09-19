@@ -101,7 +101,6 @@ $TRANSLATIONS = array(
 "Error tagging" => "Eraris etikedado",
 "Error untagging" => "Eraris maletikedado",
 "Access forbidden" => "Aliro estas malpermesata",
-"Cloud not found" => "La nubo ne estas trovita",
 "Security Warning" => "Sekureca averto",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Via PHP versio estas sendefenda je la NULL bajto atako (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Bonvolu ĝisdatigi vian PHP-instalon por uzi %s sekure.",

@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Fejl ved favoritering",
 "Error unfavoriting" => "Fejl ved fjernelse af favorisering.",
 "Access forbidden" => "Adgang forbudt",
-"Cloud not found" => "Sky ikke fundet",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hej med dig\n\nDette blot for at lade dig vide, at %s har delt %s med dig.\nSe det her: %s\n\n",
 "The share will expire on %s." => "Delingen vil udløbe om %s.",
 "Cheers!" => "Hej!",
@@ -186,6 +185,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Temaet, %s, er blevet deaktiveret.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Venligst sikrer dig en backup af databasen, config-mappen og data-mappen inden vi fortsætter.",
 "Start update" => "Begynd opdatering",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "For at undgå tidsudløb med større installationer, så kan du i stedet køre følgende kommando fra din installationsmappe:",
+"This %s instance is currently being updated, which may take a while." => "Denne %s-instans bliver i øjeblikket opdateret, hvilket kan tage et stykke tid.",
+"This page will refresh itself when the %s instance is available again." => "Denne side vil genopfriske sig selv, når %s-instancen er tilgængelig igen."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

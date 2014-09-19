@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Server met server delen is niet geactiveerd op deze server",
-"Invalid or untrusted SSL certificate" => "Ongeldig of onvertrouwd SSL certificaat",
+"Invalid or untrusted SSL certificate" => "Ongeldig of onvertrouwd SSL-certificaat",
 "Couldn't add remote share" => "Kon geen externe share toevoegen",
 "Shared with you" => "Gedeeld met u",
 "Shared with others" => "Gedeeld door u",
@@ -12,7 +12,7 @@ $TRANSLATIONS = array(
 "Do you want to add the remote share {name} from {owner}@{remote}?" => "Wilt u de externe share {name} van {owner}@{remote} toevoegen?",
 "Remote share" => "Externe share",
 "Remote share password" => "Wachtwoord externe share",
-"Cancel" => "Annuleer",
+"Cancel" => "Annuleren",
 "Add remote share" => "Toevoegen externe share",
 "No ownCloud installation found at {remote}" => "Geen ownCloud installatie gevonden op {remote}",
 "Invalid ownCloud url" => "Ongeldige ownCloud url",

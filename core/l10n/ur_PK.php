@@ -99,7 +99,6 @@ $TRANSLATIONS = array(
 "Admin" => "ایڈمن",
 "Help" => "مدد",
 "Access forbidden" => "رسائ منقطع ہے",
-"Cloud not found" => "کلوڈ موجود نہہں",
 "Cheers!" => "واہ!",
 "Security Warning" => "حفاظتی انتباہ",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "آپ کا پی ایچ پی ورین نل بائٹ کے حملے کے خطرے سے دوچار  ہے (CVE-2006-7243)",

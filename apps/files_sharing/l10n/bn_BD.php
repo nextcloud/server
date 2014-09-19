@@ -18,6 +18,11 @@ $TRANSLATIONS = array(
 "Reasons might be:" => "কারণসমূহ হতে পারে:",
 "the item was removed" => "আইটেমটি অপসারণ করা হয়েছিল",
 "the link expired" => "মেয়াদোত্তীর্ন লিঙ্ক",
-"Download" => "ডাউনলোড"
+"sharing is disabled" => "ভাগাভাগি অকার্যকর",
+"For more info, please ask the person who sent this link." => "বিস্তারিত তথ্যের জন্য এই লিঙ্কের প্রেরককে জিজ্ঞাসা করুন।",
+"Download" => "ডাউনলোড",
+"Download %s" => "ডাউনলোড  %s",
+"Direct link" => "সরাসরি লিঙ্ক",
+"Remote Shares" => "দুরবর্তী ভাগাভাগি"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

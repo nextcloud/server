@@ -108,7 +108,6 @@ $TRANSLATIONS = array(
 "Admin" => "Administrator",
 "Help" => "Ajutor",
 "Access forbidden" => "Acces restricționat",
-"Cloud not found" => "Nu s-a găsit",
 "The share will expire on %s." => "Partajarea va expira în data de %s.",
 "Security Warning" => "Avertisment de securitate",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Versiunea dvs. PHP este vulnerabilă la un atac cu un octet NULL  (CVE-2006-7243)",

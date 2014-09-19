@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Beğenilirken hata",
 "Error unfavoriting" => "Beğeniden kaldırılırken hata",
 "Access forbidden" => "Erişim yasak",
-"Cloud not found" => "Bulut bulunamadı",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Merhaba,\n\nSadece %s sizinle %s paylaşımını yaptığını bildiriyoruz.\nBuradan bakabilirsiniz: %s\n\n",
 "The share will expire on %s." => "Bu paylaşım %s tarihinde sona erecek.",
 "Cheers!" => "Hoşça kalın!",

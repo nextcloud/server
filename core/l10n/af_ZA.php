@@ -86,7 +86,6 @@ $TRANSLATIONS = array(
 "Admin" => "Admin",
 "Help" => "Hulp",
 "Access forbidden" => "Toegang verbode",
-"Cloud not found" => "Wolk nie gevind",
 "Security Warning" => "Sekuriteits waarskuwing",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Jou PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "Opdateer asseblief jou PHP instelasie om %s veilig te gebruik",

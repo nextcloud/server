@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Viga lemmikuks lisamisel",
 "Error unfavoriting" => "Viga lemmikutest eemaldamisel",
 "Access forbidden" => "Ligipääs on keelatud",
-"Cloud not found" => "Pilve ei leitud",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Tere,\n\n%s jagas sulle välja %s.\nVaata siit: %s\n\n",
 "The share will expire on %s." => "Jagamine aegub %s.",
 "Cheers!" => "Terekest!",

@@ -139,7 +139,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Suosituksen kirjoitusvirhe",
 "Error unfavoriting" => "Suosituksen poisto virhe",
 "Access forbidden" => "Pääsy estetty",
-"Cloud not found" => "Pilveä ei löydy",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hei sinä!\n\n%s jakoi kohteen %s kanssasi.\nTutustu siihen: %s\n\n",
 "The share will expire on %s." => "Jakaminen päättyy %s.",
 "Cheers!" => "Kippis!",

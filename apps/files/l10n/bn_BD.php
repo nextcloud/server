@@ -24,6 +24,7 @@ $TRANSLATIONS = array(
 "No file was uploaded" => "কোন ফাইল আপলোড করা হয় নি",
 "Missing a temporary folder" => "অস্থায়ী ফোল্ডারটি হারানো গিয়েছে",
 "Failed to write to disk" => "ডিস্কে লিখতে ব্যর্থ",
+"Not enough storage available" => "সংরক্ষণের যথেষ্ট জায়গা প্রাপ্তব্য নয়",
 "Invalid directory." => "ভুল ডিরেক্টরি",
 "Files" => "ফাইল",
 "All files" => "সব ফাইল",

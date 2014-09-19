@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-18 01:54-0400\n"
+"POT-Creation-Date: 2014-09-19 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -606,8 +606,17 @@ msgstr ""
 msgid "Access forbidden"
 msgstr ""
 
-#: templates/404.php:15
-msgid "Cloud not found"
+#: templates/404.php:17
+msgid "File not found"
+msgstr ""
+
+#: templates/404.php:18
+msgid "The specified document has not been found on the server."
+msgstr ""
+
+#: templates/404.php:19
+#, php-format
+msgid "You can click here to return to %s."
 msgstr ""
 
 #: templates/altmail.php:2

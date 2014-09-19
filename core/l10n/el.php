@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Σφάλμα προσθήκης στα αγαπημένα",
 "Error unfavoriting" => "Σφάλμα αφαίρεσης από τα αγαπημένα",
 "Access forbidden" => "Δεν επιτρέπεται η πρόσβαση",
-"Cloud not found" => "Δεν βρέθηκε νέφος",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Γειά χαρά,\n\nαπλά σας ενημερώνω πως ο %s μοιράστηκε το %s με εσάς.\nΔείτε το: %s\n\n",
 "The share will expire on %s." => "Ο διαμοιρασμός θα λήξει σε %s.",
 "Cheers!" => "Χαιρετισμούς!",

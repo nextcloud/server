@@ -80,7 +80,6 @@ $TRANSLATIONS = array(
 "Admin" => "អ្នក​គ្រប់​គ្រង",
 "Help" => "ជំនួយ",
 "Access forbidden" => "បាន​ហាមឃាត់​ការ​ចូល",
-"Cloud not found" => "រក​មិន​ឃើញ Cloud",
 "Security Warning" => "បម្រាម​សុវត្ថិភាព",
 "Create an <strong>admin account</strong>" => "បង្កើត​<strong>គណនី​អភិបាល</strong>",
 "Password" => "ពាក្យសម្ងាត់",

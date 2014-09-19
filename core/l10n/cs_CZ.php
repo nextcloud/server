@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Chyba při označování jako oblíbené",
 "Error unfavoriting" => "Chyba při odznačování jako oblíbené",
 "Access forbidden" => "Přístup zakázán",
-"Cloud not found" => "Cloud nebyl nalezen",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
 "The share will expire on %s." => "Sdílení vyprší %s.",
 "Cheers!" => "Ať slouží!",

@@ -117,7 +117,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Помилка позначення улюблених",
 "Error unfavoriting" => "Помилка зняття позначки улюблених",
 "Access forbidden" => "Доступ заборонено",
-"Cloud not found" => "Cloud не знайдено",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Агов,\n\nпросто щоб ви знали, що %s поділився %s з вами.\nПодивіться: %s\n\n",
 "The share will expire on %s." => "Доступ до спільних даних вичерпається %s.",
 "Cheers!" => "Будьмо!",

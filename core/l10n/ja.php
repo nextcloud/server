@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "お気に入りに追加エラー",
 "Error unfavoriting" => "お気に入りから削除エラー",
 "Access forbidden" => "アクセスが禁止されています",
-"Cloud not found" => "見つかりません",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "こんにちは、\n\n%s があなたと %s を共有したことをお知らせします。\nそれを表示: %s\n",
 "The share will expire on %s." => "共有は %s で有効期限が切れます。",
 "Cheers!" => "それでは！",

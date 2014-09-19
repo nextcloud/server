@@ -94,7 +94,6 @@ $TRANSLATIONS = array(
 "Error tagging" => "Fehler beim Taggen",
 "Error untagging" => "Fehler beim Tag läschen",
 "Access forbidden" => "Zougrëff net erlaabt",
-"Cloud not found" => "Cloud net fonnt",
 "Cheers!" => "Prost!",
 "Security Warning" => "Sécherheets-Warnung",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Deng PHP-Versioun ass verwonnbar duerch d'NULL-Byte-Attack (CVE-2006-7243)",

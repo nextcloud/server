@@ -109,7 +109,6 @@ $TRANSLATIONS = array(
 "Error tagging" => "Lỗi gắn thẻ",
 "Error untagging" => "Lỗi không gắn thẻ",
 "Access forbidden" => "Truy cập bị cấm",
-"Cloud not found" => "Không tìm thấy Clound",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Xin chào,\n\nbáo cho bạn biết rằng %s đã chia sẽ %s với bạn.\nXem nó: %s\n\n",
 "The share will expire on %s." => "Chia sẻ này sẽ hết hiệu lực vào %s.",
 "Cheers!" => "Chúc mừng!",

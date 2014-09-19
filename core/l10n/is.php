@@ -70,7 +70,6 @@ $TRANSLATIONS = array(
 "Admin" => "Stjórnun",
 "Help" => "Hjálp",
 "Access forbidden" => "Aðgangur bannaður",
-"Cloud not found" => "Ský finnst ekki",
 "Security Warning" => "Öryggis aðvörun",
 "Create an <strong>admin account</strong>" => "Útbúa <strong>vefstjóra aðgang</strong>",
 "Password" => "Lykilorð",

@@ -75,7 +75,6 @@ $TRANSLATIONS = array(
 "Admin" => "מנהל",
 "Help" => "עזרה",
 "Access forbidden" => "הגישה נחסמה",
-"Cloud not found" => "ענן לא נמצא",
 "Security Warning" => "אזהרת אבטחה",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-2006-7243)",
 "Please update your PHP installation to use %s securely." => "נא לעדכן את התקנת ה-PHP שלך כדי להשתמש ב-%s בצורה מאובטחת.",

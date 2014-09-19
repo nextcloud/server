@@ -122,7 +122,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "즐겨찾기 추가 오류",
 "Error unfavoriting" => "즐겨찾기 삭제 오류",
 "Access forbidden" => "접근 금지됨",
-"Cloud not found" => "클라우드를 찾을 수 없습니다",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "안녕하세요,\n\n%s 님이 %s을(를) 공유하였음을 알려 드립니다.\n보기 링크: %s\n\n",
 "The share will expire on %s." => "이 공유는 %s 까지 유지됩니다.",
 "Cheers!" => "감사합니다!",

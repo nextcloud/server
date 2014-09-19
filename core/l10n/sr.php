@@ -68,7 +68,6 @@ $TRANSLATIONS = array(
 "Admin" => "Администратор",
 "Help" => "Помоћ",
 "Access forbidden" => "Забрањен приступ",
-"Cloud not found" => "Облак није нађен",
 "Security Warning" => "Сигурносно упозорење",
 "Create an <strong>admin account</strong>" => "Направи <strong>административни налог</strong>",
 "Password" => "Лозинка",

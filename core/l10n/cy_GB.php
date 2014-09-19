@@ -71,7 +71,6 @@ $TRANSLATIONS = array(
 "Admin" => "Gweinyddu",
 "Help" => "Cymorth",
 "Access forbidden" => "Mynediad wedi'i wahardd",
-"Cloud not found" => "Methwyd canfod cwmwl",
 "Security Warning" => "Rhybudd Diogelwch",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Mae eich fersiwn PHP yn agored i ymosodiad NULL Byte (CVE-2006-7243)",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Mwy na thebyg fod modd cyrraedd eich cyfeiriadur data a ffeilau o'r rhyngrwyd oherwydd nid yw'r ffeil .htaccess yn gweithio. ",

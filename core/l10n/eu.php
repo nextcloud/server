@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Errorea gogokoetara gehitzerakoan",
 "Error unfavoriting" => "Errorea gogokoetatik kentzerakoan",
 "Access forbidden" => "Sarrera debekatuta",
-"Cloud not found" => "Ez da hodeia aurkitu",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Kaixo\n\n%s-ek %s zurekin partekatu duela jakin dezazun.\nIkusi ezazu: %s\n\n",
 "The share will expire on %s." => "Elkarbanaketa %s-n iraungiko da.",
 "Cheers!" => "Ongi izan!",

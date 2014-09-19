@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "Apps" => "軟件",
 "Admin" => "管理",
 "Help" => "幫助",
-"Cloud not found" => "未找到Cloud",
 "Create an <strong>admin account</strong>" => "建立管理員帳戶",
 "Password" => "密碼",
 "Configure the database" => "設定資料庫",

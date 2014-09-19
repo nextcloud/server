@@ -86,7 +86,6 @@ $TRANSLATIONS = array(
 "Admin" => "প্রশাসন",
 "Help" => "সহায়িকা",
 "Access forbidden" => "অধিগমনের অনুমতি নেই",
-"Cloud not found" => "ক্লাউড খুঁজে পাওয়া গেল না",
 "Security Warning" => "নিরাপত্তাজনিত সতর্কতা",
 "Create an <strong>admin account</strong>" => "<strong>প্রশাসক একাউন্ট</strong> তৈরী করুন",
 "Password" => "কূটশব্দ",

@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Napaka označevanja priljubljenosti",
 "Error unfavoriting" => "Napaka odstranjevanja oznake priljubljenosti",
 "Access forbidden" => "Dostop je prepovedan",
-"Cloud not found" => "Oblaka ni mogoče najti",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Pozdravljeni,\n\noseba %s vam je omogočila souporabo %s.\nVir si lahko ogledate: %s\n\n",
 "The share will expire on %s." => "Povezava souporabe bo potekla %s.",
 "Cheers!" => "Na zdravje!",

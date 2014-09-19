@@ -140,7 +140,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Feil ved favorittmerking",
 "Error unfavoriting" => "Feil ved fjerning av favorittmerking",
 "Access forbidden" => "Tilgang nektet",
-"Cloud not found" => "Sky ikke funnet",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hei,\n\nDette er en beskjed om at %s delte %s med deg.\nVis den: %s\n\n",
 "The share will expire on %s." => "Delingen vil opphøre %s.",
 "Cheers!" => "Ha det!",

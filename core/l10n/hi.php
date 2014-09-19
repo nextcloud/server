@@ -37,7 +37,6 @@ $TRANSLATIONS = array(
 "Users" => "उपयोगकर्ता",
 "Apps" => "Apps",
 "Help" => "सहयोग",
-"Cloud not found" => "क्लौड नहीं मिला ",
 "Security Warning" => "सुरक्षा चेतावनी ",
 "Create an <strong>admin account</strong>" => "व्यवस्थापक खाता बनाएँ",
 "Password" => "पासवर्ड",

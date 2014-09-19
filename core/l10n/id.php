@@ -120,7 +120,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Galat saat memberikan sebagai favorit",
 "Error unfavoriting" => "Galat saat menghapus sebagai favorit",
 "Access forbidden" => "Akses ditolak",
-"Cloud not found" => "Cloud tidak ditemukan",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hai,\n\nhanya supaya anda tahu bahwa %s membagikan %s dengan anda.\nLihat: %s\n\n",
 "The share will expire on %s." => "Pembagian akan berakhir pada %s.",
 "Cheers!" => "Horee!",

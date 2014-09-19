@@ -138,7 +138,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "收藏时出错",
 "Error unfavoriting" => "删除收藏时出错",
 "Access forbidden" => "访问禁止",
-"Cloud not found" => "未找到云",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "嗨、你好,\n\n只想让你知道 %s 分享了 %s 给你。\n现在查看: %s\n",
 "The share will expire on %s." => "此分享将在 %s 过期。",
 "Cheers!" => "干杯！",

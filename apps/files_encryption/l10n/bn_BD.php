@@ -12,6 +12,9 @@ $TRANSLATIONS = array(
 "Enabled" => "কার্যকর",
 "Disabled" => "অকার্যকর",
 "Change recovery key password:" => "পূণরূদ্ধার কি এর কুটশব্দ পরিবর্তন করুন:",
+"Old Recovery key password" => "পূণরূদ্ধার কি এর  পুরাতন কুটশব্দ",
+"New Recovery key password" => "পূণরূদ্ধার কি এর  নতুন কুটশব্দ",
+"Repeat New Recovery key password" => "পূণরূদ্ধার কি এর  নতুন কুটশব্দ পূণরায় দিন",
 "Change Password" => "কূটশব্দ পরিবর্তন করুন"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

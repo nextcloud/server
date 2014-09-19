@@ -33,7 +33,6 @@ $TRANSLATIONS = array(
 "Apps" => "Apps",
 "Admin" => "အက်ဒမင်",
 "Help" => "အကူအညီ",
-"Cloud not found" => "မတွေ့ရှိမိပါ",
 "Security Warning" => "လုံခြုံရေးသတိပေးချက်",
 "Create an <strong>admin account</strong>" => "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်",
 "Password" => "စကားဝှက်",

@@ -102,7 +102,6 @@ $TRANSLATIONS = array(
 "Error untagging" => "Грешка при отстранување на таговите",
 "Error favoriting" => "Грешка при ",
 "Access forbidden" => "Забранет пристап",
-"Cloud not found" => "Облакот не е најден",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Здраво,\n\nСамо да ве известам дека  %s shared %s with you.\nView it: %s\n\n",
 "Cheers!" => "Поздрав!",
 "Security Warning" => "Безбедносно предупредување",

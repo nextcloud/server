@@ -60,7 +60,6 @@ $TRANSLATIONS = array(
 "Admin" => "Admin",
 "Help" => "Ajuda",
 "Access forbidden" => "Acces enebit",
-"Cloud not found" => "Nívol pas trobada",
 "Security Warning" => "Avertiment de securitat",
 "Create an <strong>admin account</strong>" => "Crea un <strong>compte admin</strong>",
 "Password" => "Senhal",

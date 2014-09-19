@@ -121,7 +121,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "خطا هنگام افزودن به موارد محبوب",
 "Error unfavoriting" => "خطا هنگام حذف از موارد محبوب",
 "Access forbidden" => "اجازه دسترسی به مناطق ممنوعه را ندارید",
-"Cloud not found" => "پیدا نشد",
 "Cheers!" => "سلامتی!",
 "Security Warning" => "اخطار امنیتی",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "نسخه ی PHP شما در برابر حملات NULL Byte آسیب پذیر است.(CVE-2006-7243)",

@@ -137,7 +137,6 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Fel favorisering",
 "Error unfavoriting" => "Fel av favorisering ",
 "Access forbidden" => "Åtkomst förbjuden",
-"Cloud not found" => "Hittade inget moln",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hej där!,\n\nVi vill bara meddela att %s delade %s med dig.\nTitta på den här: %s\n\n",
 "The share will expire on %s." => "Utdelningen kommer att upphöra %s.",
 "Cheers!" => "Ha de fint!",

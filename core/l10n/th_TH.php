@@ -74,7 +74,6 @@ $TRANSLATIONS = array(
 "Admin" => "ผู้ดูแล",
 "Help" => "ช่วยเหลือ",
 "Access forbidden" => "การเข้าถึงถูกหวงห้าม",
-"Cloud not found" => "ไม่พบ Cloud",
 "Security Warning" => "คำเตือนเกี่ยวกับความปลอดภัย",
 "Create an <strong>admin account</strong>" => "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>",
 "Password" => "รหัสผ่าน",
