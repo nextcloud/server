@@ -336,6 +336,10 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$storageId = $this->storage->getId();
 		$data = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
 		$id = $this->cache->put('foo', $data);
+
+		if (strlen($storageId) > 64) {
+			$storageId = md5($storageId);
+		}
 		$this->assertEquals(array($storageId, 'foo'), \OC\Files\Cache\Cache::getById($id));
 	}
 
