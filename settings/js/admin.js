@@ -1,42 +1,3 @@
-var SharingGroupList = {
-	applyMultipleSelect: function(element) {
-		var checked = [];
-		if ($(element).hasClass('groupsselect')) {
-			if (element.data('userGroups')) {
-				checked = element.data('userGroups');
-			}
-			var checkHandeler = function(group) {
-					$.post(OC.filePath('settings', 'ajax', 'excludegroups.php'),
-						{changedGroup: group, selectedGroups: JSON.stringify(checked)},
-						function() {});
-				};
-
-
-			var addGroup = function(select, group) {
-				$(this).each(function(index, element) {
-					if ($(element).find('option[value="' + group + '"]').length === 0 &&
-							select.data('msid') !== $(element).data('msid')) {
-						$(element).append('<option value="' + escapeHTML(group) + '">' +
-								escapeHTML(group) + '</option>');
-					}
-				});
-			};
-
-			var label = null;
-			element.multiSelect({
-				createCallback: addGroup,
-				createText: label,
-				selectedFirst: true,
-				checked: checked,
-				oncheck: checkHandeler,
-				onuncheck: checkHandeler,
-				minWidth: 100
-			});
-
-		}
-	}
-};
-
 $(document).ready(function(){
 	var params = OC.Util.History.parseUrlQuery();
 
@@ -57,8 +18,17 @@ $(document).ready(function(){
 	}
 
 
-	$('select#excludedGroups[multiple]').each(function (index, element) {
-		SharingGroupList.applyMultipleSelect($(element));
+	$('#excludedGroups').each(function (index, element) {
+		OC.Settings.setupGroupsSelect($(element));
+		$(element).change(function(ev) {
+			var groups = ev.val || [];
+			if (groups.length > 0) {
+				groups = ev.val.join(','); // FIXME: make this JSON
+			} else {
+				groups = '';
+			}
+			OC.AppConfig.setValue('core', $(this).attr('name'), groups);
+		});
 	});
 
 
@@ -81,7 +51,7 @@ $(document).ready(function(){
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
 	});
 
-	$('#shareAPI input').change(function() {
+	$('#shareAPI input:not(#excludedGroups)').change(function() {
 		if ($(this).attr('type') === 'checkbox') {
 			if (this.checked) {
 				var value = 'yes';
