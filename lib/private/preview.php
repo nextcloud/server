@@ -111,11 +111,6 @@ class Preview {
 			\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
 			throw new \Exception('No preview providers');
 		}
-
-		// Check if file is valid
-		if($this->isFileValid() === false) {
-			throw new NotFoundException('File not found.');
-		}
 	}
 
 	/**
@@ -540,10 +535,15 @@ class Preview {
 	}
 
 	/**
-	 * show preview
-	 * @return void
+	 * @param null|string $mimeType
+	 * @throws NotFoundException
 	 */
 	public function showPreview($mimeType = null) {
+		// Check if file is valid
+		if($this->isFileValid() === false) {
+			throw new NotFoundException('File not found.');
+		}
+
 		\OCP\Response::enableCaching(3600 * 24); // 24 hours
 		if (is_null($this->preview)) {
 			$this->getPreview();
