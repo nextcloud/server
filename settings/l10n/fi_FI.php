@@ -211,6 +211,7 @@ $TRANSLATIONS = array(
 "Last Login" => "Viimeisin kirjautuminen",
 "change full name" => "muuta koko nimi",
 "set new password" => "aseta uusi salasana",
-"Default" => "Oletus"
+"Default" => "Oletus",
+"URL generation in notification emails" => "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

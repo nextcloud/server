@@ -219,6 +219,8 @@ $TRANSLATIONS = array(
 "Last Login" => "Τελευταία Σύνδεση",
 "change full name" => "αλλαγή πλήρους ονόματος",
 "set new password" => "επιλογή νέου κωδικού",
-"Default" => "Προκαθορισμένο"
+"Default" => "Προκαθορισμένο",
+"If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Αν η εγκατάστασή σας δεν είναι εγκατεστημένη στη ρίζα της περιοχής και χρησιμοποιεί το cron του συστήματος, μπορεί να υπάρξουν ζητήματα με τη δημιουργία URL. Για να αποφύγετε αυτά τα προβλήματα, παρακαλώ ρυθμίστε την επιλογή \"overwritewebroot\" στον config.php φάκελό σας στη διαδρομή webroot της εγκατάστασής σας (Suggested: \"%s\")",
+"URL generation in notification emails" => "Δημιουργία URL στις ειδοποιήσεις ηλεκτρονικού ταχυδρομείου",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

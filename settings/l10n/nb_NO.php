@@ -219,6 +219,8 @@ $TRANSLATIONS = array(
 "Last Login" => "Siste innlogging",
 "change full name" => "endre fullt navn",
 "set new password" => "sett nytt passord",
-"Default" => "Standard"
+"Default" => "Standard",
+"If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Hvis installasjonen din ikke er installert i roten av domenet og bruker system cron, kan det bli problemer med URL-generering. For å forhindre disse problemene, sett \"overwritewebroot\" i filen config.php til webroot-stien for installasjonen din (Forslag: \"%s\")",
+"URL generation in notification emails" => "URL-generering i varsel-eposter",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

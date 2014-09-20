@@ -38,6 +38,8 @@ $TRANSLATIONS = array(
 "Default Quota" => "standardni kvota",
 "Other" => "ostali",
 "Username" => "Korisničko ime",
-"Quota" => "kvota"
+"Quota" => "kvota",
+"If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Ako vaša instalacija nije instalirana u korijenu domene i koristi sustav cron,mogu se javiti problemi s generiranjem URL. Da biste takve probleme izbjegli,molimo postavite opciju \"overwritewebroot\" u vašoj datoteci config.php.na webroot path vaše instalacije (Predlažemo: \"%s\").",
+"URL generation in notification emails" => "Generiranje URL-a u notifikacijskoj e-pošti",
 );
 $PLURAL_FORMS = "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;";
