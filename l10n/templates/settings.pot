@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-19 01:54-0400\n"
+"POT-Creation-Date: 2014-09-20 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,15 +47,15 @@ msgstr ""
 msgid "You need to set your user email before being able to send test emails."
 msgstr ""
 
-#: admin/controller.php:116 templates/admin.php:368
+#: admin/controller.php:116 templates/admin.php:361
 msgid "Send mode"
 msgstr ""
 
-#: admin/controller.php:118 templates/admin.php:381 templates/personal.php:198
+#: admin/controller.php:118 templates/admin.php:374 templates/personal.php:198
 msgid "Encryption"
 msgstr ""
 
-#: admin/controller.php:120 templates/admin.php:405
+#: admin/controller.php:120 templates/admin.php:398
 msgid "Authentication method"
 msgstr ""
 
@@ -192,83 +192,87 @@ msgstr ""
 msgid "Unable to change password"
 msgstr ""
 
-#: js/admin.js:45
+#: js/admin.js:6
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
 msgstr ""
 
-#: js/admin.js:46
+#: js/admin.js:7
 msgid "Add trusted domain"
 msgstr ""
 
-#: js/admin.js:146
+#: js/admin.js:116
 msgid "Sending..."
 msgstr ""
 
-#: js/apps.js:45 templates/help.php:7
+#: js/apps.js:12 templates/apps.php:61
+msgid "All"
+msgstr ""
+
+#: js/apps.js:50 templates/help.php:7
 msgid "User Documentation"
 msgstr ""
 
-#: js/apps.js:54
+#: js/apps.js:59
 msgid "Admin Documentation"
 msgstr ""
 
-#: js/apps.js:82
+#: js/apps.js:87
 msgid "Update to {appversion}"
 msgstr ""
 
-#: js/apps.js:90
+#: js/apps.js:95
 msgid "Uninstall App"
 msgstr ""
 
-#: js/apps.js:96 js/apps.js:158 js/apps.js:191
+#: js/apps.js:101 js/apps.js:156 js/apps.js:189
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:96 js/apps.js:167 js/apps.js:184 js/apps.js:215
+#: js/apps.js:101 js/apps.js:165 js/apps.js:182 js/apps.js:213
 msgid "Enable"
 msgstr ""
 
-#: js/apps.js:147
+#: js/apps.js:145
 msgid "Please wait...."
 msgstr ""
 
-#: js/apps.js:155 js/apps.js:156 js/apps.js:182
+#: js/apps.js:153 js/apps.js:154 js/apps.js:180
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:181 js/apps.js:210 js/apps.js:211
+#: js/apps.js:179 js/apps.js:208 js/apps.js:209
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:220
+#: js/apps.js:218
 msgid "Updating...."
 msgstr ""
 
-#: js/apps.js:223
+#: js/apps.js:221
 msgid "Error while updating app"
 msgstr ""
 
-#: js/apps.js:223 js/apps.js:236
+#: js/apps.js:221 js/apps.js:234
 msgid "Error"
 msgstr ""
 
-#: js/apps.js:224 templates/apps.php:55
+#: js/apps.js:222 templates/apps.php:55
 msgid "Update"
 msgstr ""
 
-#: js/apps.js:227
+#: js/apps.js:225
 msgid "Updated"
 msgstr ""
 
-#: js/apps.js:233
+#: js/apps.js:231
 msgid "Uninstalling ...."
 msgstr ""
 
-#: js/apps.js:236
+#: js/apps.js:234
 msgid "Error while uninstalling app"
 msgstr ""
 
-#: js/apps.js:237 templates/apps.php:56
+#: js/apps.js:235 templates/apps.php:56
 msgid "Uninstall"
 msgstr ""
 
@@ -318,6 +322,12 @@ msgstr ""
 msgid "Restore encryption keys."
 msgstr ""
 
+#: js/settings.js:27 js/users/users.js:49
+#: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
+#: templates/users/part.userlist.php:41
+msgid "Groups"
+msgstr ""
+
 #: js/users/deleteHandler.js:205
 msgid "Unable to delete {objName}"
 msgstr ""
@@ -336,12 +346,6 @@ msgstr ""
 
 #: js/users/groups.js:230 js/users/users.js:301
 msgid "undo"
-msgstr ""
-
-#: js/users/users.js:49 templates/admin.php:323
-#: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
-#: templates/users/part.userlist.php:41
-msgid "Groups"
 msgstr ""
 
 #: js/users/users.js:53 templates/users/part.userlist.php:12
@@ -648,99 +652,99 @@ msgstr ""
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:329
+#: templates/admin.php:322
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:334
+#: templates/admin.php:327
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:345
+#: templates/admin.php:338
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:347
+#: templates/admin.php:340
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:353
+#: templates/admin.php:346
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:363
+#: templates/admin.php:356
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:365
+#: templates/admin.php:358
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:396
+#: templates/admin.php:389
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:397
+#: templates/admin.php:390
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:418
+#: templates/admin.php:411
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:422
+#: templates/admin.php:415
 msgid "Server address"
 msgstr ""
 
-#: templates/admin.php:426
+#: templates/admin.php:419
 msgid "Port"
 msgstr ""
 
-#: templates/admin.php:431
+#: templates/admin.php:424
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:432
+#: templates/admin.php:425
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:435
+#: templates/admin.php:428
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:439
+#: templates/admin.php:432
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:440
+#: templates/admin.php:433
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:445
+#: templates/admin.php:438
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:446
+#: templates/admin.php:439
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:478
+#: templates/admin.php:471
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:479
+#: templates/admin.php:472
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:485 templates/personal.php:247
+#: templates/admin.php:478 templates/personal.php:247
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:489 templates/personal.php:250
+#: templates/admin.php:482 templates/personal.php:250
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
@@ -780,10 +784,6 @@ msgstr ""
 
 #: templates/apps.php:59
 msgid "Enable only for specific groups"
-msgstr ""
-
-#: templates/apps.php:61
-msgid "All"
 msgstr ""
 
 #: templates/help.php:13

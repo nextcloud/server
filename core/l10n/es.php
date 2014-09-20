@@ -140,6 +140,9 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Error al marcar como favorito",
 "Error unfavoriting" => "Error al quitar como favorito",
 "Access forbidden" => "Acceso denegado",
+"File not found" => "Archivo no encontrado",
+"The specified document has not been found on the server." => "El documento indicado no se ha encontrado en el servidor.",
+"You can click here to return to %s." => "Puede hacer clic aquí para volver a %s.",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hola:\n\nTan solo queremos informarte que %s compartió %s contigo.\nMíralo aquí: %s\n\n",
 "The share will expire on %s." => "El objeto dejará de ser compartido el %s.",
 "Cheers!" => "¡Saludos!",
@@ -185,6 +188,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "El tema %s ha sido desactivado.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Antes de proceder, asegúrese de que se haya hecho un respaldo de la base de datos, la carpeta de configuración y la carpeta de datos.",
 "Start update" => "Iniciar actualización",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tiempos de espera en grandes instalaciones, en su lugar puede ejecutar el siguiente comando desde el directorio de instalación:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tiempos de espera en grandes instalaciones, en su lugar puede ejecutar el siguiente comando desde el directorio de instalación:",
+"This %s instance is currently being updated, which may take a while." => "Está instancia %s está siendo actualizada, lo que puede llevar un tiempo.",
+"This page will refresh itself when the %s instance is available again." => "La página se refrescará por sí misma cuando la instancia %s vuelva a estar disponible."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

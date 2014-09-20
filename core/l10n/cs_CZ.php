@@ -140,6 +140,9 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Chyba při označování jako oblíbené",
 "Error unfavoriting" => "Chyba při odznačování jako oblíbené",
 "Access forbidden" => "Přístup zakázán",
+"File not found" => "Soubor nenalezen",
+"The specified document has not been found on the server." => "Vybraný dokument nebyl na serveru nalezen.",
+"You can click here to return to %s." => "Kliknout zde pro návrat na %s.",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
 "The share will expire on %s." => "Sdílení vyprší %s.",
 "Cheers!" => "Ať slouží!",
@@ -185,6 +188,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Vzhled %s byl zakázán.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Před provedením dalšího kroku se prosím ujistěte, že databáze a konfigurační a datový adresář byly zazálohovány.  ",
 "Start update" => "Spustit aktualizaci",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:",
+"This %s instance is currently being updated, which may take a while." => "Tato instalace %s je právě aktualizována a to může chvíli trvat.",
+"This page will refresh itself when the %s instance is available again." => "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";
