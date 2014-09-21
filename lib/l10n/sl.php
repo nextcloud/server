@@ -57,6 +57,7 @@ $TRANSLATIONS = array(
 "Sharing %s failed, because %s is not a member of the group %s" => "Nastavljanje souporabe %s je spodletelo, ker uporabnik %s ni član skupine %s.",
 "Sharing %s failed, because sharing with links is not allowed" => "Nastavljanje souporabe %s je spodletelo, ker souporaba preko povezave ni dovoljena.",
 "Share type %s is not valid for %s" => "Vrsta souporabe %s za %s ni veljavna.",
+"Cannot set expiration date. Expiration date is in the past" => "Ni mogoče nastaviti datuma preteka. Ta datum je že preteklost.",
 "Sharing backend %s not found" => "Ozadnjega programa %s za souporabo ni mogoče najti",
 "Sharing backend for %s not found" => "Ozadnjega programa za souporabo za %s ni mogoče najti",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti.",
@@ -73,6 +74,20 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "V uporabniškem imenu je dovoljeno uporabiti le znake: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"",
 "A valid username must be provided" => "Navedeno mora biti veljavno uporabniško ime",
 "A valid password must be provided" => "Navedeno mora biti veljavno geslo",
-"The username is already being used" => "Vpisano uporabniško ime je že v uporabi"
+"The username is already being used" => "Vpisano uporabniško ime je že v uporabi",
+"Please ask your server administrator to install the module." => "Obvestite skrbnika strežnika, da je treba namestiti manjkajoč modul.",
+"PHP module %s not installed." => "Modul PHP %s ni nameščen.",
+"PHP %s or higher is required." => "Zahtevana je različica PHP %s ali višja.",
+"Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." => "Obvestite skrbnika strežnika, da je treba posodobiti okolje PHP na najnovejšo različico. Trenutno nameščene različice skupnost PHP in ownCloud ne podpira več.",
+"PHP modules have been installed, but they are still listed as missing?" => "Ali so bili moduli PHP nameščeni, pa so še vedno označeni kot manjkajoči?",
+"Please ask your server administrator to restart the web server." => "Obvestite skrbnika strežnika, da je treba ponovno zagnati spletni strežnik.",
+"PostgreSQL >= 9 required" => "Zahtevana je različica PostgreSQL >= 9.",
+"Please upgrade your database version" => "Posodobite različico podatkovne zbirke.",
+"Error occurred while checking PostgreSQL version" => "Prišlo je do napake med preverjanjem različice PostgreSQL.",
+"Please change the permissions to 0770 so that the directory cannot be listed by other users." => "Spremenite dovoljenja mape na 0770 in s tem onemogočite branje vsebine drugim uporabnikom.",
+"Data directory (%s) is readable by other users" => "Podatkovna mapa (%s) ima določena dovoljenja za branje skupine.",
+"Data directory (%s) is invalid" => "Podatkovna mapa (%s) ni veljavna.",
+"Please check that the data directory contains a file \".ocdata\" in its root." => "Preverite, ali je v korenu podatkovne mape datoteka \".ocdata\".",
+"Could not obtain lock type %d on \"%s\"." => "Ni mogoče pridobiti zaklepa %d na \"%s\"."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";
