@@ -48,7 +48,7 @@ class OC {
 	}
 
 	public function stream_seek($offset, $whence = SEEK_SET) {
-		fseek($this->fileSource, $offset, $whence);
+		return fseek($this->fileSource, $offset, $whence) === 0;
 	}
 
 	public function stream_tell() {
