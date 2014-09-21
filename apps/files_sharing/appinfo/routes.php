@@ -7,6 +7,8 @@ $this->create('core_ajax_public_preview', '/publicpreview')->action(
 
 $this->create('files_sharing_ajax_list', 'ajax/list.php')
 	->actionInclude('files_sharing/ajax/list.php');
+$this->create('files_sharing_ajax_publicpreview', 'ajax/publicpreview.php')
+	->actionInclude('files_sharing/ajax/publicpreview.php');
 $this->create('sharing_external_shareinfo', '/shareinfo')
 	->actionInclude('files_sharing/ajax/shareinfo.php');
 $this->create('sharing_external_add', '/external')
