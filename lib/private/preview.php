@@ -548,7 +548,9 @@ class Preview {
 		if (is_null($this->preview)) {
 			$this->getPreview();
 		}
-		$this->preview->show($mimeType);
+		if ($this->preview instanceof \OC_Image) {
+			$this->preview->show($mimeType);
+		}
 	}
 
 	/**
