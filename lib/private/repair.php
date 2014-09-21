@@ -82,11 +82,21 @@ class Repair extends BasicEmitter {
 	 * @return array of RepairStep instances
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
-		return array(
+		$steps = array(
 			new \OC\Repair\InnoDB(),
 			new \OC\Repair\Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
 			new \OC\Repair\SearchLuceneTables()
 		);
+
+		//There is no need to delete all previews on every single update
+		//only 7.0.0 thru 7.0.2 generated broken previews
+		$currentVersion = \OC_Config::getValue('version');
+		if (version_compare($currentVersion, '7.0.0.0', '>=') &&
+			version_compare($currentVersion, '7.0.2.2', '<=')) {
+			$steps[] = new \OC\Repair\Preview();
+		}
+
+		return $steps;
 	}
 
 	/**
