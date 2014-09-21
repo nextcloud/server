@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Directe link",
 "Remote Shares" => "Externe shares",
 "Allow other instances to mount public links shared from this server" => "Toestaan dat andere ownClouds openbaar gedeelde links mounten vanaf deze server",
-"Allow users to mount public link shares" => "Toestaan dat gebruikers openbaar gedeelde links mounten"
+"Allow users to mount public link shares" => "Toestaan dat gebruikers openbaar gedeelde links mounten",
+"Remote share" => "Externe share",
+"Remote share password" => "Wachtwoord externe share",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Wilt u de externe share {name} van {owner}@{remote} toevoegen?",
+"Add remote share" => "Toevoegen externe share",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

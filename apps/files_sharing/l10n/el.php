@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Άμεσος σύνδεσμος",
 "Remote Shares" => "Απομακρυσμένοι Κοινόχρηστοι Φάκελοι",
 "Allow other instances to mount public links shared from this server" => "Να επιτρέπεται σε άλλες εγκαταστάσεις να επιθέτουν δημόσιους συνδέσμους που έχουν διαμοιραστεί από αυτόν το διακομιστή",
-"Allow users to mount public link shares" => "Να επιτρέπεται στους χρήστες να επιθέτουν κοινόχρηστους φακέλους με δημόσιους συνδέσμους"
+"Allow users to mount public link shares" => "Να επιτρέπεται στους χρήστες να επιθέτουν κοινόχρηστους φακέλους με δημόσιους συνδέσμους",
+"Remote share" => "Απομακρυσμένος κοινόχρηστος φάκελος",
+"Remote share password" => "Κωδικός πρόσβασης απομακρυσμένου κοινόχρηστου φακέλου",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
+"Add remote share" => "Προσθήκη απομακρυσμένου κοινόχρηστου φακέλου",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

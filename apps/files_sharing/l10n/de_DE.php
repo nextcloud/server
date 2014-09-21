@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Direkte Verlinkung",
 "Remote Shares" => "Entfernte Freigaben",
 "Allow other instances to mount public links shared from this server" => "Andere Instanzen zum Hinzufügen von öffentlichen Links, die über diesen Server Freigegeben werden, erlauben",
-"Allow users to mount public link shares" => "Erlaube Nutzern das Hinzufügen von freigegebenen öffentlichen Links"
+"Allow users to mount public link shares" => "Erlaube Nutzern das Hinzufügen von freigegebenen öffentlichen Links",
+"Remote share" => "Entfernte Freigabe",
+"Remote share password" => "Passwort für die entfernte Freigabe",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Möchten Sie die entfernte Freigabe {name} von {owner}@{remote} hinzufügen?",
+"Add remote share" => "Entfernte Freigabe hinzufügen",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

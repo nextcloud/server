@@ -15,6 +15,12 @@ $TRANSLATIONS = array(
 "Save" => "ذخیره",
 "Download" => "دانلود",
 "Download %s" => "دانلود %s",
-"Direct link" => "پیوند مستقیم"
+"Direct link" => "پیوند مستقیم",
+"Remote share" => "اشتراک از راه دور",
+"Remote share password" => "رمز عبور اشتراک از راه دور",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "آیا مایل به افزودن اشتراک از راه دور {name} از {owner}@{remote} هستید.",
+"Couldn't add remote share" => "امکان افزودن اشتراک گذاری از راه دور وجود ندارد",
+"Add remote share" => "افزودن اشتراک از راه دور",
+"Remote Shares" => "اشتراک های از راه دور",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

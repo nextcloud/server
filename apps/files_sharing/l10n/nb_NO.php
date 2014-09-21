@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Direkte lenke",
 "Remote Shares" => "Ekstern deling",
 "Allow other instances to mount public links shared from this server" => "Tillat at andre servere kobler opp offentlige lenker som er delt fra denne serveren",
-"Allow users to mount public link shares" => "Tillat at brukere kobler opp offentlige lenke-delinger"
+"Allow users to mount public link shares" => "Tillat at brukere kobler opp offentlige lenke-delinger",
+"Remote share" => "Ekstern deling",
+"Remote share password" => "Passord for ekstern deling",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Ønsker du å legge til ekstern deling {name} fra {owner}@{remote}?",
+"Add remote share" => "Legg til ekstern deling",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -22,6 +22,12 @@ $TRANSLATIONS = array(
 "Save" => "Gem",
 "Download" => "Download",
 "Download %s" => "Download %s",
-"Direct link" => "Direkte link"
+"Direct link" => "Direkte link",
+"Remote share" => "Ekstern deling",
+"Remote share password" => "Adgangskode for ekstern deling",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Vil du tilføje den eksterne deling {name} fra {owner}@{remote}?",
+"Couldn't add remote share" => "Kunne ikke tliføje den delte ekstern ressource",
+"Add remote share" => "Tilføj ekstern deling",
+"Remote Shares" => "Eksterne delinger",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
