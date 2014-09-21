@@ -150,6 +150,8 @@ $TRANSLATIONS = array(
 "Quota" => "Kvóta",
 "change full name" => "a teljes név megváltoztatása",
 "set new password" => "új jelszó beállítása",
-"Default" => "Alapértelmezett"
+"Default" => "Alapértelmezett",
+"If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Ha a telepítése nem a webkiszolgáló gyökerében van, és a rendszer cron szolgáltatását használja, akkor problémák lehetnek az URL-ek képzésével. Ezek elkerülése érdekében állítsa be a config.php-ban az \"overwritewebroot\" paramétert a telepítés által használt webútvonalra. (Javasolt beállítás: \"%s\")",
+"URL generation in notification emails" => "URL-képzés az értesítő e-mailekben",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -219,6 +219,8 @@ $TRANSLATIONS = array(
 "Last Login" => "Último acceso",
 "change full name" => "Cambiar o nome completo",
 "set new password" => "estabelecer un novo contrasinal",
-"Default" => "Predeterminado"
+"Default" => "Predeterminado",
+"If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Se a instalación non foi feita na raíz do dominio e usa o sistema de cron, poden xurdir problemas coa xeración dos URL. Para evitar estes problemas, axuste a opción «overwritewebroot» no ficheiro config.php ás ruta de webroot da súa instalación (suxírese: «%s»)",
+"URL generation in notification emails" => "Xeración dos URL nos correos de notificación",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
