@@ -9,6 +9,7 @@
 namespace OC\Core\Command;
 
 use OC\Updater;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +22,20 @@ class Upgrade extends Command {
 	const ERROR_MAINTENANCE_MODE = 2;
 	const ERROR_UP_TO_DATE = 3;
 	const ERROR_INVALID_ARGUMENTS = 4;
+
+	public $upgradeFailed = false;
+
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
 
 	protected function configure() {
 		$this
@@ -48,14 +63,6 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		require_once \OC::$SERVERROOT . '/lib/base.php';
-
-		// Don't do anything if ownCloud has not been installed
-		if(!\OC_Config::getValue('installed', false)) {
-			$output->writeln('<error>ownCloud has not yet been installed</error>');
-			return self::ERROR_NOT_INSTALLED;
-		}
-
 		$simulateStepEnabled = true;
 		$updateStepEnabled = true;
 
@@ -75,6 +82,7 @@ class Upgrade extends Command {
 		}
 
 		if(\OC::checkUpgrade(false)) {
+			$self = $this;
 			$updater = new Updater();
 
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
@@ -83,15 +91,14 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output, $updateStepEnabled) {
-				$output->writeln('<info>Turned off maintenance mode</info>');
-				if (!$updateStepEnabled) {
-					$output->writeln('<info>Update simulation successful</info>');
-				}
-				else {
-					$output->writeln('<info>Update successful</info>');
-				}
-			});
+			$updater->listen('\OC\Updater', 'maintenanceEnd',
+				function () use($output, $updateStepEnabled, $self) {
+					$output->writeln('<info>Turned off maintenance mode</info>');
+					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
+					$status = $self->upgradeFailed ? 'failed' : 'successful';
+					$message = "<info>$mode $status</info>";
+					$output->writeln($message);
+				});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
@@ -102,9 +109,9 @@ class Upgrade extends Command {
 				$output->writeln('<info>Disabled incompatible apps: ' . implode(', ', $appList) . '</info>');
 			});
 
-			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
-				$output->writeln($message);
-				\OC_Config::setValue('maintenance', false);
+			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
+				$output->writeln("<error>$message</error>");
+				$self->upgradeFailed = true;
 			});
 
 			$updater->upgrade();
@@ -112,7 +119,7 @@ class Upgrade extends Command {
 			$this->postUpgradeCheck($input, $output);
 
 			return self::ERROR_SUCCESS;
-		} else if(\OC_Config::getValue('maintenance', false)) {
+		} else if($this->config->getSystemValue('maintenance', false)) {
 			//Possible scenario: ownCloud core is updated but an app failed
 			$output->writeln('<warning>ownCloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
@@ -134,7 +141,7 @@ class Upgrade extends Command {
 	 * @param OutputInterface $output output interface
 	 */
 	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
-		$trustedDomains = \OC_Config::getValue('trusted_domains', array());
+		$trustedDomains = $this->config->getSystemValue('trusted_domains', array());
 		if (empty($trustedDomains)) {
 			$output->write(
 				'<warning>The setting "trusted_domains" could not be ' .

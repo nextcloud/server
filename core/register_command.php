@@ -12,7 +12,7 @@ $repair = new \OC\Repair(\OC\Repair::getRepairSteps());
 $application->add(new OC\Core\Command\Status);
 $application->add(new OC\Core\Command\Db\GenerateChangeScript());
 $application->add(new OC\Core\Command\Db\ConvertType(OC_Config::getObject(), new \OC\DB\ConnectionFactory()));
-$application->add(new OC\Core\Command\Upgrade());
+$application->add(new OC\Core\Command\Upgrade(\OC::$server->getConfig()));
 $application->add(new OC\Core\Command\Maintenance\SingleUser());
 $application->add(new OC\Core\Command\Maintenance\Mode(OC_Config::getObject()));
 $application->add(new OC\Core\Command\App\Disable());
