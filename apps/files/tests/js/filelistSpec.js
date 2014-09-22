@@ -421,15 +421,15 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.setFiles(testFiles);
 			doDelete();
 
-			expect(fileList.findFileEl('One.txt').find('.progress-icon:not(.icon-delete)').length).toEqual(1);
-			expect(fileList.findFileEl('Three.pdf').find('.icon-delete:not(.progress-icon)').length).toEqual(1);
+			expect(fileList.findFileEl('One.txt').find('.icon-loading-small:not(.icon-delete)').length).toEqual(1);
+			expect(fileList.findFileEl('Three.pdf').find('.icon-delete:not(.icon-loading-small)').length).toEqual(1);
 		});
 		it('shows spinner on all files when deleting all', function() {
 			fileList.setFiles(testFiles);
 
 			fileList.do_delete();
 
-			expect(fileList.$fileList.find('tr .progress-icon:not(.icon-delete)').length).toEqual(4);
+			expect(fileList.$fileList.find('tr .icon-loading-small:not(.icon-delete)').length).toEqual(4);
 		});
 		it('updates summary when deleting last file', function() {
 			var $summary;
