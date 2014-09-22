@@ -9,6 +9,7 @@
 namespace OC\Core\Command;
 
 use OC\Updater;
+use OCP\IConfig;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,6 +24,18 @@ class Upgrade extends Command {
 	const ERROR_INVALID_ARGUMENTS = 4;
 
 	public $upgradeFailed = false;
+
+	/**
+	 * @var IConfig
+	 */
+	private $config;
+
+	/**
+	 * @param IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
 
 	protected function configure() {
 		$this
@@ -106,7 +119,7 @@ class Upgrade extends Command {
 			$this->postUpgradeCheck($input, $output);
 
 			return self::ERROR_SUCCESS;
-		} else if(\OC_Config::getValue('maintenance', false)) {
+		} else if($this->config->getSystemValue('maintenance', false)) {
 			//Possible scenario: ownCloud core is updated but an app failed
 			$output->writeln('<warning>ownCloud is in maintenance mode</warning>');
 			$output->write('<comment>Maybe an upgrade is already in process. Please check the '
@@ -128,7 +141,7 @@ class Upgrade extends Command {
 	 * @param OutputInterface $output output interface
 	 */
 	protected function postUpgradeCheck(InputInterface $input, OutputInterface $output) {
-		$trustedDomains = \OC_Config::getValue('trusted_domains', array());
+		$trustedDomains = $this->config->getSystemValue('trusted_domains', array());
 		if (empty($trustedDomains)) {
 			$output->write(
 				'<warning>The setting "trusted_domains" could not be ' .
