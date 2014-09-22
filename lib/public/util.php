@@ -29,6 +29,7 @@
 // use OCP namespace for all classes that are considered public.
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP;
+use DateTimeZone;
 
 /**
  * This class provides different helper functions to make the life of a developer easier
@@ -167,10 +168,11 @@ class Util {
 	 * formats a timestamp in the "right" way
 	 * @param int $timestamp $timestamp
 	 * @param bool $dateOnly option to omit time from the result
+	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
 	 * @return string timestamp
 	 */
-	public static function formatDate( $timestamp, $dateOnly=false) {
-		return(\OC_Util::formatDate( $timestamp, $dateOnly ));
+	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
+		return(\OC_Util::formatDate($timestamp, $dateOnly, $timeZone));
 	}
 
 	/**

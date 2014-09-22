@@ -37,6 +37,30 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+	function testFormatDateWithTZ() {
+		date_default_timezone_set("UTC");
+
+		$result = OC_Util::formatDate(1350129205, false, 'Europe/Berlin');
+		$expected = 'October 13, 2012 13:53';
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @expectedException Exception
+	 */
+	function testFormatDateWithInvalidTZ() {
+		OC_Util::formatDate(1350129205, false, 'Mordor/Barad-dûr');
+	}
+
+	function testFormatDateWithTZFromSession() {
+		date_default_timezone_set("UTC");
+
+		\OC::$server->getSession()->set('timezone', 3);
+		$result = OC_Util::formatDate(1350129205, false);
+		$expected = 'October 13, 2012 14:53';
+		$this->assertEquals($expected, $result);
+	}
+
 	function testCallRegister() {
 		$result = strlen(OC_Util::callRegister());
 		$this->assertEquals(30, $result);
