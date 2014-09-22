@@ -79,6 +79,9 @@ class Test_Config extends PHPUnit_Framework_TestCase {
 	 * @expectedException \OC\HintException
 	 */
 	public function testWriteData() {
+		if (\OC_Util::runningOnWindows()) {
+			throw new \OC\HintException('this is ireelevent for windows');
+		}
 		$config = new OC\Config('/non-writable');
 		$config->setValue('foo', 'bar');
 	}
