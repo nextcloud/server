@@ -167,7 +167,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		if (!$this->info->isDeletable()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
-		$this->fileView->unlink($this->path);
+
+		if (!$this->fileView->unlink($this->path)) {
+			// assume it wasn't possible to delete due to permissions
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
 
 		// remove properties
 		$this->removeProperties();

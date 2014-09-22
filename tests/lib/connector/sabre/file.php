@@ -143,4 +143,67 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		// action
 		$file->put('test data');
 	}
+
+	/**
+	 *
+	 */
+	public function testDeleteWhenAllowed() {
+		// setup
+		$view = $this->getMock('\OC\Files\View',
+			array());
+
+		$view->expects($this->once())
+			->method('unlink')
+			->will($this->returnValue(true));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\PERMISSION_ALL
+		));
+
+		$file = new OC_Connector_Sabre_File($view, $info);
+
+		// action
+		$file->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testDeleteThrowsWhenDeletionNotAllowed() {
+		// setup
+		$view = $this->getMock('\OC\Files\View',
+			array());
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => 0
+		));
+
+		$file = new OC_Connector_Sabre_File($view, $info);
+
+		// action
+		$file->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testDeleteThrowsWhenDeletionFailed() {
+		// setup
+		$view = $this->getMock('\OC\Files\View',
+			array());
+
+		// but fails
+		$view->expects($this->once())
+			->method('unlink')
+			->will($this->returnValue(false));
+
+		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
+			'permissions' => \OCP\PERMISSION_ALL
+		));
+
+		$file = new OC_Connector_Sabre_File($view, $info);
+
+		// action
+		$file->delete();
+	}
 }
