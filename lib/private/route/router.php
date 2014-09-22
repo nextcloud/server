@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 class Router implements IRouter {
 	/**
@@ -215,8 +216,26 @@ class Router implements IRouter {
 		} else {
 			$this->loadRoutes();
 		}
+
 		$matcher = new UrlMatcher($this->root, $this->context);
-		$parameters = $matcher->match($url);
+		try {
+			$parameters = $matcher->match($url);
+		} catch (ResourceNotFoundException $e) {
+			if (substr($url, -1) !== '/') {
+				// We allow links to apps/files? for backwards compatibility reasons
+				// However, since Symfony does not allow empty route names, the route
+				// we need to match is '/', so we need to append the '/' here.
+				try {
+					$parameters = $matcher->match($url . '/');
+				} catch (ResourceNotFoundException $newException) {
+					// If we still didn't match a route, we throw the original exception
+					throw $e;
+				}
+			} else {
+				throw $e;
+			}
+		}
+
 		if (isset($parameters['action'])) {
 			$action = $parameters['action'];
 			if (!is_callable($action)) {
