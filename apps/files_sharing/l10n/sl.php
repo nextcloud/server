@@ -27,6 +27,10 @@ $TRANSLATIONS = array(
 "Download" => "Prejmi",
 "Download %s" => "Prejmi %s",
 "Direct link" => "Neposredna povezava",
-"Remote Shares" => "Oddaljena souporaba"
+"Remote Shares" => "Oddaljena souporaba",
+"Remote share" => "Oddaljeno mesto za souporabo",
+"Remote share password" => "Geslo za mesto za oddaljeno souporabo",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Ali želite dodati oddaljeno mesto souporabe {name} na {owner}@{remote}?",
+"Add remote share" => "Dodaj oddaljeno mesto za souporabo",
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

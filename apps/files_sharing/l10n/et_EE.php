@@ -30,6 +30,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Otsene link",
 "Remote Shares" => "Eemalolevad jagamised",
 "Allow other instances to mount public links shared from this server" => "Luba teistel instantsidel ühendada sellest serverist jagatud avalikke linke",
-"Allow users to mount public link shares" => "Luba kasutajatel ühendada jagatud avalikke linke"
+"Allow users to mount public link shares" => "Luba kasutajatel ühendada jagatud avalikke linke",
+"Remote share" => "Kaugjagamine",
+"Remote share password" => "Kaugjagamise parool",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Soovid lisata kaugjagamise {name} asukohast {owner}@{remote}?",
+"Add remote share" => "Lisa kaugjagamine",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

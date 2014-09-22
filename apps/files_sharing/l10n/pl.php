@@ -27,6 +27,11 @@ $TRANSLATIONS = array(
 "Download" => "Pobierz",
 "Download %s" => "Pobierz %s",
 "Direct link" => "Bezpośredni link",
-"Allow users to mount public link shares" => "Zezwalaj użytkownikom na montowanie publicznych linków"
+"Allow users to mount public link shares" => "Zezwalaj użytkownikom na montowanie publicznych linków",
+"Remote share" => "Zdalny zasób",
+"Remote share password" => "Hasło do zdalnego zasobu",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Czy chcesz dodać udział zdalny {name} od {owner}@{remote}?",
+"Add remote share" => "Dodaj zdalny zasób",
+"Remote Shares" => "Udziały zdalne",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

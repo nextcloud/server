@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Lotura zuzena",
 "Remote Shares" => "Hurruneko Elkarbanaketak",
 "Allow other instances to mount public links shared from this server" => "Baimendu beste instantziak zerbitzari honetatik elkarbanatutako lotura publikoak kargatzen",
-"Allow users to mount public link shares" => "Baimendu erabiltzaileak lotura publiko bidezko elkarbanaketak kargatzen"
+"Allow users to mount public link shares" => "Baimendu erabiltzaileak lotura publiko bidezko elkarbanaketak kargatzen",
+"Remote share" => "Urrutiko parte hartzea",
+"Remote share password" => "Urrutiko parte hartzeen pasahitza",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Nahi duzu gehitzea  {name}  urrutiko partekatzea honengandik  {owner}@{remote}?",
+"Add remote share" => "Gehitu urrutiko parte hartzea",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

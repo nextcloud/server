@@ -13,6 +13,12 @@ $TRANSLATIONS = array(
 "sharing is disabled" => "分享功能已停用",
 "For more info, please ask the person who sent this link." => "請詢問告訴您此連結的人以瞭解更多",
 "Save" => "儲存",
-"Download" => "下載"
+"Download" => "下載",
+"Remote share" => "遠端分享",
+"Remote share password" => "遠端分享密碼",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "是否要加入來自 {owner}@{remote} 的遠端分享 {name} ？",
+"Couldn't add remote share" => "無法加入遠端分享",
+"Add remote share" => "加入遠端分享",
+"Remote Shares" => "遠端分享",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

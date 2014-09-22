@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Přímý odkaz",
 "Remote Shares" => "Vzdálená úložiště",
 "Allow other instances to mount public links shared from this server" => "Povolit připojování veřejně sdílených odkazů z tohoto serveru",
-"Allow users to mount public link shares" => "Povolit uživatelům připojovat veřejně sdílené odkazy"
+"Allow users to mount public link shares" => "Povolit uživatelům připojovat veřejně sdílené odkazy",
+"Remote share" => "Vzdálené úložiště",
+"Remote share password" => "Heslo ke vzdálenému úložišti",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Chcete přidat vzdálené úložiště {name} uživatele {owner}@{remote}?",
+"Add remote share" => "Přidat vzdálené úložiště",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

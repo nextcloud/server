@@ -14,6 +14,12 @@ $TRANSLATIONS = array(
 "For more info, please ask the person who sent this link." => "További információért forduljon ahhoz, aki ezt a linket küldte Önnek!",
 "Save" => "Mentés",
 "Download" => "Letöltés",
-"Direct link" => "Közvetlen link"
+"Direct link" => "Közvetlen link",
+"Remote share" => "Távoli megosztás",
+"Remote share password" => "Jelszó a távoli megosztáshoz",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Használatba kívánja venni a {name} távoli megosztást, amit a {owner}@{remote} címről kapott?",
+"Couldn't add remote share" => "A távoli megosztás nem hozható létre",
+"Add remote share" => "Távoli megosztás létrehozása",
+"Remote Shares" => "Távoli megosztások",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

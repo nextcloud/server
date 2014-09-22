@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Enlace directo",
 "Remote Shares" => "Almacenamiento compartido remoto",
 "Allow other instances to mount public links shared from this server" => "Permitir a otros montar enlaces publicos compartidos de este servidor",
-"Allow users to mount public link shares" => "Permitir a los usuarios montar enlaces publicos compartidos"
+"Allow users to mount public link shares" => "Permitir a los usuarios montar enlaces publicos compartidos",
+"Remote share" => "Recurso compartido remoto",
+"Remote share password" => "Contraseña del compartido remoto",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "¿Desea añadir el recurso compartido remoto {name} de {owner}@{remote}?",
+"Add remote share" => "Añadir recurso compartido remoto",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

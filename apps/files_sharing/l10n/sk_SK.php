@@ -29,6 +29,11 @@ $TRANSLATIONS = array(
 "Download %s" => "Stiahnuť %s",
 "Direct link" => "Priama linka",
 "Allow other instances to mount public links shared from this server" => "Povoliť ďalším inštanciám pripojiť verejné odkazy zdieľané z tohto servera",
-"Allow users to mount public link shares" => "Povoliť používateľom pripojiť sa na zdieľané verejné odkazy"
+"Allow users to mount public link shares" => "Povoliť používateľom pripojiť sa na zdieľané verejné odkazy",
+"Remote share" => "Vzdialené úložisko",
+"Remote share password" => "Heslo k vzdialenému úložisku",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Chcete pridať vzdialené úložisko {name} patriace používateľovi {owner}@{remote}?",
+"Add remote share" => "Pridať vzdialené úložisko",
+"Remote Shares" => "Vzdialené úložiská",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

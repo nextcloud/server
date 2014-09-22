@@ -23,6 +23,12 @@ $TRANSLATIONS = array(
 "Save" => "Сохранить",
 "Download" => "Скачать",
 "Download %s" => "Скачать %s",
-"Direct link" => "Прямая ссылка"
+"Direct link" => "Прямая ссылка",
+"Remote share" => "Удалённая общая папка",
+"Remote share password" => "Пароль для удалённой общей папки",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Добавить удалённую общую папку {name} из {owner}@{remote}?",
+"Couldn't add remote share" => "Невозможно добавить удалённую общую папку",
+"Add remote share" => "Добавить удалённую общую папку",
+"Remote Shares" => "Удалённые общие папки",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";

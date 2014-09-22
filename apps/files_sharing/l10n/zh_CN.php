@@ -15,6 +15,12 @@ $TRANSLATIONS = array(
 "Save" => "保存",
 "Download" => "下载",
 "Download %s" => "下载 %s",
-"Direct link" => "直接链接"
+"Direct link" => "直接链接",
+"Remote share" => "远程分享",
+"Remote share password" => "远程分享密码",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "您要添加 {name} 来自 {owner}@{remote} 的远程分享吗？",
+"Couldn't add remote share" => "无法添加远程分享",
+"Add remote share" => "添加远程分享",
+"Remote Shares" => "远程分享",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

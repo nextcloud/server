@@ -31,6 +31,10 @@ $TRANSLATIONS = array(
 "Direct link" => "Suora linkki",
 "Remote Shares" => "Etäjaot",
 "Allow other instances to mount public links shared from this server" => "Salli muiden instanssien liittää tältä palvelimelta jaettuja julkisia linkkejä",
-"Allow users to mount public link shares" => "Salli käyttäjien liittää julkisia linkkijakoja"
+"Allow users to mount public link shares" => "Salli käyttäjien liittää julkisia linkkijakoja",
+"Remote share" => "Etäjako",
+"Remote share password" => "Etäjaon salasana",
+"Do you want to add the remote share {name} from {owner}@{remote}?" => "Haluatko lisätä etäjaon {name} kohteesta {owner}@{remote}?",
+"Add remote share" => "Lisää etäjako",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
