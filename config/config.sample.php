@@ -269,7 +269,7 @@ $CONFIG = array(
 /* custom path for libreoffice / openoffice binary */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
 /* cl parameters for libreoffice / openoffice */
-'preview_office_cl_parameters' => '',
+'preview_office_cl_parameters' => ' --headless --nologo --nofirststartwizard --invisible --norestore -convert-to pdf -outdir ',
 
 /* whether avatars should be enabled */
 'enable_avatars' => true,
