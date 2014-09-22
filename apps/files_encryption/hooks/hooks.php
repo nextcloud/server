@@ -195,19 +195,22 @@ class Hooks {
 		if (Crypt::mode() === 'server') {
 
 			$view = new \OC_FilesystemView('/');
+			$session = new \OCA\Encryption\Session($view);
 
-			if ($params['uid'] === \OCP\User::getUser()) {
+			// Get existing decrypted private key
+			$privateKey = $session->getPrivateKey();
 
-				$session = new \OCA\Encryption\Session($view);
-
-				// Get existing decrypted private key
-				$privateKey = $session->getPrivateKey();
+			if ($params['uid'] === \OCP\User::getUser() && $privateKey) {
 
 				// Encrypt private key with new user pwd as passphrase
 				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($privateKey, $params['password']);
 
 				// Save private key
-				Keymanager::setPrivateKey($encryptedPrivateKey);
+				if ($encryptedPrivateKey) {
+					Keymanager::setPrivateKey($encryptedPrivateKey);
+				} else {
+					\OCP\Util::writeLog('files_encryption', 'Could not update users encryption password', \OCP\Util::ERROR);
+				}
 
 				// NOTE: Session does not need to be updated as the
 				// private key has not changed, only the passphrase
