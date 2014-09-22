@@ -304,7 +304,7 @@
 				if (img.call) {
 					img = img(file);
 				}
-				html = '<a href="#" original-title="' + escapeHTML(deleteTitle) + '" class="action delete delete-icon" />';
+				html = '<a href="#" original-title="' + escapeHTML(deleteTitle) + '" class="action delete icon-delete" />';
 				var element = $(html);
 				element.data('action', actions['Delete']);
 				element.on('click', {a: null, elem: parent, actionFunc: actions['Delete'].action}, actionHandler);

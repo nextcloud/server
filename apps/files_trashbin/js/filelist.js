@@ -148,7 +148,7 @@
 				files = _.pluck(this.getSelectedFiles(), 'name');
 				for (var i = 0; i < files.length; i++) {
 					var deleteAction = this.findFileEl(files[i]).children("td.date").children(".action.delete");
-					deleteAction.removeClass('delete-icon').addClass('progress-icon');
+					deleteAction.removeClass('icon-delete').addClass('progress-icon');
 				}
 				params = {
 					files: JSON.stringify(files),
@@ -202,7 +202,7 @@
 			else {
 				for (var i = 0; i < files.length; i++) {
 					var deleteAction = this.findFileEl(files[i]).children("td.date").children(".action.delete");
-					deleteAction.removeClass('delete-icon').addClass('progress-icon');
+					deleteAction.removeClass('icon-delete').addClass('progress-icon');
 				}
 			}
 
