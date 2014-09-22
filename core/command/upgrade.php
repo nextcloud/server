@@ -50,14 +50,6 @@ class Upgrade extends Command {
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
 
-		require_once \OC::$SERVERROOT . '/lib/base.php';
-
-		// Don't do anything if ownCloud has not been installed
-		if(!\OC_Config::getValue('installed', false)) {
-			$output->writeln('<error>ownCloud has not yet been installed</error>');
-			return self::ERROR_NOT_INSTALLED;
-		}
-
 		$simulateStepEnabled = true;
 		$updateStepEnabled = true;
 
