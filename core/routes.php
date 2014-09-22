@@ -19,9 +19,6 @@ $application->registerRoutes($this, array('routes' => array(
 // Post installation check
 
 /** @var $this OCP\Route\IRouter */
-$this->create('post_setup_check', '/post-setup-check')
-	->action('OC_Setup', 'postSetupCheck');
-
 // Core ajax actions
 // Search
 $this->create('search_ajax_search', '/search/ajax/search.php')
