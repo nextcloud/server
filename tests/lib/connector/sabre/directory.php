@@ -8,18 +8,24 @@
  */
 class Test_OC_Connector_Sabre_Directory extends PHPUnit_Framework_TestCase {
 
+	private $view;
+	private $info;
+
+	public function setUp() {
+		$this->view = $this->getMock('OC\Files\View', array(), array(), '', false);
+		$this->info = $this->getMock('OC\Files\FileInfo', array(), array(), '', false);
+	}
+
 	private function getRootDir() {
-		$view = $this->getMock('OC\Files\View', array(), array(), '', false);
-		$view->expects($this->once())
+		$this->view->expects($this->once())
 			->method('getRelativePath')
 			->will($this->returnValue(''));
 
-		$info = $this->getMock('OC\Files\FileInfo', array(), array(), '', false);
-		$info->expects($this->once())
+		$this->info->expects($this->once())
 			->method('getPath')
 			->will($this->returnValue(''));
 
-		return new OC_Connector_Sabre_Directory($view, $info);
+		return new OC_Connector_Sabre_Directory($this->view, $this->info);
 	}
 
 	/**
@@ -42,6 +48,54 @@ class Test_OC_Connector_Sabre_Directory extends PHPUnit_Framework_TestCase {
 	 * @expectedException \Sabre\DAV\Exception\Forbidden
 	 */
 	public function testDeleteSharedFolderFails() {
+		$dir = $this->getRootDir();
+		$dir->delete();
+	}
+
+	/**
+	 *
+	 */
+	public function testDeleteFolderWhenAllowed() {
+		// deletion allowed
+		$this->info->expects($this->once())
+			->method('isDeletable')
+			->will($this->returnValue(true));
+
+		// but fails
+		$this->view->expects($this->once())
+			->method('rmdir')
+			->will($this->returnValue(true));
+
+		$dir = $this->getRootDir();
+		$dir->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testDeleteFolderFailsWhenNotAllowed() {
+		$this->info->expects($this->once())
+			->method('isDeletable')
+			->will($this->returnValue(false));
+
+		$dir = $this->getRootDir();
+		$dir->delete();
+	}
+
+	/**
+	 * @expectedException \Sabre\DAV\Exception\Forbidden
+	 */
+	public function testDeleteFolderThrowsWhenDeletionFailed() {
+		// deletion allowed
+		$this->info->expects($this->once())
+			->method('isDeletable')
+			->will($this->returnValue(true));
+
+		// but fails
+		$this->view->expects($this->once())
+			->method('rmdir')
+			->will($this->returnValue(false));
+
 		$dir = $this->getRootDir();
 		$dir->delete();
 	}

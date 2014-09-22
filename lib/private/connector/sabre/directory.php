@@ -192,7 +192,10 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
-		$this->fileView->rmdir($this->path);
+		if (!$this->fileView->rmdir($this->path)) {
+			// assume it wasn't possible to remove due to permission issue
+			throw new \Sabre\DAV\Exception\Forbidden();
+		}
 
 	}
 
