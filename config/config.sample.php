@@ -284,6 +284,29 @@ $CONFIG = array(
 /* cl parameters for libreoffice / openoffice */
 'preview_office_cl_parameters' => '',
 
+/**
+ * Only register providers that have been explicitly enabled
+ *
+ * The following providers are enabled by default:
+ *  - OC\Preview\Image
+ *  - OC\Preview\MP3
+ *  - OC\Preview\TXT
+ *  - OC\Preview\MarkDown
+ *
+ * The following providers are disabled by default due to performance or privacy concerns:
+ *  - OC\Preview\Office
+ *  - OC\Preview\SVG
+ *  - OC\Preview\Movies
+ *  - OC\Preview\PDF
+ *  - OC\Preview\Tiff
+ */
+'enabledPreviewProviders' => array(
+	'OC\Preview\Image',
+	'OC\Preview\MP3',
+	'OC\Preview\TXT',
+	'OC\Preview\MarkDown'
+),
+
 /* whether avatars should be enabled */
 'enable_avatars' => true,
 
