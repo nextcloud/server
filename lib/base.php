@@ -921,7 +921,9 @@ class OC {
 			return false;
 		}
 
-		OC_JSON::callCheck();
+		if(!OC_Util::isCallRegistered()) {
+			return false;
+		}
 		OC_App::loadApps();
 
 		//setup extra user backends
