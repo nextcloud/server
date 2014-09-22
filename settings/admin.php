@@ -66,6 +66,7 @@ $template->assign('allowLinks', $appConfig->getValue('core', 'shareapi_allow_lin
 $template->assign('enforceLinkPassword', \OCP\Util::isPublicLinkPasswordRequired());
 $template->assign('allowPublicUpload', $appConfig->getValue('core', 'shareapi_allow_public_upload', 'yes'));
 $template->assign('allowResharing', $appConfig->getValue('core', 'shareapi_allow_resharing', 'yes'));
+$template->assign('allowPublicMailNotification', $appConfig->getValue('core', 'shareapi_allow_public_notification', 'no'));
 $template->assign('allowMailNotification', $appConfig->getValue('core', 'shareapi_allow_mail_notification', 'no'));
 $template->assign('onlyShareWithGroupMembers', \OC\Share\Share::shareWithGroupMembersOnly());
 $databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false);

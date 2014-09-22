@@ -271,9 +271,14 @@ if ($_['suggestedOverwriteWebroot']) {
 				<input type="checkbox" name="shareapi_enforce_links_password" id="enforceLinkPassword"
 						   value="1" <?php if ($_['enforceLinkPassword']) print_unescaped('checked="checked"'); ?> />
 				<label for="enforceLinkPassword"><?php p($l->t('Enforce password protection'));?></label><br/>
+
 				<input type="checkbox" name="shareapi_allow_public_upload" id="allowPublicUpload"
 				       value="1" <?php if ($_['allowPublicUpload'] == 'yes') print_unescaped('checked="checked"'); ?> />
 				<label for="allowPublicUpload"><?php p($l->t('Allow public uploads'));?></label><br/>
+
+				<input type="checkbox" name="shareapi_allow_public_notification" id="allowPublicMailNotification"
+					value="1" <?php if ($_['allowPublicMailNotification'] == 'yes') print_unescaped('checked="checked"'); ?> />
+				<label for="allowPublicMailNotification"><?php p($l->t('Allow users to send mail notification for shared files'));?></label><br/>
 
 				<input type="checkbox" name="shareapi_default_expire_date" id="shareapiDefaultExpireDate"
 				       value="1" <?php if ($_['shareDefaultExpireDateSet'] === 'yes') print_unescaped('checked="checked"'); ?> />
@@ -302,7 +307,7 @@ if ($_['suggestedOverwriteWebroot']) {
 		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
 			<input type="checkbox" name="shareapi_allow_mail_notification" id="allowMailNotification"
 				   value="1" <?php if ($_['allowMailNotification'] === 'yes') print_unescaped('checked="checked"'); ?> />
-			<label for="allowMailNotification"><?php p($l->t('Allow users to send mail notification for shared files'));?></label><br/>
+			<label for="allowMailNotification"><?php p($l->t('Allow users to send mail notification for shared files to other users'));?></label><br/>
 		</p>
 		<p class="<?php if ($_['shareAPIEnabled'] === 'no') p('hidden');?>">
 			<input type="checkbox" name="shareapi_exclude_groups" id="shareapiExcludeGroups"

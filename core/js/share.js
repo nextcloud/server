@@ -410,10 +410,14 @@ OC.Share={
 					html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
 					html += '</div>';
 				}
-				html += '</div><form id="emailPrivateLink" >';
-				html += '<input id="email" style="display:none; width:62%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
-				html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
-				html += '</form>';
+				html += '</div>';
+				var mailPublicNotificationEnabled = $('input:hidden[name=mailPublicNotificationEnabled]').val();
+				if (mailPublicNotificationEnabled === 'yes') {
+					html += '<form id="emailPrivateLink">';
+					html += '<input id="email" style="display:none; width:62%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
+					html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
+					html += '</form>';
+				}
 			}
 
 			html += '<div id="expiration">';
@@ -520,7 +524,7 @@ OC.Share={
 					.append( insert )
 					.appendTo( ul );
 			};
-			if (link && linksAllowed) {
+			if (link && linksAllowed && $('#email').length != 0) {
 				$('#email').autocomplete({
 					minLength: 1,
 					source: function (search, response) {

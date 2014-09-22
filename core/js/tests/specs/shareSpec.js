@@ -31,6 +31,7 @@ describe('OC.Share tests', function() {
 			$('#testArea').append($('<div id="shareContainer"></div>'));
 			// horrible parameters
 			$('#testArea').append('<input id="allowShareWithLink" type="hidden" value="yes">');
+			$('#testArea').append('<input id="mailPublicNotificationEnabled" name="mailPublicNotificationEnabled" type="hidden" value="yes">');
 			$container = $('#shareContainer');
 			/* jshint camelcase:false */
 			oldAppConfig = _.extend({}, oc_appconfig.core);
@@ -361,6 +362,16 @@ describe('OC.Share tests', function() {
 					expect($('#dropdown [name=expirationCheckbox]').prop('disabled')).toEqual(true);
 					$('#dropdown [name=expirationCheckbox]').click();
 					expect($('#dropdown [name=expirationCheckbox]').prop('checked')).toEqual(true);
+				});
+				it('displayes email form when sending emails is enabled', function() {
+					$('input[name=mailPublicNotificationEnabled]').val('yes');
+					showDropDown();
+					expect($('#emailPrivateLink').length).toEqual(1);
+				});
+				it('not renders email form when sending emails is disabled', function() {
+					$('input[name=mailPublicNotificationEnabled]').val('no');
+					showDropDown();
+					expect($('#emailPrivateLink').length).toEqual(0);
 				});
 				it('sets picker minDate to today and no maxDate by default', function() {
 					showDropDown();

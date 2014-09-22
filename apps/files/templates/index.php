@@ -15,5 +15,6 @@
 <input type="hidden" name="encryptedFiles" id="encryptedFiles" value="<?php $_['encryptedFiles'] ? p('1') : p('0'); ?>" />
 <input type="hidden" name="encryptedInitStatus" id="encryptionInitStatus" value="<?php p($_['encryptionInitStatus']) ?>" />
 <input type="hidden" name="mailNotificationEnabled" id="mailNotificationEnabled" value="<?php p($_['mailNotificationEnabled']) ?>" />
+<input type="hidden" name="mailPublicNotificationEnabled" id="mailPublicNotificationEnabled" value="<?php p($_['mailPublicNotificationEnabled']) ?>" />
 <input type="hidden" name="allowShareWithLink" id="allowShareWithLink" value="<?php p($_['allowShareWithLink']) ?>" />
 <?php endif;
