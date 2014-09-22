@@ -22,12 +22,10 @@ class Controller {
 			if(count($e) > 0) {
 				$options = array_merge($opts, $post, $errors);
 				$this->display($options);
-			}
-			else {
+			} else {
 				$this->finishSetup();
 			}
-		}
-		else {
+		} else {
 			$options = array_merge($opts, $post);
 			$this->display($options);
 		}
@@ -53,8 +51,7 @@ class Controller {
 	}
 
 	public function finishSetup() {
-		header( 'Location: '.\OC_Helper::linkToRoute( 'post_setup_check' ));
-		exit();
+		\OC_Util::redirectToDefaultPage();
 	}
 
 	public function loadAutoConfig($post) {
