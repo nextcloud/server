@@ -92,6 +92,9 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		} else {
 			\OC_App::disable('files_encryption');
 		}
+
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
+		$query->execute();
 	}
 
 	public static function tearDownAfterClass() {
