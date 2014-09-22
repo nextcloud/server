@@ -79,6 +79,16 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('.', '..', 'bar.txt', 'foo.txt'), scandir('oc:///'));
 		$this->assertEquals('qwerty', file_get_contents('oc:///bar.txt'));
 
+		$fh = fopen('oc:///bar.txt', 'rb');
+		$this->assertSame(0, ftell($fh));
+		$content = fread($fh, 4);
+		$this->assertSame(4, ftell($fh));
+		$this->assertSame('qwer', $content);
+		$content = fread($fh, 1);
+		$this->assertSame(5, ftell($fh));
+		$this->assertSame(0, fseek($fh, 0));
+		$this->assertSame(0, ftell($fh));
+
 		unlink('oc:///foo.txt');
 		$this->assertEquals(array('.', '..', 'bar.txt'), scandir('oc:///'));
 	}
