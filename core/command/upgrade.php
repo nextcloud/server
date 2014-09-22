@@ -22,6 +22,8 @@ class Upgrade extends Command {
 	const ERROR_UP_TO_DATE = 3;
 	const ERROR_INVALID_ARGUMENTS = 4;
 
+	public $upgradeFailed = false;
+
 	protected function configure() {
 		$this
 			->setName('upgrade')
@@ -75,6 +77,7 @@ class Upgrade extends Command {
 		}
 
 		if(\OC::checkUpgrade(false)) {
+			$self = $this;
 			$updater = new Updater();
 
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
@@ -83,15 +86,14 @@ class Upgrade extends Command {
 			$updater->listen('\OC\Updater', 'maintenanceStart', function () use($output) {
 				$output->writeln('<info>Turned on maintenance mode</info>');
 			});
-			$updater->listen('\OC\Updater', 'maintenanceEnd', function () use($output, $updateStepEnabled) {
-				$output->writeln('<info>Turned off maintenance mode</info>');
-				if (!$updateStepEnabled) {
-					$output->writeln('<info>Update simulation successful</info>');
-				}
-				else {
-					$output->writeln('<info>Update successful</info>');
-				}
-			});
+			$updater->listen('\OC\Updater', 'maintenanceEnd',
+				function () use($output, $updateStepEnabled, $self) {
+					$output->writeln('<info>Turned off maintenance mode</info>');
+					$mode = $updateStepEnabled ? 'Update' : 'Update simulation';
+					$status = $self->upgradeFailed ? 'failed' : 'successful';
+					$message = "<info>$mode $status</info>";
+					$output->writeln($message);
+				});
 			$updater->listen('\OC\Updater', 'dbUpgrade', function () use($output) {
 				$output->writeln('<info>Updated database</info>');
 			});
@@ -102,9 +104,9 @@ class Upgrade extends Command {
 				$output->writeln('<info>Disabled incompatible apps: ' . implode(', ', $appList) . '</info>');
 			});
 
-			$updater->listen('\OC\Updater', 'failure', function ($message) use($output) {
-				$output->writeln($message);
-				\OC_Config::setValue('maintenance', false);
+			$updater->listen('\OC\Updater', 'failure', function ($message) use($output, $self) {
+				$output->writeln("<error>$message</error>");
+				$self->upgradeFailed = true;
 			});
 
 			$updater->upgrade();
