@@ -393,6 +393,15 @@ table td.filename .uploadtext {
 	font-size: 11px;
 }
 
+
+/* force show the loading icon, not only on hover */
+#fileList .icon-loading-small {
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter:alpha(opacity=100);
+	opacity: 1 !important;
+	display: inline !important;
+}
+
 #fileList img.move2trash { display:inline; margin:-8px 0; padding:16px 8px 16px 8px !important; float:right; }
 #fileList a.action.delete {
 	position: absolute;
