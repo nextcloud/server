@@ -42,7 +42,7 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 
 		$this->server = $server;
 		$this->server->subscribeEvent('beforeGetProperties', array($this, 'beforeGetProperties'));
-		$this->server->subscribeEvent('afterCreateFile', array($this, 'sendFileIdHeader'));
+		$this->server->subscribeEvent('afterBind', array($this, 'sendFileIdHeader'));
 		$this->server->subscribeEvent('afterWriteContent', array($this, 'sendFileIdHeader'));
 	}
 
