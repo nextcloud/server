@@ -879,7 +879,7 @@ class OC_Util {
 		$id = OC_Config::getValue('instanceid', null);
 		if (is_null($id)) {
 			// We need to guarantee at least one letter in instanceid so it can be used as the session_name
-			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10);
+			$id = 'oc' . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(10, \OCP\Security\ISecureRandom::CHAR_LOWER.\OCP\Security\ISecureRandom::CHAR_DIGITS);
 			OC_Config::$object->setValue('instanceid', $id);
 		}
 		return $id;
