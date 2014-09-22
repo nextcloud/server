@@ -207,7 +207,7 @@ if ($_['suggestedOverwriteWebroot']) {
 	<?php if ($_['cron_log']): ?>
 	<p class="cronlog inlineblock">
 		<?php if ($_['lastcron'] !== false):
-			$human_time = OC_Util::formatDate($_['lastcron']) . " UTC";
+			$human_time = OC_Util::formatDate($_['lastcron']);
 			if (time() - $_['lastcron'] <= 3600): ?>
 				<span class="cronstatus success"></span>
 				<?php p($l->t("Last cron was executed at %s.", array($human_time)));
