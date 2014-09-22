@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"See %s" => "Vidi %s",
 "Help" => "Helpo",
 "Personal" => "Persona",
 "Settings" => "Agordo",
@@ -47,6 +48,10 @@ $TRANSLATIONS = array(
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Nur la jenaj signoj permesatas en uzantonomo: «a-z», «A-Z», «0-9» kaj «_.@-»",
 "A valid username must be provided" => "Valida uzantonomo devas proviziĝi",
 "A valid password must be provided" => "Valida pasvorto devas proviziĝi",
-"The username is already being used" => "La uzantonomo jam uzatas"
+"The username is already being used" => "La uzantonomo jam uzatas",
+"Please ask your server administrator to install the module." => "Bonvolu peti vian sistemadministranton, ke ĝi instalu la modulon.",
+"PHP module %s not installed." => "La PHP-modulo %s ne instalitas.",
+"PHP %s or higher is required." => "PHP %s aŭ pli alta necesas.",
+"PostgreSQL >= 9 required" => "PostgreSQL >= 9 necesas"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
