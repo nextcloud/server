@@ -1770,6 +1770,50 @@ class Util {
 	/**
 	 * @brief check if the file is stored on a system wide mount point
 	 * @param $path relative to /data/user with leading '/'
+	 * create a backup of all keys from the user
+	 *
+	 * @param string $purpose (optional) define the purpose of the backup, will be part of the backup folder
+	 */
+	public function backupAllKeys($purpose = '') {
+		\OC_FileProxy::$enabled = false;
+
+		$backupDir = $this->encryptionDir . '/backup.';
+		$backupDir .= ($purpose === '') ? date("Y-m-d_H-i-s") . '/' : $purpose . '.' . date("Y-m-d_H-i-s") . '/';
+		$this->view->mkdir($backupDir);
+		$this->copyRecursive($this->shareKeysPath, $backupDir . 'share-keys/');
+		$this->copyRecursive($this->keyfilesPath, $backupDir . 'keyfiles/');
+		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.private.key');
+		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.public.key');
+
+		\OC_FileProxy::$enabled = true;
+	}
+
+	/**
+	 * helper method to copy a folder recursively, only needed in OC6.
+	 * OC7 filesystem and newer can copy folder structures
+	 *
+	 * @param string $source
+	 * @param string $target
+	 */
+	private function copyRecursive($source, $target) {
+		if ($this->view->is_dir($source)) {
+			$this->view->mkdir($target);
+			$dir = $this->view->opendir($source);
+			while ($file = readdir($dir)) {
+				if(!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					$this->copyRecursive($source . '/' . $file, $target . '/' . $file);
+				}
+			}
+			closedir($dir);
+		} else {
+			$this->view->copy($source, $target);
+		}
+	}
+
+
+	/**
+	 * check if the file is stored on a system wide mount point
+	 * @param string $path relative to /data/user with leading '/'
 	 * @return boolean
 	 */
 	public function isSystemWideMountPoint($path) {
