@@ -72,21 +72,6 @@ if (!$_['htaccessworking']) {
 <?php
 }
 
-// is WebDAV working ?
-if (!$_['isWebDavWorking']) {
-	?>
-<div class="section">
-	<h2><?php p($l->t('Setup Warning'));?></h2>
-
-	<span class="securitywarning">
-		<?php p($l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.')); ?>
-		<?php print_unescaped($l->t('Please double check the <a href="%s">installation guides</a>.', link_to_docs('admin-install'))); ?>
-	</span>
-
-</div>
-<?php
-}
-
 // Are doc blocks accessible?
 if (!$_['isAnnotationsWorking']) {
 	?>
@@ -183,20 +168,6 @@ if (!$_['isLocaleWorking']) {
 <?php
 }
 
-// is internet connection working ?
-if ($_['internetconnectionworking'] === false) {
-	?>
-	<div class="section">
-		<h2><?php p($l->t('Internet connection not working'));?></h2>
-
-		<span class="connectionwarning">
-		<?php p($l->t('This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')); ?>
-	</span>
-
-	</div>
-<?php
-}
-
 if ($_['suggestedOverwriteWebroot']) {
 	?>
 	<div class="section">
@@ -210,7 +181,17 @@ if ($_['suggestedOverwriteWebroot']) {
 <?php
 }
 ?>
-
+<div id="postsetupchecks" class="section">
+	<h2><?php p($l->t('Connectivity checks'));?></h2>
+	<div class="loading"></div>
+	<div class="success hidden"><?php p($l->t('No problems found'));?></div>
+	<div class="errors hidden"></div>
+	<div class="hint hidden">
+		<span class="setupwarning"><?php
+			print_unescaped($l->t('Please double check the <a href=\'%s\'>installation guides</a>.', \OC_Helper::linkToDocs('admin-install')));
+		?></span>
+	</div>
+</div>
 <?php foreach ($_['forms'] as $form) {
 	print_unescaped($form);
 }
