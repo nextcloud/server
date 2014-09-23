@@ -94,13 +94,9 @@ class Preview extends \PHPUnit_Framework_TestCase {
 
 	public function txtBlacklist() {
 		$txt = 'random text file';
-		$ics = file_get_contents(__DIR__ . '/../data/testcal.ics');
-		$vcf = file_get_contents(__DIR__ . '/../data/testcontact.vcf');
 
 		return array(
 			array('txt', $txt, false),
-			array('ics', $ics, true),
-			array('vcf', $vcf, true),
 		);
 	}
 
