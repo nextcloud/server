@@ -1427,7 +1427,7 @@
 			if (files) {
 				for (var i=0; i<files.length; i++) {
 					var deleteAction = this.findFileEl(files[i]).children("td.date").children(".action.delete");
-					deleteAction.removeClass('delete-icon').addClass('progress-icon');
+					deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
 				}
 			}
 			// Finish any existing actions
@@ -1445,7 +1445,7 @@
 				// no files passed, delete all in current dir
 				params.allfiles = true;
 				// show spinner for all files
-				this.$fileList.find('tr>td.date .action.delete').removeClass('delete-icon').addClass('progress-icon');
+				this.$fileList.find('tr>td.date .action.delete').removeClass('icon-delete').addClass('icon-loading-small');
 			}
 
 			$.post(OC.filePath('files', 'ajax', 'delete.php'),
@@ -1489,7 +1489,7 @@
 							else {
 								$.each(files,function(index,file) {
 									var deleteAction = self.findFileEl(file).find('.action.delete');
-									deleteAction.removeClass('progress-icon').addClass('delete-icon');
+									deleteAction.removeClass('icon-loading-small').addClass('icon-delete');
 								});
 							}
 						}

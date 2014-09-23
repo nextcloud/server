@@ -78,7 +78,7 @@
   };
 
   FilesPage.prototype.deleteButtonId = function(fileName) {
-    return by.css("tr[data-file='" + fileName +  "'] .action.delete.delete-icon");
+    return by.css("tr[data-file='" + fileName +  "'] .action.delete.icon-delete");
   };
 
 //================ SHARED ===============================================//
