@@ -140,6 +140,9 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Error favouriting",
 "Error unfavoriting" => "Error unfavouriting",
 "Access forbidden" => "Access denied",
+"File not found" => "File not found",
+"The specified document has not been found on the server." => "The specified document has not been found on the server.",
+"You can click here to return to %s." => "You can click here to return to %s.",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n",
 "The share will expire on %s." => "The share will expire on %s.",
 "Cheers!" => "Cheers!",
@@ -185,6 +188,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "The theme %s has been disabled.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Please make sure that the database, the config folder and the data folder have been backed up before proceeding.",
 "Start update" => "Start update",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:",
+"This %s instance is currently being updated, which may take a while." => "This %s instance is currently being updated, which may take a while.",
+"This page will refresh itself when the %s instance is available again." => "This page will refresh itself when the %s instance is available again."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

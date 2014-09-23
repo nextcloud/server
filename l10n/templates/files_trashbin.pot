@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-22 01:54-0400\n"
+"POT-Creation-Date: 2014-09-23 02:03-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: lib/trashbin.php:940 lib/trashbin.php:942
+#: lib/trashbin.php:966 lib/trashbin.php:968
 msgid "restored"
 msgstr ""
 

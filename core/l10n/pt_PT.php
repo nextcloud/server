@@ -140,6 +140,9 @@ $TRANSLATIONS = array(
 "Error favoriting" => "Erro a definir como favorito",
 "Error unfavoriting" => "Erro a remover como favorito",
 "Access forbidden" => "Acesso interdito",
+"File not found" => "Ficheiro não encontrado",
+"The specified document has not been found on the server." => "O documento especificado não foi encontrado no servidor.",
+"You can click here to return to %s." => "Pode clicar aqui para retornar para %s.",
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Olá,\n\napenas para informar que %s partilhou »%s« consigo.\nConsulte aqui: %s\n",
 "The share will expire on %s." => "Esta partilha vai expirar em %s.",
 "Cheers!" => "Parabéns!",
@@ -185,6 +188,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "O tema %s foi desativado.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Por favor garanta a cópia de segurança da base de dados e das pastas 'config' e 'data' antes de prosseguir.",
 "Start update" => "Iniciar atualização",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tempos de espera com instalações maiores, você pode em vez disso, executar o seguinte comando a partir do diretório de instalação:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Para evitar tempos de espera com instalações maiores, você pode em vez disso, executar o seguinte comando a partir do diretório de instalação:",
+"This %s instance is currently being updated, which may take a while." => "Esta instância %s está actualmente a ser actualizada, poderá demorar algum tempo.",
+"This page will refresh itself when the %s instance is available again." => "Esta página irá ser recarregada novamente quando a instância %s ficar novamente disponível."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

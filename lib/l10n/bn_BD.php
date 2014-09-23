@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "App directory already exists" => "এই অ্যাপ ডিরেক্টরিটি পূর্ব থেকেই বিদ্যমান",
 "Can't create app folder. Please fix permissions. %s" => "অ্যাপ ফোল্ডার বানানো হেলনা। অনুমতি নির্ধারণ করুন। %s",
 "No source specified when installing app" => "অ্যাপ ইনস্টল করতে যেয়ে কোন উৎস নির্দিষ্ট করা হয়নি",
+"Failed to open archive when installing app" => "অ্যাপ ইনস্টল করতে যেয়ে আর্কাইভ উম্মুক্তকরণ ব্যার্থ  হলো",
 "App does not provide an info.xml file" => "অ্যাপের সঙ্গে একটি  info.xml ফাইল নেই",
 "App can't be installed because of not allowed code in the App" => "অ্যাপের সাথে অননুমোদিত কোড থাকায় অ্যাপটি ইনস্টল করা যাবেনা",
 "App can't be installed because it contains the <shipped>true</shipped> tag which is not allowed for non shipped apps" => "অ্যাপ ইনস্টল করা যাবেনা কারণ এতে ননশিপড অ্যাপ এর জন্য অননুমোদিত <shipped>true</shipped> ট্যাগ বিদ্যমান ",

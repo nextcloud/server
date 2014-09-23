@@ -15,6 +15,7 @@ $TRANSLATIONS = array(
 "Password" => "কূটশব্দ",
 "Name" => "নাম",
 "Share time" => "ভাগাভাগির সময়",
+"Sorry, this link doesn’t seem to work anymore." => "দুঃখিত, এই লিঙ্কটি আর কার্যকর নয়।",
 "Reasons might be:" => "কারণসমূহ হতে পারে:",
 "the item was removed" => "আইটেমটি অপসারণ করা হয়েছিল",
 "the link expired" => "মেয়াদোত্তীর্ন লিঙ্ক",

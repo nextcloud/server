@@ -9,6 +9,7 @@ $TRANSLATIONS = array(
 "Initial encryption running... Please try again later." => "প্রাথমিক এনক্রিপসন চলছে.... দয়া করে পরে আবার চেষ্টা করুন।",
 "Go directly to your %spersonal settings%s." => "সরাসরি আপনার %spersonal settings%s এ যান।",
 "Encryption" => "সংকেতায়ন",
+"Repeat Recovery key password" => "পূণরূদ্ধার কি এর  কুটশব্দ পূণরায় দিন",
 "Enabled" => "কার্যকর",
 "Disabled" => "অকার্যকর",
 "Change recovery key password:" => "পূণরূদ্ধার কি এর কুটশব্দ পরিবর্তন করুন:",
