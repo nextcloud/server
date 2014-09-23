@@ -25,6 +25,11 @@ if (extension_loaded('imagick')) {
 					$content = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>' . $content;
 				}
 
+				// Do not parse SVG files with references
+				if(stripos($content, 'xlink:href') !== false) {
+					return false;
+				}
+
 				$svg->readImageBlob($content);
 				$svg->setImageFormat('png32');
 			} catch (\Exception $e) {
