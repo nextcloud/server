@@ -798,54 +798,60 @@ class OC_Util {
 	 */
 
 	public static function getUrlContent($url){
+		if(stripos($url, 'https://') === 0 || stripos($url, 'http://') === 0) {
+			if (function_exists('curl_init')) {
 
-		if  (function_exists('curl_init')) {
+				$curl = curl_init();
 
-			$curl = curl_init();
+				curl_setopt($curl, CURLOPT_HEADER, 0);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+				curl_setopt($curl, CURLOPT_URL, $url);
+				curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+				curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+				curl_setopt($curl, CURLOPT_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
+				curl_setopt($curl, CURLOPT_REDIR_PROTOCOLS,  CURLPROTO_HTTP | CURLPROTO_HTTPS);
 
-			curl_setopt($curl, CURLOPT_HEADER, 0);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+				curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+				if(OC_Config::getValue('proxy', '')<>'') {
+					curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
+				}
+				if(OC_Config::getValue('proxyuserpwd', '')<>'') {
+					curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
+				}
+				$data = curl_exec($curl);
+				curl_close($curl);
 
-			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-			if(OC_Config::getValue('proxy', '')<>'') {
-				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
-			}
-			if(OC_Config::getValue('proxyuserpwd', '')<>'') {
-				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
-			}
-			$data = curl_exec($curl);
-			curl_close($curl);
-
-		} else {
-			$contextArray = null;
-
-			if(OC_Config::getValue('proxy', '')<>'') {
-				$contextArray = array(
-					'http' => array(
-						'timeout' => 10,
-						'proxy' => OC_Config::getValue('proxy')
-					)
-				);
 			} else {
-				$contextArray = array(
-					'http' => array(
-						'timeout' => 10
-					)
+				$contextArray = null;
+
+				if(OC_Config::getValue('proxy', '')<>'') {
+					$contextArray = array(
+						'http' => array(
+							'follow_location' => false, // Do not follow the location since we can't limit the protocol
+							'timeout' => 10,
+							'proxy' => OC_Config::getValue('proxy')
+						)
+					);
+				} else {
+					$contextArray = array(
+						'http' => array(
+							'follow_location' => false, // Do not follow the location since we can't limit the protocol
+							'timeout' => 10
+						)
+					);
+				}
+
+
+				$ctx = stream_context_create(
+					$contextArray
 				);
+				$data=@file_get_contents($url, 0, $ctx);
+
 			}
-
-
-			$ctx = stream_context_create(
-				$contextArray
-			);
-			$data=@file_get_contents($url, 0, $ctx);
-
+			return $data;
 		}
-		return $data;
+		return false;
 	}
 
 	/**
