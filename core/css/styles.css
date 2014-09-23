@@ -784,6 +784,8 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 	background-image:url('../img/places/home.svg');
 	background-repeat:no-repeat;
 	background-position: left center;
+	width: 26px;
+	display: inline-block;
 }
 #oc-dialog-filepicker-content .dirtree span:not(:last-child) { cursor: pointer; }
 #oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }
