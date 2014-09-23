@@ -24,6 +24,12 @@ $owner = $_POST['owner'];
 $name = $_POST['name'];
 $password = $_POST['password'];
 
+// Check for invalid name
+if(!\OCP\Util::isValidFileName($name)) {
+	\OCP\JSON::error(array('data' => array('message' => $l->t('The mountpoint name contains invalid characters.'))));
+	exit();
+}
+
 $externalManager = new \OCA\Files_Sharing\External\Manager(
 	\OC::$server->getDatabaseConnection(),
 	\OC\Files\Filesystem::getMountManager(),
