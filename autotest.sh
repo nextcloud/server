@@ -26,12 +26,12 @@ function print_syntax {
 	echo -e "\nIf no arguments are specified, all tests will be run with all database configs" >&2
 }
 
-if ! [ -x $PHPUNIT ]; then
+if ! [ -x "$PHPUNIT" ]; then
 	echo "phpunit executable not found, please install phpunit version >= 3.7" >&2
 	exit 3
 fi
 
-PHPUNIT_VERSION=$($PHPUNIT --version | cut -d" " -f2)
+PHPUNIT_VERSION=$("$PHPUNIT" --version | cut -d" " -f2)
 PHPUNIT_MAJOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f1)
 PHPUNIT_MINOR_VERSION=$(echo $PHPUNIT_VERSION | cut -d"." -f2)
 
@@ -45,10 +45,10 @@ if ! [ -w config -a -w config/config.php ]; then
 	exit 1
 fi
 
-if [ $1 ]; then
+if [ "$1" ]; then
 	FOUND=0
 	for DBCONFIG in $DBCONFIGS; do
-		if [ $1 = $DBCONFIG ]; then
+		if [ "$1" = $DBCONFIG ]; then
 			FOUND=1
 			break
 		fi
@@ -148,14 +148,14 @@ DELIM
 function execute_tests {
 	echo "Setup environment for $1 testing ..."
 	# back to root folder
-	cd $BASEDIR
+	cd "$BASEDIR"
 
 	# revert changes to tests/data
 	git checkout tests/data
 
 	# reset data directory
-	rm -rf $DATADIR
-	mkdir $DATADIR
+	rm -rf "$DATADIR"
+	mkdir "$DATADIR"
 
 	# remove the old config file
 	#rm -rf config/config.php
@@ -194,7 +194,7 @@ EOF
 	fi
 
 	# copy autoconfig
-	cp $BASEDIR/tests/autoconfig-$1.php $BASEDIR/config/autoconfig.php
+	cp "$BASEDIR/tests/autoconfig-$1.php" "$BASEDIR/config/autoconfig.php"
 
 	# trigger installation
 	echo "INDEX"
@@ -204,15 +204,15 @@ EOF
 	#test execution
 	echo "Testing with $1 ..."
 	cd tests
-	rm -rf coverage-html-$1
-	mkdir coverage-html-$1
+	rm -rf "coverage-html-$1"
+	mkdir "coverage-html-$1"
 	php -f enable_all.php | grep -i -C9999 error && echo "Error during setup" && exit 101
 	if [ -z "$NOCOVERAGE" ]; then
-		$PHPUNIT --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1 $2 $3
+		"$PHPUNIT" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" --coverage-clover "autotest-clover-$1.xml" --coverage-html "coverage-html-$1" "$2" "$3"
 		RESULT=$?
 	else
 		echo "No coverage"
-		$PHPUNIT --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml $2 $3
+		"$PHPUNIT" --configuration phpunit-autotest.xml --log-junit "autotest-results-$1.xml" "$2" "$3"
 		RESULT=$?
 	fi
 }
@@ -227,10 +227,10 @@ if [ -z "$1" ]
 		execute_tests $DBCONFIG
 	done
 else
-	execute_tests $1 $2 $3
+	execute_tests "$1" "$2" "$3"
 fi
 
-cd $BASEDIR
+cd "$BASEDIR"
 
 restore_config
 #
