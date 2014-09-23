@@ -116,7 +116,10 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 
 	function testGetInstanceIdGeneratesValidId() {
 		OC_Config::deleteKey('instanceid');
-		$this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+		$instanceId = OC_Util::getInstanceId();
+		$this->assertStringStartsWith('oc', $instanceId);
+		$matchesRegex = preg_match('/^[a-z0-9]+$/', $instanceId);
+		$this->assertSame(1, $matchesRegex);
 	}
 
 	/**
