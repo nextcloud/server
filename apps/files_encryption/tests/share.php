@@ -1058,9 +1058,66 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		// check if additional share key for user2 exists
 		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $newFolder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
 
+		// check that old keys were removed/moved properly
+		$this->assertFalse($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
+
 		// tear down
 		\OC\Files\Filesystem::unlink($newFolder);
 		\OC\Files\Filesystem::unlink('/newfolder');
+	}
+
+	function testMoveFileToFolder() {
+
+		$view = new \OC\Files\View('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
+
+		$filename = '/tmp-' . uniqid();
+		$folder = '/folder' . uniqid();
+
+		\OC\Files\Filesystem::mkdir($folder);
+
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = \OC\Files\Filesystem::file_put_contents($folder . $filename, $this->dataShort);
+
+		// Test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// Get file decrypted contents
+		$decrypt = \OC\Files\Filesystem::file_get_contents($folder . $filename);
+
+		$this->assertEquals($this->dataShort, $decrypt);
+
+		$subFolder = $folder . '/subfolder' . uniqid();
+		\OC\Files\Filesystem::mkdir($subFolder);
+
+		// get the file info from previous created file
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($folder);
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+
+		// share the folder
+		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
+
+		// check that the share keys exist
+		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
+		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
+
+		// move the file into the subfolder
+		\OC\Files\Filesystem::rename($folder . $filename, $subFolder . $filename);
+
+		// Get file decrypted contents
+		$newDecrypt = \OC\Files\Filesystem::file_get_contents($subFolder . $filename);
+		$this->assertEquals($this->dataShort, $newDecrypt);
+
+		// check if additional share key for user2 exists
+		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $subFolder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
+		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $subFolder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
+
+		// check that old keys were removed/moved properly
+		$this->assertFalse($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
+		$this->assertFalse($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
+
+		// tear down
+		\OC\Files\Filesystem::unlink($subFolder);
+		\OC\Files\Filesystem::unlink($folder);
 	}
 
 }

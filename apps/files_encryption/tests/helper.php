@@ -108,4 +108,60 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
 	}
 
+	function userNamesProvider() {
+		return array(
+			array('testuser' . uniqid()),
+			array('user.name.with.dots'),
+		);
+	}
+
+	/**
+	 * Tests whether share keys can be found
+	 *
+	 * @dataProvider userNamesProvider
+	 */
+	function testFindShareKeys($userName) {
+		// note: not using dataProvider as we want to make
+		// sure that the correct keys are match and not any
+		// other ones that might happen to have similar names
+		\Test_Encryption_Util::setupHooks();
+		\Test_Encryption_Util::loginHelper($userName, true);
+		$testDir = 'testFindShareKeys' . uniqid() . '/';
+		$baseDir = $userName . '/files/' . $testDir;
+		$fileList = array(
+			't est.txt',
+			't est_.txt',
+			't est.doc.txt',
+			't est(.*).txt', // make sure the regexp is escaped
+			'multiple.dots.can.happen.too.txt',
+			't est.' . $userName . '.txt',
+			't est_.' . $userName . '.shareKey.txt',
+			'who would upload their.shareKey',
+			'user ones file.txt',
+			'user ones file.txt.backup',
+			'.t est.txt'
+		);
+
+		$rootView = new \OC\Files\View('/');
+		$rootView->mkdir($baseDir);
+		foreach ($fileList as $fileName) {
+			$rootView->file_put_contents($baseDir . $fileName, 'dummy');
+		}
+
+		$shareKeysDir = $userName . '/files_encryption/share-keys/' . $testDir;
+		foreach ($fileList as $fileName) {
+			// make sure that every file only gets its correct respective keys
+			$result = Encryption\Helper::findShareKeys($baseDir . $fileName, $shareKeysDir . $fileName, $rootView);
+			$this->assertEquals(
+				array($shareKeysDir . $fileName . '.' . $userName . '.shareKey'),
+				$result
+			);
+		}
+
+		// clean up
+		$rootView->unlink($baseDir);
+		\Test_Encryption_Util::logoutHelper();
+		\OC_User::deleteUser($userName);
+	}
+
 }
