@@ -14,6 +14,7 @@ require_once realpath(dirname(__FILE__) . '/../lib/stream.php');
 require_once realpath(dirname(__FILE__) . '/../lib/util.php');
 require_once realpath(dirname(__FILE__) . '/../lib/helper.php');
 require_once realpath(dirname(__FILE__) . '/../appinfo/app.php');
+require_once realpath(dirname(__FILE__) . '/util.php');
 
 use OCA\Encryption;
 
@@ -47,17 +48,8 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		// disable file proxy by default
 		\OC_FileProxy::$enabled = false;
 
-		// setup filesystem
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::tearDown();
-		\OC_Util::setupFS('admin');
-		\OC_User::setUserId('admin');
-
-		// login admin
-		$params['uid'] = 'admin';
-		$params['password'] = 'admin';
-		OCA\Encryption\Hooks::login($params);
+		$create = (\OC_User::userExists('admin')) ? false : true;
+		\Test_Encryption_Util::loginHelper('admin', $create);
 	}
 
 	function setUp() {
@@ -101,6 +93,8 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	public static function tearDownAfterClass() {
 		\OC_FileProxy::$enabled = true;
+		// delete admin user again
+		\OC_User::deleteUser('admin');
 	}
 
 	function testGetPrivateKey() {
@@ -134,7 +128,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 	function testSetFileKey() {
 
-		# NOTE: This cannot be tested until we are able to break out 
+		# NOTE: This cannot be tested until we are able to break out
 		# of the FileSystemView data directory root
 
 		$key = Encryption\Crypt::symmetricEncryptFileContentKeyfile($this->randomKey, 'hat');
