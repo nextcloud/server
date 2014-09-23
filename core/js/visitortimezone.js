@@ -1,6 +1,7 @@
+/* global jstz */
 $(document).ready(function () {
-		var visitortimezone = (-new Date().getTimezoneOffset() / 60);
-		$('#timezone-offset').val(visitortimezone);
+		$('#timezone-offset').val((-new Date().getTimezoneOffset() / 60));
+		$('#timezone').val(jstz.determine().name());
 
 		// only enable the submit button once we are sure that the timezone is set
 		var $loginForm = $('form[name="login"]');

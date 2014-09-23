@@ -381,16 +381,26 @@ class OC_Util {
 	 *
 	 * @param int $timestamp
 	 * @param bool $dateOnly option to omit time from the result
+	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
 	 * @return string timestamp
 	 * @description adjust to clients timezone if we know it
 	 */
-	public static function formatDate( $timestamp, $dateOnly = false) {
-		if(\OC::$server->getSession()->exists('timezone')) {
-			$systemTimeZone = intval(date('O'));
-			$systemTimeZone = (round($systemTimeZone / 100, 0) * 60) + ($systemTimeZone % 100);
-			$clientTimeZone = \OC::$server->getSession()->get('timezone') * 60;
-			$offset = $clientTimeZone - $systemTimeZone;
-			$timestamp = $timestamp + $offset * 60;
+	public static function formatDate($timestamp, $dateOnly = false, $timeZone = null) {
+		if (is_null($timeZone)) {
+			if (\OC::$server->getSession()->exists('timezone')) {
+				$systemTimeZone = intval(date('O'));
+				$systemTimeZone = (round($systemTimeZone / 100, 0) * 60) + ($systemTimeZone % 100);
+				$clientTimeZone = \OC::$server->getSession()->get('timezone') * 60;
+				$offset = $clientTimeZone - $systemTimeZone;
+				$timestamp = $timestamp + $offset * 60;
+			}
+		} else {
+			if (!$timeZone instanceof DateTimeZone) {
+				$timeZone = new DateTimeZone($timeZone);
+			}
+			$dt = new DateTime("@$timestamp");
+			$offset = $timeZone->getOffset($dt);
+			$timestamp += $offset;
 		}
 		$l = \OC::$server->getL10N('lib');
 		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);

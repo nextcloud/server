@@ -913,7 +913,7 @@ class OC {
 	}
 
 	/**
-	 * Tries to login a user using the formbased authentication
+	 * Tries to login a user using the form based authentication
 	 * @return bool|void
 	 */
 	protected static function tryFormLogin() {
@@ -928,20 +928,22 @@ class OC {
 		OC_User::setupBackends();
 
 		if (OC_User::login($_POST["user"], $_POST["password"])) {
+			$userId = OC_User::getUser();
+
 			// setting up the time zone
 			if (isset($_POST['timezone-offset'])) {
 				self::$server->getSession()->set('timezone', $_POST['timezone-offset']);
+				self::$server->getConfig()->setUserValue($userId, 'core', 'timezone', $_POST['timezone']);
 			}
 
-			$userid = OC_User::getUser();
-			self::cleanupLoginTokens($userid);
+			self::cleanupLoginTokens($userId);
 			if (!empty($_POST["remember_login"])) {
 				if (defined("DEBUG") && DEBUG) {
-					OC_Log::write('core', 'Setting remember login to cookie', OC_Log::DEBUG);
+					self::$server->getLogger()->debug('Setting remember login to cookie', array('app' => 'core'));
 				}
 				$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
-				OC_Preferences::setValue($userid, 'login_token', $token, time());
-				OC_User::setMagicInCookie($userid, $token);
+				self::$server->getConfig()->setUserValue($userId, 'login_token', $token, time());
+				OC_User::setMagicInCookie($userId, $token);
 			} else {
 				OC_User::unsetMagicInCookie();
 			}
@@ -950,8 +952,6 @@ class OC {
 		}
 		return true;
 	}
-
-
 }
 
 if (!function_exists('get_temp_dir')) {
