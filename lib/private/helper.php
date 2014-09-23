@@ -630,10 +630,10 @@ class OC_Helper {
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
 	public static function tmpFolder() {
-		$path = get_temp_dir() . '/' . md5(time() . rand());
+		$path = get_temp_dir() . DIRECTORY_SEPARATOR . md5(time() . rand());
 		mkdir($path);
 		self::$tmpFiles[] = $path;
-		return $path . '/';
+		return $path . DIRECTORY_SEPARATOR;
 	}
 
 	/**

@@ -46,8 +46,8 @@ class FileCache extends \Test_Cache {
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage,array(),'/');
 		$datadir = str_replace('local::', '', $storage->getId());
-		$this->datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data');
-		\OC_Config::setValue('datadirectory', $datadir);
+		$this->datadir = \OC_Config::getValue('cachedirectory', \OC::$SERVERROOT.'/data/cache');
+		\OC_Config::setValue('cachedirectory', $datadir);
 
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \OC_User_Dummy());
@@ -67,6 +67,6 @@ class FileCache extends \Test_Cache {
 
 	public function tearDown() {
 		\OC_User::setUserId($this->user);
-		\OC_Config::setValue('datadirectory', $this->datadir);
+		\OC_Config::setValue('cachedirectory', $this->datadir);
 	}
 }
