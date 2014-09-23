@@ -191,13 +191,12 @@ class Hooks {
 		if (Crypt::mode() === 'server') {
 
 			$view = new \OC\Files\View('/');
+			$session = new \OCA\Encryption\Session($view);
 
-			if ($params['uid'] === \OCP\User::getUser()) {
+			// Get existing decrypted private key
+			$privateKey = $session->getPrivateKey();
 
-				$session = new \OCA\Encryption\Session($view);
-
-				// Get existing decrypted private key
-				$privateKey = $session->getPrivateKey();
+			if ($params['uid'] === \OCP\User::getUser() && $privateKey) {
 
 				// Encrypt private key with new user pwd as passphrase
 				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($privateKey, $params['password'], Helper::getCipher());
