@@ -320,6 +320,10 @@ table td.filename .uploadtext {
 	margin-top: 5px;
 	height: 20px;
 	padding: 10px 0;
+	font-size: 11px;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
 }
 
 .ie8 input[type="checkbox"]{
