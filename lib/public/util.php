@@ -83,38 +83,20 @@ class Util {
 	}
 
 	/**
-	 * write exception into the log. Include the stack trace
-	 * if DEBUG mode is enabled
+	 * write exception into the log
 	 * @param string $app app name
 	 * @param \Exception $ex exception to log
-	 * @param string $level log level, defaults to \OCP\Util::FATAL
+	 * @param int $level log level, defaults to \OCP\Util::FATAL
 	 */
 	public static function logException( $app, \Exception $ex, $level = \OCP\Util::FATAL ) {
-		$class = get_class($ex);
-		$message = $class . ': ' . $ex->getMessage();
-		if ($ex->getCode()) {
-			$message .= ' [' . $ex->getCode() . ']';
-		}
-		\OCP\Util::writeLog($app, $message, $level);
-		if (defined('DEBUG') and DEBUG) {
-			// also log stack trace
-			$stack = explode("\n", $ex->getTraceAsString());
-			// first element is empty
-			array_shift($stack);
-			foreach ($stack as $s) {
-				\OCP\Util::writeLog($app, 'Exception: ' . $s, $level);
-			}
-
-			// include cause
-			while (method_exists($ex, 'getPrevious') && $ex = $ex->getPrevious()) {
-				$message .= ' - Caused by:' . ' ';
-				$message .= $ex->getMessage();
-				if ($ex->getCode()) {
-					$message .= '[' . $ex->getCode() . '] ';
-				}
-				\OCP\Util::writeLog($app, 'Exception: ' . $message, $level);
-			}
-		}
+		$exception = array(
+			'Message' => $ex->getMessage(),
+			'Code' => $ex->getCode(),
+			'Trace' => $ex->getTraceAsString(),
+			'File' => $ex->getFile(),
+			'Line' => $ex->getLine(),
+		);
+		\OCP\Util::writeLog($app, 'Exception: ' . json_encode($exception), $level);
 	}
 
 	/**

@@ -250,8 +250,7 @@ class OC_Template extends \OC\Template\Base {
 	/**
 		* Print a fatal error page and terminates the script
 		* @param string $error_msg The error message to show
-		* @param string $hint An optional hint message
-		* Warning: All data passed to $hint needs to get sanitized using OC_Util::sanitizeHTML
+		* @param string $hint An optional hint message - needs to be properly escaped
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
 		$content = new \OC_Template( '', 'error', 'error', false );
@@ -266,28 +265,16 @@ class OC_Template extends \OC\Template\Base {
 	 * @param Exception $exception
 	 */
 	public static function printExceptionErrorPage(Exception $exception) {
-		$error_msg = $exception->getMessage();
-		if ($exception->getCode()) {
-			$error_msg = '['.$exception->getCode().'] '.$error_msg;
-		}
-		if (defined('DEBUG') and DEBUG) {
-			$hint = $exception->getTraceAsString();
-			if (!empty($hint)) {
-				$hint = '<pre>'.OC_Util::sanitizeHTML($hint).'</pre>';
-			}
-			while (method_exists($exception, 'previous') && $exception = $exception->previous()) {
-				$error_msg .= '<br/>Caused by:' . ' ';
-				if ($exception->getCode()) {
-					$error_msg .= '['.OC_Util::sanitizeHTML($exception->getCode()).'] ';
-				}
-				$error_msg .= OC_Util::sanitizeHTML($exception->getMessage());
-			};
-		} else {
-			$hint = '';
-			if ($exception instanceof \OC\HintException) {
-				$hint = OC_Util::sanitizeHTML($exception->getHint());
-			}
-		}
-		self::printErrorPage($error_msg, $hint);
+		$content = new \OC_Template('', 'exception', 'error', false);
+		$content->assign('errorMsg', $exception->getMessage());
+		$content->assign('errorCode', $exception->getCode());
+		$content->assign('file', $exception->getFile());
+		$content->assign('line', $exception->getLine());
+		$content->assign('trace', $exception->getTraceAsString());
+		$content->assign('debugMode', defined('DEBUG') && DEBUG === true);
+		$content->assign('remoteAddr', OC_Request::getRemoteAddress());
+		$content->assign('requestID', OC_Request::getRequestID());
+		$content->printPage();
+		die();
 	}
 }
