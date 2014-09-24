@@ -26,6 +26,3 @@ filter:
 imports:
     - javascript
     - php
-
-tools:
-    external_code_coverage: true
