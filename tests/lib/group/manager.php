@@ -380,6 +380,8 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \OC\User\Manager $userManager
 		 */
 		$userManager = $this->getMock('\OC\User\Manager');
+		$userBackend = $this->getMock('\OC_User_Backend');
+
 		$userManager->expects($this->any())
 			->method('search')
 			->with('user3')
@@ -554,7 +556,7 @@ class Manager extends \PHPUnit_Framework_TestCase {
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend1
 		 */
 		$backend = $this->getMock('\OC_Group_Database');
-		$backend->expects($this->exactly(2))
+		$backend->expects($this->exactly(1))
 			->method('groupExists')
 			->with('testgroup')
 			->will($this->returnValue(true));
