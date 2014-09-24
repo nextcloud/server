@@ -21,8 +21,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL იუზერნეიმი და/ან პაროლი არ არის სწორი",
 "Set an admin username." => "დააყენეთ ადმინისტრატორის სახელი.",
 "Set an admin password." => "დააყენეთ ადმინისტრატორის პაროლი.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "თქვენი web სერვერი არ არის კონფიგურირებული ფაილ სინქრონიზაციისთვის, რადგან WebDAV ინტერფეისი შეიძლება იყოს გატეხილი.",
-"Please double check the <a href='%s'>installation guides</a>." => "გთხოვთ გადაათვალიეროთ <a href='%s'>ინსტალაციის გზამკვლევი</a>.",
 "Could not find category \"%s\"" => "\"%s\" კატეგორიის მოძებნა ვერ მოხერხდა",
 "seconds ago" => "წამის წინ",
 "_%n minute ago_::_%n minutes ago_" => array(""),

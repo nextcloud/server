@@ -43,8 +43,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL의 사용자 이름 또는 암호가 잘못되었습니다",
 "Set an admin username." => "관리자의 사용자 이름을 설정합니다.",
 "Set an admin password." => "관리자의 암호를 설정합니다.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "WebDAV 인터페이스가 제대로 작동하지 않습니다. 웹 서버에서 파일 동기화를 사용할 수 있도록 설정이 제대로 되지 않은 것 같습니다.",
-"Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오.",
 "%s shared »%s« with you" => "%s 님이 %s을(를) 공유하였습니다",
 "Could not find category \"%s\"" => "분류 \"%s\"을(를) 찾을 수 없습니다.",
 "seconds ago" => "초 전",

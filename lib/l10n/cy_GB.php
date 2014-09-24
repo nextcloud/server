@@ -21,8 +21,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Enw a/neu gyfrinair PostgreSQL annilys",
 "Set an admin username." => "Creu enw defnyddiwr i'r gweinyddwr.",
 "Set an admin password." => "Gosod cyfrinair y gweinyddwr.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri.",
-"Please double check the <a href='%s'>installation guides</a>." => "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
 "Could not find category \"%s\"" => "Methu canfod categori \"%s\"",
 "seconds ago" => "eiliad yn ôl",
 "_%n minute ago_::_%n minutes ago_" => array("","","",""),

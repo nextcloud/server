@@ -22,8 +22,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Nav derīga PostgreSQL parole un/vai lietotājvārds",
 "Set an admin username." => "Iestatiet administratora lietotājvārdu.",
 "Set an admin password." => "Iestatiet administratora paroli.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta.",
-"Please double check the <a href='%s'>installation guides</a>." => "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>.",
 "%s shared »%s« with you" => "%s kopīgots »%s« ar jums",
 "Could not find category \"%s\"" => "Nevarēja atrast kategoriju “%s”",
 "seconds ago" => "sekundes atpakaļ",

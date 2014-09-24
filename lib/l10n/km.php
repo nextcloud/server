@@ -22,7 +22,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "ឈ្មោះ​អ្នក​ប្រើ និង/ឬ ពាក្យ​សម្ងាត់ PostgreSQL គឺ​មិន​ត្រូវ​ទេ",
 "Set an admin username." => "កំណត់​ឈ្មោះ​អ្នក​គ្រប់គ្រង។",
 "Set an admin password." => "កំណត់​ពាក្យ​សម្ងាត់​អ្នក​គ្រប់គ្រង។",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "ម៉ាស៊ីន​មេ​វេប​របស់​អ្នក​មិន​បានរៀបចំត្រឹមត្រូវ ដើម្បី​អនុញ្ញាតិ​អោយ​មាន​ឯកសារ​ធ្វើ​សមកាលកម្មបាន​ទេ ព្រោះថា WebDAV ហាក់​បី​ដូច​ជាខូចហើយ។",
 "Could not find category \"%s\"" => "រក​មិន​ឃើញ​ចំណាត់​ក្រុម \"%s\"",
 "seconds ago" => "វិនាទី​មុន",
 "_%n minute ago_::_%n minutes ago_" => array("%n នាទី​មុន"),

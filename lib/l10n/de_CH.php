@@ -25,8 +25,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL Benutzername und/oder Passwort ungültig",
 "Set an admin username." => "Setze Administrator Benutzername.",
 "Set an admin password." => "Setze Administrator Passwort",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
-"Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
 "%s shared »%s« with you" => "%s teilt »%s« mit Ihnen",
 "Could not find category \"%s\"" => "Die Kategorie «%s» konnte nicht gefunden werden.",
 "seconds ago" => "Gerade eben",

@@ -48,8 +48,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Nome de usuario e/ou contrasinal de PostgreSQL incorrecto",
 "Set an admin username." => "Estabeleza un nome de usuario administrador",
 "Set an admin password." => "Estabeleza un contrasinal de administrador",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "O seu servidor web aínda non está configurado axeidamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar.",
-"Please double check the <a href='%s'>installation guides</a>." => "Volva comprobar as <a href='%s'>guías de instalación</a>",
 "%s shared »%s« with you" => "%s compartiu «%s» con vostede",
 "Sharing %s failed, because the file does not exist" => "Fallou a compartición de %s, o ficheiro non existe",
 "You are not allowed to share %s" => "Non ten permiso para compartir %s",

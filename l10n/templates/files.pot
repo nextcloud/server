@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-23 02:03-0400\n"
+"POT-Creation-Date: 2014-09-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,52 +44,52 @@ msgstr ""
 msgid "Permission denied"
 msgstr ""
 
-#: ajax/newfile.php:58 js/files.js:103
+#: ajax/newfile.php:59 js/files.js:103
 msgid "File name cannot be empty."
 msgstr ""
 
-#: ajax/newfile.php:63
+#: ajax/newfile.php:64
 #, php-format
 msgid "\"%s\" is an invalid file name."
 msgstr ""
 
-#: ajax/newfile.php:69 ajax/newfolder.php:28 js/files.js:110
+#: ajax/newfile.php:70 ajax/newfolder.php:28 js/files.js:110
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr ""
 
-#: ajax/newfile.php:76 ajax/newfolder.php:35 ajax/upload.php:161
+#: ajax/newfile.php:77 ajax/newfolder.php:35 ajax/upload.php:161
 #: lib/app.php:87
 msgid "The target folder has been moved or deleted."
 msgstr ""
 
-#: ajax/newfile.php:88 ajax/newfolder.php:47 lib/app.php:96
+#: ajax/newfile.php:89 ajax/newfolder.php:47 lib/app.php:96
 #, php-format
 msgid ""
 "The name %s is already used in the folder %s. Please choose a different name."
 msgstr ""
 
-#: ajax/newfile.php:97
+#: ajax/newfile.php:99
 msgid "Not a valid source"
 msgstr ""
 
-#: ajax/newfile.php:102
+#: ajax/newfile.php:104
 msgid ""
 "Server is not allowed to open URLs, please check the server configuration"
 msgstr ""
 
-#: ajax/newfile.php:126
+#: ajax/newfile.php:131
 #, php-format
 msgid "The file exceeds your quota by %s"
 msgstr ""
 
-#: ajax/newfile.php:141
+#: ajax/newfile.php:146
 #, php-format
 msgid "Error while downloading %s to %s"
 msgstr ""
 
-#: ajax/newfile.php:169
+#: ajax/newfile.php:174
 msgid "Error when creating the file"
 msgstr ""
 

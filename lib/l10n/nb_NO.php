@@ -50,8 +50,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL-brukernavn og/eller passord er ikke gyldig",
 "Set an admin username." => "Sett et admin-brukernavn.",
 "Set an admin password." => "Sett et admin-passord.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Din nettservev er ikke konfigurert korrekt for filsynkronisering. WebDAV ser ut til å ikke funkere.",
-"Please double check the <a href='%s'>installation guides</a>." => "Vennligst dobbelsjekk <a href='%s'>installasjonsguiden</a>.",
 "%s shared »%s« with you" => "%s delte »%s« med deg",
 "Sharing %s failed, because the file does not exist" => "Deling av %s feilet, fordi filen ikke eksisterer",
 "You are not allowed to share %s" => "Du har ikke lov til å dele %s",

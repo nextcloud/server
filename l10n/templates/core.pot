@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-23 02:03-0400\n"
+"POT-Creation-Date: 2014-09-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,27 +149,27 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:498
+#: js/js.js:499
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:587
+#: js/js.js:588
 msgid "File"
 msgstr ""
 
-#: js/js.js:588
+#: js/js.js:589
 msgid "Folder"
 msgstr ""
 
-#: js/js.js:589
+#: js/js.js:590
 msgid "Image"
 msgstr ""
 
-#: js/js.js:590
+#: js/js.js:591
 msgid "Audio"
 msgstr ""
 
-#: js/js.js:604
+#: js/js.js:605
 msgid "Saving..."
 msgstr ""
 
@@ -294,6 +294,25 @@ msgstr ""
 
 #: js/setup.js:103
 msgid "Strong password"
+msgstr ""
+
+#: js/setupchecks.js:24
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
+
+#: js/setupchecks.js:54
+msgid ""
+"This server has no working internet connection. This means that some of the "
+"features like mounting of external storage, notifications about updates or "
+"installation of 3rd party apps don´t work. Accessing files from remote and "
+"sending of notification emails might also not work. We suggest to enable "
+"internet connection for this server if you want to have all features."
+msgstr ""
+
+#: js/setupchecks.js:58
+msgid "Error occurred while checking server setup"
 msgstr ""
 
 #: js/share.js:129 js/share.js:251
@@ -515,7 +534,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
 #: lostpassword/templates/lostpassword.php:9 templates/installation.php:44
-#: templates/installation.php:47 templates/login.php:23 templates/login.php:27
+#: templates/installation.php:47 templates/login.php:24 templates/login.php:28
 msgid "Username"
 msgstr ""
 
@@ -543,14 +562,14 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-#: setup/controller.php:140
+#: setup/controller.php:137
 #, php-format
 msgid ""
 "Mac OS X is not supported and %s will not work properly on this platform. "
 "Use it at your own risk! "
 msgstr ""
 
-#: setup/controller.php:144
+#: setup/controller.php:141
 msgid "For the best results, please consider using a GNU/Linux server instead."
 msgstr ""
 
@@ -639,6 +658,60 @@ msgstr ""
 msgid "Cheers!"
 msgstr ""
 
+#: templates/exception.php:7
+msgid ""
+"The server encountered an internal error and was unable to complete your "
+"request."
+msgstr ""
+
+#: templates/exception.php:8
+msgid ""
+"Please contact the server administrator if this error reappears multiple "
+"times, please include the technical details below in your report."
+msgstr ""
+
+#: templates/exception.php:9
+msgid "More details can be found in the server log."
+msgstr ""
+
+#: templates/exception.php:12
+msgid "Technical details"
+msgstr ""
+
+#: templates/exception.php:14
+#, php-format
+msgid "Remote Address: %s"
+msgstr ""
+
+#: templates/exception.php:15
+#, php-format
+msgid "Request ID: %s"
+msgstr ""
+
+#: templates/exception.php:17
+#, php-format
+msgid "Code: %s"
+msgstr ""
+
+#: templates/exception.php:18
+#, php-format
+msgid "Message: %s"
+msgstr ""
+
+#: templates/exception.php:19
+#, php-format
+msgid "File: %s"
+msgstr ""
+
+#: templates/exception.php:20
+#, php-format
+msgid "Line: %s"
+msgstr ""
+
+#: templates/exception.php:26
+msgid "Trace"
+msgstr ""
+
 #: templates/installation.php:25 templates/installation.php:32
 msgid "Security Warning"
 msgstr ""
@@ -670,7 +743,7 @@ msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
 #: templates/installation.php:52 templates/installation.php:55
-#: templates/login.php:33 templates/login.php:36
+#: templates/login.php:34 templates/login.php:37
 msgid "Password"
 msgstr ""
 
@@ -742,27 +815,27 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:12
 msgid "Server side authentication failed!"
 msgstr ""
 
-#: templates/login.php:12
+#: templates/login.php:13
 msgid "Please contact your administrator."
 msgstr ""
 
-#: templates/login.php:42
+#: templates/login.php:43
 msgid "Forgot your password? Reset it!"
 msgstr ""
 
-#: templates/login.php:47
+#: templates/login.php:48
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:51
+#: templates/login.php:53
 msgid "Log in"
 msgstr ""
 
-#: templates/login.php:57
+#: templates/login.php:59
 msgid "Alternative Logins"
 msgstr ""
 

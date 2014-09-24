@@ -37,8 +37,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Nama pengguna dan/atau sandi PostgreSQL tidak valid",
 "Set an admin username." => "Atur nama pengguna admin.",
 "Set an admin password." => "Atur sandi admin.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sinkronisasi berkas karena tampaknya antarmuka WebDAV rusak.",
-"Please double check the <a href='%s'>installation guides</a>." => "Silakan periksa ulang <a href='%s'>panduan instalasi</a>.",
 "%s shared »%s« with you" => "%s membagikan »%s« dengan anda",
 "Could not find category \"%s\"" => "Tidak menemukan kategori \"%s\"",
 "seconds ago" => "beberapa detik yang lalu",

@@ -50,8 +50,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Uživatelské jméno či heslo PostgreSQL není platné",
 "Set an admin username." => "Zadejte uživatelské jméno správce.",
 "Set an admin password." => "Zadejte heslo správce.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, rozhraní WebDAV se zdá být rozbité.",
-"Please double check the <a href='%s'>installation guides</a>." => "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
 "%s shared »%s« with you" => "%s s vámi sdílí »%s«",
 "Sharing %s failed, because the file does not exist" => "Sdílení %s selhalo, protože soubor neexistuje",
 "You are not allowed to share %s" => "Nemáte povoleno sdílet %s",

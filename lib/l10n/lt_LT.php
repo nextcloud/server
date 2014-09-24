@@ -37,8 +37,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Neteisingas PostgreSQL naudotojo vardas ir/arba slaptažodis",
 "Set an admin username." => "Nustatyti administratoriaus naudotojo vardą.",
 "Set an admin password." => "Nustatyti administratoriaus slaptažodį.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Jūsų serveris nėra tvarkingai nustatytas leisti failų sinchronizaciją, nes WebDAV sąsaja panašu, kad yra sugadinta.",
-"Please double check the <a href='%s'>installation guides</a>." => "Prašome pažiūrėkite dar kartą <a href='%s'>diegimo instrukcijas</a>.",
 "%s shared »%s« with you" => "%s pasidalino »%s« su tavimi",
 "Could not find category \"%s\"" => "Nepavyko rasti kategorijos „%s“",
 "seconds ago" => "prieš sekundę",

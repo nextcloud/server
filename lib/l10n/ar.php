@@ -34,8 +34,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "اسم المستخدم / أو كلمة المرور الخاصة بـPostgreSQL غير صحيحة",
 "Set an admin username." => "اعداد اسم مستخدم للمدير",
 "Set an admin password." => "اعداد كلمة مرور للمدير",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة",
-"Please double check the <a href='%s'>installation guides</a>." => "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>.",
 "%s shared »%s« with you" => "%s شارك »%s« معك",
 "Could not find category \"%s\"" => "تعذر العثور على المجلد \"%s\"",
 "seconds ago" => "منذ ثواني",

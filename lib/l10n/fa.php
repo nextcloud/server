@@ -24,8 +24,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL نام کاربری و / یا رمزعبور معتبر نیست.",
 "Set an admin username." => "یک نام کاربری برای مدیر تنظیم نمایید.",
 "Set an admin password." => "یک رمزعبور برای مدیر تنظیم نمایید.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است.",
-"Please double check the <a href='%s'>installation guides</a>." => "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید.",
 "%s shared »%s« with you" => "%s به اشتراک گذاشته شده است »%s« توسط شما",
 "Could not find category \"%s\"" => "دسته بندی %s یافت نشد",
 "seconds ago" => "ثانیه‌ها پیش",

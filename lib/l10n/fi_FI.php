@@ -43,8 +43,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL:n käyttäjätunnus ja/tai salasana on väärin",
 "Set an admin username." => "Aseta ylläpitäjän käyttäjätunnus.",
 "Set an admin password." => "Aseta ylläpitäjän salasana.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web-palvelimen asetukset eivät ole kelvolliset tiedostojen synkronointia varten, koska WebDAV-liitäntä vaikuttaa olevan rikki.",
-"Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
 "%s shared »%s« with you" => "%s jakoi kohteen »%s« kanssasi",
 "Sharing %s failed, because the file does not exist" => "Kohteen %s jakaminen epäonnistui, koska tiedostoa ei ole olemassa",
 "You are not allowed to share %s" => "Oikeutesi eivät riitä kohteen %s jakamiseen.",

@@ -30,8 +30,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "La uzantonomo de PostgreSQL aŭ la pasvorto ne validas",
 "Set an admin username." => "Starigi administran uzantonomon.",
 "Set an admin password." => "Starigi administran pasvorton.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita.",
-"Please double check the <a href='%s'>installation guides</a>." => "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>.",
 "%s shared »%s« with you" => "%s kunhavigis “%s” kun vi",
 "You are not allowed to share %s" => "Vi ne permesatas kunhavigi %s",
 "Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”",

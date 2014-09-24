@@ -50,8 +50,6 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL username and/or password not valid",
 "Set an admin username." => "Set an admin username.",
 "Set an admin password." => "Set an admin password.",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Your web server is not yet properly setup to allow files synchronisation because the WebDAV interface seems to be broken.",
-"Please double check the <a href='%s'>installation guides</a>." => "Please double check the <a href='%s'>installation guides</a>.",
 "%s shared »%s« with you" => "%s shared \"%s\" with you",
 "Sharing %s failed, because the file does not exist" => "Sharing %s failed, because the file does not exist",
 "You are not allowed to share %s" => "You are not allowed to share %s",

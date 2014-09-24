@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-23 02:04-0400\n"
+"POT-Creation-Date: 2014-09-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -214,23 +214,12 @@ msgstr ""
 msgid "PostgreSQL username and/or password not valid"
 msgstr ""
 
-#: setup.php:28
+#: setup.php:27
 msgid "Set an admin username."
 msgstr ""
 
-#: setup.php:31
+#: setup.php:30
 msgid "Set an admin password."
-msgstr ""
-
-#: setup.php:176
-msgid ""
-"Your web server is not yet properly setup to allow files synchronization "
-"because the WebDAV interface seems to be broken."
-msgstr ""
-
-#: setup.php:177
-#, php-format
-msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
 #: share/mailnotifications.php:91 share/mailnotifications.php:142
@@ -434,151 +423,151 @@ msgstr ""
 msgid "The username is already being used"
 msgstr ""
 
-#: util.php:429
+#: util.php:437
 msgid "No database drivers (sqlite, mysql, or postgresql) installed."
 msgstr ""
 
-#: util.php:436
+#: util.php:444
 #, php-format
 msgid ""
 "Permissions can usually be fixed by %sgiving the webserver write access to "
 "the root directory%s."
 msgstr ""
 
-#: util.php:443
+#: util.php:451
 msgid "Cannot write into \"config\" directory"
 msgstr ""
 
-#: util.php:444
+#: util.php:452
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the "
 "config directory%s."
 msgstr ""
 
-#: util.php:457
+#: util.php:465
 msgid "Cannot write into \"apps\" directory"
 msgstr ""
 
-#: util.php:458
+#: util.php:466
 #, php-format
 msgid ""
 "This can usually be fixed by %sgiving the webserver write access to the apps "
 "directory%s or disabling the appstore in the config file."
 msgstr ""
 
-#: util.php:472
+#: util.php:480
 #, php-format
 msgid "Cannot create \"data\" directory (%s)"
 msgstr ""
 
-#: util.php:473
+#: util.php:481
 #, php-format
 msgid ""
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the "
 "webserver write access to the root directory</a>."
 msgstr ""
 
-#: util.php:489
+#: util.php:497
 #, php-format
 msgid "Setting locale to %s failed"
 msgstr ""
 
-#: util.php:492
+#: util.php:500
 msgid ""
 "Please install one of these locales on your system and restart your "
 "webserver."
 msgstr ""
 
-#: util.php:521
+#: util.php:529
 msgid "Please ask your server administrator to install the module."
-msgstr ""
-
-#: util.php:541
-#, php-format
-msgid "PHP module %s not installed."
 msgstr ""
 
 #: util.php:549
 #, php-format
+msgid "PHP module %s not installed."
+msgstr ""
+
+#: util.php:557
+#, php-format
 msgid "PHP %s or higher is required."
 msgstr ""
 
-#: util.php:550
+#: util.php:558
 msgid ""
 "Please ask your server administrator to update PHP to the latest version. "
 "Your PHP version is no longer supported by ownCloud and the PHP community."
 msgstr ""
 
-#: util.php:561
+#: util.php:569
 msgid ""
 "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr ""
 
-#: util.php:562
+#: util.php:570
 msgid ""
 "PHP Safe Mode is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr ""
 
-#: util.php:569
+#: util.php:577
 msgid ""
 "Magic Quotes is enabled. ownCloud requires that it is disabled to work "
 "properly."
 msgstr ""
 
-#: util.php:570
+#: util.php:578
 msgid ""
 "Magic Quotes is a deprecated and mostly useless setting that should be "
 "disabled. Please ask your server administrator to disable it in php.ini or "
 "in your webserver config."
 msgstr ""
 
-#: util.php:584
+#: util.php:592
 msgid "PHP modules have been installed, but they are still listed as missing?"
 msgstr ""
 
-#: util.php:585
+#: util.php:593
 msgid "Please ask your server administrator to restart the web server."
 msgstr ""
 
-#: util.php:615
+#: util.php:623
 msgid "PostgreSQL >= 9 required"
 msgstr ""
 
-#: util.php:616
+#: util.php:624
 msgid "Please upgrade your database version"
 msgstr ""
 
-#: util.php:623
+#: util.php:631
 msgid "Error occurred while checking PostgreSQL version"
 msgstr ""
 
-#: util.php:624
+#: util.php:632
 msgid ""
 "Please make sure you have PostgreSQL >= 9 or check the logs for more "
 "information about the error"
 msgstr ""
 
-#: util.php:689
+#: util.php:697
 msgid ""
 "Please change the permissions to 0770 so that the directory cannot be listed "
 "by other users."
 msgstr ""
 
-#: util.php:698
+#: util.php:706
 #, php-format
 msgid "Data directory (%s) is readable by other users"
 msgstr ""
 
-#: util.php:719
+#: util.php:727
 #, php-format
 msgid "Data directory (%s) is invalid"
 msgstr ""
 
-#: util.php:720
+#: util.php:728
 msgid ""
 "Please check that the data directory contains a file \".ocdata\" in its root."
 msgstr ""
