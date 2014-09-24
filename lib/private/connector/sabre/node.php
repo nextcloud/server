@@ -264,7 +264,7 @@ abstract class OC_Connector_Sabre_Node implements \Sabre\DAV\INode, \Sabre\DAV\I
 				$p .= 'W';
 			}
 		} else {
-			if ($this->info->isUpdateable()) {
+			if ($this->info->isCreatable()) {
 				$p .= 'CK';
 			}
 		}
