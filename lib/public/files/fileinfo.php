@@ -123,6 +123,13 @@ interface FileInfo {
 	public function isUpdateable();
 
 	/**
+	 * Check whether new files or folders can be created inside this folder
+	 *
+	 * @return bool
+	 */
+	public function isCreatable();
+
+	/**
 	 * Check if a file or folder can be deleted
 	 *
 	 * @return bool
