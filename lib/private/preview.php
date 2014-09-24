@@ -683,8 +683,12 @@ class Preview {
 		 *  - OC\Preview\MarkDown
 		 *
 		 * The following providers are disabled by default due to performance or privacy concerns:
-		 *  - OC\Preview\Office
-		 *  - OC\Preview\SVG
+		 *  - OC\Preview\MSOfficeDoc
+		 *  - OC\Preview\MSOffice2003
+		 *  - OC\Preview\MSOffice2007
+		 *  - OC\Preview\OpenDocument
+		 *  - OC\Preview\StarOffice
+ 		 *  - OC\Preview\SVG
 		 *  - OC\Preview\Movies
 		 *  - OC\Preview\PDF
 		 *  - OC\Preview\Tiff
