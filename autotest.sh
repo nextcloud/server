@@ -163,7 +163,7 @@ function execute_tests {
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
-		mysql -u $DATABASEUSER -powncloud -e "DROP DATABASE $DATABASENAME" || true
+		mysql -u $DATABASEUSER -powncloud -e "DROP DATABASE IF EXISTS $DATABASENAME" || true
 	fi
 	if [ "$1" == "pgsql" ] ; then
 		dropdb -U $DATABASEUSER $DATABASENAME || true
