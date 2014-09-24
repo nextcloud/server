@@ -68,7 +68,11 @@ class Scan extends Command {
 			if (is_object($user)) {
 				$user = $user->getUID();
 			}
-			$this->scanFiles($user, $output);
+			if ($this->userManager->userExists($user)) {
+				$this->scanFiles($user, $output);
+			} else {
+				$output->writeln("<error>Unknown user $user</error>");
+			}
 		}
 	}
 }
