@@ -116,16 +116,18 @@ class Controller {
 
 		$errors = array();
 
-		// Protect data directory here, so we can test if the protection is working
-		\OC_Setup::protectDataDirectory();
-		try {
-			$htaccessWorking = \OC_Util::isHtaccessWorking();
-		} catch (\OC\HintException $e) {
-			$errors[] = array(
-				'error' => $e->getMessage(),
-				'hint' => $e->getHint()
-			);
-			$htaccessWorking = false;
+		if (is_dir($datadir) and is_writable($datadir)) {
+			// Protect data directory here, so we can test if the protection is working
+			\OC_Setup::protectDataDirectory();
+			try {
+				$htaccessWorking = \OC_Util::isHtaccessWorking();
+			} catch (\OC\HintException $e) {
+				$errors[] = array(
+					'error' => $e->getMessage(),
+					'hint' => $e->getHint()
+				);
+				$htaccessWorking = false;
+			}
 		}
 
 		if (\OC_Util::runningOnMac()) {
