@@ -58,7 +58,7 @@ class SharedMount extends Mount implements MoveableMount {
 	 * update fileTarget in the database if the mount point changed
 	 * @param string $newPath
 	 * @param array $share reference to the share which should be modified
-	 * @return type
+	 * @return bool
 	 */
 	private static function updateFileTarget($newPath, &$share) {
 		// if the user renames a mount point from a group share we need to create a new db entry
@@ -152,9 +152,7 @@ class SharedMount extends Mount implements MoveableMount {
 	 */
 	public function removeMount() {
 		$mountManager = \OC\Files\Filesystem::getMountManager();
-		/**
-		 * @var \OC\Files\Storage\Shared
-		 */
+		/** @var \OC\Files\Storage\Shared */
 		$storage = $this->getStorage();
 		$result = $storage->unshareStorage();
 		$mountManager->removeMount($this->mountPoint);

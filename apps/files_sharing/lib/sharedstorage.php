@@ -534,6 +534,8 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 
 	/**
 	 * unshare complete storage, also the grouped shares
+	 *
+	 * @return bool
 	 */
 	public function unshareStorage() {
 		$result = true;
