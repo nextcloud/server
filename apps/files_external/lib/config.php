@@ -495,6 +495,10 @@ class OC_Mount_Config {
 		}
 
 		$mountPoints = self::readData($isPersonal ? OCP\User::getUser() : NULL);
+		// who else loves multi-dimensional array ?
+		$isNew = !isset($mountPoints[$mountType]) ||
+			!isset($mountPoints[$mountType][$applicable]) ||
+			!isset($mountPoints[$mountType][$applicable][$mountPoint]);
 		$mountPoints = self::mergeMountPoints($mountPoints, $mount, $mountType);
 
 		// Set default priority if none set
@@ -510,7 +514,19 @@ class OC_Mount_Config {
 
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
 
-		return self::getBackendStatus($class, $classOptions, $isPersonal);
+		$result = self::getBackendStatus($class, $classOptions, $isPersonal);
+		if ($result && $isNew) {
+			\OC_Hook::emit(
+				\OC\Files\Filesystem::CLASSNAME,
+				'add_mount_point',
+				array(
+					'path' => $mountPoint,
+					'type' => $mountType,
+					'applicable' => $applicable
+				)
+			);
+		}
+		return $result;
 	}
 
 	/**
@@ -543,6 +559,15 @@ class OC_Mount_Config {
 			}
 		}
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
+		\OC_Hook::emit(
+			\OC\Files\Filesystem::CLASSNAME,
+			'remove_mount_point',
+			array(
+				'path' => $mountPoint,
+				'type' => $mountType,
+				'applicable' => $applicable
+			)
+		);
 		return true;
 	}
 
