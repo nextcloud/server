@@ -164,7 +164,67 @@ class Test_Files_Sharing extends Test_Files_Sharing_Base {
 		$this->assertSame(\OCP\PERMISSION_READ, $share['permissions']);
 		$this->assertSame($this->filename . '-renamed', $share['file_target']);
 
+	}
+
+	/**
+	 * user1 share file to a group and to a user2 in the same group. Then user2
+	 * unshares the file from self. Afterwards user1 should no longer see the
+	 * single user share to user2. If he re-shares the file to user2 the same target
+	 * then the group share should be used to group the item
+	 */
+	function testShareAndUnshareFromSelf() {
+		$fileinfo = $this->view->getFileInfo($this->filename);
+
+		// share the file to group1 (user2 is a member of this group) and explicitely to user2
+		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_FILES_SHARING_API_GROUP1, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+
+		// user1 should have to shared files
+		$shares = \OCP\Share::getItemsShared('file');
+		$this->assertSame(2, count($shares));
+
+		// user2 should have two files "welcome.txt" and the shared file,
+		// both the group share and the single share of the same file should be
+		// grouped to one file
+		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$dirContent = \OC\Files\Filesystem::getDirectoryContent('/');
+		$this->assertSame(2, count($dirContent));
+		$this->verifyDirContent($dirContent, array('welcome.txt', ltrim($this->filename, '/')));
+
+		// now user2 deletes the share (= unshare from self)
+		\OC\Files\Filesystem::unlink($this->filename);
+
+		// only welcome.txt should exists
+		$dirContent = \OC\Files\Filesystem::getDirectoryContent('/');
+		$this->assertSame(1, count($dirContent));
+		$this->verifyDirContent($dirContent, array('welcome.txt'));
+
+		// login as user1...
+		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		// ... now user1 should have only one shared file, the group share
+		$shares = \OCP\Share::getItemsShared('file');
+		$this->assertSame(1, count($shares));
+
+		// user1 shares a gain the file directly to user2
+		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+
+		// user2 should see again welcome.txt and the shared file
+		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$dirContent = \OC\Files\Filesystem::getDirectoryContent('/');
+		$this->assertSame(2, count($dirContent));
+		$this->verifyDirContent($dirContent, array('welcome.txt', ltrim($this->filename, '/')));
+
+
+	}
+
+	function verifyDirContent($content, $expected) {
+		foreach ($content as $c) {
+			if (!in_array($c['name'], $expected)) {
+				$this->assertTrue(false, "folder should only contain '" . implode(',', $expected) . "', found: " .$c['name']);
+			}
 		}
+	}
 
 	function testShareWithDifferentShareFolder() {
 
