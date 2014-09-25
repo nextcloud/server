@@ -16,6 +16,20 @@
 	padding:16px;
 }
 
+#dropdown.shareDropDown .unshare.icon-loading-small {
+	margin-top: 1px;
+}
+
+#dropdown.shareDropDown .shareWithLoading,
+#dropdown.shareDropDown .linkShare .icon-loading-small {
+	display: inline-block !important;
+	padding-left: 10px;
+}
+
+#dropdown.shareDropDown .icon-loading-small.hidden {
+	display: none !important;
+}
+
 #shareWithList {
 	list-style-type:none;
 	padding:8px;
