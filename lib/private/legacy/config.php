@@ -6,32 +6,9 @@
  * @author Jakob Sack
  * @copyright 2012 Frank Karlitschek frank@owncloud.org
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
- */
-/*
- *
- * An example of config.php
- *
- * <?php
- * $CONFIG = array(
- *     "database" => "mysql",
- *     "firstrun" => false,
- *     "pi" => 3.14
- * );
- * ?>
- *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
  */
 
 /**
@@ -40,11 +17,13 @@
  */
 class OC_Config {
 
-	/**
-	 * @var \OC\Config
-	 */
+	/** @var \OC\Config */
 	public static $object;
 
+	/**
+	 * Returns the config instance
+	 * @return \OC\Config
+	 */
 	public static function getObject() {
 		return self::$object;
 	}
@@ -90,7 +69,6 @@ class OC_Config {
 	 * @param string $key key
 	 *
 	 * This function removes a key from the config.php.
-	 *
 	 */
 	public static function deleteKey($key) {
 		self::$object->deleteKey($key);
