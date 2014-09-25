@@ -58,36 +58,12 @@ class Helper extends \OC\Share\Constants {
 				$userAndGroups = false;
 			}
 			$exclude = array();
-			// Find similar targets to improve backend's chances to generate a unqiue target
-			if ($userAndGroups) {
-				if ($column == 'file_target') {
-					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
-									. ' WHERE `item_type` IN (\'file\', \'folder\')'
-									. ' AND `share_type` IN (?,?,?)'
-									. ' AND `share_with` IN (\'' . implode('\',\'', $userAndGroups) . '\')');
-					$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP,
-						self::$shareTypeGroupUserUnique));
-				} else {
-					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
-									. ' WHERE `item_type` = ? AND `share_type` IN (?,?,?)'
-									. ' AND `share_with` IN (\'' . implode('\',\'', $userAndGroups) . '\')');
-					$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER,
-						self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
+
+			$result = \OCP\Share::getItemsSharedWithUser($itemType, $shareWith);
+			foreach ($result as $row) {
+				if ($row['permissions'] > 0) {
+					$exclude[] = $row[$column];
 				}
-			} else {
-				if ($column == 'file_target') {
-					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
-									. ' WHERE `item_type` IN (\'file\', \'folder\')'
-									. ' AND `share_type` = ? AND `share_with` = ?');
-					$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
-				} else {
-					$checkTargets = \OC_DB::prepare('SELECT `' . $column . '` FROM `*PREFIX*share`'
-									. ' WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
-					$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
-				}
-			}
-			while ($row = $result->fetchRow()) {
-				$exclude[] = $row[$column];
 			}
 
 			// Check if suggested target exists first

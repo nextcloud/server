@@ -83,12 +83,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		$excludeList = \OCP\Share::getItemsSharedWithUser('file', $shareWith, self::FORMAT_TARGET_NAMES);
-		if (is_array($exclude)) {
-			$excludeList = array_merge($excludeList, $exclude);
-		}
-
-		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
+		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $exclude, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
