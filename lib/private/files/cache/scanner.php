@@ -224,6 +224,17 @@ class Scanner extends BasicEmitter {
 		return $data;
 	}
 
+	protected function getExistingChildren($path) {
+		$existingChildren = array();
+		if ($this->cache->inCache($path)) {
+			$children = $this->cache->getFolderContents($path);
+			foreach ($children as $child) {
+				$existingChildren[] = $child['name'];
+			}
+		}
+		return $existingChildren;
+	}
+
 	/**
 	 * scan all the files and folders in a folder
 	 *
@@ -239,13 +250,7 @@ class Scanner extends BasicEmitter {
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', array($path, $this->storageId));
 		$size = 0;
 		$childQueue = array();
-		$existingChildren = array();
-		if ($this->cache->inCache($path)) {
-			$children = $this->cache->getFolderContents($path);
-			foreach ($children as $child) {
-				$existingChildren[] = $child['name'];
-			}
-		}
+		$existingChildren = $this->getExistingChildren($path);
 		$newChildren = array();
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			$exceptionOccurred = false;
