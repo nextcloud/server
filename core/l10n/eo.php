@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "So-so password" => "Mezaĉa pasvorto",
 "Good password" => "Bona pasvorto",
 "Strong password" => "Forta pasvorto",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Via TTT-servilo ankoraŭ ne ĝuste agordiĝis por permesi sinkronigi dosierojn ĉar la WebDAV-interfaco ŝajnas rompita.",
 "Shared" => "Dividita",
 "Share" => "Kunhavigi",
 "Error" => "Eraro",

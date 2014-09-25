@@ -114,6 +114,7 @@ $TRANSLATIONS = array(
 "System locale can not be set to a one which supports UTF-8." => "Невозможно установить системную локаль, поддерживающую UTF-8",
 "This means that there might be problems with certain characters in file names." => "Это значит, что могут быть проблемы с некоторыми символами в именах файлов.",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Мы настоятельно рекомендуем установить требуемые пакеты в систему, для поддержки одной из следующих локалей: %s.",
+"Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>.",
 "Cron" => "Планировщик задач по расписанию",
 "Last cron was executed at %s." => "Последняя cron-задача была запущена: %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Последняя cron-задача была запущена: %s. Это было больше часа назад, кажется что-то не так.",

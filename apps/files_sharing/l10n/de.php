@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Der Server für die Serverfreigabe ist auf diesem Server nicht aktiviert",
+"The mountpoint name contains invalid characters." => "Der Name des Einhängepunktes enthält nicht gültige Zeichen.",
 "Invalid or untrusted SSL certificate" => "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
 "Couldn't add remote share" => "Entfernte Freigabe kann nicht hinzu gefügt werden",
 "Shared with you" => "Mit Dir geteilt",

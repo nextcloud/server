@@ -118,6 +118,7 @@ $TRANSLATIONS = array(
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Dôrazne doporučujeme nainštalovať na váš systém požadované balíčky podporujúce jednu z nasledovných znakových sád: %s.",
 "URL generation in notification emails" => "Generovanie adresy URL v oznamovacích emailoch",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Inštalácia mimo koreňový priečinok domény a používanie systémového príkazu cron môže spôsobiť problém s generovaním správnej URL. Pre zabránenie týmto chybám nastavte prosím správnu cestu v svojom config.php súbore pre hodnotu \"overwritewebroot\" (Doporučujeme: \"%s\")",
+"Please double check the <a href='%s'>installation guides</a>." => "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>.",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Posledný cron bol spustený %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Posledný cron bol spustený %s. To je viac ako pred hodinou. Zdá sa, že niečo nie je vporiadku.",

@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Modulul PHP \"Fileinfo\" lipsește. Va recomandam sa activaţi acest modul pentru a obține cele mai bune rezultate cu detectarea mime-type.",
 "Your PHP version is outdated" => "Versiunea PHP folosită este învechită",
 "Locale not working" => "Localizarea nu funcționează",
+"Please double check the <a href='%s'>installation guides</a>." => "Vă rugăm să verificați <a href='%s'>ghiduri de instalare</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Execută o sarcină la fiecare pagină încărcată",
 "Sharing" => "Partajare",

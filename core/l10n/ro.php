@@ -53,6 +53,7 @@ $TRANSLATIONS = array(
 "Weak password" => "Parolă slabă",
 "Good password" => "Parolă bună",
 "Strong password" => "Parolă puternică",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Serverul de web nu este încă setat corespunzător pentru a permite sincronizarea fișierelor deoarece interfața WebDAV pare a fi întreruptă.",
 "Shared" => "Partajat",
 "Shared with {recipients}" => "Partajat cu {recipients}",
 "Share" => "Partajează",

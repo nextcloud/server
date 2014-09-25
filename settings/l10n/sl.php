@@ -102,6 +102,7 @@ $TRANSLATIONS = array(
 "System locale can not be set to a one which supports UTF-8." => "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8.",
 "This means that there might be problems with certain characters in file names." => "To pomeni, da se lahko pojavijo napake pri nekaterih znakih v imenih datotek.",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Priporočljivo je namestiti zahtevane pakete v sistem za podporo ene izmed navedenih jezikovnih možnosti: %s",
+"Please double check the <a href='%s'>installation guides</a>." => "Preverite <a href='%s'>navodila namestitve</a>.",
 "Cron" => "Periodično opravilo",
 "Last cron was executed at %s." => "Zadnje opravilo cron je bilo izvedeno ob %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Zadnje opravilo cron je bilo izvedeno ob %s. To je več kot uro nazaj. Nekaj je očitno narobe.",

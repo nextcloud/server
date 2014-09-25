@@ -113,6 +113,8 @@ $TRANSLATIONS = array(
 "This means that there might be problems with certain characters in file names." => "Tämä tarkoittaa, että tiettyjen merkkien kanssa tiedostojen nimissä saattaa olla ongelmia.",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Suosittelemme vahvasti asentamaan vaaditut paketit järjestelmään, jotta jotain seuraavista maa-asetuksista on mahdollista tukea: %s.",
 "URL generation in notification emails" => "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
+"No problems found" => "Ongelmia ei löytynyt",
+"Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Viimeisin cron suoritettiin %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Viimeisin cron suoritettiin %s. Siitä on yli tunti aikaa, joten jokin näyttää olevan pielessä.",

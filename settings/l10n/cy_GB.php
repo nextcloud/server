@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "None" => "Dim",
 "Login" => "Mewngofnodi",
 "Security Warning" => "Rhybudd Diogelwch",
+"Please double check the <a href='%s'>installation guides</a>." => "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
 "Password" => "Cyfrinair",
 "New password" => "Cyfrinair newydd",
 "Email" => "E-bost",

@@ -111,6 +111,7 @@ $TRANSLATIONS = array(
 "System locale can not be set to a one which supports UTF-8." => "系统语系无法设置为支持 UTF-8 的语系。",
 "This means that there might be problems with certain characters in file names." => "这意味着一些文件名中的特定字符可能有问题。",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "强烈建议在您的系统上安装需要的软件包来支持以下语系之一：%s。",
+"Please double check the <a href='%s'>installation guides</a>." => "请认真检查<a href='%s'>安装指南</a>.",
 "Cron" => "计划任务",
 "Last cron was executed at %s." => "上次定时任务执行于 %s。",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "上次定时任务执行于 %s。这是在一个小时之前执行的，可能出了什么问题。",

@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Module 'fileinfo' missing" => "Modulen «fileinfo» manglar",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP-modulen «fileinfo» manglar. Me rår sterkt til å slå på denne modulen for å best mogleg oppdaga MIME-typar.",
 "Locale not working" => "Regionaldata fungerer ikkje",
+"Please double check the <a href='%s'>installation guides</a>." => "Ver venleg og dobbeltsjekk <a href='%s'>installasjonsrettleiinga</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Utfør éi oppgåve for kvar sidelasting",
 "Sharing" => "Deling",

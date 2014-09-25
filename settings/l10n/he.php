@@ -43,6 +43,7 @@ $TRANSLATIONS = array(
 "Security Warning" => "אזהרת אבטחה",
 "Setup Warning" => "שגיאת הגדרה",
 "Module 'fileinfo' missing" => "המודול „fileinfo“ חסר",
+"Please double check the <a href='%s'>installation guides</a>." => "נא לעיין שוב ב<a href='%s'>מדריכי ההתקנה</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "יש להפעיל משימה אחת עם כל עמוד שנטען",
 "Sharing" => "שיתוף",

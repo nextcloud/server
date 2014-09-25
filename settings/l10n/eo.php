@@ -78,6 +78,7 @@ $TRANSLATIONS = array(
 "Security Warning" => "Sekureca averto",
 "Module 'fileinfo' missing" => "La modulo «fileinfo» mankas",
 "Locale not working" => "La lokaĵaro ne funkcias",
+"Please double check the <a href='%s'>installation guides</a>." => "Bonvolu duoble kontroli la <a href='%s'>gvidilon por instalo</a>.",
 "Cron" => "Cron",
 "Sharing" => "Kunhavigo",
 "Allow apps to use the Share API" => "Kapabligi aplikaĵojn uzi la API-on pri Kunhavigo",

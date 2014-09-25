@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "Ok" => "У реду",
 "_{count} file conflict_::_{count} file conflicts_" => array("","",""),
 "Cancel" => "Откажи",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер тренутно не подржава синхронизацију датотека јер се чини да је WebDAV сучеље неисправно.",
 "Share" => "Дели",
 "Error" => "Грешка",
 "Error while sharing" => "Грешка у дељењу",

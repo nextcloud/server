@@ -41,6 +41,7 @@ $TRANSLATIONS = array(
 "So-so password" => "ពាក្យ​សម្ងាត់​ធម្មតា",
 "Good password" => "ពាក្យ​សម្ងាត់​ល្អ",
 "Strong password" => "ពាក្យ​សម្ងាត់​ខ្លាំង",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "ម៉ាស៊ីន​មេ​វេប​របស់​អ្នក​មិន​បានរៀបចំត្រឹមត្រូវ ដើម្បី​អនុញ្ញាតិ​អោយ​មាន​ឯកសារ​ធ្វើ​សមកាលកម្មបាន​ទេ ព្រោះថា WebDAV ហាក់​បី​ដូច​ជាខូចហើយ។",
 "Shared" => "បាន​ចែក​រំលែក",
 "Share" => "ចែក​រំលែក",
 "Error" => "កំហុស",

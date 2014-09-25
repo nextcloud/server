@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Ok" => "Në rregull",
 "_{count} file conflict_::_{count} file conflicts_" => array("",""),
 "Cancel" => "Anulo",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web Serveri juaj nuk është konfigurar sic duhet në mënyre që të lejojë sinkronizimin e skedare pasi ndërfaqja WevDAV duket të jetë e demtuar.",
 "Shared" => "Ndarë",
 "Share" => "Nda",
 "Error" => "Veprim i gabuar",

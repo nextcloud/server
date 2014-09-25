@@ -53,6 +53,7 @@ $TRANSLATIONS = array(
 "Weak password" => "Слабкий пароль",
 "Good password" => "Добрий пароль",
 "Strong password" => "Надійний пароль",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш Web-сервер ще не налаштований належним чином для того, щоб дозволити синхронізацію файлів, через те що інтерфейс WebDAV, здається, зламаний.",
 "Shared" => "Опубліковано",
 "Share" => "Поділитися",
 "Error" => "Помилка",

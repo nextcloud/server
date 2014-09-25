@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "На данном сервере выключено межсерверное предоставление общих папок",
+"The mountpoint name contains invalid characters." => "Имя точки монтирования содержит недопустимые символы.",
 "Invalid or untrusted SSL certificate" => "Не верный или недостоверный сертификат SSL",
 "Couldn't add remote share" => "Невозможно добавить удалённую общую папку",
 "Shared with you" => "Доступные для Вас",

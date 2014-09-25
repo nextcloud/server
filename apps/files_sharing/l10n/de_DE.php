@@ -1,8 +1,9 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Der Server für die Serverfreigabe ist auf diesem Server nicht aktiviert",
+"The mountpoint name contains invalid characters." => "Der Name des Einhängepunktes enthält nicht gültige Zeichen.",
 "Invalid or untrusted SSL certificate" => "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
-"Couldn't add remote share" => "Entfernte Freigabe kann nicht hinzu gefügt werden",
+"Couldn't add remote share" => "Entfernte Freigabe kann nicht hinzugefügt werden",
 "Shared with you" => "Mit Ihnen geteilt",
 "Shared with others" => "Von Ihnen geteilt",
 "Shared by link" => "Geteilt über einen Link",
@@ -15,7 +16,7 @@ $TRANSLATIONS = array(
 "Cancel" => "Abbrechen",
 "Add remote share" => "Entfernte Freigabe hinzufügen",
 "No ownCloud installation found at {remote}" => "Keine OwnCloud-Installation auf {remote} gefunden",
-"Invalid ownCloud url" => "Ungültige OwnCloud-URL",
+"Invalid ownCloud url" => "Ungültige OwnCloud-Adresse",
 "Shared by" => "Geteilt von",
 "This share is password-protected" => "Diese Freigabe ist durch ein Passwort geschützt",
 "The password is wrong. Try again." => "Das Passwort ist falsch. Bitte versuchen Sie es erneut.",
@@ -34,6 +35,6 @@ $TRANSLATIONS = array(
 "Direct link" => "Direkte Verlinkung",
 "Remote Shares" => "Entfernte Freigaben",
 "Allow other instances to mount public links shared from this server" => "Andere Instanzen zum Hinzufügen von öffentlichen Links, die über diesen Server Freigegeben werden, erlauben",
-"Allow users to mount public link shares" => "Erlaube Nutzern das Hinzufügen von freigegebenen öffentlichen Links"
+"Allow users to mount public link shares" => "Benutzern das Hinzufügen von freigegebenen öffentlichen Links erlauben"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

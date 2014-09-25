@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "Ok" => "Iawn",
 "_{count} file conflict_::_{count} file conflicts_" => array("","","",""),
 "Cancel" => "Diddymu",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri.",
 "Shared" => "Rhannwyd",
 "Share" => "Rhannu",
 "Error" => "Gwall",

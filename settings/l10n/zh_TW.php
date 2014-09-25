@@ -91,6 +91,7 @@ $TRANSLATIONS = array(
 "System locale can not be set to a one which supports UTF-8." => "系統語系無法設定只支援 UTF-8",
 "This means that there might be problems with certain characters in file names." => "這個意思是指在檔名中使用一些字元可能會有問題",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "我們強烈建議在您的系統上安裝必要的套件來支援以下的語系: %s",
+"Please double check the <a href='%s'>installation guides</a>." => "請參考<a href='%s'>安裝指南</a>。",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "最後的排程已執行於 %s。",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "最後的排程已執行於 %s。現在過了好幾個小時，看起來是有錯誤。",

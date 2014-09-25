@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Server to server sharing is not enabled on this server",
+"The mountpoint name contains invalid characters." => "The mountpoint name contains invalid characters.",
 "Invalid or untrusted SSL certificate" => "Invalid or untrusted SSL certificate",
 "Couldn't add remote share" => "Couldn't add remote share",
 "Shared with you" => "Shared with you",

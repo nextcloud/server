@@ -1,6 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Cannot write into \"config\" directory!" => "Hakemistoon \"config\" kirjoittaminen ei onnistu!",
+"This can usually be fixed by giving the webserver write access to the config directory" => "Tämän voi yleensä korjata antamalla http-palvelimelle kirjoitusoikeuden asetushakemistoon",
+"See %s" => "Katso %s",
+"This can usually be fixed by %sgiving the webserver write access to the config directory%s." => "Tämän voi yleensä korjata antamalla %shttp-palvelimelle kirjoitusoikeuden asetushakemistoon%s.",
+"Sample configuration detected" => "Esimerkkimääritykset havaittu",
 "Help" => "Ohje",
 "Personal" => "Henkilökohtainen",
 "Settings" => "Asetukset",

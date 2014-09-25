@@ -31,6 +31,7 @@ $TRANSLATIONS = array(
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
 "New Files" => "ახალი ფაილები",
 "Cancel" => "უარყოფა",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "თქვენი web სერვერი არ არის კონფიგურირებული ფაილ სინქრონიზაციისთვის, რადგან WebDAV ინტერფეისი შეიძლება იყოს გატეხილი.",
 "Shared" => "გაზიარებული",
 "Share" => "გაზიარება",
 "Error" => "შეცდომა",

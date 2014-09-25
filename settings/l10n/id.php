@@ -86,6 +86,7 @@ $TRANSLATIONS = array(
 "System locale can not be set to a one which supports UTF-8." => "Sistem lokal tidak dapat diatur untuk satu yang mendukung UTF-8.",
 "This means that there might be problems with certain characters in file names." => "Ini artinya mungkin ada masalah dengan karakter tertentu pada nama berkas.",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Kami sangat menyarankan untuk menginstal paket yang dibutuhkan pada sistem agar mendukung salah satu bahasa berikut: %s.",
+"Please double check the <a href='%s'>installation guides</a>." => "Silakan periksa ulang <a href='%s'>panduan instalasi</a>.",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Cron terakhir dieksekusi pada %s.",
 "Execute one task with each page loaded" => "Jalankan tugas setiap kali halaman dimuat",

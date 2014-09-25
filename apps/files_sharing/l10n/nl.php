@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Server met server delen is niet geactiveerd op deze server",
+"The mountpoint name contains invalid characters." => "De naam van het mountpoint bevat ongeldige karakters.",
 "Invalid or untrusted SSL certificate" => "Ongeldig of onvertrouwd SSL-certificaat",
 "Couldn't add remote share" => "Kon geen externe share toevoegen",
 "Shared with you" => "Gedeeld met u",

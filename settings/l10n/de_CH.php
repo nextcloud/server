@@ -48,6 +48,7 @@ $TRANSLATIONS = array(
 "Module 'fileinfo' missing" => "Das Modul 'fileinfo' fehlt",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Das PHP-Modul 'fileinfo' fehlt. Wir empfehlen Ihnen dieses Modul zu aktivieren, um die besten Resultate bei der Bestimmung der Dateitypen zu erzielen.",
 "Locale not working" => "Die Lokalisierung funktioniert nicht",
+"Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Eine Aufgabe bei jedem Laden der Seite ausführen",
 "Sharing" => "Teilen",

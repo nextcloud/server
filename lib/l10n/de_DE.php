@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Cannot write into \"config\" directory!" => "Das Schreiben in das \"config\"-Verzeichnis nicht möglich!",
+"Cannot write into \"config\" directory!" => "Das Schreiben in das »config«-Verzeichnis nicht möglich!",
 "This can usually be fixed by giving the webserver write access to the config directory" => "Dies kann normalerweise repariert werden, indem dem Webserver Schreibzugriff auf das config-Verzeichnis gegeben wird",
 "See %s" => "Siehe %s",
 "This can usually be fixed by %sgiving the webserver write access to the config directory%s." => "Dies kann normalerweise repariert werden, indem dem Webserver %s Schreibzugriff auf das config-Verzeichnis %s gegeben wird.",
@@ -11,12 +11,12 @@ $TRANSLATIONS = array(
 "Settings" => "Einstellungen",
 "Users" => "Benutzer",
 "Admin" => "Administrator",
-"App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "Applikation \\\"%s\\\" kann nicht installiert werden, da sie mit dieser ownCloud Version nicht kompatibel ist.",
+"App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "App »%s« kann nicht installiert werden, da sie mit dieser ownCloud-Version nicht kompatibel ist.",
 "No app name specified" => "Es wurde kein Applikation-Name angegeben",
 "Unknown filetype" => "Unbekannter Dateityp",
 "Invalid image" => "Ungültiges Bild",
 "web services under your control" => "Web-Services unter Ihrer Kontrolle",
-"App directory already exists" => "Der Ordner für die Anwendung existiert bereits.",
+"App directory already exists" => "Der Ordner für die Anwendung ist bereits vorhanden.",
 "Can't create app folder. Please fix permissions. %s" => "Der Ordner für die Anwendung konnte nicht angelegt werden. Bitte überprüfen Sie die Ordner- und Dateirechte und passen Sie diese entsprechend an. %s",
 "No source specified when installing app" => "Für die Installation der Applikation wurde keine Quelle angegeben",
 "No href specified when installing app from http" => "Der Link (href) wurde nicht angegeben um die Applikation per http zu installieren",
@@ -85,16 +85,16 @@ $TRANSLATIONS = array(
 "_%n month ago_::_%n months ago_" => array("Vor %n Monat","Vor %n Monaten"),
 "last year" => "Letztes Jahr",
 "years ago" => "Vor  Jahren",
-"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Folgende Zeichen sind im Benutzernamen erlaubt: \"a-z\", \"A-Z\", \"0-9\" und \"_.@-\"",
+"Only the following characters are allowed in a username: \"a-z\", \"A-Z\", \"0-9\", and \"_.@-\"" => "Folgende Zeichen sind im Benutzernamen erlaubt: »a-z«, »A-Z«, »0-9« und »_.@-«",
 "A valid username must be provided" => "Es muss ein gültiger Benutzername angegeben werden",
 "A valid password must be provided" => "Es muss ein gültiges Passwort angegeben werden",
 "The username is already being used" => "Der Benutzername existiert bereits",
 "No database drivers (sqlite, mysql, or postgresql) installed." => "Keine Datenbanktreiber (SQLite, MYSQL, oder PostgreSQL) installiert.",
 "Permissions can usually be fixed by %sgiving the webserver write access to the root directory%s." => "Berechtigungen können normalerweise repariert werden, indem dem Webserver %s Schreibzugriff auf das Wurzelverzeichnis %s gegeben wird.",
-"Cannot write into \"config\" directory" => "Das Schreiben in das \"config\"-Verzeichnis nicht möglich",
-"Cannot write into \"apps\" directory" => "Das Schreiben in das \"apps\"-Verzeichnis nicht möglich",
+"Cannot write into \"config\" directory" => "Das Schreiben in das »config«-Verzeichnis ist nicht möglich",
+"Cannot write into \"apps\" directory" => "Das Schreiben in das »apps«-Verzeichnis ist nicht möglich",
 "This can usually be fixed by %sgiving the webserver write access to the apps directory%s or disabling the appstore in the config file." => "Dies kann normalerweise repariert werden, indem dem Webserver %s Schreibzugriff auf das Anwendungsverzeichnis %s gegeben wird oder die Anwendungsauswahl in der Konfigurationsdatei deaktiviert wird.",
-"Cannot create \"data\" directory (%s)" => "Das Erstellen des \"data\"-Verzeichnisses nicht möglich (%s)",
+"Cannot create \"data\" directory (%s)" => "Das Erstellen des »data«-Verzeichnisses ist nicht möglich (%s)",
 "This can usually be fixed by <a href=\"%s\" target=\"_blank\">giving the webserver write access to the root directory</a>." => "Dies kann normalerweise repariert werden, indem dem Webserver <a href=\"%s\" target=\"_blank\" Schreibzugriff auf das Wurzelverzeichnis gegeben wird</a>.",
 "Setting locale to %s failed" => "Das Setzen der Umgebungslokale auf %s fehlgeschlagen",
 "Please install one of these locales on your system and restart your webserver." => "Bitte installieren Sie eine dieser Sprachen auf Ihrem System und starten Sie den Webserver neu.",
@@ -116,6 +116,6 @@ $TRANSLATIONS = array(
 "Data directory (%s) is readable by other users" => "Daten-Verzeichnis (%s) ist von anderen Nutzern lesbar",
 "Data directory (%s) is invalid" => "Daten-Verzeichnis (%s) ist ungültig",
 "Please check that the data directory contains a file \".ocdata\" in its root." => "Bitte stellen Sie sicher, dass das Daten-Verzeichnis eine Datei namens \".ocdata\" im Wurzelverzeichnis enthält.",
-"Could not obtain lock type %d on \"%s\"." => "Sperrtyp %d auf \"%s\" konnte nicht ermittelt werden."
+"Could not obtain lock type %d on \"%s\"." => "Sperrtyp %d auf »%s« konnte nicht ermittelt werden."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

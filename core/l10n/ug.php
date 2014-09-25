@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "Ok" => "جەزملە",
 "_{count} file conflict_::_{count} file conflicts_" => array(""),
 "Cancel" => "ۋاز كەچ",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "سىزنىڭ تور مۇلازىمېتىرىڭىز ھۆججەت قەدەمداشلاشقا يول قويىدىغان قىلىپ توغرا تەڭشەلمەپتۇ، چۈنكى WebDAV نىڭ ئېغىزى بۇزۇلغاندەك تۇرىدۇ.",
 "Share" => "ھەمبەھىر",
 "Error" => "خاتالىق",
 "Send" => "يوللا",

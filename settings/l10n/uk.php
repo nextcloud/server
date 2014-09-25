@@ -48,6 +48,7 @@ $TRANSLATIONS = array(
 "Module 'fileinfo' missing" => "Модуль 'fileinfo' відсутній",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів.",
 "Locale not working" => "Локалізація не працює",
+"Please double check the <a href='%s'>installation guides</a>." => "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Виконати одне завдання для кожної завантаженої сторінки ",
 "Sharing" => "Спільний доступ",

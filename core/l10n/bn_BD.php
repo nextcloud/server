@@ -44,6 +44,7 @@ $TRANSLATIONS = array(
 "Which files do you want to keep?" => "কোন ফাইলগুলো রেখে দিতে চান?",
 "Cancel" => "বাতিল",
 "Continue" => "চালিয়ে যাও",
+"Strong password" => "শক্তিশালী কুটশব্দ",
 "Shared" => "ভাগাভাগিকৃত",
 "Share" => "ভাগাভাগি কর",
 "Error" => "সমস্যা",

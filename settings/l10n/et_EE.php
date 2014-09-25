@@ -118,6 +118,7 @@ $TRANSLATIONS = array(
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Soovitame tungivalt paigaldada vajalikud paketid oma süsteemi tagamaks tuge järgmistele lokaliseeringutele: %s.",
 "URL generation in notification emails" => "URL-ide loomine teavituskirjades",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Kui sinu sait pole paigaldatud domeeni juurkausta ja see kasutab ajastatud tegevusi, siis võib tekkide probleeme URL-ide loomisega. Nende probleemide vältimiseks sisesta palun failis config.php valikusse \"overwritewebroot\" oma veebiserveri juurkaust (Soovituslik: \"%s\")",
+"Please double check the <a href='%s'>installation guides</a>." => "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>.",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Cron käivitati viimati %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Cron käivitati viimati %s. See on rohkem kui tund tagasi, midagi on valesti.",

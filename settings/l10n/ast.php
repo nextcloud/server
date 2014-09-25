@@ -111,6 +111,7 @@ $TRANSLATIONS = array(
 "System locale can not be set to a one which supports UTF-8." => "Nun se pue escoyer una configuración rexonal que sofite UTF-8.",
 "This means that there might be problems with certain characters in file names." => "Esto significa que pue haber problemes con ciertos caráuteres nos nomes de los ficheros.",
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Ye enforma recomendable instalar los paquetes necesarios pa poder soportar una de les siguientes configuraciones rexonales: %s. ",
+"Please double check the <a href='%s'>installation guides</a>." => "Por favor, comprueba les <a href='%s'>guíes d'instalación</a>.",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Cron executóse per cabera vegada a les %s.",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Cron executóse per cabera vegada a les %s. Esto foi hai más d'una hora, daqué anda mal.",

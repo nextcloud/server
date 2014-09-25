@@ -57,6 +57,7 @@ $TRANSLATIONS = array(
 "Module 'fileinfo' missing" => "Trūksta 'fileinfo' modulio",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Trūksta PHP modulio „fileinfo“. Labai rekomenduojame įjungti šį modulį, kad gauti geriausius rezultatus nustatant mime-tipą.",
 "Locale not working" => "Lokalė neveikia",
+"Please double check the <a href='%s'>installation guides</a>." => "Prašome pažiūrėkite dar kartą <a href='%s'>diegimo instrukcijas</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Įvykdyti vieną užduotį su kiekvieno puslapio įkėlimu",
 "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." => "cron.php yra registruotas tinklapio suplanuotų užduočių paslaugose, kad iškviesti cron.php kas 15 minučių per http.",

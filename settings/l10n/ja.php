@@ -118,6 +118,7 @@ $TRANSLATIONS = array(
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "次のロケールをサポートするために、システムに必要なパッケージをインストールすることを強くおすすめします: %s。",
 "URL generation in notification emails" => "通知メールにURLを生成",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "もし、URLがドメインのルート(/)で終わっていない場合で、システムのcronを利用している場合、URLの生成に問題が発生します。その場合は、config.php ファイルの中の \"overwritewebroot\" オプションをインストールしたパスに設定してください。(推奨: \"%s\")",
+"Please double check the <a href='%s'>installation guides</a>." => "<a href='%s'>インストールガイド</a>をよく確認してください。",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "直近では%sにcronが実行されました。",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "直近では%sにcronが実行されました。これは1時間以上前になるので、何かおかしいです。",

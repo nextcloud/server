@@ -117,6 +117,7 @@ $TRANSLATIONS = array(
 "We strongly suggest to install the required packages on your system to support one of the following locales: %s." => "Biziki gomendatzen dizugu beharrezkoak diren paketea zure sisteman instalatzea honi euskarria eman ahal izateko: %s.",
 "URL generation in notification emails" => "URL sorrera jakinarazpen mezuetan",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Zure instalazioa ez badago domeinuaren sustraian egina eta erabiltzen badu sistemaren cron-a, arazoak izan daitezke URL sorreran. Arazo horiek saihesteko ezarri  \"overwritewebroot\" opzioa zure config.php fitxategian zure instalazioaren webroot bidera (Proposatua: \"%s\")",
+"Please double check the <a href='%s'>installation guides</a>." => "Mesedez begiratu <a href='%s'>instalazio gidak</a>.",
 "Cron" => "Cron",
 "Last cron was executed at %s." => "Azken cron-a  %s-etan exekutatu da",
 "Last cron was executed at %s. This is more than an hour ago, something seems wrong." => "Azken cron-a %s-etan exekutatu da. Ordu bat baino gehiago pasa da, zerbait gaizki dabilela dirudi.",

@@ -46,6 +46,7 @@ $TRANSLATIONS = array(
 "Module 'fileinfo' missing" => "Trūkst modulis “fileinfo”",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus.",
 "Locale not working" => "Lokāle nestrādā",
+"Please double check the <a href='%s'>installation guides</a>." => "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>.",
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Izpildīt vienu uzdevumu ar katru ielādēto lapu",
 "Sharing" => "Dalīšanās",
