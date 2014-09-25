@@ -340,7 +340,7 @@ class Share extends \OC\Share\Constants {
 	 * @param mixed $parameters
 	 * @param boolean $includeCollections
 	 * @param string $shareWith (optional) define against which user should be checked, default: current user
-	 * @return mixed Return depends on format
+	 * @return array
 	 */
 	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false, $shareWith = null) {
@@ -1571,11 +1571,6 @@ class Share extends \OC\Share\Constants {
 		$permissions, $parentFolder = null, $token = null, $itemSourceName = null, \DateTime $expirationDate = null) {
 
 		$queriesToExecute = array();
-
-		$fileShare = false;
-		if ($itemType === 'file' || $itemType === 'folder') {
-			$fileShare = true;
-		}
 
 		$result = self::checkReshare($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $itemSourceName, $expirationDate);
 		if(!empty($result)) {
