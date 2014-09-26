@@ -184,6 +184,15 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	}
 
 	/**
+	 * Check whether new files or folders can be created inside this folder
+	 *
+	 * @return bool
+	 */
+	public function isCreatable() {
+		return $this->checkPermissions(\OCP\PERMISSION_CREATE);
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isDeletable() {
