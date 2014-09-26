@@ -1295,7 +1295,7 @@ class Share extends \OC\Share\Constants {
 			}
 		}
 
-		if ($shareType == self::$shareTypeUserAndGroups) {
+		if ($shareType == self::$shareTypeUserAndGroups && $limit === 1) {
 			// Make sure the unique user target is returned if it exists,
 			// unique targets should follow the group share in the database
 			// If the limit is not 1, the filtering can be done later
@@ -1334,6 +1334,12 @@ class Share extends \OC\Share\Constants {
 				$row['share_type'] = self::SHARE_TYPE_GROUP;
 				$row['unique_name'] = true; // remember that we use a unique name for this user
 				$row['share_with'] = $items[$row['parent']]['share_with'];
+				// if the group share was unshared from the user we keep the permission, otherwise
+				// we take the permission from the parent because this is always the up-to-date
+				// permission for the group share
+				if ($row['permissions'] > 0) {
+					$row['permissions'] = $items[$row['parent']]['permissions'];
+				}
 				// Remove the parent group share
 				unset($items[$row['parent']]);
 				if ($row['permissions'] == 0) {
@@ -1656,6 +1662,11 @@ class Share extends \OC\Share\Constants {
 			if ($sourceExists) {
 				$fileTarget = $sourceExists['file_target'];
 				$itemTarget = $sourceExists['item_target'];
+
+				// for group shares we don't need a additional entry if the target is the same
+				//if($isGroupShare && $groupItemTarget === $itemTarget) {
+				//	continue;
+				//}
 
 			} elseif(!$sourceExists && !$isGroupShare)  {
 
