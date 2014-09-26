@@ -38,6 +38,7 @@ $TRANSLATIONS = array(
 "last month" => "গত মাস",
 "_%n month ago_::_%n months ago_" => array("",""),
 "last year" => "গত বছর",
-"years ago" => "বছর পূর্বে"
+"years ago" => "বছর পূর্বে",
+"PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." => "পিএইচপি সেফ মোড কার্যকর আছে। গউনক্লাউড সঠিকভাবে কাজ করতে হলে এটি অকার্যকর করা প্রয়োজন।"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

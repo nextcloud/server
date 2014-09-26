@@ -100,6 +100,7 @@ $TRANSLATIONS = array(
 "Quota Field" => "কোটা",
 "Quota Default" => "পূর্বনির্ধারিত কোটা",
 "in bytes" => "বাইটে",
+"Email Field" => "ইমেইল ক্ষেত্র",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ব্যবহারকারী নামের জন্য ফাঁকা রাখুন (পূর্বনির্ধারিত)। অন্যথায়, LDAP/AD বৈশিষ্ট্য নির্ধারণ করুন।"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

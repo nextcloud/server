@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Współdzielenie między serwerami nie jest uruchomione na tym serwerze",
+"The mountpoint name contains invalid characters." => "Nazwa zamontowanego zasobu zawiera niedozwolone znaki.",
 "Invalid or untrusted SSL certificate" => "Niewłaściwy lub niezaufany certyfikat SSL",
 "Couldn't add remote share" => "Nie można dodać zdalnego folderu",
 "Shared with you" => "Współdzielony z Tobą",
