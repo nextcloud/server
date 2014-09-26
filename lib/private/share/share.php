@@ -294,23 +294,32 @@ class Share extends \OC\Share\Constants {
 
 		$shares = array();
 
+		$column = ($itemType === 'file' || $itemType === 'folder') ? 'file_source' : 'item_source';
+		
+		$where = ' `' . $column . '` = ? AND `item_type` = ? ';
+		$arguments = array($itemSource, $itemType);
+		// for link shares $user === null
+		if ($user !== null) {
+			$where .= ' AND `share_with` = ? ';
+			$arguments[] = $user;
+		}
+
 		// first check if there is a db entry for the specific user
 		$query = \OC_DB::prepare(
-				'SELECT `file_target`, `item_target`, `permissions`, `expiration`
+				'SELECT *
 					FROM
 					`*PREFIX*share`
-					WHERE
-					`item_source` = ? AND `item_type` = ? AND `share_with` = ?'
+					WHERE' . $where
 				);
 
-		$result = \OC_DB::executeAudited($query, array($itemSource, $itemType, $user));
+		$result = \OC_DB::executeAudited($query, $arguments);
 
 		while ($row = $result->fetchRow()) {
 			$shares[] = $row;
 		}
 
 		//if didn't found a result than let's look for a group share.
-		if(empty($shares)) {
+		if(empty($shares) && $user !== null) {
 			$groups = \OC_Group::getUserGroups($user);
 
 			$query = \OC_DB::prepare(
@@ -318,7 +327,7 @@ class Share extends \OC\Share\Constants {
 						FROM
 						`*PREFIX*share`
 						WHERE
-						`item_source` = ? AND `item_type` = ? AND `share_with` in (?)'
+						`' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)'
 					);
 
 			$result = \OC_DB::executeAudited($query, array($itemSource, $itemType, implode(',', $groups)));
@@ -681,9 +690,31 @@ class Share extends \OC\Share\Constants {
 	 * @return boolean true on success or false on failure
 	 */
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
-		$item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(),self::FORMAT_NONE, null, 1);
-		if (!empty($item)) {
-			self::unshareItem($item);
+
+		// check if it is a valid itemType
+		self::getBackend($itemType);
+
+		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith);
+
+		$toDelete = array();
+		$newParent = null;
+		$currentUser = \OC_User::getUser();
+		foreach ($items as $item) {
+			// delete the item with the expected share_type and owner
+			if ((int)$item['share_type'] === (int)$shareType && $item['uid_owner'] === $currentUser) {
+				$toDelete = $item;
+			// if there is more then one result we don't have to delete the children
+			// but update their parent. For group shares the new parent should always be
+			// the original group share and not the db entry with the unique name
+			} else if ((int)$item['share_type'] === \OCP\Share::$shareTypeGroupUserUnique) {
+				$newParent = $item['parent'];
+			} else {
+				$newParent = $item['id'];
+			}
+		}
+
+		if (!empty($toDelete)) {
+			self::unshareItem($toDelete, $newParent);
 			return true;
 		}
 		return false;
@@ -1056,9 +1087,10 @@ class Share extends \OC\Share\Constants {
 	/**
 	 * Unshares a share given a share data array
 	 * @param array $item Share data (usually database row)
+	 * @param int new parent ID
 	 * @return null
 	 */
-	protected static function unshareItem(array $item) {
+	protected static function unshareItem(array $item, $newParent = null) {
 		// Pass all the vars we have for now, they may be useful
 		$hookParams = array(
 			'id'            => $item['id'],
@@ -1075,7 +1107,7 @@ class Share extends \OC\Share\Constants {
 		}
 
 		\OC_Hook::emit('OCP\Share', 'pre_unshare', $hookParams);
-		$deletedShares = Helper::delete($item['id']);
+		$deletedShares = Helper::delete($item['id'], false, null, $newParent);
 		$deletedShares[] = $hookParams;
 		$hookParams['deletedShares'] = $deletedShares;
 		\OC_Hook::emit('OCP\Share', 'post_unshare', $hookParams);
