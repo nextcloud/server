@@ -1660,9 +1660,9 @@ class Share extends \OC\Share\Constants {
 				$itemTarget = $sourceExists['item_target'];
 
 				// for group shares we don't need a additional entry if the target is the same
-				//if($isGroupShare && $groupItemTarget === $itemTarget) {
-				//	continue;
-				//}
+				if($isGroupShare && $groupItemTarget === $itemTarget) {
+					continue;
+				}
 
 			} elseif(!$sourceExists && !$isGroupShare)  {
 
