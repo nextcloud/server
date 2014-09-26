@@ -49,7 +49,13 @@
 			</a>
 			<a href="#" class="menutoggle">
 				<div class="header-appname">
-					<?php p(!empty($_['application'])?$_['application']: $l->t('Apps')); ?>
+					<?php
+						if(OC_Util::getEditionString() === '') {
+							p(!empty($_['application'])?$_['application']: $l->t('Apps'));
+						} else {
+							p($theme->getName());
+						}
+					?>
 				</div>
 				<div class="icon-caret svg"></div>
 			</a>
