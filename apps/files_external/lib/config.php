@@ -518,11 +518,11 @@ class OC_Mount_Config {
 		if ($result && $isNew) {
 			\OC_Hook::emit(
 				\OC\Files\Filesystem::CLASSNAME,
-				'add_mount_point',
+				\OC\Files\Filesystem::signal_create_mount,
 				array(
-					'path' => $mountPoint,
-					'type' => $mountType,
-					'applicable' => $applicable
+					\OC\Files\Filesystem::signal_param_path => $mountPoint,
+					\OC\Files\Filesystem::signal_param_mount_type => $mountType,
+					\OC\Files\Filesystem::signal_param_users => $applicable,
 				)
 			);
 		}
@@ -561,11 +561,11 @@ class OC_Mount_Config {
 		self::writeData($isPersonal ? OCP\User::getUser() : NULL, $mountPoints);
 		\OC_Hook::emit(
 			\OC\Files\Filesystem::CLASSNAME,
-			'remove_mount_point',
+			\OC\Files\Filesystem::signal_delete_mount,
 			array(
-				'path' => $mountPoint,
-				'type' => $mountType,
-				'applicable' => $applicable
+				\OC\Files\Filesystem::signal_param_path => $mountPoint,
+				\OC\Files\Filesystem::signal_param_mount_type => $mountType,
+				\OC\Files\Filesystem::signal_param_users => $applicable,
 			)
 		);
 		return true;
