@@ -917,9 +917,12 @@ $(document).ready(function() {
 			if (oc_appconfig.core.enforcePasswordForPublicLink === false) {
 				$loading.removeClass('hidden');
 				$button.addClass('hidden');
+				$button.prop('disabled', true);
+
 				OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, itemSourceName, expireDateString, function(data) {
 					$loading.addClass('hidden');
 					$button.removeClass('hidden');
+					$button.prop('disabled', false);
 					OC.Share.showLink(data.token, null, itemSource);
 					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
@@ -938,9 +941,11 @@ $(document).ready(function() {
 			if ($('#linkText').val() !== '') {
 				$loading.removeClass('hidden');
 				$button.addClass('hidden');
+				$button.prop('disabled', true);
 				OC.Share.unshare(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', function() {
 					$loading.addClass('hidden');
 					$button.removeClass('hidden');
+					$button.prop('disabled', false);
 					OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = false;
 					$('#dropdown').trigger(new $.Event('sharesChanged', {shares: OC.Share.currentShares}));
 					OC.Share.updateIcon(itemType, itemSource);
