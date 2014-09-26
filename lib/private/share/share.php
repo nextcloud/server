@@ -1707,7 +1707,7 @@ class Share extends \OC\Share\Constants {
 					$fileTarget = null;
 				}
 
-				if ($itemTarget === $groupItemTarget) {
+				if ($itemTarget === $groupItemTarget && (isset($fileSource) && $fileTarget === $groupItemTarget)) {
 					continue;
 				}
 			}
