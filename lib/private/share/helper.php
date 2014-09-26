@@ -85,10 +85,12 @@ class Helper extends \OC\Share\Constants {
 	 * @param int $parent Id of item to delete
 	 * @param bool $excludeParent If true, exclude the parent from the delete (optional)
 	 * @param string $uidOwner The user that the parent was shared with (optional)
+	 * @param int $newParent new parent for the childrens
 	 */
-	public static function delete($parent, $excludeParent = false, $uidOwner = null) {
+	public static function delete($parent, $excludeParent = false, $uidOwner = null, $newParent = null) {
 		$ids = array($parent);
 		$deletedItems = array();
+		$changeParent = array();
 		$parents = array($parent);
 		while (!empty($parents)) {
 			$parents = "'".implode("','", $parents)."'";
@@ -106,8 +108,6 @@ class Helper extends \OC\Share\Constants {
 			// Reset parents array, only go through loop again if items are found
 			$parents = array();
 			while ($item = $result->fetchRow()) {
-				$ids[] = $item['id'];
-				$parents[] = $item['id'];
 				$tmpItem = array(
 					'id' => $item['id'],
 					'shareWith' => $item['share_with'],
@@ -118,12 +118,28 @@ class Helper extends \OC\Share\Constants {
 				if (isset($item['file_target'])) {
 					$tmpItem['fileTarget'] = $item['file_target'];
 				}
-				$deletedItems[] = $tmpItem;
+				// if we have a new parent for the child we remember the child
+				// to update the parent, if not we add it to the list of items
+				// which should be deleted
+				if ($newParent !== null) {
+					$changeParent[] = $item['id'];
+				} else {
+					$deletedItems[] = $tmpItem;
+					$ids[] = $item['id'];
+					$parents[] = $item['id'];
+				}
 			}
 		}
 		if ($excludeParent) {
 			unset($ids[0]);
 		}
+
+		if (!empty($changeParent)) {
+			$idList = "'".implode("','", $changeParent)."'";
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `parent` = ? WHERE `id` IN ('.$idList.')');
+			$query->execute(array($newParent));
+		}
+
 		if (!empty($ids)) {
 			$idList = "'".implode("','", $ids)."'";
 			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `id` IN ('.$idList.')');
