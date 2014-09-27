@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "PostgreSQL gebruikersnaam en/of wachtwoord ongeldig",
 "Set an admin username." => "Stel de gebruikersnaam van de beheerder in.",
 "Set an admin password." => "Stel een beheerderswachtwoord in.",
+"Can't create or write into the data directory %s" => "Kan niets creëren of wegschrijven in datadirectory %s",
 "%s shared »%s« with you" => "%s deelde »%s« met u",
 "Sharing %s failed, because the file does not exist" => "Delen van %s is mislukt, omdat het bestand niet bestaat",
 "You are not allowed to share %s" => "U bent niet bevoegd om %s te delen",

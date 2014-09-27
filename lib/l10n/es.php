@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Usuario y/o contraseña de PostgreSQL no válidos",
 "Set an admin username." => "Configurar un nombre de usuario del administrador",
 "Set an admin password." => "Configurar la contraseña del administrador.",
+"Can't create or write into the data directory %s" => "No es posible crear o escribir en el directorio de datos %s",
 "%s shared »%s« with you" => "%s ha compatido  »%s« contigo",
 "Sharing %s failed, because the file does not exist" => "No se pudo compartir %s porque el archivo no existe",
 "You are not allowed to share %s" => "Usted no está autorizado para compartir %s",

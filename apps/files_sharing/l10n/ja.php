@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "このサーバーでは、サーバー間の共有が有効ではありません",
+"The mountpoint name contains invalid characters." => "マウントポイント名 に不正な文字列が含まれています。",
 "Invalid or untrusted SSL certificate" => "無効または信頼できないSSL証明書",
 "Couldn't add remote share" => "リモート共有を追加できませんでした",
 "Shared with you" => "他ユーザーがあなたと共有中",
