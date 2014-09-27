@@ -46,18 +46,20 @@
 			<br />
 			<input
 			type='radio'
+			id='userEnableRecovery'
 			name='userEnableRecovery'
 			value='1'
 			<?php echo ( $_["recoveryEnabledForUser"] ? 'checked="checked"' : '' ); ?> />
-			<?php p( $l->t( "Enabled" ) ); ?>
+			<label for="userEnableRecovery"><?php p( $l->t( "Enabled" ) ); ?></label>
 			<br />
 
 			<input
 			type='radio'
+			id='userDisableRecovery'
 			name='userEnableRecovery'
 			value='0'
 			<?php echo ( $_["recoveryEnabledForUser"] === false ? 'checked="checked"' : '' ); ?> />
-			<?php p( $l->t( "Disabled" ) ); ?>
+			<label for="userDisableRecovery"><?php p( $l->t( "Disabled" ) ); ?></label>
 			<div id="recoveryEnabledSuccess"><?php p( $l->t( 'File recovery settings updated' ) ); ?></div>
 			<div id="recoveryEnabledError"><?php p( $l->t( 'Could not update file recovery' ) ); ?></div>
 		</p>
