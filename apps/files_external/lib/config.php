@@ -459,6 +459,7 @@ class OC_Mount_Config {
 										 $priority = null) {
 		$backends = self::getBackends();
 		$mountPoint = OC\Files\Filesystem::normalizePath($mountPoint);
+		$relMountPoint = $mountPoint;
 		if ($mountPoint === '' || $mountPoint === '/') {
 			// can't mount at root folder
 			return false;
@@ -516,7 +517,7 @@ class OC_Mount_Config {
 				\OC\Files\Filesystem::CLASSNAME,
 				\OC\Files\Filesystem::signal_create_mount,
 				array(
-					\OC\Files\Filesystem::signal_param_path => $mountPoint,
+					\OC\Files\Filesystem::signal_param_path => $relMountPoint,
 					\OC\Files\Filesystem::signal_param_mount_type => $mountType,
 					\OC\Files\Filesystem::signal_param_users => $applicable,
 				)
@@ -535,6 +536,7 @@ class OC_Mount_Config {
 	*/
 	public static function removeMountPoint($mountPoint, $mountType, $applicable, $isPersonal = false) {
 		// Verify that the mount point applies for the current user
+		$relMountPoints = $mountPoint;
 		if ($isPersonal) {
 			if ($applicable != OCP\User::getUser()) {
 				return false;
@@ -559,7 +561,7 @@ class OC_Mount_Config {
 			\OC\Files\Filesystem::CLASSNAME,
 			\OC\Files\Filesystem::signal_delete_mount,
 			array(
-				\OC\Files\Filesystem::signal_param_path => $mountPoint,
+				\OC\Files\Filesystem::signal_param_path => $relMountPoints,
 				\OC\Files\Filesystem::signal_param_mount_type => $mountType,
 				\OC\Files\Filesystem::signal_param_users => $applicable,
 			)

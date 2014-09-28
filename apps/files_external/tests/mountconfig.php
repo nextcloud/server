@@ -53,7 +53,7 @@ class Test_Mount_Config_Hook_Test {
 	}
 
 	public static function deleteHookCallback($params) {
-		self::$signal = \OC\Files\Filesystem::signal_create_mount;
+		self::$signal = \OC\Files\Filesystem::signal_delete_mount;
 		self::$params = $params;
 	}
 
@@ -406,7 +406,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		);
 		$this->assertEquals(
 			$applicable,
-			$params[\OC\Files\Filesystem::signal_param_mount_users]
+			$params[\OC\Files\Filesystem::signal_param_users]
 		);
 
 		Test_Mount_Config_Hook_Test::clear();
@@ -435,7 +435,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(
 			OC_Mount_Config::removeMountPoint(
-				'/ext',
+				$mountPoint,
 				$mountType,
 				$applicable,
 				$isPersonal
@@ -457,7 +457,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		);
 		$this->assertEquals(
 			$applicable,
-			$params[\OC\Files\Filesystem::signal_param_mount_users]
+			$params[\OC\Files\Filesystem::signal_param_users]
 		);
 	}
 
