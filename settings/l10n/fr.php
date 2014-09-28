@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Invalid value supplied for %s" => "Type de valeur METADATA invalide : \"%s\".",
+"Invalid value supplied for %s" => "Valeur fournie pour %s non valable",
 "Saved" => "Sauvegarder",
 "test email settings" => "tester les paramètres d'e-mail",
 "If you received this email, the settings seem to be correct." => "Si vous recevez cet email, c'est que les paramètres sont corrects",

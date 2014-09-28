@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Couldn't delete %s permanently" => "Impossible d'effacer %s de façon permanente",
+"Couldn't delete %s permanently" => "Impossible de supprimer %s définitivement",
 "Couldn't restore %s" => "Impossible de restaurer %s",
 "Deleted files" => "Fichiers supprimés",
 "Restore" => "Restaurer",

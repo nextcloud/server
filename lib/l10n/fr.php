@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Cannot write into \"config\" directory!" => "Impossible d’écrire dans le répertoire \"config\" !",
+"Cannot write into \"config\" directory!" => "Impossible d’écrire dans le répertoire « config » !",
 "This can usually be fixed by giving the webserver write access to the config directory" => "Ce problème est généralement résolu en donnant au serveur web un accès en écriture à ce répertoire",
 "See %s" => "Voir %s",
 "This can usually be fixed by %sgiving the webserver write access to the config directory%s." => "Ce problème est généralement résolu %sen donnant au serveur web un accès en écriture au répertoire de configuration%s.",
@@ -50,6 +50,7 @@ $TRANSLATIONS = array(
 "PostgreSQL username and/or password not valid" => "Nom d'utilisateur et/ou mot de passe de la base PostgreSQL invalide",
 "Set an admin username." => "Spécifiez un nom d'utilisateur pour l'administrateur.",
 "Set an admin password." => "Spécifiez un mot de passe administrateur.",
+"Can't create or write into the data directory %s" => "Impossible de créer ou d'écrire dans le répertoire des données %s",
 "%s shared »%s« with you" => "%s partagé »%s« avec vous",
 "Sharing %s failed, because the file does not exist" => "Le partage de %s a échoué car le fichier n'existe pas",
 "You are not allowed to share %s" => "Vous n'êtes pas autorisé à partager %s",

@@ -150,6 +150,7 @@ $TRANSLATIONS = array(
 "The share will expire on %s." => "Доступ будет закрыт %s",
 "Cheers!" => "Удачи!",
 "The server encountered an internal error and was unable to complete your request." => "Сервер столкнулся с внутренней ошибкой и не смог закончить Ваш запрос.",
+"Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." => "Пожалуйста, свяжитесь с администратором сервера, если эта ошибка будет снова появляться, пожалуйста, прикрепите технические детали к своему сообщению.",
 "More details can be found in the server log." => "Больше деталей может быть найдено в журнале сервера.",
 "Technical details" => "Технические детали",
 "Remote Address: %s" => "Удаленный Адрес: %s",
@@ -201,6 +202,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Тема %s была отключена.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Пожалуйста, перед тем, как продолжить, убедитесь в том, что вы сделали резервную копию базы данных, директории конфигурации и директории с данными.",
 "Start update" => "Запустить обновление",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Чтобы избежать задержек при больших объёмах, вы можете выполнить следующую команду в директории установки:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Чтобы избежать задержек при больших объёмах, вы можете выполнить следующую команду в директории установки:",
+"This %s instance is currently being updated, which may take a while." => "Этот экземпляр %s в данный момент обновляется, это может занять некоторое время.",
+"This page will refresh itself when the %s instance is available again." => "Эта страница обновится, когда экземпляр %s станет снова доступным."
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
