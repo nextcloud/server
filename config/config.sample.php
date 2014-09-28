@@ -207,8 +207,9 @@ $CONFIG = array(
  * will stay limited and older entries are available for a while longer. The
  * total disk usage is twice the configured size.
  * WARNING: When you use this, the log entries will eventually be lost.
+ * Example: To set this to 100 MiB, use the value: 104857600 (1024*1024*100 bytes).
  */
-'log_rotate_size' => false, // 104857600, // 100 MiB
+'log_rotate_size' => false,
 
 /* Lifetime of the remember login cookie, default is 15 days */
 "remember_login_cookie_lifetime" => 60*60*24*15,
