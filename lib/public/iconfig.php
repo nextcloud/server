@@ -51,6 +51,20 @@ interface IConfig {
 	 */
 	public function getSystemValue($key, $default = '');
 
+	/**
+	 * Delete a system wide defined value
+	 *
+	 * @param string $key the key of the value, under which it was saved
+	 */
+	public function deleteSystemValue($key);
+
+	/**
+	 * Get all keys stored for an app
+	 *
+	 * @param string $appName the appName that we stored the value under
+	 * @return string[] the keys stored for the app
+	 */
+	public function getAppKeys($appName);
 
 	/**
 	 * Writes a new app wide value
