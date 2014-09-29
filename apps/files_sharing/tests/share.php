@@ -72,8 +72,6 @@ class Test_Files_Sharing extends Test_Files_Sharing_Base {
 
 		$fileinfo = $this->view->getFileInfo($this->filename);
 
-		$pathinfo = pathinfo($this->filename);
-
 		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
 				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, 31);
 

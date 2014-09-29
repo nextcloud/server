@@ -703,7 +703,7 @@ class Share extends \OC\Share\Constants {
 			// if there is more then one result we don't have to delete the children
 			// but update their parent. For group shares the new parent should always be
 			// the original group share and not the db entry with the unique name
-			} else if ((int)$item['share_type'] === \OCP\Share::$shareTypeGroupUserUnique) {
+			} else if ((int)$item['share_type'] === self::$shareTypeGroupUserUnique) {
 				$newParent = $item['parent'];
 			} else {
 				$newParent = $item['id'];
@@ -1610,6 +1610,7 @@ class Share extends \OC\Share\Constants {
 		$permissions, $parentFolder = null, $token = null, $itemSourceName = null, \DateTime $expirationDate = null) {
 
 		$queriesToExecute = array();
+		$suggestedItemTarget = null;
 
 		$result = self::checkReshare($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, $itemSourceName, $expirationDate);
 		if(!empty($result)) {

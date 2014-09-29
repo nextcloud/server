@@ -57,7 +57,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	 * create unique target
 	 * @param string $filePath
 	 * @param string $shareWith
-	 * @param string $exclude
+	 * @param array $exclude (optional)
 	 * @return string
 	 */
 	public function generateTarget($filePath, $shareWith, $exclude = null) {
@@ -83,7 +83,9 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $exclude, $view);
+		$excludeList = (is_array($exclude)) ? $exclude : array();
+
+		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
 
 	public function formatItems($items, $format, $parameters = null) {
