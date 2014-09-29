@@ -6,6 +6,7 @@
  * See the COPYING-README file.
  */
 \OC_Util::checkLoggedIn();
+\OC::$server->getSession()->close();
 
 $file = array_key_exists('file', $_GET) ? (string)$_GET['file'] : '';
 $maxX = array_key_exists('x', $_GET) ? (int)$_GET['x'] : '36';
