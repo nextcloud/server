@@ -118,6 +118,22 @@ class OC_Mount_Config {
 			}
 			$manager->addMount($mount);
 		}
+
+		if ($data['user']) {
+			$user = \OC::$server->getUserManager()->get($data['user']);
+			$userView = new \OC\Files\View('/' . $user->getUID() . '/files');
+			$changePropagator = new \OC\Files\Cache\ChangePropagator($userView);
+			$etagPropagator = new \OCA\Files_External\EtagPropagator($user, $changePropagator, \OC::$server->getConfig());
+			$etagPropagator->propagateDirtyMountPoints();
+			\OCP\Util::connectHook(
+				\OC\Files\Filesystem::CLASSNAME,
+				\OC\Files\Filesystem::signal_create_mount,
+				$etagPropagator, 'updateHook');
+			\OCP\Util::connectHook(
+				\OC\Files\Filesystem::CLASSNAME,
+				\OC\Files\Filesystem::signal_delete_mount,
+				$etagPropagator, 'updateHook');
+		}
 	}
 
 	/**
