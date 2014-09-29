@@ -38,7 +38,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	/**
-	 * Remove a file of folder
+	 * Remove a file or folder
 	 *
 	 * @param string $path
 	 * @return bool
