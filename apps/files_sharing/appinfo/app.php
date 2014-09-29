@@ -12,6 +12,9 @@ OC::$CLASSPATH['OCA\Files\Share\Api'] = 'files_sharing/lib/api.php';
 OC::$CLASSPATH['OCA\Files\Share\Maintainer'] = 'files_sharing/lib/maintainer.php';
 OC::$CLASSPATH['OCA\Files\Share\Proxy'] = 'files_sharing/lib/proxy.php';
 
+// Exceptions
+OC::$CLASSPATH['OCA\Files_Sharing\Exceptions\BrokenPath'] = 'files_sharing/lib/exceptions.php';
+
 \OCP\App::registerAdmin('files_sharing', 'settings-admin');
 
 \OCA\Files_Sharing\Helper::registerHooks();

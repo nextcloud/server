@@ -91,7 +91,7 @@ class SharedMount extends Mount implements MoveableMount {
 	 * @param string $path the absolute path
 	 * @return string e.g. turns '/admin/files/test.txt' into '/test.txt'
 	 */
-	private function stripUserFilesPath($path) {
+	protected function stripUserFilesPath($path) {
 		$trimmed = ltrim($path, '/');
 		$split = explode('/', $trimmed);
 
@@ -99,8 +99,8 @@ class SharedMount extends Mount implements MoveableMount {
 		if (count($split) < 3 || $split[1] !== 'files') {
 			\OCP\Util::writeLog('file sharing',
 				'Can not strip userid and "files/" from path: ' . $path,
-				\OCP\Util::DEBUG);
-			return false;
+				\OCP\Util::ERROR);
+			throw new \OCA\Files_Sharing\Exceptions\BrokenPath('Path does not start with /user/files', 10);
 		}
 
 		// skip 'user' and 'files'
