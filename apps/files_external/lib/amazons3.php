@@ -53,6 +53,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * @var int
 	 */
 	private $timeout = 15;
+	/**
+	 * @var int in seconds
+	 */
+	private $rescanDelay = 10;
 
 	/**
 	 * @param string $path
@@ -74,26 +78,32 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 	}
 
+	private function isRoot($path) {
+		return $path === '.';
+	}
+
 	private function cleanKey($path) {
-		if ($path === '.') {
+		if ($this->isRoot($path)) {
 			return '/';
 		}
 		return $path;
 	}
 
 	public function __construct($params) {
-		if (!isset($params['key']) || !isset($params['secret']) || !isset($params['bucket'])) {
+		if (empty($params['key']) || empty($params['secret']) || empty($params['bucket'])) {
 			throw new \Exception("Access Key, Secret and Bucket have to be configured.");
 		}
 
-		$this->id = 'amazon::' . $params['key'] . md5($params['secret']);
+		$this->id = 'amazon::' . $params['bucket'];
+		$this->updateLegacyId($params);
 
 		$this->bucket = $params['bucket'];
 		$scheme = ($params['use_ssl'] === 'false') ? 'http' : 'https';
 		$this->test = isset($params['test']);
 		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
-		$params['region'] = (!isset($params['region']) || $params['region'] === '') ? 'eu-west-1' : $params['region'];
-		$params['hostname'] = (!isset($params['hostname']) || $params['hostname'] === '') ? 's3.amazonaws.com' : $params['hostname'];
+		$this->rescanDelay = (!isset($params['rescanDelay'])) ? 10 : $params['rescanDelay'];
+		$params['region'] = empty($params['region']) ? 'eu-west-1' : $params['region'];
+		$params['hostname'] = empty($params['hostname']) ? 's3.amazonaws.com' : $params['hostname'];
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
@@ -112,7 +122,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		if (!$this->connection->doesBucketExist($this->bucket)) {
 			try {
-				$result = $this->connection->createBucket(array(
+				$this->connection->createBucket(array(
 					'Bucket' => $this->bucket
 				));
 				$this->connection->waitUntilBucketExists(array(
@@ -122,19 +132,41 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-				throw new \Exception("Creation of bucket failed.");
+				\OCP\Util::logException('files_external', $e);
+				throw new \Exception('Creation of bucket failed. '.$e->getMessage());
 			}
 		}
-		if (!$this->file_exists('.')) {
-			$result = $this->connection->putObject(array(
-				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey('.'),
-				'Body' => '',
-				'ContentType' => 'httpd/unix-directory',
-				'ContentLength' => 0
-			));
-			$this->testTimeout();
+	}
+
+	/**
+	 * Updates old storage ids (v0.2.1 and older) that are based on key and secret to new ones based on the bucket name.
+	 * TODO Do this in an update.php. requires iterating over all users and loading the mount.json from their home
+	 *
+	 * @param array $params
+	 */
+	public function updateLegacyId (array $params) {
+		$stmt = \OC::$server->getDatabaseConnection()->prepare(
+			'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
+		);
+		$oldId = 'amazon::' . $params['key'] . md5($params['secret']);
+		$stmt->execute(array($this->id, $oldId));
+	}
+
+	/**
+	 * Remove a file or folder
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	protected function remove($path) {
+		// remember fileType to reduce http calls
+		$fileType = $this->filetype($path);
+		if ($fileType === 'dir') {
+			return $this->rmdir($path);
+		} else if ($fileType === 'file') {
+			return $this->unlink($path);
+		} else {
+			return false;
 		}
 	}
 
@@ -155,7 +187,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			));
 			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 
@@ -163,32 +195,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function file_exists($path) {
-		$path = $this->normalizePath($path);
-
-		if (!$path) {
-			$path = '.';
-		} else if ($path != '.' && $this->is_dir($path)) {
-			$path .= '/';
-		}
-
-		try {
-			$result = $this->connection->doesObjectExist(
-				$this->bucket,
-				$this->cleanKey($path)
-			);
-		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
-			return false;
-		}
-
-		return $result;
+		return $this->filetype($path) !== false;
 	}
 
 
 	public function rmdir($path) {
 		$path = $this->normalizePath($path);
 
-		if ($path === '.') {
+		if ($this->isRoot($path)) {
 			return $this->clearBucket();
 		}
 
@@ -196,21 +210,22 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		// Since there are no real directories on S3, we need
-		// to delete all objects prefixed with the path.
-		$objects = $this->connection->listObjects(array(
-			'Bucket' => $this->bucket,
-			'Prefix' => $path . '/'
-		));
-
 		try {
-			$this->connection->deleteObjects(array(
-				'Bucket' => $this->bucket,
-				'Objects' => $objects['Contents']
-			));
-			$this->testTimeout();
+			do { // batches of 1000
+				// Since there are no real directories on S3, we need
+				// to delete all objects prefixed with the path.
+				$objects = $this->connection->listObjects(array(
+					'Bucket' => $this->bucket,
+					'Prefix' => $path . '/'
+				));
+				$this->connection->deleteObjects(array(
+					'Bucket' => $this->bucket,
+					'Objects' => $objects['Contents']
+				));
+				$this->testTimeout();
+			} while ($objects['IsTruncated']);
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 
@@ -223,17 +238,18 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			// clearBucket() is not working with Ceph, so if it fails we try the slower approach
 		} catch (\Exception $e) {
 			try {
-				$iterator = $this->connection->getIterator('ListObjects', array(
-					'Bucket' => $this->bucket
-				));
-
-				foreach ($iterator as $object) {
-					$this->connection->deleteObject(array(
-						'Bucket' => $this->bucket,
-						'Key' => $object['Key']
+				do { // batches of 1000
+					$objects = $this->connection->listObjects(array(
+						'Bucket' => $this->bucket
 					));
-				}
+					$this->connection->deleteObjects(array(
+						'Bucket' => $this->bucket,
+						'Objects' => $objects['Contents'] // delete 1000 objects in one http call
+					));
+					$this->testTimeout();
+				} while ($objects['IsTruncated']);
 			} catch (S3Exception $e) {
+				\OCP\Util::logException('files_external', $e);
 				return false;
 			}
 		}
@@ -242,9 +258,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function opendir($path) {
 		$path = $this->normalizePath($path);
 
-		if ($path === '.') {
+		if ($this->isRoot($path)) {
 			$path = '';
-		} else if ($path) {
+		} else {
 			$path .= '/';
 		}
 
@@ -270,7 +286,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 			return opendir('fakedir://amazons3' . $path);
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 	}
@@ -279,27 +295,29 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$path = $this->normalizePath($path);
 
 		try {
-			if ($this->is_dir($path) && $path != '.') {
-				$path .= '/';
-			}
-
-			$result = $this->connection->headObject(array(
-				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey($path)
-			));
-
 			$stat = array();
-			$stat['size'] = $result['ContentLength'] ? $result['ContentLength'] : 0;
-			if ($result['Metadata']['lastmodified']) {
-				$stat['mtime'] = strtotime($result['Metadata']['lastmodified']);
+			if ($this->is_dir($path)) {
+				//folders don't really exist
+				$stat['size'] = -1; //unknown
+				$stat['mtime'] = time() - $this->rescanDelay * 1000;
 			} else {
-				$stat['mtime'] = strtotime($result['LastModified']);
+				$result = $this->connection->headObject(array(
+					'Bucket' => $this->bucket,
+					'Key' => $path
+				));
+
+				$stat['size'] = $result['ContentLength'] ? $result['ContentLength'] : 0;
+				if ($result['Metadata']['lastmodified']) {
+					$stat['mtime'] = strtotime($result['Metadata']['lastmodified']);
+				} else {
+					$stat['mtime'] = strtotime($result['LastModified']);
+				}
 			}
 			$stat['atime'] = time();
 
 			return $stat;
-		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+		} catch(S3Exception $e) {
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 	}
@@ -307,19 +325,19 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function filetype($path) {
 		$path = $this->normalizePath($path);
 
+		if ($this->isRoot($path)) {
+			return 'dir';
+		}
+
 		try {
-			if ($path != '.' && $this->connection->doesObjectExist($this->bucket, $path)) {
+			if ($this->connection->doesObjectExist($this->bucket, $path)) {
 				return 'file';
 			}
-
-			if ($path != '.') {
-				$path .= '/';
-			}
-			if ($this->connection->doesObjectExist($this->bucket, $this->cleanKey($path))) {
+			if ($this->connection->doesObjectExist($this->bucket, $path.'/')) {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 
@@ -334,13 +352,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$result = $this->connection->deleteObject(array(
+			$this->connection->deleteObject(array(
 				'Bucket' => $this->bucket,
-				'Key' => $this->cleanKey($path)
+				'Key' => $path
 			));
 			$this->testTimeout();
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 
@@ -357,13 +375,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				self::$tmpFiles[$tmpFile] = $path;
 
 				try {
-					$result = $this->connection->getObject(array(
+					$this->connection->getObject(array(
 						'Bucket' => $this->bucket,
-						'Key' => $this->cleanKey($path),
+						'Key' => $path,
 						'SaveAs' => $tmpFile
 					));
 				} catch (S3Exception $e) {
-					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+					\OCP\Util::logException('files_external', $e);
 					return false;
 				}
 
@@ -407,10 +425,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			try {
 				$result = $this->connection->headObject(array(
 					'Bucket' => $this->bucket,
-					'Key' => $this->cleanKey($path)
+					'Key' => $path
 				));
 			} catch (S3Exception $e) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OCP\Util::logException('files_external', $e);
 				return false;
 			}
 
@@ -427,12 +445,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$metadata = array('lastmodified' => $mtime);
 		}
 
+		$fileType = $this->filetype($path);
 		try {
-			if ($this->file_exists($path)) {
-				if ($this->is_dir($path) && $path != '.') {
+			if ($fileType !== false) {
+				if ($fileType === 'dir' && ! $this->isRoot($path)) {
 					$path .= '/';
 				}
-				$result = $this->connection->copyObject(array(
+				$this->connection->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata,
@@ -440,7 +459,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				));
 				$this->testTimeout();
 			} else {
-				$result = $this->connection->putObject(array(
+				$this->connection->putObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata
@@ -448,7 +467,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->testTimeout();
 			}
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 
@@ -461,32 +480,28 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		if ($this->is_file($path1)) {
 			try {
-				$result = $this->connection->copyObject(array(
+				$this->connection->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path2),
 					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OCP\Util::logException('files_external', $e);
 				return false;
 			}
 		} else {
-			if ($this->is_dir($path2)) {
-				$this->rmdir($path2);
-			} else if ($this->file_exists($path2)) {
-				$this->unlink($path2);
-			}
+			$this->remove($path2);
 
 			try {
-				$result = $this->connection->copyObject(array(
+				$this->connection->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $path2 . '/',
 					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1 . '/')
 				));
 				$this->testTimeout();
 			} catch (S3Exception $e) {
-				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+				\OCP\Util::logException('files_external', $e);
 				return false;
 			}
 
@@ -560,7 +575,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$result = $this->connection->putObject(array(
+			$this->connection->putObject(array(
 				'Bucket' => $this->bucket,
 				'Key' => $this->cleanKey(self::$tmpFiles[$tmpFile]),
 				'SourceFile' => $tmpFile,
@@ -571,7 +586,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 			unlink($tmpFile);
 		} catch (S3Exception $e) {
-			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+			\OCP\Util::logException('files_external', $e);
 			return false;
 		}
 	}
