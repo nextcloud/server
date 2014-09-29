@@ -350,7 +350,6 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	/**
 	 * Checks if the CSRF check was correct
 	 * @return bool true if CSRF check passed
-	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::callRegister()
 	 */
 	public function passesCSRFCheck() {
