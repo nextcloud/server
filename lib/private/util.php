@@ -897,28 +897,13 @@ class OC_Util {
 	}
 
 	/**
-	 * Static lifespan (in seconds) when a request token expires.
-	 *
-	 * @see OC_Util::callRegister()
-	 * @see OC_Util::isCallRegistered()
-	 * @description
-	 * Also required for the client side to compute the point in time when to
-	 * request a fresh token. The client will do so when nearly 97% of the
-	 * time span coded here has expired.
-	 */
-	public static $callLifespan = 3600; // 3600 secs = 1 hour
-
-	/**
 	 * Register an get/post call. Important to prevent CSRF attacks.
 	 *
-	 * @todo Write howto: CSRF protection guide
 	 * @return string Generated token.
 	 * @description
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
 	 * otherwise the request will be denied as a protection against CSRF.
-	 * The tokens expire after a fixed lifespan.
-	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
@@ -938,7 +923,6 @@ class OC_Util {
 	 * Check an ajax get/post call if the request token is valid.
 	 *
 	 * @return boolean False if request token is not set or is invalid.
-	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
@@ -948,7 +932,6 @@ class OC_Util {
 	/**
 	 * Check an ajax get/post call if the request token is valid. Exit if not.
 	 *
-	 * @todo Write howto
 	 * @return void
 	 */
 	public static function callCheck() {
