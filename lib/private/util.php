@@ -847,8 +847,10 @@ class OC_Util {
 	 */
 	public static function getDefaultPageUrl() {
 		$urlGenerator = \OC::$server->getURLGenerator();
-		if (isset($_REQUEST['redirect_url'])) {
-			$location = urldecode($_REQUEST['redirect_url']);
+		// Deny the redirect if the URL contains a @
+		// This prevents unvalidated redirects like ?redirect_url=:user@domain.com
+		if (isset($_REQUEST['redirect_url']) && strpos($_REQUEST['redirect_url'], '@') === false) {
+			$location = $urlGenerator->getAbsoluteURL(urldecode($_REQUEST['redirect_url']));
 		} else {
 			$defaultPage = OC_Appconfig::getValue('core', 'defaultpage');
 			if ($defaultPage) {
