@@ -9,3 +9,4 @@
 $application->add(new OCA\user_ldap\Command\ShowConfig());
 $application->add(new OCA\user_ldap\Command\SetConfig());
 $application->add(new OCA\user_ldap\Command\TestConfig());
+$application->add(new OCA\user_ldap\Command\CreateEmptyConfig());
