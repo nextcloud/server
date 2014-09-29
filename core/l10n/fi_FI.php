@@ -87,6 +87,7 @@ $TRANSLATIONS = array(
 "Send" => "Lähetä",
 "Set expiration date" => "Aseta päättymispäivä",
 "Expiration date" => "Päättymispäivä",
+"Adding user..." => "Lisätään käyttäjä...",
 "group" => "ryhmä",
 "Resharing is not allowed" => "Jakaminen uudelleen ei ole salittu",
 "Shared in {item} with {user}" => "{item} on jaettu {user} kanssa",

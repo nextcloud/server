@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Send" => "Send",
 "Set expiration date" => "Vælg udløbsdato",
 "Expiration date" => "Udløbsdato",
+"Adding user..." => "Tilføjer bruger...",
 "group" => "gruppe",
 "Resharing is not allowed" => "Videredeling ikke tilladt",
 "Shared in {item} with {user}" => "Delt i {item} med {user}",

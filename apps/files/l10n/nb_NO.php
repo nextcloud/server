@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Ukjent feil",
 "Could not move %s - File with this name already exists" => "Kan ikke flytte %s - En fil med samme navn finnes allerede",
 "Could not move %s" => "Kunne ikke flytte %s",
+"Permission denied" => "Tilgang nektet",
 "File name cannot be empty." => "Filnavn kan ikke være tomt.",
 "\"%s\" is an invalid file name." => "\"%s\" er et ugyldig filnavn.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt.",
