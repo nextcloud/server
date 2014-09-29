@@ -97,6 +97,7 @@ class EtagPropagator {
 		$users = $params[Filesystem::signal_param_users];
 		$type = $params[Filesystem::signal_param_mount_type];
 		$mountPoint = $params[Filesystem::signal_param_path];
+		$mountPoint = Filesystem::normalizePath($mountPoint);
 		if ($type === \OC_Mount_Config::MOUNT_TYPE_GROUP or $users === 'all') {
 			$this->markDirty($mountPoint, $time);
 		} else {
