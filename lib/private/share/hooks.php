@@ -65,7 +65,7 @@ class Hooks extends \OC\Share\Constants {
 
 				// do we also need a file target
 				if ($item['item_type'] === 'file' || $item['item_type'] === 'folder') {
-					$fileTarget = Helper::generateTarget('file', $row['file_target'], self::SHARE_TYPE_USER, $arguments['uid'],
+					$fileTarget = Helper::generateTarget('file', $item['file_target'], self::SHARE_TYPE_USER, $arguments['uid'],
 							$item['owner'], null, $item['parent']);
 				} else {
 					$fileTarget = null;
