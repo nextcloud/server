@@ -139,7 +139,7 @@ class Share extends \OC\Share\Constants {
 	 * @param int $format (optional) Format type must be defined by the backend
 	 * @param mixed $parameters
 	 * @param bool $includeCollections
-	 * @return mixed Return depends on format
+	 * @return array
 	 */
 	public static function getItemSharedWithBySource($itemType, $itemSource, $format = self::FORMAT_NONE,
 		$parameters = null, $includeCollections = false) {
@@ -361,7 +361,7 @@ interface Share_Backend {
 	 * Get a unique name of the item for the specified user
 	 * @param string $itemSource
 	 * @param string|false $shareWith User the item is being shared with
-	 * @param array|null $exclude List of similar item names already existing as shared items
+	 * @param array|null $exclude List of similar item names already existing as shared items @deprecated since version OC7
 	 * @return string Target name
 	 *
 	 * This function needs to verify that the user does not already have an item with this name.

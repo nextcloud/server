@@ -35,8 +35,8 @@ class Helper extends \OC\Share\Constants {
 	 * @throws \Exception
 	 * @return string Item target
 	 */
-	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
-		$suggestedTarget = null, $groupParent = null) {
+	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
+		// FIXME: $uidOwner and $groupParent seems to be unused
 		$backend = \OC\Share\Share::getBackend($itemType);
 		if ($shareType == self::SHARE_TYPE_LINK) {
 			if (isset($suggestedTarget)) {
@@ -54,91 +54,28 @@ class Helper extends \OC\Share\Constants {
 			if ($shareType == self::SHARE_TYPE_USER) {
 				// Share with is a user, so set share type to user and groups
 				$shareType = self::$shareTypeUserAndGroups;
-				$userAndGroups = array_merge(array($shareWith), \OC_Group::getUserGroups($shareWith));
+			}
+			$exclude = array();
+
+			$result = \OCP\Share::getItemsSharedWithUser($itemType, $shareWith);
+			foreach ($result as $row) {
+				if ($row['permissions'] > 0) {
+					$exclude[] = $row[$column];
+				}
+			}
+
+			// Check if suggested target exists first
+			if (!isset($suggestedTarget)) {
+				$suggestedTarget = $itemSource;
+			}
+			if ($shareType == self::SHARE_TYPE_GROUP) {
+				$target = $backend->generateTarget($suggestedTarget, false, $exclude);
 			} else {
-				$userAndGroups = false;
+				$target = $backend->generateTarget($suggestedTarget, $shareWith, $exclude);
 			}
-			$exclude = null;
-			// Backend has 3 opportunities to generate a unique target
-			for ($i = 0; $i < 2; $i++) {
-				// Check if suggested target exists first
-				if ($i == 0 && isset($suggestedTarget)) {
-					$target = $suggestedTarget;
-				} else {
-					if ($shareType == self::SHARE_TYPE_GROUP) {
-						$target = $backend->generateTarget($itemSource, false, $exclude);
-					} else {
-						$target = $backend->generateTarget($itemSource, $shareWith, $exclude);
-					}
-					if (is_array($exclude) && in_array($target, $exclude)) {
-						break;
-					}
-				}
-				// Check if target already exists
-				$checkTarget = \OC\Share\Share::getItems($itemType, $target, $shareType, $shareWith);
-				if (!empty($checkTarget)) {
-					foreach ($checkTarget as $item) {
-						// Skip item if it is the group parent row
-						if (isset($groupParent) && $item['id'] == $groupParent) {
-							if (count($checkTarget) == 1) {
-								return $target;
-							} else {
-								continue;
-							}
-						}
-						if ($item['uid_owner'] == $uidOwner) {
-							if ($itemType == 'file' || $itemType == 'folder') {
-								$meta = \OC\Files\Filesystem::getFileInfo($itemSource);
-								if ($item['file_source'] == $meta['fileid']) {
-									return $target;
-								}
-							} else if ($item['item_source'] == $itemSource) {
-								return $target;
-							}
-						}
-					}
-					if (!isset($exclude)) {
-						$exclude = array();
-					}
-					// Find similar targets to improve backend's chances to generate a unqiue target
-					if ($userAndGroups) {
-						if ($column == 'file_target') {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` IN (\'file\', \'folder\')'
-								.' AND `share_type` IN (?,?,?)'
-								.' AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
-							$result = $checkTargets->execute(array(self::SHARE_TYPE_USER, self::SHARE_TYPE_GROUP,
-								self::$shareTypeGroupUserUnique));
-						} else {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` = ? AND `share_type` IN (?,?,?)'
-								.' AND `share_with` IN (\''.implode('\',\'', $userAndGroups).'\')');
-							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_USER,
-								self::SHARE_TYPE_GROUP, self::$shareTypeGroupUserUnique));
-						}
-					} else {
-						if ($column == 'file_target') {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` IN (\'file\', \'folder\')'
-								.' AND `share_type` = ? AND `share_with` = ?');
-							$result = $checkTargets->execute(array(self::SHARE_TYPE_GROUP, $shareWith));
-						} else {
-							$checkTargets = \OC_DB::prepare('SELECT `'.$column.'` FROM `*PREFIX*share`'
-								.' WHERE `item_type` = ? AND `share_type` = ? AND `share_with` = ?');
-							$result = $checkTargets->execute(array($itemType, self::SHARE_TYPE_GROUP, $shareWith));
-						}
-					}
-					while ($row = $result->fetchRow()) {
-						$exclude[] = $row[$column];
-					}
-				} else {
-					return $target;
-				}
-			}
+
+			return $target;
 		}
-		$message = 'Sharing backend registered for '.$itemType.' did not generate a unique target for '.$itemSource;
-		\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
-		throw new \Exception($message);
 	}
 
 	/**
@@ -146,10 +83,12 @@ class Helper extends \OC\Share\Constants {
 	 * @param int $parent Id of item to delete
 	 * @param bool $excludeParent If true, exclude the parent from the delete (optional)
 	 * @param string $uidOwner The user that the parent was shared with (optional)
+	 * @param int $newParent new parent for the childrens
 	 */
-	public static function delete($parent, $excludeParent = false, $uidOwner = null) {
+	public static function delete($parent, $excludeParent = false, $uidOwner = null, $newParent = null) {
 		$ids = array($parent);
 		$deletedItems = array();
+		$changeParent = array();
 		$parents = array($parent);
 		while (!empty($parents)) {
 			$parents = "'".implode("','", $parents)."'";
@@ -167,8 +106,6 @@ class Helper extends \OC\Share\Constants {
 			// Reset parents array, only go through loop again if items are found
 			$parents = array();
 			while ($item = $result->fetchRow()) {
-				$ids[] = $item['id'];
-				$parents[] = $item['id'];
 				$tmpItem = array(
 					'id' => $item['id'],
 					'shareWith' => $item['share_with'],
@@ -179,12 +116,28 @@ class Helper extends \OC\Share\Constants {
 				if (isset($item['file_target'])) {
 					$tmpItem['fileTarget'] = $item['file_target'];
 				}
-				$deletedItems[] = $tmpItem;
+				// if we have a new parent for the child we remember the child
+				// to update the parent, if not we add it to the list of items
+				// which should be deleted
+				if ($newParent !== null) {
+					$changeParent[] = $item['id'];
+				} else {
+					$deletedItems[] = $tmpItem;
+					$ids[] = $item['id'];
+					$parents[] = $item['id'];
+				}
 			}
 		}
 		if ($excludeParent) {
 			unset($ids[0]);
 		}
+
+		if (!empty($changeParent)) {
+			$idList = "'".implode("','", $changeParent)."'";
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*share` SET `parent` = ? WHERE `id` IN ('.$idList.')');
+			$query->execute(array($newParent));
+		}
+
 		if (!empty($ids)) {
 			$idList = "'".implode("','", $ids)."'";
 			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `id` IN ('.$idList.')');

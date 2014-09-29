@@ -532,4 +532,21 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		return null;
 	}
 
+	/**
+	 * unshare complete storage, also the grouped shares
+	 *
+	 * @return bool
+	 */
+	public function unshareStorage() {
+		$result = true;
+		if (!empty($this->share['grouped'])) {
+			foreach ($this->share['grouped'] as $share) {
+				$result = $result && \OCP\Share::unshareFromSelf($share['item_type'], $share['file_target']);
+			}
+		}
+		$result = $result && \OCP\Share::unshareFromSelf($this->getItemType(), $this->getMountPoint());
+
+		return $result;
+	}
+
 }

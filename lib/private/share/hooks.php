@@ -45,6 +45,7 @@ class Hooks extends \OC\Share\Constants {
 	 * @param array $arguments
 	 */
 	public static function post_addToGroup($arguments) {
+
 		// Find the group shares and check if the user needs a unique target
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
 		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
@@ -52,18 +53,25 @@ class Hooks extends \OC\Share\Constants {
 			.' `item_target`, `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`,'
 			.' `stime`, `file_source`, `file_target`) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
 		while ($item = $result->fetchRow()) {
-			if ($item['item_type'] == 'file' || $item['item_type'] == 'file') {
-				$itemTarget = null;
+
+			$sourceExists = \OC\Share\Share::getItemSharedWithBySource($item['item_type'], $item['item_source'], self::FORMAT_NONE, null, true, $arguments['uid']);
+
+			if ($sourceExists) {
+				$fileTarget = $sourceExists['file_target'];
+				$itemTarget = $sourceExists['item_target'];
 			} else {
-				$itemTarget = Helper::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER,
-						$arguments['uid'], $item['uid_owner'], $item['item_target'], $item['id']);
+				$itemTarget = Helper::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER, $arguments['uid'],
+					$item['owner'], null, $item['parent']);
+
+				// do we also need a file target
+				if ($item['item_type'] === 'file' || $item['item_type'] === 'folder') {
+					$fileTarget = Helper::generateTarget('file', $item['file_target'], self::SHARE_TYPE_USER, $arguments['uid'],
+							$item['owner'], null, $item['parent']);
+				} else {
+					$fileTarget = null;
+				}
 			}
-			if (isset($item['file_source'])) {
-				$fileTarget = Helper::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER,
-					$arguments['uid'], $item['uid_owner'], $item['file_target'], $item['id']);
-			} else {
-				$fileTarget = null;
-			}
+
 			// Insert an extra row for the group share if the item or file target is unique for this user
 			if ($itemTarget != $item['item_target'] || $fileTarget != $item['file_target']) {
 				$query->execute(array($item['item_type'], $item['item_source'], $itemTarget, $item['id'],
