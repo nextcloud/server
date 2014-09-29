@@ -236,7 +236,6 @@ table td.filename a.name {
 	line-height: 50px;
 	padding: 0;
 }
-table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
 table td.filename input.filename {
 	width: 70%;
 	margin-top: 1px;
