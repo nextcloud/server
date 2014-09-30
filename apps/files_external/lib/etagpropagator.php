@@ -37,6 +37,11 @@ class EtagPropagator {
 		$this->config = $config;
 	}
 
+	/**
+	 * Propagate the etag changes for all mountpoints marked as dirty and mark the mountpoints as clean
+	 *
+	 * @param int $time
+	 */
 	public function propagateDirtyMountPoints($time = null) {
 		if ($time === null) {
 			$time = time();
