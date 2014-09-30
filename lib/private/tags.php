@@ -357,6 +357,7 @@ class Tags implements \OCP\ITags {
 						\OCP\Util::ERROR);
 				}
 			}
+
 			// reload tags to get the proper ids.
 			$this->loadTags();
 			// Loop through temporarily cached objectid/tagname pairs

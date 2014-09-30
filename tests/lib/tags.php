@@ -84,7 +84,36 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 			$this->assertTrue($tagger->hasTag($tag));
 		}
 
-		$this->assertCount(4, $tagger->getTags(), 'Not all tags added');
+		$tagMaps = $tagger->getTags();
+		$this->assertCount(4, $tagMaps, 'Not all tags added');
+		foreach($tagMaps as $tagMap) {
+			$this->assertEquals(null, $tagMap['id']);
+		}
+
+		// As addMultiple has been called without $sync=true, the tags aren't
+		// saved to the database, so they're gone when we reload $tagger:
+
+		$tagger = $this->tagMgr->load($this->objectType);
+		$this->assertEquals(0, count($tagger->getTags()));
+
+		// Now, we call addMultiple() with $sync=true so the tags will be
+		// be saved to the database.
+		$result = $tagger->addMultiple($tags, true);
+		$this->assertTrue((bool)$result);
+
+		$tagMaps = $tagger->getTags();
+		foreach($tagMaps as $tagMap) {
+			$this->assertNotEquals(null, $tagMap['id']);
+		}
+
+		// Reload the tagger.
+		$tagger = $this->tagMgr->load($this->objectType);
+
+		foreach($tags as $tag) {
+			$this->assertTrue($tagger->hasTag($tag));
+		}
+
+		$this->assertCount(4, $tagger->getTags(), 'Not all previously saved tags found');
 	}
 
 	public function testIsEmpty() {
