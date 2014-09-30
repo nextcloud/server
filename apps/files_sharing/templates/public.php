@@ -1,5 +1,8 @@
 <?php /** @var $l OC_L10N */ ?>
-<?php $thumbSize=1024; ?>
+<?php
+$thumbSize=1024;
+$previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'false';
+?>
 <?php if ( \OC\Preview::isMimeSupported($_['mimetype'])): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
 	<link rel="image_src" href="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSize, 'y' => $thumbSize, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
 <?php endif; ?>
@@ -15,6 +18,10 @@
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
+<input type="hidden" name="previewSupported" value="<?php p($previewSupported); ?>" id="previewSupported">
+<input type="hidden" name="mimetypeIcon" value="<?php p(OC_Helper::mimetypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+
+
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
 			title="" id="owncloud">
@@ -42,23 +49,15 @@
 		<?php if (isset($_['folder'])): ?>
 			<?php print_unescaped($_['folder']); ?>
 		<?php else: ?>
-			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'image'): ?>
-				<div id="imgframe">
-				</div>
-			<?php elseif (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
+			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 				<div id="imgframe">
 					<video tabindex="0" controls="" preload="none">
 						<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
 					</video>
 				</div>
 			<?php else: ?>
-				<div id="imgframe">
-					<?php $size = \OC\Preview::isMimeSupported($_['mimetype']) ? 500 : 128 ?>
-					<img
-						src="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $size, 'y' => $size, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>"
-						class="publicpreview"
-						alt="" />
-				</div>
+				<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
+				<div id="imgframe"></div>
 			<?php endif; ?>
 			<div class="directDownload">
 				<a href="<?php p($_['downloadURL']); ?>" id="download" class="button">

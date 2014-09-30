@@ -56,6 +56,11 @@ OCA.Sharing.PublicApp = {
 		}
 
 		var mimetype = $('#mimetype').val();
+		var mimetypeIcon = $('#mimetypeIcon').val();
+		mimetypeIcon = mimetypeIcon.substring(0, mimetypeIcon.length - 3);
+		mimetypeIcon = mimetypeIcon + 'svg';
+
+		var previewSupported = $('#previewSupported').val();
 
 		if (typeof FileActions !== 'undefined') {
 			// Show file preview if previewer is available, images are already handled by the template
@@ -68,20 +73,24 @@ OCA.Sharing.PublicApp = {
 			}
 		}
 
+
 		// dynamically load image previews
-		if (mimetype.substr(0, mimetype.indexOf('/')) === 'image') {
+		var params = {
+			x: $(document).width() * window.devicePixelRatio,
+			y: $(document).height() * window.devicePixelRatio,
+			a: 'true',
+			file: encodeURIComponent(this.initialDir + $('#filename').val()),
+			t: $('#sharingToken').val(),
+			scalingup: 0
+		};
 
-			var params = {
-				x: $(document).width() * window.devicePixelRatio,
-				y: $(document).height() * window.devicePixelRatio,
-				a: 'true',
-				file: encodeURIComponent(this.initialDir + $('#filename').val()),
-				t: $('#sharingToken').val(),
-				scalingup: 0
-			};
-
-			var img = $('<img class="publicpreview">');
+		var img = $('<img class="publicpreview">');
+		if (previewSupported === 'true' || mimetype.substr(0, mimetype.indexOf('/')) === 'image') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
+			img.appendTo('#imgframe');
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
+			img.attr('src', OC.Util.replaceSVGIcon(mimetypeIcon));
+			img.attr('width', 128);
 			img.appendTo('#imgframe');
 		}
 
