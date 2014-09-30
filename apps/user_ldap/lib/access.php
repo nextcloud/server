@@ -1376,7 +1376,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * resets a running Paged Search operation
 	 */
 	private function abandonPagedSearch() {
-		if(!empty($this->lastCookie)) {
+		if($this->connection->hasPagedResultSupport) {
 			$cr = $this->connection->getConnectionResource();
 			$this->ldap->controlPagedResult($cr, 0, false, $this->lastCookie);
 			$this->getPagedSearchResultState();
