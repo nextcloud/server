@@ -30,7 +30,7 @@
 class OC_OCS {
 
 	/**
-	* reads input date from get/post/cookies and converts the date to a special data-type
+	* reads input data from get/post and converts the date to a special data-type
 	*
 	* @param string $method HTTP method to read the key from
 	* @param string $key Parameter to read
@@ -93,8 +93,8 @@ class OC_OCS {
 	}
 
 	/**
-	* generated some debug information to make it easier to find faild API calls
-	* @return string data string
+	* generated some debug information to make it easier to find failed API calls
+	* @return string data
 	*/
 	private static function getDebugOutput() {
 		$txt='';
