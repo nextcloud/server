@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-29 01:54-0400\n"
+"POT-Creation-Date: 2014-09-30 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,31 +130,31 @@ msgstr ""
 msgid "Repeat Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:22 templates/settings-personal.php:52
+#: templates/settings-admin.php:23 templates/settings-personal.php:53
 msgid "Enabled"
 msgstr ""
 
-#: templates/settings-admin.php:30 templates/settings-personal.php:60
+#: templates/settings-admin.php:32 templates/settings-personal.php:62
 msgid "Disabled"
 msgstr ""
 
-#: templates/settings-admin.php:35
+#: templates/settings-admin.php:37
 msgid "Change recovery key password:"
 msgstr ""
 
-#: templates/settings-admin.php:41
+#: templates/settings-admin.php:43
 msgid "Old Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:48
+#: templates/settings-admin.php:50
 msgid "New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:54
+#: templates/settings-admin.php:56
 msgid "Repeat New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:59
+#: templates/settings-admin.php:61
 msgid "Change Password"
 msgstr ""
 
@@ -194,10 +194,10 @@ msgid ""
 "files in case of password loss"
 msgstr ""
 
-#: templates/settings-personal.php:61
+#: templates/settings-personal.php:63
 msgid "File recovery settings updated"
 msgstr ""
 
-#: templates/settings-personal.php:62
+#: templates/settings-personal.php:64
 msgid "Could not update file recovery"
 msgstr ""

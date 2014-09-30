@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Error configuring Google Drive storage" => "Erro ao configurar o armazenamento do Google Drive",
 "Personal" => "Pessoal",
 "System" => "Sistema",
+"(group)" => "(grupo)",
 "Saved" => "Guardado",
 "<b>Note:</b> " => "<b>Aviso:</b> ",
 " and " => "e",
