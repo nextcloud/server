@@ -55,7 +55,7 @@ class NaturalSort {
 
 	/**
 	 * Returns the string collator
-	 * @return Collator string collator
+	 * @return \Collator string collator
 	 */
 	private function getCollator() {
 		if (!isset($this->collator)) {
@@ -73,9 +73,9 @@ class NaturalSort {
 
 	/**
 	 * Compare two strings to provide a natural sort
-	 * @param $a first string to compare
-	 * @param $b second string to compare
-	 * @return -1 if $b comes before $a, 1 if $a comes before $b
+	 * @param string $a first string to compare
+	 * @param string $b second string to compare
+	 * @return int -1 if $b comes before $a, 1 if $a comes before $b
 	 * or 0 if the strings are identical
 	 */
 	public function compare($a, $b) {
