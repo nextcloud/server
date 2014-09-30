@@ -812,9 +812,7 @@ class Preview {
 			self::initProviders();
 		}
 
-		//remove last element because it has the mimetype *
-		$providers = array_slice(self::$providers, 0, -1);
-		foreach ($providers as $supportedMimeType => $provider) {
+		foreach (self::$providers as $supportedMimeType => $provider) {
 			if (preg_match($supportedMimeType, $mimeType)) {
 				return true;
 			}
