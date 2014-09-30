@@ -95,6 +95,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 		//Cancel possibly running Paged Results operation, otherwise we run in
 		//LDAP protocol errors
 		$this->abandonPagedSearch();
+		// openLDAP requires that we init a new Paged Search. Not needed by AD,
+		// but does not hurt either.
+		$this->initPagedSearch($filter, array($dn), $attr, 1, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
 		if(!$this->ldap->isResource($rr)) {
