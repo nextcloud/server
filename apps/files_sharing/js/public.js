@@ -11,6 +11,29 @@ $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
 		var mimetype = $('#mimetype').val();
+		var mimetypeIcon = $('#mimetypeIcon').val();
+		var previewSupported = $('#previewSupported').val();
+
+		// dynamically load image previews
+		var params = {
+			x: $(document).width() * window.devicePixelRatio,
+			y: $(document).height() * window.devicePixelRatio,
+			a: 'true',
+			file: encodeURIComponent(this.initialDir + $('#filename').val()),
+			t: $('#sharingToken').val(),
+			scalingup: 0
+		};
+
+		var img = $('<img class="publicpreview">');
+		if (previewSupported === 'true' || mimetype.substr(0, mimetype.indexOf('/')) === 'image') {
+			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
+			img.appendTo('#imgframe');
+		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
+			img.attr('src', mimetypeIcon);
+			img.attr('width', 32);
+			img.appendTo('#imgframe');
+		}
+
 		// Show file preview if previewer is available, images are already handled by the template
 		if (mimetype.substr(0, mimetype.indexOf('/')) != 'image' && $('.publicpreview').length === 0) {
 			// Trigger default action if not download TODO
