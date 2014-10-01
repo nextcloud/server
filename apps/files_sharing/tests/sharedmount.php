@@ -194,4 +194,41 @@ class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
 		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER3, 'testGroup');
 	}
 
+	/**
+	 * @dataProvider dataProviderTestStripUserFilesPath
+	 * @param string $path
+	 * @param string $expectedResult
+	 * @param bool $exception if a exception is expected
+	 */
+	function testStripUserFilesPath($path, $expectedResult, $exception) {
+		$testClass = new DummyTestClassSharedMount(null, null);
+		try {
+			$result = $testClass->stripUserFilesPathDummy($path);
+			$this->assertSame($expectedResult, $result);
+		} catch (\Exception $e) {
+			if ($exception) {
+				$this->assertSame(10, $e->getCode());
+			} else {
+				$this->assertTrue(false, "Exception catched, but expected: " . $expectedResult);
+			}
+		}
+	}
+
+	function dataProviderTestStripUserFilesPath() {
+		return array(
+			array('/user/files/foo.txt', '/foo.txt', false),
+			array('/user/files/folder/foo.txt', '/folder/foo.txt', false),
+			array('/data/user/files/foo.txt', null, true),
+			array('/data/user/files/', null, true),
+			array('/files/foo.txt', null, true),
+			array('/foo.txt', null, true),
+		);
+	}
+
+}
+
+class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
+	public function stripUserFilesPathDummy($path) {
+		return $this->stripUserFilesPath($path);
+	}
 }

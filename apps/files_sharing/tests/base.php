@@ -35,6 +35,8 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
 	const TEST_FILES_SHARING_API_USER3 = "test-share-user3";
 
+	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
+
 	public $stateFilesEncryption;
 	public $filename;
 	public $data;
@@ -59,6 +61,10 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1, true);
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2, true);
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER3, true);
+
+		// create group
+		\OC_Group::createGroup(self::TEST_FILES_SHARING_API_GROUP1);
+		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
 
 	}
 
@@ -86,6 +92,9 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		} else {
 			\OC_App::disable('files_encryption');
 		}
+
+		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
+		$query->execute();
 	}
 
 	public static function tearDownAfterClass() {
@@ -94,6 +103,9 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER1);
 		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER2);
 		\OC_User::deleteUser(self::TEST_FILES_SHARING_API_USER3);
+
+		// delete group
+		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);
 	}
 
 	/**

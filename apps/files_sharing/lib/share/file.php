@@ -38,7 +38,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			// FIXME: attributes should not be set here,
 			// keeping this pattern for now to avoid unexpected
 			// regressions
-			$this->path = basename($path);
+			$this->path = \OC\Files\Filesystem::normalizePath(basename($path));
 			return true;
 		}
 		return false;
@@ -57,7 +57,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	 * create unique target
 	 * @param string $filePath
 	 * @param string $shareWith
-	 * @param string $exclude
+	 * @param array $exclude (optional)
 	 * @return string
 	 */
 	public function generateTarget($filePath, $shareWith, $exclude = null) {
@@ -83,10 +83,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			}
 		}
 
-		$excludeList = \OCP\Share::getItemsSharedWithUser('file', $shareWith, self::FORMAT_TARGET_NAMES);
-		if (is_array($exclude)) {
-			$excludeList = array_merge($excludeList, $exclude);
-		}
+		$excludeList = (is_array($exclude)) ? $exclude : array();
 
 		return \OCA\Files_Sharing\Helper::generateUniqueTarget($target, $excludeList, $view);
 	}
