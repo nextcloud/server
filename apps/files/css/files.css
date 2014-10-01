@@ -153,19 +153,23 @@ table th .columntitle.name {
 	margin-left: 50px;
 }
 
-.sort-indicator.hidden { visibility: hidden; }
 table th .sort-indicator {
 	width: 10px;
 	height: 8px;
-	margin-left: 10px;
+	margin-left: 5px;
 	display: inline-block;
+	vertical-align: text-bottom;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+	filter: alpha(opacity=30);
+	opacity: .3;
+}
+.sort-indicator.hidden {
+	visibility: hidden;
 }
 table th:hover .sort-indicator.hidden {
-	width: 10px;
-	height: 8px;
-	margin-left: 10px;
 	visibility: visible;
 }
+
 table th, table td { border-bottom:1px solid #ddd; text-align:left; font-weight:normal; }
 table td {
 	padding: 0 15px;
