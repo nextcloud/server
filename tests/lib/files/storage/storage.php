@@ -457,12 +457,12 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->instance->file_put_contents('target/test1.txt', 'bar');
 		$this->instance->file_put_contents('target/test2.txt', 'bar');
 
-		$this->instance->rename('source', 'target');
+		$this->assertTrue($this->instance->rename('source', 'target'), 'rename must return true on success');
 
-		$this->assertFalse($this->instance->file_exists('source'));
-		$this->assertFalse($this->instance->file_exists('source/test1.txt'));
-		$this->assertFalse($this->instance->file_exists('target/test2.txt'));
-		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
+		$this->assertFalse($this->instance->file_exists('source'), 'source has not been removed');
+		$this->assertFalse($this->instance->file_exists('source/test1.txt'), 'source/test1.txt has not been removed');
+		$this->assertFalse($this->instance->file_exists('target/test2.txt'), 'target/test2.txt has not been removed');
+		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'), 'target/test1.txt has not been overwritten');
 	}
 
 	public function testRenameOverWriteDirectoryOverFile() {
@@ -471,7 +471,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 
 		$this->instance->file_put_contents('target', 'bar');
 
-		$this->instance->rename('source', 'target');
+		$this->assertTrue($this->instance->rename('source', 'target'), 'rename must return true on success');
 
 		$this->assertFalse($this->instance->file_exists('source'));
 		$this->assertFalse($this->instance->file_exists('source/test1.txt'));
