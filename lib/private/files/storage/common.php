@@ -54,11 +54,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	public function is_dir($path) {
-		return $this->filetype($path) == 'dir';
+		return $this->filetype($path) === 'dir';
 	}
 
 	public function is_file($path) {
-		return $this->filetype($path) == 'file';
+		return $this->filetype($path) === 'file';
 	}
 
 	public function filesize($path) {
