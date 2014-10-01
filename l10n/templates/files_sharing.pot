@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-09-30 01:54-0400\n"
+"POT-Creation-Date: 2014-10-01 06:55-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -77,11 +77,11 @@ msgstr ""
 msgid "Add remote share"
 msgstr ""
 
-#: js/public.js:204
+#: js/public.js:213
 msgid "No ownCloud installation found at {remote}"
 msgstr ""
 
-#: js/public.js:205
+#: js/public.js:214
 msgid "Invalid ownCloud url"
 msgstr ""
 
@@ -133,20 +133,20 @@ msgstr ""
 msgid "For more info, please ask the person who sent this link."
 msgstr ""
 
-#: templates/public.php:31
+#: templates/public.php:38
 msgid "Add to your ownCloud"
 msgstr ""
 
-#: templates/public.php:40
+#: templates/public.php:47
 msgid "Download"
 msgstr ""
 
-#: templates/public.php:71
+#: templates/public.php:70
 #, php-format
 msgid "Download %s"
 msgstr ""
 
-#: templates/public.php:75
+#: templates/public.php:74
 msgid "Direct link"
 msgstr ""
 

@@ -7,6 +7,7 @@ $TRANSLATIONS = array(
 "Share" => "Compartir",
 "URL" => "URL",
 "Personal" => "Personal",
+"Saved" => "Salveguardate",
 "Name" => "Nomine",
 "Folder name" => "Nomine de dossier",
 "Delete" => "Deler"

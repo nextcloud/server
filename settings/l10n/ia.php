@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Saved" => "Salveguardate",
 "Email sent" => "Message de e-posta inviate",
 "Language changed" => "Linguage cambiate",
 "Invalid request" => "Requesta invalide",

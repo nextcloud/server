@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Error Incognite",
+"File name cannot be empty." => "Le nomine de file non pote esser vacue.",
 "The uploaded file was only partially uploaded" => "Le file incargate solmente esseva incargate partialmente",
 "No file was uploaded" => "Nulle file esseva incargate.",
 "Missing a temporary folder" => "Manca un dossier temporari",
@@ -15,6 +16,7 @@ $TRANSLATIONS = array(
 "_%n folder_::_%n folders_" => array("",""),
 "_%n file_::_%n files_" => array("",""),
 "_Uploading %n file_::_Uploading %n files_" => array("",""),
+"Upload (max. %s)" => "Incargar (max. %s)",
 "Maximum upload size" => "Dimension maxime de incargamento",
 "Save" => "Salveguardar",
 "New" => "Nove",

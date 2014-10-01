@@ -96,10 +96,19 @@ $TRANSLATIONS = array(
 "Import Root Certificate" => "রুট সনদপত্রটি আমদানি করুন",
 "Login Name" => "প্রবেশ",
 "Create" => "তৈরী কর",
+"Admin Recovery Password" => "প্রশাসক পূণরূদ্ধার কুটশব্দ",
+"Add Group" => "গ্রুপ যোগ কর",
 "Group" => "গোষ্ঠীসমূহ",
+"Everyone" => "সকলে",
+"Admins" => "প্রশাসন",
 "Unlimited" => "অসীম",
 "Other" => "অন্যান্য",
 "Username" => "ব্যবহারকারী",
+"Quota" => "কোটা",
+"Storage Location" => "সংরক্ষণাগার এর অবস্থান",
+"Last Login" => "শেষ লগইন",
+"change full name" => "পুরোনাম পরিবর্তন করুন",
+"set new password" => "নতুন কূটশব্দ নির্ধারণ করুন",
 "Default" => "পূর্বনির্ধারিত"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
