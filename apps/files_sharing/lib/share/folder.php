@@ -21,6 +21,53 @@
 
 class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share_Backend_Collection {
 
+	/**
+	 * get shared parents
+	 *
+	 * @param int $itemSource item source ID
+	 * @param string $shareWith with whom should the item be shared
+	 * @return array with shares
+	 */
+	public function getParents($itemSource, $shareWith = null) {
+		$result = array();
+		$parent = $this->getParentId($itemSource);
+		while ($parent) {
+			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith);
+			if ($shares) {
+				foreach ($shares as $share) {
+					$name = substr($share['path'], strrpos($share['path'], '/') + 1);
+					$share['collection']['path'] = $name;
+					$share['collection']['item_type'] = 'folder';
+					$share['file_path'] = $name;
+					$displayNameOwner = \OCP\User::getDisplayName($share['uid_owner']);
+					$displayNameShareWith = \OCP\User::getDisplayName($share['share_with']);
+					$share['displayname_owner'] = ($displayNameOwner) ? $displayNameOwner : $share['uid_owner'];
+					$share['share_with_displayname'] = ($displayNameShareWith) ? $displayNameShareWith : $share['uid_owner'];
+
+					$result[] = $share;
+				}
+			}
+			$parent = $this->getParentId($parent);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * get file cache ID of parent
+	 *
+	 * @param int $child file cache ID of child
+	 * @return mixed parent ID or null
+	 */
+	private function getParentId($child) {
+		$query = \OC_DB::prepare('SELECT `parent` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+		$result = $query->execute(array($child));
+		$row = $result->fetchRow();
+		$parent = ($row) ? $row['parent'] : null;
+
+		return $parent;
+	}
+
 	public function getChildren($itemSource) {
 		$children = array();
 		$parents = array($itemSource);
