@@ -63,7 +63,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		$userDN = $this->access->username2dn($uid);
 
 		if(isset($this->cachedGroupMembers[$gid])) {
-			$isInGroup = in_array($userDN, $this->groupMembers[$gid]);
+			$isInGroup = in_array($userDN, $this->cachedGroupMembers[$gid]);
 			return $isInGroup;
 		}
 
