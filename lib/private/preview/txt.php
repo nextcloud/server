@@ -34,7 +34,7 @@ class TXT extends Provider {
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 
 		$content = $fileview->fopen($path, 'r');
-		$content = stream_get_contents($content);
+		$content = stream_get_contents($content,3000);
 
 		//don't create previews of empty text files
 		if(trim($content) === '') {
