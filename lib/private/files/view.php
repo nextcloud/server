@@ -313,7 +313,7 @@ class View {
 		if (!$result) {
 			// If create file fails because of permissions on external storage like SMB folders,
 			// check file exists and return false if not.
-			if(!$this->file_exists($path)){
+			if (!$this->file_exists($path)) {
 				return false;
 			}
 			if (is_null($mtime)) {
@@ -891,22 +891,23 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 
-			if (!$cache->inCache($internalPath)) {
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
+
+			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
+			if (!$data) {
 				if (!$storage->file_exists($internalPath)) {
 					return false;
 				}
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-			} else {
-				$watcher = $storage->getWatcher($internalPath);
-				$data = $watcher->checkUpdate($internalPath);
-			}
-
-			if (!is_array($data)) {
+				$data = $cache->get($internalPath);
+			} else if ($watcher->checkUpdate($internalPath, $data)) {
 				$data = $cache->get($internalPath);
 			}
 
 			if ($data and isset($data['fileid'])) {
+				// upgrades from oc6 or lower might not have the permissions set in the file cache
 				if ($data['permissions'] === 0) {
 					$data['permissions'] = $storage->getPermissions($data['path']);
 					$cache->update($data['fileid'], array('permissions' => $data['permissions']));
@@ -956,8 +957,9 @@ class View {
 		if (!Filesystem::isValidPath($directory)) {
 			return $result;
 		}
-		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
-		list($storage, $internalPath) = Filesystem::resolvePath($path);
+		$path = $this->getAbsolutePath($directory);
+		/** @var \OC\Files\Storage\Storage $storage */
+		list($storage, $internalPath) = $this->resolvePath($directory);
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
@@ -975,7 +977,7 @@ class View {
 			 * @var \OC\Files\FileInfo[] $files
 			 */
 			$files = array();
-			$contents = $cache->getFolderContents($internalPath, $folderId); //TODO: mimetype_filter
+			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 			foreach ($contents as $content) {
 				if ($content['permissions'] === 0) {
 					$content['permissions'] = $storage->getPermissions($content['path']);
@@ -1213,7 +1215,7 @@ class View {
 	 * @return string|null
 	 */
 	public function getPath($id) {
-		$id = (int) $id;
+		$id = (int)$id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
 		$mounts[] = $manager->find($this->fakeRoot);
