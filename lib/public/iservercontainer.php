@@ -255,4 +255,13 @@ interface IServerContainer {
 	 * @return \OCP\Debug\IEventLogger
 	 */
 	function getEventLogger();
+
+	/**
+	 * Get the active query logger
+	 *
+	 * The returned logger only logs data when debug mode is enabled
+	 *
+	 * @return \OCP\Debug\IQueryLogger
+	 */
+	function getQueryLogger();
 }
