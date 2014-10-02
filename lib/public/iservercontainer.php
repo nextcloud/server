@@ -248,4 +248,11 @@ interface IServerContainer {
 	 * @return \OC\HTTPHelper
 	 */
 	function getHTTPHelper();
+
+	/**
+	 * Get the active event logger
+	 *
+	 * @return \OCP\Debug\IEventLogger
+	 */
+	function getEventLogger();
 }
