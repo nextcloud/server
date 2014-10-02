@@ -55,14 +55,14 @@ class Tags implements \OCP\ITags {
 	 *
 	 * @var string
 	 */
-	private $type = null;
+	private $type;
 
 	/**
 	 * User
 	 *
 	 * @var string
 	 */
-	private $user = null;
+	private $user;
 
 	const TAG_TABLE = '*PREFIX*vcategory';
 	const RELATION_TABLE = '*PREFIX*vcategory_to_object';

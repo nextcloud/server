@@ -40,7 +40,7 @@ class TagManager implements \OCP\ITagManager {
 	 *
 	 * @var string
 	 */
-	private $user = null;
+	private $user;
 
 	/**
 	* Constructor.
