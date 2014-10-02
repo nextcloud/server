@@ -49,12 +49,17 @@ class Proxy extends \OC_FileProxy {
 	 * @param string $uid user
 	 * @return boolean
 	 */
-	private function isExcludedPath($path, $uid) {
+	protected function isExcludedPath($path, $uid) {
 
 		$view = new \OC\Files\View();
 
-		// files outside of the files-folder are excluded
-		if(strpos($path, '/' . $uid . '/files/') !== 0) {
+		$path = \OC\Files\Filesystem::normalizePath($path);
+
+		// we only encrypt/decrypt files in the files and files_versions folder
+		if(
+			strpos($path, '/' . $uid . '/files/') !== 0 &&
+			strpos($path, '/' . $uid . '/files_versions/') !== 0) {
+
 			return true;
 		}
 
