@@ -81,6 +81,9 @@ class Event implements IEvent {
 	 * @return float
 	 */
 	public function getDuration() {
+		if (!$this->end) {
+			$this->end = microtime(true);
+		}
 		return $this->end - $this->start;
 	}
 }

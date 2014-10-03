@@ -225,6 +225,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new HTTPHelper($config);
 		});
 		$this->registerService('EventLogger', function ($c) {
+			/** @var Server $c */
 			if (defined('DEBUG') and DEBUG) {
 				return new EventLogger();
 			} else {

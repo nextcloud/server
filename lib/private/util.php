@@ -64,6 +64,8 @@ class OC_Util {
 			return false;
 		}
 
+		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
+
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user == "" && OC_User::isLoggedIn()) {
 			$user = OC_User::getUser();
@@ -88,6 +90,7 @@ class OC_Util {
 		}
 
 		if ($user != '' && !OCP\User::userExists($user)) {
+			\OC::$server->getEventLogger()->end('setup_fs');
 			return false;
 		}
 
@@ -128,6 +131,7 @@ class OC_Util {
 
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $userDir));
 		}
+		\OC::$server->getEventLogger()->end('setup_fs');
 		return true;
 	}
 

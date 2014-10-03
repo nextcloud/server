@@ -202,6 +202,7 @@ class Router implements IRouter {
 	 * @return void
 	 */
 	public function match($url) {
+		\OC::$server->getEventLogger()->start('load_routes', 'Load routes');
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
@@ -216,6 +217,7 @@ class Router implements IRouter {
 		} else {
 			$this->loadRoutes();
 		}
+		\OC::$server->getEventLogger()->end('load_routes');
 
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {
@@ -236,6 +238,7 @@ class Router implements IRouter {
 			}
 		}
 
+		\OC::$server->getEventLogger()->start('run_route', 'Run route');
 		if (isset($parameters['action'])) {
 			$action = $parameters['action'];
 			if (!is_callable($action)) {
@@ -249,6 +252,7 @@ class Router implements IRouter {
 		} else {
 			throw new \Exception('no action available');
 		}
+		\OC::$server->getEventLogger()->end('run_route');
 	}
 
 	/**

@@ -454,6 +454,11 @@ class OC {
 		self::$loader->registerPrefix('Pimple', '3rdparty/Pimple');
 		spl_autoload_register(array(self::$loader, 'load'));
 
+		// setup the basic server
+		self::$server = new \OC\Server();
+		self::initPaths();
+		\OC::$server->getEventLogger()->start('boot', 'Initialize');
+
 		// set some stuff
 		//ob_start();
 		error_reporting(E_ALL | E_STRICT);
@@ -469,7 +474,6 @@ class OC {
 		if (get_magic_quotes_gpc() == 1) {
 			ini_set('magic_quotes_runtime', 0);
 		}
-
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults anyways
@@ -485,8 +489,8 @@ class OC {
 		@ini_set('file_uploads', '50');
 
 		self::handleAuthHeaders();
-		self::initPaths();
 		self::registerAutoloaderCache();
+
 
 		OC_Util::isSetLocaleWorking();
 
@@ -516,9 +520,8 @@ class OC {
 		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
-		// setup the basic server
-		self::$server = new \OC\Server();
 
+		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		self::initTemplateEngine();
 		OC_App::loadApps(array('session'));
 		if (self::$CLI) {
@@ -526,6 +529,7 @@ class OC {
 		} else {
 			self::initSession();
 		}
+		\OC::$server->getEventLogger()->end('init_session');
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
@@ -612,6 +616,7 @@ class OC {
 
 			exit();
 		}
+		\OC::$server->getEventLogger()->end('boot');
 	}
 
 	private static function registerLocalAddressBook() {
@@ -701,6 +706,7 @@ class OC {
 	 * Handle the request
 	 */
 	public static function handleRequest() {
+		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
