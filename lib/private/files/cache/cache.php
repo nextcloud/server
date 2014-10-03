@@ -447,9 +447,28 @@ class Cache {
 		// normalize pattern
 		$pattern = $this->normalize($pattern);
 
-		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `unencrypted_size`, `etag`
-				FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?';
-		$result = \OC_DB::executeAudited($sql, array($pattern, $this->getNumericStorageId()));
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`,
+					`mimetype`, `mimepart`, `size`, `mtime`, `encrypted`,
+					`unencrypted_size`, `etag`
+				FROM `*PREFIX*filecache`
+				WHERE `storage` = ? AND ';
+
+		$dbtype = \OC_Config::getValue( 'dbtype', 'sqlite' );
+		if($dbtype === 'oci') {
+			//replace % with .* for regex pattern
+			$pattern = '^'.str_replace('%', '.*', $pattern).'$';
+			$sql .= 'REGEXP_LIKE(`name`, ?, \'i\')';
+		} else if($dbtype === 'pgsql') {
+			$sql .= '`name` ILIKE ?';
+		} else {
+			$sql .= '`name` LIKE ?';
+		}
+
+		$result = \OC_DB::executeAudited(
+			$sql,
+			array($this->getNumericStorageId(), $pattern)
+		);
+
 		$files = array();
 		while ($row = $result->fetchRow()) {
 			$row['mimetype'] = $this->getMimetype($row['mimetype']);
