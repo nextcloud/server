@@ -178,12 +178,12 @@ span.securitywarning, span.connectionwarning, .setupwarning {
 	padding-left: 56px;
 }
 
-#mail_settings p label:first-child {
+.mail_settings p label:first-child {
 	display: inline-block;
 	width: 300px;
 	text-align: right;
 }
-#mail_settings p select:nth-child(2) {
+.mail_settings p select:nth-child(2) {
 	width: 143px;
 }
 #mail_smtpport {

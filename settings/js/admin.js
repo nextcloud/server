@@ -103,10 +103,18 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#mail_settings').change(function(){
+	$('#mail_general_settings').change(function(){
 		OC.msg.startSaving('#mail_settings_msg');
-		var post = $( "#mail_settings" ).serialize();
+		var post = $( "#mail_general_settings" ).serialize();
 		$.post(OC.generateUrl('/settings/admin/mailsettings'), post, function(data){
+			OC.msg.finishedSaving('#mail_settings_msg', data);
+		});
+	});
+
+	$('#mail_credentials_settings_submit').click(function(){
+		OC.msg.startSaving('#mail_settings_msg');
+		var post = $( "#mail_credentials_settings" ).serialize();
+		$.post(OC.generateUrl('/settings/admin/mailsettings/credentials'), post, function(data){
 			OC.msg.finishedSaving('#mail_settings_msg', data);
 		});
 	});
