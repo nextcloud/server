@@ -150,8 +150,8 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($tagger->rename('Wrok', 'Work'));
 		$this->assertTrue($tagger->hasTag('Work'));
 		$this->assertFalse($tagger->hastag('Wrok'));
-		$this->assertFalse($tagger->rename('Wrok', 'Work'));
-
+		$this->assertFalse($tagger->rename('Wrok', 'Work')); // Rename non-existant tag.
+		$this->assertFalse($tagger->rename('Work', 'Family')); // Collide with existing tag.
 	}
 
 	public function testTagAs() {

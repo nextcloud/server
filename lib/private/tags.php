@@ -344,9 +344,14 @@ class Tags implements \OCP\ITags {
 			\OCP\Util::writeLog('core', __METHOD__.', tag: ' . $from. ' does not exist', \OCP\Util::DEBUG);
 			return false;
 		}
+		$tag = $this->tags[$key];
+
+		if($this->userHasTag($to, $tag->getOwner())) {
+			\OCP\Util::writeLog('core', __METHOD__.', A tag named ' . $to. ' already exists for user ' . $tag->getOwner() . '.', \OCP\Util::DEBUG);
+			return false;
+		}
 
 		try {
-			$tag = $this->tags[$key];
 			$tag->setName($to);
 			$this->tags[$key] = $this->mapper->update($tag);
 		} catch(\Exception $e) {
