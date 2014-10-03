@@ -6,18 +6,18 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Debug;
+namespace OC\Diagnostics;
 
-use OCP\Debug\IQueryLogger;
+use OCP\Diagnostics\IQueryLogger;
 
 class QueryLogger implements IQueryLogger {
 	/**
-	 * @var \OC\Debug\Query
+	 * @var \OC\Diagnostics\Query
 	 */
 	protected $activeQuery;
 
 	/**
-	 * @var \OC\Debug\Query[]
+	 * @var \OC\Diagnostics\Query[]
 	 */
 	protected $queries = array();
 
@@ -39,7 +39,7 @@ class QueryLogger implements IQueryLogger {
 	}
 
 	/**
-	 * @return \OCP\Debug\IQuery[]
+	 * @return \OCP\Diagnostics\IQuery[]
 	 */
 	public function getQueries() {
 		return $this->queries;

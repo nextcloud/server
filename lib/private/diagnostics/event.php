@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Debug;
+namespace OC\Diagnostics;
 
-use OCP\Debug\IEvent;
+use OCP\Diagnostics\IEvent;
 
 class Event implements IEvent {
 	/**

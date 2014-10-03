@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Debug;
+namespace OC\Diagnostics;
 
-use OCP\Debug\IQueryLogger;
+use OCP\Diagnostics\IQueryLogger;
 
 class DummyQueryLogger implements IQueryLogger {
 	/**
@@ -23,7 +23,7 @@ class DummyQueryLogger implements IQueryLogger {
 	}
 
 	/**
-	 * @return \OCP\Debug\IQuery[]
+	 * @return \OCP\Diagnostics\IQuery[]
 	 */
 	public function getQueries() {
 		return array();

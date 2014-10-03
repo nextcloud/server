@@ -252,7 +252,7 @@ interface IServerContainer {
 	/**
 	 * Get the active event logger
 	 *
-	 * @return \OCP\Debug\IEventLogger
+	 * @return \OCP\Diagnostics\IEventLogger
 	 */
 	function getEventLogger();
 
@@ -261,7 +261,7 @@ interface IServerContainer {
 	 *
 	 * The returned logger only logs data when debug mode is enabled
 	 *
-	 * @return \OCP\Debug\IQueryLogger
+	 * @return \OCP\Diagnostics\IQueryLogger
 	 */
 	function getQueryLogger();
 }

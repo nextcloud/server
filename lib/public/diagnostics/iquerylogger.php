@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCP\Debug;
+namespace OCP\Diagnostics;
 
 use Doctrine\DBAL\Logging\SQLLogger;
 
@@ -21,7 +21,7 @@ interface IQueryLogger extends SQLLogger {
 	public function stopQuery();
 
 	/**
-	 * @return \OCP\Debug\IQuery[]
+	 * @return \OCP\Diagnostics\IQuery[]
 	 */
 	public function getQueries();
 }

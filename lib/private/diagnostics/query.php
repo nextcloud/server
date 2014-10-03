@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Debug;
+namespace OC\Diagnostics;
 
-use OCP\Debug\IQuery;
+use OCP\Diagnostics\IQuery;
 
 class Query implements IQuery {
 	private $sql;

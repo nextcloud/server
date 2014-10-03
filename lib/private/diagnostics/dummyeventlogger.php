@@ -6,9 +6,9 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Debug;
+namespace OC\Diagnostics;
 
-use OCP\Debug\IEventLogger;
+use OCP\Diagnostics\IEventLogger;
 
 /**
  * Dummy event logger that doesn't actually log anything
@@ -32,7 +32,7 @@ class DummyEventLogger implements IEventLogger {
 	}
 
 	/**
-	 * @return \OCP\Debug\IEvent[]
+	 * @return \OCP\Diagnostics\IEvent[]
 	 */
 	public function getEvents(){
 		return array();

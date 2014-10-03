@@ -6,28 +6,18 @@
  * See the COPYING-README file.
  */
 
-namespace OCP\Debug;
+namespace OCP\Diagnostics;
 
-interface IEvent {
+interface IQuery {
 	/**
 	 * @return string
 	 */
-	public function getId();
+	public function getSql();
 
 	/**
-	 * @return string
+	 * @return array
 	 */
-	public function getDescription();
-
-	/**
-	 * @return float
-	 */
-	public function getStart();
-
-	/**
-	 * @return float
-	 */
-	public function getEnd();
+	public function getParams();
 
 	/**
 	 * @return float

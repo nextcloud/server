@@ -6,13 +6,13 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Debug;
+namespace OC\Diagnostics;
 
-use OCP\Debug\IEventLogger;
+use OCP\Diagnostics\IEventLogger;
 
 class EventLogger implements IEventLogger {
 	/**
-	 * @var \OC\Debug\Event[]
+	 * @var \OC\Diagnostics\Event[]
 	 */
 	private $events = array();
 
@@ -28,7 +28,7 @@ class EventLogger implements IEventLogger {
 	}
 
 	/**
-	 * @return \OCP\Debug\IEvent[]
+	 * @return \OCP\Diagnostics\IEvent[]
 	 */
 	public function getEvents() {
 		return $this->events;

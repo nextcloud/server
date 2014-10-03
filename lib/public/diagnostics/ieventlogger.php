@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-namespace OCP\Debug;
+namespace OCP\Diagnostics;
 
 interface IEventLogger {
 	/**
@@ -25,7 +25,7 @@ interface IEventLogger {
 	public function end($id);
 
 	/**
-	 * @return \OCP\Debug\IEvent[]
+	 * @return \OCP\Diagnostics\IEvent[]
 	 */
 	public function getEvents();
 }
