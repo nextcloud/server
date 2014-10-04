@@ -303,7 +303,10 @@ $CONFIG = array(
  *  - OC\Preview\SVG
  *  - OC\Preview\Movies
  *  - OC\Preview\PDF
- *  - OC\Preview\Tiff
+ *  - OC\Preview\TIFF
+ *  - OC\Preview\Illustrator
+ *  - OC\Preview\Postscript
+ *  - OC\Preview\Photoshop
  */
 'enabledPreviewProviders' => array(
 	'OC\Preview\Image',
