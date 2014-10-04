@@ -19,11 +19,10 @@ use OCP\Files\NotFoundException;
 require_once 'preview/image.php';
 require_once 'preview/movies.php';
 require_once 'preview/mp3.php';
-require_once 'preview/pdf.php';
 require_once 'preview/svg.php';
 require_once 'preview/txt.php';
 require_once 'preview/office.php';
-require_once 'preview/tiff.php';
+require_once 'preview/bitmap.php';
 
 class Preview {
 	//the thumbnail folder
@@ -691,7 +690,10 @@ class Preview {
  		 *  - OC\Preview\SVG
 		 *  - OC\Preview\Movies
 		 *  - OC\Preview\PDF
-		 *  - OC\Preview\Tiff
+		 *  - OC\Preview\TIFF
+		 *  - OC\Preview\Illustrator
+		 *  - OC\Preview\Postscript
+		 *  - OC\Preview\Photoshop
 		 */
 		if(empty(self::$enabledProviders)) {
 			self::$enabledProviders = \OC::$server->getConfig()->getSystemValue('enabledPreviewProviders', array(
