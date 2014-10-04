@@ -99,12 +99,7 @@ class Tags implements \OCP\ITags {
 	*
 	*/
 	protected function loadTags($defaultTags=array()) {
-		try {
-			$this->tags = $this->mapper->loadTags(array($this->user), $this->type);
-		} catch(\Exception $e) {
-			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
-				\OCP\Util::ERROR);
-		}
+		$this->tags = $this->mapper->loadTags(array($this->user), $this->type);
 
 		if(count($defaultTags) > 0 && count($this->tags) === 0) {
 			$this->addMultiple($defaultTags, true);
@@ -580,13 +575,10 @@ class Tags implements \OCP\ITags {
 				$tag = $this->tags[$key];
 				$id = $tag->getId();
 				unset($this->tags[$key]);
-				try {
-					$this->mapper->delete($tag);
-				} catch(\Exception $e) {
-					\OCP\Util::writeLog('core', __METHOD__ . ', exception: '
-						. $e->getMessage(), \OCP\Util::ERROR);
-					return false;
-				}
+				$this->mapper->delete($tag);
+			} else {
+				\OCP\Util::writeLog('core', __METHOD__ . 'Cannot delete tag ' . $name
+					. ': not found.', \OCP\Util::ERROR);
 			}
 			if(!is_null($id) && $id !== false) {
 				try {
