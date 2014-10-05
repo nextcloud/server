@@ -5,6 +5,7 @@
 /config/*.config.php
 /config/mount.php
 /apps/inc.php
+/assets
 
 # ignore all apps except core ones
 /apps*/*
