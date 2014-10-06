@@ -72,6 +72,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $path;
 	}
 
+	/**
+	 * when running the tests wait to let the buckets catch up
+	 */
 	private function testTimeout() {
 		if ($this->test) {
 			sleep($this->timeout);
@@ -208,49 +211,46 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return false;
 		}
 
-		try {
-			do { // batches of 1000
-				// Since there are no real directories on S3, we need
-				// to delete all objects prefixed with the path.
-				$objects = $this->connection->listObjects(array(
-					'Bucket' => $this->bucket,
-					'Prefix' => $path . '/'
-				));
-				$this->connection->deleteObjects(array(
-					'Bucket' => $this->bucket,
-					'Objects' => $objects['Contents']
-				));
-				$this->testTimeout();
-			} while ($objects['IsTruncated']);
-		} catch (S3Exception $e) {
-			\OCP\Util::logException('files_external', $e);
-			return false;
-		}
-
-		return true;
+		return $this->batchDelete($path);
 	}
 
 	protected function clearBucket() {
 		try {
 			$this->connection->clearBucket($this->bucket);
+			return true;
 			// clearBucket() is not working with Ceph, so if it fails we try the slower approach
 		} catch (\Exception $e) {
-			try {
-				do { // batches of 1000
-					$objects = $this->connection->listObjects(array(
-						'Bucket' => $this->bucket
-					));
-					$this->connection->deleteObjects(array(
-						'Bucket' => $this->bucket,
-						'Objects' => $objects['Contents'] // delete 1000 objects in one http call
-					));
-					$this->testTimeout();
-				} while ($objects['IsTruncated']);
-			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				return false;
-			}
+			return $this->batchDelete();
 		}
+		return false;
+	}
+
+	private function batchDelete ($path = null) {
+		$params = array(
+			'Bucket' => $this->bucket
+		);
+		if ($path !== null) {
+			$params['Prefix'] = $path . '/';
+		}
+		try {
+			// Since there are no real directories on S3, we need
+			// to delete all objects prefixed with the path.
+			do {
+				// instead of the iterator, manually loop over the list ...
+				$objects = $this->connection->listObjects($params);
+				// ... so we can delete the files in batches
+				$this->connection->deleteObjects(array(
+					'Bucket' => $this->bucket,
+					'Objects' => $objects['Contents']
+				));
+				$this->testTimeout();
+				// we reached the end when the list is no longer truncated
+			} while ($objects['IsTruncated']);
+		} catch (S3Exception $e) {
+			\OCP\Util::logException('files_external', $e);
+			return false;
+		}
+		return true;
 	}
 
 	public function opendir($path) {
