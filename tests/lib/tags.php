@@ -160,7 +160,9 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 	public function testFavorite() {
 		$tagger = $this->tagMgr->load($this->objectType);
 		$this->assertTrue($tagger->addToFavorites(1));
+		$this->assertEquals(array(1), $tagger->getFavorites());
 		$this->assertTrue($tagger->removeFromFavorites(1));
+		$this->assertEquals(array(), $tagger->getFavorites());
 	}
 
 }
