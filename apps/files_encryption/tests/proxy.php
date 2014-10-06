@@ -136,4 +136,42 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 
 	}
 
+	/**
+	 * @dataProvider isExcludedPathProvider
+	 */
+	function testIsExcludedPath($path, $expected) {
+		$this->view->mkdir(dirname($path));
+		$this->view->file_put_contents($path, "test");
+
+		$testClass = new DummyProxy();
+
+		$result = $testClass->isExcludedPathTesting($path, $this->userId);
+		$this->assertSame($expected, $result);
+
+		$this->view->deleteAll(dirname($path));
+
+	}
+
+	public function isExcludedPathProvider() {
+		return array(
+			array ('/' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files/test.txt', false),
+			array (\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files/test.txt', false),
+			array ('/files/test.txt', true),
+			array ('/' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files/versions/test.txt', false),
+			array ('/' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files_versions/test.txt', false),
+			array ('/' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/files_trashbin/test.txt', true),
+			array ('/' . \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1 . '/file/test.txt', true),
+		);
+	}
+
+}
+
+
+/**
+ * Dummy class to make protected methods available for testing
+ */
+class DummyProxy extends \OCA\Encryption\Proxy {
+	public function isExcludedPathTesting($path, $uid) {
+		return $this->isExcludedPath($path, $uid);
+	}
 }
