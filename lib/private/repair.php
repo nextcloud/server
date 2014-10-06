@@ -10,6 +10,13 @@ namespace OC;
 
 use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
+use OC\Repair\AssetCache;
+use OC\Repair\Collation;
+use OC\Repair\InnoDB;
+use OC\Repair\RepairConfig;
+use OC\Repair\RepairLegacyStorages;
+use OC\Repair\RepairMimeTypes;
+use OC\Repair\SearchLuceneTables;
 
 class Repair extends BasicEmitter {
 	/**
@@ -69,9 +76,10 @@ class Repair extends BasicEmitter {
 	 */
 	public static function getRepairSteps() {
 		return array(
-			new \OC\Repair\RepairMimeTypes(),
-			new \OC\Repair\RepairLegacyStorages(\OC::$server->getConfig(), \OC_DB::getConnection()),
-			new \OC\Repair\RepairConfig(),
+			new RepairMimeTypes(),
+			new RepairLegacyStorages(\OC::$server->getConfig(), \OC_DB::getConnection()),
+			new RepairConfig(),
+			new AssetCache()
 		);
 	}
 
@@ -83,14 +91,14 @@ class Repair extends BasicEmitter {
 	 */
 	public static function getBeforeUpgradeRepairSteps() {
 		$steps = array(
-			new \OC\Repair\InnoDB(),
-			new \OC\Repair\Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
-			new \OC\Repair\SearchLuceneTables()
+			new InnoDB(),
+			new Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
+			new SearchLuceneTables()
 		);
 
 		//There is no need to delete all previews on every single update
-		//only 7.0.0 thru 7.0.2 generated broken previews
-		$currentVersion = \OC_Config::getValue('version');
+		//only 7.0.0 through 7.0.2 generated broken previews
+		$currentVersion = \OC::$server->getConfig()->getSystemValue('version');
 		if (version_compare($currentVersion, '7.0.0.0', '>=') &&
 			version_compare($currentVersion, '7.0.2.2', '<=')) {
 			$steps[] = new \OC\Repair\Preview();
@@ -102,7 +110,7 @@ class Repair extends BasicEmitter {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * Redeclared as public to allow invocation from within the closure above in php 5.3
+	 * Re-declared as public to allow invocation from within the closure above in php 5.3
 	 */
 	public function emit($scope, $method, $arguments = array()) {
 		parent::emit($scope, $method, $arguments);

@@ -402,9 +402,10 @@ class OC_Helper {
 	/**
 	 * Recursive deletion of folders
 	 * @param string $dir path to the folder
+	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
 	 */
-	static function rmdirr($dir) {
+	static function rmdirr($dir, $deleteSelf = true) {
 		if (is_dir($dir)) {
 			$files = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -419,15 +420,19 @@ class OC_Helper {
 					unlink($fileInfo->getRealPath());
 				}
 			}
-			rmdir($dir);
+			if ($deleteSelf) {
+				rmdir($dir);
+			}
 		} elseif (file_exists($dir)) {
-			unlink($dir);
+			if ($deleteSelf) {
+				unlink($dir);
+			}
 		}
-		if (file_exists($dir)) {
-			return false;
-		} else {
+		if (!$deleteSelf) {
 			return true;
 		}
+
+		return !file_exists($dir);
 	}
 
 	/**

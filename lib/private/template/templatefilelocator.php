@@ -24,6 +24,8 @@ class TemplateFileLocator {
 
 	/**
 	 * @param string $template
+	 * @return string
+	 * @throws \Exception
 	 */
 	public function find( $template ) {
 		if ($template === '') {
