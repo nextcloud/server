@@ -3,6 +3,7 @@ use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Assetic\AssetWriter;
 use Assetic\Filter\CssRewriteFilter;
+use Assetic\Filter\CssImportFilter;
 
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
@@ -163,7 +164,15 @@ class OC_TemplateLayout extends OC_Template {
 				$assetPath = $root . '/' . $file;
 				$sourceRoot =  \OC::$SERVERROOT;
 				$sourcePath = substr($assetPath, strlen(\OC::$SERVERROOT));
-				return new FileAsset($assetPath, array(new CssRewriteFilter()), $sourceRoot, $sourcePath);
+				return new FileAsset(
+					$assetPath, 
+					array(
+						new CssRewriteFilter(), 
+						new CssImportFilter()
+					),
+					$sourceRoot, 
+					$sourcePath
+				);
 			}, $cssFiles);
 			$cssCollection = new AssetCollection($cssFiles);
 			$cssCollection->setTargetPath("assets/$cssHash.css");
