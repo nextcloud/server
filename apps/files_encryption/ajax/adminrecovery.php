@@ -16,8 +16,28 @@ use OCA\Encryption;
 $l = \OC::$server->getL10N('files_encryption');
 
 $return = false;
-// Enable recoveryAdmin
+$errorMessage = $l->t("Unknown error");
 
+//check if both passwords are the same
+if (empty($_POST['recoveryPassword'])) {
+	$errorMessage = $l->t('Missing recovery key password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
+
+if (empty($_POST['confirmPassword'])) {
+	$errorMessage = $l->t('Please repeat the recovery key password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
+
+if ($_POST['recoveryPassword'] !== $_POST['confirmPassword']) {
+	$errorMessage = $l->t('Repeated recovery key password does not match the provided recovery key password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
+
+// Enable recoveryAdmin
 $recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryKeyId');
 
 if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === '1') {
@@ -26,14 +46,9 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === '1
 
 	// Return success or failure
 	if ($return) {
-		\OCP\JSON::success(array('data' => array('message' => $l->t('Recovery key successfully enabled'))));
+		$successMessage = $l->t('Recovery key successfully enabled');
 	} else {
-		\OCP\JSON::error(array(
-							  'data' => array(
-								  'message' => $l->t(
-									  'Could not enable recovery key. Please check your recovery key password!')
-							  )
-						 ));
+		$errorMessage = $l->t('Could not disable recovery key. Please check your recovery key password!');
 	}
 
 // Disable recoveryAdmin
@@ -43,17 +58,16 @@ if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] === '1
 ) {
 	$return = \OCA\Encryption\Helper::adminDisableRecovery($_POST['recoveryPassword']);
 
-	// Return success or failure
 	if ($return) {
-		\OCP\JSON::success(array('data' => array('message' => $l->t('Recovery key successfully disabled'))));
+		$successMessage = $l->t('Recovery key successfully disabled');
 	} else {
-		\OCP\JSON::error(array(
-							  'data' => array(
-								  'message' => $l->t(
-									  'Could not disable recovery key. Please check your recovery key password!')
-							  )
-						 ));
+		$errorMessage = $l->t('Could not disable recovery key. Please check your recovery key password!');
 	}
 }
 
-
+// Return success or failure
+if ($return) {
+	\OCP\JSON::success(array('data' => array('message' => $successMessage)));
+} else {
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+}

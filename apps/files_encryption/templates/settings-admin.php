@@ -4,8 +4,9 @@
 	<?php if($_["initStatus"] === \OCA\Encryption\Session::NOT_INITIALIZED): ?>
 		<?php p($l->t("Encryption App is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 	<?php else: ?>
-	<p>
+	<p id="encryptionSetRecoveryKey">
 		<?php p($l->t("Enable recovery key (allow to recover users files in case of password loss):")); ?>
+		<span class="msg"></span>
 		<br/>
 		<br/>
 		<input type="password" name="encryptionRecoveryPassword" id="encryptionRecoveryPassword"/>
@@ -19,7 +20,7 @@
 			id='adminEnableRecovery'
 			name='adminEnableRecovery'
 			value='1'
-			<?php echo($_["recoveryEnabled"] === '1' ? 'checked="checked"' : 'disabled'); ?> />
+			<?php echo($_["recoveryEnabled"] === '1' ? 'checked="checked"' : ''); ?> />
 		<label for="adminEnableRecovery"><?php p($l->t("Enabled")); ?></label>
 		<br/>
 
@@ -28,7 +29,7 @@
 			id='adminDisableRecovery'
 			name='adminEnableRecovery'
 			value='0'
-			<?php echo($_["recoveryEnabled"] === '0' ? 'checked="checked"' : 'disabled'); ?> />
+			<?php echo($_["recoveryEnabled"] === '0' ? 'checked="checked"' : ''); ?> />
 		<label for="adminDisableRecovery"><?php p($l->t("Disabled")); ?></label>
 	</p>
 	<br/><br/>
@@ -57,8 +58,8 @@
 		<br/>
 		<button
 			type="button"
-			name="submitChangeRecoveryKey"
-			disabled><?php p($l->t("Change Password")); ?>
+			name="submitChangeRecoveryKey">
+				<?php p($l->t("Change Password")); ?>
 		</button>
 		<span class="msg"></span>
 	</p>

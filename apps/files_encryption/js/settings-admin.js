@@ -9,32 +9,21 @@
 
 $(document).ready(function(){
 
-	$('input:password[name="encryptionRecoveryPassword"]').keyup(function(event) {
-		var recoveryPassword = $( '#encryptionRecoveryPassword' ).val();
-		var recoveryPasswordRepeated = $( '#repeatEncryptionRecoveryPassword' ).val();
-		var checkedButton = $('input:radio[name="adminEnableRecovery"]:checked').val();
-		var uncheckedValue = (1+parseInt(checkedButton)) % 2;
-		if (recoveryPassword !== '' && recoveryPassword === recoveryPasswordRepeated) {
-			$('input:radio[name="adminEnableRecovery"][value="'+uncheckedValue.toString()+'"]').removeAttr("disabled");
-		} else {
-			$('input:radio[name="adminEnableRecovery"][value="'+uncheckedValue.toString()+'"]').attr("disabled", "true");
-		}
-	});
-
 	$( 'input:radio[name="adminEnableRecovery"]' ).change(
 		function() {
 			var recoveryStatus = $( this ).val();
 			var oldStatus = (1+parseInt(recoveryStatus)) % 2;
 			var recoveryPassword = $( '#encryptionRecoveryPassword' ).val();
+			var confirmPassword = $( '#repeatEncryptionRecoveryPassword' ).val();
+			OC.msg.startSaving('#encryptionSetRecoveryKey .msg');
 			$.post(
 				OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
-				, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword }
+				, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword, confirmPassword: confirmPassword }
 				,  function( result ) {
+					OC.msg.finishedSaving('#encryptionSetRecoveryKey .msg', result);
 					if (result.status === "error") {
-						OC.Notification.show(t('admin', result.data.message));
 						$('input:radio[name="adminEnableRecovery"][value="'+oldStatus.toString()+'"]').attr("checked", "true");
 					} else {
-						OC.Notification.hide();
 						if (recoveryStatus === "0") {
 							$('p[name="changeRecoveryPasswordBlock"]').addClass("hidden");
 						} else {
@@ -48,19 +37,6 @@ $(document).ready(function(){
 	);
 
 	// change recovery password
-
-	$('input:password[name="changeRecoveryPassword"]').keyup(function(event) {
-		var oldRecoveryPassword = $('#oldEncryptionRecoveryPassword').val();
-		var newRecoveryPassword = $('#newEncryptionRecoveryPassword').val();
-		var newRecoveryPasswordRepeated = $('#repeatedNewEncryptionRecoveryPassword').val();
-
-		if (newRecoveryPassword !== '' && oldRecoveryPassword !== '' && newRecoveryPassword === newRecoveryPasswordRepeated) {
-			$('button:button[name="submitChangeRecoveryKey"]').removeAttr("disabled");
-		} else {
-			$('button:button[name="submitChangeRecoveryKey"]').attr("disabled", "true");
-		}
-	});
-
 
 	$('button:button[name="submitChangeRecoveryKey"]').click(function() {
 		var oldRecoveryPassword = $('#oldEncryptionRecoveryPassword').val();
