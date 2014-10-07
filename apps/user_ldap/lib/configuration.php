@@ -69,6 +69,7 @@ class Configuration {
 		'ldapConfigurationActive' => false,
 		'ldapAttributesForUserSearch' => null,
 		'ldapAttributesForGroupSearch' => null,
+		'ldapExperiencedAdmin' => false,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
 		'hasMemberOfFilterSupport' => false,
@@ -391,6 +392,7 @@ class Configuration {
 			'last_jpegPhoto_lookup'				=> 0,
 			'ldap_nested_groups'		        => 0,
 			'ldap_paging_size'					=> 500,
+			'ldap_experienced_admin'            => 0,
 		);
 	}
 
@@ -444,6 +446,7 @@ class Configuration {
 			'last_jpegPhoto_lookup'				=> 'lastJpegPhotoLookup',
 			'ldap_nested_groups'                => 'ldapNestedGroups',
 			'ldap_paging_size'                  => 'ldapPagingSize',
+			'ldap_experienced_admin'            => 'ldapExperiencedAdmin'
 		);
 		return $array;
 	}

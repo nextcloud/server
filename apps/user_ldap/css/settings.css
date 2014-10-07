@@ -6,6 +6,7 @@
 .tablerow {
 	display: table-row;
 	white-space: nowrap;
+	text-align: left;
 }
 
 .tablerow input, .tablerow textarea {
@@ -14,6 +15,10 @@
 
 .tablerow textarea {
 	height: 15px;
+}
+
+#ldap .tablerow label {
+	margin-left: 3px;
 }
 
 .invisible {
@@ -101,6 +106,10 @@
 
 #ldap fieldset p input[type=checkbox] {
 	vertical-align: bottom;
+}
+
+#ldap input[type=checkbox] {
+	width: 15px !important;
 }
 
 select[multiple=multiple] + button {
