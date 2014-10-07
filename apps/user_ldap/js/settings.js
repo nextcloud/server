@@ -931,4 +931,10 @@ $(document).ready(function() {
 			LdapConfiguration.refreshConfig();
 		}
 	});
+
+	expAdminCB = $('#ldap_experienced_admin');
+	LdapWizard.admin = new ExperiencedAdmin(LdapWizard, expAdminCB.is(':checked'));
+	expAdminCB.change(function() {
+		LdapWizard.admin.toggle($(this).is(':checked'));
+	});
 });
