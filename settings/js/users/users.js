@@ -616,7 +616,7 @@ $(document).ready(function () {
 			.keypress(function (event) {
 				if (event.keyCode === 13) {
 					if ($(this).val().length > 0) {
-						$div = $tr.find('div.avatardiv')
+						var $div = $tr.find('div.avatardiv');
 						if ($div.length) {
 							$div.imageplaceholder(uid, displayName);
 						}
