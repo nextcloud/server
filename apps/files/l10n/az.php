@@ -47,6 +47,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "URL-in gətirilməsində səhv baş verdi",
 "Share" => "Yayımla",
 "Delete" => "Sil",
+"Rename" => "Adı dəyiş",
 "Error" => "Səhv",
 "Name" => "Ad",
 "Size" => "Həcm",

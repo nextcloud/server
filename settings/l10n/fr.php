@@ -1,7 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Invalid value supplied for %s" => "Valeur fournie pour %s non valable",
-"Saved" => "Sauvegarder",
+"Saved" => "Sauvegardé",
 "test email settings" => "tester les paramètres d'e-mail",
 "If you received this email, the settings seem to be correct." => "Si vous recevez cet email, c'est que les paramètres sont corrects",
 "A problem occurred while sending the e-mail. Please revisit your settings." => "Une erreur est survenue lors de l'envoi de l'e-mail. Veuillez vérifier vos paramètres.",
@@ -168,7 +168,7 @@ $TRANSLATIONS = array(
 "More Apps" => "Plus d'applications…",
 "Select an App" => "Sélectionner une Application",
 "Documentation:" => "Documentation :",
-"See application page at apps.owncloud.com" => "Voir la page des applications à l'url apps.owncloud.com",
+"See application page at apps.owncloud.com" => "Voir la page de l'application sur apps.owncloud.com",
 "See application website" => "Voir le site web de l'application",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "Distribué sous licence <span class=\"licence\"></span>, par <span class=\"author\"></span>",
 "Enable only for specific groups" => "Activer uniquement pour certains groupes",

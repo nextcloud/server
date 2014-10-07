@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Na tem strežniku ni omogočena možnost souporabe strežnika s strežnikom.",
+"The mountpoint name contains invalid characters." => "Ime točke priklopa vsebuje neveljavne znake.",
 "Invalid or untrusted SSL certificate" => "Neveljavno oziroma nepotrjeno potrdilo SSL",
 "Couldn't add remote share" => "Ni mogoče dodati oddaljenega mesta za souporabo",
 "Shared with you" => "V souporabi z vami",
