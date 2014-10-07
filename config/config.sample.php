@@ -5,8 +5,17 @@
  * configuration options and their usage.
  *
  * DO NOT COMPLETELY BASE YOUR CONFIGURATION FILE ON THIS SAMPLE. THIS MAY BREAK
- * YOUR INSTANCE. Instead, manually copy configurations' switches that you
+ * YOUR INSTANCE. Instead, manually copy configurations switches that you
  * consider important for your instance to your configuration.
+ *
+ * This file is used to generate the config documentation. Please consider
+ * following requirements of the current parser:
+ *  * all comments need to start with `/**` and end with ` *\/` - each on their
+ *    own line
+ *  * add a `@see CONFIG_INDEX` to copy a previously described config option
+ *    also to this line
+ *  * everything between the ` *\/` and the next `/**` will be treated as the
+ *    config option
  */
 
 /**
@@ -45,7 +54,7 @@ $CONFIG = array(
 'trusted_domains' => array('demo.example.org', 'otherdomain.example.org:8080'),
 
 /**
- * The directory where the user data is stored, default to data in the owncloud
+ * The directory where the user data is stored, default to data in the ownCloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
 'datadirectory' => '',
@@ -117,12 +126,12 @@ $CONFIG = array(
 'knowledgebaseenabled' => true,
 
 /**
- * whether avatars should be enabled
+ * Specifies whether avatars should be enabled
  */
 'enable_avatars' => true,
 
 /**
- * allow user to change his display name, if it is supported by the back-end
+ * Allow user to change his display name, if it is supported by the back-end
  */
 'allow_user_to_change_display_name' => true,
 
@@ -217,13 +226,13 @@ $CONFIG = array(
 'mail_smtpsecure' => '',
 
 /**
- * authentication needed to send mail, depends on mail_smtpmode if this is used
+ * Authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)
  */
 'mail_smtpauth' => false,
 
 /**
- * authentication type needed to send mail, depends on mail_smtpmode if this is
+ * Authentication type needed to send mail, depends on mail_smtpmode if this is
  * used Can be LOGIN (default), PLAIN or NTLM
  */
 'mail_smtpauthtype' => 'LOGIN',
@@ -312,7 +321,8 @@ $CONFIG = array(
 'appcodechecker' => true,
 
 /**
- * Check if ownCloud is up to date
+ * Check if ownCloud is up to date and shows a notification if a new version is
+ * available
  */
 'updatechecker' => true,
 
@@ -345,10 +355,10 @@ $CONFIG = array(
 'log_type' => 'owncloud',
 
 /**
- * File for the owncloud logger to log to, (default is ownloud.log in the data
+ * File for the ownCloud logger to log to, (default is owncloud.log in the data
  * dir)
  */
-'logfile' => '',
+'logfile' => 'owncloud.log',
 
 /**
  * Loglevel to start logging at. 0 = DEBUG, 1 = INFO, 2 = WARN, 3 = ERROR
@@ -356,10 +366,14 @@ $CONFIG = array(
  */
 'loglevel' => 2,
 
-/* date format to be used while writing to the owncloud logfile */
+/**
+ * date format to be used while writing to the ownCloud logfile
+ */
 'logdateformat' => 'F d, Y H:i:s',
 
-/* timezone used while writing to the owncloud logfile (default: UTC) */
+/**
+ * timezone used while writing to the ownCloud logfile (default: UTC)
+ */
 'logtimezone' => 'Europe/Berlin',
 
 /**
@@ -375,7 +389,7 @@ $CONFIG = array(
 
 /**
  * Configure the size in bytes log rotation should happen, 0 or false disables
- * the rotation. This rotates the current owncloud logfile to a new name, this
+ * the rotation. This rotates the current ownCloud logfile to a new name, this
  * way the total log usage will stay limited and older entries are available for
  * a while longer. The total disk usage is twice the configured size.
  *
@@ -490,6 +504,7 @@ $CONFIG = array(
  * Only register providers that have been explicitly enabled
  *
  * The following providers are enabled by default:
+ *
  *  - OC\Preview\Image
  *  - OC\Preview\MarkDown
  *  - OC\Preview\MP3
@@ -497,6 +512,7 @@ $CONFIG = array(
  *
  * The following providers are disabled by default due to performance or privacy
  * concerns:
+ *
  *  - OC\Preview\Illustrator
  *  - OC\Preview\Movies
  *  - OC\Preview\MSOffice2003
@@ -602,7 +618,7 @@ $CONFIG = array(
 	//array('other.host.local', 11211),
 ),
 
-/*
+/**
  * Location of the cache folder, defaults to 'data/$user/cache' where '$user' is
  * the current user.
  *
@@ -619,7 +635,7 @@ $CONFIG = array(
 
 /**
  * specifies how often the filesystem is checked for changes made outside
- * owncloud
+ * ownCloud
  *
  * 0 -> never check the filesystem for outside changes, provides a performance
  * increase when it's certain that no changes are made directly to the
@@ -639,7 +655,7 @@ $CONFIG = array(
 'mount_file' => 'data/mount.json',
 
 /**
- * If true, prevent owncloud from changing the cache due to changes in the
+ * If true, prevent ownCloud from changing the cache due to changes in the
  * filesystem for all storage
  */
 'filesystem_cache_readonly' => false,
