@@ -34,8 +34,9 @@
 	</p>
 	<br/><br/>
 
-	<p name="changeRecoveryPasswordBlock" <?php if ($_['recoveryEnabled'] === '0') print_unescaped('class="hidden"');?>>
+	<p name="changeRecoveryPasswordBlock" id="encryptionChangeRecoveryKey" <?php if ($_['recoveryEnabled'] === '0') print_unescaped('class="hidden"');?>>
 		<strong><?php p($l->t("Change recovery key password:")); ?></strong>
+		<span class="msg"></span>
 		<br/><br/>
 		<input
 			type="password"
@@ -61,7 +62,6 @@
 			name="submitChangeRecoveryKey">
 				<?php p($l->t("Change Password")); ?>
 		</button>
-		<span class="msg"></span>
 	</p>
 	<?php endif; ?>
 </form>
