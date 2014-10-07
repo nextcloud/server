@@ -13,6 +13,8 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
 
+$l = \OC::$server->getL10N('files_encryption');
+
 if (
 	isset($_POST['userEnableRecovery'])
 	&& (0 == $_POST['userEnableRecovery'] || '1' === $_POST['userEnableRecovery'])
@@ -38,4 +40,8 @@ if (
 }
 
 // Return success or failure
-($return) ? \OCP\JSON::success() : \OCP\JSON::error();
+if ($return) {
+	\OCP\JSON::success(array('data' => array('message' => $l->t('File recovery settings updated'))));
+} else {
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Could not update file recovery'))));
+}
