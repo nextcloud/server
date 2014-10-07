@@ -239,8 +239,8 @@ table td.filename a.name {
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
 table td.filename input.filename {
 	width: 70%;
-	margin-top: 1px;
-	margin-left: 48px;
+	margin-top: 6px;
+	margin-left: 7px;
 	cursor: text;
 }
 table td.filename a, table td.login, table td.logout, table td.download, table td.upload, table td.create, table td.delete { padding:3px 8px 8px 3px; }
