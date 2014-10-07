@@ -16,15 +16,54 @@
 define('DEBUG', true);
 
 $CONFIG = array(
-/**
- * Flag to indicate ownCloud is successfully installed (true = installed)
- */
-'installed' => false,
+
 
 /**
+ * Default Parameters
+ *
+ * These parameters are configured by the ownCloud installer, and are required
+ * for your ownCloud server to operate.
+ */
+
+
+/**
+ * This is a unique identifier for your ownCloud installation, created
+ * automatically by the installer.
+ */
+'instanceid' => '',
+
+/**
+ * Define the salt used to hash the user passwords. All your user passwords are
+ * lost if you lose this string.
+ */
+'passwordsalt' => '',
+
+/**
+ * List of trusted domains, to prevent host header poisoning ownCloud is only
+ * using these Host headers
+ */
+'trusted_domains' => array('demo.example.org', 'otherdomain.example.org:8080'),
+
+/**
+ * The directory where the user data is stored, default to data in the owncloud
+ * directory. The sqlite database is also stored here, when sqlite is used.
+ */
+'datadirectory' => '',
+
+/**
+<<<<<<< HEAD
+ * Force use of HTTPS connection (true = use HTTPS)
+=======
  * Type of database, can be sqlite, mysql or pgsql
  */
 'dbtype' => 'sqlite',
+
+/**
+ * Host running the ownCloud database. To specify a port use 'HOSTNAME:####'; to
+ * specify a unix sockets use 'localhost:/path/to/socket'.
+>>>>>>> 7f328e8... re-arrange the config options and sort them in a semantical way
+ */
+'dbhost' => '',
 
 /**
  * Name of the ownCloud database
@@ -42,85 +81,22 @@ $CONFIG = array(
 'dbpassword' => '',
 
 /**
- * Host running the ownCloud database. To specify a port use 'HOSTNAME:####'; to
- * specify a unix sockets use 'localhost:/path/to/socket'.
- */
-'dbhost' => '',
-
-/**
  * Prefix for the ownCloud tables in the database
  */
 'dbtableprefix' => '',
 
 /**
- * Define the salt used to hash the user passwords. All your user passwords are
- * lost if you lose this string.
+ * Flag to indicate ownCloud is successfully installed (true = installed)
  */
-'passwordsalt' => '',
+'installed' => false,
+
 
 /**
- * Force use of HTTPS connection (true = use HTTPS)
+ * User Experience
+ *
+ * These optional parameters control some aspects of the user interface. Default
+ * values, where present, are shown.
  */
-'forcessl' => false,
-
-/**
- * Blacklist a specific file and disallow the upload of files with this name
- * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
- */
-'blacklisted_files' => array('.htaccess'),
-
-/**
- * The automatic hostname detection of ownCloud can fail in certain reverse
- * proxy and CLI/cron situations. This option allows to manually override the
- * automatic detection. You can also add a port. For example
- * 'www.example.com:88'
- */
-'overwritehost' => '',
-
-/**
- * The automatic protocol detection of ownCloud can fail in certain reverse
- * proxy and CLI/cron situations. This option allows to manually override the
- * protocol detection. For example 'https'
- */
-'overwriteprotocol' => '',
-
-/**
- * The automatic webroot detection of ownCloud can fail in certain reverse proxy
- * and CLI/cron situations. This option allows to manually override the
- * automatic detection. For example '/domain.tld/ownCloud'. The value '/' can be
- * used to remove the root.
- */
-'overwritewebroot' => '',
-
-/**
- * The automatic detection of ownCloud can fail in certain reverse proxy and
- * CLI/cron situations. This option allows to define a manually override
- * condition as regular expression for the remote ip address. For example
- * '^10\.0\.0\.[1-3]$'
- */
-'overwritecondaddr' => '',
-
-/**
- * A proxy to use to connect to the internet. For example 'myproxy.org:88'
- */
-'proxy' => '',
-
-/**
- * The optional authentication for the proxy to use to connect to the internet.
- * The format is: [username]:[password]
- */
-'proxyuserpwd' => '',
-
-/**
- * List of trusted domains, to prevent host header poisoning ownCloud is only
- * using these Host headers
- */
-'trusted_domains' => array('demo.example.org', 'otherdomain.example.org:8080'),
-
-/**
- * Theme to use for ownCloud
- */
-'theme' => '',
 
 /**
  * Optional ownCloud default language - overrides automatic language detection
@@ -129,16 +105,6 @@ $CONFIG = array(
  * logged in
  */
 'default_language' => 'en',
-
-/**
- * Path to the parent directory of the 3rdparty directory
- */
-'3rdpartyroot' => '',
-
-/**
- * URL to the parent directory of the 3rdparty directory, as seen by the browser
- */
-'3rdpartyurl' => '',
 
 /**
  * Default app to open on login.
@@ -155,14 +121,56 @@ $CONFIG = array(
 'knowledgebaseenabled' => true,
 
 /**
- * Enable installing apps from the appstore
+ * whether avatars should be enabled
  */
-'appstoreenabled' => true,
+'enable_avatars' => true,
 
 /**
- * URL of the appstore to use, server should understand OCS
+ * allow user to change his display name, if it is supported by the back-end
  */
-'appstoreurl' => 'https://api.owncloud.com/v1',
+'allow_user_to_change_display_name' => true,
+
+/**
+ * Lifetime of the remember login cookie, default is 15 days
+ */
+'remember_login_cookie_lifetime' => 60*60*24*15,
+
+/**
+ * Life time of a session after inactivity
+ */
+'session_lifetime' => 60 * 60 * 24,
+
+/**
+ * Enable/disable session keep alive when a user is logged in in the Web UI.
+ * This is achieved by sending a 'heartbeat' to the server to prevent the
+ * session timing out.
+ */
+'session_keepalive' => true,
+
+/**
+ * The directory where the skeleton files are located. These files will be
+ * copied to the data directory of new users. Leave empty to not copy any
+ * skeleton files.
+ */
+'skeletondirectory' => '',
+
+/**
+ * TODO
+ */
+'user_backends' => array(
+	array(
+		'class' => 'OC_User_IMAP',
+		'arguments' => array('{imap.gmail.com:993/imap/ssl}INBOX')
+	)
+),
+
+
+/**
+ * Mail Parameters
+ *
+ * These configure the email settings for ownCloud notifications and password
+ * resets.
+ */
 
 /**
  * Domain name used by ownCloud for the sender mail address, e.g.
@@ -234,16 +242,53 @@ $CONFIG = array(
  */
 'mail_smtppassword' => '',
 
+
 /**
- * memcached servers (Only used when xCache, APC and APCu are absent.)
+ * Proxy Configurations
  */
-'memcached_servers' => array(
-	// hostname, port and optional weight. Also see:
-	// http://www.php.net/manual/en/memcached.addservers.php
-	// http://www.php.net/manual/en/memcached.addserver.php
-	array('localhost', 11211),
-	//array('other.host.local', 11211),
-),
+
+/**
+ * The automatic hostname detection of ownCloud can fail in certain reverse
+ * proxy and CLI/cron situations. This option allows to manually override the
+ * automatic detection. You can also add a port. For example
+ * 'www.example.com:88'
+ */
+'overwritehost' => '',
+
+/**
+ * The automatic protocol detection of ownCloud can fail in certain reverse
+ * proxy and CLI/cron situations. This option allows to manually override the
+ * protocol detection. For example 'https'
+ */
+'overwriteprotocol' => '',
+
+/**
+ * The automatic webroot detection of ownCloud can fail in certain reverse proxy
+ * and CLI/cron situations. This option allows to manually override the
+ * automatic detection. For example '/domain.tld/ownCloud'. The value '/' can be
+ * used to remove the root.
+ */
+'overwritewebroot' => '',
+
+/**
+ * The automatic detection of ownCloud can fail in certain reverse proxy and
+ * CLI/cron situations. This option allows to define a manually override
+ * condition as regular expression for the remote ip address. For example
+ * '^10\.0\.0\.[1-3]$'
+ */
+'overwritecondaddr' => '',
+
+/**
+ * A proxy to use to connect to the internet. For example 'myproxy.org:88'
+ */
+'proxy' => '',
+
+
+/**
+ * Deleted Items
+ *
+ * These parameters control the Deleted files app.
+ */
 
 /**
  * How long should ownCloud keep deleted files in the trash bin, default value:
@@ -257,10 +302,13 @@ $CONFIG = array(
  */
 'trashbin_auto_expire' => true,
 
+
 /**
- * allow user to change his display name, if it is supported by the back-end
+ * ownCloud Verifications
+ *
+ * ownCloud performs several verification checks. There are two options, 'true'
+ * and 'false'.
  */
-'allow_user_to_change_display_name' => true,
 
 /**
  * Ensure that 3rdparty applications follows coding guidelines
@@ -289,6 +337,11 @@ $CONFIG = array(
  */
 'check_for_working_htaccess' => true,
 
+
+/**
+ * Logging
+ */
+
 /**
  * Place to log to, can be 'owncloud' and 'syslog' (owncloud is log menu item in
  * admin menu)
@@ -302,17 +355,8 @@ $CONFIG = array(
 'logfile' => '',
 
 /**
- * This entry is just here to show a warning in case somebody copied the sample
- * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
- *
- * If you, brave person, have read until here be aware that you should not
- * modify *ANY* settings in this file without reading the documentation
- */
-'copied_sample_config' => true,
-
-/**
- * Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is
- * WARN)
+ * Loglevel to start logging at. 0 = DEBUG, 1 = INFO, 2 = WARN, 3 = ERROR
+ * (default is WARN)
  */
 'loglevel' => 2,
 
@@ -346,60 +390,48 @@ $CONFIG = array(
  */
 'log_rotate_size' => false,
 
-/**
- * Lifetime of the remember login cookie, default is 15 days
- */
-'remember_login_cookie_lifetime' => 60*60*24*15,
 
 /**
- * Life time of a session after inactivity
- */
-'session_lifetime' => 60 * 60 * 24,
-
-/**
- * Enable/disable session keep alive when a user is logged in in the Web UI.
- * This is achieved by sending a 'heartbeat' to the server to prevent the
- * session timing out.
- */
-'session_keepalive' => true,
-
-/**
- * Custom CSP policy, changing this will overwrite the standard policy
- */
-'custom_csp_policy' =>
-	"default-src 'self'; script-src 'self' 'unsafe-eval'; ".
-	"style-src 'self' 'unsafe-inline'; frame-src *; img-src *; ".
-	"font-src 'self' data:; media-src *",
-
-/**
- * Enable/disable X-Frame-Restriction
+ * Alternate Code Locations
  *
- * HIGH SECURITY RISK IF DISABLED
+ * Some of the ownCloud code may be stored in alternate locations.
  */
-'xframe_restriction' => true,
 
 /**
- * The directory where the user data is stored, default to data in the owncloud
- * directory. The sqlite database is also stored here, when sqlite is used.
+ * Path to the parent directory of the 3rdparty directory
  */
-'datadirectory' => '',
+'3rdpartyroot' => '',
 
 /**
- * The directory where the skeleton files are located. These files will be
- * copied to the data directory of new users. Leave empty to not copy any
- * skeleton files.
+ * URL to the parent directory of the 3rdparty directory, as seen by the browser
  */
-'skeletondirectory' => '',
+'3rdpartyurl' => '',
 
 /**
- * Enable maintenance mode to disable ownCloud
+ * links to custom clients
+ */
+'customclient_desktop' =>
+	'http://owncloud.org/sync-clients/',
+'customclient_android' =>
+	'https://play.google.com/store/apps/details?id=com.owncloud.android',
+'customclient_ios' =>
+	'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8',
+
+/**
+ * Apps
  *
- * If you want to prevent users to login to ownCloud before you start doing some
- * maintenance work, you need to set the value of the maintenance parameter to
- * true. Please keep in mind that users who are already logged-in are kicked out
- * of ownCloud instantly.
+ * Options for the Apps folder, Apps store, and App code checker.
  */
-'maintenance' => false,
+
+/**
+ * Enable installing apps from the appstore
+ */
+'appstoreenabled' => true,
+
+/**
+ * URL of the appstore to use, server should understand OCS
+ */
+'appstoreurl' => 'https://api.owncloud.com/v1',
 
 /**
  * Set an array of path for your apps directories
@@ -419,27 +451,20 @@ $CONFIG = array(
 ),
 
 /**
+ * @see appcodechecker
+ */
+
+
+/**
+ * Previews
+ *
+ * ownCloud supports previews of image files, the covers of MP3 files, and text
+ * files. These options control enabling and disabling previews, and thumbnail
+ * size.
+ */
+
+/**
  * TODO
- */
-'user_backends' => array(
-	array(
-		'class' => 'OC_User_IMAP',
-		'arguments' => array('{imap.gmail.com:993/imap/ssl}INBOX')
-	)
-),
-
-/**
- * links to custom clients
- */
-'customclient_desktop' =>
-	'http://owncloud.org/sync-clients/',
-'customclient_android' =>
-	'https://play.google.com/store/apps/details?id=com.owncloud.android',
-'customclient_ios' =>
-	'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8',
-
-/**
- * PREVIEW
  */
 'enable_previews' => true,
 /**
@@ -495,10 +520,38 @@ $CONFIG = array(
 	'OC\Preview\MarkDown'
 ),
 
+
 /**
- * whether avatars should be enabled
+ * Maintenance
+ *
+ * These options are for halting user activity when you are performing server
+ * maintenance.
  */
-'enable_avatars' => true,
+
+/**
+ * Enable maintenance mode to disable ownCloud
+ *
+ * If you want to prevent users to login to ownCloud before you start doing some
+ * maintenance work, you need to set the value of the maintenance parameter to
+ * true. Please keep in mind that users who are already logged-in are kicked out
+ * of ownCloud instantly.
+ */
+'maintenance' => false,
+
+/**
+ * whether usage of the instance should be restricted to admin users only
+ */
+'singleuser' => false,
+
+
+/**
+ * SSL
+ */
+
+/**
+ * Force use of HTTPS connection (true = use HTTPS)
+ */
+'forcessl' => false,
 
 /**
  * Extra SSL options to be used for configuration
@@ -507,6 +560,34 @@ $CONFIG = array(
 	'config' => '/absolute/location/of/openssl.cnf',
 ),
 
+
+/**
+ * Miscellaneous
+ */
+
+/**
+ * Blacklist a specific file and disallow the upload of files with this name
+ * WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING.
+ */
+'blacklisted_files' => array('.htaccess'),
+
+/**
+ * define default folder for shared files and folders
+ */
+'share_folder' => '/',
+
+/**
+ * Theme to use for ownCloud
+ */
+'theme' => '',
+
+/**
+ * Enable/disable X-Frame-Restriction
+ *
+ * HIGH SECURITY RISK IF DISABLED
+ */
+'xframe_restriction' => true,
+
 /**
  * default cipher used for file encryption, currently we support AES-128-CFB and
  * AES-256-CFB
@@ -514,20 +595,15 @@ $CONFIG = array(
 'cipher' => 'AES-256-CFB',
 
 /**
- * whether usage of the instance should be restricted to admin users only
+ * memcached servers (Only used when xCache, APC and APCu are absent.)
  */
-'singleuser' => false,
-
-/**
- * all css and js files will be served by the web server statically in one js
- * file and ons css file
- */
-'asset-pipeline.enabled' => false,
-
-/**
- * where mount.json file should be stored
- */
-'mount_file' => 'data/mount.json',
+'memcached_servers' => array(
+	// hostname, port and optional weight. Also see:
+	// http://www.php.net/manual/en/memcached.addservers.php
+	// http://www.php.net/manual/en/memcached.addserver.php
+	array('localhost', 11211),
+	//array('other.host.local', 11211),
+),
 
 /*
  * Location of the cache folder, defaults to 'data/$user/cache' where '$user' is
@@ -559,6 +635,11 @@ $CONFIG = array(
  * using external storages, not recommended for regular use
  */
 'filesystem_check_changes' => 1,
+
+/**
+ * where mount.json file should be stored
+ */
+'mount_file' => 'data/mount.json',
 
 /**
  * If true, prevent owncloud from changing the cache due to changes in the
@@ -608,8 +689,54 @@ $CONFIG = array(
 ),
 
 /**
- * define default folder for shared files and folders
+ * Custom CSP policy, changing this will overwrite the standard policy
  */
-'share_folder' => '/',
+'custom_csp_policy' =>
+	"default-src 'self'; script-src 'self' 'unsafe-eval'; ".
+	"style-src 'self' 'unsafe-inline'; frame-src *; img-src *; ".
+	"font-src 'self' data:; media-src *",
+
+
+/**
+ * Forgotten ones
+ */
+
+/**
+ * Secret used by ownCloud for various purposes, e.g. to encrypt data. If you
+ * lose this string there will be data corruption.
+ */
+'secret' => '',
+
+/**
+ * The optional authentication for the proxy to use to connect to the internet.
+ * The format is: [username]:[password]
+ */
+'proxyuserpwd' => '',
+
+/**
+ * List of trusted proxy servers
+ */
+'trusted_proxies' => array('203.0.113.45', '198.51.100.128'),
+
+/**
+ * Headers that should be trusted as client IP address in combination with
+ * `trusted_proxies`
+ */
+'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
+
+/**
+ * This entry is just here to show a warning in case somebody copied the sample
+ * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
+ *
+ * If you, brave person, have read until here be aware that you should not
+ * modify *ANY* settings in this file without reading the documentation
+ */
+'copied_sample_config' => true,
+
+/**
+ * all css and js files will be served by the web server statically in one js
+ * file and ons css file
+ */
+'asset-pipeline.enabled' => false,
 
 );
