@@ -10,6 +10,16 @@ namespace OCA\Files_External;
 
 use OC\Files\Filesystem;
 
+/**
+ * Updates the etag of parent folders whenever a new external storage mount
+ * point has been created or deleted. Updates need to be triggered using
+ * the updateHook() method.
+ *
+ * There are two modes of operation:
+ * - for personal mount points, the etag is propagated directly
+ * - for system mount points, a dirty flag is saved in the configuration and
+ * the etag will be updated the next time propagateDirtyMountPoints() is called
+ */
 class EtagPropagator {
 	/**
 	 * @var \OCP\IUser
@@ -27,8 +37,10 @@ class EtagPropagator {
 	protected $config;
 
 	/**
-	 * @param \OCP\IUser $user
-	 * @param \OC\Files\Cache\ChangePropagator $changePropagator
+	 * @param \OCP\IUser $user current user, must match the propagator's
+	 * user
+	 * @param \OC\Files\Cache\ChangePropagator $changePropagator change propagator
+	 * initialized with a view for $user
 	 * @param \OCP\IConfig $config
 	 */
 	public function __construct($user, $changePropagator, $config) {
@@ -91,9 +103,10 @@ class EtagPropagator {
 	 * Update etags for mount points for known user
 	 * For global or group mount points, updating the etag for every user is not feasible
 	 * instead we mark the mount point as dirty and update the etag when the filesystem is loaded for the user
+	 * For personal mount points, the change is propagated directly
 	 *
-	 * @param array $params
-	 * @param int $time
+	 * @param array $params hook parameters
+	 * @param int $time update time to use when marking a mount point as dirty
 	 */
 	public function updateHook($params, $time = null) {
 		if ($time === null) {
