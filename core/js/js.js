@@ -198,7 +198,7 @@ var OC={
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
 	},
-	
+
 	/**
 	 * Creates a relative url for remote use
 	 * @param {string} service id
@@ -298,7 +298,7 @@ var OC={
 		}
 		return link;
 	},
-	
+
 	/**
 	 * Redirect to the target URL, can also be used for downloads.
 	 * @param {string} targetURL URL to redirect to
@@ -306,10 +306,10 @@ var OC={
 	redirect: function(targetURL) {
 		window.location = targetURL;
 	},
-	
+
 	/**
 	 * get the absolute path to an image file
-	 * if no extension is given for the image, it will automatically decide 
+	 * if no extension is given for the image, it will automatically decide
 	 * between .png and .svg based on what the browser supports
 	 * @param {string} app the app id to which the image belongs
 	 * @param {string} file the name of the image file
@@ -321,9 +321,9 @@ var OC={
 		}
 		return OC.filePath(app,'img',file);
 	},
-	
+
 	/**
-	 * Load a script for the server and load it. If the script is already loaded, 
+	 * Load a script for the server and load it. If the script is already loaded,
 	 * the event handler will be called directly
 	 * @param {string} app the app id to which the script belongs
 	 * @param {string} script the filename of the script
@@ -362,21 +362,21 @@ var OC={
 			}
 		}
 	},
-	
+
 	/**
 	 * @todo Write the documentation
 	 */
 	basename: function(path) {
 		return path.replace(/\\/g,'/').replace( /.*\//, '' );
 	},
-	
+
 	/**
 	 *  @todo Write the documentation
 	 */
 	dirname: function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
-	
+
 	/**
 	 * Do a search query and display the results
 	 * @param {string} query the search query
@@ -396,7 +396,7 @@ var OC={
 		var date = new Date(1000*mtime);
 		return date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 	},
-	
+
 	/**
 	 * Parses a URL query string into a JS map
 	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
@@ -607,7 +607,7 @@ OC.msg={
 	startSaving:function(selector){
 		OC.msg.startAction(selector, t('core', 'Saving...'));
 	},
-	
+
 	/**
 	 * @param selector
 	 * @param data
@@ -616,7 +616,7 @@ OC.msg={
 	finishedSaving:function(selector, data){
 		OC.msg.finishedAction(selector, data);
 	},
-	
+
 	/**
 	 * @param selector
 	 * @param {string} message Message to display
@@ -630,7 +630,7 @@ OC.msg={
 			.stop(true, true)
 			.show();
 	},
-	
+
 	/**
 	 * @param selector
 	 * @param data
@@ -639,12 +639,17 @@ OC.msg={
 	finishedAction:function(selector, data){
 		if( data.status === "success" ){
 			$(selector).html( data.data.message )
-				.addClass('success')
-				.stop(true, true)
-				.delay(3000)
-				.fadeOut(900);
+					.addClass('success')
+					.removeClass('error')
+					.stop(true, true)
+					.delay(3000)
+					.fadeOut(900)
+					.show();
 		}else{
-			$(selector).html( data.data.message ).addClass('error');
+			$(selector).html( data.data.message )
+					.addClass('error')
+					.removeClass('success')
+					.show();
 		}
 	}
 };
@@ -655,7 +660,7 @@ OC.msg={
 OC.Notification={
 	queuedNotifications: [],
 	getDefaultNotificationFunction: null,
-	
+
 	/**
 	 * @param callback
 	 * @todo Write documentation
@@ -663,7 +668,7 @@ OC.Notification={
 	setDefault: function(callback) {
 		OC.Notification.getDefaultNotificationFunction = callback;
 	},
-	
+
 	/**
 	 * Hides a notification
 	 * @param callback
@@ -686,7 +691,7 @@ OC.Notification={
 			}
 		});
 	},
-	
+
 	/**
 	 * Shows a notification as HTML without being sanitized before.
 	 * If you pass unsanitized user input this may lead to a XSS vulnerability.
@@ -702,7 +707,7 @@ OC.Notification={
 			OC.Notification.queuedNotifications.push(html);
 		}
 	},
-	
+
 	/**
 	 * Shows a sanitized notification
 	 * @param {string} text Message to display
@@ -716,9 +721,9 @@ OC.Notification={
 			OC.Notification.queuedNotifications.push($('<div/>').text(text).html());
 		}
 	},
-	
+
 	/**
-	 * Returns whether a notification is hidden. 
+	 * Returns whether a notification is hidden.
 	 * @return {boolean}
 	 */
 	isHidden: function() {
@@ -782,7 +787,7 @@ OC.Breadcrumb={
 			this._push(container, leafname, leaflink);
 		}
 	},
-	
+
 	/**
 	 * @todo Write documentation
 	 * @param {string} name
@@ -812,7 +817,7 @@ OC.Breadcrumb={
 		}
 		return crumb;
 	},
-	
+
 	/**
 	 * @todo Write documentation
 	 */
@@ -823,7 +828,7 @@ OC.Breadcrumb={
 		this.container.find('div.crumb').last().remove();
 		this.container.find('div.crumb').last().addClass('last');
 	},
-	
+
 	/**
 	 * @todo Write documentation
 	 */
@@ -844,7 +849,7 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 	 */
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
-		
+
 		/**
 		 * Whether the storage contains items
 		 * @param {string} name
@@ -853,7 +858,7 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 		hasItem:function(name){
 			return OC.localStorage.getItem(name)!==null;
 		},
-		
+
 		/**
 		 * Add an item to the storage
 		 * @param {string} name
@@ -862,7 +867,7 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 		setItem:function(name,item){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
-		
+
 		/**
 		 * Removes an item from the storage
 		 * @param {string} name
@@ -871,7 +876,7 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 		removeItem:function(name,item){
 			return localStorage.removeItem(OC.localStorage.namespace+name);
 		},
-		
+
 		/**
 		 * Get an item from the storage
 		 * @param {string} name
@@ -1253,7 +1258,7 @@ function formatDate(date){
 	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
 }
 
-// 
+//
 /**
  * Get the value of a URL parameter
  * @link http://stackoverflow.com/questions/1403888/get-url-parameter-with-jquery
