@@ -41,17 +41,14 @@ $(document).ready(function(){
 	$('button:button[name="submitChangeRecoveryKey"]').click(function() {
 		var oldRecoveryPassword = $('#oldEncryptionRecoveryPassword').val();
 		var newRecoveryPassword = $('#newEncryptionRecoveryPassword').val();
-		OC.msg.startSaving('#encryption .msg');
+		var confirmNewPassword = $('#repeatedNewEncryptionRecoveryPassword').val();
+		OC.msg.startSaving('#encryptionChangeRecoveryKey .msg');
 		$.post(
 		OC.filePath( 'files_encryption', 'ajax', 'changeRecoveryPassword.php' )
-			, { oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword }
+			, { oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword, confirmPassword: confirmNewPassword }
 			,  function( data ) {
-				if (data.status == "error") {
-					OC.msg.finishedSaving('#encryption .msg', data);
-				} else {
-					OC.msg.finishedSaving('#encryption .msg', data);
+					OC.msg.finishedSaving('#encryptionChangeRecoveryKey .msg', data);
 				}
-			}
 		);
 	});
 
