@@ -82,6 +82,10 @@
 	margin: 5px;
 }
 
+.ldap_count {
+	line-height: 45px;
+}
+
 .ldapSettingControls {
 	margin-top: 3px;
 }

@@ -113,6 +113,10 @@ LdapFilter.prototype.setMode = function(mode) {
 	}
 }
 
+LdapFilter.prototype.getMode = function() {
+	return this.mode;
+}
+
 LdapFilter.prototype.unlock = function() {
 	this.locked = false;
 	if(this.lazyRunCompose) {
@@ -122,6 +126,7 @@ LdapFilter.prototype.unlock = function() {
 };
 
 LdapFilter.prototype.findFeatures = function() {
+	//TODO: reset this.foundFeatures when any base DN changes
 	if(!this.foundFeatures && !this.locked && this.mode === LdapWizard.filterModeAssisted) {
 		this.foundFeatures = true;
 		if(this.target === 'User') {
@@ -139,4 +144,12 @@ LdapFilter.prototype.findFeatures = function() {
 		LdapWizard.findObjectClasses(objcEl, this.target);
 		LdapWizard.findAvailableGroups(avgrEl, this.target + "s");
 	}
-}
+};
+
+LdapFilter.prototype.updateCount = function() {
+	if(this.target === 'User') {
+		LdapWizard.countUsers();
+	} else if (this.target === 'Group') {
+		LdapWizard.countGroups();
+	}
+};

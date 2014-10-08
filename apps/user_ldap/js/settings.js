@@ -317,27 +317,30 @@ var LdapWizard = {
 		}
 	},
 
-	_countThings: function(method) {
+	_countThings: function(method, spinnerID) {
 		param = 'action='+method+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
+		LdapWizard.showSpinner(spinnerID);
 		LdapWizard.ajax(param,
 			function(result) {
 				LdapWizard.applyChanges(result);
+				LdapWizard.hideSpinner(spinnerID);
 			},
 			function (result) {
-				// error handling
+				OC.Notification.show('Counting the entries failed with, ' + result.message);
+				LdapWizard.hideSpinner(spinnerID);
 			}
 		);
 	},
 
 	countGroups: function() {
-		LdapWizard._countThings('countGroups');
+		LdapWizard._countThings('countGroups', '#ldap_group_count');
 	},
 
 	countUsers: function() {
-		LdapWizard._countThings('countUsers');
+		LdapWizard._countThings('countUsers', '#ldap_user_count');
 	},
 
 	detectEmailAttribute: function() {
@@ -531,6 +534,7 @@ var LdapWizard = {
 
 	init: function() {
 		LdapWizard.instantiateFilters();
+		LdapWizard.admin.setExperienced($('#ldap_experienced_admin').is(':checked'));
 		LdapWizard.basicStatusCheck();
 		LdapWizard.functionalityCheck();
 		LdapWizard.isConfigurationActiveControlLocked = false;
@@ -574,6 +578,13 @@ var LdapWizard = {
 		LdapWizard.userFilter = new LdapFilter('User', function(mode) {
 			LdapWizard.userFilter.findFeatures();
 		});
+		$('#rawUserFilterContainer .ldapGetEntryCount').click(function(event) {
+			event.preventDefault();
+			$('#ldap_user_count').text('');
+			LdapWizard.userFilter.updateCount();
+			LdapWizard.detectEmailAttribute();
+			$('#ldap_user_count').removeClass('hidden');
+		});
 
 		delete LdapWizard.loginFilter;
 		LdapWizard.loginFilter = new LdapFilter('Login', function(mode) {
@@ -583,6 +594,13 @@ var LdapWizard = {
 		delete LdapWizard.groupFilter;
 		LdapWizard.groupFilter = new LdapFilter('Group', function(mode) {
 			LdapWizard.groupFilter.findFeatures();
+		});
+		$('#rawGroupFilterContainer .ldapGetEntryCount').click(function(event) {
+			event.preventDefault();
+			$('#ldap_group_count').text('');
+			LdapWizard.groupFilter.updateCount();
+			LdapWizard.detectGroupMemberAssoc();
+			$('#ldap_group_count').removeClass('hidden');
 		});
 	},
 
@@ -638,10 +656,10 @@ var LdapWizard = {
 			}
 		}
 
-		if(triggerObj.id == 'ldap_userlist_filter') {
+		if(triggerObj.id == 'ldap_userlist_filter' && !LdapWizard.admin.isExperienced()) {
 			LdapWizard.countUsers();
 			LdapWizard.detectEmailAttribute();
-		} else if(triggerObj.id == 'ldap_group_filter') {
+		} else if(triggerObj.id == 'ldap_group_filter' && !LdapWizard.admin.isExperienced()) {
 			LdapWizard.countGroups();
 			LdapWizard.detectGroupMemberAssoc();
 		}
@@ -766,6 +784,7 @@ var LdapWizard = {
 								   'groupFilterGroupSelectState',
 								   'ldapGroupFilterMode'
   								);
+		LdapWizard.admin.updateGroupTab(LdapWizard.groupFilter.getMode());
 	},
 
 	toggleRawLoginFilter: function() {
@@ -801,6 +820,7 @@ var LdapWizard = {
 								   'userFilterGroupSelectState',
 								   'ldapUserFilterMode'
   								);
+		LdapWizard.admin.updateUserTab(LdapWizard.userFilter.getMode());
 	},
 
 	updateStatusIndicator: function(isComplete) {
@@ -956,6 +976,6 @@ $(document).ready(function() {
 	expAdminCB = $('#ldap_experienced_admin');
 	LdapWizard.admin = new ExperiencedAdmin(LdapWizard, expAdminCB.is(':checked'));
 	expAdminCB.change(function() {
-		LdapWizard.admin.toggle($(this).is(':checked'));
+		LdapWizard.admin.setExperienced($(this).is(':checked'));
 	});
 });
