@@ -20,7 +20,7 @@
  */
 
 /**
- * Only enable this for local development and not in productive environments
+ * Only enable this for local development and not in production environments
  * This will disable the minifier and outputs some additional debug informations
  */
 define('DEBUG', true);
@@ -38,7 +38,7 @@ $CONFIG = array(
 
 /**
  * This is a unique identifier for your ownCloud installation, created
- * automatically by the installer.
+ * automatically by the installer. Do not change it.
  */
 'instanceid' => '',
 
@@ -83,9 +83,8 @@ $CONFIG = array(
 'dbhost' => '',
 
 /**
- * The name of the ownCloud database for your installation. The default name is
- * ``owncloud``, and you may give it any arbitrary name at installation when
- * your database is MySQL, MariaDB, or PostgreSQL.
+ * The name of the ownCloud database, which is set during installation. You
+ * should not need to change this.
  */
 'dbname' => 'owncloud',
 
@@ -141,14 +140,15 @@ $CONFIG = array(
 'defaultapp' => 'files',
 
 /**
- * ``true`` enables the Help menu item in the user menu (top left of the
+ * ``true`` enables the Help menu item in the user menu (top right of the
  * ownCloud Web interface). ``false`` removes the Help item.
  */
 'knowledgebaseenabled' => true,
 
 /**
  * ``true`` enables avatars, or user profile photos. These appear on the User
- * page and on user's Personal pages. ``false`` disables them.
+ * page, on user's Personal pages and are used by some apps (contacts, mail,
+ * etc). ``false`` disables them.
  */
 'enable_avatars' => true,
 
@@ -324,7 +324,8 @@ $CONFIG = array(
 /**
  * This option allows you to define a manual override condition as a regular
  * expression for the remote IP address. For example, defining a range of IP
- * addresses starting with ``10.`` and ending with 1 to 3: ``^10\.0\.0\.[1-3]$``
+ * addresses starting with ``10.0.0.`` and ending with 1 to 3:
+ * ``^10\.0\.0\.[1-3]$``
  */
 'overwritecondaddr' => '',
 
@@ -341,13 +342,13 @@ $CONFIG = array(
 
 
 /**
- * Deleted Items
+ * Deleted Items (trash bin)
  *
  * These parameters control the Deleted files app.
  */
 
 /**
- * When the delete app is enabled (default), this is the number of days a file
+ * When the trash bin app is enabled (default), this is the number of days a file
  * will be kept in the trash bin. Default is 30 days.
  */
 'trashbin_retention_obligation' => 30,
@@ -368,12 +369,13 @@ $CONFIG = array(
 
 /**
  * Check 3rd party apps to make sure they are using the private API and not the
- * public API. If the app uses the public API it cannot be installed.
+ * public API. If the app uses the private API it cannot be installed.
  */
 'appcodechecker' => true,
 
 /**
- * Check if ownCloud is up-to-date.
+ * Check if ownCloud is up-to-date and shows a notification if a new version is
+ * available.
  */
 'updatechecker' => true,
 
@@ -389,10 +391,11 @@ $CONFIG = array(
 'check_for_working_webdav' => true,
 
 /**
- * Verifies whether the ``.htaccess`` file may be modified by ownCloud. If set
- * to ``false``, this check will not be performed. If the file cannot be
- * modified, items such as large file uploads cannot be performed. This check
- * only affects Apache servers.
+ * This is a crucial security check on Apache servers that should always be set
+ * to ``true``. This verifies that the ``.htaccess`` file is writable and works.
+ * If it is not, then any options controlled by ``.htaccess``, such as large
+ * file uploads, will not work. It also runs checks on the ``data/`` directory,
+ * which verifies that it can't be accessed directly through the web server.
  */
 'check_for_working_htaccess' => true,
 
@@ -414,8 +417,8 @@ $CONFIG = array(
 'logfile' => 'owncloud.log',
 
 /**
- * Valid values are: 0 = Debug, 1 = Info, 2 = Warning, 3 = Error. The default
- * value is Warning.
+ * Loglevel to start logging at. Valid values are: 0 = Debug, 1 = Info, 2 =
+ * Warning, 3 = Error. The default value is Warning.
  */
 'loglevel' => 2,
 
@@ -443,9 +446,9 @@ $CONFIG = array(
 
 /**
  * Enables log rotation and limits the total size of logfiles. The default is 0,
- * or no rotation. Specify a size in bytes, for example 50000000 (50 megabytes).
- * A new logfile is created with a new name when the old logfile reaches your
- * limit. The total size of all logfiles is double the
+ * or no rotation. Specify a size in bytes, for example 104857600 (100 megabytes
+ * = 100 * 1024 * 1024 bytes). A new logfile is created with a new name when the
+ * old logfile reaches your limit. The total size of all logfiles is double the
  * ``log_rotate_sizerotation`` value.
  */
 'log_rotate_size' => false,
@@ -503,7 +506,7 @@ $CONFIG = array(
  * should be installed from the Apps store. The ``path`` defines the absolute
  * file system path to the app folder. The key ``url`` defines the HTTP web path
  * to that folder, starting from the ownCloud web root. The key ``writable``
- * indicates if a user can install apps in that folder.
+ * indicates if a web server can write files to that folder.
  */
 'apps_paths' => array(
 	array(
@@ -548,11 +551,11 @@ $CONFIG = array(
  */
 'preview_max_scale_factor' => 10,
 /**
- * custom path for libreoffice / openoffice binary
+ * custom path for LibreOffice/OpenOffice binary
  */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
 /**
- * Use this if LibreOffice requires additional arguments.
+ * Use this if LibreOffice/OpenOffice requires additional arguments.
  */
 'preview_office_cl_parameters' =>
 	' --headless --nologo --nofirststartwizard --invisible --norestore '.
@@ -653,7 +656,7 @@ $CONFIG = array(
 
 /**
  * X-Frame-Restriction is a header which prevents browsers from showing the site
- * inside an iframe. This may be used to prevent clickjacking. It is risky to
+ * inside an iframe. This is be used to prevent clickjacking. It is risky to
  * disable this, so leave it set at ``true``.
  */
 'xframe_restriction' => true,
@@ -699,17 +702,17 @@ $CONFIG = array(
  * increase when it's certain that no changes are made directly to the
  * filesystem
  *
- * 1 -> Check each file or folder at most once per request, reccomended for
+ * 1 -> Check each file or folder at most once per request, recommended for
  * general use if outside changes might happen.
  *
  * 2 -> Check every time the filesystem is used, causes a performance hit when
- * using external storages, not recomended for regular use.
+ * using external storages, not recommended for regular use.
  */
 'filesystem_check_changes' => 1,
 
 /**
  * All css and js files will be served by the web server statically in one js
- * file and one css file.
+ * file and one css file if this is set to ``true``.
  */
 'asset-pipeline.enabled' => false,
 
