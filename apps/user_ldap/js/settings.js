@@ -776,51 +776,90 @@ var LdapWizard = {
 		}
 	},
 
+	onToggleRawFilterConfirmation: function(currentMode, callback) {
+		if(!LdapWizard.admin.isExperienced
+			|| currentMode === LdapWizard.filterModeAssisted
+		) {
+			return callback(true);
+		}
+
+		var confirmed = OCdialogs.confirm(
+			'Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?',
+			'Mode switch',
+			callback
+		);
+	},
+
 	toggleRawGroupFilter: function() {
-		LdapWizard.blacklistRemove('ldap_group_filter');
-		LdapWizard.toggleRawFilter('#rawGroupFilterContainer',
-								   '#ldap_groupfilter_objectclass',
-								   '#ldap_groupfilter_groups',
-								   'groupFilterGroupSelectState',
-								   'ldapGroupFilterMode'
-  								);
-		LdapWizard.admin.updateGroupTab(LdapWizard.groupFilter.getMode());
+		LdapWizard.onToggleRawFilterConfirmation(
+			LdapWizard.groupFilter.getMode(),
+			function(confirmed) {
+				if(confirmed !== true) {
+					return;
+				}
+
+				LdapWizard.blacklistRemove('ldap_group_filter');
+				LdapWizard.toggleRawFilter('#rawGroupFilterContainer',
+										   '#ldap_groupfilter_objectclass',
+										   '#ldap_groupfilter_groups',
+										   'groupFilterGroupSelectState',
+										   'ldapGroupFilterMode'
+		  								);
+				LdapWizard.admin.updateGroupTab(LdapWizard.groupFilter.getMode());
+			}
+		);
 	},
 
 	toggleRawLoginFilter: function() {
-		LdapWizard.blacklistRemove('ldap_login_filter');
-		container = '#rawLoginFilterContainer';
-		if($(container).hasClass('invisible')) {
-			$(container).removeClass('invisible');
-			action = 'disable';
-			property = 'disabled';
-			mode = LdapWizard.filterModeRaw;
-		} else {
-			$(container).addClass('invisible');
-			action = 'enable';
-			property = false;
-			mode = LdapWizard.filterModeAssisted;
-		}
-		LdapWizard.loginFilter.setMode(mode);
-		LdapWizard.loginFilter.findFeatures();
-		$('#ldap_loginfilter_attributes').multiselect(action);
-		$('#ldap_loginfilter_email').prop('disabled', property);
-		$('#ldap_loginfilter_username').prop('disabled', property);
-		LdapWizard._save({ id: 'ldapLoginFilterMode' }, mode);
-		if(action == 'enable') {
-			LdapWizard.loginFilter.compose();
-		}
+		LdapWizard.onToggleRawFilterConfirmation(
+			LdapWizard.loginFilter.getMode(),
+			function(confirmed) {
+				if(confirmed !== true) {
+					return;
+				}
+
+				LdapWizard.blacklistRemove('ldap_login_filter');
+				container = '#rawLoginFilterContainer';
+				if($(container).hasClass('invisible')) {
+					$(container).removeClass('invisible');
+					action = 'disable';
+					property = 'disabled';
+					mode = LdapWizard.filterModeRaw;
+				} else {
+					$(container).addClass('invisible');
+					action = 'enable';
+					property = false;
+					mode = LdapWizard.filterModeAssisted;
+				}
+				LdapWizard.loginFilter.setMode(mode);
+				LdapWizard.loginFilter.findFeatures();
+				$('#ldap_loginfilter_attributes').multiselect(action);
+				$('#ldap_loginfilter_email').prop('disabled', property);
+				$('#ldap_loginfilter_username').prop('disabled', property);
+				LdapWizard._save({ id: 'ldapLoginFilterMode' }, mode);
+				if(action == 'enable') {
+					LdapWizard.loginFilter.compose();
+				}
+			}
+		);
 	},
 
 	toggleRawUserFilter: function() {
-		LdapWizard.blacklistRemove('ldap_userlist_filter');
-		LdapWizard.toggleRawFilter('#rawUserFilterContainer',
-								   '#ldap_userfilter_objectclass',
-								   '#ldap_userfilter_groups',
-								   'userFilterGroupSelectState',
-								   'ldapUserFilterMode'
-  								);
-		LdapWizard.admin.updateUserTab(LdapWizard.userFilter.getMode());
+		LdapWizard.onToggleRawFilterConfirmation(
+			LdapWizard.userFilter.getMode(),
+			function(confirmed) {
+				if(confirmed === true) {
+					LdapWizard.blacklistRemove('ldap_userlist_filter');
+					LdapWizard.toggleRawFilter('#rawUserFilterContainer',
+											   '#ldap_userfilter_objectclass',
+											   '#ldap_userfilter_groups',
+											   'userFilterGroupSelectState',
+											   'ldapUserFilterMode'
+			  								);
+					LdapWizard.admin.updateUserTab(LdapWizard.userFilter.getMode());
+				}
+			}
+		);
 	},
 
 	updateStatusIndicator: function(isComplete) {
