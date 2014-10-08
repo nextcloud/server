@@ -93,7 +93,7 @@ class Helper
 	public static function compareSize($a, $b) {
 		$aSize = $a->getSize();
 		$bSize = $b->getSize();
-		return $aSize - $bSize;
+		return ($aSize < $bSize) ? -1 : 1;
 	}
 
 	/**
