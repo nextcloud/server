@@ -777,7 +777,7 @@ var LdapWizard = {
 	},
 
 	onToggleRawFilterConfirmation: function(currentMode, callback) {
-		if(!LdapWizard.admin.isExperienced
+		if(!LdapWizard.admin.isExperienced()
 			|| currentMode === LdapWizard.filterModeAssisted
 		) {
 			return callback(true);

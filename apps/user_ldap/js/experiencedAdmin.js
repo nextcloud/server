@@ -13,8 +13,8 @@
  */
 function ExperiencedAdmin(wizard, initialState) {
 	this.wizard = wizard;
-	this.isExperienced = initialState;
-	if(this.isExperienced) {
+	this._isExperienced = initialState;
+	if(this._isExperienced) {
 		this.hideEntryCounters();
 	}
 }
@@ -26,8 +26,8 @@ function ExperiencedAdmin(wizard, initialState) {
  * @param {boolean} whether the admin is experienced or not
  */
 ExperiencedAdmin.prototype.setExperienced = function(isExperienced) {
-	this.isExperienced = isExperienced;
-	if(this.isExperienced) {
+	this._isExperienced = isExperienced;
+	if(this._isExperienced) {
 		this.enableRawMode();
 		this.hideEntryCounters();
 	} else {
@@ -41,7 +41,7 @@ ExperiencedAdmin.prototype.setExperienced = function(isExperienced) {
 * @return {boolean} whether the admin is experienced or not
 */
 ExperiencedAdmin.prototype.isExperienced = function() {
-	return this.isExperienced;
+	return this._isExperienced;
 };
 
 /**
@@ -72,7 +72,7 @@ ExperiencedAdmin.prototype.updateGroupTab = function(mode) {
 ExperiencedAdmin.prototype._updateTab = function(mode, $countEl) {
 	if(mode === LdapWizard.filterModeAssisted) {
 		$countEl.removeClass('hidden');
-	} else if(!this.isExperienced) {
+	} else if(!this._isExperienced) {
 		$countEl.removeClass('hidden');
 	} else {
 		$countEl.addClass('hidden');
