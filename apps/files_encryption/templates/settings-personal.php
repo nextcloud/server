@@ -39,8 +39,9 @@
 
 	<?php elseif ( $_["recoveryEnabled"] && $_["privateKeySet"] &&  $_["initialized"] === \OCA\Encryption\Session::INIT_SUCCESSFUL ): ?>
 		<br />
-		<p>
+		<p id="userEnableRecovery">
 			<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery:" ) ); ?></label>
+			<span class="msg"></span>
 			<br />
 			<em><?php p( $l->t( "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" ) ); ?></em>
 			<br />
@@ -60,8 +61,6 @@
 			value='0'
 			<?php echo ( $_["recoveryEnabledForUser"] === false ? 'checked="checked"' : '' ); ?> />
 			<label for="userDisableRecovery"><?php p( $l->t( "Disabled" ) ); ?></label>
-			<div id="recoveryEnabledSuccess"><?php p( $l->t( 'File recovery settings updated' ) ); ?></div>
-			<div id="recoveryEnabledError"><?php p( $l->t( 'Could not update file recovery' ) ); ?></div>
 		</p>
 	<?php endif; ?>
 </form>

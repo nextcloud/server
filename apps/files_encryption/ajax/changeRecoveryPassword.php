@@ -21,6 +21,32 @@ $return = false;
 
 $oldPassword = $_POST['oldPassword'];
 $newPassword = $_POST['newPassword'];
+$confirmPassword = $_POST['confirmPassword'];
+
+//check if both passwords are the same
+if (empty($_POST['oldPassword'])) {
+	$errorMessage = $l->t('Please provide the old recovery password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
+
+if (empty($_POST['newPassword'])) {
+	$errorMessage = $l->t('Please provide a new recovery password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
+
+if (empty($_POST['confirmPassword'])) {
+	$errorMessage = $l->t('Please repeat the new recovery password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
+
+if ($_POST['newPassword'] !== $_POST['confirmPassword']) {
+	$errorMessage = $l->t('Repeated recovery key password does not match the provided recovery key password');
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
+	exit();
+}
 
 $view = new \OC\Files\View('/');
 $util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
