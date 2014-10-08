@@ -1,6 +1,6 @@
 /* global LdapWizard */
 
-function LdapFilter(target, determineModeCallback)  {
+function LdapFilter(target, determineModeCallback) {
 	this.locked = true;
 	this.target = false;
 	this.mode = LdapWizard.filterModeAssisted;
@@ -14,7 +14,7 @@ function LdapFilter(target, determineModeCallback)  {
 		target === 'Group') {
 		this.target = target;
 	}
-}
+};
 
 LdapFilter.prototype.activate = function() {
 	if(this.activated) {
@@ -23,7 +23,7 @@ LdapFilter.prototype.activate = function() {
 	this.activated = true;
 
 	this.determineMode();
-}
+};
 
 LdapFilter.prototype.compose = function(callback) {
 	var action;
@@ -111,11 +111,11 @@ LdapFilter.prototype.setMode = function(mode) {
 	if(mode === LdapWizard.filterModeAssisted || mode === LdapWizard.filterModeRaw) {
 		this.mode = mode;
 	}
-}
+};
 
 LdapFilter.prototype.getMode = function() {
 	return this.mode;
-}
+};
 
 LdapFilter.prototype.unlock = function() {
 	this.locked = false;
@@ -129,6 +129,7 @@ LdapFilter.prototype.findFeatures = function() {
 	//TODO: reset this.foundFeatures when any base DN changes
 	if(!this.foundFeatures && !this.locked && this.mode === LdapWizard.filterModeAssisted) {
 		this.foundFeatures = true;
+		var objcEl, avgrEl;
 		if(this.target === 'User') {
 			objcEl = 'ldap_userfilter_objectclass';
 			avgrEl = 'ldap_userfilter_groups';

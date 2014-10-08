@@ -694,8 +694,8 @@ var LdapWizard = {
 			values = values + "\n" + resultObj[i].value;
 		}
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
-		if(originalObj == 'ldap_userfilter_objectclass'
-		   || originalObj == 'ldap_userfilter_groups') {
+		if(originalObj === 'ldap_userfilter_objectclass'
+		   || originalObj === 'ldap_userfilter_groups') {
 			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too

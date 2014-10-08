@@ -4,6 +4,8 @@
  * See the COPYING-README file.
  */
 
+/* global LdapWizard */
+
 /**
  * controls behaviour depend on whether the admin is experienced in LDAP or not.
  *
@@ -48,26 +50,26 @@ ExperiencedAdmin.prototype.isExperienced = function() {
  * switches all LDAP filters from Assisted to Raw mode.
  */
 ExperiencedAdmin.prototype.enableRawMode = function() {
-	containers = {
+	var containers = {
 		'toggleRawGroupFilter': '#rawGroupFilterContainer',
 		'toggleRawLoginFilter': '#rawLoginFilterContainer',
 		'toggleRawUserFilter' : '#rawUserFilterContainer'
 	};
 
-	for(method in containers) {
+	for(var method in containers) {
 		if($(containers[method]).hasClass('invisible')) {
 			this.wizard[method]();
 		}
-	};
+	}
 };
 
 ExperiencedAdmin.prototype.updateUserTab = function(mode) {
 	this._updateTab(mode, $('#ldap_user_count'));
-}
+};
 
 ExperiencedAdmin.prototype.updateGroupTab = function(mode) {
 	this._updateTab(mode, $('#ldap_group_count'));
-}
+};
 
 ExperiencedAdmin.prototype._updateTab = function(mode, $countEl) {
 	if(mode === LdapWizard.filterModeAssisted) {
@@ -77,7 +79,7 @@ ExperiencedAdmin.prototype._updateTab = function(mode, $countEl) {
 	} else {
 		$countEl.addClass('hidden');
 	}
-}
+};
 
 /**
  * hide user and group counters, they will be displayed on demand only
