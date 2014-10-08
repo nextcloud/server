@@ -339,7 +339,7 @@ class Trashbin {
 				// if location no longer exists, restore file in the root directory
 				if ($location !== '/' &&
 					(!$view->is_dir('files' . $location) ||
-						!$view->isUpdatable('files' . $location))
+						!$view->isCreatable('files' . $location))
 				) {
 					$location = '';
 				}
