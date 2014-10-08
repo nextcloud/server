@@ -80,7 +80,7 @@ class Helper
 	public static function compareTimestamp($a, $b) {
 		$aTime = $a->getMTime();
 		$bTime = $b->getMTime();
-		return $aTime - $bTime;
+		return ($aTime < $bTime) ? -1 : 1;
 	}
 
 	/**
