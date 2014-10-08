@@ -530,23 +530,21 @@ var LdapWizard = {
 	isConfigurationActiveControlLocked: true,
 
 	init: function() {
+		LdapWizard.instantiateFilters();
 		LdapWizard.basicStatusCheck();
 		LdapWizard.functionalityCheck();
 		LdapWizard.isConfigurationActiveControlLocked = false;
 	},
 
 	initGroupFilter: function() {
-		LdapWizard.groupFilter = new LdapFilter('Group');
-		LdapWizard.findObjectClasses('ldap_groupfilter_objectclass', 'Group');
-		LdapWizard.findAvailableGroups('ldap_groupfilter_groups', 'Groups');
+		LdapWizard.groupFilter.activate();
 		LdapWizard.countGroups();
 	},
 
 	/** init login filter tab section **/
 
 	initLoginFilter: function() {
-		LdapWizard.loginFilter = new LdapFilter('Login');
-		LdapWizard.findAttributes();
+		LdapWizard.loginFilter.activate();
 	},
 
 	postInitLoginFilter: function() {
@@ -571,15 +569,30 @@ var LdapWizard = {
 
 	/** init user filter tab section **/
 
+	instantiateFilters: function() {
+		delete LdapWizard.userFilter;
+		LdapWizard.userFilter = new LdapFilter('User', function(mode) {
+			LdapWizard.userFilter.findFeatures();
+		});
+
+		delete LdapWizard.loginFilter;
+		LdapWizard.loginFilter = new LdapFilter('Login', function(mode) {
+			LdapWizard.loginFilter.findFeatures();
+		});
+
+		delete LdapWizard.groupFilter;
+		LdapWizard.groupFilter = new LdapFilter('Group', function(mode) {
+			LdapWizard.groupFilter.findFeatures();
+		});
+	},
+
 	userFilterObjectClassesHasRun: false,
 	userFilterAvailableGroupsHasRun: false,
 
 	initUserFilter: function() {
 		LdapWizard.userFilterObjectClassesHasRun = false;
 		LdapWizard.userFilterAvailableGroupsHasRun = false;
-		LdapWizard.userFilter = new LdapFilter('User');
-		LdapWizard.findObjectClasses('ldap_userfilter_objectclass', 'User');
-		LdapWizard.findAvailableGroups('ldap_userfilter_groups', 'Users');
+		LdapWizard.userFilter.activate();
 	},
 
 	postInitUserFilter: function() {
@@ -713,9 +726,12 @@ var LdapWizard = {
 	},
 
 	toggleRawFilter: function(container, moc, mg, stateVar, modeKey) {
+		var isUser = moc.indexOf('user') >= 0;
+		var filter = isUser ? LdapWizard.userFilter : LdapWizard.groupFilter;
 		//moc = multiselect objectclass
 		//mg = mutliselect groups
 		if($(container).hasClass('invisible')) {
+			filter.setMode(LdapWizard.filterModeRaw);
 			$(container).removeClass('invisible');
 			$(moc).multiselect('disable');
 			if($(mg).multiselect().attr('disabled') == 'disabled') {
@@ -726,11 +742,13 @@ var LdapWizard = {
 			$(mg).multiselect('disable');
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeRaw);
 		} else {
+			filter.setMode(LdapWizard.filterModeAssisted);
+			filter.findFeatures();
 			$(container).addClass('invisible');
 			$(mg).multiselect(LdapWizard[stateVar]);
 			$(moc).multiselect('enable');
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
-			if(moc.indexOf('user') >= 0) {
+			if(isUser) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
 				LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
 			} else {
@@ -764,6 +782,8 @@ var LdapWizard = {
 			property = false;
 			mode = LdapWizard.filterModeAssisted;
 		}
+		LdapWizard.loginFilter.setMode(mode);
+		LdapWizard.loginFilter.findFeatures();
 		$('#ldap_loginfilter_attributes').multiselect(action);
 		$('#ldap_loginfilter_email').prop('disabled', property);
 		$('#ldap_loginfilter_username').prop('disabled', property);
@@ -837,6 +857,7 @@ $(document).ready(function() {
 	LdapWizard.initMultiSelect($('#ldap_groupfilter_objectclass'),
 							   'ldap_groupfilter_objectclass',
 							   t('user_ldap', 'Select object classes'));
+
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	$('#toggleRawUserFilter').click(LdapWizard.toggleRawUserFilter);
 	$('#toggleRawGroupFilter').click(LdapWizard.toggleRawGroupFilter);

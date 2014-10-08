@@ -43,12 +43,11 @@ ExperiencedAdmin.prototype.isExperienced = function() {
  */
 ExperiencedAdmin.prototype.enableRawMode = function	() {
 	containers = {
-		'toggleRawUserFilter' : '#rawGroupFilterContainer',
+		'toggleRawGroupFilter': '#rawGroupFilterContainer',
 		'toggleRawLoginFilter': '#rawLoginFilterContainer',
 		'toggleRawUserFilter' : '#rawUserFilterContainer'
 	};
 
-//	containers.forEach(function(container, method) {
 	for(method in containers) {
 		if($(containers[method]).hasClass('invisible')) {
 			this.wizard[method]();

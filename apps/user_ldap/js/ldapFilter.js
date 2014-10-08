@@ -1,17 +1,28 @@
 /* global LdapWizard */
 
-function LdapFilter(target)  {
+function LdapFilter(target, determineModeCallback)  {
 	this.locked = true;
 	this.target = false;
 	this.mode = LdapWizard.filterModeAssisted;
 	this.lazyRunCompose = false;
+	this.determineModeCallback = determineModeCallback;
+	this.foundFeatures = false;
+	this.activated = false;
 
 	if( target === 'User' ||
 		target === 'Login' ||
 		target === 'Group') {
 		this.target = target;
-		this.determineMode();
 	}
+}
+
+LdapFilter.prototype.activate = function() {
+	if(this.activated) {
+		return;
+	}
+	this.activated = true;
+
+	this.determineMode();
 }
 
 LdapFilter.prototype.compose = function(callback) {
@@ -82,6 +93,7 @@ LdapFilter.prototype.determineMode = function() {
 					filter.mode + '« of type ' + typeof filter.mode);
 			}
 			filter.unlock();
+			filter.determineModeCallback(filter.mode);
 		},
 		function () {
 			//on error case get back to default i.e. Assisted
@@ -90,9 +102,16 @@ LdapFilter.prototype.determineMode = function() {
 				filter.mode = LdapWizard.filterModeAssisted;
 			}
 			filter.unlock();
+			filter.determineModeCallback(filter.mode);
 		}
 	);
 };
+
+LdapFilter.prototype.setMode = function(mode) {
+	if(mode === LdapWizard.filterModeAssisted || mode === LdapWizard.filterModeRaw) {
+		this.mode = mode;
+	}
+}
 
 LdapFilter.prototype.unlock = function() {
 	this.locked = false;
@@ -101,3 +120,23 @@ LdapFilter.prototype.unlock = function() {
 		this.compose();
 	}
 };
+
+LdapFilter.prototype.findFeatures = function() {
+	if(!this.foundFeatures && !this.locked && this.mode === LdapWizard.filterModeAssisted) {
+		this.foundFeatures = true;
+		if(this.target === 'User') {
+			objcEl = 'ldap_userfilter_objectclass';
+			avgrEl = 'ldap_userfilter_groups';
+		} else if (this.target === 'Group') {
+			objcEl = 'ldap_groupfilter_objectclass';
+			avgrEl = 'ldap_groupfilter_groups';
+		} else if (this.target === 'Login') {
+			LdapWizard.findAttributes();
+			return;
+		} else {
+			return false;
+		}
+		LdapWizard.findObjectClasses(objcEl, this.target);
+		LdapWizard.findAvailableGroups(avgrEl, this.target + "s");
+	}
+}
