@@ -24,7 +24,7 @@
 		?>
 		<option value="NEW"><?php p($l->t('Add Server Configuration'));?></option>
 		</select>
-		<button id="ldap_action_delete_configuration"
+		<button type="button" id="ldap_action_delete_configuration"
 			name="ldap_action_delete_configuration"><?php p($l->t('Delete Configuration'));?></button>
 		</p>
 
