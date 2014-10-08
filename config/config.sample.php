@@ -493,7 +493,6 @@ $CONFIG = array(
  * custom path for libreoffice / openoffice binary
  */
 'preview_libreoffice_path' => '/usr/bin/libreoffice',
-
 /**
  * cl parameters for libreoffice / openoffice
  */
@@ -522,8 +521,6 @@ $CONFIG = array(
  *  - OC\Preview\PDF
  *  - OC\Preview\StarOffice
  *  - OC\Preview\SVG
- *  - OC\Preview\Movies
- *  - OC\Preview\PDF
  */
 'enabledPreviewProviders' => array(
 	'OC\Preview\Image',
