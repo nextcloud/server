@@ -349,7 +349,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function writeBack($tmpFile) {
 		if (!isset(self::$tmpFiles[$tmpFile])) {
-			return false;
+			return;
 		}
 
 		$path = self::$tmpFiles[$tmpFile];
@@ -375,9 +375,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		} catch (\Exception $ex) {
 			$this->getCache()->remove($path);
 			\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
-			return false;
+			throw $ex; // make this bubble up
 		}
-		return true;
 	}
 
 	/**
