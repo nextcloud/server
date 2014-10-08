@@ -84,6 +84,10 @@ class OC_Group_Database extends OC_Group_Backend {
 		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_user` WHERE `gid` = ?" );
 		$stmt->execute( array( $gid ));
 
+		// Delete the group-groupadmin relation
+		$stmt = OC_DB::prepare( "DELETE FROM `*PREFIX*group_admin` WHERE `gid` = ?" );
+		$stmt->execute( array( $gid ));
+
 		return true;
 	}
 
