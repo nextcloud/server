@@ -15,7 +15,7 @@ A user logs into ownCloud with their LDAP or AD credentials, and is granted acce
 		<authentication/>
 	</types>
 	<documentation>
-		<admin>http://doc.owncloud.org/server/7.0/go.php?to=admin-ldap</admin>
+		<admin>admin-ldap</admin>
 	</documentation>
 	<ocsid>166061</ocsid>
 </info>
