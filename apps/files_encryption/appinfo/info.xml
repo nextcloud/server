@@ -11,7 +11,10 @@ Note that this app encrypts all files that are touched by ownCloud, so external 
 	<author>Sam Tuke, Bjoern Schiessle, Florin Peter</author>
 	<requiremin>4</requiremin>
 	<shipped>true</shipped>
-
+	<documentation>
+		<user>user-encryption</user>
+		<admin>admin-encryption</admin>
+	</documentation>
 	<rememberlogin>false</rememberlogin>
 	<types>
 		<filesystem/>

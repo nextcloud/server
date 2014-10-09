@@ -659,7 +659,15 @@ class OC_App {
 				$data[$child->getName()] = substr($xml, 13, -14); //script <description> tags
 			} elseif ($child->getName() == 'documentation') {
 				foreach ($child as $subChild) {
-					$data["documentation"][$subChild->getName()] = (string)$subChild;
+					$url = (string) $subChild;
+
+					// If it is not an absolute URL we assume it is a key
+					// i.e. admin-ldap will get converted to go.php?to=admin-ldap
+					if(!\OC::$server->getHTTPHelper()->isHTTPURL($url)) {
+						$url = OC_Helper::linkToDocs($url);
+					}
+
+					$data["documentation"][$subChild->getName()] = $url;
 				}
 			} else {
 				$data[$child->getName()] = (string)$child;

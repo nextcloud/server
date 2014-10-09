@@ -14,6 +14,9 @@ In addition to the expiry of versions, ownCloud’s versions app makes certain n
 	<types>
 		<filesystem/>
 	</types>
+	<documentation>
+		<user>user-versions</user>
+	</documentation>
 	<default_enable/>
 	<ocsid>166053</ocsid>
 </info>

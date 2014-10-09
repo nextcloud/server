@@ -14,5 +14,8 @@
 	<types>
 		<filesystem/>
 	</types>
+	<documentation>
+		<user>user-trashbin</user>
+	</documentation>
 	<ocsid>166052</ocsid>
 </info>

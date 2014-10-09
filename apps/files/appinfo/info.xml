@@ -17,4 +17,7 @@
 		<webdav>appinfo/remote.php</webdav>
 		<filesync>appinfo/filesync.php</filesync>
 	</remote>
+	<documentation>
+		<user>user-files</user>
+	</documentation>
 </info>
