@@ -26,6 +26,42 @@ class Test_Mount_Config_Dummy_Storage {
 	}
 }
 
+class Test_Mount_Config_Hook_Test {
+	static $signal;
+	static $params;
+
+	public static function setUpHooks() {
+		self::clear();
+		\OCP\Util::connectHook(
+			\OC\Files\Filesystem::CLASSNAME,
+			\OC\Files\Filesystem::signal_create_mount,
+			'\Test_Mount_Config_Hook_Test', 'createHookCallback');
+		\OCP\Util::connectHook(
+			\OC\Files\Filesystem::CLASSNAME,
+			\OC\Files\Filesystem::signal_delete_mount,
+			'\Test_Mount_Config_Hook_Test', 'deleteHookCallback');
+	}
+
+	public static function clear() {
+		self::$signal = null;
+		self::$params = null;
+	}
+
+	public static function createHookCallback($params) {
+		self::$signal = \OC\Files\Filesystem::signal_create_mount;
+		self::$params = $params;
+	}
+
+	public static function deleteHookCallback($params) {
+		self::$signal = \OC\Files\Filesystem::signal_delete_mount;
+		self::$params = $params;
+	}
+
+	public static function getLastCall() {
+		return array(self::$signal, self::$params);
+	}
+}
+
 /**
  * Class Test_Mount_Config
  */
@@ -77,9 +113,11 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		);
 
 		OC_Mount_Config::$skipTest = true;
+		Test_Mount_Config_Hook_Test::setupHooks();
 	}
 
 	public function tearDown() {
+		Test_Mount_Config_Hook_Test::clear();
 		OC_Mount_Config::$skipTest = false;
 
 		\OC_User::deleteUser(self::TEST_USER2);
@@ -335,6 +373,102 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($options, $savedOptions);
 		// key order needs to be preserved for the UI...
 		$this->assertEquals(array_keys($options), array_keys($savedOptions));
+	}
+
+	public function testHooks() {
+		$mountPoint = '/test';
+		$mountType = 'user';
+		$applicable = 'all';
+		$isPersonal = false;
+
+		$mountConfig = array(
+			'host' => 'smbhost',
+			'user' => 'smbuser',
+			'password' => 'smbpassword',
+			'share' => 'smbshare',
+			'root' => 'smbroot'
+		);
+
+		// write config
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				$mountPoint,
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		list($hookName, $params) = Test_Mount_Config_Hook_Test::getLastCall();
+		$this->assertEquals(
+			\OC\Files\Filesystem::signal_create_mount,
+			$hookName
+		);
+		$this->assertEquals(
+			$mountPoint,
+			$params[\OC\Files\Filesystem::signal_param_path]
+		);
+		$this->assertEquals(
+			$mountType,
+			$params[\OC\Files\Filesystem::signal_param_mount_type]
+		);
+		$this->assertEquals(
+			$applicable,
+			$params[\OC\Files\Filesystem::signal_param_users]
+		);
+
+		Test_Mount_Config_Hook_Test::clear();
+
+		// edit
+		$mountConfig['host'] = 'anothersmbhost';
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				$mountPoint,
+				'\OC\Files\Storage\SMB',
+				$mountConfig,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		// hook must not be called on edit
+		list($hookName, $params) = Test_Mount_Config_Hook_Test::getLastCall();
+		$this->assertEquals(
+			null,
+			$hookName
+		);
+
+		Test_Mount_Config_Hook_Test::clear();
+
+		$this->assertTrue(
+			OC_Mount_Config::removeMountPoint(
+				$mountPoint,
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		list($hookName, $params) = Test_Mount_Config_Hook_Test::getLastCall();
+		$this->assertEquals(
+			\OC\Files\Filesystem::signal_delete_mount,
+			$hookName
+		);
+		$this->assertEquals(
+			$mountPoint,
+			$params[\OC\Files\Filesystem::signal_param_path]
+		);
+		$this->assertEquals(
+			$mountType,
+			$params[\OC\Files\Filesystem::signal_param_mount_type]
+		);
+		$this->assertEquals(
+			$applicable,
+			$params[\OC\Files\Filesystem::signal_param_users]
+		);
 	}
 
 	/**

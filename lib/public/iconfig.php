@@ -58,6 +58,13 @@ interface IConfig {
 	 */
 	public function deleteSystemValue($key);
 
+	/**
+	 * Get all keys stored for an app
+	 *
+	 * @param string $appName the appName that we stored the value under
+	 * @return string[] the keys stored for the app
+	 */
+	public function getAppKeys($appName);
 
 	/**
 	 * Writes a new app wide value
