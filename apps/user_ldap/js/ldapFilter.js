@@ -55,7 +55,6 @@ LdapFilter.prototype.compose = function(callback) {
 	LdapWizard.ajax(param,
 		function(result) {
 			LdapWizard.applyChanges(result);
-			console.log(filter.mode);
 			filter.updateCount();
 			if(filter.target === 'Group') {
 				LdapWizard.detectGroupMemberAssoc();
