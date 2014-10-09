@@ -7,23 +7,9 @@
 	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<description>
-	ownCloud supports simple version control for files.	The versioning app
-	expires old versions automatically to make sure that
-	the user doesn't run out of space. The following pattern is used to delete
-	old versions:
-	For the first 10 seconds ownCloud keeps one version every 2 seconds;
-	For the first hour ownCloud keeps one version every minute;
-	For the first 24 hours ownCloud keeps one version every hour;
-	For the first 30 days ownCloud keeps one version every day;
-	After the first 30 days ownCloud keeps one version every week.
+This application enables ownCloud to automatically maintain older versions of files that are changed. When enabled, a hidden versions folder is provisioned in every user’s directory and is used to store old file versions. A user can revert to an older version through the web interface at any time, with the replaced file becoming a version. ownCloud then automatically manages the versions folder to ensure the user doesn’t run out of Quota because of versions.
+In addition to the expiry of versions, ownCloud’s versions app makes certain never to use more than 50% of the user’s currently available free space. If stored versions exceed this limit, ownCloud will delete the oldest versions first until it meets this limit. . More information is available in the Versions documentation. 
 
-	The versions are adjusted along this pattern every time a new version gets
-	created.
-
-	Beside that the version app takes care to never use more that 50% of the users
-	currently available free space. If the stored versions exceed this limit
-	ownCloud deletes the oldest versions until it meets the memory usage limit
-	again.
 	</description>
 	<types>
 		<filesystem/>
