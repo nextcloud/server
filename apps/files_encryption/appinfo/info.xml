@@ -11,7 +11,8 @@
 	<requiremin>4</requiremin>
 	<shipped>true</shipped>
 	<documentation>
-
+		<user>user-encryption</user>
+		<admin>admin-encryption</admin>
 	</documentation>
 	<rememberlogin>false</rememberlogin>
 	<types>

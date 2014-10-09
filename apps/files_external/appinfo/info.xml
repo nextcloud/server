@@ -11,6 +11,9 @@
 	<author>Robin Appelman, Michael Gapczynski, Vincent Petry</author>
 	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
+	<documentation>
+		<admin>admin-external-storage</admin>
+	</documentation>
 	<types>
 		<filesystem/>
 	</types>

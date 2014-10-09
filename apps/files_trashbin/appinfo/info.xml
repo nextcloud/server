@@ -15,5 +15,8 @@ To prevent a user from running out of disk space, the ownCloud Deleted files app
 	<types>
 		<filesystem/>
 	</types>
+	<documentation>
+		<user>user-trashbin</user>
+	</documentation>
 	<ocsid>166052</ocsid>
 </info>
