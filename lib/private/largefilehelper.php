@@ -101,7 +101,8 @@ class LargeFileHelper {
 	*/
 	public function getFileSizeViaCurl($filename) {
 		if (function_exists('curl_init')) {
-			$ch = curl_init("file://$filename");
+			$fencoded = urlencode($filename);
+			$ch = curl_init("file://$fencoded");
 			curl_setopt($ch, CURLOPT_NOBODY, true);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_HEADER, true);
