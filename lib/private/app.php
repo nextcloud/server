@@ -93,6 +93,13 @@ class OC_App {
 				throw new \OC\NeedsUpdateException();
 			}
 			require_once $app . '/appinfo/app.php';
+			if (self::isType($app, array('authentication'))) {
+				// since authentication apps affect the "is app enabled for group" check,
+				// the enabled apps cache needs to be cleared to make sure that the
+				// next time getEnableApps() is called it will also include apps that were
+				// enabled for groups
+				self::$enabledAppsCache = array();
+			}
 		}
 	}
 
