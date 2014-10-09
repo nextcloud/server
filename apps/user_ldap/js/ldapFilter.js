@@ -14,7 +14,7 @@ function LdapFilter(target, determineModeCallback) {
 		target === 'Group') {
 		this.target = target;
 	}
-};
+}
 
 LdapFilter.prototype.activate = function() {
 	if(this.activated) {
@@ -33,17 +33,17 @@ LdapFilter.prototype.compose = function(callback) {
 		return false;
 	}
 
+	if(this.mode === LdapWizard.filterModeRaw) {
+		//Raw filter editing, i.e. user defined filter, don't compose
+		return;
+	}
+
 	if(this.target === 'User') {
 		action = 'getUserListFilter';
 	} else if(this.target === 'Login') {
 		action = 'getUserLoginFilter';
 	} else if(this.target === 'Group') {
 		action = 'getGroupFilter';
-	}
-
-	if(!$('#raw'+this.target+'FilterContainer').hasClass('invisible')) {
-		//Raw filter editing, i.e. user defined filter, don't compose
-		return;
 	}
 
 	var param = 'action='+action+
@@ -55,10 +55,9 @@ LdapFilter.prototype.compose = function(callback) {
 	LdapWizard.ajax(param,
 		function(result) {
 			LdapWizard.applyChanges(result);
-			if(filter.target === 'User') {
-				LdapWizard.countUsers();
-			} else if(filter.target === 'Group') {
-				LdapWizard.countGroups();
+			console.log(filter.mode);
+			filter.updateCount();
+			if(filter.target === 'Group') {
 				LdapWizard.detectGroupMemberAssoc();
 			}
 			if(typeof callback !== 'undefined') {

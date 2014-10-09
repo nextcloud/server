@@ -542,7 +542,6 @@ var LdapWizard = {
 
 	initGroupFilter: function() {
 		LdapWizard.groupFilter.activate();
-		LdapWizard.countGroups();
 	},
 
 	/** init login filter tab section **/
@@ -576,6 +575,9 @@ var LdapWizard = {
 	instantiateFilters: function() {
 		delete LdapWizard.userFilter;
 		LdapWizard.userFilter = new LdapFilter('User', function(mode) {
+			if(mode === LdapWizard.filterModeAssisted) {
+				LdapWizard.groupFilter.updateCount();
+			}
 			LdapWizard.userFilter.findFeatures();
 		});
 		$('#rawUserFilterContainer .ldapGetEntryCount').click(function(event) {
@@ -593,6 +595,9 @@ var LdapWizard = {
 
 		delete LdapWizard.groupFilter;
 		LdapWizard.groupFilter = new LdapFilter('Group', function(mode) {
+			if(mode === LdapWizard.filterModeAssisted) {
+				LdapWizard.groupFilter.updateCount();
+			}
 			LdapWizard.groupFilter.findFeatures();
 		});
 		$('#rawGroupFilterContainer .ldapGetEntryCount').click(function(event) {
@@ -617,7 +622,6 @@ var LdapWizard = {
 		if(LdapWizard.userFilterObjectClassesHasRun &&
 			LdapWizard.userFilterAvailableGroupsHasRun) {
 			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
-			LdapWizard.countUsers();
 		}
 	},
 
@@ -657,10 +661,8 @@ var LdapWizard = {
 		}
 
 		if(triggerObj.id == 'ldap_userlist_filter' && !LdapWizard.admin.isExperienced()) {
-			LdapWizard.countUsers();
 			LdapWizard.detectEmailAttribute();
 		} else if(triggerObj.id == 'ldap_group_filter' && !LdapWizard.admin.isExperienced()) {
-			LdapWizard.countGroups();
 			LdapWizard.detectGroupMemberAssoc();
 		}
 
