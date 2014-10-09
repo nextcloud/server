@@ -29,6 +29,11 @@ use OCA\user_ldap\lib\BackendUtility;
 class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	protected $enabled = false;
 
+	/**
+	 * @var string[] $cachedGroupMembers array of users with gid as key
+	 */
+	protected $cachedGroupMembers = array();
+
 	public function __construct(Access $access) {
 		parent::__construct($access);
 		$filter = $this->access->connection->ldapGroupFilter;
@@ -56,6 +61,21 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		$userDN = $this->access->username2dn($uid);
+
+		if(isset($this->cachedGroupMembers[$gid])) {
+			$isInGroup = in_array($userDN, $this->cachedGroupMembers[$gid]);
+			return $isInGroup;
+		}
+
+		$cacheKeyMembers = 'inGroup-members:'.$gid;
+		if($this->access->connection->isCached($cacheKeyMembers)) {
+			$members = $this->access->connection->getFromCache($cacheKeyMembers);
+			$this->cachedGroupMembers[$gid] = $members;
+			$isInGroup = in_array($userDN, $members);
+			$this->access->connection->writeToCache($cacheKey, $isInGroup);
+			return $isInGroup;
+		}
+
 		$groupDN = $this->access->groupname2dn($gid);
 		// just in case
 		if(!$groupDN || !$userDN) {
@@ -70,8 +90,9 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		//usually, LDAP attributes are said to be case insensitive. But there are exceptions of course.
-		$members = array_keys($this->_groupMembers($groupDN));
-		if(!$members) {
+		$members = $this->_groupMembers($groupDN);
+		$members = array_keys($members); // uids are returned as keys
+		if(!is_array($members) || count($members) === 0) {
 			$this->access->connection->writeToCache($cacheKey, false);
 			return false;
 		}
@@ -93,6 +114,8 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 
 		$isInGroup = in_array($userDN, $members);
 		$this->access->connection->writeToCache($cacheKey, $isInGroup);
+		$this->access->connection->writeToCache($cacheKeyMembers, $members);
+		$this->cachedGroupMembers[$gid] = $members;
 
 		return $isInGroup;
 	}
