@@ -517,6 +517,9 @@ class Storage {
 			// but always keep the two latest versions
 			$numOfVersions = count($allVersions) -2 ;
 			$i = 0;
+			// sort oldest first and make sure that we start at the first element
+			ksort($allVersions);
+			reset($allVersions);
 			while ($availableSpace < 0 && $i < $numOfVersions) {
 				$version = current($allVersions);
 				\OC_Hook::emit('\OCP\Versions', 'preDelete', array('path' => $version['path'].'.v'.$version['version']));
