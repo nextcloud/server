@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "کلید بازیابی با موفقیت فعال شده است.",
-"Could not enable recovery key. Please check your recovery key password!" => "کلید بازیابی نمی تواند فعال شود. لطفا رمزعبور کلید بازیابی خود را بررسی نمایید!",
-"Recovery key successfully disabled" => "کلید بازیابی با موفقیت غیر فعال شده است.",
 "Could not disable recovery key. Please check your recovery key password!" => "کلید بازیابی را نمی تواند غیرفعال نماید. لطفا رمزعبور کلید بازیابی خود را بررسی کنید!",
+"Recovery key successfully disabled" => "کلید بازیابی با موفقیت غیر فعال شده است.",
 "Password successfully changed." => "رمزعبور با موفقیت تغییر یافت.",
 "Could not change the password. Maybe the old password was not correct." => "رمزعبور را نمیتواند تغییر دهد. شاید رمزعبورقدیمی صحیح نمی باشد.",
 "Private key password successfully updated." => "رمزعبور کلید خصوصی با موفقیت به روز شد.",
 "Could not update the private key password. Maybe the old password was not correct." => "رمزعبور کلید خصوصی را نمی تواند به روز کند. شاید رمزعبور قدیمی صحیح نمی باشد.",
+"File recovery settings updated" => "تنظیمات بازیابی فایل به روز شده است.",
+"Could not update file recovery" => "به روز رسانی بازیابی فایل را نمی تواند انجام دهد.",
 "Missing requirements." => "نیازمندی های گمشده",
 "Following users are not set up for encryption:" => "کاربران زیر برای رمزنگاری تنظیم نشده اند",
 "Encryption" => "رمزگذاری",
@@ -24,8 +25,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "رمزعبور فعلی",
 "Update Private Key Password" => "به روز رسانی رمزعبور کلید خصوصی",
 "Enable password recovery:" => "فعال سازی بازیابی رمزعبور:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید.",
-"File recovery settings updated" => "تنظیمات بازیابی فایل به روز شده است.",
-"Could not update file recovery" => "به روز رسانی بازیابی فایل را نمی تواند انجام دهد."
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "فعال کردن این گزینه به شما اجازه خواهد داد در صورت از دست دادن رمزعبور به فایل های رمزگذاری شده خود دسترسی داشته باشید."
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

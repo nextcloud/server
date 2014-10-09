@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Ključ za obnovitev gesla je uspešno nastavljen",
-"Could not enable recovery key. Please check your recovery key password!" => "Ključa za obnovitev gesla ni mogoče nastaviti. Preverite ključ!",
-"Recovery key successfully disabled" => "Ključ za obnovitev gesla je uspešno onemogočen",
 "Could not disable recovery key. Please check your recovery key password!" => "Ključa za obnovitev gesla ni mogoče onemogočiti. Preverite ključ!",
+"Recovery key successfully disabled" => "Ključ za obnovitev gesla je uspešno onemogočen",
 "Password successfully changed." => "Geslo je uspešno spremenjeno.",
 "Could not change the password. Maybe the old password was not correct." => "Gesla ni mogoče spremeniti. Morda vnos starega gesla ni pravilen.",
 "Private key password successfully updated." => "Zasebni ključ za geslo je uspešno posodobljen.",
 "Could not update the private key password. Maybe the old password was not correct." => "Zasebnega ključa za geslo ni mogoče posodobiti. Morda vnos starega gesla ni bil pravilen.",
+"File recovery settings updated" => "Nastavitve obnavljanja dokumentov so posodobljene",
+"Could not update file recovery" => "Nastavitev za obnavljanje dokumentov ni mogoče posodobiti",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Program za šifriranje ni začet. Morda je bil program ponovno omogočen šele med zagonom trenutne seje. Odjavite se in se nato prijavite nazaj. S tem morda razrešite napako.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Zasebni ključ ni veljaven. Najverjetneje je bilo geslo spremenjeno izven %s (najverjetneje je to poslovna mapa). Geslo lahko posodobite med osebnimi nastavitvami in s tem obnovite dostop do šifriranih datotek.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Te datoteke ni mogoče šifrirati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Trenutno geslo",
 "Update Private Key Password" => "Posodobi zasebni ključ",
 "Enable password recovery:" => "Omogoči obnovitev gesla:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili.",
-"File recovery settings updated" => "Nastavitve obnavljanja dokumentov so posodobljene",
-"Could not update file recovery" => "Nastavitev za obnavljanje dokumentov ni mogoče posodobiti"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Nastavitev te možnosti omogoča ponovno pridobitev dostopa do šifriranih datotek, v primeru, da boste geslo pozabili."
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

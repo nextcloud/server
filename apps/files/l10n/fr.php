@@ -91,6 +91,6 @@ $TRANSLATIONS = array(
 "Upload too large" => "Téléversement trop volumineux",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur.",
 "Files are being scanned, please wait." => "Les fichiers sont en cours d'analyse, veuillez patienter.",
-"Currently scanning" => "Analyse en cours de traitement"
+"Currently scanning" => "Analyse en cours"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

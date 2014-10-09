@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Activada satisfactoriamente a chave de recuperación",
-"Could not enable recovery key. Please check your recovery key password!" => "Non foi posíbel activar a chave de recuperación. Comprobe o contrasinal da chave de recuperación!",
-"Recovery key successfully disabled" => "Desactivada satisfactoriamente a chave de recuperación",
 "Could not disable recovery key. Please check your recovery key password!" => "Non foi posíbel desactivar a chave de recuperación. Comprobe o contrasinal da chave de recuperación!",
+"Recovery key successfully disabled" => "Desactivada satisfactoriamente a chave de recuperación",
 "Password successfully changed." => "O contrasinal foi cambiado satisfactoriamente",
 "Could not change the password. Maybe the old password was not correct." => "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto.",
 "Private key password successfully updated." => "A chave privada foi actualizada correctamente.",
 "Could not update the private key password. Maybe the old password was not correct." => "Non foi posíbel actualizar o contrasinal da chave privada. É probábel que o contrasinal antigo non sexa correcto.",
+"File recovery settings updated" => "Actualizouse o ficheiro de axustes de recuperación",
+"Could not update file recovery" => "Non foi posíbel actualizar o ficheiro de recuperación",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Non se iniciou a aplicación de cifrado! Quizais volva a activarse durante a sesión. Tente pechar a sesión e volver iniciala para que tamén se inicie a aplicación de cifrado.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "A chave privada non é correcta! É probábel que o seu contrasinal teña sido cambiado desde o exterior do %s (p.ex. o seu directorio corporativo). Vostede pode actualizar o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Non foi posíbel descifrar o ficheiro, probabelmente tratase dun ficheiro compartido. Pídalle ao propietario do ficheiro que  volva compartir o ficheiro con vostede.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Contrasinal actual de acceso",
 "Update Private Key Password" => "Actualizar o contrasinal da chave privada",
 "Enable password recovery:" => "Activar o  contrasinal de recuperación:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados no caso de perda do contrasinal",
-"File recovery settings updated" => "Actualizouse o ficheiro de axustes de recuperación",
-"Could not update file recovery" => "Non foi posíbel actualizar o ficheiro de recuperación"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Ao activar esta opción permitiráselle volver a obter acceso aos ficheiros cifrados no caso de perda do contrasinal"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

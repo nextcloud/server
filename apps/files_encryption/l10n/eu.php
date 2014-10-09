@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Berreskuratze gakoa behar bezala gaitua",
-"Could not enable recovery key. Please check your recovery key password!" => "Ezin da berreskuratze gako gaitu. Egiaztatu berreskuratze gako pasahitza!",
-"Recovery key successfully disabled" => "Berreskuratze gakoa behar bezala desgaitu da",
 "Could not disable recovery key. Please check your recovery key password!" => "Ezin da berreskuratze gako desgaitu. Egiaztatu berreskuratze gako pasahitza!",
+"Recovery key successfully disabled" => "Berreskuratze gakoa behar bezala desgaitu da",
 "Password successfully changed." => "Pasahitza behar bezala aldatu da.",
 "Could not change the password. Maybe the old password was not correct." => "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da.",
 "Private key password successfully updated." => "Gako pasahitz pribatu behar bezala eguneratu da.",
 "Could not update the private key password. Maybe the old password was not correct." => "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da.",
+"File recovery settings updated" => "Fitxategi berreskuratze ezarpenak eguneratuak",
+"Could not update file recovery" => "Ezin da fitxategi berreskuratzea eguneratu",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Enkriptazio aplikazioa ez dago hasieratuta! Agian aplikazioa birgaitu egin da zure saioa bitartean. Mesdez atear eta sartu berriz enkriptazio aplikazioa hasierarazteko.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Zure gako pribatua ez da egokia! Seguruaski zure pasahitza %s-tik kanpo aldatu da (adb. zure direktorio korporatiboa). Zure gako pribatuaren pasahitza eguneratu dezakezu zure ezarpen pertsonaletan zure enkriptatutako fitxategiak berreskuratzeko.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Ezin izan da fitxategi hau deszifratu, ziurrenik elkarbanatutako fitxategi bat da. Mesdez, eskatu fitxategiaren jabeari fitxategia zurekin berriz elkarbana dezan.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Sartzeko oraingo pasahitza",
 "Update Private Key Password" => "Eguneratu gako pasahitza pribatua",
 "Enable password recovery:" => "Gaitu pasahitzaren berreskuratzea:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Aukera hau gaituz zure enkriptatutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan",
-"File recovery settings updated" => "Fitxategi berreskuratze ezarpenak eguneratuak",
-"Could not update file recovery" => "Ezin da fitxategi berreskuratzea eguneratu"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Aukera hau gaituz zure enkriptatutako fitxategiak berreskuratu ahal izango dituzu pasahitza galtzekotan"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

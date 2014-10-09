@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Ključ za oporavak uspješno aktiviran",
-"Could not enable recovery key. Please check your recovery key password!" => "Ključ za oporavak nije moguće aktivirati. Molimo provjerite svoju lozinku ključa za oporavak!",
-"Recovery key successfully disabled" => "Ključ za ooravak uspješno deaktiviran",
 "Could not disable recovery key. Please check your recovery key password!" => "Ključ za oporavak nije moguće deaktivirati. Molimo provjerite svoju lozinku ključa za oporavak!",
+"Recovery key successfully disabled" => "Ključ za ooravak uspješno deaktiviran",
 "Password successfully changed." => "Lozinka uspješno promijenjena.",
 "Could not change the password. Maybe the old password was not correct." => "Lozinku nije moguće promijeniti. Možda je stara lozinka bila neispravna.",
 "Private key password successfully updated." => "Lozinka privatnog ključa uspješno ažurirana.",
 "Could not update the private key password. Maybe the old password was not correct." => "Lozinku privatnog ključa nije moguće promijeniti. Možda stara je stara lozinka bila neispravna.",
+"File recovery settings updated" => "Ažurirane postavke za oporavak datoteke",
+"Could not update file recovery" => "Oporavak datoteke nije moguće ažurirati",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Aplikacija šifriranja nije inicijalizirana! Možda je aplikacija šifriranja bila reaktivirana tijekom vaše sesije.Da biste inicijalizirali aplikaciju šifriranja, molimo, pokušajte se odjaviti i ponovno prijaviti.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Vaš privatni ključ nije ispravan! Vjerojatno je vaša lozinka promijenjena izvan %s(npr. vašega korporativnog direktorija). Lozinku svoga privatnog ključa možete ažuriratiu svojim osobnim postavkama da biste obnovili pristup svojim šifriranim datotekama.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Ovu datoteku nije moguće dešifrirati, vjerojatno je riječ o zajedničkoj datoteci. Molimopitajte vlasnika datoteke da je ponovo podijeli s vama.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Aktualna lozinka za prijavu",
 "Update Private Key Password" => "Ažurirajte lozinku privatnog ključa",
 "Enable password recovery:" => "Omogućite oporavak lozinke:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "U slučaju gubitka lozinke, aktiviranje ove opcije ponovno će vam pribaviti pristup vašim šifriranim datotekama",
-"File recovery settings updated" => "Ažurirane postavke za oporavak datoteke",
-"Could not update file recovery" => "Oporavak datoteke nije moguće ažurirati"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "U slučaju gubitka lozinke, aktiviranje ove opcije ponovno će vam pribaviti pristup vašim šifriranim datotekama"
 );
 $PLURAL_FORMS = "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;";

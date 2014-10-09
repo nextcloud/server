@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "還原金鑰已成功開啟",
-"Could not enable recovery key. Please check your recovery key password!" => "無法啟用還原金鑰。請檢查您的還原金鑰密碼!",
-"Recovery key successfully disabled" => "還原金鑰已成功停用",
 "Could not disable recovery key. Please check your recovery key password!" => "無法停用還原金鑰。請檢查您的還原金鑰密碼!",
+"Recovery key successfully disabled" => "還原金鑰已成功停用",
 "Password successfully changed." => "成功變更密碼。",
 "Could not change the password. Maybe the old password was not correct." => "無法變更密碼，或許是輸入的舊密碼不正確。",
 "Private key password successfully updated." => "私人金鑰密碼已成功更新。",
 "Could not update the private key password. Maybe the old password was not correct." => "無法更新私人金鑰密碼。可能舊的密碼不正確。",
+"File recovery settings updated" => "檔案還原設定已更新",
+"Could not update file recovery" => "無法更新檔案還原設定",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "加密功能未初始化!可能加密功能需要重新啟用在現在的連線上。請試著登出再登入來初始化加密功能。",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "您的私人金鑰不正確!可能您的密碼已經變更在外部的 %s (例如:您的企業目錄)。您可以在您的個人設定中更新私人金鑰密碼來還原存取您的加密檔案。",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "無法解密這個檔案，也許這是分享的檔案。請詢問檔案所有人重新分享檔案給您。",
@@ -34,8 +35,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "目前的登入密碼",
 "Update Private Key Password" => "更新私人金鑰密碼",
 "Enable password recovery:" => "啟用密碼還原:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案",
-"File recovery settings updated" => "檔案還原設定已更新",
-"Could not update file recovery" => "無法更新檔案還原設定"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "啟用這個選項將會允許您因忘記密碼但需要存取您的加密檔案"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

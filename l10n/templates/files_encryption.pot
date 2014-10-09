@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-08 01:54-0400\n"
+"POT-Creation-Date: 2014-10-09 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,54 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: ajax/adminrecovery.php:19
+msgid "Unknown error"
+msgstr ""
+
+#: ajax/adminrecovery.php:23
+msgid "Missing recovery key password"
+msgstr ""
+
 #: ajax/adminrecovery.php:29
+msgid "Please repeat the recovery key password"
+msgstr ""
+
+#: ajax/adminrecovery.php:35 ajax/changeRecoveryPassword.php:46
+msgid ""
+"Repeated recovery key password does not match the provided recovery key "
+"password"
+msgstr ""
+
+#: ajax/adminrecovery.php:49
 msgid "Recovery key successfully enabled"
 msgstr ""
 
-#: ajax/adminrecovery.php:34
-msgid "Could not enable recovery key. Please check your recovery key password!"
-msgstr ""
-
-#: ajax/adminrecovery.php:48
-msgid "Recovery key successfully disabled"
-msgstr ""
-
-#: ajax/adminrecovery.php:53
+#: ajax/adminrecovery.php:51 ajax/adminrecovery.php:64
 msgid ""
 "Could not disable recovery key. Please check your recovery key password!"
 msgstr ""
 
-#: ajax/changeRecoveryPassword.php:50
+#: ajax/adminrecovery.php:62
+msgid "Recovery key successfully disabled"
+msgstr ""
+
+#: ajax/changeRecoveryPassword.php:28
+msgid "Please provide the old recovery password"
+msgstr ""
+
+#: ajax/changeRecoveryPassword.php:34
+msgid "Please provide a new recovery password"
+msgstr ""
+
+#: ajax/changeRecoveryPassword.php:40
+msgid "Please repeat the new recovery password"
+msgstr ""
+
+#: ajax/changeRecoveryPassword.php:76
 msgid "Password successfully changed."
 msgstr ""
 
-#: ajax/changeRecoveryPassword.php:52
+#: ajax/changeRecoveryPassword.php:78
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr ""
 
@@ -50,6 +76,14 @@ msgstr ""
 msgid ""
 "Could not update the private key password. Maybe the old password was not "
 "correct."
+msgstr ""
+
+#: ajax/userrecovery.php:44
+msgid "File recovery settings updated"
+msgstr ""
+
+#: ajax/userrecovery.php:46
+msgid "Could not update file recovery"
 msgstr ""
 
 #: files/error.php:16
@@ -122,39 +156,39 @@ msgid ""
 "Enable recovery key (allow to recover users files in case of password loss):"
 msgstr ""
 
-#: templates/settings-admin.php:12
+#: templates/settings-admin.php:13
 msgid "Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:15
+#: templates/settings-admin.php:16
 msgid "Repeat Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:23 templates/settings-personal.php:53
+#: templates/settings-admin.php:24 templates/settings-personal.php:54
 msgid "Enabled"
 msgstr ""
 
-#: templates/settings-admin.php:32 templates/settings-personal.php:62
+#: templates/settings-admin.php:33 templates/settings-personal.php:63
 msgid "Disabled"
 msgstr ""
 
-#: templates/settings-admin.php:37
+#: templates/settings-admin.php:38
 msgid "Change recovery key password:"
 msgstr ""
 
-#: templates/settings-admin.php:43
+#: templates/settings-admin.php:45
 msgid "Old Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:50
+#: templates/settings-admin.php:52
 msgid "New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:56
+#: templates/settings-admin.php:58
 msgid "Repeat New Recovery key password"
 msgstr ""
 
-#: templates/settings-admin.php:61
+#: templates/settings-admin.php:63
 msgid "Change Password"
 msgstr ""
 
@@ -188,16 +222,8 @@ msgstr ""
 msgid "Enable password recovery:"
 msgstr ""
 
-#: templates/settings-personal.php:45
+#: templates/settings-personal.php:46
 msgid ""
 "Enabling this option will allow you to reobtain access to your encrypted "
 "files in case of password loss"
-msgstr ""
-
-#: templates/settings-personal.php:63
-msgid "File recovery settings updated"
-msgstr ""
-
-#: templates/settings-personal.php:64
-msgid "Could not update file recovery"
 msgstr ""

@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Recovery key enabled successfully",
-"Could not enable recovery key. Please check your recovery key password!" => "Could not enable recovery key. Please check your recovery key password!",
-"Recovery key successfully disabled" => "Recovery key disabled successfully",
 "Could not disable recovery key. Please check your recovery key password!" => "Could not disable recovery key. Please check your recovery key password!",
+"Recovery key successfully disabled" => "Recovery key disabled successfully",
 "Password successfully changed." => "Password changed successfully.",
 "Could not change the password. Maybe the old password was not correct." => "Could not change the password. Maybe the old password was incorrect.",
 "Private key password successfully updated." => "Private key password updated successfully.",
 "Could not update the private key password. Maybe the old password was not correct." => "Could not update the private key password. Maybe the old password was not correct.",
+"File recovery settings updated" => "File recovery settings updated",
+"Could not update file recovery" => "Could not update file recovery",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Encryption app not initialised! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialise the encryption app.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Cannot decrypt this file, which is probably a shared file. Please ask the file owner to reshare the file with you.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Current login password",
 "Update Private Key Password" => "Update Private Key Password",
 "Enable password recovery:" => "Enable password recovery:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss",
-"File recovery settings updated" => "File recovery settings updated",
-"Could not update file recovery" => "Could not update file recovery"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Enabling this option will allow you to reobtain access to your encrypted files in case of password loss"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

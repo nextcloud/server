@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Επιτυχής ενεργοποίηση κλειδιού ανάκτησης",
-"Could not enable recovery key. Please check your recovery key password!" => "Αποτυχία ενεργοποίησης κλειδιού ανάκτησης. Παρακαλώ ελέγξτε τον κωδικό του κλειδιού ανάκτησής σας!",
-"Recovery key successfully disabled" => "Επιτυχής απενεργοποίηση κλειδιού ανάκτησης",
 "Could not disable recovery key. Please check your recovery key password!" => "Αποτυχία απενεργοποίησης κλειδιού ανάκτησης. Παρακαλώ ελέγξτε τον κωδικό του κλειδιού ανάκτησής σας!",
+"Recovery key successfully disabled" => "Επιτυχής απενεργοποίηση κλειδιού ανάκτησης",
 "Password successfully changed." => "Ο κωδικός αλλάχτηκε επιτυχώς.",
 "Could not change the password. Maybe the old password was not correct." => "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός.",
 "Private key password successfully updated." => "Το Προσωπικό κλειδί πρόσβασης ενημερώθηκε επιτυχώς",
 "Could not update the private key password. Maybe the old password was not correct." => "Αποτυχία ενημέρωσης του κωδικού για το προσωπικό κλειδί. Ενδεχομένως ο παλιός κωδικός δεν ήταν σωστός.",
+"File recovery settings updated" => "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν",
+"Could not update file recovery" => "Αποτυχία ενημέρωσης ανάκτησης αρχείων",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Η εφαρμογή κρυπτογράφησης δεν έχει εκκινήσει! Ίσως η εφαρμογή κρυπτογράφησης επανενεργοποιήθηκε κατά τη διάρκεια της τρέχουσας σύνδεσής σας. Παρακαλώ προσπαθήστε να αποσυνδεθείτε και να ξανασυνδεθείτε για να εκκινήσετε την εφαρμογή κρυπτογράφησης.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Το προσωπικό σας κλειδί δεν είναι έγκυρο! Πιθανόν ο κωδικός σας να άλλαξε έξω από το %s (π.χ. τη λίστα διευθύνσεων της εταιρείας σας). Μπορείτε να ενημερώσετε το προσωπικό σας κλειδί επαναφοράς κωδικού στις προσωπικές σας ρυθμίσεις για να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Δεν ήταν δυνατό να αποκρυπτογραφηθεί αυτό το αρχείο, πιθανόν πρόκειται για κοινόχρηστο αρχείο. Παρακαλώ ζητήστε από τον ιδιοκτήτη του αρχείου να το ξαναμοιραστεί μαζί σας.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Τρέχον συνθηματικό πρόσβασης",
 "Update Private Key Password" => "Ενημέρωση Προσωπικού Κλειδού Πρόσβασης",
 "Enable password recovery:" => "Ενεργοποιήστε την ανάκτηση κωδικού πρόσβασης",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας",
-"File recovery settings updated" => "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν",
-"Could not update file recovery" => "Αποτυχία ενημέρωσης ανάκτησης αρχείων"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Η ενεργοποίηση αυτής της επιλογής θα σας επιτρέψει να επανακτήσετε πρόσβαση στα κρυπτογραφημένα σας αρχεία σε περίπτωση απώλειας του κωδικού σας"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

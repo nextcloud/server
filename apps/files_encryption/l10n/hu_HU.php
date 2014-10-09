@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "A helyreállítási kulcs sikeresen bekapcsolva",
-"Could not enable recovery key. Please check your recovery key password!" => "A helyreállítási kulcsot nem lehetett engedélyezni. Ellenőrizze a helyreállítási kulcsa jelszavát!",
-"Recovery key successfully disabled" => "A helyreállítási kulcs sikeresen kikapcsolva",
 "Could not disable recovery key. Please check your recovery key password!" => "A helyreállítási kulcsot nem lehetett kikapcsolni. Ellenőrizze a helyreállítási kulcsa jelszavát!",
+"Recovery key successfully disabled" => "A helyreállítási kulcs sikeresen kikapcsolva",
 "Password successfully changed." => "A jelszót sikeresen megváltoztattuk.",
 "Could not change the password. Maybe the old password was not correct." => "A jelszót nem lehet megváltoztatni! Lehet, hogy hibás volt a régi jelszó.",
 "Private key password successfully updated." => "A személyes kulcsának jelszava frissítésre került.",
 "Could not update the private key password. Maybe the old password was not correct." => "A személyes kulcsa jelszavát nem lehetett frissíteni. Lehet, hogy hibás volt a régi jelszó.",
+"File recovery settings updated" => "A fájlhelyreállítási beállítások frissültek",
+"Could not update file recovery" => "A fájlhelyreállítás nem frissíthető",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "A titkosítási modul nincs elindítva! Talán a munkafolyamat közben került engedélyezésre. Kérjük jelentkezzen ki majd ismét jelentkezzen be, hogy a titkosítási modul megfelelően elinduljon!",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Az állományok titkosításához használt titkos kulcsa érvénytelen. Valószínűleg a %s rendszeren kívül változtatta meg a jelszavát (pl. a munkahelyi címtárban). A személyes beállításoknál frissítheti a titkos kulcsát, hogy ismét elérhesse a titkosított állományait.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Az állományt nem sikerült dekódolni, valószínűleg ez egy megosztott fájl. Kérje meg az állomány tulajdonosát, hogy újra ossza meg Önnel ezt az állományt!",
@@ -33,8 +34,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Jelenlegi bejelentkezési jelszó",
 "Update Private Key Password" => "A személyest kulcs jelszó frissítése",
 "Enable password recovery:" => "Jelszó-visszaállítás bekapcsolása",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Ez az opció lehetővé teszi, hogy a titkosított állományok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát",
-"File recovery settings updated" => "A fájlhelyreállítási beállítások frissültek",
-"Could not update file recovery" => "A fájlhelyreállítás nem frissíthető"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Ez az opció lehetővé teszi, hogy a titkosított állományok tartalmát visszanyerjük abban az esetben, ha elfelejti a jelszavát"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

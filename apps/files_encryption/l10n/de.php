@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Wiederherstellungsschlüssel wurde erfolgreich aktiviert",
-"Could not enable recovery key. Please check your recovery key password!" => "Der Wiederherstellungsschlüssel konnte nicht aktiviert werden. Überprüfe Dein Wiederherstellungspasswort!",
-"Recovery key successfully disabled" => "Wiederherstellungsschlüssel deaktiviert.",
 "Could not disable recovery key. Please check your recovery key password!" => "Der Wiederherstellungsschlüssel konnte nicht deaktiviert werden. Überprüfe Dein Wiederherstellungspasswort!",
+"Recovery key successfully disabled" => "Wiederherstellungsschlüssel deaktiviert.",
 "Password successfully changed." => "Dein Passwort wurde geändert.",
 "Could not change the password. Maybe the old password was not correct." => "Das Passwort konnte nicht geändert werden. Vielleicht war das alte Passwort falsch.",
 "Private key password successfully updated." => "Passwort des privaten Schlüssels erfolgreich aktualisiert",
 "Could not update the private key password. Maybe the old password was not correct." => "Das Passwort des privaten Schlüssels konnte nicht aktualisiert werden. Eventuell war das alte Passwort falsch.",
+"File recovery settings updated" => "Einstellungen zur Wiederherstellung von Dateien wurden aktualisiert",
+"Could not update file recovery" => "Dateiwiederherstellung konnte nicht aktualisiert werden",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Verschlüsselung-App ist nicht initialisiert! Vielleicht wurde die Verschlüsselung-App in der aktuellen Sitzung reaktiviert. Bitte versuche Dich ab- und wieder anzumelden, um die Verschlüsselung-App zu initialisieren.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Dein privater Schlüssel ist ungültig. Möglicher Weise wurde außerhalb von %s Dein Passwort geändert (z.B. in Deinem gemeinsamen Verzeichnis). Du kannst das Passwort Deines privaten Schlüssels in den persönlichen Einstellungen aktualisieren, um wieder an Deine Dateien zu gelangen.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Die Datei kann nicht entschlüsselt werden, da die Datei möglicherweise eine geteilte Datei ist. Bitte frage den Dateibesitzer, ob er die Datei nochmals mit Dir teilt.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Aktuelles Passwort",
 "Update Private Key Password" => "Passwort für den privaten Schlüssel aktualisieren",
 "Enable password recovery:" => "Passwortwiederherstellung aktivieren:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Wenn Du diese Option aktivierst, kannst Du Deine verschlüsselten Dateien wiederherstellen, falls Du Dein Passwort vergisst",
-"File recovery settings updated" => "Einstellungen zur Wiederherstellung von Dateien wurden aktualisiert",
-"Could not update file recovery" => "Dateiwiederherstellung konnte nicht aktualisiert werden"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Wenn Du diese Option aktivierst, kannst Du Deine verschlüsselten Dateien wiederherstellen, falls Du Dein Passwort vergisst"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

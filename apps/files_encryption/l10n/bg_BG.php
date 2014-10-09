@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Успешно включване на опцията ключ за възстановяване.",
-"Could not enable recovery key. Please check your recovery key password!" => "Неуспешно включване на опцията ключ за възстановяване. Моля, провери паролата за ключа за възстановяване.",
-"Recovery key successfully disabled" => "Успешно изключване на ключа за възстановяване.",
 "Could not disable recovery key. Please check your recovery key password!" => "Неуспешно изключване на ключа за възстановяване. Моля, провери паролата за ключа за възстановяване!",
+"Recovery key successfully disabled" => "Успешно изключване на ключа за възстановяване.",
 "Password successfully changed." => "Паролата е успешно променена.",
 "Could not change the password. Maybe the old password was not correct." => "Грешка при промяна на паролата. Може би старата ти парола е сгрешена.",
 "Private key password successfully updated." => "Успешно променена тайната парола за ключа.",
 "Could not update the private key password. Maybe the old password was not correct." => "Неуспешна промяна на тайната парола за ключа. Може би старата парола е грешно въведена.",
+"File recovery settings updated" => "Настройките за възстановяване на файлове са променени.",
+"Could not update file recovery" => "Неуспешна промяна на настройките за възстановяване на файлове.",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Неуспешна инициализация на криптиращото приложение! Може би криптиращото приложение бе включено по време на твоята сесия. Отпиши се и се впиши обратно за да инциализираш криптиращото приложение.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Твоят таен ключ е невалиден! Вероятно твоята парола беше променена извън %s(пр. твоята корпоративна директория). Можеш да промениш своят таен ключ в Лични настройки, за да възстановиш достъпа до криптираните файлове.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Неуспешно разшифроване на този файл, вероятно това е споделен файл. Моля, поискай собственика на файла да го сподели повторно с теб.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Текуща парола за вписване",
 "Update Private Key Password" => "Промени Тайната Парола за Ключа",
 "Enable password recovery:" => "Включи опцията възстановяване на паролата:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола.",
-"File recovery settings updated" => "Настройките за възстановяване на файлове са променени.",
-"Could not update file recovery" => "Неуспешна промяна на настройките за възстановяване на файлове."
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Избирането на тази опция ще ти позволи да възстановиш достъпа си до файловете в случай на изгубена парола."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

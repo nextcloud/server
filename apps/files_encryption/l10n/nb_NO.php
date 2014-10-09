@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Gjenopprettingsnøkkel aktivert",
-"Could not enable recovery key. Please check your recovery key password!" => "Klarte ikke å aktivere gjenopprettingsnøkkel. Sjekk passordet for gjenopprettingsnøkkelen.",
-"Recovery key successfully disabled" => "Gjenopprettingsnøkkel ble deaktivert",
 "Could not disable recovery key. Please check your recovery key password!" => "Klarte ikke å deaktivere gjenopprettingsnøkkel. Sjekk passordet for gjenopprettingsnøkkelen.",
+"Recovery key successfully disabled" => "Gjenopprettingsnøkkel ble deaktivert",
 "Password successfully changed." => "Passordet ble endret.",
 "Could not change the password. Maybe the old password was not correct." => "Klarte ikke å endre passordet. Kanskje gammelt passord ikke var korrekt.",
 "Private key password successfully updated." => "Passord for privat nøkkel ble oppdatert.",
 "Could not update the private key password. Maybe the old password was not correct." => "Klarte ikke å oppdatere passord for privat nøkkel. Kanskje gammelt passord ikke var korrekt.",
+"File recovery settings updated" => "Innstillinger for gjenoppretting av filer ble oppdatert",
+"Could not update file recovery" => "Klarte ikke å oppdatere gjenoppretting av filer",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Krypterings-app ikke initialisert! Kanskje krypterings-appen ble aktivert på nytt i løpet av økten din. Prøv å logge ut og logge inn igjen for å initialisere krypterings-appen.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Din private nøkkel er ikke gyldig! Sannsynligvis ble passordet ditt endret utenfor %s. (f.eks. din bedriftskatalog). Du kan oppdatere passordet for din private nøkkel i dine personlige innstillinger for å gjenvinne tilgang til de krypterte filene dine.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Kan ikke dekryptere denne filen. Dette er sannsynligvis en delt fil. Spør eieren av filen om å dele den med deg på nytt.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Nåværende påloggingspassord",
 "Update Private Key Password" => "Oppdater passord for privat nøkkel",
 "Enable password recovery:" => "Aktiver gjenoppretting av passord:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt.",
-"File recovery settings updated" => "Innstillinger for gjenoppretting av filer ble oppdatert",
-"Could not update file recovery" => "Klarte ikke å oppdatere gjenoppretting av filer"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Aktivering av dette valget tillater deg å gjenerobre tilgang til dine krypterte filer i tilfelle du mister passordet ditt."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

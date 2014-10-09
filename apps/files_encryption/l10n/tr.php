@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Kurtarma anahtarı başarıyla etkinleştirildi",
-"Could not enable recovery key. Please check your recovery key password!" => "Kurtarma anahtarı etkinleştirilemedi. Lütfen kurtarma anahtarı parolanızı kontrol edin!",
-"Recovery key successfully disabled" => "Kurtarma anahtarı başarıyla devre dışı bırakıldı",
 "Could not disable recovery key. Please check your recovery key password!" => "Kurtarma anahtarı devre dışı bırakılamadı. Lütfen kurtarma anahtarı parolanızı kontrol edin!",
+"Recovery key successfully disabled" => "Kurtarma anahtarı başarıyla devre dışı bırakıldı",
 "Password successfully changed." => "Parola başarıyla değiştirildi.",
 "Could not change the password. Maybe the old password was not correct." => "Parola değiştirilemedi. Eski parolanız doğru olmayabilir.",
 "Private key password successfully updated." => "Özel anahtar parolası başarıyla güncellendi.",
 "Could not update the private key password. Maybe the old password was not correct." => "Özel anahtar parolası güncellenemedi. Eski parola hatalı olabilir.",
+"File recovery settings updated" => "Dosya kurtarma ayarları güncellendi",
+"Could not update file recovery" => "Dosya kurtarma güncellenemedi",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Şifreleme uygulaması başlatılamadı! Oturumunuz sırasında şifreleme uygulaması tekrar etkinleştirilmiş olabilir. Lütfen şifreleme uygulamasını başlatmak için oturumu kapatıp yeniden oturum açmayı deneyin.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Özel anahtarınız geçerli değil! Muhtemelen parolanız %s dışarısında değiştirildi (örn. şirket dizininde). Gizli anahtar parolanızı kişisel ayarlarınızda güncelleyerek şifreli dosyalarınıza erişimi kurtarabilirsiniz.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Bu dosya muhtemelen bir paylaşılan dosya olduğundan şifrelemesi kaldırılamıyor. Lütfen dosyayı sizinle bir daha paylaşması için dosya sahibi ile iletişime geçin.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Geçerli oturum açma parolası",
 "Update Private Key Password" => "Özel Anahtar Parolasını Güncelle",
 "Enable password recovery:" => "Parola kurtarmayı etkinleştir:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Bu seçeneği etkinleştirmek, parola kaybı durumunda şifrelenmiş dosyalarınıza erişimi yeniden kazanmanızı sağlayacaktır",
-"File recovery settings updated" => "Dosya kurtarma ayarları güncellendi",
-"Could not update file recovery" => "Dosya kurtarma güncellenemedi"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Bu seçeneği etkinleştirmek, parola kaybı durumunda şifrelenmiş dosyalarınıza erişimi yeniden kazanmanızı sağlayacaktır"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

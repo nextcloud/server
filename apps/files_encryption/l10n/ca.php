@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "La clau de recuperació s'ha activat",
-"Could not enable recovery key. Please check your recovery key password!" => "No s'ha pogut activar la clau de recuperació. Comproveu contrasenya de la clau de recuperació!",
-"Recovery key successfully disabled" => "La clau de recuperació s'ha descativat",
 "Could not disable recovery key. Please check your recovery key password!" => "No s'ha pogut desactivar la calu de recuperació. Comproveu la contrasenya de la clau de recuperació!",
+"Recovery key successfully disabled" => "La clau de recuperació s'ha descativat",
 "Password successfully changed." => "La contrasenya s'ha canviat.",
 "Could not change the password. Maybe the old password was not correct." => "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta.",
 "Private key password successfully updated." => "La contrasenya de la clau privada s'ha actualitzat.",
 "Could not update the private key password. Maybe the old password was not correct." => "No s'ha pogut actualitzar la contrasenya de la clau privada. Potser la contrasenya anterior no era correcta.",
+"File recovery settings updated" => "S'han  actualitzat els arranjaments de recuperació de fitxers",
+"Could not update file recovery" => "No s'ha pogut actualitzar la recuperació de fitxers",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "L'aplicació d'encriptació  no està inicialitzada! Potser l'aplicació d'encriptació ha estat reiniciada durant la sessió. Intenteu sortir i acreditar-vos de nou per reinicialitzar l'aplicació d'encriptació.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "La clau privada no és vàlida! Probablement la contrasenya va ser canviada des de fora de %s (per exemple, en el directori de l'empresa). Vostè pot actualitzar la contrasenya de clau privada en la seva configuració personal per poder recuperar l'accés en els arxius xifrats.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "No es pot desencriptar aquest fitxer, probablement és un fitxer compartit. Demaneu al propietari del fitxer que el comparteixi de nou amb vós.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Contrasenya d'accés actual",
 "Update Private Key Password" => "Actualitza la contrasenya de clau privada",
 "Enable password recovery:" => "Habilita la recuperació de contrasenya:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Activar aquesta opció us permetrà obtenir de nou accés als vostres fitxers encriptats en cas de perdre la contrasenya",
-"File recovery settings updated" => "S'han  actualitzat els arranjaments de recuperació de fitxers",
-"Could not update file recovery" => "No s'ha pogut actualitzar la recuperació de fitxers"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Activar aquesta opció us permetrà obtenir de nou accés als vostres fitxers encriptats en cas de perdre la contrasenya"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

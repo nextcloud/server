@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Záchranný kľúč bol úspešne povolený",
-"Could not enable recovery key. Please check your recovery key password!" => "Nepodarilo sa povoliť záchranný kľúč. Skontrolujte prosím Vaše heslo záchranného kľúča!",
-"Recovery key successfully disabled" => "Záchranný kľúč bol úspešne zakázaný",
 "Could not disable recovery key. Please check your recovery key password!" => "Nepodarilo sa zakázať záchranný kľúč. Skontrolujte prosím Vaše heslo záchranného kľúča!",
+"Recovery key successfully disabled" => "Záchranný kľúč bol úspešne zakázaný",
 "Password successfully changed." => "Heslo úspešne zmenené.",
 "Could not change the password. Maybe the old password was not correct." => "Nemožno zmeniť heslo. Pravdepodobne nebolo staré heslo zadané správne.",
 "Private key password successfully updated." => "Heslo súkromného kľúča je úspešne aktualizované.",
 "Could not update the private key password. Maybe the old password was not correct." => "Nemožno aktualizovať heslo súkromného kľúča. Možno nebolo staré heslo správne.",
+"File recovery settings updated" => "Nastavenie obnovy súborov aktualizované",
+"Could not update file recovery" => "Nemožno aktualizovať obnovenie súborov",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Šifrovacia aplikácia nie je inicializovaná. Je možné, že aplikácia bola znova aktivovaná počas vášho prihlasovania. Pokúste sa odhlásiť a znova prihlásiť pre inicializáciu šifrovania.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Váš súkromný kľúč nie je platný! Možno bolo vaše heslo zmenené mimo %s (napr. firemný priečinok). Môžete si aktualizovať heslo svojho ​​súkromného kľúča vo vašom osobnom nastavení, ak si chcete obnoviť prístup k šifrovaným súborom.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Tento súbor sa nepodarilo dešifrovať, pravdepodobne je zdieľaný. Požiadajte majiteľa súboru, aby ho s vami znovu vyzdieľal.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Súčasné prihlasovacie heslo",
 "Update Private Key Password" => "Aktualizovať heslo súkromného kľúča",
 "Enable password recovery:" => "Povoliť obnovu hesla:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo",
-"File recovery settings updated" => "Nastavenie obnovy súborov aktualizované",
-"Could not update file recovery" => "Nemožno aktualizovať obnovenie súborov"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Povolenie Vám umožní znovu získať prístup k Vašim zašifrovaným súborom, ak stratíte heslo"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Habilitóse la recuperación de ficheros",
-"Could not enable recovery key. Please check your recovery key password!" => "Nun pudo habilitase la clave de recuperación. Por favor comprueba la contraseña.",
-"Recovery key successfully disabled" => "Clave de recuperación deshabilitada",
 "Could not disable recovery key. Please check your recovery key password!" => "Nun pudo deshabilitase la clave de recuperación. Por favor comprueba la contraseña!",
+"Recovery key successfully disabled" => "Clave de recuperación deshabilitada",
 "Password successfully changed." => "Camudóse la contraseña",
 "Could not change the password. Maybe the old password was not correct." => "Nun pudo camudase la contraseña. Comprueba que la contraseña actual seya correuta.",
 "Private key password successfully updated." => "Contraseña de clave privada anovada correchamente.",
 "Could not update the private key password. Maybe the old password was not correct." => "Nun pudo camudase la contraseña. Pue que la contraseña antigua nun seya correuta.",
+"File recovery settings updated" => "Opciones de recuperación de ficheros anovada",
+"Could not update file recovery" => "Nun pudo anovase la recuperación de ficheros",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "¡L'aplicación de cifráu nun s'anició! Seique se restableciera mentanto la sesión. Por favor intenta zarrar la sesión y volver a aniciala p'aniciar l'aplicación de cifráu.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "¡La clave privada nun ye válida! Seique la contraseña se camudase dende fuera de %s (Ex:El to direutoriu corporativu). Pues anovar la contraseña de la clave privada nes tos opciones personales pa recuperar l'accesu a los ficheros.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Nun pudo descifrase esti ficheru, dablemente seya un ficheru compartíu. Solicita al propietariu del mesmu que vuelva a compartilu contigo.",
@@ -36,8 +37,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Contraseña d'accesu actual",
 "Update Private Key Password" => "Anovar Contraseña de Clave Privada",
 "Enable password recovery:" => "Habilitar la recuperación de contraseña:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Habilitar esta opción va permitite volver a tener accesu a los ficheros cifraos en casu de perda de contraseña",
-"File recovery settings updated" => "Opciones de recuperación de ficheros anovada",
-"Could not update file recovery" => "Nun pudo anovase la recuperación de ficheros"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Habilitar esta opción va permitite volver a tener accesu a los ficheros cifraos en casu de perda de contraseña"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

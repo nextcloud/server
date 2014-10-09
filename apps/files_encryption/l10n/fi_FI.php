@@ -1,10 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Palautusavain kytketty päälle onnistuneesti",
-"Could not enable recovery key. Please check your recovery key password!" => "Palautusavaimen käyttöönotto epäonnistui. Tarkista palautusavaimesi salasana!",
 "Password successfully changed." => "Salasana vaihdettiin onnistuneesti.",
 "Could not change the password. Maybe the old password was not correct." => "Salasanan vaihto epäonnistui. Kenties vanha salasana oli väärin.",
 "Private key password successfully updated." => "Yksityisen avaimen salasana päivitetty onnistuneesti.",
+"File recovery settings updated" => "Tiedostopalautuksen asetukset päivitetty",
 "Unknown error. Please check your system settings or contact your administrator" => "Tuntematon virhe. Tarkista järjestelmän asetukset tai ole yhteydessä ylläpitäjään.",
 "Following users are not set up for encryption:" => "Seuraavat käyttäjät eivät ole määrittäneet salausta:",
 "Initial encryption started... This can take some time. Please wait." => "Ensimmäinen salauskerta käynnistetty... Tämä saattaa kestää hetken.",
@@ -26,7 +26,6 @@ $TRANSLATIONS = array(
 "Old log-in password" => "Vanha kirjautumis-salasana",
 "Current log-in password" => "Nykyinen kirjautumis-salasana",
 "Update Private Key Password" => "Päivitä yksityisen avaimen salasana",
-"Enable password recovery:" => "Ota salasanan palautus käyttöön:",
-"File recovery settings updated" => "Tiedostopalautuksen asetukset päivitetty"
+"Enable password recovery:" => "Ota salasanan palautus käyttöön:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "A chave de recuperação foi ativada com sucesso",
-"Could not enable recovery key. Please check your recovery key password!" => "Não foi possível ativar a chave de recuperação. Por favor, verifique a sua senha da chave de recuperação!",
-"Recovery key successfully disabled" => "A chave de recuperação foi desativada com sucesso",
 "Could not disable recovery key. Please check your recovery key password!" => "Não foi possível desativar a chave de recuperação. Por favor, verifique a senha da chave de recuperação.",
+"Recovery key successfully disabled" => "A chave de recuperação foi desativada com sucesso",
 "Password successfully changed." => "Senha alterada com sucesso.",
 "Could not change the password. Maybe the old password was not correct." => "Não foi possível alterar a senha. Possivelmente a senha antiga não está correta.",
 "Private key password successfully updated." => "A senha da chave privada foi atualizada com sucesso. ",
 "Could not update the private key password. Maybe the old password was not correct." => "Não foi possível atualizar a senha da chave privada. A senha antiga poderia não estar correta.",
+"File recovery settings updated" => "As definições da recuperação de ficheiro foram atualizadas",
+"Could not update file recovery" => "Não foi possível atualizar a recuperação de ficheiro",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "A app de encriptação não foi inicializada! A app de encriptação poderá ter sido reativada durante a sua sessão. Por favor, tente terminar a sessão e iniciá-la de seguida para inicializar a app de encriptação.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "A sua chave privada não é válida! Provavelmente a senha foi alterada fora do %s (ex. a sua diretoria corporativa). Pode atualizar a sua senha da chave privada nas definições pessoais para recuperar o acesso aos seus ficheiros encriptados. ",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Não é possível desencriptar este ficheiro, provavelmente é um ficheiro partilhado. Por favor, peça ao proprietário do ficheiro para voltar a partilhar o ficheiro consigo.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Senha de iniciar sessão atual",
 "Update Private Key Password" => "Atualizar Senha da Chave Privada ",
 "Enable password recovery:" => "Ativar a recuperação da senha:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Ao ativar esta opção, irá poder obter o acesso aos seus ficheiros encriptados, se perder a senha",
-"File recovery settings updated" => "As definições da recuperação de ficheiro foram atualizadas",
-"Could not update file recovery" => "Não foi possível atualizar a recuperação de ficheiro"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Ao ativar esta opção, irá poder obter o acesso aos seus ficheiros encriptados, se perder a senha"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "恢复密钥成功启用",
-"Could not enable recovery key. Please check your recovery key password!" => "不能启用恢复密钥。请检查恢复密钥密码！",
-"Recovery key successfully disabled" => "恢复密钥成功禁用",
 "Could not disable recovery key. Please check your recovery key password!" => "不能禁用恢复密钥。请检查恢复密钥密码！",
+"Recovery key successfully disabled" => "恢复密钥成功禁用",
 "Password successfully changed." => "密码修改成功。",
 "Could not change the password. Maybe the old password was not correct." => "不能修改密码。旧密码可能不正确。",
 "Private key password successfully updated." => "私钥密码成功更新。",
 "Could not update the private key password. Maybe the old password was not correct." => "无法更新私钥密码。可能旧密码不正确。",
+"File recovery settings updated" => "文件恢复设置已更新",
+"Could not update file recovery" => "不能更新文件恢复",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "加密应用还没有初始化！可能加密应用在你会话期间已被重新启用。请注销并重新登录，以初始化加密应用。",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "您的私有密钥无效！也许是您在 %s 外更改了密码 (比如，在您的公司目录)。您可以在个人设置里更新您的私钥密码来恢复访问你的加密文件。",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => " 无法解密这个文件（或许这是一个共享文件？），请询问文件所有者重新与您分享这个文件。",
@@ -35,8 +36,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "当前登录密码",
 "Update Private Key Password" => "更新私钥密码",
 "Enable password recovery:" => "启用密码恢复：",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "启用该项将允许你在密码丢失后取回您的加密文件",
-"File recovery settings updated" => "文件恢复设置已更新",
-"Could not update file recovery" => "不能更新文件恢复"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "启用该项将允许你在密码丢失后取回您的加密文件"
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

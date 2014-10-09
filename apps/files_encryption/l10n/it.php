@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Chiave di ripristino abilitata correttamente",
-"Could not enable recovery key. Please check your recovery key password!" => "Impossibile abilitare la chiave di ripristino. Verifica la password della chiave di ripristino.",
-"Recovery key successfully disabled" => "Chiave di ripristinata disabilitata correttamente",
 "Could not disable recovery key. Please check your recovery key password!" => "Impossibile disabilitare la chiave di ripristino. Verifica la password della chiave di ripristino.",
+"Recovery key successfully disabled" => "Chiave di ripristinata disabilitata correttamente",
 "Password successfully changed." => "Password modificata correttamente.",
 "Could not change the password. Maybe the old password was not correct." => "Impossibile cambiare la password. Forse la vecchia password non era corretta.",
 "Private key password successfully updated." => "Password della chiave privata aggiornata correttamente.",
 "Could not update the private key password. Maybe the old password was not correct." => "Impossibile aggiornare la password della chiave privata. Forse la vecchia password non era corretta.",
+"File recovery settings updated" => "Impostazioni di ripristino dei file aggiornate",
+"Could not update file recovery" => "Impossibile aggiornare il ripristino dei file",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Applicazione di cifratura non inizializzata. Forse l'applicazione è stata riabilitata durante la tua sessione. Prova a disconnetterti e ad effettuare nuovamente l'accesso per inizializzarla.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "La tua chiave privata non è valida! Forse la password è stata cambiata al di fuori di %s (ad es. la directory aziendale). Puoi aggiornare la password della chiave privata nelle impostazioni personali per ottenere nuovamente l'accesso ai file cifrati.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Impossibile decifrare questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Password di accesso attuale",
 "Update Private Key Password" => "Aggiorna la password della chiave privata",
 "Enable password recovery:" => "Abilita il ripristino della password:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password",
-"File recovery settings updated" => "Impostazioni di ripristino dei file aggiornate",
-"Could not update file recovery" => "Impossibile aggiornare il ripristino dei file"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "L'abilitazione di questa opzione ti consentirà di accedere nuovamente ai file cifrati in caso di perdita della password"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

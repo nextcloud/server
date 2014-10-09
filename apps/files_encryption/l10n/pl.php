@@ -1,13 +1,14 @@
 <?php
 $TRANSLATIONS = array(
 "Recovery key successfully enabled" => "Klucz odzyskiwania włączony",
-"Could not enable recovery key. Please check your recovery key password!" => "Nie można włączyć klucza odzyskiwania. Proszę sprawdzić swoje hasło odzyskiwania!",
-"Recovery key successfully disabled" => "Klucz odzyskiwania wyłączony",
 "Could not disable recovery key. Please check your recovery key password!" => "Nie można wyłączyć klucza odzyskiwania. Proszę sprawdzić swoje hasło odzyskiwania!",
+"Recovery key successfully disabled" => "Klucz odzyskiwania wyłączony",
 "Password successfully changed." => "Zmiana hasła udana.",
 "Could not change the password. Maybe the old password was not correct." => "Nie można zmienić hasła. Może stare hasło nie było poprawne.",
 "Private key password successfully updated." => "Pomyślnie zaktualizowano hasło klucza prywatnego.",
 "Could not update the private key password. Maybe the old password was not correct." => "Nie można zmienić prywatnego hasła. Może stare hasło nie było poprawne.",
+"File recovery settings updated" => "Ustawienia odzyskiwania plików zmienione",
+"Could not update file recovery" => "Nie można zmienić pliku odzyskiwania",
 "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." => "Szyfrowanie aplikacja nie została zainicjowane! Może szyfrowanie aplikacji zostało ponownie włączone podczas tej sesji. Spróbuj się wylogować i zalogować ponownie aby zainicjować szyfrowanie aplikacji.",
 "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." => "Klucz prywatny nie jest poprawny! Prawdopodobnie Twoje hasło zostało zmienione poza %s (np. w katalogu firmy). Aby odzyskać dostęp do zaszyfrowanych plików można zaktualizować hasło klucza prywatnego w ustawieniach osobistych.",
 "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." => "Nie można odszyfrować tego pliku, prawdopodobnie jest to plik udostępniony. Poproś właściciela pliku o ponowne udostępnianie pliku Tobie.",
@@ -37,8 +38,6 @@ $TRANSLATIONS = array(
 "Current log-in password" => "Bieżące hasło logowania",
 "Update Private Key Password" => "Aktualizacja hasła klucza prywatnego",
 "Enable password recovery:" => "Włącz hasło odzyskiwania:",
-"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła",
-"File recovery settings updated" => "Ustawienia odzyskiwania plików zmienione",
-"Could not update file recovery" => "Nie można zmienić pliku odzyskiwania"
+"Enabling this option will allow you to reobtain access to your encrypted files in case of password loss" => "Włączenie tej opcji umożliwia otrzymać dostęp do zaszyfrowanych plików w przypadku utraty hasła"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
