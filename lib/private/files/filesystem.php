@@ -160,6 +160,11 @@ class Filesystem {
 	 */
 	const signal_param_run = 'run';
 
+	const signal_create_mount = 'create_mount';
+	const signal_delete_mount = 'delete_mount';
+	const signal_param_mount_type = 'mounttype';
+	const signal_param_users = 'users';
+
 	/**
 	 * @var \OC\Files\Storage\Loader $loader
 	 */
