@@ -237,7 +237,7 @@ class Manager extends PublicEmitter implements IGroupManager {
 					}
 				}
 				$searchOffset += $searchLimit;
-			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) === $searchLimit);
+			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) >= $searchLimit);
 
 			if($limit === -1) {
 				$groupUsers = array_slice($groupUsers, $offset);
