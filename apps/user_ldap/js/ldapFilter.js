@@ -145,10 +145,10 @@ LdapFilter.prototype.findFeatures = function() {
 	}
 };
 
-LdapFilter.prototype.updateCount = function() {
+LdapFilter.prototype.updateCount = function(doneCallback) {
 	if(this.target === 'User') {
-		LdapWizard.countUsers();
+		LdapWizard.countUsers(doneCallback);
 	} else if (this.target === 'Group') {
-		LdapWizard.countGroups();
+		LdapWizard.countGroups(doneCallback);
 	}
 };

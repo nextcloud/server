@@ -328,7 +328,7 @@ var LdapWizard = {
 		}
 	},
 
-	_countThings: function(method, spinnerID) {
+	_countThings: function(method, spinnerID, doneCallback) {
 		param = 'action='+method+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
@@ -338,21 +338,27 @@ var LdapWizard = {
 			function(result) {
 				LdapWizard.applyChanges(result);
 				LdapWizard.hideSpinner(spinnerID);
+				if(doneCallback !== undefined) {
+					doneCallback(method);
+				}
 			},
 			function (result) {
 				OC.Notification.show('Counting the entries failed with, ' + result.message);
 				LdapWizard.hideSpinner(spinnerID);
+				if(doneCallback !== undefined) {
+					doneCallback(method);
+				}
 			},
 			method
 		);
 	},
 
-	countGroups: function() {
-		LdapWizard._countThings('countGroups', '#ldap_group_count');
+	countGroups: function(doneCallback) {
+		LdapWizard._countThings('countGroups', '#ldap_group_count', doneCallback);
 	},
 
-	countUsers: function() {
-		LdapWizard._countThings('countUsers', '#ldap_user_count');
+	countUsers: function(doneCallback) {
+		LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
 	},
 
 	detectEmailAttribute: function() {
@@ -586,6 +592,16 @@ var LdapWizard = {
 		});
 	},
 
+	hideTestSpinner:function (countMethod) {
+		var selector;
+		if(countMethod === 'countUsers') {
+			selector = '#rawUserFilterContainer .ldapGetEntryCount';
+		} else {
+			selector = '#rawGroupFilterContainer .ldapGetEntryCount';
+		}
+		LdapWizard.hideSpinner(selector);
+	},
+
 	/** init user filter tab section **/
 
 	instantiateFilters: function() {
@@ -599,7 +615,8 @@ var LdapWizard = {
 		$('#rawUserFilterContainer .ldapGetEntryCount').click(function(event) {
 			event.preventDefault();
 			$('#ldap_user_count').text('');
-			LdapWizard.userFilter.updateCount();
+			LdapWizard.showSpinner('#rawUserFilterContainer .ldapGetEntryCount');
+			LdapWizard.userFilter.updateCount(LdapWizard.hideTestSpinner);
 			LdapWizard.detectEmailAttribute();
 			$('#ldap_user_count').removeClass('hidden');
 		});
@@ -619,7 +636,8 @@ var LdapWizard = {
 		$('#rawGroupFilterContainer .ldapGetEntryCount').click(function(event) {
 			event.preventDefault();
 			$('#ldap_group_count').text('');
-			LdapWizard.groupFilter.updateCount();
+			LdapWizard.showSpinner('#rawGroupFilterContainer .ldapGetEntryCount');
+			LdapWizard.groupFilter.updateCount(LdapWizard.hideTestSpinner);
 			LdapWizard.detectGroupMemberAssoc();
 			$('#ldap_group_count').removeClass('hidden');
 		});
