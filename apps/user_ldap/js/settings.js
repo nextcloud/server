@@ -122,7 +122,7 @@ var LdapConfiguration = {
 			OC.filePath('user_ldap','ajax','clearMappings.php'),
 			'ldap_clear_mapping='+encodeURIComponent(mappingSubject),
 			function(result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					OC.dialogs.info(
 						t('user_ldap', 'mappings cleared'),
 						t('user_ldap', 'Success')
@@ -154,7 +154,7 @@ var LdapWizard = {
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					fnOnSuccess(result);
 				} else {
 					fnOnError(result);
@@ -164,7 +164,7 @@ var LdapWizard = {
 	},
 
 	applyChanges: function (result) {
-		for (id in result.changes) {
+		for (var id in result.changes) {
 			LdapWizard.blacklistAdd(id);
 			if(id.indexOf('count') > 0) {
 				$('#'+id).text(result.changes[id]);
@@ -200,7 +200,7 @@ var LdapWizard = {
 
 	blacklistAdd: function(id) {
 		obj = $('#'+id);
-		if(!(obj[0].hasOwnProperty('multiple') && obj[0]['multiple'] == true)) {
+		if(!(obj[0].hasOwnProperty('multiple') && obj[0]['multiple'] === true)) {
 			//no need to blacklist multiselect
 			LdapWizard.saveBlacklist[id] = true;
 			return true;
@@ -375,7 +375,7 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#ldap_loginfilter_attributes').find('option').remove();
-				for (i in result.options['ldap_loginfilter_attributes']) {
+				for (var i in result.options['ldap_loginfilter_attributes']) {
 					//FIXME: move HTML into template
 					attr = result.options['ldap_loginfilter_attributes'][i];
 					$('#ldap_loginfilter_attributes').append(
@@ -411,7 +411,7 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#'+multisel).find('option').remove();
-				for (i in result.options[multisel]) {
+				for (var i in result.options[multisel]) {
 					//FIXME: move HTML into template
 					objc = result.options[multisel][i];
 					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
@@ -438,7 +438,7 @@ var LdapWizard = {
 			function (result) {
 				LdapWizard.hideSpinner('#'+multisel);
 				$('#'+multisel).multiselect('disable');
-				if(type == 'Users') {
+				if(type === 'Users') {
 					LdapWizard.userFilterAvailableGroupsHasRun = true;
 					LdapWizard.postInitUserFilter();
 				}
@@ -447,7 +447,7 @@ var LdapWizard = {
 	},
 
 	findObjectClasses: function(multisel, type) {
-		if(type != 'User' && type != 'Group') {
+		if(type !== 'User' && type !== 'Group') {
 			return false;
 		}
 		param = 'action=determine'+encodeURIComponent(type)+'ObjectClasses'+
@@ -458,7 +458,7 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#'+multisel).find('option').remove();
-				for (i in result.options[multisel]) {
+				for (var i in result.options[multisel]) {
 					//FIXME: move HTML into template
 					objc = result.options[multisel][i];
 					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
@@ -479,7 +479,7 @@ var LdapWizard = {
 			},
 			function (result) {
 				LdapWizard.hideSpinner('#'+multisel);
-				if(type == 'User') {
+				if(type === 'User') {
 					LdapWizard.userFilterObjectClassesHasRun = true;
 					LdapWizard.postInitUserFilter();
 				}
@@ -649,10 +649,10 @@ var LdapWizard = {
 	processChanges: function(triggerObj) {
 		LdapWizard.hideInfoBox();
 
-		if(triggerObj.id == 'ldap_host'
-		   || triggerObj.id == 'ldap_port'
-		   || triggerObj.id == 'ldap_dn'
-		   || triggerObj.id == 'ldap_agent_password') {
+		if(triggerObj.id === 'ldap_host'
+		   || triggerObj.id === 'ldap_port'
+		   || triggerObj.id === 'ldap_dn'
+		   || triggerObj.id === 'ldap_agent_password') {
 			LdapWizard.checkPort();
 			if($('#ldap_port').val()) {
 				//if Port is already set, check BaseDN
@@ -660,14 +660,14 @@ var LdapWizard = {
 			}
 		}
 
-		if(triggerObj.id == 'ldap_userlist_filter' && !LdapWizard.admin.isExperienced()) {
+		if(triggerObj.id === 'ldap_userlist_filter' && !LdapWizard.admin.isExperienced()) {
 			LdapWizard.detectEmailAttribute();
-		} else if(triggerObj.id == 'ldap_group_filter' && !LdapWizard.admin.isExperienced()) {
+		} else if(triggerObj.id === 'ldap_group_filter' && !LdapWizard.admin.isExperienced()) {
 			LdapWizard.detectGroupMemberAssoc();
 		}
 
-		if(triggerObj.id == 'ldap_loginfilter_username'
-		   || triggerObj.id == 'ldap_loginfilter_email') {
+		if(triggerObj.id === 'ldap_loginfilter_username'
+		   || triggerObj.id === 'ldap_loginfilter_email') {
 			LdapWizard.loginFilter.compose();
 		}
 
@@ -705,10 +705,10 @@ var LdapWizard = {
 				LdapWizard.initLoginFilter();
 			}
 			LdapWizard.loginFilter.compose();
-		} else if(originalObj == 'ldap_loginfilter_attributes') {
+		} else if(originalObj === 'ldap_loginfilter_attributes') {
 			LdapWizard.loginFilter.compose();
-		} else if(originalObj == 'ldap_groupfilter_objectclass'
-		   || originalObj == 'ldap_groupfilter_groups') {
+		} else if(originalObj === 'ldap_groupfilter_objectclass'
+		   || originalObj === 'ldap_groupfilter_groups') {
 			LdapWizard.groupFilter.compose();
 		}
 	},
@@ -723,7 +723,7 @@ var LdapWizard = {
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					LdapWizard.processChanges(object);
 				} else {
 // 					alert('Oooooooooooh :(');
@@ -754,7 +754,7 @@ var LdapWizard = {
 			filter.setMode(LdapWizard.filterModeRaw);
 			$(container).removeClass('invisible');
 			$(moc).multiselect('disable');
-			if($(mg).multiselect().attr('disabled') == 'disabled') {
+			if($(mg).multiselect().attr('disabled') === 'disabled') {
 				LdapWizard[stateVar] = 'disable';
 			} else {
 				LdapWizard[stateVar] = 'enable';
@@ -839,7 +839,7 @@ var LdapWizard = {
 				$('#ldap_loginfilter_email').prop('disabled', property);
 				$('#ldap_loginfilter_username').prop('disabled', property);
 				LdapWizard._save({ id: 'ldapLoginFilterMode' }, mode);
-				if(action == 'enable') {
+				if(action === 'enable') {
 					LdapWizard.loginFilter.compose();
 				}
 			}
