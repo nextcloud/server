@@ -121,14 +121,6 @@ class Tags implements \OCP\ITags {
 			$this->owners = array_merge($this->owners, \OC\Share\Share::getSharedItemsOwners($this->user, $this->type, true));
 			$this->backend = \OC\Share\Share::getBackend($this->type);
 		}
-		$this->loadTags($defaultTags);
-	}
-
-	/**
-	* Load tags from db.
-	*
-	*/
-	protected function loadTags($defaultTags=array()) {
 		$this->tags = $this->mapper->loadTags($this->owners, $this->type);
 
 		if(count($defaultTags) > 0 && count($this->tags) === 0) {
@@ -413,7 +405,9 @@ class Tags implements \OCP\ITags {
 			}
 
 			// reload tags to get the proper ids.
-			$this->loadTags();
+			$this->tags = $this->mapper->loadTags($this->owners, $this->type);
+			\OCP\Util::writeLog('core', __METHOD__.', tags: ' . print_r($this->tags, true),
+				\OCP\Util::DEBUG);
 			// Loop through temporarily cached objectid/tagname pairs
 			// and save relations.
 			$tags = $this->tags;
