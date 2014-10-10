@@ -98,6 +98,14 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		if (self::$stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
 		}
+
+		\OC_Hook::clear();
+		\OC_FileProxy::clearProxies();
+
+		// Delete keys in /data/
+		$view = new \OC\Files\View('/');
+		$view->rmdir('public-keys');
+		$view->rmdir('owncloud_private_key');
 	}
 
 	/**

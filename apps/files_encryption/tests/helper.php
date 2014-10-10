@@ -20,18 +20,27 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 	const TEST_ENCRYPTION_HELPER_USER1 = "test-helper-user1";
 	const TEST_ENCRYPTION_HELPER_USER2 = "test-helper-user2";
 
-	public static function setUpBeforeClass() {
+	public function setUp() {
 		// create test user
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2, true);
 		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1, true);
 	}
 
-	public static function tearDownAfterClass() {
+	public function tearDown() {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
 		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2);
+	}
+
+	public static function tearDownAfterClass() {
+
 		\OC_Hook::clear();
 		\OC_FileProxy::clearProxies();
+
+		// Delete keys in /data/
+		$view = new \OC\Files\View('/');
+		$view->rmdir('public-keys');
+		$view->rmdir('owncloud_private_key');
 	}
 
 	/**
@@ -157,11 +166,6 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 				$result
 			);
 		}
-
-		// clean up
-		$rootView->unlink($baseDir);
-		\Test_Encryption_Util::logoutHelper();
-		\OC_User::deleteUser($userName);
 	}
 
 }

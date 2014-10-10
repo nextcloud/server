@@ -461,7 +461,7 @@ class Helper {
 			} else {
 				\OC_Log::write(
 					'Encryption library',
-					'No share key found for user "' . $user . '" for file "' . $pathOld . '"',
+					'No share key found for user "' . $user . '" for file "' . $fileName . '"',
 					\OC_Log::WARN
 				);
 			}
