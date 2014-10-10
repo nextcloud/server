@@ -295,8 +295,17 @@ class Share extends \OC\Share\Constants {
 		$shares = array();
 
 		$column = ($itemType === 'file' || $itemType === 'folder') ? 'file_source' : 'item_source';
+		if ($itemType === 'file' || $itemType === 'folder') {
+			$column = 'file_source';
+			$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE';
+		} else {
+			$column = 'item_source';
+			$where = 'WHERE';
+		}
 
-		$where = ' `' . $column . '` = ? AND `item_type` = ? ';
+		$select = self::createSelectStatement(self::FORMAT_NONE, true);
+
+		$where .= ' `' . $column . '` = ? AND `item_type` = ? ';
 		$arguments = array($itemSource, $itemType);
 		// for link shares $user === null
 		if ($user !== null) {
@@ -304,13 +313,7 @@ class Share extends \OC\Share\Constants {
 			$arguments[] = $user;
 		}
 
-		// first check if there is a db entry for the specific user
-		$query = \OC_DB::prepare(
-				'SELECT *
-					FROM
-					`*PREFIX*share`
-					WHERE' . $where
-				);
+		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $where);
 
 		$result = \OC_DB::executeAudited($query, $arguments);
 
@@ -323,7 +326,7 @@ class Share extends \OC\Share\Constants {
 			$groups = \OC_Group::getUserGroups($user);
 
 			$query = \OC_DB::prepare(
-					'SELECT `file_target`, `permissions`, `expiration`
+					'SELECT *
 						FROM
 						`*PREFIX*share`
 						WHERE
@@ -1296,7 +1299,7 @@ class Share extends \OC\Share\Constants {
 		}
 		if (isset($item)) {
 			$collectionTypes = self::getCollectionItemTypes($itemType);
-			if ($includeCollections && $collectionTypes) {
+			if ($includeCollections && $collectionTypes && !in_array('folder', $collectionTypes)) {
 				$where .= ' AND (';
 			} else {
 				$where .= ' AND';
@@ -1320,7 +1323,7 @@ class Share extends \OC\Share\Constants {
 				}
 			}
 			$queryArgs[] = $item;
-			if ($includeCollections && $collectionTypes) {
+			if ($includeCollections && $collectionTypes && !in_array('folder', $collectionTypes)) {
 				$placeholders = join(',', array_fill(0, count($collectionTypes), '?'));
 				$where .= ' OR `item_type` IN ('.$placeholders.'))';
 				$queryArgs = array_merge($queryArgs, $collectionTypes);
@@ -1434,7 +1437,7 @@ class Share extends \OC\Share\Constants {
 							$mounts[$row['storage']] = current($mountPoints);
 						}
 					}
-					if ($mounts[$row['storage']]) {
+					if (!empty($mounts[$row['storage']])) {
 						$path = $mounts[$row['storage']]->getMountPoint().$row['path'];
 						$relPath = substr($path, $root); // path relative to data/user
 						$row['path'] = rtrim($relPath, '/');
@@ -1482,7 +1485,7 @@ class Share extends \OC\Share\Constants {
 					}
 				}
 				// Check if this is a collection of the requested item type
-				if ($includeCollections && $collectionTypes && in_array($row['item_type'], $collectionTypes)) {
+				if ($includeCollections && $collectionTypes && $row['item_type'] !== 'folder' && in_array($row['item_type'], $collectionTypes)) {
 					if (($collectionBackend = self::getBackend($row['item_type']))
 						&& $collectionBackend instanceof \OCP\Share_Backend_Collection) {
 						// Collections can be inside collections, check if the item is a collection
@@ -1542,6 +1545,15 @@ class Share extends \OC\Share\Constants {
 						$toRemove = $switchedItems[$toRemove];
 					}
 					unset($items[$toRemove]);
+				} elseif ($includeCollections && $collectionTypes && in_array($row['item_type'], $collectionTypes)) {
+					// FIXME: Thats a dirty hack to improve file sharing performance,
+					// see github issue #10588 for more details
+					// Need to find a solution which works for all back-ends
+					$collectionBackend = self::getBackend($row['item_type']);
+					$sharedParents = $collectionBackend->getParents($row['item_source']);
+					foreach ($sharedParents as $parent) {
+						$collectionItems[] = $parent;
+					}
 				}
 			}
 			if (!empty($collectionItems)) {
@@ -1549,6 +1561,20 @@ class Share extends \OC\Share\Constants {
 			}
 
 			return self::formatResult($items, $column, $backend, $format, $parameters);
+		} elseif ($includeCollections && $collectionTypes && in_array('folder', $collectionTypes)) {
+			// FIXME: Thats a dirty hack to improve file sharing performance,
+			// see github issue #10588 for more details
+			// Need to find a solution which works for all back-ends
+			$collectionItems = array();
+			$collectionBackend = self::getBackend('folder');
+			$sharedParents = $collectionBackend->getParents($item, $shareWith);
+			foreach ($sharedParents as $parent) {
+				$collectionItems[] = $parent;
+			}
+			if ($limit === 1) {
+				return reset($collectionItems);
+			}
+			return self::formatResult($collectionItems, $column, $backend, $format, $parameters);
 		}
 
 		return array();
@@ -1804,6 +1830,8 @@ class Share extends \OC\Share\Constants {
 		$l = \OC::$server->getL10N('lib');
 		$result = array();
 
+		$column = ($itemType === 'file' || $itemType === 'folder') ? 'file_source' : 'item_source';
+
 		$checkReshare = self::getItemSharedWithBySource($itemType, $itemSource, self::FORMAT_NONE, null, true);
 		if ($checkReshare) {
 			// Check if attempting to share back to owner
@@ -1826,12 +1854,22 @@ class Share extends \OC\Share\Constants {
 				} else {
 					// TODO Don't check if inside folder
 					$result['parent'] = $checkReshare['id'];
-					$result['itemSource'] = $checkReshare['item_source'];
-					$result['fileSource'] = $checkReshare['file_source'];
-					$result['suggestedItemTarget'] = $checkReshare['item_target'];
-					$result['suggestedFileTarget'] = $checkReshare['file_target'];
-					$result['filePath'] = $checkReshare['file_target'];
 					$result['expirationDate'] = min($expirationDate, $checkReshare['expiration']);
+					// only suggest the same name as new target if it is a reshare of the
+					// same file/folder and not the reshare of a child
+					if ($checkReshare[$column] === $itemSource) {
+						$result['filePath'] = $checkReshare['file_target'];
+						$result['itemSource'] = $checkReshare['item_source'];
+						$result['fileSource'] = $checkReshare['file_source'];
+						$result['suggestedItemTarget'] = $checkReshare['item_target'];
+						$result['suggestedFileTarget'] = $checkReshare['file_target'];
+					} else {
+						$result['filePath'] = ($backend instanceof \OCP\Share_Backend_File_Dependent) ? $backend->getFilePath($itemSource, $uidOwner) : null;
+						$result['suggestedItemTarget'] = null;
+						$result['suggestedFileTarget'] = null;
+						$result['itemSource'] = $itemSource;
+						$result['fileSource'] = ($backend instanceof \OCP\Share_Backend_File_Dependent) ? $itemSource : null;
+					}
 				}
 			} else {
 				$message = 'Sharing %s failed, because resharing is not allowed';
