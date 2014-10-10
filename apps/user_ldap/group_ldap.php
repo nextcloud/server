@@ -283,6 +283,10 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$uid = $userDN;
 		} else if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
 			$result = $this->access->readAttribute($userDN, 'uid');
+			if ($result === false) {
+				\OCP\Util::writeLog('user_ldap', 'No uid attribute found for DN ' . $userDN . ' on '.
+					$this->access->connection->ldapHost, \OCP\Util::DEBUG);
+			}
 			$uid = $result[0];
 		} else {
 			// just in case
