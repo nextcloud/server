@@ -34,6 +34,11 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 */
 	protected $cachedGroupMembers = array();
 
+	/**
+	 * @var string[] $cachedGroupsByMember array of groups with uid as key
+	 */
+	protected $cachedGroupsByMember = array();
+
 	public function __construct(Access $access) {
 		parent::__construct($access);
 		$filter = $this->access->connection->ldapGroupFilter;
@@ -98,16 +103,28 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		}
 
 		//extra work if we don't get back user DNs
-		//TODO: this can be done with one LDAP query
 		if(strtolower($this->access->connection->ldapGroupMemberAssocAttr) === 'memberuid') {
 			$dns = array();
+			$filterParts = array();
+			$bytes = 0;
 			foreach($members as $mid) {
 				$filter = str_replace('%uid', $mid, $this->access->connection->ldapLoginFilter);
-				$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
-				if(count($ldap_users) < 1) {
-					continue;
+				$filterParts[] = $filter;
+				$bytes += strlen($filter);
+				if($bytes >= 9000000) {
+					// AD has a default input buffer of 10 MB, we do not want
+					// to take even the chance to exceed it
+					$filter = $this->access->combineFilterWithOr($filterParts);
+					$bytes = 0;
+					$filterParts = array();
+					$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+					$dns = array_merge($dns, $users);
 				}
-				$dns[] = $ldap_users[0];
+			}
+			if(count($filterParts) > 0) {
+				$filter = $this->access->combineFilterWithOr($filterParts);
+				$users = $this->access->fetchListOfUsers($filter, 'dn', count($filterParts));
+				$dns = array_merge($dns, $users);
 			}
 			$members = $dns;
 		}
@@ -316,8 +333,13 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$uid = $userDN;
 		}
 
-		$groups = array_values($this->getGroupsByMember($uid));
-		$groups = $this->access->ownCloudGroupNames($groups);
+		if(isset($this->cachedGroupsByMember[$uid])) {
+			$groups = $this->cachedGroupsByMember[$uid];
+		} else {
+			$groups = array_values($this->getGroupsByMember($uid));
+			$groups = $this->access->ownCloudGroupNames($groups);
+			$this->cachedGroupsByMember[$uid] = $groups;
+		}
 
 		$primaryGroup = $this->getUserPrimaryGroup($userDN);
 		if($primaryGroup !== false) {
