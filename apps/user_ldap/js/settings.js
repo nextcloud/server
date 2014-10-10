@@ -148,9 +148,15 @@ var LdapWizard = {
 	userFilter: false,
 	loginFilter: false,
 	groupFilter: false,
+	ajaxRequests: {},
 
-	ajax: function(param, fnOnSuccess, fnOnError) {
-		$.post(
+	ajax: function(param, fnOnSuccess, fnOnError, reqID) {
+		if(reqID !== undefined) {
+			if(LdapWizard.ajaxRequests.hasOwnProperty(reqID)) {
+				LdapWizard.ajaxRequests[reqID].abort();
+			}
+		}
+		var request = $.post(
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
@@ -161,6 +167,9 @@ var LdapWizard = {
 				}
 			}
 		);
+		if(reqID !== undefined) {
+			LdapWizard.ajaxRequests[reqID] = request;
+		}
 	},
 
 	applyChanges: function (result) {
@@ -244,7 +253,8 @@ var LdapWizard = {
 					LdapWizard.showInfoBox(t('user_ldap', 'Please specify a Base DN'));
 					LdapWizard.showInfoBox(t('user_ldap', 'Could not determine Base DN'));
 					$('#ldap_base').prop('disabled', false);
-				}
+				},
+				'guessBaseDN'
 			);
 		}
 	},
@@ -274,7 +284,8 @@ var LdapWizard = {
 					LdapWizard.hideSpinner('#ldap_port');
 					$('#ldap_port').prop('disabled', false);
 					LdapWizard.showInfoBox(t('user_ldap', 'Please specify the port'));
-				}
+				},
+				'guessPortAndTLS'
 			);
 		}
 	},
@@ -323,7 +334,7 @@ var LdapWizard = {
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
 		LdapWizard.showSpinner(spinnerID);
-		LdapWizard.ajax(param,
+		var request = LdapWizard.ajax(param,
 			function(result) {
 				LdapWizard.applyChanges(result);
 				LdapWizard.hideSpinner(spinnerID);
@@ -331,7 +342,8 @@ var LdapWizard = {
 			function (result) {
 				OC.Notification.show('Counting the entries failed with, ' + result.message);
 				LdapWizard.hideSpinner(spinnerID);
-			}
+			},
+			method
 		);
 	},
 
@@ -348,7 +360,7 @@ var LdapWizard = {
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 		//runs in the background, no callbacks necessary
-		LdapWizard.ajax(param, LdapWizard.applyChanges, function(){});
+		LdapWizard.ajax(param, LdapWizard.applyChanges, function(){}, 'detectEmailAttribute');
 	},
 
 	detectGroupMemberAssoc: function() {
@@ -362,7 +374,8 @@ var LdapWizard = {
 			},
 			function (result) {
 				// error handling
-			}
+			},
+			'determineGroupMemberAssoc'
 		);
 	},
 
@@ -395,12 +408,13 @@ var LdapWizard = {
 									{noneSelectedText : 'No attributes found'});
 				$('#ldap_loginfilter_attributes').multiselect('disable');
 				LdapWizard.hideSpinner('#ldap_loginfilter_attributes');
-			}
+			},
+			'determineAttributes'
 		);
 	},
 
 	findAvailableGroups: function(multisel, type) {
-		if(type != 'Users' && type != 'Groups') {
+		if(type !== 'Users' && type !== 'Groups') {
 			return false;
 		}
 		param = 'action=determineGroupsFor'+encodeURIComponent(type)+
@@ -442,7 +456,8 @@ var LdapWizard = {
 					LdapWizard.userFilterAvailableGroupsHasRun = true;
 					LdapWizard.postInitUserFilter();
 				}
-			}
+			},
+			'findAvailableGroupsFor' + type
 		);
 	},
 
@@ -484,7 +499,8 @@ var LdapWizard = {
 					LdapWizard.postInitUserFilter();
 				}
 				//TODO: error handling
-			}
+			},
+			'determine' + type + 'ObjectClasses'
 		);
 	},
 
