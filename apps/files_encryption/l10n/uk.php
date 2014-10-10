@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Невідома помилка",
 "Encryption" => "Шифрування",
 "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" => "Доданок шифрування ввімкнено, але ваші ключі не ініціалізовано, вийдіть та зайдіть знову",
 "Change Password" => "Змінити Пароль"

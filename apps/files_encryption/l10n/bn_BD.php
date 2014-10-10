@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "অজানা জটিলতা",
 "Recovery key successfully enabled" => "পূনরুদ্ধার চাবি সার্থকভাবে কার্যকর করা হয়েছে",
 "Recovery key successfully disabled" => "পূনরুদ্ধার চাবি সার্থকভাবে অকার্যকর করা হয়েছে",
 "Password successfully changed." => "আপনার কূটশব্দটি সার্থকভাবে পরিবর্তন করা হয়েছে ",

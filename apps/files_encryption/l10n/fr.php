@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Erreur Inconnue ",
 "Recovery key successfully enabled" => "Clé de récupération activée avec succès",
 "Could not disable recovery key. Please check your recovery key password!" => "Impossible de désactiver la clé de récupération. Veuillez vérifier votre mot de passe de clé de récupération !",
 "Recovery key successfully disabled" => "Clé de récupération désactivée avec succès",

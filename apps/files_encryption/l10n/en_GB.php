@@ -1,8 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Unknown error",
+"Missing recovery key password" => "Missing recovery key password",
+"Please repeat the recovery key password" => "Please repeat the recovery key password",
+"Repeated recovery key password does not match the provided recovery key password" => "Repeated recovery key password does not match the provided recovery key password",
 "Recovery key successfully enabled" => "Recovery key enabled successfully",
 "Could not disable recovery key. Please check your recovery key password!" => "Could not disable recovery key. Please check your recovery key password!",
 "Recovery key successfully disabled" => "Recovery key disabled successfully",
+"Please provide the old recovery password" => "Please provide the old recovery password",
+"Please provide a new recovery password" => "Please provide a new recovery password",
+"Please repeat the new recovery password" => "Please repeat the new recovery password",
 "Password successfully changed." => "Password changed successfully.",
 "Could not change the password. Maybe the old password was not correct." => "Could not change the password. Maybe the old password was incorrect.",
 "Private key password successfully updated." => "Private key password updated successfully.",

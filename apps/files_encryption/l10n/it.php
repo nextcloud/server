@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Errore sconosciuto",
 "Recovery key successfully enabled" => "Chiave di ripristino abilitata correttamente",
 "Could not disable recovery key. Please check your recovery key password!" => "Impossibile disabilitare la chiave di ripristino. Verifica la password della chiave di ripristino.",
 "Recovery key successfully disabled" => "Chiave di ripristinata disabilitata correttamente",

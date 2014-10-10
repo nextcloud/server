@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Error desconegut",
 "Recovery key successfully enabled" => "La clau de recuperació s'ha activat",
 "Could not disable recovery key. Please check your recovery key password!" => "No s'ha pogut desactivar la calu de recuperació. Comproveu la contrasenya de la clau de recuperació!",
 "Recovery key successfully disabled" => "La clau de recuperació s'ha descativat",

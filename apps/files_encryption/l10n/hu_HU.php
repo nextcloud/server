@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Ismeretlen hiba",
 "Recovery key successfully enabled" => "A helyreállítási kulcs sikeresen bekapcsolva",
 "Could not disable recovery key. Please check your recovery key password!" => "A helyreállítási kulcsot nem lehetett kikapcsolni. Ellenőrizze a helyreállítási kulcsa jelszavát!",
 "Recovery key successfully disabled" => "A helyreállítási kulcs sikeresen kikapcsolva",

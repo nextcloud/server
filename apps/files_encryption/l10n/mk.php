@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Непозната грешка",
 "Password successfully changed." => "Лозинката е успешно променета.",
 "Could not change the password. Maybe the old password was not correct." => "Лозинката не можеше да се промени. Можеби старата лозинка не беше исправна.",
 "Missing requirements." => "Барања кои недостасуваат.",

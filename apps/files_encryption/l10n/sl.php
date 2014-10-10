@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Neznana napaka",
 "Recovery key successfully enabled" => "Ključ za obnovitev gesla je uspešno nastavljen",
 "Could not disable recovery key. Please check your recovery key password!" => "Ključa za obnovitev gesla ni mogoče onemogočiti. Preverite ključ!",
 "Recovery key successfully disabled" => "Ključ za obnovitev gesla je uspešno onemogočen",

@@ -1,8 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Neznámá chyba",
+"Missing recovery key password" => "Chybí heslo klíče pro obnovu",
+"Please repeat the recovery key password" => "Zopakujte prosím heslo klíče pro obnovu",
+"Repeated recovery key password does not match the provided recovery key password" => "Opakované heslo pro obnovu nesouhlasí se zadaným heslem",
 "Recovery key successfully enabled" => "Záchranný klíč byl úspěšně povolen",
 "Could not disable recovery key. Please check your recovery key password!" => "Nelze zakázat záchranný klíč. Zkontrolujte prosím heslo vašeho záchranného klíče!",
 "Recovery key successfully disabled" => "Záchranný klíč byl úspěšně zakázán",
+"Please provide the old recovery password" => "Zapište prosím staré heslo pro obnovu",
+"Please provide a new recovery password" => "Zapište prosím nové heslo pro obnovu",
+"Please repeat the new recovery password" => "Zopakujte prosím nové heslo pro obnovu",
 "Password successfully changed." => "Heslo bylo úspěšně změněno.",
 "Could not change the password. Maybe the old password was not correct." => "Změna hesla se nezdařila. Pravděpodobně nebylo stávající heslo zadáno správně.",
 "Private key password successfully updated." => "Heslo soukromého klíče úspěšně aktualizováno.",

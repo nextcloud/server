@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Tuntematon virhe",
 "Recovery key successfully enabled" => "Palautusavain kytketty päälle onnistuneesti",
 "Password successfully changed." => "Salasana vaihdettiin onnistuneesti.",
 "Could not change the password. Maybe the old password was not correct." => "Salasanan vaihto epäonnistui. Kenties vanha salasana oli väärin.",

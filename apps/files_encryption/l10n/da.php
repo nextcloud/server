@@ -1,8 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Ukendt fejl",
+"Missing recovery key password" => "Der mangler kodeord for gendannelsesnøgle",
+"Please repeat the recovery key password" => "Gentag venligst kodeordet for gendannelsesnøglen",
+"Repeated recovery key password does not match the provided recovery key password" => "Det gentagne kodeord for gendannelsesnøglen stemmer ikke med det angivne kodeord for gendannelsesnøglen",
 "Recovery key successfully enabled" => "Gendannelsesnøgle aktiveret med succes",
 "Could not disable recovery key. Please check your recovery key password!" => "Kunne ikke deaktivere gendannelsesnøgle. Kontroller din gendannelsesnøgle kodeord!",
 "Recovery key successfully disabled" => "Gendannelsesnøgle deaktiveret succesfuldt",
+"Please provide the old recovery password" => "Angiv venligst det gamle kodeord for gendannelsesnøglen",
+"Please provide a new recovery password" => "Angiv venligst et nyt kodeord til gendannelse",
+"Please repeat the new recovery password" => "Gentag venligst det nye kodeord til gendannelse",
 "Password successfully changed." => "Kodeordet blev ændret succesfuldt",
 "Could not change the password. Maybe the old password was not correct." => "Kunne ikke ændre kodeordet. Måske var det gamle kodeord ikke korrekt.",
 "Private key password successfully updated." => "Privat nøgle kodeord succesfuldt opdateret.",

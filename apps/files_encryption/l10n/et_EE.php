@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Tundmatu viga",
 "Recovery key successfully enabled" => "Taastevõtme lubamine õnnestus",
 "Could not disable recovery key. Please check your recovery key password!" => "Ei suuda keelata taastevõtit. Palun kontrolli oma taastevõtme parooli!",
 "Recovery key successfully disabled" => "Taastevõtme keelamine õnnestus",

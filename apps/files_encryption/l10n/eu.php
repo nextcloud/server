@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Errore ezezaguna",
 "Recovery key successfully enabled" => "Berreskuratze gakoa behar bezala gaitua",
 "Could not disable recovery key. Please check your recovery key password!" => "Ezin da berreskuratze gako desgaitu. Egiaztatu berreskuratze gako pasahitza!",
 "Recovery key successfully disabled" => "Berreskuratze gakoa behar bezala desgaitu da",

@@ -9,7 +9,7 @@ $TRANSLATIONS = array(
 "Shared by link" => "Partagés par lien",
 "No files have been shared with you yet." => "Aucun fichier n'est partagé avec vous pour l'instant.",
 "You haven't shared any files yet." => "Vous ne partagez pas de fichier pour l'instant.",
-"You haven't shared any files by link yet." => "Vous n'avez aucun partage de fichier par lien pour le moment.",
+"You haven't shared any files by link yet." => "Vous ne partagez pas de fichier par lien pour l'instant.",
 "Do you want to add the remote share {name} from {owner}@{remote}?" => "Voulez-vous ajouter le partage distant {name} de  {owner}@{remote} ?",
 "Remote share" => "Partage distant",
 "Remote share password" => "Mot de passe du partage distant",
@@ -34,7 +34,7 @@ $TRANSLATIONS = array(
 "Download %s" => "Télécharger %s",
 "Direct link" => "Lien direct",
 "Remote Shares" => "Partages distants",
-"Allow other instances to mount public links shared from this server" => "Autoriser d'autres instances à monter des liens publics, partagés depuis ce serveur",
-"Allow users to mount public link shares" => "Autoriser des utilisateurs à monter des liens de partages publics"
+"Allow other instances to mount public links shared from this server" => "Autoriser d'autres instances à monter les liens publics partagés depuis ce serveur",
+"Allow users to mount public link shares" => "Autoriser vos utilisateurs à monter les liens publics"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

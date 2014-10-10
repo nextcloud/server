@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Okänt fel",
 "Recovery key successfully enabled" => "Återställningsnyckeln har framgångsrikt aktiverats",
 "Could not disable recovery key. Please check your recovery key password!" => "Kunde inte inaktivera återställningsnyckeln. Vänligen kontrollera ditt lösenord för återställningsnyckeln!",
 "Recovery key successfully disabled" => "Återställningsnyckeln har framgångsrikt inaktiverats",

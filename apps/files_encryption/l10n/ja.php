@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "不明なエラー",
 "Recovery key successfully enabled" => "リカバリ用のキーを正常に有効にしました",
 "Could not disable recovery key. Please check your recovery key password!" => "リカバリ用のキーを無効化できませんでした。リカバリ用のキーのパスワードを確認してください！",
 "Recovery key successfully disabled" => "リカバリ用のキーを正常に無効化しました",

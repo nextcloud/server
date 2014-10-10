@@ -1,8 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Onbekende fout",
+"Missing recovery key password" => "Ontbrekende wachtwoord herstelsleutel",
+"Please repeat the recovery key password" => "Herhaal het herstelsleutel wachtwoord",
+"Repeated recovery key password does not match the provided recovery key password" => "Het herhaalde herstelsleutel wachtwoord kwam niet overeen met het eerdere herstelsleutel wachtwoord ",
 "Recovery key successfully enabled" => "Herstelsleutel succesvol geactiveerd",
 "Could not disable recovery key. Please check your recovery key password!" => "Kon herstelsleutel niet deactiveren. Controleer het wachtwoord van uw herstelsleutel!",
 "Recovery key successfully disabled" => "Herstelsleutel succesvol gedeactiveerd",
+"Please provide the old recovery password" => "Geef het oude herstelwachtwoord op",
+"Please provide a new recovery password" => "Geef een nieuw herstelwachtwoord op",
+"Please repeat the new recovery password" => "Herhaal het nieuwe herstelwachtwoord",
 "Password successfully changed." => "Wachtwoord succesvol gewijzigd.",
 "Could not change the password. Maybe the old password was not correct." => "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
 "Private key password successfully updated." => "Privésleutel succesvol bijgewerkt.",

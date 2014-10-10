@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Eroare necunoscută",
 "Recovery key successfully enabled" => "Cheia de recupeare a fost activata cu succes",
 "Could not disable recovery key. Please check your recovery key password!" => "Nu am putut dezactiva cheia de recuperare. Verifica parola de recuperare!",
 "Recovery key successfully disabled" => "Cheia de recuperare dezactivata cu succes",

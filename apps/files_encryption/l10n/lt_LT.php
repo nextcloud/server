@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Neatpažinta klaida",
 "Recovery key successfully enabled" => "Atkūrimo raktas sėkmingai įjungtas",
 "Could not disable recovery key. Please check your recovery key password!" => "Neišėjo išjungti jūsų atkūrimo rakto. Prašome jį patikrinti!",
 "Recovery key successfully disabled" => "Atkūrimo raktas sėkmingai išjungtas",

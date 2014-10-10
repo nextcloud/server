@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "未知的錯誤",
 "Recovery key successfully enabled" => "還原金鑰已成功開啟",
 "Could not disable recovery key. Please check your recovery key password!" => "無法停用還原金鑰。請檢查您的還原金鑰密碼!",
 "Recovery key successfully disabled" => "還原金鑰已成功停用",

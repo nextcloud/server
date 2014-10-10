@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "មិន​ស្គាល់​កំហុស",
 "Password successfully changed." => "បាន​ប្ដូរ​ពាក្យ​សម្ងាត់​ដោយ​ជោគជ័យ។",
 "Could not change the password. Maybe the old password was not correct." => "មិន​អាច​ប្ដូរ​ពាក្យ​សម្ងាត់​បាន​ទេ។ ប្រហែល​ពាក្យ​សម្ងាត់​ចាស់​មិន​ត្រឹម​ត្រូវ។",
 "Encryption" => "កូដនីយកម្ម",

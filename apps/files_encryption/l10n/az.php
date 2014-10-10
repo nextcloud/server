@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Bəlli olmayan səhv baş verdi",
 "Recovery key successfully enabled" => "Bərpa açarı uğurla aktivləşdi",
 "Could not disable recovery key. Please check your recovery key password!" => "Geriqaytarılma açarını sondürmək olmur. Xahiş edirik geriqaytarılma key açarınızı yoxlayın.",
 "Recovery key successfully disabled" => "Bərpa açarı uğurla söndürüldü",

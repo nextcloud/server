@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "خطای نامشخص",
 "Recovery key successfully enabled" => "کلید بازیابی با موفقیت فعال شده است.",
 "Could not disable recovery key. Please check your recovery key password!" => "کلید بازیابی را نمی تواند غیرفعال نماید. لطفا رمزعبور کلید بازیابی خود را بررسی کنید!",
 "Recovery key successfully disabled" => "کلید بازیابی با موفقیت غیر فعال شده است.",

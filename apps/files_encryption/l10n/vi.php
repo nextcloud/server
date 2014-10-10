@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Lỗi chưa biết",
 "Recovery key successfully enabled" => "Khóa khôi phục kích hoạt thành công",
 "Could not disable recovery key. Please check your recovery key password!" => "Không thể vô hiệu hóa khóa khôi phục. Vui lòng kiểm tra mật khẩu khóa khôi phục!",
 "Recovery key successfully disabled" => "Vô hiệu hóa khóa khôi phục thành công",

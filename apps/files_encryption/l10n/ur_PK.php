@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Unknown error" => "Ukjend feil",
-"Encryption" => "Kryptering"
+"Unknown error" => "غیر معروف خرابی"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

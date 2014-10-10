@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Galat tidak diketahui",
 "Recovery key successfully enabled" => "Kunci pemulihan berhasil diaktifkan",
 "Could not disable recovery key. Please check your recovery key password!" => "Tidak dapat menonaktifkan kunci pemulihan. Silakan periksa sandi kunci pemulihan Anda!",
 "Recovery key successfully disabled" => "Kunci pemulihan berhasil dinonaktifkan",

@@ -1,8 +1,15 @@
 <?php
 $TRANSLATIONS = array(
+"Unknown error" => "Bilinmeyen hata",
+"Missing recovery key password" => "Eksik kurtarma anahtarı parolası",
+"Please repeat the recovery key password" => "Lütfen kurtarma anahtarı parolasını yenileyin",
+"Repeated recovery key password does not match the provided recovery key password" => "Yenilenen kurtarma anahtarı parolası, belirtilen kurtarma anahtarı parolası ile eşleşmiyor",
 "Recovery key successfully enabled" => "Kurtarma anahtarı başarıyla etkinleştirildi",
 "Could not disable recovery key. Please check your recovery key password!" => "Kurtarma anahtarı devre dışı bırakılamadı. Lütfen kurtarma anahtarı parolanızı kontrol edin!",
 "Recovery key successfully disabled" => "Kurtarma anahtarı başarıyla devre dışı bırakıldı",
+"Please provide the old recovery password" => "Lütfen eski kurtarma parolasını girin",
+"Please provide a new recovery password" => "Lütfen yeni bir kurtarma parolası girin",
+"Please repeat the new recovery password" => "Lütfen yeni kurtarma parolasını yenileyin",
 "Password successfully changed." => "Parola başarıyla değiştirildi.",
 "Could not change the password. Maybe the old password was not correct." => "Parola değiştirilemedi. Eski parolanız doğru olmayabilir.",
 "Private key password successfully updated." => "Özel anahtar parolası başarıyla güncellendi.",
