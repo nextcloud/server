@@ -1,6 +1,6 @@
 <div class="ldapSettingControls">
 	<input class="ldap_submit" value="<?php p($l->t('Save'));?>" type="submit">
-	<button class="ldap_action_test_connection" name="ldap_action_test_connection">
+	<button type="button" class="ldap_action_test_connection" name="ldap_action_test_connection">
 		<?php p($l->t('Test Configuration'));?>
 	</button>
 	<a href="<?php p(\OC_Helper::linkToDocs('admin-ldap')); ?>"
