@@ -745,6 +745,9 @@ class Trashbin {
 		if ($quota === null || $quota === 'none') {
 			$quota = \OC\Files\Filesystem::free_space('/');
 			$softQuota = false;
+			if ($quota === \OC\Files\SPACE_UNKNOWN) {
+				$quota = 0;
+			}
 		} else {
 			$quota = \OCP\Util::computerFileSize($quota);
 		}
@@ -911,24 +914,29 @@ class Trashbin {
 	 *
 	 * @param string $filename name of the file which should be restored
 	 * @param int $timestamp timestamp when the file was deleted
+	 * @return array
 	 */
 	private static function getVersionsFromTrash($filename, $timestamp) {
 		$view = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_trashbin/versions');
-		$versionsName = $view->getLocalFile($filename) . '.v';
-		$escapedVersionsName = preg_replace('/(\*|\?|\[)/', '[$1]', $versionsName);
 		$versions = array();
+
+		//force rescan of versions, local storage may not have updated the cache
+		/** @var \OC\Files\Storage\Storage $storage */
+		list($storage, ) = $view->resolvePath('/');
+		$storage->getScanner()->scan('');
+
 		if ($timestamp) {
 			// fetch for old versions
-			$matches = glob($escapedVersionsName . '*.d' . $timestamp);
+			$matches = $view->searchRaw($filename . '.v%.d' . $timestamp);
 			$offset = -strlen($timestamp) - 2;
 		} else {
-			$matches = glob($escapedVersionsName . '*');
+			$matches = $view->searchRaw($filename . '.v%');
 		}
 
 		if (is_array($matches)) {
 			foreach ($matches as $ma) {
 				if ($timestamp) {
-					$parts = explode('.v', substr($ma, 0, $offset));
+					$parts = explode('.v', substr($ma['path'], 0, $offset));
 					$versions[] = (end($parts));
 				} else {
 					$parts = explode('.v', $ma);

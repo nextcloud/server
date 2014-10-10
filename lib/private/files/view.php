@@ -1110,6 +1110,16 @@ class View {
 	}
 
 	/**
+	 * search for files with the name matching $query
+	 *
+	 * @param string $query
+	 * @return FileInfo[]
+	 */
+	public function searchRaw($query) {
+		return $this->searchCommon($query, 'search');
+	}
+
+	/**
 	 * search for files by mimetype
 	 *
 	 * @param string $mimetype
