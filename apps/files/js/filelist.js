@@ -49,8 +49,10 @@
 		fileSummary: null,
 		initialized: false,
 
-		// number of files per page
-		pageSize: 20,
+		// number of files per page, calculated dynamically
+		pageSize: function() {
+			return Math.ceil($('#app-content').height() / 50);
+		},
 
 		/**
 		 * Array of files in the current folder.
@@ -496,7 +498,7 @@
 		 */
 		_nextPage: function(animate) {
 			var index = this.$fileList.children().length,
-				count = this.pageSize,
+				count = this.pageSize(),
 				tr,
 				fileData,
 				newTrs = [],
@@ -1189,7 +1191,7 @@
 			// if there are less elements visible than one page
 			// but there are still pending elements in the array,
 			// then directly append the next page
-			if (lastIndex < this.files.length && lastIndex < this.pageSize) {
+			if (lastIndex < this.files.length && lastIndex < this.pageSize()) {
 				this._nextPage(true);
 			}
 
