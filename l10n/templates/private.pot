@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-10 01:54-0400\n"
+"POT-Creation-Date: 2014-10-11 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -232,126 +232,126 @@ msgstr ""
 msgid "%s shared »%s« with you"
 msgstr ""
 
-#: share/share.php:505
+#: share/share.php:508
 #, php-format
 msgid "Sharing %s failed, because the file does not exist"
 msgstr ""
 
-#: share/share.php:512
+#: share/share.php:515
 #, php-format
 msgid "You are not allowed to share %s"
 msgstr ""
 
-#: share/share.php:542
+#: share/share.php:545
 #, php-format
 msgid "Sharing %s failed, because the user %s is the item owner"
 msgstr ""
 
-#: share/share.php:548
+#: share/share.php:551
 #, php-format
 msgid "Sharing %s failed, because the user %s does not exist"
 msgstr ""
 
-#: share/share.php:557
+#: share/share.php:560
 #, php-format
 msgid ""
 "Sharing %s failed, because the user %s is not a member of any groups that %s "
 "is a member of"
 msgstr ""
 
-#: share/share.php:570 share/share.php:598
+#: share/share.php:573 share/share.php:601
 #, php-format
 msgid "Sharing %s failed, because this item is already shared with %s"
 msgstr ""
 
-#: share/share.php:578
+#: share/share.php:581
 #, php-format
 msgid "Sharing %s failed, because the group %s does not exist"
 msgstr ""
 
-#: share/share.php:585
+#: share/share.php:588
 #, php-format
 msgid "Sharing %s failed, because %s is not a member of the group %s"
 msgstr ""
 
-#: share/share.php:639
+#: share/share.php:642
 msgid ""
 "You need to provide a password to create a public link, only protected links "
 "are allowed"
 msgstr ""
 
-#: share/share.php:668
+#: share/share.php:671
 #, php-format
 msgid "Sharing %s failed, because sharing with links is not allowed"
 msgstr ""
 
-#: share/share.php:675
+#: share/share.php:678
 #, php-format
 msgid "Share type %s is not valid for %s"
 msgstr ""
 
-#: share/share.php:899
+#: share/share.php:902
 #, php-format
 msgid ""
 "Setting permissions for %s failed, because the permissions exceed "
 "permissions granted to %s"
 msgstr ""
 
-#: share/share.php:960
+#: share/share.php:963
 #, php-format
 msgid "Setting permissions for %s failed, because the item was not found"
 msgstr ""
 
-#: share/share.php:998
+#: share/share.php:1001
 #, php-format
 msgid ""
 "Cannot set expiration date. Shares cannot expire later than %s after they "
 "have been shared"
 msgstr ""
 
-#: share/share.php:1006
+#: share/share.php:1009
 msgid "Cannot set expiration date. Expiration date is in the past"
 msgstr ""
 
-#: share/share.php:1132
+#: share/share.php:1135
 #, php-format
 msgid "Sharing backend %s must implement the interface OCP\\Share_Backend"
 msgstr ""
 
-#: share/share.php:1139
+#: share/share.php:1142
 #, php-format
 msgid "Sharing backend %s not found"
 msgstr ""
 
-#: share/share.php:1145
+#: share/share.php:1148
 #, php-format
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: share/share.php:1812
+#: share/share.php:1840
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: share/share.php:1822
+#: share/share.php:1850
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: share/share.php:1838
+#: share/share.php:1876
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: share/share.php:1852
+#: share/share.php:1890
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: share/share.php:1866
+#: share/share.php:1904
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"

@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Errore sconosciuto",
-"Recovery key successfully enabled" => "Chiave di ripristino abilitata correttamente",
-"Could not disable recovery key. Please check your recovery key password!" => "Impossibile disabilitare la chiave di ripristino. Verifica la password della chiave di ripristino.",
-"Recovery key successfully disabled" => "Chiave di ripristinata disabilitata correttamente",
+"Missing recovery key password" => "Manca la password della chiave di recupero",
+"Please repeat the recovery key password" => "Ripeti la password della chiave di recupero",
+"Repeated recovery key password does not match the provided recovery key password" => "La password della chiave di recupero ripetuta non corrisponde alla password della chiave di recupero fornita",
+"Recovery key successfully enabled" => "Chiave di recupero abilitata correttamente",
+"Could not disable recovery key. Please check your recovery key password!" => "Impossibile disabilitare la chiave di recupero. Verifica la password della chiave di recupero.",
+"Recovery key successfully disabled" => "Chiave di recupero disabilitata correttamente",
+"Please provide the old recovery password" => "Fornisci la vecchia password di recupero",
+"Please provide a new recovery password" => "Fornisci una nuova password di recupero",
+"Please repeat the new recovery password" => "Ripeti la nuova password di recupero",
 "Password successfully changed." => "Password modificata correttamente.",
 "Could not change the password. Maybe the old password was not correct." => "Impossibile cambiare la password. Forse la vecchia password non era corretta.",
 "Private key password successfully updated." => "Password della chiave privata aggiornata correttamente.",
