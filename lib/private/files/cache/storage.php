@@ -98,10 +98,10 @@ class Storage {
 		if (strlen($storageId) > 64) {
 			$storageId = md5($storageId);
 		}
+		$numericId = self::getNumericStorageId($storageId);
 		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
 		\OC_DB::executeAudited($sql, array($storageId));
 
-		$numericId = self::getNumericStorageId($storageId);
 		if (!is_null($numericId)) {
 			$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
 			\OC_DB::executeAudited($sql, array($numericId));
