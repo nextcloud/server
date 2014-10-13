@@ -9,6 +9,9 @@
 
 namespace Test\User;
 
+use OC\Session\Memory;
+use OC\User\User;
+
 class Session extends \PHPUnit_Framework_TestCase {
 	public function testGetUser() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
@@ -54,26 +57,26 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->exactly(2))
 			->method('set')
-			->with($this->callback(function($key) {
-						switch($key) {
-							case 'user_id':
-							case 'loginname':
-								return true;
-								break;
-							default:
-								return false;
-								break;
-						}
-					},
-					'foo'));
+			->with($this->callback(function ($key) {
+					switch ($key) {
+						case 'user_id':
+						case 'loginname':
+							return true;
+							break;
+						default:
+							return false;
+							break;
+					}
+				},
+				'foo'));
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
 		//working
 		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach($doNotMock as $methodName) {
+		foreach ($doNotMock as $methodName) {
 			$i = array_search($methodName, $managerMethods, true);
-			if($i !== false) {
+			if ($i !== false) {
 				unset($managerMethods[$i]);
 			}
 		}
@@ -110,9 +113,9 @@ class Session extends \PHPUnit_Framework_TestCase {
 		//keep following methods intact in order to ensure hooks are
 		//working
 		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach($doNotMock as $methodName) {
+		foreach ($doNotMock as $methodName) {
 			$i = array_search($methodName, $managerMethods, true);
-			if($i !== false) {
+			if ($i !== false) {
 				unset($managerMethods[$i]);
 			}
 		}
@@ -145,9 +148,9 @@ class Session extends \PHPUnit_Framework_TestCase {
 		//keep following methods intact in order to ensure hooks are
 		//working
 		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach($doNotMock as $methodName) {
+		foreach ($doNotMock as $methodName) {
 			$i = array_search($methodName, $managerMethods, true);
-			if($i !== false) {
+			if ($i !== false) {
 				unset($managerMethods[$i]);
 			}
 		}
@@ -192,23 +195,23 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->exactly(1))
 			->method('set')
-			->with($this->callback(function($key) {
-						switch($key) {
-							case 'user_id':
-								return true;
-							default:
-								return false;
-						}
-					},
-					'foo'));
+			->with($this->callback(function ($key) {
+					switch ($key) {
+						case 'user_id':
+							return true;
+						default:
+							return false;
+					}
+				},
+				'foo'));
 
 		$managerMethods = get_class_methods('\OC\User\Manager');
 		//keep following methods intact in order to ensure hooks are
 		//working
 		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach($doNotMock as $methodName) {
+		foreach ($doNotMock as $methodName) {
 			$i = array_search($methodName, $managerMethods, true);
-			if($i !== false) {
+			if ($i !== false) {
 				unset($managerMethods[$i]);
 			}
 		}
@@ -254,9 +257,9 @@ class Session extends \PHPUnit_Framework_TestCase {
 		//keep following methods intact in order to ensure hooks are
 		//working
 		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach($doNotMock as $methodName) {
+		foreach ($doNotMock as $methodName) {
 			$i = array_search($methodName, $managerMethods, true);
-			if($i !== false) {
+			if ($i !== false) {
 				unset($managerMethods[$i]);
 			}
 		}
@@ -296,9 +299,9 @@ class Session extends \PHPUnit_Framework_TestCase {
 		//keep following methods intact in order to ensure hooks are
 		//working
 		$doNotMock = array('__construct', 'emit', 'listen');
-		foreach($doNotMock as $methodName) {
+		foreach ($doNotMock as $methodName) {
 			$i = array_search($methodName, $managerMethods, true);
-			if($i !== false) {
+			if ($i !== false) {
 				unset($managerMethods[$i]);
 			}
 		}
@@ -326,5 +329,32 @@ class Session extends \PHPUnit_Framework_TestCase {
 		$granted = $userSession->loginWithCookie('foo', $token);
 
 		$this->assertSame($granted, false);
+	}
+
+	public function testActiveUserAfterSetSession() {
+		$users = array(
+			'foo' => new User('foo', null),
+			'bar' => new User('bar', null)
+		);
+
+		$manager = $this->getMockBuilder('\OC\User\Manager')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$manager->expects($this->any())
+			->method('get')
+			->will($this->returnCallback(function ($uid) use ($users) {
+				return $users[$uid];
+			}));
+
+		$session = new Memory('');
+		$session->set('user_id', 'foo');
+		$userSession = new \OC\User\Session($manager, $session);
+		$this->assertEquals($users['foo'], $userSession->getUser());
+
+		$session2 = new Memory('');
+		$session2->set('user_id', 'bar');
+		$userSession->setSession($session2);
+		$this->assertEquals($users['bar'], $userSession->getUser());
 	}
 }
