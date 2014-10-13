@@ -58,7 +58,7 @@ class DAV extends \OC\Files\Storage\Common {
 				$this->root .= '/';
 			}
 		} else {
-			throw new \Exception();
+			throw new \Exception('Invalid webdav storage configuration');
 		}
 	}
 
@@ -85,7 +85,7 @@ class DAV extends \OC\Files\Storage\Common {
 		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 
-	protected function createBaseUri() {
+	public function createBaseUri() {
 		$baseUri = 'http';
 		if ($this->secure) {
 			$baseUri .= 's';
