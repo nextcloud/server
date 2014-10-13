@@ -330,6 +330,13 @@ $CONFIG = array(
 'overwritecondaddr' => '',
 
 /**
+ * Use this configuration parameter to specify the base url for any urls which are
+ * generated within ownCloud using any kind of command line tools (cron or occ).
+ * The value should contain the full base URL: ``https://www.example.com/owncloud``
+ */
+'overwrite.cli.url' => '',
+
+/**
  * The URL of your proxy server, for example ``proxy.example.com:8081``.
  */
 'proxy' => '',
