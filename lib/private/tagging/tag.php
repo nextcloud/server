@@ -55,8 +55,11 @@ class Tag extends Entity {
 
 	/**
 	 * Transform a database columnname to a property
+	 *
 	 * @param string $columnName the name of the column
 	 * @return string the property name
+	 * @todo migrate existing database columns to the correct names
+	 * to be able to drop this direct mapping
 	 */
 	public function columnToProperty($columnName){
 		if ($columnName === 'category') {
@@ -70,6 +73,7 @@ class Tag extends Entity {
 
 	/**
 	 * Transform a property to a database column name
+	 *
 	 * @param string $property the name of the property
 	 * @return string the column name
 	 */

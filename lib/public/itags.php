@@ -114,7 +114,7 @@ interface ITags {
 	/**
 	* Rename tag.
 	*
-	* @param string $from The name of the existing tag
+	* @param string|integer $from The name or ID of the existing tag
 	* @param string $to The new name of the tag.
 	* @return bool
 	*/
@@ -183,7 +183,7 @@ interface ITags {
 	/**
 	* Delete tags from the database
 	*
-	* @param string[] $names An array of tags to delete
+	* @param string[]|integer[] $names An array of tags (names or IDs) to delete
 	* @return bool Returns false on error
 	*/
 	public function delete($names);

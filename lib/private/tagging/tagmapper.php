@@ -27,7 +27,7 @@ use \OCP\AppFramework\Db\Mapper,
     \OCP\IDb;
 
 /**
- * Thin wrapper around \OCP\AppFramework\Db\Mapper.
+ * Mapper for Tag entity
  */
 class TagMapper extends Mapper {
 
