@@ -82,7 +82,7 @@ class OC_Setup {
 		//write the config file
 		OC_Config::setValue('trusted_domains', $trustedDomains);
 		OC_Config::setValue('datadirectory', $datadir);
-		OC_Config::setValue('overwritewebroot', OC::$WEBROOT);
+		OC_Config::setValue('overwrite.cli.url', \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . OC::$WEBROOT);
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 		try {
