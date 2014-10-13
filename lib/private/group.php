@@ -282,7 +282,8 @@ class OC_Group {
 				$displayNames
 			);
 			if ($diff) {
-				$displayNames = array_merge($diff, $displayNames);
+				// A fix for LDAP users. array_merge loses keys...
+				$displayNames = $diff + $displayNames;
 			}
 		}
 		return $displayNames;
