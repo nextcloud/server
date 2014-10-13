@@ -22,6 +22,7 @@
 */
 
 OC_Util::checkAdminUser();
+\OC::$server->getSession()->close();
 
 // Load the files we need
 OCP\Util::addStyle('settings', 'settings' );
