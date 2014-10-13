@@ -140,6 +140,21 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
+	* Returns an array mapping a given tag's properties to its values:
+	* ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
+	*
+	* @param string $id The ID of the tag that is going to be mapped
+	* @return array|false
+	*/
+	public function getTag($id) {
+		$key = $this->getTagById($id);
+		if ($key !== false) {
+			return $this->tagMap($this->tags[$key]);
+		}
+		return false;
+	}
+
+	/**
 	* Get the tags for a specific user.
 	*
 	* This returns an array with maps containing each tag's properties:
@@ -162,12 +177,7 @@ class Tags implements \OCP\ITags {
 
 		foreach($this->tags as $tag) {
 			if($tag->getName() !== self::TAG_FAVORITE) {
-				$tagMap[] = array(
-					'id'    => $tag->getId(),
-					'name'  => $tag->getName(),
-					'owner' => $tag->getOwner(),
-					'type'  => $tag->getType()
-				);
+				$tagMap[] = $this->tagMap($tag);
 			}
 		}
 		return $tagMap;
@@ -727,5 +737,21 @@ class Tags implements \OCP\ITags {
 	*/
 	private function getTagById($id) {
 		return $this->array_searchi($id, $this->tags, 'getId');
+	}
+
+	/**
+	* Returns an array mapping a given tag's properties to its values:
+	* ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
+	*
+	* @param Tag $tag The tag that is going to be mapped
+	* @return array
+	*/
+	private function tagMap(Tag $tag) {
+		return array(
+			'id'    => $tag->getId(),
+			'name'  => $tag->getName(),
+			'owner' => $tag->getOwner(),
+			'type'  => $tag->getType()
+		);
 	}
 }

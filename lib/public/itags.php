@@ -54,6 +54,15 @@ interface ITags {
 	public function isEmpty();
 
 	/**
+	* Returns an array mapping a given tag's properties to its values:
+	* ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
+	*
+	* @param string $id The ID of the tag that is going to be mapped
+	* @return array|false
+	*/
+	public function getTag($id);
+
+	/**
 	* Get the tags for a specific user.
 	*
 	* This returns an array with id/name maps:
