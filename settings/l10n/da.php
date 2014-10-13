@@ -179,7 +179,7 @@ $TRANSLATIONS = array(
 "Commercial Support" => "Kommerciel support",
 "Get the apps to sync your files" => "Hent applikationerne for at synkronisere dine filer",
 "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" => "Hvis du vil støtte projektet\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">deltag i udviklingen</a>\n\t\teller\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spred budskabet</a>!",
-"Show First Run Wizard again" => "Vis Første Kørsels Guiden igen.",
+"Show First Run Wizard again" => "Vis guiden for første kørsel igen.",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Du har brugt <strong>%s</strong> af den tilgængelige <strong>%s</strong>",
 "Password" => "Kodeord",
 "Your password was changed" => "Din adgangskode blev ændret",
