@@ -293,9 +293,10 @@ class Share extends \OC\Share\Constants {
 	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
 
 		$shares = array();
+		$fileDependend = false;
 
-		$column = ($itemType === 'file' || $itemType === 'folder') ? 'file_source' : 'item_source';
 		if ($itemType === 'file' || $itemType === 'folder') {
+			$fileDependend = true;
 			$column = 'file_source';
 			$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid` WHERE';
 		} else {
@@ -303,7 +304,7 @@ class Share extends \OC\Share\Constants {
 			$where = 'WHERE';
 		}
 
-		$select = self::createSelectStatement(self::FORMAT_NONE, true);
+		$select = self::createSelectStatement(self::FORMAT_NONE, $fileDependend);
 
 		$where .= ' `' . $column . '` = ? AND `item_type` = ? ';
 		$arguments = array($itemSource, $itemType);
