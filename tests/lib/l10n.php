@@ -52,17 +52,59 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('5 oken', (string)$l->n('%n window', '%n windows', 5));
 	}
 
-	/**
-	 * Issue #4360: Do not call strtotime() on numeric strings.
-	 */
-	public function testNumericStringToDateTime() {
-		$l = new OC_L10N('test');
-		$this->assertSame('February 13, 2009 23:31', $l->l('datetime', '1234567890'));
+	public function localizationDataProvider() {
+		return array(
+			// timestamp as string
+			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', '1234567890'),
+			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'datetime', '1234567890'),
+			array('February 13, 2009', 'en', 'date', '1234567890'),
+			array('13. Februar 2009', 'de', 'date', '1234567890'),
+			array('11:31:30 PM GMT+0', 'en', 'time', '1234567890'),
+			array('23:31:30 GMT+0', 'de', 'time', '1234567890'),
+
+			// timestamp as int
+			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', 1234567890),
+			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'datetime', 1234567890),
+			array('February 13, 2009', 'en', 'date', 1234567890),
+			array('13. Februar 2009', 'de', 'date', 1234567890),
+			array('11:31:30 PM GMT+0', 'en', 'time', 1234567890),
+			array('23:31:30 GMT+0', 'de', 'time', 1234567890),
+
+			// DateTime object
+			array('February 13, 2009 at 11:31:30 PM GMT+0', 'en', 'datetime', new DateTime('@1234567890')),
+			array('13. Februar 2009 um 23:31:30 GMT+0', 'de', 'datetime', new DateTime('@1234567890')),
+			array('February 13, 2009', 'en', 'date', new DateTime('@1234567890')),
+			array('13. Februar 2009', 'de', 'date', new DateTime('@1234567890')),
+			array('11:31:30 PM GMT+0', 'en', 'time', new DateTime('@1234567890')),
+			array('23:31:30 GMT+0', 'de', 'time', new DateTime('@1234567890')),
+		);
 	}
 
-	public function testNumericToDateTime() {
+	/**
+	 * @dataProvider localizationDataProvider
+	 */
+	public function testNumericStringLocalization($expectedDate, $lang, $type, $value) {
 		$l = new OC_L10N('test');
-		$this->assertSame('February 13, 2009 23:31', $l->l('datetime', 1234567890));
+		$l->forceLanguage($lang);
+		$this->assertSame($expectedDate, $l->l($type, $value));
+	}
+
+	public function firstDayDataProvider() {
+		return array(
+			array(1, 'de'),
+			array(0, 'en'),
+		);
+	}
+
+	/**
+	 * @dataProvider firstDayDataProvider
+	 * @param $expected
+	 * @param $lang
+	 */
+	public function testFirstWeekDay($expected, $lang) {
+		$l = new OC_L10N('test');
+		$l->forceLanguage($lang);
+		$this->assertSame($expected, $l->l('firstday', 'firstday'));
 	}
 
 	/**
