@@ -45,6 +45,7 @@ class Filesystem {
 	 */
 	static private $defaultInstance;
 
+	static private $usersSetup = array();
 
 	/**
 	 * classname which used for hooks handling
@@ -321,7 +322,10 @@ class Filesystem {
 		if ($user == '') {
 			$user = \OC_User::getUser();
 		}
-		$parser = new \OC\ArrayParser();
+		if (isset(self::$usersSetup[$user])) {
+			return;
+		}
+		self::$usersSetup[$user] = true;
 
 		$root = \OC_User::getHome($user);
 
