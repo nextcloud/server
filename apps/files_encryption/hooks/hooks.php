@@ -672,8 +672,6 @@ class Hooks {
 		// build the path to the file
 		$newPath = '/' . $ownerNew . '/files' . $pathNew;
 
-		$util->fixFileSize($newPath);
-
 		// update sharing-keys
 		self::updateKeyfiles($params['newpath'], $type);
 
