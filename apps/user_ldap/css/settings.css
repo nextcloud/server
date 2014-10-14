@@ -123,6 +123,14 @@ select[multiple=multiple] + button {
 	max-width: 40%;
 }
 
+#ldap .ldap_saving {
+	margin-right: 15px;
+	color: orange;
+	font-weight: bold;
+}
+
+#ldap .ldap_saving img { height: 15px; }
+
 .ldap_config_state_indicator_sign {
 	display: inline-block;
 	height: 16px;

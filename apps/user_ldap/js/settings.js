@@ -747,7 +747,10 @@ var LdapWizard = {
 		}
 	},
 
+	saveProcesses: 0,
 	_save: function(object, value) {
+		$('#ldap .ldap_saving').removeClass('hidden');
+		LdapWizard.saveProcesses += 1;
 		param = 'cfgkey='+encodeURIComponent(object.id)+
 				'&cfgval='+encodeURIComponent(value)+
 				'&action=save'+
@@ -757,10 +760,14 @@ var LdapWizard = {
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
+				LdapWizard.saveProcesses -= 1;
+				if(LdapWizard.saveProcesses === 0) {
+					$('#ldap .ldap_saving').addClass('hidden');
+				}
 				if(result.status === 'success') {
 					LdapWizard.processChanges(object);
 				} else {
-// 					alert('Oooooooooooh :(');
+					console.log('Could not save value for ' + object.id);
 				}
 			}
 		);
