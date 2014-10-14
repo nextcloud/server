@@ -162,6 +162,10 @@ class URLGenerator implements IURLGenerator {
 	public function getAbsoluteURL($url) {
 		$separator = $url[0] === '/' ? '' : '/';
 
+		if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
+			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
+		}
+
 		// The ownCloud web root can already be prepended.
 		$webRoot = substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT
 			? ''
