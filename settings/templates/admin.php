@@ -6,6 +6,7 @@
  */
 /**
  * @var array $_
+ * @var \OCP\IL10N $l
  */
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 $levelLabels = array(

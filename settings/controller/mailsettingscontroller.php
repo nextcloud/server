@@ -141,7 +141,7 @@ class MailSettingsController extends Controller {
 			} catch (\Exception $e) {
 				return array('data' =>
 					array('message' =>
-						(string) $this->l10n->t('A problem occurred while sending the e-mail. Please revisit your settings.'),
+						(string) $this->l10n->t('A problem occurred while sending the email. Please revise your settings.'),
 					),
 					'status' => 'error'
 				);
