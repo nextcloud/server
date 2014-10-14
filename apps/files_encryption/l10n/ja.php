@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "不明なエラー",
+"Missing recovery key password" => "復旧キーのパスワードがありません",
+"Please repeat the recovery key password" => "復旧キーのパスワードをもう一度入力",
+"Repeated recovery key password does not match the provided recovery key password" => "入力された復旧キーのパスワードが一致しません。",
 "Recovery key successfully enabled" => "リカバリ用のキーを正常に有効にしました",
 "Could not disable recovery key. Please check your recovery key password!" => "リカバリ用のキーを無効化できませんでした。リカバリ用のキーのパスワードを確認してください！",
 "Recovery key successfully disabled" => "リカバリ用のキーを正常に無効化しました",
+"Please provide the old recovery password" => "古い復旧キーのパスワードを入力",
+"Please provide a new recovery password" => "新しい復旧キーのパスワードを入力",
+"Please repeat the new recovery password" => "新しい復旧キーのパスワードをもう一度入力",
 "Password successfully changed." => "パスワードを変更できました。",
 "Could not change the password. Maybe the old password was not correct." => "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
 "Private key password successfully updated." => "秘密鍵のパスワードが正常に更新されました。",

@@ -88,6 +88,7 @@ $TRANSLATIONS = array(
 "Send" => "送信",
 "Set expiration date" => "有効期限を設定",
 "Expiration date" => "有効期限",
+"Adding user..." => "ユーザー追加中...",
 "group" => "グループ",
 "Resharing is not allowed" => "再共有は許可されていません",
 "Shared in {item} with {user}" => "{item} 内で {user} と共有中",
