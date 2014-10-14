@@ -6,7 +6,7 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
-use OC\Diagnostics\DummyQueryLogger;
+use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Security\CertificateManager;
@@ -15,7 +15,7 @@ use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Security\Crypto;
 use OC\Security\SecureRandom;
-use OC\Diagnostics\DummyEventLogger;
+use OC\Diagnostics\NullEventLogger;
 use OCP\IServerContainer;
 use OCP\ISession;
 use OC\Tagging\TagMapper;
@@ -229,14 +229,14 @@ class Server extends SimpleContainer implements IServerContainer {
 			if (defined('DEBUG') and DEBUG) {
 				return new EventLogger();
 			} else {
-				return new DummyEventLogger();
+				return new NullEventLogger();
 			}
 		});
 		$this->registerService('QueryLogger', function ($c) {
 			if (defined('DEBUG') and DEBUG) {
 				return new QueryLogger();
 			} else {
-				return new DummyQueryLogger();
+				return new NullQueryLogger();
 			}
 		});
 	}

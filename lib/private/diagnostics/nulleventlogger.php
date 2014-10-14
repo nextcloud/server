@@ -13,7 +13,7 @@ use OCP\Diagnostics\IEventLogger;
 /**
  * Dummy event logger that doesn't actually log anything
  */
-class DummyEventLogger implements IEventLogger {
+class NullEventLogger implements IEventLogger {
 	/**
 	 * Mark the start of an event
 	 *

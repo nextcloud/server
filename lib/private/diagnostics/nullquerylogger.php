@@ -10,7 +10,7 @@ namespace OC\Diagnostics;
 
 use OCP\Diagnostics\IQueryLogger;
 
-class DummyQueryLogger implements IQueryLogger {
+class NullQueryLogger implements IQueryLogger {
 	/**
 	 * @param string $sql
 	 * @param array $params
