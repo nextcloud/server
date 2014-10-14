@@ -8,6 +8,7 @@
 namespace Test\Files;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Temporary;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	public function touch($path, $mtime = null) {
@@ -650,6 +651,36 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$info2 = $view->getFileInfo('/test/test');
 		$this->assertSame($info['etag'], $info2['etag']);
+	}
+
+	public function testWatcherEtagCrossStorage() {
+		$storage1 = new Temporary(array());
+		$storage2 = new Temporary(array());
+		$scanner1 = $storage1->getScanner();
+		$scanner2 = $storage2->getScanner();
+		$storage1->mkdir('sub');
+		\OC\Files\Filesystem::mount($storage1, array(), '/test/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/test/sub/storage');
+
+		$past = time() - 100;
+		$storage2->file_put_contents('test.txt', 'foobar');
+		$scanner1->scan('');
+		$scanner2->scan('');
+		$view = new \OC\Files\View('');
+
+		$storage2->getWatcher('')->setPolicy(Watcher::CHECK_ALWAYS);
+
+		$oldFileInfo = $view->getFileInfo('/test/sub/storage/test.txt');
+		$oldFolderInfo = $view->getFileInfo('/test');
+
+		$storage2->getCache()->update($oldFileInfo->getId(), array(
+			'storage_mtime' => $past
+		));
+
+		$view->getFileInfo('/test/sub/storage/test.txt');
+		$newFolderInfo = $view->getFileInfo('/test');
+
+		$this->assertNotEquals($newFolderInfo->getEtag(), $oldFolderInfo->getEtag());
 	}
 
 	/**
