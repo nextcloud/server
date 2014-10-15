@@ -25,21 +25,14 @@ OC_Util::checkAdminUser();
 \OC::$server->getSession()->close();
 
 // Load the files we need
-OCP\Util::addStyle('settings', 'settings' );
-OCP\Util::addScript('settings', 'settings');
-OCP\Util::addScript('core', 'select2/select2');
-OCP\Util::addStyle('core', 'select2/select2');
-OC_App::setActiveNavigationEntry( "core_apps" );
-
-$combinedApps = OC_App::listAllApps();
+\OCP\Util::addScript('handlebars-v1.3.0');
+\OCP\Util::addScript("settings", "settings");
+\OCP\Util::addStyle("settings", "settings");
+\OCP\Util::addScript('core', 'select2/select2');
+\OCP\Util::addStyle('core', 'select2/select2');
+\OCP\Util::addScript("settings", "apps");
+\OC_App::setActiveNavigationEntry( "core_apps" );
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
-
-$tmpl->assign('apps', $combinedApps);
-
-$appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
-
-$tmpl->assign('appid', $appid);
-
 $tmpl->printPage();
 

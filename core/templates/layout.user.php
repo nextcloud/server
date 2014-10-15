@@ -119,7 +119,7 @@
 				<!-- show "More apps" link to app administration directly in app navigation, as last entry -->
 				<?php if(OC_User::isAdminUser(OC_User::getUser())): ?>
 					<li id="apps-management">
-						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps').'?installed'); ?>" title=""
+						<a href="<?php print_unescaped(OC_Helper::linkToRoute('settings_apps')); ?>" title=""
 							<?php if( $_['appsmanagement_active'] ): ?> class="active"<?php endif; ?>>
 							<img class="app-icon svg" alt="" src="<?php print_unescaped(OC_Helper::imagePath('settings', 'apps.svg')); ?>"/>
 							<div class="icon-loading-dark" style="display:none;"></div>

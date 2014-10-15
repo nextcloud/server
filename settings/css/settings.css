@@ -128,7 +128,11 @@ input.userFilter {width: 200px;}
 .ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
 .ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
+
+
+
 /* APPS */
+
 .appinfo { margin: 1em 40px; }
 #app-navigation {
 	padding-bottom: 0px;
@@ -139,11 +143,62 @@ input.userFilter {width: 200px;}
 #app-navigation.appwarning:hover {
 	background: #fbb;
 }
-small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 3px;}
-small.recommendedapp { color:#FFF; background-color:#888; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 3px;}
-small.externalapp.list, small.recommendedapp.list { position: absolute; right: 10px; top: 12px; }
+
+.recommendedapp {
+	font-size: 11px;
+	background-position: left center;
+	padding-left: 18px;
+	vertical-align: top;
+}
 span.version { margin-left:1em; margin-right:1em; color:#555; }
 
+#app-navigation .app-external,
+.app-version,
+.recommendedapp {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+#apps-list {
+	position: relative;
+	height: 100%;
+}
+.section {
+	position: relative;
+}
+.app-image {
+	float: left;
+	padding-right: 10px;
+	width: 80px;
+	height: 80px;
+}
+.app-image img {
+	max-width: 80px;
+	max-height: 80px;
+}
+.app-image-icon img {
+	background-color: #ccc;
+	width: 60px;
+	padding: 10px;
+	border-radius: 3px;
+}
+.app-name,
+.app-version,
+.app-score,
+.recommendedapp {
+	display: inline-block;
+}
+.app-description {
+	clear: both;
+}
+.app-description pre {
+	white-space: pre-line;
+}
+
+#app-category-2 {
+	border-bottom: 1px solid #e8e8e8;
+}
 
 /* Transition to complete width! */
 .app:hover, .app:active { max-width: inherit; }
