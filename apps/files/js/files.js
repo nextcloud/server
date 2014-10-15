@@ -350,7 +350,7 @@ var createDragShadow = function(event) {
 	}
 
 	// do not show drag shadow for too many files
-	var selectedFiles = _.first(FileList.getSelectedFiles(), FileList.pageSize);
+	var selectedFiles = _.first(FileList.getSelectedFiles(), FileList.pageSize());
 	selectedFiles = _.sortBy(selectedFiles, FileList._fileInfoCompare);
 
 	if (!isDragSelected && selectedFiles.length === 1) {
