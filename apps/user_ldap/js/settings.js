@@ -675,6 +675,10 @@ var LdapWizard = {
 	/** end of init user filter tab section **/
 
 	onTabChange: function(event, ui) {
+		if(LdapWizard.saveProcesses  > 0) {
+			//do not allow to switch tabs as long as a save process is active
+			return false;
+		}
 		newTabIndex = 0;
 		if(ui.newTab[0].id === '#ldapWizard2') {
 			LdapWizard.initUserFilter();
@@ -765,7 +769,6 @@ var LdapWizard = {
 		$('#ldap .ldap_saving').removeClass('hidden');
 		LdapWizard.saveProcesses += 1;
 		$('#ldap *').addClass('save-cursor');
-		LdapWizard.disableTabs();
 		param = 'cfgkey='+encodeURIComponent(object.id)+
 				'&cfgval='+encodeURIComponent(value)+
 				'&action=save'+
@@ -778,11 +781,7 @@ var LdapWizard = {
 				LdapWizard.saveProcesses -= 1;
 				if(LdapWizard.saveProcesses === 0) {
 					$('#ldap .ldap_saving').addClass('hidden');
-					console.log('switch cursor');
-					console.log($('#ldap *').css('cursor'));
 					$('#ldap *').removeClass('save-cursor');
-					//enable the tabs again, if everything is OK
-					LdapWizard.basicStatusCheck();
 					console.log($('#ldap *').css('cursor'));
 				}
 				if(result.status === 'success') {
