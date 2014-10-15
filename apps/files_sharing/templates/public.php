@@ -1,8 +1,28 @@
-<?php /** @var $l OC_L10N */ ?>
 <?php
+/** @var $l OC_L10N */
+/** @var $_ array */
+
+OCP\Util::addScript('files', 'file-upload');
+OCP\Util::addStyle('files_sharing', 'public');
+OCP\Util::addStyle('files_sharing', 'mobile');
+OCP\Util::addScript('files_sharing', 'public');
+OCP\Util::addScript('files', 'fileactions');
+OCP\Util::addScript('files', 'jquery.iframe-transport');
+OCP\Util::addScript('files', 'jquery.fileupload');
+
+// JS required for folders
+OCP\Util::addStyle('files', 'files');
+OCP\Util::addStyle('files', 'upload');
+OCP\Util::addScript('files', 'filesummary');
+OCP\Util::addScript('files', 'breadcrumb');
+OCP\Util::addScript('files', 'files');
+OCP\Util::addScript('files', 'filelist');
+OCP\Util::addscript('files', 'keyboardshortcuts');
+
 $thumbSize=1024;
 $previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'false';
 ?>
+
 <?php if ( \OC\Preview::isMimeSupported($_['mimetype'])): /* This enables preview images for links (e.g. on Facebook, Google+, ...)*/?>
 	<link rel="image_src" href="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $thumbSize, 'y' => $thumbSize, 'file' => $_['directory_path'], 't' => $_['dirToken']))); ?>" />
 <?php endif; ?>
@@ -24,7 +44,7 @@ $previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'fals
 
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>"
-			title="" id="owncloud">
+		   title="" id="owncloud">
 			<div class="logo-wide svg"></div>
 		</a>
 		<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
@@ -48,7 +68,7 @@ $previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'fals
 				</a>
 			</span>
 		</div>
-</div></header>
+	</div></header>
 <div id="content">
 	<div id="preview">
 		<?php if (isset($_['folder'])): ?>

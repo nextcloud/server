@@ -95,7 +95,7 @@ class Helper {
 	 *
 	 * @return boolean true if authorized, false otherwise
 	 */
-	public static function authenticate($linkItem, $password) {
+	public static function authenticate($linkItem, $password = null) {
 		if ($password !== null) {
 			if ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_LINK) {
 				// Check Password

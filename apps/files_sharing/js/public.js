@@ -109,14 +109,12 @@ OCA.Sharing.PublicApp = {
 					filename = JSON.stringify(filename);
 				}
 				var path = dir || FileList.getCurrentDirectory();
+				var token = $('#sharingToken').val();
 				var params = {
-					service: 'files',
-					t: $('#sharingToken').val(),
 					path: path,
-					files: filename,
-					download: null
+					files: filename
 				};
-				return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/'+token+'/download') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.getAjaxUrl = function (action, params) {
@@ -126,12 +124,11 @@ OCA.Sharing.PublicApp = {
 			};
 
 			this.fileList.linkTo = function (dir) {
+				var token = $('#sharingToken').val();
 				var params = {
-					service: 'files',
-					t: $('#sharingToken').val(),
 					dir: dir
 				};
-				return OC.filePath('', '', 'public.php') + '?' + OC.buildQueryString(params);
+				return OC.generateUrl('/s/'+token+'') + '?' + OC.buildQueryString(params);
 			};
 
 			this.fileList.generatePreviewUrl = function (urlSpec) {
@@ -193,8 +190,6 @@ OCA.Sharing.PublicApp = {
 
 	_onDirectoryChanged: function (e) {
 		OC.Util.History.pushState({
-			service: 'files',
-			t: $('#sharingToken').val(),
 			// arghhhh, why is this not called "dir" !?
 			path: e.dir
 		});
