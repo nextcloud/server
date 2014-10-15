@@ -25,6 +25,14 @@ interface IEventLogger {
 	public function end($id);
 
 	/**
+	 * @param string $id
+	 * @param string $description
+	 * @param float $start
+	 * @param float $end
+	 */
+	public function log($id, $description, $start, $end);
+
+	/**
 	 * @return \OCP\Diagnostics\IEvent[]
 	 */
 	public function getEvents();

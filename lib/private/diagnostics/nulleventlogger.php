@@ -31,10 +31,13 @@ class NullEventLogger implements IEventLogger {
 	public function end($id) {
 	}
 
+	public function log($id, $description, $start, $end) {
+	}
+
 	/**
 	 * @return \OCP\Diagnostics\IEvent[]
 	 */
-	public function getEvents(){
+	public function getEvents() {
 		return array();
 	}
 }

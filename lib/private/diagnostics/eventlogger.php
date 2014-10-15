@@ -27,6 +27,11 @@ class EventLogger implements IEventLogger {
 		}
 	}
 
+	public function log($id, $description, $start, $end) {
+		$this->events[$id] = new Event($id, $description, $start);
+		$this->events[$id]->end($end);
+	}
+
 	/**
 	 * @return \OCP\Diagnostics\IEvent[]
 	 */
