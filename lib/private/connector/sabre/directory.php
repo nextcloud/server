@@ -84,7 +84,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 * @return void
 	 */
 	public function createDirectory($name) {
-		if (!$this->fileView->isCreatable($this->path)) {
+		if (!$this->info->isCreatable()) {
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
