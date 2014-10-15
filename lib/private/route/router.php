@@ -106,6 +106,7 @@ class Router implements IRouter {
 	 * @return void
 	 */
 	public function loadRoutes($app = null) {
+		$requestedApp = $app;
 		if ($this->loaded) {
 			return;
 		}
@@ -123,6 +124,7 @@ class Router implements IRouter {
 				$routingFiles = array();
 			}
 		}
+		\OC::$server->getEventLogger()->start('loadroutes' . $requestedApp, 'Loading Routes');
 		foreach ($routingFiles as $app => $file) {
 			if (!isset($this->loadedApps[$app])) {
 				$this->loadedApps[$app] = true;
@@ -145,6 +147,7 @@ class Router implements IRouter {
 			$collection->addPrefix('/ocs');
 			$this->root->addCollection($collection);
 		}
+		\OC::$server->getEventLogger()->end('loadroutes' . $requestedApp);
 	}
 
 	/**
@@ -202,7 +205,6 @@ class Router implements IRouter {
 	 * @return void
 	 */
 	public function match($url) {
-		\OC::$server->getEventLogger()->start('load_routes', 'Load routes');
 		if (substr($url, 0, 6) === '/apps/') {
 			// empty string / 'apps' / $app / rest of the route
 			list(, , $app,) = explode('/', $url, 4);
@@ -217,7 +219,6 @@ class Router implements IRouter {
 		} else {
 			$this->loadRoutes();
 		}
-		\OC::$server->getEventLogger()->end('load_routes');
 
 		$matcher = new UrlMatcher($this->root, $this->context);
 		try {

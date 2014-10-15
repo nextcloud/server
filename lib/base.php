@@ -444,6 +444,7 @@ class OC {
 
 	public static function init() {
 		// register autoloader
+		$loaderStart = microtime(true);
 		require_once __DIR__ . '/autoloader.php';
 		self::$loader = new \OC\Autoloader();
 		self::$loader->registerPrefix('Doctrine\\Common', 'doctrine/common/lib');
@@ -453,10 +454,12 @@ class OC {
 		self::$loader->registerPrefix('Patchwork', '3rdparty');
 		self::$loader->registerPrefix('Pimple', '3rdparty/Pimple');
 		spl_autoload_register(array(self::$loader, 'load'));
+		$loaderEnd = microtime(true);
 
 		// setup the basic server
 		self::$server = new \OC\Server();
 		self::initPaths();
+		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
 		// set some stuff
