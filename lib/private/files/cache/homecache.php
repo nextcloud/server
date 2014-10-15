@@ -39,6 +39,9 @@ class HomeCache extends Cache {
 				$totalSize = 0 + $sum;
 				$unencryptedSize = 0 + $unencryptedSum;
 				$entry['size'] += 0;
+				if (!isset($entry['unencrypted_size'])) {
+					$entry['unencrypted_size'] = 0;
+				}
 				$entry['unencrypted_size'] += 0;
 				if ($entry['size'] !== $totalSize) {
 					$this->update($id, array('size' => $totalSize));
