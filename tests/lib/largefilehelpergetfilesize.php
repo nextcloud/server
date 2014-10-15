@@ -20,8 +20,8 @@ class LargeFileHelperGetFileSize extends \PHPUnit_Framework_TestCase {
 	public function setUp() {
 		parent::setUp();
 		$ds = DIRECTORY_SEPARATOR;
-		$this->filename = dirname(__DIR__) . "{$ds}data{$ds}data.tar.gz";
-		$this->fileSize = 4195;
+		$this->filename = dirname(__DIR__) . "{$ds}data{$ds}strängé filename (duplicate #2).txt";
+		$this->fileSize = 446;
 		$this->helper = new \OC\LargeFileHelper;
 	}
 
