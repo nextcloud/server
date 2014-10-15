@@ -8,6 +8,7 @@
 >
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
+		<directory suffix='.php'>settings/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->
