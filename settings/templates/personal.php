@@ -7,6 +7,15 @@
 /** @var $_ array */
 ?>
 
+<div id="app-navigation">
+<!--	<?php foreach($_['forms'] as $form) {
+		print_unescaped($form);
+	};?>
+-->
+</div>
+
+<div id="app-content">
+
 <div class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
@@ -253,4 +262,8 @@ if($_['passwordChangeSupported']) {
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
+</div>
+
+
+
 </div>
