@@ -120,7 +120,7 @@ describe('OCA.Files.FileList tests', function() {
 			size: 250,
 			etag: '456'
 		}];
-		pageSizeStub = sinon.stub(OCA.File.FileList.prototype, 'pageSize').returns(20);
+		pageSizeStub = sinon.stub(OCA.Files.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'));
 	});
 	afterEach(function() {
