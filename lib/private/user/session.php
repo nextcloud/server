@@ -91,8 +91,8 @@ class Session implements IUserSession, Emitter {
 		// fetch the deprecated \OC::$session if it changed for backwards compatibility
 		if (isset(\OC::$session) && \OC::$session !== $this->session) {
 			\OC::$server->getLogger()->warning(
-				'One of your installed apps still seems to use the deprecated '.
-				'\OC::$session and has replaced it with a new instance. Please file a bug against it.'.
+				'One of your installed apps still seems to use the deprecated ' .
+				'\OC::$session and has replaced it with a new instance. Please file a bug against it.' .
 				'Closing and replacing session in UserSession instance.'
 			);
 			$this->setSession(\OC::$session);
@@ -110,6 +110,7 @@ class Session implements IUserSession, Emitter {
 			$this->session->close();
 		}
 		$this->session = $session;
+		$this->activeUser = null;
 
 		// maintain deprecated \OC::$session
 		if (\OC::$session !== $this->session) {
@@ -195,7 +196,7 @@ class Session implements IUserSession, Emitter {
 	public function login($uid, $password) {
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
 		$user = $this->manager->checkPassword($uid, $password);
-		if($user !== false) {
+		if ($user !== false) {
 			if (!is_null($user)) {
 				if ($user->isEnabled()) {
 					$this->setUser($user);
@@ -221,7 +222,7 @@ class Session implements IUserSession, Emitter {
 	public function loginWithCookie($uid, $currentToken) {
 		$this->manager->emit('\OC\User', 'preRememberedLogin', array($uid));
 		$user = $this->manager->get($uid);
-		if(is_null($user)) {
+		if (is_null($user)) {
 			// user does not exist
 			return false;
 		}
@@ -229,7 +230,7 @@ class Session implements IUserSession, Emitter {
 		// get stored tokens
 		$tokens = \OC_Preferences::getKeys($uid, 'login_token');
 		// test cookies token against stored tokens
-		if(!in_array($currentToken, $tokens, true)) {
+		if (!in_array($currentToken, $tokens, true)) {
 			return false;
 		}
 		// replace successfully used token with a new one
@@ -275,13 +276,13 @@ class Session implements IUserSession, Emitter {
 		unset($_COOKIE["oc_username"]); //TODO: DI
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT);
-		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT);
-		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT);
+		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT);
+		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT);
+		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT);
 		// old cookies might be stored under /webroot/ instead of /webroot
 		// and Firefox doesn't like it!
-		setcookie('oc_username', '', time()-3600, \OC::$WEBROOT . '/');
-		setcookie('oc_token', '', time()-3600, \OC::$WEBROOT . '/');
-		setcookie('oc_remember_login', '', time()-3600, \OC::$WEBROOT . '/');
+		setcookie('oc_username', '', time() - 3600, \OC::$WEBROOT . '/');
+		setcookie('oc_token', '', time() - 3600, \OC::$WEBROOT . '/');
+		setcookie('oc_remember_login', '', time() - 3600, \OC::$WEBROOT . '/');
 	}
 }
