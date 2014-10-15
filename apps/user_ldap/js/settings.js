@@ -782,7 +782,6 @@ var LdapWizard = {
 				if(LdapWizard.saveProcesses === 0) {
 					$('#ldap .ldap_saving').addClass('hidden');
 					$('#ldap *').removeClass('save-cursor');
-					console.log($('#ldap *').css('cursor'));
 				}
 				if(result.status === 'success') {
 					LdapWizard.processChanges(object);
