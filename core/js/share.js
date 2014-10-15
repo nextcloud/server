@@ -1022,6 +1022,7 @@ $(document).ready(function() {
 			$loading.removeClass('hidden');
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, itemSourceName).then(function() {
 				$loading.addClass('hidden');
+				$('#linkPassText').attr('placeholder', t('core', 'Choose a password for the public link'));
 			});
 		} else {
 			$('#linkPassText').focus();
