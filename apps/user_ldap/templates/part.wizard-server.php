@@ -71,7 +71,7 @@
 
 			<div class="tablerow left">
 				<label for="ldap_experienced_admin" class="tablecell">
-					<?php p($l->t('I am familiar with LDAP?'));?>
+					<?php p($l->t('Manually enter LDAP filters (recommended for large directories)'));?>
 				</label>
 
 				<input type="checkbox" id="ldap_experienced_admin" value="1"
