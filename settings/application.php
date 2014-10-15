@@ -11,6 +11,7 @@
 namespace OC\Settings;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use OC\Settings\Controller\AppSettingsController;
 use OC\Settings\Controller\MailSettingsController;
 use \OCP\AppFramework\App;
 use \OCP\Util;
@@ -44,7 +45,14 @@ class Application extends App {
 				$c->query('DefaultMailAddress')
 			);
 		});
-
+		$container->registerService('AppSettingsController', function(SimpleContainer $c) {
+			return new AppSettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('L10N'),
+				$c->query('Config')
+			);
+		});
 		/**
 		 * Core class wrappers
 		 */

@@ -13,6 +13,8 @@ $application->registerRoutes($this, array('routes' =>array(
 	array('name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST'),
 	array('name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST'),
 	array('name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST'),
+	array('name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'),
+	array('name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET')
 )));
 
 /** @var $this \OCP\Route\IRouter */
@@ -80,10 +82,6 @@ $this->create('settings_cert_remove', '/settings/ajax/removeRootCertificate')
 // apps
 $this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
 	->actionInclude('settings/ajax/enableapp.php');
-$this->create('settings_ajax_load_app_categories', '/settings/apps/categories')
-	->actionInclude('settings/ajax/apps/categories.php');
-$this->create('settings_ajax_load_apps', '/settings/apps/list')
-	->actionInclude('settings/ajax/apps/index.php');
 $this->create('settings_ajax_disableapp', '/settings/ajax/disableapp.php')
 	->actionInclude('settings/ajax/disableapp.php');
 $this->create('settings_ajax_updateapp', '/settings/ajax/updateapp.php')
