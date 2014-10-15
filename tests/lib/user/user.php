@@ -32,6 +32,28 @@ class User extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('Foo', $user->getDisplayName());
 	}
 
+	/**
+	 * if the display name contain whitespaces only, we expect the uid as result
+	 */
+	public function testDisplayNameEmpty() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->getMock('\OC_User_Backend');
+		$backend->expects($this->once())
+			->method('getDisplayName')
+			->with($this->equalTo('foo'))
+			->will($this->returnValue('  '));
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->with($this->equalTo(\OC_USER_BACKEND_GET_DISPLAYNAME))
+			->will($this->returnValue(true));
+
+		$user = new \OC\User\User('foo', $backend);
+		$this->assertEquals('foo', $user->getDisplayName());
+	}
+
 	public function testDisplayNameNotSupported() {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
@@ -303,6 +325,30 @@ class User extends \PHPUnit_Framework_TestCase {
 		$user = new \OC\User\User('foo', $backend);
 		$this->assertTrue($user->setDisplayName('Foo'));
 		$this->assertEquals('Foo',$user->getDisplayName());
+	}
+
+	/**
+	 * don't allow display names containing whitespaces only
+	 */
+	public function testSetDisplayNameEmpty() {
+		/**
+		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
+		 */
+		$backend = $this->getMock('\OC_User_Database');
+
+		$backend->expects($this->any())
+			->method('implementsActions')
+			->will($this->returnCallback(function ($actions) {
+				if ($actions === \OC_USER_BACKEND_SET_DISPLAYNAME) {
+					return true;
+				} else {
+					return false;
+				}
+			}));
+
+		$user = new \OC\User\User('foo', $backend);
+		$this->assertFalse($user->setDisplayName(' '));
+		$this->assertEquals('foo',$user->getDisplayName());
 	}
 
 	public function testSetDisplayNameNotSupported() {
