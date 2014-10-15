@@ -1099,7 +1099,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// get the file info from previous created file
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($folder);
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the folder
 		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
