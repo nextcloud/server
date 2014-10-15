@@ -20,7 +20,7 @@
 */
 
 describe('OCA.Files.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList;
+	var testFiles, alertStub, notificationStub, fileList, pageSizeStub;
 	var bcResizeStub;
 
 	/**
@@ -120,7 +120,7 @@ describe('OCA.Files.FileList tests', function() {
 			size: 250,
 			etag: '456'
 		}];
-
+		pageSizeStub = sinon.stub(OCA.File.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'));
 	});
 	afterEach(function() {
@@ -130,6 +130,7 @@ describe('OCA.Files.FileList tests', function() {
 		notificationStub.restore();
 		alertStub.restore();
 		bcResizeStub.restore();
+		pageSizeStub.restore();
 	});
 	describe('Getters', function() {
 		it('Returns the current directory', function() {
