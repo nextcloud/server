@@ -51,7 +51,7 @@
 
 		// number of files per page, calculated dynamically
 		pageSize: function() {
-			return Math.ceil(this.$el.parent().height() / 50);
+			return Math.ceil(this.$container.height() / 50);
 		},
 
 		/**
