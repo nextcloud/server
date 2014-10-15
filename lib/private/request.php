@@ -205,7 +205,7 @@ class OC_Request {
 	 * @return string Path info or false when not found
 	 */
 	public static function getRawPathInfo() {
-		$requestUri = $_SERVER['REQUEST_URI'];
+		$requestUri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 		// remove too many leading slashes - can be caused by reverse proxy configuration
 		if (strpos($requestUri, '/') === 0) {
 			$requestUri = '/' . ltrim($requestUri, '/');
