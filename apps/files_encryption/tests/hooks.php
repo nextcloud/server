@@ -325,6 +325,58 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
+	 * test rename operation
+	 */
+	function testCopyHook() {
+
+		// save file with content
+		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->filename, $this->data);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// check if keys exists
+		$this->assertTrue($this->rootView->file_exists(
+			'/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/share-keys/'
+			. $this->filename . '.' . self::TEST_ENCRYPTION_HOOKS_USER1 . '.shareKey'));
+
+		$this->assertTrue($this->rootView->file_exists(
+			'/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keyfiles/'
+			. $this->filename . '.key'));
+
+		// make subfolder and sub-subfolder
+		$this->rootView->mkdir('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder);
+		$this->rootView->mkdir('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder . '/' . $this->folder);
+
+		$this->assertTrue($this->rootView->is_dir('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder . '/' . $this->folder));
+
+		// copy the file to the sub-subfolder
+		\OC\Files\Filesystem::copy($this->filename, '/' . $this->folder . '/' . $this->folder . '/' . $this->filename);
+
+		$this->assertTrue($this->rootView->file_exists('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->filename));
+		$this->assertTrue($this->rootView->file_exists('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder . '/' . $this->folder . '/' . $this->filename));
+
+		// keys should be copied too
+		$this->assertTrue($this->rootView->file_exists(
+			'/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/share-keys/'
+			. $this->filename . '.' . self::TEST_ENCRYPTION_HOOKS_USER1 . '.shareKey'));
+		$this->assertTrue($this->rootView->file_exists(
+			'/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keyfiles/'
+			. $this->filename . '.key'));
+
+		$this->assertTrue($this->rootView->file_exists(
+			'/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/share-keys/' . $this->folder . '/' . $this->folder . '/'
+			. $this->filename . '.' . self::TEST_ENCRYPTION_HOOKS_USER1 . '.shareKey'));
+		$this->assertTrue($this->rootView->file_exists(
+			'/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keyfiles/' . $this->folder . '/' . $this->folder . '/'
+			. $this->filename . '.key'));
+
+		// cleanup
+		$this->rootView->unlink('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->folder);
+		$this->rootView->unlink('/' . self::TEST_ENCRYPTION_HOOKS_USER1 . '/files/' . $this->filename);
+	}
+
+	/**
 	 * @brief replacing encryption keys during password change should be allowed
 	 *        until the user logged in for the first time
 	 */

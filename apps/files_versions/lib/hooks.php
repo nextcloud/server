@@ -14,6 +14,18 @@ namespace OCA\Files_Versions;
 
 class Hooks {
 
+	public static function connectHooks() {
+		// Listen to write signals
+		\OCP\Util::connectHook('OC_Filesystem', 'write', "OCA\Files_Versions\Hooks", "write_hook");
+		// Listen to delete and rename signals
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', "OCA\Files_Versions\Hooks", "remove_hook");
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Files_Versions\Hooks", "pre_remove_hook");
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', "OCA\Files_Versions\Hooks", "rename_hook");
+		\OCP\Util::connectHook('OC_Filesystem', 'copy', "OCA\Files_Versions\Hooks", "copy_hook");
+		//Listen to delete user signal
+		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Versions\Hooks", "deleteUser_hook");
+	}
+
 	/**
 	 * listen to write event.
 	 */
@@ -69,7 +81,25 @@ class Hooks {
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
 			if($oldpath<>'' && $newpath<>'') {
-				Storage::rename( $oldpath, $newpath );
+				Storage::renameOrCopy($oldpath, $newpath, 'rename');
+			}
+		}
+	}
+
+	/**
+	 * copy versions of copied files
+	 * @param array $params array with oldpath and newpath
+	 *
+	 * This function is connected to the copy signal of OC_Filesystem and copies the
+	 * the stored versions to the new location
+	 */
+	public static function copy_hook($params) {
+
+		if (\OCP\App::isEnabled('files_versions')) {
+			$oldpath = $params['oldpath'];
+			$newpath = $params['newpath'];
+			if($oldpath<>'' && $newpath<>'') {
+				Storage::renameOrCopy($oldpath, $newpath, 'copy');
 			}
 		}
 	}
