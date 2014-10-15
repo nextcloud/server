@@ -89,8 +89,17 @@ class User implements IUser {
 	 */
 	public function getDisplayName() {
 		if (!isset($this->displayName)) {
+			$displayName = '';
 			if ($this->backend and $this->backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
-				$this->displayName = $this->backend->getDisplayName($this->uid);
+				// get display name and strip whitespace from the beginning and end of it
+				$backendDisplayName = $this->backend->getDisplayName($this->uid);
+				if (is_string($backendDisplayName)) {
+					$displayName = trim($backendDisplayName);
+				}
+			}
+
+			if (!empty($displayName)) {
+				$this->displayName = $displayName;
 			} else {
 				$this->displayName = $this->uid;
 			}
@@ -105,7 +114,8 @@ class User implements IUser {
 	 * @return bool
 	 */
 	public function setDisplayName($displayName) {
-		if ($this->canChangeDisplayName()) {
+		$displayName = trim($displayName);
+		if ($this->canChangeDisplayName() && !empty($displayName)) {
 			$this->displayName = $displayName;
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			return $result !== false;
