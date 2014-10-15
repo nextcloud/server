@@ -188,21 +188,34 @@ var LdapWizard = {
 		}
 	},
 
+	enableTabs: function() {
+		//do not use this function directly, use basicStatusCheck instead.
+		if(LdapWizard.saveProcesses === 0) {
+			$('.ldap_action_continue').removeAttr('disabled');
+			$('.ldap_action_back').removeAttr('disabled');
+			$('#ldapSettings').tabs('option', 'disabled', []);
+		}
+	},
+
+	disableTabs: function() {
+		$('.ldap_action_continue').attr('disabled', 'disabled');
+		$('.ldap_action_back').attr('disabled', 'disabled');
+		$('#ldapSettings').tabs('option', 'disabled', [1, 2, 3, 4, 5]);
+	},
+
 	basicStatusCheck: function() {
 		//criterias to continue from the first tab
 		// - host, port, user filter, agent dn, password, base dn
-		host	= $('#ldap_host').val();
-		port	= $('#ldap_port').val();
-		agent	= $('#ldap_dn').val();
-		pwd		= $('#ldap_agent_password').val();
-		base	= $('#ldap_base').val();
+		var host  = $('#ldap_host').val();
+		var port  = $('#ldap_port').val();
+		var agent = $('#ldap_dn').val();
+		var pwd   = $('#ldap_agent_password').val();
+		var base  = $('#ldap_base').val();
 
 		if((host && port  && base) && ((!agent && !pwd) || (agent && pwd))) {
-			$('.ldap_action_continue').removeAttr('disabled');
-			$('#ldapSettings').tabs('option', 'disabled', []);
+			LdapWizard.enableTabs();
 		} else {
-			$('.ldap_action_continue').attr('disabled', 'disabled');
-			$('#ldapSettings').tabs('option', 'disabled', [1, 2, 3, 4, 5]);
+			LdapWizard.disableTabs();
 		}
 	},
 
@@ -751,6 +764,8 @@ var LdapWizard = {
 	_save: function(object, value) {
 		$('#ldap .ldap_saving').removeClass('hidden');
 		LdapWizard.saveProcesses += 1;
+		$('#ldap *').addClass('save-cursor');
+		LdapWizard.disableTabs();
 		param = 'cfgkey='+encodeURIComponent(object.id)+
 				'&cfgval='+encodeURIComponent(value)+
 				'&action=save'+
@@ -763,6 +778,12 @@ var LdapWizard = {
 				LdapWizard.saveProcesses -= 1;
 				if(LdapWizard.saveProcesses === 0) {
 					$('#ldap .ldap_saving').addClass('hidden');
+					console.log('switch cursor');
+					console.log($('#ldap *').css('cursor'));
+					$('#ldap *').removeClass('save-cursor');
+					//enable the tabs again, if everything is OK
+					LdapWizard.basicStatusCheck();
+					console.log($('#ldap *').css('cursor'));
 				}
 				if(result.status === 'success') {
 					LdapWizard.processChanges(object);

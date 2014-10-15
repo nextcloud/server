@@ -123,6 +123,10 @@ select[multiple=multiple] + button {
 	max-width: 40%;
 }
 
+.save-cursor {
+	cursor: wait;
+}
+
 #ldap .ldap_saving {
 	margin-right: 15px;
 	color: orange;
