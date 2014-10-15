@@ -815,7 +815,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.$fileList.on('fileActionsReady', handler);
 			fileList._nextPage();
 			expect(handler.calledOnce).toEqual(true);
-			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize);
+			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize());
 		});
 		it('does not trigger "fileActionsReady" event after single add with silent argument', function() {
 			var handler = sinon.stub();
