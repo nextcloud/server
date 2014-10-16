@@ -134,7 +134,7 @@ class MailSettingsController extends Controller {
 			try {
 				$this->mail->send($email, $this->userSession->getUser()->getDisplayName(),
 					$this->l10n->t('test email settings'),
-					$this->l10n->t('If you received this email, the settings seems to be correct.'),
+					$this->l10n->t('If you received this email, the settings seem to be correct.'),
 					$this->defaultMailAddress,
 					$this->defaults->getName()
 				);
