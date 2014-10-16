@@ -479,7 +479,7 @@ button.loading {
 	border-top: 1px solid #ddd;
 }
 /* no top border for first settings item */
-.section:first-child {
+#app-content > .section:first-child {
 	border-top: none;
 }
 .section h2 {

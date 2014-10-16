@@ -101,9 +101,38 @@ $tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 
+// add hardcoded forms from the template
+$l = OC_L10N::get('settings');
+$formsAndMore = array();
+$formsAndMore[]= array( 'anchor' => 'passwordform', 'section-name' => $l->t('Personal Info') );
+
 $forms=OC_App::getForms('personal');
-$tmpl->assign('forms', array());
-foreach($forms as $form) {
-	$tmpl->append('forms', $form);
+
+$formsMap = array_map(function($form){
+	if (preg_match('%(<h2[^>]*>.*?</h2>)%i', $form, $regs)) {
+		$sectionName = str_replace('<h2>', '', $regs[0]);
+		$sectionName = str_replace('</h2>', '', $sectionName);
+		$anchor = strtolower($sectionName);
+		$anchor = str_replace(' ', '-', $anchor);
+
+		return array(
+			'anchor' => $anchor,
+			'section-name' => $sectionName,
+			'form' => $form
+		);
+	}
+	return array(
+		'form' => $form
+	);
+}, $forms);
+
+$formsAndMore = array_merge($formsAndMore, $formsMap);
+
+// add bottom hardcoded forms from the template
+$formsAndMore[]= array( 'anchor' => 'ssl-root-certificates', 'section-name' => $l->t('SSL root certificates') );
+if($enableDecryptAll) {
+	$formsAndMore[]= array( 'anchor' => 'encryption', 'section-name' => $l->t('Encryption') );
 }
+
+$tmpl->assign('forms', $formsAndMore);
 $tmpl->printPage();

@@ -8,10 +8,15 @@
 ?>
 
 <div id="app-navigation">
-<!--	<?php foreach($_['forms'] as $form) {
-		print_unescaped($form);
-	};?>
--->
+	<ul>
+	<?php foreach($_['forms'] as $form) {
+		if (isset($form['anchor'])) {
+			$anchor = '#' . $form['anchor'];
+			$sectionName = $form['section-name'];
+			print_unescaped("<li><a href='$anchor'>$sectionName</a></li>");
+		}
+	}?>
+	</ul>
 </div>
 
 <div id="app-content">
@@ -159,10 +164,12 @@ if($_['passwordChangeSupported']) {
 </form>
 
 <?php foreach($_['forms'] as $form) {
-	print_unescaped($form);
+	if (isset($form['form'])) {?>
+	<div id="<?php isset($form['anchor']) ? print_unescaped($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+	<?php }
 };?>
 
-<div class="section">
+<div id="ssl-root-certificates" class="section">
 	<h2><?php p($l->t('SSL root certificates')); ?></h2>
 	<table id="sslCertificate" class="grid">
 		<thead>
@@ -201,7 +208,7 @@ if($_['passwordChangeSupported']) {
 </div>
 
 <?php if($_['enableDecryptAll']): ?>
-<div class="section">
+<div id="encryption" class="section">
 
 	<h2>
 		<?php p( $l->t( 'Encryption' ) ); ?>
