@@ -169,8 +169,8 @@ class MailSettingscontrollerTest extends \PHPUnit_Framework_TestCase {
 							'A problem occurred while sending the e-mail. Please revisit your settings.'),
 						array('Email sent', array(), 'Email sent'),
 						array('test email settings', array(), 'test email settings'),
-						array('If you received this email, the settings seems to be correct.', array(),
-							'If you received this email, the settings seems to be correct.')
+						array('If you received this email, the settings seem to be correct.', array(),
+							'If you received this email, the settings seem to be correct.')
 					)
 				));
 		$this->container['UserSession']
