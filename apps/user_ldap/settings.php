@@ -26,6 +26,7 @@
 OC_Util::checkAdminUser();
 
 OCP\Util::addScript('user_ldap', 'ldapFilter');
+OCP\Util::addScript('user_ldap', 'experiencedAdmin');
 OCP\Util::addScript('user_ldap', 'settings');
 OCP\Util::addScript('core', 'jquery.multiselect');
 OCP\Util::addStyle('user_ldap', 'settings');

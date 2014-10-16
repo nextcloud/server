@@ -69,6 +69,16 @@
 				</textarea>
 			</div>
 
+			<div class="tablerow left">
+				<input type="checkbox" id="ldap_experienced_admin" value="1"
+					name="ldap_experienced_admin" class="tablecell lwautosave"
+					title="<?php p($l->t('Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge.'));?>"
+					/>
+				<label for="ldap_experienced_admin" class="tablecell">
+					<?php p($l->t('Manually enter LDAP filters (recommended for large directories)'));?>
+				</label>
+			</div>
+
 			<div class="tablerow">
 				<div class="tablecell ldapWizardInfo invisible">&nbsp;
 				</div>
