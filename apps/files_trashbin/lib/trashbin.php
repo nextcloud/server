@@ -745,7 +745,7 @@ class Trashbin {
 		if ($quota === null || $quota === 'none') {
 			$quota = \OC\Files\Filesystem::free_space('/');
 			$softQuota = false;
-			if ($quota === \OC\Files\SPACE_UNKNOWN) {
+			if ($quota === \OCP\Files\FileInfo::SPACE_UNKNOWN) {
 				$quota = 0;
 			}
 		} else {
