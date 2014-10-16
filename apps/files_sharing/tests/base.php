@@ -37,7 +37,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 
 	const TEST_FILES_SHARING_API_GROUP1 = "test-share-group1";
 
-	public $stateFilesEncryption;
+	public static $stateFilesEncryption;
 	public $filename;
 	public $data;
 	/**
@@ -48,6 +48,13 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	public $subfolder;
 
 	public static function setUpBeforeClass() {
+
+		// remember files_encryption state
+		self::$stateFilesEncryption = \OC_App::isEnabled('files_encryption');
+
+		//we don't want to tests with app files_encryption enabled
+		\OC_App::disable('files_encryption');
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
@@ -70,29 +77,16 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
 
+		$this->assertFalse(\OC_App::isEnabled('files_encryption'));
+
 		//login as user1
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
 		$this->data = 'foobar';
 		$this->view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER1 . '/files');
-		// remember files_encryption state
-		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
-
-		 //we don't want to tests with app files_encryption enabled
-		\OC_App::disable('files_encryption');
-
-
-		$this->assertTrue(!\OC_App::isEnabled('files_encryption'));
 	}
 
 	function tearDown() {
-		// reset app files_encryption
-		if ($this->stateFilesEncryption) {
-			\OC_App::enable('files_encryption');
-		} else {
-			\OC_App::disable('files_encryption');
-		}
-
 		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share`');
 		$query->execute();
 	}
@@ -106,6 +100,13 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 
 		// delete group
 		\OC_Group::deleteGroup(self::TEST_FILES_SHARING_API_GROUP1);
+
+		// reset app files_encryption
+		if (self::$stateFilesEncryption) {
+			\OC_App::enable('files_encryption');
+		} else {
+			\OC_App::disable('files_encryption');
+		}
 	}
 
 	/**
@@ -126,9 +127,9 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 		}
 
 		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
+		\OC::$server->getUserSession()->setUser(null);
 		\OC\Files\Filesystem::tearDown();
-		\OC_User::setUserId($user);
+		\OC::$server->getUserSession()->login($user, $password);
 		\OC_Util::setupFS($user);
 	}
 

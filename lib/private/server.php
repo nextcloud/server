@@ -276,6 +276,8 @@ class Server extends SimpleContainer implements IServerContainer {
 				return null;
 			}
 			$userId = $user->getUID();
+		} else {
+			$user = $this->getUserManager()->get($userId);
 		}
 		$dir = '/' . $userId;
 		$root = $this->getRootFolder();
@@ -290,6 +292,19 @@ class Server extends SimpleContainer implements IServerContainer {
 		$dir = '/files';
 		if (!$folder->nodeExists($dir)) {
 			$folder = $folder->newFolder($dir);
+
+			if (\OCP\App::isEnabled('files_encryption')) {
+				// disable encryption proxy to prevent recursive calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
+			}
+
+			\OC_Util::copySkeleton($user, $folder);
+
+			if (\OCP\App::isEnabled('files_encryption')) {
+				// re-enable proxy - our work is done
+				\OC_FileProxy::$enabled = $proxyStatus;
+			}
 		} else {
 			$folder = $folder->get($dir);
 		}
