@@ -76,12 +76,7 @@ class Manager extends PublicEmitter {
 		if (isset($this->cachedGroups[$gid])) {
 			return $this->cachedGroups[$gid];
 		}
-		foreach ($this->backends as $backend) {
-			if ($backend->groupExists($gid)) {
-				return $this->getGroupObject($gid);
-			}
-		}
-		return null;
+		return $this->getGroupObject($gid);
 	}
 
 	protected function getGroupObject($gid) {
@@ -90,6 +85,9 @@ class Manager extends PublicEmitter {
 			if ($backend->groupExists($gid)) {
 				$backends[] = $backend;
 			}
+		}
+		if (count($backends) === 0) {
+			return null;
 		}
 		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->userManager, $this);
 		return $this->cachedGroups[$gid];
@@ -108,10 +106,10 @@ class Manager extends PublicEmitter {
 	 * @return \OC\Group\Group
 	 */
 	public function createGroup($gid) {
-		if (!$gid) {
+		if ($gid === '' || is_null($gid)) {
 			return false;
-		} else if ($this->groupExists($gid)) {
-			return $this->get($gid);
+		} else if ($group = $this->get($gid)) {
+			return $group;
 		} else {
 			$this->emit('\OC\Group', 'preCreate', array($gid));
 			foreach ($this->backends as $backend) {
