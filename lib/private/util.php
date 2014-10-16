@@ -1061,58 +1061,19 @@ class OC_Util {
 	}
 
 	/**
-	 * @Brief Get file content via curl.
+	 * Get URL content
 	 * @param string $url Url to get content
+	 * @deprecated Use \OC::$server->getHTTPHelper()->getUrlContent($url);
 	 * @return string of the response or false on error
 	 * This function get the content of a page via curl, if curl is enabled.
 	 * If not, file_get_contents is used.
 	 */
 	public static function getUrlContent($url) {
-		if (function_exists('curl_init')) {
-			$curl = curl_init();
-
-			curl_setopt($curl, CURLOPT_HEADER, 0);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
-
-			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-			if(OC_Config::getValue('proxy', '') != '') {
-				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
-			}
-			if(OC_Config::getValue('proxyuserpwd', '') != '') {
-				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
-			}
-			$data = curl_exec($curl);
-			curl_close($curl);
-
-		} else {
-			$contextArray = null;
-
-			if(OC_Config::getValue('proxy', '') != '') {
-				$contextArray = array(
-					'http' => array(
-						'timeout' => 10,
-						'proxy' => OC_Config::getValue('proxy')
-					)
-				);
-			} else {
-				$contextArray = array(
-					'http' => array(
-						'timeout' => 10
-					)
-				);
-			}
-
-			$ctx = stream_context_create(
-				$contextArray
-			);
-			$data = @file_get_contents($url, 0, $ctx);
-
+		try {
+			return \OC::$server->getHTTPHelper()->getUrlContent($url);
+		} catch (\Exception $e) {
+			return false;
 		}
-		return $data;
 	}
 
 	/**
