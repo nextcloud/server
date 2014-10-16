@@ -20,7 +20,7 @@
 */
 
 describe('OCA.Files.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList;
+	var testFiles, alertStub, notificationStub, fileList, pageSizeStub;
 	var bcResizeStub;
 
 	/**
@@ -120,7 +120,7 @@ describe('OCA.Files.FileList tests', function() {
 			size: 250,
 			etag: '456'
 		}];
-
+		pageSizeStub = sinon.stub(OCA.Files.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'));
 	});
 	afterEach(function() {
@@ -130,6 +130,7 @@ describe('OCA.Files.FileList tests', function() {
 		notificationStub.restore();
 		alertStub.restore();
 		bcResizeStub.restore();
+		pageSizeStub.restore();
 	});
 	describe('Getters', function() {
 		it('Returns the current directory', function() {
@@ -814,7 +815,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.$fileList.on('fileActionsReady', handler);
 			fileList._nextPage();
 			expect(handler.calledOnce).toEqual(true);
-			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize);
+			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize());
 		});
 		it('does not trigger "fileActionsReady" event after single add with silent argument', function() {
 			var handler = sinon.stub();
