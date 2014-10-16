@@ -190,6 +190,11 @@ class Storage extends DAV implements ISharedStorage {
 			http_build_query(array('password' => $password)));
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		$path = \OC_User::getHome(\OC_User::getUser()) . '/files_external/rootcerts.crt';
+		curl_setopt($ch, CURLOPT_CAINFO, $path);
+
 		$result = curl_exec($ch);
 
 		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
