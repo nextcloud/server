@@ -964,15 +964,20 @@ class View {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
 
-			if ($cache->getStatus($internalPath) < Cache\Cache::COMPLETE) {
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
+			if (!$data or $data['size'] === -1) {
+				if (!$storage->file_exists($internalPath)) {
+					return array();
+				}
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-			} else {
-				$watcher = $storage->getWatcher($internalPath);
-				$watcher->checkUpdate($internalPath);
+				$data = $cache->get($internalPath);
+			} else if ($watcher->checkUpdate($internalPath, $data)) {
+				$data = $cache->get($internalPath);
 			}
 
-			$folderId = $cache->getId($internalPath);
+			$folderId = $data['fileid'];
 			/**
 			 * @var \OC\Files\FileInfo[] $files
 			 */
@@ -1034,7 +1039,7 @@ class View {
 									break;
 								}
 							}
-							$rootEntry['path'] = substr($path . '/' . $rootEntry['name'], strlen($user) + 2); // full path without /$user/
+							$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 							// if sharing was disabled for the user we remove the share permissions
 							if (\OCP\Util::isSharingDisabledForUser()) {
