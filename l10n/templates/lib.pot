@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-15 01:54-0400\n"
+"POT-Creation-Date: 2014-10-16 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,14 +71,18 @@ msgstr ""
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:1150
+#: private/app.php:853 private/app.php:964
+msgid "Recommended"
+msgstr ""
+
+#: private/app.php:1142
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1162
+#: private/app.php:1154
 msgid "No app name specified"
 msgstr ""
 
@@ -103,48 +107,48 @@ msgstr ""
 msgid "Can't create app folder. Please fix permissions. %s"
 msgstr ""
 
-#: private/installer.php:235
+#: private/installer.php:234
 msgid "No source specified when installing app"
 msgstr ""
 
-#: private/installer.php:243
+#: private/installer.php:242
 msgid "No href specified when installing app from http"
 msgstr ""
 
-#: private/installer.php:248
+#: private/installer.php:247
 msgid "No path specified when installing app from local file"
 msgstr ""
 
-#: private/installer.php:256
+#: private/installer.php:255
 #, php-format
 msgid "Archives of type %s are not supported"
 msgstr ""
 
-#: private/installer.php:270
+#: private/installer.php:269
 msgid "Failed to open archive when installing app"
 msgstr ""
 
-#: private/installer.php:308
+#: private/installer.php:307
 msgid "App does not provide an info.xml file"
 msgstr ""
 
-#: private/installer.php:314
+#: private/installer.php:313
 msgid "App can't be installed because of not allowed code in the App"
 msgstr ""
 
-#: private/installer.php:320
+#: private/installer.php:319
 msgid ""
 "App can't be installed because it is not compatible with this version of "
 "ownCloud"
 msgstr ""
 
-#: private/installer.php:326
+#: private/installer.php:325
 msgid ""
 "App can't be installed because it contains the <shipped>true</shipped> tag "
 "which is not allowed for non shipped apps"
 msgstr ""
 
-#: private/installer.php:339
+#: private/installer.php:338
 msgid ""
 "App can't be installed because the version in info.xml/version is not the "
 "same as the version reported from the app store"

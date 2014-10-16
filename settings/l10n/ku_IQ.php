@@ -1,12 +1,10 @@
 <?php
 $TRANSLATIONS = array(
-"Encryption" => "نهێنیکردن",
 "Invalid request" => "داواکارى نادروستە",
 "Enable" => "چالاککردن",
-"Error" => "هه‌ڵه",
-"Update" => "نوێکردنه‌وه",
 "None" => "هیچ",
 "Login" => "چوونەژوورەوە",
+"Encryption" => "نهێنیکردن",
 "Server address" => "ناونیشانی ڕاژه",
 "Password" => "وشەی تێپەربو",
 "New password" => "وشەی نهێنی نوێ",

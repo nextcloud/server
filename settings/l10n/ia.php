@@ -1,11 +1,9 @@
 <?php
 $TRANSLATIONS = array(
-"Saved" => "Salveguardate",
-"Email sent" => "Message de e-posta inviate",
 "Language changed" => "Linguage cambiate",
 "Invalid request" => "Requesta invalide",
-"Error" => "Error",
-"Update" => "Actualisar",
+"Saved" => "Salveguardate",
+"Email sent" => "Message de e-posta inviate",
 "Very weak password" => "Contrasigno multo debile",
 "Weak password" => "Contrasigno debile",
 "So-so password" => "Contrasigno passabile",
@@ -18,8 +16,6 @@ $TRANSLATIONS = array(
 "Security Warning" => "Aviso de securitate",
 "Log" => "Registro",
 "More" => "Plus",
-"Add your App" => "Adder tu application",
-"Select an App" => "Selectionar un app",
 "Get the apps to sync your files" => "Obtene le apps (applicationes) pro synchronizar tu files",
 "Password" => "Contrasigno",
 "Unable to change your password" => "Non pote cambiar tu contrasigno",

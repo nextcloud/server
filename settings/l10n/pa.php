@@ -1,11 +1,10 @@
 <?php
 $TRANSLATIONS = array(
 "Language changed" => "ਭਾਸ਼ਾ ਬਦਲੀ",
+"Please wait...." => "...ਉਡੀਕੋ ਜੀ",
 "Disable" => "ਬੰਦ",
 "Enable" => "ਚਾਲੂ",
-"Please wait...." => "...ਉਡੀਕੋ ਜੀ",
 "Updating...." => "...ਅੱਪਡੇਟ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ",
-"Error" => "ਗਲਤੀ",
 "Updated" => "ਅੱਪਡੇਟ ਕੀਤਾ",
 "Delete" => "ਹਟਾਓ",
 "Groups" => "ਗਰੁੱਪ",

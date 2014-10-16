@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Neznana napaka",
+"Missing recovery key password" => "Manjka ključ za obnovitev",
+"Please repeat the recovery key password" => "Ponovite vpis ključa za obnovitev",
+"Repeated recovery key password does not match the provided recovery key password" => "Ponovljen vpis ključa za obnovitev ni enak prvemu vpisu tega ključa",
 "Recovery key successfully enabled" => "Ključ za obnovitev gesla je uspešno nastavljen",
 "Could not disable recovery key. Please check your recovery key password!" => "Ključa za obnovitev gesla ni mogoče onemogočiti. Preverite ključ!",
 "Recovery key successfully disabled" => "Ključ za obnovitev gesla je uspešno onemogočen",
+"Please provide the old recovery password" => "Vpišite star ključ za obnovitev",
+"Please provide a new recovery password" => "Vpišite nov ključ za obnovitev",
+"Please repeat the new recovery password" => "Ponovno vpišite nov ključ za obnovitev",
 "Password successfully changed." => "Geslo je uspešno spremenjeno.",
 "Could not change the password. Maybe the old password was not correct." => "Gesla ni mogoče spremeniti. Morda vnos starega gesla ni pravilen.",
 "Private key password successfully updated." => "Zasebni ključ za geslo je uspešno posodobljen.",

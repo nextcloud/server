@@ -83,6 +83,7 @@ $TRANSLATIONS = array(
 "No database drivers (sqlite, mysql, or postgresql) installed." => "Ni nameščenih programnikov podatkovnih zbirk (sqlite, mysql, ali postgresql).",
 "Cannot write into \"config\" directory" => "Mapa 'config' nima nastavljenih ustreznih dovoljenj za pisanje!",
 "Cannot write into \"apps\" directory" => "Mapa \"apps\" nima nastavljenih ustreznih dovoljenj za pisanje!",
+"Setting locale to %s failed" => "Nastavljanje jezikovnih določil na %s je spodletelo.",
 "Please ask your server administrator to install the module." => "Obvestite skrbnika strežnika, da je treba namestiti manjkajoč modul.",
 "PHP module %s not installed." => "Modul PHP %s ni nameščen.",
 "PHP %s or higher is required." => "Zahtevana je različica PHP %s ali višja.",

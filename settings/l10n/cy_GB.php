@@ -1,10 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Email sent" => "Anfonwyd yr e-bost",
-"Encryption" => "Amgryptiad",
 "Authentication error" => "Gwall dilysu",
 "Invalid request" => "Cais annilys",
-"Error" => "Gwall",
+"Email sent" => "Anfonwyd yr e-bost",
 "Delete" => "Dileu",
 "Groups" => "Grwpiau",
 "undo" => "dadwneud",
@@ -13,6 +11,7 @@ $TRANSLATIONS = array(
 "Login" => "Mewngofnodi",
 "Security Warning" => "Rhybudd Diogelwch",
 "Please double check the <a href='%s'>installation guides</a>." => "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
+"Encryption" => "Amgryptiad",
 "Password" => "Cyfrinair",
 "New password" => "Cyfrinair newydd",
 "Email" => "E-bost",

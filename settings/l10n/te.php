@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Error" => "పొరపాటు",
 "Delete" => "తొలగించు",
 "Server address" => "సేవకి చిరునామా",
 "More" => "మరిన్ని",

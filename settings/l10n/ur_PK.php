@@ -1,8 +1,7 @@
 <?php
 $TRANSLATIONS = array(
-"Email sent" => "ارسال شدہ ای میل ",
 "Invalid request" => "غلط درخواست",
-"Error" => "ایرر",
+"Email sent" => "ارسال شدہ ای میل ",
 "Very weak password" => "بہت کمزور پاسورڈ",
 "Weak password" => "کمزور پاسورڈ",
 "So-so password" => "نص نص پاسورڈ",

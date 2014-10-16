@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-15 01:54-0400\n"
+"POT-Creation-Date: 2014-10-16 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,50 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: admin/controller.php:66
-#, php-format
-msgid "Invalid value supplied for %s"
+#: ajax/apps/categories.php:14
+msgid "Enabled"
 msgstr ""
 
-#: admin/controller.php:73
-msgid "Saved"
+#: ajax/apps/categories.php:15
+msgid "Not enabled"
 msgstr ""
 
-#: admin/controller.php:90
-msgid "test email settings"
-msgstr ""
-
-#: admin/controller.php:91
-msgid "If you received this email, the settings seem to be correct."
-msgstr ""
-
-#: admin/controller.php:94
-msgid ""
-"A problem occurred while sending the e-mail. Please revisit your settings."
-msgstr ""
-
-#: admin/controller.php:99
-msgid "Email sent"
-msgstr ""
-
-#: admin/controller.php:101
-msgid "You need to set your user email before being able to send test emails."
-msgstr ""
-
-#: admin/controller.php:116 templates/admin.php:342
-msgid "Send mode"
-msgstr ""
-
-#: admin/controller.php:118 templates/admin.php:355 templates/personal.php:198
-msgid "Encryption"
-msgstr ""
-
-#: admin/controller.php:120 templates/admin.php:379
-msgid "Authentication method"
-msgstr ""
-
-#: ajax/apps/ocs.php:20
-msgid "Unable to load list from App Store"
+#: ajax/apps/categories.php:19
+msgid "Recommended"
 msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
@@ -160,7 +126,7 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: ajax/updateapp.php:44
+#: ajax/updateapp.php:47
 msgid "Couldn't update app."
 msgstr ""
 
@@ -192,6 +158,32 @@ msgstr ""
 msgid "Unable to change password"
 msgstr ""
 
+#: controller/mailsettingscontroller.php:103
+#: controller/mailsettingscontroller.php:121
+msgid "Saved"
+msgstr ""
+
+#: controller/mailsettingscontroller.php:136
+msgid "test email settings"
+msgstr ""
+
+#: controller/mailsettingscontroller.php:137
+msgid "If you received this email, the settings seems to be correct."
+msgstr ""
+
+#: controller/mailsettingscontroller.php:144
+msgid ""
+"A problem occurred while sending the email. Please revise your settings."
+msgstr ""
+
+#: controller/mailsettingscontroller.php:152
+msgid "Email sent"
+msgstr ""
+
+#: controller/mailsettingscontroller.php:160
+msgid "You need to set your user email before being able to send test emails."
+msgstr ""
+
 #: js/admin.js:6
 msgid "Are you really sure you want add \"{domain}\" as trusted domain?"
 msgstr ""
@@ -200,79 +192,55 @@ msgstr ""
 msgid "Add trusted domain"
 msgstr ""
 
-#: js/admin.js:116
+#: js/admin.js:124
 msgid "Sending..."
 msgstr ""
 
-#: js/apps.js:12 templates/apps.php:61
+#: js/apps.js:17 templates/apps.php:62
 msgid "All"
 msgstr ""
 
-#: js/apps.js:50 templates/help.php:7
-msgid "User Documentation"
-msgstr ""
-
-#: js/apps.js:59
-msgid "Admin Documentation"
-msgstr ""
-
-#: js/apps.js:87
-msgid "Update to {appversion}"
-msgstr ""
-
-#: js/apps.js:95
-msgid "Uninstall App"
-msgstr ""
-
-#: js/apps.js:101 js/apps.js:156 js/apps.js:189
-msgid "Disable"
-msgstr ""
-
-#: js/apps.js:101 js/apps.js:165 js/apps.js:182 js/apps.js:213
-msgid "Enable"
-msgstr ""
-
-#: js/apps.js:145
+#: js/apps.js:146
 msgid "Please wait...."
 msgstr ""
 
-#: js/apps.js:153 js/apps.js:154 js/apps.js:180
+#: js/apps.js:154 js/apps.js:155 js/apps.js:181
 msgid "Error while disabling app"
 msgstr ""
 
-#: js/apps.js:179 js/apps.js:208 js/apps.js:209
+#: js/apps.js:157 js/apps.js:190 templates/apps.php:58
+msgid "Disable"
+msgstr ""
+
+#: js/apps.js:165 js/apps.js:183 js/apps.js:220 templates/apps.php:64
+msgid "Enable"
+msgstr ""
+
+#: js/apps.js:180 js/apps.js:215 js/apps.js:216
 msgid "Error while enabling app"
 msgstr ""
 
-#: js/apps.js:218
+#: js/apps.js:227
 msgid "Updating...."
 msgstr ""
 
-#: js/apps.js:221
+#: js/apps.js:231
 msgid "Error while updating app"
 msgstr ""
 
-#: js/apps.js:221 js/apps.js:234
-msgid "Error"
-msgstr ""
-
-#: js/apps.js:222 templates/apps.php:55
-msgid "Update"
-msgstr ""
-
-#: js/apps.js:225
+#: js/apps.js:235
 msgid "Updated"
 msgstr ""
 
-#: js/apps.js:231
+#: js/apps.js:243
 msgid "Uninstalling ...."
 msgstr ""
 
-#: js/apps.js:234
+#: js/apps.js:246
 msgid "Error while uninstalling app"
 msgstr ""
 
-#: js/apps.js:235 templates/apps.php:56
+#: js/apps.js:247
 msgid "Uninstall"
 msgstr ""
 
@@ -385,62 +353,62 @@ msgstr ""
 msgid "__language_name__"
 msgstr ""
 
-#: templates/admin.php:12
+#: templates/admin.php:13
 msgid "Everything (fatal issues, errors, warnings, info, debug)"
 msgstr ""
 
-#: templates/admin.php:13
+#: templates/admin.php:14
 msgid "Info, warnings, errors and fatal issues"
 msgstr ""
 
-#: templates/admin.php:14
+#: templates/admin.php:15
 msgid "Warnings, errors and fatal issues"
 msgstr ""
 
-#: templates/admin.php:15
+#: templates/admin.php:16
 msgid "Errors and fatal issues"
 msgstr ""
 
-#: templates/admin.php:16
+#: templates/admin.php:17
 msgid "Fatal issues only"
 msgstr ""
 
-#: templates/admin.php:20 templates/admin.php:27
+#: templates/admin.php:21 templates/admin.php:28
 msgid "None"
 msgstr ""
 
-#: templates/admin.php:21
+#: templates/admin.php:22
 msgid "Login"
 msgstr ""
 
-#: templates/admin.php:22
+#: templates/admin.php:23
 msgid "Plain"
 msgstr ""
 
-#: templates/admin.php:23
+#: templates/admin.php:24
 msgid "NT LAN Manager"
 msgstr ""
 
-#: templates/admin.php:28
+#: templates/admin.php:29
 msgid "SSL"
 msgstr ""
 
-#: templates/admin.php:29
+#: templates/admin.php:30
 msgid "TLS"
 msgstr ""
 
-#: templates/admin.php:51 templates/admin.php:65
+#: templates/admin.php:52 templates/admin.php:66
 msgid "Security Warning"
 msgstr ""
 
-#: templates/admin.php:54
+#: templates/admin.php:55
 #, php-format
 msgid ""
 "You are accessing %s via HTTP. We strongly suggest you configure your server "
 "to require using HTTPS instead."
 msgstr ""
 
-#: templates/admin.php:68
+#: templates/admin.php:69
 msgid ""
 "Your data directory and your files are probably accessible from the "
 "internet. The .htaccess file is not working. We strongly suggest that you "
@@ -449,91 +417,91 @@ msgid ""
 "root."
 msgstr ""
 
-#: templates/admin.php:79
+#: templates/admin.php:80
 msgid "Setup Warning"
 msgstr ""
 
-#: templates/admin.php:82
+#: templates/admin.php:83
 msgid ""
 "PHP is apparently setup to strip inline doc blocks. This will make several "
 "core apps inaccessible."
 msgstr ""
 
-#: templates/admin.php:83
+#: templates/admin.php:84
 msgid ""
 "This is probably caused by a cache/accelerator such as Zend OPcache or "
 "eAccelerator."
 msgstr ""
 
-#: templates/admin.php:94
+#: templates/admin.php:95
 msgid "Database Performance Info"
 msgstr ""
 
-#: templates/admin.php:97
+#: templates/admin.php:98
 msgid ""
 "SQLite is used as database. For larger installations we recommend to change "
 "this. To migrate to another database use the command line tool: 'occ db:"
 "convert-type'"
 msgstr ""
 
-#: templates/admin.php:108
+#: templates/admin.php:109
 msgid "Module 'fileinfo' missing"
 msgstr ""
 
-#: templates/admin.php:111
+#: templates/admin.php:112
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
 msgstr ""
 
-#: templates/admin.php:122
+#: templates/admin.php:123
 msgid "Your PHP version is outdated"
 msgstr ""
 
-#: templates/admin.php:125
+#: templates/admin.php:126
 msgid ""
 "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or "
 "newer because older versions are known to be broken. It is possible that "
 "this installation is not working correctly."
 msgstr ""
 
-#: templates/admin.php:136
+#: templates/admin.php:137
 msgid "PHP charset is not set to UTF-8"
 msgstr ""
 
-#: templates/admin.php:139
+#: templates/admin.php:140
 msgid ""
 "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII "
 "characters in file names. We highly recommend to change the value of "
 "'default_charset' php.ini to 'UTF-8'."
 msgstr ""
 
-#: templates/admin.php:150
+#: templates/admin.php:151
 msgid "Locale not working"
 msgstr ""
 
-#: templates/admin.php:155
+#: templates/admin.php:156
 msgid "System locale can not be set to a one which supports UTF-8."
 msgstr ""
 
-#: templates/admin.php:159
+#: templates/admin.php:160
 msgid ""
 "This means that there might be problems with certain characters in file "
 "names."
 msgstr ""
 
-#: templates/admin.php:163
+#: templates/admin.php:164
 #, php-format
 msgid ""
 "We strongly suggest to install the required packages on your system to "
 "support one of the following locales: %s."
 msgstr ""
 
-#: templates/admin.php:174
+#: templates/admin.php:175
 msgid "URL generation in notification emails"
 msgstr ""
 
-#: templates/admin.php:177
+#: templates/admin.php:178
 #, php-format
 msgid ""
 "If your installation is not installed in the root of the domain and uses "
@@ -542,198 +510,214 @@ msgid ""
 "to the webroot path of your installation (Suggested: \"%s\")"
 msgstr ""
 
-#: templates/admin.php:185
+#: templates/admin.php:186
 msgid "Connectivity checks"
 msgstr ""
 
-#: templates/admin.php:187
+#: templates/admin.php:188
 msgid "No problems found"
 msgstr ""
 
-#: templates/admin.php:191
+#: templates/admin.php:192
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
-#: templates/admin.php:201
+#: templates/admin.php:202
 msgid "Cron"
 msgstr ""
 
-#: templates/admin.php:208
+#: templates/admin.php:209
 #, php-format
 msgid "Last cron was executed at %s."
 msgstr ""
 
-#: templates/admin.php:211
+#: templates/admin.php:212
 #, php-format
 msgid ""
 "Last cron was executed at %s. This is more than an hour ago, something seems "
 "wrong."
 msgstr ""
 
-#: templates/admin.php:215
+#: templates/admin.php:216
 msgid "Cron was not executed yet!"
 msgstr ""
 
-#: templates/admin.php:225
+#: templates/admin.php:226
 msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:233
+#: templates/admin.php:234
 msgid ""
 "cron.php is registered at a webcron service to call cron.php every 15 "
 "minutes over http."
 msgstr ""
 
-#: templates/admin.php:241
+#: templates/admin.php:242
 msgid "Use system's cron service to call the cron.php file every 15 minutes."
 msgstr ""
 
-#: templates/admin.php:246
+#: templates/admin.php:247
 msgid "Sharing"
 msgstr ""
 
-#: templates/admin.php:250
+#: templates/admin.php:251
 msgid "Allow apps to use the Share API"
 msgstr ""
 
-#: templates/admin.php:255
+#: templates/admin.php:256
 msgid "Allow users to share via link"
 msgstr ""
 
-#: templates/admin.php:261
+#: templates/admin.php:262
 msgid "Enforce password protection"
 msgstr ""
 
-#: templates/admin.php:264
+#: templates/admin.php:265
 msgid "Allow public uploads"
 msgstr ""
 
-#: templates/admin.php:268
+#: templates/admin.php:269
 msgid "Set default expiration date"
 msgstr ""
 
-#: templates/admin.php:272
+#: templates/admin.php:273
 msgid "Expire after "
 msgstr ""
 
-#: templates/admin.php:275
+#: templates/admin.php:276
 msgid "days"
 msgstr ""
 
-#: templates/admin.php:278
+#: templates/admin.php:279
 msgid "Enforce expiration date"
 msgstr ""
 
-#: templates/admin.php:283
+#: templates/admin.php:284
 msgid "Allow resharing"
 msgstr ""
 
-#: templates/admin.php:288
+#: templates/admin.php:289
 msgid "Restrict users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:293
+#: templates/admin.php:294
 msgid "Allow users to send mail notification for shared files"
 msgstr ""
 
-#: templates/admin.php:298
+#: templates/admin.php:299
 msgid "Exclude groups from sharing"
 msgstr ""
 
-#: templates/admin.php:303
+#: templates/admin.php:304
 msgid ""
 "These groups will still be able to receive shares, but not to initiate them."
 msgstr ""
 
-#: templates/admin.php:308
+#: templates/admin.php:309
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:319
+#: templates/admin.php:320
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:321
+#: templates/admin.php:322
 #, php-format
 msgid "Forces the clients to connect to %s via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:327
+#: templates/admin.php:328
 #, php-format
 msgid ""
 "Please connect to your %s via HTTPS to enable or disable the SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:337
+#: templates/admin.php:339
 msgid "Email Server"
 msgstr ""
 
-#: templates/admin.php:339
+#: templates/admin.php:341
 msgid "This is used for sending out notifications."
 msgstr ""
 
-#: templates/admin.php:370
+#: templates/admin.php:344
+msgid "Send mode"
+msgstr ""
+
+#: templates/admin.php:357 templates/personal.php:198
+msgid "Encryption"
+msgstr ""
+
+#: templates/admin.php:372
 msgid "From address"
 msgstr ""
 
-#: templates/admin.php:371
+#: templates/admin.php:373
 msgid "mail"
 msgstr ""
 
-#: templates/admin.php:392
+#: templates/admin.php:380
+msgid "Authentication method"
+msgstr ""
+
+#: templates/admin.php:393
 msgid "Authentication required"
 msgstr ""
 
-#: templates/admin.php:396
+#: templates/admin.php:397
 msgid "Server address"
 msgstr ""
 
-#: templates/admin.php:400
+#: templates/admin.php:401
 msgid "Port"
 msgstr ""
 
-#: templates/admin.php:405
+#: templates/admin.php:407
 msgid "Credentials"
 msgstr ""
 
-#: templates/admin.php:406
+#: templates/admin.php:408
 msgid "SMTP Username"
 msgstr ""
 
-#: templates/admin.php:409
+#: templates/admin.php:411
 msgid "SMTP Password"
 msgstr ""
 
-#: templates/admin.php:413
+#: templates/admin.php:412
+msgid "Store credentials"
+msgstr ""
+
+#: templates/admin.php:417
 msgid "Test email settings"
 msgstr ""
 
-#: templates/admin.php:414
+#: templates/admin.php:418
 msgid "Send email"
 msgstr ""
 
-#: templates/admin.php:419
+#: templates/admin.php:423
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:420
+#: templates/admin.php:424
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:452
+#: templates/admin.php:456
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:453
+#: templates/admin.php:457
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:459 templates/personal.php:247
+#: templates/admin.php:463 templates/personal.php:247
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:463 templates/personal.php:250
+#: templates/admin.php:467 templates/personal.php:250
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
@@ -742,37 +726,45 @@ msgid ""
 "General Public License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/apps.php:14
-msgid "Add your App"
+#: templates/apps.php:8
+msgid "More apps"
 msgstr ""
 
-#: templates/apps.php:31
-msgid "More Apps"
+#: templates/apps.php:11
+msgid "Add your app"
 msgstr ""
 
-#: templates/apps.php:38
-msgid "Select an App"
+#: templates/apps.php:24
+msgid "by"
 msgstr ""
 
-#: templates/apps.php:43
+#: templates/apps.php:26
+msgid "licensed"
+msgstr ""
+
+#: templates/apps.php:40
 msgid "Documentation:"
 msgstr ""
 
+#: templates/apps.php:43 templates/help.php:7
+msgid "User Documentation"
+msgstr ""
+
 #: templates/apps.php:49
-msgid "See application page at apps.owncloud.com"
+msgid "Admin Documentation"
 msgstr ""
 
-#: templates/apps.php:51
-msgid "See application website"
+#: templates/apps.php:55
+#, php-format
+msgid "Update to %s"
 msgstr ""
 
-#: templates/apps.php:53
-msgid ""
-"<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
-
-#: templates/apps.php:59
+#: templates/apps.php:60
 msgid "Enable only for specific groups"
+msgstr ""
+
+#: templates/apps.php:67
+msgid "Uninstall App"
 msgstr ""
 
 #: templates/help.php:13

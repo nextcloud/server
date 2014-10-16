@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Error" => "Error",
 "Password" => "Clave",
 "Cancel" => "Cancelar",
 "Username" => "Usuario"

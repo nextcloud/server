@@ -1,6 +1,5 @@
 <?php
 $TRANSLATIONS = array(
-"Unable to load list from App Store" => "Pas possible de cargar la tièra dempuèi App Store",
 "Authentication error" => "Error d'autentificacion",
 "Group already exists" => "Lo grop existís ja",
 "Unable to add group" => "Pas capable d'apondre  un grop",
@@ -14,7 +13,6 @@ $TRANSLATIONS = array(
 "Unable to remove user from group %s" => "Pas capable de tira un usancièr del grop %s",
 "Disable" => "Desactiva",
 "Enable" => "Activa",
-"Error" => "Error",
 "Delete" => "Escafa",
 "Groups" => "Grops",
 "undo" => "defar",
@@ -28,10 +26,6 @@ $TRANSLATIONS = array(
 "Sharing" => "Al partejar",
 "Log" => "Jornal",
 "More" => "Mai d'aquò",
-"Add your App" => "Ajusta ton App",
-"Select an App" => "Selecciona una applicacion",
-"See application page at apps.owncloud.com" => "Agacha la pagina d'applications en cò de apps.owncloud.com",
-"<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licençiat per <span class=\"author\"></span>",
 "Password" => "Senhal",
 "Your password was changed" => "Ton senhal a cambiat",
 "Unable to change your password" => "Pas possible de cambiar ton senhal",

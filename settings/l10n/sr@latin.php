@@ -1,10 +1,9 @@
 <?php
 $TRANSLATIONS = array(
-"Email sent" => "Email poslat",
 "Authentication error" => "Greška pri autentifikaciji",
 "Language changed" => "Jezik je izmenjen",
 "Invalid request" => "Neispravan zahtev",
-"Error" => "Greška",
+"Email sent" => "Email poslat",
 "Very weak password" => "Veoma slaba lozinka",
 "Weak password" => "Slaba lozinka",
 "So-so password" => "Osrednja lozinka",
@@ -13,7 +12,6 @@ $TRANSLATIONS = array(
 "Delete" => "Obriši",
 "Groups" => "Grupe",
 "Security Warning" => "Bezbednosno upozorenje",
-"Select an App" => "Izaberite program",
 "Password" => "Lozinka",
 "Unable to change your password" => "Ne mogu da izmenim vašu lozinku",
 "Current password" => "Trenutna lozinka",

@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Неизвестная ошибка",
+"Missing recovery key password" => "Отсутствует пароль восстановления ключа",
+"Please repeat the recovery key password" => "Пожалуйста, повторите пароль восстановления ключа",
+"Repeated recovery key password does not match the provided recovery key password" => "Пароль восстановления ключа и его повтор не совпадают",
 "Recovery key successfully enabled" => "Ключ восстановления успешно установлен",
 "Could not disable recovery key. Please check your recovery key password!" => "Невозможно выключить ключ восстановления. Проверьте правильность пароля от ключа!",
 "Recovery key successfully disabled" => "Ключ восстановления успешно отключен",
+"Please provide the old recovery password" => "Пожалуйста, введите старый пароль для восстановления",
+"Please provide a new recovery password" => "Пожалуйста, введите новый пароль для восстановления",
+"Please repeat the new recovery password" => "Пожалуйста, повторите новый пароль для восстановления",
 "Password successfully changed." => "Пароль изменен удачно.",
 "Could not change the password. Maybe the old password was not correct." => "Невозможно изменить пароль. Возможно старый пароль не был верен.",
 "Private key password successfully updated." => "Пароль секретного ключа успешно обновлён.",

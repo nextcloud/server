@@ -1,7 +1,6 @@
 <?php
 $TRANSLATIONS = array(
 "Invalid request" => "Fehlerhafte Anfrage",
-"Error" => "Fehler",
 "Delete" => "Löschen",
 "never" => "niemals",
 "__language_name__" => "Deutsch (Österreich)",
