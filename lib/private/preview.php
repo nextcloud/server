@@ -786,7 +786,6 @@ class Preview {
 			return false;
 		}
 
-		//remove last element because it has the mimetype *
 		foreach(self::$providers as $supportedMimetype => $provider) {
 			if(preg_match($supportedMimetype, $mimeType)) {
 				return true;
