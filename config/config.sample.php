@@ -551,9 +551,11 @@ $CONFIG = array(
 
 /**
  * By default, ownCloud can generate previews for the following filetypes:
- * Images files
- * Covers of MP3 files
- * Text documents
+ *
+ * - Images files
+ * - Covers of MP3 files
+ * - Text documents
+ *
  * Valid values are ``true``, to enable previews, or
  * ``false``, to disable previews
  */
