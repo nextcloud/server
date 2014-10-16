@@ -14,6 +14,7 @@ use OC\Security\Crypto;
 use OC\Security\SecureRandom;
 use OCP\IServerContainer;
 use OCP\ISession;
+use OC\Tagging\TagMapper;
 
 /**
  * Class Server
@@ -68,9 +69,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('PreviewManager', function ($c) {
 			return new PreviewManager();
 		});
+		$this->registerService('TagMapper', function($c) {
+			return new TagMapper($c->getDb());
+		});
 		$this->registerService('TagManager', function ($c) {
+			$tagMapper = $c->query('TagMapper');
 			$user = \OC_User::getUser();
-			return new TagManager($user);
+			return new TagManager($tagMapper, $user);
 		});
 		$this->registerService('RootFolder', function ($c) {
 			// TODO: get user and user manager from container as well
