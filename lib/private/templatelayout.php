@@ -199,6 +199,8 @@ class OC_TemplateLayout extends OC_Template {
 		}, $files);
 
 		sort($files);
+		// include the apps' versions hash to invalidate the cached assets
+		$files[]= self::$versionHash;
 		return hash('md5', implode('', $files));
 	}
 
