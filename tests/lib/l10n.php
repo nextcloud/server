@@ -77,6 +77,14 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 			array('13. Februar 2009', 'de', 'date', new DateTime('@1234567890')),
 			array('11:31:30 PM GMT+0', 'en', 'time', new DateTime('@1234567890')),
 			array('23:31:30 GMT+0', 'de', 'time', new DateTime('@1234567890')),
+
+			// en_GB
+			array('13 February 2009 at 23:31:30 GMT+0', 'en_GB', 'datetime', new DateTime('@1234567890')),
+			array('13 February 2009', 'en_GB', 'date', new DateTime('@1234567890')),
+			array('23:31:30 GMT+0', 'en_GB', 'time', new DateTime('@1234567890')),
+			array('13 February 2009 at 23:31:30 GMT+0', 'en-GB', 'datetime', new DateTime('@1234567890')),
+			array('13 February 2009', 'en-GB', 'date', new DateTime('@1234567890')),
+			array('23:31:30 GMT+0', 'en-GB', 'time', new DateTime('@1234567890')),
 		);
 	}
 
