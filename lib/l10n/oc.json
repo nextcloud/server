@@ -1,0 +1,20 @@
+{ "translations": {
+    "Help" : "Ajuda",
+    "Personal" : "Personal",
+    "Settings" : "Configuracion",
+    "Users" : "Usancièrs",
+    "Admin" : "Admin",
+    "web services under your control" : "Services web jos ton contraròtle",
+    "Authentication error" : "Error d'autentificacion",
+    "seconds ago" : "segonda a",
+    "_%n minute ago_::_%n minutes ago_" : ["",""],
+    "_%n hour ago_::_%n hours ago_" : ["",""],
+    "today" : "uèi",
+    "yesterday" : "ièr",
+    "_%n day go_::_%n days ago_" : ["",""],
+    "last month" : "mes passat",
+    "_%n month ago_::_%n months ago_" : ["",""],
+    "last year" : "an passat",
+    "years ago" : "ans a"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}

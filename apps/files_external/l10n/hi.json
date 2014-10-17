@@ -1,0 +1,7 @@
+{ "translations": {
+    "Username" : "प्रयोक्ता का नाम",
+    "Password" : "पासवर्ड",
+    "Share" : "साझा करें",
+    "Personal" : "यक्तिगत"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

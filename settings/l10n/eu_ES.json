@@ -1,0 +1,7 @@
+{ "translations": {
+    "Invalid request" : "Eskakizun baliogabea",
+    "Delete" : "Ezabatu",
+    "Cancel" : "Ezeztatu",
+    "Other" : "Bestea"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

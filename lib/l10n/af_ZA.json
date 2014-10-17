@@ -1,0 +1,16 @@
+{ "translations": {
+    "Help" : "Hulp",
+    "Personal" : "Persoonlik",
+    "Settings" : "Instellings",
+    "Users" : "Gebruikers",
+    "Admin" : "Admin",
+    "Unknown filetype" : "Onbekende leertipe",
+    "Invalid image" : "Ongeldige prent",
+    "web services under your control" : "webdienste onder jou beheer",
+    "_%n minute ago_::_%n minutes ago_" : ["",""],
+    "_%n hour ago_::_%n hours ago_" : ["","%n ure gelede"],
+    "today" : "vandag",
+    "_%n day go_::_%n days ago_" : ["","%n dae gelede"],
+    "_%n month ago_::_%n months ago_" : ["","%n maande gelede"]
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
