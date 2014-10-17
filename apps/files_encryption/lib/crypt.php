@@ -24,6 +24,7 @@
  */
 
 namespace OCA\Encryption;
+use OCA\Encryption\Exceptions\EncryptionException;
 
 require_once __DIR__ . '/../3rdparty/Crypt_Blowfish/Blowfish.php';
 
@@ -321,9 +322,9 @@ class Crypt {
 			$padded = self::addPadding($catfile);
 
 			return $padded;
-		} catch (OCA\Encryption\Exceptions\EncryptionException $e) {
-			$message = 'Could not encrypt file content (code: ' . $e->getCode . '): ';
-			\OCP\Util::writeLog('files_encryption', $message . $e->getMessage, \OCP\Util::ERROR);
+		} catch (EncryptionException $e) {
+			$message = 'Could not encrypt file content (code: ' . $e->getCode() . '): ';
+			\OCP\Util::writeLog('files_encryption', $message . $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 
