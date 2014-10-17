@@ -85,7 +85,7 @@ OCA.Sharing.PublicApp = {
 		};
 
 		var img = $('<img class="publicpreview">');
-		if (previewSupported === 'true' || mimetype.substr(0, mimetype.indexOf('/')) === 'image') {
+		if (previewSupported === 'true' || mimetype.substr(0, mimetype.indexOf('/')) === 'image' && mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
 			img.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {
