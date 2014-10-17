@@ -1359,7 +1359,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @param string[] $bases array containing the allowed base DN or DNs
 	 * @return bool
 	 */
-	private function isDNPartOfBase($dn, $bases) {
+	public function isDNPartOfBase($dn, $bases) {
 		$belongsToBase = false;
 		$bases = $this->sanitizeDN($bases);
 
