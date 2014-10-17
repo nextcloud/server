@@ -13,7 +13,7 @@
 		if (isset($form['anchor'])) {
 			$anchor = '#' . $form['anchor'];
 			$sectionName = $form['section-name'];
-			print_unescaped("<li><a href='$anchor'>$sectionName</a></li>");
+			print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", OC_Util::sanitizeHTML($anchor), OC_Util::sanitizeHTML($sectionName)));
 		}
 	}?>
 	</ul>
@@ -165,7 +165,7 @@ if($_['passwordChangeSupported']) {
 
 <?php foreach($_['forms'] as $form) {
 	if (isset($form['form'])) {?>
-	<div id="<?php isset($form['anchor']) ? print_unescaped($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+	<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
 	<?php }
 };?>
 
