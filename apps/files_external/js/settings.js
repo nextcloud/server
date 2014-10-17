@@ -349,7 +349,7 @@ $(document).ready(function() {
 		$(tr).find('td').last().removeAttr('style');
 		$(tr).removeAttr('id');
 		$(this).remove();
-		addSelect2($('tr:not(#addMountPoint) .applicableUsers'));
+		addSelect2(tr.find('.applicableUsers'));
 	});
 
 	function suggestMountPoint(defaultMountPoint) {
