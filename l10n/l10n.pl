@@ -142,6 +142,7 @@ elsif( $task eq 'write' ){
 			my $array = Locale::PO->load_file_asarray( $input );
 			# Create array
 			my @strings = ();
+			my @js_strings = ();
 			my $plurals;
 
 			foreach my $string ( @{$array} ){
@@ -160,11 +161,13 @@ elsif( $task eq 'write' ){
 					}
 
 					push( @strings, "\"$identifier\" => array(".join(",", @variants).")");
+					push( @js_strings, "\"$identifier\" : [".join(",", @variants)."]");
 				}
 				else{
 					# singular translations
 					next if $string->msgstr() eq '""';
 					push( @strings, $string->msgid()." => ".$string->msgstr());
+					push( @js_strings, $string->msgid()." : ".$string->msgstr());
 				}
 			}
 			next if $#strings == -1; # Skip empty files
@@ -179,6 +182,13 @@ elsif( $task eq 'write' ){
 			print OUT join( ",\n", @strings );
 			print OUT "\n);\n\$PLURAL_FORMS = \"$plurals\";\n";
 			close( OUT );
+
+			open( OUT, ">$language.js" );
+			print OUT "OC.L10N.register(\n    \"$app\",\n    {\n    ";
+			print OUT join( ",\n    ", @js_strings );
+			print OUT "\n},\n\"$plurals\");\n";
+			close( OUT );
+
 		}
 		chdir( $whereami );
 	}
