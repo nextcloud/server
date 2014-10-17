@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "কার্যকর",
 "Authentication error" => "অনুমোদন ঘটিত সমস্যা",
 "Your full name has been changed." => "আপনার পূর্ণ নাম পরিবর্তন করা হয়েছে।",
 "Group already exists" => "গোষ্ঠীটি পূর্ব থেকেই বিদ্যমান",
@@ -62,6 +63,7 @@ $TRANSLATIONS = array(
 "Less" => "কম",
 "Version" => "ভার্সন",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "তৈলী করেছেন <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud সম্প্রদায়</a>, যার <a href=\"https://github.com/owncloud\" target=\"_blank\"> উৎস কোডটি <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> এর অধীনে লাইসেন্সকৃত।",
+"by" => "কর্তৃক",
 "User Documentation" => "ব্যবহারকারী সহায়িকা",
 "Administrator Documentation" => "প্রশাসক সহায়িকা",
 "Online Documentation" => "অনলাইন সহায়িকা",

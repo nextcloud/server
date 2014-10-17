@@ -6,6 +6,7 @@ $TRANSLATIONS = array(
 "Login" => "چوونەژوورەوە",
 "Encryption" => "نهێنیکردن",
 "Server address" => "ناونیشانی ڕاژه",
+"by" => "له‌لایه‌ن",
 "Password" => "وشەی تێپەربو",
 "New password" => "وشەی نهێنی نوێ",
 "Email" => "ئیمه‌یل",

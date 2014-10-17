@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Less" => "น้อย",
 "Version" => "รุ่น",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "โดย",
 "User Documentation" => "เอกสารคู่มือการใช้งานสำหรับผู้ใช้งาน",
 "Administrator Documentation" => "เอกสารคู่มือการใช้งานสำหรับผู้ดูแลระบบ",
 "Online Documentation" => "เอกสารคู่มือการใช้งานออนไลน์",

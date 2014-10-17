@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Bekapcsolva",
 "Authentication error" => "Azonosítási hiba",
 "Your full name has been changed." => "Az Ön teljes nevét módosítottuk.",
 "Unable to change full name" => "Nem sikerült megváltoztatni a teljes nevét",
@@ -151,6 +152,7 @@ $TRANSLATIONS = array(
 "Less" => "Kevesebb",
 "Version" => "Verzió",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "A programot az <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud közösség</a> fejleszti. A <a href=\"https://github.com/owncloud\" target=\"_blank\">forráskód</a> az <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> feltételei mellett használható föl.",
+"by" => "közreadta:",
 "Documentation:" => "Leírások:",
 "User Documentation" => "Felhasználói leírás",
 "Admin Documentation" => "Adminisztrátori leírás",

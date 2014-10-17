@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Diaktifkan",
 "Authentication error" => "Galat saat autentikasi",
 "Your full name has been changed." => "Nama lengkap Anda telah diubah",
 "Unable to change full name" => "Tidak dapat mengubah nama lengkap",
@@ -108,6 +109,7 @@ $TRANSLATIONS = array(
 "Less" => "Ciutkan",
 "Version" => "Versi",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Dikembangkan oleh <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitas ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">kode sumber</a> dilisensikan di bawah <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "oleh",
 "Documentation:" => "Dokumentasi:",
 "User Documentation" => "Dokumentasi Pengguna",
 "Admin Documentation" => "Dokumentasi Admin",

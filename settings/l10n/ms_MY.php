@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Log" => "Log",
 "Log level" => "Tahap Log",
 "More" => "Lanjutan",
+"by" => "oleh",
 "Password" => "Kata laluan",
 "Unable to change your password" => "Gagal mengubah kata laluan anda ",
 "Current password" => "Kata laluan semasa",

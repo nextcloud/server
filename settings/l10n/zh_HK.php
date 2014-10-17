@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "啟用",
 "Wrong password" => "密碼錯誤",
 "Saved" => "已儲存",
 "Email sent" => "郵件已傳",

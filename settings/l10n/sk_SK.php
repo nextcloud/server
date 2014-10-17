@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Povolené",
 "Authentication error" => "Chyba autentifikácie",
 "Your full name has been changed." => "Vaše meno a priezvisko bolo zmenené.",
 "Unable to change full name" => "Nemožno zmeniť meno a priezvisko",
@@ -152,6 +153,8 @@ $TRANSLATIONS = array(
 "Less" => "Menej",
 "Version" => "Verzia",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Vyvinuté <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>,<a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencovaný pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"More apps" => "Viac aplikácií",
+"by" => "od",
 "Documentation:" => "Dokumentácia:",
 "User Documentation" => "Príručka používateľa",
 "Admin Documentation" => "Príručka administrátora",

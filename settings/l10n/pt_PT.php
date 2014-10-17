@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Ativada",
 "Authentication error" => "Erro na autenticação",
 "Your full name has been changed." => "O seu nome completo foi alterado.",
 "Unable to change full name" => "Não foi possível alterar o seu nome completo",
@@ -153,6 +154,7 @@ $TRANSLATIONS = array(
 "Less" => "Menos",
 "Version" => "Versão",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Desenvolvido pela <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunidade ownCloud</a>, o<a href=\"https://github.com/owncloud\" target=\"_blank\">código fonte</a> está licenciado sob a <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "por",
 "Documentation:" => "Documentação:",
 "User Documentation" => "Documentação de Utilizador",
 "Admin Documentation" => "Documentação de administrador.",

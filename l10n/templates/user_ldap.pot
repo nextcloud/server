@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-16 01:54-0400\n"
+"POT-Creation-Date: 2014-10-17 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -91,55 +91,55 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: js/settings.js:244
+#: js/settings.js:266
 msgid "Please specify a Base DN"
 msgstr ""
 
-#: js/settings.js:245
+#: js/settings.js:267
 msgid "Could not determine Base DN"
 msgstr ""
 
-#: js/settings.js:276
+#: js/settings.js:299
 msgid "Please specify the port"
 msgstr ""
 
-#: js/settings.js:792
+#: js/settings.js:933
 msgid "Configuration OK"
 msgstr ""
 
-#: js/settings.js:801
+#: js/settings.js:942
 msgid "Configuration incorrect"
 msgstr ""
 
-#: js/settings.js:810
+#: js/settings.js:951
 msgid "Configuration incomplete"
 msgstr ""
 
-#: js/settings.js:827 js/settings.js:836
+#: js/settings.js:968 js/settings.js:977
 msgid "Select groups"
 msgstr ""
 
-#: js/settings.js:830 js/settings.js:839
+#: js/settings.js:971 js/settings.js:980
 msgid "Select object classes"
 msgstr ""
 
-#: js/settings.js:833
+#: js/settings.js:974
 msgid "Select attributes"
 msgstr ""
 
-#: js/settings.js:860
+#: js/settings.js:1002
 msgid "Connection test succeeded"
 msgstr ""
 
-#: js/settings.js:867
+#: js/settings.js:1009
 msgid "Connection test failed"
 msgstr ""
 
-#: js/settings.js:876
+#: js/settings.js:1018
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr ""
 
-#: js/settings.js:877
+#: js/settings.js:1019
 msgid "Confirm Deletion"
 msgstr ""
 
@@ -165,19 +165,19 @@ msgstr ""
 msgid "Invalid Host"
 msgstr ""
 
-#: settings.php:52
+#: settings.php:53
 msgid "Server"
 msgstr ""
 
-#: settings.php:53
+#: settings.php:54
 msgid "User Filter"
 msgstr ""
 
-#: settings.php:54
+#: settings.php:55
 msgid "Login Filter"
 msgstr ""
 
-#: settings.php:55
+#: settings.php:56
 msgid "Group Filter"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgstr ""
 msgid "Test Configuration"
 msgstr ""
 
-#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:14
+#: templates/part.settingcontrols.php:10 templates/part.wizardcontrols.php:15
 msgid "Help"
 msgstr ""
 
@@ -226,7 +226,12 @@ msgid ""
 "The filter specifies which LDAP groups shall have access to the %s instance."
 msgstr ""
 
-#: templates/part.wizard-groupfilter.php:38
+#: templates/part.wizard-groupfilter.php:34
+#: templates/part.wizard-userfilter.php:34
+msgid "Test Filter"
+msgstr ""
+
+#: templates/part.wizard-groupfilter.php:41
 msgid "groups found"
 msgstr ""
 
@@ -309,6 +314,16 @@ msgstr ""
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr ""
 
+#: templates/part.wizard-server.php:75
+msgid ""
+"Avoids automatic LDAP requests. Better for bigger setups, but requires some "
+"LDAP knowledge."
+msgstr ""
+
+#: templates/part.wizard-server.php:78
+msgid "Manually enter LDAP filters (recommended for large directories)"
+msgstr ""
+
 #: templates/part.wizard-userfilter.php:4
 #, php-format
 msgid "Limit %s access to users meeting these criteria:"
@@ -320,15 +335,19 @@ msgid ""
 "The filter specifies which LDAP users shall have access to the %s instance."
 msgstr ""
 
-#: templates/part.wizard-userfilter.php:38
+#: templates/part.wizard-userfilter.php:41
 msgid "users found"
 msgstr ""
 
-#: templates/part.wizardcontrols.php:5
+#: templates/part.wizardcontrols.php:2
+msgid "Saving"
+msgstr ""
+
+#: templates/part.wizardcontrols.php:6
 msgid "Back"
 msgstr ""
 
-#: templates/part.wizardcontrols.php:8
+#: templates/part.wizardcontrols.php:9
 msgid "Continue"
 msgstr ""
 

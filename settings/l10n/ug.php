@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "More" => "تېخىمۇ كۆپ",
 "Less" => "ئاز",
 "Version" => "نەشرى",
+"by" => "سەنئەتكار",
 "User Documentation" => "ئىشلەتكۈچى قوللانمىسى",
 "Administrator Documentation" => "باشقۇرغۇچى قوللانمىسى",
 "Online Documentation" => "توردىكى قوللانما",

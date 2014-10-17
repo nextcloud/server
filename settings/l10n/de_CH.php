@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Aktiviert",
 "Authentication error" => "Authentifizierungs-Fehler",
 "Group already exists" => "Die Gruppe existiert bereits",
 "Unable to add group" => "Die Gruppe konnte nicht angelegt werden",
@@ -62,6 +63,8 @@ $TRANSLATIONS = array(
 "Less" => "Weniger",
 "Version" => "Version",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-Community</a>. Der <a href=\"https://github.com/owncloud\" target=\"_blank\">Quellcode</a> ist unter der <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> lizenziert.",
+"More apps" => "Mehr Apps",
+"by" => "von",
 "User Documentation" => "Dokumentation für Benutzer",
 "Administrator Documentation" => "Dokumentation für Administratoren",
 "Online Documentation" => "Online-Dokumentation",

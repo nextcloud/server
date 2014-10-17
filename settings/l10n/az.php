@@ -93,6 +93,7 @@ $TRANSLATIONS = array(
 "Encryption" => "Şifrələnmə",
 "Authentication method" => "Qeydiyyat metodikası",
 "More" => "Yenə",
+"by" => "onunla",
 "User Documentation" => "İstifadəçi sənədləri",
 "Admin Documentation" => "İnzibatçı sənədləri",
 "Uninstall App" => "Proqram təminatını sil",

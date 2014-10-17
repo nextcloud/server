@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Activat",
 "Authentication error" => "Eroare la autentificare",
 "Your full name has been changed." => "Numele tău complet a fost schimbat.",
 "Unable to change full name" => "Nu s-a puput schimba numele complet",
@@ -86,6 +87,7 @@ $TRANSLATIONS = array(
 "Less" => "Mai puțin",
 "Version" => "Versiunea",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitatea ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">codul sursă</a> este licențiat sub <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "după",
 "User Documentation" => "Documentație utilizator",
 "Administrator Documentation" => "Documentație administrator",
 "Online Documentation" => "Documentație online",

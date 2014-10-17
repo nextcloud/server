@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Serverist serverisse jagamine pole antud serveris lubatud",
+"The mountpoint name contains invalid characters." => "Ühenduspunkti nimes on vigaseid märke.",
 "Invalid or untrusted SSL certificate" => "Vigane või tundmatu SSL sertifikaat",
 "Couldn't add remote share" => "Ei suutnud lisada kaugjagamist",
 "Shared with you" => "Sinuga jagatud",

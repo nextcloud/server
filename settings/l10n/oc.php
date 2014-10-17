@@ -26,6 +26,7 @@ $TRANSLATIONS = array(
 "Sharing" => "Al partejar",
 "Log" => "Jornal",
 "More" => "Mai d'aquò",
+"by" => "per",
 "Password" => "Senhal",
 "Your password was changed" => "Ton senhal a cambiat",
 "Unable to change your password" => "Pas possible de cambiar ton senhal",

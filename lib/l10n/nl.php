@@ -11,6 +11,7 @@ $TRANSLATIONS = array(
 "Settings" => "Instellingen",
 "Users" => "Gebruikers",
 "Admin" => "Beheerder",
+"Recommended" => "Aanbevolen",
 "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." => "App \\\"%s\\\" kan niet worden geïnstalleerd omdat de app niet compatible is met deze versie van ownCloud.",
 "No app name specified" => "De app naam is niet gespecificeerd.",
 "Unknown filetype" => "Onbekend bestandsformaat",

@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "More" => "மேலதிக",
 "Less" => "குறைவான",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "மூலம்",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "நீங்கள் <strong>%s</strong> இலுள்ள <strong>%s</strong>பயன்படுத்தியுள்ளீர்கள்",
 "Password" => "கடவுச்சொல்",
 "Your password was changed" => "உங்களுடைய கடவுச்சொல் மாற்றப்பட்டுள்ளது",

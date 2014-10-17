@@ -56,6 +56,7 @@ $TRANSLATIONS = array(
 "Less" => "უფრო ნაკლები",
 "Version" => "ვერსია",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "წარმოებულია <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>–ის მიერ. <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a>  ვრცელდება <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ლიცენზიის ფარგლებში.",
+"by" => "მიერ",
 "User Documentation" => "მომხმარებლის დოკუმენტაცია",
 "Administrator Documentation" => "ადმინისტრატორის დოკუმენტაცია",
 "Online Documentation" => "ონლაინ დოკუმენტაცია",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-16 01:54-0400\n"
+"POT-Creation-Date: 2014-10-17 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,14 +75,14 @@ msgstr ""
 msgid "Recommended"
 msgstr ""
 
-#: private/app.php:1142
+#: private/app.php:1146
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1154
+#: private/app.php:1158
 msgid "No app name specified"
 msgstr ""
 
@@ -373,36 +373,36 @@ msgstr ""
 msgid "Sharing backend for %s not found"
 msgstr ""
 
-#: private/share/share.php:1841
+#: private/share/share.php:1892
 #, php-format
 msgid "Sharing %s failed, because the user %s is the original sharer"
 msgstr ""
 
-#: private/share/share.php:1851
+#: private/share/share.php:1902
 #, php-format
 msgid ""
 "Sharing %s failed, because the permissions exceed permissions granted to %s"
 msgstr ""
 
-#: private/share/share.php:1877
+#: private/share/share.php:1928
 #, php-format
 msgid "Sharing %s failed, because resharing is not allowed"
 msgstr ""
 
-#: private/share/share.php:1891
+#: private/share/share.php:1942
 #, php-format
 msgid ""
 "Sharing %s failed, because the sharing backend for %s could not find its "
 "source"
 msgstr ""
 
-#: private/share/share.php:1905
+#: private/share/share.php:1956
 #, php-format
 msgid ""
 "Sharing %s failed, because the file could not be found in the file cache"
 msgstr ""
 
-#: private/tags.php:183
+#: private/tags.php:226
 #, php-format
 msgid "Could not find category \"%s\""
 msgstr ""

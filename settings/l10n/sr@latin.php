@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Delete" => "Obriši",
 "Groups" => "Grupe",
 "Security Warning" => "Bezbednosno upozorenje",
+"by" => "od",
 "Password" => "Lozinka",
 "Unable to change your password" => "Ne mogu da izmenim vašu lozinku",
 "Current password" => "Trenutna lozinka",

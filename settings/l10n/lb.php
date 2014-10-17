@@ -30,6 +30,7 @@ $TRANSLATIONS = array(
 "Log" => "Log",
 "More" => "Méi",
 "Less" => "Manner",
+"by" => "vun",
 "Password" => "Passwuert",
 "Unable to change your password" => "Konnt däin Passwuert net änneren",
 "Current password" => "Momentan 't Passwuert",

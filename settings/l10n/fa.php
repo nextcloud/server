@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "فعال شده",
 "Authentication error" => "خطا در اعتبار سنجی",
 "Your full name has been changed." => "نام کامل شما تغییر یافت",
 "Unable to change full name" => "امکان تغییر نام کامل وجود ندارد",
@@ -127,6 +128,7 @@ $TRANSLATIONS = array(
 "Less" => "کم‌تر",
 "Version" => "نسخه",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "توسعه یافته به وسیله ی  <a href=\"http://ownCloud.org/contact\" target=\"_blank\">انجمن ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">کد اصلی</a> مجاز زیر گواهی <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "با",
 "Documentation:" => "مستند سازی:",
 "User Documentation" => "مستندات کاربر",
 "Admin Documentation" => "مستند سازی مدیر",

@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Omogočeno",
 "Authentication error" => "Napaka med overjanjem",
 "Your full name has been changed." => "Vaše polno ime je spremenjeno.",
 "Unable to change full name" => "Ni mogoče spremeniti polnega imena",
@@ -131,6 +132,7 @@ $TRANSLATIONS = array(
 "Less" => "Manj",
 "Version" => "Različica",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Programski paket razvija <a href=\"http://ownCloud.org/contact\" target=\"_blank\">skupnost ownCloud</a>. <a href=\"https://github.com/owncloud\" target=\"_blank\">Izvorna koda</a> je objavljena pod pogoji <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Splošnega javnega dovoljenja Affero\">AGPL</abbr></a>.",
+"by" => "od",
 "Documentation:" => "Dokumentacija:",
 "User Documentation" => "Uporabniška dokumentacija",
 "Admin Documentation" => "Skrbniška dokumentacija",

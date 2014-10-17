@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "បាន​បើក",
 "Authentication error" => "កំហុស​ការ​ផ្ទៀង​ផ្ទាត់​ភាព​ត្រឹម​ត្រូវ",
 "Group already exists" => "មាន​ក្រុម​នេះ​រួច​ហើយ",
 "Unable to add group" => "មិន​អាច​បន្ថែម​ក្រុម",
@@ -71,6 +72,7 @@ $TRANSLATIONS = array(
 "Less" => "តិច",
 "Version" => "កំណែ",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "សរសេរ​កម្មវិធី​ដោយ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">សហគមន៍ ownCloud</a> ហើយ <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> គឺ​ស្ថិត​ក្នុង​អាជ្ញាប័ណ្ណ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>។",
+"by" => "ដោយ",
 "User Documentation" => "ឯកសារ​សម្រាប់​អ្នក​ប្រើប្រាស់",
 "Admin Documentation" => "កម្រង​ឯកសារ​អភិបាល",
 "Administrator Documentation" => "ឯកសារ​សម្រាប់​​អ្នក​​គ្រប់​គ្រង​ប្រព័ន្ធ",

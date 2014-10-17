@@ -12,6 +12,7 @@ $TRANSLATIONS = array(
 "Security Warning" => "Rhybudd Diogelwch",
 "Please double check the <a href='%s'>installation guides</a>." => "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto.",
 "Encryption" => "Amgryptiad",
+"by" => "gan",
 "Password" => "Cyfrinair",
 "New password" => "Cyfrinair newydd",
 "Email" => "E-bost",

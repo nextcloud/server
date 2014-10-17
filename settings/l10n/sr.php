@@ -53,6 +53,7 @@ $TRANSLATIONS = array(
 "Less" => "Мање",
 "Version" => "Верзија",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Развијају <a href=\"http://ownCloud.org/contact\" target=\"_blank\">Оунклауд (ownCloud) заједница</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворни код</a> је издат под <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Аферо Јавном Лиценцом (Affero General Public License)\">АГПЛ лиценцом</abbr></a>.",
+"by" => "од",
 "User Documentation" => "Корисничка документација",
 "Administrator Documentation" => "Администраторска документација",
 "Online Documentation" => "Мрежна документација",

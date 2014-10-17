@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "Less" => "M'pak",
 "Version" => "Versioni",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Zhvilluar nga <a href=\"http://ownCloud.org/contact\" target=\"_blank\">Komuniteti OwnCloud</a>, gjithashtu <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> është licensuar me anë të <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"by" => "nga",
 "Documentation:" => "Dokumentacioni:",
 "User Documentation" => "Dokumentacion përdoruesi",
 "Administrator Documentation" => "Dokumentacion administratori",

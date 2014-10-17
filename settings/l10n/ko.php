@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "활성화",
 "Authentication error" => "인증 오류",
 "Your full name has been changed." => "전체 이름이 변경되었습니다.",
 "Unable to change full name" => "전체 이름을 변경할 수 없음",
@@ -112,6 +113,7 @@ $TRANSLATIONS = array(
 "Less" => "덜 중요함",
 "Version" => "버전",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다.",
+"by" => "작성:",
 "Documentation:" => "문서",
 "User Documentation" => "사용자 문서",
 "Admin Documentation" => "운영자 문서",

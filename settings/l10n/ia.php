@@ -16,6 +16,7 @@ $TRANSLATIONS = array(
 "Security Warning" => "Aviso de securitate",
 "Log" => "Registro",
 "More" => "Plus",
+"by" => "per",
 "Get the apps to sync your files" => "Obtene le apps (applicationes) pro synchronizar tu files",
 "Password" => "Contrasigno",
 "Unable to change your password" => "Non pote cambiar tu contrasigno",

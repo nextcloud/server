@@ -1,5 +1,6 @@
 <?php
 $TRANSLATIONS = array(
+"Enabled" => "Gaitua",
 "Authentication error" => "Autentifikazio errorea",
 "Your full name has been changed." => "Zure izena aldatu egin da.",
 "Unable to change full name" => "Ezin izan da izena aldatu",
@@ -151,6 +152,8 @@ $TRANSLATIONS = array(
 "Less" => "Gutxiago",
 "Version" => "Bertsioa",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud komunitateak</a> garatuta, <a href=\"https://github.com/owncloud\" target=\"_blank\">itubruru kodea</a><a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr> lizentziarekin banatzen da</a>.",
+"More apps" => "App gehiago",
+"by" => " Egilea:",
 "Documentation:" => "Dokumentazioa:",
 "User Documentation" => "Erabiltzaile dokumentazioa",
 "Admin Documentation" => "Administrazio dokumentazioa",
