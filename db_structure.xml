@@ -172,6 +172,24 @@
 				</field>
 			</index>
 
+			<index>
+				<name>file_map_logic_path</name>
+				<unique>false</unique>
+				<field>
+					<name>logic_path</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>file_map_physic_path</name>
+				<unique>false</unique>
+				<field>
+					<name>physic_path</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
