@@ -198,8 +198,8 @@ class OC_Template extends \OC\Template\Base {
 	 * Includes another template. use <?php echo $this->inc('template'); ?> to
 	 * do this.
 	 */
-	public function inc( $file, $additionalparams = null ) {
-		return $this->load($this->path.$file.'.php', $additionalparams);
+	public function inc( $file, $additionalParams = null ) {
+		return $this->load($this->path.$file.'.php', $additionalParams);
 	}
 
 	/**
@@ -277,4 +277,34 @@ class OC_Template extends \OC\Template\Base {
 		$content->printPage();
 		die();
 	}
+
+	/**
+	 * @return bool
+	 */
+	public static function isAssetPipelineEnabled() {
+		// asset management enabled?
+		$useAssetPipeline = \OC::$server->getConfig()->getSystemValue('asset-pipeline.enabled', false);
+		if (!$useAssetPipeline) {
+			return false;
+		}
+
+		// assets folder exists?
+		$assetDir = \OC::$SERVERROOT . '/assets';
+		if (!is_dir($assetDir)) {
+			if (!mkdir($assetDir)) {
+				\OCP\Util::writeLog('assets',
+					"Folder <$assetDir> does not exist and/or could not be generated.", \OCP\Util::ERROR);
+				return false;
+			}
+		}
+
+		// assets folder can be accessed?
+		if (!touch($assetDir."/.oc")) {
+			\OCP\Util::writeLog('assets',
+				"Folder <$assetDir> could not be accessed.", \OCP\Util::ERROR);
+			return false;
+		}
+		return $useAssetPipeline;
+	}
+
 }
