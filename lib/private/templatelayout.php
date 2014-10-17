@@ -46,7 +46,7 @@ class OC_TemplateLayout extends OC_Template {
 			if($this->config->getSystemValue('updatechecker', true) === true &&
 				OC_User::isAdminUser(OC_User::getUser())) {
 				$updater = new \OC\Updater();
-				$data = $updater->check('http://apps.owncloud.com/updater.php');
+				$data = $updater->check();
 
 				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array()) {
 					$this->assign('updateAvailable', true);
