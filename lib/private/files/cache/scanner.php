@@ -232,8 +232,8 @@ class Scanner extends BasicEmitter {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$data = $this->scanFile($path, $reuse);
-		if ($data !== null) {
-			$size = $this->scanChildren($path, $recursive, $reuse);
+		if ($data and $data['mimetype'] === 'httpd/unix-directory') {
+			$size = $this->scanChildren($path, $recursive, $reuse, $data);
 			$data['size'] = $size;
 		}
 		return $data;
@@ -262,7 +262,7 @@ class Scanner extends BasicEmitter {
 	 */
 	protected function getNewChildren($folder) {
 		$children = array();
-		if ($this->storage->is_dir($folder) && ($dh = $this->storage->opendir($folder))) {
+		if ($dh = $this->storage->opendir($folder)) {
 			if (is_resource($dh)) {
 				while (($file = readdir($dh)) !== false) {
 					if (!Filesystem::isIgnoredDir($file)) {
