@@ -290,12 +290,8 @@ class Trashbin {
 				}
 				$rootView->rename($sharekeys, $user . '/files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
 			} else {
-				// get local path to share-keys
-				$localShareKeysPath = $rootView->getLocalFile($sharekeys);
-				$escapedLocalShareKeysPath = preg_replace('/(\*|\?|\[)/', '[$1]', $localShareKeysPath);
-
 				// handle share-keys
-				$matches = glob($escapedLocalShareKeysPath . '*.shareKey');
+				$matches = \OCA\Encryption\Helper::findShareKeys($ownerPath, $sharekeys, $rootView);
 				foreach ($matches as $src) {
 					// get source file parts
 					$pathinfo = pathinfo($src);
