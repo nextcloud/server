@@ -180,7 +180,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 		// sharing file to a user should work if shareapi_exclude_groups is set
 		// to no
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
 		$_POST['path'] = $this->filename;
 		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
 		$_POST['shareType'] = \OCP\Share::SHARE_TYPE_USER;
@@ -204,8 +204,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue($result);
 
 		// exclude groups, but not the group the user belongs to. Sharing should still work
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', 'yes');
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group1,group2');
 
 		$_POST['path'] = $this->filename;
 		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
@@ -230,7 +230,7 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertTrue($result);
 
 		// now we exclude the group the user belongs to ('group'), sharing should fail now
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', 'admin,group');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', 'admin,group');
 
 		$_POST['path'] = $this->filename;
 		$_POST['shareWith'] = \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2;
@@ -241,8 +241,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		$this->assertFalse($result->succeeded());
 
 		// cleanup
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups', 'no');
-		\OC_Appconfig::setValue('core', 'shareapi_exclude_groups_list', '');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups_list', '');
 	}
 
 
@@ -1209,9 +1209,9 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 
 	public function testDefaultExpireDate() {
 		\Test_Files_Sharing_Api::loginHelper(\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER1);
-		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'yes');
-		\OC_Appconfig::setValue('core', 'shareapi_enforce_expire_date', 'yes');
-		\OC_Appconfig::setValue('core', 'shareapi_expire_after_n_days', '2');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_default_expire_date', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_enforce_expire_date', 'yes');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_expire_after_n_days', '2');
 
 		// default expire date is set to 2 days
 		// the time when the share was created is set to 3 days in the past
@@ -1255,8 +1255,8 @@ class Test_Files_Sharing_Api extends Test_Files_Sharing_Base {
 		//cleanup
 		$result = \OCP\Share::unshare('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2);
 		$this->assertTrue($result);
-		\OC_Appconfig::setValue('core', 'shareapi_default_expire_date', 'no');
-		\OC_Appconfig::setValue('core', 'shareapi_enforce_expire_date', 'no');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_default_expire_date', 'no');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_enforce_expire_date', 'no');
 
 	}
 }

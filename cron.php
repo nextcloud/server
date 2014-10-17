@@ -132,9 +132,9 @@ try {
 
 	// done!
 	TemporaryCronClass::$sent = true;
-	// Log the successfull cron exec
-	if (OC_Config::getValue('cron_log', true)) {
-		OC_Appconfig::setValue('core', 'lastcron', time());
+	// Log the successful cron execution
+	if (\OC::$server->getConfig()->getSystemValue('cron_log', true)) {
+		\OC::$server->getAppConfig()->setValue('core', 'lastcron', time());
 	}
 	exit();
 
