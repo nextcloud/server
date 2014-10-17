@@ -42,7 +42,7 @@ class Adapter {
 	/**
 	 * insert the @input values when they do not exist yet
 	 * @param string $table name
-	 * @param array $input key->value pairs
+	 * @param array $input key->value pair, key has to be sanitized properly
 	 * @return int count of inserted rows
 	 */
 	public function insertIfNotExist($table, $input) {
