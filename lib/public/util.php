@@ -137,6 +137,15 @@ class Util {
 	}
 
 	/**
+	 * Add a translation JS file
+	 * @param string $application application id
+	 * @param string $languageCode language code, defaults to the current locale
+	 */
+	public static function addTranslations($application, $languageCode = null) {
+		\OC_Util::addTranslations($application, $languageCode);
+	}
+
+	/**
 	 * Add a custom element to the header
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element

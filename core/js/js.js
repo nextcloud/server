@@ -37,121 +37,6 @@ if (
 	}
 }
 
-function initL10N(app) {
-	if (!( t.cache[app] )) {
-		$.ajax(OC.filePath('core', 'ajax', 'translations.php'), {
-			// TODO a proper solution for this without sync ajax calls
-			async: false,
-			data: {'app': app},
-			type: 'POST',
-			success: function (jsondata) {
-				t.cache[app] = jsondata.data;
-				t.plural_form = jsondata.plural_form;
-			}
-		});
-
-		// Bad answer ...
-		if (!( t.cache[app] )) {
-			t.cache[app] = [];
-		}
-	}
-	if (typeof t.plural_function[app] === 'undefined') {
-		t.plural_function[app] = function (n) {
-			var p = (n !== 1) ? 1 : 0;
-			return { 'nplural' : 2, 'plural' : p };
-		};
-
-		/**
-		 * code below has been taken from jsgettext - which is LGPL licensed
-		 * https://developer.berlios.de/projects/jsgettext/
-		 * http://cvs.berlios.de/cgi-bin/viewcvs.cgi/jsgettext/jsgettext/lib/Gettext.js
-		 */
-		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\\(\\)])+)', 'm');
-		if (pf_re.test(t.plural_form)) {
-			//ex english: "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-			//pf = "nplurals=2; plural=(n != 1);";
-			//ex russian: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10< =4 && (n%100<10 or n%100>=20) ? 1 : 2)
-			//pf = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
-			var pf = t.plural_form;
-			if (! /;\s*$/.test(pf)) {
-				pf = pf.concat(';');
-			}
-			/* We used to use eval, but it seems IE has issues with it.
-			 * We now use "new Function", though it carries a slightly
-			 * bigger performance hit.
-			var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
-			Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
-			 */
-			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
-			t.plural_function[app] = new Function("n", code);
-		} else {
-			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
-		}
-	}
-}
-/**
- * translate a string
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text the string to translate
- * @param [vars] FIXME
- * @param {number} [count] number to replace %n with
- * @return {string}
- */
-function t(app, text, vars, count){
-	initL10N(app);
-	var _build = function (text, vars, count) {
-		return text.replace(/%n/g, count).replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = vars[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-		);
-	};
-	var translation = text;
-	if( typeof( t.cache[app][text] ) !== 'undefined' ){
-		translation = t.cache[app][text];
-	}
-
-	if(typeof vars === 'object' || count !== undefined ) {
-		return _build(translation, vars, count);
-	} else {
-		return translation;
-	}
-}
-t.cache = {};
-// different apps might or might not redefine the nplurals function correctly
-// this is to make sure that a "broken" app doesn't mess up with the
-// other app's plural function
-t.plural_function = {};
-
-/**
- * translate a string
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text_singular the string to translate for exactly one object
- * @param {string} text_plural the string to translate for n objects
- * @param {number} count number to determine whether to use singular or plural
- * @param [vars] FIXME
- * @return {string} Translated string
- */
-function n(app, text_singular, text_plural, count, vars) {
-	initL10N(app);
-	var identifier = '_' + text_singular + '_::_' + text_plural + '_';
-	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
-		var translation = t.cache[app][identifier];
-		if ($.isArray(translation)) {
-			var plural = t.plural_function[app](count);
-			return t(app, translation[plural.plural], vars, count);
-		}
-	}
-
-	if(count === 1) {
-		return t(app, text_singular, vars, count);
-	}
-	else{
-		return t(app, text_plural, vars, count);
-	}
-}
-
 /**
 * Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
 * @param {string} s String to sanitize
@@ -584,11 +469,13 @@ OC.search.currentResult=-1;
 OC.search.lastQuery='';
 OC.search.lastResults={};
 //translations for result type ids, can be extended by apps
+// FIXME: move to later in the init process, after translations were loaded
+
 OC.search.resultTypes={
-	file: t('core','File'),
-	folder: t('core','Folder'),
-	image: t('core','Image'),
-	audio: t('core','Audio')
+	file: 'File', //t('core','File'),
+	folder: 'Folder', //t('core','Folder'),
+	image: 'Image', //t('core','Image'),
+	audio: 'Audio' //t('core','Audio')
 };
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];

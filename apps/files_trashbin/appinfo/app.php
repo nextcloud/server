@@ -1,6 +1,8 @@
 <?php
 $l = \OC::$server->getL10N('files_trashbin');
 
+OCP\Util::addTranslations('files_trashbin');
+
 OC::$CLASSPATH['OCA\Files_Trashbin\Exceptions\CopyRecursiveException'] = 'files_trashbin/lib/exceptions.php';
 
 // register hooks
