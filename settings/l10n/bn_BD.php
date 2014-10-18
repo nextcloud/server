@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "No user supplied" => "ব্যবহারকারী দেয়া হয়নি",
 "Saved" => "সংরক্ষণ করা হলো",
 "test email settings" => "ইমেইল নিয়ামকসমূহ পরীক্ষা করুন",
+"If you received this email, the settings seem to be correct." => "এই ইমেইলের অর্থ নিয়ামকসমূহ সঠিক।",
 "Email sent" => "ই-মেইল পাঠানো হয়েছে",
 "All" => "সবাই",
 "Error while disabling app" => "অ্যাপ অকার্যকর করতে সমস্যা দেখা দিয়েছে  ",

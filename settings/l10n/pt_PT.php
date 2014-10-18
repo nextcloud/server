@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Não foi possível alterar a sua password",
 "Saved" => "Guardado",
 "test email settings" => "testar configurações de email",
+"If you received this email, the settings seem to be correct." => "Se você recebeu este e-mail as configurações parecem estar correctas",
 "Email sent" => "E-mail enviado",
 "You need to set your user email before being able to send test emails." => "Você precisa de configurar o seu e-mail de usuário antes de ser capaz de enviar e-mails de teste",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Você tem certeza que quer adicionar \"{domain}\" como domínio confiável?",

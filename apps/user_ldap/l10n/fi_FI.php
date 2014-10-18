@@ -45,6 +45,7 @@ $TRANSLATIONS = array(
 "Advanced" => "Lisäasetukset",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Varoitus:</b> PHP:n LDAP-moduulia ei ole asennettu, taustaosa ei toimi. Pyydä järjestelmän ylläpitäjää asentamaan se.",
 "Connection Settings" => "Yhteysasetukset",
+"Backup (Replica) Host" => "Varmuuskopioinnin (replikointi) palvelin",
 "Backup (Replica) Port" => "Varmuuskopioinnin (replikoinnin) portti",
 "Disable Main Server" => "Poista pääpalvelin käytöstä",
 "Only connect to the replica server." => "Yhdistä vain replikointipalvelimeen.",
@@ -57,8 +58,12 @@ $TRANSLATIONS = array(
 "Group Display Name Field" => "Ryhmän \"näytettävä nimi\"-kenttä",
 "Base Group Tree" => "Ryhmien juuri",
 "Group-Member association" => "Ryhmän ja jäsenen assosiaatio (yhteys)",
+"Quota Field" => "Kiintiökenttä",
+"Quota Default" => "Oletuskiintiö",
 "in bytes" => "tavuissa",
 "Email Field" => "Sähköpostikenttä",
-"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti."
+"User Home Folder Naming Rule" => "Käyttäjän kotihakemiston nimeämissääntö",
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
+"Internal Username" => "Sisäinen käyttäjänimi"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Ezin izan da pasahitza aldatu",
 "Saved" => "Gordeta",
 "test email settings" => "probatu eposta ezarpenak",
+"If you received this email, the settings seem to be correct." => "Eposta hau jaso baduzu, zure ezarpenak egokiak direnaren seinale",
 "Email sent" => "Eposta bidalia",
 "You need to set your user email before being able to send test emails." => "Epostaren erabiltzailea zehaztu behar duzu probako eposta bidali aurretik.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Ziur zaude gehitu nahi duzula  \"{domain}\" domeinu fidagarri gisa?",

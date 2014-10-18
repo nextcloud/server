@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "パスワードを変更できません",
 "Saved" => "保存されました",
 "test email settings" => "メール設定をテスト",
+"If you received this email, the settings seem to be correct." => "このメールを受け取ったら、設定は正しいはずです。",
 "Email sent" => "メールを送信しました",
 "You need to set your user email before being able to send test emails." => "ユーザーメールを設定して初めて、テストメールを送信することができるようになります。",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "\"{domain}\" を信頼するドメインに追加してもよろしいでしょうか？",

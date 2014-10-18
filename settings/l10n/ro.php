@@ -24,6 +24,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Imposibil de schimbat parola",
 "Saved" => "Salvat",
 "test email settings" => "verifică setările de e-mail",
+"If you received this email, the settings seem to be correct." => "Dacă ai primit acest e-mail atunci setările par a fi corecte.",
 "Email sent" => "Mesajul a fost expediat",
 "Sending..." => "Se expediază...",
 "All" => "Toate ",

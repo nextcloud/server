@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Promjena lozinke nije moguća",
 "Saved" => "Spremljeno",
 "test email settings" => "Postavke za testiranje e-pošte",
+"If you received this email, the settings seem to be correct." => "Ako ste ovu e-poštu primili,čini se da su postavke ispravne.",
 "Email sent" => "E-pošta je poslana",
 "You need to set your user email before being able to send test emails." => "Prije nego li ste u mogućnosti slati testnu e-poštu trebate postaviti svoj korisnički email.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Jeste li doista sigurni da želite dodati \"{domain}\" kao pouzdanu domenu?",

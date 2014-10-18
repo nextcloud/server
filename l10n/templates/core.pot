@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-17 01:54-0400\n"
+"POT-Creation-Date: 2014-10-18 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -327,12 +327,12 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1076
+#: js/share.js:326 js/share.js:340 js/share.js:347 js/share.js:1077
 #: templates/installation.php:10
 msgid "Error"
 msgstr ""
 
-#: js/share.js:328 js/share.js:1139
+#: js/share.js:328 js/share.js:1140
 msgid "Error while sharing"
 msgstr ""
 
@@ -369,7 +369,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:402
+#: js/share.js:402 js/share.js:1028
 msgid "Choose a password for the public link"
 msgstr ""
 
@@ -441,27 +441,27 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: js/share.js:1057
+#: js/share.js:1058
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:1076
+#: js/share.js:1077
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:1097
+#: js/share.js:1098
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:1126
+#: js/share.js:1127
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:1137
+#: js/share.js:1138
 msgid "Email sent"
 msgstr ""
 
-#: js/share.js:1161
+#: js/share.js:1162
 msgid "Warning"
 msgstr ""
 

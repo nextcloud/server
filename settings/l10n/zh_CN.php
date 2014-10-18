@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "不能更改密码",
 "Saved" => "已保存",
 "test email settings" => "测试电子邮件设置",
+"If you received this email, the settings seem to be correct." => "如果您收到了这封邮件，看起来设置没有问题。",
 "Email sent" => "邮件已发送",
 "You need to set your user email before being able to send test emails." => "在发送测试邮件前您需要设置您的用户电子邮件。",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "你真的希望添加 \"{domain}\" 为信任域？",

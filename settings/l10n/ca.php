@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "No es pot canviar la contrasenya",
 "Saved" => "Desat",
 "test email settings" => "prova l'arranjament del correu",
+"If you received this email, the settings seem to be correct." => "Si rebeu aquest correu sembla que l'arranjament del correu és correcte.",
 "Email sent" => "El correu electrónic s'ha enviat",
 "You need to set your user email before being able to send test emails." => "Heu d'establir un nom d'usuari abans de poder enviar correus de prova.",
 "Sending..." => "Enviant...",

@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Parola değiştirilemiyor",
 "Saved" => "Kaydedildi",
 "test email settings" => "e-posta ayarlarını sına",
+"If you received this email, the settings seem to be correct." => "Eğer bu e-postayı aldıysanız, ayarlar doğru gibi görünüyor.",
 "A problem occurred while sending the email. Please revise your settings." => "E-posta gönderilirken bir sorun oluştu. Lütfen ayarlarınızı gözden geçirin.",
 "Email sent" => "E-posta gönderildi",
 "You need to set your user email before being able to send test emails." => "Sınama e-postaları göndermeden önce kullanıcı e-postasını ayarlamanız gerekiyor.",

@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Unable to change password",
 "Saved" => "Saved",
 "test email settings" => "test email settings",
+"If you received this email, the settings seem to be correct." => "If you received this email, the settings seem to be correct.",
 "A problem occurred while sending the email. Please revise your settings." => "A problem occurred whilst sending the email. Please revise your settings.",
 "Email sent" => "Email sent",
 "You need to set your user email before being able to send test emails." => "You need to set your user email before being able to send test emails.",

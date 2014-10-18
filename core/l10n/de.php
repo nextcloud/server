@@ -150,6 +150,7 @@ $TRANSLATIONS = array(
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hallo,\n\nich wollte Dich nur wissen lassen, dass %s %s mit Dir teilt.\nSchaue es Dir an: %s\n\n",
 "The share will expire on %s." => "Die Freigabe wird am %s ablaufen.",
 "Cheers!" => "Hallo!",
+"Internal Server Error" => "Interner Server-Fehler",
 "The server encountered an internal error and was unable to complete your request." => "Der Server hat einen internen Fehler und konnte Ihre Anfrage nicht vervollständigen.",
 "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." => "Bitte wende Dich an den Serveradministrator, wenn dieser Fehler mehrfach auftritt. Füge deinem Bericht, bitte die untenstehenden technischen Details hinzu.",
 "More details can be found in the server log." => "Weitere Details können im Serverprotokoll gefunden werden.",

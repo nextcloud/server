@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Αδυναμία αλλαγής συνθηματικού",
 "Saved" => "Αποθηκεύτηκαν",
 "test email settings" => "δοκιμή ρυθμίσεων email",
+"If you received this email, the settings seem to be correct." => "Εάν λάβατε αυτό το email, οι ρυθμίσεις δείχνουν να είναι σωστές.",
 "Email sent" => "Το Email απεστάλη ",
 "You need to set your user email before being able to send test emails." => "Πρέπει να ορίσετε το email του χρήστη πριν να είστε σε θέση να στείλετε δοκιμαστικά emails.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Είστε πραγματικά σίγουροι ότι θέλετε να προσθέσετε το \"{domain}\" σαν αξιόπιστη περιοχή;",

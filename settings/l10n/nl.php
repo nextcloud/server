@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Kan wachtwoord niet wijzigen",
 "Saved" => "Bewaard",
 "test email settings" => "test e-mailinstellingen",
+"If you received this email, the settings seem to be correct." => "Als u dit e-mailbericht ontvangt, lijken de instellingen juist.",
 "A problem occurred while sending the email. Please revise your settings." => "Er ontstond een probleem bij het versturen van de e-mail. Controleer uw instellingen.",
 "Email sent" => "E-mail verzonden",
 "You need to set your user email before being able to send test emails." => "U moet uw e-mailadres invoeren voordat u testberichten kunt versturen.",

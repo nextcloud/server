@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "لا يمكن تغيير كلمة المرور",
 "Saved" => "حفظ",
 "test email settings" => "إعدادات البريد التجريبي",
+"If you received this email, the settings seem to be correct." => "تبدوا الاعدادت صحيحة اذا تلقيت هذا البريد الالكتروني",
 "Email sent" => "تم ارسال البريد الالكتروني",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "هل أنت متأكد انك تريد إضافة \"{domain}\" كنطاق موثوق فيه.",
 "Sending..." => "جاري الارسال ...",

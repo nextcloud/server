@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-17 01:54-0400\n"
+"POT-Creation-Date: 2014-10-18 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,38 +51,38 @@ msgid ""
 "before performing changes on config.php"
 msgstr ""
 
-#: private/app.php:398
+#: private/app.php:408
 msgid "Help"
 msgstr ""
 
-#: private/app.php:411
+#: private/app.php:421
 msgid "Personal"
 msgstr ""
 
-#: private/app.php:422
+#: private/app.php:432
 msgid "Settings"
 msgstr ""
 
-#: private/app.php:434
+#: private/app.php:444
 msgid "Users"
 msgstr ""
 
-#: private/app.php:447
+#: private/app.php:457
 msgid "Admin"
 msgstr ""
 
-#: private/app.php:853 private/app.php:964
+#: private/app.php:863 private/app.php:974
 msgid "Recommended"
 msgstr ""
 
-#: private/app.php:1146
+#: private/app.php:1156
 #, php-format
 msgid ""
 "App \\\"%s\\\" can't be installed because it is not compatible with this "
 "version of ownCloud."
 msgstr ""
 
-#: private/app.php:1158
+#: private/app.php:1168
 msgid "No app name specified"
 msgstr ""
 

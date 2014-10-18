@@ -150,6 +150,7 @@ $TRANSLATIONS = array(
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Hej ty tam,\n\njen ti chci dát vědět, že %s sdílel %s s tebou.\nZobraz si to: %s\n\n",
 "The share will expire on %s." => "Sdílení vyprší %s.",
 "Cheers!" => "Ať slouží!",
+"Internal Server Error" => "Vnitřní chyba serveru",
 "The server encountered an internal error and was unable to complete your request." => "Server zaznamenal interní chybu a nebyl schopen dokončit váš požadavek.",
 "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." => "Kontaktujte prosím administrátora serveru, pokud se bude tato chyba opakovat. Připojte do svého hlášení níže zobrazené technické detaily.",
 "More details can be found in the server log." => "Více podrobností k nalezení v serverovém logu.",

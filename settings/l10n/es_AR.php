@@ -25,6 +25,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Imposible cambiar la contraseña",
 "Saved" => "Guardado",
 "test email settings" => "Configuración de correo de prueba.",
+"If you received this email, the settings seem to be correct." => "Si recibió este correo, la configuración parece estar correcta.",
 "Email sent" => "e-mail mandado",
 "You need to set your user email before being able to send test emails." => "Necesita especificar el usuario de correo electrónico antes de poder enviar correos electrónicos de prueba.",
 "Sending..." => "Enviando...",

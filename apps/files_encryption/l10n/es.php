@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Error desconocido",
+"Missing recovery key password" => "Falta contraseña de recuperacion.",
+"Please repeat the recovery key password" => "Por favor repita la contraseña de recuperacion",
+"Repeated recovery key password does not match the provided recovery key password" => "la contraseña de recuperacion repetida no es igual a la contraseña de recuperacion",
 "Recovery key successfully enabled" => "Se ha habilitado la recuperación de archivos",
 "Could not disable recovery key. Please check your recovery key password!" => "No se pudo deshabilitar la clave de recuperación. Por favor compruebe su contraseña!",
 "Recovery key successfully disabled" => "Clave de recuperación deshabilitada",
+"Please provide the old recovery password" => "Por favor ingrese su antigua contraseña de recuperacion",
+"Please provide a new recovery password" => "Por favor ingrese una nueva contraseña de recuperacion",
+"Please repeat the new recovery password" => "Por favor repita su nueva contraseña de recuperacion",
 "Password successfully changed." => "Su contraseña ha sido cambiada",
 "Could not change the password. Maybe the old password was not correct." => "No se pudo cambiar la contraseña. Compruebe que la contraseña actual sea correcta.",
 "Private key password successfully updated." => "Contraseña de clave privada actualizada con éxito.",

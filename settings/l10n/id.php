@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Tidak dapat mengubah sandi",
 "Saved" => "Disimpan",
 "test email settings" => "pengaturan email percobaan",
+"If you received this email, the settings seem to be correct." => "Jika Anda menerma email ini, pengaturan tampaknya sudah benar.",
 "Email sent" => "Email terkirim",
 "You need to set your user email before being able to send test emails." => "Anda perlu menetapkan email pengguna Anda sebelum dapat mengirim email percobaan.",
 "Sending..." => "Mengirim",

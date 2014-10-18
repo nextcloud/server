@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Nem sikerült megváltoztatni a jelszót",
 "Saved" => "Elmentve",
 "test email settings" => "e-mail beállítások ellenőrzése",
+"If you received this email, the settings seem to be correct." => "Amennyiben megérkezett ez az e-mail akkor a beállítások megfelelők.",
 "Email sent" => "Az e-mailt elküldtük",
 "You need to set your user email before being able to send test emails." => "Előbb meg kell adnia az e-mail címét, mielőtt tesztelni tudná az e-mail küldést.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Biztos abban, hogy hozzá akarja adni \"{domain}\"-t a megbízható tartományokhoz?",

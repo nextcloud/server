@@ -150,6 +150,7 @@ $TRANSLATIONS = array(
 "Hey there,\n\njust letting you know that %s shared %s with you.\nView it: %s\n\n" => "Merhaba,\n\nSadece %s sizinle %s paylaşımını yaptığını bildiriyoruz.\nBuradan bakabilirsiniz: %s\n\n",
 "The share will expire on %s." => "Bu paylaşım %s tarihinde sona erecek.",
 "Cheers!" => "Hoşça kalın!",
+"Internal Server Error" => "Dahili Sunucu Hatası",
 "The server encountered an internal error and was unable to complete your request." => "Sunucu dahili bir hatayla karşılaştı ve isteğinizi tamamlayamadı.",
 "Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." => "Eğer bu hata birden çok kez oluştuysa, lütfen sunucu yöneticisine aşağıdaki teknik ayrıntılar ile birlikte iletişime geçin.",
 "More details can be found in the server log." => "Daha fazla ayrıntı sunucu günlüğünde bulanabilir.",

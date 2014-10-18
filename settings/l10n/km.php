@@ -17,6 +17,7 @@ $TRANSLATIONS = array(
 "Wrong password" => "ខុស​ពាក្យ​សម្ងាត់",
 "Saved" => "បាន​រក្សាទុក",
 "test email settings" => "សាក​ល្បង​ការ​កំណត់​អ៊ីមែល",
+"If you received this email, the settings seem to be correct." => "ប្រសិន​បើ​អ្នក​ទទួល​បាន​អ៊ីមែល​នេះ មាន​ន័យ​ថា​ការ​កំណត់​គឺ​បាន​ត្រឹមម​ត្រូវ​ហើយ។",
 "Email sent" => "បាន​ផ្ញើ​អ៊ីមែល",
 "You need to set your user email before being able to send test emails." => "អ្នក​ត្រូវ​តែ​កំណត់​អ៊ីមែល​របស់​អ្នក​មុន​នឹង​អាច​ផ្ញើ​អ៊ីមែល​សាកល្បង​បាន។",
 "Sending..." => "កំពុង​ផ្ញើ...",

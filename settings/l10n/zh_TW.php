@@ -27,6 +27,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "無法修改密碼",
 "Saved" => "已儲存",
 "test email settings" => "測試郵件設定",
+"If you received this email, the settings seem to be correct." => "假如您收到這個郵件，此設定看起來是正確的。",
 "Email sent" => "Email 已寄出",
 "You need to set your user email before being able to send test emails." => "在準備要寄出測試郵件時您需要設定您的使用者郵件。",
 "Sending..." => "寄送中...",

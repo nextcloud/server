@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Salasanan vaihto ei onnistunut",
 "Saved" => "Tallennettu",
 "test email settings" => "testaa sähköpostiasetukset",
+"If you received this email, the settings seem to be correct." => "Jos sait tämän sähköpostin, kaikki asetukset vaikuttavat olevan kunnossa.",
 "A problem occurred while sending the email. Please revise your settings." => "Sähköpostia lähettäessä tapahtui virhe. Tarkista asetukset.",
 "Email sent" => "Sähköposti lähetetty",
 "You need to set your user email before being able to send test emails." => "Aseta sähköpostiosoite, jotta voit testata sähköpostin toimivuutta.",

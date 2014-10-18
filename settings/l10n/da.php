@@ -34,6 +34,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Kunne ikke ændre kodeord",
 "Saved" => "Gemt",
 "test email settings" => "test e-mailindstillinger",
+"If you received this email, the settings seem to be correct." => "Hvis du har modtaget denne e-mail, så lader indstillinger til at være korrekte.",
 "A problem occurred while sending the email. Please revise your settings." => "Der opstod en fejl under afsendelse af e-mailen. Gennemse venligst dine indstillinger.",
 "Email sent" => "E-mail afsendt",
 "You need to set your user email before being able to send test emails." => "Du skal angive din bruger-e-mail før der kan sendes test-e-mail.",

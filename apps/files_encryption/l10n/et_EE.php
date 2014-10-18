@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Tundmatu viga",
+"Missing recovery key password" => "Muuda taastevõtme parool",
+"Please repeat the recovery key password" => "Palun korda uut taastevõtme parooli",
+"Repeated recovery key password does not match the provided recovery key password" => "Lahtritesse sisestatud taastevõtme paroolid ei kattu",
 "Recovery key successfully enabled" => "Taastevõtme lubamine õnnestus",
 "Could not disable recovery key. Please check your recovery key password!" => "Ei suuda keelata taastevõtit. Palun kontrolli oma taastevõtme parooli!",
 "Recovery key successfully disabled" => "Taastevõtme keelamine õnnestus",
+"Please provide the old recovery password" => "Palun sisesta vana taastevõtme parool",
+"Please provide a new recovery password" => "Palun sisesta uus taastevõtme parool",
+"Please repeat the new recovery password" => "Palun korda uut taastevõtme parooli",
 "Password successfully changed." => "Parool edukalt vahetatud.",
 "Could not change the password. Maybe the old password was not correct." => "Ei suutnud vahetada parooli. Võib-olla on vana parool valesti sisestatud.",
 "Private key password successfully updated." => "Privaatse võtme parool edukalt uuendatud.",

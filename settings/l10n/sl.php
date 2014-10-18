@@ -29,6 +29,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Ni mogoče spremeniti gesla",
 "Saved" => "Shranjeno",
 "test email settings" => "preizkusi nastavitve elektronske pošte",
+"If you received this email, the settings seem to be correct." => "Če ste prejeli to sporočilo, so nastavitve pravilne.",
 "Email sent" => "Elektronska pošta je poslana",
 "You need to set your user email before being able to send test emails." => "Pred preizkusnim pošiljanjem sporočil je treba nastaviti elektronski naslov uporabnika.",
 "Add trusted domain" => "Dodaj varno domeno",

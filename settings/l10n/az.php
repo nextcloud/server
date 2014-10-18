@@ -31,6 +31,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Şifrəni dəyişmək olmur",
 "Saved" => "Saxlanıldı",
 "test email settings" => "sınaq məktubu quraşdırmaları",
+"If you received this email, the settings seem to be correct." => "Əgər siz bu məktubu aldınızsa, demək quraşdırmalar düzgündür.",
 "Email sent" => "Məktub göndərildi",
 "You need to set your user email before being able to send test emails." => "Test məktubu göndərməzdən öncə, siz öz istifadəçi poçtunuzu təyiin etməlisiniz.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "\"{domain}\" adını inamlı domainlər siyahısına əlavə etməyinizdən əminsinizmi?",

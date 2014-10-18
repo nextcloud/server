@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Zmena hesla sa nepodarila",
 "Saved" => "Uložené",
 "test email settings" => "nastavenia testovacieho emailu",
+"If you received this email, the settings seem to be correct." => "Ak ste dostali tento email, nastavenie je správne.",
 "Email sent" => "Email odoslaný",
 "You need to set your user email before being able to send test emails." => "Musíte nastaviť svoj po​​užívateľský email, než budete môcť odoslať testovací email.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Ste si istí, že chcete pridať \"{domain}\" medzi dôveryhodné domény?",

@@ -32,6 +32,7 @@ $TRANSLATIONS = array(
 "Unable to change password" => "Kunne ikke endre passord",
 "Saved" => "Lagret",
 "test email settings" => "Test av innstillinger for e-post",
+"If you received this email, the settings seem to be correct." => "Hvis du mottar denne e-posten er innstillingene tydeligvis korrekte.",
 "Email sent" => "E-post sendt",
 "You need to set your user email before being able to send test emails." => "Du må sette e-postadressen for brukeren din før du kan teste sending av e-post.",
 "Are you really sure you want add \"{domain}\" as trusted domain?" => "Ønsker du virkelig å legge til \"{domain}\" som tiltrodd domene?",
