@@ -398,7 +398,8 @@ class Util {
 			// we set the cipher
 			// and we update the size
 			if ($this->containHeader($path)) {
-				$header = fread($stream,Crypt::BLOCKSIZE);
+				$data = fread($stream,Crypt::BLOCKSIZE);
+				$header = Crypt::parseHeader($data);
 				$cipher = Crypt::getCipher($header);
 				$size -= Crypt::BLOCKSIZE;
 			}
