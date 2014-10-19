@@ -392,59 +392,55 @@ class Util {
 			$size = $this->view->filesize($path);
 
 			// open stream
-			$stream = fopen($path, "r");
-
-			// if the file contains a encryption header we
-			// we set the cipher
-			// and we update the size
-			if ($this->containHeader($path)) {
-				$data = fread($stream,Crypt::BLOCKSIZE);
-				$header = Crypt::parseHeader($data);
-				$cipher = Crypt::getCipher($header);
-				$size -= Crypt::BLOCKSIZE;
-			}
-
-			// fast path, else the calculation for $lastChunkNr is bogus
-			if ($size === 0) {
-				\OC_FileProxy::$enabled = $proxyStatus;
-				return 0;
-			}
-
-			// calculate last chunk nr
-			// next highest is end of chunks, one subtracted is last one
-			// we have to read the last chunk, we can't just calculate it (because of padding etc)
-			$lastChunkNr = ceil($size/Crypt::BLOCKSIZE)-1;
+			$stream = $this->view->fopen($path, "r");
 
 			if (is_resource($stream)) {
+
+				// if the file contains a encryption header we
+				// we set the cipher
+				// and we update the size
+				if ($this->containHeader($path)) {
+					$data = fread($stream,Crypt::BLOCKSIZE);
+					$header = Crypt::parseHeader($data);
+					$cipher = Crypt::getCipher($header);
+					$size -= Crypt::BLOCKSIZE;
+				}
+
+				// fast path, else the calculation for $lastChunkNr is bogus
+				if ($size === 0) {
+					\OC_FileProxy::$enabled = $proxyStatus;
+					return 0;
+				}
+
+				// calculate last chunk nr
+				// next highest is end of chunks, one subtracted is last one
+				// we have to read the last chunk, we can't just calculate it (because of padding etc)
+				$lastChunkNr = ceil($size/Crypt::BLOCKSIZE)-1;
+
 				// calculate last chunk position
 				$lastChunkPos = ($lastChunkNr * Crypt::BLOCKSIZE);
 
 				// get the content of the last chunk
-				$lastChunkContentEncrypted='';
-				$count=Crypt::BLOCKSIZE;
 				if (@fseek($stream, $lastChunkPos, SEEK_CUR) === 0) {
 					$realSize+=$lastChunkNr*6126;
-					while ($count>0) {
-						$data=fread($stream,Crypt::BLOCKSIZE);
-						$count=strlen($data);
-						$lastChunkContentEncrypted.=$data;
-					}
-				} else {
-					while ($count>0) {
-						if(strlen($lastChunkContentEncrypted)>Crypt::BLOCKSIZE) {
-							$realSize+=6126;
-							$lastChunkContentEncrypted=substr($lastChunkContentEncrypted,Crypt::BLOCKSIZE);
-						}
-						$data=fread($stream,Crypt::BLOCKSIZE);
-						$count=strlen($data);
-						$lastChunkContentEncrypted.=$data;
+				}
+				$lastChunkContentEncrypted='';
+				$count=Crypt::BLOCKSIZE;
+				while ($count>0) {
+					$data=fread($stream,Crypt::BLOCKSIZE);
+					$count=strlen($data);
+					$lastChunkContentEncrypted.=$data;
+					if(strlen($lastChunkContentEncrypted)>Crypt::BLOCKSIZE) {
+						$realSize+=6126;
+						$lastChunkContentEncrypted=substr($lastChunkContentEncrypted,Crypt::BLOCKSIZE);
 					}
 				}
 
+				$relPath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 				$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 				$privateKey = $session->getPrivateKey();
-				$plainKeyfile = $this->decryptKeyfile($path, $privateKey);
-				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $path);
+				$plainKeyfile = $this->decryptKeyfile($relPath, $privateKey);
+				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
 
 				$plainKey = Crypt::multiKeyDecrypt($plainKeyfile, $shareKey, $privateKey);
 				
