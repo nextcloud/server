@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Storage not available" => "Сховище не доступне",
+"Storage invalid" => "Неправильне сховище",
 "Unknown error" => "Невідома помилка",
 "Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
 "Could not move %s" => "Не вдалося перемістити %s",
@@ -41,6 +43,7 @@ $TRANSLATIONS = array(
 "Error fetching URL" => "Помилка отримання URL",
 "Share" => "Поділитися",
 "Delete" => "Видалити",
+"Disconnect storage" => "Від’єднати сховище",
 "Unshare" => "Закрити доступ",
 "Delete permanently" => "Видалити назавжди",
 "Rename" => "Перейменувати",

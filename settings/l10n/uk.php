@@ -23,6 +23,7 @@ $TRANSLATIONS = array(
 "Updated" => "Оновлено",
 "Very weak password" => "Дуже слабкий пароль",
 "Weak password" => "Слабкий пароль",
+"So-so password" => "Такий собі пароль",
 "Good password" => "Добрий пароль",
 "Strong password" => "Надійний пароль",
 "Delete" => "Видалити",

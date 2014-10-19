@@ -8,6 +8,10 @@ $TRANSLATIONS = array(
 "Host" => "Хост",
 "Username" => "Ім'я користувача",
 "Password" => "Пароль",
+"OpenStack Object Storage" => "OpenStack Object Storage",
+"Region (optional for OpenStack Object Storage)" => "Регіон (опціонально для OpenStack Object Storage)",
+"Password (required for OpenStack Object Storage)" => "Пароль (обов’язково для OpenStack Object Storage)",
+"Service Name (required for OpenStack Object Storage)" => "Назва сервісу (обов’язково для OpenStack Object Storage)",
 "Share" => "Поділитися",
 "URL" => "URL",
 "Access granted" => "Доступ дозволено",
@@ -15,12 +19,15 @@ $TRANSLATIONS = array(
 "Grant access" => "Дозволити доступ",
 "Error configuring Google Drive storage" => "Помилка при налаштуванні сховища Google Drive",
 "Personal" => "Особисте",
+"You don't have any external storages" => "У вас немає зовнішніх сховищ",
 "Name" => "Ім'я",
+"Storage type" => "Тип сховища",
 "External Storage" => "Зовнішні сховища",
 "Folder name" => "Ім'я теки",
 "Configuration" => "Налаштування",
 "Add storage" => "Додати сховище",
 "Delete" => "Видалити",
-"Enable User External Storage" => "Активувати користувацькі зовнішні сховища"
+"Enable User External Storage" => "Активувати користувацькі зовнішні сховища",
+"Allow users to mount the following external storage" => "Дозволити користувачам монтувати наступні зовнішні сховища"
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);";
