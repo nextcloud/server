@@ -51,7 +51,9 @@ class Db implements IDb {
 	 * @return \OC_DB_StatementWrapper prepared SQL query
 	 */
 	public function prepareQuery($sql, $limit = null, $offset = null) {
-		return $this->connection->prepare($sql, $limit, $offset);
+		$isManipulation = \OC_DB::isManipulation($sql);
+		$statement = $this->connection->prepare($sql, $limit, $offset);
+		return new \OC_DB_StatementWrapper($statement, $isManipulation);
 	}
 
 
