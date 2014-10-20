@@ -185,7 +185,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	public function groupExists($gid) {
 		$query = OC_DB::prepare('SELECT `gid` FROM `*PREFIX*groups` WHERE `gid` = ?');
 		$result = $query->execute(array($gid))->fetchOne();
-		if ($result) {
+		if ($result !== false) {
 			return true;
 		}
 		return false;
@@ -211,4 +211,43 @@ class OC_Group_Database extends OC_Group_Backend {
 		return $users;
 	}
 
+	/**
+	 * @brief get the number of all users matching the search string in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return int | false
+	 */
+	public function countUsersInGroup($gid, $search = '') {
+		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?');
+		$result = $stmt->execute(array($gid, $search.'%'));
+		return $result->fetchOne();
+	}
+
+	/**
+	 * @brief get a list of all display names in a group
+	 * @param string $gid
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array with display names (value) and user ids (key)
+	 */
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
+
+		$stmt = OC_DB::prepare('SELECT `*PREFIX*users`.`uid`, `*PREFIX*users`.`displayname`'
+			.' FROM `*PREFIX*users`'
+			.' INNER JOIN `*PREFIX*group_user` ON `*PREFIX*group_user`.`uid` = `*PREFIX*users`.`uid`'
+			.' WHERE `gid` = ? AND `*PREFIX*group_user`.`uid` LIKE ?',
+			$limit,
+			$offset);
+		$result = $stmt->execute(array($gid, $search.'%'));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$displayName = trim($row['displayname'], ' ');
+			$displayNames[$row['uid']] = empty($displayName) ? $row['uid'] : $displayName;
+		}
+		return $displayNames;
+	}
 }

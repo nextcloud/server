@@ -76,12 +76,7 @@ class Manager extends PublicEmitter {
 		if (isset($this->cachedGroups[$gid])) {
 			return $this->cachedGroups[$gid];
 		}
-		foreach ($this->backends as $backend) {
-			if ($backend->groupExists($gid)) {
-				return $this->getGroupObject($gid);
-			}
-		}
-		return null;
+		return $this->getGroupObject($gid);
 	}
 
 	protected function getGroupObject($gid) {
@@ -90,6 +85,9 @@ class Manager extends PublicEmitter {
 			if ($backend->groupExists($gid)) {
 				$backends[] = $backend;
 			}
+		}
+		if (count($backends) === 0) {
+			return null;
 		}
 		$this->cachedGroups[$gid] = new Group($gid, $backends, $this->userManager, $this);
 		return $this->cachedGroups[$gid];
@@ -108,10 +106,10 @@ class Manager extends PublicEmitter {
 	 * @return \OC\Group\Group
 	 */
 	public function createGroup($gid) {
-		if (!$gid) {
+		if ($gid === '' || is_null($gid)) {
 			return false;
-		} else if ($this->groupExists($gid)) {
-			return $this->get($gid);
+		} else if ($group = $this->get($gid)) {
+			return $group;
 		} else {
 			$this->emit('\OC\Group', 'preCreate', array($gid));
 			foreach ($this->backends as $backend) {
@@ -174,23 +172,41 @@ class Manager extends PublicEmitter {
 		if(is_null($group)) {
 			return array();
 		}
-		// only user backends have the capability to do a complex search for users
-		$groupUsers  = $group->searchUsers('', $limit, $offset);
+
 		$search = trim($search);
+		$groupUsers = array();
+
 		if(!empty($search)) {
-			//TODO: for OC 7 earliest: user backend should get a method to check selected users against a pattern
-			$filteredUsers = $this->userManager->search($search);
-			$testUsers = true;
+			// only user backends have the capability to do a complex search for users
+			$searchOffset = 0;
+			if($limit === -1) {
+				$searchLimit = $group->count('');
+			} else {
+				$searchLimit = $limit * 2;
+			}
+
+			do {
+				$filteredUsers = $this->userManager->search($search, $searchLimit, $searchOffset);
+				foreach($filteredUsers as $filteredUser) {
+					if($group->inGroup($filteredUser)) {
+						$groupUsers[]= $filteredUser;
+					}
+				}
+				$searchOffset += $searchLimit;
+			} while(count($groupUsers) < $searchLimit+$offset && count($filteredUsers) === $searchLimit);
+
+			if($limit === -1) {
+				$groupUsers = array_slice($groupUsers, $offset);
+			} else {
+				$groupUsers = array_slice($groupUsers, $offset, $limit);
+			}
 		} else {
-			$filteredUsers = array();
-			$testUsers = false;
+			$groupUsers = $group->searchUsers('', $limit, $offset);
 		}
 
 		$matchingUsers = array();
-		foreach($groupUsers as $user) {
-			if(!$testUsers || isset($filteredUsers[$user->getUID()])) {
-				$matchingUsers[$user->getUID()] = $user->getDisplayName();
-			}
+		foreach($groupUsers as $groupUser) {
+			$matchingUsers[$groupUser->getUID()] = $groupUser->getDisplayName();
 		}
 		return $matchingUsers;
 	}
