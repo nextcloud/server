@@ -439,6 +439,7 @@ class Util {
 				$relPath = \OCA\Encryption\Helper::stripUserFilesPath($path);
 				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
 				if($shareKey===false) {
+					\OC_FileProxy::$enabled = $proxyStatus;
 					return $result;
 				}
 				$session = new \OCA\Encryption\Session($this->view);
