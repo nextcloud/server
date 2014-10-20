@@ -19,6 +19,7 @@ $TRANSLATIONS = array(
 "Grant access" => "Дозволити доступ",
 "Error configuring Google Drive storage" => "Помилка при налаштуванні сховища Google Drive",
 "Personal" => "Особисте",
+"Saved" => "Збереженно",
 "You don't have any external storages" => "У вас немає зовнішніх сховищ",
 "Name" => "Ім'я",
 "Storage type" => "Тип сховища",

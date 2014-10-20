@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Settings" => "Налаштування",
 "Users" => "Користувачі",
 "Admin" => "Адмін",
+"Recommended" => "Рекомендуємо",
 "Unknown filetype" => "Невідомий тип файлу",
 "Invalid image" => "Невірне зображення",
 "web services under your control" => "підконтрольні Вам веб-сервіси",

@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "WebDAV Authentication" => "Аутентифікація WebDAV",
+"Address:" => "Адреси:",
 "Save" => "Зберегти",
 "The user credentials will be sent to this address. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." => "Облікові дані користувача буде надіслано на цю адресу. Цей плагін перевіряє відповідь і буде інтерпретувати коди статусу HTTP 401 і 403, як неправильні облікові дані, а всі інші відповіді, вважатимуться правильними."
 );
