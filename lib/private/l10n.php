@@ -266,17 +266,6 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * getPluralFormString
-	 * @return string containing the gettext "Plural-Forms"-string
-	 *
-	 * Returns a string like "nplurals=2; plural=(n != 1);"
-	 */
-	public function getPluralFormString() {
-		$this->init();
-		return $this->plural_form_string;
-	}
-
-	/**
 	 * getPluralFormFunction
 	 * @return string the plural form function
 	 *
