@@ -1,4 +1,10 @@
-<?php OCP\Util::addStyle('lostpassword', 'resetpassword'); ?>
+<?php
+/** @var array $_ */
+/** @var $l OC_L10N */
+style('lostpassword', 'resetpassword');
+script('core', 'lostpassword');
+?>
+
 <form action="<?php print_unescaped($_['link']) ?>" id="reset-password" method="post">
 	<fieldset>
 		<p>
@@ -9,4 +15,3 @@
 		<input type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
 	</fieldset>
 </form>
-<?php OCP\Util::addScript('core', 'lostpassword'); ?>

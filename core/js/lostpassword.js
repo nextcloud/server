@@ -8,19 +8,12 @@ OC.Lostpassword = {
 			+ ('<br /><input type="checkbox" id="encrypted-continue" value="Yes" />')
 			+ '<label for="encrypted-continue">'
 			+ t('core', 'I know what I\'m doing')
-			+ '</label><br />'
-			+ '<a id="lost-password-encryption" href>'
-			+ t('core', 'Reset password')
-			+ '</a>',
+			+ '</label><br />',
 
 	resetErrorMsg : t('core', 'Password can not be changed. Please contact your administrator.'),
 
 	init : function() {
-		if ($('#lost-password-encryption').length){
-			$('#lost-password-encryption').click(OC.Lostpassword.sendLink);
-		} else {
-			$('#lost-password').click(OC.Lostpassword.sendLink);
-		}
+		$('#lost-password').click(OC.Lostpassword.sendLink);
 		$('#reset-password #submit').click(OC.Lostpassword.resetPassword);
 	},
 
@@ -32,8 +25,7 @@ OC.Lostpassword = {
 			$.post(
 					OC.generateUrl('/lostpassword/email'),
 					{
-						user : $('#user').val(),
-						proceed: $('#encrypted-continue').attr('checked') ? 'Yes' : 'No'
+						user : $('#user').val()
 					},
 					OC.Lostpassword.sendLinkDone
 			);
@@ -84,7 +76,8 @@ OC.Lostpassword = {
 			$.post(
 					$('#password').parents('form').attr('action'),
 					{
-						password : $('#password').val()
+						password : $('#password').val(),
+						proceed: $('#encrypted-continue').attr('checked') ? 'true' : 'false'
 					},
 					OC.Lostpassword.resetDone
 			);
@@ -126,7 +119,7 @@ OC.Lostpassword = {
 
 	getResetStatusNode : function (){
 		if (!$('#lost-password').length){
-			$('<p id="lost-password"></p>').insertAfter($('#submit'));
+			$('<p id="lost-password"></p>').insertBefore($('#reset-password fieldset'));
 		} else {
 			$('#lost-password').replaceWith($('<p id="lost-password"></p>'));
 		}
