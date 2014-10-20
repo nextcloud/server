@@ -444,7 +444,7 @@ OC.Share={
 					}
 				});
 			}
-			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
+			$('#shareWith').autocomplete({minLength: 2, delay: 750, source: function(search, response) {
 				var $loading = $('#dropdown .shareWithLoading');
 				$loading.removeClass('hidden');
 				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
