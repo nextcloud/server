@@ -279,6 +279,23 @@ var OC={
 		return link;
 	},
 	/**
+	 * Builds a URL query from a JS map.
+	 * @param params parameter map
+	 * @return {string} String containing a URL query (without question) mark
+	 */
+	buildQueryString: function(params) {
+		if (!params) {
+			return '';
+		}
+		return $.map(params, function(value, key) {
+			var s = encodeURIComponent(key);
+			if (value !== null && typeof(value) !== 'undefined') {
+				s += '=' + encodeURIComponent(value);
+			}
+			return s;
+		}).join('&');
+	},
+	/**
 	 * get the absolute path to an image file
 	 * @param app the app id to which the image belongs
 	 * @param file the name of the image file

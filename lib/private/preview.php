@@ -660,6 +660,16 @@ class Preview {
 			self::initProviders();
 		}
 
+		// FIXME: Ugly hack to prevent SVG of being returned if the SVG
+		// provider is not enabled.
+		// This is required because the preview system is designed in a
+		// bad way and relies on opt-in with asterisks (i.e. image/*)
+		// which will lead to the fact that a SVG will also match the image
+		// provider.
+		if($mimetype === 'image/svg+xml' && !array_key_exists('/image\/svg\+xml/', self::$providers)) {
+			return false;
+		}
+
 		//remove last element because it has the mimetype *
 		foreach(self::$providers as $supportedMimetype => $provider) {
 			if(preg_match($supportedMimetype, $mimetype)) {

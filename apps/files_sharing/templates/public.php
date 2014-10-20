@@ -1,4 +1,8 @@
 <?php /** @var $l OC_L10N */ ?>
+<?php
+$thumbSize=1024;
+$previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'false';
+?>
 <div id="notification-container">
 	<div id="notification" style="display: none;"></div>
 </div>
@@ -10,6 +14,9 @@
 <input type="hidden" name="sharingToken" value="<?php p($_['sharingToken']) ?>" id="sharingToken">
 <input type="hidden" name="filename" value="<?php p($_['filename']) ?>" id="filename">
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
+<input type="hidden" name="previewSupported" value="<?php p($previewSupported); ?>" id="previewSupported">
+<input type="hidden" name="mimetypeIcon" value="<?php p(OC_Helper::mimetypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+
 <header><div id="header" class="icon icon-noise <?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
 		<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
 		                                                                                          src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="<?php p($theme->getName()); ?>" /></a>
@@ -28,11 +35,7 @@
 		<?php if (isset($_['folder'])): ?>
 			<?php print_unescaped($_['folder']); ?>
 		<?php else: ?>
-			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'image'): ?>
-				<div id="imgframe">
-					<img src="<?php p($_['downloadURL']); ?>" alt="" />
-				</div>
-			<?php elseif (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
+			<?php if (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
 				<div id="imgframe">
 					<video tabindex="0" controls="" preload="none">
 						<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
@@ -40,11 +43,8 @@
 				</div>
 			<?php else: ?>
 				<div id="imgframe">
-					<?php $size = \OC\Preview::isMimeSupported($_['mimetype']) ? 500 : 128 ?>
-					<img
-						src="<?php p(OCP\Util::linkToRoute( 'core_ajax_public_preview', array('x' => $size, 'y' => $size, 'file' => urlencode($_['directory_path']), 't' => $_['dirToken']))); ?>"
-						class="publicpreview"
-						alt="" />
+					<!-- Preview frame is filled via JS to support SVG images for modern browsers -->
+					<img class="publicpreview">
 				</div>
 			<?php endif; ?>
 			<div class="directDownload">

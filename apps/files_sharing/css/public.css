@@ -71,11 +71,6 @@ p.info a {
 	max-width:100%;
 }
 
-/* some margin for the file type icon */
-#imgframe .publicpreview {
-	margin-top: 10%;
-}
-
 thead {
 	padding-left: 0 !important; /* fixes multiselect bar offset on shared page */
 }
