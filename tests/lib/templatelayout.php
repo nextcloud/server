@@ -30,6 +30,9 @@ class OC_TemplateLayout extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider validFilePathProvider
 	 */
 	public function testConvertToRelativePath($absolutePath, $expected) {
+		$_SERVER['REQUEST_URI'] = $expected;
+		$_SERVER['SCRIPT_NAME'] = '/';
+
 		$relativePath = \Test_Helper::invokePrivate(new \OC_TemplateLayout('user'), 'convertToRelativePath', array($absolutePath));
 		$this->assertEquals($expected, $relativePath);
 	}
@@ -39,6 +42,10 @@ class OC_TemplateLayout extends \PHPUnit_Framework_TestCase {
 	 * @expectedExceptionMessage $filePath is not under the \OC::$SERVERROOT
 	 */
 	public function testInvalidConvertToRelativePath() {
-		\Test_Helper::invokePrivate(new \OC_TemplateLayout('user'), 'convertToRelativePath', array('/this/file/is/invalid'));
+		$invalidFile = '/this/file/is/invalid';
+		$_SERVER['REQUEST_URI'] = $invalidFile;
+		$_SERVER['SCRIPT_NAME'] = '/';
+
+		\Test_Helper::invokePrivate(new \OC_TemplateLayout('user'), 'convertToRelativePath', array($invalidFile));
 	}
 }
