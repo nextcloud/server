@@ -435,15 +435,16 @@ class Util {
 						$lastChunkContentEncrypted=substr($lastChunkContentEncrypted,Crypt::BLOCKSIZE);
 					}
 				}
-
+				fclose($stream);
 				$relPath = \OCA\Encryption\Helper::stripUserFilesPath($path);
-				$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
+				if($shareKey===false) {
+					return $result;
+				}
+				$session = new \OCA\Encryption\Session($this->view);
 				$privateKey = $session->getPrivateKey();
 				$plainKeyfile = $this->decryptKeyfile($relPath, $privateKey);
-				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
-
 				$plainKey = Crypt::multiKeyDecrypt($plainKeyfile, $shareKey, $privateKey);
-				
 				$lastChunkContent=Crypt::symmetricDecryptFileContent($lastChunkContentEncrypted, $plainKey, $cipher);
 
 				// calc the real file size with the size of the last chunk
