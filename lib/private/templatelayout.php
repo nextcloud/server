@@ -140,7 +140,7 @@ class OC_TemplateLayout extends OC_Template {
 	public function generateAssets()
 	{
 		$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
-		$jsHash = self::hashScriptNames($jsFiles);
+		$jsHash = self::hashFileNames($jsFiles);
 
 		if (!file_exists("assets/$jsHash.js")) {
 			$jsFiles = array_map(function ($item) {
@@ -156,7 +156,7 @@ class OC_TemplateLayout extends OC_Template {
 		}
 
 		$cssFiles = self::findStylesheetFiles(OC_Util::$styles);
-		$cssHash = self::hashScriptNames($cssFiles);
+		$cssHash = self::hashFileNames($cssFiles);
 
 		if (!file_exists("assets/$cssHash.css")) {
 			$cssFiles = array_map(function ($item) {
@@ -187,16 +187,28 @@ class OC_TemplateLayout extends OC_Template {
 	}
 
 	/**
+	 * Converts the absolute filepath to a relative path from \OC::$SERVERROOT
+	 * @param string $filePath Absolute path
+	 * @return string Relative path
+	 * @throws Exception If $filePath is not under \OC::$SERVERROOT
+	 */
+	public static function convertToRelativePath($filePath) {
+		$relativePath = explode(\OC::$SERVERROOT, $filePath);
+		if(count($relativePath) !== 2) {
+			throw new \Exception('$filePath is not under the \OC::$SERVERROOT');
+		}
+
+		return $relativePath[1];
+	}
+
+	/**
 	 * @param array $files
 	 * @return string
 	 */
-	private static function hashScriptNames($files)
-	{
-		$files = array_map(function ($item) {
-			$root = $item[0];
-			$file = $item[2];
-			return $root . '/' . $file;
-		}, $files);
+	private static function hashFileNames($files) {
+		foreach($files as $i => $file) {
+			$files[$i] = self::convertToRelativePath($file[0]).'/'.$file[2];
+		}
 
 		sort($files);
 		// include the apps' versions hash to invalidate the cached assets
