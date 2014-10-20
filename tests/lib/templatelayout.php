@@ -13,6 +13,23 @@ namespace OC\Test;
  */
 class OC_TemplateLayout extends \PHPUnit_Framework_TestCase {
 
+	private $oldServerUri;
+	private $oldScriptName;
+
+	public function setUp() {
+		$this->oldServerURI = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null;
+		$this->oldScriptName = $_SERVER['SCRIPT_NAME'];
+	}
+
+	public function tearDown() {
+		if ($this->oldServerURI === null) {
+			unset($_SERVER['REQUEST_URI']);
+		} else {
+			$_SERVER['REQUEST_URI'] = $this->oldServerURI;
+		}
+		$_SERVER['SCRIPT_NAME'] = $this->oldScriptName;
+	}
+
 	/**
 	 * Contains valid file paths in the scheme array($absolutePath, $expectedPath)
 	 * @return array
