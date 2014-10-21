@@ -53,6 +53,18 @@ class SFTP extends \OC\Files\Storage\Common {
 		if (substr($this->root, -1, 1) != '/') {
 			$this->root .= '/';
 		}
+	}
+
+	/**
+	 * Returns the connection.
+	 *
+	 * @return \Net_SFTP connected client instance
+	 * @throws \Exception when the connection failed
+	 */
+	public function getConnection() {
+		if (!is_null($this->client)) {
+			return $this->client;
+		}
 
 		$hostKeys = $this->readHostKeys();
 		$this->client = new \Net_SFTP($this->host);
@@ -71,6 +83,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		if (!$this->client->login($this->user, $this->password)) {
 			throw new \Exception('Login failed');
 		}
+		return $this->client;
 	}
 
 	public function test() {
@@ -81,7 +94,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		) {
 			return false;
 		}
-		return $this->client->nlist() !== false;
+		return $this->getConnection()->nlist() !== false;
 	}
 
 	public function getId(){
@@ -149,7 +162,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function mkdir($path) {
 		try {
-			return $this->client->mkdir($this->absPath($path));
+			return $this->getConnection()->mkdir($this->absPath($path));
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -157,7 +170,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function rmdir($path) {
 		try {
-			return $this->client->delete($this->absPath($path), true);
+			return $this->getConnection()->delete($this->absPath($path), true);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -165,7 +178,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function opendir($path) {
 		try {
-			$list = $this->client->nlist($this->absPath($path));
+			$list = $this->getConnection()->nlist($this->absPath($path));
 			if ($list === false) {
 				return false;
 			}
@@ -186,7 +199,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function filetype($path) {
 		try {
-			$stat = $this->client->stat($this->absPath($path));
+			$stat = $this->getConnection()->stat($this->absPath($path));
 			if ($stat['type'] == NET_SFTP_TYPE_REGULAR) {
 				return 'file';
 			}
@@ -202,7 +215,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function file_exists($path) {
 		try {
-			return $this->client->stat($this->absPath($path)) !== false;
+			return $this->getConnection()->stat($this->absPath($path)) !== false;
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -210,7 +223,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function unlink($path) {
 		try {
-			return $this->client->delete($this->absPath($path), true);
+			return $this->getConnection()->delete($this->absPath($path), true);
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -237,7 +250,7 @@ class SFTP extends \OC\Files\Storage\Common {
 				case 'x+':
 				case 'c':
 				case 'c+':
-					$context = stream_context_create(array('sftp' => array('session' => $this->client)));
+					$context = stream_context_create(array('sftp' => array('session' => $this->getConnection())));
 					return fopen($this->constructUrl($path), $mode, false, $context);
 			}
 		} catch (\Exception $e) {
@@ -251,7 +264,7 @@ class SFTP extends \OC\Files\Storage\Common {
 				return false;
 			}
 			if (!$this->file_exists($path)) {
-				$this->client->put($this->absPath($path), '');
+				$this->getConnection()->put($this->absPath($path), '');
 			} else {
 				return false;
 			}
@@ -262,11 +275,11 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	public function getFile($path, $target) {
-		$this->client->get($path, $target);
+		$this->getConnection()->get($path, $target);
 	}
 
 	public function uploadFile($path, $target) {
-		$this->client->put($target, $path, NET_SFTP_LOCAL_FILE);
+		$this->getConnection()->put($target, $path, NET_SFTP_LOCAL_FILE);
 	}
 
 	public function rename($source, $target) {
@@ -274,7 +287,7 @@ class SFTP extends \OC\Files\Storage\Common {
 			if (!$this->is_dir($target) && $this->file_exists($target)) {
 				$this->unlink($target);
 			}
-			return $this->client->rename(
+			return $this->getConnection()->rename(
 				$this->absPath($source),
 				$this->absPath($target)
 			);
@@ -285,7 +298,7 @@ class SFTP extends \OC\Files\Storage\Common {
 
 	public function stat($path) {
 		try {
-			$stat = $this->client->stat($this->absPath($path));
+			$stat = $this->getConnection()->stat($this->absPath($path));
 
 			$mtime = $stat ? $stat['mtime'] : -1;
 			$size = $stat ? $stat['size'] : 0;
