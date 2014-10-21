@@ -457,8 +457,8 @@ class OC {
 		$loaderEnd = microtime(true);
 
 		// setup the basic server
-		self::$server = new \OC\Server();
 		self::initPaths();
+		self::$server = new \OC\Server();
 		\OC::$server->getEventLogger()->log('autoloader', 'Autoloader', $loaderStart, $loaderEnd);
 		\OC::$server->getEventLogger()->start('boot', 'Initialize');
 
