@@ -29,7 +29,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		date_default_timezone_set("UTC");
 
 		$result = OC_Util::formatDate(1350129205);
-		$expected = 'October 13, 2012 11:53';
+		$expected = 'October 13, 2012 at 11:53:25 AM GMT+0';
 		$this->assertEquals($expected, $result);
 
 		$result = OC_Util::formatDate(1102831200, true);
@@ -41,7 +41,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		date_default_timezone_set("UTC");
 
 		$result = OC_Util::formatDate(1350129205, false, 'Europe/Berlin');
-		$expected = 'October 13, 2012 13:53';
+		$expected = 'October 13, 2012 at 1:53:25 PM GMT+0';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -57,7 +57,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 
 		\OC::$server->getSession()->set('timezone', 3);
 		$result = OC_Util::formatDate(1350129205, false);
-		$expected = 'October 13, 2012 14:53';
+		$expected = 'October 13, 2012 at 2:53:25 PM GMT+0';
 		$this->assertEquals($expected, $result);
 	}
 
