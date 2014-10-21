@@ -396,7 +396,8 @@ class Swift extends \OC\Files\Storage\Common {
 			$object->saveMetadata($metadata);
 			return true;
 		} else {
-			$customHeaders = array('content-type' => 'text/plain');
+			$mimeType = \OC_Helper::getMimetypeDetector()->detectPath($path);
+			$customHeaders = array('content-type' => $mimeType);
 			$metadataHeaders = DataObject::stockHeaders($metadata);
 			$allHeaders = $customHeaders + $metadataHeaders;
 			$this->container->uploadObject($path, '', $allHeaders);
