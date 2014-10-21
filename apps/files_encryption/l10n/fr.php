@@ -1,9 +1,9 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Erreur Inconnue ",
-"Missing recovery key password" => "Clef de de récupération de mot de passe manquante",
+"Missing recovery key password" => "Mot de passe de la clef de récupération manquant",
 "Please repeat the recovery key password" => "Répétez le mot de passe de la clé de récupération",
-"Repeated recovery key password does not match the provided recovery key password" => "Le mot de passe répété de la clé de récupération ne correspond pas au mot de passe de la clé de récupération donné",
+"Repeated recovery key password does not match the provided recovery key password" => "Le mot de passe de la clé de récupération et sa répétition ne sont pas identiques.",
 "Recovery key successfully enabled" => "Clé de récupération activée avec succès",
 "Could not disable recovery key. Please check your recovery key password!" => "Impossible de désactiver la clé de récupération. Veuillez vérifier votre mot de passe de clé de récupération !",
 "Recovery key successfully disabled" => "Clé de récupération désactivée avec succès",

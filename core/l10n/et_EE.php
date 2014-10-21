@@ -151,6 +151,8 @@ $TRANSLATIONS = array(
 "The share will expire on %s." => "Jagamine aegub %s.",
 "Cheers!" => "Terekest!",
 "Internal Server Error" => "Serveri sisemine viga",
+"The server encountered an internal error and was unable to complete your request." => "Serveris tekkis sisemine tõrge ja sinu päringu täitmine ebaõnnestus.",
+"Please contact the server administrator if this error reappears multiple times, please include the technical details below in your report." => "Kui seda veateadet näidatakse mitu korda, siis palun võta ühendust serveri administraatoriga. Palun lisa alla aruandesse tehnilised üksikasjad.",
 "More details can be found in the server log." => "Lisainfot võib leida serveri logist.",
 "Technical details" => "Tehnilised andmed",
 "Remote Address: %s" => "Kaugaadress: %s",
@@ -159,6 +161,7 @@ $TRANSLATIONS = array(
 "Message: %s" => "Sõnum: %s",
 "File: %s" => "Fail: %s",
 "Line: %s" => "Rida: %s",
+"Trace" => "Jälita",
 "Security Warning" => "Turvahoiatus",
 "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga.",
 "Please update your PHP installation to use %s securely." => "Palun uuenda oma paigaldatud PHP-d tagamaks %s turvalisus.",
@@ -201,6 +204,8 @@ $TRANSLATIONS = array(
 "The theme %s has been disabled." => "Teema %s on keelatud.",
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Enne jätkamist veendu, et andmebaas, seadete ning andmete kataloog on varundatud.",
 "Start update" => "Käivita uuendus",
-"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Suurtel saitidel aegumise vältimiseks võid sa paigalduskaustas käivitada järgmise käsu:"
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Suurtel saitidel aegumise vältimiseks võid sa paigalduskaustas käivitada järgmise käsu:",
+"This %s instance is currently being updated, which may take a while." => "Seda %s ownCloud instantsi hetkel uuendatakse, see võib võtta veidi aega.",
+"This page will refresh itself when the %s instance is available again." => "Se leht laetakse uuesti, kui %s instantsi on uuesti saadaval."
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

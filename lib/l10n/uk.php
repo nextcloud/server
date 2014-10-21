@@ -1,5 +1,7 @@
 <?php
 $TRANSLATIONS = array(
+"Cannot write into \"config\" directory!" => "Не можу писати у каталог \"config\"!",
+"Sample configuration detected" => "Виявлено приклад конфігурації",
 "Help" => "Допомога",
 "Personal" => "Особисте",
 "Settings" => "Налаштування",
