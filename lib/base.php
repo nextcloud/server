@@ -457,8 +457,6 @@ class OC {
 		if (file_exists($vendorAutoLoad)) {
 			$loader = require_once $vendorAutoLoad;
 			$loader->add('Pimple',OC::$THIRDPARTYROOT . '/3rdparty/Pimple');
-			$loader->add('Doctrine\\Common',OC::$THIRDPARTYROOT . '/3rdparty/doctrine/common/lib');
-			$loader->add('Doctrine\\DBAL',OC::$THIRDPARTYROOT . '/3rdparty/doctrine/dbal/lib');
 			$loader->add('Symfony\\Component\\Routing',OC::$THIRDPARTYROOT . '/3rdparty/symfony/routing');
 			$loader->add('Symfony\\Component\\Console',OC::$THIRDPARTYROOT . '/3rdparty/symfony/console');
 		} else {
