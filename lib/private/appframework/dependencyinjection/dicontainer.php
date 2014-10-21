@@ -31,6 +31,7 @@ use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
+use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -67,9 +68,10 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		 */
 		$this['Request'] = $this->share(function($c) {
 			/** @var $c SimpleContainer */
-			/** @var $server IServerContainer */
+			/** @var $server SimpleContainer */
 			$server = $c->query('ServerContainer');
 			$server->registerParameter('urlParams', $c['urlParams']);
+			/** @var $server IServerContainer */
 			return $server->getRequest();
 		});
 
@@ -115,6 +117,14 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			);
 		});
 
+		$this['SessionMiddleware'] = $this->share(function($c) use ($app) {
+			return new SessionMiddleware(
+				$c['Request'],
+				$c['ControllerMethodReflector'],
+				$app->getServer()->getSession()
+			);
+		});
+
 		$middleWares = &$this->middleWares;
 		$this['MiddlewareDispatcher'] = $this->share(function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
@@ -125,6 +135,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 				$dispatcher->registerMiddleware($c[$middleWare]);
 			}
 
+			$dispatcher->registerMiddleware($c['SessionMiddleware']);
 			return $dispatcher;
 		});
 
