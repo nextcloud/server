@@ -573,7 +573,7 @@ class OC {
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
 
 		if (OC_Config::getValue('installed', false) && !self::checkUpgrade(false)) {
-			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+			if (\OC::$server->getAppConfig()->getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
 				OC_Util::addScript('backgroundjobs');
 			}
 		}

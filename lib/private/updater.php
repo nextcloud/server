@@ -66,11 +66,15 @@ class Updater extends BasicEmitter {
 	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array|bool
 	 */
-	public function check($updaterUrl) {
+	public function check($updaterUrl = null) {
 
 		// Look up the cache - it is invalidated all 30 minutes
 		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode(\OC_Appconfig::getValue('core', 'lastupdateResult'), true);
+		}
+
+		if (is_null($updaterUrl)) {
+			$updaterUrl = 'https://apps.owncloud.com/updater.php';
 		}
 
 		\OC_Appconfig::setValue('core', 'lastupdatedat', time());

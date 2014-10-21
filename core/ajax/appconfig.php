@@ -24,27 +24,28 @@ if($app === 'core' && isset($_POST['key']) &&(substr($_POST['key'],0,7) === 'rem
 }
 
 $result=false;
+$appConfig = \OC::$server->getAppConfig();
 switch($action) {
 	case 'getValue':
-		$result=OC_Appconfig::getValue($app, $_GET['key'], $_GET['defaultValue']);
+		$result=$appConfig->getValue($app, $_GET['key'], $_GET['defaultValue']);
 		break;
 	case 'setValue':
-		$result=OC_Appconfig::setValue($app, $_POST['key'], $_POST['value']);
+		$result=$appConfig->setValue($app, $_POST['key'], $_POST['value']);
 		break;
 	case 'getApps':
-		$result=OC_Appconfig::getApps();
+		$result=$appConfig->getApps();
 		break;
 	case 'getKeys':
-		$result=OC_Appconfig::getKeys($app);
+		$result=$appConfig->getKeys($app);
 		break;
 	case 'hasKey':
-		$result=OC_Appconfig::hasKey($app, $_GET['key']);
+		$result=$appConfig->hasKey($app, $_GET['key']);
 		break;
 	case 'deleteKey':
-		$result=OC_Appconfig::deleteKey($app, $_POST['key']);
+		$result=$appConfig->deleteKey($app, $_POST['key']);
 		break;
 	case 'deleteApp':
-		$result=OC_Appconfig::deleteApp($app);
+		$result=$appConfig->deleteApp($app);
 		break;
 }
 OC_JSON::success(array('data'=>$result));
