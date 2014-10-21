@@ -457,11 +457,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				));
 				$this->testTimeout();
 			} else {
+				$mimeType = \OC_Helper::getMimetypeDetector()->detectPath($path);
 				$this->connection->putObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata,
-					'Body' => ''
+					'Body' => '',
+					'ContentType' => $mimeType
 				));
 				$this->testTimeout();
 			}
