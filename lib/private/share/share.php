@@ -1781,12 +1781,12 @@ class Share extends \OC\Share\Constants {
 
 			} elseif(!$sourceExists && !$isGroupShare)  {
 
-				$itemTarget = Helper::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $user,
+				$itemTarget = Helper::generateTarget($itemType, $itemSource, $shareType, $user,
 					$uidOwner, $suggestedItemTarget, $parent);
 				if (isset($fileSource)) {
 					if ($parentFolder) {
 						if ($parentFolder === true) {
-							$fileTarget = Helper::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $user,
+							$fileTarget = Helper::generateTarget('file', $filePath, $shareType, $user,
 								$uidOwner, $suggestedFileTarget, $parent);
 							if ($fileTarget != $groupFileTarget) {
 								$parentFolders[$user]['folder'] = $fileTarget;
@@ -1796,7 +1796,7 @@ class Share extends \OC\Share\Constants {
 							$parent = $parentFolder[$user]['id'];
 						}
 					} else {
-						$fileTarget = Helper::generateTarget('file', $filePath, self::SHARE_TYPE_USER,
+						$fileTarget = Helper::generateTarget('file', $filePath, $shareType,
 							$user, $uidOwner, $suggestedFileTarget, $parent);
 					}
 				} else {
