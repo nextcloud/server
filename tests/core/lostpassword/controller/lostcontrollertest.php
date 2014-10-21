@@ -132,7 +132,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 			->with('core.lost.setPassword', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
 			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
 
-		$response = $this->lostController->email('ExistingUser', true);
+		$response = $this->lostController->email('ExistingUser');
 		$expectedResponse = array('status' => 'success');
 		$this->assertSame($expectedResponse, $response);
 	}
