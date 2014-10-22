@@ -15,7 +15,6 @@ use \OCP\IRequest;
 use \OCP\IL10N;
 use \OCP\IConfig;
 use OCP\IUserManager;
-use \OC\Core\LostPassword\EncryptedDataException;
 use OCP\Security\ISecureRandom;
 use \OC_Defaults;
 use OCP\Security\StringUtils;
