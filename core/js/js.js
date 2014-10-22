@@ -967,6 +967,12 @@ function object(o) {
 function initCore() {
 
 	/**
+	 * Set users local to moment.js as soon as possible
+	 */
+	moment.locale($('html').prop('lang'));
+
+
+	/**
 	 * Calls the server periodically to ensure that session doesn't
 	 * time out
 	 */

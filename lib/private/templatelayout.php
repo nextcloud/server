@@ -33,7 +33,6 @@ class OC_TemplateLayout extends OC_Template {
 		$this->config = \OC::$server->getConfig();
 
 		// Decide which page we show
-
 		if( $renderAs == 'user' ) {
 			parent::__construct( 'core', 'layout.user' );
 			if(in_array(OC_APP::getCurrentApp(), array('settings','admin', 'help'))!==false) {
@@ -84,7 +83,11 @@ class OC_TemplateLayout extends OC_Template {
 			$this->assign('bodyid', 'body-login');
 		} else {
 			parent::__construct('core', 'layout.base');
+
 		}
+		// Send the language to our layouts
+		$this->assign('language', OC_L10N::findLanguage());
+
 
 		if(empty(self::$versionHash)) {
 			self::$versionHash = md5(implode(',', OC_App::getAppVersions()));
