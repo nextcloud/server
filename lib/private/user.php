@@ -224,17 +224,18 @@ class OC_User {
 
 	/**
 	 * Try to login a user
-	 * @param string $uid The username of the user to log in
+	 * @param string $loginname The login name of the user to log in
 	 * @param string $password The password of the user
 	 * @return boolean|null
 	 *
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
-	public static function login($uid, $password) {
+	public static function login($loginname, $password) {
 		session_regenerate_id(true);
-		$result = self::getUserSession()->login($uid, $password);
+		$result = self::getUserSession()->login($loginname, $password);
 		if ($result) {
-			OC_Util::setupFS($uid);
+			//we need to pass the user name, which may differ from login name
+			OC_Util::setupFS(self::getUserSession()->getUser()->getUID());
 		}
 		return $result;
 	}
