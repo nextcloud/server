@@ -577,7 +577,8 @@ class OC {
 		self::registerLocalAddressBook();
 
 		//make sure temporary files are cleaned up
-		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
+		$tmpManager = \OC::$server->getTempManager();
+		register_shutdown_function(array($tmpManager, 'clean'));
 
 		if (OC_Config::getValue('installed', false) && !self::checkUpgrade(false)) {
 			if (\OC::$server->getAppConfig()->getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {

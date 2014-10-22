@@ -25,7 +25,6 @@
  * Collection of useful functions
  */
 class OC_Helper {
-	private static $tmpFiles = array();
 	private static $mimetypeIcons = array();
 	private static $mimetypeDetector;
 	private static $templateManager;
@@ -593,136 +592,24 @@ class OC_Helper {
 	 *
 	 * @param string $postfix
 	 * @return string
+	 * @deprecated Use the TempManager instead
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
 	public static function tmpFile($postfix = '') {
-		$file = get_temp_dir() . '/' . md5(time() . rand()) . $postfix;
-		$fh = fopen($file, 'w');
-		if ($fh!==false){
-			fclose($fh);
-			self::$tmpFiles[] = $file;
-		} else {
-			OC_Log::write(
-				'OC_Helper',
-				sprintf(
-					'Can not create a temporary file in directory %s. Check it exists and has correct permissions',
-					get_temp_dir()
-				),
-				OC_Log::WARN
-			);
-			$file = false;
-		}
-		return $file;
-	}
-
-	/**
-	 * move a file to oc-noclean temp dir
-	 *
-	 * @param string $filename
-	 * @return mixed
-	 *
-	 */
-	public static function moveToNoClean($filename = '') {
-		if ($filename == '') {
-			return false;
-		}
-		$tmpDirNoClean = get_temp_dir() . '/oc-noclean/';
-		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
-			if (file_exists($tmpDirNoClean)) {
-				unlink($tmpDirNoClean);
-			}
-			mkdir($tmpDirNoClean);
-		}
-		$newname = $tmpDirNoClean . basename($filename);
-		if (rename($filename, $newname)) {
-			return $newname;
-		} else {
-			return false;
-		}
+		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
 	}
 
 	/**
 	 * create a temporary folder with an unique filename
 	 *
 	 * @return string
+	 * @deprecated Use the TempManager instead
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
 	public static function tmpFolder() {
-		$path = get_temp_dir() . DIRECTORY_SEPARATOR . md5(time() . rand());
-		mkdir($path);
-		self::$tmpFiles[] = $path;
-		return $path . DIRECTORY_SEPARATOR;
-	}
-
-	/**
-	 * remove all files created by self::tmpFile
-	 */
-	public static function cleanTmp() {
-		$leftoversFile = get_temp_dir() . '/oc-not-deleted';
-		if (file_exists($leftoversFile)) {
-			$leftovers = file($leftoversFile);
-			foreach ($leftovers as $file) {
-				try {
-					self::rmdirr($file);
-				} catch (UnexpectedValueException $ex) {
-					// not really much we can do here anymore
-					if (!is_null(\OC::$server)) {
-						$message = $ex->getMessage();
-						\OC::$server->getLogger()->error("Error deleting file/folder: $file - Reason: $message",
-							array('app' => 'core'));
-					}
-				}
-			}
-			unlink($leftoversFile);
-		}
-
-		foreach (self::$tmpFiles as $file) {
-			if (file_exists($file)) {
-				try {
-					if (!self::rmdirr($file)) {
-						file_put_contents($leftoversFile, $file . "\n", FILE_APPEND);
-					}
-				} catch (UnexpectedValueException $ex) {
-					// not really much we can do here anymore
-					if (!is_null(\OC::$server)) {
-						$message = $ex->getMessage();
-						\OC::$server->getLogger()->error("Error deleting file/folder: $file - Reason: $message",
-							array('app' => 'core'));
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * remove all files in PHP /oc-noclean temp dir
-	 */
-	public static function cleanTmpNoClean() {
-		$tmpDirNoCleanName=get_temp_dir() . '/oc-noclean/';
-		if(file_exists($tmpDirNoCleanName) && is_dir($tmpDirNoCleanName)) {
-			$files=scandir($tmpDirNoCleanName);
-			foreach($files as $file) {
-				$fileName = $tmpDirNoCleanName . $file;
-				if (!\OC\Files\Filesystem::isIgnoredDir($file) && filemtime($fileName) + 600 < time()) {
-					unlink($fileName);
-				}
-			}
-			// if oc-noclean is empty delete it
-			$isTmpDirNoCleanEmpty = true;
-			$tmpDirNoClean = opendir($tmpDirNoCleanName);
-			if(is_resource($tmpDirNoClean)) {
-				while (false !== ($file = readdir($tmpDirNoClean))) {
-					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-						$isTmpDirNoCleanEmpty = false;
-					}
-				}
-			}
-			if ($isTmpDirNoCleanEmpty) {
-				rmdir($tmpDirNoCleanName);
-			}
-		}
+		return \OC::$server->getTempManager()->getTemporaryFolder();
 	}
 
 	/**

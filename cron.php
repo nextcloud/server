@@ -71,8 +71,7 @@ try {
 	// Handle unexpected errors
 	register_shutdown_function('handleUnexpectedShutdown');
 
-	// Delete temp folder
-	OC_Helper::cleanTmpNoClean();
+	\OC::$server->getTempManager()->cleanOld();
 
 	// Exit if background jobs are disabled!
 	$appmode = OC_BackgroundJob::getExecutionType();
