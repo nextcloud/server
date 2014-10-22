@@ -46,6 +46,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 */
 	private static $tmpFiles = array();
 	/**
+	 * @var array
+	 */
+	private $params;
+	/**
 	 * @var bool
 	 */
 	private $test = false;
@@ -101,7 +105,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		$this->updateLegacyId($params);
 
 		$this->bucket = $params['bucket'];
-		$scheme = ($params['use_ssl'] === 'false') ? 'http' : 'https';
 		$this->test = isset($params['test']);
 		$this->timeout = (!isset($params['timeout'])) ? 15 : $params['timeout'];
 		$this->rescanDelay = (!isset($params['rescanDelay'])) ? 10 : $params['rescanDelay'];
@@ -110,7 +113,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if (!isset($params['port']) || $params['port'] === '') {
 			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
-		$base_url = $scheme . '://' . $params['hostname'] . ':' . $params['port'] . '/';
+		$this->params = $params;
 	}
 
 	/**
@@ -549,11 +552,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return $this->connection;
 		}
 
+		$scheme = ($this->params['use_ssl'] === 'false') ? 'http' : 'https';
+		$base_url = $scheme . '://' . $this->params['hostname'] . ':' . $this->params['port'] . '/';
+
 		$this->connection = S3Client::factory(array(
-			'key' => $params['key'],
-			'secret' => $params['secret'],
+			'key' => $this->params['key'],
+			'secret' => $this->params['secret'],
 			'base_url' => $base_url,
-			'region' => $params['region']
+			'region' => $this->params['region']
 		));
 
 		if (!$this->connection->isValidBucketName($this->bucket)) {
