@@ -174,4 +174,11 @@ interface IServerContainer {
 	 * @return \OC\HTTPHelper
 	 */
 	function getHTTPHelper();
+
+	/**
+	 * Get the manager for temporary files and folders
+	 *
+	 * @return \OCP\ITempManager
+	 */
+	function getTempManager();
 }
