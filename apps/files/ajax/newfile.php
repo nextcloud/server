@@ -60,7 +60,16 @@ if($source) {
 		exit();
 	}
 
-	$ctx = stream_context_create(null, array('notification' =>'progress'));
+	$contextArray = array(
+		'http' => array(
+			'timeout' => 10,
+			'follow_location' => false, // Do not follow the location since we can't limit the protocol
+		),
+		'ssl' => array(
+			'disable_compression' => true
+		)
+	);
+	$ctx = stream_context_create($contextArray, array('notification' =>'progress'));
 	$sourceStream=fopen($source, 'rb', false, $ctx);
 	$target=$dir.'/'.$filename;
 	$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
