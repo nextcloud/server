@@ -58,20 +58,21 @@ class MDB2SchemaManager {
 	 * @return \OC\DB\Migrator
 	 */
 	public function getMigrator() {
+		$random = \OC::$server->getSecureRandom()->getMediumStrengthGenerator();
 		$platform = $this->conn->getDatabasePlatform();
 		if ($platform instanceof SqlitePlatform) {
 			$config = \OC::$server->getConfig();
-			return new SQLiteMigrator($this->conn, $config);
+			return new SQLiteMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof OraclePlatform) {
-			return new OracleMigrator($this->conn);
+			return new OracleMigrator($this->conn, $random);
 		} else if ($platform instanceof MySqlPlatform) {
-			return new MySQLMigrator($this->conn);
+			return new MySQLMigrator($this->conn, $random);
 		} else if ($platform instanceof SQLServerPlatform) {
-			return new MsSqlMigrator($this->conn);
+			return new MsSqlMigrator($this->conn, $random);
 		} else if ($platform instanceof PostgreSqlPlatform) {
-			return new Migrator($this->conn);
+			return new Migrator($this->conn, $random);
 		} else {
-			return new NoCheckMigrator($this->conn);
+			return new NoCheckMigrator($this->conn, $random);
 		}
 	}
 
