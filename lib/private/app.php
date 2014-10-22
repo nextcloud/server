@@ -89,6 +89,7 @@ class OC_App {
 	 */
 	public static function loadApp($app, $checkUpgrade = true) {
 		if (is_file(self::getAppPath($app) . '/appinfo/app.php')) {
+			\OC::$server->getEventLogger()->start('load_app_' . $app, 'Load app: ' . $app);
 			if ($checkUpgrade and self::shouldUpgrade($app)) {
 				throw new \OC\NeedsUpdateException();
 			}
@@ -100,6 +101,7 @@ class OC_App {
 				// enabled for groups
 				self::$enabledAppsCache = array();
 			}
+			\OC::$server->getEventLogger()->end('load_app_' . $app);
 		}
 	}
 

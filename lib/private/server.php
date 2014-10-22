@@ -6,12 +6,16 @@ use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Cache\UserCache;
+use OC\Diagnostics\NullQueryLogger;
+use OC\Diagnostics\EventLogger;
+use OC\Diagnostics\QueryLogger;
 use OC\Security\CertificateManager;
 use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Security\Crypto;
 use OC\Security\SecureRandom;
+use OC\Diagnostics\NullEventLogger;
 use OCP\IServerContainer;
 use OCP\ISession;
 use OC\Tagging\TagMapper;
@@ -24,7 +28,6 @@ use OC\Tagging\TagMapper;
  * TODO: hookup all manager classes
  */
 class Server extends SimpleContainer implements IServerContainer {
-
 	function __construct() {
 		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
@@ -59,8 +62,8 @@ class Server extends SimpleContainer implements IServerContainer {
 					'env' => $_ENV,
 					'cookies' => $_COOKIE,
 					'method' => (isset($_SERVER) && isset($_SERVER['REQUEST_METHOD']))
-							? $_SERVER['REQUEST_METHOD']
-							: null,
+						? $_SERVER['REQUEST_METHOD']
+						: null,
 					'urlParams' => $urlParams,
 					'requesttoken' => $requestToken,
 				), $stream
@@ -208,10 +211,10 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('Search', function ($c) {
 			return new Search();
 		});
-		$this->registerService('SecureRandom', function($c) {
+		$this->registerService('SecureRandom', function ($c) {
 			return new SecureRandom();
 		});
-		$this->registerService('Crypto', function($c) {
+		$this->registerService('Crypto', function ($c) {
 			return new Crypto(\OC::$server->getConfig(), \OC::$server->getSecureRandom());
 		});
 		$this->registerService('Db', function ($c) {
@@ -220,6 +223,21 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('HTTPHelper', function (SimpleContainer $c) {
 			$config = $c->query('AllConfig');
 			return new HTTPHelper($config);
+		});
+		$this->registerService('EventLogger', function ($c) {
+			/** @var Server $c */
+			if (defined('DEBUG') and DEBUG) {
+				return new EventLogger();
+			} else {
+				return new NullEventLogger();
+			}
+		});
+		$this->registerService('QueryLogger', function ($c) {
+			if (defined('DEBUG') and DEBUG) {
+				return new QueryLogger();
+			} else {
+				return new NullQueryLogger();
+			}
 		});
 	}
 
@@ -285,7 +303,7 @@ class Server extends SimpleContainer implements IServerContainer {
 	 * @return \OCP\Files\Folder
 	 */
 	function getUserFolder($userId = null) {
-		if($userId === null) {
+		if ($userId === null) {
 			$user = $this->getUserSession()->getUser();
 			if (!$user) {
 				return null;
@@ -528,6 +546,7 @@ class Server extends SimpleContainer implements IServerContainer {
 
 	/**
 	 * Returns an instance of the HTTP helper class
+	 *
 	 * @return \OC\HTTPHelper
 	 */
 	function getHTTPHelper() {
@@ -558,5 +577,27 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function createEventSource() {
 		return new \OC_EventSource();
+	}
+
+	/**
+	 * Get the active event logger
+	 *
+	 * The returned logger only logs data when debug mode is enabled
+	 *
+	 * @return \OCP\Diagnostics\IEventLogger
+	 */
+	function getEventLogger() {
+		return $this->query('EventLogger');
+	}
+
+	/**
+	 * Get the active query logger
+	 *
+	 * The returned logger only logs data when debug mode is enabled
+	 *
+	 * @return \OCP\Diagnostics\IQueryLogger
+	 */
+	function getQueryLogger() {
+		return $this->query('QueryLogger');
 	}
 }

@@ -91,6 +91,7 @@ class OC_DB {
 
 		try {
 			self::$connection = $factory->getConnection($type, $connectionParams);
+			self::$connection->getConfiguration()->setSQLLogger(\OC::$server->getQueryLogger());
 		} catch(\Doctrine\DBAL\DBALException $e) {
 			OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
 			OC_User::setUserId(null);

@@ -248,4 +248,20 @@ interface IServerContainer {
 	 * @return \OC\HTTPHelper
 	 */
 	function getHTTPHelper();
+
+	/**
+	 * Get the active event logger
+	 *
+	 * @return \OCP\Diagnostics\IEventLogger
+	 */
+	function getEventLogger();
+
+	/**
+	 * Get the active query logger
+	 *
+	 * The returned logger only logs data when debug mode is enabled
+	 *
+	 * @return \OCP\Diagnostics\IQueryLogger
+	 */
+	function getQueryLogger();
 }
