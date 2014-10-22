@@ -234,7 +234,7 @@ class OC_User {
 		session_regenerate_id(true);
 		$result = self::getUserSession()->login($uid, $password);
 		if ($result) {
-			OC_Util::setupFS($uid);
+			OC_Util::setupFS(self::getUserSession()->getUser()->getUID());
 		}
 		return $result;
 	}
