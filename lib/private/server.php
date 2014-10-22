@@ -256,6 +256,10 @@ class Server extends SimpleContainer implements IServerContainer {
 				return new NullQueryLogger();
 			}
 		});
+		$this->registerService('TempManager', function ($c) {
+			/** @var Server $c */
+			return new TempManager(get_temp_dir(), $c->getLogger());
+		});
 	}
 
 	/**
@@ -616,5 +620,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getQueryLogger() {
 		return $this->query('QueryLogger');
+	}
+
+	/**
+	 * Get the manager for temporary files and folders
+	 *
+	 * @return \OCP\ITempManager
+	 */
+	function getTempManager() {
+		return $this->query('TempManager');
 	}
 }
