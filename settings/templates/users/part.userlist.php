@@ -9,7 +9,7 @@
 			<th id="headerPassword"><?php p($l->t( 'Password' )); ?></th>
 			<th id="headerGroups"><?php p($l->t( 'Groups' )); ?></th>
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
-			<th id="headerSubAdmins"><?php p($l->t('Group Admin')); ?></th>
+			<th id="headerSubAdmins"><?php p($l->t('Group Admin for')); ?></th>
 			<?php endif;?>
 			<th id="headerQuota"><?php p($l->t('Quota')); ?></th>
 			<th id="headerStorageLocation"><?php p($l->t('Storage Location')); ?></th>
@@ -38,7 +38,7 @@
 					class="groupsselect"
 					data-username="<?php p($user['name']) ;?>"
 					data-user-groups="<?php p(json_encode($user['groups'])) ;?>"
-					data-placeholder="groups" title="<?php p($l->t('Groups'))?>"
+					data-placeholder="groups" title="<?php p($l->t('no group'))?>"
 					multiple="multiple">
 						<?php foreach($_["adminGroup"] as $adminGroup): ?>
 						<option value="<?php p($adminGroup['name']);?>"><?php p($adminGroup['name']); ?></option>
@@ -54,7 +54,7 @@
 						class="subadminsselect"
 						data-username="<?php p($user['name']) ;?>"
 						data-subadmin="<?php p(json_encode($user['subadmin']));?>"
-						data-placeholder="subadmins" title="<?php p($l->t('Group Admin'))?>"
+						data-placeholder="subadmins" title="<?php p($l->t('no group'))?>"
 						multiple="multiple">
 						<?php foreach($_["subadmingroups"] as $group): ?>
 							<option value="<?php p($group);?>"><?php p($group);?></option>

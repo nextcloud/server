@@ -50,7 +50,7 @@ var UserList = {
 			.data('username', username)
 			.data('user-groups', groups);
 		if ($tr.find('td.subadmins').length > 0) {
-			subAdminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">')
+			subAdminSelect = $('<select multiple="multiple" class="subadminsselect multiselect button" data-placehoder="subadmins" title="' + t('settings', 'no group') + '">')
 				.data('username', username)
 				.data('user-groups', groups)
 				.data('subadmin', subadmin);
