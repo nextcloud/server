@@ -90,7 +90,7 @@ if (isset($path)) {
 	}
 	$basePath = $path;
 	$rootName = basename($path);
-	if (isset($_GET['path']) && \OC\Files\Filesystem::isReadable($basePath . $_GET['path'])) {
+	if ($linkItem['item_type'] === 'folder' && isset($_GET['path']) && \OC\Files\Filesystem::isReadable($basePath . $_GET['path'])) {
 		$getPath = \OC\Files\Filesystem::normalizePath($_GET['path']);
 		$path .= $getPath;
 	} else {
