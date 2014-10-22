@@ -111,34 +111,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$params['port'] = ($params['use_ssl'] === 'false') ? 80 : 443;
 		}
 		$base_url = $scheme . '://' . $params['hostname'] . ':' . $params['port'] . '/';
-
-		$this->connection = S3Client::factory(array(
-			'key' => $params['key'],
-			'secret' => $params['secret'],
-			'base_url' => $base_url,
-			'region' => $params['region']
-		));
-
-		if (!$this->connection->isValidBucketName($this->bucket)) {
-			throw new \Exception("The configured bucket name is invalid.");
-		}
-
-		if (!$this->connection->doesBucketExist($this->bucket)) {
-			try {
-				$this->connection->createBucket(array(
-					'Bucket' => $this->bucket
-				));
-				$this->connection->waitUntilBucketExists(array(
-					'Bucket' => $this->bucket,
-					'waiter.interval' => 1,
-					'waiter.max_attempts' => 15
-				));
-				$this->testTimeout();
-			} catch (S3Exception $e) {
-				\OCP\Util::logException('files_external', $e);
-				throw new \Exception('Creation of bucket failed. '.$e->getMessage());
-			}
-		}
 	}
 
 	/**
@@ -181,7 +153,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->connection->putObject(array(
+			$this->getConnection()->putObject(array(
 				'Bucket' => $this->bucket,
 				'Key' => $path . '/',
 				'ContentType' => 'httpd/unix-directory'
@@ -216,7 +188,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	protected function clearBucket() {
 		try {
-			$this->connection->clearBucket($this->bucket);
+			$this->getConnection()->clearBucket($this->bucket);
 			return true;
 			// clearBucket() is not working with Ceph, so if it fails we try the slower approach
 		} catch (\Exception $e) {
@@ -237,9 +209,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			// to delete all objects prefixed with the path.
 			do {
 				// instead of the iterator, manually loop over the list ...
-				$objects = $this->connection->listObjects($params);
+				$objects = $this->getConnection()->listObjects($params);
 				// ... so we can delete the files in batches
-				$this->connection->deleteObjects(array(
+				$this->getConnection()->deleteObjects(array(
 					'Bucket' => $this->bucket,
 					'Objects' => $objects['Contents']
 				));
@@ -264,7 +236,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		try {
 			$files = array();
-			$result = $this->connection->getIterator('ListObjects', array(
+			$result = $this->getConnection()->getIterator('ListObjects', array(
 				'Bucket' => $this->bucket,
 				'Delimiter' => '/',
 				'Prefix' => $path
@@ -299,7 +271,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$stat['size'] = -1; //unknown
 				$stat['mtime'] = time() - $this->rescanDelay * 1000;
 			} else {
-				$result = $this->connection->headObject(array(
+				$result = $this->getConnection()->headObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $path
 				));
@@ -328,10 +300,10 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			if ($this->connection->doesObjectExist($this->bucket, $path)) {
+			if ($this->getConnection()->doesObjectExist($this->bucket, $path)) {
 				return 'file';
 			}
-			if ($this->connection->doesObjectExist($this->bucket, $path.'/')) {
+			if ($this->getConnection()->doesObjectExist($this->bucket, $path.'/')) {
 				return 'dir';
 			}
 		} catch (S3Exception $e) {
@@ -350,7 +322,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->connection->deleteObject(array(
+			$this->getConnection()->deleteObject(array(
 				'Bucket' => $this->bucket,
 				'Key' => $path
 			));
@@ -373,7 +345,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				self::$tmpFiles[$tmpFile] = $path;
 
 				try {
-					$this->connection->getObject(array(
+					$this->getConnection()->getObject(array(
 						'Bucket' => $this->bucket,
 						'Key' => $path,
 						'SaveAs' => $tmpFile
@@ -421,7 +393,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			return 'httpd/unix-directory';
 		} else if ($this->file_exists($path)) {
 			try {
-				$result = $this->connection->headObject(array(
+				$result = $this->getConnection()->headObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $path
 				));
@@ -449,7 +421,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				if ($fileType === 'dir' && ! $this->isRoot($path)) {
 					$path .= '/';
 				}
-				$this->connection->copyObject(array(
+				$this->getConnection()->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata,
@@ -458,7 +430,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$this->testTimeout();
 			} else {
 				$mimeType = \OC_Helper::getMimetypeDetector()->detectPath($path);
-				$this->connection->putObject(array(
+				$this->getConnection()->putObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path),
 					'Metadata' => $metadata,
@@ -481,7 +453,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 		if ($this->is_file($path1)) {
 			try {
-				$this->connection->copyObject(array(
+				$this->getConnection()->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $this->cleanKey($path2),
 					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1)
@@ -495,7 +467,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->remove($path2);
 
 			try {
-				$this->connection->copyObject(array(
+				$this->getConnection()->copyObject(array(
 					'Bucket' => $this->bucket,
 					'Key' => $path2 . '/',
 					'CopySource' => S3Client::encodeKey($this->bucket . '/' . $path1 . '/')
@@ -553,7 +525,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	}
 
 	public function test() {
-		$test = $this->connection->getBucketAcl(array(
+		$test = $this->getConnection()->getBucketAcl(array(
 			'Bucket' => $this->bucket,
 		));
 		if (isset($test) && !is_null($test->getPath('Owner/ID'))) {
@@ -566,7 +538,45 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return $this->id;
 	}
 
+	/**
+	 * Returns the connection
+	 *
+	 * @return S3Client connected client
+	 * @throws \Exception if connection could not be made
+	 */
 	public function getConnection() {
+		if (!is_null($this->connection)) {
+			return $this->connection;
+		}
+
+		$this->connection = S3Client::factory(array(
+			'key' => $params['key'],
+			'secret' => $params['secret'],
+			'base_url' => $base_url,
+			'region' => $params['region']
+		));
+
+		if (!$this->connection->isValidBucketName($this->bucket)) {
+			throw new \Exception("The configured bucket name is invalid.");
+		}
+
+		if (!$this->connection->doesBucketExist($this->bucket)) {
+			try {
+				$this->connection->createBucket(array(
+					'Bucket' => $this->bucket
+				));
+				$this->connection->waitUntilBucketExists(array(
+					'Bucket' => $this->bucket,
+					'waiter.interval' => 1,
+					'waiter.max_attempts' => 15
+				));
+				$this->testTimeout();
+			} catch (S3Exception $e) {
+				\OCP\Util::logException('files_external', $e);
+				throw new \Exception('Creation of bucket failed. '.$e->getMessage());
+			}
+		}
+
 		return $this->connection;
 	}
 
@@ -576,7 +586,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->connection->putObject(array(
+			$this->getConnection()->putObject(array(
 				'Bucket' => $this->bucket,
 				'Key' => $this->cleanKey(self::$tmpFiles[$tmpFile]),
 				'SourceFile' => $tmpFile,

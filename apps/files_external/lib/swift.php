@@ -49,6 +49,12 @@ class Swift extends \OC\Files\Storage\Common {
 	 */
 	private $bucket;
 	/**
+	 * Connection parameters
+	 *
+	 * @var array
+	 */
+	private $params;
+	/**
 	 * @var array
 	 */
 	private static $tmpFiles = array();
@@ -86,7 +92,7 @@ class Swift extends \OC\Files\Storage\Common {
 	 */
 	private function doesObjectExist($path) {
 		try {
-			$this->container->getPartialObject($path);
+			$this->getContainer()->getPartialObject($path);
 			return true;
 		} catch (ClientErrorResponseException $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -113,41 +119,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$params['service_name'] = 'cloudFiles';
 		}
 
-		$settings = array(
-			'username' => $params['user'],
-		);
-
-		if (!empty($params['password'])) {
-			$settings['password'] = $params['password'];
-		} else if (!empty($params['key'])) {
-			$settings['apiKey'] = $params['key'];
-		}
-
-		if (!empty($params['tenant'])) {
-			$settings['tenantName'] = $params['tenant'];
-		}
-
-		if (!empty($params['timeout'])) {
-			$settings['timeout'] = $params['timeout'];
-		}
-
-		if (isset($settings['apiKey'])) {
-			$this->anchor = new Rackspace($params['url'], $settings);
-		} else {
-			$this->anchor = new OpenStack($params['url'], $settings);
-		}
-
-		$this->connection = $this->anchor->objectStoreService($params['service_name'], $params['region']);
-
-		try {
-			$this->container = $this->connection->getContainer($this->bucket);
-		} catch (ClientErrorResponseException $e) {
-			$this->container = $this->connection->createContainer($this->bucket);
-		}
-
-		if (!$this->file_exists('.')) {
-			$this->mkdir('.');
-		}
+		$this->params = $params;
 	}
 
 	public function mkdir($path) {
@@ -165,7 +137,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$customHeaders = array('content-type' => 'httpd/unix-directory');
 			$metadataHeaders = DataObject::stockHeaders(array());
 			$allHeaders = $customHeaders + $metadataHeaders;
-			$this->container->uploadObject($path, '', $allHeaders);
+			$this->getContainer()->uploadObject($path, '', $allHeaders);
 		} catch (Exceptions\CreateUpdateError $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
@@ -205,7 +177,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->container->dataObject()->setName($path . '/')->delete();
+			$this->getContainer()->dataObject()->setName($path . '/')->delete();
 		} catch (Exceptions\DeleteError $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
@@ -228,7 +200,7 @@ class Swift extends \OC\Files\Storage\Common {
 		try {
 			$files = array();
 			/** @var OpenCloud\Common\Collection $objects */
-			$objects = $this->container->objectList(array(
+			$objects = $this->getContainer()->objectList(array(
 				'prefix' => $path,
 				'delimiter' => '/'
 			));
@@ -261,7 +233,7 @@ class Swift extends \OC\Files\Storage\Common {
 
 		try {
 			/** @var DataObject $object */
-			$object = $this->container->getPartialObject($path);
+			$object = $this->getContainer()->getPartialObject($path);
 		} catch (ClientErrorResponseException $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
@@ -314,7 +286,7 @@ class Swift extends \OC\Files\Storage\Common {
 		}
 
 		try {
-			$this->container->dataObject()->setName($path)->delete();
+			$this->getContainer()->dataObject()->setName($path)->delete();
 		} catch (ClientErrorResponseException $e) {
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
@@ -332,7 +304,7 @@ class Swift extends \OC\Files\Storage\Common {
 				$tmpFile = \OC_Helper::tmpFile();
 				self::$tmpFiles[$tmpFile] = $path;
 				try {
-					$object = $this->container->getObject($path);
+					$object = $this->getContainer()->getObject($path);
 				} catch (ClientErrorResponseException $e) {
 					\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 					return false;
@@ -385,7 +357,7 @@ class Swift extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		} else if ($this->file_exists($path)) {
-			$object = $this->container->getPartialObject($path);
+			$object = $this->getContainer()->getPartialObject($path);
 			return $object->getContentType();
 		}
 		return false;
@@ -402,7 +374,7 @@ class Swift extends \OC\Files\Storage\Common {
 				$path .= '/';
 			}
 
-			$object = $this->container->getPartialObject($path);
+			$object = $this->getContainer()->getPartialObject($path);
 			$object->saveMetadata($metadata);
 			return true;
 		} else {
@@ -410,7 +382,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$customHeaders = array('content-type' => $mimeType);
 			$metadataHeaders = DataObject::stockHeaders($metadata);
 			$allHeaders = $customHeaders + $metadataHeaders;
-			$this->container->uploadObject($path, '', $allHeaders);
+			$this->getContainer()->uploadObject($path, '', $allHeaders);
 			return true;
 		}
 	}
@@ -426,7 +398,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->unlink($path2);
 
 			try {
-				$source = $this->container->getPartialObject($path1);
+				$source = $this->getContainer()->getPartialObject($path1);
 				$source->copy($this->bucket . '/' . $path2);
 			} catch (ClientErrorResponseException $e) {
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -439,7 +411,7 @@ class Swift extends \OC\Files\Storage\Common {
 			$this->unlink($path2);
 
 			try {
-				$source = $this->container->getPartialObject($path1 . '/');
+				$source = $this->getContainer()->getPartialObject($path1 . '/');
 				$source->copy($this->bucket . '/' . $path2 . '/');
 			} catch (ClientErrorResponseException $e) {
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -497,8 +469,67 @@ class Swift extends \OC\Files\Storage\Common {
 		return $this->id;
 	}
 
+	/**
+	 * Returns the connection
+	 *
+	 * @return OpenCloud\ObjectStore\Service connected client
+	 * @throws \Exception if connection could not be made
+	 */
 	public function getConnection() {
+		if (!is_null($this->connection)) {
+			return $this->connection;
+		}
+
+		$settings = array(
+			'username' => $this->params['user'],
+		);
+
+		if (!empty($this->params['password'])) {
+			$settings['password'] = $this->params['password'];
+		} else if (!empty($this->params['key'])) {
+			$settings['apiKey'] = $this->params['key'];
+		}
+
+		if (!empty($this->params['tenant'])) {
+			$settings['tenantName'] = $this->params['tenant'];
+		}
+
+		if (!empty($this->params['timeout'])) {
+			$settings['timeout'] = $this->params['timeout'];
+		}
+
+		if (isset($settings['apiKey'])) {
+			$this->anchor = new Rackspace($this->params['url'], $settings);
+		} else {
+			$this->anchor = new OpenStack($this->params['url'], $settings);
+		}
+
+		$this->connection = $this->anchor->objectStoreService($this->params['service_name'], $this->params['region']);
+
 		return $this->connection;
+	}
+
+	/**
+	 * Returns the initialized object store container.
+	 *
+	 * @return OpenCloud\ObjectStore\Resource\Container
+	 */
+	public function getContainer() {
+		if (!is_null($this->container)) {
+			return $this->container;
+		}
+
+		try {
+			$this->container = $this->getConnection()->getContainer($this->bucket);
+		} catch (ClientErrorResponseException $e) {
+			$this->container = $this->getConnection()->createContainer($this->bucket);
+		}
+
+		if (!$this->file_exists('.')) {
+			$this->mkdir('.');
+		}
+
+		return $this->container;
 	}
 
 	public function writeBack($tmpFile) {
@@ -506,7 +537,7 @@ class Swift extends \OC\Files\Storage\Common {
 			return false;
 		}
 		$fileData = fopen($tmpFile, 'r');
-		$this->container->uploadObject(self::$tmpFiles[$tmpFile], $fileData);
+		$this->getContainer()->uploadObject(self::$tmpFiles[$tmpFile], $fileData);
 		unlink($tmpFile);
 	}
 
