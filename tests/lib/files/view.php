@@ -588,19 +588,32 @@ class View extends \PHPUnit_Framework_TestCase {
 		$rootView = new \OC\Files\View('');
 
 		$longPath = '';
-		// 4000 is the maximum path length in file_cache.path
+		$ds = DIRECTORY_SEPARATOR;
+		/*
+		 * 4096 is the maximum path length in file_cache.path in *nix
+		 * 1024 is the max path length in mac
+		 * 228 is the max path length in windows
+		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$depth = (4000 / 57);
+		$tmpdirLength = strlen(\OC_Helper::tmpFolder());
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped();
+			$depth = ((260 - $tmpdirLength) / 57);
+		}elseif(\OC_Util::runningOnMac()){
+			$depth = ((1024 - $tmpdirLength) / 57);
+		} else {
+			$depth = ((4000 - $tmpdirLength) / 57);
+		}
 		foreach (range(0, $depth - 1) as $i) {
-			$longPath .= '/' . $folderName;
+			$longPath .= $ds . $folderName;
 			$result = $rootView->mkdir($longPath);
 			$this->assertTrue($result, "mkdir failed on $i - path length: " . strlen($longPath));
 
-			$result = $rootView->file_put_contents($longPath . '/test.txt', 'lorem');
+			$result = $rootView->file_put_contents($longPath . "{$ds}test.txt", 'lorem');
 			$this->assertEquals(5, $result, "file_put_contents failed on $i");
 
 			$this->assertTrue($rootView->file_exists($longPath));
-			$this->assertTrue($rootView->file_exists($longPath . '/test.txt'));
+			$this->assertTrue($rootView->file_exists($longPath . "{$ds}test.txt"));
 		}
 
 		$cache = $storage->getCache();
@@ -617,7 +630,7 @@ class View extends \PHPUnit_Framework_TestCase {
 			$this->assertTrue(is_array($cachedFile), "No cache entry for file at $i");
 			$this->assertEquals('test.txt', $cachedFile['name'], "Wrong cache entry for file at $i");
 
-			$longPath .= '/' . $folderName;
+			$longPath .= $ds . $folderName;
 		}
 	}
 
