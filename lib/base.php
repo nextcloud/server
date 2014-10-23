@@ -461,7 +461,6 @@ class OC {
 			$loader->add('Doctrine\\DBAL',OC::$THIRDPARTYROOT . '/3rdparty/doctrine/dbal/lib');
 			$loader->add('Symfony\\Component\\Routing',OC::$THIRDPARTYROOT . '/3rdparty/symfony/routing');
 			$loader->add('Symfony\\Component\\Console',OC::$THIRDPARTYROOT . '/3rdparty/symfony/console');
-			$loader->add('Patchwork',OC::$THIRDPARTYROOT . '/3rdparty');
 		} else {
 			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			OC_Template::printErrorPage('Composer autoloader not found, unable to continue.');
@@ -524,7 +523,6 @@ class OC {
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 		stream_wrapper_register('quota', 'OC\Files\Stream\Quota');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
-
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		self::initTemplateEngine();
