@@ -65,13 +65,17 @@
 			</a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
-				<span id="expand" tabindex="0" role="link">
+				<div id="expand" tabindex="0" role="link">
 					<?php if ($_['enableAvatars']): ?>
-					<div class="avatardiv"></div>
+					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown"'); } else { print_unescaped('" style="display: none"'); } ?>>
+						<?php if ($_['userAvatarSet']): ?>
+							<img src="<?php p(link_to('', 'index.php').'/avatar/'.$_['user_uid'].'/32?requesttoken='.$_['requesttoken']); ?>">
+						<?php endif; ?>
+					</div>
 					<?php endif; ?>
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" alt="" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
-				</span>
+				</div>
 				<div id="expanddiv">
 				<ul>
 				<?php foreach($_['settingsnavigation'] as $entry):?>
