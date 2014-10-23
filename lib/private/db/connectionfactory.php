@@ -98,19 +98,6 @@ class ConnectionFactory {
 			new \Doctrine\DBAL\Configuration(),
 			$eventManager
 		);
-		switch ($normalizedType) {
-			case 'sqlite3':
-				// Sqlite doesn't handle query caching and schema changes
-				// TODO: find a better way to handle this
-				/** @var $connection \OC\DB\Connection */
-				$connection->disableQueryStatementCaching();
-				break;
-			case 'oci':
-				// oracle seems to have issues with cached statements which have been closed
-				/** @var $connection \OC\DB\Connection */
-				$connection->disableQueryStatementCaching();
-				break;
-		}
 		return $connection;
 	}
 
@@ -130,5 +117,42 @@ class ConnectionFactory {
 	public function isValidType($type) {
 		$normalizedType = $this->normalizeType($type);
 		return isset($this->defaultConnectionParams[$normalizedType]);
+	}
+
+	/**
+	 * Create the connection parameters for the config
+	 *
+	 * @param \OCP\IConfig $config
+	 * @return array
+	 */
+	public function createConnectionParams($config) {
+		$type = $config->getSystemValue('dbtype', 'sqlite');
+
+		$connectionParams = array(
+			'user' => $config->getSystemValue('dbuser', ''),
+			'password' => $config->getSystemValue('dbpassword', ''),
+		);
+		$name = $config->getSystemValue('dbname', 'owncloud');
+
+		if ($this->normalizeType($type) === 'sqlite3') {
+			$datadir = $config->getSystemValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$connectionParams['path'] = $datadir . '/' . $name . '.db';
+		} else {
+			$host = $config->getSystemValue('dbhost', '');
+			if (strpos($host, ':')) {
+				// Host variable may carry a port or socket.
+				list($host, $portOrSocket) = explode(':', $host, 2);
+				if (ctype_digit($portOrSocket)) {
+					$connectionParams['port'] = $portOrSocket;
+				} else {
+					$connectionParams['unix_socket'] = $portOrSocket;
+				}
+			}
+			$connectionParams['host'] = $host;
+			$connectionParams['dbname'] = $name;
+		}
+
+		$connectionParams['tablePrefix'] = $config->getSystemValue('dbtableprefix', 'oc_');
+		return $connectionParams;
 	}
 }

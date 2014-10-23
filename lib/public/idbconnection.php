@@ -44,6 +44,32 @@ interface IDBConnection {
 	public function prepare($sql, $limit=null, $offset=null);
 
 	/**
+	 * Executes an, optionally parameterized, SQL query.
+	 *
+	 * If the query is parameterized, a prepared statement is used.
+	 * If an SQLLogger is configured, the execution is logged.
+	 *
+	 * @param string $query The SQL query to execute.
+	 * @param string[] $params The parameters to bind to the query, if any.
+	 * @param array $types The types the previous parameters are in.
+	 * @return \Doctrine\DBAL\Driver\Statement The executed statement.
+	 */
+	public function executeQuery($query, array $params = array(), $types = array());
+
+	/**
+	 * Executes an SQL INSERT/UPDATE/DELETE query with the given parameters
+	 * and returns the number of affected rows.
+	 *
+	 * This method supports PDO binding types as well as DBAL mapping types.
+	 *
+	 * @param string $query The SQL query.
+	 * @param array $params The query parameters.
+	 * @param array $types The parameter types.
+	 * @return integer The number of affected rows.
+	 */
+	public function executeUpdate($query, array $params = array(), array $types = array());
+
+	/**
 	 * Used to get the id of the just inserted element
 	 * @param string $table the name of the table where we inserted the item
 	 * @return int the id of the inserted element
@@ -71,19 +97,16 @@ interface IDBConnection {
 
 	/**
 	 * Start a transaction
-	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function beginTransaction();
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
-	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function commit();
 
 	/**
 	 * Rollback the database changes done during a transaction that is in progress
-	 * @return bool TRUE on success or FALSE on failure
 	 */
 	public function rollBack();
 
@@ -92,4 +115,47 @@ interface IDBConnection {
 	 * @return string
 	 */
 	public function getError();
+
+	/**
+	 * Fetch the SQLSTATE associated with the last database operation.
+	 *
+	 * @return integer The last error code.
+	 */
+	public function errorCode();
+
+	/**
+	 * Fetch extended error information associated with the last database operation.
+	 *
+	 * @return array The last error information.
+	 */
+	public function errorInfo();
+
+	/**
+	 * Establishes the connection with the database.
+	 *
+	 * @return bool
+	 */
+	public function connect();
+
+	/**
+	 * Close the database connection
+	 */
+	public function close();
+
+	/**
+	 * Quotes a given input parameter.
+	 *
+	 * @param mixed $input Parameter to be quoted.
+	 * @param int $type Type of the parameter.
+	 * @return string The quoted parameter.
+	 */
+	public function quote($input, $type = \PDO::PARAM_STR);
+
+	/**
+	 * Gets the DatabasePlatform instance that provides all the metadata about
+	 * the platform this driver connects to.
+	 *
+	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
+	 */
+	public function getDatabasePlatform();
 }

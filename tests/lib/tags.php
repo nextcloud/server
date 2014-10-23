@@ -34,7 +34,7 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 		$this->objectType = uniqid('type_');
 		OC_User::createUser($this->user, 'pass');
 		OC_User::setUserId($this->user);
-		$this->tagMapper = new OC\Tagging\TagMapper(new OC\AppFramework\Db\Db());
+		$this->tagMapper = new OC\Tagging\TagMapper(\OC::$server->getDb());
 		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->user);
 
 	}

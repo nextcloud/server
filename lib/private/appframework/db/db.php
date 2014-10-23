@@ -30,28 +30,42 @@ use \OCP\IDb;
  * Small Facade for being able to inject the database connection for tests
  */
 class Db implements IDb {
+	/**
+	 * @var \OCP\IDBConnection
+	 */
+	protected $connection;
+
+	/**
+	 * @param \OCP\IDBConnection $connection
+	 */
+	public function __construct($connection) {
+		$this->connection = $connection;
+	}
+
+	/**
+	 * Used to abstract the owncloud database access away
+	 *
+	 * @param string $sql the sql query with ? placeholder for params
+	 * @param int $limit the maximum number of rows
+	 * @param int $offset from which row we want to start
+	 * @return \OC_DB_StatementWrapper prepared SQL query
+	 */
+	public function prepareQuery($sql, $limit = null, $offset = null) {
+		$isManipulation = \OC_DB::isManipulation($sql);
+		$statement = $this->connection->prepare($sql, $limit, $offset);
+		return new \OC_DB_StatementWrapper($statement, $isManipulation);
+	}
 
 
-    /**
-     * Used to abstract the owncloud database access away
-     * @param string $sql the sql query with ? placeholder for params
-     * @param int $limit the maximum number of rows
-     * @param int $offset from which row we want to start
-     * @return \OC_DB_StatementWrapper prepared SQL query
-     */
-    public function prepareQuery($sql, $limit=null, $offset=null){
-        return \OCP\DB::prepare($sql, $limit, $offset);
-    }
-
-
-    /**
-     * Used to get the id of the just inserted element
-     * @param string $tableName the name of the table where we inserted the item
-     * @return int the id of the inserted element
-     */
-    public function getInsertId($tableName){
-        return \OCP\DB::insertid($tableName);
-    }
+	/**
+	 * Used to get the id of the just inserted element
+	 *
+	 * @param string $tableName the name of the table where we inserted the item
+	 * @return int the id of the inserted element
+	 */
+	public function getInsertId($tableName) {
+		return $this->connection->lastInsertId($tableName);
+	}
 
 
 }

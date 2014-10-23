@@ -41,87 +41,12 @@ class DatabaseException extends Exception {
  * Doctrine with some adaptions.
  */
 class OC_DB {
-	/**
-	 * @var \OC\DB\Connection $connection
-	 */
-	static private $connection; //the preferred connection to use, only Doctrine
 
 	/**
-	 * connects to the database
-	 * @return boolean|null true if connection can be established or false on error
-	 *
-	 * Connects to the database as specified in config.php
-	 */
-	public static function connect() {
-		if(self::$connection) {
-			return true;
-		}
-
-		$type = OC_Config::getValue('dbtype', 'sqlite');
-		$factory = new \OC\DB\ConnectionFactory();
-		if (!$factory->isValidType($type)) {
-			return false;
-		}
-
-		$connectionParams = array(
-			'user' => OC_Config::getValue('dbuser', ''),
-			'password' => OC_Config::getValue('dbpassword', ''),
-		);
-		$name = OC_Config::getValue('dbname', 'owncloud');
-
-		if ($factory->normalizeType($type) === 'sqlite3') {
-			$datadir = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data');
-			$connectionParams['path'] = $datadir.'/'.$name.'.db';
-		} else {
-			$host = OC_Config::getValue('dbhost', '');
-			if (strpos($host, ':')) {
-				// Host variable may carry a port or socket.
-				list($host, $portOrSocket) = explode(':', $host, 2);
-				if (ctype_digit($portOrSocket)) {
-					$connectionParams['port'] = $portOrSocket;
-				} else {
-					$connectionParams['unix_socket'] = $portOrSocket;
-				}
-			}
-			$connectionParams['host'] = $host;
-			$connectionParams['dbname'] = $name;
-		}
-
-		$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_');
-
-		try {
-			self::$connection = $factory->getConnection($type, $connectionParams);
-			self::$connection->getConfiguration()->setSQLLogger(\OC::$server->getQueryLogger());
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
-			OC_User::setUserId(null);
-
-			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
-			OC_Template::printErrorPage('Failed to connect to database');
-			die();
-		}
-
-		return true;
-	}
-
-	/**
-	 * The existing database connection is closed and connected again
-	 */
-	public static function reconnect() {
-		if(self::$connection) {
-			self::$connection->close();
-			self::$connection->connect();
-		}
-	}
-
-	/**
-	 * @return \OC\DB\Connection
+	 * @return \OCP\IDBConnection
 	 */
 	static public function getConnection() {
-		self::connect();
-		return self::$connection;
+		return \OC::$server->getDatabaseConnection();
 	}
 
 	/**
@@ -131,7 +56,7 @@ class OC_DB {
 	 */
 	private static function getMDB2SchemaManager()
 	{
-		return new \OC\DB\MDB2SchemaManager(self::getConnection());
+		return new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
 	}
 
 	/**
@@ -146,7 +71,7 @@ class OC_DB {
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
-		self::connect();
+		$connection = \OC::$server->getDatabaseConnection();
 
 		if ($isManipulation === null) {
 			//try to guess, so we return the number of rows on manipulations
@@ -155,7 +80,7 @@ class OC_DB {
 
 		// return the result
 		try {
-			$result = self::$connection->prepare($query, $limit, $offset);
+			$result =$connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
 			throw new \DatabaseException($e->getMessage(), $query);
 		}
@@ -252,8 +177,7 @@ class OC_DB {
 	 * cause trouble!
 	 */
 	public static function insertid($table=null) {
-		self::connect();
-		return self::$connection->lastInsertId($table);
+		return \OC::$server->getDatabaseConnection()->lastInsertId($table);
 	}
 
 	/**
@@ -263,24 +187,21 @@ class OC_DB {
 	 * @return boolean number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
-		self::connect();
-		return self::$connection->insertIfNotExist($table, $input);
+		return \OC::$server->getDatabaseConnection()->insertIfNotExist($table, $input);
 	}
 
 	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction() {
-		self::connect();
-		self::$connection->beginTransaction();
+		return \OC::$server->getDatabaseConnection()->beginTransaction();
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit() {
-		self::connect();
-		self::$connection->commit();
+		return \OC::$server->getDatabaseConnection()->commit();
 	}
 
 	/**
@@ -348,17 +269,17 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-
+		$connection = \OC::$server->getDatabaseConnection();
 		$tableName = OC_Config::getValue('dbtableprefix', 'oc_' ) . trim($tableName);
 
-		self::$connection->beginTransaction();
+		$connection->beginTransaction();
 
-		$platform = self::$connection->getDatabasePlatform();
+		$platform = $connection->getDatabasePlatform();
 		$sql = $platform->getDropTableSQL($platform->quoteIdentifier($tableName));
 
-		self::$connection->query($sql);
+		$connection->executeQuery($sql);
 
-		self::$connection->commit();
+		$connection->commit();
 	}
 
 	/**
@@ -398,8 +319,8 @@ class OC_DB {
 	}
 
 	public static function getErrorCode($error) {
-		$code = self::$connection->errorCode();
-		return $code;
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->errorCode();
 	}
 	/**
 	 * returns the error code and message as a string for logging
@@ -408,22 +329,8 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if (self::$connection) {
-			return self::$connection->getError();
-		}
-		return '';
-	}
-
-	/**
-	 * @param bool $enabled
-	 */
-	static public function enableCaching($enabled) {
-		self::connect();
-		if ($enabled) {
-			self::$connection->enableQueryStatementCaching();
-		} else {
-			self::$connection->disableQueryStatementCaching();
-		}
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->getError();
 	}
 
 	/**

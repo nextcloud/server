@@ -11,8 +11,9 @@ use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
 use Doctrine\Common\EventManager;
+use OCP\IDBConnection;
 
-class Connection extends \Doctrine\DBAL\Connection {
+class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	/**
 	 * @var string $tablePrefix
 	 */
@@ -22,13 +23,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @var \OC\DB\Adapter $adapter
 	 */
 	protected $adapter;
-
-	/**
-	 * @var \Doctrine\DBAL\Driver\Statement[] $preparedQueries
-	 */
-	protected $preparedQueries = array();
-
-	protected $cachingQueryStatementEnabled = true;
 
 	/**
 	 * Initializes a new instance of the Connection class.
@@ -69,9 +63,6 @@ class Connection extends \Doctrine\DBAL\Connection {
 			$platform = $this->getDatabasePlatform();
 			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
 		} else {
-			if (isset($this->preparedQueries[$statement]) && $this->cachingQueryStatementEnabled) {
-				return $this->preparedQueries[$statement];
-			}
 			$origStatement = $statement;
 		}
 		$statement = $this->replaceTablePrefix($statement);
@@ -80,11 +71,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		if(\OC_Config::getValue( 'log_query', false)) {
 			\OC_Log::write('core', 'DB prepare : '.$statement, \OC_Log::DEBUG);
 		}
-		$result = parent::prepare($statement);
-		if (is_null($limit) && $this->cachingQueryStatementEnabled) {
-			$this->preparedQueries[$origStatement] = $result;
-		}
-		return $result;
+		return parent::prepare($statement);
 	}
 
 	/**
@@ -184,14 +171,5 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	protected function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->tablePrefix, $statement );
-	}
-
-	public function enableQueryStatementCaching() {
-		$this->cachingQueryStatementEnabled = true;
-	}
-
-	public function disableQueryStatementCaching() {
-		$this->cachingQueryStatementEnabled = false;
-		$this->preparedQueries = array();
 	}
 }
