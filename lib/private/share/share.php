@@ -672,7 +672,6 @@ class Share extends \OC\Share\Constants {
 			$message_t = $l->t('Sharing %s failed, because sharing with links is not allowed', array($itemSourceName));
 			\OC_Log::write('OCP\Share', sprintf($message, $itemSourceName), \OC_Log::ERROR);
 			throw new \Exception($message_t);
-			return false;
 		} else {
 			// Future share types need to include their own conditions
 			$message = 'Share type %s is not valid for %s';
