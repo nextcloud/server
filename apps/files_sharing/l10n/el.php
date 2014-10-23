@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "Ο διαμοιρασμός μεταξύ διακομιστών δεν έχει ενεργοποιηθεί σε αυτόν το διακομιστή",
+"The mountpoint name contains invalid characters." => "Το όνομα σημείου προσάρτησης περιέχει μη έγκυρους χαρακτήρες.",
 "Invalid or untrusted SSL certificate" => "Μη έγκυρο ή μη έμπιστο πιστοποιητικό SSL",
 "Couldn't add remote share" => "Αδυναμία προσθήκης απομακρυσμένου κοινόχρηστου φακέλου",
 "Shared with you" => "Διαμοιρασμένο με εσάς",

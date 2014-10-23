@@ -1,6 +1,7 @@
 <?php
 $TRANSLATIONS = array(
 "Server to server sharing is not enabled on this server" => "A kiszolgálók közötti megosztás nincs engedélyezve ezen a kiszolgálón",
+"The mountpoint name contains invalid characters." => "A csatlakozási pont neve érvénytelen karaktereket tartalmaz ",
 "Invalid or untrusted SSL certificate" => "Érvénytelen vagy nem megbízható az SSL tanúsítvány",
 "Couldn't add remote share" => "A távoli megosztás nem hozható létre",
 "Shared with you" => "Velem osztották meg",

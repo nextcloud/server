@@ -2,9 +2,9 @@
 $TRANSLATIONS = array(
 "Invalid request" => "داواکارى نادروستە",
 "Enable" => "چالاککردن",
+"Encryption" => "نهێنیکردن",
 "None" => "هیچ",
 "Login" => "چوونەژوورەوە",
-"Encryption" => "نهێنیکردن",
 "Server address" => "ناونیشانی ڕاژه",
 "by" => "له‌لایه‌ن",
 "Password" => "وشەی تێپەربو",

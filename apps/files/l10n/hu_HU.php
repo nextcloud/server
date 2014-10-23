@@ -5,6 +5,7 @@ $TRANSLATIONS = array(
 "Unknown error" => "Ismeretlen hiba",
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
+"Permission denied" => "Engedély megtagadva ",
 "File name cannot be empty." => "A fájlnév nem lehet semmi.",
 "\"%s\" is an invalid file name." => "\"%s\" érvénytelen, mint fájlnév.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'",

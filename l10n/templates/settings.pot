@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-22 01:54-0400\n"
+"POT-Creation-Date: 2014-10-23 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -273,7 +273,7 @@ msgid "Valid until {date}"
 msgstr ""
 
 #: js/personal.js:333 js/personal.js:334 js/users/users.js:75
-#: templates/personal.php:179 templates/personal.php:180
+#: templates/personal.php:195 templates/personal.php:196
 #: templates/users/part.grouplist.php:46 templates/users/part.userlist.php:108
 msgid "Delete"
 msgstr ""
@@ -351,6 +351,18 @@ msgstr ""
 
 #: personal.php:51 personal.php:52
 msgid "__language_name__"
+msgstr ""
+
+#: personal.php:107
+msgid "Personal Info"
+msgstr ""
+
+#: personal.php:132 templates/personal.php:173
+msgid "SSL root certificates"
+msgstr ""
+
+#: personal.php:134 templates/admin.php:357 templates/personal.php:214
+msgid "Encryption"
 msgstr ""
 
 #: templates/admin.php:13
@@ -645,10 +657,6 @@ msgstr ""
 msgid "Send mode"
 msgstr ""
 
-#: templates/admin.php:357 templates/personal.php:198
-msgid "Encryption"
-msgstr ""
-
 #: templates/admin.php:372
 msgid "From address"
 msgstr ""
@@ -713,11 +721,11 @@ msgstr ""
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:463 templates/personal.php:247
+#: templates/admin.php:463 templates/personal.php:263
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:467 templates/personal.php:250
+#: templates/admin.php:467 templates/personal.php:266
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "
@@ -787,11 +795,11 @@ msgstr ""
 msgid "Commercial Support"
 msgstr ""
 
-#: templates/personal.php:11
+#: templates/personal.php:25
 msgid "Get the apps to sync your files"
 msgstr ""
 
-#: templates/personal.php:24
+#: templates/personal.php:38
 msgid ""
 "If you want to support the project\n"
 "\t\t<a href=\"https://owncloud.org/contribute\"\n"
@@ -801,147 +809,143 @@ msgid ""
 "\t\t\ttarget=\"_blank\">spread the word</a>!"
 msgstr ""
 
-#: templates/personal.php:34
+#: templates/personal.php:48
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:43
+#: templates/personal.php:57
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
-#: templates/personal.php:54 templates/users/part.createuser.php:8
+#: templates/personal.php:68 templates/users/part.createuser.php:8
 #: templates/users/part.userlist.php:9
 msgid "Password"
 msgstr ""
 
-#: templates/personal.php:55
+#: templates/personal.php:69
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:56
+#: templates/personal.php:70
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:58
+#: templates/personal.php:72
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:61
+#: templates/personal.php:75
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:65
+#: templates/personal.php:79
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:77 templates/users/part.userlist.php:8
+#: templates/personal.php:91 templates/users/part.userlist.php:8
 msgid "Full Name"
 msgstr ""
 
-#: templates/personal.php:92
+#: templates/personal.php:106
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:94
+#: templates/personal.php:108
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:97
+#: templates/personal.php:111
 msgid ""
 "Fill in an email address to enable password recovery and receive "
 "notifications"
 msgstr ""
 
-#: templates/personal.php:105
+#: templates/personal.php:119
 msgid "Profile picture"
 msgstr ""
 
-#: templates/personal.php:110
+#: templates/personal.php:124
 msgid "Upload new"
 msgstr ""
 
-#: templates/personal.php:112
+#: templates/personal.php:126
 msgid "Select new from Files"
 msgstr ""
 
-#: templates/personal.php:113
+#: templates/personal.php:127
 msgid "Remove image"
 msgstr ""
 
-#: templates/personal.php:114
+#: templates/personal.php:128
 msgid "Either png or jpg. Ideally square but you will be able to crop it."
 msgstr ""
 
-#: templates/personal.php:116
+#: templates/personal.php:130
 msgid "Your avatar is provided by your original account."
 msgstr ""
 
-#: templates/personal.php:120
+#: templates/personal.php:134
 msgid "Cancel"
 msgstr ""
 
-#: templates/personal.php:121
+#: templates/personal.php:135
 msgid "Choose as profile image"
 msgstr ""
 
-#: templates/personal.php:127 templates/personal.php:128
+#: templates/personal.php:141 templates/personal.php:142
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:147
+#: templates/personal.php:161
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:157
-msgid "SSL root certificates"
-msgstr ""
-
-#: templates/personal.php:160
+#: templates/personal.php:176
 msgid "Common Name"
 msgstr ""
 
-#: templates/personal.php:161
+#: templates/personal.php:177
 msgid "Valid until"
 msgstr ""
 
-#: templates/personal.php:162
+#: templates/personal.php:178
 msgid "Issued By"
 msgstr ""
 
-#: templates/personal.php:171
+#: templates/personal.php:187
 #, php-format
 msgid "Valid until %s"
 msgstr ""
 
-#: templates/personal.php:190
+#: templates/personal.php:206
 msgid "Import Root Certificate"
 msgstr ""
 
-#: templates/personal.php:204
+#: templates/personal.php:220
 msgid "The encryption app is no longer enabled, please decrypt all your files"
 msgstr ""
 
-#: templates/personal.php:210
+#: templates/personal.php:226
 msgid "Log-in password"
 msgstr ""
 
-#: templates/personal.php:215
+#: templates/personal.php:231
 msgid "Decrypt all Files"
 msgstr ""
 
-#: templates/personal.php:225
+#: templates/personal.php:241
 msgid ""
 "Your encryption keys are moved to a backup location. If something went wrong "
 "you can restore the keys. Only delete them permanently if you are sure that "
 "all files are decrypted correctly."
 msgstr ""
 
-#: templates/personal.php:229
+#: templates/personal.php:245
 msgid "Restore Encryption Keys"
 msgstr ""
 
-#: templates/personal.php:233
+#: templates/personal.php:249
 msgid "Delete Encryption Keys"
 msgstr ""
 
