@@ -89,9 +89,10 @@ class OC_DB_StatementWrapper {
 			$cArg = 0;
 
 			$inSubstring = false;
+			$queryLength = strlen($query);
 
 			// Create new query
-			for ($i = 0; $i < strlen ($query); $i++) {
+			for ($i = 0; $i < $queryLength; $i++) {
 				if ($inSubstring == false) {
 					// Defines when we should start inserting values
 					if (substr ($query, $i, 9) == 'SUBSTRING') {
