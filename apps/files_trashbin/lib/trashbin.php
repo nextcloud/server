@@ -104,6 +104,9 @@ class Trashbin {
 		}
 
 		self::setUpTrash($user);
+		if ($owner !== $user) {
+			self::setUpTrash($owner);
+		}
 
 		$view = new \OC\Files\View('/' . $user);
 		$path_parts = pathinfo($file_path);
