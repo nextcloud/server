@@ -62,16 +62,6 @@ class OC_L10N implements \OCP\IL10N {
 	private $plural_form_function = null;
 
 	/**
-	 * Localization
-	 */
-	private $localizations = array(
-		'jsdate' => 'dd.mm.yy',
-		'date' => '%d.%m.%Y',
-		'datetime' => '%d.%m.%Y %H:%M:%S',
-		'time' => '%H:%M:%S',
-		'firstday' => 0);
-
-	/**
 	 * get an L10N instance
 	 * @param string $app
 	 * @param string|null $lang
@@ -126,13 +116,10 @@ class OC_L10N implements \OCP\IL10N {
 
 		// Use cache if possible
 		if(array_key_exists($app.'::'.$lang, self::$cache)) {
-
 			$this->translations = self::$cache[$app.'::'.$lang]['t'];
-			$this->localizations = self::$cache[$app.'::'.$lang]['l'];
-		}
-		else{
+		} else{
 			$i18ndir = self::findI18nDir($app);
-			// Localization is in /l10n, Texts are in $i18ndir
+			// Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
 			if((OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
 				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
@@ -162,16 +149,7 @@ class OC_L10N implements \OCP\IL10N {
 				}
 			}
 
-			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php') && OC_Helper::isSubDirectory(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')) {
-				// Include the file, save the data from $CONFIG
-				include OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php';
-				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)) {
-					$this->localizations = array_merge($this->localizations, $LOCALIZATIONS);
-				}
-			}
-
 			self::$cache[$app.'::'.$lang]['t'] = $this->translations;
-			self::$cache[$app.'::'.$lang]['l'] = $this->localizations;
 		}
 	}
 
@@ -313,17 +291,6 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * get localizations
-	 * @return array Fetch all localizations
-	 *
-	 * Returns an associative array with all localizations
-	 */
-	public function getLocalizations() {
-		$this->init();
-		return $this->localizations;
-	}
-
-	/**
 	 * Localization
 	 * @param string $type Type of localization
 	 * @param array|int|string $data parameters for this localization
@@ -334,45 +301,45 @@ class OC_L10N implements \OCP\IL10N {
 	 * Implemented types:
 	 *  - date
 	 *    - Creates a date
-	 *    - l10n-field: date
 	 *    - params: timestamp (int/string)
 	 *  - datetime
 	 *    - Creates date and time
-	 *    - l10n-field: datetime
 	 *    - params: timestamp (int/string)
 	 *  - time
 	 *    - Creates a time
-	 *    - l10n-field: time
 	 *    - params: timestamp (int/string)
 	 */
-	public function l($type, $data) {
+	public function l($type, $data, $options = array()) {
+		if ($type === 'firstday') {
+			return $this->getFirstWeekDay();
+		}
+		if ($type === 'jsdate') {
+			return $this->getDateFormat();
+		}
+
 		$this->init();
+		$value = new DateTime();
+		if($data instanceof DateTime) {
+			$value = $data;
+		} elseif(is_string($data) && !is_numeric($data)) {
+			$data = strtotime($data);
+			$value->setTimestamp($data);
+		} else {
+			$value->setTimestamp($data);
+		}
+		$locale = self::findLanguage();
+		$options = array_merge(array('width' => 'long'), $options);
+		$width = $options['width'];
 		switch($type) {
-			// If you add something don't forget to add it to $localizations
-			// at the top of the page
 			case 'date':
-			case 'datetime':
-			case 'time':
-				if($data instanceof DateTime) {
-					$data = $data->getTimestamp();
-				} elseif(is_string($data) && !is_numeric($data)) {
-					$data = strtotime($data);
-				}
-				$locales = array(self::findLanguage());
-				if (strlen($locales[0]) == 2) {
-					$locales[] = $locales[0].'_'.strtoupper($locales[0]);
-				}
-				setlocale(LC_TIME, $locales);
-				$format = $this->localizations[$type];
-				// Check for Windows to find and replace the %e modifier correctly
-				if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-					$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
-				}
-				return strftime($format, $data);
+				return Punic\Calendar::formatDate($value, $width, $locale);
 				break;
-			case 'firstday':
-			case 'jsdate':
-				return $this->localizations[$type];
+			case 'datetime':
+				return Punic\Calendar::formatDatetime($value, $width, $locale);
+				break;
+			case 'time':
+				return Punic\Calendar::formatTime($value, $width, $locale);
+				break;
 			default:
 				return false;
 		}
@@ -495,7 +462,7 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * find the l10n directory
 	 * @param string $app App that needs to be translated
-	 * @return directory
+	 * @return string directory
 	 */
 	protected static function findI18nDir($app) {
 		// find the i18n dir
@@ -546,5 +513,22 @@ class OC_L10N implements \OCP\IL10N {
 			return file_exists($dir.'/'.$lang.'.php');
 		}
 		return false;
+	}
+
+	/**
+	 * @return string
+	 * @throws \Punic\Exception\ValueNotInList
+	 */
+	public function getDateFormat() {
+		$locale = self::findLanguage();
+		return Punic\Calendar::getDateFormat('short', $locale);
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getFirstWeekDay() {
+		$locale = self::findLanguage();
+		return Punic\Calendar::getFirstWeekday($locale);
 	}
 }
