@@ -189,7 +189,7 @@ class LostController extends Controller {
 			ISecureRandom::CHAR_UPPER);
 		$this->config->setUserValue($user, 'owncloud', 'lostpassword', $token);
 
-		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.setPassword', array('userId' => $user, 'token' => $token));
+		$link = $this->urlGenerator->linkToRouteAbsolute('core.lost.resetform', array('userId' => $user, 'token' => $token));
 
 		$tmpl = new \OC_Template('core/lostpassword', 'email');
 		$tmpl->assign('link', $link, false);

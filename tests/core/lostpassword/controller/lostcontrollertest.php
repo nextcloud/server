@@ -129,7 +129,7 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 		$this->container['URLGenerator']
 			->expects($this->once())
 			->method('linkToRouteAbsolute')
-			->with('core.lost.setPassword', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
+			->with('core.lost.resetform', array('userId' => 'ExistingUser', 'token' => 'ThisIsMaybeANotSoSecretToken!'))
 			->will($this->returnValue('https://ownCloud.com/index.php/lostpassword/'));
 
 		$response = $this->lostController->email('ExistingUser');
