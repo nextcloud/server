@@ -72,15 +72,15 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('PreviewManager', function ($c) {
 			return new PreviewManager();
 		});
-		$this->registerService('TagMapper', function($c) {
+		$this->registerService('TagMapper', function(Server $c) {
 			return new TagMapper($c->getDb());
 		});
-		$this->registerService('TagManager', function ($c) {
+		$this->registerService('TagManager', function (Server $c) {
 			$tagMapper = $c->query('TagMapper');
 			$user = \OC_User::getUser();
 			return new TagManager($tagMapper, $user);
 		});
-		$this->registerService('RootFolder', function ($c) {
+		$this->registerService('RootFolder', function (Server $c) {
 			// TODO: get user and user manager from container as well
 			$user = \OC_User::getUser();
 			/** @var $c SimpleContainer */
@@ -90,28 +90,16 @@ class Server extends SimpleContainer implements IServerContainer {
 			$view = new View();
 			return new Root($manager, $view, $user);
 		});
-		$this->registerService('UserManager', function ($c) {
-			/**
-			 * @var SimpleContainer $c
-			 * @var \OC\AllConfig $config
-			 */
-			$config = $c->query('AllConfig');
+		$this->registerService('UserManager', function (Server $c) {
+			$config = $c->getConfig();
 			return new \OC\User\Manager($config);
 		});
-		$this->registerService('GroupManager', function ($c) {
-			/**
-			 * @var SimpleContainer $c
-			 * @var \OC\User\Manager $userManager
-			 */
-			$userManager = $c->query('UserManager');
+		$this->registerService('GroupManager', function (Server $c) {
+			$userManager = $c->getUserManager();
 			return new \OC\Group\Manager($userManager);
 		});
-		$this->registerService('UserSession', function ($c) {
-			/**
-			 * @var SimpleContainer $c
-			 * @var \OC\User\Manager $manager
-			 */
-			$manager = $c->query('UserManager');
+		$this->registerService('UserSession', function (Server $c) {
+			$manager = $c->getUserManager();
 			$userSession = new \OC\User\Session($manager, new \OC\Session\Memory(''));
 			$userSession->listen('\OC\User', 'preCreateUser', function ($uid, $password) {
 				\OC_Hook::emit('OC_User', 'pre_createUser', array('run' => true, 'uid' => $uid, 'password' => $password));
@@ -160,9 +148,8 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('L10NFactory', function ($c) {
 			return new \OC\L10N\Factory();
 		});
-		$this->registerService('URLGenerator', function ($c) {
-			/** @var $c SimpleContainer */
-			$config = $c->query('AllConfig');
+		$this->registerService('URLGenerator', function (Server $c) {
+			$config = $c->getConfig();
 			return new \OC\URLGenerator($config);
 		});
 		$this->registerService('AppHelper', function ($c) {
@@ -181,7 +168,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('AvatarManager', function ($c) {
 			return new AvatarManager();
 		});
-		$this->registerService('Logger', function ($c) {
+		$this->registerService('Logger', function (Server $c) {
 			/** @var $c SimpleContainer */
 			$logClass = $c->query('AllConfig')->getSystemValue('log_type', 'owncloud');
 			$logger = 'OC_Log_' . ucfirst($logClass);
@@ -189,17 +176,11 @@ class Server extends SimpleContainer implements IServerContainer {
 
 			return new Log($logger);
 		});
-		$this->registerService('JobList', function ($c) {
-			/**
-			 * @var Server $c
-			 */
+		$this->registerService('JobList', function (Server $c) {
 			$config = $c->getConfig();
 			return new \OC\BackgroundJob\JobList($c->getDatabaseConnection(), $config);
 		});
-		$this->registerService('Router', function ($c) {
-			/**
-			 * @var Server $c
-			 */
+		$this->registerService('Router', function (Server $c) {
 			$cacheFactory = $c->getMemCacheFactory();
 			if ($cacheFactory->isAvailable()) {
 				$router = new \OC\Route\CachingRouter($cacheFactory->create('route'));
@@ -214,13 +195,10 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('SecureRandom', function ($c) {
 			return new SecureRandom();
 		});
-		$this->registerService('Crypto', function ($c) {
-			return new Crypto(\OC::$server->getConfig(), \OC::$server->getSecureRandom());
+		$this->registerService('Crypto', function (Server $c) {
+			return new Crypto($c->getConfig(), $c->getSecureRandom());
 		});
-		$this->registerService('DatabaseConnection', function ($c) {
-			/**
-			 * @var Server $c
-			 */
+		$this->registerService('DatabaseConnection', function (Server $c) {
 			$factory = new \OC\DB\ConnectionFactory();
 			$type = $c->getConfig()->getSystemValue('dbtype', 'sqlite');
 			if (!$factory->isValidType($type)) {
@@ -231,18 +209,14 @@ class Server extends SimpleContainer implements IServerContainer {
 			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
 			return $connection;
 		});
-		$this->registerService('Db', function ($c) {
-			/**
-			 * @var Server $c
-			 */
+		$this->registerService('Db', function (Server $c) {
 			return new Db($c->getDatabaseConnection());
 		});
-		$this->registerService('HTTPHelper', function (SimpleContainer $c) {
-			$config = $c->query('AllConfig');
+		$this->registerService('HTTPHelper', function (Server $c) {
+			$config = $c->getConfig();
 			return new HTTPHelper($config);
 		});
-		$this->registerService('EventLogger', function ($c) {
-			/** @var Server $c */
+		$this->registerService('EventLogger', function (Server $c) {
 			if (defined('DEBUG') and DEBUG) {
 				return new EventLogger();
 			} else {

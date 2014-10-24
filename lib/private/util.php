@@ -420,7 +420,7 @@ class OC_Util {
 	 * @param \OCP\IConfig $config
 	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer($config) {
+	public static function checkServer(\OCP\IConfig $config) {
 		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		$CONFIG_DATADIRECTORY = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -1309,7 +1309,7 @@ class OC_Util {
 	 * @param \OCP\IConfig $config
 	 * @return bool whether the core or any app needs an upgrade
 	 */
-	public static function needUpgrade($config) {
+	public static function needUpgrade(\OCP\IConfig $config) {
 		if ($config->getSystemValue('installed', false)) {
 			$installedVersion = $config->getSystemValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());
