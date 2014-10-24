@@ -56,7 +56,7 @@ class Wizard extends LDAPUtility {
 			Wizard::$l = \OC::$server->getL10N('user_ldap');
 		}
 		$this->access = $access;
-		$this->result = new WizardResult;
+		$this->result = new WizardResult();
 	}
 
 	public function  __destruct() {
@@ -120,7 +120,11 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function countUsers() {
-		$filter = $this->configuration->ldapUserFilter;
+		$this->detectUserDisplayNameAttribute();
+		$filter = $this->access->combineFilterWithAnd(array(
+			$this->configuration->ldapUserFilter,
+			$this->configuration->ldapUserDisplayName . '=*'
+		));
 
 		$usersTotal = $this->countEntries($filter, 'users');
 		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
@@ -149,6 +153,47 @@ class Wizard extends LDAPUtility {
 		));
 
 		return $this->access->countUsers($filter);
+	}
+
+	/**
+	 * detects the display name attribute. If a setting is already present that
+	 * returns at least one hit, the detection will be canceled.
+	 * @return WizardResult|bool
+	 */
+	public function detectUserDisplayNameAttribute() {
+		if(!$this->checkRequirements(array('ldapHost',
+										'ldapPort',
+										'ldapBase',
+										'ldapUserFilter',
+										))) {
+			return  false;
+		}
+
+		$attr = $this->configuration->ldapUserDisplayName;
+		if($attr !== 'displayName' && !empty($attr)) {
+			// most likely not the default value with upper case N,
+			// verify it still produces a result
+			$count = intval($this->countUsersWithAttribute($attr));
+			if($count > 0) {
+				//no change, but we sent it back to make sure the user interface
+				//is still correct, even if the ajax call was cancelled inbetween
+				$this->result->addChange('ldap_display_name', $attr);
+				return $this->result;
+			}
+		}
+
+		// first attribute that has at least one result wins
+		$displayNameAttrs = array('displayname', 'cn');
+		foreach ($displayNameAttrs as $attr) {
+			$count = intval($this->countUsersWithAttribute($attr));
+
+			if($count > 0) {
+				$this->applyFind('ldap_display_name', $attr);
+				return $this->result;
+			}
+		};
+
+		throw new \Exception(self::$t->l('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
 	}
 
 	/**

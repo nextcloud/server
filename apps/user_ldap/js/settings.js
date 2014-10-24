@@ -151,8 +151,10 @@ var LdapWizard = {
 	ajaxRequests: {},
 
 	ajax: function(param, fnOnSuccess, fnOnError, reqID) {
-		if(reqID !== undefined) {
+		if(typeof reqID !== 'undefined') {
 			if(LdapWizard.ajaxRequests.hasOwnProperty(reqID)) {
+				console.log('aborting ' + reqID);
+				console.log(param);
 				LdapWizard.ajaxRequests[reqID].abort();
 			}
 		}
@@ -167,7 +169,7 @@ var LdapWizard = {
 				}
 			}
 		);
-		if(reqID !== undefined) {
+		if(typeof reqID !== 'undefined') {
 			LdapWizard.ajaxRequests[reqID] = request;
 		}
 	},
@@ -342,7 +344,7 @@ var LdapWizard = {
 	},
 
 	_countThings: function(method, spinnerID, doneCallback) {
-		param = 'action='+method+
+		var param = 'action='+method+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
@@ -371,7 +373,12 @@ var LdapWizard = {
 	},
 
 	countUsers: function(doneCallback) {
-		LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
+		//we make user counting depending on having a display name attribute
+		var param = 'action=detectUserDisplayNameAttribute' +
+			'&ldap_serverconfig_chooser='+
+			encodeURIComponent($('#ldap_serverconfig_chooser').val());
+
+			LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
 	},
 
 	detectEmailAttribute: function() {
