@@ -205,6 +205,13 @@ class OC_DB {
 	}
 
 	/**
+	 * Rollback the database changes done during a transaction that is in progress
+	 */
+	public static function rollback() {
+		return \OC::$server->getDatabaseConnection()->rollback();
+	}
+
+	/**
 	 * saves database schema to xml file
 	 * @param string $file name of file
 	 * @param int $mode
