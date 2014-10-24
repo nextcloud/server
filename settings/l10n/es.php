@@ -1,6 +1,6 @@
 <?php
 $TRANSLATIONS = array(
-"Enabled" => "Habilitar",
+"Enabled" => "Habilitado",
 "Not enabled" => "No habilitado",
 "Recommended" => "Recomendado",
 "Authentication error" => "Error de autenticación",
@@ -70,7 +70,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Se debe dar un nombre válido para el grupo ",
 "deleted {groupName}" => "borrado {groupName}",
 "undo" => "deshacer",
-"Group Admin" => "Administrador del Grupo",
 "never" => "nunca",
 "deleted {userName}" => "borrado {userName}",
 "add group" => "añadir Grupo",
@@ -79,6 +78,7 @@ $TRANSLATIONS = array(
 "A valid password must be provided" => "Se debe proporcionar una contraseña válida",
 "Warning: Home directory for user \"{user}\" already exists" => "Atención: el directorio de inicio para el usuario \"{user}\" ya existe.",
 "__language_name__" => "Castellano",
+"Personal Info" => "Información personal",
 "SSL root certificates" => "Certificados raíz SSL",
 "Encryption" => "Cifrado",
 "Everything (fatal issues, errors, warnings, info, debug)" => "Todo (Información, Avisos, Errores, debug y problemas fatales)",

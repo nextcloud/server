@@ -21,7 +21,6 @@ $TRANSLATIONS = array(
 "Delete" => "Eyða",
 "Groups" => "Hópar",
 "undo" => "afturkalla",
-"Group Admin" => "Hópstjóri",
 "never" => "aldrei",
 "__language_name__" => "__nafn_tungumáls__",
 "SSL root certificates" => "SSL rótar skilríki",

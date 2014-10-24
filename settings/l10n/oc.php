@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Delete" => "Escafa",
 "Groups" => "Grops",
 "undo" => "defar",
-"Group Admin" => "Grop Admin",
 "never" => "jamai",
 "__language_name__" => "__language_name__",
 "Login" => "Login",

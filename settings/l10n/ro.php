@@ -46,7 +46,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "Decriptare fișiere... Te rog așteaptă, poate dura ceva timp.",
 "Groups" => "Grupuri",
 "undo" => "Anulează ultima acțiune",
-"Group Admin" => "Grupul Admin ",
 "never" => "niciodată",
 "add group" => "adăugaţi grupul",
 "A valid username must be provided" => "Trebuie să furnizaţi un nume de utilizator valid",

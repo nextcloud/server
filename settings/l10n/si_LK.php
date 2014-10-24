@@ -16,7 +16,6 @@ $TRANSLATIONS = array(
 "Delete" => "මකා දමන්න",
 "Groups" => "කණ්ඩායම්",
 "undo" => "නිෂ්ප්‍රභ කරන්න",
-"Group Admin" => "කාණ්ඩ පරිපාලක",
 "never" => "කවදාවත්",
 "SSL root certificates" => "SSL මූල සහතිකයන්",
 "Encryption" => "ගුප්ත කේතනය",

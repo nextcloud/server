@@ -69,7 +69,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Ett giltigt gruppnamn måste anges",
 "deleted {groupName}" => "raderade {groupName} ",
 "undo" => "ångra",
-"Group Admin" => "Gruppadministratör",
 "never" => "aldrig",
 "deleted {userName}" => "raderade {userName}",
 "add group" => "lägg till grupp",

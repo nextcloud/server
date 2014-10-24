@@ -30,7 +30,6 @@ $TRANSLATIONS = array(
 "Groups" => "Grupet",
 "deleted {groupName}" => "u fshi {groupName}",
 "undo" => "anullo veprimin",
-"Group Admin" => "Grupi Admin",
 "never" => "asnjëherë",
 "deleted {userName}" => "u fshi {userName}",
 "add group" => "shto grup",

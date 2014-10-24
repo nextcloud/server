@@ -58,7 +58,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "نام کاربری معتبر می بایست وارد شود",
 "deleted {groupName}" => "گروه {groupName} حذف شد",
 "undo" => "بازگشت",
-"Group Admin" => "گروه مدیران",
 "never" => "هرگز",
 "deleted {userName}" => "کاربر {userName} حذف شد",
 "add group" => "افزودن گروه",

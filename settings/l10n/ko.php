@@ -51,7 +51,6 @@ $TRANSLATIONS = array(
 "Error creating group" => "그룹을 생성하던 중 오류가 발생하였습니다",
 "deleted {groupName}" => "{groupName} 삭제됨",
 "undo" => "실행 취소",
-"Group Admin" => "그룹 관리자",
 "never" => "없음",
 "deleted {userName}" => "{userName} 삭제됨",
 "add group" => "그룹 추가",

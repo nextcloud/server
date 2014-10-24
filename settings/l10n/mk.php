@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "Error creating group" => "Грешка при креирање на група",
 "A valid group name must be provided" => "Мора да се обезбеди валидно име на група",
 "undo" => "врати",
-"Group Admin" => "Администратор на група",
 "never" => "никогаш",
 "add group" => "додади група",
 "A valid username must be provided" => "Мора да се обезбеди валидно корисничко име ",

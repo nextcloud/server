@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "Delete" => "מחיקה",
 "Groups" => "קבוצות",
 "undo" => "ביטול",
-"Group Admin" => "מנהל הקבוצה",
 "never" => "לעולם לא",
 "add group" => "הוספת קבוצה",
 "A valid username must be provided" => "יש לספק שם משתמש תקני",

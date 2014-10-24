@@ -25,7 +25,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "Atšifrēju failus... Uzgaidiet tas var ilgt kādu laiku.",
 "Groups" => "Grupas",
 "undo" => "atsaukt",
-"Group Admin" => "Grupas administrators",
 "never" => "nekad",
 "add group" => "pievienot grupu",
 "A valid username must be provided" => "Jānorāda derīgs lietotājvārds",

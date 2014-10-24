@@ -9,7 +9,6 @@ $TRANSLATIONS = array(
 "Delete" => "ਹਟਾਓ",
 "Groups" => "ਗਰੁੱਪ",
 "undo" => "ਵਾਪਸ",
-"Group Admin" => "ਗਰੁੱਪ ਐਡਮਿਨ",
 "add group" => "ਗਰੁੱਪ ਸ਼ਾਮਲ",
 "__language_name__" => "__ਭਾਸ਼ਾ_ਨਾਂ__",
 "Login" => "ਲਾਗਇਨ",

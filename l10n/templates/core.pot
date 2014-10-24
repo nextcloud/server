@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-23 01:54-0400\n"
+"POT-Creation-Date: 2014-10-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -53,23 +53,23 @@ msgstr ""
 msgid "Disabled incompatible apps: %s"
 msgstr ""
 
-#: avatar/controller.php:69
+#: avatar/controller.php:70
 msgid "No image or file provided"
 msgstr ""
 
-#: avatar/controller.php:86
+#: avatar/controller.php:87
 msgid "Unknown filetype"
 msgstr ""
 
-#: avatar/controller.php:90
+#: avatar/controller.php:91
 msgid "Invalid image"
 msgstr ""
 
-#: avatar/controller.php:120 avatar/controller.php:147
+#: avatar/controller.php:121 avatar/controller.php:148
 msgid "No temporary profile picture available, try again"
 msgstr ""
 
-#: avatar/controller.php:140
+#: avatar/controller.php:141
 msgid "No crop data provided"
 msgstr ""
 
@@ -585,7 +585,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: strings.php:7 templates/layout.user.php:58 templates/layout.user.php:127
+#: strings.php:7 templates/layout.user.php:58 templates/layout.user.php:131
 msgid "Apps"
 msgstr ""
 
@@ -819,7 +819,7 @@ msgstr ""
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:89 templates/singleuser.user.php:8
+#: templates/layout.user.php:93 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr ""
 

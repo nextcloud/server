@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "Desencriptando archivos... Por favor espere, esto puede tardar.",
 "Groups" => "Grupos",
 "undo" => "deshacer",
-"Group Admin" => "Grupo Administrador",
 "never" => "nunca",
 "add group" => "agregar grupo",
 "A valid username must be provided" => "Debe ingresar un nombre de usuario válido",

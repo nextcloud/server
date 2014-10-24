@@ -66,7 +66,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Baliozko talde izena eman behar da",
 "deleted {groupName}" => "{groupName} ezbatuta",
 "undo" => "desegin",
-"Group Admin" => "Talde administradorea",
 "never" => "inoiz",
 "deleted {userName}" => "{userName} ezabatuta",
 "add group" => "gehitu taldea",

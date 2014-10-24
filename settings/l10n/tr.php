@@ -70,7 +70,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Geçerli bir grup adı mutlaka sağlanmalı",
 "deleted {groupName}" => "{groupName} silindi",
 "undo" => "geri al",
-"Group Admin" => "Grup Yöneticisi",
 "never" => "hiçbir zaman",
 "deleted {userName}" => "{userName} silindi",
 "add group" => "grup ekle",

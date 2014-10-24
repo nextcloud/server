@@ -36,7 +36,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "Dekrypterer filer … Ver venleg og vent, dette kan ta ei stund.",
 "Groups" => "Grupper",
 "undo" => "angra",
-"Group Admin" => "Gruppestyrar",
 "never" => "aldri",
 "add group" => "legg til gruppe",
 "A valid username must be provided" => "Du må oppgje eit gyldig brukarnamn",

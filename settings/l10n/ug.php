@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "Delete" => "ئۆچۈر",
 "Groups" => "گۇرۇپپا",
 "undo" => "يېنىۋال",
-"Group Admin" => "گۇرۇپپا باشقۇرغۇچى",
 "never" => "ھەرگىز",
 "add group" => "گۇرۇپپا قوش",
 "A valid username must be provided" => "چوقۇم ئىناۋەتلىك ئىشلەتكۈچى ئىسمىدىن بىرنى تەمىنلەش كېرەك",

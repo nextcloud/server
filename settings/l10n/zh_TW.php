@@ -50,7 +50,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "檔案解密中，請稍候。",
 "Groups" => "群組",
 "undo" => "復原",
-"Group Admin" => "群組管理員",
 "never" => "永不",
 "add group" => "新增群組",
 "A valid username must be provided" => "必須提供一個有效的用戶名",

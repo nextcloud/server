@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Érvényes csoportnevet kell megadni",
 "deleted {groupName}" => "törölve: {groupName}",
 "undo" => "visszavonás",
-"Group Admin" => "Csoportadminisztrátor",
 "never" => "soha",
 "deleted {userName}" => "törölve: {userName}",
 "add group" => "csoport hozzáadása",

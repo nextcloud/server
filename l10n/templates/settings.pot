@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-23 01:54-0400\n"
+"POT-Creation-Date: 2014-10-24 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -292,7 +292,6 @@ msgstr ""
 
 #: js/settings.js:27 js/users/users.js:49
 #: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
-#: templates/users/part.userlist.php:41
 msgid "Groups"
 msgstr ""
 
@@ -316,9 +315,9 @@ msgstr ""
 msgid "undo"
 msgstr ""
 
-#: js/users/users.js:53 templates/users/part.userlist.php:12
+#: js/users/users.js:53 templates/users/part.userlist.php:41
 #: templates/users/part.userlist.php:57
-msgid "Group Admin"
+msgid "no group"
 msgstr ""
 
 #: js/users/users.js:96 templates/users/part.userlist.php:98
@@ -1014,6 +1013,10 @@ msgstr ""
 
 #: templates/users/part.userlist.php:7
 msgid "Username"
+msgstr ""
+
+#: templates/users/part.userlist.php:12
+msgid "Group Admin for"
 msgstr ""
 
 #: templates/users/part.userlist.php:14

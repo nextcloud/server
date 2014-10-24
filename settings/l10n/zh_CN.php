@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "请提供一个有效的组名称",
 "deleted {groupName}" => "已删除 {groupName}",
 "undo" => "撤销",
-"Group Admin" => "组管理员",
 "never" => "从不",
 "deleted {userName}" => "已删除 {userName}",
 "add group" => "增加组",

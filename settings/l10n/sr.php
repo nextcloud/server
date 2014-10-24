@@ -23,7 +23,6 @@ $TRANSLATIONS = array(
 "Delete" => "Обриши",
 "Groups" => "Групе",
 "undo" => "опозови",
-"Group Admin" => "Управник групе",
 "never" => "никада",
 "add group" => "додај групу",
 "A valid username must be provided" => "Морате унети исправно корисничко име",

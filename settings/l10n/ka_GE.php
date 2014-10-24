@@ -24,7 +24,6 @@ $TRANSLATIONS = array(
 "Delete" => "წაშლა",
 "Groups" => "ჯგუფები",
 "undo" => "დაბრუნება",
-"Group Admin" => "ჯგუფის ადმინისტრატორი",
 "never" => "არასდროს",
 "add group" => "ჯგუფის დამატება",
 "A valid username must be provided" => "უნდა მიუთითოთ არსებული მომხმარებლის სახელი",

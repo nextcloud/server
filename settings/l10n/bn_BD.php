@@ -38,7 +38,6 @@ $TRANSLATIONS = array(
 "Delete" => "মুছে",
 "Groups" => "গোষ্ঠীসমূহ",
 "undo" => "ক্রিয়া প্রত্যাহার",
-"Group Admin" => "গোষ্ঠী প্রশাসক",
 "never" => "কখনোই নয়",
 "__language_name__" => "__language_name__",
 "SSL root certificates" => "SSL  রুট সনদপত্র",

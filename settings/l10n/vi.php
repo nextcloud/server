@@ -27,7 +27,6 @@ $TRANSLATIONS = array(
 "Delete" => "Xóa",
 "Groups" => "Nhóm",
 "undo" => "lùi lại",
-"Group Admin" => "Nhóm quản trị",
 "never" => "không thay đổi",
 "__language_name__" => "__Ngôn ngữ___",
 "SSL root certificates" => "Chứng chỉ SSL root",

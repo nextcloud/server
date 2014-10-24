@@ -18,7 +18,6 @@ $TRANSLATIONS = array(
 "Delete" => "Läschen",
 "Groups" => "Gruppen",
 "undo" => "réckgängeg man",
-"Group Admin" => "Gruppen Admin",
 "never" => "ni",
 "__language_name__" => "__language_name__",
 "Login" => "Login",

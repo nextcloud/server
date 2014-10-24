@@ -1,9 +1,15 @@
 <?php
 $TRANSLATIONS = array(
 "Unknown error" => "Άγνωστο σφάλμα",
+"Missing recovery key password" => "Λείπει το κλειδί επαναφοράς κωδικού",
+"Please repeat the recovery key password" => "Παρακαλώ επαναλάβετε το κλειδί επαναφοράς κωδικού",
+"Repeated recovery key password does not match the provided recovery key password" => "Η επανάληψη του κλειδιού επαναφοράς κωδικού δεν ταιριάζει με το δοσμένο κλειδί επαναφοράς κωδικού",
 "Recovery key successfully enabled" => "Επιτυχής ενεργοποίηση κλειδιού ανάκτησης",
 "Could not disable recovery key. Please check your recovery key password!" => "Αποτυχία απενεργοποίησης κλειδιού ανάκτησης. Παρακαλώ ελέγξτε τον κωδικό του κλειδιού ανάκτησής σας!",
 "Recovery key successfully disabled" => "Επιτυχής απενεργοποίηση κλειδιού ανάκτησης",
+"Please provide the old recovery password" => "Παρακαλώ παρέχετε τον παλιό κωδικό επαναφοράς",
+"Please provide a new recovery password" => "Παρακαλώ παρέχετε ένα νέο κωδικό επαναφοράς",
+"Please repeat the new recovery password" => "Παρακαλώ επαναλάβετε το νέο κωδικό επαναφοράς",
 "Password successfully changed." => "Ο κωδικός αλλάχτηκε επιτυχώς.",
 "Could not change the password. Maybe the old password was not correct." => "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός.",
 "Private key password successfully updated." => "Το Προσωπικό κλειδί πρόσβασης ενημερώθηκε επιτυχώς",

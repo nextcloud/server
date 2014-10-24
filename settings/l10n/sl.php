@@ -61,7 +61,6 @@ $TRANSLATIONS = array(
 "Unable to delete {objName}" => "Ni mogoče izbrisati {objName}",
 "Error creating group" => "Napaka ustvarjanja skupine",
 "undo" => "razveljavi",
-"Group Admin" => "Skrbnik skupine",
 "never" => "nikoli",
 "add group" => "dodaj skupino",
 "A valid username must be provided" => "Navedeno mora biti veljavno uporabniško ime",

@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "有効なグループ名を指定する必要があります",
 "deleted {groupName}" => "{groupName} を削除しました",
 "undo" => "元に戻す",
-"Group Admin" => "グループ管理者",
 "never" => "なし",
 "deleted {userName}" => "{userName} を削除しました",
 "add group" => "グループを追加",

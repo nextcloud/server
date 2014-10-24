@@ -17,7 +17,6 @@ $TRANSLATIONS = array(
 "Delete" => "நீக்குக",
 "Groups" => "குழுக்கள்",
 "undo" => "முன் செயல் நீக்கம் ",
-"Group Admin" => "குழு நிர்வாகி",
 "never" => "ஒருபோதும்",
 "__language_name__" => "_மொழி_பெயர்_",
 "SSL root certificates" => "SSL வேர் சான்றிதழ்கள்",

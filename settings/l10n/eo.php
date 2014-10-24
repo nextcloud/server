@@ -48,7 +48,6 @@ $TRANSLATIONS = array(
 "Groups" => "Grupoj",
 "deleted {groupName}" => "{groupName} foriĝis",
 "undo" => "malfari",
-"Group Admin" => "Grupadministranto",
 "never" => "neniam",
 "deleted {userName}" => "{userName} foriĝis",
 "add group" => "aldoni grupon",

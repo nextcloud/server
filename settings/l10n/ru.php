@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Введите правильное имя группы",
 "deleted {groupName}" => "удалено {groupName}",
 "undo" => "отмена",
-"Group Admin" => "Администратор группы",
 "never" => "никогда",
 "deleted {userName}" => "удалён {userName}",
 "add group" => "добавить группу",

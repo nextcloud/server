@@ -24,7 +24,6 @@ $TRANSLATIONS = array(
 "Delete" => "ลบ",
 "Groups" => "กลุ่ม",
 "undo" => "เลิกทำ",
-"Group Admin" => "ผู้ดูแลกลุ่ม",
 "never" => "ไม่ต้องเลย",
 "__language_name__" => "ภาษาไทย",
 "SSL root certificates" => "ใบรับรองความปลอดภัยด้วยระบบ SSL จาก Root",

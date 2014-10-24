@@ -70,7 +70,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Sisesta nõuetele vastav grupi nimi",
 "deleted {groupName}" => "kustutatud {groupName}",
 "undo" => "tagasi",
-"Group Admin" => "Grupi admin",
 "never" => "mitte kunagi",
 "deleted {userName}" => "kustutatud {userName}",
 "add group" => "lisa grupp",

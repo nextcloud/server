@@ -67,7 +67,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Musíte zadať platný názov skupiny",
 "deleted {groupName}" => "vymazaná {groupName}",
 "undo" => "vrátiť",
-"Group Admin" => "Správca skupiny",
 "never" => "nikdy",
 "deleted {userName}" => "vymazané {userName}",
 "add group" => "pridať skupinu",

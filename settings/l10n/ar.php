@@ -49,7 +49,6 @@ $TRANSLATIONS = array(
 "Decrypting files... Please wait, this can take some time." => "فك تشفير الملفات... يرجى الانتظار, من الممكن ان ياخذ بعض الوقت.",
 "Groups" => "مجموعات",
 "undo" => "تراجع",
-"Group Admin" => "مدير المجموعة",
 "never" => "بتاتا",
 "add group" => "اضافة مجموعة",
 "A valid username must be provided" => "يجب ادخال اسم مستخدم صحيح",

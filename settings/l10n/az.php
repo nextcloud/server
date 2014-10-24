@@ -64,7 +64,6 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Düzgün qrup adı təyin edilməlidir",
 "deleted {groupName}" => "{groupName} silindi",
 "undo" => "geriyə",
-"Group Admin" => "Qrup İnzibatçısı",
 "never" => "heç vaxt",
 "deleted {userName}" => "{userName} silindi",
 "add group" => "qrupu əlavə et",
