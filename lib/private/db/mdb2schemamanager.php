@@ -144,10 +144,10 @@ class MDB2SchemaManager {
 	}
 
 	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @param \Doctrine\DBAL\Schema\Schema|\Doctrine\DBAL\Schema\SchemaDiff $schema
 	 * @return bool
 	 */
-	private function executeSchemaChange(\Doctrine\DBAL\Schema\Schema $schema) {
+	private function executeSchemaChange($schema) {
 		$this->conn->beginTransaction();
 		foreach ($schema->toSql($this->conn->getDatabasePlatform()) as $sql) {
 			$this->conn->query($sql);
