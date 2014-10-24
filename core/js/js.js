@@ -468,15 +468,6 @@ OC.search.customResults={};
 OC.search.currentResult=-1;
 OC.search.lastQuery='';
 OC.search.lastResults={};
-//translations for result type ids, can be extended by apps
-// FIXME: move to later in the init process, after translations were loaded
-
-OC.search.resultTypes={
-	file: 'File', //t('core','File'),
-	folder: 'Folder', //t('core','Folder'),
-	image: 'Image', //t('core','Image'),
-	audio: 'Audio' //t('core','Audio')
-};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
