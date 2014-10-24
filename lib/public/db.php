@@ -97,6 +97,13 @@ class DB {
 	}
 
 	/**
+	 * Rollback the database changes done during a transaction that is in progress
+	 */
+	public static function rollback() {
+		\OC_DB::rollback();
+	}
+
+	/**
 	 * Check if a result is an error, works with Doctrine
 	 * @param mixed $result
 	 * @return bool
