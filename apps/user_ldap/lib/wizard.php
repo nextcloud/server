@@ -685,7 +685,8 @@ class Wizard extends LDAPUtility {
 			$this->ldap->getDN($cr, $er);
 			$attrs = $this->ldap->getAttributes($cr, $er);
 			$result = array();
-			for($i = 0; $i < count($possibleAttrs); $i++) {
+			$possibleAttrsCount = count($possibleAttrs);
+			for($i = 0; $i < $possibleAttrsCount; $i++) {
 				if(isset($attrs[$possibleAttrs[$i]])) {
 					$result[$possibleAttrs[$i]] = $attrs[$possibleAttrs[$i]]['count'];
 				}

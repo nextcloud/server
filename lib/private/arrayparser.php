@@ -182,7 +182,9 @@ class ArrayParser {
 		if (substr($body, -1, 1) !== ',') {
 			$body .= ',';
 		}
-		for ($i = 0; $i < strlen($body); $i++) {
+
+		$bodyLength = strlen($body);
+		for ($i = 0; $i < $bodyLength; $i++) {
 			$char = substr($body, $i, 1);
 			if ($char === '\\') {
 				if ($escaped) {

@@ -54,8 +54,8 @@ $wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => $l->t('Server'))
 $wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('User Filter'));
 $wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Filter'));
 $wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Group Filter'));
-
-for($i = 0; $i < count($wizTabs); $i++) {
+$wizTabsCount = count($wizTabs);
+for($i = 0; $i < $wizTabsCount; $i++) {
 	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);
 	if($i === 0) {
 		$tab->assign('serverConfigurationPrefixes', $prefixes);
