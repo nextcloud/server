@@ -120,7 +120,7 @@ if( $task eq 'read' ){
 			my $language = ( $file =~ /\.js$/ ? 'Python' : 'PHP');
 			my $joinexisting = ( -e $output ? '--join-existing' : '');
 			print "    Reading $file\n";
-			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="6.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;
+			`xgettext --output="$output" $joinexisting $keywords --language=$language "$file" --add-comments=TRANSLATORS --from-code=UTF-8 --package-version="8.0.0" --package-name="ownCloud Core" --msgid-bugs-address="translations\@owncloud.org"`;
 		}
 		chdir( $whereami );
 	}
@@ -176,17 +176,22 @@ elsif( $task eq 'write' ){
 				s/\$/\\\$/g;
 			}
 
-			# Write PHP file
-			open( OUT, ">$language.php" );
-			print OUT "<?php\n\$TRANSLATIONS = array(\n";
-			print OUT join( ",\n", @strings );
-			print OUT "\n);\n\$PLURAL_FORMS = \"$plurals\";\n";
-			close( OUT );
+            # delete old php file
+            unlink "$language.php";
 
+			# Write js file
 			open( OUT, ">$language.js" );
 			print OUT "OC.L10N.register(\n    \"$app\",\n    {\n    ";
 			print OUT join( ",\n    ", @js_strings );
 			print OUT "\n},\n\"$plurals\");\n";
+			close( OUT );
+
+			# Write json file
+			open( OUT, ">$language.json" );
+			print OUT "{ \"translations\": ";
+			print OUT "{\n    ";
+			print OUT join( ",\n    ", @js_strings );
+			print OUT "\n},\"pluralForm\" :\"$plurals\"\n}";
 			close( OUT );
 
 		}

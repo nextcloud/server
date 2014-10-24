@@ -54,12 +54,12 @@ class OC_L10N implements \OCP\IL10N {
 	/**
 	 * Plural forms (string)
 	 */
-	private $plural_form_string = 'nplurals=2; plural=(n != 1);';
+	private $pluralFormString = 'nplurals=2; plural=(n != 1);';
 
 	/**
 	 * Plural forms (function)
 	 */
-	private $plural_form_function = null;
+	private $pluralFormFunction = null;
 
 	/**
 	 * get an L10N instance
@@ -90,16 +90,26 @@ class OC_L10N implements \OCP\IL10N {
 
 	/**
 	 * @param string $transFile
+	 * @return bool
 	 */
-	public function load($transFile) {
+	public function load($transFile, $mergeTranslations = false) {
 		$this->app = true;
-		include $transFile;
-		if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
-			$this->translations = $TRANSLATIONS;
+
+		$json = json_decode(file_get_contents($transFile), true);
+		if (!is_array($json)) {
+			return false;
 		}
-		if(isset($PLURAL_FORMS)) {
-			$this->plural_form_string = $PLURAL_FORMS;
+
+		$this->pluralFormString = $json['pluralForm'];
+		$translations = $json['translations'];
+
+		if ($mergeTranslations) {
+			$this->translations = array_merge($this->translations, $translations);
+		} else {
+			$this->translations = $translations;
 		}
+
+		return true;
 	}
 
 	protected function init() {
@@ -118,34 +128,26 @@ class OC_L10N implements \OCP\IL10N {
 		if(array_key_exists($app.'::'.$lang, self::$cache)) {
 			$this->translations = self::$cache[$app.'::'.$lang]['t'];
 		} else{
-			$i18ndir = self::findI18nDir($app);
+			$i18nDir = self::findI18nDir($app);
+			$transFile = strip_tags($i18nDir).strip_tags($lang).'.json';
 			// Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
-			if((OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
-				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
-				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')
-				|| OC_Helper::isSubDirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/')
+			if((OC_Helper::isSubDirectory($transFile, OC::$SERVERROOT.'/core/l10n/')
+				|| OC_Helper::isSubDirectory($transFile, OC::$SERVERROOT.'/lib/l10n/')
+				|| OC_Helper::isSubDirectory($transFile, OC::$SERVERROOT.'/settings')
+				|| OC_Helper::isSubDirectory($transFile, OC_App::getAppPath($app).'/l10n/')
 				)
-				&& file_exists($i18ndir.$lang.'.php')) {
-				// Include the file, save the data from $CONFIG
-				$transFile = strip_tags($i18ndir).strip_tags($lang).'.php';
-				include $transFile;
-				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
-					$this->translations = $TRANSLATIONS;
+				&& file_exists($transFile)) {
+				// load the translations file
+				if($this->load($transFile)) {
 					//merge with translations from theme
 					$theme = OC_Config::getValue( "theme" );
 					if (!is_null($theme)) {
 						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
 						if (file_exists($transFile)) {
-							include $transFile;
-							if (isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
-								$this->translations = array_merge($this->translations, $TRANSLATIONS);
-							}
+							$this->load($transFile, true);
 						}
 					}
-				}
-				if(isset($PLURAL_FORMS)) {
-					$this->plural_form_string = $PLURAL_FORMS;
 				}
 			}
 
@@ -273,10 +275,10 @@ class OC_L10N implements \OCP\IL10N {
 	 */
 	public function getPluralFormFunction() {
 		$this->init();
-		if(is_null($this->plural_form_function)) {
-			$this->plural_form_function = $this->createPluralFormFunction($this->plural_form_string);
+		if(is_null($this->pluralFormFunction)) {
+			$this->pluralFormFunction = $this->createPluralFormFunction($this->pluralFormString);
 		}
-		return $this->plural_form_function;
+		return $this->pluralFormFunction;
 	}
 
 	/**
@@ -479,8 +481,8 @@ class OC_L10N implements \OCP\IL10N {
 		if(is_dir($dir)) {
 			$files=scandir($dir);
 			foreach($files as $file) {
-				if(substr($file, -4, 4) === '.php' && substr($file, 0, 4) !== 'l10n') {
-					$i = substr($file, 0, -4);
+				if(substr($file, -5, 5) === '.json' && substr($file, 0, 4) !== 'l10n') {
+					$i = substr($file, 0, -5);
 					$available[] = $i;
 				}
 			}
