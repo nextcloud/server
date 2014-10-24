@@ -22,6 +22,8 @@ use OCP\Security\StringUtils;
 /**
  * Class LostController
  *
+ * Successfully changing a password will emit the post_passwordReset hook.
+ *
  * @package OC\Core\LostPassword\Controller
  */
 class LostController extends Controller {
@@ -47,13 +49,13 @@ class LostController extends Controller {
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IURLGenerator $urlGenerator
-	 * @param $userManager
-	 * @param $defaults
+	 * @param IUserManager $userManager
+	 * @param OC_Defaults $defaults
 	 * @param IL10N $l10n
 	 * @param IConfig $config
 	 * @param ISecureRandom $secureRandom
-	 * @param $from
-	 * @param $isDataEncrypted
+	 * @param string $from
+	 * @param string $isDataEncrypted
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -153,6 +155,8 @@ class LostController extends Controller {
 			if (!$user->setPassword($password)) {
 				throw new \Exception();
 			}
+
+			\OC_Hook::emit('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', array($userId));
 
 			$this->config->deleteUserValue($userId, 'owncloud', 'lostpassword');
 			@\OC_User::unsetMagicInCookie();
