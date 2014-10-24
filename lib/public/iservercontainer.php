@@ -264,4 +264,11 @@ interface IServerContainer {
 	 * @return \OCP\Diagnostics\IQueryLogger
 	 */
 	function getQueryLogger();
+
+	/**
+	 * Get the manager for temporary files and folders
+	 *
+	 * @return \OCP\ITempManager
+	 */
+	function getTempManager();
 }
