@@ -144,7 +144,7 @@ class MDB2SchemaManager {
 	}
 
 	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @param \Doctrine\DBAL\Schema\Schema|\Doctrine\DBAL\Schema\SchemaDiff $schema
 	 * @return bool
 	 */
 	private function executeSchemaChange($schema) {

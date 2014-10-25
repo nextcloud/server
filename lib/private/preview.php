@@ -779,7 +779,7 @@ class Preview {
 	 * @param \OC\Files\FileInfo $file
 	 * @return bool
 	 */
-	public static function isAvailable($file) {
+	public static function isAvailable(\OC\Files\FileInfo $file) {
 		if (!\OC_Config::getValue('enable_previews', true)) {
 			return false;
 		}

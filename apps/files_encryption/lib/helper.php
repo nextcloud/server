@@ -89,7 +89,7 @@ class Helper {
 	 * @param string $password
 	 * @return bool
 	 */
-	public static function setupUser($util, $password) {
+	public static function setupUser(Util $util, $password) {
 		// Check files_encryption infrastructure is ready for action
 		if (!$util->ready()) {
 
@@ -333,7 +333,7 @@ class Helper {
 	 * @param string $path
 	 * @param \OC\Files\View $view
 	 */
-	public static function mkdirr($path, $view) {
+	public static function mkdirr($path, \OC\Files\View $view) {
 		$dirname = \OC\Files\Filesystem::normalizePath(dirname($path));
 		$dirParts = explode('/', $dirname);
 		$dir = "";
@@ -348,8 +348,10 @@ class Helper {
 	/**
 	 * redirect to a error page
 	 * @param Session $session
+	 * @param int|null $errorCode
+	 * @throws \Exception
 	 */
-	public static function redirectToErrorPage($session, $errorCode = null) {
+	public static function redirectToErrorPage(Session $session, $errorCode = null) {
 
 		if ($errorCode === null) {
 			$init = $session->getInitialized();
@@ -439,7 +441,7 @@ class Helper {
 	 * @param \OC\Files\View $rootView root view, relative to data/
 	 * @return array list of share key files, path relative to data/$user
 	 */
-	public static function findShareKeys($filePath, $shareKeyPath, $rootView) {
+	public static function findShareKeys($filePath, $shareKeyPath,  \OC\Files\View $rootView) {
 		$result = array();
 
 		$user = \OCP\User::getUser();

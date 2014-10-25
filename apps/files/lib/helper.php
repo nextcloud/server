@@ -8,6 +8,8 @@
 
 namespace OCA\Files;
 
+use OCP\Files\FileInfo;
+
 /**
  * Helper class for manipulating file information
  */
@@ -58,7 +60,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function compareFileNames($a, $b) {
+	public static function compareFileNames(FileInfo $a, FileInfo $b) {
 		$aType = $a->getType();
 		$bType = $b->getType();
 		if ($aType === 'dir' and $bType !== 'dir') {
@@ -77,7 +79,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function compareTimestamp($a, $b) {
+	public static function compareTimestamp(FileInfo $a, FileInfo $b) {
 		$aTime = $a->getMTime();
 		$bTime = $b->getMTime();
 		return $aTime - $bTime;
@@ -90,7 +92,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $b file
 	 * @return int -1 if $a must come before $b, 1 otherwise
 	 */
-	public static function compareSize($a, $b) {
+	public static function compareSize(FileInfo $a, FileInfo $b) {
 		$aSize = $a->getSize();
 		$bSize = $b->getSize();
 		return ($aSize < $bSize) ? -1 : 1;
@@ -102,7 +104,7 @@ class Helper
 	 * @param \OCP\Files\FileInfo $i
 	 * @return array formatted file info
 	 */
-	public static function formatFileInfo($i) {
+	public static function formatFileInfo(FileInfo $i) {
 		$entry = array();
 
 		$entry['id'] = $i['fileid'];
@@ -147,6 +149,7 @@ class Helper
 	/**
 	 * Format file info for JSON
 	 * @param \OCP\Files\FileInfo[] $fileInfos file infos
+	 * @return array
 	 */
 	public static function formatFileInfos($fileInfos) {
 		$files = array();

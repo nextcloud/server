@@ -434,10 +434,10 @@ class Trashbin {
 	 * @param string $filename name of file once it was deleted
 	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param string $location location if file
-	 * @param int $timestamp deleteion time
-	 *
+	 * @param int $timestamp deletion time
+	 * @return bool
 	 */
-	private static function restoreVersions($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
+	private static function restoreVersions(\OC\Files\View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 
 		if (\OCP\App::isEnabled('files_versions')) {
 			// disable proxy to prevent recursive calls
@@ -488,10 +488,10 @@ class Trashbin {
 	 * @param string $filename name of file
 	 * @param string $uniqueFilename new file name to restore the file without overwriting existing files
 	 * @param string $location location of file
-	 * @param int $timestamp deleteion time
-	 *
+	 * @param int $timestamp deletion time
+	 * @return bool
 	 */
-	private static function restoreEncryptionKeys($view, $file, $filename, $uniqueFilename, $location, $timestamp) {
+	private static function restoreEncryptionKeys(\OC\Files\View $view, $file, $filename, $uniqueFilename, $location, $timestamp) {
 		// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$user = \OCP\User::getUser();
@@ -639,8 +639,12 @@ class Trashbin {
 
 	/**
 	 * @param \OC\Files\View $view
+	 * @param $file
+	 * @param $filename
+	 * @param $timestamp
+	 * @return int
 	 */
-	private static function deleteVersions($view, $file, $filename, $timestamp) {
+	private static function deleteVersions(\OC\Files\View $view, $file, $filename, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
 			$user = \OCP\User::getUser();
@@ -664,8 +668,12 @@ class Trashbin {
 
 	/**
 	 * @param \OC\Files\View $view
+	 * @param $file
+	 * @param $filename
+	 * @param $timestamp
+	 * @return int
 	 */
-	private static function deleteEncryptionKeys($view, $file, $filename, $timestamp) {
+	private static function deleteEncryptionKeys(\OC\Files\View $view, $file, $filename, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$user = \OCP\User::getUser();
@@ -879,8 +887,10 @@ class Trashbin {
 	 * @param string $source source path, relative to the users files directory
 	 * @param string $destination destination path relative to the users root directoy
 	 * @param \OC\Files\View $view file view for the users root directory
+	 * @return int
+	 * @throws Exceptions\CopyRecursiveException
 	 */
-	private static function copy_recursive($source, $destination, $view) {
+	private static function copy_recursive($source, $destination, \OC\Files\View $view) {
 		$size = 0;
 		if ($view->is_dir($source)) {
 			$view->mkdir($destination);
@@ -955,7 +965,7 @@ class Trashbin {
 	 * @param \OC\Files\View $view filesystem view relative to users root directory
 	 * @return string with unique extension
 	 */
-	private static function getUniqueFilename($location, $filename, $view) {
+	private static function getUniqueFilename($location, $filename, \OC\Files\View $view) {
 		$ext = pathinfo($filename, PATHINFO_EXTENSION);
 		$name = pathinfo($filename, PATHINFO_FILENAME);
 		$l = \OC::$server->getL10N('files_trashbin');
@@ -1036,6 +1046,7 @@ class Trashbin {
 	/**
 	 * check if trash bin is empty for a given user
 	 * @param string $user
+	 * @return bool
 	 */
 	public static function isEmpty($user) {
 
@@ -1050,6 +1061,10 @@ class Trashbin {
 		return true;
 	}
 
+	/**
+	 * @param $path
+	 * @return string
+	 */
 	public static function preview_icon($path) {
 		return \OC_Helper::linkToRoute('core_ajax_trashbin_preview', array('x' => 36, 'y' => 36, 'file' => $path));
 	}

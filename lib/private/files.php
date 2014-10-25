@@ -195,7 +195,7 @@ class OC_Files {
 	 * @param ZipStreamer $zip
 	 * @param string $internalDir
 	 */
-	public static function zipAddDir($dir, $zip, $internalDir='') {
+	public static function zipAddDir($dir, ZipStreamer $zip, $internalDir='') {
 		$dirname=basename($dir);
 		$rootDir = $internalDir.$dirname;
 		if (!empty($rootDir)) {
