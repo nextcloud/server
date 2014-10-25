@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 6.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-24 01:54-0400\n"
+"POT-Creation-Date: 2014-10-25 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,11 +157,11 @@ msgid_plural "%s users found"
 msgstr[0] ""
 msgstr[1] ""
 
-#: lib/wizard.php:394 lib/wizard.php:1130
+#: lib/wizard.php:394 lib/wizard.php:1131
 msgid "Could not find the desired feature"
 msgstr ""
 
-#: lib/wizard.php:937 lib/wizard.php:949
+#: lib/wizard.php:938 lib/wizard.php:950
 msgid "Invalid Host"
 msgstr ""
 

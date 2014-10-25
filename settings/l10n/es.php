@@ -227,6 +227,7 @@ $TRANSLATIONS = array(
 "Unlimited" => "Ilimitado",
 "Other" => "Otro",
 "Username" => "Nombre de usuario",
+"Group Admin for" => "Grupo administrador para",
 "Quota" => "Cuota",
 "Storage Location" => "Ubicación de almacenamiento",
 "Last Login" => "Último inicio de sesión",
