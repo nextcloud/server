@@ -70,6 +70,7 @@ $TRANSLATIONS = array(
 "A valid group name must be provided" => "Πρέπει να δοθεί ένα έγκυρο όνομα ομάδας",
 "deleted {groupName}" => "διαγραφή {groupName}",
 "undo" => "αναίρεση",
+"no group" => "καμια ομάδα",
 "never" => "ποτέ",
 "deleted {userName}" => "διαγραφή {userName}",
 "add group" => "προσθήκη ομάδας",
