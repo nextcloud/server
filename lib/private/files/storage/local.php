@@ -90,6 +90,7 @@ if (\OC_Util::runningOnWindows()) {
 		}
 
 		public function stat($path) {
+			clearstatcache();
 			$fullPath = $this->datadir . $path;
 			$statResult = stat($fullPath);
 			if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
@@ -275,6 +276,26 @@ if (\OC_Util::runningOnWindows()) {
 		 */
 		public function isLocal() {
 			return true;
+		}
+
+		/**
+		 * get the ETag for a file or folder
+		 *
+		 * @param string $path
+		 * @return string
+		 */
+		public function getETag($path) {
+			if ($this->is_file($path)) {
+				$stat = $this->stat($path);
+				return md5(
+					$stat['mtime'] .
+					$stat['ino'] .
+					$stat['dev'] .
+					$stat['size']
+				);
+			} else {
+				return parent::getETag($path);
+			}
 		}
 	}
 }
