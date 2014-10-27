@@ -46,7 +46,7 @@ interface IConfig {
 	 * Looks up a system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved
-	 * @param string $default the default value to be returned if the value isn't set
+	 * @param mixed $default the default value to be returned if the value isn't set
 	 * @return mixed the value or $default
 	 */
 	public function getSystemValue($key, $default = '');
