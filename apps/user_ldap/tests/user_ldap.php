@@ -98,9 +98,10 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Prepares the Access mock for checkPassword tests
 	 * @param \OCA\user_ldap\lib\Access $access mock
+	 * @param bool noDisplayName
 	 * @return void
 	 */
-	private function prepareAccessForCheckPassword(&$access) {
+	private function prepareAccessForCheckPassword(&$access, $noDisplayName = false) {
 		$access->expects($this->once())
 			   ->method('escapeFilterPart')
 			   ->will($this->returnCallback(function($uid) {
@@ -125,10 +126,14 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 					return array();
 			   }));
 
+		$retVal = 'gunslinger';
+		if($noDisplayName === true) {
+			$retVal = false;
+		}
 		$access->expects($this->any())
 			   ->method('dn2username')
 			   ->with($this->equalTo('dnOfRoland,dc=test'))
-			   ->will($this->returnValue('gunslinger'));
+			   ->will($this->returnValue($retVal));
 
 		$access->expects($this->any())
 			   ->method('stringResemblesDN')
@@ -175,6 +180,21 @@ class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('mallory', 'evil');
+		$this->assertFalse($result);
+	}
+
+	public function testCheckPasswordNoDisplayName() {
+		$access = $this->getAccessMock();
+
+		$this->prepareAccessForCheckPassword($access, true);
+		$access->expects($this->once())
+			->method('username2dn')
+			->will($this->returnValue(false));
+
+		$backend = new UserLDAP($access);
+		\OC_User::useBackend($backend);
+
+		$result = $backend->checkPassword('roland', 'dt19');
 		$this->assertFalse($result);
 	}
 
