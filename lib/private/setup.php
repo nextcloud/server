@@ -90,7 +90,8 @@ class OC_Setup {
 				'name' => 'MS SQL'
 			)
 		);
-		$configuredDatabases = $this->config->getSystemValue('supportedDatabases', array('sqlite', 'mysql', 'pgsql', 'oci', 'mssql'));
+		$configuredDatabases = $this->config->getSystemValue('supportedDatabases',
+			array('sqlite', 'mysql', 'pgsql', 'oci', 'mssql'));
 		if(!is_array($configuredDatabases)) {
 			throw new Exception('Supported databases are not properly configured.');
 		}
@@ -122,7 +123,7 @@ class OC_Setup {
 		$l = self::getTrans();
 
 		$error = array();
-		$dbtype = $options['dbtype'];
+		$dbType = $options['dbtype'];
 
 		if(empty($options['adminlogin'])) {
 			$error[] = $l->t('Set an admin username.');
@@ -134,25 +135,25 @@ class OC_Setup {
 			$options['directory'] = OC::$SERVERROOT."/data";
 		}
 
-		if (!isset(self::$dbSetupClasses[$dbtype])) {
-			$dbtype = 'sqlite';
+		if (!isset(self::$dbSetupClasses[$dbType])) {
+			$dbType = 'sqlite';
 		}
 
 		$username = htmlspecialchars_decode($options['adminlogin']);
 		$password = htmlspecialchars_decode($options['adminpass']);
-		$datadir = htmlspecialchars_decode($options['directory']);
+		$dataDir = htmlspecialchars_decode($options['directory']);
 
-		$class = self::$dbSetupClasses[$dbtype];
+		$class = self::$dbSetupClasses[$dbType];
 		/** @var \OC\Setup\AbstractDatabase $dbSetup */
 		$dbSetup = new $class(self::getTrans(), 'db_structure.xml');
 		$error = array_merge($error, $dbSetup->validate($options));
 
 		// validate the data directory
 		if (
-			(!is_dir($datadir) and !mkdir($datadir)) or
-			!is_writable($datadir)
+			(!is_dir($dataDir) and !mkdir($dataDir)) or
+			!is_writable($dataDir)
 		) {
-			$error[] = $l->t("Can't create or write into the data directory %s", array($datadir));
+			$error[] = $l->t("Can't create or write into the data directory %s", array($dataDir));
 		}
 
 		if(count($error) != 0) {
@@ -168,12 +169,12 @@ class OC_Setup {
 		}
 
 		if (OC_Util::runningOnWindows()) {
-			$datadir = rtrim(realpath($datadir), '\\');
+			$dataDir = rtrim(realpath($dataDir), '\\');
 		}
 
-		//use sqlite3 when available, otherise sqlite2 will be used.
-		if($dbtype=='sqlite' and class_exists('SQLite3')) {
-			$dbtype='sqlite3';
+		//use sqlite3 when available, otherwise sqlite2 will be used.
+		if($dbType=='sqlite' and class_exists('SQLite3')) {
+			$dbType='sqlite3';
 		}
 
 		//generate a random salt that is used to salt the local user passwords
@@ -186,9 +187,9 @@ class OC_Setup {
 
 		//write the config file
 		\OC::$server->getConfig()->setSystemValue('trusted_domains', $trustedDomains);
-		\OC::$server->getConfig()->setSystemValue('datadirectory', $datadir);
+		\OC::$server->getConfig()->setSystemValue('datadirectory', $dataDir);
 		\OC::$server->getConfig()->setSystemValue('overwrite.cli.url', \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . OC::$WEBROOT);
-		\OC::$server->getConfig()->setSystemValue('dbtype', $dbtype);
+		\OC::$server->getConfig()->setSystemValue('dbtype', $dbType);
 		\OC::$server->getConfig()->setSystemValue('version', implode('.', OC_Util::getVersion()));
 
 		try {
@@ -211,8 +212,7 @@ class OC_Setup {
 		//create the user and group
 		try {
 			OC_User::createUser($username, $password);
-		}
-		catch(Exception $exception) {
+		} catch(Exception $exception) {
 			$error[] = $exception->getMessage();
 		}
 

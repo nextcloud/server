@@ -103,7 +103,7 @@ class Controller {
 		$setup = new \OC_Setup($this->config);
 		$databases = $setup->getSupportedDatabases();
 
-		$datadir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
+		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
 		$vulnerableToNullByte = false;
 		if(@file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
 			$vulnerableToNullByte = true;
@@ -114,25 +114,25 @@ class Controller {
 		// Create data directory to test whether the .htaccess works
 		// Notice that this is not necessarily the same data directory as the one
 		// that will effectively be used.
-		@mkdir($datadir);
-		if (is_dir($datadir) && is_writable($datadir)) {
+		@mkdir($dataDir);
+		$htAccessWorking = true;
+		if (is_dir($dataDir) && is_writable($dataDir)) {
 			// Protect data directory here, so we can test if the protection is working
 			\OC_Setup::protectDataDirectory();
 
 			try {
-				$htaccessWorking = \OC_Util::isHtaccessWorking();
+				$htAccessWorking = \OC_Util::isHtaccessWorking();
 			} catch (\OC\HintException $e) {
 				$errors[] = array(
 					'error' => $e->getMessage(),
 					'hint' => $e->getHint()
 				);
-				$htaccessWorking = false;
+				$htAccessWorking = false;
 			}
 		}
 
 		if (\OC_Util::runningOnMac()) {
 			$l10n = \OC::$server->getL10N('core');
-			$themeName = \OC_Util::getTheme();
 			$theme = new \OC_Defaults();
 			$errors[] = array(
 				'error' => $l10n->t(
@@ -151,8 +151,8 @@ class Controller {
 			'hasOracle' => isset($databases['oci']),
 			'hasMSSQL' => isset($databases['mssql']),
 			'databases' => $databases,
-			'directory' => $datadir,
-			'htaccessWorking' => $htaccessWorking,
+			'directory' => $dataDir,
+			'htaccessWorking' => $htAccessWorking,
 			'vulnerableToNullByte' => $vulnerableToNullByte,
 			'errors' => $errors,
 		);
