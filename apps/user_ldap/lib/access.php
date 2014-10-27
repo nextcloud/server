@@ -1168,6 +1168,18 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * returns the filter used for counting users
+	 */
+	public function getFilterForUserCount() {
+		$filter = $this->combineFilterWithAnd(array(
+			$this->connection->ldapUserFilter,
+			$this->connection->ldapUserDisplayName . '=*'
+		));
+
+		return $filter;
+	}
+
+	/**
 	 * @param string $name
 	 * @param string $password
 	 * @return bool
