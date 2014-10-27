@@ -89,6 +89,12 @@ class OC_DB {
 
 		$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_');
 
+		//additional driver options, eg. for mysql ssl
+		$driverOptions = OC_Config::getValue('dbdriveroptions', null);
+		if ($driverOptions) {
+			$connectionParams['driverOptions'] = $driverOptions;
+		}
+
 		try {
 			self::$connection = $factory->getConnection($type, $connectionParams);
 		} catch(\Doctrine\DBAL\DBALException $e) {
