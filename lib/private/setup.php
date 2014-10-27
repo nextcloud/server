@@ -1,9 +1,27 @@
 <?php
+/**
+ * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+use OCP\IConfig;
 
 class DatabaseSetupException extends \OC\HintException {
 }
 
 class OC_Setup {
+	/** @var IConfig */
+	protected $config;
+
+	/**
+	 * @param IConfig $config
+	 */
+	function __construct(IConfig $config) {
+		$this->config = $config;
+	}
+
 	static $dbSetupClasses = array(
 		'mysql' => '\OC\Setup\MySQL',
 		'pgsql' => '\OC\Setup\PostgreSQL',
@@ -13,15 +31,99 @@ class OC_Setup {
 		'sqlite3' => '\OC\Setup\Sqlite',
 	);
 
+	/**
+	 * @return OC_L10N
+	 */
 	public static function getTrans(){
 		return \OC::$server->getL10N('lib');
 	}
 
+	/**
+	 * Wrapper around the "class_exists" PHP function to be able to mock it
+	 * @param string $name
+	 * @return bool
+	 */
+	public function class_exists($name) {
+		return class_exists($name);
+	}
+
+	/**
+	 * Wrapper around the "is_callable" PHP function to be able to mock it
+	 * @param string $name
+	 * @return bool
+	 */
+	public function is_callable($name) {
+		return is_callable($name);
+	}
+
+	/**
+	 * Get the available and supported databases of this instance
+	 *
+	 * @throws Exception
+	 * @return array
+	 */
+	public function getSupportedDatabases() {
+		$availableDatabases = array(
+			'sqlite' =>  array(
+				'type' => 'class',
+				'call' => 'SQLite3',
+				'name' => 'SQLite'
+			),
+			'mysql' => array(
+				'type' => 'function',
+				'call' => 'mysql_connect',
+				'name' => 'MySQL/MariaDB'
+			),
+			'pgsql' => array(
+				'type' => 'function',
+				'call' => 'oci_connect',
+				'name' => 'PostgreSQL'
+			),
+			'oci' => array(
+				'type' => 'function',
+				'call' => 'oci_connect',
+				'name' => 'Oracle'
+			),
+			'mssql' => array(
+				'type' => 'function',
+				'call' => 'sqlsrv_connect',
+				'name' => 'MS SQL'
+			)
+		);
+		$configuredDatabases = $this->config->getSystemValue('supportedDatabases',
+			array('sqlite', 'mysql', 'pgsql', 'oci', 'mssql'));
+		if(!is_array($configuredDatabases)) {
+			throw new Exception('Supported databases are not properly configured.');
+		}
+
+		$supportedDatabases = array();
+
+		foreach($configuredDatabases as $database) {
+			if(array_key_exists($database, $availableDatabases)) {
+				$working = false;
+				if($availableDatabases[$database]['type'] === 'class') {
+					$working = $this->class_exists($availableDatabases[$database]['call']);
+				} elseif ($availableDatabases[$database]['type'] === 'function') {
+					$working = $this->is_callable($availableDatabases[$database]['call']);
+				}
+				if($working) {
+					$supportedDatabases[$database] = $availableDatabases[$database]['name'];
+				}
+			}
+		}
+
+		return $supportedDatabases;
+	}
+
+	/**
+	 * @param $options
+	 * @return array
+	 */
 	public static function install($options) {
 		$l = self::getTrans();
 
 		$error = array();
-		$dbtype = $options['dbtype'];
+		$dbType = $options['dbtype'];
 
 		if(empty($options['adminlogin'])) {
 			$error[] = $l->t('Set an admin username.');
@@ -33,25 +135,25 @@ class OC_Setup {
 			$options['directory'] = OC::$SERVERROOT."/data";
 		}
 
-		if (!isset(self::$dbSetupClasses[$dbtype])) {
-			$dbtype = 'sqlite';
+		if (!isset(self::$dbSetupClasses[$dbType])) {
+			$dbType = 'sqlite';
 		}
 
 		$username = htmlspecialchars_decode($options['adminlogin']);
 		$password = htmlspecialchars_decode($options['adminpass']);
-		$datadir = htmlspecialchars_decode($options['directory']);
+		$dataDir = htmlspecialchars_decode($options['directory']);
 
-		$class = self::$dbSetupClasses[$dbtype];
+		$class = self::$dbSetupClasses[$dbType];
 		/** @var \OC\Setup\AbstractDatabase $dbSetup */
 		$dbSetup = new $class(self::getTrans(), 'db_structure.xml');
 		$error = array_merge($error, $dbSetup->validate($options));
 
 		// validate the data directory
 		if (
-			(!is_dir($datadir) and !mkdir($datadir)) or
-			!is_writable($datadir)
+			(!is_dir($dataDir) and !mkdir($dataDir)) or
+			!is_writable($dataDir)
 		) {
-			$error[] = $l->t("Can't create or write into the data directory %s", array($datadir));
+			$error[] = $l->t("Can't create or write into the data directory %s", array($dataDir));
 		}
 
 		if(count($error) != 0) {
@@ -59,7 +161,7 @@ class OC_Setup {
 		}
 
 		//no errors, good
-		if(    isset($options['trusted_domains'])
+		if(isset($options['trusted_domains'])
 		    && is_array($options['trusted_domains'])) {
 			$trustedDomains = $options['trusted_domains'];
 		} else {
@@ -67,12 +169,12 @@ class OC_Setup {
 		}
 
 		if (OC_Util::runningOnWindows()) {
-			$datadir = rtrim(realpath($datadir), '\\');
+			$dataDir = rtrim(realpath($dataDir), '\\');
 		}
 
-		//use sqlite3 when available, otherise sqlite2 will be used.
-		if($dbtype=='sqlite' and class_exists('SQLite3')) {
-			$dbtype='sqlite3';
+		//use sqlite3 when available, otherwise sqlite2 will be used.
+		if($dbType=='sqlite' and class_exists('SQLite3')) {
+			$dbType='sqlite3';
 		}
 
 		//generate a random salt that is used to salt the local user passwords
@@ -85,9 +187,9 @@ class OC_Setup {
 
 		//write the config file
 		\OC::$server->getConfig()->setSystemValue('trusted_domains', $trustedDomains);
-		\OC::$server->getConfig()->setSystemValue('datadirectory', $datadir);
+		\OC::$server->getConfig()->setSystemValue('datadirectory', $dataDir);
 		\OC::$server->getConfig()->setSystemValue('overwrite.cli.url', \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . OC::$WEBROOT);
-		\OC::$server->getConfig()->setSystemValue('dbtype', $dbtype);
+		\OC::$server->getConfig()->setSystemValue('dbtype', $dbType);
 		\OC::$server->getConfig()->setSystemValue('version', implode('.', OC_Util::getVersion()));
 
 		try {
@@ -110,8 +212,7 @@ class OC_Setup {
 		//create the user and group
 		try {
 			OC_User::createUser($username, $password);
-		}
-		catch(Exception $exception) {
+		} catch(Exception $exception) {
 			$error[] = $exception->getMessage();
 		}
 
