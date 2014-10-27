@@ -801,6 +801,23 @@ $CONFIG = array(
 ),
 
 /**
+ * Database types that are supported for installation
+ * Available:
+ * 	- sqlite (SQLite3)
+ * 	- mysql (MySQL)
+ * 	- pgsql (PostgreSQL)
+ * 	- oci (Oracle)
+ * 	- mssql (Microsoft SQL Server)
+ */
+'supportedDatabases' => array(
+	'sqlite',
+	'mysql',
+	'pgsql',
+	'oci',
+	'mssql'
+),
+
+/**
  * Custom CSP policy, changing this will overwrite the standard policy
  */
 'custom_csp_policy' =>
