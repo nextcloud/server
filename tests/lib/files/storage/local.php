@@ -38,6 +38,10 @@ class Local extends Storage {
 	}
 
 	public function testStableEtag() {
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('On Windows platform we have no stable etag generation - yet');
+		}
+
 		$this->instance->file_put_contents('test.txt', 'foobar');
 		$etag1 = $this->instance->getETag('test.txt');
 		$etag2 = $this->instance->getETag('test.txt');
@@ -45,6 +49,10 @@ class Local extends Storage {
 	}
 
 	public function testEtagChange() {
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('On Windows platform we have no stable etag generation - yet');
+		}
+
 		$this->instance->file_put_contents('test.txt', 'foo');
 		$this->instance->touch('test.txt', time() - 2);
 		$etag1 = $this->instance->getETag('test.txt');
