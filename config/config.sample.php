@@ -120,6 +120,13 @@ $CONFIG = array(
 'dbtableprefix' => '',
 
 /**
+ * Additional driver options for the database connection, eg. to enable SSL encryption in MySQL:
+ */
+'dbdriveroptions' => array(
+	PDO::MYSQL_ATTR_SSL_CA => '/file/path/to/ca_cert.pem',
+),
+
+/**
  * Indicates whether the ownCloud instance was installed successfully; ``true``
  * indicates a successful installation, and ``false`` indicates an unsuccessful
  * installation.
