@@ -153,6 +153,13 @@ class ConnectionFactory {
 		}
 
 		$connectionParams['tablePrefix'] = $config->getSystemValue('dbtableprefix', 'oc_');
+
+		//additional driver options, eg. for mysql ssl
+		$driverOptions = $config->getSystemValue('dbdriveroptions', null);
+		if ($driverOptions) {
+			$connectionParams['driverOptions'] = $driverOptions;
+		}
+
 		return $connectionParams;
 	}
 }
