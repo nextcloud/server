@@ -205,13 +205,17 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 * @return array
 	 */
 	public function getQuotaInfo() {
-		$path = \OC\Files\Filesystem::getView()->getRelativePath($this->info->getPath());
-		$storageInfo = OC_Helper::getStorageInfo($path);
-		return array(
-			$storageInfo['used'],
-			$storageInfo['free']
-		);
-
+		try {
+			$path = \OC\Files\Filesystem::getView()->getRelativePath($this->info->getPath());
+			$storageInfo = OC_Helper::getStorageInfo($path);
+			return array(
+				$storageInfo['used'],
+				$storageInfo['free']
+			);
+		}
+		catch (\OCP\Files\StorageNotAvailableException $e) {
+			return array(0, 0);
+		}
 	}
 
 	/**
