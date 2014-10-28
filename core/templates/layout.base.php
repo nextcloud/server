@@ -21,15 +21,7 @@
 		<?php foreach ($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php print_unescaped($jsfile); ?>"></script>
 		<?php endforeach; ?>
-		<?php foreach ($_['headers'] as $header): ?>
-			<?php
-				print_unescaped('<'.$header['tag'].' ');
-				foreach ($header['attributes'] as $name => $value) {
-					print_unescaped("$name='$value' ");
-				};
-				print_unescaped('/>');
-			?>
-		<?php endforeach; ?>
+		<?php print_unescaped($_['headers']); ?>
 	</head>
 	<body id="body-public">
 		<noscript><div id="nojavascript"><div><?php print_unescaped($l->t('This application requires JavaScript for correct operation. Please <a href="http://enable-javascript.com/" target="_blank">enable JavaScript</a> and reload the page.')); ?></div></div></noscript>
