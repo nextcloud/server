@@ -120,7 +120,6 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function countUsers() {
-		$this->detectUserDisplayNameAttribute();
 		$filter = $this->access->getFilterForUserCount();
 
 		$usersTotal = $this->countEntries($filter, 'users');

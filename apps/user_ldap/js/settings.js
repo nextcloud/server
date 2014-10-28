@@ -172,6 +172,7 @@ var LdapWizard = {
 		if(typeof reqID !== 'undefined') {
 			LdapWizard.ajaxRequests[reqID] = request;
 		}
+		return request;
 	},
 
 	applyChanges: function (result) {
@@ -373,20 +374,44 @@ var LdapWizard = {
 	},
 
 	countUsers: function(doneCallback) {
-		//we make user counting depending on having a display name attribute
+		LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
+	},
+
+	runDetectors: function(type, callback) {
+		if(type === 'Group') {
+			$.when(LdapWizard.detectGroupMemberAssoc())
+				.then(callback, callback);
+			if(   LdapWizard.admin.isExperienced
+			   && !(LdapWizard.detectorsRunInXPMode & LdapWizard.groupDetectors)) {
+				LdapWizard.detectorsRunInXPMode += LdapWizard.groupDetectors;
+			}
+		} else if(type === 'User') {
+			var req1 = LdapWizard.detectUserDisplayNameAttribute();
+			var req2 = LdapWizard.detectEmailAttribute();
+			$.when(req1, req2)
+				.then(callback, callback);
+			if(   LdapWizard.admin.isExperienced
+			   && !(LdapWizard.detectorsRunInXPMode & LdapWizard.userDetectors)) {
+				LdapWizard.detectorsRunInXPMode += LdapWizard.userDetectors;
+			}
+		}
+	},
+
+	detectUserDisplayNameAttribute: function() {
 		var param = 'action=detectUserDisplayNameAttribute' +
 			'&ldap_serverconfig_chooser='+
 			encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
-			LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
+		//runs in the background, no callbacks necessary
+		return LdapWizard.ajax(param, LdapWizard.applyChanges, function(){}, 'detectUserDisplayNameAttribute');
 	},
 
 	detectEmailAttribute: function() {
-		param = 'action=detectEmailAttribute'+
+		var param = 'action=detectEmailAttribute'+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 		//runs in the background, no callbacks necessary
-		LdapWizard.ajax(param, LdapWizard.applyChanges, function(){}, 'detectEmailAttribute');
+		return LdapWizard.ajax(param, LdapWizard.applyChanges, function(){}, 'detectEmailAttribute');
 	},
 
 	detectGroupMemberAssoc: function() {
@@ -394,7 +419,7 @@ var LdapWizard = {
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
-		LdapWizard.ajax(param,
+		return LdapWizard.ajax(param,
 			function(result) {
 				//pure background story
 			},
@@ -416,7 +441,7 @@ var LdapWizard = {
 				$('#ldap_loginfilter_attributes').find('option').remove();
 				for (var i in result.options['ldap_loginfilter_attributes']) {
 					//FIXME: move HTML into template
-					attr = result.options['ldap_loginfilter_attributes'][i];
+					var attr = result.options['ldap_loginfilter_attributes'][i];
 					$('#ldap_loginfilter_attributes').append(
 								"<option value='"+attr+"'>"+attr+"</option>");
 				}
@@ -573,8 +598,12 @@ var LdapWizard = {
 	},
 
 	isConfigurationActiveControlLocked: true,
+	detectorsRunInXPMode: 0,
+	userDetectors: 1,
+	groupDetectors: 2,
 
 	init: function() {
+		LdapWizard.detectorsRunInXPMode = 0;
 		LdapWizard.instantiateFilters();
 		LdapWizard.admin.setExperienced($('#ldap_experienced_admin').is(':checked'));
 		LdapWizard.basicStatusCheck();
@@ -637,7 +666,6 @@ var LdapWizard = {
 			$('#ldap_user_count').text('');
 			LdapWizard.showSpinner('#rawUserFilterContainer .ldapGetEntryCount');
 			LdapWizard.userFilter.updateCount(LdapWizard.hideTestSpinner);
-			LdapWizard.detectEmailAttribute();
 			$('#ldap_user_count').removeClass('hidden');
 		});
 
@@ -658,7 +686,6 @@ var LdapWizard = {
 			$('#ldap_group_count').text('');
 			LdapWizard.showSpinner('#rawGroupFilterContainer .ldapGetEntryCount');
 			LdapWizard.groupFilter.updateCount(LdapWizard.hideTestSpinner);
-			LdapWizard.detectGroupMemberAssoc();
 			$('#ldap_group_count').removeClass('hidden');
 		});
 	},
@@ -675,7 +702,7 @@ var LdapWizard = {
 	postInitUserFilter: function() {
 		if(LdapWizard.userFilterObjectClassesHasRun &&
 			LdapWizard.userFilterAvailableGroupsHasRun) {
-			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
+			LdapWizard.userFilter.compose();
 		}
 	},
 
@@ -686,7 +713,7 @@ var LdapWizard = {
 			//do not allow to switch tabs as long as a save process is active
 			return false;
 		}
-		newTabIndex = 0;
+		var newTabIndex = 0;
 		if(ui.newTab[0].id === '#ldapWizard2') {
 			LdapWizard.initUserFilter();
 			newTabIndex = 1;
@@ -698,9 +725,23 @@ var LdapWizard = {
 			newTabIndex = 3;
 		}
 
-		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		var curTabIndex = $('#ldapSettings').tabs('option', 'active');
 		if(curTabIndex >= 0 && curTabIndex <= 3) {
 			LdapWizard.controlUpdate(newTabIndex);
+			//run detectors in XP mode, when "Test Filter" button has not been
+			//clicked in order to make sure that email, displayname, member-
+			//group association attributes are properly set.
+			if(   curTabIndex === 1
+			   && LdapWizard.admin.isExperienced
+			   && !(LdapWizard.detecorsRunInXPMode & LdapWizard.userDetectors)
+			) {
+				LdapWizard.runDetectors('User', function(){});
+			} else if(   curTabIndex === 3
+			          && LdapWizard.admin.isExperienced
+			          && !(LdapWizard.detecorsRunInXPMode & LdapWizard.groupDetectors)
+			) {
+				LdapWizard.runDetectors('Group', function(){});
+			}
 		}
 	},
 
@@ -716,12 +757,6 @@ var LdapWizard = {
 				//if Port is already set, check BaseDN
 				LdapWizard.checkBaseDN();
 			}
-		}
-
-		if(triggerObj.id === 'ldap_userlist_filter' && !LdapWizard.admin.isExperienced()) {
-			LdapWizard.detectEmailAttribute();
-		} else if(triggerObj.id === 'ldap_group_filter' && !LdapWizard.admin.isExperienced()) {
-			LdapWizard.detectGroupMemberAssoc();
 		}
 
 		if(triggerObj.id === 'ldap_loginfilter_username'
@@ -756,7 +791,7 @@ var LdapWizard = {
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
 		if(originalObj === 'ldap_userfilter_objectclass'
 		   || originalObj === 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
+			LdapWizard.userFilter.compose();
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
 			if(!LdapWizard.loginFilter) {
@@ -837,7 +872,7 @@ var LdapWizard = {
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
 			if(isUser) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
-				LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
+				LdapWizard.userFilter.compose();
 			} else {
 				LdapWizard.blacklistRemove('ldap_group_filter');
 				LdapWizard.groupFilter.compose();

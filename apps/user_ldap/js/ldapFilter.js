@@ -25,7 +25,7 @@ LdapFilter.prototype.activate = function() {
 	this.determineMode();
 };
 
-LdapFilter.prototype.compose = function(callback) {
+LdapFilter.prototype.compose = function() {
 	var action;
 
 	if(this.locked) {
@@ -54,20 +54,22 @@ LdapFilter.prototype.compose = function(callback) {
 
 	LdapWizard.ajax(param,
 		function(result) {
-			LdapWizard.applyChanges(result);
-			filter.updateCount();
-			if(filter.target === 'Group') {
-				LdapWizard.detectGroupMemberAssoc();
-			}
-			if(typeof callback !== 'undefined') {
-				callback();
-			}
+			filter.afterComposeSuccess(result);
 		},
 		function () {
 			console.log('LDAP Wizard: could not compose filter. '+
 				'Please check owncloud.log');
 		}
 	);
+};
+
+LdapFilter.prototype.afterDetectorsRan = function() {
+	this.updateCount();
+};
+
+LdapFilter.prototype.afterComposeSuccess = function(result) {
+	LdapWizard.applyChanges(result);
+	LdapWizard.runDetectors(this.target, this.afterDetectorsRan);
 };
 
 LdapFilter.prototype.determineMode = function() {
@@ -145,10 +147,21 @@ LdapFilter.prototype.findFeatures = function() {
 	}
 };
 
+LdapFilter.prototype.beforeUpdateCount = function(status) {
+	return LdapWizard.runDetectors(this.target, function() {
+		status.resolve();
+	});
+};
+
 LdapFilter.prototype.updateCount = function(doneCallback) {
-	if(this.target === 'User') {
-		LdapWizard.countUsers(doneCallback);
-	} else if (this.target === 'Group') {
-		LdapWizard.countGroups(doneCallback);
-	}
+	var beforeUpdateCountDone = $.Deferred();
+	this.beforeUpdateCount(beforeUpdateCountDone);
+	var filter = this;
+	$.when(beforeUpdateCountDone).done(function() {
+		if(filter.target === 'User') {
+			LdapWizard.countUsers(doneCallback);
+		} else if (filter.target === 'Group') {
+			LdapWizard.countGroups(doneCallback);
+		}
+	});
 };
