@@ -385,7 +385,7 @@ class Util {
 			&& $this->isEncryptedPath($path)
 		) {
 
-			$cipher = Helper::getCipher();
+			$cipher = 'AES-128-CFB';
 			$realSize = 0;
 
 			// get the size from filesystem
