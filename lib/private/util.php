@@ -416,11 +416,9 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		//check for database drivers
-		if(!(is_callable('sqlite_open') or class_exists('SQLite3'))
-			and !is_callable('mysql_connect')
-			and !is_callable('pg_connect')
-			and !is_callable('oci_connect')) {
+		$setup = new OC_Setup($config);
+		$availableDatabases = $setup->getSupportedDatabases();
+		if (empty($availableDatabases)) {
 			$errors[] = array(
 				'error'=> $l->t('No database drivers (sqlite, mysql, or postgresql) installed.'),
 				'hint'=>'' //TODO: sane hint
