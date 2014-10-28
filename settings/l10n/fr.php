@@ -1,8 +1,8 @@
 <?php
 $TRANSLATIONS = array(
-"Enabled" => "Activée",
-"Not enabled" => "Désactivée",
-"Recommended" => "Recommandée",
+"Enabled" => "Activées",
+"Not enabled" => "Désactivées",
+"Recommended" => "Recommandées",
 "Authentication error" => "Erreur d'authentification",
 "Your full name has been changed." => "Votre nom complet a été modifié.",
 "Unable to change full name" => "Impossible de changer le nom complet",
@@ -190,7 +190,7 @@ $TRANSLATIONS = array(
 "Full Name" => "Nom complet",
 "Email" => "Adresse mail",
 "Your email address" => "Votre adresse e-mail",
-"Fill in an email address to enable password recovery and receive notifications" => "Saisir une adresse e-mail pour permettre la réinitialisation du mot de passe et la réception des notifications",
+"Fill in an email address to enable password recovery and receive notifications" => "Saisissez votre adresse mail pour permettre la réinitialisation du mot de passe et la réception des notifications",
 "Profile picture" => "Photo de profil",
 "Upload new" => "Nouvelle depuis votre ordinateur",
 "Select new from Files" => "Nouvelle depuis les Fichiers",
