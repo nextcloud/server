@@ -501,7 +501,7 @@ class OC_L10N implements \OCP\IL10N {
 		}
 		$dir = self::findI18nDir($app);
 		if(is_dir($dir)) {
-			return file_exists($dir.'/'.$lang.'.php');
+			return file_exists($dir.'/'.$lang.'.json');
 		}
 		return false;
 	}
