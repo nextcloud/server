@@ -22,26 +22,6 @@ class Autoloader {
 	protected $memoryCache;
 
 	/**
-	 * Add a custom prefix to the autoloader
-	 *
-	 * @param string $prefix
-	 * @param string $path
-	 */
-	public function registerPrefix($prefix, $path) {
-		$this->prefixPaths[$prefix] = $path;
-	}
-
-	/**
-	 * Add a custom classpath to the autoloader
-	 *
-	 * @param string $class
-	 * @param string $path
-	 */
-	public function registerClass($class, $path) {
-		$this->classPaths[$class] = $path;
-	}
-
-	/**
 	 * disable the usage of the global classpath \OC::$CLASSPATH
 	 */
 	public function disableGlobalClassPath() {
@@ -99,14 +79,6 @@ class Autoloader {
 			$paths[] = 'tests/lib/' . strtolower(str_replace('_', '/', substr($class, 5)) . '.php');
 		} elseif (strpos($class, 'Test\\') === 0) {
 			$paths[] = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($class, 5)) . '.php');
-		} else {
-			foreach ($this->prefixPaths as $prefix => $dir) {
-				if (0 === strpos($class, $prefix)) {
-					$path = str_replace('\\', '/', $class) . '.php';
-					$path = str_replace('_', '/', $path);
-					$paths[] = $dir . '/' . $path;
-				}
-			}
 		}
 		return $paths;
 	}
