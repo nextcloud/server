@@ -53,7 +53,7 @@ class Storage {
 	}
 
 	/**
-	 * remeber the owner and the owner path of the source file
+	 * Remember the owner and the owner path of the source file
 	 *
 	 * @param string $source source path
 	 */
@@ -63,7 +63,7 @@ class Storage {
 	}
 
 	/**
-	 * gets the owner and the owner path from the source path
+	 * Gets the owner and the owner path from the source path
 	 *
 	 * @param string $source source path
 	 * @return array with user id and path
