@@ -431,6 +431,7 @@ class Filesystem {
 	 */
 	public static function clearMounts() {
 		if (self::$mounts) {
+			self::$usersSetup = array();
 			self::$mounts->clear();
 		}
 	}
