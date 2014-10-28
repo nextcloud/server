@@ -28,6 +28,7 @@ use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Controller;
 
 
@@ -46,6 +47,18 @@ class TestController extends Controller {
 		});
 		return array($int, $bool, $test, $test2);
 	}
+
+
+	/**
+	 * @param int $int
+	 * @param bool $bool
+	 */
+	public function execDataResponse($int, $bool, $test=4, $test2=1) {
+		return new DataResponse(array(
+			'text' => array($int, $bool, $test, $test2)
+		));
+	}
+
 }
 
 
@@ -84,7 +97,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->controller = $this->getMock(
 			'\OCP\AppFramework\Controller',
 			array($this->controllerMethod), array($app, $request));
-		
+
 		$this->request = $this->getMockBuilder(
 			'\OC\AppFramework\Http\Request')
 			->disableOriginalConstructor()
@@ -96,7 +109,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			$this->http, $this->middlewareDispatcher, $this->reflector,
 			$this->request
 		);
-		
+
 		$this->response = $this->getMockBuilder(
 			'\OCP\AppFramework\Http\Response')
 			->disableOriginalConstructor()
@@ -111,7 +124,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 	 * @param string $out
 	 * @param string $httpHeaders
 	 */
-	private function setMiddlewareExpectations($out=null, 
+	private function setMiddlewareExpectations($out=null,
 		$httpHeaders=null, $responseHeaders=array(),
 		$ex=false, $catchEx=true) {
 
@@ -119,20 +132,20 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			$exception = new \Exception();
 			$this->middlewareDispatcher->expects($this->once())
 				->method('beforeController')
-				->with($this->equalTo($this->controller), 
+				->with($this->equalTo($this->controller),
 					$this->equalTo($this->controllerMethod))
 				->will($this->throwException($exception));
 			if($catchEx) {
 				$this->middlewareDispatcher->expects($this->once())
 					->method('afterException')
-					->with($this->equalTo($this->controller), 
+					->with($this->equalTo($this->controller),
 						$this->equalTo($this->controllerMethod),
 						$this->equalTo($exception))
 					->will($this->returnValue($this->response));
 			} else {
 				$this->middlewareDispatcher->expects($this->once())
 					->method('afterException')
-					->with($this->equalTo($this->controller), 
+					->with($this->equalTo($this->controller),
 						$this->equalTo($this->controllerMethod),
 						$this->equalTo($exception))
 					->will($this->returnValue(null));
@@ -141,7 +154,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		} else {
 			$this->middlewareDispatcher->expects($this->once())
 				->method('beforeController')
-				->with($this->equalTo($this->controller), 
+				->with($this->equalTo($this->controller),
 					$this->equalTo($this->controllerMethod));
 			$this->controller->expects($this->once())
 				->method($this->controllerMethod)
@@ -165,38 +178,38 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 			->will($this->returnValue($responseHeaders));
 		$this->http->expects($this->once())
 			->method('getStatusHeader')
-			->with($this->equalTo(Http::STATUS_OK), 
+			->with($this->equalTo(Http::STATUS_OK),
 				$this->equalTo($this->lastModified),
 				$this->equalTo($this->etag))
 			->will($this->returnValue($httpHeaders));
-		
+
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
-			->with($this->equalTo($this->controller), 
+			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod),
 				$this->equalTo($this->response))
 			->will($this->returnValue($this->response));
 
 		$this->middlewareDispatcher->expects($this->once())
 			->method('afterController')
-			->with($this->equalTo($this->controller), 
+			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod),
 				$this->equalTo($this->response))
 			->will($this->returnValue($this->response));
 
 		$this->middlewareDispatcher->expects($this->once())
 			->method('beforeOutput')
-			->with($this->equalTo($this->controller), 
+			->with($this->equalTo($this->controller),
 				$this->equalTo($this->controllerMethod),
 				$this->equalTo($out))
-			->will($this->returnValue($out));		
+			->will($this->returnValue($out));
 	}
 
 
 	public function testDispatcherReturnsArrayWith2Entries() {
 		$this->setMiddlewareExpectations();
 
-		$response = $this->dispatcher->dispatch($this->controller, 
+		$response = $this->dispatcher->dispatch($this->controller,
 			$this->controllerMethod);
 		$this->assertNull($response[0]);
 		$this->assertEquals(array(), $response[1]);
@@ -210,7 +223,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$responseHeaders = array('hell' => 'yeah');
 		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders);
 
-		$response = $this->dispatcher->dispatch($this->controller, 
+		$response = $this->dispatcher->dispatch($this->controller,
 			$this->controllerMethod);
 
 		$this->assertEquals($httpHeaders, $response[0]);
@@ -227,9 +240,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = array('hell' => 'yeah');
-		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders, true);		
+		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders, true);
 
-		$response = $this->dispatcher->dispatch($this->controller, 
+		$response = $this->dispatcher->dispatch($this->controller,
 			$this->controllerMethod);
 
 		$this->assertEquals($httpHeaders, $response[0]);
@@ -249,7 +262,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		$this->setMiddlewareExpectations($out, $httpHeaders, $responseHeaders, true, false);
 
 		$this->setExpectedException('\Exception');
-		$response = $this->dispatcher->dispatch($this->controller, 
+		$response = $this->dispatcher->dispatch($this->controller,
 			$this->controllerMethod);
 
 	}
@@ -337,6 +350,31 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 		// reflector is supposed to be called once
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
+
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
+	}
+
+
+	public function testResponseTransformsDataResponse() {
+		$this->request = new Request(array(
+			'post' => array(
+				'int' => '3',
+				'bool' => 'false'
+			),
+			'urlParams' => array(
+				'format' => 'json'
+			),
+			'method' => 'GET'
+		));
+		$this->dispatcher = new Dispatcher(
+			$this->http, $this->middlewareDispatcher, $this->reflector,
+			$this->request
+		);
+		$controller = new TestController('app', $this->request);
+
+		// reflector is supposed to be called once
+		$this->dispatcherPassthrough();
+		$response = $this->dispatcher->dispatch($controller, 'execDataResponse');
 
 		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
 	}

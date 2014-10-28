@@ -93,7 +93,7 @@ class Response {
 	 */
 	public function addHeader($name, $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
-		                      // to be able to reliably check for security 
+		                      // to be able to reliably check for security
 		                      // headers
 
 		if(is_null($value)) {
@@ -101,6 +101,18 @@ class Response {
 		} else {
 			$this->headers[$name] = $value;
 		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Set the headers
+	 * @param array key value header pairs
+	 * @return Response Reference to this object
+	 */
+	public function setHeaders($headers) {
+		$this->headers = $headers;
 
 		return $this;
 	}
