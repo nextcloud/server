@@ -838,9 +838,10 @@ var LdapWizard = {
 		}
 	},
 
-	onToggleRawFilterConfirmation: function(currentMode, callback) {
-		if(!LdapWizard.admin.isExperienced()
-			|| currentMode === LdapWizard.filterModeAssisted
+	onToggleRawFilterConfirmation: function(currentMode, isRawVisible, callback) {
+		if(   !LdapWizard.admin.isExperienced()
+		   || currentMode === LdapWizard.filterModeAssisted
+		   || (LdapWizard.admin.isExperienced() && !isRawVisible)
 		) {
 			return callback(true);
 		}
@@ -855,6 +856,7 @@ var LdapWizard = {
 	toggleRawGroupFilter: function() {
 		LdapWizard.onToggleRawFilterConfirmation(
 			LdapWizard.groupFilter.getMode(),
+			!$('#rawGroupFilterContainer').hasClass('invisible'),
 			function(confirmed) {
 				if(confirmed !== true) {
 					return;
@@ -875,6 +877,7 @@ var LdapWizard = {
 	toggleRawLoginFilter: function() {
 		LdapWizard.onToggleRawFilterConfirmation(
 			LdapWizard.loginFilter.getMode(),
+			!$('#rawLoginFilterContainer').hasClass('invisible'),
 			function(confirmed) {
 				if(confirmed !== true) {
 					return;
@@ -909,6 +912,7 @@ var LdapWizard = {
 	toggleRawUserFilter: function() {
 		LdapWizard.onToggleRawFilterConfirmation(
 			LdapWizard.userFilter.getMode(),
+			!$('#rawUserFilterContainer').hasClass('invisible'),
 			function(confirmed) {
 				if(confirmed === true) {
 					LdapWizard.blacklistRemove('ldap_userlist_filter');
