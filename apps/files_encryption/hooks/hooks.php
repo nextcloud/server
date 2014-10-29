@@ -263,6 +263,19 @@ class Hooks {
 		}
 	}
 
+	/**
+	 * after password reset we create a new key pair for the user
+	 *
+	 * @param array $params
+	 */
+	public static function postPasswordReset($params) {
+		$uid = $params['uid'];
+		$password = $params['password'];
+
+		$util = new Util(new \OC\Files\View(), $uid);
+		$util->replaceUserKeys($password);
+	}
+
 	/*
 	 * check if files can be encrypted to every user.
 	 */
