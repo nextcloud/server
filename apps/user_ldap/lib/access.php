@@ -887,8 +887,10 @@ class Access extends LDAPUtility implements user\IUserTools {
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
 
+		$limitPerPage = (intval($limit) < intval($this->connection->ldapPagingSize)) ?
+			intval($limit) : intval($this->connection->ldapPagingSize);
 		if(is_null($limit) || $limit <= 0) {
-			$limit = intval($this->connection->ldapPagingSize);
+			$limitPerPage = intval($this->connection->ldapPagingSize);
 		}
 
 		$counter = 0;
@@ -898,19 +900,19 @@ class Access extends LDAPUtility implements user\IUserTools {
 		do {
 			$continue = false;
 			$search = $this->executeSearch($filter, $base, $attr,
-										   $limit, $offset);
+										   $limitPerPage, $offset);
 			if($search === false) {
 				return $counter > 0 ? $counter : false;
 			}
 			list($sr, $pagedSearchOK) = $search;
 
-			$count = $this->countEntriesInSearchResults($sr, $limit, $continue);
+			$count = $this->countEntriesInSearchResults($sr, $limitPerPage, $continue);
 			$counter += $count;
 
-			$this->processPagedSearchStatus($sr, $filter, $base, $count, $limit,
+			$this->processPagedSearchStatus($sr, $filter, $base, $count, $limitPerPage,
 										$offset, $pagedSearchOK, $skipHandling);
-			$offset += $limit;
-		} while($continue);
+			$offset += $limitPerPage;
+		} while($continue && (is_null($limit) || $limit <= 0 || $limit > $counter));
 
 		return $counter;
 	}

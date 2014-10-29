@@ -132,9 +132,10 @@ class Wizard extends LDAPUtility {
 	/**
 	 * counts users with a specified attribute
 	 * @param string $attr
+	 * @param bool $existsCheck
 	 * @return int|bool
 	 */
-	public function countUsersWithAttribute($attr) {
+	public function countUsersWithAttribute($attr, $existsCheck = false) {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
 										   'ldapBase',
@@ -148,7 +149,9 @@ class Wizard extends LDAPUtility {
 			$attr . '=*'
 		));
 
-		return $this->access->countUsers($filter);
+		$limit = ($existsCheck === false) ? null : 1;
+
+		return $this->access->countUsers($filter, array('dn'), $limit);
 	}
 
 	/**
@@ -169,7 +172,7 @@ class Wizard extends LDAPUtility {
 		if($attr !== 'displayName' && !empty($attr)) {
 			// most likely not the default value with upper case N,
 			// verify it still produces a result
-			$count = intval($this->countUsersWithAttribute($attr));
+			$count = intval($this->countUsersWithAttribute($attr, true));
 			if($count > 0) {
 				//no change, but we sent it back to make sure the user interface
 				//is still correct, even if the ajax call was cancelled inbetween
@@ -181,7 +184,7 @@ class Wizard extends LDAPUtility {
 		// first attribute that has at least one result wins
 		$displayNameAttrs = array('displayname', 'cn');
 		foreach ($displayNameAttrs as $attr) {
-			$count = intval($this->countUsersWithAttribute($attr));
+			$count = intval($this->countUsersWithAttribute($attr, true));
 
 			if($count > 0) {
 				$this->applyFind('ldap_display_name', $attr);
@@ -209,7 +212,7 @@ class Wizard extends LDAPUtility {
 
 		$attr = $this->configuration->ldapEmailAttribute;
 		if(!empty($attr)) {
-			$count = intval($this->countUsersWithAttribute($attr));
+			$count = intval($this->countUsersWithAttribute($attr, true));
 			if($count > 0) {
 				return false;
 			}
