@@ -6,6 +6,7 @@
  * See the COPYING-README file.
  */
 \OC_Util::checkLoggedIn();
+\OC::$server->getSession()->close();
 
 if(!\OC_App::isEnabled('files_trashbin')){
 	exit;
