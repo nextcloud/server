@@ -177,8 +177,9 @@ class View extends \PHPUnit_Framework_TestCase {
 
 	function testCacheIncompleteFolder() {
 		$storage1 = $this->getTestStorage(false);
-		\OC\Files\Filesystem::mount($storage1, array(), '/');
-		$rootView = new \OC\Files\View('');
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($storage1, array(), '/incomplete');
+		$rootView = new \OC\Files\View('/incomplete');
 
 		$entries = $rootView->getDirectoryContent('/');
 		$this->assertEquals(3, count($entries));
