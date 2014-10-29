@@ -35,6 +35,10 @@ class JSResourceLocator extends ResourceLocator {
 		) {
 			return;
 		}
+		// missing translations files fill be ignored
+		if (strpos($script, "l10n/") === 0) {
+			return;
+		}
 		throw new \Exception('js file not found: script:'.$script);
 	}
 

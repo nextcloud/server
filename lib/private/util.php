@@ -333,7 +333,7 @@ class OC_Util {
 	/**
 	 * add a javascript file
 	 *
-	 * @param string $application
+	 * @param string $application application id
 	 * @param string|null $file filename
 	 * @return void
 	 */
@@ -350,9 +350,27 @@ class OC_Util {
 	}
 
 	/**
+	 * add a translation JS file
+	 *
+	 * @param string $application application id
+	 * @param string $languageCode language code, defaults to the current language
+	 */
+	public static function addTranslations($application, $languageCode = null) {
+		if (is_null($languageCode)) {
+			$l = new \OC_L10N($application);
+			$languageCode = $l->getLanguageCode($application);
+		}
+		if (!empty($application)) {
+			self::$scripts[] = "$application/l10n/$languageCode";
+		} else {
+			self::$scripts[] = "l10n/$languageCode";
+		}
+	}
+
+	/**
 	 * add a css file
 	 *
-	 * @param string $application
+	 * @param string $application application id
 	 * @param string|null $file filename
 	 * @return void
 	 */

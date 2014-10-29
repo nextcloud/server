@@ -113,15 +113,6 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		// must use fake responses for expected calls
 		fakeServer = sinon.fakeServer.create();
 
-		// return fake translations as they might be requested for many test runs
-		fakeServer.respondWith(/\/index.php\/core\/ajax\/translations.php$/, [
-				200, {
-					"Content-Type": "application/json"
-				},
-				'{"data": [], "plural_form": "nplurals=2; plural=(n != 1);"}'
-			]
-		);
-
 		// make it globally available, so that other tests can define
 		// custom responses
 		window.fakeServer = fakeServer;

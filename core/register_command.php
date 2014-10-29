@@ -22,4 +22,5 @@ $application->add(new OC\Core\Command\Maintenance\Repair($repair, OC_Config::get
 $application->add(new OC\Core\Command\User\Report());
 $application->add(new OC\Core\Command\User\ResetPassword(\OC::$server->getUserManager()));
 $application->add(new OC\Core\Command\User\LastSeen());
+$application->add(new OC\Core\Command\L10n\CreateJs());
 

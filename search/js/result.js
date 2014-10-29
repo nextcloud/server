@@ -1,3 +1,20 @@
+/*
+ * Copyright (c) 2014
+ *
+ * This file is licensed under the Affero General Public License version 3
+ * or later.
+ *
+ * See the COPYING-README file.
+ *
+ */
+
+//translations for result type ids, can be extended by apps
+OC.search.resultTypes={
+	file: t('core','File'),
+	folder: t('core','Folder'),
+	image: t('core','Image'),
+	audio: t('core','Audio')
+};
 OC.search.catagorizeResults=function(results){
 	var types={};
 	for(var i=0;i<results.length;i++){

@@ -1,0 +1,23 @@
+{ "translations": {
+    "Please provide a valid Dropbox app key and secret." : "කරුණාකර වලංගු Dropbox යෙදුම් යතුරක් හා රහසක් ලබාදෙන්න.",
+    "Location" : "ස්ථානය",
+    "Port" : "තොට",
+    "Region" : "කළාපය",
+    "Host" : "සත්කාරකය",
+    "Username" : "පරිශීලක නම",
+    "Password" : "මුර පදය",
+    "Share" : "බෙදා හදා ගන්න",
+    "URL" : "URL",
+    "Access granted" : "පිවිසීමට හැක",
+    "Error configuring Dropbox storage" : "Dropbox ගබඩාව වින්‍යාස කිරීමේ දෝශයක් ඇත",
+    "Grant access" : "පිවිසුම ලබාදෙන්න",
+    "Error configuring Google Drive storage" : "Google Drive ගබඩාව වින්‍යාස කිරීමේ දෝශයක් ඇත",
+    "Personal" : "පෞද්ගලික",
+    "Name" : "නම",
+    "External Storage" : "භාහිර ගබඩාව",
+    "Folder name" : "ෆොල්ඩරයේ නම",
+    "Configuration" : "වින්‍යාසය",
+    "Delete" : "මකා දමන්න",
+    "Enable User External Storage" : "පරිශීලක භාහිර ගබඩාවන් සක්‍රිය කරන්න"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

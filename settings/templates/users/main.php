@@ -17,6 +17,8 @@ $userlistParams['allGroups'] = json_encode($allGroups);
 $items = array_flip($userlistParams['subadmingroups']);
 unset($items['admin']);
 $userlistParams['subadmingroups'] = array_flip($items);
+
+translation('settings');
 ?>
 
 <div id="app-navigation">

@@ -1,0 +1,15 @@
+{ "translations": {
+    "Location" : "Vendndodhja",
+    "Port" : "Porta",
+    "Host" : "Pritësi",
+    "Username" : "Përdoruesi",
+    "Password" : "fjalëkalim",
+    "Share" : "Ndaj",
+    "URL" : "URL-i",
+    "Personal" : "Personale",
+    "Saved" : "U ruajt",
+    "Name" : "Emri",
+    "Folder name" : "Emri i Skedarit",
+    "Delete" : "Elimino"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

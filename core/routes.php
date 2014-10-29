@@ -30,9 +30,6 @@ $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 // Share
 $this->create('core_ajax_share', '/core/ajax/share.php')
 	->actionInclude('core/ajax/share.php');
-// Translations
-$this->create('core_ajax_translations', '/core/ajax/translations.php')
-	->actionInclude('core/ajax/translations.php');
 // Tags
 $this->create('core_tags_tags', '/tags/{type}')
 	->get()

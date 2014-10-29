@@ -338,6 +338,8 @@ class OC {
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("js");
+		OC_Util::addScript("l10n");
+		OC_Util::addTranslations("core");
 		OC_Util::addScript("octemplate");
 		OC_Util::addScript("eventsource");
 		OC_Util::addScript("config");
@@ -523,7 +525,6 @@ class OC {
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
-		self::initTemplateEngine();
 		OC_App::loadApps(array('session'));
 		if (self::$CLI) {
 			self::$session = new \OC\Session\Memory('');
@@ -531,6 +532,7 @@ class OC {
 			self::initSession();
 		}
 		\OC::$server->getEventLogger()->end('init_session');
+		self::initTemplateEngine();
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();

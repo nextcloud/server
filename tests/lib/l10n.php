@@ -10,7 +10,7 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 
 	public function testGermanPluralTranslations() {
 		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/de.php';
+		$transFile = OC::$SERVERROOT.'/tests/data/l10n/de.json';
 
 		$l->load($transFile);
 		$this->assertEquals('1 Datei', (string)$l->n('%n file', '%n files', 1));
@@ -19,7 +19,7 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 
 	public function testRussianPluralTranslations() {
 		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/ru.php';
+		$transFile = OC::$SERVERROOT.'/tests/data/l10n/ru.json';
 
 		$l->load($transFile);
 		$this->assertEquals('1 файл', (string)$l->n('%n file', '%n files', 1));
@@ -44,7 +44,7 @@ class Test_L10n extends PHPUnit_Framework_TestCase {
 
 	public function testCzechPluralTranslations() {
 		$l = new OC_L10N('test');
-		$transFile = OC::$SERVERROOT.'/tests/data/l10n/cs.php';
+		$transFile = OC::$SERVERROOT.'/tests/data/l10n/cs.json';
 
 		$l->load($transFile);
 		$this->assertEquals('1 okno', (string)$l->n('%n window', '%n windows', 1));

@@ -56,6 +56,15 @@ function style($app, $file) {
 }
 
 /**
+ * Shortcut for adding translations to a page
+ * @param string $app the appname
+ * if an array is given it will add all styles
+ */
+function translation($app) {
+	OC_Util::addTranslations($app);
+}
+
+/**
  * Shortcut for HTML imports
  * @param string $app the appname
  * @param string|string[] $file the path relative to the app's component folder,
