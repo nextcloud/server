@@ -159,17 +159,17 @@ LdapFilter.prototype.findFeatures = function() {
  * resolving the passed status variable will fire up counting
  * @param {object} status an instance of $.Deferred
  */
-LdapFilter.prototype.beforeUpdateCount = function(status) {
-	return LdapWizard.runDetectors(this.target, function() {
+LdapFilter.prototype.beforeUpdateCount = function() {
+	var status = $.Deferred();
+	LdapWizard.runDetectors(this.target, function() {
 		status.resolve();
 	});
+	return status;
 };
 
 LdapFilter.prototype.updateCount = function(doneCallback) {
-	var beforeUpdateCountDone = $.Deferred();
-	this.beforeUpdateCount(beforeUpdateCountDone);
 	var filter = this;
-	$.when(beforeUpdateCountDone).done(function() {
+	$.when(this.beforeUpdateCount()).done(function() {
 		if(filter.target === 'User') {
 			LdapWizard.countUsers(doneCallback);
 		} else if (filter.target === 'Group') {
