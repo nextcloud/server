@@ -377,6 +377,16 @@ var LdapWizard = {
 		LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
 	},
 
+	/**
+	 * called after detectors have run
+	 * @callback runDetectorsCallback
+	 */
+
+	/**
+	 * runs detectors to determine appropriate attributes, e.g. displayName
+	 * @param {string} type either "User" or "Group"
+	 * @param {runDetectorsCallback} triggered after all detectors have completed
+	 */
 	runDetectors: function(type, callback) {
 		if(type === 'Group') {
 			$.when(LdapWizard.detectGroupMemberAssoc())
@@ -397,6 +407,9 @@ var LdapWizard = {
 		}
 	},
 
+	/**
+	 * runs detector to find out a fitting user display name attribute
+	 */
 	detectUserDisplayNameAttribute: function() {
 		var param = 'action=detectUserDisplayNameAttribute' +
 			'&ldap_serverconfig_chooser='+

@@ -63,12 +63,21 @@ LdapFilter.prototype.compose = function() {
 	);
 };
 
+/**
+ * this function is triggered after attribute detectors have completed in
+ * LdapWizard
+ */
 LdapFilter.prototype.afterDetectorsRan = function() {
 	this.updateCount();
 };
 
+/**
+ * this function is triggered after LDAP filters have been composed successfully
+ * @param {object} result returned by the ajax call
+ */
 LdapFilter.prototype.afterComposeSuccess = function(result) {
 	LdapWizard.applyChanges(result);
+	//best time to run attribute detectors
 	LdapWizard.runDetectors(this.target, this.afterDetectorsRan);
 };
 
@@ -147,6 +156,11 @@ LdapFilter.prototype.findFeatures = function() {
 	}
 };
 
+/**
+ * this function is triggered before user and group counts are executed
+ * resolving the passed status variable will fire up counting
+ * @param {object} status an instance of $.Deferred
+ */
 LdapFilter.prototype.beforeUpdateCount = function(status) {
 	return LdapWizard.runDetectors(this.target, function() {
 		status.resolve();
