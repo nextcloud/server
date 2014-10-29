@@ -1075,8 +1075,19 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Filesystem::unlink('/newfolder');
 	}
 
-	function testMoveFileToFolder() {
+	function usersProvider() {
+		return array(
+			// test as owner
+			array(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1),
+			// test as share receiver
+			array(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2),
+		);
+	}
 
+	/**
+	 * @dataProvider usersProvider
+	 */
+	function testMoveFileToFolder($userId) {
 		$view = new \OC\Files\View('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		$filename = '/tmp-' . uniqid();
@@ -1109,8 +1120,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
 		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
 
-		// move the file into the subfolder
+		// move the file into the subfolder as the test user
+		\Test_Encryption_Util::loginHelper($userId);
 		\OC\Files\Filesystem::rename($folder . $filename, $subFolder . $filename);
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// Get file decrypted contents
 		$newDecrypt = \OC\Files\Filesystem::file_get_contents($subFolder . $filename);
