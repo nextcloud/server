@@ -831,7 +831,7 @@ $CONFIG = array(
 'custom_csp_policy' =>
 	"default-src 'self'; script-src 'self' 'unsafe-eval'; ".
 	"style-src 'self' 'unsafe-inline'; frame-src *; img-src *; ".
-	"font-src 'self' data:; media-src *",
+	"font-src 'self' data:; media-src *; connect-src *",
 
 
 /**
