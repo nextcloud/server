@@ -151,7 +151,7 @@ var LdapWizard = {
 	ajaxRequests: {},
 
 	ajax: function(param, fnOnSuccess, fnOnError, reqID) {
-		if(typeof reqID !== 'undefined') {
+		if(!_.isUndefined(reqID)) {
 			if(LdapWizard.ajaxRequests.hasOwnProperty(reqID)) {
 				console.log('aborting ' + reqID);
 				console.log(param);
@@ -169,7 +169,7 @@ var LdapWizard = {
 				}
 			}
 		);
-		if(typeof reqID !== 'undefined') {
+		if(!_.isUndefined(reqID)) {
 			LdapWizard.ajaxRequests[reqID] = request;
 		}
 		return request;
@@ -354,14 +354,14 @@ var LdapWizard = {
 			function(result) {
 				LdapWizard.applyChanges(result);
 				LdapWizard.hideSpinner(spinnerID);
-				if(doneCallback !== undefined) {
+				if(!_.isUndefined(doneCallback)) {
 					doneCallback(method);
 				}
 			},
 			function (result) {
 				OC.Notification.show('Counting the entries failed with, ' + result.message);
 				LdapWizard.hideSpinner(spinnerID);
-				if(doneCallback !== undefined) {
+				if(!_.isUndefined(doneCallback)) {
 					doneCallback(method);
 				}
 			},
