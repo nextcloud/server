@@ -82,6 +82,9 @@ OC.Lostpassword = {
 					OC.Lostpassword.resetDone
 			);
 		}
+		if($('#encrypted-continue').attr('checked')) {
+			$('#reset-password #submit').hide();
+		}
 	},
 
 	resetDone : function(result){
