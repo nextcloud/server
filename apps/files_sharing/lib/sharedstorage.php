@@ -300,7 +300,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			$pathinfo = pathinfo($relPath1);
 			// for part files we need to ask for the owner and path from the parent directory because
 			// the file cache doesn't return any results for part files
-			if ($pathinfo['extension'] === 'part') {
+			if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'part') {
 				list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($pathinfo['dirname']);
 				$path1 = $path1 . '/' . $pathinfo['basename'];
 			} else {
