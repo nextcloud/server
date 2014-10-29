@@ -58,17 +58,10 @@ function style($app, $file) {
 /**
  * Shortcut for adding translations to a page
  * @param string $app the appname
- * @param string|string[] $file the filename,
  * if an array is given it will add all styles
  */
-function translation($app, $file) {
-	if(is_array($file)) {
-		foreach($file as $f) {
-			OC_Util::addStyle($app, $f);
-		}
-	} else {
-		OC_Util::addStyle($app, $file);
-	}
+function translation($app) {
+	OC_Util::addTranslations($app);
 }
 
 /**
