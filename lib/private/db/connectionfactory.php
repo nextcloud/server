@@ -90,7 +90,8 @@ class ConnectionFactory {
 				$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\OracleSessionInit);
 				break;
 			case 'sqlite3':
-				$eventManager->addEventSubscriber(new SQLiteSessionInit);
+				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
+				$eventManager->addEventSubscriber(new SQLiteSessionInit(true, $journalMode));
 				break;
 		}
 		$connection = \Doctrine\DBAL\DriverManager::getConnection(
@@ -153,6 +154,7 @@ class ConnectionFactory {
 		}
 
 		$connectionParams['tablePrefix'] = $config->getSystemValue('dbtableprefix', 'oc_');
+		$connectionParams['sqlite.journal_mode'] = $config->getSystemValue('sqlite.journal_mode', 'WAL');
 
 		//additional driver options, eg. for mysql ssl
 		$driverOptions = $config->getSystemValue('dbdriveroptions', null);
