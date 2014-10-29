@@ -77,8 +77,6 @@ LdapFilter.prototype.afterDetectorsRan = function() {
  */
 LdapFilter.prototype.afterComposeSuccess = function(result) {
 	LdapWizard.applyChanges(result);
-	//best time to run attribute detectors
-	LdapWizard.runDetectors(this.target, this.afterDetectorsRan);
 };
 
 LdapFilter.prototype.determineMode = function() {
