@@ -797,7 +797,8 @@ $CONFIG = array(
 ),
 
 /**
- * Database types that are supported for installation
+ * Database types that are supported for installation.
+ *
  * Available:
  * 	- sqlite (SQLite3)
  * 	- mysql (MySQL)
