@@ -233,7 +233,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		if($winner !== '') {
-			$this->result->addChange('ldap_email_attr', $winner);
+			$this->applyFind('ldap_email_attr', $winner);
 			if($writeLog) {
 				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
 					'automatically been reset, because the original value ' .
