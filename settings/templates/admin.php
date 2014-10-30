@@ -8,6 +8,16 @@
  * @var array $_
  * @var \OCP\IL10N $l
  */
+
+style('settings', 'settings');
+script('settings', 'settings');
+script( "settings", "admin" );
+script( "settings", "log" );
+script( 'core', 'multiselect' );
+script('core', 'select2/select2');
+style('core', 'select2/select2');
+script('core', 'setupchecks');
+
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 $levelLabels = array(
 	$l->t( 'Everything (fatal issues, errors, warnings, info, debug)' ),
@@ -40,9 +50,23 @@ if ($_['sendmail_is_available']) {
 if ($_['mail_smtpmode'] == 'qmail') {
 	$mail_smtpmode[] = 'qmail';
 }
-
 ?>
 
+<div id="app-navigation">
+	<ul>
+		<?php foreach($_['forms'] as $form) {
+			if (isset($form['anchor'])) {
+				$anchor = '#' . $form['anchor'];
+				$sectionName = $form['section-name'];
+				print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", OC_Util::sanitizeHTML($anchor), OC_Util::sanitizeHTML($sectionName)));
+			}
+		}?>
+	</ul>
+</div>
+
+<div id="app-content">
+
+<div id="security-warning">
 <?php
 
 // is ssl working ?
@@ -72,7 +96,6 @@ if (!$_['htaccessworking']) {
 </div>
 <?php
 }
-
 // Are doc blocks accessible?
 if (!$_['isAnnotationsWorking']) {
 	?>
@@ -193,10 +216,12 @@ if ($_['suggestedOverwriteWebroot']) {
 		?></span>
 	</div>
 </div>
-<?php foreach ($_['forms'] as $form) {
-	print_unescaped($form);
-}
-;?>
+</div>
+<?php foreach($_['forms'] as $form) {
+	if (isset($form['form'])) {?>
+		<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+	<?php }
+};?>
 
 <div class="section" id="backgroundjobs">
 	<h2 class="inlineblock"><?php p($l->t('Cron'));?></h2>
@@ -419,7 +444,7 @@ if ($_['suggestedOverwriteWebroot']) {
 	<span id="sendtestmail_msg" class="msg"></span>
 </div>
 
-<div class="section">
+<div class="section" id="log">
 	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
 <?php for ($i = 0; $i < 5; $i++):
@@ -471,4 +496,5 @@ if ($_['suggestedOverwriteWebroot']) {
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
+</div>
 </div>
