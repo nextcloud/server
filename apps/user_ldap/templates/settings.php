@@ -1,5 +1,6 @@
-<form id="ldap" action="#" method="post">
-	<div id="ldapSettings" class="section">
+<div id="ldapSettings" class="section">
+	<h2><?php p($l->t('LDAP')); ?></h2>
+	<form id="ldap" action="#" method="post">
 	<ul>
 		<?php foreach($_['toc'] as $id => $title) { ?>
 			<li id="<?php p($id); ?>"><a href="<?php p($id); ?>"><?php p($title); ?></a></li>
