@@ -71,7 +71,7 @@ class Cache {
 		if (empty(self::$mimetypeIds)) {
 			$this->loadMimetypes();
 		}
-		
+
 		if (!isset(self::$mimetypeIds[$mime])) {
 			try{
 				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
@@ -82,8 +82,8 @@ class Cache {
 				\OC_Log::write('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OC_Log::DEBUG);
 				return -1;
 			}
-		} 
-				
+		}
+
 		return self::$mimetypeIds[$mime];
 	}
 
@@ -371,7 +371,7 @@ class Cache {
 				$this->remove($child['path']);
 			}
 		}
-		
+
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		\OC_DB::executeAudited($sql, array($entry['fileid']));
 	}
