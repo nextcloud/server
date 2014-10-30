@@ -385,55 +385,71 @@ class Util {
 			&& $this->isEncryptedPath($path)
 		) {
 
-			$offset = 0;
-			if ($this->containHeader($path)) {
-				$offset = Crypt::BLOCKSIZE;
-			}
+			$cipher = 'AES-128-CFB';
+			$realSize = 0;
 
-			// get the size from filesystem if the file contains a encryption header we
-			// we substract it
-			$size = $this->view->filesize($path) - $offset;
-
-			// fast path, else the calculation for $lastChunkNr is bogus
-			if ($size === 0) {
-				\OC_FileProxy::$enabled = $proxyStatus;
-				return 0;
-			}
-
-			// calculate last chunk nr
-			// next highest is end of chunks, one subtracted is last one
-			// we have to read the last chunk, we can't just calculate it (because of padding etc)
-			$lastChunkNr = ceil($size/ Crypt::BLOCKSIZE) - 1;
-			$lastChunkSize = $size - ($lastChunkNr * Crypt::BLOCKSIZE);
+			// get the size from filesystem
+			$size = $this->view->filesize($path);
 
 			// open stream
-			$stream = fopen('crypt://' . $path, "r");
+			$stream = $this->view->fopen($path, "r");
 
 			if (is_resource($stream)) {
-				// calculate last chunk position
-				$lastChunckPos = ($lastChunkNr * Crypt::BLOCKSIZE);
 
-				// seek to end
-				if (@fseek($stream, $lastChunckPos) === -1) {
-					// storage doesn't support fseek, we need a local copy
-					fclose($stream);
-					$localFile = $this->view->getLocalFile($path);
-					Helper::addTmpFileToMapper($localFile, $path);
-					$stream = fopen('crypt://' . $localFile, "r");
-					if (fseek($stream, $lastChunckPos) === -1) {
-						// if fseek also fails on the local storage, than
-						// there is nothing we can do
-						fclose($stream);
-						\OCP\Util::writeLog('Encryption library', 'couldn\'t determine size of "' . $path, \OCP\Util::ERROR);
-						return $result;
-					}
+				// if the file contains a encryption header we
+				// we set the cipher
+				// and we update the size
+				if ($this->containHeader($path)) {
+					$data = fread($stream,Crypt::BLOCKSIZE);
+					$header = Crypt::parseHeader($data);
+					$cipher = Crypt::getCipher($header);
+					$size -= Crypt::BLOCKSIZE;
 				}
 
+				// fast path, else the calculation for $lastChunkNr is bogus
+				if ($size === 0) {
+					\OC_FileProxy::$enabled = $proxyStatus;
+					return 0;
+				}
+
+				// calculate last chunk nr
+				// next highest is end of chunks, one subtracted is last one
+				// we have to read the last chunk, we can't just calculate it (because of padding etc)
+				$lastChunkNr = ceil($size/Crypt::BLOCKSIZE)-1;
+
+				// calculate last chunk position
+				$lastChunkPos = ($lastChunkNr * Crypt::BLOCKSIZE);
+
 				// get the content of the last chunk
-				$lastChunkContent = fread($stream, $lastChunkSize);
+				if (@fseek($stream, $lastChunkPos, SEEK_CUR) === 0) {
+					$realSize+=$lastChunkNr*6126;
+				}
+				$lastChunkContentEncrypted='';
+				$count=Crypt::BLOCKSIZE;
+				while ($count>0) {
+					$data=fread($stream,Crypt::BLOCKSIZE);
+					$count=strlen($data);
+					$lastChunkContentEncrypted.=$data;
+					if(strlen($lastChunkContentEncrypted)>Crypt::BLOCKSIZE) {
+						$realSize+=6126;
+						$lastChunkContentEncrypted=substr($lastChunkContentEncrypted,Crypt::BLOCKSIZE);
+					}
+				}
+				fclose($stream);
+				$relPath = \OCA\Encryption\Helper::stripUserFilesPath($path);
+				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
+				if($shareKey===false) {
+					\OC_FileProxy::$enabled = $proxyStatus;
+					return $result;
+				}
+				$session = new \OCA\Encryption\Session($this->view);
+				$privateKey = $session->getPrivateKey();
+				$plainKeyfile = $this->decryptKeyfile($relPath, $privateKey);
+				$plainKey = Crypt::multiKeyDecrypt($plainKeyfile, $shareKey, $privateKey);
+				$lastChunkContent=Crypt::symmetricDecryptFileContent($lastChunkContentEncrypted, $plainKey, $cipher);
 
 				// calc the real file size with the size of the last chunk
-				$realSize = (($lastChunkNr * 6126) + strlen($lastChunkContent));
+				$realSize += strlen($lastChunkContent);
 
 				// store file size
 				$result = $realSize;
