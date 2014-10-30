@@ -76,7 +76,7 @@ class OC_Setup {
 			),
 			'pgsql' => array(
 				'type' => 'function',
-				'call' => 'oci_connect',
+				'call' => 'pg_connect',
 				'name' => 'PostgreSQL'
 			),
 			'oci' => array(
