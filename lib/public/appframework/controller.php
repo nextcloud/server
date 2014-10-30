@@ -29,6 +29,7 @@ namespace OCP\AppFramework;
 
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
 
@@ -63,8 +64,17 @@ abstract class Controller {
 
 		// default responders
 		$this->responders = array(
-			'json' => function ($response) {
-				return new JSONResponse($response);
+			'json' => function ($data) {
+				if ($data instanceof DataResponse) {
+					$response = new JSONResponse(
+						$data->getData(),
+						$data->getStatus()
+					);
+					$response->setHeaders($data->getHeaders());
+					return $response;
+				} else {
+					return new JSONResponse($data);
+				}
 			}
 		);
 	}

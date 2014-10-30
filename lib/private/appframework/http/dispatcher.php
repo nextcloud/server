@@ -30,6 +30,7 @@ use \OC\AppFramework\Utility\ControllerMethodReflector;
 
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\Response;
+use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
 
@@ -154,8 +155,8 @@ class Dispatcher {
 
 		$response = call_user_func_array(array($controller, $methodName), $arguments);
 
-		// format response if not of type response
-		if(!($response instanceof Response)) {
+		// format response
+		if($response instanceof DataResponse || !($response instanceof Response)) {
 
 			// get format from the url format or request format parameter
 			$format = $this->request->getParam('format');

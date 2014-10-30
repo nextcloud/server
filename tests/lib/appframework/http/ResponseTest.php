@@ -48,10 +48,24 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
+	function testSetHeaders(){
+		$expected = array(
+			'Last-Modified' => 1,
+			'ETag' => 3,
+			'Something-Else' => 'hi'
+		);
+
+		$this->childResponse->setHeaders($expected);
+		$headers = $this->childResponse->getHeaders();
+
+		$this->assertEquals($expected, $headers);
+	}
+
+
 	public function testAddHeaderValueNullDeletesIt(){
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(1, count($this->childResponse->getHeaders()));	
+		$this->assertEquals(1, count($this->childResponse->getHeaders()));
 	}
 
 
@@ -93,18 +107,18 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCacheSecondsZero() {
 		$this->childResponse->cacheFor(0);
-		
+
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('no-cache, must-revalidate', $headers['Cache-Control']);	
+		$this->assertEquals('no-cache, must-revalidate', $headers['Cache-Control']);
 	}
 
 
 	public function testCacheSeconds() {
 		$this->childResponse->cacheFor(33);
-		
+
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate', 
-			$headers['Cache-Control']);	
+		$this->assertEquals('max-age=33, must-revalidate',
+			$headers['Cache-Control']);
 	}
 
 
