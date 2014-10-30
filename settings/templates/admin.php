@@ -444,7 +444,7 @@ if ($_['suggestedOverwriteWebroot']) {
 	<span id="sendtestmail_msg" class="msg"></span>
 </div>
 
-<div class="section" id="log">
+<div class="section" id="log-section">
 	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
 <?php for ($i = 0; $i < 5; $i++):

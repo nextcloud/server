@@ -3,7 +3,8 @@ $(document).ready(function(){
 
 	// Hack to add a trusted domain
 	if (params.trustDomain) {
-		OC.dialogs.confirm(t('core', 'Are you really sure you want add "{domain}" as trusted domain?', {domain: params.trustDomain}),
+		OC.dialogs.confirm(t('core', 'Are you really sure you want add "{domain}" as trusted domain?',
+				{domain: params.trustDomain}),
 			t('core', 'Add trusted domain'), function(answer) {
 				if(answer) {
 					$.ajax({
@@ -52,14 +53,13 @@ $(document).ready(function(){
 	});
 
 	$('#shareAPI input:not(#excludedGroups)').change(function() {
+		var value = $(this).val();
 		if ($(this).attr('type') === 'checkbox') {
 			if (this.checked) {
-				var value = 'yes';
+				value = 'yes';
 			} else {
-				var value = 'no';
+				value = 'no';
 			}
-		} else {
-			var value = $(this).val();
 		}
 		OC.AppConfig.setValue('core', $(this).attr('name'), value);
 	});
