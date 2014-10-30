@@ -1,5 +1,7 @@
 { "translations": {
     "Server to server sharing is not enabled on this server" : "Zerbitzaritik zerbitzarirako elkarbanaketa ez dago gaituta zerbitzari honetan",
+    "The mountpoint name contains invalid characters." : "Montatze puntuaren izenak baliogabeko karaktereak ditu.",
+    "Invalid or untrusted SSL certificate" : "SSL ziurtagiri baliogabea edo fidagaitza",
     "Couldn't add remote share" : "Ezin izan da hurruneko elkarbanaketa gehitu",
     "Shared with you" : "Zurekin elkarbanatuta",
     "Shared with others" : "Beste batzuekin elkarbanatuta",

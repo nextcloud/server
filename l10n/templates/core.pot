@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: ownCloud Core 6.0.0\n"
+"Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-29 01:54-0400\n"
+"POT-Creation-Date: 2014-10-30 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -149,27 +149,11 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: js/js.js:499
+#: js/js.js:384
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:588
-msgid "File"
-msgstr ""
-
-#: js/js.js:589
-msgid "Folder"
-msgstr ""
-
-#: js/js.js:590
-msgid "Image"
-msgstr ""
-
-#: js/js.js:591
-msgid "Audio"
-msgstr ""
-
-#: js/js.js:605
+#: js/js.js:483
 msgid "Saving..."
 msgstr ""
 
@@ -492,6 +476,31 @@ msgstr ""
 #: js/tags.js:288
 msgid "No tags selected for deletion."
 msgstr ""
+
+#: js/tests/specs/l10nSpec.js:28 js/tests/specs/l10nSpec.js:31
+msgid "unknown text"
+msgstr ""
+
+#: js/tests/specs/l10nSpec.js:34
+msgid "Hello world!"
+msgstr ""
+
+#: js/tests/specs/l10nSpec.js:38
+msgid "sunny"
+msgstr ""
+
+#: js/tests/specs/l10nSpec.js:38
+msgid "Hello {name}, the weather is {weather}"
+msgstr ""
+
+#: js/tests/specs/l10nSpec.js:45 js/tests/specs/l10nSpec.js:48
+#: js/tests/specs/l10nSpec.js:51 js/tests/specs/l10nSpec.js:54
+#: js/tests/specs/l10nSpec.js:62 js/tests/specs/l10nSpec.js:65
+#: js/tests/specs/l10nSpec.js:68 js/tests/specs/l10nSpec.js:71
+msgid "download %n file"
+msgid_plural "download %n files"
+msgstr[0] ""
+msgstr[1] ""
 
 #: js/update.js:30
 msgid "Updating {productName} to version {version}, this may take a while."

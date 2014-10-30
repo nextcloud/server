@@ -25,6 +25,7 @@
     "delete" : "ဖျက်မည်",
     "Password protected" : "စကားဝှက်ဖြင့်ကာကွယ်ထားသည်",
     "Add" : "ပေါင်းထည့်",
+    "_download %n file_::_download %n files_" : [""],
     "You will receive a link to reset your password via Email." : "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။",
     "Username" : "သုံးစွဲသူအမည်",
     "New password" : "စကားဝှက်အသစ်",

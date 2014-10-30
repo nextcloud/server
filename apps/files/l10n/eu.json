@@ -4,6 +4,7 @@
     "Unknown error" : "Errore ezezaguna",
     "Could not move %s - File with this name already exists" : "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da",
     "Could not move %s" : "Ezin dira fitxategiak mugitu %s",
+    "Permission denied" : "Baimena Ukatua",
     "File name cannot be empty." : "Fitxategi izena ezin da hutsa izan.",
     "\"%s\" is an invalid file name." : "\"%s\" ez da fitxategi izen baliogarria.",
     "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." : "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta.",

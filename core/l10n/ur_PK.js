@@ -86,6 +86,7 @@ OC.L10N.register(
     "Delete" : "حذف کریں",
     "Add" : "شامل کریں",
     "Edit tags" : "ترمیم ٹیگز",
+    "_download %n file_::_download %n files_" : ["",""],
     "Please reload the page." : "براہ مہربانی صفحہ دوبارہ لوڈ کریں.",
     "The update was successful. Redirecting you to ownCloud now." : "اپ ڈیٹ کامیاب تھی۔ اپ کو اون کلوڈ سے منسلک کیا جا رہا ہے",
     "Use the following link to reset your password: {link}" : "اپنا پاسورڈ ری سیٹ کرنے کے لیے اس لنک پر کلک کریں۔  {link}",

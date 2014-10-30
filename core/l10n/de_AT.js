@@ -31,6 +31,7 @@ OC.L10N.register(
     "can share" : "Kann teilen",
     "can edit" : "kann bearbeiten",
     "Delete" : "Löschen",
+    "_download %n file_::_download %n files_" : ["",""],
     "Personal" : "Persönlich",
     "Help" : "Hilfe",
     "Password" : "Passwort"

@@ -36,6 +36,7 @@ OC.L10N.register(
     "Error while unsharing" : "Ocurrió un error mientras dejaba de compartir",
     "Error while changing permissions" : "Ocurrió un error mientras se cambiaban los permisos",
     "The object type is not specified." : "El tipo de objeto no está especificado.",
+    "_download %n file_::_download %n files_" : ["",""],
     "Username" : "Usuario",
     "Personal" : "Personal",
     "Users" : "Usuarios",

@@ -3,9 +3,9 @@ OC.L10N.register(
     {
     "Share" : "Zdieľať",
     "Delete" : "Odstrániť",
-    "_%n folder_::_%n folders_" : "[ ,,]",
-    "_%n file_::_%n files_" : "[ ,,]",
-    "_Uploading %n file_::_Uploading %n files_" : "[ ,,]",
+    "_%n folder_::_%n folders_" : ["","",""],
+    "_%n file_::_%n files_" : ["","",""],
+    "_Uploading %n file_::_Uploading %n files_" : ["","",""],
     "Save" : "Uložiť",
     "Download" : "Stiahnuť"
 },

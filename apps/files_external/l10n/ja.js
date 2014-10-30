@@ -50,7 +50,7 @@ OC.L10N.register(
     "Error configuring Google Drive storage" : "Googleドライブストレージの設定エラー",
     "Personal" : "個人",
     "System" : "システム",
-    "All users. Type to select user or group." : "全てのユーザー．ユーザー、グループを追加",
+    "All users. Type to select user or group." : "すべてのユーザー．ユーザー、グループを追加",
     "(group)" : "(グループ)",
     "Saved" : "保存されました",
     "<b>Note:</b> " : "<b>注意:</b> ",

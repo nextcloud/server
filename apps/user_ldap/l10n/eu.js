@@ -69,6 +69,7 @@ OC.L10N.register(
     "Limit %s access to users meeting these criteria:" : "Mugatu %s sarbidea baldintza horiek betetzen dituzten erabiltzaileei.",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Iragazkiak zehazten du  ze LDAP erabiltzailek izango duten sarrera %s instantziara:",
     "users found" : "erabiltzaile aurkituta",
+    "Saving" : "Gordetzen",
     "Back" : "Atzera",
     "Continue" : "Jarraitu",
     "Expert" : "Aditua",

@@ -1,7 +1,6 @@
 OC.L10N.register(
     "settings",
     {
-    "Enabled" : "Habilitar",
     "Authentication error" : "Fallu d'autenticación",
     "Your full name has been changed." : "Camudóse'l nome completu.",
     "Unable to change full name" : "Nun pue camudase'l nome completu",
@@ -31,6 +30,8 @@ OC.L10N.register(
     "Wrong admin recovery password. Please check the password and try again." : "Contraseña de recuperación d'alministrador incorreuta. Comprueba la contraseña ya inténtalo dempués.",
     "Back-end doesn't support password change, but the users encryption key was successfully updated." : "El back-end nun sofita cambeos de contraseña, pero la contraseña de cifráu del usuariu anovóse afechiscamente.",
     "Unable to change password" : "Nun pudo camudase la contraseña",
+    "Enabled" : "Habilitar",
+    "Recommended" : "Recomendáu",
     "Saved" : "Guardáu",
     "test email settings" : "probar configuración de corréu",
     "If you received this email, the settings seem to be correct." : "Si recibisti esti mensaxe de corréu-e, la to configuración ta correuta.",

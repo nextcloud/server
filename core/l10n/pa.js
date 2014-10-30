@@ -33,6 +33,7 @@ OC.L10N.register(
     "Send" : "ਭੇਜੋ",
     "Warning" : "ਚੇਤਾਵਨੀ",
     "Delete" : "ਹਟਾਓ",
+    "_download %n file_::_download %n files_" : ["",""],
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Security Warning" : "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
     "Password" : "ਪਾਸਵਰ"

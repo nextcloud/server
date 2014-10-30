@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Server to server sharing is not enabled on this server" : "La compartición sirvidor a sirvidor nun ta habilitada nesti sirvidor",
+    "The mountpoint name contains invalid characters." : "El puntu de montax contien caracteres non válidos",
     "Invalid or untrusted SSL certificate" : "Certificáu SSL inválidu o ensín validar",
     "Couldn't add remote share" : "Nun pudo amestase una compartición remota",
     "Shared with you" : "Compartíos contigo",

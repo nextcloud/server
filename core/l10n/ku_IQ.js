@@ -2,7 +2,6 @@ OC.L10N.register(
     "core",
     {
     "Settings" : "ده‌ستكاری",
-    "Folder" : "بوخچه",
     "Saving..." : "پاشکه‌وتده‌کات...",
     "Reset password" : "دووباره‌ كردنه‌وه‌ی وشه‌ی نهێنی",
     "No" : "نەخێر",
@@ -13,6 +12,7 @@ OC.L10N.register(
     "Error" : "هه‌ڵه",
     "Warning" : "ئاگاداری",
     "Add" : "زیادکردن",
+    "_download %n file_::_download %n files_" : ["",""],
     "Username" : "ناوی به‌کارهێنه‌ر",
     "New password" : "وشەی نهێنی نوێ",
     "Users" : "به‌كارهێنه‌ر",

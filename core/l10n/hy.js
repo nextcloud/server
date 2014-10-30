@@ -21,6 +21,7 @@ OC.L10N.register(
     "November" : "Նոյեմբեր",
     "December" : "Դեկտեմբեր",
     "_{count} file conflict_::_{count} file conflicts_" : ["",""],
-    "Delete" : "Ջնջել"
+    "Delete" : "Ջնջել",
+    "_download %n file_::_download %n files_" : ["",""]
 },
 "nplurals=2; plural=(n != 1);");

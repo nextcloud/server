@@ -2,7 +2,6 @@ OC.L10N.register(
     "core",
     {
     "Settings" : "সেটিংস",
-    "Folder" : "ফোল্ডার",
     "Saving..." : "সংরক্ষণ করা হচ্ছে ...",
     "_{count} file conflict_::_{count} file conflicts_" : ["",""],
     "Cancel" : "বাতিল করা",
@@ -11,6 +10,7 @@ OC.L10N.register(
     "Warning" : "সতর্কীকরণ",
     "Delete" : "মুছে ফেলা",
     "Add" : "যোগ করা",
+    "_download %n file_::_download %n files_" : ["",""],
     "Username" : "ইউজারনেম",
     "Reset" : "রিসেট করুন"
 },
