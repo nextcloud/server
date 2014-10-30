@@ -158,10 +158,15 @@ class OC_Template extends \OC\Template\Base {
 	 * Add a custom element to the header
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
-	 * @param string $text the text content for the element
+	 * @param string $text the text content for the element. If $text is null then the
+	 * element will be written as empty element. So use "" to get a closing tag.
 	 */
-	public function addHeader( $tag, $attributes, $text='') {
-		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
+	public function addHeader($tag, $attributes, $text=null) {
+		$this->headers[]= array(
+			'tag' => $tag,
+			'attributes' => $attributes,
+			'text' => $text
+		);
 	}
 
 	/**
@@ -178,12 +183,22 @@ class OC_Template extends \OC\Template\Base {
 			$page = new OC_TemplateLayout($this->renderas, $this->app);
 
 			// Add custom headers
-			$page->assign('headers', $this->headers, false);
+			$headers = '';
 			foreach(OC_Util::$headers as $header) {
-				$page->append('headers', $header);
+				$headers .= '<'.OC_Util::sanitizeHTML($header['tag']);
+				foreach($header['attributes'] as $name=>$value) {
+					$headers .= ' "'.OC_Util::sanitizeHTML($name).'"="'.OC_Util::sanitizeHTML($value).'"';
+				}
+				if ($header['text'] !== null) {
+					$headers .= '>'.OC_Util::sanitizeHTML($header['text']).'</'.OC_Util::sanitizeHTML($header['tag']).'>';
+				} else {
+					$headers .= '/>';
+				}
 			}
 
-			$page->assign( "content", $data, false );
+			$page->assign('headers', $headers, false);
+
+			$page->assign('content', $data, false );
 			return $page->fetchPage();
 		}
 		else{
