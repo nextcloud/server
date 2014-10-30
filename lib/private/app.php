@@ -990,7 +990,7 @@ class OC_App {
 	public static function shouldUpgrade($app) {
 		$versions = self::getAppVersions();
 		$currentVersion = OC_App::getAppVersion($app);
-		if ($currentVersion) {
+		if ($currentVersion && isset($versions[$app])) {
 			$installedVersion = $versions[$app];
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				return true;
