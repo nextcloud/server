@@ -64,8 +64,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// clear share hooks
 		\OC_Hook::clear('OCP\\Share');
+
+		// register share hooks
 		\OC::registerShareHooks();
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+		\OCA\Files_Sharing\Helper::registerHooks();
 
 		// Sharing related hooks
 		\OCA\Encryption\Helper::registerShareHooks();
@@ -75,6 +77,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// clear and register hooks
 		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new OCA\Files\Share\Proxy());
 		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 		// create users
@@ -104,6 +107,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
+
+		// login as first user
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 	}
 
 	function tearDown() {
