@@ -212,7 +212,8 @@ class OC_Response {
 			. 'frame-src *; '
 			. 'img-src *; '
 			. 'font-src \'self\' data:; '
-			. 'media-src *');
+			. 'media-src *; ' 
+			. 'connect-src *');
 		header('Content-Security-Policy:' . $policy);
 
 		// https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
