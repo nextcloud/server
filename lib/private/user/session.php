@@ -253,6 +253,7 @@ class Session implements IUserSession, Emitter {
 		$this->setUser(null);
 		$this->setLoginName(null);
 		$this->unsetMagicInCookie();
+		$this->session->clear();
 	}
 
 	/**
