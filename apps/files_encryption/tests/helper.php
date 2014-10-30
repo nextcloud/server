@@ -6,8 +6,6 @@
  * See the COPYING-README file.
  */
 
-
-require_once __DIR__ . '/../lib/helper.php';
 require_once __DIR__ . '/util.php';
 
 use OCA\Encryption;

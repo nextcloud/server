@@ -20,8 +20,6 @@
  *
  */
 
-require_once __DIR__ . '/base.php';
-
 /**
  * Tests for the external Storage class for remote shares.
  */

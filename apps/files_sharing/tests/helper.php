@@ -1,4 +1,6 @@
 <?php
+use OCA\Files_sharing\Tests\TestCase;
+
 /**
  * ownCloud
  *
@@ -19,9 +21,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once __DIR__ . '/base.php';
 
-class Test_Files_Sharing_Helper extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Helper extends TestCase {
 
 	/**
 	 * test set and get share folder

@@ -21,12 +21,11 @@
  */
 
 require_once __DIR__ . '/../appinfo/update.php';
-require_once __DIR__ . '/base.php';
 
 /**
  * Class Test_Files_Sharing_Updater
  */
-class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_updater_test';
 

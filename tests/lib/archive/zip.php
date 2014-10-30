@@ -6,8 +6,6 @@
  * See the COPYING-README file.
  */
 
-require_once 'archive.php';
-
 if (!OC_Util::runningOnWindows()) {
 class Test_Archive_ZIP extends Test_Archive {
 	protected function getExisting() {

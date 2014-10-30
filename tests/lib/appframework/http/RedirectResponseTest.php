@@ -26,13 +26,12 @@ namespace OCP\AppFramework\Http;
 
 use OCP\AppFramework\Http;
 
-//require_once(__DIR__ . "/../classloader.php");
-
-
 
 class RedirectResponseTest extends \PHPUnit_Framework_TestCase {
 
-
+	/**
+	 * @var RedirectResponse
+	 */
 	protected $response;
 
 	protected function setUp(){
