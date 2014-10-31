@@ -1,6 +1,9 @@
 OC.L10N.register(
     "settings",
     {
+    "Sharing" : "ھەمبەھىر",
+    "Security" : "بىخەتەرلىك",
+    "Log" : "خاتىرە",
     "Authentication error" : "سالاھىيەت دەلىللەش خاتالىقى",
     "Group already exists" : "گۇرۇپپا مەۋجۇت",
     "Unable to add group" : "گۇرۇپپا قوشقىلى بولمايدۇ",
@@ -36,11 +39,8 @@ OC.L10N.register(
     "Security Warning" : "بىخەتەرلىك ئاگاھلاندۇرۇش",
     "Setup Warning" : "ئاگاھلاندۇرۇش تەڭشەك",
     "Module 'fileinfo' missing" : "بۆلەك «ھۆججەت ئۇچۇرى» يوقالغان",
-    "Sharing" : "ھەمبەھىر",
-    "Security" : "بىخەتەرلىك",
     "Server address" : "مۇلازىمېتىر ئادرىسى",
     "Port" : "ئېغىز",
-    "Log" : "خاتىرە",
     "Log level" : "خاتىرە دەرىجىسى",
     "More" : "تېخىمۇ كۆپ",
     "Less" : "ئاز",

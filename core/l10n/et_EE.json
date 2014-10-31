@@ -108,6 +108,8 @@
     "Edit tags" : "Muuda silte",
     "Error loading dialog template: {error}" : "Viga dialoogi malli laadimisel: {error}",
     "No tags selected for deletion." : "Kustutamiseks pole ühtegi silti valitud.",
+    "sunny" : "päikeseline",
+    "Hello {name}, the weather is {weather}" : "Tere {name}, ilm on {weather}",
     "_download %n file_::_download %n files_" : ["",""],
     "Updating {productName} to version {version}, this may take a while." : "Uuendan {productName} versioonile {version}, see võtab veidi aega.",
     "Please reload the page." : "Palun laadi see uuesti.",

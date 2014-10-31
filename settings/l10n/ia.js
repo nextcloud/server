@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Log" : "Registro",
     "Language changed" : "Linguage cambiate",
     "Invalid request" : "Requesta invalide",
     "Saved" : "Salveguardate",
@@ -15,7 +16,6 @@ OC.L10N.register(
     "never" : "nunquam",
     "__language_name__" : "Interlingua",
     "Security Warning" : "Aviso de securitate",
-    "Log" : "Registro",
     "More" : "Plus",
     "by" : "per",
     "Get the apps to sync your files" : "Obtene le apps (applicationes) pro synchronizar tu files",

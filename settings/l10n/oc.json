@@ -1,4 +1,7 @@
 { "translations": {
+    "Cron" : "Cron",
+    "Sharing" : "Al partejar",
+    "Log" : "Jornal",
     "Authentication error" : "Error d'autentificacion",
     "Group already exists" : "Lo grop existís ja",
     "Unable to add group" : "Pas capable d'apondre  un grop",
@@ -19,10 +22,7 @@
     "__language_name__" : "__language_name__",
     "Login" : "Login",
     "Security Warning" : "Avertiment de securitat",
-    "Cron" : "Cron",
     "Execute one task with each page loaded" : "Executa un prètfach amb cada pagina cargada",
-    "Sharing" : "Al partejar",
-    "Log" : "Jornal",
     "More" : "Mai d'aquò",
     "by" : "per",
     "Password" : "Senhal",

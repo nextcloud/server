@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Log" : "Log",
     "Authentication error" : "Ralat pengesahan",
     "Email saved" : "Emel disimpan",
     "Invalid email" : "Emel tidak sah",
@@ -15,7 +16,6 @@ OC.L10N.register(
     "Login" : "Log masuk",
     "Security Warning" : "Amaran keselamatan",
     "Server address" : "Alamat pelayan",
-    "Log" : "Log",
     "Log level" : "Tahap Log",
     "More" : "Lanjutan",
     "by" : "oleh",

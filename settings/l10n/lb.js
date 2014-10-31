@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "Cron" : "Cron",
+    "Log" : "Log",
     "Authentication error" : "Authentifikatioun's Fehler",
     "Group already exists" : "Group existeiert schon.",
     "Unable to add group" : "Onmeiglech Grupp beizefügen.",
@@ -23,11 +25,9 @@ OC.L10N.register(
     "__language_name__" : "__language_name__",
     "Login" : "Login",
     "Security Warning" : "Sécherheets Warnung",
-    "Cron" : "Cron",
     "Allow apps to use the Share API" : "Erlab Apps d'Share API ze benotzen",
     "Allow resharing" : "Resharing erlaben",
     "Server address" : "Server Adress",
-    "Log" : "Log",
     "More" : "Méi",
     "Less" : "Manner",
     "by" : "vun",

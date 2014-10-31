@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-10-30 01:54-0400\n"
+"POT-Creation-Date: 2014-10-31 01:54-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -594,7 +594,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: strings.php:7 templates/layout.user.php:58 templates/layout.user.php:131
+#: strings.php:7 templates/layout.user.php:50 templates/layout.user.php:123
 msgid "Apps"
 msgstr ""
 
@@ -815,20 +815,20 @@ msgstr ""
 msgid "Finishing …"
 msgstr ""
 
-#: templates/layout.base.php:35 templates/layout.guest.php:37
-#: templates/layout.user.php:43
+#: templates/layout.base.php:27 templates/layout.guest.php:28
+#: templates/layout.user.php:35
 msgid ""
 "This application requires JavaScript for correct operation. Please <a href="
 "\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> "
 "and reload the page."
 msgstr ""
 
-#: templates/layout.user.php:47
+#: templates/layout.user.php:39
 #, php-format
 msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:93 templates/singleuser.user.php:8
+#: templates/layout.user.php:85 templates/singleuser.user.php:8
 msgid "Log out"
 msgstr ""
 

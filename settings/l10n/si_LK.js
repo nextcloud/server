@@ -1,6 +1,8 @@
 OC.L10N.register(
     "settings",
     {
+    "Sharing" : "හුවමාරු කිරීම",
+    "Log" : "ලඝුව",
     "Authentication error" : "සත්‍යාපන දෝෂයක්",
     "Group already exists" : "කණ්ඩායම දැනටමත් තිබේ",
     "Unable to add group" : "කාණඩයක් එක් කළ නොහැකි විය",
@@ -23,11 +25,9 @@ OC.L10N.register(
     "None" : "කිසිවක් නැත",
     "Login" : "ප්‍රවිශ්ටය",
     "Security Warning" : "ආරක්ෂක නිවේදනයක්",
-    "Sharing" : "හුවමාරු කිරීම",
     "Allow resharing" : "යළි යළිත් හුවමාරුවට අවසර දෙමි",
     "Server address" : "සේවාදායකයේ ලිපිනය",
     "Port" : "තොට",
-    "Log" : "ලඝුව",
     "More" : "වැඩි",
     "Less" : "අඩු",
     "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "නිපදන ලද්දේ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud සමාජයෙන්</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">මුල් කේතය </a>ලයිසන්ස් කර ඇත්තේ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> යටතේ.",

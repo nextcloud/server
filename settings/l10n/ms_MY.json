@@ -1,4 +1,5 @@
 { "translations": {
+    "Log" : "Log",
     "Authentication error" : "Ralat pengesahan",
     "Email saved" : "Emel disimpan",
     "Invalid email" : "Emel tidak sah",
@@ -13,7 +14,6 @@
     "Login" : "Log masuk",
     "Security Warning" : "Amaran keselamatan",
     "Server address" : "Alamat pelayan",
-    "Log" : "Log",
     "Log level" : "Tahap Log",
     "More" : "Lanjutan",
     "by" : "oleh",
