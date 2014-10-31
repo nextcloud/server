@@ -30,10 +30,6 @@ namespace OC\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 
-//require_once(__DIR__ . "/../classloader.php");
-
-
-
 class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 
 	/**

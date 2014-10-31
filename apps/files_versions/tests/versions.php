@@ -32,6 +32,9 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 	const TEST_VERSIONS_USER = 'test-versions-user';
 	const USERS_VERSIONS_ROOT = '/test-versions-user/files_versions';
 
+	/**
+	 * @var \OC\Files\View
+	 */
 	private $rootView;
 
 	public static function setUpBeforeClass() {
@@ -63,7 +66,7 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 	 */
 	function testGetExpireList($versions, $sizeOfAllDeletedFiles) {
 
-		// last interval enda at 2592000
+		// last interval end at 2592000
 		$startTime = 5000000;
 
 		$testClass = new VersionStorageToTest();

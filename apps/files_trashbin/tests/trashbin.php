@@ -20,8 +20,6 @@
  *
  */
 
-require_once __DIR__ . '/../../../lib/base.php';
-
 use OCA\Files_Trashbin;
 
 /**

@@ -20,12 +20,10 @@
  *
  */
 
-require_once __DIR__ . '/base.php';
-
 /**
  * Class Test_Files_Sharing_Api
  */
-class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 
 	function setUp() {
 		parent::setUp();

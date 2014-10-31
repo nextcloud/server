@@ -25,14 +25,16 @@
 namespace OCP\AppFramework\Http;
 
 
-//require_once(__DIR__ . "/../classloader.php");
+class ChildDownloadResponse extends DownloadResponse {
 
-
-class ChildDownloadResponse extends DownloadResponse {};
+};
 
 
 class DownloadResponseTest extends \PHPUnit_Framework_TestCase {
 
+	/**
+	 * @var ChildDownloadResponse
+	 */
 	protected $response;
 
 	protected function setUp(){

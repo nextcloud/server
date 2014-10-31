@@ -20,7 +20,7 @@
  *
  */
 
-require_once __DIR__ . '/../../../lib/base.php';
+namespace OCA\Files_Sharing\Tests;
 
 use OCA\Files\Share;
 
@@ -29,7 +29,7 @@ use OCA\Files\Share;
  *
  * Base class for sharing tests.
  */
-abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
+abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	const TEST_FILES_SHARING_API_USER1 = "test-share-user1";
 	const TEST_FILES_SHARING_API_USER2 = "test-share-user2";
@@ -41,7 +41,7 @@ abstract class Test_Files_Sharing_Base extends \PHPUnit_Framework_TestCase {
 	public $filename;
 	public $data;
 	/**
-	 * @var OC\Files\View
+	 * @var \OC\Files\View
 	 */
 	public $view;
 	public $folder;

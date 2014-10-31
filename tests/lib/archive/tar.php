@@ -6,8 +6,6 @@
  * See the COPYING-README file.
  */
 
-require_once 'archive.php';
-
 class Test_Archive_TAR extends Test_Archive {
 	public function setUp() {
 		if (OC_Util::runningOnWindows()) {

@@ -20,14 +20,12 @@
  *
  */
 
-require_once __DIR__ . '/base.php';
-
 use OCA\Files\Share;
 
 /**
  * Class Test_Files_Sharing
  */
-class Test_Files_Sharing extends Test_Files_Sharing_Base {
+class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_api_test';
 

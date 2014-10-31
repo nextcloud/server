@@ -26,13 +26,14 @@ namespace OC\AppFramework\Http;
 
 use OC\AppFramework\Http;
 
-//require_once(__DIR__ . "/../classloader.php");
-
-
 
 class HttpTest extends \PHPUnit_Framework_TestCase {
 
 	private $server;
+
+	/**
+	 * @var Http
+	 */
 	private $http;
 
 	protected function setUp(){
