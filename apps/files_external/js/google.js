@@ -32,7 +32,7 @@ $(document).ready(function() {
 							if (result && result.status == 'success') {
 								$(token).val(result.data.token);
 								$(configured).val('true');
-								OC.MountConfig.saveStorage(tr, function(status) {
+								OCA.External.Settings.mountConfig.saveStorageConfig(tr, function(status) {
 									if (status) {
 										$(tr).find('.configuration input').attr('disabled', 'disabled');
 										$(tr).find('.configuration').append($('<span/>')
@@ -115,7 +115,7 @@ $(document).ready(function() {
 					if (result && result.status == 'success') {
 						$(configured).val('false');
 						$(token).val('false');
-						OC.MountConfig.saveStorage(tr, function(status) {
+						OCA.External.Settings.mountConfig.saveStorageConfig(tr, function(status) {
 							window.location = result.data.url;
 						});
 					} else {

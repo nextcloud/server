@@ -22,28 +22,30 @@
 
 namespace OCA\Files_External\Appinfo;
 
+/**
+ * @var $this OC\Route\Router
+ **/
+
 $application = new Application();
 $application->registerRoutes(
-        $this,
-        array(
-                'routes' => array(
-                        array(
-                                'name' => 'Ajax#getSshKeys',
-                                'url' => '/ajax/sftp_key.php',
-                                'verb' => 'POST',
-                                'requirements' => array()
-                        )
-                )
-        )
+	$this,
+	array(
+		'resources' => array(
+			'global_storages' => array('url' => '/globalstorages'),
+			'user_storages' => array('url' => '/userstorages'),
+		),
+		'routes' => array(
+			array(
+				'name' => 'Ajax#getSshKeys',
+				'url' => '/ajax/sftp_key.php',
+				'verb' => 'POST',
+				'requirements' => array()
+			)
+		)
+	)
 );
 
-/** @var $this OC\Route\Router */
-
-$this->create('files_external_add_mountpoint', 'ajax/addMountPoint.php')
-	->actionInclude('files_external/ajax/addMountPoint.php');
-$this->create('files_external_remove_mountpoint', 'ajax/removeMountPoint.php')
-	->actionInclude('files_external/ajax/removeMountPoint.php');
-
+// TODO: move these to app framework
 $this->create('files_external_add_root_certificate', 'ajax/addRootCertificate.php')
 	->actionInclude('files_external/ajax/addRootCertificate.php');
 $this->create('files_external_remove_root_certificate', 'ajax/removeRootCertificate.php')

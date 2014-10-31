@@ -13,12 +13,12 @@
 			</tr>
 		</thead>
 		<tbody>
-		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
+		<?php $_['mounts'] = array_merge($_['mounts'], array('' => array('id' => ''))); ?>
 		<?php foreach ($_['mounts'] as $mount): ?>
-			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?>>
+			<tr <?php print_unescaped(isset($mount['mountpoint']) ? 'class="'.OC_Util::sanitizeHTML($mount['class']).'"' : 'id="addMountPoint"'); ?> data-id="<?php p($mount['id']) ?>">
 				<td class="status">
 				<?php if (isset($mount['status'])): ?>
-					<span class="<?php p(($mount['status']) ? 'success' : 'error'); ?>"></span>
+					<span class="<?php p(($mount['status'] === \OC_Mount_Config::STATUS_SUCCESS) ? 'success' : 'error'); ?>"></span>
 				<?php endif; ?>
 				</td>
 				<td class="mountPoint"><input type="text" name="mountPoint"
@@ -28,7 +28,7 @@
 				</td>
 				<?php if (!isset($mount['mountpoint'])): ?>
 					<td class="backend">
-						<select id="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
+						<select id="selectBackend" class="selectBackend" data-configurations='<?php p(json_encode($_['backends'])); ?>'>
 							<option value="" disabled selected
 									style="display:none;"><?php p($l->t('Add storage')); ?></option>
 							<?php foreach ($_['backends'] as $class => $backend): ?>
