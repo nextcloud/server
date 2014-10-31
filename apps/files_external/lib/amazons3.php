@@ -123,11 +123,28 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	 * @param array $params
 	 */
 	public function updateLegacyId (array $params) {
-		$stmt = \OC::$server->getDatabaseConnection()->prepare(
-			'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
-		);
 		$oldId = 'amazon::' . $params['key'] . md5($params['secret']);
-		$stmt->execute(array($this->id, $oldId));
+
+		// find by old id or bucket
+		$stmt = \OC::$server->getDatabaseConnection()->prepare(
+			'SELECT `numeric_id`, `id` FROM `*PREFIX*storages` WHERE `id` IN (?, ?)'
+		);
+		$stmt->execute(array($oldId, $this->id));
+		while ($row = $stmt->fetch()) {
+			$storages[$row['id']] = $row['numeric_id'];
+		}
+
+		if (isset($storages[$this->id]) && isset($storages[$oldId])) {
+			// if both ids exist, delete the old storage and corresponding filecache entries
+			\OC\Files\Cache\Storage::remove($oldId);
+		} else if (isset($storages[$oldId])) {
+			// if only the old id exists do an update
+			$stmt = \OC::$server->getDatabaseConnection()->prepare(
+				'UPDATE `*PREFIX*storages` SET `id` = ? WHERE `id` = ?'
+			);
+			$stmt->execute(array($this->id, $oldId));
+		}
+		// only the bucket based id may exist, do nothing
 	}
 
 	/**
