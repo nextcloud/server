@@ -288,6 +288,49 @@ class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
 		\OC\Files\Filesystem::unlink('/folder1/folder2/test.txt');
 	}
 
+	function testRenameSharedFile() {
+
+		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
+
+		$fileInfo = \OC\Files\Filesystem::getFileInfo('test.txt');
+
+		$t1 = time();
+		// second version is two weeks older, this way we make sure that no
+		// version will be expired
+		$t2 = $t1 - 60 * 60 * 24 * 14;
+
+		$this->rootView->mkdir(self::USERS_VERSIONS_ROOT);
+		// create some versions
+		$v1 = self::USERS_VERSIONS_ROOT . '/test.txt.v' . $t1;
+		$v2 = self::USERS_VERSIONS_ROOT . '/test.txt.v' . $t2;
+		// the renamed versions should not exist! Because we only moved the mount point!
+		$v1Renamed = self::USERS_VERSIONS_ROOT . '/test2.txt.v' . $t1;
+		$v2Renamed = self::USERS_VERSIONS_ROOT . '/test2.txt.v' . $t2;
+
+		$this->rootView->file_put_contents($v1, 'version1');
+		$this->rootView->file_put_contents($v2, 'version2');
+
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_VERSIONS_USER2, OCP\PERMISSION_ALL);
+
+		self::loginHelper(self::TEST_VERSIONS_USER2);
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists('test.txt'));
+
+		// execute rename hook of versions app
+		\OC\Files\Filesystem::rename('test.txt', 'test2.txt');
+
+		self::loginHelper(self::TEST_VERSIONS_USER);
+
+		$this->assertTrue($this->rootView->file_exists($v1));
+		$this->assertTrue($this->rootView->file_exists($v2));
+
+		$this->assertFalse($this->rootView->file_exists($v1Renamed));
+		$this->assertFalse($this->rootView->file_exists($v2Renamed));
+
+		//cleanup
+		\OC\Files\Filesystem::unlink('/test.txt');
+	}
+
 	function testCopy() {
 
 		\OC\Files\Filesystem::file_put_contents("test.txt", "test file");
