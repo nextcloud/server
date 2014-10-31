@@ -28,15 +28,17 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 			foreach(OC_User::getUsers() as $user) {
 
 				$user_uri = 'principals/'.$user;
-				$principals[] = array(
+				$principal = array(
 					'uri' => $user_uri,
 					'{DAV:}displayname' => $user,
 				);
 
 				$email= \OCP\Config::getUserValue($user, 'settings', 'email');
 				if($email) {
-					$principals['{http://sabredav.org/ns}email-address'] = $email;
+					$principal['{http://sabredav.org/ns}email-address'] = $email;
 				}
+
+				$principals[] = $principal;
 			}
 		}
 
@@ -56,15 +58,17 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 
 		if ($prefix == 'principals' && OC_User::userExists($name)) {
 
-			return array(
+			$principal = array(
 				'uri' => 'principals/'.$name,
 				'{DAV:}displayname' => $name,
 			);
 
 			$email= \OCP\Config::getUserValue($user, 'settings', 'email');
 			if($email) {
-				$principals['{http://sabredav.org/ns}email-address'] = $email;
+				$principal['{http://sabredav.org/ns}email-address'] = $email;
 			}
+
+			return $principal;
 		}
 
 		return null;
