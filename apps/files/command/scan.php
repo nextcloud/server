@@ -38,6 +38,13 @@ class Scan extends Command {
 				'will rescan all files of the given user(s)'
 			)
 			->addOption(
+				'path',
+				null,
+				InputArgument::OPTIONAL,
+				'limit rescan to this path, eg. --path="files/Music"',
+				''
+			)
+			->addOption(
 				'all',
 				null,
 				InputOption::VALUE_NONE,
@@ -45,7 +52,7 @@ class Scan extends Command {
 			);
 	}
 
-	protected function scanFiles($user, OutputInterface $output) {
+	protected function scanFiles($user, $path, OutputInterface $output) {
 		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
 		$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
 			$output->writeln("Scanning <info>$path</info>");
@@ -54,7 +61,7 @@ class Scan extends Command {
 			$output->writeln("Scanning <info>$path</info>");
 		});
 		try {
-			$scanner->scan('');
+			$scanner->scan($path);
 		} catch (ForbiddenException $e) {
 			$output->writeln("<error>Home storage for user $user not writable</error>");
 			$output->writeln("Make sure you're running the scan command only as the user the web server runs as");
@@ -67,6 +74,7 @@ class Scan extends Command {
 		} else {
 			$users = $input->getArgument('user_id');
 		}
+		$path = trim($input->getOption('path'), '/');
 
 		if (count($users) === 0) {
 			$output->writeln("<error>Please specify the user id to scan or \"--all\" to scan for all users</error>");
@@ -78,7 +86,7 @@ class Scan extends Command {
 				$user = $user->getUID();
 			}
 			if ($this->userManager->userExists($user)) {
-				$this->scanFiles($user, $output);
+				$this->scanFiles($user, $path, $output);
 			} else {
 				$output->writeln("<error>Unknown user $user</error>");
 			}

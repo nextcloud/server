@@ -114,7 +114,7 @@ class Scanner extends PublicEmitter {
 	 * @param string $dir
 	 * @throws \OC\ForbiddenException
 	 */
-	public function scan($dir) {
+	public function scan($dir = '') {
 		$mounts = $this->getMounts($dir);
 		foreach ($mounts as $mount) {
 			if (is_null($mount->getStorage())) {
@@ -131,7 +131,7 @@ class Scanner extends PublicEmitter {
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 			$this->db->beginTransaction();
-			$scanner->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			$scanner->scan($dir, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 			$this->db->commit();
 		}
 		$this->propagator->propagateChanges(time());
