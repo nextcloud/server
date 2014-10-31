@@ -6,7 +6,9 @@ A personal cloud which runs on your own server.
 ### Build Status on [Jenkins CI](https://ci.owncloud.org/)
 Git master: [![Build Status](https://ci.owncloud.org/job/server-master-linux/badge/icon)](https://ci.owncloud.org/job/server-master-linux/)
 
-Quality: [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/owncloud/core/badges/quality-score.png?s=ce2f5ded03d4ac628e9ee5c767243fa7412e644f)](https://scrutinizer-ci.com/g/owncloud/core/)
+Quality: 
+ - Scrutinizer: [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/owncloud/core/badges/quality-score.png?s=ce2f5ded03d4ac628e9ee5c767243fa7412e644f)](https://scrutinizer-ci.com/g/owncloud/core/)
+ - CodeClimate: [![Code Climate](https://codeclimate.com/github/owncloud/core/badges/gpa.svg)](https://codeclimate.com/github/owncloud/core)
 
 ### Installation instructions
 http://doc.owncloud.org/server/7.0/developer_manual/app/index.html
