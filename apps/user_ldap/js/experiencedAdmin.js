@@ -50,17 +50,9 @@ ExperiencedAdmin.prototype.isExperienced = function() {
  * switches all LDAP filters from Assisted to Raw mode.
  */
 ExperiencedAdmin.prototype.enableRawMode = function() {
-	var containers = {
-		'toggleRawGroupFilter': '#rawGroupFilterContainer',
-		'toggleRawLoginFilter': '#rawLoginFilterContainer',
-		'toggleRawUserFilter' : '#rawUserFilterContainer'
-	};
-
-	for(var method in containers) {
-		if($(containers[method]).hasClass('invisible')) {
-			this.wizard[method]();
-		}
-	}
+	LdapWizard._save({id: 'ldapGroupFilterMode'}, LdapWizard.filterModeRaw);
+	LdapWizard._save({id: 'ldapUserFilterMode' }, LdapWizard.filterModeRaw);
+	LdapWizard._save({id: 'ldapLoginFilterMode'}, LdapWizard.filterModeRaw);
 };
 
 ExperiencedAdmin.prototype.updateUserTab = function(mode) {
