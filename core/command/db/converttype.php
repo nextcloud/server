@@ -180,7 +180,7 @@ class ConvertType extends Command {
 			$dialog = $this->getHelperSet()->get('dialog');
 			if (!$dialog->askConfirmation(
 				$output,
-				'<question>Continue with the conversion?</question>',
+				'<question>Continue with the conversion (y/n)? [n] </question>',
 				false
 			)) {
 				return;
