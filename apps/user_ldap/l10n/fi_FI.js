@@ -43,6 +43,7 @@ OC.L10N.register(
     "users found" : "käyttäjää löytynyt",
     "Back" : "Takaisin",
     "Continue" : "Jatka",
+    "LDAP" : "LDAP",
     "Advanced" : "Lisäasetukset",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Varoitus:</b> PHP:n LDAP-moduulia ei ole asennettu, taustaosa ei toimi. Pyydä järjestelmän ylläpitäjää asentamaan se.",
     "Connection Settings" : "Yhteysasetukset",

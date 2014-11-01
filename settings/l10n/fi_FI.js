@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & Setup Warnings" : "Turvallisuus- ja asetusvaroitukset",
     "Cron" : "Cron",
     "Sharing" : "Jakaminen",
     "Security" : "Tietoturva",
@@ -95,6 +96,7 @@ OC.L10N.register(
     "Fatal issues only" : "Vain vakavat ongelmat",
     "None" : "Ei mitään",
     "Login" : "Kirjaudu",
+    "NT LAN Manager" : "NT LAN Manager",
     "SSL" : "SSL",
     "TLS" : "TLS",
     "Security Warning" : "Turvallisuusvaroitus",

@@ -76,6 +76,7 @@ OC.L10N.register(
     "Saving" : "Saving",
     "Back" : "Back",
     "Continue" : "Continue",
+    "LDAP" : "LDAP",
     "Expert" : "Expert",
     "Advanced" : "Advanced",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them.",

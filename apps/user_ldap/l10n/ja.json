@@ -70,6 +70,7 @@
     "users found" : "ユーザーが見つかりました",
     "Back" : "戻る",
     "Continue" : "続ける",
+    "LDAP" : "LDAP",
     "Expert" : "エキスパート設定",
     "Advanced" : "詳細設定",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性がありません。予期せぬ動作をする可能性があります。システム管理者にどちらかを無効にするよう問い合わせてください。",

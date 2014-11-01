@@ -63,7 +63,7 @@ OC.L10N.register(
     "Modified" : "Upraveno",
     "_%n folder_::_%n folders_" : ["%n složka","%n složky","%n složek"],
     "_%n file_::_%n files_" : ["%n soubor","%n soubory","%n souborů"],
-    "You don’t have permission to upload or create files here" : "Nemáte oprávnění zde nahrávat či vytvářet soubory",
+    "You don’t have permission to upload or create files here" : "Nemáte oprávnění sem nahrávat nebo vytvářet soubory",
     "_Uploading %n file_::_Uploading %n files_" : ["Nahrávám %n soubor","Nahrávám %n soubory","Nahrávám %n souborů"],
     "\"{name}\" is an invalid file name." : "\"{name}\" je neplatným názvem souboru.",
     "Your storage is full, files can not be updated or synced anymore!" : "Vaše úložiště je plné, nelze aktualizovat ani synchronizovat soubory.",

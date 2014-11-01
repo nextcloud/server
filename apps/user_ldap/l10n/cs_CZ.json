@@ -74,6 +74,7 @@
     "Saving" : "Ukládá se",
     "Back" : "Zpět",
     "Continue" : "Pokračovat",
+    "LDAP" : "LDAP",
     "Expert" : "Expertní",
     "Advanced" : "Pokročilé",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně nekompatibilní. Můžete zaznamenat neočekávané chování. Požádejte prosím vašeho systémového administrátora o zakázání jednoho z nich.",
