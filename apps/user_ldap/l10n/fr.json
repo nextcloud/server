@@ -74,6 +74,7 @@
     "Saving" : "Enregistrement...",
     "Back" : "Retour",
     "Continue" : "Poursuivre",
+    "LDAP" : "LDAP",
     "Expert" : "Expert",
     "Advanced" : "Avancé",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Avertissement :</b> Les applications user_ldap et user_webdavauth sont incompatibles. Des dysfonctionnements peuvent survenir. Contactez votre administrateur système pour qu'il désactive l'une d'elles.",

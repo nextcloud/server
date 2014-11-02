@@ -39,7 +39,7 @@ OC.L10N.register(
     "URL of identity endpoint (required for OpenStack Object Storage)" : "URL du point d'accès d'identité (requis pour le stockage OpenStack)",
     "Timeout of HTTP requests in seconds" : "Temps maximal de requête HTTP en seconde",
     "Share" : "Partager",
-    "SMB / CIFS using OC login" : "SMB / CIFS utilise le nom d'utilisateur OC",
+    "SMB / CIFS using OC login" : "SMB / CIFS en utilisant les identifiants OC",
     "Username as share" : "Nom d'utilisateur du partage",
     "URL" : "URL",
     "Secure https://" : "Sécurisation https://",
@@ -68,7 +68,7 @@ OC.L10N.register(
     "Available for" : "Disponible pour",
     "Add storage" : "Ajouter un support de stockage",
     "Delete" : "Supprimer",
-    "Enable User External Storage" : "Activer le stockage externe pour les utilisateurs",
+    "Enable User External Storage" : "Autoriser les utilisateurs à ajouter des stockages externes",
     "Allow users to mount the following external storage" : "Autorise les utilisateurs à monter les stockage externes suivants"
 },
 "nplurals=2; plural=(n > 1);");

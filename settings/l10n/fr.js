@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & Setup Warnings" : "Alertes de sécurité ou de configuration",
     "Cron" : "Cron",
     "Sharing" : "Partage",
     "Security" : "Sécurité",
