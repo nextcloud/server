@@ -53,7 +53,7 @@
 						if(OC_Util::getEditionString() === '') {
 							p(!empty($_['application'])?$_['application']: $l->t('Apps'));
 						} else {
-							p($theme->getName());
+							print_unescaped($theme->getHTMLName());
 						}
 					?>
 				</div>

@@ -98,6 +98,14 @@ class Defaults {
 	}
 
 	/**
+	 * name of your ownCloud instance containing HTML styles
+	 * @return string
+	 */
+	public function getHTMLName() {
+		return $this->defaults->getHTMLName();
+	}
+
+	/**
 	 * Entity behind your onwCloud instance
 	 * @return string
 	 */
