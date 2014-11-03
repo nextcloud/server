@@ -229,11 +229,18 @@ class OC {
 
 	public static function checkSSL() {
 		// redirect to https site if configured
-		if (OC_Config::getValue("forcessl", false)) {
-			header('Strict-Transport-Security: max-age=31536000');
-			ini_set("session.cookie_secure", "on");
+		if (\OC::$server->getConfig()->getSystemValue('forcessl', false)) {
+			// Default HSTS policy
+			$header = 'Strict-Transport-Security: max-age=31536000';
+
+			// If SSL for subdomains is enabled add "; includeSubDomains" to the header
+			if(\OC::$server->getConfig()->getSystemValue('forceSSLforSubdomains', false)) {
+				$header .= '; includeSubDomains';
+			}
+			header($header);
+			ini_set('session.cookie_secure', 'on');
 			if (OC_Request::serverProtocol() <> 'https' and !OC::$CLI) {
-				$url = "https://" . OC_Request::serverHost() . OC_Request::requestUri();
+				$url = 'https://' . OC_Request::serverHost() . OC_Request::requestUri();
 				header("Location: $url");
 				exit();
 			}

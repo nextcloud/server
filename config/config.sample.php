@@ -664,6 +664,12 @@ $CONFIG = array(
 'forcessl' => false,
 
 /**
+ * Change this to ``true`` to require HTTPS connections also for all subdomains.
+ * Works only together when `forcessl` is set to true.
+ */
+'forceSSLforSubdomains' => false,
+
+/**
  * Extra SSL options to be used for configuration.
  */
 'openssl' => array(

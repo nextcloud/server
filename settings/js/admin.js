@@ -9,8 +9,8 @@ $(document).ready(function(){
 				if(answer) {
 					$.ajax({
 						type: 'POST',
-						url: OC.generateUrl('settings/ajax/setsecurity.php'),
-						data: { trustedDomain: params.trustDomain }
+						url: OC.generateUrl('settings/admin/security/trustedDomains'),
+						data: { newTrustedDomain: params.trustDomain }
 					}).done(function() {
 						window.location.replace(OC.generateUrl('settings/admin'));
 					});
@@ -73,9 +73,31 @@ $(document).ready(function(){
 		$('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked));
 	});
 
-	$('#security').change(function(){
-		$.post(OC.filePath('settings','ajax','setsecurity.php'), { enforceHTTPS: $('#forcessl').val() },function(){} );
+	$('#forcessl').change(function(){
+		$(this).val(($(this).val() !== 'true'));
+		var forceSSLForSubdomain = $('#forceSSLforSubdomainsSpan');
+
+		$.post(OC.generateUrl('settings/admin/security/ssl'), {
+			enforceHTTPS: $(this).val()
+		},function(){} );
+
+		if($(this).val() === 'true') {
+			forceSSLForSubdomain.prop('disabled', false);
+			forceSSLForSubdomain.removeClass('hidden');
+		} else {
+			forceSSLForSubdomain.prop('disabled', true);
+			forceSSLForSubdomain.addClass('hidden');
+		}
 	});
+
+	$('#forceSSLforSubdomains').change(function(){
+		$(this).val(($(this).val() !== 'true'));
+
+		$.post(OC.generateUrl('settings/admin/security/ssl/subdomains'), {
+			forceSSLforSubdomains: $(this).val()
+		},function(){} );
+	});
+
 
 	$('#mail_smtpauth').change(function() {
 		if (!this.checked) {

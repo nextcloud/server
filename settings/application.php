@@ -13,6 +13,7 @@ namespace OC\Settings;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\Settings\Controller\AppSettingsController;
 use OC\Settings\Controller\MailSettingsController;
+use OC\Settings\Controller\SecuritySettingsController;
 use \OCP\AppFramework\App;
 use \OCP\Util;
 
@@ -53,6 +54,14 @@ class Application extends App {
 				$c->query('Config')
 			);
 		});
+		$container->registerService('SecuritySettingsController', function(SimpleContainer $c) {
+			return new SecuritySettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('Config')
+			);
+		});
+
 		/**
 		 * Core class wrappers
 		 */
