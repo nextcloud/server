@@ -7,7 +7,7 @@ namespace OC\AppFramework\Utility;
  *
  * SimpleContainer is a simple implementation of IContainer on basis of \Pimple
  */
-class SimpleContainer extends \Pimple implements \OCP\IContainer {
+class SimpleContainer extends \Pimple\Container implements \OCP\IContainer {
 
 	/**
 	 * @param string $name name of the service to query for
@@ -35,10 +35,13 @@ class SimpleContainer extends \Pimple implements \OCP\IContainer {
 	 * @param bool $shared
 	 */
 	function registerService($name, \Closure $closure, $shared = true) {
+		if (!empty($this[$name]))  {
+			unset($this[$name]);
+		}
 		if ($shared) {
-			$this[$name] = \Pimple::share($closure);
-		} else {
 			$this[$name] = $closure;
+		} else {
+			$this[$name] = parent::factory($closure);
 		}
 	}
 }
