@@ -138,7 +138,7 @@ class Config {
 
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			if(!@touch($file) && $file === $this->configFilePath) {
+			if($file === $this->configFilePath && !@touch($file)) {
 				// Writing to the main config might not be possible, e.g. if the wrong
 				// permissions are set (likely on a new installation)
 				continue;
