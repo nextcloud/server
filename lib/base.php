@@ -459,8 +459,6 @@ class OC {
 		if (file_exists($vendorAutoLoad)) {
 			$loader = require_once $vendorAutoLoad;
 			$loader->add('Pimple',OC::$THIRDPARTYROOT . '/3rdparty/Pimple');
-			$loader->add('Symfony\\Component\\Routing',OC::$THIRDPARTYROOT . '/3rdparty/symfony/routing');
-			$loader->add('Symfony\\Component\\Console',OC::$THIRDPARTYROOT . '/3rdparty/symfony/console');
 		} else {
 			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			OC_Template::printErrorPage('Composer autoloader not found, unable to continue.');
