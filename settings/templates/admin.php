@@ -206,7 +206,7 @@ if ($_['suggestedOverwriteWebroot']) {
 }
 ?>
 <div id="postsetupchecks" class="section">
-	<h2><?php p($l->t('Connectivity checks'));?></h2>
+	<h2><?php p($l->t('Connectivity Checks'));?></h2>
 	<div class="loading"></div>
 	<div class="success hidden"><?php p($l->t('No problems found'));?></div>
 	<div class="errors hidden"></div>
