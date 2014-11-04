@@ -13,6 +13,7 @@ OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
 // Exceptions
 OC::$CLASSPATH['OCA\Encryption\Exceptions\MultiKeyEncryptException'] = 'files_encryption/lib/exceptions.php';
 OC::$CLASSPATH['OCA\Encryption\Exceptions\MultiKeyDecryptException'] = 'files_encryption/lib/exceptions.php';
+OC::$CLASSPATH['OCA\Encryption\Exceptions\EncryptionException'] = 'files_encryption/lib/exceptions.php';
 
 \OCP\Util::addTranslations('files_encryption');
 \OCP\Util::addscript('files_encryption', 'encryption');
