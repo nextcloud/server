@@ -933,7 +933,7 @@ class Trashbin {
 		//force rescan of versions, local storage may not have updated the cache
 		/** @var \OC\Files\Storage\Storage $storage */
 		list($storage, ) = $view->resolvePath('/');
-		$storage->getScanner()->scan('');
+		$storage->getScanner()->scan('files_trashbin');
 
 		if ($timestamp) {
 			// fetch for old versions
