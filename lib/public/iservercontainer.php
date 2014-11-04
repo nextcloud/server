@@ -128,6 +128,19 @@ interface IServerContainer {
 	 */
 	function getConfig();
 
+	/**
+	 * Returns a Crypto instance
+	 *
+	 * @return \OCP\Security\ICrypto
+	 */
+	function getCrypto();
+
+	/**
+	 * Returns a Hasher instance
+	 *
+	 * @return \OCP\Security\IHasher
+	 */
+	function getHasher();
 
 	/**
 	 * Returns an instance of the db facade
