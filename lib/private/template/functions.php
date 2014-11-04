@@ -45,7 +45,7 @@ function script($app, $file) {
  * @param string|string[] $file the filename,
  * if an array is given it will add all scripts
  */
-function vendorScript($app, $file) {
+function vendor_script($app, $file) {
 	if(is_array($file)) {
 		foreach($file as $f) {
 			OC_Util::addVendorScript($app, $f);
@@ -77,7 +77,7 @@ function style($app, $file) {
  * @param string|string[] $file the filename,
  * if an array is given it will add all styles
  */
-function vendorStyle($app, $file) {
+function vendor_style($app, $file) {
 	if(is_array($file)) {
 		foreach($file as $f) {
 			OC_Util::addVendorStyle($app, $f);
