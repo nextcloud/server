@@ -115,7 +115,7 @@ class User implements IUser {
 	 */
 	public function setDisplayName($displayName) {
 		$displayName = trim($displayName);
-		if ($this->canChangeDisplayName() && !empty($displayName)) {
+		if ($this->backend->implementsActions(\OC_USER_BACKEND_SET_DISPLAYNAME) && !empty($displayName)) {
 			$this->displayName = $displayName;
 			$result = $this->backend->setDisplayName($this->uid, $displayName);
 			return $result !== false;
