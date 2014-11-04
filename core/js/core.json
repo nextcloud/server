@@ -1,10 +1,10 @@
 {
 	"vendor": [
+		"jquery/jquery.min.js",
+		"jquery/jquery-migrate.min.js",
 		"moment/min/moment-with-locales.js"
 	],
 	"libraries": [
-		"jquery-1.10.0.min.js",
-		"jquery-migrate-1.2.1.min.js",
 		"jquery-ui-1.10.0.custom.js",
 		"jquery-showpassword.js",
 		"jquery.placeholder.js",
