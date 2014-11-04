@@ -1,0 +1,8 @@
+# momentjs - ignore all files except the two listed below
+moment/benchmarks
+moment/locale
+moment/min/**
+moment/*.js*
+moment/*.md
+!moment/LICENSE
+!moment/min/moment-with-locales.js

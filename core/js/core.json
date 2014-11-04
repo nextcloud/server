@@ -1,4 +1,7 @@
 {
+	"vendor": [
+		"moment/min/moment-with-locales.js"
+	],
 	"libraries": [
 		"jquery-1.10.0.min.js",
 		"jquery-migrate-1.2.1.min.js",
@@ -19,7 +22,6 @@
 		"eventsource.js",
 		"config.js",
 		"multiselect.js",
-		"oc-requesttoken.js",
-		"moment.js"
+		"oc-requesttoken.js"
 	]
 }

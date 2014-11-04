@@ -331,6 +331,26 @@ class OC_Util {
 	}
 
 	/**
+	 * generates a path for JS/CSS files. If no application is provided it will create the path for core.
+	 *
+	 * @param $application application to get the files from
+	 * @param $directory directory withing this application (css, js, vendor, etc)
+	 * @param $file the file inside of the above folder
+	 * @return string the path
+	 */
+	private static function generatePath($application, $directory, $file) {
+		if (is_null($file)) {
+			$file = $application;
+			$application = "";
+		}
+		if (!empty($application)) {
+			return "$application/$directory/$file";
+		} else {
+			return "$directory/$file";
+		}
+	}
+
+	/**
 	 * add a javascript file
 	 *
 	 * @param string $application application id
@@ -338,15 +358,18 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function addScript($application, $file = null) {
-		if (is_null($file)) {
-			$file = $application;
-			$application = "";
-		}
-		if (!empty($application)) {
-			self::$scripts[] = "$application/js/$file";
-		} else {
-			self::$scripts[] = "js/$file";
-		}
+		self::$scripts[] = OC_Util::generatePath($application, 'js', $file);
+	}
+
+	/**
+	 * add a javascript file from the vendor sub folder
+	 *
+	 * @param string $application application id
+	 * @param string|null $file filename
+	 * @return void
+	 */
+	public static function addVendorScript($application, $file = null) {
+		self::$scripts[] = OC_Util::generatePath($application, 'vendor', $file);
 	}
 
 	/**
@@ -375,15 +398,18 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function addStyle($application, $file = null) {
-		if (is_null($file)) {
-			$file = $application;
-			$application = "";
-		}
-		if (!empty($application)) {
-			self::$styles[] = "$application/css/$file";
-		} else {
-			self::$styles[] = "css/$file";
-		}
+		self::$styles[] = OC_Util::generatePath($application, 'css', $file);
+	}
+
+	/**
+	 * add a css file from the vendor sub folder
+	 *
+	 * @param string $application application id
+	 * @param string|null $file filename
+	 * @return void
+	 */
+	public static function addVendorStyle($application, $file = null) {
+		self::$styles[] = OC_Util::generatePath($application, 'vendor', $file);
 	}
 
 	/**

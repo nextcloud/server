@@ -40,6 +40,22 @@ function script($app, $file) {
 }
 
 /**
+ * Shortcut for adding vendor scripts to a page
+ * @param string $app the appname
+ * @param string|string[] $file the filename,
+ * if an array is given it will add all scripts
+ */
+function vendorScript($app, $file) {
+	if(is_array($file)) {
+		foreach($file as $f) {
+			OC_Util::addVendorScript($app, $f);
+		}
+	} else {
+		OC_Util::addVendorScript($app, $file);
+	}
+}
+
+/**
  * Shortcut for adding styles to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
@@ -52,6 +68,22 @@ function style($app, $file) {
 		}
 	} else {
 		OC_Util::addStyle($app, $file);
+	}
+}
+
+/**
+ * Shortcut for adding vendor styles to a page
+ * @param string $app the appname
+ * @param string|string[] $file the filename,
+ * if an array is given it will add all styles
+ */
+function vendorStyle($app, $file) {
+	if(is_array($file)) {
+		foreach($file as $f) {
+			OC_Util::addVendorStyle($app, $f);
+		}
+	} else {
+		OC_Util::addVendorStyle($app, $file);
 	}
 }
 

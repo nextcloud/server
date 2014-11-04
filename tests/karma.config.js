@@ -99,6 +99,7 @@ module.exports = function(config) {
 	// note that the loading order is important that's why they
 	// are specified in a separate file
 	var corePath = 'core/js/';
+	var vendorPath = 'core/vendor/';
 	var coreModule = require('../' + corePath + 'core.json');
 	var testCore = false;
 	var files = [];
@@ -132,6 +133,12 @@ module.exports = function(config) {
 		if (enableCoverage) {
 			preprocessors[srcFile] = 'coverage';
 		}
+	}
+
+	// add vendor library files
+	for ( i = 0; i < coreModule.vendor.length; i++ ) {
+		srcFile = vendorPath + coreModule.vendor[i];
+		files.push(srcFile);
 	}
 
 	// TODO: settings pages

@@ -1,0 +1,18 @@
+{
+	"name": "ownCloud",
+	"version": "8.0 pre alpha",
+	"homepage": "https://www.owncloud.org",
+	"license": "AGPL",
+	"private": true,
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"core/vendor",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"moment": "~2.8.3"
+	}
+}
