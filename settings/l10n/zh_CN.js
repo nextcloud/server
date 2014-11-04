@@ -114,7 +114,6 @@ OC.L10N.register(
     "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "强烈建议在您的系统上安装需要的软件包来支持以下语系之一：%s。",
     "URL generation in notification emails" : "在通知邮件里生成URL",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "如果你没有安装ownCloud在域名的根目录里，并使用系统的crom，这会导致URL的生成出错。要避免这个问题，请设置 config.php 文件中的\"overwritewebroot\" 参数值为你的实际安装web路径。(建议为: \"%s\")",
-    "Connectivity checks" : "网络连接检查",
     "No problems found" : "未发现问题",
     "Please double check the <a href='%s'>installation guides</a>." : "请认真检查<a href='%s'>安装指南</a>.",
     "Last cron was executed at %s." : "上次定时任务执行于 %s。",

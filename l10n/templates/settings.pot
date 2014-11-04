@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-11-03 01:54-0500\n"
+"POT-Creation-Date: 2014-11-04 01:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -546,7 +546,7 @@ msgid ""
 msgstr ""
 
 #: templates/admin.php:209
-msgid "Connectivity checks"
+msgid "Connectivity Checks"
 msgstr ""
 
 #: templates/admin.php:211

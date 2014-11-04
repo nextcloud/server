@@ -112,7 +112,6 @@
     "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Мы настоятельно рекомендуем установить требуемые пакеты в систему, для поддержки одной из следующих локалей: %s.",
     "URL generation in notification emails" : "Генерирование URL в уведомляющих электронных письмах",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Если ваша копия ownCloud установлена не в корне домена и использует планировщик cron системы, возможны проблемы с правильной генерацией URL. Чтобы избежать этого, установите опцию verwritewebroot файла config.php равной пути папки установки. (Вероятно, это \"%s\".)",
-    "Connectivity checks" : "Проверка соединения",
     "No problems found" : "Проблемы не найдены",
     "Please double check the <a href='%s'>installation guides</a>." : "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>.",
     "Last cron was executed at %s." : "Последняя cron-задача была запущена: %s.",

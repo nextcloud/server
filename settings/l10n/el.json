@@ -117,7 +117,6 @@
     "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Συνιστούμε σοβαρά να εγκαταστήσετε τα απαιτούμενα πακέτα στο σύστημά σας ώστε να υποστηρίζεται μια από τις ακόλουθες ρυθμίσεις τοποθεσίας: %s.",
     "URL generation in notification emails" : "Δημιουργία URL στις ειδοποιήσεις ηλεκτρονικού ταχυδρομείου",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Αν η εγκατάστασή σας δεν είναι εγκατεστημένη στη ρίζα της περιοχής και χρησιμοποιεί το cron του συστήματος, μπορεί να υπάρξουν ζητήματα με τη δημιουργία URL. Για να αποφύγετε αυτά τα προβλήματα, παρακαλώ ρυθμίστε την επιλογή \"overwritewebroot\" στον config.php φάκελό σας στη διαδρομή webroot της εγκατάστασής σας (Suggested: \"%s\")",
-    "Connectivity checks" : "Έλεγχοι συνδεσιμότητας",
     "No problems found" : "Δεν βρέθηκαν προβλήματα",
     "Please double check the <a href='%s'>installation guides</a>." : "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>.",
     "Last cron was executed at %s." : "Η τελευταία εκτέλεση του cron ήταν στις %s",

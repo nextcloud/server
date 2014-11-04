@@ -74,6 +74,7 @@
     "Saving" : "Kaydediliyor",
     "Back" : "Geri",
     "Continue" : "Devam et",
+    "LDAP" : "LDAP",
     "Expert" : "Uzman",
     "Advanced" : "Gelişmiş",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Uyarı:</b> user_ldap ve user_webdavauth uygulamaları uyumlu değil. Beklenmedik bir davranışla karşılaşabilirsiniz. Lütfen ikisinden birini devre dışı bırakmak için sistem yöneticinizle iletişime geçin.",

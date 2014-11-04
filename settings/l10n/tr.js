@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & Setup Warnings" : "Güvelik & Kurulum Uyarıları",
     "Cron" : "Cron",
     "Sharing" : "Paylaşım",
     "Security" : "Güvenlik",
@@ -119,7 +120,6 @@ OC.L10N.register(
     "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Şu dillerden birini desteklemesi için sisteminize gerekli paketleri kurmanızı şiddetle tavsiye ederiz: %s.",
     "URL generation in notification emails" : "Bildirim e-postalarında URL oluşturulması",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Eğer kurulumunuz alan adının köküne yapılmamışsa ve sistem cron'u kullanıyorsa, URL oluşturma ile ilgili sorunlar olabilir. Bu sorunların önüne geçmek için, kurulumunuzun web kök yolundaki config.php dosyasında \"overwritewebroot\" seçeneğini ayarlayın (Önerilen: \"%s\")",
-    "Connectivity checks" : "Bağlanabilirlik kontrolleri",
     "No problems found" : "Sorun bulunamadı",
     "Please double check the <a href='%s'>installation guides</a>." : "Lütfen <a href='%s'>kurulum rehberlerini</a> iki kez kontrol edin.",
     "Last cron was executed at %s." : "Son cron %s zamanında çalıştırıldı.",
