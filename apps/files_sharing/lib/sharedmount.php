@@ -22,15 +22,15 @@ class SharedMount extends Mount implements MoveableMount {
 
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		// first update the mount point before creating the parent
-		$newMountPoint = self::verifyMountPoint($arguments['share']);
-		$absMountPoint = '/' . \OCP\User::getUser() . '/files' . $newMountPoint;
+		$newMountPoint = $this->verifyMountPoint($arguments['share'], $arguments['user']);
+		$absMountPoint = '/' . $arguments['user'] . '/files' . $newMountPoint;
 		parent::__construct($storage, $absMountPoint, $arguments, $loader);
 	}
 
 	/**
 	 * check if the parent folder exists otherwise move the mount point up
 	 */
-	private static function verifyMountPoint(&$share) {
+	private function verifyMountPoint(&$share, $user) {
 
 		$mountPoint = basename($share['file_target']);
 		$parent = dirname($share['file_target']);
@@ -42,7 +42,7 @@ class SharedMount extends Mount implements MoveableMount {
 		$newMountPoint = \OCA\Files_Sharing\Helper::generateUniqueTarget(
 				\OC\Files\Filesystem::normalizePath($parent . '/' . $mountPoint),
 				array(),
-				new \OC\Files\View('/' . \OCP\User::getUser() . '/files')
+				new \OC\Files\View('/' . $user . '/files')
 				);
 
 		if($newMountPoint !== $share['file_target']) {
