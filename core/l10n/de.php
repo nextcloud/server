@@ -201,6 +201,9 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Stelle vor dem Fortsetzen sicher, dass die Datenbank, der Konfigurationsordner und der Datenordner gesichert wurde.",
 "Start update" => "Aktualisierung starten",
 "This ownCloud instance is currently being updated, which may take a while." => "Diese OwnCloud-Instanz wird gerade aktualisiert, was eine Weile dauert.",
-"Please reload this page after a short time to continue using ownCloud." => "Bitte lade diese Seite nach kurzer Zeit neu, um mit der Nutzung von OwnCloud fortzufahren."
+"Please reload this page after a short time to continue using ownCloud." => "Bitte lade diese Seite nach kurzer Zeit neu, um mit der Nutzung von OwnCloud fortzufahren.",
+"File not found" => "Datei nicht gefunden",
+"The specified document has not been found on the server." => "Das ausgewählte Dokument wurde auf dem Server nicht gefunden.",
+"You can click here to return to %s." => "Du kannst zur Rückkehr zu %s hier klicken.",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

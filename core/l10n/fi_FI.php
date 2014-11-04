@@ -195,6 +195,9 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Varmista ennen jatkamista, että tietokanta, asetuskansio ja datakansio on varmuuskopioitu.",
 "Start update" => "Käynnistä päivitys",
 "This ownCloud instance is currently being updated, which may take a while." => "Tätä ownCloud-asennusta päivitetään parhaillaan, siinä saattaa kestää hetki.",
-"Please reload this page after a short time to continue using ownCloud." => "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä."
+"Please reload this page after a short time to continue using ownCloud." => "Päivitä tämä sivu hetken kuluttua jatkaaksesi ownCloudin käyttämistä.",
+"File not found" => "Tiedostoa ei löytynyt",
+"The specified document has not been found on the server." => "Määritettyä asiakirjaa ei löytynyt palvelimelta.",
+"You can click here to return to %s." => "Napsauta tästä palataksesi %siin.",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

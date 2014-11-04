@@ -196,6 +196,9 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Venligst sikrer dig en backup af databasen, config-mappen og data-mappen inden vi fortsætter.",
 "Start update" => "Begynd opdatering",
 "This ownCloud instance is currently being updated, which may take a while." => "Opdatere Owncloud, dette kan tage et stykke tid.",
-"Please reload this page after a short time to continue using ownCloud." => "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud."
+"Please reload this page after a short time to continue using ownCloud." => "Genindlæs denne side efter kort tid til at fortsætte med at bruge ownCloud.",
+"File not found" => "Filen blev ikke fundet",
+"The specified document has not been found on the server." => "Det angivne dokument blev ikke fundet på serveren.",
+"You can click here to return to %s." => "Du kan klikke her for at gå tilbage til %s.",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
