@@ -1,7 +1,7 @@
 {
 	"name": "ownCloud",
 	"version": "8.0 pre alpha",
-	"homepage": "http://www.owncloud.org",
+	"homepage": "https://www.owncloud.org",
 	"license": "AGPL",
 	"private": true,
 	"ignore": [
