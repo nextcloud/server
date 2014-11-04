@@ -218,13 +218,13 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect($tr).toBeDefined();
 			expect($tr[0].tagName.toLowerCase()).toEqual('tr');
-			expect($tr.attr('data-id')).toEqual(null);
+			expect($tr.attr('data-id')).toBeUndefined();
 			expect($tr.attr('data-type')).toEqual('file');
 			expect($tr.attr('data-file')).toEqual('testFile.txt');
-			expect($tr.attr('data-size')).toEqual(null);
-			expect($tr.attr('data-etag')).toEqual(null);
+			expect($tr.attr('data-size')).toBeUndefined();
+			expect($tr.attr('data-etag')).toBeUndefined();
 			expect($tr.attr('data-permissions')).toEqual('31');
-			expect($tr.attr('data-mime')).toEqual(null);
+			expect($tr.attr('data-mime')).toBeUndefined();
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
@@ -239,11 +239,11 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect($tr).toBeDefined();
 			expect($tr[0].tagName.toLowerCase()).toEqual('tr');
-			expect($tr.attr('data-id')).toEqual(null);
+			expect($tr.attr('data-id')).toBeUndefined();
 			expect($tr.attr('data-type')).toEqual('dir');
 			expect($tr.attr('data-file')).toEqual('testFolder');
-			expect($tr.attr('data-size')).toEqual(null);
-			expect($tr.attr('data-etag')).toEqual(null);
+			expect($tr.attr('data-size')).toBeUndefined();
+			expect($tr.attr('data-etag')).toBeUndefined();
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
