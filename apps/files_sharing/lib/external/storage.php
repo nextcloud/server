@@ -200,12 +200,9 @@ class Storage extends DAV implements ISharedStorage {
 		$result = curl_exec($ch);
 
 		$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		$errorMessage = null;
-		if ($status === 0) {
-			$errorMessage = curl_error($ch);
-		}
+		$errorMessage = curl_error($ch);
 		curl_close($ch);
-		if ($errorMessage) {
+		if (!empty($errorMessage)) {
 			throw new \Exception($errorMessage);
 		}
 
