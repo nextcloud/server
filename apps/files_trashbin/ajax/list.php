@@ -1,6 +1,7 @@
 <?php
 
 OCP\JSON::checkLoggedIn();
+\OC::$server->getSession()->close();
 
 // Load the files
 $dir = isset( $_GET['dir'] ) ? $_GET['dir'] : '';
