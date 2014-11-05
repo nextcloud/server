@@ -44,7 +44,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 
 	public function testHeader() {
 		$headers = $this->json->getHeaders();
-		$this->assertEquals('application/json; charset=utf-8', $headers['Content-type']);
+		$this->assertEquals('application/json; charset=utf-8', $headers['Content-Type']);
 	}
 
 
