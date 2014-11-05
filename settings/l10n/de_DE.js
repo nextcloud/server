@@ -120,6 +120,7 @@ OC.L10N.register(
     "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Wir empfehlen dringend, die erforderlichen Pakete auf Ihrem System zu installieren, damit eine der folgenden Gebietsschemas unterstützt wird: %s.",
     "URL generation in notification emails" : "Adresserstellung in E-Mail-Benachrichtungen",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Wenn sich Ihre Installation nicht im Wurzelverzeichnis der Domain befindet und Cron aus dem System genutzt wird, kann es zu Fehlern bei der Adresserstellung kommen. Um dieses zu verhindern, stellen Sie bitte die »overwritewebroot«-Option in Ihrer config.php auf das Internetwurzelverzeichnis Ihrer Installation (Vorschlag: »%s«).",
+    "Connectivity Checks" : "Verbindungsüberprüfungen",
     "No problems found" : "Keine Probleme gefunden",
     "Please double check the <a href='%s'>installation guides</a>." : "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
     "Last cron was executed at %s." : "Letzter Cron wurde um %s ausgeführt.",
