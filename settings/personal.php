@@ -15,8 +15,6 @@ OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addStyle( 'settings', 'settings' );
 OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
 OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
-OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
-OC_Util::addStyle( '3rdparty', 'chosen/chosen' );
 \OC_Util::addScript('files', 'jquery.fileupload');
 if (\OC_Config::getValue('enable_avatars', true) === true) {
 	\OC_Util::addScript('3rdparty/Jcrop', 'jquery.Jcrop.min');
