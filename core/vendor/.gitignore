@@ -1,5 +1,12 @@
 test/
 src/
+.bower.json
+.gitignore
+.jshintrc
+.travis.yml
+Gemfile
+gruntfile.js
+README.md
 
 # underscore
 underscore/**
@@ -46,3 +53,11 @@ select2/**
 zxcvbn/**
 !zxcvbn/zxcvbn.js
 !zxcvbn/LICENSE.txt
+
+# snapjs
+snapjs/demo
+snapjs/dist/2.0.0-rc1
+snapjs/dist/latest/snap.css
+snapjs/dist/latest/snap.min.js
+snapjs/scripts
+snapjs/*.json
