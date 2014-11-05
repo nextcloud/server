@@ -1,3 +1,6 @@
+test/
+src/
+
 # momentjs - ignore all files except the two listed below
 moment/benchmarks
 moment/locale
@@ -6,3 +9,8 @@ moment/*.js*
 moment/*.md
 !moment/LICENSE
 !moment/min/moment-with-locales.js
+
+# jquery
+jquery/**
+!jquery/jquery*
+!jquery/MIT-LICENSE.txt

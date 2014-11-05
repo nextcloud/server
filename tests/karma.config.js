@@ -120,6 +120,12 @@ module.exports = function(config) {
 	files.push(corePath + 'tests/specHelper.js');
 
 	var srcFile, i;
+	// add vendor library files
+	for ( i = 0; i < coreModule.vendor.length; i++ ) {
+		srcFile = vendorPath + coreModule.vendor[i];
+		files.push(srcFile);
+	}
+
 	// add core library files
 	for ( i = 0; i < coreModule.libraries.length; i++ ) {
 		srcFile = corePath + coreModule.libraries[i];
@@ -133,12 +139,6 @@ module.exports = function(config) {
 		if (enableCoverage) {
 			preprocessors[srcFile] = 'coverage';
 		}
-	}
-
-	// add vendor library files
-	for ( i = 0; i < coreModule.vendor.length; i++ ) {
-		srcFile = vendorPath + coreModule.vendor[i];
-		files.push(srcFile);
 	}
 
 	// TODO: settings pages
