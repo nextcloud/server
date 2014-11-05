@@ -122,6 +122,10 @@ class TempManager extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testLogCantCreateFile() {
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] chmod() does not work as intended on Windows.');
+		}
+
 		$logger = $this->getMock('\Test\NullLogger');
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);
@@ -132,6 +136,10 @@ class TempManager extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testLogCantCreateFolder() {
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] chmod() does not work as intended on Windows.');
+		}
+
 		$logger = $this->getMock('\Test\NullLogger');
 		$manager = $this->getManager($logger);
 		chmod($this->baseDir, 0500);
