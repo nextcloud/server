@@ -2,10 +2,11 @@
 /**
  * ownCloud
  *
- * @author Bjoern Schiessle, Robin Appelman
- * @copyright 2014 Bjoern Schiessle <schiessle@owncloud.com>
- *            2012 Sam Tuke <samtuke@owncloud.com>,
- *            2011 Robin Appelman <icewind1991@gmail.com>
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
+ * @author Robin Appelman <icewind@owncloud.com>
+ * @author Sam Tuke <samtuke@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -30,7 +31,7 @@
  */
 
 namespace OCA\Encryption;
-use OCA\Encryption\Exceptions\EncryptionException;
+use OCA\Encryption\Exception\EncryptionException;
 
 /**
  * Provides 'crypt://' stream wrapper protocol.
@@ -91,6 +92,7 @@ class Stream {
 	 * @param int $options
 	 * @param string $opened_path
 	 * @return bool
+	 * @throw \OCA\Encryption\Exception\EncryptionException
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
 
@@ -109,7 +111,7 @@ class Stream {
 		$this->privateKey = $this->session->getPrivateKey();
 		if ($this->privateKey === false) {
 			throw new EncryptionException('Session does not contain a private key, maybe your login password changed?',
-					EncryptionException::NO_PRIVATE_KEY_AVAILABLE);
+					EncryptionException::PRIVATE_KEY_MISSING);
 		}
 
 		$normalizedPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
@@ -249,7 +251,7 @@ class Stream {
 	/**
 	 * @param int $count
 	 * @return bool|string
-	 * @throws \OCA\Encryption\Exceptions\EncryptionException
+	 * @throws \OCA\Encryption\Exception\EncryptionException
 	 */
 	public function stream_read($count) {
 
@@ -257,7 +259,7 @@ class Stream {
 
 		if ($count !== Crypt::BLOCKSIZE) {
 			\OCP\Util::writeLog('Encryption library', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL);
-			throw new \OCA\Encryption\Exceptions\EncryptionException('expected a blog size of 8192 byte', 20);
+			throw new EncryptionException('expected a blog size of 8192 byte', EncryptionException::UNEXPECTED_BLOG_SIZE);
 		}
 
 		// Get the data from the file handle
@@ -365,14 +367,14 @@ class Stream {
 	/**
 	 * write header at beginning of encrypted file
 	 *
-	 * @throws Exceptions\EncryptionException
+	 * @throws Exception\EncryptionException
 	 */
 	private function writeHeader() {
 
 		$header = Crypt::generateHeader();
 
 		if (strlen($header) > Crypt::BLOCKSIZE) {
-			throw new Exceptions\EncryptionException('max header size exceeded', 30);
+			throw new EncryptionException('max header size exceeded', EncryptionException::ENCRYPTION_HEADER_TO_LARGE);
 		}
 
 		$paddedHeader = str_pad($header, Crypt::BLOCKSIZE, self::PADDING_CHAR, STR_PAD_RIGHT);
