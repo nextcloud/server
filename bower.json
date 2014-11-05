@@ -13,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
+    "handlebars": "1.3.0",
     "jquery": "~1.10.0",
     "moment": "~2.8.3"
   }

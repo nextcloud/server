@@ -14,3 +14,7 @@ moment/*.md
 jquery/**
 !jquery/jquery*
 !jquery/MIT-LICENSE.txt
+
+# handlebars
+handlebars/**
+!handlebars/handlebars.js

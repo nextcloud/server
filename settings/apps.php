@@ -25,7 +25,7 @@ OC_Util::checkAdminUser();
 \OC::$server->getSession()->close();
 
 // Load the files we need
-\OCP\Util::addScript('handlebars-v1.3.0');
+\OC_Util::addVendorScript('handlebars/handlebars');
 \OCP\Util::addScript("settings", "settings");
 \OCP\Util::addStyle("settings", "settings");
 \OCP\Util::addScript('core', 'select2/select2');
