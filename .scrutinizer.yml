@@ -13,7 +13,6 @@ filter:
         - 'core/js/jquery-tipsy.js'
         - 'core/js/jquery-ui-1.10.0.custom.js'
         - 'core/js/placeholders.js'
-        - 'core/js/underscore.js'
         - 'core/js/jquery.multiselect.js'
         - 'core/js/snap.js'
 
