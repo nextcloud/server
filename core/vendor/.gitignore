@@ -20,6 +20,15 @@ jquery/**
 !jquery/jquery*
 !jquery/MIT-LICENSE.txt
 
+# jcrop
+jcrop/.bower.json
+jcrop/index.html
+jcrop/README.md
+jcrop/demos
+jcrop/css/jquery.Jcrop.min.css
+jcrop/js/**
+!jcrop/js/jquery.Jcrop.js
+
 # handlebars
 handlebars/**
 !handlebars/handlebars.js
