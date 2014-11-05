@@ -360,10 +360,7 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		$user1->delete();
 		$user2->delete();
 		$user3->delete();
-		// clear user cache...
-		$userManager->delete(self::TEST_USER1);
-		$userManager->delete(self::TEST_USER2);
-		$userManager->delete(self::TEST_USER3);
+
 		$group1->delete();
 		$group2->delete();
 	}
@@ -399,8 +396,6 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		\OC_User::setUserId(null);
 
 		$user1->delete();
-		// clear user cache...
-		$userManager->delete(self::TEST_USER1);
 	}
 
 	/**
