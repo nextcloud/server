@@ -7,7 +7,6 @@
 		"jquery-migrate-1.2.1.min.js",
 		"jquery-ui-1.10.0.custom.js",
 		"jquery-showpassword.js",
-		"jquery.placeholder.js",
 		"jquery-tipsy.js",
 		"underscore.js"
 	],
