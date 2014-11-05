@@ -24,6 +24,8 @@
 namespace OCA\user_ldap\lib;
 
 use OCA\user_ldap\lib\Access;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\User_LDAP\Mapping\GroupMapping;
 
 abstract class Proxy {
 	static private $accesses = array();
@@ -45,17 +47,23 @@ abstract class Proxy {
 		static $fs;
 		static $log;
 		static $avatarM;
+		static $userMap;
+		static $groupMap;
 		if(is_null($fs)) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$log      = new LogWrapper();
 			$avatarM  = \OC::$server->getAvatarManager();
+			$userMap  = new UserMapping(\OC::$server->getDatabaseConnection());
+			$groupMap = new GroupMapping(\OC::$server->getDatabaseConnection());
 		}
 		$userManager =
 			new user\Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image());
 		$connector = new Connection($this->ldap, $configPrefix);
-		self::$accesses[$configPrefix] =
-			new Access($connector, $this->ldap, $userManager);
+		$access = new Access($connector, $this->ldap, $userManager);
+		$access->setUserMapper($userMap);
+		$access->setGroupMapper($groupMap);
+		self::$accesses[$configPrefix] = $access;
 	}
 
 	/**

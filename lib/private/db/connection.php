@@ -142,6 +142,7 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
+	 * @throws \OC\HintException
 	 * @return bool The return value from execute()
 	 */
 	public function insertIfNotExist($table, $input) {
