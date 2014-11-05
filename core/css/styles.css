@@ -355,8 +355,7 @@ input[type="submit"].enabled {
 }
 
 #body-login .update h2 {
-	font-weight: bold;
-	font-size: 18px;
+	font-size: 20px;
 	margin-bottom: 30px;
 }
 
@@ -390,7 +389,6 @@ input[type="submit"].enabled {
 #body-login form #adminaccount { margin-bottom:15px; }
 #body-login form fieldset legend, #datadirContent label {
 	width: 100%;
-	font-weight: bold;
 }
 #body-login #datadirContent label {
 	display: block;
@@ -575,7 +573,7 @@ label.infield {
 #body-login form #selectDbType { text-align:center; white-space: nowrap; }
 #body-login form #selectDbType label {
 	position:static; margin:0 -3px 5px; padding:.4em;
-	font-size:12px; font-weight:bold; background:#f8f8f8; color:#888; cursor:pointer;
+	font-size:12px; background:#f8f8f8; color:#888; cursor:pointer;
 	border: 1px solid #ddd;
 }
 #body-login form #selectDbType label.ui-state-hover, #body-login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
@@ -730,7 +728,6 @@ label.infield {
 }
 #notification span, #update-notification span {
 	cursor: pointer;
-	font-weight: bold;
 	margin-left: 1em;
 }
 
@@ -866,7 +863,7 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 .popup.topright { top:7em; right:1em; }
 .popup.bottomleft { bottom:1em; left:33em; }
 .popup .close { position:absolute; top:0.2em; right:0.2em; height:20px; width:20px; background:url('../img/actions/close.svg') no-repeat center; }
-.popup h2 { font-weight:bold; font-size:1.2em; }
+.popup h2 { font-size:20px; }
 .arrow { border-bottom:10px solid white; border-left:10px solid transparent; border-right:10px solid transparent; display:block; height:0; position:absolute; width:0; z-index:201; }
 .arrow.left { left:-13px; bottom:1.2em; -webkit-transform:rotate(270deg); -moz-transform:rotate(270deg); -o-transform:rotate(270deg); -ms-transform:rotate(270deg); transform:rotate(270deg); }
 .arrow.up { top:-8px; right:6px; }
