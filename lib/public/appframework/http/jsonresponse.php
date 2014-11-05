@@ -49,7 +49,7 @@ class JSONResponse extends Response {
 	public function __construct($data=array(), $statusCode=Http::STATUS_OK) {
 		$this->data = $data;
 		$this->setStatus($statusCode);
-		$this->addHeader('Content-type', 'application/json; charset=utf-8');
+		$this->addHeader('Content-Type', 'application/json; charset=utf-8');
 	}
 
 
