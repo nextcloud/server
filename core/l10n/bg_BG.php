@@ -93,6 +93,9 @@ $TRANSLATIONS = array(
 "Finish setup" => "Завършване на настройките",
 "Log out" => "Изход",
 "remember" => "запомни",
-"Log in" => "Вход"
+"Log in" => "Вход",
+"File not found" => "Файлът не е открит.",
+"The specified document has not been found on the server." => "Избраният документ не е намерн на сървъра.",
+"You can click here to return to %s." => "Можеш да натиснеш тук, за да се върнеш на %s",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

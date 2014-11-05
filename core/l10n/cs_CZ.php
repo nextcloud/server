@@ -199,6 +199,9 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Před provedením dalšího kroku se prosím přesvědči, že databáze a  konfigurační a datový adresář byly zazálohovány.  ",
 "Start update" => "Aktualizovat",
 "This ownCloud instance is currently being updated, which may take a while." => "Tato instalace ownCloud je právě aktualizována, může to chvíli trvat.",
-"Please reload this page after a short time to continue using ownCloud." => "Pro pokračování načtěte, prosím, stránku po chvíli znovu."
+"Please reload this page after a short time to continue using ownCloud." => "Pro pokračování načtěte, prosím, stránku po chvíli znovu.",
+"File not found" => "Soubor nenalezen",
+"The specified document has not been found on the server." => "Vybraný dokument nebyl na serveru nalezen.",
+"You can click here to return to %s." => "Kliknout zde pro návrat na %s.",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

@@ -201,6 +201,9 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Devam etmeden önce lütfen veritabanının, yapılandırma ve veri klasörlerinin yedeklenmiş olduğundan emin olun.",
 "Start update" => "Güncellemeyi başlat",
 "This ownCloud instance is currently being updated, which may take a while." => "Bu ownCloud örneği şu anda güncelleniyor, bu biraz zaman alabilir.",
-"Please reload this page after a short time to continue using ownCloud." => "ownCloud kullanmaya devam etmek için kısa bir süre sonra lütfen sayfayı yenileyin."
+"Please reload this page after a short time to continue using ownCloud." => "ownCloud kullanmaya devam etmek için kısa bir süre sonra lütfen sayfayı yenileyin.",
+"File not found" => "Dosya bulunamadı",
+"The specified document has not been found on the server." => "Belirtilen dosya sunucuda bulunamadı.",
+"You can click here to return to %s." => "%s ana sayfasına dönmek için buraya tıklayabilirsiniz.",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";
