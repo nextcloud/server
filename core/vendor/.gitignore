@@ -1,6 +1,11 @@
 test/
 src/
 
+# underscore
+underscore/**
+!underscore/underscore.js
+!underscore/LICENSE
+
 # momentjs - ignore all files except the two listed below
 moment/benchmarks
 moment/locale

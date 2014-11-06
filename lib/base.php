@@ -334,7 +334,7 @@ class OC {
 		OC_Util::addScript("placeholders");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
-		OC_Util::addScript("underscore");
+		OC_Util::addVendorScript("underscore/underscore");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("js");
