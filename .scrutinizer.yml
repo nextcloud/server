@@ -6,7 +6,7 @@ filter:
         - 'core/l10n/*'
         - 'apps/*/l10n/*'
         - 'lib/l10n/*'
-         - 'core/vendor/*'
+        - 'core/vendor/*'
         - 'core/js/tests/lib/*.js'
         - 'core/js/tests/specs/*.js'
         - 'core/js/jquery-showpassword.js'
@@ -14,7 +14,6 @@ filter:
         - 'core/js/jquery-ui-1.10.0.custom.js'
         - 'core/js/placeholders.js'
         - 'core/js/jquery.multiselect.js'
-        - 'core/js/snap.js'
 
 
 imports:

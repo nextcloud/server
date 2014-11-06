@@ -347,7 +347,7 @@ class OC {
 		OC_Util::addScript('search', 'result');
 		OC_Util::addScript("oc-requesttoken");
 		OC_Util::addScript("apps");
-		OC_Util::addScript("snap");
+		OC_Util::addVendorScript('snapjs/dist/latest/snap');
 		OC_Util::addVendorScript('moment/min/moment-with-locales');
 
 		// avatars
