@@ -28,8 +28,8 @@ OC_Util::checkAdminUser();
 \OC_Util::addVendorScript('handlebars/handlebars');
 \OCP\Util::addScript("settings", "settings");
 \OCP\Util::addStyle("settings", "settings");
-\OCP\Util::addScript('core', 'select2/select2');
-\OCP\Util::addStyle('core', 'select2/select2');
+\OC_Util::addVendorScript('select2/select2');
+\OC_Util::addVendorStyle('select2/select2');
 \OCP\Util::addScript("settings", "apps");
 \OC_App::setActiveNavigationEntry( "core_apps" );
 

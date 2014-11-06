@@ -23,3 +23,12 @@ jquery/**
 # handlebars
 handlebars/**
 !handlebars/handlebars.js
+
+# select2
+select2/**
+!select2/select2.js
+!select2/select2.css
+!select2/select2.png
+!select2/select2x2.png
+!select2/select2-spinner.gif
+!select2/LICENSE
