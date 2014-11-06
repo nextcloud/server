@@ -21,6 +21,7 @@
     "select2": "3.4.8",
     "zxcvbn": "*",
     "snapjs": "2.0.0-rc1",
+    "strengthify": "*",
     "underscore": "1.6.0"
   }
 }

@@ -57,8 +57,8 @@ class Controller {
 		);
 		$parameters = array_merge($defaults, $post);
 
-		\OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
-		\OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
+		\OC_Util::addVendorScript('strengthify/jquery.strengthify');
+		\OC_Util::addVendorStyle('strengthify/strengthify');
 		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
