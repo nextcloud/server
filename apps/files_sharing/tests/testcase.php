@@ -65,13 +65,21 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
 		// create users
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER1, true);
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER2, true);
-		self::loginHelper(self::TEST_FILES_SHARING_API_USER3, true);
+		$backend = new \OC_User_Dummy();
+		\OC_User::useBackend($backend);
+		$backend->createUser(self::TEST_FILES_SHARING_API_USER1, self::TEST_FILES_SHARING_API_USER1);
+		$backend->createUser(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_USER2);
+		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
 
 		// create group
-		\OC_Group::createGroup(self::TEST_FILES_SHARING_API_GROUP1);
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
+		$groupBackend = new \OC_Group_Dummy();
+		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
+		$groupBackend->createGroup('group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER1, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
+		\OC_Group::useBackend($groupBackend);
 
 	}
 

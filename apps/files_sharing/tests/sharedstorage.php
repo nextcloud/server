@@ -197,4 +197,30 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($result);
 	}
 
+	function testMountSharesOtherUser() {
+		$folderInfo = $this->view->getFileInfo($this->folder);
+		$fileInfo = $this->view->getFileInfo($this->filename);
+		$rootView = new \OC\Files\View('');
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		// share 2 different files with 2 different users
+		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER3, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->folder));
+		OC_Hook::emit('OC_Filesystem', 'setup', array('user' => self::TEST_FILES_SHARING_API_USER3, 'user_dir' => \OC_User::getHome(self::TEST_FILES_SHARING_API_USER3)));
+
+		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER3 . '/files/' . $this->filename));
+
+		// make sure we didn't double setup shares for user 2 or mounted the shares for user 3 in user's 2 home
+		$this->assertFalse($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->folder .' (2)'));
+		$this->assertFalse($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->filename));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$this->view->unlink($this->folder);
+	}
 }

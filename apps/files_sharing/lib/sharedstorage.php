@@ -397,7 +397,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public static function setup($options) {
-		$shares = \OCP\Share::getItemsSharedWith('file');
+		$shares = \OCP\Share::getItemsSharedWithUser('file', $options['user']);
 		$manager = Filesystem::getMountManager();
 		$loader = Filesystem::getLoader();
 		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user']
@@ -411,7 +411,8 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 							$options['user_dir'] . '/' . $share['file_target'],
 							array(
 								'share' => $share,
-								),
+								'user' => $options['user']
+							),
 							$loader
 							);
 					$manager->addMount($mount);
