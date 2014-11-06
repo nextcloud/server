@@ -211,9 +211,6 @@ class OC_User {
 
 				// Delete the users entry in the storage table
 				\OC\Files\Cache\Storage::remove('home::' . $uid);
-
-				// Remove it from the Cache
-				self::getManager()->delete($uid);
 			}
 
 			return true;

@@ -416,6 +416,17 @@ class Manager extends \PHPUnit_Framework_TestCase {
 
 		$users = array_shift($result);
 		//users from backends shall be summed up
-		$this->assertEquals(7+16, $users);
+		$this->assertEquals(7 + 16, $users);
+	}
+
+	public function testDeleteUser() {
+		$manager = new \OC\User\Manager();
+		$backend = new \OC_User_Dummy();
+
+		$backend->createUser('foo', 'bar');
+		$manager->registerBackend($backend);
+		$this->assertTrue($manager->userExists('foo'));
+		$manager->get('foo')->delete();
+		$this->assertFalse($manager->userExists('foo'));
 	}
 }

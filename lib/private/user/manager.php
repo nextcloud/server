@@ -46,17 +46,17 @@ class Manager extends PublicEmitter implements IUserManager {
 	 */
 	public function __construct($config = null) {
 		$this->config = $config;
-		$cachedUsers = $this->cachedUsers;
+		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {
-			$i = array_search($user, $cachedUsers);
-			if ($i !== false) {
-				unset($cachedUsers[$i]);
-			}
+			/** @var \OC\User\User $user */
+			unset($cachedUsers[$user->getUID()]);
 		});
 		$this->listen('\OC\User', 'postLogin', function ($user) {
+			/** @var \OC\User\User $user */
 			$user->updateLastLoginTimestamp();
 		});
 		$this->listen('\OC\User', 'postRememberedLogin', function ($user) {
+			/** @var \OC\User\User $user */
 			$user->updateLastLoginTimestamp();
 		});
 	}
@@ -132,20 +132,6 @@ class Manager extends PublicEmitter implements IUserManager {
 	public function userExists($uid) {
 		$user = $this->get($uid);
 		return ($user !== null);
-	}
-
-	/**
-	 * remove deleted user from cache
-	 *
-	 * @param string $uid
-	 * @return bool
-	 */
-	public function delete($uid) {
-		if (isset($this->cachedUsers[$uid])) {
-			unset($this->cachedUsers[$uid]);
-			return true;
-		}
-		return false;
 	}
 
 	/**
