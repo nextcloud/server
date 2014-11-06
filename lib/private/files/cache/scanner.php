@@ -216,7 +216,7 @@ class Scanner extends BasicEmitter {
 	 */
 	public function scan($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
 		if ($reuse === -1) {
-			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
+			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$data = $this->scanFile($path, $reuse);
 		$size = $this->scanChildren($path, $recursive, $reuse);
@@ -245,7 +245,7 @@ class Scanner extends BasicEmitter {
 	 */
 	public function scanChildren($path, $recursive = self::SCAN_RECURSIVE, $reuse = -1) {
 		if ($reuse === -1) {
-			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
+			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : self::REUSE_ETAG;
 		}
 		$this->emit('\OC\Files\Cache\Scanner', 'scanFolder', array($path, $this->storageId));
 		$size = 0;
