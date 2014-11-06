@@ -14,8 +14,8 @@ script('settings', 'settings');
 script( "settings", "admin" );
 script( "settings", "log" );
 script( 'core', 'multiselect' );
-script('core', 'select2/select2');
-style('core', 'select2/select2');
+vendor_script('select2/select2');
+vendor_style('select2/select2');
 script('core', 'setupchecks');
 
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
