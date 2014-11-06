@@ -13,8 +13,8 @@ $certificateManager = \OC::$server->getCertificateManager();
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addStyle( 'settings', 'settings' );
-OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
-OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
+\OC_Util::addVendorScript('strengthify/jquery.strengthify');
+\OC_Util::addVendorStyle('strengthify/strengthify');
 \OC_Util::addScript('files', 'jquery.fileupload');
 if (\OC_Config::getValue('enable_avatars', true) === true) {
 	\OC_Util::addVendorScript('jcrop/js/jquery.Jcrop');

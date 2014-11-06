@@ -1,12 +1,16 @@
 test/
 src/
 .bower.json
+bower.json
 .gitignore
 .jshintrc
 .travis.yml
+CHANGELOG*
 Gemfile
 gruntfile.js
-README.md
+Makefile
+package.json
+README*
 
 # underscore
 underscore/**
@@ -17,20 +21,13 @@ underscore/**
 blueimp-md5/css
 blueimp-md5/js/*
 !blueimp-md5/js/md5.js
-blueimp-md5/.*
-blueimp-md5/*.json
 blueimp-md5/index.html
-blueimp-md5/Makefile
-blueimp-md5/README.md
-blueimp-md5/package.json
 
 # momentjs - ignore all files except the two listed below
 moment/benchmarks
 moment/locale
 moment/min/**
-moment/*.js*
-moment/*.md
-!moment/LICENSE
+moment/moment.js
 !moment/min/moment-with-locales.js
 
 # jquery
@@ -39,9 +36,7 @@ jquery/**
 !jquery/MIT-LICENSE.txt
 
 # jcrop
-jcrop/.bower.json
 jcrop/index.html
-jcrop/README.md
 jcrop/demos
 jcrop/css/jquery.Jcrop.min.css
 jcrop/js/**
@@ -71,4 +66,3 @@ snapjs/dist/2.0.0-rc1
 snapjs/dist/latest/snap.css
 snapjs/dist/latest/snap.min.js
 snapjs/scripts
-snapjs/*.json
