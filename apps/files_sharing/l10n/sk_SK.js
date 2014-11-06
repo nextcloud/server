@@ -32,9 +32,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Pridať do svojho ownCloudu",
     "Download" : "Sťahovanie",
     "Download %s" : "Stiahnuť %s",
-    "Direct link" : "Priama linka",
-    "Remote Shares" : "Vzdialené úložiská",
-    "Allow other instances to mount public links shared from this server" : "Povoliť ďalším inštanciám pripojiť verejné odkazy zdieľané z tohto servera",
-    "Allow users to mount public link shares" : "Povoliť používateľom pripojiť sa na zdieľané verejné odkazy"
+    "Direct link" : "Priama linka"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

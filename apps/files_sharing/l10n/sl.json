@@ -31,9 +31,6 @@
     "Add to your ownCloud" : "Dodaj v svoj oblak ownCloud",
     "Download" : "Prejmi",
     "Download %s" : "Prejmi %s",
-    "Direct link" : "Neposredna povezava",
-    "Remote Shares" : "Oddaljena souporaba",
-    "Allow other instances to mount public links shared from this server" : "Dovoli drugim primerkom priklop javnih povezav s tega strežnika",
-    "Allow users to mount public link shares" : "Dovoli uporabnikom priklop javnih povezav med mapami za souporabo"
+    "Direct link" : "Neposredna povezava"
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

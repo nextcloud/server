@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Legg til i din ownCloud",
     "Download" : "Last ned",
     "Download %s" : "Last ned %s",
-    "Direct link" : "Direkte lenke",
-    "Remote Shares" : "Ekstern deling",
-    "Allow other instances to mount public links shared from this server" : "Tillat at andre servere kobler opp offentlige lenker som er delt fra denne serveren",
-    "Allow users to mount public link shares" : "Tillat at brukere kobler opp offentlige lenke-delinger"
+    "Direct link" : "Direkte lenke"
 },
 "nplurals=2; plural=(n != 1);");

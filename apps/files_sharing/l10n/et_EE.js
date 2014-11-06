@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Lisa oma ownCloudi",
     "Download" : "Lae alla",
     "Download %s" : "Laadi alla %s",
-    "Direct link" : "Otsene link",
-    "Remote Shares" : "Eemalolevad jagamised",
-    "Allow other instances to mount public links shared from this server" : "Luba teistel instantsidel ühendada sellest serverist jagatud avalikke linke",
-    "Allow users to mount public link shares" : "Luba kasutajatel ühendada jagatud avalikke linke"
+    "Direct link" : "Otsene link"
 },
 "nplurals=2; plural=(n != 1);");

@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Tambahkan ke ownCloud Anda",
     "Download" : "Unduh",
     "Download %s" : "Unduh %s",
-    "Direct link" : "Tautan langsung",
-    "Remote Shares" : "Berbagi Remote",
-    "Allow other instances to mount public links shared from this server" : "Izinkan instansi lain untuk mengaitkan tautan publik untuk dibagikan dari server ini",
-    "Allow users to mount public link shares" : "Izinkan pengguna untuk mengaitkan tautan berbagi publik"
+    "Direct link" : "Tautan langsung"
 },
 "nplurals=1; plural=0;");

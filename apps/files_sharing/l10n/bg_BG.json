@@ -31,9 +31,6 @@
     "Add to your ownCloud" : "Добави към своя ownCloud",
     "Download" : "Изтегли",
     "Download %s" : "Изтегли %s",
-    "Direct link" : "Директна връзка",
-    "Remote Shares" : "Прикачени Папки",
-    "Allow other instances to mount public links shared from this server" : "Разреши други ownCloud сървъри да прикачват папки, споделени посредством връзки, на този сървър.",
-    "Allow users to mount public link shares" : "Разреши потребители да прикачват папки, споделени посредством връзки."
+    "Direct link" : "Директна връзка"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

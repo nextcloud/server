@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-11-05 01:54-0500\n"
+"POT-Creation-Date: 2014-11-06 01:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -372,19 +372,19 @@ msgstr ""
 msgid "Warning: Home directory for user \"{user}\" already exists"
 msgstr ""
 
-#: personal.php:51 personal.php:52
+#: personal.php:49 personal.php:50
 msgid "__language_name__"
 msgstr ""
 
-#: personal.php:107
+#: personal.php:105
 msgid "Personal Info"
 msgstr ""
 
-#: personal.php:132 templates/personal.php:173
+#: personal.php:130 templates/personal.php:173
 msgid "SSL root certificates"
 msgstr ""
 
-#: personal.php:134 templates/admin.php:382 templates/personal.php:214
+#: personal.php:132 templates/admin.php:382 templates/personal.php:214
 msgid "Encryption"
 msgstr ""
 

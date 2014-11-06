@@ -24,7 +24,6 @@ OC.L10N.register(
     "For more info, please ask the person who sent this link." : "বিস্তারিত তথ্যের জন্য এই লিঙ্কের প্রেরককে জিজ্ঞাসা করুন।",
     "Download" : "ডাউনলোড",
     "Download %s" : "ডাউনলোড  %s",
-    "Direct link" : "সরাসরি লিঙ্ক",
-    "Remote Shares" : "দুরবর্তী ভাগাভাগি"
+    "Direct link" : "সরাসরি লিঙ্ক"
 },
 "nplurals=2; plural=(n != 1);");

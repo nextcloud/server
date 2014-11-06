@@ -31,9 +31,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "加入到你的 ownCloud",
     "Download" : "下載",
     "Download %s" : "下載 %s",
-    "Direct link" : "直接連結",
-    "Remote Shares" : "遠端分享",
-    "Allow other instances to mount public links shared from this server" : "允許其他伺服器掛載本地的公開分享",
-    "Allow users to mount public link shares" : "允許使用者掛載公開分享"
+    "Direct link" : "直接連結"
 },
 "nplurals=1; plural=0;");

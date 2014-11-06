@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Προσθήκη στο ownCloud σου",
     "Download" : "Λήψη",
     "Download %s" : "Λήψη %s",
-    "Direct link" : "Άμεσος σύνδεσμος",
-    "Remote Shares" : "Απομακρυσμένοι Κοινόχρηστοι Φάκελοι",
-    "Allow other instances to mount public links shared from this server" : "Να επιτρέπεται σε άλλες εγκαταστάσεις να επιθέτουν δημόσιους συνδέσμους που έχουν διαμοιραστεί από αυτόν το διακομιστή",
-    "Allow users to mount public link shares" : "Να επιτρέπεται στους χρήστες να επιθέτουν κοινόχρηστους φακέλους από δημόσιους συνδέσμους"
+    "Direct link" : "Άμεσος σύνδεσμος"
 },
 "nplurals=2; plural=(n != 1);");

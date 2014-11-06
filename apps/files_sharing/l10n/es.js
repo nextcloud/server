@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Agregue su propio ownCloud",
     "Download" : "Descargar",
     "Download %s" : "Descargar %s",
-    "Direct link" : "Enlace directo",
-    "Remote Shares" : "Almacenamiento compartido remoto",
-    "Allow other instances to mount public links shared from this server" : "Permitir a otros montar enlaces publicos compartidos de este servidor",
-    "Allow users to mount public link shares" : "Permitir a los usuarios montar enlaces publicos compartidos"
+    "Direct link" : "Enlace directo"
 },
 "nplurals=2; plural=(n != 1);");

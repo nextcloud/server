@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Adjuk hozzá a saját ownCloudunkhoz",
     "Download" : "Letöltés",
     "Download %s" : "%s letöltése",
-    "Direct link" : "Közvetlen link",
-    "Remote Shares" : "Távoli megosztások",
-    "Allow other instances to mount public links shared from this server" : "Engedélyezzük más ownCloud telepítéseknek, hogy becsatolják ennek a kiszolgálónak a nyilvános linkkel megadott megosztásait",
-    "Allow users to mount public link shares" : "Engedélyezzük, hogy felhasználóink becsatolják más kiszolgálók nyilvános, linkkel megadott megosztásait"
+    "Direct link" : "Közvetlen link"
 },
 "nplurals=2; plural=(n != 1);");

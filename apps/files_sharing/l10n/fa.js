@@ -32,9 +32,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "افزودن به ownCloud شما",
     "Download" : "دانلود",
     "Download %s" : "دانلود %s",
-    "Direct link" : "پیوند مستقیم",
-    "Remote Shares" : "اشتراک های از راه دور",
-    "Allow other instances to mount public links shared from this server" : "اجازه به نمونه های دیگر برای مانت کردن پیوند های عمومی به اشتراک گذاشته شده از این سرور",
-    "Allow users to mount public link shares" : "اجازه دادن به کاربران برای مانت پیوندهای عمومی موارد به اشتراک گذاری"
+    "Direct link" : "پیوند مستقیم"
 },
 "nplurals=1; plural=0;");

@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Add to your ownCloud",
     "Download" : "Download",
     "Download %s" : "Download %s",
-    "Direct link" : "Direct link",
-    "Remote Shares" : "Remote Shares",
-    "Allow other instances to mount public links shared from this server" : "Allow other instances to mount public links shared from this server",
-    "Allow users to mount public link shares" : "Allow users to mount public link shares"
+    "Direct link" : "Direct link"
 },
 "nplurals=2; plural=(n != 1);");

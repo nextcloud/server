@@ -33,9 +33,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "ownCloud に追加",
     "Download" : "ダウンロード",
     "Download %s" : "%s をダウンロード",
-    "Direct link" : "リンク",
-    "Remote Shares" : "リモート共有",
-    "Allow other instances to mount public links shared from this server" : "このサーバーにおけるURLでの共有を他のインスタンスからマウントできるようにする",
-    "Allow users to mount public link shares" : "ユーザーがURLでの共有をマウントできるようにする"
+    "Direct link" : "リンク"
 },
 "nplurals=1; plural=0;");

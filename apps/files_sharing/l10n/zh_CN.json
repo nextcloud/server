@@ -29,9 +29,6 @@
     "Add to your ownCloud" : "添加到您的 ownCloud",
     "Download" : "下载",
     "Download %s" : "下载 %s",
-    "Direct link" : "直接链接",
-    "Remote Shares" : "远程分享",
-    "Allow other instances to mount public links shared from this server" : "允许其他实例挂载由此服务器分享的公共链接",
-    "Allow users to mount public link shares" : "允许用户挂载公共链接分享"
+    "Direct link" : "直接链接"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

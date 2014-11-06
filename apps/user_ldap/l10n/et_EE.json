@@ -74,6 +74,7 @@
     "Saving" : "Salvestamine",
     "Back" : "Tagasi",
     "Continue" : "Jätka",
+    "LDAP" : "LDAP",
     "Expert" : "Ekspert",
     "Advanced" : "Täpsem",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Hoiatus:</b> rakendused user_ldap ja user_webdavauht ei ole ühilduvad. Töös võib esineda ootamatuid tõrkeid.\nPalu oma süsteemihalduril üks neist rakendustest kasutusest eemaldada.",

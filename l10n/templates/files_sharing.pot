@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-11-05 01:54-0500\n"
+"POT-Creation-Date: 2014-11-06 01:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -150,14 +150,14 @@ msgstr ""
 msgid "Direct link"
 msgstr ""
 
-#: templates/settings-admin.php:3
-msgid "Remote Shares"
-msgstr ""
-
 #: templates/settings-admin.php:7
-msgid "Allow other instances to mount public links shared from this server"
+msgid "Server-to-Server Sharing"
 msgstr ""
 
-#: templates/settings-admin.php:11
-msgid "Allow users to mount public link shares"
+#: templates/settings-admin.php:12
+msgid "Allow users on this server to send shares to other servers"
+msgstr ""
+
+#: templates/settings-admin.php:18
+msgid "Allow users on this server to receive shares from other servers"
 msgstr ""

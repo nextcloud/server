@@ -27,9 +27,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Lägg till i din ownCloud",
     "Download" : "Ladda ner",
     "Download %s" : "Ladda ner %s",
-    "Direct link" : "Direkt länk",
-    "Remote Shares" : "Fjärrutdelningar Server-Server",
-    "Allow other instances to mount public links shared from this server" : "Tillåt andra instanser vidaredelning utav publika länkar delade från denna servern",
-    "Allow users to mount public link shares" : "Tillåt användare att montera publika länkar"
+    "Direct link" : "Direkt länk"
 },
 "nplurals=2; plural=(n != 1);");

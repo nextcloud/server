@@ -32,9 +32,6 @@ OC.L10N.register(
     "Add to your ownCloud" : "Dodajte svome ownCloud",
     "Download" : "Preuzmite",
     "Download %s" : "Preuzmite %s",
-    "Direct link" : "Izravna veza",
-    "Remote Shares" : "Udaljeni zajednički resursi (za raspodjelu)",
-    "Allow other instances to mount public links shared from this server" : "Dopustite drugim instancama postavljanje javnih veza koje su podijeljene s ovog poslužitelja.",
-    "Allow users to mount public link shares" : "Dopustite korisnicima postavljanje podijeljenih javnih veza"
+    "Direct link" : "Izravna veza"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");
