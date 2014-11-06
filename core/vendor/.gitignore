@@ -13,6 +13,17 @@ underscore/**
 !underscore/underscore.js
 !underscore/LICENSE
 
+# blueimp-md5
+blueimp-md5/css
+blueimp-md5/js/*
+!blueimp-md5/js/md5.js
+blueimp-md5/.*
+blueimp-md5/*.json
+blueimp-md5/index.html
+blueimp-md5/Makefile
+blueimp-md5/README.md
+blueimp-md5/package.json
+
 # momentjs - ignore all files except the two listed below
 moment/benchmarks
 moment/locale

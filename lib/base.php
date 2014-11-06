@@ -353,7 +353,7 @@ class OC {
 		// avatars
 		if (\OC_Config::getValue('enable_avatars', true) === true) {
 			\OC_Util::addScript('placeholder');
-			\OC_Util::addScript('3rdparty', 'md5/md5.min');
+			\OC_Util::addVendorScript('blueimp-md5/js/md5');
 			\OC_Util::addScript('jquery.avatar');
 			\OC_Util::addScript('avatar');
 		}
