@@ -50,9 +50,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 	 * @return string|null
 	 */
 	public function put($data) {
-		if ($this->info && $this->fileView->file_exists($this->path) &&
-			!$this->info->isUpdateable()) {
-			throw new \Sabre\DAV\Exception\Forbidden();
+		try {
+			if ($this->info && $this->fileView->file_exists($this->path) &&
+				!$this->info->isUpdateable()) {
+				throw new \Sabre\DAV\Exception\Forbidden();
+			}
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
 
 		// throw an exception if encryption was disabled but the files are still encrypted
@@ -102,43 +106,49 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
 		} catch (\OCA\Encryption\Exceptions\EncryptionException $e) {
 			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
 
-		// if content length is sent by client:
-		// double check if the file was fully received
-		// compare expected and actual size
-		if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] !== 'LOCK') {
-			$expected = $_SERVER['CONTENT_LENGTH'];
-			$actual = $this->fileView->filesize($partFilePath);
-			if ($actual != $expected) {
-				$this->fileView->unlink($partFilePath);
-				throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
-			}
-		}
-
-		// rename to correct path
 		try {
-			$renameOkay = $this->fileView->rename($partFilePath, $this->path);
-			$fileExists = $this->fileView->file_exists($this->path);
-			if ($renameOkay === false || $fileExists === false) {
-				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				$this->fileView->unlink($partFilePath);
-				throw new \Sabre\DAV\Exception('Could not rename part file to final file');
+			// if content length is sent by client:
+			// double check if the file was fully received
+			// compare expected and actual size
+			if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['REQUEST_METHOD'] !== 'LOCK') {
+				$expected = $_SERVER['CONTENT_LENGTH'];
+				$actual = $this->fileView->filesize($partFilePath);
+				if ($actual != $expected) {
+					$this->fileView->unlink($partFilePath);
+					throw new \Sabre\DAV\Exception\BadRequest('expected filesize ' . $expected . ' got ' . $actual);
+				}
 			}
-		}
-		catch (\OCP\Files\LockNotAcquiredException $e) {
-			// the file is currently being written to by another process
-			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
-		}
 
-		// allow sync clients to send the mtime along in a header
-		$mtime = OC_Request::hasModificationTime();
-		if ($mtime !== false) {
-			if($this->fileView->touch($this->path, $mtime)) {
-				header('X-OC-MTime: accepted');
+			// rename to correct path
+			try {
+				$renameOkay = $this->fileView->rename($partFilePath, $this->path);
+				$fileExists = $this->fileView->file_exists($this->path);
+				if ($renameOkay === false || $fileExists === false) {
+					\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+					$this->fileView->unlink($partFilePath);
+					throw new \Sabre\DAV\Exception('Could not rename part file to final file');
+				}
 			}
+			catch (\OCP\Files\LockNotAcquiredException $e) {
+				// the file is currently being written to by another process
+				throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
+			}
+
+			// allow sync clients to send the mtime along in a header
+			$mtime = OC_Request::hasModificationTime();
+			if ($mtime !== false) {
+				if($this->fileView->touch($this->path, $mtime)) {
+					header('X-OC-MTime: accepted');
+				}
+			}
+			$this->refreshInfo();
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
-		$this->refreshInfo();
 
 		return '"' . $this->info->getEtag() . '"';
 	}
@@ -158,6 +168,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
 			} catch (\OCA\Encryption\Exceptions\EncryptionException $e) {
 				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
+			} catch (\OCP\Files\StorageNotAvailableException $e) {
+				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 			}
 		}
 
@@ -174,9 +186,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			throw new \Sabre\DAV\Exception\Forbidden();
 		}
 
-		if (!$this->fileView->unlink($this->path)) {
-			// assume it wasn't possible to delete due to permissions
-			throw new \Sabre\DAV\Exception\Forbidden();
+		try {
+			if (!$this->fileView->unlink($this->path)) {
+				// assume it wasn't possible to delete due to permissions
+				throw new \Sabre\DAV\Exception\Forbidden();
+			}
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
 
 		// remove properties
@@ -235,33 +251,37 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 
 		if ($chunk_handler->isComplete()) {
 
-			// we first assembly the target file as a part file
-			$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
-			$chunk_handler->file_assemble($partFile);
+			try {
+				// we first assembly the target file as a part file
+				$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
+				$chunk_handler->file_assemble($partFile);
 
-			// here is the final atomic rename
-			$targetPath = $path . '/' . $info['name'];
-			$renameOkay = $this->fileView->rename($partFile, $targetPath);
-			$fileExists = $this->fileView->file_exists($targetPath);
-			if ($renameOkay === false || $fileExists === false) {
-				\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-				// only delete if an error occurred and the target file was already created
-				if ($fileExists) {
-					$this->fileView->unlink($targetPath);
+				// here is the final atomic rename
+				$targetPath = $path . '/' . $info['name'];
+				$renameOkay = $this->fileView->rename($partFile, $targetPath);
+				$fileExists = $this->fileView->file_exists($targetPath);
+				if ($renameOkay === false || $fileExists === false) {
+					\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+					// only delete if an error occurred and the target file was already created
+					if ($fileExists) {
+						$this->fileView->unlink($targetPath);
+					}
+					throw new \Sabre\DAV\Exception('Could not rename part file assembled from chunks');
 				}
-				throw new \Sabre\DAV\Exception('Could not rename part file assembled from chunks');
-			}
 
-			// allow sync clients to send the mtime along in a header
-			$mtime = OC_Request::hasModificationTime();
-			if ($mtime !== false) {
-				if($this->fileView->touch($targetPath, $mtime)) {
-					header('X-OC-MTime: accepted');
+				// allow sync clients to send the mtime along in a header
+				$mtime = OC_Request::hasModificationTime();
+				if ($mtime !== false) {
+					if($this->fileView->touch($targetPath, $mtime)) {
+						header('X-OC-MTime: accepted');
+					}
 				}
-			}
 
-			$info = $this->fileView->getFileInfo($targetPath);
-			return $info->getEtag();
+				$info = $this->fileView->getFileInfo($targetPath);
+				return $info->getEtag();
+			} catch (\OCP\Files\StorageNotAvailableException $e) {
+				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			}
 		}
 
 		return null;
