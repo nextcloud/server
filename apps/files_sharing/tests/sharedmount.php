@@ -226,6 +226,10 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null){
+		// noop
+	}
+
 	public function stripUserFilesPathDummy($path) {
 		return $this->stripUserFilesPath($path);
 	}

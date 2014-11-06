@@ -35,6 +35,9 @@ class Test_Files_Sharing_Api extends TestCase {
 	function setUp() {
 		parent::setUp();
 
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_exclude_groups', 'no');
+		\OC::$server->getAppConfig()->setValue('core', 'shareapi_expire_after_n_days', '7');
+
 		$this->folder = self::TEST_FOLDER_NAME;
 		$this->subfolder  = '/subfolder_share_api_test';
 		$this->subsubfolder = '/subsubfolder_share_api_test';

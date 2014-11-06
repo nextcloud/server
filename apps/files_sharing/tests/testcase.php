@@ -72,8 +72,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		$backend->createUser(self::TEST_FILES_SHARING_API_USER3, self::TEST_FILES_SHARING_API_USER3);
 
 		// create group
-		\OC_Group::createGroup(self::TEST_FILES_SHARING_API_GROUP1);
-		\OC_Group::addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
+		$groupBackend = new \OC_Group_Dummy();
+		$groupBackend->createGroup(self::TEST_FILES_SHARING_API_GROUP1);
+		$groupBackend->createGroup('group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER1, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER3, 'group');
+		$groupBackend->addToGroup(self::TEST_FILES_SHARING_API_USER2, self::TEST_FILES_SHARING_API_GROUP1);
+		\OC_Group::useBackend($groupBackend);
 
 	}
 
