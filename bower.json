@@ -18,6 +18,7 @@
     "jquery": "~1.10.0",
     "moment": "~2.8.3",
     "select2": "3.4.8",
-    "underscore": "1.6.0"
+    "underscore": "1.6.0",
+    "zxcvbn": "*"
   }
 }

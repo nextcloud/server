@@ -41,3 +41,8 @@ select2/**
 !select2/select2x2.png
 !select2/select2-spinner.gif
 !select2/LICENSE
+
+#zxcvbn
+zxcvbn/**
+!zxcvbn/zxcvbn.js
+!zxcvbn/LICENSE.txt

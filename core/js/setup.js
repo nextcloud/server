@@ -94,7 +94,7 @@ $(document).ready(function() {
 	}
 
 	$('#adminpass').strengthify({
-		zxcvbn: OC.linkTo('3rdparty','zxcvbn/js/zxcvbn.js'),
+		zxcvbn: OC.linkTo('core','vendor/zxcvbn/zxcvbn.js'),
 		titles: [
 			t('core', 'Very weak password'),
 			t('core', 'Weak password'),
