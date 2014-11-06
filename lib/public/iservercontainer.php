@@ -215,6 +215,13 @@ interface IServerContainer {
 	function getJobList();
 
 	/**
+	 * Returns a logger instance
+	 *
+	 * @return \OCP\ILogger
+	 */
+	function getLogger();
+
+	/**
 	 * Returns a router for generating and matching urls
 	 *
 	 * @return \OCP\Route\IRouter
