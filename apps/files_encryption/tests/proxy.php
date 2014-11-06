@@ -20,15 +20,13 @@
  *
  */
 
-require_once __DIR__ . '/util.php';
-
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Proxy
  * this class provide basic proxy app tests
  */
-class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Proxy extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_PROXY_USER1 = "test-proxy-user1";
 
@@ -44,6 +42,8 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	public $filename;
 
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
@@ -59,10 +59,12 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1, true);
+		self::loginHelper(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1, true);
 	}
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		// set user id
 		\OC_User::setUserId(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1);
 		$this->userId = \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1;
@@ -75,7 +77,7 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 		// init short data
 		$this->data = 'hats';
 		$this->dataLong = file_get_contents(__DIR__ . '/../lib/crypt.php');
-		$this->filename = 'enc_proxy_tests-' . uniqid() . '.txt';
+		$this->filename = 'enc_proxy_tests-' . $this->getUniqueID() . '.txt';
 
 	}
 
@@ -90,6 +92,8 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 		$view = new \OC\Files\View('/');
 		$view->rmdir('public-keys');
 		$view->rmdir('owncloud_private_key');
+
+		parent::tearDownAfterClass();
 	}
 
 	/**
