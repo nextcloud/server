@@ -731,12 +731,44 @@ label.infield {
 	margin-left: 1em;
 }
 
-tr .action:not(.permanent), .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; }
-tr:hover .action, tr .action.permanent, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; }
-tr .action { width:16px; height:16px; }
-.header-action { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-tr:hover .action:hover, .selectedActions a:hover, .header-action:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-tbody tr:hover, tr:active { background-color:#f8f8f8; }
+tr .action:not(.permanent),
+.selectedActions a {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	opacity: 0;
+}
+tr:hover .action,
+tr:focus .action,
+tr .action.permanent,
+.selectedActions a {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+tr .action {
+	width: 16px;
+	height: 16px;
+}
+.header-action {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	filter: alpha(opacity=80);
+	opacity: .8;
+}
+tr:hover .action:hover,
+tr:focus .action:focus,
+.selectedActions a:hover,
+.selectedActions a:focus,
+.header-action:hover,
+.header-action:focus {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+tbody tr:hover,
+tbody tr:focus,
+tbody tr:active {
+	background-color: #f8f8f8;
+}
 
 code { font-family:"Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", monospace; }
 

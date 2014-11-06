@@ -6,7 +6,11 @@
 .actions { padding:5px; height:32px; display: inline-block; float: left; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 .actions .button a { color: #555; }
-.actions .button a:hover, .actions .button a:active { color: #333; }
+.actions .button a:hover,
+.actions .button a:focus,
+.actions .button a:active {
+	color: #333;
+}
 .actions.hidden { display: none; }
 
 #new {
@@ -99,7 +103,9 @@
 }
 
 #filestable tbody tr { background-color:#fff; height:40px; }
-#filestable tbody tr:hover, tbody tr:active {
+#filestable tbody tr:hover,
+#filestable tbody tr:focus,
+#filestable tbody tr:active {
 	background-color: rgb(240,240,240);
 }
 #filestable tbody tr.selected {
@@ -123,7 +129,8 @@ span.extension {
 	transition: opacity 300ms;
 	vertical-align: top;
 }
-tr:hover span.extension {
+tr:hover span.extension,
+tr:focus span.extension {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
@@ -166,7 +173,8 @@ table th .sort-indicator {
 .sort-indicator.hidden {
 	visibility: hidden;
 }
-table th:hover .sort-indicator.hidden {
+table th:hover .sort-indicator.hidden,
+table th:focus .sort-indicator.hidden {
 	visibility: visible;
 }
 
@@ -252,8 +260,10 @@ table td.filename .nametext, .uploadtext, .modified, .column-last>span:first-chi
 	width: 90%;
 }
 /* ellipsize long modified dates to make room for showing delete button */
-#fileList tr:hover .modified, #fileList tr:hover .column-last>span:first-child,
-#fileList tr:focus .modified, #fileList tr:focus .column-last>span:first-child {
+#fileList tr:hover .modified,
+#fileList tr:focus .modified,
+#fileList tr:hover .column-last>span:first-child,
+#fileList tr:focus .column-last>span:first-child {
 	width: 75%;
 }
 
@@ -280,7 +290,8 @@ table td.filename .nametext .innernametext {
 		max-width: 760px;
 	}
 
-	table tr:hover td.filename .nametext .innernametext {
+	table tr:hover td.filename .nametext .innernametext,
+	table tr:focus td.filename .nametext .innernametext {
 		max-width: 480px;
 	}
 }
@@ -290,7 +301,8 @@ table td.filename .nametext .innernametext {
 		max-width: 600px;
 	}
 
-	table tr:hover td.filename .nametext .innernametext {
+	table tr:hover td.filename .nametext .innernametext,
+	table tr:focus td.filename .nametext .innernametext {
 		max-width: 320px;
 	}
 }
@@ -300,7 +312,8 @@ table td.filename .nametext .innernametext {
 		max-width: 400px;
 	}
 
-	table tr:hover td.filename .nametext .innernametext {
+	table tr:hover td.filename .nametext .innernametext,
+	table tr:focus td.filename .nametext .innernametext {
 		max-width: 120px;
 	}
 }
@@ -310,7 +323,8 @@ table td.filename .nametext .innernametext {
 		max-width: 320px;
 	}
 
-	table tr:hover td.filename .nametext .innernametext {
+	table tr:hover td.filename .nametext .innernametext,
+	table tr:focus td.filename .nametext .innernametext {
 		max-width: 40px;
 	}
 }
@@ -344,11 +358,13 @@ table td.filename .uploadtext {
 }
 /* Show checkbox when hovering, checked, or selected */
 #fileList tr:hover td.filename>input[type="checkbox"]:first-child,
+#fileList tr:focus td.filename>input[type="checkbox"]:first-child,
 #fileList tr td.filename>input[type="checkbox"]:checked:first-child,
 #fileList tr.selected td.filename>input[type="checkbox"]:first-child {
 	opacity: 1;
 }
 .lte9 #fileList tr:hover td.filename>input[type="checkbox"]:first-child,
+.lte9 #fileList tr:focus td.filename>input[type="checkbox"]:first-child,
 .lte9 #fileList tr td.filename>input[type="checkbox"][checked=checked]:first-child,
 .lte9 #fileList tr.selected td.filename>input[type="checkbox"]:first-child {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
@@ -469,13 +485,15 @@ a.action>img {
 	position: relative;
 	top: -21px;
 }
-#fileList tr:hover a.action, #fileList a.action.permanent {
+#fileList tr:hover a.action, #fileList a.action.permanent
+#fileList tr:focus a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
 	display:inline;
 }
-#fileList tr:hover a.action:hover {
+#fileList tr:hover a.action:hover,
+#fileList tr:focus a.action:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
@@ -489,7 +507,10 @@ a.action>img {
 	height: 70px;
 }
 
-.summary:hover, .summary, table tr.summary td {
+.summary:hover,
+.summary:focus,
+.summary,
+table tr.summary td {
 	background-color: transparent;
 }
 
