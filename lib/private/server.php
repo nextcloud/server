@@ -14,6 +14,7 @@ use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Security\Crypto;
+use OC\Security\Hasher;
 use OC\Security\SecureRandom;
 use OC\Diagnostics\NullEventLogger;
 use OCP\IServerContainer;
@@ -196,6 +197,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('Crypto', function (Server $c) {
 			return new Crypto($c->getConfig(), $c->getSecureRandom());
+		});
+		$this->registerService('Hasher', function (Server $c) {
+			return new Hasher($c->getConfig());
 		});
 		$this->registerService('DatabaseConnection', function (Server $c) {
 			$factory = new \OC\DB\ConnectionFactory();
@@ -527,6 +531,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getCrypto() {
 		return $this->query('Crypto');
+	}
+
+	/**
+	 * Returns a Hasher instance
+	 *
+	 * @return \OCP\Security\IHasher
+	 */
+	function getHasher() {
+		return $this->query('Hasher');
 	}
 
 	/**
