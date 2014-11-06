@@ -44,7 +44,7 @@
 				<div class="logo-icon svg"></div>
 			</a>
 			<a href="#" class="menutoggle">
-				<div class="header-appname">
+				<h1 class="header-appname">
 					<?php
 						if(OC_Util::getEditionString() === '') {
 							p(!empty($_['application'])?$_['application']: $l->t('Apps'));
@@ -52,7 +52,7 @@
 							print_unescaped($theme->getHTMLName());
 						}
 					?>
-				</div>
+				</h1>
 				<div class="icon-caret svg"></div>
 			</a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
