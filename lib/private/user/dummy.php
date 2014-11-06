@@ -26,9 +26,11 @@
  */
 class OC_User_Dummy extends OC_User_Backend {
 	private $users = array();
+	private $displayNames = array();
 
 	/**
 	 * Create a new user
+	 *
 	 * @param string $uid The username of the user to create
 	 * @param string $password The password of the new user
 	 * @return bool
@@ -47,6 +49,7 @@ class OC_User_Dummy extends OC_User_Backend {
 
 	/**
 	 * delete a user
+	 *
 	 * @param string $uid The username of the user to delete
 	 * @return bool
 	 *
@@ -63,6 +66,7 @@ class OC_User_Dummy extends OC_User_Backend {
 
 	/**
 	 * Set password
+	 *
 	 * @param string $uid The username
 	 * @param string $password The new password
 	 * @return bool
@@ -80,6 +84,7 @@ class OC_User_Dummy extends OC_User_Backend {
 
 	/**
 	 * Check if the password is correct
+	 *
 	 * @param string $uid The username
 	 * @param string $password The password
 	 * @return string
@@ -97,6 +102,7 @@ class OC_User_Dummy extends OC_User_Backend {
 
 	/**
 	 * Get a list of all users
+	 *
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -105,12 +111,12 @@ class OC_User_Dummy extends OC_User_Backend {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = null, $offset = null) {
-		if(empty($search)) {
+		if (empty($search)) {
 			return array_keys($this->users);
 		}
 		$result = array();
-		foreach(array_keys($this->users) as $user) {
-			if(stripos($user, $search) !== false) {
+		foreach (array_keys($this->users) as $user) {
+			if (stripos($user, $search) !== false) {
 				$result[] = $user;
 			}
 		}
@@ -119,6 +125,7 @@ class OC_User_Dummy extends OC_User_Backend {
 
 	/**
 	 * check if a user exists
+	 *
 	 * @param string $uid the username
 	 * @return boolean
 	 */
@@ -140,5 +147,13 @@ class OC_User_Dummy extends OC_User_Backend {
 	 */
 	public function countUsers() {
 		return 0;
+	}
+
+	public function setDisplayName($uid, $displayName) {
+		$this->displayNames[$uid] = $displayName;
+	}
+
+	public function getDisplayName($uid) {
+		return isset($this->displayNames[$uid])? $this->displayNames[$uid]: $uid;
 	}
 }
