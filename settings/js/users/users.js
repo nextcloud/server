@@ -46,7 +46,7 @@ var UserList = {
 
 		// make them look like the multiselect buttons
 		// until they get time to really get initialized
-		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>')
+		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'no group') + '"></select>')
 			.data('username', username)
 			.data('user-groups', groups);
 		if ($tr.find('td.subadmins').length > 0) {
