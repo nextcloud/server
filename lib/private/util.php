@@ -1257,9 +1257,10 @@ class OC_Util {
 	 * caller should fall back on clearing the entire cache
 	 * with clearOpcodeCache() if unsuccessful
 	 *
+	 * @param string $path the path of the file to clear from the cache
 	 * @return bool true if underlying function returns true, otherwise false
 	 */
-	public static function deleteFromOpcodeCache($path=NULL) {
+	public static function deleteFromOpcodeCache($path) {
 		$ret = false;
 		if ($path) {
 			// APC >= 3.1.1
