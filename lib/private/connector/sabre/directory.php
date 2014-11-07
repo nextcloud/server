@@ -51,29 +51,33 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 */
 	public function createFile($name, $data = null) {
 
-		// for chunked upload also updating a existing file is a "createFile"
-		// because we create all the chunks before re-assemble them to the existing file.
-		if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
+		try {
+			// for chunked upload also updating a existing file is a "createFile"
+			// because we create all the chunks before re-assemble them to the existing file.
+			if (isset($_SERVER['HTTP_OC_CHUNKED'])) {
 
-			// exit if we can't create a new file and we don't updatable existing file
-			$info = OC_FileChunking::decodeName($name);
-			if (!$this->fileView->isCreatable($this->path) &&
-					!$this->fileView->isUpdatable($this->path . '/' . $info['name'])) {
-				throw new \Sabre\DAV\Exception\Forbidden();
+				// exit if we can't create a new file and we don't updatable existing file
+				$info = OC_FileChunking::decodeName($name);
+				if (!$this->fileView->isCreatable($this->path) &&
+						!$this->fileView->isUpdatable($this->path . '/' . $info['name'])) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
+
+			} else {
+				// For non-chunked upload it is enough to check if we can create a new file
+				if (!$this->fileView->isCreatable($this->path)) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
 			}
 
-		} else {
-			// For non-chunked upload it is enough to check if we can create a new file
-			if (!$this->fileView->isCreatable($this->path)) {
-				throw new \Sabre\DAV\Exception\Forbidden();
-			}
+			$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
+			// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
+			$info = new \OC\Files\FileInfo($path, null, null, array());
+			$node = new OC_Connector_Sabre_File($this->fileView, $info);
+			return $node->put($data);
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
-
-		$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
-		// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
-		$info = new \OC\Files\FileInfo($path, null, null, array());
-		$node = new OC_Connector_Sabre_File($this->fileView, $info);
-		return $node->put($data);
 	}
 
 	/**
@@ -84,15 +88,18 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 * @return void
 	 */
 	public function createDirectory($name) {
-		if (!$this->fileView->isCreatable($this->path)) {
-			throw new \Sabre\DAV\Exception\Forbidden();
-		}
+		try {
+			if (!$this->fileView->isCreatable($this->path)) {
+				throw new \Sabre\DAV\Exception\Forbidden();
+			}
 
-		$newPath = $this->path . '/' . $name;
-		if(!$this->fileView->mkdir($newPath)) {
-			throw new \Sabre\DAV\Exception\Forbidden('Could not create directory '.$newPath);
+			$newPath = $this->path . '/' . $name;
+			if(!$this->fileView->mkdir($newPath)) {
+				throw new \Sabre\DAV\Exception\Forbidden('Could not create directory '.$newPath);
+			}
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
-
 	}
 
 	/**
@@ -104,10 +111,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	 * @return \Sabre\DAV\INode
 	 */
 	public function getChild($name, $info = null) {
-
 		$path = $this->path . '/' . $name;
 		if (is_null($info)) {
-			$info = $this->fileView->getFileInfo($path);
+			try {
+				$info = $this->fileView->getFileInfo($path);
+			} catch (\OCP\Files\StorageNotAvailableException $e) {
+				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			}
 		}
 
 		if (!$info) {
