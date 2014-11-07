@@ -30,6 +30,7 @@
  */
 
 namespace OCA\Encryption;
+use OCA\Encryption\Exceptions\EncryptionException;
 
 /**
  * Provides 'crypt://' stream wrapper protocol.
@@ -106,6 +107,10 @@ class Stream {
 		$this->session = new \OCA\Encryption\Session($this->rootView);
 
 		$this->privateKey = $this->session->getPrivateKey();
+		if ($this->privateKey === false) {
+			throw new EncryptionException('Session does not contain a private key, maybe your login password changed?',
+					EncryptionException::NO_PRIVATE_KEY_AVAILABLE);
+		}
 
 		$normalizedPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
 		if ($originalFile = Helper::getPathFromTmpFile($normalizedPath)) {

@@ -100,6 +100,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		} catch (\OCP\Files\LockNotAcquiredException $e) {
 			// the file is currently being written to by another process
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
+		} catch (\OCA\Encryption\Exceptions\EncryptionException $e) {
+			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 		}
 
 		// if content length is sent by client:
@@ -152,7 +154,11 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		if (\OC_Util::encryptedFiles()) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable();
 		} else {
-			return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			try {
+				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
+			} catch (\OCA\Encryption\Exceptions\EncryptionException $e) {
+				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
+			}
 		}
 
 	}

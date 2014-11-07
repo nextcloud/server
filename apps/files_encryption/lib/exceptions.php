@@ -30,8 +30,16 @@ namespace OCA\Encryption\Exceptions;
  * 30 - encryption header to large
  * 40 - unknown cipher
  * 50 - encryption failed
+ * 60 - no private key available
  */
 class EncryptionException extends \Exception {
+	const UNEXPECTED_END_OF_ENCRTYPTION_HEADER = 10;
+	const UNEXPECTED_BLOG_SIZE = 20;
+	const ENCRYPTION_HEADER_TO_LARGE = 30;
+	const UNKNOWN_CIPHER = 40;
+	const ENCRYPTION_FAILED = 50;
+	const NO_PRIVATE_KEY_AVAILABLE = 60;
+
 }
 
 /**

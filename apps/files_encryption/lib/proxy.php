@@ -95,8 +95,7 @@ class Proxy extends \OC_FileProxy {
 
 		// don't call the crypt stream wrapper, if...
 		if (
-				$session->getInitialized() !== Session::INIT_SUCCESSFUL // encryption successful initialized
-				|| Crypt::mode() !== 'server'   // we are not in server-side-encryption mode
+				Crypt::mode() !== 'server'   // we are not in server-side-encryption mode
 				|| $this->isExcludedPath($path, $userId) // if path is excluded from encryption
 				|| substr($path, 0, 8) === 'crypt://' // we are already in crypt mode
 		) {
