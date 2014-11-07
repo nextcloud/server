@@ -902,7 +902,7 @@ class View {
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
-			} else if ($watcher->checkUpdate($internalPath, $data)) {
+			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->checkUpdate($internalPath, $data)) {
 				$this->updater->propagate($path);
 				$data = $cache->get($internalPath);
 			}

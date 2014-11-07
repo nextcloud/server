@@ -637,13 +637,17 @@ class Stream {
 			$path = Helper::stripPartialFileExtension($this->rawPath);
 
 			$fileInfo = array(
+				'mimetype' => $this->rootView->getMimeType($this->rawPath),
 				'encrypted' => true,
-				'size' => $this->size,
 				'unencrypted_size' => $this->unencryptedSize,
 			);
 
-			// set fileinfo
-			$this->rootView->putFileInfo($path, $fileInfo);
+			// if we write a part file we also store the unencrypted size for
+			// the part file so that it can be re-used later
+			$this->rootView->putFileInfo($this->rawPath, $fileInfo);
+			if ($path !== $this->rawPath) {
+				$this->rootView->putFileInfo($path, $fileInfo);
+			}
 
 		}
 

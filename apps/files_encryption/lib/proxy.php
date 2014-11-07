@@ -345,8 +345,8 @@ class Proxy extends \OC_FileProxy {
 			return $size;
 		}
 
-		// get file info from database/cache if not .part file
-		if (empty($fileInfo) && !Helper::isPartialFilePath($path)) {
+		// get file info from database/cache
+		if (empty($fileInfo)) {
 			$proxyState = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
 			$fileInfo = $view->getFileInfo($path);
