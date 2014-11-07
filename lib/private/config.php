@@ -208,7 +208,7 @@ class Config {
 		fclose($filePointer);
 
 		// Try invalidating the opcache just for the file we wrote...
-		if (!\OC_Util::deleteFromOpcodeCache($this->configFilename)) {
+		if (!\OC_Util::deleteFromOpcodeCache($this->configFilePath)) {
 			// But if that doesn't work, clear the whole cache.
 			\OC_Util::clearOpcodeCache();
 		}
