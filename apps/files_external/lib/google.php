@@ -28,6 +28,7 @@ require_once 'Google/Service/Drive.php';
 
 class Google extends \OC\Files\Storage\Common {
 
+	private $client;
 	private $id;
 	private $service;
 	private $driveFiles;
