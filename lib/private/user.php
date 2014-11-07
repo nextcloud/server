@@ -229,6 +229,9 @@ class OC_User {
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login($uid, $password) {
+		$uid = str_replace("\0", '', $uid);
+		$password = str_replace("\0", '', $password);
+
 		session_regenerate_id(true);
 		return self::getUserSession()->login($uid, $password);
 	}
