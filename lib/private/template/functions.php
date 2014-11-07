@@ -29,7 +29,7 @@ function print_unescaped($string) {
  * @param string|string[] $file the filename,
  * if an array is given it will add all scripts
  */
-function script($app, $file) {
+function script($app, $file = null) {
 	if(is_array($file)) {
 		foreach($file as $f) {
 			OC_Util::addScript($app, $f);
@@ -61,7 +61,7 @@ function vendor_script($app, $file = null) {
  * @param string|string[] $file the filename,
  * if an array is given it will add all styles
  */
-function style($app, $file) {
+function style($app, $file = null) {
 	if(is_array($file)) {
 		foreach($file as $f) {
 			OC_Util::addStyle($app, $f);
