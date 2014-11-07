@@ -247,6 +247,9 @@ class OC_User {
 	 * Log in a user and regenerate a new session - if the password is ok
 	 */
 	public static function login( $uid, $password ) {
+		$uid = str_replace("\0", '', $uid);
+		$password = str_replace("\0", '', $password);
+
 		$run = true;
 		OC_Hook::emit( "OC_User", "pre_login", array( "run" => &$run, "uid" => $uid ));
 
