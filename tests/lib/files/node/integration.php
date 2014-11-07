@@ -14,7 +14,7 @@ use OC\Files\Storage\Temporary;
 use OC\Files\View;
 use OC\User\User;
 
-class IntegrationTests extends \PHPUnit_Framework_TestCase {
+class IntegrationTests extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Node\Root $root
 	 */
@@ -65,7 +65,6 @@ class IntegrationTests extends \PHPUnit_Framework_TestCase {
 			$storage->getCache()->clear();
 		}
 		\OC\Files\Filesystem::clearMounts();
-
 		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 
 		parent::tearDown();

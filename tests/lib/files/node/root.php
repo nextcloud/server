@@ -11,10 +11,11 @@ namespace Test\Files\Node;
 use OCP\Files\NotPermittedException;
 use OC\Files\Mount\Manager;
 
-class Root extends \PHPUnit_Framework_TestCase {
+class Root extends \Test\TestCase {
 	private $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->user = new \OC\User\User('', new \OC_User_Dummy);
 	}
 

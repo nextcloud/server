@@ -16,13 +16,14 @@ class LongId extends Temporary {
 	}
 }
 
-class Manager extends \PHPUnit_Framework_TestCase {
+class Manager extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Mount\Manager
 	 */
 	private $manager;
 
-	public function setup() {
+	protected function setup() {
+		parent::setUp();
 		$this->manager = new \OC\Files\Mount\Manager();
 	}
 

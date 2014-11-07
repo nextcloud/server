@@ -11,7 +11,7 @@ use OCA\Files;
 /**
  * Class Test_Files_Helper
  */
-class Test_Files_Helper extends \PHPUnit_Framework_TestCase {
+class Test_Files_Helper extends \Test\TestCase {
 
 	private function makeFileInfo($name, $size, $mtime, $isDir = false) {
 		return new \OC\Files\FileInfo(
@@ -90,7 +90,7 @@ class Test_Files_Helper extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(
 			$expectedOrder,
 			$fileNames
-		);	
+		);
 	}
 
 }

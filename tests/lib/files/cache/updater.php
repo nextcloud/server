@@ -12,7 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 
-class Updater extends \PHPUnit_Framework_TestCase {
+class Updater extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage
 	 */
@@ -40,6 +40,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		parent::setUp();
 
 		$this->originalStorage = Filesystem::getStorage('/');
+
 		$this->storage = new Temporary(array());
 		Filesystem::clearMounts();
 		Filesystem::mount($this->storage, array(), '/');

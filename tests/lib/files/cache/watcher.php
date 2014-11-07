@@ -8,7 +8,7 @@
 
 namespace Test\Files\Cache;
 
-class Watcher extends \PHPUnit_Framework_TestCase {
+class Watcher extends \Test\TestCase {
 
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages

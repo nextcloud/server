@@ -8,10 +8,11 @@
 
 namespace Test\Files\Node;
 
-class Node extends \PHPUnit_Framework_TestCase {
+class Node extends \Test\TestCase {
 	private $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->user = new \OC\User\User('', new \OC_User_Dummy);
 	}
 
