@@ -8,7 +8,6 @@ OC.L10N.register(
     "Password successfully changed." : "密码修改成功。",
     "Could not change the password. Maybe the old password was not correct." : "不能修改密码。旧密码可能不正确。",
     "Private key password successfully updated." : "私钥密码成功更新。",
-    "Could not update the private key password. Maybe the old password was not correct." : "无法更新私钥密码。可能旧密码不正确。",
     "File recovery settings updated" : "文件恢复设置已更新",
     "Could not update file recovery" : "不能更新文件恢复",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "加密应用还没有初始化！可能加密应用在你会话期间已被重新启用。请注销并重新登录，以初始化加密应用。",

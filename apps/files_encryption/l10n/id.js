@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Sandi berhasil diubah",
     "Could not change the password. Maybe the old password was not correct." : "Tidak dapat mengubah sandi. Kemungkinan sandi lama yang dimasukkan salah.",
     "Private key password successfully updated." : "Sandi kunci privat berhasil diperbarui.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Tidak dapat memperbarui sandi kunci privat. Kemungkinan sandi lama yang Anda masukkan salah.",
     "File recovery settings updated" : "Pengaturan pemulihan berkas diperbarui",
     "Could not update file recovery" : "Tidak dapat memperbarui pemulihan berkas",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Aplikasi enkripsi tidak dimulai! Kemungkinan aplikasi enkripsi telah diaktifkan ulang saat sesi Anda. Silakan coba untuk keluar dan kembali lagi untuk memulai aplikasi enkripsi.",

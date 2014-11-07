@@ -12,7 +12,6 @@
     "Password successfully changed." : "Parool edukalt vahetatud.",
     "Could not change the password. Maybe the old password was not correct." : "Ei suutnud vahetada parooli. Võib-olla on vana parool valesti sisestatud.",
     "Private key password successfully updated." : "Privaatse võtme parool edukalt uuendatud.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Ei suutnud uuendada privaatse võtme parooli. Võib-olla polnud vana parool õige.",
     "File recovery settings updated" : "Faili taaste seaded uuendatud",
     "Could not update file recovery" : "Ei suuda uuendada taastefaili",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Krüpteerimise rakend pole käivitatud. Võib-olla krüpteerimise rakend taaskäivitati sinu sessiooni kestel. Palun proovi logida välja ning uuesti sisse käivitamaks krüpteerimise rakendit.",

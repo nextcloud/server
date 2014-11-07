@@ -7,7 +7,6 @@
     "Password successfully changed." : "Zmiana hasła udana.",
     "Could not change the password. Maybe the old password was not correct." : "Nie można zmienić hasła. Może stare hasło nie było poprawne.",
     "Private key password successfully updated." : "Pomyślnie zaktualizowano hasło klucza prywatnego.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Nie można zmienić prywatnego hasła. Może stare hasło nie było poprawne.",
     "File recovery settings updated" : "Ustawienia odzyskiwania plików zmienione",
     "Could not update file recovery" : "Nie można zmienić pliku odzyskiwania",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Szyfrowanie aplikacja nie została zainicjowane! Może szyfrowanie aplikacji zostało ponownie włączone podczas tej sesji. Spróbuj się wylogować i zalogować ponownie aby zainicjować szyfrowanie aplikacji.",

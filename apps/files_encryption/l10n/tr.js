@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Parola başarıyla değiştirildi.",
     "Could not change the password. Maybe the old password was not correct." : "Parola değiştirilemedi. Eski parolanız doğru olmayabilir.",
     "Private key password successfully updated." : "Özel anahtar parolası başarıyla güncellendi.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Özel anahtar parolası güncellenemedi. Eski parola hatalı olabilir.",
     "File recovery settings updated" : "Dosya kurtarma ayarları güncellendi",
     "Could not update file recovery" : "Dosya kurtarma güncellenemedi",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Şifreleme uygulaması başlatılamadı! Oturumunuz sırasında şifreleme uygulaması tekrar etkinleştirilmiş olabilir. Lütfen şifreleme uygulamasını başlatmak için oturumu kapatıp yeniden oturum açmayı deneyin.",

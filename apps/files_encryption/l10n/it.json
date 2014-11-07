@@ -12,7 +12,6 @@
     "Password successfully changed." : "Password modificata correttamente.",
     "Could not change the password. Maybe the old password was not correct." : "Impossibile cambiare la password. Forse la vecchia password non era corretta.",
     "Private key password successfully updated." : "Password della chiave privata aggiornata correttamente.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Impossibile aggiornare la password della chiave privata. Forse la vecchia password non era corretta.",
     "File recovery settings updated" : "Impostazioni di ripristino dei file aggiornate",
     "Could not update file recovery" : "Impossibile aggiornare il ripristino dei file",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Applicazione di cifratura non inizializzata. Forse l'applicazione è stata riabilitata durante la tua sessione. Prova a disconnetterti e ad effettuare nuovamente l'accesso per inizializzarla.",

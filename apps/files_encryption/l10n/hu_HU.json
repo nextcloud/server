@@ -6,7 +6,6 @@
     "Password successfully changed." : "A jelszót sikeresen megváltoztattuk.",
     "Could not change the password. Maybe the old password was not correct." : "A jelszót nem lehet megváltoztatni! Lehet, hogy hibás volt a régi jelszó.",
     "Private key password successfully updated." : "A személyes kulcsának jelszava frissítésre került.",
-    "Could not update the private key password. Maybe the old password was not correct." : "A személyes kulcsa jelszavát nem lehetett frissíteni. Lehet, hogy hibás volt a régi jelszó.",
     "File recovery settings updated" : "A fájlhelyreállítási beállítások frissültek",
     "Could not update file recovery" : "A fájlhelyreállítás nem frissíthető",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "A titkosítási modul nincs elindítva! Talán a munkafolyamat közben került engedélyezésre. Kérjük jelentkezzen ki majd ismét jelentkezzen be, hogy a titkosítási modul megfelelően elinduljon!",

@@ -12,7 +12,6 @@
     "Password successfully changed." : "Pasahitza behar bezala aldatu da.",
     "Could not change the password. Maybe the old password was not correct." : "Ezin izan da pasahitza aldatu. Agian pasahitz zaharra okerrekoa da.",
     "Private key password successfully updated." : "Gako pasahitz pribatu behar bezala eguneratu da.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Ezin izan da gako pribatu pasahitza eguneratu. Agian pasahitz zaharra okerrekoa da.",
     "File recovery settings updated" : "Fitxategi berreskuratze ezarpenak eguneratuak",
     "Could not update file recovery" : "Ezin da fitxategi berreskuratzea eguneratu",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Enkriptazio aplikazioa ez dago hasieratuta! Agian aplikazioa birgaitu egin da zure saioa bitartean. Mesdez atear eta sartu berriz enkriptazio aplikazioa hasierarazteko.",

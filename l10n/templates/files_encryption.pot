@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-11-06 01:54-0500\n"
+"POT-Creation-Date: 2014-11-07 01:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,14 +68,20 @@ msgstr ""
 msgid "Could not change the password. Maybe the old password was not correct."
 msgstr ""
 
-#: ajax/updatePrivateKeyPassword.php:52
-msgid "Private key password successfully updated."
+#: ajax/updatePrivateKeyPassword.php:21
+msgid "Could not update the private key password."
 msgstr ""
 
-#: ajax/updatePrivateKeyPassword.php:54
-msgid ""
-"Could not update the private key password. Maybe the old password was not "
-"correct."
+#: ajax/updatePrivateKeyPassword.php:53
+msgid "The old password was not correct, please try again."
+msgstr ""
+
+#: ajax/updatePrivateKeyPassword.php:60
+msgid "The current log-in password was not correct, please try again."
+msgstr ""
+
+#: ajax/updatePrivateKeyPassword.php:66
+msgid "Private key password successfully updated."
 msgstr ""
 
 #: ajax/userrecovery.php:44

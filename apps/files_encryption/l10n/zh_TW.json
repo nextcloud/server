@@ -6,7 +6,6 @@
     "Password successfully changed." : "成功變更密碼。",
     "Could not change the password. Maybe the old password was not correct." : "無法變更密碼，或許是輸入的舊密碼不正確。",
     "Private key password successfully updated." : "私人金鑰密碼已成功更新。",
-    "Could not update the private key password. Maybe the old password was not correct." : "無法更新私人金鑰密碼。可能舊的密碼不正確。",
     "File recovery settings updated" : "檔案還原設定已更新",
     "Could not update file recovery" : "無法更新檔案還原設定",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "加密功能未初始化!可能加密功能需要重新啟用在現在的連線上。請試著登出再登入來初始化加密功能。",

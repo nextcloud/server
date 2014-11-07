@@ -33,6 +33,9 @@ OC.L10N.register(
     "Add to your ownCloud" : "Agregue su propio ownCloud",
     "Download" : "Descargar",
     "Download %s" : "Descargar %s",
-    "Direct link" : "Enlace directo"
+    "Direct link" : "Enlace directo",
+    "Server-to-Server Sharing" : "Compartir Servidor-a-Servidor",
+    "Allow users on this server to send shares to other servers" : "Permitir a usuarios de este servidor compartir con usuarios de otros servidores",
+    "Allow users on this server to receive shares from other servers" : "Permitir a usuarios de este servidor recibir archivos de usuarios de otros servidores"
 },
 "nplurals=2; plural=(n != 1);");

@@ -6,7 +6,6 @@
     "Password successfully changed." : "Passordet ble endret.",
     "Could not change the password. Maybe the old password was not correct." : "Klarte ikke å endre passordet. Kanskje gammelt passord ikke var korrekt.",
     "Private key password successfully updated." : "Passord for privat nøkkel ble oppdatert.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Klarte ikke å oppdatere passord for privat nøkkel. Kanskje gammelt passord ikke var korrekt.",
     "File recovery settings updated" : "Innstillinger for gjenoppretting av filer ble oppdatert",
     "Could not update file recovery" : "Klarte ikke å oppdatere gjenoppretting av filer",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Krypterings-app ikke initialisert! Kanskje krypterings-appen ble aktivert på nytt i løpet av økten din. Prøv å logge ut og logge inn igjen for å initialisere krypterings-appen.",

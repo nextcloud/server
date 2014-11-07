@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Ο κωδικός αλλάχτηκε επιτυχώς.",
     "Could not change the password. Maybe the old password was not correct." : "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός.",
     "Private key password successfully updated." : "Το Προσωπικό κλειδί πρόσβασης ενημερώθηκε επιτυχώς",
-    "Could not update the private key password. Maybe the old password was not correct." : "Αποτυχία ενημέρωσης του κωδικού για το προσωπικό κλειδί. Ενδεχομένως ο παλιός κωδικός δεν ήταν σωστός.",
     "File recovery settings updated" : "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν",
     "Could not update file recovery" : "Αποτυχία ενημέρωσης ανάκτησης αρχείων",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Η εφαρμογή κρυπτογράφησης δεν έχει εκκινήσει! Ίσως η εφαρμογή κρυπτογράφησης επανενεργοποιήθηκε κατά τη διάρκεια της τρέχουσας σύνδεσής σας. Παρακαλώ προσπαθήστε να αποσυνδεθείτε και να ξανασυνδεθείτε για να εκκινήσετε την εφαρμογή κρυπτογράφησης.",

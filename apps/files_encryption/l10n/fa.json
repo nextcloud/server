@@ -6,7 +6,6 @@
     "Password successfully changed." : "رمزعبور با موفقیت تغییر یافت.",
     "Could not change the password. Maybe the old password was not correct." : "رمزعبور را نمیتواند تغییر دهد. شاید رمزعبورقدیمی صحیح نمی باشد.",
     "Private key password successfully updated." : "رمزعبور کلید خصوصی با موفقیت به روز شد.",
-    "Could not update the private key password. Maybe the old password was not correct." : "رمزعبور کلید خصوصی را نمی تواند به روز کند. شاید رمزعبور قدیمی صحیح نمی باشد.",
     "File recovery settings updated" : "تنظیمات بازیابی فایل به روز شده است.",
     "Could not update file recovery" : "به روز رسانی بازیابی فایل را نمی تواند انجام دهد.",
     "Missing requirements." : "نیازمندی های گمشده",

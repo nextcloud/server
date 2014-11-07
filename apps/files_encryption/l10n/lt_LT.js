@@ -8,7 +8,6 @@ OC.L10N.register(
     "Password successfully changed." : "Slaptažodis sėkmingai pakeistas",
     "Could not change the password. Maybe the old password was not correct." : "Slaptažodis nebuvo pakeistas. Gali būti, kad buvo neteisingai suvestas senasis.",
     "Private key password successfully updated." : "Privataus rakto slaptažodis buvo sėkmingai atnaujintas.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Nepavyko atnaujinti privataus rakto slaptažodžio. Gali būti, kad buvo neteisingai suvestas senasis.",
     "File recovery settings updated" : "Failų atkūrimo nustatymai pakeisti",
     "Could not update file recovery" : "Neišėjo atnaujinti failų atkūrimo",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Šifravimo programa nepaleista! Galbūt šifravimo programa buvo įjungta dar kartą Jūsų sesijos metu. Prašome atsijungti ir vėl prisijungti, kad paleisti šifravimo programą.",

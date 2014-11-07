@@ -12,7 +12,6 @@
     "Password successfully changed." : "Heslo bylo úspěšně změněno.",
     "Could not change the password. Maybe the old password was not correct." : "Změna hesla se nezdařila. Pravděpodobně nebylo stávající heslo zadáno správně.",
     "Private key password successfully updated." : "Heslo soukromého klíče úspěšně aktualizováno.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Nelze aktualizovat heslo soukromého klíče. Možná nebylo staré heslo správně.",
     "File recovery settings updated" : "Možnosti záchrany souborů aktualizovány",
     "Could not update file recovery" : "Nelze nastavit záchranu souborů",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Aplikace pro šifrování není inicializována! Je možné, že aplikace byla znovu aktivována během vašeho přihlášení. Zkuste se prosím odhlásit a znovu přihlásit pro provedení inicializace šifrovací aplikace.",

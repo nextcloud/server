@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "パスワードを変更できました。",
     "Could not change the password. Maybe the old password was not correct." : "パスワードを変更できませんでした。古いパスワードが間違っているかもしれません。",
     "Private key password successfully updated." : "秘密鍵のパスワードが正常に更新されました。",
-    "Could not update the private key password. Maybe the old password was not correct." : "秘密鍵のパスワードを更新できませんでした。古いパスワードが正確でない場合があります。",
     "File recovery settings updated" : "ファイルリカバリ設定を更新しました",
     "Could not update file recovery" : "ファイルリカバリを更新できませんでした",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "セッション中に暗号化アプリを再度有効にされたため、暗号化アプリが初期化されていません。暗号化アプリを初期化するため、ログアウトしてログインしなおしてください。",

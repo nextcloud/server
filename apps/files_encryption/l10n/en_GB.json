@@ -12,7 +12,6 @@
     "Password successfully changed." : "Password changed successfully.",
     "Could not change the password. Maybe the old password was not correct." : "Could not change the password. Maybe the old password was incorrect.",
     "Private key password successfully updated." : "Private key password updated successfully.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Could not update the private key password. Maybe the old password was not correct.",
     "File recovery settings updated" : "File recovery settings updated",
     "Could not update file recovery" : "Could not update file recovery",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Encryption app not initialised! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialise the encryption app.",

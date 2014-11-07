@@ -6,7 +6,6 @@
     "Password successfully changed." : "Heslo úspešne zmenené.",
     "Could not change the password. Maybe the old password was not correct." : "Nemožno zmeniť heslo. Pravdepodobne nebolo staré heslo zadané správne.",
     "Private key password successfully updated." : "Heslo súkromného kľúča je úspešne aktualizované.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Nemožno aktualizovať heslo súkromného kľúča. Možno nebolo staré heslo správne.",
     "File recovery settings updated" : "Nastavenie obnovy súborov aktualizované",
     "Could not update file recovery" : "Nemožno aktualizovať obnovenie súborov",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Šifrovacia aplikácia nie je inicializovaná. Je možné, že aplikácia bola znova aktivovaná počas vášho prihlasovania. Pokúste sa odhlásiť a znova prihlásiť pre inicializáciu šifrovania.",

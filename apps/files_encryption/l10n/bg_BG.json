@@ -12,7 +12,6 @@
     "Password successfully changed." : "Паролата е успешно променена.",
     "Could not change the password. Maybe the old password was not correct." : "Грешка при промяна на паролата. Може би старата ти парола е сгрешена.",
     "Private key password successfully updated." : "Успешно променена тайната парола за ключа.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Неуспешна промяна на тайната парола за ключа. Може би старата парола е грешно въведена.",
     "File recovery settings updated" : "Настройките за възстановяване на файлове са променени.",
     "Could not update file recovery" : "Неуспешна промяна на настройките за възстановяване на файлове.",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Неуспешна инициализация на криптиращото приложение! Може би криптиращото приложение бе включено по време на твоята сесия. Отпиши се и се впиши обратно за да инциализираш криптиращото приложение.",

@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Wachtwoord succesvol gewijzigd.",
     "Could not change the password. Maybe the old password was not correct." : "Kon wachtwoord niet wijzigen. Wellicht oude wachtwoord niet juist ingevoerd.",
     "Private key password successfully updated." : "Privésleutel succesvol bijgewerkt.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Kon het wachtwoord van de privésleutel niet wijzigen. Misschien was het oude wachtwoord onjuist.",
     "File recovery settings updated" : "Bestandsherstel instellingen bijgewerkt",
     "Could not update file recovery" : "Kon bestandsherstel niet bijwerken",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Crypto app niet geïnitialiseerd. Misschien werd de crypto app geheractiveerd tijdens de sessie. Log uit en log daarna opnieuw in om de crypto app te initialiseren.",

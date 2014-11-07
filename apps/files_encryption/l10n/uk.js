@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Пароль змінено.",
     "Could not change the password. Maybe the old password was not correct." : "Не вдалося змінити пароль. Можливо ви неправильно ввели старий пароль.",
     "Private key password successfully updated." : "Пароль секретного ключа оновлено.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Не вдалося оновити пароль секретного ключа. Можливо ви не правильно ввели старий пароль.",
     "File recovery settings updated" : "Налаштування файла відновлення оновлено",
     "Could not update file recovery" : "Не вдалося оновити файл відновлення ",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Додаток шифрувння не ініціалізовано! Можливо цей додаток редагувався під час вашої сесії. Будь ласка, спробуйте вийти і зайти знову щоб проініціалізувати додаток шифрування.",

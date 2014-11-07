@@ -8,7 +8,6 @@ OC.L10N.register(
     "Password successfully changed." : "تم تغيير كلمة المرور بنجاح.",
     "Could not change the password. Maybe the old password was not correct." : "تعذر تغيير كلمة المرور. من الممكن ان كلمة المرور القديمة غير صحيحة.",
     "Private key password successfully updated." : "تم تحديث كلمة المرور للمفتاح الخاص بنجاح.",
-    "Could not update the private key password. Maybe the old password was not correct." : "لا يمكن تحديث كلمة مرور المفتاح الخاص. من الممكن ان كلمة المرور القديمة غير صحيحة.",
     "File recovery settings updated" : "اعدادات ملف الاستعادة تم تحديثه",
     "Could not update file recovery" : "تعذر تحديث ملف الاستعادة",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "برنامج التشفير لم يتم تهيئتة ! من الممكن ان برنامج التشفير تم اعادة تفعيلة خلال الجلسة. يرجى تسجيل الخروج ومن ثم تسجيل الدخول مجددا لتهيئة برنامج التشفير.",

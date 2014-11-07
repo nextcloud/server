@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Пароль изменен удачно.",
     "Could not change the password. Maybe the old password was not correct." : "Невозможно изменить пароль. Возможно старый пароль не был верен.",
     "Private key password successfully updated." : "Пароль секретного ключа успешно обновлён.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Невозможно обновить пароль от секретного ключа. Возможно, старый пароль указан неверно.",
     "File recovery settings updated" : "Настройки файла восстановления обновлены",
     "Could not update file recovery" : "Невозможно обновить файл восстановления",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Приложение шифрации не инициализированно! Возможно приложение шифрации было реактивировано во время вашей сессии. Пожалуйста, попробуйте выйти и войти снова чтобы проинициализировать приложение шифрации.",

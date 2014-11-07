@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "Senha alterada com sucesso.",
     "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Possivelmente a senha antiga não está correta.",
     "Private key password successfully updated." : "A senha da chave privada foi atualizada com sucesso. ",
-    "Could not update the private key password. Maybe the old password was not correct." : "Não foi possível atualizar a senha da chave privada. A senha antiga poderia não estar correta.",
     "File recovery settings updated" : "As definições da recuperação de ficheiro foram atualizadas",
     "Could not update file recovery" : "Não foi possível atualizar a recuperação de ficheiro",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "A app de encriptação não foi inicializada! A app de encriptação poderá ter sido reativada durante a sua sessão. Por favor, tente terminar a sessão e iniciá-la de seguida para inicializar a app de encriptação.",

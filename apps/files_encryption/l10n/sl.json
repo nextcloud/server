@@ -12,7 +12,6 @@
     "Password successfully changed." : "Geslo je uspešno spremenjeno.",
     "Could not change the password. Maybe the old password was not correct." : "Gesla ni mogoče spremeniti. Morda vnos starega gesla ni pravilen.",
     "Private key password successfully updated." : "Zasebni ključ za geslo je uspešno posodobljen.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Zasebnega ključa za geslo ni mogoče posodobiti. Morda vnos starega gesla ni bil pravilen.",
     "File recovery settings updated" : "Nastavitve obnavljanja dokumentov so posodobljene",
     "Could not update file recovery" : "Nastavitev za obnavljanje dokumentov ni mogoče posodobiti",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Program za šifriranje ni začet. Morda je bil program ponovno omogočen šele med zagonom trenutne seje. Odjavite se in se nato prijavite nazaj. S tem morda razrešite napako.",

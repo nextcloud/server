@@ -6,7 +6,6 @@
     "Password successfully changed." : "Tu contraseña fue cambiada",
     "Could not change the password. Maybe the old password was not correct." : "No se pudo cambiar la contraseña. Comprobá que la contraseña actual sea correcta.",
     "Private key password successfully updated." : "Contraseña de clave privada actualizada con éxito.",
-    "Could not update the private key password. Maybe the old password was not correct." : "No fue posible actualizar la contraseña de clave privada. Tal vez la contraseña anterior no es correcta.",
     "File recovery settings updated" : "Las opciones de recuperación de archivos fueron actualizadas",
     "Could not update file recovery" : "No fue posible actualizar la recuperación de archivos",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "¡La aplicación de encriptación no está inicializada! Es probable que la aplicación fue re-habilitada durante tu sesión. Intenta salir y iniciar sesión para volverla a iniciar.",

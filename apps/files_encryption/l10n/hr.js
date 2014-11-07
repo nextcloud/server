@@ -8,7 +8,6 @@ OC.L10N.register(
     "Password successfully changed." : "Lozinka uspješno promijenjena.",
     "Could not change the password. Maybe the old password was not correct." : "Lozinku nije moguće promijeniti. Možda je stara lozinka bila neispravna.",
     "Private key password successfully updated." : "Lozinka privatnog ključa uspješno ažurirana.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Lozinku privatnog ključa nije moguće promijeniti. Možda stara je stara lozinka bila neispravna.",
     "File recovery settings updated" : "Ažurirane postavke za oporavak datoteke",
     "Could not update file recovery" : "Oporavak datoteke nije moguće ažurirati",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Aplikacija šifriranja nije inicijalizirana! Možda je aplikacija šifriranja bila reaktivirana tijekom vaše sesije.Da biste inicijalizirali aplikaciju šifriranja, molimo, pokušajte se odjaviti i ponovno prijaviti.",

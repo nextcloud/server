@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-11-06 01:54-0500\n"
+"POT-Creation-Date: 2014-11-07 01:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -40,11 +40,11 @@ msgid ""
 "config directory%s."
 msgstr ""
 
-#: base.php:592
+#: base.php:593
 msgid "Sample configuration detected"
 msgstr ""
 
-#: base.php:593
+#: base.php:594
 msgid ""
 "It has been detected that the sample configuration has been copied. This can "
 "break your installation and is unsupported. Please read the documentation "
@@ -455,21 +455,21 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: private/user/manager.php:244
+#: private/user/manager.php:230
 msgid ""
 "Only the following characters are allowed in a username: \"a-z\", \"A-Z\", "
 "\"0-9\", and \"_.@-\""
 msgstr ""
 
-#: private/user/manager.php:249
+#: private/user/manager.php:235
 msgid "A valid username must be provided"
 msgstr ""
 
-#: private/user/manager.php:253
+#: private/user/manager.php:239
 msgid "A valid password must be provided"
 msgstr ""
 
-#: private/user/manager.php:258
+#: private/user/manager.php:244
 msgid "The username is already being used"
 msgstr ""
 

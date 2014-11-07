@@ -31,6 +31,9 @@
     "Add to your ownCloud" : "Přidat do svého ownCloudu",
     "Download" : "Stáhnout",
     "Download %s" : "Stáhnout %s",
-    "Direct link" : "Přímý odkaz"
+    "Direct link" : "Přímý odkaz",
+    "Server-to-Server Sharing" : "Sdílení mezi servery",
+    "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
+    "Allow users on this server to receive shares from other servers" : "Povolit uživatelům z tohoto serveru přijímat sdílení z jiných serverů"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

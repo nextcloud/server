@@ -8,6 +8,7 @@
     "Settings" : "Axustes",
     "Users" : "Usuarios",
     "Admin" : "Administración",
+    "Recommended" : "Recomendado",
     "App \\\"%s\\\" can't be installed because it is not compatible with this version of ownCloud." : "Non é posíbel instalar a aplicación «%s» por non seren compatíbel con esta versión do ownCloud.",
     "No app name specified" : "Non se especificou o nome da aplicación",
     "Unknown filetype" : "Tipo de ficheiro descoñecido",

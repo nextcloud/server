@@ -14,7 +14,6 @@ OC.L10N.register(
     "Password successfully changed." : "O contrasinal foi cambiado satisfactoriamente",
     "Could not change the password. Maybe the old password was not correct." : "Non foi posíbel cambiar o contrasinal. Probabelmente o contrasinal antigo non é o  correcto.",
     "Private key password successfully updated." : "A chave privada foi actualizada correctamente.",
-    "Could not update the private key password. Maybe the old password was not correct." : "Non foi posíbel actualizar o contrasinal da chave privada. É probábel que o contrasinal antigo non sexa correcto.",
     "File recovery settings updated" : "Actualizouse o ficheiro de axustes de recuperación",
     "Could not update file recovery" : "Non foi posíbel actualizar o ficheiro de recuperación",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "Non se iniciou a aplicación de cifrado! Quizais volva a activarse durante a sesión. Tente pechar a sesión e volver iniciala para que tamén se inicie a aplicación de cifrado.",

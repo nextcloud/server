@@ -6,7 +6,6 @@
     "Password successfully changed." : "La contrasenya s'ha canviat.",
     "Could not change the password. Maybe the old password was not correct." : "No s'ha pogut canviar la contrasenya. Potser la contrasenya anterior no era correcta.",
     "Private key password successfully updated." : "La contrasenya de la clau privada s'ha actualitzat.",
-    "Could not update the private key password. Maybe the old password was not correct." : "No s'ha pogut actualitzar la contrasenya de la clau privada. Potser la contrasenya anterior no era correcta.",
     "File recovery settings updated" : "S'han  actualitzat els arranjaments de recuperació de fitxers",
     "Could not update file recovery" : "No s'ha pogut actualitzar la recuperació de fitxers",
     "Encryption app not initialized! Maybe the encryption app was re-enabled during your session. Please try to log out and log back in to initialize the encryption app." : "L'aplicació d'encriptació  no està inicialitzada! Potser l'aplicació d'encriptació ha estat reiniciada durant la sessió. Intenteu sortir i acreditar-vos de nou per reinicialitzar l'aplicació d'encriptació.",
