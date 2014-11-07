@@ -8,7 +8,7 @@
 
 use \OC\Security\CertificateManager;
 
-class CertificateManagerTest extends \PHPUnit_Framework_TestCase {
+class CertificateManagerTest extends \Test\TestCase {
 
 	/** @var CertificateManager */
 	private $certificateManager;
@@ -18,8 +18,8 @@ class CertificateManagerTest extends \PHPUnit_Framework_TestCase {
 	private $user;
 
 	function setUp() {
-		$this->username = OC_Util::generateRandomBytes(20);
-		OC_User::createUser($this->username, OC_Util::generateRandomBytes(20));
+		$this->username = $this->getUniqueID('', 20);
+		OC_User::createUser($this->username, $this->getUniqueID('', 20));
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
