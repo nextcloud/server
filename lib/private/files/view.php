@@ -903,6 +903,7 @@ class View {
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
 			} else if ($watcher->checkUpdate($internalPath, $data)) {
+				$this->updater->propagate($path);
 				$data = $cache->get($internalPath);
 			}
 
@@ -974,6 +975,7 @@ class View {
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 				$data = $cache->get($internalPath);
 			} else if ($watcher->checkUpdate($internalPath, $data)) {
+				$this->updater->propagate($path);
 				$data = $cache->get($internalPath);
 			}
 
