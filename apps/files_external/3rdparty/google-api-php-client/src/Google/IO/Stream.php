@@ -25,8 +25,11 @@ require_once 'Google/IO/Abstract.php';
 
 class Google_IO_Stream extends Google_IO_Abstract
 {
+  const TIMEOUT = "timeout";
   const ZLIB = "compress.zlib://";
-  private static $ENTITY_HTTP_METHODS = array("POST" => null, "PUT" => null);
+  private $options = array();
+  private $trappedErrorNumber;
+  private $trappedErrorString;
 
   private static $DEFAULT_HTTP_CONTEXT = array(
     "follow_location" => 0,
@@ -45,26 +48,12 @@ class Google_IO_Stream extends Google_IO_Abstract
    * response headers and response body filled in
    * @throws Google_IO_Exception on curl or IO error
    */
-  public function makeRequest(Google_Http_Request $request)
+  public function executeRequest(Google_Http_Request $request)
   {
-    // First, check to see if we have a valid cached version.
-    $cached = $this->getCachedRequest($request);
-    if ($cached !== false) {
-      if (!$this->checkMustRevalidateCachedRequest($cached, $request)) {
-        return $cached;
-      }
-    }
-
     $default_options = stream_context_get_options(stream_context_get_default());
 
     $requestHttpContext = array_key_exists('http', $default_options) ?
         $default_options['http'] : array();
-    if (array_key_exists(
-        $request->getRequestMethod(),
-        self::$ENTITY_HTTP_METHODS
-    )) {
-      $request = $this->processEntityRequest($request);
-    }
 
     if ($request->getPostBody()) {
       $requestHttpContext["content"] = $request->getPostBody();
@@ -101,43 +90,60 @@ class Google_IO_Stream extends Google_IO_Abstract
     );
 
     $context = stream_context_create($options);
-    
+
     $url = $request->getUrl();
-    
+
     if ($request->canGzip()) {
       $url = self::ZLIB . $url;
     }
 
-    $response_data = file_get_contents(
-        $url,
-        false,
-        $context
-    );
+    // We are trapping any thrown errors in this method only and
+    // throwing an exception.
+    $this->trappedErrorNumber = null;
+    $this->trappedErrorString = null;
+
+    // START - error trap.
+    set_error_handler(array($this, 'trapError'));
+    $fh = fopen($url, 'r', false, $context);
+    restore_error_handler();
+    // END - error trap.
+
+    if ($this->trappedErrorNumber) {
+      throw new Google_IO_Exception(
+          sprintf(
+              "HTTP Error: Unable to connect: '%s'",
+              $this->trappedErrorString
+          ),
+          $this->trappedErrorNumber
+      );
+    }
+
+    $response_data = false;
+    $respHttpCode = self::UNKNOWN_CODE;
+    if ($fh) {
+      if (isset($this->options[self::TIMEOUT])) {
+        stream_set_timeout($fh, $this->options[self::TIMEOUT]);
+      }
+
+      $response_data = stream_get_contents($fh);
+      fclose($fh);
+
+      $respHttpCode = $this->getHttpResponseCode($http_response_header);
+    }
 
     if (false === $response_data) {
-      throw new Google_IO_Exception("HTTP Error: Unable to connect");
+      throw new Google_IO_Exception(
+          sprintf(
+              "HTTP Error: Unable to connect: '%s'",
+              $respHttpCode
+          ),
+          $respHttpCode
+      );
     }
 
-    $respHttpCode = $this->getHttpResponseCode($http_response_header);
     $responseHeaders = $this->getHttpResponseHeaders($http_response_header);
 
-    if ($respHttpCode == 304 && $cached) {
-      // If the server responded NOT_MODIFIED, return the cached request.
-      $this->updateCachedRequest($cached, $responseHeaders);
-      return $cached;
-    }
-
-    if (!isset($responseHeaders['Date']) && !isset($responseHeaders['date'])) {
-      $responseHeaders['Date'] = date("r");
-    }
-
-    $request->setResponseHttpCode($respHttpCode);
-    $request->setResponseHeaders($responseHeaders);
-    $request->setResponseBody($response_data);
-    // Store the request in cache (the function checks to see if the request
-    // can actually be cached)
-    $this->setCachedRequest($request);
-    return $request;
+    return array($response_data, $responseHeaders, $respHttpCode);
   }
 
   /**
@@ -146,10 +152,50 @@ class Google_IO_Stream extends Google_IO_Abstract
    */
   public function setOptions($options)
   {
-    // NO-OP
+    $this->options = $options + $this->options;
   }
 
-  private function getHttpResponseCode($response_headers)
+  /**
+   * Method to handle errors, used for error handling around
+   * stream connection methods.
+   */
+  public function trapError($errno, $errstr)
+  {
+    $this->trappedErrorNumber = $errno;
+    $this->trappedErrorString = $errstr;
+  }
+
+  /**
+   * Set the maximum request time in seconds.
+   * @param $timeout in seconds
+   */
+  public function setTimeout($timeout)
+  {
+    $this->options[self::TIMEOUT] = $timeout;
+  }
+
+  /**
+   * Get the maximum request time in seconds.
+   * @return timeout in seconds
+   */
+  public function getTimeout()
+  {
+    return $this->options[self::TIMEOUT];
+  }
+
+  /**
+   * Test for the presence of a cURL header processing bug
+   *
+   * {@inheritDoc}
+   *
+   * @return boolean
+   */
+  protected function needsQuirk()
+  {
+    return false;
+  }
+
+  protected function getHttpResponseCode($response_headers)
   {
     $header_count = count($response_headers);
 
@@ -160,6 +206,6 @@ class Google_IO_Stream extends Google_IO_Abstract
         return $response[1];
       }
     }
-    return 'UNKNOWN';
+    return self::UNKNOWN_CODE;
   }
 }

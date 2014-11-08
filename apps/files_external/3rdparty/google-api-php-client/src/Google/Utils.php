@@ -46,7 +46,7 @@ class Google_Utils
 
   /**
    * Misc function used to count the number of bytes in a post body, in the
-   * world of multi-byte chars and the unpredictability of 
+   * world of multi-byte chars and the unpredictability of
    * strlen/mb_strlen/sizeof, this is the only way to do that in a sane
    * manner at the moment.
    *
@@ -128,6 +128,8 @@ class Google_Utils
   public static function camelCase($value)
   {
     $value = ucwords(str_replace(array('-', '_'), ' ', $value));
-    return lcfirst(str_replace(' ', '', $value));
+    $value = str_replace(' ', '', $value);
+    $value[0] = strtolower($value[0]);
+    return $value;
   }
 }

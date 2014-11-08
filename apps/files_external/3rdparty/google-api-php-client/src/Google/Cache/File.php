@@ -48,14 +48,14 @@ class Google_Cache_File extends Google_Cache_Abstract
 
     if ($expiration) {
       $mtime = filemtime($storageFile);
-      if (($now - $mtime) >= $expiration) {
+      if ((time() - $mtime) >= $expiration) {
         $this->delete($key);
         return false;
       }
     }
 
     if ($this->acquireReadLock($storageFile)) {
-      $data = file_get_contents($storageFile);
+      $data = fread($this->fh, filesize($storageFile));
       $data =  unserialize($data);
       $this->unlock($storageFile);
     }

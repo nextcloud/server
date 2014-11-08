@@ -31,11 +31,5 @@ abstract class Google_Auth_Abstract
    * @return Google_Http_Request $request
    */
   abstract public function authenticatedRequest(Google_Http_Request $request);
-
-  abstract public function authenticate($code);
   abstract public function sign(Google_Http_Request $request);
-  abstract public function createAuthUrl($scope);
-
-  abstract public function refreshToken($refreshToken);
-  abstract public function revokeToken();
 }

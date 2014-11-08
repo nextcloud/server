@@ -118,9 +118,14 @@ class Google_Auth_AssertionCredentials
   {
     $header = array('typ' => 'JWT', 'alg' => 'RS256');
 
+    $payload = json_encode($payload);
+    // Handle some overzealous escaping in PHP json that seemed to cause some errors
+    // with claimsets.
+    $payload = str_replace('\/', '/', $payload);
+
     $segments = array(
       Google_Utils::urlSafeB64Encode(json_encode($header)),
-      Google_Utils::urlSafeB64Encode(json_encode($payload))
+      Google_Utils::urlSafeB64Encode($payload)
     );
 
     $signingInput = implode('.', $segments);

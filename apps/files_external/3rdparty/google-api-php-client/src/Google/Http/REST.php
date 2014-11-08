@@ -44,7 +44,6 @@ class Google_Http_REST
     return self::decodeHttpResponse($httpRequest);
   }
 
-  
   /**
    * Decode an HTTP Response.
    * @static
@@ -57,7 +56,7 @@ class Google_Http_REST
     $code = $response->getResponseHttpCode();
     $body = $response->getResponseBody();
     $decoded = null;
-    
+
     if ((intVal($code)) >= 300) {
       $decoded = json_decode($body, true);
       $err = 'Error calling ' . $response->getRequestMethod() . ' ' . $response->getUrl();
@@ -79,15 +78,13 @@ class Google_Http_REST
 
       throw new Google_Service_Exception($err, $code, null, $errors);
     }
-    
+
     // Only attempt to decode the response, if the response code wasn't (204) 'no content'
     if ($code != '204') {
       $decoded = json_decode($body, true);
       if ($decoded === null || $decoded === "") {
         throw new Google_Service_Exception("Invalid json in service response: $body");
       }
-
-      $decoded = isset($decoded['data']) ? $decoded['data'] : $decoded;
 
       if ($response->getExpectedClass()) {
         $class = $response->getExpectedClass();

@@ -21,6 +21,7 @@ require_once 'Google/Cache/Memcache.php';
 require_once 'Google/Config.php';
 require_once 'Google/Collection.php';
 require_once 'Google/Exception.php';
+require_once 'Google/IO/Curl.php';
 require_once 'Google/IO/Stream.php';
 require_once 'Google/Model.php';
 require_once 'Google/Service.php';
@@ -35,7 +36,7 @@ require_once 'Google/Service/Resource.php';
  */
 class Google_Client
 {
-  const LIBVER = "1.0.3-beta";
+  const LIBVER = "1.0.6-beta";
   const USER_AGENT_SUFFIX = "google-api-php-client/";
   /**
    * @var Google_Auth_Abstract $auth
@@ -79,11 +80,6 @@ class Google_Client
    */
   public function __construct($config = null)
   {
-    if (! ini_get('date.timezone') &&
-        function_exists('date_default_timezone_set')) {
-      date_default_timezone_set('UTC');
-    }
-
     if (is_string($config) && strlen($config)) {
       $config = new Google_Config($config);
     } else if ( !($config instanceof Google_Config)) {
@@ -92,8 +88,19 @@ class Google_Client
       if ($this->isAppEngine()) {
         // Automatically use Memcache if we're in AppEngine.
         $config->setCacheClass('Google_Cache_Memcache');
+      }
+
+      if (version_compare(phpversion(), "5.3.4", "<=") || $this->isAppEngine()) {
         // Automatically disable compress.zlib, as currently unsupported.
         $config->setClassConfig('Google_Http_Request', 'disable_gzip', true);
+      }
+    }
+
+    if ($config->getIoClass() == Google_Config::USE_AUTO_IO_SELECTION) {
+      if (function_exists('curl_version') && function_exists('curl_exec')) {
+        $config->setIoClass("Google_IO_Curl");
+      } else {
+        $config->setIoClass("Google_IO_Stream");
       }
     }
 
@@ -178,7 +185,7 @@ class Google_Client
    */
   public function setAccessToken($accessToken)
   {
-    if ($accessToken == null || 'null' == $accessToken) {
+    if ($accessToken == 'null') {
       $accessToken = null;
     }
     $this->getAuth()->setAccessToken($accessToken);
@@ -238,7 +245,16 @@ class Google_Client
     // The response is json encoded, so could be the string null.
     // It is arguable whether this check should be here or lower
     // in the library.
-    return (null == $token || 'null' == $token) ? null : $token;
+    return (null == $token || 'null' == $token || '[]' == $token) ? null : $token;
+  }
+
+  /**
+   * Get the OAuth 2.0 refresh token.
+   * @return string $refreshToken refresh token or null if not available
+   */
+  public function getRefreshToken()
+  {
+    return $this->getAuth()->getRefreshToken();
   }
 
   /**
@@ -278,6 +294,15 @@ class Google_Client
   public function setApprovalPrompt($approvalPrompt)
   {
     $this->config->setApprovalPrompt($approvalPrompt);
+  }
+
+  /**
+   * Set the login hint, email address or sub id.
+   * @param string $loginHint
+   */
+  public function setLoginHint($loginHint)
+  {
+      $this->config->setLoginHint($loginHint);
   }
 
   /**
@@ -340,6 +365,50 @@ class Google_Client
   public function setDeveloperKey($developerKey)
   {
     $this->config->setDeveloperKey($developerKey);
+  }
+
+  /**
+   * Set the hd (hosted domain) parameter streamlines the login process for
+   * Google Apps hosted accounts. By including the domain of the user, you
+   * restrict sign-in to accounts at that domain.
+   * @param $hd string - the domain to use.
+   */
+  public function setHostedDomain($hd)
+  {
+    $this->config->setHostedDomain($hd);
+  }
+
+  /**
+   * Set the prompt hint. Valid values are none, consent and select_account.
+   * If no value is specified and the user has not previously authorized
+   * access, then the user is shown a consent screen.
+   * @param $prompt string
+   */
+  public function setPrompt($prompt)
+  {
+    $this->config->setPrompt($prompt);
+  }
+
+  /**
+   * openid.realm is a parameter from the OpenID 2.0 protocol, not from OAuth
+   * 2.0. It is used in OpenID 2.0 requests to signify the URL-space for which
+   * an authentication request is valid.
+   * @param $realm string - the URL-space to use.
+   */
+  public function setOpenidRealm($realm)
+  {
+    $this->config->setOpenidRealm($realm);
+  }
+
+  /**
+   * If this is provided with the value true, and the authorization request is
+   * granted, the authorization will include any previous authorizations
+   * granted to this user/application combination for other scopes.
+   * @param $include boolean - the URL-space to use.
+   */
+  public function setIncludeGrantedScopes($include)
+  {
+    $this->config->setIncludeGrantedScopes($include);
   }
 
   /**
@@ -414,9 +483,9 @@ class Google_Client
     $this->requestedScopes = array();
     $this->addScope($scopes);
   }
-  
+
   /**
-   * This functions adds a scope to be requested as part of the OAuth2.0 flow. 
+   * This functions adds a scope to be requested as part of the OAuth2.0 flow.
    * Will append any scopes not previously requested to the scope parameter.
    * A single string will be treated as a scope to request. An array of strings
    * will each be appended.
@@ -466,11 +535,11 @@ class Google_Client
   {
     $this->deferExecution = $defer;
   }
-  
+
   /**
    * Helper method to execute deferred HTTP requests.
    *
-   * @returns object of the type of the expected class or array.
+   * @return object of the type of the expected class or array.
    */
   public function execute($request)
   {

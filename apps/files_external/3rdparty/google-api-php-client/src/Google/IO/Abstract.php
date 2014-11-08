@@ -26,8 +26,13 @@ require_once 'Google/Http/Request.php';
 
 abstract class Google_IO_Abstract
 {
+  const UNKNOWN_CODE = 0;
   const FORM_URLENCODED = 'application/x-www-form-urlencoded';
-  const CONNECTION_ESTABLISHED = "HTTP/1.0 200 Connection established\r\n\r\n";
+  private static $CONNECTION_ESTABLISHED_HEADERS = array(
+    "HTTP/1.0 200 Connection established\r\n\r\n",
+    "HTTP/1.1 200 Connection established\r\n\r\n",
+  );
+  private static $ENTITY_HTTP_METHODS = array("POST" => null, "PUT" => null);
 
   /** @var Google_Client */
   protected $client;
@@ -35,6 +40,10 @@ abstract class Google_IO_Abstract
   public function __construct(Google_Client $client)
   {
     $this->client = $client;
+    $timeout = $client->getClassConfig('Google_IO_Abstract', 'request_timeout_seconds');
+    if ($timeout > 0) {
+      $this->setTimeout($timeout);
+    }
   }
 
   /**
@@ -42,13 +51,36 @@ abstract class Google_IO_Abstract
    * @param Google_Http_Request $request
    * @return Google_Http_Request $request
    */
-  abstract public function makeRequest(Google_Http_Request $request);
+  abstract public function executeRequest(Google_Http_Request $request);
 
   /**
    * Set options that update the transport implementation's behavior.
    * @param $options
    */
   abstract public function setOptions($options);
+  
+  /**
+   * Set the maximum request time in seconds.
+   * @param $timeout in seconds
+   */
+  abstract public function setTimeout($timeout);
+  
+  /**
+   * Get the maximum request time in seconds.
+   * @return timeout in seconds
+   */
+  abstract public function getTimeout();
+
+  /**
+   * Test for the presence of a cURL header processing bug
+   *
+   * The cURL bug was present in versions prior to 7.30.0 and caused the header
+   * length to be miscalculated when a "Connection established" header added by
+   * some proxies was present.
+   *
+   * @return boolean
+   */
+  abstract protected function needsQuirk();
 
   /**
    * @visible for testing.
@@ -66,6 +98,49 @@ abstract class Google_IO_Abstract
     }
 
     return false;
+  }
+  
+  /**
+   * Execute an HTTP Request
+   *
+   * @param Google_HttpRequest $request the http request to be executed
+   * @return Google_HttpRequest http request with the response http code,
+   * response headers and response body filled in
+   * @throws Google_IO_Exception on curl or IO error
+   */
+  public function makeRequest(Google_Http_Request $request)
+  {
+    // First, check to see if we have a valid cached version.
+    $cached = $this->getCachedRequest($request);
+    if ($cached !== false && $cached instanceof Google_Http_Request) {
+      if (!$this->checkMustRevalidateCachedRequest($cached, $request)) {
+        return $cached;
+      }
+    }
+
+    if (array_key_exists($request->getRequestMethod(), self::$ENTITY_HTTP_METHODS)) {
+      $request = $this->processEntityRequest($request);
+    }
+
+    list($responseData, $responseHeaders, $respHttpCode) = $this->executeRequest($request);
+
+    if ($respHttpCode == 304 && $cached) {
+      // If the server responded NOT_MODIFIED, return the cached request.
+      $this->updateCachedRequest($cached, $responseHeaders);
+      return $cached;
+    }
+
+    if (!isset($responseHeaders['Date']) && !isset($responseHeaders['date'])) {
+      $responseHeaders['Date'] = date("r");
+    }
+
+    $request->setResponseHttpCode($respHttpCode);
+    $request->setResponseHeaders($responseHeaders);
+    $request->setResponseBody($responseData);
+    // Store the request in cache (the function checks to see if the request
+    // can actually be cached)
+    $this->setCachedRequest($request);
+    return $request;
   }
 
   /**
@@ -177,15 +252,29 @@ abstract class Google_IO_Abstract
    */
   public function parseHttpResponse($respData, $headerSize)
   {
-    if (stripos($respData, self::CONNECTION_ESTABLISHED) !== false) {
-      $respData = str_ireplace(self::CONNECTION_ESTABLISHED, '', $respData);
+    // check proxy header
+    foreach (self::$CONNECTION_ESTABLISHED_HEADERS as $established_header) {
+      if (stripos($respData, $established_header) !== false) {
+        // existed, remove it
+        $respData = str_ireplace($established_header, '', $respData);
+        // Subtract the proxy header size unless the cURL bug prior to 7.30.0
+        // is present which prevented the proxy header size from being taken into
+        // account.
+        if (!$this->needsQuirk()) {
+          $headerSize -= strlen($established_header);
+        }
+        break;
+      }
     }
 
     if ($headerSize) {
       $responseBody = substr($respData, $headerSize);
       $responseHeaders = substr($respData, 0, $headerSize);
     } else {
-      list($responseHeaders, $responseBody) = explode("\r\n\r\n", $respData, 2);
+      $responseSegments = explode("\r\n\r\n", $respData, 2);
+      $responseHeaders = $responseSegments[0];
+      $responseBody = isset($responseSegments[1]) ? $responseSegments[1] :
+                                                    null;
     }
 
     $responseHeaders = $this->getHttpResponseHeaders($responseHeaders);
@@ -209,13 +298,12 @@ abstract class Google_IO_Abstract
   private function parseStringHeaders($rawHeaders)
   {
     $headers = array();
-
     $responseHeaderLines = explode("\r\n", $rawHeaders);
     foreach ($responseHeaderLines as $headerLine) {
       if ($headerLine && strpos($headerLine, ':') !== false) {
         list($header, $value) = explode(': ', $headerLine, 2);
         $header = strtolower($header);
-        if (isset($responseHeaders[$header])) {
+        if (isset($headers[$header])) {
           $headers[$header] .= "\n" . $value;
         } else {
           $headers[$header] = $value;

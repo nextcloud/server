@@ -48,7 +48,7 @@ class Google_Utils_URITemplate
    */
   private $reserved = array(
       "=", ",", "!", "@", "|", ":", "/", "?", "#",
-      "[", "]","$", "&", "'", "(", ")", "*", "+", ";"
+      "[", "]",'$', "&", "'", "(", ")", "*", "+", ";"
   );
   private $reservedEncoded = array(
     "%3D", "%2C", "%21", "%40", "%7C", "%3A", "%2F", "%3F",
