@@ -43,7 +43,7 @@
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud">
 				<div class="logo-icon svg"></div>
 			</a>
-			<a href="#" class="menutoggle">
+			<a href="#" class="menutoggle" tabindex="1">
 				<h1 class="header-appname">
 					<?php
 						if(OC_Util::getEditionString() === '') {
@@ -57,7 +57,7 @@
 			</a>
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
-				<div id="expand" tabindex="0" role="link">
+				<div id="expand" tabindex="3" role="link">
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown"'); } else { print_unescaped('" style="display: none"'); } ?>>
 						<?php if ($_['userAvatarSet']): ?>
@@ -92,7 +92,7 @@
 			<form class="searchbox" action="#" method="post">
 				<input id="searchbox" class="svg" type="search" name="query"
 					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
-					autocomplete="off" />
+					autocomplete="off" tabindex="2" />
 			</form>
 		</div></header>
 
