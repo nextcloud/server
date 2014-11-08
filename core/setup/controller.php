@@ -147,7 +147,7 @@ class Controller {
 		return array(
 			'hasSQLite' => isset($databases['sqlite']),
 			'hasMySQL' => isset($databases['mysql']),
-			'hasPostgreSQL' => isset($databases['postgre']),
+			'hasPostgreSQL' => isset($databases['pgsql']),
 			'hasOracle' => isset($databases['oci']),
 			'hasMSSQL' => isset($databases['mssql']),
 			'databases' => $databases,
