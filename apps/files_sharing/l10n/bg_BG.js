@@ -33,6 +33,7 @@ OC.L10N.register(
     "Add to your ownCloud" : "Добави към своя ownCloud",
     "Download" : "Изтегли",
     "Download %s" : "Изтегли %s",
-    "Direct link" : "Директна връзка"
+    "Direct link" : "Директна връзка",
+    "Server-to-Server Sharing" : "Споделяне между Сървъри"
 },
 "nplurals=2; plural=(n != 1);");

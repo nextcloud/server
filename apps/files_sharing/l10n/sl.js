@@ -33,6 +33,9 @@ OC.L10N.register(
     "Add to your ownCloud" : "Dodaj v svoj oblak ownCloud",
     "Download" : "Prejmi",
     "Download %s" : "Prejmi %s",
-    "Direct link" : "Neposredna povezava"
+    "Direct link" : "Neposredna povezava",
+    "Server-to-Server Sharing" : "Souporaba strežnik-na-strežnik",
+    "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike.",
+    "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

@@ -33,6 +33,9 @@ OC.L10N.register(
     "Add to your ownCloud" : "ownCloud'ınıza Ekleyin",
     "Download" : "İndir",
     "Download %s" : "İndir: %s",
-    "Direct link" : "Doğrudan bağlantı"
+    "Direct link" : "Doğrudan bağlantı",
+    "Server-to-Server Sharing" : "Sunucu-Sunucu Paylaşımı",
+    "Allow users on this server to send shares to other servers" : "Bu sunucudaki kullanıcıların diğer sunuculara paylaşım göndermelerine izin ver",
+    "Allow users on this server to receive shares from other servers" : "Bu sunucudaki kullanıcıların diğer sunucularda paylaşım almalarına izin ver"
 },
 "nplurals=2; plural=(n > 1);");

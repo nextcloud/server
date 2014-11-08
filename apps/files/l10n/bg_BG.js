@@ -92,6 +92,6 @@ OC.L10N.register(
     "Upload too large" : "Прекалено голям файл за качване.",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файловете, които се опитваш да качиш са по-големи от позволеното на този сървър.",
     "Files are being scanned, please wait." : "Файловете се сканирват, изчакайте.",
-    "Currently scanning" : "В момента се сканирва."
+    "Currently scanning" : "В момента се търси"
 },
 "nplurals=2; plural=(n != 1);");

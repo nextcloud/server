@@ -33,6 +33,9 @@ OC.L10N.register(
     "Add to your ownCloud" : "Tilføj til din ownCload",
     "Download" : "Download",
     "Download %s" : "Download %s",
-    "Direct link" : "Direkte link"
+    "Direct link" : "Direkte link",
+    "Server-to-Server Sharing" : "Deling via server-til-server",
+    "Allow users on this server to send shares to other servers" : "Tillad brugere på denne server, at sende delinger til andre servere",
+    "Allow users on this server to receive shares from other servers" : "Tillad brugere på denne server, at modtage delinger fra andre servere"
 },
 "nplurals=2; plural=(n != 1);");
