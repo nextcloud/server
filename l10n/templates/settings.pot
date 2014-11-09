@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 8.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2014-11-08 01:54-0500\n"
+"POT-Creation-Date: 2014-11-09 01:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -314,8 +314,8 @@ msgstr ""
 msgid "Restore encryption keys."
 msgstr ""
 
-#: js/settings.js:27 js/users/users.js:49
-#: templates/users/part.createuser.php:12 templates/users/part.userlist.php:10
+#: js/settings.js:27 templates/users/part.createuser.php:12
+#: templates/users/part.userlist.php:10
 msgid "Groups"
 msgstr ""
 
@@ -339,8 +339,8 @@ msgstr ""
 msgid "undo"
 msgstr ""
 
-#: js/users/users.js:53 templates/users/part.userlist.php:41
-#: templates/users/part.userlist.php:57
+#: js/users/users.js:49 js/users/users.js:53
+#: templates/users/part.userlist.php:41 templates/users/part.userlist.php:57
 msgid "no group"
 msgstr ""
 

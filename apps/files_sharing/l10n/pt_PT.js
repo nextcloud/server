@@ -1,10 +1,10 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Server to server sharing is not enabled on this server" : "A partilha entre servidores não se encontra disponível",
-    "The mountpoint name contains invalid characters." : "O nome de mountpoint contém caracteres inválidos.",
+    "Server to server sharing is not enabled on this server" : "A partilha entre servidores não se encontra disponível neste servidor",
+    "The mountpoint name contains invalid characters." : "O nome do ponto de montagem contém carateres inválidos.",
     "Invalid or untrusted SSL certificate" : "Certificado SSL inválido ou não confiável",
-    "Couldn't add remote share" : "Ocorreu um erro ao adicionar a partilha remota",
+    "Couldn't add remote share" : "Não foi possível adicionar a partilha remota",
     "Shared with you" : "Partilhado consigo ",
     "Shared with others" : "Partilhado com outros",
     "Shared by link" : "Partilhado pela hiperligação",
@@ -13,11 +13,11 @@ OC.L10N.register(
     "You haven't shared any files by link yet." : "Ainda não partilhou quaisquer ficheiros por hiperligação.",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Deseja adicionar a partilha remota {nome} de {proprietário}@{remoto}?",
     "Remote share" : "Partilha remota",
-    "Remote share password" : "Password da partilha remota",
+    "Remote share password" : "Senha da partilha remota",
     "Cancel" : "Cancelar",
     "Add remote share" : "Adicionar partilha remota",
-    "No ownCloud installation found at {remote}" : "Não foi encontrada uma instalação em {remote}",
-    "Invalid ownCloud url" : "Endereço errado",
+    "No ownCloud installation found at {remote}" : "Não foi encontrada uma instalação ownCloud em {remote}",
+    "Invalid ownCloud url" : "Url ownCloud inválido",
     "Shared by" : "Partilhado por",
     "This share is password-protected" : "Esta partilha está protegida por senha",
     "The password is wrong. Try again." : "A senha está errada. Por favor, tente de novo.",
@@ -30,9 +30,12 @@ OC.L10N.register(
     "the link expired" : "A hiperligação expirou",
     "sharing is disabled" : "a partilha está desativada",
     "For more info, please ask the person who sent this link." : "Para mais informação, por favor, pergunte à pessoa que lhe enviou esta hiperligação.",
-    "Add to your ownCloud" : "Adicionar á sua ownCloud",
+    "Add to your ownCloud" : "Adicionar à sua ownCloud",
     "Download" : "Transferir",
     "Download %s" : "Transferir %s",
-    "Direct link" : "Hiperligação direta"
+    "Direct link" : "Hiperligação direta",
+    "Server-to-Server Sharing" : "Servidor-para-Servidor de Partilha",
+    "Allow users on this server to send shares to other servers" : "Permitir utilizadores neste servidor para enviar as partilhas para outros servidores",
+    "Allow users on this server to receive shares from other servers" : "Permitir utilizadores neste servidor para receber as partilhas de outros servidores"
 },
 "nplurals=2; plural=(n != 1);");

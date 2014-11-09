@@ -31,6 +31,9 @@
     "Add to your ownCloud" : "Aggiungi al tuo ownCloud",
     "Download" : "Scarica",
     "Download %s" : "Scarica %s",
-    "Direct link" : "Collegamento diretto"
+    "Direct link" : "Collegamento diretto",
+    "Server-to-Server Sharing" : "Condivisione server-a-server",
+    "Allow users on this server to send shares to other servers" : "Consenti agli utenti su questo server di inviare condivisioni ad altri server",
+    "Allow users on this server to receive shares from other servers" : "Consenti agli utenti su questo server di ricevere condivisioni da altri server"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

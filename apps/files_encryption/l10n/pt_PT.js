@@ -1,9 +1,9 @@
 OC.L10N.register(
     "files_encryption",
     {
-    "Unknown error" : "Erro Desconhecido",
-    "Missing recovery key password" : "Palavra-passe de recuperação em falta",
-    "Please repeat the recovery key password" : "Repita a palavra-passe de recuperação",
+    "Unknown error" : "Erro desconhecido",
+    "Missing recovery key password" : "Senha da chave de recuperação em falta",
+    "Please repeat the recovery key password" : "Por favor, insira a contrassenha da chave de recuperação",
     "Repeated recovery key password does not match the provided recovery key password" : "A palavra-passe de recuperação repetida não corresponde à palavra-passe fornecida",
     "Recovery key successfully enabled" : "A chave de recuperação foi ativada com sucesso",
     "Could not disable recovery key. Please check your recovery key password!" : "Não foi possível desativar a chave de recuperação. Por favor, verifique a senha da chave de recuperação.",
@@ -13,6 +13,9 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Escreva de novo a nova palavra-passe de recuperação",
     "Password successfully changed." : "Senha alterada com sucesso.",
     "Could not change the password. Maybe the old password was not correct." : "Não foi possível alterar a senha. Possivelmente a senha antiga não está correta.",
+    "Could not update the private key password." : "Não foi possível atualizar a senha da chave privada.",
+    "The old password was not correct, please try again." : "A senha antiga não estava correta, por favor, tente de novo.",
+    "The current log-in password was not correct, please try again." : "A senha de iniciar a sessão atual não estava correta, por favor, tente de novo.",
     "Private key password successfully updated." : "A senha da chave privada foi atualizada com sucesso. ",
     "File recovery settings updated" : "As definições da recuperação de ficheiro foram atualizadas",
     "Could not update file recovery" : "Não foi possível atualizar a recuperação de ficheiro",
