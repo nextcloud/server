@@ -598,7 +598,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
 		$tmpdirLength = strlen(\OC_Helper::tmpFolder());
 		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped();
+			$this->markTestSkipped('[Windows] ');
 			$depth = ((260 - $tmpdirLength) / 57);
 		}elseif(\OC_Util::runningOnMac()){
 			$depth = ((1024 - $tmpdirLength) / 57);

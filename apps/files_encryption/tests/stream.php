@@ -134,6 +134,13 @@ class Test_Encryption_Stream extends \PHPUnit_Framework_TestCase {
 
 		$handle = $view->fopen($filename, 'r');
 
+
+		if (\OC_Util::runningOnWindows()) {
+			fclose($handle);
+			$view->unlink($filename);
+			$this->markTestSkipped('[Windows] stream_set_blocking() does not work as expected on Windows.');
+		}
+
 		// set stream options
 		$this->assertTrue(stream_set_blocking($handle, 1));
 
