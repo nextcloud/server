@@ -228,8 +228,6 @@ class Google extends \OC\Files\Storage\Common {
 	}
 
 	public function opendir($path) {
-		// Remove leading and trailing slashes
-		$path = trim($path, '/');
 		$folder = $this->getDriveFile($path);
 		if ($folder) {
 			$files = array();
