@@ -125,11 +125,12 @@ class Share extends \OC\Share\Constants {
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param string $user User user to whom the item was shared
+	 * @param string $user User to whom the item was shared
+	 * @param string $owner Owner of the share
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
-		return \OC\Share\Share::getItemSharedWithUser($itemType, $itemSource, $user);
+	public static function getItemSharedWithUser($itemType, $itemSource, $user, $owner = null) {
+		return \OC\Share\Share::getItemSharedWithUser($itemType, $itemSource, $user, $owner);
 	}
 
 	/**
