@@ -551,4 +551,89 @@ describe('OCA.Sharing.FileList tests', function() {
 			expect($tr.find('.nametext').text().trim()).toEqual('local name.txt');
 		});
 	});
+	describe('setting share permissions for files', function () {
+		beforeEach(function () {
+
+			var $content = $('<div id="content"></div>');
+			$('#testArea').append($content);
+			// dummy file list
+			var $div = $(
+				'<div>' +
+				'<table id="filestable">' +
+				'<thead></thead>' +
+				'<tbody id="fileList"></tbody>' +
+				'</table>' +
+				'</div>');
+			$('#content').append($div);
+
+			fileList = new OCA.Files.FileList(
+				$div, {
+					fileActions: fileActions
+				}
+			);
+		});
+
+		it('external storage root folder', function () {
+			var $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_READ,
+				etag: 'abc',
+				shareOwner: 'User One',
+				recipients: 'User Two',
+				mountType: 'external-root'
+			}]);
+			$tr = fileList.$el.find('tr:first');
+
+			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_ALL - OC.PERMISSION_SHARE);
+		});
+
+		it('external storage root folder reshare', function () {
+			var $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
+			fileList.setFiles([{
+				id: 1,
+				type: 'dir',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_READ + OC.PERMISSION_SHARE,
+				etag: 'abc',
+				shareOwner: 'User One',
+				recipients: 'User Two',
+				mountType: 'external-root'
+			}]);
+			$tr = fileList.$el.find('tr:first');
+
+			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_ALL);
+		});
+
+		it('external storage root folder file', function () {
+			var $tr;
+			OC.Share.statuses = {1: {link: false, path: '/subdir'}};
+			fileList.setFiles([{
+				id: 1,
+				type: 'file',
+				name: 'One.txt',
+				path: '/subdir',
+				mimetype: 'text/plain',
+				size: 12,
+				permissions: OC.PERMISSION_READ,
+				etag: 'abc',
+				shareOwner: 'User One',
+				recipients: 'User Two',
+				mountType: 'external-root'
+			}]);
+			$tr = fileList.$el.find('tr:first');
+
+			expect(parseInt($tr.attr('data-share-permissions'), 10)).toEqual(OC.PERMISSION_ALL - OC.PERMISSION_SHARE - OC.PERMISSION_DELETE);
+		});
+	});
 });
