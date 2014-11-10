@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class TestMySqlMigration extends \PHPUnit_Framework_TestCase {
+class TestMySqlMigration extends \Test\TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */
 	private $connection;
@@ -14,7 +14,9 @@ class TestMySqlMigration extends \PHPUnit_Framework_TestCase {
 	/** @var string */
 	private $tableName;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->connection = \OC_DB::getConnection();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
 			$this->markTestSkipped("Test only relevant on MySql");
@@ -25,8 +27,9 @@ class TestMySqlMigration extends \PHPUnit_Framework_TestCase {
 		$this->connection->exec("CREATE TABLE $this->tableName(b BIT,  e ENUM('1','2','3','4'))");
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->connection->getSchemaManager()->dropTable($this->tableName);
+		parent::tearDown();
 	}
 
 	public function testNonOCTables() {

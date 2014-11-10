@@ -24,7 +24,7 @@ class TestTimedJob extends \OC\BackgroundJob\TimedJob {
 	}
 }
 
-class TimedJob extends \PHPUnit_Framework_TestCase {
+class TimedJob extends \Test\TestCase {
 	/**
 	 * @var DummyJobList $jobList
 	 */
@@ -40,7 +40,9 @@ class TimedJob extends \PHPUnit_Framework_TestCase {
 		$this->jobRun = true;
 	}
 
-	public function setup() {
+	protected function setup() {
+		parent::setUp();
+
 		$this->jobList = new DummyJobList();
 		$this->job = new TestTimedJob($this);
 		$this->jobList->add($this->job);

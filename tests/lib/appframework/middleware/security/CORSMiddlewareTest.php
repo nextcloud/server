@@ -18,11 +18,12 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\Response;
 
 
-class CORSMiddlewareTest extends \PHPUnit_Framework_TestCase {
+class CORSMiddlewareTest extends \Test\TestCase {
 
 	private $reflector;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->reflector = new ControllerMethodReflector();
 	}
 

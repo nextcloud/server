@@ -11,7 +11,7 @@ namespace Test\Group;
 
 use OC\User\User;
 
-class Manager extends \PHPUnit_Framework_TestCase {
+class Manager extends \Test\TestCase {
 	public function testGet() {
 		/**
 		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC_Group_Backend $backend

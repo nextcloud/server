@@ -100,7 +100,7 @@ class TestMiddleware extends Middleware {
 }
 
 
-class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
+class MiddlewareDispatcherTest extends \Test\TestCase {
 
 	public $exception;
 	public $response;
@@ -113,8 +113,9 @@ class MiddlewareDispatcherTest extends \PHPUnit_Framework_TestCase {
 	 */
 	private $dispatcher;
 
+	protected function setUp() {
+		parent::setUp();
 
-	public function setUp() {
 		$this->dispatcher = new MiddlewareDispatcher();
 		$this->controller = $this->getControllerMock();
 		$this->method = 'method';

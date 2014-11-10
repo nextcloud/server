@@ -28,7 +28,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http;
 
 
-class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
+class TemplateResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var \OCP\AppFramework\Http\TemplateResponse
@@ -41,6 +41,8 @@ class TemplateResponseTest extends \PHPUnit_Framework_TestCase {
 	private $api;
 
 	protected function setUp() {
+		parent::setUp();
+
 		$this->api = $this->getMock('OC\AppFramework\Core\API',
 								array('getAppName'), array('test'));
 		$this->api->expects($this->any())

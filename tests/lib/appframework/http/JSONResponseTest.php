@@ -30,7 +30,7 @@ namespace OC\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\AppFramework\Http;
 
-class JSONResponseTest extends \PHPUnit_Framework_TestCase {
+class JSONResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var JSONResponse
@@ -38,6 +38,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase {
 	private $json;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->json = new JSONResponse();
 	}
 

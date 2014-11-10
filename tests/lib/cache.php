@@ -16,6 +16,7 @@ abstract class Test_Cache extends \Test\TestCase {
 		if($this->instance) {
 			$this->instance->clear();
 		}
+
 		parent::tearDown();
 	}
 

@@ -8,7 +8,7 @@
 
 namespace Test\BackgroundJob;
 
-class JobList extends \PHPUnit_Framework_TestCase {
+class JobList extends \Test\TestCase {
 	/**
 	 * @var \OC\BackgroundJob\JobList
 	 */
@@ -19,7 +19,9 @@ class JobList extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $config;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$conn = \OC::$server->getDatabaseConnection();
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->instance = new \OC\BackgroundJob\JobList($conn, $this->config);

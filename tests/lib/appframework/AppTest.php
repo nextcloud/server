@@ -25,7 +25,7 @@
 namespace OC\AppFramework;
 
 
-class AppTest extends \PHPUnit_Framework_TestCase {
+class AppTest extends \Test\TestCase {
 
 	private $container;
 	private $api;
@@ -38,6 +38,8 @@ class AppTest extends \PHPUnit_Framework_TestCase {
 	private $controllerMethod;
 
 	protected function setUp() {
+		parent::setUp();
+
 		$this->container = new \OC\AppFramework\DependencyInjection\DIContainer('test', array());
 		$this->controller = $this->getMockBuilder(
 			'OCP\AppFramework\Controller')

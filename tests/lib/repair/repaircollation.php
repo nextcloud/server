@@ -21,7 +21,7 @@ class TestCollationRepair extends \OC\Repair\Collation {
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class TestRepairCollation extends PHPUnit_Framework_TestCase {
+class TestRepairCollation extends \Test\TestCase {
 
 	/**
 	 * @var TestCollationRepair
@@ -43,7 +43,9 @@ class TestRepairCollation extends PHPUnit_Framework_TestCase {
 	 */
 	private $config;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->connection = \OC_DB::getConnection();
 		$this->config = \OC::$server->getConfig();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
@@ -57,8 +59,9 @@ class TestRepairCollation extends PHPUnit_Framework_TestCase {
 		$this->repair = new TestCollationRepair($this->config, $this->connection);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->connection->getSchemaManager()->dropTable($this->tableName);
+		parent::tearDown();
 	}
 
 	public function testCollationConvert() {

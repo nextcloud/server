@@ -11,7 +11,7 @@
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class TestRepairInnoDB extends PHPUnit_Framework_TestCase {
+class TestRepairInnoDB extends \Test\TestCase {
 
 	/** @var \OC\RepairStep */
 	private $repair;
@@ -22,7 +22,9 @@ class TestRepairInnoDB extends PHPUnit_Framework_TestCase {
 	/** @var string */
 	private $tableName;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->connection = \OC_DB::getConnection();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
 			$this->markTestSkipped("Test only relevant on MySql");
@@ -35,8 +37,9 @@ class TestRepairInnoDB extends PHPUnit_Framework_TestCase {
 		$this->repair = new \OC\Repair\InnoDB();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->connection->getSchemaManager()->dropTable($this->tableName);
+		parent::tearDown();
 	}
 
 	public function testInnoDBConvert() {

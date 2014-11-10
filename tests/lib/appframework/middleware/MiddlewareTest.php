@@ -31,7 +31,7 @@ use OCP\AppFramework\Middleware;
 class ChildMiddleware extends Middleware {};
 
 
-class MiddlewareTest extends \PHPUnit_Framework_TestCase {
+class MiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @var Middleware
@@ -42,6 +42,8 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $api;
 
 	protected function setUp(){
+		parent::setUp();
+
 		$this->middleware = new ChildMiddleware();
 
 		$this->api = $this->getMockBuilder(

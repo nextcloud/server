@@ -31,7 +31,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
 
 
-class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
+class SecurityMiddlewareTest extends \Test\TestCase {
 
 	private $middleware;
 	private $controller;
@@ -43,7 +43,9 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $navigationManager;
 	private $urlGenerator;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
 			->disableOriginalConstructor()
 				->getMock();

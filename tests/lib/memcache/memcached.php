@@ -11,6 +11,8 @@ namespace Test\Memcache;
 
 class Memcached extends Cache {
 	static public function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		if (!\OC\Memcache\Memcached::isAvailable()) {
 			self::markTestSkipped('The memcached extension is not available.');
 		}
@@ -20,7 +22,8 @@ class Memcached extends Cache {
 		}
 	}
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->instance = new \OC\Memcache\Memcached(uniqid());
 	}
 }

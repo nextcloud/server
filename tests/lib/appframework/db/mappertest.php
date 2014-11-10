@@ -57,7 +57,7 @@ class MapperTest extends MapperTestUtility {
 	 */
 	private $mapper;
 
-	public function setUp(){
+	protected function setUp(){
 		parent::setUp();
 		$this->mapper = new ExampleMapper($this->db);
 	}

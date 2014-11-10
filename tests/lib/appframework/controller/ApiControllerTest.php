@@ -31,7 +31,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 class ChildApiController extends ApiController {};
 
 
-class ApiControllerTest extends \PHPUnit_Framework_TestCase {
+class ApiControllerTest extends \Test\TestCase {
 
 
     public function testCors() {

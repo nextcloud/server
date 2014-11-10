@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share extends Test\TestCase {
+class Test_Share extends \Test\TestCase {
 
 	protected $itemType;
 	protected $userBackend;
@@ -37,6 +37,7 @@ class Test_Share extends Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
+
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
 		$this->user1 = $this->getUniqueID('user1_');
@@ -81,6 +82,7 @@ class Test_Share extends Test\TestCase {
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
 		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', $this->resharing);
+
 		parent::tearDown();
 	}
 

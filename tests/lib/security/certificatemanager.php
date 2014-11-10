@@ -17,7 +17,9 @@ class CertificateManagerTest extends \Test\TestCase {
 	/** @var  \OC\User\User */
 	private $user;
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->username = $this->getUniqueID('', 20);
 		OC_User::createUser($this->username, $this->getUniqueID('', 20));
 
@@ -31,8 +33,9 @@ class CertificateManagerTest extends \Test\TestCase {
 		$this->certificateManager = new CertificateManager($this->user);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		\OC_User::deleteUser($this->username);
+		parent::tearDown();
 	}
 
 	protected function assertEqualsArrays($expected, $actual) {

@@ -6,7 +6,7 @@
  * later.
  * See the COPYING-README file.
  */
-class Test_OC_Connector_Sabre_QuotaPlugin extends PHPUnit_Framework_TestCase {
+class Test_OC_Connector_Sabre_QuotaPlugin extends \Test\TestCase {
 
 	/**
 	 * @var \Sabre\DAV\Server

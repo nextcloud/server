@@ -12,15 +12,17 @@ namespace Test\DB;
 use Doctrine\DBAL\Platforms\OraclePlatform;
 use Doctrine\DBAL\Platforms\SQLServerPlatform;
 
-class MDB2SchemaManager extends \PHPUnit_Framework_TestCase {
+class MDB2SchemaManager extends \Test\TestCase {
 
-	public function tearDown() {
+	protected function tearDown() {
 		// do not drop the table for Oracle as it will create a bogus transaction
 		// that will break the following test suites requiring transactions
 		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			return;
 		}
 		\OC_DB::dropTable('table');
+
+		parent::tearDown();
 	}
 
 	public function testAutoIncrement() {

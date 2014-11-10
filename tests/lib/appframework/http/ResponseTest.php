@@ -29,7 +29,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http;
 
 
-class ResponseTest extends \PHPUnit_Framework_TestCase {
+class ResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var \OCP\AppFramework\Http\Response
@@ -37,6 +37,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 	private $childResponse;
 
 	protected function setUp(){
+		parent::setUp();
 		$this->childResponse = new Response();
 	}
 

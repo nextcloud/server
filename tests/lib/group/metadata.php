@@ -9,7 +9,7 @@
 
 namespace Test\Group;
 
-class Test_MetaData extends \PHPUnit_Framework_TestCase {
+class Test_MetaData extends \Test\TestCase {
 	private function getGroupManagerMock() {
 		return $this->getMockBuilder('\OC\Group\Manager')
 			->disableOriginalConstructor()

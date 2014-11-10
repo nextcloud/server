@@ -12,7 +12,7 @@ namespace Test\Connector\Sabre;
 use OC\Files\FileInfo;
 use OC\Files\View;
 
-class Node extends \PHPUnit_Framework_TestCase {
+class Node extends \Test\TestCase {
 	public function davPermissionsProvider() {
 		return array(
 			array(\OCP\PERMISSION_ALL, 'file', false, false, 'RDNVW'),

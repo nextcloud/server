@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
+class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 
 	/**
 	 * @expectedException \Sabre\DAV\Exception

@@ -27,7 +27,7 @@ namespace OC\AppFramework\Http;
 use OC\AppFramework\Http;
 
 
-class HttpTest extends \PHPUnit_Framework_TestCase {
+class HttpTest extends \Test\TestCase {
 
 	private $server;
 
@@ -37,6 +37,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase {
 	private $http;
 
 	protected function setUp(){
+		parent::setUp();
+
 		$this->server = array();
 		$this->http = new Http($this->server);
 	}

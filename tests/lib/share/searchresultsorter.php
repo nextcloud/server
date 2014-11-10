@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share_Search extends \PHPUnit_Framework_TestCase {
+class Test_Share_Search extends \Test\TestCase {
 	public function testSort() {
 		$search = 'lin';
 		$sorter = new \OC\Share\SearchResultSorter($search, 'foobar');

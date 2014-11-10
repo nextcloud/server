@@ -30,7 +30,7 @@ class ChildDownloadResponse extends DownloadResponse {
 };
 
 
-class DownloadResponseTest extends \PHPUnit_Framework_TestCase {
+class DownloadResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var ChildDownloadResponse
@@ -38,6 +38,7 @@ class DownloadResponseTest extends \PHPUnit_Framework_TestCase {
 	protected $response;
 
 	protected function setUp(){
+		parent::setUp();
 		$this->response = new ChildDownloadResponse('file', 'content');
 	}
 

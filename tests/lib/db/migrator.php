@@ -15,7 +15,7 @@ use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 
-class Migrator extends \PHPUnit_Framework_TestCase {
+class Migrator extends \Test\TestCase {
 	/**
 	 * @var \Doctrine\DBAL\Connection $connection
 	 */
@@ -28,7 +28,9 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	private $tableName;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->connection = \OC_DB::getConnection();
 		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('DB migration tests are not supported on OCI');
@@ -40,8 +42,9 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 		$this->tableName = 'test_' . uniqid();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->connection->exec('DROP TABLE ' . $this->tableName);
+		parent::tearDown();
 	}
 
 	/**

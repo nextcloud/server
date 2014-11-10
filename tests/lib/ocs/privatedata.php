@@ -20,17 +20,13 @@
  *
  */
 
-class Test_OC_OCS_Privatedata extends PHPUnit_Framework_TestCase
-{
-
+class Test_OC_OCS_Privatedata extends \Test\TestCase {
 	private $appKey;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		\OC::$server->getSession()->set('user_id', 'user1');
 		$this->appKey = uniqid('app');
-	}
-
-	public function tearDown() {
 	}
 
 	public function testGetEmptyOne() {

@@ -8,7 +8,7 @@
 
 use \OC\Security\SecureRandom;
 
-class SecureRandomTest extends \PHPUnit_Framework_TestCase {
+class SecureRandomTest extends \Test\TestCase {
 
 	public function stringGenerationProvider() {
 		return array(
@@ -34,6 +34,7 @@ class SecureRandomTest extends \PHPUnit_Framework_TestCase {
 	protected $rng;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->rng = new \OC\Security\SecureRandom();
 	}
 
