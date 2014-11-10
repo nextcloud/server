@@ -261,7 +261,7 @@
 					}
 					var html = '<a href="#" class="action action-' + name.toLowerCase() + '" data-action="' + name + '">';
 					if (img) {
-						html += '<img class ="svg" src="' + img + '" />';
+						html += '<img class ="svg" alt="" src="' + img + '" />';
 					}
 					html += '<span> ' + actionText + '</span></a>';
 

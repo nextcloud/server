@@ -55,6 +55,7 @@
 }
 
 #app-navigation li:hover > a,
+#app-navigation li:focus > a,
 #app-navigation .selected,
 #app-navigation .selected a {
 	background-color: #ddd;
@@ -96,10 +97,12 @@
 	outline: none !important;
 	box-shadow: none;
 }
-#app-navigation .collapsible:hover > a {
+#app-navigation .collapsible:hover > a,
+#app-navigation .collapsible:focus > a {
 	background-image: none;
 }
-#app-navigation .collapsible:hover > .collapse {
+#app-navigation .collapsible:hover > .collapse,
+#app-navigation .collapsible:focus > .collapse {
 	display: block;
 }
 
@@ -139,7 +142,8 @@
 	background-image: -ms-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
 }
 
-#app-navigation > ul .collapsible.open:hover {
+#app-navigation > ul .collapsible.open:hover,
+#app-navigation > ul .collapsible.open:focus {
 	box-shadow: inset 0 0 3px #ddd;
 }
 
@@ -179,7 +183,8 @@
 		opacity: .5;
 	}
 
-	#app-navigation .app-navigation-entry-deleted-button:hover {
+	#app-navigation .app-navigation-entry-deleted-button:hover,
+	#app-navigation .app-navigation-entry-deleted-button:focus {
 		opacity: 1;
 	}
 

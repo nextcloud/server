@@ -31,7 +31,9 @@
 				<?php if ($_['bodyid'] === 'body-login' ): ?>
 					<header>
 						<div id="header">
-							<div class="logo svg"></div>
+							<div class="logo svg">
+								<h1><?php p($theme->getName()); ?></h1>
+							</div>
 							<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 						</div>
 					</header>
