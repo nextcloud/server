@@ -960,7 +960,7 @@ class Util {
 			$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
 			// Re-enc keyfile to (additional) sharekeys
 			$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
-		} catch (Exceptions\EncryptionException $e) {
+		} catch (Exception\EncryptionException $e) {
 			$msg = 'set shareFileKeyFailed (code: ' . $e->getCode() . '): ' . $e->getMessage();
 			\OCP\Util::writeLog('files_encryption', $msg, \OCP\Util::FATAL);
 			return false;
