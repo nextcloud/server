@@ -33,7 +33,7 @@ class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 		\OCA\Files_Sharing\Helper::registerHooks();
 	}
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		$this->folder = self::TEST_FOLDER_NAME;
@@ -46,7 +46,7 @@ class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 		$this->view->file_put_contents($this->folder . '/' . $this->filename, $this->data);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);
 

@@ -42,7 +42,7 @@ class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 	 */
 	private $sharedCache;
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -71,7 +71,7 @@ class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->sharedCache->clear();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);

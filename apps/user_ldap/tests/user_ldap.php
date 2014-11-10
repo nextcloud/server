@@ -27,11 +27,13 @@ use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
 
-class Test_User_Ldap_Direct extends \PHPUnit_Framework_TestCase {
+class Test_User_Ldap_Direct extends \Test\TestCase {
 	protected $backend;
 	protected $access;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		\OC_User::clearBackends();
 		\OC_Group::clearBackends();
 	}

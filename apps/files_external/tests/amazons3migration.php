@@ -23,15 +23,26 @@
 
 namespace Test\Files\Storage;
 
-class AmazonS3Migration extends \PHPUnit_Framework_TestCase {
+class AmazonS3Migration extends \Test\TestCase {
 
 	/**
 	 * @var \OC\Files\Storage\Storage instance
 	 */
 	protected $instance;
 
-	public function setUp () {
-		$uuid = uniqid();
+	/** @var array */
+	protected $params;
+
+	/** @var string */
+	protected $oldId;
+
+	/** @var string */
+	protected $newId;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$uuid = $this->getUniqueID();
 
 		$this->params['key'] = 'key'.$uuid;
 		$this->params['secret'] = 'secret'.$uuid;
@@ -41,9 +52,11 @@ class AmazonS3Migration extends \PHPUnit_Framework_TestCase {
 		$this->newId = 'amazon::' . $this->params['bucket'];
 	}
 
-	public function tearDown () {
+	protected function tearDown() {
 		$this->deleteStorage($this->oldId);
 		$this->deleteStorage($this->newId);
+
+		parent::tearDown();
 	}
 
 	public function testUpdateLegacyOnlyId () {

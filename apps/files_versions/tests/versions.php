@@ -27,7 +27,7 @@ require_once __DIR__ . '/../lib/versions.php';
  * Class Test_Files_versions
  * this class provide basic files versions test
  */
-class Test_Files_Versioning extends \PHPUnit_Framework_TestCase {
+class Test_Files_Versioning extends \Test\TestCase {
 
 	const TEST_VERSIONS_USER = 'test-versions-user';
 	const TEST_VERSIONS_USER2 = 'test-versions-user2';

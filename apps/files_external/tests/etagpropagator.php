@@ -11,9 +11,9 @@ namespace Tests\Files_External;
 use OC\Files\Filesystem;
 use OC\User\User;
 
-class EtagPropagator extends \PHPUnit_Framework_TestCase {
+class EtagPropagator extends \Test\TestCase {
 	protected function getUser() {
-		return new User(uniqid(), null);
+		return new User($this->getUniqueID(), null);
 	}
 
 	/**

@@ -22,7 +22,7 @@
 
 namespace Test\Files\Storage;
 
-abstract class Storage extends \PHPUnit_Framework_TestCase {
+abstract class Storage extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage instance
 	 */

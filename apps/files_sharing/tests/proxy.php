@@ -32,7 +32,7 @@ class Test_Files_Sharing_Proxy extends OCA\Files_sharing\Tests\TestCase {
 
 	private static $tempStorage;
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		// load proxies
@@ -53,7 +53,7 @@ class Test_Files_Sharing_Proxy extends OCA\Files_sharing\Tests\TestCase {
 		$this->view->file_put_contents($this->folder . $this->subfolder . $this->filename, $this->data);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->view->deleteAll($this->folder);
 
 		self::$tempStorage = null;

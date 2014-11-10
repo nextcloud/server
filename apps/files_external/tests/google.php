@@ -28,6 +28,8 @@ class Google extends Storage {
 	private $config;
 
 	protected function setUp() {
+		parent::setUp();
+
 		$this->config = include('files_external/tests/config.php');
 		if (!is_array($this->config) || !isset($this->config['google'])
 			|| !$this->config['google']['run']
@@ -41,5 +43,7 @@ class Google extends Storage {
 		if ($this->instance) {
 			$this->instance->rmdir('/');
 		}
+
+		parent::tearDown();
 	}
 }

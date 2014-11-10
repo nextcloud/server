@@ -26,7 +26,7 @@ use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
 
-class Test_Access extends \PHPUnit_Framework_TestCase {
+class Test_Access extends \Test\TestCase {
 	private function getConnecterAndLdapMock() {
 		static $conMethods;
 		static $accMethods;

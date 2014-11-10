@@ -11,7 +11,7 @@ namespace OCA\user_ldap\tests;
 
 use OCA\user_ldap\lib\Helper;
 
-class Test_Helper extends \PHPUnit_Framework_TestCase {
+class Test_Helper extends \Test\TestCase {
 
 	public function testTableTruncate() {
 

@@ -11,14 +11,24 @@ namespace Test\Files\Storage;
 class Dropbox extends Storage {
 	private $config;
 
-	public function setUp() {
-		$id = uniqid();
+	protected function setUp() {
+		parent::setUp();
+
+		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.php');
 		if ( ! is_array($this->config) or ! isset($this->config['dropbox']) or ! $this->config['dropbox']['run']) {
 			$this->markTestSkipped('Dropbox backend not configured');
 		}
 		$this->config['dropbox']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
 		$this->instance = new \OC\Files\Storage\Dropbox($this->config['dropbox']);
+	}
+
+	protected function tearDown() {
+		if ($this->instance) {
+			$this->instance->unlink('/');
+		}
+
+		parent::tearDown();
 	}
 
 	public function directoryProvider() {
@@ -35,11 +45,5 @@ class Dropbox extends Storage {
 
 		// false because not supported
 		$this->assertFalse($this->instance->touch('foo'));
-	}
-
-	public function tearDown() {
-		if ($this->instance) {
-			$this->instance->unlink('/');
-		}
 	}
 }
