@@ -29,6 +29,18 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 	 */
 	public $user2View;
 
+	/** @var \OC\Files\Cache\Cache */
+	protected $ownerCache;
+
+	/** @var \OC\Files\Cache\Cache */
+	protected $sharedCache;
+
+	/** @var \OC\Files\Storage\Storage */
+	protected $ownerStorage;
+
+	/** @var \OC\Files\Storage\Storage */
+	protected $sharedStorage;
+
 	function setUp() {
 		parent::setUp();
 
@@ -53,7 +65,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		$this->view->file_put_contents('container/shareddir/subdir/another too.txt', $textData);
 		$this->view->file_put_contents('container/shareddir/subdir/not a text file.xml', '<xml></xml>');
 
-		list($this->ownerStorage, $internalPath) = $this->view->resolvePath('');
+		list($this->ownerStorage,) = $this->view->resolvePath('');
 		$this->ownerCache = $this->ownerStorage->getCache();
 		$this->ownerStorage->getScanner()->scan('');
 
@@ -71,7 +83,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 
 		// retrieve the shared storage
 		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage, $internalPath) = $secondView->resolvePath('files/shareddir');
+		list($this->sharedStorage,) = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
@@ -353,7 +365,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Files\Filesystem::mkdir('foo');
 		\OC\Files\Filesystem::mkdir('foo/bar');
-		\OC\Files\Filesystem::touch('foo/bar/test.txt', 'bar');
+		\OC\Files\Filesystem::touch('foo/bar/test.txt');
 		$folderInfo = \OC\Files\Filesystem::getFileInfo('foo');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('foo/bar/test.txt');
 		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
