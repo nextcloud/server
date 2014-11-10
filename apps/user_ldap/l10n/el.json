@@ -74,6 +74,7 @@
     "Saving" : "Αποθήκευση",
     "Back" : "Επιστροφή",
     "Continue" : "Συνέχεια",
+    "LDAP" : "LDAP",
     "Expert" : "Ειδικός",
     "Advanced" : "Για προχωρημένους",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές.",

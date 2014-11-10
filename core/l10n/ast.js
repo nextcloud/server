@@ -6,6 +6,7 @@ OC.L10N.register(
     "Turned off maintenance mode" : "Apagáu'l mou de caltenimientu",
     "Updated database" : "Base de datos anovada",
     "Checked database schema update" : "Anovamientu del esquema de base de datos revisáu",
+    "Checked database schema update for apps" : "Anovamientu del esquema de base de datos p'aplicaciones revisáu",
     "Updated \"%s\" to %s" : "Anováu \"%s\" a %s",
     "Disabled incompatible apps: %s" : "Aplicaciones incompatibles desactivaes: %s",
     "No image or file provided" : "Nun s'especificó nenguna imaxe o ficheru",

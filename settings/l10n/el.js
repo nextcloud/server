@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & Setup Warnings" : "Προειδοποιήσεις ασφάλειας & ρυθμίσεων",
     "Cron" : "Cron",
     "Sharing" : "Διαμοιρασμός",
     "Security" : "Ασφάλεια",

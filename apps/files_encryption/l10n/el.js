@@ -13,6 +13,7 @@ OC.L10N.register(
     "Please repeat the new recovery password" : "Παρακαλώ επαναλάβετε το νέο κωδικό επαναφοράς",
     "Password successfully changed." : "Ο κωδικός αλλάχτηκε επιτυχώς.",
     "Could not change the password. Maybe the old password was not correct." : "Αποτυχία αλλαγής κωδικού ίσως ο παλιός κωδικός να μην ήταν σωστός.",
+    "The old password was not correct, please try again." : "Το παλαιό συνθηματικό δεν είναι σωστό, παρακαλώ δοκιμάστε ξανά.",
     "Private key password successfully updated." : "Το Προσωπικό κλειδί πρόσβασης ενημερώθηκε επιτυχώς",
     "File recovery settings updated" : "Οι ρυθμίσεις επαναφοράς αρχείων ανανεώθηκαν",
     "Could not update file recovery" : "Αποτυχία ενημέρωσης ανάκτησης αρχείων",
