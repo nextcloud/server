@@ -211,8 +211,6 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// Teardown
 		$this->view->unlink($this->userId . '/files/' . $filename);
-
-		Encryption\Keymanager::deleteFileKey($this->view, $filename);
 	}
 
 	/**
@@ -252,8 +250,6 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// Teardown
 		$this->view->unlink($this->userId . '/files/' . $filename);
-
-		Encryption\Keymanager::deleteFileKey($this->view, $filename);
 	}
 
 	/**
@@ -293,11 +289,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertEquals($this->dataLong . $this->dataLong, $decrypted);
 
 		// Teardown
-
 		$this->view->unlink($this->userId . '/files/' . $filename);
-
-		Encryption\Keymanager::deleteFileKey($this->view, $filename);
-
 	}
 
 	/**
@@ -341,11 +333,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertEquals($this->dataLong . $this->dataLong, $decrypted);
 
 		// Teardown
-
 		$this->view->unlink($this->userId . '/files/' . $filename);
-
-		Encryption\Keymanager::deleteFileKey($this->view, $filename);
-
 	}
 
 	/**
@@ -393,11 +381,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertEquals($this->dataLong . $this->dataLong, $decrypted);
 
 		// Teardown
-
 		$this->view->unlink($this->userId . '/files/' . $filename);
-
-		Encryption\Keymanager::deleteFileKey($this->view, $filename);
-
 	}
 
 	/**

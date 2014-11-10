@@ -44,10 +44,10 @@ class Util {
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
 	private $encryptionDir; // Dir containing user's files_encryption
-	private $keyfilesPath; // Dir containing user's keyfiles
-	private $shareKeysPath; // Dir containing env keys for shared files
+	private $keysPath; // Dir containing all file related encryption keys
 	private $publicKeyPath; // Path to user's public key
 	private $privateKeyPath; // Path to user's private key
+	private $userFilesDir;
 	private $publicShareKeyId;
 	private $recoveryKeyId;
 	private $isPublic;
@@ -74,8 +74,7 @@ class Util {
 				'/' . $userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
 		$this->publicKeyDir = '/' . 'public-keys';
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
-		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
 				$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath =
@@ -99,8 +98,7 @@ class Util {
 
 		if (
 			!$this->view->file_exists($this->encryptionDir)
-			or !$this->view->file_exists($this->keyfilesPath)
-			or !$this->view->file_exists($this->shareKeysPath)
+			or !$this->view->file_exists($this->keysPath)
 			or !$this->view->file_exists($this->publicKeyPath)
 			or !$this->view->file_exists($this->privateKeyPath)
 		) {
@@ -149,8 +147,7 @@ class Util {
 			$this->userDir,
 			$this->publicKeyDir,
 			$this->encryptionDir,
-			$this->keyfilesPath,
-			$this->shareKeysPath
+			$this->keysPath
 		);
 
 		// Check / create all necessary dirs
@@ -727,8 +724,8 @@ class Util {
 			}
 
 			if ($successful) {
-				$this->view->rename($this->keyfilesPath, $this->keyfilesPath . '.backup');
-				$this->view->rename($this->shareKeysPath, $this->shareKeysPath . '.backup');
+				$this->backupAllKeys('decryptAll');
+				$this->view->deleteAll($this->keysPath);
 			}
 
 			\OC_FileProxy::$enabled = true;
@@ -845,9 +842,9 @@ class Util {
 
 				break;
 
-			case 'keyfilesPath':
+			case 'keysPath':
 
-				return $this->keyfilesPath;
+				return $this->keysPath;
 
 				break;
 
@@ -1395,19 +1392,17 @@ class Util {
 	 * add recovery key to all encrypted files
 	 */
 	public function addRecoveryKeys($path = '/') {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		$dirContent = $this->view->getDirectoryContent($this->keysPath . '/' . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles/
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] === 'dir') {
+			$filePath = substr($item['path'], strlen('files_encryption/keys'));
+			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
 				$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $file);
-				$this->setSharedFileKeyfiles($session, $usersSharing, $file);
+				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $filePath);
+				$this->setSharedFileKeyfiles($session, $usersSharing, $filePath);
 			}
 		}
 	}
@@ -1416,16 +1411,14 @@ class Util {
 	 * remove recovery key to all encrypted files
 	 */
 	public function removeRecoveryKeys($path = '/') {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		$dirContent = $this->view->getDirectoryContent($this->keysPath . '/' . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] === 'dir') {
+			$filePath = substr($item['path'], strlen('files_encryption/keys'));
+			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->removeRecoveryKeys($filePath . '/');
 			} else {
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$this->view->unlink($this->shareKeysPath . '/' . $file . '.' . $this->recoveryKeyId . '.shareKey');
+				$this->view->unlink($this->keysPath . '/' . $filePath . '/' . $this->recoveryKeyId . '.shareKey');
 			}
 		}
 	}
@@ -1455,27 +1448,17 @@ class Util {
 		}
 		$filteredUids = $this->filterShareReadyUsers($userIds);
 
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
 		//decrypt file key
-		$encKeyfile = $this->view->file_get_contents($this->keyfilesPath . $file . ".key");
-		$shareKey = $this->view->file_get_contents(
-			$this->shareKeysPath . $file . "." . $this->recoveryKeyId . ".shareKey");
+		$encKeyfile = Keymanager::getFileKey($this->view, $this, $file);
+		$shareKey = Keymanager::getShareKey($this->view, $this->recoveryKeyId, $this, $file);
 		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 		// encrypt file key again to all users, this time with the new public key for the recovered use
 		$userPubKeys = Keymanager::getPublicKeys($this->view, $filteredUids['ready']);
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
 
-		// write new keys to filesystem TDOO!
-		$this->view->file_put_contents($this->keyfilesPath . $file . '.key', $multiEncKey['data']);
-		foreach ($multiEncKey['keys'] as $userId => $shareKey) {
-			$shareKeyPath = $this->shareKeysPath . $file . '.' . $userId . '.shareKey';
-			$this->view->file_put_contents($shareKeyPath, $shareKey);
-		}
+		Keymanager::setFileKey($this->view, $this, $file, $multiEncKey['data']);
+		Keymanager::setShareKeys($this->view, $this, $file, $multiEncKey['keys']);
 
-		// Return proxy to original status
-		\OC_FileProxy::$enabled = $proxyStatus;
 	}
 
 	/**
@@ -1484,16 +1467,14 @@ class Util {
 	 * @param string $privateKey private recovery key which is used to decrypt the files
 	 */
 	private function recoverAllFiles($path, $privateKey) {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		$dirContent = $this->view->getDirectoryContent($this->keysPath . '/' . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] === 'dir') {
+			$filePath = substr($item['path'], strlen('files_encryption/keys'));
+			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->recoverAllFiles($filePath . '/', $privateKey);
 			} else {
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$this->recoverFile($file, $privateKey);
+				$this->recoverFile($filePath, $privateKey);
 			}
 		}
 	}
@@ -1527,8 +1508,7 @@ class Util {
 		$backupDir = $this->encryptionDir . '/backup.';
 		$backupDir .= ($purpose === '') ? date("Y-m-d_H-i-s") . '/' : $purpose . '.' . date("Y-m-d_H-i-s") . '/';
 		$this->view->mkdir($backupDir);
-		$this->view->copy($this->shareKeysPath, $backupDir . 'share-keys/');
-		$this->view->copy($this->keyfilesPath, $backupDir . 'keyfiles/');
+		$this->view->copy($this->keysPath, $backupDir . 'keys/');
 		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.private.key');
 		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.public.key');
 	}

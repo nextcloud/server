@@ -68,9 +68,9 @@ class Helper {
 		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', 'OCA\Encryption\Hooks', 'postRenameOrCopy');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Encryption\Hooks', 'postDelete');
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Encryption\Hooks', 'preDelete');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Encryption\Hooks', 'postUmount');
-		\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Encryption\Hooks', 'preUmount');
 		\OCP\Util::connectHook('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', 'OCA\Encryption\Hooks', 'postPasswordReset');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Encryption\Hooks', 'postUnmount');
+		\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Encryption\Hooks', 'preUnmount');
 	}
 
 	/**
@@ -430,47 +430,6 @@ class Helper {
 		$config = array('private_key_bits' => 4096);
 		$config = array_merge(\OCP\Config::getSystemValue('openssl', array()), $config);
 		return $config;
-	}
-
-	/**
-	 * find all share keys for a given file
-	 *
-	 * @param string $filePath path to the file name relative to the user's files dir
-	 * for example "subdir/filename.txt"
-	 * @param string $shareKeyPath share key prefix path relative to the user's data dir
-	 * for example "user1/files_encryption/share-keys/subdir/filename.txt"
-	 * @param \OC\Files\View $rootView root view, relative to data/
-	 * @return array list of share key files, path relative to data/$user
-	 */
-	public static function findShareKeys($filePath, $shareKeyPath,  \OC\Files\View $rootView) {
-		$result = array();
-
-		$user = \OCP\User::getUser();
-		$util = new Util($rootView, $user);
-		// get current sharing state
-		$sharingEnabled = \OCP\Share::isEnabled();
-
-		// get users sharing this file
-		$usersSharing = $util->getSharingUsersArray($sharingEnabled, $filePath);
-
-		$pathinfo = pathinfo($shareKeyPath);
-
-		$baseDir = $pathinfo['dirname'] . '/';
-		$fileName = $pathinfo['basename'];
-		foreach ($usersSharing as $user) {
-			$keyName = $fileName . '.' . $user . '.shareKey';
-			if ($rootView->file_exists($baseDir . $keyName)) {
-				$result[] = $baseDir . $keyName;
-			} else {
-				\OC_Log::write(
-					'Encryption library',
-					'No share key found for user "' . $user . '" for file "' . $fileName . '"',
-					\OC_Log::WARN
-				);
-			}
-		}
-
-		return $result;
 	}
 
 	/**

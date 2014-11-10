@@ -204,11 +204,11 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_get_contents($path, $data) {
 
 		$plainData = null;
-		$view = new \OC\Files\View('/');
 
 		// If data is a catfile
 		if (
 			Crypt::mode() === 'server'
+			&& $this->shouldEncrypt($path)
 			&& Crypt::isCatfileContent($data)
 		) {
 

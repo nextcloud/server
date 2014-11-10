@@ -143,11 +143,11 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// check if key-file was created
 		$this->assertTrue($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/keyfiles/' . $filename . '.key'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/fileKey'));
 
 		// check if shareKey-file was created
 		$this->assertTrue($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/share-keys/' . $filename . '.' . $this->userId . '.shareKey'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/' . $this->userId . '.shareKey'));
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -217,11 +217,11 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// check if key-file was removed
 		$this->assertFalse($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/keyfiles' . $filename . '.key'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/fileKey'));
 
 		// check if shareKey-file was removed
 		$this->assertFalse($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/share-keys' . $filename . '.' . $this->userId . '.shareKey'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/' . $this->userId . '.shareKey'));
 	}
 
 	/**

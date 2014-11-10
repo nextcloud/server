@@ -87,7 +87,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$this->publicKeyDir = '/' . 'public-keys';
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
-		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
 			$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath =
@@ -155,7 +155,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$this->assertEquals($this->publicKeyDir, $util->getPath('publicKeyDir'));
 		$this->assertEquals($this->encryptionDir, $util->getPath('encryptionDir'));
-		$this->assertEquals($this->keyfilesPath, $util->getPath('keyfilesPath'));
+		$this->assertEquals($this->keysPath, $util->getPath('keysPath'));
 		$this->assertEquals($this->publicKeyPath, $util->getPath('publicKeyPath'));
 		$this->assertEquals($this->privateKeyPath, $util->getPath('privateKeyPath'));
 
@@ -396,16 +396,18 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		// file should no longer be encrypted
 		$this->assertEquals(0, $fileInfoUnencrypted['encrypted']);
 
+		$backupPath = $this->getBackupPath('decryptAll');
+
 		// check if the keys where moved to the backup location
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keyfiles.backup'));
-		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keyfiles.backup/' . $filename . '.key'));
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/share-keys.backup'));
-		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/share-keys.backup/' . $filename . '.' . $user . '.shareKey'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/keys'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/fileKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/' . $user . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.private.key'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.public.key'));
 
 		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
-		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
-		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
+		$this->view->deleteAll($backupPath);
 		OC_App::enable('files_encryption');
 
 	}
@@ -418,38 +420,28 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// create some dummy key files
 		$encPath = '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '/files_encryption';
-		$this->view->file_put_contents($encPath . '/keyfiles/foo.key', 'key');
-		$this->view->file_put_contents($encPath . '/share-keys/foo.user1.shareKey', 'share key');
+		$this->view->mkdir($encPath . '/keys/foo');
+		$this->view->file_put_contents($encPath . '/keys/foo/fileKey', 'key');
+		$this->view->file_put_contents($encPath . '/keys/foo/user1.shareKey', 'share key');
 
 		$util = new \OCA\Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
 
-		$util->backupAllKeys('testing');
+		$util->backupAllKeys('testBackupAllKeys');
 
-		$encFolderContent = $this->view->getDirectoryContent($encPath);
-
-		$backupPath = '';
-		foreach ($encFolderContent as $c) {
-			$name = $c['name'];
-			if (substr($name, 0, strlen('backup'))  === 'backup') {
-				$backupPath = $encPath . '/'. $c['name'];
-				break;
-			}
-		}
-
-		$this->assertTrue($backupPath !== '');
+		$backupPath = $this->getBackupPath('testBackupAllKeys');
 
 		// check backupDir Content
-		$this->assertTrue($this->view->is_dir($backupPath . '/keyfiles'));
-		$this->assertTrue($this->view->is_dir($backupPath . '/share-keys'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/keyfiles/foo.key'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/share-keys/foo.user1.shareKey'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/keys'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/keys/foo'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/fileKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/user1.shareKey'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.private.key'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.public.key'));
 
 		//cleanup
 		$this->view->deleteAll($backupPath);
-		$this->view->unlink($encPath . '/keyfiles/foo.key', 'key');
-		$this->view->unlink($encPath . '/share-keys/foo.user1.shareKey', 'share key');
+		$this->view->unlink($encPath . '/keys/foo/fileKey');
+		$this->view->unlink($encPath . '/keys/foo/user1.shareKey');
 	}
 
 
@@ -473,8 +465,8 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// rename keyfile for file1 so that the decryption for file1 fails
 		// Expected behaviour: decryptAll() returns false, file2 gets decrypted anyway
-		$this->view->rename($this->userId . '/files_encryption/keyfiles/' . $file1 . '.key',
-				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved');
+		$this->view->rename($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey',
+				$this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved');
 
 		// decrypt all encrypted files
 		$result = $util->decryptAll();
@@ -492,12 +484,13 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertEquals(0, $fileInfoUnencrypted2['encrypted']);
 
 		// keyfiles and share keys should still exist
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
+		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keys/'));
+		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved'));
+		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keys/' . $file1 . '/' . $this->userId . '.shareKey'));
 
 		// rename the keyfile for file1 back
-		$this->view->rename($this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved',
-				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key');
+		$this->view->rename($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved',
+				$this->userId . '/files_encryption/keys/' . $file1 . '/fileKey');
 
 		// try again to decrypt all encrypted files
 		$result = $util->decryptAll();
@@ -515,15 +508,30 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertEquals(0, $fileInfoUnencrypted2['encrypted']);
 
 		// keyfiles and share keys should be deleted
-		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
-		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
+		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/keys/'));
 
 		//cleanup
+		$backupPath = $this->getBackupPath('decryptAll');
 		$this->view->unlink($this->userId . '/files/' . $file1);
 		$this->view->unlink($this->userId . '/files/' . $file2);
-		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
-		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
+		$this->view->deleteAll($backupPath);
 
+	}
+
+	function getBackupPath($extension) {
+		$encPath = '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '/files_encryption';
+		$encFolderContent = $this->view->getDirectoryContent($encPath);
+
+		$backupPath = '';
+		foreach ($encFolderContent as $c) {
+			$name = $c['name'];
+			if (substr($name, 0, strlen('backup.' . $extension))  === 'backup.' . $extension) {
+				$backupPath = $encPath . '/'. $c['name'];
+				break;
+			}
+		}
+
+		return $backupPath;
 	}
 
 	/**
