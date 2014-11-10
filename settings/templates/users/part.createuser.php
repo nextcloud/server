@@ -1,7 +1,7 @@
 <div id="controls">
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text"
-			placeholder="<?php p($l->t('Login Name'))?>"
+			placeholder="<?php p($l->t('Username'))?>"
 			autocomplete="off" autocapitalize="off" autocorrect="off" />
 		<input
 			type="password" id="newuserpassword"
