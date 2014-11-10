@@ -9,7 +9,7 @@
 /**
  * Tests for server check functions
  */
-class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
+class Test_Util_CheckServer extends \Test\TestCase {
 
 	private $datadir;
 
@@ -32,16 +32,19 @@ class Test_Util_CheckServer extends PHPUnit_Framework_TestCase {
 		return $config;
 	}
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->datadir = \OC_Helper::tmpFolder();
 
 		file_put_contents($this->datadir . '/.ocdata', '');
 		\OC::$server->getSession()->set('checkServer_succeeded', false);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		// clean up
 		@unlink($this->datadir . '/.ocdata');
+		parent::tearDown();
 	}
 
 	/**

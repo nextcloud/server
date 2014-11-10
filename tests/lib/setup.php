@@ -8,14 +8,16 @@
 
 use OCP\IConfig;
 
-class Test_OC_Setup extends PHPUnit_Framework_TestCase {
+class Test_OC_Setup extends \Test\TestCase {
 
 	/** @var IConfig */
 	protected $config;
 	/** @var \OC_Setup */
 	protected $setupClass;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->config = $this->getMock('\OCP\IConfig');
 		$this->setupClass = $this->getMock('\OC_Setup', array('class_exists', 'is_callable'), array($this->config));
 	}

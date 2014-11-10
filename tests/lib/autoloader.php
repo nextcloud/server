@@ -8,13 +8,14 @@
 
 namespace Test;
 
-class AutoLoader extends \PHPUnit_Framework_TestCase {
+class AutoLoader extends TestCase {
 	/**
 	 * @var \OC\Autoloader $loader
 	 */
 	private $loader;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->loader = new \OC\AutoLoader();
 	}
 

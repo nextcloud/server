@@ -6,10 +6,12 @@
  * See the COPYING-README file.
  */
 
-class Test_Mail extends PHPUnit_Framework_TestCase {
+class Test_Mail extends \Test\TestCase {
 
 	protected function setUp()
 	{
+		parent::setUp();
+
 		if (!function_exists('idn_to_ascii')) {
 			$this->markTestSkipped(
 				'The intl extension is not available.'

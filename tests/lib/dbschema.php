@@ -9,13 +9,15 @@
 
 use OCP\Security\ISecureRandom;
 
-class Test_DBSchema extends PHPUnit_Framework_TestCase {
+class Test_DBSchema extends \Test\TestCase {
 	protected $schema_file = 'static://test_db_scheme';
 	protected $schema_file2 = 'static://test_db_scheme2';
 	protected $table1;
 	protected $table2;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 		$dbfile2 = OC::$SERVERROOT.'/tests/data/db_structure2.xml';
 
@@ -32,9 +34,11 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 		$this->table2 = $r.'cntcts_cards';
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unlink($this->schema_file);
 		unlink($this->schema_file2);
+
+		parent::tearDown();
 	}
 
 	// everything in one test, they depend on each other

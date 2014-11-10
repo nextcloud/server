@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_API extends PHPUnit_Framework_TestCase {
+class Test_API extends \Test\TestCase {
 
 	// Helps build a response variable
 

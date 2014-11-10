@@ -8,10 +8,10 @@
 
 namespace Test;
 
-class LargeFileHelper extends \PHPUnit_Framework_TestCase {
+class LargeFileHelper extends TestCase {
 	protected $helper;
 
-	public function setUp() {
+	protected function setUp() {
 		parent::setUp();
 		$this->helper = new \OC\LargeFileHelper;
 	}

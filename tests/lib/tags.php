@@ -20,13 +20,14 @@
 *
 */
 
-class Test_Tags extends PHPUnit_Framework_TestCase {
+class Test_Tags extends \Test\TestCase {
 
 	protected $objectType;
 	protected $user;
 	protected $backupGlobals = FALSE;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
@@ -39,9 +40,11 @@ class Test_Tags extends PHPUnit_Framework_TestCase {
 
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		//$query = OC_DB::prepare('DELETE FROM `*PREFIX*vcategories` WHERE `item_type` = ?');
 		//$query->execute(array('test'));
+
+		parent::tearDown();
 	}
 
 	public function testInstantiateWithDefaults() {

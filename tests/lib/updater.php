@@ -8,7 +8,7 @@
 
 namespace OC;
 
-class UpdaterTest extends \PHPUnit_Framework_TestCase {
+class UpdaterTest extends \Test\TestCase {
 
 	public function testVersionCompatbility() {
 		return array(

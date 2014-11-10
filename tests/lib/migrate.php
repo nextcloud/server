@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Migrate extends PHPUnit_Framework_TestCase {
+class Test_Migrate extends \Test\TestCase {
 
 	public $users;
 	public $tmpfiles = array();
@@ -38,7 +38,7 @@ class Test_Migrate extends PHPUnit_Framework_TestCase {
 	 * @return string the test users id
 	 */
 	public function generateUser() {
-		$username = uniqid();
+		$username = $this->getUniqueID();
 		\OC_User::createUser($username, 'password');
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');

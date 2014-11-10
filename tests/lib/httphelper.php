@@ -6,14 +6,16 @@
  * See the COPYING-README file.
  */
 
-class TestHTTPHelper extends \PHPUnit_Framework_TestCase {
+class TestHTTPHelper extends \Test\TestCase {
 
 	/** @var \OC\AllConfig*/
 	private $config;
 	/** @var \OC\HTTPHelper */
 	private $httpHelperMock;
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->config = $this->getMockBuilder('\OC\AllConfig')
 			->disableOriginalConstructor()->getMock();
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')

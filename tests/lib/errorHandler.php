@@ -20,7 +20,7 @@
  *
  */
 
-class Test_ErrorHandler extends \PHPUnit_Framework_TestCase {
+class Test_ErrorHandler extends \Test\TestCase {
 
 	/**
 	 * provide username, password combinations for testRemovePassword

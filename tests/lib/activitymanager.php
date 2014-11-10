@@ -8,12 +8,14 @@
  *
 */
 
-class Test_ActivityManager extends PHPUnit_Framework_TestCase {
+class Test_ActivityManager extends \Test\TestCase {
 
 	/** @var \OC\ActivityManager */
 	private $activityManager;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->activityManager = new \OC\ActivityManager();
 		$this->activityManager->registerExtension(function() {
 			return new NoOpExtension();

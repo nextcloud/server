@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_L10n extends PHPUnit_Framework_TestCase {
+class Test_L10n extends \Test\TestCase {
 
 	public function testGermanPluralTranslations() {
 		$l = new OC_L10N('test');

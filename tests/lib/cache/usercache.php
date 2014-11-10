@@ -30,7 +30,9 @@ class UserCache extends \Test_Cache {
 	/** @var \OC\Files\Storage\Storage */
 	private $storage;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		//clear all proxies and hooks so we can do clean testing
 		\OC_FileProxy::clearProxies();
 		\OC_Hook::clear('OC_Filesystem');
@@ -66,7 +68,7 @@ class UserCache extends \Test_Cache {
 		$this->instance=new \OC\Cache\UserCache();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_User::setUserId($this->user);
 		\OC_Config::setValue('cachedirectory', $this->datadir);
 

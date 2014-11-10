@@ -10,14 +10,16 @@ namespace Test;
 
 use OC\Log;
 
-class Logger extends \PHPUnit_Framework_TestCase {
+class Logger extends TestCase {
 	/**
 	 * @var \OCP\ILogger
 	 */
 	private $logger;
 	static private $logs = array();
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		self::$logs = array();
 		$this->logger = new Log('Test\Logger');
 	}

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_DB extends PHPUnit_Framework_TestCase {
+class Test_DB extends \Test\TestCase {
 	protected $backupGlobals = FALSE;
 
 	protected static $schema_file = 'static://test_db_scheme';
@@ -32,7 +32,9 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 	 */
 	private $table4;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 
 		$r = '_'.OC_Util::generateRandomBytes(4).'_';
@@ -48,9 +50,11 @@ class Test_DB extends PHPUnit_Framework_TestCase {
 		$this->table4 = $this->test_prefix.'decimal';
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		OC_DB::removeDBStructure(self::$schema_file);
 		unlink(self::$schema_file);
+
+		parent::tearDown();
 	}
 
 	public function testQuotes() {
