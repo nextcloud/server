@@ -370,10 +370,22 @@ class Google extends \OC\Files\Storage\Common {
 					return false;
 				}
 			}
+			// We need to get the object for the existing file with the same
+			// name (if there is one) before we do the patch. If oldfile
+			// exists and is a directory we have to delete it before we
+			// do the rename too.
+			$oldfile = $this->getDriveFile($path2);
+			if ($oldfile && $this->is_dir($path2)) {
+				$this->rmdir($path2);
+				$oldfile = false;
+			}
 			$result = $this->service->files->patch($file->getId(), $file);
 			if ($result) {
 				$this->setDriveFile($path1, false);
 				$this->setDriveFile($path2, $result);
+				if ($oldfile) {
+					$this->service->files->delete($oldfile->getId());
+				}
 			}
 			return (bool)$result;
 		} else {
