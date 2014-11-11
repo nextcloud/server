@@ -928,7 +928,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		foreach($searchResults as $res) {
 			$count = intval($this->ldap->countEntries($cr, $res));
 			$counter += $count;
-			if($count === $limit) {
+			if($count > 0 && $count === $limit) {
 				$hasHitLimit = true;
 			}
 		}
