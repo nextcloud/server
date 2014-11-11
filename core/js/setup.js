@@ -103,4 +103,18 @@ $(document).ready(function() {
 			t('core', 'Strong password')
 		]
 	});
+
+	// centers the database chooser if it is too wide
+	if($('#databaseBackend').width() > 300) {
+		// this somehow needs to wait 250 milliseconds
+		// otherwise it gets overwritten
+		setTimeout(function(){
+			// calculate negative left margin
+			// half of the difference of width and default bix width of 300
+			// add 10 to clear left side padding of button group
+			var leftMargin = (($('#databaseBackend').width() - 300) / 2 + 10 ) * -1;
+
+			$('#databaseBackend').css('margin-left', Math.floor(leftMargin) + 'px');
+		}, 250);
+	}
 });
