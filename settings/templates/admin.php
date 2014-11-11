@@ -336,9 +336,9 @@ if ($_['suggestedOverwriteWebroot']) {
 		<input type="checkbox" name="forcessl"  id="forcessl"
 			<?php if ($_['enforceHTTPSEnabled']) {
 				print_unescaped('checked="checked" ');
-				print_unescaped('value="false"');
-			}  else {
 				print_unescaped('value="true"');
+			}  else {
+				print_unescaped('value="false"');
 			}
 			?>
 			<?php if (!$_['isConnectedViaHTTPS']) p('disabled'); ?> />
@@ -346,7 +346,23 @@ if ($_['suggestedOverwriteWebroot']) {
 		<em><?php p($l->t(
 			'Forces the clients to connect to %s via an encrypted connection.',
 			$theme->getName()
-		)); ?></em>
+		)); ?></em><br/>
+		<span id="forceSSLforSubdomainsSpan" <?php if(!$_['enforceHTTPSEnabled']) { print_unescaped('class="hidden"'); } ?>>
+			<input type="checkbox" name="forceSSLforSubdomains"  id="forceSSLforSubdomains"
+				<?php if ($_['forceSSLforSubdomainsEnabled']) {
+					print_unescaped('checked="checked" ');
+					print_unescaped('value="true"');
+				}  else {
+					print_unescaped('value="false"');
+				}
+				?>
+				<?php if (!$_['isConnectedViaHTTPS']) { p('disabled'); } ?> />
+			<label for="forceSSLforSubdomains"><?php p($l->t('Enforce HTTPS for subdomains'));?></label><br/>
+			<em><?php p($l->t(
+					'Forces the clients to connect to %s and subdomains via an encrypted connection.',
+					$theme->getName()
+				)); ?></em>
+		</span>
 		<?php if (!$_['isConnectedViaHTTPS']) {
 			print_unescaped("<br/><em>");
 			p($l->t(
