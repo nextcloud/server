@@ -1,7 +1,7 @@
 OC.L10N.register(
     "settings",
     {
-    "Security & Setup Warnings" : "Upozornění bezpečnosti a nastavení",
+    "Security & Setup Warnings" : "Upozornění zabezpečení a nastavení",
     "Cron" : "Cron",
     "Sharing" : "Sdílení",
     "Security" : "Zabezpečení",
@@ -216,7 +216,7 @@ OC.L10N.register(
     "Delete Encryption Keys" : "Smazat šifrovací klíče",
     "Show storage location" : "Zobrazit umístění úložiště",
     "Show last log in" : "Zobrazit poslední přihlášení",
-    "Login Name" : "Přihlašovací jméno",
+    "Username" : "Uživatelské jméno",
     "Create" : "Vytvořit",
     "Admin Recovery Password" : "Heslo obnovy správce",
     "Enter the recovery password in order to recover the users files during password change" : "Zadejte heslo obnovy pro obnovení souborů uživatele při změně hesla",
@@ -229,7 +229,6 @@ OC.L10N.register(
     "Please enter storage quota (ex: \"512 MB\" or \"12 GB\")" : "Zvolte prosím kvótu pro úložiště (např. \"512 MB\" nebo \"12 GB\")",
     "Unlimited" : "Neomezeně",
     "Other" : "Jiný",
-    "Username" : "Uživatelské jméno",
     "Group Admin for" : "Administrátor skupiny ",
     "Quota" : "Kvóta",
     "Storage Location" : "Umístění úložiště",

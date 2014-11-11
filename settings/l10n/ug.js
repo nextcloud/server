@@ -61,11 +61,10 @@ OC.L10N.register(
     "Cancel" : "ۋاز كەچ",
     "Language" : "تىل",
     "Help translate" : "تەرجىمىگە ياردەم",
-    "Login Name" : "تىزىمغا كىرىش ئاتى",
+    "Username" : "ئىشلەتكۈچى ئاتى",
     "Create" : "قۇر",
     "Unlimited" : "چەكسىز",
     "Other" : "باشقا",
-    "Username" : "ئىشلەتكۈچى ئاتى",
     "set new password" : "يېڭى ئىم تەڭشە",
     "Default" : "كۆڭۈلدىكى"
 },

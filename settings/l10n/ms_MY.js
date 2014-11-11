@@ -30,11 +30,10 @@ OC.L10N.register(
     "Cancel" : "Batal",
     "Language" : "Bahasa",
     "Help translate" : "Bantu terjemah",
-    "Login Name" : "Log masuk",
+    "Username" : "Nama pengguna",
     "Create" : "Buat",
     "Default Quota" : "Kuota Lalai",
     "Other" : "Lain",
-    "Username" : "Nama pengguna",
     "Quota" : "Kuota"
 },
 "nplurals=1; plural=0;");

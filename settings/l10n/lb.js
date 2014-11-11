@@ -41,12 +41,11 @@ OC.L10N.register(
     "Cancel" : "Ofbriechen",
     "Language" : "Sprooch",
     "Help translate" : "Hëllef iwwersetzen",
-    "Login Name" : "Login",
+    "Username" : "Benotzernumm",
     "Create" : "Erstellen",
     "Group" : "Grupp",
     "Default Quota" : "Standard Quota",
     "Other" : "Aner",
-    "Username" : "Benotzernumm",
     "Quota" : "Quota"
 },
 "nplurals=2; plural=(n != 1);");

@@ -30,11 +30,11 @@ OC.L10N.register(
     "Cancel" : "Cancellar",
     "Language" : "Linguage",
     "Help translate" : "Adjuta a traducer",
+    "Username" : "Nomine de usator",
     "Create" : "Crear",
     "Group" : "Gruppo",
     "Default Quota" : "Quota predeterminate",
     "Other" : "Altere",
-    "Username" : "Nomine de usator",
     "Quota" : "Quota"
 },
 "nplurals=2; plural=(n != 1);");

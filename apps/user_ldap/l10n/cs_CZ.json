@@ -67,7 +67,7 @@
     "One Base DN per line" : "Jedna základní DN na řádku",
     "You can specify Base DN for users and groups in the Advanced tab" : "V rozšířeném nastavení můžete určit základní DN pro uživatele a skupiny",
     "Avoids automatic LDAP requests. Better for bigger setups, but requires some LDAP knowledge." : "Zabraňuje automatickým LDAP požadavkům. Výhodné pro objemná nastavení, ale vyžaduje znalosti o LDAP.",
-    "Manually enter LDAP filters (recommended for large directories)" : "Ručně vložit LDAP filtry (doporučené pro obsáhlé adresáře)",
+    "Manually enter LDAP filters (recommended for large directories)" : "Ručně vložit LDAP filtry (doporučeno pro obsáhlé adresáře)",
     "Limit %s access to users meeting these criteria:" : "Omezit přístup %s uživatelům splňujícím tyto podmínky:",
     "The filter specifies which LDAP users shall have access to the %s instance." : "Filtr určuje, kteří uživatelé LDAP mají mít přístup k instanci %s.",
     "users found" : "nalezení uživatelé",

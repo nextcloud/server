@@ -15,7 +15,7 @@ OC.L10N.register(
     "Password" : "پاسورڈ",
     "New password" : "نیا پاسورڈ",
     "Cancel" : "منسوخ کریں",
-    "Other" : "دیگر",
-    "Username" : "یوزر نیم"
+    "Username" : "یوزر نیم",
+    "Other" : "دیگر"
 },
 "nplurals=2; plural=(n != 1);");

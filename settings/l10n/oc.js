@@ -38,11 +38,10 @@ OC.L10N.register(
     "Cancel" : "Annula",
     "Language" : "Lenga",
     "Help translate" : "Ajuda a la revirada",
-    "Login Name" : "Login",
+    "Username" : "Non d'usancièr",
     "Create" : "Crea",
     "Default Quota" : "Quota per defaut",
     "Other" : "Autres",
-    "Username" : "Non d'usancièr",
     "Quota" : "Quota"
 },
 "nplurals=2; plural=(n > 1);");

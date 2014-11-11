@@ -44,11 +44,10 @@ OC.L10N.register(
     "Language" : "භාෂාව",
     "Help translate" : "පරිවර්ථන සහය",
     "Import Root Certificate" : "මූල සහතිකය ආයාත කරන්න",
-    "Login Name" : "ප්‍රවිශ්ටය",
+    "Username" : "පරිශීලක නම",
     "Create" : "තනන්න",
     "Default Quota" : "සාමාන්‍ය සලාකය",
     "Other" : "වෙනත්",
-    "Username" : "පරිශීලක නම",
     "Quota" : "සලාකය"
 },
 "nplurals=2; plural=(n != 1);");

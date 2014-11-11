@@ -53,10 +53,10 @@ OC.L10N.register(
     "Language" : "Tungumál",
     "Help translate" : "Hjálpa við þýðingu",
     "Import Root Certificate" : "Flytja inn rótar skilríki",
+    "Username" : "Notendanafn",
     "Create" : "Búa til",
     "Unlimited" : "Ótakmarkað",
     "Other" : "Annað",
-    "Username" : "Notendanafn",
     "Default" : "Sjálfgefið"
 },
 "nplurals=2; plural=(n != 1);");

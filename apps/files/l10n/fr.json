@@ -21,7 +21,7 @@
     "Invalid Token" : "Jeton non valide",
     "No file was uploaded. Unknown error" : "Aucun fichier n'a été envoyé. Erreur inconnue",
     "There is no error, the file uploaded with success" : "Aucune erreur, le fichier a été envoyé avec succès.",
-    "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Le fichier envoyé dépasse l'instruction upload_max_filesize située dans le fichier php.ini:",
+    "The uploaded file exceeds the upload_max_filesize directive in php.ini: " : "Le fichier envoyé dépasse l'instruction upload_max_filesize située dans le fichier php.ini :",
     "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" : "Le fichier envoyé dépasse l'instruction MAX_FILE_SIZE qui est spécifiée dans le formulaire HTML.",
     "The uploaded file was only partially uploaded" : "Le fichier n'a été que partiellement envoyé.",
     "No file was uploaded" : "Pas de fichier envoyé.",

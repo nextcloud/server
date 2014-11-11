@@ -68,12 +68,11 @@ OC.L10N.register(
     "Language" : "ภาษา",
     "Help translate" : "ช่วยกันแปล",
     "Import Root Certificate" : "นำเข้าข้อมูลใบรับรองความปลอดภัยจาก Root",
-    "Login Name" : "ชื่อที่ใช้สำหรับเข้าสู่ระบบ",
+    "Username" : "ชื่อผู้ใช้งาน",
     "Create" : "สร้าง",
     "Default Quota" : "โควต้าที่กำหนดไว้เริ่มต้น",
     "Unlimited" : "ไม่จำกัดจำนวน",
     "Other" : "อื่นๆ",
-    "Username" : "ชื่อผู้ใช้งาน",
     "Quota" : "พื้นที่",
     "set new password" : "ตั้งค่ารหัสผ่านใหม่",
     "Default" : "ค่าเริ่มต้น"

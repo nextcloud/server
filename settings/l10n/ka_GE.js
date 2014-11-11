@@ -79,12 +79,11 @@ OC.L10N.register(
     "Language" : "ენა",
     "Help translate" : "თარგმნის დახმარება",
     "Import Root Certificate" : "Root სერთიფიკატის იმპორტირება",
-    "Login Name" : "მომხმარებლის სახელი",
+    "Username" : "მომხმარებლის სახელი",
     "Create" : "შექმნა",
     "Default Quota" : "საწყისი ქვოტა",
     "Unlimited" : "ულიმიტო",
     "Other" : "სხვა",
-    "Username" : "მომხმარებლის სახელი",
     "Quota" : "ქვოტა",
     "set new password" : "დააყენეთ ახალი პაროლი",
     "Default" : "საწყისი პარამეტრები"

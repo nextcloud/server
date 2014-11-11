@@ -18,8 +18,7 @@ OC.L10N.register(
     "New password" : "Cyfrinair newydd",
     "Email" : "E-bost",
     "Cancel" : "Diddymu",
-    "Login Name" : "Mewngofnodi",
-    "Other" : "Arall",
-    "Username" : "Enw defnyddiwr"
+    "Username" : "Enw defnyddiwr",
+    "Other" : "Arall"
 },
 "nplurals=4; plural=(n==1) ? 0 : (n==2) ? 1 : (n != 8 && n != 11) ? 2 : 3;");

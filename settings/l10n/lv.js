@@ -87,7 +87,7 @@ OC.L10N.register(
     "Import Root Certificate" : "Importēt saknes sertifikātus",
     "Log-in password" : "Pieslēgšanās parole",
     "Decrypt all Files" : "Atšifrēt visus failus",
-    "Login Name" : "Ierakstīšanās vārds",
+    "Username" : "Lietotājvārds",
     "Create" : "Izveidot",
     "Admin Recovery Password" : "Administratora atgūšanas parole",
     "Enter the recovery password in order to recover the users files during password change" : "Ievadiet atgūšanas paroli, lai varētu atgūt lietotāja failus paroles maiņas laikā.",
@@ -95,7 +95,6 @@ OC.L10N.register(
     "Default Quota" : "Apjoms pēc noklusējuma",
     "Unlimited" : "Neierobežota",
     "Other" : "Cits",
-    "Username" : "Lietotājvārds",
     "Quota" : "Apjoms",
     "set new password" : "iestatīt jaunu paroli",
     "Default" : "Noklusējuma"

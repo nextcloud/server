@@ -45,11 +45,10 @@ OC.L10N.register(
     "Language" : "மொழி",
     "Help translate" : "மொழிபெயர்க்க உதவி",
     "Import Root Certificate" : "வேர் சான்றிதழை இறக்குமதி செய்க",
-    "Login Name" : "புகுபதிகை",
+    "Username" : "பயனாளர் பெயர்",
     "Create" : "உருவாக்குக",
     "Default Quota" : "பொது இருப்பு பங்கு",
     "Other" : "மற்றவை",
-    "Username" : "பயனாளர் பெயர்",
     "Quota" : "பங்கு"
 },
 "nplurals=2; plural=(n != 1);");

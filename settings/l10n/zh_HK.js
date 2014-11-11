@@ -24,7 +24,7 @@ OC.L10N.register(
     "Change password" : "更改密碼",
     "Email" : "電郵",
     "Cancel" : "取消",
-    "Create" : "新增",
-    "Username" : "用戶名稱"
+    "Username" : "用戶名稱",
+    "Create" : "新增"
 },
 "nplurals=1; plural=0;");
