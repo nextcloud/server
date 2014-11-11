@@ -51,9 +51,7 @@ use OC\Files\Config\UserMountCacheListener;
 use OC\Files\Mount\CacheMountProvider;
 use OC\Files\Mount\LocalHomeMountProvider;
 use OC\Files\Mount\ObjectHomeMountProvider;
-use OC\Files\Node\HookConnector;
 use OC\Files\Node\LazyRoot;
-use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Http\Client\ClientService;
 use OC\IntegrityCheck\Checker;
@@ -92,6 +90,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  * TODO: hookup all manager classes
  */
 class Server extends ServerContainer implements IServerContainer {
+
 	/** @var string */
 	private $webRoot;
 
@@ -170,13 +169,18 @@ class Server extends ServerContainer implements IServerContainer {
 		$this->registerService('SystemTagObjectMapper', function (Server $c) {
 			return $c->query('SystemTagManagerFactory')->getObjectMapper();
 		});
-		$this->registerService('RootFolder', function () {
-			$manager = \OC\Files\Filesystem::getMountManager(null);
-			$view = new View();
-			$root = new Root($manager, $view, null);
-			$connector = new HookConnector($root, $view);
-			$connector->viewToNode();
-			return $root;
+		$this->registerService('StorageManager', function (Server $c) {
+			return new StorageManager(
+				$c->query('UserManager'),
+				$c->query('UserSession')
+			);
+		});
+		$this->registerService('RootFolder', function (Server $c) {
+			/**
+			 * @var \OCP\IStorageManager $storageManager
+			 */
+			$storageManager = $c->query('StorageManager');
+			return $storageManager->getRootFolder();
 		});
 		$this->registerService('LazyRootFolder', function(Server $c) {
 			return new LazyRoot(function() use ($c) {
@@ -761,7 +765,6 @@ class Server extends ServerContainer implements IServerContainer {
 		return $this->query('SystemTagObjectMapper');
 	}
 
-
 	/**
 	 * Returns the avatar manager, used for avatar functionality
 	 *
@@ -798,15 +801,11 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCP\Files\Folder|null
 	 */
 	public function getUserFolder($userId = null) {
-		if ($userId === null) {
-			$user = $this->getUserSession()->getUser();
-			if (!$user) {
-				return null;
-			}
-			$userId = $user->getUID();
-		}
-		$root = $this->getRootFolder();
-		return $root->getUserFolder($userId);
+		/**
+		 * @var \OCP\IStorageManager $storageManager
+		 */
+		$storageManager = $this->query('StorageManager');
+		return $storageManager->getUserFolder($userId);
 	}
 
 	/**
@@ -815,14 +814,11 @@ class Server extends ServerContainer implements IServerContainer {
 	 * @return \OCP\Files\Folder
 	 */
 	public function getAppFolder() {
-		$dir = '/' . \OC_App::getCurrentApp();
-		$root = $this->getRootFolder();
-		if (!$root->nodeExists($dir)) {
-			$folder = $root->newFolder($dir);
-		} else {
-			$folder = $root->get($dir);
-		}
-		return $folder;
+		/**
+		 * @var \OCP\IStorageManager $storageManager
+		 */
+		$storageManager = $this->query('StorageManager');
+		return $storageManager->getAppFolder();
 	}
 
 	/**
