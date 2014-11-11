@@ -64,8 +64,14 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 			return false;
 		}
 		$dn = $ldap_users[0];
-
 		$user = $this->access->userManager->get($dn);
+		if(is_null($user)) {
+			\OCP\Util::writeLog('user_ldap',
+				'LDAP Login: Could not get user object for DN ' . $dn .
+				'. Maybe the LDAP entry has no set display name attribute?',
+				\OCP\Util::WARN);
+			return false;
+		}
 		if($user->getUsername() !== false) {
 			//are the credentials OK?
 			if(!$this->access->areCredentialsValid($dn, $password)) {
