@@ -1180,10 +1180,6 @@ class OC_App {
 	 * @return bool
 	 */
 	public static function updateApp($appId) {
-		if (file_exists(self::getAppPath($appId) . '/appinfo/preupdate.php')) {
-			self::loadApp($appId, false);
-			include self::getAppPath($appId) . '/appinfo/preupdate.php';
-		}
 		if (file_exists(self::getAppPath($appId) . '/appinfo/database.xml')) {
 			OC_DB::updateDbFromStructure(self::getAppPath($appId) . '/appinfo/database.xml');
 		}
