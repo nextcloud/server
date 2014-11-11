@@ -219,6 +219,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 	public function getContentType() {
 		$mimeType = $this->info->getMimetype();
 
+		// PROPFIND needs to return the correct mime type, for consistency with the web UI
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PROPFIND' ) {
+			return $mimeType;
+		}
 		return \OC_Helper::getSecureMimeType($mimeType);
 	}
 
