@@ -353,6 +353,12 @@ input[type="submit"].enabled {
 	filter: alpha(opacity=60);
 	opacity: .6;
 }
+/* overrides another !important statement that sets this to unreadable black */
+#body-login form .warning input[type="checkbox"]:hover+label,
+#body-login form .warning input[type="checkbox"]:focus+label,
+#body-login form .warning input[type="checkbox"]+label {
+	color: #fff !important;
+}
 
 #body-login .update h2 {
 	font-size: 20px;
