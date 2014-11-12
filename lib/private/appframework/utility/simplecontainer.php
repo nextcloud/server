@@ -35,7 +35,7 @@ class SimpleContainer extends \Pimple\Container implements \OCP\IContainer {
 	 * @param bool $shared
 	 */
 	function registerService($name, \Closure $closure, $shared = true) {
-		if (!empty($this[$name]))  {
+		if (isset($this[$name]))  {
 			unset($this[$name]);
 		}
 		if ($shared) {
