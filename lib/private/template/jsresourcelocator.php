@@ -13,15 +13,10 @@ class JSResourceLocator extends ResourceLocator {
 		$theme_dir = 'themes/'.$this->theme.'/';
 		if (strpos($script, '3rdparty') === 0
 			&& $this->appendIfExist($this->thirdpartyroot, $script.'.js')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.$this->form_factor.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'apps/'.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.$this->form_factor.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, $script.$this->form_factor.'.js')
 			|| $this->appendIfExist($this->serverroot, $script.'.js')
-			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.$this->form_factor.'.js')
 			|| $this->appendIfExist($this->serverroot, $theme_dir.'core/'.$script.'.js')
-			|| $this->appendIfExist($this->serverroot, 'core/'.$script.$this->form_factor.'.js')
 			|| $this->appendIfExist($this->serverroot, 'core/'.$script.'.js')
 		) {
 			return;
@@ -30,9 +25,7 @@ class JSResourceLocator extends ResourceLocator {
 		$script = substr($script, strpos($script, '/')+1);
 		$app_path = \OC_App::getAppPath($app);
 		$app_url = \OC_App::getAppWebPath($app);
-		if ($this->appendIfExist($app_path, $script.$this->form_factor.'.js', $app_url)
-			|| $this->appendIfExist($app_path, $script.'.js', $app_url)
-		) {
+		if ($this->appendIfExist($app_path, $script.'.js', $app_url)) {
 			return;
 		}
 		// missing translations files fill be ignored

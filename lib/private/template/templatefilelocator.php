@@ -9,16 +9,13 @@
 namespace OC\Template;
 
 class TemplateFileLocator {
-	protected $form_factor;
 	protected $dirs;
 	private $path;
 
 	/**
 	 * @param string[] $dirs
-	 * @param string $form_factor
 	 */
-	public function __construct( $form_factor, $dirs ) {
-		$this->form_factor = $form_factor;
+	public function __construct( $dirs ) {
 		$this->dirs = $dirs;
 	}
 
@@ -33,18 +30,13 @@ class TemplateFileLocator {
 		}
 
 		foreach($this->dirs as $dir) {
-			$file = $dir.$template.$this->form_factor.'.php';
-			if (is_file($file)) {
-				$this->path = $dir;
-				return $file;
-			}
 			$file = $dir.$template.'.php';
 			if (is_file($file)) {
 				$this->path = $dir;
 				return $file;
 			}
 		}
-		throw new \Exception('template file not found: template:'.$template.' formfactor:'.$this->form_factor);
+		throw new \Exception('template file not found: template:'.$template);
 	}
 
 	public function getPath() {
