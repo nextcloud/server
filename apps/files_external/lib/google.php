@@ -496,7 +496,10 @@ class Google extends \OC\Files\Storage\Common {
 		$result = false;
 		if ($file) {
 			if (isset($mtime)) {
-				$file->setModifiedDate($mtime);
+				// This is just RFC3339, but frustratingly, GDrive's API *requires*
+				// the fractions portion be present, while no handy PHP constant
+				// for RFC3339 or ISO8601 includes it. So we do it ourselves.
+				$file->setModifiedDate(date('Y-m-d\TH:i:s.uP', $mtime));
 				$result = $this->service->files->patch($file->getId(), $file, array(
 					'setModifiedDate' => true,
 				));
