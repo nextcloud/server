@@ -20,6 +20,9 @@ class IntegrationTests extends \PHPUnit_Framework_TestCase {
 	 */
 	private $root;
 
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
 	/**
 	 * @var \OC\Files\Storage\Storage[]
 	 */
@@ -30,7 +33,10 @@ class IntegrationTests extends \PHPUnit_Framework_TestCase {
 	 */
 	private $view;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::init('', '');
 		\OC\Files\Filesystem::clearMounts();
 		$manager = \OC\Files\Filesystem::getMountManager();
@@ -54,11 +60,15 @@ class IntegrationTests extends \PHPUnit_Framework_TestCase {
 		$this->root->mount($subStorage, '/substorage/');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		foreach ($this->storages as $storage) {
 			$storage->getCache()->clear();
 		}
 		\OC\Files\Filesystem::clearMounts();
+
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	public function testBasicFile() {

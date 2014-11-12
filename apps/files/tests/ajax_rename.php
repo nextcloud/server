@@ -34,7 +34,14 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 	 */
 	private $files;
 
-	function setUp() {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+
 		// mock OC_L10n
 		if (!self::$user) {
 			self::$user = uniqid();
@@ -59,10 +66,13 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 		$this->files = new \OCA\Files\App($viewMock, $l10nMock);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$result = \OC_User::deleteUser(self::$user);
 		$this->assertTrue($result);
 		\OC\Files\Filesystem::tearDown();
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	/**

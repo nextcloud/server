@@ -33,13 +33,26 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	 */
 	protected $updater;
 
-	public function setUp() {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = Filesystem::getStorage('/');
 		$this->storage = new Temporary(array());
 		Filesystem::clearMounts();
 		Filesystem::mount($this->storage, array(), '/');
 		$this->view = new View('');
 		$this->updater = new \OC\Files\Cache\Updater($this->view);
 		$this->cache = $this->storage->getCache();
+	}
+
+	protected function tearDown() {
+		Filesystem::clearMounts();
+		Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	public function testNewFile() {

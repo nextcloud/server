@@ -65,7 +65,9 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testOC() {
+		$originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
+
 		$storage = new \OC\Files\Storage\Temporary(array());
 		$storage->file_put_contents('foo.txt', 'asd');
 		\OC\Files\Filesystem::mount($storage, array(), '/');
@@ -91,5 +93,8 @@ class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 
 		unlink('oc:///foo.txt');
 		$this->assertEquals(array('.', '..', 'bar.txt'), scandir('oc:///'));
+
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($originalStorage, array(), '/');
 	}
 }

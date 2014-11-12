@@ -8,7 +8,7 @@
 
 namespace Test;
 
-class Preview extends \PHPUnit_Framework_TestCase {
+class Preview extends \Test\TestCase {
 
 	/**
 	 * @var string
@@ -20,12 +20,32 @@ class Preview extends \PHPUnit_Framework_TestCase {
 	 */
 	private $rootView;
 
-	public function setUp() {
-		$this->user = $this->initFS();
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+
+		// create a new user with his own filesystem view
+		// this gets called by each test in this test class
+		$this->user = $this->getUniqueID();
+		\OC_User::setUserId($this->user);
+		\OC\Files\Filesystem::init($this->user, '/' . $this->user . '/files');
+
+		\OC\Files\Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
 
 		$this->rootView = new \OC\Files\View('');
 		$this->rootView->mkdir('/'.$this->user);
 		$this->rootView->mkdir('/'.$this->user.'/files');
+	}
+
+	protected function tearDown() {
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	public function testIsPreviewDeleted() {
@@ -184,16 +204,4 @@ class Preview extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($this->user . '/' . \OC\Preview::THUMBNAILS_FOLDER . '/' . $fileId . '/150-150.png', $isCached);
 	}
 	*/
-
-	private function initFS() {
-		// create a new user with his own filesystem view
-		// this gets called by each test in this test class
-		$user=uniqid();
-		\OC_User::setUserId($user);
-		\OC\Files\Filesystem::init($user, '/'.$user.'/files');
-
-		\OC\Files\Filesystem::mount('OC\Files\Storage\Temporary', array(), '/');
-		
-		return $user;
-	}
 }
