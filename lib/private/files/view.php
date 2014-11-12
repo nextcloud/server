@@ -676,10 +676,6 @@ class View {
 				$this->mkdir($filePath);
 			}
 
-			if (!$tmpFile) {
-				debug_print_backtrace();
-			}
-
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
 				$this->file_put_contents($path, $source);
