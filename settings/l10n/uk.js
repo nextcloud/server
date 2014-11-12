@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & Setup Warnings" : "Попередження Налаштувань та Безпеки",
     "Cron" : "Cron",
     "Sharing" : "Спільний доступ",
     "Security" : "Безпека",
@@ -119,6 +120,7 @@ OC.L10N.register(
     "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Ми наполегливо рекомендуємо встановити необхідні пакети в систему, для підтримки наступних локалей: %s.",
     "URL generation in notification emails" : "Генерування URL для повідомлень в електроних листах",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Якщо ваша копія ownCloud встановлена не в корені домену та використовує систему планування CRON, можливі проблеми з генерацією правильних URL. Щоб уникнути цього, встановіть опцію overwritewebroot файла config.php відповідно до теки розташування установки (Ймовірніше за все, це \"%s\")",
+    "Connectivity Checks" : "Перевірка З'єднання",
     "No problems found" : "Проблем не виявленно",
     "Please double check the <a href='%s'>installation guides</a>." : "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>.",
     "Last cron was executed at %s." : "Останню cron-задачу було запущено: %s.",

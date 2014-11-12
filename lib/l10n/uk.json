@@ -74,6 +74,11 @@
     "last year" : "минулого року",
     "years ago" : "роки тому",
     "A valid username must be provided" : "Потрібно задати вірне ім'я користувача",
-    "A valid password must be provided" : "Потрібно задати вірний пароль"
+    "A valid password must be provided" : "Потрібно задати вірний пароль",
+    "Cannot write into \"config\" directory" : "Не можу писати у теку \"config\"",
+    "Cannot write into \"apps\" directory" : "Не можу писати у теку \"apps\"",
+    "Please ask your server administrator to install the module." : "Будь ласка, зверніться до адміністратора, щоб встановити модуль.",
+    "PHP module %s not installed." : "%s модуль PHP не встановлено.",
+    "Please ask your server administrator to restart the web server." : "Будь ласка, зверніться до адміністратора, щоб перезавантажити сервер."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -74,6 +74,7 @@
     "Saving" : "Збереження",
     "Back" : "Назад",
     "Continue" : "Продовжити",
+    "LDAP" : "LDAP",
     "Expert" : "Експерт",
     "Advanced" : "Додатково",
     "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Попередження:</b> Застосунки user_ldap та user_webdavauth не сумісні. Ви можете зіткнутися з несподіваною поведінкою. Будь ласка, зверніться до системного адміністратора, щоб відключити одну з них.",
