@@ -38,7 +38,23 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 	}
 }
 
-class Scanner extends \PHPUnit_Framework_TestCase {
+
+class Scanner extends \Test\TestCase {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+	}
+
+	protected function tearDown() {
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
+	}
+
 	public function testReuseExistingRoot() {
 		$storage = new Temporary(array());
 		$mount = new Mount($storage, '');
