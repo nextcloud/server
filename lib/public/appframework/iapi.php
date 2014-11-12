@@ -37,6 +37,7 @@ interface IApi {
 	/**
 	 * Gets the userid of the current user
 	 * @return string the user id of the current user
+	 * @deprecated Use \OC::$server->getUserSession()->getUser()->getUID()
 	 */
 	function getUserId();
 

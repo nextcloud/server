@@ -49,6 +49,7 @@ class API implements IApi{
 	/**
 	 * Gets the userid of the current user
 	 * @return string the user id of the current user
+	 * @deprecated Use \OC::$server->getUserSession()->getUser()->getUID()
 	 */
 	public function getUserId(){
 		return \OCP\User::getUser();
@@ -112,6 +113,7 @@ class API implements IApi{
 	/**
 	 * used to return and open a new event source
 	 * @return \OCP\IEventSource a new open EventSource class
+	 * @deprecated Use \OC::$server->createEventSource();
 	 */
 	public function openEventSource(){
 		return \OC::$server->createEventSource();
@@ -159,6 +161,7 @@ class API implements IApi{
 	 * @param string $className full namespace and class name of the class
 	 * @param string $methodName the name of the static method that should be
 	 * called
+	 * @deprecated Use \OC::$server->getJobList()->add();
 	 */
 	public function addRegularTask($className, $methodName) {
 		\OCP\Backgroundjob::addRegularTask($className, $methodName);
