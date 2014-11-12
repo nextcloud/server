@@ -50,16 +50,13 @@ class OC_Template extends \OC\Template\Base {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
-		// Read the detected formfactor and use the right file name.
-		$fext = self::getFormFactorExtension();
-
 		$requesttoken = (OC::$server->getSession() and $registerCall) ? OC_Util::callRegister() : '';
 
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$l10n = \OC::$server->getL10N($parts[0]);
 		$themeDefaults = new OC_Defaults();
 
-		list($path, $template) = $this->findTemplate($theme, $app, $name, $fext);
+		list($path, $template) = $this->findTemplate($theme, $app, $name);
 
 		// Set the private data
 		$this->renderas = $renderas;
@@ -70,85 +67,23 @@ class OC_Template extends \OC\Template\Base {
 	}
 
 	/**
-	 * autodetect the formfactor of the used device
-	 * default -> the normal desktop browser interface
-	 * mobile -> interface for smartphones
-	 * tablet -> interface for tablets
-	 * standalone -> the default interface but without header, footer and
-	 *	sidebar, just the application. Useful to use just a specific
-	 *	app on the desktop in a standalone window.
-	 */
-	public static function detectFormfactor() {
-		// please add more useragent strings for other devices
-		if(isset($_SERVER['HTTP_USER_AGENT'])) {
-			if(stripos($_SERVER['HTTP_USER_AGENT'], 'ipad')>0) {
-				$mode='tablet';
-			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
-				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0)
-				and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
-				$mode='mobile';
-			}else{
-				$mode='default';
-			}
-		}else{
-			$mode='default';
-		}
-		return($mode);
-	}
-
-	/**
-	 * Returns the formfactor extension for current formfactor
-	 */
-	static public function getFormFactorExtension()
-	{
-		if (!\OC::$server->getSession()) {
-			return '';
-		}
-		// if the formfactor is not yet autodetected do the
-		// autodetection now. For possible formfactors check the
-		// detectFormfactor documentation
-		if (!\OC::$server->getSession()->exists('formfactor')) {
-			\OC::$server->getSession()->set('formfactor', self::detectFormfactor());
-		}
-		// allow manual override via GET parameter
-		if(isset($_GET['formfactor'])) {
-			\OC::$server->getSession()->set('formfactor', $_GET['formfactor']);
-		}
-		$formfactor = \OC::$server->getSession()->get('formfactor');
-		if($formfactor==='default') {
-			$fext='';
-		}elseif($formfactor==='mobile') {
-			$fext='.mobile';
-		}elseif($formfactor==='tablet') {
-			$fext='.tablet';
-		}elseif($formfactor==='standalone') {
-			$fext='.standalone';
-		}else{
-			$fext='';
-		}
-		return $fext;
-	}
-
-	/**
 	 * find the template with the given name
 	 * @param string $name of the template file (without suffix)
 	 *
-	 * Will select the template file for the selected theme and formfactor.
+	 * Will select the template file for the selected theme.
 	 * Checking all the possible locations.
 	 * @param string $theme
 	 * @param string $app
-	 * @param string $fext
 	 * @return array
 	 */
-	protected function findTemplate($theme, $app, $name, $fext) {
+	protected function findTemplate($theme, $app, $name) {
 		// Check if it is a app template or not.
 		if( $app !== '' ) {
 			$dirs = $this->getAppTemplateDirs($theme, $app, OC::$SERVERROOT, OC_App::getAppPath($app));
 		} else {
 			$dirs = $this->getCoreTemplateDirs($theme, OC::$SERVERROOT);
 		}
-		$locator = new \OC\Template\TemplateFileLocator( $fext, $dirs );
+		$locator = new \OC\Template\TemplateFileLocator( $dirs );
 		$template = $locator->find($name);
 		$path = $locator->getPath();
 		return array($path, $template);

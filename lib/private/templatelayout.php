@@ -131,10 +131,7 @@ class OC_TemplateLayout extends OC_Template {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
-		// Read the detected form factor and use the right file name.
-		$formFactorExt = self::getFormFactorExtension();
-
-		$locator = new \OC\Template\CSSResourceLocator( $theme, $formFactorExt,
+		$locator = new \OC\Template\CSSResourceLocator( $theme,
 			array( OC::$SERVERROOT => OC::$WEBROOT ),
 			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
 		$locator->find($styles);
@@ -149,10 +146,7 @@ class OC_TemplateLayout extends OC_Template {
 		// Read the selected theme from the config file
 		$theme = OC_Util::getTheme();
 
-		// Read the detected form factor and use the right file name.
-		$formFactorExt = self::getFormFactorExtension();
-
-		$locator = new \OC\Template\JSResourceLocator( $theme, $formFactorExt,
+		$locator = new \OC\Template\JSResourceLocator( $theme,
 			array( OC::$SERVERROOT => OC::$WEBROOT ),
 			array( OC::$THIRDPARTYROOT => OC::$THIRDPARTYWEBROOT ));
 		$locator->find($scripts);

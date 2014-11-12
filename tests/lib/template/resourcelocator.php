@@ -10,19 +10,17 @@ class Test_ResourceLocator extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @param string $theme
-	 * @param string $form_factor
 	 */
-	public function getResourceLocator( $theme, $form_factor, $core_map, $party_map, $appsroots ) {
+	public function getResourceLocator( $theme, $core_map, $party_map, $appsroots ) {
 		return $this->getMockForAbstractClass('OC\Template\ResourceLocator',
-			array( $theme, $form_factor, $core_map, $party_map, $appsroots ),
+			array( $theme, $core_map, $party_map, $appsroots ),
 			'', true, true, true, array());
 	}
 
 	public function testConstructor() {
-		$locator = $this->getResourceLocator('theme', 'form_factor',
+		$locator = $this->getResourceLocator('theme',
 			array('core'=>'map'), array('3rd'=>'party'), array('foo'=>'bar'));
 		$this->assertAttributeEquals('theme', 'theme', $locator);
-		$this->assertAttributeEquals('form_factor', 'form_factor', $locator);
 		$this->assertAttributeEquals('core', 'serverroot', $locator);
 		$this->assertAttributeEquals(array('core'=>'map','3rd'=>'party'), 'mapping', $locator);
 		$this->assertAttributeEquals('3rd', 'thirdpartyroot', $locator);
@@ -31,7 +29,7 @@ class Test_ResourceLocator extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testFind() {
-		$locator = $this->getResourceLocator('theme', 'form_factor',
+		$locator = $this->getResourceLocator('theme',
 			array('core'=>'map'), array('3rd'=>'party'), array('foo'=>'bar'));
 		$locator->expects($this->once())
 			->method('doFind')
@@ -41,7 +39,7 @@ class Test_ResourceLocator extends PHPUnit_Framework_TestCase {
 			->with('foo');
 		$locator->find(array('foo'));
 
-		$locator = $this->getResourceLocator('theme', 'form_factor',
+		$locator = $this->getResourceLocator('theme',
 			array('core'=>'map'), array('3rd'=>'party'), array('foo'=>'bar'));
 		$locator->expects($this->once())
 			->method('doFind')
@@ -50,12 +48,12 @@ class Test_ResourceLocator extends PHPUnit_Framework_TestCase {
 		try {
 			$locator->find(array('foo'));
 		} catch (\Exception $e) {
-			$this->assertEquals('test formfactor:form_factor serverroot:core', $e->getMessage());
+			$this->assertEquals('test serverroot:core', $e->getMessage());
 		}
 	}
 
 	public function testAppendIfExist() {
-		$locator = $this->getResourceLocator('theme', 'form_factor',
+		$locator = $this->getResourceLocator('theme',
 			array(__DIR__=>'map'), array('3rd'=>'party'), array('foo'=>'bar'));
 		$method = new ReflectionMethod($locator, 'appendIfExist');
 		$method->setAccessible(true);
