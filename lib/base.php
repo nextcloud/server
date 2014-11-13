@@ -613,14 +613,8 @@ class OC {
 			header('HTTP/1.1 400 Bad Request');
 			header('Status: 400 Bad Request');
 
-			$domain = $_SERVER['SERVER_NAME'];
-			// Append port to domain in case it is not
-			if($_SERVER['SERVER_PORT'] !== '80' && $_SERVER['SERVER_PORT'] !== '443') {
-				$domain .= ':'.$_SERVER['SERVER_PORT'];
-			}
-
 			$tmpl = new OCP\Template('core', 'untrustedDomain', 'guest');
-			$tmpl->assign('domain', $domain);
+			$tmpl->assign('domain', $_SERVER['SERVER_NAME']);
 			$tmpl->printPage();
 
 			exit();

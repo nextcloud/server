@@ -12,8 +12,7 @@ class OC_Request {
 	// Android Chrome user agent: https://developers.google.com/chrome/mobile/docs/user-agent
 	const USER_AGENT_ANDROID_MOBILE_CHROME = '#Android.*Chrome/[.0-9]*#';
 	const USER_AGENT_FREEBOX = '#^Mozilla/5\.0$#';
-
-	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)(:[0-9]+|)$/';
+	const REGEX_LOCALHOST = '/^(127\.0\.0\.1|localhost)$/';
 	static protected $reqId;
 
 	/**
@@ -76,13 +75,26 @@ class OC_Request {
 	 * have been configured
 	 */
 	public static function isTrustedDomain($domain) {
-		$trustedList = \OC_Config::getValue('trusted_domains', array());
+		// Extract port from domain if needed
+		$pos = strrpos($domain, ':');
+		if ($pos !== false) {
+			$port = substr($domain, $pos + 1);
+			if (is_numeric($port)) {
+				$domain = substr($domain, 0, $pos);
+			}
+		}
+
+		// FIXME: Empty config array defaults to true for now. - Deprecate this behaviour with ownCloud 8.
+		$trustedList = \OC::$server->getConfig()->getSystemValue('trusted_domains', array());
 		if (empty($trustedList)) {
 			return true;
 		}
+
+		// Always allow access from localhost
 		if (preg_match(self::REGEX_LOCALHOST, $domain) === 1) {
 			return true;
 		}
+
 		return in_array($domain, $trustedList);
 	}
 

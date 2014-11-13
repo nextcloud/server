@@ -71,7 +71,7 @@ $CONFIG = array(
 'trusted_domains' =>
   array (
     'demo.example.org',
-    'otherdomain.example.org:8080',
+    'otherdomain.example.org',
   ),
 
 
