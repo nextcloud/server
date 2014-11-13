@@ -28,9 +28,9 @@ OC_Util::checkAdminUser();
 OCP\Util::addScript('user_ldap', 'ldapFilter');
 OCP\Util::addScript('user_ldap', 'experiencedAdmin');
 OCP\Util::addScript('user_ldap', 'settings');
-OCP\Util::addScript('core', 'jquery.multiselect');
+\OC_Util::addVendorScript('user_ldap', 'ui-multiselect/src/jquery.multiselect');
 OCP\Util::addStyle('user_ldap', 'settings');
-OCP\Util::addStyle('core', 'jquery.multiselect');
+\OC_Util::addVendorStyle('user_ldap', 'ui-multiselect/jquery.multiselect');
 OCP\Util::addStyle('core', 'jquery-ui-1.10.0.custom');
 
 // fill template

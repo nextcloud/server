@@ -2,6 +2,7 @@ filter:
     excluded_paths:
         - '3rdparty/*'
         - 'apps/*/3rdparty/*'
+        - 'apps/*/vendor/*'
         - 'l10n/*'
         - 'core/l10n/*'
         - 'apps/*/l10n/*'
@@ -13,7 +14,6 @@ filter:
         - 'core/js/jquery-tipsy.js'
         - 'core/js/jquery-ui-1.10.0.custom.js'
         - 'core/js/placeholders.js'
-        - 'core/js/jquery.multiselect.js'
 
 
 imports:
