@@ -267,10 +267,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				$file = basename(
 					isset($object['Key']) ? $object['Key'] : $object['Prefix']
 				);
-
-				if ($file != basename($path)) {
-					$files[] = $file;
-				}
+				$files[] = $file;
 			}
 
 			\OC\Files\Stream\Dir::register('amazons3' . $path, $files);
