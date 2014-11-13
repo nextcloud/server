@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "このグループでは、フォルダー共有を開始することはできませんが、共有されたフォルダーを参照することはできます。",
     "Enforce HTTPS" : "常にHTTPSを使用する",
     "Forces the clients to connect to %s via an encrypted connection." : "クライアントから %sへの接続を常に暗号化します。",
+    "Enforce HTTPS for subdomains" : "サブドメインのHTTPSを強制する",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "%s とサブドメインへの暗号化接続をクライアントに強制する。",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "強制的なSSL接続を有効/無効にするには、HTTPS経由で %s へ接続してください。",
     "This is used for sending out notifications." : "通知を送信する際に使用します。",
     "Send mode" : "送信モード",

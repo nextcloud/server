@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Těmto skupinám bude stále možno sdílet, nemohou ale sami sdílet ostatním.",
     "Enforce HTTPS" : "Vynutit HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Vynutí připojování klientů k %s šifrovaným spojením.",
+    "Enforce HTTPS for subdomains" : "Vynutit HTTPS pro poddomény",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Vynutí připojování klientů k %s a poddoménám šifrovaným spojením.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Připojte se k %s přes HTTPS pro povolení nebo zakázání vynucení SSL.",
     "This is used for sending out notifications." : "Toto se používá pro odesílání upozornění.",
     "Send mode" : "Mód odesílání",

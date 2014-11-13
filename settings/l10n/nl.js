@@ -144,6 +144,8 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Deze groepen kunnen gedeelde mappen bestanden ontvangen, maar kunnen ze niet starten.",
     "Enforce HTTPS" : "Afdwingen HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Dwingt de clients om een versleutelde verbinding te maken met %s",
+    "Enforce HTTPS for subdomains" : "HTTPS afdwingen voor subdomeinen",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Dwingt de clients om een versleutelde verbinding te maken met %s en de subdomeinen.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Maak verbinding naar uw %s via HTTPS om een geforceerde versleutelde verbinding in- of uit te schakelen.",
     "This is used for sending out notifications." : "Dit wordt gestuurd voor het verzenden van meldingen.",
     "Send mode" : "Verstuurmodus",

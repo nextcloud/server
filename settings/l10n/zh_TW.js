@@ -31,6 +31,7 @@ OC.L10N.register(
     "Back-end doesn't support password change, but the users encryption key was successfully updated." : "後端不支援變更密碼，但成功更新使用者的加密金鑰",
     "Unable to change password" : "無法修改密碼",
     "Enabled" : "已啓用",
+    "Recommended" : "建議",
     "Saved" : "已儲存",
     "test email settings" : "測試郵件設定",
     "If you received this email, the settings seem to be correct." : "假如您收到這個郵件，此設定看起來是正確的。",

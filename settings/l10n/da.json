@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Disse grupper vil stadig kunne modtage delefiler, dog ikke skabe dem.",
     "Enforce HTTPS" : "Gennemtving HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Tving klienten til at forbinde til %s via en kryptetet forbindelse.",
+    "Enforce HTTPS for subdomains" : "Gennemtving HTTPS for subdomæner",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Tving klienterne til at tilslutte til %s og subdomæner via en krypteret forbindelse.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Forbind venligst til din %s via HTTPS for at aktivere eller deaktivere SSL tvang.",
     "This is used for sending out notifications." : "Dette anvendes til udsendelse af notifikationer.",
     "Send mode" : "Tilstand for afsendelse",

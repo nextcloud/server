@@ -106,7 +106,7 @@
     "Group Search Attributes" : "Recherche des attributs du groupe",
     "Group-Member association" : "Association groupe-membre",
     "Nested Groups" : "Groupes imbriqués",
-    "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Si activé, les groupes contenant d'autres groupes sont supportés (fonctionne uniquement si l'attribut membre du groupe contient des DNs).",
+    "When switched on, groups that contain groups are supported. (Only works if the group member attribute contains DNs.)" : "Si activé, les groupes contenant d'autres groupes sont pris en charge (fonctionne uniquement si l'attribut membre du groupe contient des DNs).",
     "Paging chunksize" : "Dimensionnement des paginations",
     "Chunksize used for paged LDAP searches that may return bulky results like user or group enumeration. (Setting it 0 disables paged LDAP searches in those situations.)" : "La taille d'une part (chunksize) est utilisée pour les recherches paginées de LDAP qui peuvent retourner des résultats par lots comme une énumération d'utilisateurs ou groupes. (Configurer à 0 pour désactiver les recherches paginées de LDAP.)",
     "Special Attributes" : "Attributs spéciaux",

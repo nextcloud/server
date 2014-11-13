@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Esses grupos ainda serão capazes de receber compartilhamentos, mas não para iniciá-los.",
     "Enforce HTTPS" : "Forçar HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Obrigar os clientes que se conectem a %s através de uma conexão criptografada.",
+    "Enforce HTTPS for subdomains" : "Forçar HTTPS para subdomínios",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Força os clientes se conectem a %s e subdomínios através de uma conexão criptografada.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Por favor, se conectar ao seu %s via HTTPS para forçar ativar ou desativar SSL.",
     "This is used for sending out notifications." : "Isto é usado para o envio de notificações.",
     "Send mode" : "Modo enviar",

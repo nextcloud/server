@@ -144,6 +144,8 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Need grupid saavad vastu võtta jagamisi, kuid ise jagamisi algatada ei saa.",
     "Enforce HTTPS" : "Sunni peale HTTPS-i kasutamine",
     "Forces the clients to connect to %s via an encrypted connection." : "Sunnib kliente %s ühenduma krüpteeritult.",
+    "Enforce HTTPS for subdomains" : "Sunni peale HTTPS-i kasutamine",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Sunnib kliente ühenduma domeeniga %s ja selle alamdomeenidega krüpteeritult.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Palun ühendu oma %s üle HTTPS või keela SSL kasutamine.",
     "This is used for sending out notifications." : "Seda kasutatakse teadete välja saatmiseks.",
     "Send mode" : "Saatmise viis",

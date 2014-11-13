@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Bu gruplar hala paylaşımları alabilecek, ancak başlatamayacaktır.",
     "Enforce HTTPS" : "HTTPS bağlantısına zorla",
     "Forces the clients to connect to %s via an encrypted connection." : "İstemcileri %s'a şifreli bir bağlantı ile bağlanmaya zorlar.",
+    "Enforce HTTPS for subdomains" : "Alt alan adları için HTTPS bağlantısına zorla",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "İstemcileri %s ve alt alan adlarına şifreli bir bağlantı ile bağlanmaya zorlar.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen %s'a HTTPS ile bağlanın.",
     "This is used for sending out notifications." : "Bu, bildirimler gönderilirken kullanılır.",
     "Send mode" : "Gönderme kipi",

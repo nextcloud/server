@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "These groups will still be able to receive shares, but not to initiate them.",
     "Enforce HTTPS" : "Enforce HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Forces the clients to connect to %s via an encrypted connection.",
+    "Enforce HTTPS for subdomains" : "Enforce HTTPS for subdomains",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Forces the clients to connect to %s and subdomains via an encrypted connection.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Please connect to your %s via HTTPS to enable or disable the SSL enforcement.",
     "This is used for sending out notifications." : "This is used for sending out notifications.",
     "Send mode" : "Send mode",
