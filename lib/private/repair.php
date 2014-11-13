@@ -93,7 +93,8 @@ class Repair extends BasicEmitter {
 		$steps = array(
 			new InnoDB(),
 			new Collation(\OC::$server->getConfig(), \OC_DB::getConnection()),
-			new SearchLuceneTables()
+			new SearchLuceneTables(),
+			new RepairConfig()
 		);
 
 		//There is no need to delete all previews on every single update
