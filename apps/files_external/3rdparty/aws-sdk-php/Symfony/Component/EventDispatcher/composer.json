@@ -19,7 +19,7 @@
         "php": ">=5.3.3"
     },
     "require-dev": {
-        "symfony/dependency-injection": "~2.0",
+        "symfony/dependency-injection": "~2.0,<2.6.0",
         "symfony/config": "~2.0",
         "symfony/stopwatch": "~2.2",
         "psr/log": "~1.0"

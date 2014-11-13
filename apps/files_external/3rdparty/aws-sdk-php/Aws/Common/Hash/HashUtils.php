@@ -38,6 +38,10 @@ class HashUtils
             $useNative = function_exists('hex2bin');
         }
 
+        if (!$useNative && strlen($hash) % 2 !== 0) {
+            $hash = '0' . $hash;
+        }
+
         return $useNative ? hex2bin($hash) : pack("H*", $hash);
     }
 

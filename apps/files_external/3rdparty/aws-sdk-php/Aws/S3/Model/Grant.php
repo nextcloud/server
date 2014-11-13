@@ -63,7 +63,7 @@ class Grant implements ToArrayInterface
      *
      * @param Grantee $grantee Affected grantee
      *
-     * @return self
+     * @return $this
      */
     public function setGrantee(Grantee $grantee)
     {
@@ -87,7 +87,7 @@ class Grant implements ToArrayInterface
      *
      * @param string $permission Permission applied
      *
-     * @return self
+     * @return $this
      *
      * @throws InvalidArgumentException
      */

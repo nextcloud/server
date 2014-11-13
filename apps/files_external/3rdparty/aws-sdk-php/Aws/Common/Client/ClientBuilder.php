@@ -20,13 +20,13 @@ use Aws\Common\Credentials\Credentials;
 use Aws\Common\Credentials\CredentialsInterface;
 use Aws\Common\Credentials\NullCredentials;
 use Aws\Common\Enum\ClientOptions as Options;
-use Aws\Common\Enum\Region;
 use Aws\Common\Exception\ExceptionListener;
 use Aws\Common\Exception\InvalidArgumentException;
 use Aws\Common\Exception\NamespaceExceptionFactory;
 use Aws\Common\Exception\Parser\DefaultXmlExceptionParser;
 use Aws\Common\Exception\Parser\ExceptionParserInterface;
 use Aws\Common\Iterator\AwsResourceIteratorFactory;
+use Aws\Common\RulesEndpointProvider;
 use Aws\Common\Signature\EndpointSignatureInterface;
 use Aws\Common\Signature\SignatureInterface;
 use Aws\Common\Signature\SignatureV2;
@@ -38,7 +38,6 @@ use Guzzle\Plugin\Backoff\CurlBackoffStrategy;
 use Guzzle\Plugin\Backoff\ExponentialBackoffStrategy;
 use Guzzle\Plugin\Backoff\HttpBackoffStrategy;
 use Guzzle\Plugin\Backoff\TruncatedBackoffStrategy;
-use Guzzle\Service\Client;
 use Guzzle\Service\Description\ServiceDescription;
 use Guzzle\Service\Resource\ResourceIteratorClassFactory;
 use Guzzle\Log\LogAdapterInterface;
@@ -199,6 +198,10 @@ class ClientBuilder
             array_merge(self::$commonConfigDefaults, $this->configDefaults),
             (self::$commonConfigRequirements + $this->configRequirements)
         );
+
+        if (!isset($config['endpoint_provider'])) {
+            $config['endpoint_provider'] = RulesEndpointProvider::fromDefaults();
+        }
 
         // Resolve the endpoint, signature, and credentials
         $description = $this->updateConfigFromDescription($config);
@@ -366,33 +369,36 @@ class ClientBuilder
             $this->setIteratorsConfig($iterators);
         }
 
-        // Ensure that the service description has regions
-        if (!$description->getData('regions')) {
-            throw new InvalidArgumentException(
-                'No regions found in the ' . $description->getData('serviceFullName'). ' description'
-            );
-        }
-
         // Make sure a valid region is set
         $region = $config->get(Options::REGION);
         $global = $description->getData('globalEndpoint');
+
         if (!$global && !$region) {
             throw new InvalidArgumentException(
                 'A region is required when using ' . $description->getData('serviceFullName')
-                . '. Set "region" to one of: ' . implode(', ', array_keys($description->getData('regions')))
             );
         } elseif ($global && (!$region || $description->getData('namespace') !== 'S3')) {
-            $region = Region::US_EAST_1;
-            $config->set(Options::REGION, $region);
+            $region = 'us-east-1';
+            $config->set(Options::REGION, 'us-east-1');
         }
 
         if (!$config->get(Options::BASE_URL)) {
-            // Set the base URL using the scheme and hostname of the service's region
-            $config->set(Options::BASE_URL, AbstractClient::getEndpoint(
-                $description,
-                $region,
-                $config->get(Options::SCHEME)
-            ));
+            $endpoint = call_user_func(
+                $config->get('endpoint_provider'),
+                array(
+                    'scheme'  => $config->get(Options::SCHEME),
+                    'region'  => $region,
+                    'service' => $config->get(Options::SERVICE)
+                )
+            );
+            $config->set(Options::BASE_URL, $endpoint['endpoint']);
+
+            // Set a signature if one was not explicitly provided.
+            if (!$config->hasKey(Options::SIGNATURE)
+                && isset($endpoint['signatureVersion'])
+            ) {
+                $config->set(Options::SIGNATURE, $endpoint['signatureVersion']);
+            }
         }
 
         return $description;

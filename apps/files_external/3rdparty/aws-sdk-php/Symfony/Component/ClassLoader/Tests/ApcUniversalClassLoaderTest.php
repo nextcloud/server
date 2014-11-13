@@ -55,13 +55,13 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
        $this->assertTrue(class_exists($className), $message);
    }
 
-   public function getLoadClassTests()
-   {
-       return array(
+    public function getLoadClassTests()
+    {
+        return array(
            array('\\Apc\\Namespaced\\Foo', 'Apc\\Namespaced\\Foo',   '->loadClass() loads Apc\Namespaced\Foo class'),
            array('Apc_Pearlike_Foo',    'Apc_Pearlike_Foo',      '->loadClass() loads Apc_Pearlike_Foo class'),
        );
-   }
+    }
 
    /**
     * @dataProvider getLoadClassFromFallbackTests
@@ -77,15 +77,15 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
        $this->assertTrue(class_exists($className), $message);
    }
 
-   public function getLoadClassFromFallbackTests()
-   {
-       return array(
+    public function getLoadClassFromFallbackTests()
+    {
+        return array(
            array('\\Apc\\Namespaced\\Baz',    'Apc\\Namespaced\\Baz',    '->loadClass() loads Apc\Namespaced\Baz class'),
            array('Apc_Pearlike_Baz',       'Apc_Pearlike_Baz',       '->loadClass() loads Apc_Pearlike_Baz class'),
            array('\\Apc\\Namespaced\\FooBar', 'Apc\\Namespaced\\FooBar', '->loadClass() loads Apc\Namespaced\Baz class from fallback dir'),
            array('Apc_Pearlike_FooBar',    'Apc_Pearlike_FooBar',    '->loadClass() loads Apc_Pearlike_Baz class from fallback dir'),
        );
-   }
+    }
 
    /**
     * @dataProvider getLoadClassNamespaceCollisionTests
@@ -100,9 +100,9 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
        $this->assertTrue(class_exists($className), $message);
    }
 
-   public function getLoadClassNamespaceCollisionTests()
-   {
-       return array(
+    public function getLoadClassNamespaceCollisionTests()
+    {
+        return array(
            array(
                array(
                    'Apc\\NamespaceCollision\\A' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/alpha',
@@ -136,7 +136,7 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
                '->loadClass() loads NamespaceCollision\A\B\Bar from beta.',
            ),
        );
-   }
+    }
 
    /**
     * @dataProvider getLoadClassPrefixCollisionTests
@@ -150,9 +150,9 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
        $this->assertTrue(class_exists($className), $message);
    }
 
-   public function getLoadClassPrefixCollisionTests()
-   {
-       return array(
+    public function getLoadClassPrefixCollisionTests()
+    {
+        return array(
            array(
                array(
                    'ApcPrefixCollision_A_' => __DIR__.DIRECTORY_SEPARATOR.'Fixtures/Apc/alpha/Apc',
@@ -186,5 +186,5 @@ class ApcUniversalClassLoaderTest extends \PHPUnit_Framework_TestCase
                '->loadClass() loads ApcPrefixCollision_A_B_Bar from beta.',
            ),
        );
-   }
+    }
 }

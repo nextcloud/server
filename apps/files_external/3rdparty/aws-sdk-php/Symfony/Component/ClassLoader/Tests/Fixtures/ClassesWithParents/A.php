@@ -2,4 +2,6 @@
 
 namespace ClassesWithParents;
 
-class A extends B {}
+class A extends B
+{
+}

@@ -2,4 +2,6 @@
 
 namespace ClassesWithParents;
 
-class B implements CInterface {}
+class B implements CInterface
+{
+}

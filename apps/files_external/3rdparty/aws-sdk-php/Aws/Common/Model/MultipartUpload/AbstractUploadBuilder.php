@@ -49,7 +49,7 @@ abstract class AbstractUploadBuilder
     /**
      * Return a new instance of the UploadBuilder
      *
-     * @return self
+     * @return static
      */
     public static function newInstance()
     {
@@ -61,7 +61,7 @@ abstract class AbstractUploadBuilder
      *
      * @param AwsClientInterface $client Client to use
      *
-     * @return self
+     * @return $this
      */
     public function setClient(AwsClientInterface $client)
     {
@@ -78,7 +78,7 @@ abstract class AbstractUploadBuilder
      *                                             multipart upload. When an ID is passed, the builder will create a
      *                                             state object using the data from a ListParts API response.
      *
-     * @return self
+     * @return $this
      */
     public function resumeFrom($state)
     {
@@ -94,7 +94,7 @@ abstract class AbstractUploadBuilder
      *                                           You can also stream from a resource returned from fopen or a Guzzle
      *                                           {@see EntityBody} object.
      *
-     * @return self
+     * @return $this
      * @throws InvalidArgumentException when the source cannot be found or opened
      */
     public function setSource($source)
@@ -123,7 +123,7 @@ abstract class AbstractUploadBuilder
      *
      * @param array $headers Headers to add to the uploaded object
      *
-     * @return self
+     * @return $this
      */
     public function setHeaders(array $headers)
     {

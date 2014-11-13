@@ -36,11 +36,11 @@ class AcpBuilder
     /**
      * Static method for chainable instantiation
      *
-     * @return self
+     * @return static
      */
     public static function newInstance()
     {
-        return new self;
+        return new static;
     }
 
     /**
@@ -49,7 +49,7 @@ class AcpBuilder
      * @param string $id          Owner identifier
      * @param string $displayName Owner display name
      *
-     * @return self
+     * @return $this
      */
     public function setOwner($id, $displayName = null)
     {
@@ -65,7 +65,7 @@ class AcpBuilder
      * @param string $id          Grantee identifier
      * @param string $displayName Grantee display name
      *
-     * @return self
+     * @return $this
      */
     public function addGrantForUser($permission, $id, $displayName = null)
     {
@@ -81,7 +81,7 @@ class AcpBuilder
      * @param string $permission Permission for the Grant
      * @param string $email      Grantee email address
      *
-     * @return self
+     * @return $this
      */
     public function addGrantForEmail($permission, $email)
     {
@@ -97,7 +97,7 @@ class AcpBuilder
      * @param string $permission Permission for the Grant
      * @param string $group      Grantee group
      *
-     * @return self
+     * @return $this
      */
     public function addGrantForGroup($permission, $group)
     {
@@ -113,7 +113,7 @@ class AcpBuilder
      * @param string  $permission Permission for the Grant
      * @param Grantee $grantee    The Grantee for the Grant
      *
-     * @return self
+     * @return $this
      */
     public function addGrant($permission, Grantee $grantee)
     {

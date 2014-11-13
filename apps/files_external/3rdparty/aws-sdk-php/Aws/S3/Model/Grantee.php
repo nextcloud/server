@@ -214,7 +214,7 @@ class Grantee implements ToArrayInterface
      */
     public function getHeaderValue()
     {
-        $key = self::$headerMap[$this->type];
+        $key = static::$headerMap[$this->type];
 
         return "{$key}=\"{$this->id}\"";
     }

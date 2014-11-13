@@ -38,7 +38,7 @@ class DownloadSyncBuilder extends AbstractSyncBuilder
      *
      * @param string $directory Directory
      *
-     * @return self
+     * @return $this
      */
     public function setDirectory($directory)
     {

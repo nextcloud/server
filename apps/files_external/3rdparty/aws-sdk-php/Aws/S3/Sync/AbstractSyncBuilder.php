@@ -65,7 +65,7 @@ abstract class AbstractSyncBuilder
     protected $debug;
 
     /**
-     * @return self
+     * @return static
      */
     public static function getInstance()
     {
@@ -77,7 +77,7 @@ abstract class AbstractSyncBuilder
      *
      * @param string $bucket Amazon S3 bucket name
      *
-     * @return self
+     * @return $this
      */
     public function setBucket($bucket)
     {
@@ -91,7 +91,7 @@ abstract class AbstractSyncBuilder
      *
      * @param S3Client $client Amazon S3 client
      *
-     * @return self
+     * @return $this
      */
     public function setClient(S3Client $client)
     {
@@ -105,7 +105,7 @@ abstract class AbstractSyncBuilder
      *
      * @param \Iterator $iterator
      *
-     * @return self
+     * @return $this
      */
     public function setSourceIterator(\Iterator $iterator)
     {
@@ -119,7 +119,7 @@ abstract class AbstractSyncBuilder
      *
      * @param FileNameConverterInterface $converter Filename to object key provider
      *
-     * @return self
+     * @return $this
      */
     public function setSourceFilenameConverter(FilenameConverterInterface $converter)
     {
@@ -133,7 +133,7 @@ abstract class AbstractSyncBuilder
      *
      * @param FileNameConverterInterface $converter Filename to object key provider
      *
-     * @return self
+     * @return $this
      */
     public function setTargetFilenameConverter(FilenameConverterInterface $converter)
     {
@@ -148,7 +148,7 @@ abstract class AbstractSyncBuilder
      *
      * @param string $baseDir Base directory, which will be deleted from each uploaded object key
      *
-     * @return self
+     * @return $this
      */
     public function setBaseDir($baseDir)
     {
@@ -164,7 +164,7 @@ abstract class AbstractSyncBuilder
      *
      * @param string $keyPrefix Prefix for each uploaded key
      *
-     * @return self
+     * @return $this
      */
     public function setKeyPrefix($keyPrefix)
     {
@@ -179,7 +179,7 @@ abstract class AbstractSyncBuilder
      *
      * @param string $delimiter Delimiter to use to separate paths
      *
-     * @return self
+     * @return $this
      */
     public function setDelimiter($delimiter)
     {
@@ -193,7 +193,7 @@ abstract class AbstractSyncBuilder
      *
      * @param array $params Associative array of PutObject (upload) GetObject (download) parameters
      *
-     * @return self
+     * @return $this
      */
     public function setOperationParams(array $params)
     {
@@ -207,7 +207,7 @@ abstract class AbstractSyncBuilder
      *
      * @param int $concurrency Number of concurrent transfers
      *
-     * @return self
+     * @return $this
      */
     public function setConcurrency($concurrency)
     {
@@ -221,7 +221,7 @@ abstract class AbstractSyncBuilder
      *
      * @param bool $force Set to true to force transfers without checking if it has changed
      *
-     * @return self
+     * @return $this
      */
     public function force($force = false)
     {
@@ -235,7 +235,7 @@ abstract class AbstractSyncBuilder
      *
      * @param bool|resource $enabledOrResource Set to true or false to enable or disable debug output. Pass an opened
      *                                         fopen resource to write to instead of writing to standard out.
-     * @return self
+     * @return $this
      */
     public function enableDebugOutput($enabledOrResource = true)
     {
@@ -249,7 +249,7 @@ abstract class AbstractSyncBuilder
      *
      * @param string $search Regular expression search (in preg_match format). Any filename that matches this regex
      *                       will not be transferred.
-     * @return self
+     * @return $this
      */
     public function addRegexFilter($search)
     {
@@ -301,7 +301,7 @@ abstract class AbstractSyncBuilder
     /**
      * Hook to implement in subclasses
      *
-     * @return self
+     * @return AbstractSync
      */
     abstract protected function specificBuild();
 
