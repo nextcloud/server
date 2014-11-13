@@ -5,6 +5,7 @@
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
+
 var oc_debug;
 var oc_webroot;
 
@@ -57,6 +58,7 @@ function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 }
 
+/** @namespace */
 var OC={
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
@@ -251,14 +253,22 @@ var OC={
 	},
 
 	/**
-	 * @todo Write the documentation
+	 * Returns the base name of the given path.
+	 * For example for "/abc/somefile.txt" it will return "somefile.txt"
+	 *
+	 * @param {String} path
+	 * @return {String} base name
 	 */
 	basename: function(path) {
 		return path.replace(/\\/g,'/').replace( /.*\//, '' );
 	},
 
 	/**
-	 *  @todo Write the documentation
+	 * Returns the dir name of the given path.
+	 * For example for "/abc/somefile.txt" it will return "/abc"
+	 *
+	 * @param {String} path
+	 * @return {String} dir name
 	 */
 	dirname: function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
@@ -277,12 +287,16 @@ var OC={
 			});
 		}
 	}, 500),
+	/**
+	 * Dialog helper for jquery dialogs.
+	 *
+	 * @namespace OC.dialogs
+	 */
 	dialogs:OCdialogs,
-
 	/**
 	 * Parses a URL query string into a JS map
 	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
-	 * @return map containing key/values matching the URL parameters
+	 * @return {Object.<string, string>} map containing key/values matching the URL parameters
 	 */
 	parseQueryString:function(queryString){
 		var parts,
@@ -334,7 +348,7 @@ var OC={
 
 	/**
 	 * Builds a URL query from a JS map.
-	 * @param params parameter map
+	 * @param {Object.<string, string>} params map containing key/values matching the URL parameters
 	 * @return {string} String containing a URL query (without question) mark
 	 */
 	buildQueryString: function(params) {
@@ -454,7 +468,7 @@ var OC={
 	 *
 	 * This is makes it possible for unit tests to
 	 * stub matchMedia (which doesn't work in PhantomJS)
-	 * @todo Write documentation
+	 * @private
 	 */
 	_matchMedia: function(media) {
 		if (window.matchMedia) {
@@ -464,6 +478,9 @@ var OC={
 	}
 };
 
+/**
+ * @namespace OC.search
+ */
 OC.search.customResults={};
 OC.search.currentResult=-1;
 OC.search.lastQuery='';
@@ -531,6 +548,7 @@ OC.msg={
 
 /**
  * @todo Write documentation
+ * @namespace
  */
 OC.Notification={
 	queuedNotifications: [],
@@ -607,7 +625,12 @@ OC.Notification={
 };
 
 /**
- * @todo Write documentation
+ * Breadcrumb class
+ *
+ * @namespace
+ *
+ * @deprecated will be replaced by the breadcrumb implementation
+ * of the files app in the future
  */
 OC.Breadcrumb={
 	container:null,
@@ -721,6 +744,7 @@ OC.Breadcrumb={
 if(typeof localStorage !=='undefined' && localStorage !== null){
 	/**
 	 * User and instance aware localstorage
+	 * @namespace
 	 */
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
@@ -1164,6 +1188,7 @@ function relative_modified_date(timestamp) {
 
 /**
  * Utility functions
+ * @namespace
  */
 OC.Util = {
 	// TODO: remove original functions from global namespace
@@ -1314,6 +1339,8 @@ OC.Util = {
  * Utility class for the history API,
  * includes fallback to using the URL hash when
  * the browser doesn't support the history API.
+ *
+ * @namespace
  */
 OC.Util.History = {
 	_handlers: [],
@@ -1473,6 +1500,7 @@ OC.set=function(name, value) {
 
 /**
  * Namespace for apps
+ * @namespace OCA
  */
 window.OCA = {};
 

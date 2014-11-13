@@ -16,9 +16,17 @@ if (!OCA.Sharing) {
 if (!OCA.Files) {
 	OCA.Files = {};
 }
+/**
+ * @namespace
+ */
 OCA.Sharing.PublicApp = {
 	_initialized: false,
 
+	/**
+	 * Initializes the public share app.
+	 *
+	 * @param $el container
+	 */
 	initialize: function ($el) {
 		var self = this;
 		var fileActions;

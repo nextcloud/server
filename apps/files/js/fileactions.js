@@ -13,11 +13,14 @@
 
 	/**
 	 * Construct a new FileActions instance
+	 * @constructs FileActions
+	 * @memberof OCA.Files
 	 */
 	var FileActions = function() {
 		this.initialize();
-	}
+	};
 	FileActions.prototype = {
+		/** @lends FileActions.prototype */
 		actions: {},
 		defaults: {},
 		icons: {},
@@ -31,9 +34,14 @@
 		/**
 		 * List of handlers to be notified whenever a register() or
 		 * setDefault() was called.
+		 *
+		 * @member {Function[]}
 		 */
 		_updateListeners: {},
 
+		/**
+		 * @private
+		 */
 		initialize: function() {
 			this.clear();
 			// abusing jquery for events until we get a real event lib
@@ -45,7 +53,7 @@
 		 * Adds an event handler
 		 *
 		 * @param {String} eventName event name
-		 * @param Function callback
+		 * @param {Function} callback
 		 */
 		on: function(eventName, callback) {
 			this.$el.on(eventName, callback);
@@ -75,7 +83,7 @@
 		 * Merges the actions from the given fileActions into
 		 * this instance.
 		 *
-		 * @param fileActions instance of OCA.Files.FileActions
+		 * @param {OCA.Files.FileActions} fileActions instance of OCA.Files.FileActions
 		 */
 		merge: function(fileActions) {
 			var self = this;
@@ -113,8 +121,9 @@
 		 * to the name given in action.name
 		 * @param {String} action.mime mime type
 		 * @param {int} action.permissions permissions
-		 * @param {(Function|String)} action.icon icon
-		 * @param {Function} action.actionHandler function that performs the action
+		 * @param {(Function|String)} action.icon icon path to the icon or function
+		 * that returns it
+		 * @param {OCA.Files.FileActions~actionHandler} action.actionHandler action handler function
 		 */
 		registerAction: function (action) {
 			var mime = action.mime;
@@ -130,6 +139,9 @@
 			this.icons[name] = action.icon;
 			this._notifyUpdateListeners('registerAction', {action: action});
 		},
+		/**
+		 * Clears all registered file actions.
+		 */
 		clear: function() {
 			this.actions = {};
 			this.defaults = {};
@@ -137,6 +149,12 @@
 			this.currentFile = null;
 			this._updateListeners = [];
 		},
+		/**
+		 * Sets the default action for a given mime type.
+		 *
+		 * @param {String} mime mime type
+		 * @param {String} name action name
+		 */
 		setDefault: function (mime, name) {
 			this.defaults[mime] = name;
 			this._notifyUpdateListeners('setDefault', {defaultAction: {mime: mime, name: name}});
@@ -370,6 +388,18 @@
 
 	OCA.Files.FileActions = FileActions;
 
+	/**
+	 * Action handler function for file actions
+	 *
+	 * @callback OCA.Files.FileActions~actionHandler
+	 * @param {String} fileName name of the clicked file
+	 * @param context context
+	 * @param {String} context.dir directory of the file
+	 * @param context.$file jQuery element of the file
+	 * @param {OCA.Files.FileList} context.fileList the FileList instance on which the action occurred
+	 * @param {OCA.Files.FileActions} context.fileActions the FileActions instance on which the action occurred
+	 */
+
 	// global file actions to be used by all lists
 	OCA.Files.fileActions = new OCA.Files.FileActions();
 	OCA.Files.legacyFileActions = new OCA.Files.FileActions();
@@ -380,6 +410,7 @@
 	// their actions on. Since legacy apps are very likely to break with other
 	// FileList views than the main one ("All files"), actions registered
 	// through window.FileActions will be limited to the main file list.
+	// @deprecated use OCA.Files.FileActions instead
 	window.FileActions = OCA.Files.legacyFileActions;
 	window.FileActions.register = function (mime, name, permissions, icon, action, displayName) {
 		console.warn('FileActions.register() is deprecated, please use OCA.Files.fileActions.register() instead', arguments);

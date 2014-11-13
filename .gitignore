@@ -89,6 +89,7 @@ nbproject
 
 # nodejs
 /build/lib/
+/build/jsdocs/
 /npm-debug.log
 
 
