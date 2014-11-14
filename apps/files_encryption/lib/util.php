@@ -77,9 +77,9 @@ class Util {
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
-				$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+				$this->publicKeyDir . '/' . $this->userId . '.publicKey'; // e.g. data/public-keys/admin.publicKey
 		$this->privateKeyPath =
-				$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+				$this->encryptionDir . '/' . $this->userId . '.privateKey'; // e.g. data/admin/admin.privateKey
 		// make sure that the owners home is mounted
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -1363,21 +1363,13 @@ class Util {
 	public function checkRecoveryPassword($password) {
 
 		$result = false;
-		$pathKey = '/owncloud_private_key/' . $this->recoveryKeyId . ".private.key";
 
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$recoveryKey = $this->view->file_get_contents($pathKey);
-
+		$recoveryKey = Keymanager::getPrivateSystemKey($this->recoveryKeyId);
 		$decryptedRecoveryKey = Crypt::decryptPrivateKey($recoveryKey, $password);
 
 		if ($decryptedRecoveryKey) {
 			$result = true;
 		}
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
 
 		return $result;
 	}
@@ -1486,15 +1478,8 @@ class Util {
 	 */
 	public function recoverUsersFiles($recoveryPassword) {
 
-		// Disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$encryptedKey = $this->view->file_get_contents(
-			'/owncloud_private_key/' . $this->recoveryKeyId . '.private.key');
+		$encryptedKey = Keymanager::getPrivateSystemKey( $this->recoveryKeyId);
 		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $recoveryPassword);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
 
 		$this->recoverAllFiles('/', $privateKey);
 	}
@@ -1510,8 +1495,8 @@ class Util {
 		$backupDir .= ($purpose === '') ? date("Y-m-d_H-i-s") . '/' : $purpose . '.' . date("Y-m-d_H-i-s") . '/';
 		$this->view->mkdir($backupDir);
 		$this->view->copy($this->keysPath, $backupDir . 'keys/');
-		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.private.key');
-		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.public.key');
+		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.privateKey');
+		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.publicKey');
 	}
 
 	/**
@@ -1571,7 +1556,10 @@ class Util {
 
 		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
 
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+		$privateKey = false;
+		if ($encryptedKey) {
+			$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+		}
 
 		if ($privateKey === false) {
 			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']

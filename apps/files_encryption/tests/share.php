@@ -915,8 +915,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
 
 		// break users public key
-		$this->view->rename('/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.public.key',
-			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.public.key_backup');
+		$this->view->rename('/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey',
+			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup');
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -943,8 +943,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// break user1 public key
 		$this->view->rename(
-			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.public.key_backup',
-			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.public.key');
+			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup',
+			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey');
 
 		// remove share file
 		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'

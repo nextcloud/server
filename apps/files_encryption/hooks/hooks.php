@@ -152,18 +152,7 @@ class Hooks {
 	public static function postDeleteUser($params) {
 
 		if (\OCP\App::isEnabled('files_encryption')) {
-			$view = new \OC\Files\View('/');
-
-			// cleanup public key
-			$publicKey = '/public-keys/' . $params['uid'] . '.public.key';
-
-			// Disable encryption proxy to prevent recursive calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
-
-			$view->unlink($publicKey);
-
-			\OC_FileProxy::$enabled = $proxyStatus;
+			Keymanager::deletePublicKey(new \OC\Files\View(), $params['uid']);
 		}
 	}
 
@@ -244,7 +233,7 @@ class Hooks {
 					\OC_FileProxy::$enabled = false;
 
 					// Save public key
-					$view->file_put_contents('/public-keys/' . $user . '.public.key', $keypair['publicKey']);
+					Keymanager::setPublicKey($keypair['publicKey'], $user);
 
 					// Encrypt private key with new password
 					$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword, Helper::getCipher());
@@ -292,7 +281,7 @@ class Hooks {
 
 		$l = new \OC_L10N('files_encryption');
 		$users = array();
-		$view = new \OC\Files\View('/public-keys/');
+		$view = new \OC\Files\View('/');
 
 		switch ($params['shareType']) {
 			case \OCP\Share::SHARE_TYPE_USER:
@@ -305,7 +294,7 @@ class Hooks {
 
 		$notConfigured = array();
 		foreach ($users as $user) {
-			if (!$view->file_exists($user . '.public.key')) {
+			if (!Keymanager::publicKeyExists($view, $user)) {
 				$notConfigured[] = $user;
 			}
 		}

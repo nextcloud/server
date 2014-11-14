@@ -175,7 +175,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		Encryption\Keymanager::setPrivateKey($key, 'dummyUser');
 
-		$this->assertTrue($this->view->file_exists('/dummyUser/files_encryption/dummyUser.private.key'));
+		$this->assertTrue($this->view->file_exists('/dummyUser/files_encryption/dummyUser.privateKey'));
 
 		//clean up
 		$this->view->deleteAll('/dummyUser');
@@ -187,14 +187,19 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	function testSetPrivateSystemKey() {
 
 		$key = "dummy key";
-		$keyName = "myDummyKey.private.key";
+		$keyName = "myDummyKey";
+		$encHeader = Encryption\Crypt::generateHeader();
 
 		Encryption\Keymanager::setPrivateSystemKey($key, $keyName);
 
-		$this->assertTrue($this->view->file_exists('/owncloud_private_key/' . $keyName));
+		$this->assertTrue($this->view->file_exists('/owncloud_private_key/' . $keyName . '.privateKey'));
+
+		$result = Encryption\Keymanager::getPrivateSystemKey($keyName);
+
+		$this->assertSame($encHeader . $key, $result);
 
 		// clean up
-		$this->view->unlink('/owncloud_private_key/' . $keyName);
+		$this->view->unlink('/owncloud_private_key/' . $keyName.'.privateKey');
 	}
 
 

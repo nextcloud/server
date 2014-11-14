@@ -19,7 +19,7 @@
  * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
  *
  * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ * License alon with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 
@@ -108,6 +108,25 @@ class Helper {
 	}
 
 	/**
+	 * get recovery key id
+	 *
+	 * @return string|bool recovery key ID or false
+	 */
+	public static function getRecoveryKeyId() {
+		$appConfig = \OC::$server->getAppConfig();
+		$key = $appConfig->getValue('files_encryption', 'recoveryKeyId');
+
+		return ($key === null) ? false : $key;
+	}
+
+	public static function getPublicShareKeyId() {
+		$appConfig = \OC::$server->getAppConfig();
+		$key = $appConfig->getValue('files_encryption', 'publicShareKeyId');
+
+		return ($key === null) ? false : $key;
+	}
+
+	/**
 	 * enable recovery
 	 *
 	 * @param string $recoveryKeyId
@@ -126,37 +145,21 @@ class Helper {
 			$appConfig->setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
 		}
 
-		if (!$view->is_dir('/owncloud_private_key')) {
-			$view->mkdir('/owncloud_private_key');
-		}
-
-		if (
-			(!$view->file_exists("/public-keys/" . $recoveryKeyId . ".public.key")
-			 || !$view->file_exists("/owncloud_private_key/" . $recoveryKeyId . ".private.key"))
-		) {
+		if (!Keymanager::recoveryKeyExists($view)) {
 
 			$keypair = \OCA\Encryption\Crypt::createKeypair();
 
-			\OC_FileProxy::$enabled = false;
-
 			// Save public key
-
-			if (!$view->is_dir('/public-keys')) {
-				$view->mkdir('/public-keys');
-			}
-
-			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
+			Keymanager::setPublicKey($keypair['publicKey'], $recoveryKeyId);
 
 			$cipher = \OCA\Encryption\Helper::getCipher();
 			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword, $cipher);
 			if ($encryptedKey) {
-				Keymanager::setPrivateSystemKey($encryptedKey, $recoveryKeyId . '.private.key');
+				Keymanager::setPrivateSystemKey($encryptedKey, $recoveryKeyId);
 				// Set recoveryAdmin as enabled
 				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
 				$return = true;
 			}
-
-			\OC_FileProxy::$enabled = true;
 
 		} else { // get recovery key and check the password
 			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());

@@ -439,8 +439,8 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		// set user password for the first time
 		\OCA\Encryption\Hooks::postCreateUser(array('uid' => 'newUser', 'password' => 'newUserPassword'));
 
-		$this->assertTrue($view->file_exists('public-keys/newUser.public.key'));
-		$this->assertTrue($view->file_exists('newUser/files_encryption/newUser.private.key'));
+		$this->assertTrue($view->file_exists('public-keys/newUser.publicKey'));
+		$this->assertTrue($view->file_exists('newUser/files_encryption/newUser.privateKey'));
 
 		// check if we are able to decrypt the private key
 		$encryptedKey = \OCA\Encryption\Keymanager::getPrivateKey($view, 'newUser');

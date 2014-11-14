@@ -56,42 +56,29 @@ class Session {
 
 		$appConfig = \OC::$server->getAppConfig();
 
-		$publicShareKeyId = $appConfig->getValue('files_encryption', 'publicShareKeyId');
+		$publicShareKeyId = Helper::getPublicShareKeyId();
 
-		if ($publicShareKeyId === null) {
+		if ($publicShareKeyId === false) {
 			$publicShareKeyId = 'pubShare_' . substr(md5(time()), 0, 8);
 			$appConfig->setValue('files_encryption', 'publicShareKeyId', $publicShareKeyId);
 		}
 
-		if (
-			!$this->view->file_exists("/public-keys/" . $publicShareKeyId . ".public.key")
-			|| !$this->view->file_exists("/owncloud_private_key/" . $publicShareKeyId . ".private.key")
-		) {
+		if (!Keymanager::publicShareKeyExists($view)) {
 
 			$keypair = Crypt::createKeypair();
 
-			// Disable encryption proxy to prevent recursive calls
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
 
 			// Save public key
-
-			if (!$view->is_dir('/public-keys')) {
-				$view->mkdir('/public-keys');
-			}
-
-			$this->view->file_put_contents('/public-keys/' . $publicShareKeyId . '.public.key', $keypair['publicKey']);
+			Keymanager::setPublicKey($keypair['publicKey'], $publicShareKeyId);
 
 			// Encrypt private key empty passphrase
 			$cipher = \OCA\Encryption\Helper::getCipher();
 			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], '', $cipher);
 			if ($encryptedKey) {
-				Keymanager::setPrivateSystemKey($encryptedKey, $publicShareKeyId . '.private.key');
+				Keymanager::setPrivateSystemKey($encryptedKey, $publicShareKeyId);
 			} else {
 				\OCP\Util::writeLog('files_encryption', 'Could not create public share keys', \OCP\Util::ERROR);
 			}
-
-			\OC_FileProxy::$enabled = $proxyStatus;
 
 		}
 
@@ -100,8 +87,7 @@ class Session {
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
 
-			$encryptedKey = $this->view->file_get_contents(
-				'/owncloud_private_key/' . $publicShareKeyId . '.private.key');
+			$encryptedKey = Keymanager::getPrivateSystemKey($publicShareKeyId);
 			$privateKey = Crypt::decryptPrivateKey($encryptedKey, '');
 			self::setPublicSharePrivateKey($privateKey);
 

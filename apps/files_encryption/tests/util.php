@@ -89,9 +89,9 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
-			$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+			$this->publicKeyDir . '/' . $this->userId . '.publicKey'; // e.g. data/public-keys/admin.publicKey
 		$this->privateKeyPath =
-			$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+			$this->encryptionDir . '/' . $this->userId . '.privateKey'; // e.g. data/admin/admin.privateKey
 
 		$this->view = new \OC\Files\View('/');
 
@@ -402,8 +402,8 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($this->view->is_dir($backupPath . '/keys'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/fileKey'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/' . $user . '.shareKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.private.key'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.public.key'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.privateKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.publicKey'));
 
 		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
@@ -435,8 +435,8 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($this->view->is_dir($backupPath . '/keys/foo'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/fileKey'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/user1.shareKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.private.key'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.public.key'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.privateKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.publicKey'));
 
 		//cleanup
 		$this->view->deleteAll($backupPath);
