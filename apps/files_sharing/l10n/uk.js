@@ -33,6 +33,9 @@ OC.L10N.register(
     "Add to your ownCloud" : "Додати до вашого ownCloud",
     "Download" : "Завантажити",
     "Download %s" : "Завантажити %s",
-    "Direct link" : "Пряме посилання"
+    "Direct link" : "Пряме посилання",
+    "Server-to-Server Sharing" : "Публікація між серверами",
+    "Allow users on this server to send shares to other servers" : "Дозволити користувачам цього сервера публікувати на інших серверах",
+    "Allow users on this server to receive shares from other servers" : "Дозволити користувачам на цьому сервері отримувати публікації з інших серверів"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

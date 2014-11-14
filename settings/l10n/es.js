@@ -144,6 +144,8 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Estos grupos aún podrán recibir contenidos compartidos, pero no podrán, pero no podrán iniciarlos.",
     "Enforce HTTPS" : "Forzar HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Forzar a los clientes a conectarse a %s por medio de una conexión cifrada.",
+    "Enforce HTTPS for subdomains" : "Forzar HTTPS para subdominios",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Obliga a los clientes a conectara %s y subdominios mediante una conexión cifrada.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Por favor, conéctese a su %s a través de HTTPS para habilitar o deshabilitar la aplicación de SSL.",
     "This is used for sending out notifications." : "Esto se usa para enviar notificaciones.",
     "Send mode" : "Modo de envío",
