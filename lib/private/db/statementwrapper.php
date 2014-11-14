@@ -64,7 +64,7 @@ class OC_DB_StatementWrapper {
 		} else {
 			$result = $this->statement->execute();
 		}
-		
+
 		if ($result === false) {
 			return false;
 		}
@@ -161,11 +161,10 @@ class OC_DB_StatementWrapper {
 			// send http status 503
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
-			OC_Template::printErrorPage('Failed to connect to database');
-			die ($entry);
+			throw new \OC\HintException($entry);
 		}
 	}
-    
+
 	/**
 	 * provide an alias for fetch
 	 *

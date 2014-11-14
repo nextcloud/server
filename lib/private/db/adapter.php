@@ -43,6 +43,7 @@ class Adapter {
 	 * insert the @input values when they do not exist yet
 	 * @param string $table name
 	 * @param array $input key->value pair, key has to be sanitized properly
+	 * @throws \OC\HintException
 	 * @return int count of inserted rows
 	 */
 	public function insertIfNotExist($table, $input) {
@@ -71,7 +72,7 @@ class Adapter {
 			$entry .= 'Offending command was: ' . $query.'<br />';
 			\OC_Log::write('core', $entry, \OC_Log::FATAL);
 			error_log('DB error: ' . $entry);
-			\OC_Template::printErrorPage( $entry );
+			throw new \OC\HintException($entry);
 		}
 	}
 }

@@ -42,7 +42,7 @@ class AdapterSqlite extends Adapter {
 			$entry .= 'Offending command was: ' . $query . '<br />';
 			\OC_Log::write('core', $entry, \OC_Log::FATAL);
 			error_log('DB error: '.$entry);
-			\OC_Template::printErrorPage( $entry );
+			throw new \OC\HintException($entry);
 		}
 
 		if ($stmt->fetchColumn() === '0') {
@@ -61,7 +61,7 @@ class AdapterSqlite extends Adapter {
 			$entry .= 'Offending command was: ' . $query.'<br />';
 			\OC_Log::write('core', $entry, \OC_Log::FATAL);
 			error_log('DB error: ' . $entry);
-			\OC_Template::printErrorPage( $entry );
+			throw new \OC\HintException($entry);
 		}
 
 		return $result;
