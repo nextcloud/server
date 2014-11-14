@@ -2,10 +2,11 @@
 /**
  * ownCloud
  *
- * @author Sam Tuke, Frank Karlitschek, Bjoern Schiessle
- * @copyright 2012 Sam Tuke <samtuke@owncloud.com>,
- * Frank Karlitschek <frank@owncloud.org>,
- * Bjoern Schiessle <schiessle@owncloud.com>
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Sam Tuke <samtuke@owncloud.com>,
+ * @author Frank Karlitschek <frank@owncloud.org>,
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE

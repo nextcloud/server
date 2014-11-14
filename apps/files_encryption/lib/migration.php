@@ -2,8 +2,9 @@
  /**
  * ownCloud
  *
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Thomas Müller <deepdiver@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE

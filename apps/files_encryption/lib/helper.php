@@ -3,8 +3,10 @@
 /**
  * ownCloud
  *
- * @author Florin Peter
- * @copyright 2013 Florin Peter <owncloud@florin-peter.de>
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Florin Peter <owncloud@florin-peter.de>
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
