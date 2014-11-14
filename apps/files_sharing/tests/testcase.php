@@ -22,6 +22,7 @@
 
 namespace OCA\Files_Sharing\Tests;
 
+use OC\Files\Filesystem;
 use OCA\Files\Share;
 
 /**
@@ -115,6 +116,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		} else {
 			\OC_App::disable('files_encryption');
 		}
+
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+		Filesystem::tearDown();
 	}
 
 	/**
