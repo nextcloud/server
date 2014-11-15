@@ -77,7 +77,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,
-			'test',
+			'files',
 			$isLoggedIn,
 			$isAdminUser
 		);
@@ -91,7 +91,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	public function testSetNavigationEntry(){
 		$this->navigationManager->expects($this->once())
 			->method('setActiveEntry')
-			->with($this->equalTo('test'));
+			->with($this->equalTo('files'));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);
