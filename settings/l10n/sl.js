@@ -138,6 +138,8 @@ OC.L10N.register(
     "These groups will still be able to receive shares, but not to initiate them." : "Te skupine lahko sprejemajo mape v souporabo, ne morejo pa souporabe dovoliti",
     "Enforce HTTPS" : "Zahtevaj uporabo HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Vsili povezavo odjemalca z %s preko šifrirane povezave.",
+    "Enforce HTTPS for subdomains" : "Vsili protokol HTTPS za podrejene domene",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Vsili povezavo odjemalcev na naslovu %s in na vseh podrejenih domenah preko šifrirane povezave. ",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Za nastavljanje šifriranja SSL je treba vzpostaviti povezavo z mestom %s preko protokola HTTPS.",
     "This is used for sending out notifications." : "Možnost je uporabljena za omogočanje pošiljanja obvestil.",
     "Send mode" : "Način pošiljanja",

@@ -193,8 +193,8 @@
     "Hey there,<br><br>just letting you know that %s shared <strong>%s</strong> with you.<br><a href=\"%s\">View it!</a><br><br>" : "Hej ty,<br><br>jen ti dávám vědět, že %s sdílí <strong>%s</strong> s tebou.<br><a href=\"%s\">Zobrazit!</a><br><br>",
     "This ownCloud instance is currently in single user mode." : "Tato instalace ownCloudu je momentálně v jednouživatelském módu.",
     "This means only administrators can use the instance." : "To znamená, že pouze správci systému mohou aplikaci používat.",
-    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte, prosím, správce systému, pokud se tato zpráva objevuje opakovaně nebo nečekaně.",
-    "Thank you for your patience." : "Děkuji za trpělivost.",
+    "Contact your system administrator if this message persists or appeared unexpectedly." : "Kontaktujte prosím správce systému, pokud se tato zpráva objevuje opakovaně nebo nečekaně.",
+    "Thank you for your patience." : "Děkujeme za vaši trpělivost.",
     "You are accessing the server from an untrusted domain." : "Přistupujete na server z nedůvěryhodné domény.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Kontaktujte prosím správce. Pokud jste správce této instalace, nastavte \"trusted_domain\" v souboru config/config.php. Příklad konfigurace najdete v souboru config/config.sample.php.",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "V závislosti na vaší konfiguraci vám může být, jako administrátorovi, umožněno použití tlačítka níže k označení této domény jako důvěryhodné.",
@@ -205,7 +205,7 @@
     "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." : "Před provedením dalšího kroku se prosím ujistěte, že databáze a konfigurační a datový adresář byly zazálohovány.  ",
     "Start update" : "Spustit aktualizaci",
     "To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" : "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:",
-    "This %s instance is currently being updated, which may take a while." : "Tato instalace %s je právě aktualizována a to může chvíli trvat.",
+    "This %s instance is currently being updated, which may take a while." : "Tato instalace %s je právě aktualizována. Mějte chvíli strpení.",
     "This page will refresh itself when the %s instance is available again." : "Tato stránka se automaticky načte poté, co bude opět dostupná instance %s."
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }
