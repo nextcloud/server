@@ -61,7 +61,7 @@
     "You can omit the protocol, except you require SSL. Then start with ldaps://" : "È possibile omettere il protocollo, ad eccezione se è necessario SSL. Quindi inizia con ldaps://",
     "Port" : "Porta",
     "User DN" : "DN utente",
-    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Il DN per il client dell'utente con cui deve essere associato, ad esempio uid=agent,dc=example,dc=com. Per l'accesso anonimo, lasciare vuoti i campi DN e Password",
+    "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." : "Il DN per il client dell'utente con cui deve essere associato, ad esempio uid=agente,dc=esempio,dc=com. Per l'accesso anonimo, lasciare vuoti i campi DN e Password",
     "Password" : "Password",
     "For anonymous access, leave DN and Password empty." : "Per l'accesso anonimo, lasciare vuoti i campi DN e Password",
     "One Base DN per line" : "Un DN base per riga",
