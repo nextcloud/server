@@ -77,10 +77,15 @@ class Test_Group_Ldap extends \PHPUnit_Framework_TestCase {
 			->method('readAttribute')
 			->will($this->returnValue(array('u11', 'u22', 'u33', 'u34')));
 
+		// for primary groups
+		$access->expects($this->once())
+			->method('countUsers')
+			->will($this->returnValue(2));
+
 		$groupBackend = new GroupLDAP($access);
 		$users = $groupBackend->countUsersInGroup('group');
 
-		$this->assertSame(4, $users);
+		$this->assertSame(6, $users);
 	}
 
 	public function testCountWithSearchString() {
