@@ -20,24 +20,22 @@
  *
  */
 
-require_once __DIR__ . '/util.php';
-
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Hooks
  * this class provide basic hook app tests
  */
-class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_HOOKS_USER1 = "test-encryption-hooks-user1.dot";
 	const TEST_ENCRYPTION_HOOKS_USER2 = "test-encryption-hooks-user2.dot";
 
-	/**
-	 * @var \OC\Files\View
-	 */
+	/** @var \OC\Files\View */
 	public $user1View;     // view on /data/user1/files
+	/** @var \OC\Files\View */
 	public $user2View;     // view on /data/user2/files
+	/** @var \OC\Files\View */
 	public $rootView; // view on /data/user
 	public $data;
 	public $filename;
@@ -46,6 +44,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 	private static $testFiles;
 
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		// note: not using a data provider because these
 		// files all need to coexist to make sure the
 		// share keys are found properly (pattern matching)
@@ -86,13 +86,15 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1, true);
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2, true);
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1, true);
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2, true);
 	}
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		// set user id
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 
 		// init filesystem view
@@ -102,8 +104,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
 		// init short data
 		$this->data = 'hats';
-		$this->filename = 'enc_hooks_tests-' . uniqid() . '.txt';
-		$this->folder = 'enc_hooks_tests_folder-' . uniqid();
+		$this->filename = 'enc_hooks_tests-' . $this->getUniqueID() . '.txt';
+		$this->folder = 'enc_hooks_tests_folder-' . $this->getUniqueID();
 
 	}
 
@@ -119,6 +121,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 		$view = new \OC\Files\View('/');
 		$view->rmdir('public-keys');
 		$view->rmdir('owncloud_private_key');
+
+		parent::tearDownAfterClass();
 	}
 
 	function testDisableHook() {
@@ -140,7 +144,7 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
 		// relogin user to initialize the encryption again
 		$user =  \OCP\User::getUser();
-		\Test_Encryption_Util::loginHelper($user);
+		self::loginHelper($user);
 
 	}
 
@@ -165,8 +169,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 			self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keyfiles/' . $this->filename . '.key'));
 
 
-		\Test_Encryption_Util::logoutHelper();
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
+		self::logoutHelper();
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
 
 
@@ -223,8 +227,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
 	function testDeleteHooksForSharedFiles() {
 
-		\Test_Encryption_Util::logoutHelper();
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
+		self::logoutHelper();
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 
 		// remember files_trashbin state
@@ -259,8 +263,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 			self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/share-keys/'
 			. $this->filename . '.' . \Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2 . '.shareKey'));
 
-		\Test_Encryption_Util::logoutHelper();
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
+		self::logoutHelper();
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
 
 		// user2 update the shared file
@@ -290,8 +294,8 @@ class Test_Encryption_Hooks extends \PHPUnit_Framework_TestCase {
 
 		// cleanup
 
-		\Test_Encryption_Util::logoutHelper();
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
+		self::logoutHelper();
+		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 		\OC_User::setUserId(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 
 		if ($stateFilesTrashbin) {

@@ -9,7 +9,7 @@
 class Test_Archive_TAR extends Test_Archive {
 	public function setUp() {
 		if (OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('tar archives are not supported on windows');
+			$this->markTestSkipped('[Windows] tar archives are not supported on Windows');
 		}
 		parent::setUp();
 	}

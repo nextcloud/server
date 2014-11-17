@@ -15,16 +15,27 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 	 */
 	private $storages = array();
 
-	public function setUp() {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
 			$ids = $cache->getAll();
 			$cache->clear();
 		}
+
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	/**

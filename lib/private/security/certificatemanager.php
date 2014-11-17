@@ -49,6 +49,7 @@ class CertificateManager implements ICertificateManager {
 				} catch(\Exception $e) {}
 			}
 		}
+		closedir($handle);
 		return $result;
 	}
 

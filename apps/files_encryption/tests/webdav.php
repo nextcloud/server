@@ -20,8 +20,6 @@
  *
  */
 
-require_once __DIR__ . '/util.php';
-
 use OCA\Encryption;
 
 /**
@@ -29,7 +27,7 @@ use OCA\Encryption;
  *
  * this class provide basic webdav tests for PUT,GET and DELETE
  */
-class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_WEBDAV_USER1 = "test-webdav-user1";
 
@@ -45,6 +43,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	private $storage;
 
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
@@ -60,11 +60,13 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1, true);
+		self::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1, true);
 
 	}
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		// reset backend
 		\OC_User::useBackend('database');
 
@@ -86,16 +88,18 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		\OC_App::disable('files_trashbin');
 
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1);
+		self::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
 		} else {
 			OC_App::disable('files_trashbin');
 		}
+
+		parent::tearDown();
 	}
 
 	public static function tearDownAfterClass() {
@@ -109,6 +113,8 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 		$view = new \OC\Files\View('/');
 		$view->rmdir('public-keys');
 		$view->rmdir('owncloud_private_key');
+
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -117,7 +123,7 @@ class Test_Encryption_Webdav extends \PHPUnit_Framework_TestCase {
 	function testWebdavPUT() {
 
 		// generate filename
-		$filename = '/tmp-' . uniqid() . '.txt';
+		$filename = '/tmp-' . $this->getUniqueID() . '.txt';
 
 		// set server vars
 		$_SERVER['REQUEST_METHOD'] = 'OPTIONS';

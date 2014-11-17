@@ -6,32 +6,38 @@
  * See the COPYING-README file.
  */
 
-require_once __DIR__ . '/util.php';
-
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Helper
  */
-class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Helper extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_HELPER_USER1 = "test-helper-user1";
 	const TEST_ENCRYPTION_HELPER_USER2 = "test-helper-user2";
 
-	public function setUp() {
+	protected function setUpUsers() {
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2, true);
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1, true);
+		self::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2, true);
+		self::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1, true);
 	}
 
-	public function tearDown() {
+	protected  function cleanUpUsers() {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
 		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2);
 	}
 
-	public static function tearDownAfterClass() {
+	public static function setupHooks() {
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerFilesystemHooks();
 
+		// clear and register hooks
+		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new OCA\Encryption\Proxy());
+	}
+
+	public static function tearDownAfterClass() {
 		\OC_Hook::clear();
 		\OC_FileProxy::clearProxies();
 
@@ -39,6 +45,8 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 		$view = new \OC\Files\View('/');
 		$view->rmdir('public-keys');
 		$view->rmdir('owncloud_private_key');
+
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -90,19 +98,20 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 	}
 
 	function testGetUser() {
+		self::setUpUsers();
 
 		$path1 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/files/foo/bar.txt";
 		$path2 = "/" . self::TEST_ENCRYPTION_HELPER_USER1 . "/cache/foo/bar.txt";
 		$path3 = "/" . self::TEST_ENCRYPTION_HELPER_USER2 . "/thumbnails/foo";
 		$path4 ="/" . "/" . self::TEST_ENCRYPTION_HELPER_USER1;
 
-		\Test_Encryption_Util::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1);
+		self::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1);
 
 		// if we are logged-in every path should return the currently logged-in user
 		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Encryption\Helper::getUser($path3));
 
 		// now log out
-		\Test_Encryption_Util::logoutHelper();
+		self::logoutHelper();
 
 		// now we should only get the user from /user/files and user/cache paths
 		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Encryption\Helper::getUser($path1));
@@ -112,12 +121,13 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse(Encryption\Helper::getUser($path4));
 
 		// Log-in again
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
+		self::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
+		self::cleanUpUsers();
 	}
 
 	function userNamesProvider() {
 		return array(
-			array('testuser' . uniqid()),
+			array('testuser' . $this->getUniqueID()),
 			array('user.name.with.dots'),
 		);
 	}
@@ -128,12 +138,13 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 	 * @dataProvider userNamesProvider
 	 */
 	function testFindShareKeys($userName) {
+		self::setUpUsers();
 		// note: not using dataProvider as we want to make
 		// sure that the correct keys are match and not any
 		// other ones that might happen to have similar names
-		\Test_Encryption_Util::setupHooks();
-		\Test_Encryption_Util::loginHelper($userName, true);
-		$testDir = 'testFindShareKeys' . uniqid() . '/';
+		self::setupHooks();
+		self::loginHelper($userName, true);
+		$testDir = 'testFindShareKeys' . $this->getUniqueID() . '/';
 		$baseDir = $userName . '/files/' . $testDir;
 		$fileList = array(
 			't est.txt',
@@ -164,6 +175,6 @@ class Test_Encryption_Helper extends \PHPUnit_Framework_TestCase {
 				$result
 			);
 		}
+		self::cleanUpUsers();
 	}
-
 }

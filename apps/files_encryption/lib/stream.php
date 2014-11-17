@@ -580,6 +580,7 @@ class Stream {
 				\OC_FileProxy::$enabled = false;
 
 				if ($this->rootView->file_exists($this->rawPath) && $this->size === 0) {
+					fclose($this->handle);
 					$this->rootView->unlink($this->rawPath);
 				}
 

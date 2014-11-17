@@ -75,7 +75,12 @@ class Home extends Storage {
 	 * Tests that the root path matches the data dir
 	 */
 	public function testRoot() {
-		$this->assertEquals($this->tmpDir, $this->instance->getLocalFolder(''));
+		if (\OC_Util::runningOnWindows()) {
+			// Windows removes trailing slashes when returning paths
+			$this->assertEquals(rtrim($this->tmpDir, '/'), $this->instance->getLocalFolder(''));
+		} else {
+			$this->assertEquals($this->tmpDir, $this->instance->getLocalFolder(''));
+		}
 	}
 
 	/**

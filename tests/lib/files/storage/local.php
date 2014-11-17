@@ -39,7 +39,7 @@ class Local extends Storage {
 
 	public function testStableEtag() {
 		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('On Windows platform we have no stable etag generation - yet');
+			$this->markTestSkipped('[Windows] On Windows platform we have no stable etag generation - yet');
 		}
 
 		$this->instance->file_put_contents('test.txt', 'foobar');
@@ -50,7 +50,7 @@ class Local extends Storage {
 
 	public function testEtagChange() {
 		if (\OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('On Windows platform we have no stable etag generation - yet');
+			$this->markTestSkipped('[Windows] On Windows platform we have no stable etag generation - yet');
 		}
 
 		$this->instance->file_put_contents('test.txt', 'foo');

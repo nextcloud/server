@@ -23,8 +23,12 @@
 namespace Test\Cache;
 
 class UserCache extends \Test_Cache {
+	/** @var string */
 	private $user;
+	/** @var string */
 	private $datadir;
+	/** @var \OC\Files\Storage\Storage */
+	private $storage;
 
 	public function setUp() {
 		//clear all proxies and hooks so we can do clean testing
@@ -38,6 +42,7 @@ class UserCache extends \Test_Cache {
 		//}
 
 		//set up temporary storage
+		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage,array(),'/');
@@ -63,5 +68,12 @@ class UserCache extends \Test_Cache {
 
 	public function tearDown() {
 		\OC_User::setUserId($this->user);
+		\OC_Config::setValue('cachedirectory', $this->datadir);
+
+		// Restore the original mount point
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->storage, array(), '/');
+
+		parent::tearDown();
 	}
 }

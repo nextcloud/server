@@ -23,8 +23,12 @@
 namespace Test\Cache;
 
 class FileCache extends \Test_Cache {
+	/** @var string */
 	private $user;
+	/** @var string */
 	private $datadir;
+	/** @var \OC\Files\Storage\Storage */
+	private $storage;
 
 	function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
@@ -42,6 +46,7 @@ class FileCache extends \Test_Cache {
 		//}
 
 		//set up temporary storage
+		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage,array(),'/');
@@ -68,5 +73,11 @@ class FileCache extends \Test_Cache {
 	public function tearDown() {
 		\OC_User::setUserId($this->user);
 		\OC_Config::setValue('cachedirectory', $this->datadir);
+
+		// Restore the original mount point
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->storage, array(), '/');
+
+		parent::tearDown();
 	}
 }

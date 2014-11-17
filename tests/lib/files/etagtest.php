@@ -11,7 +11,7 @@ namespace Test\Files;
 use OC\Files\Filesystem;
 use OCP\Share;
 
-class EtagTest extends \PHPUnit_Framework_TestCase {
+class EtagTest extends \Test\TestCase {
 	private $datadir;
 
 	private $tmpDir;
@@ -23,7 +23,12 @@ class EtagTest extends \PHPUnit_Framework_TestCase {
 	 */
 	private $userBackend;
 
-	public function setUp() {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
 		\OC_Hook::clear('OC_Filesystem', 'setup');
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 		\OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
@@ -37,13 +42,17 @@ class EtagTest extends \PHPUnit_Framework_TestCase {
 
 		$this->userBackend = new \OC_User_Dummy();
 		\OC_User::useBackend($this->userBackend);
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC_Util::tearDownFS();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_Config::setValue('datadirectory', $this->datadir);
 		\OC_User::setUserId($this->uid);
 		\OC_Util::setupFS($this->uid);
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	public function testNewUser() {
