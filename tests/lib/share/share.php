@@ -27,6 +27,7 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	protected $user2;
 	protected $user3;
 	protected $user4;
+	protected $groupAndUser;
 	protected $groupBackend;
 	protected $group1;
 	protected $group2;
@@ -41,10 +42,12 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->user2 = uniqid('user2_');
 		$this->user3 = uniqid('user3_');
 		$this->user4 = uniqid('user4_');
+		$this->groupAndUser = uniqid('groupAndUser_');
 		OC_User::createUser($this->user1, 'pass');
 		OC_User::createUser($this->user2, 'pass');
 		OC_User::createUser($this->user3, 'pass');
 		OC_User::createUser($this->user4, 'pass');
+		OC_User::createUser($this->groupAndUser, 'pass');
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
 		OC_Group::useBackend(new OC_Group_Dummy);
@@ -52,11 +55,14 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->group2 = uniqid('group2_');
 		OC_Group::createGroup($this->group1);
 		OC_Group::createGroup($this->group2);
+		OC_Group::createGroup($this->groupAndUser);
 		OC_Group::addToGroup($this->user1, $this->group1);
 		OC_Group::addToGroup($this->user2, $this->group1);
 		OC_Group::addToGroup($this->user3, $this->group1);
 		OC_Group::addToGroup($this->user2, $this->group2);
 		OC_Group::addToGroup($this->user4, $this->group2);
+		OC_Group::addToGroup($this->user2, $this->groupAndUser);
+		OC_Group::addToGroup($this->user3, $this->groupAndUser);
 		OCP\Share::registerBackend('test', 'Test_Share_Backend');
 		OC_Hook::clear('OCP\\Share');
 		OC::registerShareHooks();
@@ -574,6 +580,41 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), OCP\Share::getItemsSharedWith('test', Test_Share_Backend::FORMAT_TARGET));
 		OC_User::setUserId($this->user3);
 		$this->assertEquals(array(), OCP\Share::getItemsShared('test'));
+	}
+
+
+	public function testShareWithGroupAndUserBothHaveTheSameId() {
+
+		$this->shareUserTestFileWithUser($this->user1, $this->groupAndUser);
+
+		OC_User::setUserId($this->groupAndUser);
+
+		$this->assertEquals(array('test.txt'), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+				'"groupAndUser"-User does not see the file but it was shared with him');
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(array(), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+				'User2 sees test.txt but it was only shared with the user "groupAndUser" and not with group');
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(OCP\Share::unshareAll('test', 'test.txt'));
+
+		$this->assertTrue(
+				OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_GROUP, $this->groupAndUser, OCP\PERMISSION_READ),
+				'Failed asserting that user 1 successfully shared text.txt with group 1.'
+		);
+
+		OC_User::setUserId($this->groupAndUser);
+		$this->assertEquals(array(), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+				'"groupAndUser"-User sees test.txt but it was only shared with the group "groupAndUser" and not with the user');
+
+		OC_User::setUserId($this->user2);
+		$this->assertEquals(array('test.txt'), OCP\Share::getItemSharedWith('test', 'test.txt', Test_Share_Backend::FORMAT_SOURCE),
+				'User2 does not see test.txt but it was shared with the group "groupAndUser"');
+
+		OC_User::setUserId($this->user1);
+		$this->assertTrue(OCP\Share::unshareAll('test', 'test.txt'));
+
 	}
 
 	/**
