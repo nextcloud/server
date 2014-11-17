@@ -288,9 +288,10 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $user User user to whom the item was shared
+	 * @param int $shareType only look for a specific share type
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
+	public static function getItemSharedWithUser($itemType, $itemSource, $user, $shareType = null) {
 
 		$shares = array();
 		$fileDependend = false;
@@ -312,6 +313,11 @@ class Share extends \OC\Share\Constants {
 		if ($user !== null) {
 			$where .= ' AND `share_with` = ? ';
 			$arguments[] = $user;
+		}
+
+		if ($shareType !== null) {
+			$where .= ' AND `share_type` = ? ';
+			$arguments[] = $shareType;
 		}
 
 		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $where);
@@ -695,7 +701,7 @@ class Share extends \OC\Share\Constants {
 		// check if it is a valid itemType
 		self::getBackend($itemType);
 
-		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith);
+		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith, $shareType);
 
 		$toDelete = array();
 		$newParent = null;
