@@ -291,4 +291,11 @@ interface IServerContainer {
 	 * @return \OCP\ITempManager
 	 */
 	function getTempManager();
+
+	/**
+	 * Get the app manager
+	 *
+	 * @return \OCP\App\IAppManager
+	 */
+	function getAppManager();
 }

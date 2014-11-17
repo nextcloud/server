@@ -237,6 +237,12 @@ class Server extends SimpleContainer implements IServerContainer {
 			/** @var Server $c */
 			return new TempManager(get_temp_dir(), $c->getLogger());
 		});
+		$this->registerService('AppManager', function(Server $c) {
+			$userSession = $c->getUserSession();
+			$appConfig = $c->getAppConfig();
+			$groupManager = $c->getGroupManager();
+			return new \OC\App\AppManager($userSession, $appConfig, $groupManager);
+		});
 	}
 
 	/**
@@ -615,5 +621,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getTempManager() {
 		return $this->query('TempManager');
+	}
+
+	/**
+	 * Get the app manager
+	 *
+	 * @return \OCP\App\IAppManager
+	 */
+	function getAppManager() {
+		return $this->query('AppManager');
 	}
 }
