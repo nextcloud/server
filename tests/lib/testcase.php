@@ -25,9 +25,6 @@ namespace Test;
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	protected function getUniqueID($prefix = '', $length = 13) {
 		// Do not use dots and slashes as we use the value for file names
-		return $prefix . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(
-			$length,
-			'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-		);
+		return $prefix . \OC_Util::generateRandomBytes($length);
 	}
 }
