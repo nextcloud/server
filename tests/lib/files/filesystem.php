@@ -131,6 +131,14 @@ class Filesystem extends \Test\TestCase {
 			array('/foo/.bar/', '\\foo\\.bar\\', false),
 			array('/foo/.bar/tee', '\\foo\\.bar\\tee'),
 
+			// Absolute windows paths NOT marked as absolute
+			array('/C:', 'C:\\'),
+			array('/C:/', 'C:\\', false),
+			array('/C:/tests', 'C:\\tests'),
+			array('/C:/tests', 'C:\\tests', false),
+			array('/C:/tests', 'C:\\tests\\'),
+			array('/C:/tests/', 'C:\\tests\\', false),
+
 			// normalize does not resolve '..' (by design)
 			array('/foo/..', '/foo/../'),
 			array('/foo/..', '\\foo\\..\\'),
@@ -140,8 +148,30 @@ class Filesystem extends \Test\TestCase {
 	/**
 	 * @dataProvider normalizePathData
 	 */
-	public function testNormalizePath($expected, $path, $stripTrailingSlash = true, $isAbsolutePath = false) {
-		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash, $isAbsolutePath));
+	public function testNormalizePath($expected, $path, $stripTrailingSlash = true) {
+		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
+	}
+
+	public function normalizePathWindowsAbsolutePathData() {
+		return array(
+			array('C:/', 'C:\\'),
+			array('C:/', 'C:\\', false),
+			array('C:/tests', 'C:\\tests'),
+			array('C:/tests', 'C:\\tests', false),
+			array('C:/tests', 'C:\\tests\\'),
+			array('C:/tests/', 'C:\\tests\\', false),
+		);
+	}
+
+	/**
+	 * @dataProvider normalizePathWindowsAbsolutePathData
+	 */
+	public function testNormalizePathWindowsAbsolutePath($expected, $path, $stripTrailingSlash = true) {
+		if (!\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('This test is Windows only');
+		}
+
+		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash, true));
 	}
 
 	public function testNormalizePathUTF8() {
