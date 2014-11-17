@@ -35,6 +35,7 @@ use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
 use OCP\AppFramework\Controller;
+use OCP\Util;
 
 
 /**
@@ -111,6 +112,8 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 
+		// CSRF check - also registers the CSRF token since the session may be closed later
+		Util::callRegister();
 		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			if(!$this->request->passesCSRFCheck()) {
 				throw new SecurityException('CSRF check failed', Http::STATUS_PRECONDITION_FAILED);
