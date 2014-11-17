@@ -1308,14 +1308,18 @@ class Share extends \OC\Share\Constants {
 		if (isset($shareType)) {
 			// Include all user and group items
 			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
-				$where .= ' AND `share_type` IN (?,?,?)';
+				$where .= ' AND ((`share_type` in (?, ?) AND `share_with` = ?) ';
 				$queryArgs[] = self::SHARE_TYPE_USER;
-				$queryArgs[] = self::SHARE_TYPE_GROUP;
 				$queryArgs[] = self::$shareTypeGroupUserUnique;
-				$userAndGroups = array_merge(array($shareWith), \OC_Group::getUserGroups($shareWith));
-				$placeholders = join(',', array_fill(0, count($userAndGroups), '?'));
-				$where .= ' AND `share_with` IN ('.$placeholders.')';
-				$queryArgs = array_merge($queryArgs, $userAndGroups);
+				$queryArgs[] = $shareWith;
+				$groups = \OC_Group::getUserGroups($shareWith);
+				if (!empty($groups)) {
+					$placeholders = join(',', array_fill(0, count($groups), '?'));
+					$where .= ' OR (`share_type` = ? AND `share_with` IN ('.$placeholders.')) ';
+					$queryArgs[] = self::SHARE_TYPE_GROUP;
+					$queryArgs = array_merge($queryArgs, $groups);
+				}
+				$where .= ')';
 				// Don't include own group shares
 				$where .= ' AND `uid_owner` != ?';
 				$queryArgs[] = $shareWith;
