@@ -13,5 +13,6 @@ script('core', 'lostpassword');
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>
 		</p>
 		<input type="submit" id="submit" value="<?php p($l->t('Reset password')); ?>" />
+		<img class="hidden" id="float-spinner" src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
 	</fieldset>
 </form>

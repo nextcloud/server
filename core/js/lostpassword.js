@@ -84,6 +84,7 @@ OC.Lostpassword = {
 		}
 		if($('#encrypted-continue').attr('checked')) {
 			$('#reset-password #submit').hide();
+			$('#reset-password #float-spinner').removeClass('hidden');
 		}
 	},
 
