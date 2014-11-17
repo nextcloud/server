@@ -77,7 +77,7 @@
     "LDAP" : "LDAP",
     "Expert" : "Expertní",
     "Advanced" : "Pokročilé",
-    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně nekompatibilní. Můžete zaznamenat neočekávané chování. Požádejte prosím vašeho systémového administrátora o zakázání jednoho z nich.",
+    "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behavior. Please ask your system administrator to disable one of them." : "<b>Varování:</b> Aplikace user_ldap a user_webdavauth jsou vzájemně nekompatibilní. Můžete zaznamenat neočekávané chování. Požádejte prosím svého správce systému o zakázání jedné z nich.",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Varování:</b> není nainstalován LDAP modul pro PHP, podpůrná vrstva nebude fungovat. Požádejte, prosím, správce systému, aby jej nainstaloval.",
     "Connection Settings" : "Nastavení spojení",
     "Configuration Active" : "Nastavení aktivní",

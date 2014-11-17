@@ -15,6 +15,8 @@
     "No app name specified" : "Uygulama adı belirtilmedi",
     "Unknown filetype" : "Bilinmeyen dosya türü",
     "Invalid image" : "Geçersiz resim",
+    "Database Error" : "Veritabanı Hatası",
+    "Please contact your system administrator." : "Lütfen sistem yöneticiniz ile iletişime geçin.",
     "web services under your control" : "denetiminizdeki web hizmetleri",
     "App directory already exists" : "Uygulama dizini zaten mevcut",
     "Can't create app folder. Please fix permissions. %s" : "Uygulama dizini oluşturulamıyor. Lütfen izinleri düzeltin. %s",

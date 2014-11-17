@@ -14,6 +14,8 @@
     "No app name specified" : "Sovelluksen nimeä ei määritelty",
     "Unknown filetype" : "Tuntematon tiedostotyyppi",
     "Invalid image" : "Virheellinen kuva",
+    "Database Error" : "Tietokantavirhe",
+    "Please contact your system administrator." : "Ole yhteydessä järjestelmän ylläpitäjään.",
     "web services under your control" : "verkkopalvelut hallinnassasi",
     "App directory already exists" : "Sovelluskansio on jo olemassa",
     "Can't create app folder. Please fix permissions. %s" : "Sovelluskansion luominen ei onnistu. Korjaa käyttöoikeudet. %s",

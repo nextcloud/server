@@ -142,6 +142,8 @@
     "These groups will still be able to receive shares, but not to initiate them." : "Тези групи ще могат да получават споделения, но няма да могат самите те да споделят.",
     "Enforce HTTPS" : "Изисквай HTTPS",
     "Forces the clients to connect to %s via an encrypted connection." : "Задължава клиента да се свързва с %s през криптирана връзка.",
+    "Enforce HTTPS for subdomains" : "Изисквай HTTPS за под домейни",
+    "Forces the clients to connect to %s and subdomains via an encrypted connection." : "Задължава клиента да се свързва с %s и негови под домейни през криптирана връзка.",
     "Please connect to your %s via HTTPS to enable or disable the SSL enforcement." : "Моля свържи се с твоя %s през HTTPS, за да включиш или изключиш SSL задължаването.",
     "This is used for sending out notifications." : "Това се използва за изпращане на уведомления.",
     "Send mode" : "Режим на изпращане",

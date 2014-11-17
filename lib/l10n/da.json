@@ -15,6 +15,8 @@
     "No app name specified" : "Intet app-navn angivet",
     "Unknown filetype" : "Ukendt filtype",
     "Invalid image" : "Ugyldigt billede",
+    "Database Error" : "Databasefejl",
+    "Please contact your system administrator." : "Kontakt venligst din systemadministrator.",
     "web services under your control" : "Webtjenester under din kontrol",
     "App directory already exists" : "App-mappe findes allerede",
     "Can't create app folder. Please fix permissions. %s" : "Kan ikke oprette app-mappe. Ret tilladelser. %s",

@@ -15,6 +15,8 @@
     "No app name specified" : "O nome do aplicativo não foi especificado.",
     "Unknown filetype" : "Tipo de arquivo desconhecido",
     "Invalid image" : "Imagem inválida",
+    "Database Error" : "Erro no Banco de Dados",
+    "Please contact your system administrator." : "Por favor cotactar seu administrador do sistema.",
     "web services under your control" : "serviços web sob seu controle",
     "App directory already exists" : "Diretório App  já existe",
     "Can't create app folder. Please fix permissions. %s" : "Não é possível criar pasta app. Corrija as permissões. %s",

@@ -15,6 +15,8 @@
     "No app name specified" : "Не указано имя приложения",
     "Unknown filetype" : "Неизвестный тип файла",
     "Invalid image" : "Изображение повреждено",
+    "Database Error" : "Ошибка базы данных",
+    "Please contact your system administrator." : "Пожалуйста, свяжитесь с вашим администратором.",
     "web services under your control" : "веб-сервисы под вашим управлением",
     "App directory already exists" : "Папка приложения уже существует",
     "Can't create app folder. Please fix permissions. %s" : "Не удалось создать директорию. Исправьте права доступа. %s",

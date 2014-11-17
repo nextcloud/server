@@ -15,6 +15,8 @@
     "No app name specified" : "Geen app naam opgegeven.",
     "Unknown filetype" : "Onbekend bestandsformaat",
     "Invalid image" : "Ongeldige afbeelding",
+    "Database Error" : "Database fout",
+    "Please contact your system administrator." : "Neem contact op met uw systeembeheerder.",
     "web services under your control" : "Webdiensten in eigen beheer",
     "App directory already exists" : "App directory bestaat al",
     "Can't create app folder. Please fix permissions. %s" : "Kan de app map niet aanmaken, Herstel de permissies. %s",
