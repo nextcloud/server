@@ -9,7 +9,7 @@
 
 namespace OC\Core\Command\Maintenance;
 
-use OC\Config;
+use \OCP\IConfig;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,9 +18,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Mode extends Command {
 
+	/** @var IConfig */
 	protected $config;
 
-	public function __construct(Config $config) {
+	public function __construct(IConfig $config) {
 		$this->config = $config;
 		parent::__construct();
 	}
@@ -45,13 +46,13 @@ class Mode extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		if ($input->getOption('on')) {
-			$this->config->setValue('maintenance', true);
+			$this->config->setSystemValue('maintenance', true);
 			$output->writeln('Maintenance mode enabled');
 		} elseif ($input->getOption('off')) {
-			$this->config->setValue('maintenance', false);
+			$this->config->setSystemValue('maintenance', false);
 			$output->writeln('Maintenance mode disabled');
 		} else {
-			if ($this->config->getValue('maintenance', false)) {
+			if ($this->config->getSystemValue('maintenance', false)) {
 				$output->writeln('Maintenance mode is currently enabled');
 			} else {
 				$output->writeln('Maintenance mode is currently disabled');

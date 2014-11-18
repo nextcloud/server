@@ -10,7 +10,7 @@
 
 namespace OC\Core\Command\Db;
 
-use OC\Config;
+use \OCP\IConfig;
 use OC\DB\Connection;
 use OC\DB\ConnectionFactory;
 
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConvertType extends Command {
 	/**
-	 * @var \OC\Config
+	 * @var \OCP\IConfig
 	 */
 	protected $config;
 
@@ -32,10 +32,10 @@ class ConvertType extends Command {
 	protected $connectionFactory;
 
 	/**
-	 * @param \OC\Config $config
+	 * @param \OCP\IConfig $config
 	 * @param \OC\DB\ConnectionFactory $connectionFactory
 	 */
-	public function __construct(Config $config, ConnectionFactory $connectionFactory) {
+	public function __construct(IConfig $config, ConnectionFactory $connectionFactory) {
 		$this->config = $config;
 		$this->connectionFactory = $connectionFactory;
 		parent::__construct();
@@ -104,7 +104,7 @@ class ConvertType extends Command {
 				'Converting to Microsoft SQL Server (mssql) is currently not supported.'
 			);
 		}
-		if ($type === $this->config->getValue('dbtype', '')) {
+		if ($type === $this->config->getSystemValue('dbtype', '')) {
 			throw new \InvalidArgumentException(sprintf(
 				'Can not convert from %1$s to %1$s.',
 				$type
@@ -209,7 +209,7 @@ class ConvertType extends Command {
 			'user' => $input->getArgument('username'),
 			'password' => $input->getOption('password'),
 			'dbname' => $input->getArgument('database'),
-			'tablePrefix' => $this->config->getValue('dbtableprefix', 'oc_'),
+			'tablePrefix' => $this->config->getSystemValue('dbtableprefix', 'oc_'),
 		);
 		if ($input->getOption('port')) {
 			$connectionParams['port'] = $input->getOption('port');
@@ -256,7 +256,7 @@ class ConvertType extends Command {
 	}
 
 	protected function convertDB(Connection $fromDB, Connection $toDB, array $tables, InputInterface $input, OutputInterface $output) {
-		$this->config->setValue('maintenance', true);
+		$this->config->setSystemValue('maintenance', true);
 		try {
 			// copy table rows
 			foreach($tables as $table) {
@@ -270,10 +270,10 @@ class ConvertType extends Command {
 			// save new database config
 			$this->saveDBInfo($input);
 		} catch(\Exception $e) {
-			$this->config->setValue('maintenance', false);
+			$this->config->setSystemValue('maintenance', false);
 			throw $e;
 		}
-		$this->config->setValue('maintenance', false);
+		$this->config->setSystemValue('maintenance', false);
 	}
 
 	protected function saveDBInfo(InputInterface $input) {
@@ -286,10 +286,10 @@ class ConvertType extends Command {
 			$dbhost .= ':'.$input->getOption('port');
 		}
 
-		$this->config->setValue('dbtype', $type);
-		$this->config->setValue('dbname', $dbname);
-		$this->config->setValue('dbhost', $dbhost);
-		$this->config->setValue('dbuser', $username);
-		$this->config->setValue('dbpassword', $password);
+		$this->config->setSystemValue('dbtype', $type);
+		$this->config->setSystemValue('dbname', $dbname);
+		$this->config->setSystemValue('dbhost', $dbhost);
+		$this->config->setSystemValue('dbuser', $username);
+		$this->config->setSystemValue('dbpassword', $password);
 	}
 }
