@@ -253,6 +253,17 @@ var OC={
 	},
 
 	/**
+	 * Loads translations for the given app asynchronously.
+	 *
+	 * @param {String} app app name
+	 * @param {Function} callback callback to call after loading
+	 * @return {Promise}
+	 */
+	addTranslations: function(app, callback) {
+		return OC.L10N.load(app, callback);
+	},
+
+	/**
 	 * Returns the base name of the given path.
 	 * For example for "/abc/somefile.txt" it will return "somefile.txt"
 	 *
@@ -475,6 +486,15 @@ var OC={
 			return window.matchMedia(media);
 		}
 		return false;
+	},
+
+	/**
+	 * Returns the user's locale
+	 *
+	 * @return {String} locale string
+	 */
+	getLocale: function() {
+		return $('html').prop('lang');
 	}
 };
 
@@ -869,9 +889,9 @@ function object(o) {
 function initCore() {
 
 	/**
-	 * Set users local to moment.js as soon as possible
+	 * Set users locale to moment.js as soon as possible
 	 */
-	moment.locale($('html').prop('lang'));
+	moment.locale(OC.getLocale());
 
 
 	/**

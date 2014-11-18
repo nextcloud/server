@@ -27,6 +27,47 @@ OC.L10N = {
 	_pluralFunctions: {},
 
 	/**
+	 * Load an app's translation bundle if not loaded already.
+	 *
+	 * @param {String} appName name of the app
+	 * @param {Function} callback callback to be called when
+	 * the translations are loaded
+	 * @return {Promise} promise
+	 */
+	load: function(appName, callback) {
+		// already available ?
+		if (this._bundles[appName] || OC.getLocale() === 'en') {
+			if (callback) {
+				callback();
+			}
+			return;
+		}
+
+		var self = this;
+		var deferred = $.Deferred();
+		var url = OC.generateUrl(
+			'apps/{app}/l10n/{locale}.json',
+			{app: appName, locale: OC.getLocale()}
+		);
+
+		var url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json');
+
+		// load JSON translation bundle per AJAX
+		$.get(url,
+			function(result) {
+				if (result.translations) {
+					self.register(appName, result.translations, result.pluralForm);
+				}
+				if (callback) {
+					callback();
+					deferred.resolve();
+				}
+			}
+		);
+		return deferred.promise();
+	},
+
+	/**
 	 * Register an app's translation bundle.
 	 *
 	 * @param {String} appName name of the app

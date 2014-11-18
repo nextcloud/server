@@ -11,8 +11,12 @@
 describe('OC.L10N tests', function() {
 	var TEST_APP = 'jsunittestapp';
 
+	beforeEach(function() {
+		OC.appswebroots[TEST_APP] = OC.webroot + '/apps3/jsunittestapp';
+	});
 	afterEach(function() {
 		delete OC.L10N._bundles[TEST_APP];
+		delete OC.appswebroots[TEST_APP];
 	});
 
 	describe('text translation', function() {
@@ -96,6 +100,50 @@ describe('OC.L10N tests', function() {
 				};
 			});
 			checkPlurals();
+		});
+	});
+	describe('async loading of translations', function() {
+		it('loads bundle for given app and calls callback', function() {
+			var localeStub = sinon.stub(OC, 'getLocale').returns('zh_CN');
+			var callbackStub = sinon.stub();
+			var promiseStub = sinon.stub();
+			OC.L10N.load(TEST_APP, callbackStub).then(promiseStub);
+			expect(callbackStub.notCalled).toEqual(true);
+			expect(promiseStub.notCalled).toEqual(true);
+			expect(fakeServer.requests.length).toEqual(1);
+			var req = fakeServer.requests[0];
+			expect(req.url).toEqual(
+				OC.webroot + '/apps3/' + TEST_APP + '/l10n/zh_CN.json'
+			);
+			req.respond(
+				200,
+				{ 'Content-Type': 'application/json' },
+				JSON.stringify({
+					translations: {'Hello world!': '你好世界!'},
+					pluralForm: 'nplurals=2; plural=(n != 1);'
+				})
+			);
+
+			expect(callbackStub.calledOnce).toEqual(true);
+			expect(promiseStub.calledOnce).toEqual(true);
+			expect(t(TEST_APP, 'Hello world!')).toEqual('你好世界!');
+			localeStub.restore();
+		});
+		it('calls callback if translation already available', function() {
+			var callbackStub = sinon.stub();
+			OC.L10N.register(TEST_APP, {
+				'Hello world!': 'Hallo Welt!'
+			});
+			OC.L10N.load(TEST_APP, callbackStub);
+			expect(callbackStub.calledOnce).toEqual(true);
+			expect(fakeServer.requests.length).toEqual(0);
+		});
+		it('calls callback if locale is en', function() {
+			var localeStub = sinon.stub(OC, 'getLocale').returns('en');
+			var callbackStub = sinon.stub();
+			OC.L10N.load(TEST_APP, callbackStub);
+			expect(callbackStub.calledOnce).toEqual(true);
+			expect(fakeServer.requests.length).toEqual(0);
 		});
 	});
 });
