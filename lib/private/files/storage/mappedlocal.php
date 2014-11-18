@@ -24,9 +24,6 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function __destruct() {
-		if (defined('PHPUNIT_RUN')) {
-			$this->mapper->removePath($this->datadir, true, true);
-		}
 	}
 
 	public function getId() {
