@@ -9,7 +9,7 @@
 
 namespace OC\Connector\Sabre;
 
-use OCP\App\IManager;
+use OCP\App\IAppManager;
 use Sabre\DAV\Exception\Forbidden;
 use Sabre\DAV\ServerPlugin;
 
@@ -31,15 +31,15 @@ class AppEnabledPlugin extends ServerPlugin {
 	private $app;
 
 	/**
-	 * @var \OCP\App\IManager
+	 * @var \OCP\App\IAppManager
 	 */
 	private $appManager;
 
 	/**
 	 * @param string $app
-	 * @param \OCP\App\IManager $appManager
+	 * @param \OCP\App\IAppManager $appManager
 	 */
-	public function __construct($app, IManager $appManager) {
+	public function __construct($app, IAppManager $appManager) {
 		$this->app = $app;
 		$this->appManager = $appManager;
 	}
