@@ -12,6 +12,6 @@
 
 $urlGenerator = new \OC\URLGenerator(\OC::$server->getConfig());
 $token = isset($_GET['t']) ? $_GET['t'] : '';
-$route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadshare' : 'files_sharing.sharecontroller.showshare';
+$route = isset($_GET['download']) ? 'files_sharing.sharecontroller.downloadShare' : 'files_sharing.sharecontroller.showShare';
 
 OC_Response::redirect($urlGenerator->linkToRoute($route, array('token' => $token)));
