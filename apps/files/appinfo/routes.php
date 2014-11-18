@@ -9,10 +9,31 @@
 namespace OCA\Files\Appinfo;
 
 $application = new Application();
-$application->registerRoutes($this, array('routes' => array(
-	array('name' => 'API#getThumbnail', 'url' => '/api/v1/thumbnail/{x}/{y}/{file}', 'verb' => 'GET', 'requirements' => array('file' => '.+')),
-)));
-
+$application->registerRoutes(
+	$this,
+	array(
+		'routes' => array(
+			array(
+				'name' => 'API#getThumbnail',
+				'url' => '/api/v1/thumbnail/{x}/{y}/{file}',
+				'verb' => 'GET',
+				'requirements' => array('file' => '.+')
+			),
+			array(
+				'name' => 'API#updateFileTags',
+				'url' => '/api/v1/files/{path}',
+				'verb' => 'POST',
+				'requirements' => array('path' => '.+'),
+			),
+			array(
+				'name' => 'API#getFilesByTag',
+				'url' => '/api/v1/tags/{tagName}/files',
+				'verb' => 'GET',
+				'requirements' => array('tagName' => '.+'),
+			),
+		)
+	)
+);
 
 /** @var $this \OC\Route\Router */
 

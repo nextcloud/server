@@ -20,6 +20,7 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use OCA\Files\Appinfo\Application;
 
 // Check if we are a user
 OCP\User::checkLoggedIn();
@@ -38,7 +39,13 @@ OCP\Util::addscript('files', 'filesummary');
 OCP\Util::addscript('files', 'breadcrumb');
 OCP\Util::addscript('files', 'filelist');
 
+\OCP\Util::addScript('files', 'favoritesfilelist');
+\OCP\Util::addScript('files', 'tagsplugin');
+\OCP\Util::addScript('files', 'favoritesplugin');
+
 OCP\App::setActiveNavigationEntry('files_index');
+
+$l = \OC::$server->getL10N('files');
 
 $isIE8 = false;
 preg_match('/MSIE (.*?);/', $_SERVER['HTTP_USER_AGENT'], $matches);
@@ -78,6 +85,16 @@ $nav = new OCP\Template('files', 'appnavigation', '');
 function sortNavigationItems($item1, $item2) {
 	return $item1['order'] - $item2['order'];
 }
+
+\OCA\Files\App::getNavigationManager()->add(
+	array(
+		"id" => 'favorites',
+		"appname" => 'files',
+		"script" => 'simplelist.php',
+		"order" => 50,
+		"name" => $l->t('Favorites')
+	)
+);
 
 $navItems = \OCA\Files\App::getNavigationManager()->getAll();
 usort($navItems, 'sortNavigationItems');

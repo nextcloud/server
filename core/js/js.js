@@ -66,6 +66,7 @@ var OC={
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
 	PERMISSION_ALL:31,
+	TAG_FAVORITE: '_$!<Favorite>!$_',
 	/* jshint camelcase: false */
 	webroot:oc_webroot,
 	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
@@ -209,6 +210,24 @@ var OC={
 			file+=(OC.Util.hasSVGSupport())?'.svg':'.png';
 		}
 		return OC.filePath(app,'img',file);
+	},
+
+	/**
+	 * URI-Encodes a file path but keep the path slashes.
+	 *
+	 * @param path path
+	 * @return encoded path
+	 */
+	encodePath: function(path) {
+		if (!path) {
+			return path;
+		}
+		var parts = path.split('/');
+		var result = [];
+		for (var i = 0; i < parts.length; i++) {
+			result.push(encodeURIComponent(parts[i]));
+		}
+		return result.join('/');
 	},
 
 	/**

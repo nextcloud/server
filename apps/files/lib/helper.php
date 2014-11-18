@@ -122,6 +122,9 @@ class Helper
 		$entry['size'] = $i['size'];
 		$entry['type'] = $i['type'];
 		$entry['etag'] = $i['etag'];
+		if (isset($i['tags'])) {
+			$entry['tags'] = $i['tags'];
+		}
 		if (isset($i['displayname_owner'])) {
 			$entry['shareOwner'] = $i['displayname_owner'];
 		}
@@ -171,8 +174,30 @@ class Helper
 	 */
 	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false) {
 		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
+		$content = self::populateTags($content);
 
 		return self::sortFiles($content, $sortAttribute, $sortDescending);
+	}
+
+	/**
+	 * Populate the result set with file tags
+	 *
+	 * @param array file list
+	 * @return file list populated with tags
+	 */
+	public static function populateTags($fileList) {
+		$filesById = array();
+		foreach ($fileList as $fileData) {
+			$filesById[$fileData['fileid']] = $fileData;
+		}
+		$tagger = \OC::$server->getTagManager()->load('files');
+		$tags = $tagger->getTagsForObjects(array_keys($filesById));
+		if ($tags) {
+			foreach ($tags as $fileId => $fileTags) {
+				$filesById[$fileId]['tags'] = $fileTags;
+			}
+		}
+		return $fileList;
 	}
 
 	/**
