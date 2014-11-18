@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share extends PHPUnit_Framework_TestCase {
+class Test_Share extends Test\TestCase {
 
 	protected $itemType;
 	protected $userBackend;
@@ -35,14 +35,15 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 	protected $dateInFuture;
 	protected $dateInPast;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
-		$this->user1 = uniqid('user1_');
-		$this->user2 = uniqid('user2_');
-		$this->user3 = uniqid('user3_');
-		$this->user4 = uniqid('user4_');
-		$this->groupAndUser = uniqid('groupAndUser_');
+		$this->user1 = $this->getUniqueID('user1_');
+		$this->user2 = $this->getUniqueID('user2_');
+		$this->user3 = $this->getUniqueID('user3_');
+		$this->user4 = $this->getUniqueID('user4_');
+		$this->groupAndUser = $this->getUniqueID('groupAndUser_');
 		OC_User::createUser($this->user1, 'pass');
 		OC_User::createUser($this->user2, 'pass');
 		OC_User::createUser($this->user3, 'pass');
@@ -51,8 +52,8 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
 		OC_Group::useBackend(new OC_Group_Dummy);
-		$this->group1 = uniqid('group1_');
-		$this->group2 = uniqid('group2_');
+		$this->group1 = $this->getUniqueID('group1_');
+		$this->group2 = $this->getUniqueID('group2_');
 		OC_Group::createGroup($this->group1);
 		OC_Group::createGroup($this->group2);
 		OC_Group::createGroup($this->groupAndUser);
@@ -76,10 +77,11 @@ class Test_Share extends PHPUnit_Framework_TestCase {
 		$this->dateInFuture = date($dateFormat, $now + 20 * 60);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
 		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', $this->resharing);
+		parent::tearDown();
 	}
 
 	public function testShareInvalidShareType() {
