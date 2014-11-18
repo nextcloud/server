@@ -288,9 +288,10 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemType
 	 * @param string $itemSource
 	 * @param string $user User user to whom the item was shared
+	 * @param int $shareType only look for a specific share type
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
+	public static function getItemSharedWithUser($itemType, $itemSource, $user, $shareType = null) {
 
 		$shares = array();
 		$fileDependend = false;
@@ -312,6 +313,11 @@ class Share extends \OC\Share\Constants {
 		if ($user !== null) {
 			$where .= ' AND `share_with` = ? ';
 			$arguments[] = $user;
+		}
+
+		if ($shareType !== null) {
+			$where .= ' AND `share_type` = ? ';
+			$arguments[] = $shareType;
 		}
 
 		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $where);
@@ -697,7 +703,7 @@ class Share extends \OC\Share\Constants {
 		// check if it is a valid itemType
 		self::getBackend($itemType);
 
-		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith);
+		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith, $shareType);
 
 		$toDelete = array();
 		$newParent = null;
@@ -1308,14 +1314,18 @@ class Share extends \OC\Share\Constants {
 		if (isset($shareType)) {
 			// Include all user and group items
 			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
-				$where .= ' AND `share_type` IN (?,?,?)';
+				$where .= ' AND ((`share_type` in (?, ?) AND `share_with` = ?) ';
 				$queryArgs[] = self::SHARE_TYPE_USER;
-				$queryArgs[] = self::SHARE_TYPE_GROUP;
 				$queryArgs[] = self::$shareTypeGroupUserUnique;
-				$userAndGroups = array_merge(array($shareWith), \OC_Group::getUserGroups($shareWith));
-				$placeholders = join(',', array_fill(0, count($userAndGroups), '?'));
-				$where .= ' AND `share_with` IN ('.$placeholders.')';
-				$queryArgs = array_merge($queryArgs, $userAndGroups);
+				$queryArgs[] = $shareWith;
+				$groups = \OC_Group::getUserGroups($shareWith);
+				if (!empty($groups)) {
+					$placeholders = join(',', array_fill(0, count($groups), '?'));
+					$where .= ' OR (`share_type` = ? AND `share_with` IN ('.$placeholders.')) ';
+					$queryArgs[] = self::SHARE_TYPE_GROUP;
+					$queryArgs = array_merge($queryArgs, $groups);
+				}
+				$where .= ')';
 				// Don't include own group shares
 				$where .= ' AND `uid_owner` != ?';
 				$queryArgs[] = $shareWith;
@@ -1506,8 +1516,11 @@ class Share extends \OC\Share\Constants {
 				$row['permissions'] &= ~\OCP\PERMISSION_SHARE;
 			}
 			// Add display names to result
-			if ( isset($row['share_with']) && $row['share_with'] != '') {
+			if ( isset($row['share_with']) && $row['share_with'] != '' &&
+					isset($row['share_with']) && $row['share_type'] === self::SHARE_TYPE_USER) {
 				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
+			} else {
+				$row['share_with_displayname'] = $row['share_with'];
 			}
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
 				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
