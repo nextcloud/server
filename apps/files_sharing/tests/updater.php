@@ -20,7 +20,6 @@
  *
  */
 
-require_once __DIR__ . '/../appinfo/update.php';
 
 /**
  * Class Test_Files_Sharing_Updater
