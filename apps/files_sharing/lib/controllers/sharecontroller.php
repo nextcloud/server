@@ -173,7 +173,7 @@ class ShareController extends Controller {
 		$shareTmpl['server2serversharing'] = Helper::isOutgoingServer2serverShareEnabled();
 		$shareTmpl['protected'] = isset($linkItem['share_with']) ? 'true' : 'false';
 		$shareTmpl['dir'] = $dir;
-		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize(\OC\Files\Filesystem::filesize($file));
+		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize(\OC\Files\Filesystem::filesize($originalSharePath));
 
 		// Show file list
 		if (Filesystem::is_dir($originalSharePath)) {
