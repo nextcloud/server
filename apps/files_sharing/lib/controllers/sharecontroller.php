@@ -23,7 +23,6 @@ use OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\RedirectResponse;
-use OCP\AppFramework\IApi;
 use OC\URLGenerator;
 use OC\AppConfig;
 use OCP\ILogger;
@@ -160,7 +159,6 @@ class ShareController extends Controller {
 			$originalSharePath .= $path;
 		}
 
-		$dir = dirname($originalSharePath);
 		$file = basename($originalSharePath);
 
 		$shareTmpl = array();
