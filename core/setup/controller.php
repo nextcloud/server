@@ -12,13 +12,21 @@ namespace OC\Core\Setup;
 use OCP\IConfig;
 
 class Controller {
-	/** @var \OCP\IConfig */
+	/**
+	 * @var \OCP\IConfig
+	 */
 	protected $config;
+
+	/**
+	 * @var string
+	 */
+	private $autoConfigFile;
 
 	/**
 	 * @param IConfig $config
 	 */
 	function __construct(IConfig $config) {
+		$this->autoConfigFile = \OC::$SERVERROOT.'/config/autoconfig.php';
 		$this->config = $config;
 	}
 
@@ -64,15 +72,17 @@ class Controller {
 	}
 
 	public function finishSetup() {
+		if( file_exists( $this->autoConfigFile )) {
+			unlink($this->autoConfigFile);
+		}
 		\OC_Util::redirectToDefaultPage();
 	}
 
 	public function loadAutoConfig($post) {
-		$autosetup_file = \OC::$SERVERROOT.'/config/autoconfig.php';
-		if( file_exists( $autosetup_file )) {
+		if( file_exists($this->autoConfigFile)) {
 			\OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', \OC_Log::INFO);
 			$AUTOCONFIG = array();
-			include $autosetup_file;
+			include $this->autoConfigFile;
 			$post = array_merge ($post, $AUTOCONFIG);
 		}
 
@@ -82,9 +92,6 @@ class Controller {
 
 		if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
 			$post['install'] = 'true';
-			if( file_exists( $autosetup_file )) {
-				unlink($autosetup_file);
-			}
 		}
 		$post['dbIsSet'] = $dbIsSet;
 		$post['directoryIsSet'] = $directoryIsSet;
