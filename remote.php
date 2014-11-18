@@ -43,7 +43,9 @@ try {
 			$file =  OC::$SERVERROOT .'/'. $file;
 			break;
 		default:
-			OC_Util::checkAppEnabled($app);
+			if (!\OC::$server->getAppManager()->isInstalled($app)) {
+				throw new Exception('App not installed: ' . $app);
+			}
 			OC_App::loadApp($app);
 			$file = OC_App::getAppPath($app) .'/'. $parts[1];
 			break;
