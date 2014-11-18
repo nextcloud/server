@@ -31,7 +31,9 @@ namespace OCA\Encryption;
 class Keymanager {
 
 	// base dir where all the file related keys are stored
-	const KEYS_BASE_DIR = '/files_encryption/keys/';
+	private static $keys_base_dir = '/files_encryption/keys/';
+	private static $encryption_base_dir = '/files_encryption';
+	private static $public_key_dir = '/files_encryption/public_keys';
 
 	/**
 	 * read key from hard disk
@@ -95,8 +97,12 @@ class Keymanager {
 	 * @return string public key or false
 	 */
 	public static function getPublicKey(\OC\Files\View $view, $userId) {
-		$path = '/public-keys/' . $userId . '.publicKey';
+		$path = self::$public_key_dir . '/' . $userId . '.publicKey';
 		return self::getKey($path, $view);
+	}
+
+	public static function getPublicKeyPath() {
+		return self::$public_key_dir;
 	}
 
 	/**
@@ -168,9 +174,9 @@ class Keymanager {
 
 		// in case of system wide mount points the keys are stored directly in the data directory
 		if ($util->isSystemWideMountPoint($filename)) {
-			$keyPath = self::KEYS_BASE_DIR . $filePath_f . '/';
+			$keyPath = self::$keys_base_dir . $filePath_f . '/';
 		} else {
-			$keyPath = '/' . $owner . self::KEYS_BASE_DIR . $filePath_f . '/';
+			$keyPath = '/' . $owner . self::$keys_base_dir . $filePath_f . '/';
 		}
 
 		return $keyPath;
@@ -215,7 +221,7 @@ class Keymanager {
 		$result = false;
 
 		if (!\OCP\User::userExists($uid)) {
-			$publicKey = '/public-keys/' . $uid . '.publicKey';
+			$publicKey = self::$public_key_dir . '/' . $uid . '.publicKey';
 			$result = $view->unlink($publicKey);
 		}
 
@@ -229,7 +235,7 @@ class Keymanager {
 	 * @param string $uid
 	 */
 	public static function publicKeyExists($view, $uid) {
-		return $view->file_exists('/public-keys/'. $uid . '.publicKey');
+		return $view->file_exists(self::$public_key_dir . '/'. $uid . '.publicKey');
 	}
 
 
@@ -278,8 +284,8 @@ class Keymanager {
 
 		$recoveryKeyId = Helper::getRecoveryKeyId();
 		if ($recoveryKeyId) {
-			$result = ($view->file_exists("/public-keys/" . $recoveryKeyId . ".publicKey")
-					&& $view->file_exists("/owncloud_private_key/" . $recoveryKeyId . ".privateKey"));
+			$result = ($view->file_exists(self::$public_key_dir . '/' . $recoveryKeyId . ".publicKey")
+					&& $view->file_exists(self::$encryption_base_dir . '/' . $recoveryKeyId . ".privateKey"));
 		}
 
 		return $result;
@@ -290,8 +296,8 @@ class Keymanager {
 
 		$publicShareKeyId = Helper::getPublicShareKeyId();
 		if ($publicShareKeyId) {
-			$result = ($view->file_exists("/public-keys/" . $publicShareKeyId . ".publicKey")
-					&& $view->file_exists("/owncloud_private_key/" . $publicShareKeyId . ".privateKey"));
+			$result = ($view->file_exists(self::$public_key_dir . '/' . $publicShareKeyId . ".publicKey")
+					&& $view->file_exists(self::$encryption_base_dir . '/' . $publicShareKeyId . ".privateKey"));
 
 		}
 
@@ -308,9 +314,8 @@ class Keymanager {
 	public static function setPublicKey($key, $user = '') {
 
 		$user = $user === '' ? \OCP\User::getUser() : $user;
-		$path = '/public-keys';
 
-		return self::setKey($path, $user . '.publicKey', $key, new \OC\Files\View('/'));
+		return self::setKey(self::$public_key_dir, $user . '.publicKey', $key, new \OC\Files\View('/'));
 	}
 
 	/**
@@ -323,10 +328,9 @@ class Keymanager {
 	public static function setPrivateSystemKey($key, $keyName) {
 
 		$keyName = $keyName . '.privateKey';
-		$path = '/owncloud_private_key';
 		$header = Crypt::generateHeader();
 
-		return self::setKey($path, $keyName,$header . $key, new \OC\Files\View());
+		return self::setKey(self::$encryption_base_dir, $keyName,$header . $key, new \OC\Files\View());
 	}
 
 	/**
@@ -337,7 +341,7 @@ class Keymanager {
 	 */
 	public static function getPrivateSystemKey($keyName) {
 		$path = $keyName . '.privateKey';
-		return self::getKey($path, new \OC\Files\View('/owncloud_private_key'));
+		return self::getKey($path, new \OC\Files\View(self::$encryption_base_dir));
 	}
 
 	/**

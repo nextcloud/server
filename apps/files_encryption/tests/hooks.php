@@ -63,28 +63,6 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 			'.t est.txt'
 		);
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		\OC_Hook::clear('OC_Filesystem');
-		\OC_Hook::clear('OC_User');
-
-		// clear share hooks
-		\OC_Hook::clear('OCP\\Share');
-		\OC::registerShareHooks();
-		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// Sharing related hooks
-		\OCA\Encryption\Helper::registerShareHooks();
-
-		// clear and register proxies
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// create test user
 		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1, true);
 		self::loginHelper(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2, true);
@@ -113,14 +91,6 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER1);
 		\OC_User::deleteUser(\Test_Encryption_Hooks::TEST_ENCRYPTION_HOOKS_USER2);
-
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
 
 		parent::tearDownAfterClass();
 	}
@@ -439,7 +409,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		// set user password for the first time
 		\OCA\Encryption\Hooks::postCreateUser(array('uid' => 'newUser', 'password' => 'newUserPassword'));
 
-		$this->assertTrue($view->file_exists('public-keys/newUser.publicKey'));
+		$this->assertTrue($view->file_exists(\OCA\Encryption\Keymanager::getPublicKeyPath() . '/newUser.publicKey'));
 		$this->assertTrue($view->file_exists('newUser/files_encryption/newUser.privateKey'));
 
 		// check if we are able to decrypt the private key

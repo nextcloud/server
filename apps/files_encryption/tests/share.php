@@ -47,30 +47,15 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
 		// enable resharing
 		\OC::$server->getAppConfig()->setValue('core', 'shareapi_allow_resharing', 'yes');
-
-		// clear share hooks
-		\OC_Hook::clear('OCP\\Share');
 
 		// register share hooks
 		\OC::registerShareHooks();
 		\OCA\Files_Sharing\Helper::registerHooks();
 
-		// Sharing related hooks
-		\OCA\Encryption\Helper::registerShareHooks();
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
 		// clear and register hooks
-		\OC_FileProxy::clearProxies();
 		\OC_FileProxy::register(new OCA\Files\Share\Proxy());
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 		// create users
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1, true);
@@ -126,14 +111,6 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_User::deleteUser(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 		\OC_User::deleteUser(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3);
 		\OC_User::deleteUser(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4);
-
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
 
 		parent::tearDownAfterClass();
 	}
@@ -915,8 +892,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
 
 		// break users public key
-		$this->view->rename('/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey',
-			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup');
+		$this->view->rename(\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey',
+			\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup');
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -943,8 +920,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// break user1 public key
 		$this->view->rename(
-			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup',
-			'/public-keys/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey');
+			\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup',
+			\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey');
 
 		// remove share file
 		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'

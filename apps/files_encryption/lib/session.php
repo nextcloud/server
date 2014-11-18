@@ -48,9 +48,9 @@ class Session {
 
 		$this->view = $view;
 
-		if (!$this->view->is_dir('owncloud_private_key')) {
+		if (!$this->view->is_dir('files_encryption')) {
 
-			$this->view->mkdir('owncloud_private_key');
+			$this->view->mkdir('files_encryption');
 
 		}
 

@@ -28,17 +28,6 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// disable file proxy by default
 		\OC_FileProxy::$enabled = false;
 
@@ -91,14 +80,6 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		if (self::$stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
 		}
-
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
 
 		parent::tearDownAfterClass();
 	}
@@ -192,14 +173,14 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		Encryption\Keymanager::setPrivateSystemKey($key, $keyName);
 
-		$this->assertTrue($this->view->file_exists('/owncloud_private_key/' . $keyName . '.privateKey'));
+		$this->assertTrue($this->view->file_exists('/files_encryption/' . $keyName . '.privateKey'));
 
 		$result = Encryption\Keymanager::getPrivateSystemKey($keyName);
 
 		$this->assertSame($encHeader . $key, $result);
 
 		// clean up
-		$this->view->unlink('/owncloud_private_key/' . $keyName.'.privateKey');
+		$this->view->unlink('/files_encryption/' . $keyName.'.privateKey');
 	}
 
 

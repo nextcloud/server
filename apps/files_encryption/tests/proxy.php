@@ -44,20 +44,6 @@ class Test_Encryption_Proxy extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		\OC_Hook::clear('OC_Filesystem');
-		\OC_Hook::clear('OC_User');
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// create test user
 		self::loginHelper(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1, true);
 	}
@@ -84,14 +70,6 @@ class Test_Encryption_Proxy extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function tearDownAfterClass() {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1);
-
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
 
 		parent::tearDownAfterClass();
 	}

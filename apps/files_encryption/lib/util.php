@@ -73,7 +73,7 @@ class Util {
 		$this->fileFolderName = 'files';
 		$this->userFilesDir =
 				'/' . $userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
-		$this->publicKeyDir = '/' . 'public-keys';
+		$this->publicKeyDir = Keymanager::getPublicKeyPath();
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =

@@ -43,12 +43,6 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		self::setupHooks();
-
 		// create test user
 		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1, true);
 		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER2, true);
@@ -85,7 +79,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
-		$this->publicKeyDir = '/' . 'public-keys';
+		$this->publicKeyDir = \OCA\Encryption\Keymanager::getPublicKeyPath();
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
@@ -126,24 +120,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_Group::deleteGroup(self::TEST_ENCRYPTION_UTIL_GROUP1);
 		\OC_Group::deleteGroup(self::TEST_ENCRYPTION_UTIL_GROUP2);
 
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
-
 		parent::tearDownAfterClass();
-	}
-
-	public static function setupHooks() {
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
 	}
 
 	/**

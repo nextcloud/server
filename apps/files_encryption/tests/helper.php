@@ -38,14 +38,6 @@ class Test_Encryption_Helper extends \OCA\Files_Encryption\Tests\TestCase {
 	}
 
 	public static function tearDownAfterClass() {
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
-
 		parent::tearDownAfterClass();
 	}
 
