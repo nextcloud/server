@@ -1462,8 +1462,11 @@ class Share extends \OC\Share\Constants {
 				$row['permissions'] &= ~\OCP\PERMISSION_SHARE;
 			}
 			// Add display names to result
-			if ( isset($row['share_with']) && $row['share_with'] != '') {
+			if ( isset($row['share_with']) && $row['share_with'] != '' &&
+					isset($row['share_with']) && $row['share_type'] === self::SHARE_TYPE_USER) {
 				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
+			} else {
+				$row['share_with_displayname'] = $row['share_with'];
 			}
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
 				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
