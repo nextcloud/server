@@ -37,10 +37,11 @@ OC.L10N = {
 	load: function(appName, callback) {
 		// already available ?
 		if (this._bundles[appName] || OC.getLocale() === 'en') {
-			if (callback) {
-				callback();
-			}
-			return;
+			var deferred = $.Deferred();
+			var promise = deferred.promise();
+			promise.then(callback);
+			deferred.resolve();
+			return promise;
 		}
 
 		var self = this;

@@ -130,19 +130,23 @@ describe('OC.L10N tests', function() {
 			localeStub.restore();
 		});
 		it('calls callback if translation already available', function() {
+			var promiseStub = sinon.stub();
 			var callbackStub = sinon.stub();
 			OC.L10N.register(TEST_APP, {
 				'Hello world!': 'Hallo Welt!'
 			});
-			OC.L10N.load(TEST_APP, callbackStub);
+			OC.L10N.load(TEST_APP, callbackStub).then(promiseStub);
 			expect(callbackStub.calledOnce).toEqual(true);
+			expect(promiseStub.calledOnce).toEqual(true);
 			expect(fakeServer.requests.length).toEqual(0);
 		});
 		it('calls callback if locale is en', function() {
 			var localeStub = sinon.stub(OC, 'getLocale').returns('en');
+			var promiseStub = sinon.stub();
 			var callbackStub = sinon.stub();
-			OC.L10N.load(TEST_APP, callbackStub);
+			OC.L10N.load(TEST_APP, callbackStub).then(promiseStub);
 			expect(callbackStub.calledOnce).toEqual(true);
+			expect(promiseStub.calledOnce).toEqual(true);
 			expect(fakeServer.requests.length).toEqual(0);
 		});
 	});
