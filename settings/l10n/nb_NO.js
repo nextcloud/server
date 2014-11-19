@@ -208,7 +208,6 @@ OC.L10N.register(
     "Create" : "Opprett",
     "Admin Recovery Password" : "Administrativt gjenopprettingspassord",
     "Enter the recovery password in order to recover the users files during password change" : "Legg inn gjenopprettingspassordet for å gjenopprette brukerfilene når passordet endres",
-    "Search Users and Groups" : "Søk i brukere og grupper",
     "Add Group" : "Legg til gruppe",
     "Group" : "Gruppe",
     "Everyone" : "Alle",

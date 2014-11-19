@@ -201,7 +201,6 @@ OC.L10N.register(
     "Create" : "Létrehozás",
     "Admin Recovery Password" : "Adminisztrátori jelszó az állományok visszanyerésére",
     "Enter the recovery password in order to recover the users files during password change" : "Adja meg az adatok visszanyeréséhez szükséges jelszót arra az esetre, ha a felhasználók megváltoztatják a jelszavukat",
-    "Search Users and Groups" : "Keresés a felhasználók és a csoportok között",
     "Add Group" : "Csoport létrehozása",
     "Group" : "Csoport",
     "Everyone" : "Mindenki",

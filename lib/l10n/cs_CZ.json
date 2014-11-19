@@ -83,7 +83,7 @@
     "_%n hour ago_::_%n hours ago_" : ["před %n hodinou","před %n hodinami","před %n hodinami"],
     "today" : "dnes",
     "yesterday" : "včera",
-    "_%n day go_::_%n days ago_" : ["před %n dnem","před %n dny","před %n dny"],
+    "_%n day go_::_%n days ago_" : ["včera","před %n dny","před %n dny"],
     "last month" : "minulý měsíc",
     "_%n month ago_::_%n months ago_" : ["před %n měsícem","před %n měsíci","před %n měsíci"],
     "last year" : "minulý rok",

@@ -220,7 +220,6 @@ OC.L10N.register(
     "Create" : "Створити",
     "Admin Recovery Password" : "Пароль адміністратора для відновлення",
     "Enter the recovery password in order to recover the users files during password change" : "Введіть пароль для того, щоб відновити файли користувачів при зміні паролю",
-    "Search Users and Groups" : "Шукати користувачів та групи",
     "Add Group" : "Додати групу",
     "Group" : "Група",
     "Everyone" : "Всі",

@@ -222,7 +222,6 @@ OC.L10N.register(
     "Create" : "Oluştur",
     "Admin Recovery Password" : "Yönetici Kurtarma Parolası",
     "Enter the recovery password in order to recover the users files during password change" : "Parola değiştirme sırasında kullanıcı dosyalarını kurtarmak için kurtarma parolasını girin",
-    "Search Users and Groups" : "Kullanıcı ve Grupları Ara",
     "Add Group" : "Grup Ekle",
     "Group" : "Grup",
     "Everyone" : "Herkes",

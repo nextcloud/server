@@ -148,7 +148,6 @@ OC.L10N.register(
     "Username" : "Корисничко име",
     "Create" : "Создај",
     "Admin Recovery Password" : "Обновување на Admin лозинката",
-    "Search Users and Groups" : "Барај корисници и групи",
     "Add Group" : "Додади група",
     "Group" : "Група",
     "Everyone" : "Секој",

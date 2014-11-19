@@ -213,7 +213,6 @@ OC.L10N.register(
     "Create" : "Sortu",
     "Admin Recovery Password" : "Administratzailearen pasahitza berreskuratzea",
     "Enter the recovery password in order to recover the users files during password change" : "Berreskuratze pasahitza idatzi pasahitz aldaketan erabiltzaileen fitxategiak berreskuratzeko",
-    "Search Users and Groups" : "Bilatu erabiltzaileak eta taldeak",
     "Add Group" : "Gehitu taldea",
     "Group" : "Taldea",
     "Everyone" : "Edonor",

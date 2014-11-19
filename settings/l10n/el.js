@@ -218,7 +218,6 @@ OC.L10N.register(
     "Create" : "Δημιουργία",
     "Admin Recovery Password" : "Κωδικός Επαναφοράς Διαχειριστή ",
     "Enter the recovery password in order to recover the users files during password change" : "Εισάγετε το συνθηματικό ανάκτησης ώστε να ανακτήσετε τα αρχεία χρηστών κατά την αλλαγή συνθηματικού",
-    "Search Users and Groups" : "Αναζήτηση Χρηστών και Ομάδων",
     "Add Group" : "Προσθήκη Ομάδας",
     "Group" : "Ομάδα",
     "Everyone" : "Όλοι",

@@ -222,7 +222,6 @@ OC.L10N.register(
     "Create" : "Lisa",
     "Admin Recovery Password" : "Admini parooli taastamine",
     "Enter the recovery password in order to recover the users files during password change" : "Sisesta taasteparool kasutaja failide taastamiseks paroolivahetuse käigus",
-    "Search Users and Groups" : "Otsi kasutajaid ja gruppe",
     "Add Group" : "Lisa grupp",
     "Group" : "Grupp",
     "Everyone" : "Igaüks",

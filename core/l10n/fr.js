@@ -6,7 +6,7 @@ OC.L10N.register(
     "Turned off maintenance mode" : "Mode de maintenance désactivé",
     "Updated database" : "Base de données mise à jour",
     "Checked database schema update" : "Mise à jour du schéma de la base de données vérifiée",
-    "Checked database schema update for apps" : "La mise à jour du schéma de la base de données pour les applications a été vérifiée",
+    "Checked database schema update for apps" : "Mise à jour du schéma de la base de données pour les applications vérifiée",
     "Updated \"%s\" to %s" : "Mise à jour de « %s » vers %s",
     "Disabled incompatible apps: %s" : "Applications incompatibles désactivées : %s",
     "No image or file provided" : "Aucun fichier fourni",

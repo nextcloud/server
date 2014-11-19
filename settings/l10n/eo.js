@@ -137,7 +137,6 @@ OC.L10N.register(
     "Delete Encryption Keys" : "Forigi ĉifroklavojn",
     "Username" : "Uzantonomo",
     "Create" : "Krei",
-    "Search Users and Groups" : "Serĉi uzantojn kaj grupojn",
     "Add Group" : "Aldoni grupon",
     "Group" : "Grupo",
     "Everyone" : "Ĉiuj",

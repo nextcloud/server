@@ -222,7 +222,6 @@ OC.L10N.register(
     "Create" : "作成",
     "Admin Recovery Password" : "管理者リカバリパスワード",
     "Enter the recovery password in order to recover the users files during password change" : "パスワード変更時のユーザーのファイルを回復するため、リカバリパスワードを入力してください",
-    "Search Users and Groups" : "ユーザーとグループを検索",
     "Add Group" : "グループを追加",
     "Group" : "グループ",
     "Everyone" : "すべてのユーザー",

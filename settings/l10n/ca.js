@@ -194,7 +194,6 @@ OC.L10N.register(
     "Create" : "Crea",
     "Admin Recovery Password" : "Recuperació de contrasenya d'administrador",
     "Enter the recovery password in order to recover the users files during password change" : "Escriviu la contrasenya de recuperació per a poder recuperar els fitxers dels usuaris en canviar la contrasenya",
-    "Search Users and Groups" : "Cerca usuaris i grups",
     "Add Group" : "Afegeix grup",
     "Group" : "Grup",
     "Everyone" : "Tothom",

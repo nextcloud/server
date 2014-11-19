@@ -222,7 +222,6 @@ OC.L10N.register(
     "Create" : "Ny",
     "Admin Recovery Password" : "Administrator gendannelse kodeord",
     "Enter the recovery password in order to recover the users files during password change" : "Indtast et gendannelse kodeord for, at kunne gendanne brugerens filer ved ændring af kodeord",
-    "Search Users and Groups" : "Søg efter brugere og grupper",
     "Add Group" : "Tilføj Gruppe",
     "Group" : "Gruppe",
     "Everyone" : "Alle",

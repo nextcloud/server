@@ -206,7 +206,6 @@ OC.L10N.register(
     "Create" : "Crear",
     "Admin Recovery Password" : "Recuperación de la contraseña d'alministración",
     "Enter the recovery password in order to recover the users files during password change" : "Introduz la contraseña de recuperación col envís de recuperar los ficheros de los usuarios mientres el cambéu de contraseña.",
-    "Search Users and Groups" : "Guetar Usuarios y Grupos",
     "Add Group" : "Amestar grupu",
     "Group" : "Grupu",
     "Everyone" : "Toos",

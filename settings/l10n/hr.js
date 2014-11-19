@@ -207,7 +207,6 @@ OC.L10N.register(
     "Create" : "Kreirajte",
     "Admin Recovery Password" : "Admin lozinka za oporavak",
     "Enter the recovery password in order to recover the users files during password change" : "Unesite lozinku za oporavak da biste oporavili korisničke datoteke tijekom promjene lozinke",
-    "Search Users and Groups" : "Pretražite korisnike i grupe",
     "Add Group" : "Dodajte grupu",
     "Group" : "Grupa",
     "Everyone" : "Svi",
