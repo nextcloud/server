@@ -45,11 +45,6 @@ OC.L10N = {
 
 		var self = this;
 		var deferred = $.Deferred();
-		var url = OC.generateUrl(
-			'apps/{app}/l10n/{locale}.json',
-			{app: appName, locale: OC.getLocale()}
-		);
-
 		var url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json');
 
 		// load JSON translation bundle per AJAX
