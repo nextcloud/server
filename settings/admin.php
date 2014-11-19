@@ -123,7 +123,7 @@ $template->printPage();
  * @return null|string
  */
 function findBinaryPath($program) {
-	if (OC_Helper::is_function_enabled('exec')) {
+	if (!\OC_Util::runningOnWindows() && \OC_Helper::is_function_enabled('exec')) {
 		exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
 		if ($returnCode === 0 && count($output) > 0) {
 			return escapeshellcmd($output[0]);
