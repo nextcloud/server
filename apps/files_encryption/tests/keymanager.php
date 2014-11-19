@@ -14,14 +14,13 @@ require_once __DIR__ . '/../lib/stream.php';
 require_once __DIR__ . '/../lib/util.php';
 require_once __DIR__ . '/../lib/helper.php';
 require_once __DIR__ . '/../appinfo/app.php';
-require_once __DIR__ . '/util.php';
 
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Keymanager
  */
-class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_USER = "test-keymanager-user.dot";
 
@@ -36,6 +35,8 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	public $dataShort;
 
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
@@ -58,10 +59,11 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		// create test user
 		\OC_User::deleteUser(\Test_Encryption_Keymanager::TEST_USER);
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Keymanager::TEST_USER, true);
+		parent::loginHelper(\Test_Encryption_Keymanager::TEST_USER, true);
 	}
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		// set content for encrypting / decrypting in tests
 		$this->dataLong = file_get_contents(__DIR__ . '/../lib/crypt.php');
 		$this->dataShort = 'hats';
@@ -76,7 +78,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$this->view = new \OC\Files\View('/');
 
-		\Test_Encryption_Util::loginHelper(Test_Encryption_Keymanager::TEST_USER);
+		self::loginHelper(Test_Encryption_Keymanager::TEST_USER);
 		$this->userId = \Test_Encryption_Keymanager::TEST_USER;
 		$this->pass = \Test_Encryption_Keymanager::TEST_USER;
 
@@ -87,6 +89,8 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 	function tearDown() {
 		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys');
 		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles');
+
+		parent::tearDown();
 	}
 
 	public static function tearDownAfterClass() {
@@ -106,6 +110,8 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 		$view = new \OC\Files\View('/');
 		$view->rmdir('public-keys');
 		$view->rmdir('owncloud_private_key');
+
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -171,7 +177,7 @@ class Test_Encryption_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$key = $this->randomKey;
 
-		$file = 'unittest-' . uniqid() . '.txt';
+		$file = 'unittest-' . $this->getUniqueID() . '.txt';
 
 		$util = new Encryption\Util($this->view, $this->userId);
 

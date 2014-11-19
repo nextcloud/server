@@ -22,9 +22,15 @@ class View extends \PHPUnit_Framework_TestCase {
 	private $storages = array();
 	private $user;
 
+	/** @var \OC\Files\Storage\Storage */
 	private $tempStorage;
 
-	public function setUp() {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \OC_User_Dummy());
 
@@ -33,12 +39,13 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->user = \OC_User::getUser();
 		\OC_User::setUserId('test');
 
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 
 		$this->tempStorage = null;
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_User::setUserId($this->user);
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
@@ -49,6 +56,11 @@ class View extends \PHPUnit_Framework_TestCase {
 		if ($this->tempStorage && !\OC_Util::runningOnWindows()) {
 			system('rm -rf ' . escapeshellarg($this->tempStorage->getDataDir()));
 		}
+
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	/**
@@ -590,7 +602,17 @@ class View extends \PHPUnit_Framework_TestCase {
 		$longPath = '';
 		// 4000 is the maximum path length in file_cache.path
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$depth = (4000 / 57);
+
+		$tmpdirLength = strlen(\OC_Helper::tmpFolder());
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] ');
+			$depth = ((260 - $tmpdirLength) / 57);
+		} elseif (\OC_Util::runningOnMac()){
+			$depth = ((1024 - $tmpdirLength) / 57);
+		} else {
+			$depth = ((4000 - $tmpdirLength) / 57);
+		}
+
 		foreach (range(0, $depth - 1) as $i) {
 			$longPath .= '/' . $folderName;
 			$result = $rootView->mkdir($longPath);

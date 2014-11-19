@@ -22,38 +22,39 @@
  *
  */
 
-class Test_Group extends PHPUnit_Framework_TestCase {
-	function setUp() {
+class Test_Group extends \Test\TestCase {
+	protected function setUp() {
+		parent::setUp();
 		OC_Group::clearBackends();
 		OC_User::clearBackends();
 	}
 
-	function testSingleBackend() {
+	public function testSingleBackend() {
 		$userBackend = new \OC_User_Dummy();
 		\OC_User::getManager()->registerBackend($userBackend);
 		OC_Group::useBackend(new OC_Group_Dummy());
 
-		$group1 = uniqid();
-		$group2 = uniqid();
+		$group1 = $this->getUniqueID();
+		$group2 = $this->getUniqueID();
 		OC_Group::createGroup($group1);
 		OC_Group::createGroup($group2);
 
-		$user1 = uniqid();
-		$user2 = uniqid();
+		$user1 = $this->getUniqueID();
+		$user2 = $this->getUniqueID();
 		$userBackend->createUser($user1, '');
 		$userBackend->createUser($user2, '');
 
-		$this->assertFalse(OC_Group::inGroup($user1, $group1));
-		$this->assertFalse(OC_Group::inGroup($user2, $group1));
-		$this->assertFalse(OC_Group::inGroup($user1, $group2));
-		$this->assertFalse(OC_Group::inGroup($user2, $group2));
+		$this->assertFalse(OC_Group::inGroup($user1, $group1), 'Asserting that user1 is not in group1');
+		$this->assertFalse(OC_Group::inGroup($user2, $group1), 'Asserting that user2 is not in group1');
+		$this->assertFalse(OC_Group::inGroup($user1, $group2), 'Asserting that user1 is not in group2');
+		$this->assertFalse(OC_Group::inGroup($user2, $group2), 'Asserting that user2 is not in group2');
 
 		$this->assertTrue(OC_Group::addToGroup($user1, $group1));
 
-		$this->assertTrue(OC_Group::inGroup($user1, $group1));
-		$this->assertFalse(OC_Group::inGroup($user2, $group1));
-		$this->assertFalse(OC_Group::inGroup($user1, $group2));
-		$this->assertFalse(OC_Group::inGroup($user2, $group2));
+		$this->assertTrue(OC_Group::inGroup($user1, $group1), 'Asserting that user1 is in group1');
+		$this->assertFalse(OC_Group::inGroup($user2, $group1), 'Asserting that user2 is not in group1');
+		$this->assertFalse(OC_Group::inGroup($user1, $group2), 'Asserting that user1 is not in group2');
+		$this->assertFalse(OC_Group::inGroup($user2, $group2), 'Asserting that user2 is not in group2');
 
 		$this->assertTrue(OC_Group::addToGroup($user1, $group1));
 
@@ -80,7 +81,7 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 
 	public function testNoGroupsTwice() {
 		OC_Group::useBackend(new OC_Group_Dummy());
-		$group = uniqid();
+		$group = $this->getUniqueID();
 		OC_Group::createGroup($group);
 
 		$groupCopy = $group;
@@ -103,7 +104,7 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 	public function testDontAddUserToNonexistentGroup() {
 		OC_Group::useBackend(new OC_Group_Dummy());
 		$groupNonExistent = 'notExistent';
-		$user = uniqid();
+		$user = $this->getUniqueID();
 
 		$this->assertEquals(false, OC_Group::addToGroup($user, $groupNonExistent));
 		$this->assertEquals(array(), OC_Group::getGroups());
@@ -114,12 +115,12 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 		$userBackend = new \OC_User_Dummy();
 		\OC_User::getManager()->registerBackend($userBackend);
 
-		$group1 = uniqid();
-		$group2 = uniqid();
-		$group3 = uniqid();
-		$user1 = uniqid();
-		$user2 = uniqid();
-		$user3 = uniqid();
+		$group1 = $this->getUniqueID();
+		$group2 = $this->getUniqueID();
+		$group3 = $this->getUniqueID();
+		$user1 = $this->getUniqueID();
+		$user2 = $this->getUniqueID();
+		$user3 = $this->getUniqueID();
 		OC_Group::createGroup($group1);
 		OC_Group::createGroup($group2);
 		OC_Group::createGroup($group3);
@@ -139,8 +140,7 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 		// FIXME: needs more parameter variation
 	}
 
-
-	function testMultiBackend() {
+	public function testMultiBackend() {
 		$userBackend = new \OC_User_Dummy();
 		\OC_User::getManager()->registerBackend($userBackend);
 		$backend1 = new OC_Group_Dummy();
@@ -148,8 +148,8 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 		OC_Group::useBackend($backend1);
 		OC_Group::useBackend($backend2);
 
-		$group1 = uniqid();
-		$group2 = uniqid();
+		$group1 = $this->getUniqueID();
+		$group2 = $this->getUniqueID();
 		OC_Group::createGroup($group1);
 
 		//groups should be added to the first registered backend
@@ -166,8 +166,8 @@ class Test_Group extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(OC_Group::groupExists($group1));
 		$this->assertTrue(OC_Group::groupExists($group2));
 
-		$user1 = uniqid();
-		$user2 = uniqid();
+		$user1 = $this->getUniqueID();
+		$user2 = $this->getUniqueID();
 
 		$userBackend->createUser($user1, '');
 		$userBackend->createUser($user2, '');

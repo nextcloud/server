@@ -11,6 +11,28 @@ class Test_Migrate extends PHPUnit_Framework_TestCase {
 	public $users;
 	public $tmpfiles = array();
 
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+	}
+
+	protected function tearDown() {
+		$u = new OC_User();
+		foreach($this->users as $user) {
+			$u->deleteUser($user);
+		}
+		foreach($this->tmpfiles as $file) {
+			\OC_Helper::rmdirr($file);
+		}
+
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+		parent::tearDown();
+	}
+
 	/**
 	 * Generates a test user and sets up their file system
 	 * @return string the test users id
@@ -73,18 +95,4 @@ class Test_Migrate extends PHPUnit_Framework_TestCase {
 		// Validate the export
 		$this->validateUserExport($user2, $user, json_decode($export)->data);
 	}
-
-	public function tearDown() {
-		$u = new OC_User();
-		foreach($this->users as $user) {
-			$u->deleteUser($user);
-		}
-		foreach($this->tmpfiles as $file) {
-			\OC_Helper::rmdirr($file);
-		}
-	}
-
-
-
-
 }

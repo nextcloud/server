@@ -460,6 +460,9 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		\OC::$server->registerService('AppConfig', function ($c) use ($oldService){
 			return $oldService;
 		});
+
+		// Remove the cache of the mocked apps list with a forceRefresh
+		\OC_App::getEnabledApps(true);
 	}
 }
 

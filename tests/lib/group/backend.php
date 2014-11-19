@@ -20,7 +20,7 @@
 *
 */
 
-abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
+abstract class Test_Group_Backend extends \Test\TestCase {
 	/**
 	 * @var OC_Group_Backend $backend
 	 */
@@ -33,7 +33,7 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	 */
 	public function getGroupName($name = null) {
 		if(is_null($name)) {
-			return uniqid('test_');
+			return $this->getUniqueID('test_');
 		} else {
 			return $name;
 		}
@@ -45,7 +45,7 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	 * @return string
 	 */
 	public function getUserName() {
-		return uniqid('test_');
+		return $this->getUniqueID('test_');
 	}
 
 	public function testAddRemove() {
@@ -138,6 +138,4 @@ abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 		$result = $this->backend->countUsersInGroup($group, 'bar');
 		$this->assertSame(2, $result);
 	}
-
-
 }

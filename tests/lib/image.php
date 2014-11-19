@@ -62,14 +62,18 @@ class Test_Image extends PHPUnit_Framework_TestCase {
 		$img = new \OC_Image(OC::$SERVERROOT.'/tests/data/testimage.png');
 		$this->assertEquals('image/png', $img->mimeType());
 
+		$img = new \OC_Image(null);
+		$this->assertEquals('', $img->mimeType());
+
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] Images created with imagecreate() are pngs on windows');
+		}
+
 		$img = new \OC_Image(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.jpg'));
 		$this->assertEquals('image/jpeg', $img->mimeType());
 
 		$img = new \OC_Image(base64_encode(file_get_contents(OC::$SERVERROOT.'/tests/data/testimage.gif')));
 		$this->assertEquals('image/gif', $img->mimeType());
-
-		$img = new \OC_Image(null);
-		$this->assertEquals('', $img->mimeType());
 	}
 
 	public function testWidth() {

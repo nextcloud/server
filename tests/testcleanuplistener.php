@@ -100,6 +100,12 @@ class TestCleanupListener implements PHPUnit_Framework_TestListener {
 			'.' => true
 		);
 		$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data');
+
+		if (\OC_Util::runningOnWindows()) {
+			$mapper = new \OC\Files\Mapper($datadir);
+			$mapper->removePath($datadir, true, true);
+		}
+
 		$entries = array();
 		if ($dh = opendir($datadir)) {
 			while (($file = readdir($dh)) !== false) {
