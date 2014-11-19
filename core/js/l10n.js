@@ -44,22 +44,17 @@ OC.L10N = {
 		}
 
 		var self = this;
-		var deferred = $.Deferred();
 		var url = OC.filePath(appName, 'l10n', OC.getLocale() + '.json');
 
 		// load JSON translation bundle per AJAX
-		$.get(url,
-			function(result) {
-				if (result.translations) {
-					self.register(appName, result.translations, result.pluralForm);
-				}
-				if (callback) {
-					callback();
-					deferred.resolve();
-				}
-			}
-		);
-		return deferred.promise();
+		return $.get(url)
+			.then(
+				function(result) {
+					if (result.translations) {
+						self.register(appName, result.translations, result.pluralForm);
+					}
+				})
+			.then(callback);
 	},
 
 	/**
