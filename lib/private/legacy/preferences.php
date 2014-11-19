@@ -21,47 +21,23 @@
  *
  */
 
-OC_Preferences::$object = new \OC\Preferences(OC_DB::getConnection());
 /**
  * This class provides an easy way for storing user preferences.
- * @deprecated use \OC\Preferences instead
+ * @deprecated use \OCP\IConfig methods instead
  */
 class OC_Preferences{
-	public static $object;
-	/**
-	 * Get all users using the preferences
-	 * @return array an array of user ids
-	 *
-	 * This function returns a list of all users that have at least one entry
-	 * in the preferences table.
-	 */
-	public static function getUsers() {
-		return self::$object->getUsers();
-	}
-
-	/**
-	 * Get all apps of a user
-	 * @param string $user user
-	 * @return integer[] with app ids
-	 *
-	 * This function returns a list of all apps of the user that have at least
-	 * one entry in the preferences table.
-	 */
-	public static function getApps( $user ) {
-		return self::$object->getApps( $user );
-	}
-
 	/**
 	 * Get the available keys for an app
 	 * @param string $user user
 	 * @param string $app the app we are looking for
 	 * @return array an array of key names
+	 * @deprecated use getUserKeys of \OCP\IConfig instead
 	 *
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.
 	 */
 	public static function getKeys( $user, $app ) {
-		return self::$object->getKeys( $user, $app );
+		return \OC::$server->getConfig()->getUserKeys($user, $app);
 	}
 
 	/**
@@ -71,12 +47,13 @@ class OC_Preferences{
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
+	 * @deprecated use getUserValue of \OCP\IConfig instead
 	 *
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
 	 */
 	public static function getValue( $user, $app, $key, $default = null ) {
-		return self::$object->getValue( $user, $app, $key, $default );
+		return \OC::$server->getConfig()->getUserValue($user, $app, $key, $default);
 	}
 
 	/**
@@ -87,12 +64,16 @@ class OC_Preferences{
 	 * @param string $value value
 	 * @param string $preCondition only set value if the key had a specific value before
 	 * @return bool true if value was set, otherwise false
+	 * @deprecated use setUserValue of \OCP\IConfig instead
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
 	public static function setValue( $user, $app, $key, $value, $preCondition = null ) {
-		return self::$object->setValue( $user, $app, $key, $value, $preCondition );
+		return \OC::$server->getConfig()->setUserValue($user, $app, $key, $value);
+
+		// TODO maybe catch exceptions and then return false
+		return true;
 	}
 
 	/**
@@ -100,24 +81,13 @@ class OC_Preferences{
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
+	 * @return bool true
+	 * @deprecated use deleteUserValue of \OCP\IConfig instead
 	 *
 	 * Deletes a key.
 	 */
 	public static function deleteKey( $user, $app, $key ) {
-		self::$object->deleteKey( $user, $app, $key );
-		return true;
-	}
-
-	/**
-	 * Remove app of user from preferences
-	 * @param string $user user
-	 * @param string $app app
-	 * @return bool
-	 *
-	 * Removes all keys in preferences belonging to the app and the user.
-	 */
-	public static function deleteApp( $user, $app ) {
-		self::$object->deleteApp( $user, $app );
+		\OC::$server->getConfig()->deleteUserValue($user, $app, $key);
 		return true;
 	}
 
@@ -125,11 +95,12 @@ class OC_Preferences{
 	 * Remove user from preferences
 	 * @param string $user user
 	 * @return bool
+	 * @deprecated use deleteUser of \OCP\IConfig instead
 	 *
 	 * Removes all keys in preferences belonging to the user.
 	 */
 	public static function deleteUser( $user ) {
-		self::$object->deleteUser( $user );
+		\OC::$server->getConfig()->deleteAllUserValues($user);
 		return true;
 	}
 
@@ -137,11 +108,12 @@ class OC_Preferences{
 	 * Remove app from all users
 	 * @param string $app app
 	 * @return bool
+	 * @deprecated use deleteAppFromAllUsers of \OCP\IConfig instead
 	 *
 	 * Removes all keys in preferences belonging to the app.
 	 */
 	public static function deleteAppFromAllUsers( $app ) {
-		self::$object->deleteAppFromAllUsers( $app );
+		\OC::$server->getConfig()->deleteAppFromAllUsers($app);
 		return true;
 	}
 }
