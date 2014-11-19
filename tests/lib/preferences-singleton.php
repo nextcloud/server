@@ -40,34 +40,6 @@ class Test_Preferences extends \Test\TestCase {
 		parent::tearDownAfterClass();
 	}
 
-	public function testGetUsers() {
-		$query = \OC_DB::prepare('SELECT DISTINCT `userid` FROM `*PREFIX*preferences`');
-		$result = $query->execute();
-		$expected = array();
-		while ($row = $result->fetchRow()) {
-			$expected[] = $row['userid'];
-		}
-
-		sort($expected);
-		$users = \OC_Preferences::getUsers();
-		sort($users);
-		$this->assertEquals($expected, $users);
-	}
-
-	public function testGetApps() {
-		$query = \OC_DB::prepare('SELECT DISTINCT `appid` FROM `*PREFIX*preferences` WHERE `userid` = ?');
-		$result = $query->execute(array('Someuser'));
-		$expected = array();
-		while ($row = $result->fetchRow()) {
-			$expected[] = $row['appid'];
-		}
-
-		sort($expected);
-		$apps = \OC_Preferences::getApps('Someuser');
-		sort($apps);
-		$this->assertEquals($expected, $apps);
-	}
-
 	public function testGetKeys() {
 		$query = \OC_DB::prepare('SELECT DISTINCT `configkey` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ?');
 		$result = $query->execute(array('Someuser', 'getkeysapp'));
