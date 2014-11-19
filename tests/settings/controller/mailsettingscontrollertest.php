@@ -14,7 +14,7 @@ use \OC\Settings\Application;
 /**
  * @package OC\Settings\Controller
  */
-class MailSettingscontrollerTest extends \PHPUnit_Framework_TestCase {
+class MailSettingsControllerTest extends \PHPUnit_Framework_TestCase {
 
 	private $container;
 

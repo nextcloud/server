@@ -9,6 +9,7 @@
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
 		<directory suffix='.php'>settings/</directory>
+		<directory suffix='.php'>core/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->

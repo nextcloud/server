@@ -125,6 +125,18 @@ class Util {
 	}
 
 	/**
+	 * create a new public/private key pair for the user
+	 *
+	 * @param string $password password for the private key
+	 */
+	public function replaceUserKeys($password) {
+		$this->backupAllKeys('password_reset');
+		$this->view->unlink($this->publicKeyPath);
+		$this->view->unlink($this->privateKeyPath);
+		$this->setupServerSide($password);
+	}
+
+	/**
 	 * Sets up user folders and keys for serverside encryption
 	 *
 	 * @param string $passphrase to encrypt server-stored private key with
