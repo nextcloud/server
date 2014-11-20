@@ -638,6 +638,43 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	}
 
 	/**
+	 * Tests that filterShareReadyUsers() returns the correct list of
+	 * users that are ready or not ready for encryption
+	 */
+	public function testFilterShareReadyUsers() {
+		$appConfig = \OC::$server->getAppConfig();
+
+		$publicShareKeyId = $appConfig->getValue('files_encryption', 'publicShareKeyId');
+		$recoveryKeyId = $appConfig->getValue('files_encryption', 'recoveryKeyId');
+
+		$usersToTest = array(
+			'readyUser',
+			'notReadyUser',
+			'nonExistingUser',
+			$publicShareKeyId,
+			$recoveryKeyId,
+		);
+		\Test_Encryption_Util::loginHelper('readyUser', true);
+		\Test_Encryption_Util::loginHelper('notReadyUser', true);
+		// delete encryption dir to make it not ready
+		$this->view->unlink('notReadyUser/files_encryption/');
+
+		// login as user1
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
+
+		$result = $this->util->filterShareReadyUsers($usersToTest);
+		$this->assertEquals(
+			array('readyUser', $publicShareKeyId, $recoveryKeyId),
+			$result['ready']
+		);
+		$this->assertEquals(
+			array('notReadyUser', 'nonExistingUser'),
+			$result['unready']
+		);
+		\OC_User::deleteUser('readyUser');
+	}
+
+	/**
 	 * @param string $user
 	 * @param bool $create
 	 * @param bool $password
