@@ -633,9 +633,7 @@ class Share extends \OC\Share\Constants {
 
 				// Generate hash of password - same method as user passwords
 				if (!empty($shareWith)) {
-					$forcePortable = (CRYPT_BLOWFISH != 1);
-					$hasher = new \PasswordHash(8, $forcePortable);
-					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
+					$shareWith = \OC::$server->getHasher()->hash($shareWith);
 				} else {
 					// reuse the already set password, but only if we change permissions
 					// otherwise the user disabled the password protection

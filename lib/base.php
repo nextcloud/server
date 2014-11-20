@@ -464,8 +464,7 @@ class OC {
 		// setup 3rdparty autoloader
 		$vendorAutoLoad = OC::$THIRDPARTYROOT . '/3rdparty/autoload.php';
 		if (file_exists($vendorAutoLoad)) {
-			$loader = require_once $vendorAutoLoad;
-			$loader->add('PasswordHash', OC::$THIRDPARTYROOT . '/3rdparty/phpass');
+			require_once $vendorAutoLoad;
 		} else {
 			OC_Response::setStatus(OC_Response::STATUS_SERVICE_UNAVAILABLE);
 			OC_Template::printErrorPage('Composer autoloader not found, unable to continue.');
