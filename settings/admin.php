@@ -17,7 +17,7 @@ $config = \OC::$server->getConfig();
 $appConfig = \OC::$server->getAppConfig();
 
 // Should we display sendmail as an option?
-$template->assign('sendmail_is_available', (bool)findBinaryPath('sendmail'));
+$template->assign('sendmail_is_available', (bool) \OC_Helper::findBinaryPath('sendmail'));
 
 $template->assign('loglevel', $config->getSystemValue("loglevel", 2));
 $template->assign('mail_domain', $config->getSystemValue("mail_domain", ''));
@@ -115,19 +115,3 @@ $formsAndMore[] = array('anchor' => 'log-section', 'section-name' => $l->t('Log'
 $template->assign('forms', $formsAndMore);
 
 $template->printPage();
-
-/**
- * Try to find a program
- *
- * @param string $program
- * @return null|string
- */
-function findBinaryPath($program) {
-	if (!\OC_Util::runningOnWindows() && \OC_Helper::is_function_enabled('exec')) {
-		exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
-		if ($returnCode === 0 && count($output) > 0) {
-			return escapeshellcmd($output[0]);
-		}
-	}
-	return null;
-}

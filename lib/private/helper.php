@@ -873,6 +873,23 @@ class OC_Helper {
 	}
 
 	/**
+	 * Try to find a program
+	 * Note: currently windows is not supported
+	 *
+	 * @param string $program
+	 * @return null|string
+	 */
+	public static function findBinaryPath($program) {
+		if (!\OC_Util::runningOnWindows() && self::is_function_enabled('exec')) {
+			exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+			if ($returnCode === 0 && count($output) > 0) {
+				return escapeshellcmd($output[0]);
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Calculate the disc space for the given path
 	 *
 	 * @param string $path
