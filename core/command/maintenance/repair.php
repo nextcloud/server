@@ -17,12 +17,14 @@ class Repair extends Command {
 	 * @var \OC\Repair $repair
 	 */
 	protected $repair;
+	/** @var \OCP\IConfig */
+	protected $config;
 
 	/**
 	 * @param \OC\Repair $repair
-	 * @param \OC\Config $config
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct(\OC\Repair $repair, \OC\Config $config) {
+	public function __construct(\OC\Repair $repair, \OCP\IConfig $config) {
 		$this->repair = $repair;
 		$this->config = $config;
 		parent::__construct();
@@ -35,8 +37,8 @@ class Repair extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$maintenanceMode = $this->config->getValue('maintenance', false);
-		$this->config->setValue('maintenance', true);
+		$maintenanceMode = $this->config->getSystemValue('maintenance', false);
+		$this->config->setSystemValue('maintenance', true);
 
 		$this->repair->listen('\OC\Repair', 'step', function ($description) use ($output) {
 			$output->writeln(' - ' . $description);
@@ -50,6 +52,6 @@ class Repair extends Command {
 
 		$this->repair->run();
 
-		$this->config->setValue('maintenance', $maintenanceMode);
+		$this->config->setSystemValue('maintenance', $maintenanceMode);
 	}
 }

@@ -49,7 +49,7 @@ class MDB2SchemaManager {
 	 * TODO: write more documentation
 	 */
 	public function createDbFromStructure($file) {
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform());
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 		return $this->executeSchemaChange($toSchema);
 	}
@@ -83,7 +83,7 @@ class MDB2SchemaManager {
 	 */
 	private function readSchemaFromFile($file) {
 		$platform = $this->conn->getDatabasePlatform();
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $platform);
 		return $schemaReader->loadSchemaFromFile($file);
 	}
 
@@ -131,7 +131,7 @@ class MDB2SchemaManager {
 	 * @param string $file the xml file describing the tables
 	 */
 	public function removeDBStructure($file) {
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform());
 		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		/** @var $table \Doctrine\DBAL\Schema\Table */
