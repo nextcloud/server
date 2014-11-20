@@ -216,7 +216,7 @@ class OC {
 
 	public static function checkInstalled() {
 		// Redirect to installer if not installed
-		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
+		if (!\OC::$server->getConfig()->getSystemValue('installed', false) && OC::$SUBURI != '/index.php') {
 			if (OC::$CLI) {
 				throw new Exception('Not installed');
 			} else {
@@ -254,7 +254,7 @@ class OC {
 
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
-		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+		if (\OC::$server->getConfig()->getSystemValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
 			// send http status 503
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
@@ -271,7 +271,7 @@ class OC {
 	public static function checkSingleUserMode() {
 		$user = OC_User::getUserSession()->getUser();
 		$group = OC_Group::getManager()->get('admin');
-		if ($user && OC_Config::getValue('singleuser', false) && !$group->inGroup($user)) {
+		if ($user && \OC::$server->getConfig()->getSystemValue('singleuser', false) && !$group->inGroup($user)) {
 			// send http status 503
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
@@ -301,10 +301,11 @@ class OC {
 	 */
 	public static function checkUpgrade($showTemplate = true) {
 		if (\OCP\Util::needUpgrade()) {
-			if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
+			$config = \OC::$server->getConfig();
+			if ($showTemplate && !$config->getSystemValue('maintenance', false)) {
 				$version = OC_Util::getVersion();
-				$oldTheme = OC_Config::getValue('theme');
-				OC_Config::setValue('theme', '');
+				$oldTheme = $config->getSystemValue('theme');
+				$config->setSystemValue('theme', '');
 				OC_Util::addScript('config'); // needed for web root
 				OC_Util::addScript('update');
 				$tmpl = new OC_Template('', 'update.admin', 'guest');
@@ -358,7 +359,7 @@ class OC {
 		OC_Util::addVendorScript('moment/min/moment-with-locales');
 
 		// avatars
-		if (\OC_Config::getValue('enable_avatars', true) === true) {
+		if (\OC::$server->getConfig()->getSystemValue('enable_avatars', true) === true) {
 			\OC_Util::addScript('placeholder');
 			\OC_Util::addVendorScript('blueimp-md5/js/md5');
 			\OC_Util::addScript('jquery.avatar');
@@ -438,7 +439,7 @@ class OC {
 	 * @return string
 	 */
 	private static function getSessionLifeTime() {
-		return OC_Config::getValue('session_lifetime', 60 * 60 * 24);
+		return \OC::$server->getConfig()->getSystemValue('session_lifetime', 60 * 60 * 24);
 	}
 
 	public static function loadAppClassPaths() {
@@ -560,8 +561,10 @@ class OC {
 		$sessionLifeTime = self::getSessionLifeTime();
 		@ini_set('gc_maxlifetime', (string)$sessionLifeTime);
 
+		$config = \OC::$server->getConfig();
+
 		// User and Groups
-		if (!OC_Config::getValue("installed", false)) {
+		if (!$config->getSystemValue("installed", false)) {
 			self::$server->getSession()->set('user_id', '');
 		}
 
@@ -584,14 +587,14 @@ class OC {
 		$tmpManager = \OC::$server->getTempManager();
 		register_shutdown_function(array($tmpManager, 'clean'));
 
-		if (OC_Config::getValue('installed', false) && !self::checkUpgrade(false)) {
+		if ($config->getSystemValue('installed', false) && !self::checkUpgrade(false)) {
 			if (\OC::$server->getAppConfig()->getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
 				OC_Util::addScript('backgroundjobs');
 			}
 		}
 
 		// Check whether the sample configuration has been copied
-		if(OC_Config::getValue('copied_sample_config', false)) {
+		if($config->getSystemValue('copied_sample_config', false)) {
 			$l = \OC::$server->getL10N('lib');
 			header('HTTP/1.1 503 Service Temporarily Unavailable');
 			header('Status: 503 Service Temporarily Unavailable');
@@ -633,7 +636,7 @@ class OC {
 	 * register hooks for the cache
 	 */
 	public static function registerCacheHooks() {
-		if (OC_Config::getValue('installed', false) && !\OCP\Util::needUpgrade()) { //don't try to do this before we are properly setup
+		if (\OC::$server->getConfig()->getSystemValue('installed', false) && !\OCP\Util::needUpgrade()) { //don't try to do this before we are properly setup
 			\OCP\BackgroundJob::registerJob('OC\Cache\FileGlobalGC');
 
 			// NOTE: This will be replaced to use OCP
@@ -646,10 +649,11 @@ class OC {
 	 * register hooks for the cache
 	 */
 	public static function registerLogRotate() {
-		if (OC_Config::getValue('installed', false) && OC_Config::getValue('log_rotate_size', false) && !\OCP\Util::needUpgrade()) {
+		$config = \OC::$server->getConfig();
+		if ($config->getSystemValue('installed', false) && $config->getSystemValue('log_rotate_size', false) && !\OCP\Util::needUpgrade()) {
 			//don't try to do this before we are properly setup
 			//use custom logfile path if defined, otherwise use default of owncloud.log in data directory
-			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', OC_Config::getValue('logfile', OC_Config::getValue("datadirectory", OC::$SERVERROOT . '/data') . '/owncloud.log'));
+			\OCP\BackgroundJob::registerJob('OC\Log\Rotate', $config->getSystemValue('logfile', $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data') . '/owncloud.log'));
 		}
 	}
 
@@ -679,7 +683,7 @@ class OC {
 	 * register hooks for sharing
 	 */
 	public static function registerShareHooks() {
-		if (\OC_Config::getValue('installed')) {
+		if (\OC::$server->getConfig()->getSystemValue('installed')) {
 			OC_Hook::connect('OC_User', 'post_deleteUser', 'OC\Share\Hooks', 'post_deleteUser');
 			OC_Hook::connect('OC_User', 'post_addToGroup', 'OC\Share\Hooks', 'post_addToGroup');
 			OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OC\Share\Hooks', 'post_removeFromGroup');
@@ -694,7 +698,7 @@ class OC {
 		// generate an instanceid via \OC_Util::getInstanceId() because the
 		// config file may not be writable. As such, we only register a class
 		// loader cache if instanceid is available without trying to create one.
-		$instanceId = OC_Config::getValue('instanceid', null);
+		$instanceId = \OC::$server->getConfig()->getSystemValue('instanceid', null);
 		if ($instanceId) {
 			try {
 				$memcacheFactory = new \OC\Memcache\Factory($instanceId);
@@ -709,12 +713,13 @@ class OC {
 	 */
 	public static function handleRequest() {
 		\OC::$server->getEventLogger()->start('handle_request', 'Handle request');
+		$config = \OC::$server->getConfig();
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
 
 		// Check if ownCloud is installed or in maintenance (update) mode
-		if (!\OC::$server->getConfig()->getSystemValue('installed', false)) {
+		if (!$config->getSystemValue('installed', false)) {
 			\OC::$server->getSession()->clear();
 			$controller = new OC\Core\Setup\Controller(\OC::$server->getConfig());
 			$controller->run($_POST);
@@ -729,7 +734,7 @@ class OC {
 
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
-				if (!OC_Config::getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
+				if (!$config->getSystemValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
 					OC_App::loadApps(array('authentication'));
 					OC_App::loadApps(array('filesystem', 'logging'));
 					OC_App::loadApps();
@@ -795,7 +800,7 @@ class OC {
 			if (isset($_GET["logout"]) and ($_GET["logout"])) {
 				OC_JSON::callCheck();
 				if (isset($_COOKIE['oc_token'])) {
-					OC_Preferences::deleteKey(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
+					$config->deleteUserValue(OC_User::getUser(), 'login_token', $_COOKIE['oc_token']);
 				}
 				OC_User::logout();
 				// redirect to webroot and add slash if webroot is empty
@@ -854,12 +859,13 @@ class OC {
 	 * @param string $user
 	 */
 	protected static function cleanupLoginTokens($user) {
-		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
-		$tokens = OC_Preferences::getKeys($user, 'login_token');
+		$config = \OC::$server->getConfig();
+		$cutoff = time() - $config->getSystemValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
+		$tokens = $config->getUserKeys($user, 'login_token');
 		foreach ($tokens as $token) {
-			$time = OC_Preferences::getValue($user, 'login_token', $token);
+			$time = $config->getUserValue($user, 'login_token', $token);
 			if ($time < $cutoff) {
-				OC_Preferences::deleteKey($user, 'login_token', $token);
+				$config->deleteUserValue($user, 'login_token', $token);
 			}
 		}
 	}
