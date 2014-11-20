@@ -158,6 +158,7 @@ class Wizard extends LDAPUtility {
 	 * detects the display name attribute. If a setting is already present that
 	 * returns at least one hit, the detection will be canceled.
 	 * @return WizardResult|bool
+	 * @throws \Exception
 	 */
 	public function detectUserDisplayNameAttribute() {
 		if(!$this->checkRequirements(array('ldapHost',
@@ -192,7 +193,7 @@ class Wizard extends LDAPUtility {
 			}
 		};
 
-		throw new \Exception(self::$t->l('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
+		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
 	}
 
 	/**

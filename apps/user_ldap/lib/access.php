@@ -1171,6 +1171,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 	/**
 	 * returns the filter used for counting users
+	 * @return string
 	 */
 	public function getFilterForUserCount() {
 		$filter = $this->combineFilterWithAnd(array(
