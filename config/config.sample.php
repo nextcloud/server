@@ -831,4 +831,10 @@ $CONFIG = array(
 	"style-src 'self' 'unsafe-inline'; frame-src *; img-src *; ".
 	"font-src 'self' data:; media-src *",
 
+/**
+ * Secret used by ownCloud for various purposes, e.g. to encrypt data. If you
+ * lose this string there will be data corruption.
+ */
+'secret' => 'ICertainlyShouldHaveChangedTheDefaultSecret',
+
 );
