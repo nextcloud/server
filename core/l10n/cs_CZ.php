@@ -203,5 +203,6 @@ $TRANSLATIONS = array(
 "File not found" => "Soubor nenalezen",
 "The specified document has not been found on the server." => "Vybraný dokument nebyl na serveru nalezen.",
 "You can click here to return to %s." => "Kliknout zde pro návrat na %s.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Abyste zabránili vypršení časového limitu u větších instalací, můžete namísto toho spustit následující příkaz v hlavním adresáři:",
 );
 $PLURAL_FORMS = "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;";

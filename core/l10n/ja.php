@@ -201,6 +201,7 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "データベースを確認してください。実行前にconfig フォルダとdata フォルダをバックアップします。",
 "Start update" => "アップデートを開始",
 "This ownCloud instance is currently being updated, which may take a while." => "この ownCloud インスタンスは現在アップデート中のため、しばらく時間がかかります。",
-"Please reload this page after a short time to continue using ownCloud." => "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。"
+"Please reload this page after a short time to continue using ownCloud." => "ownCloud を続けて利用するには、しばらくした後でページをリロードしてください。",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "大規模なサイトの場合、ブラウザーがタイムアウトする可能性がある為、インストールディレクトリで次のコマンドを実行しても構いません。",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

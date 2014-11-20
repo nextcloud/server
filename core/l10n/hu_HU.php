@@ -191,6 +191,7 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Kérjük gondoskodjon róla, hogy elmentse az adatbázist, a konfigurációs mappa és az adatamappa tartalmát, mielőtt folytatja.",
 "Start update" => "A frissítés megkezdése",
 "This ownCloud instance is currently being updated, which may take a while." => "Az ownCloud frissítés elkezdődött, ez eltarthat egy ideig.",
-"Please reload this page after a short time to continue using ownCloud." => "Frissitse az oldalt egy kis idő múlva, ha folytatni kívánja az ownCloud használatát."
+"Please reload this page after a short time to continue using ownCloud." => "Frissitse az oldalt egy kis idő múlva, ha folytatni kívánja az ownCloud használatát.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Nagyobb telepítések esetén úgy kerülhetők el az időtúllépések, ha inkább a következő parancsot adja ki a telepítési alkönyvtárban:"
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

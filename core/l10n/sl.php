@@ -189,5 +189,6 @@ $TRANSLATIONS = array(
 "File not found" => "Datoteke ni mogoče najti",
 "The specified document has not been found on the server." => "Določenega dokumenta na strežniku ni mogoče najti.",
 "You can click here to return to %s." => "S klikom na povezavo boste vrnjeni na %s.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Za razreševanje časovnih zahtev večjih namestitev lahko uporabite ukaz iz namestitvene mape:",
 );
 $PLURAL_FORMS = "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);";

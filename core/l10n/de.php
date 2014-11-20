@@ -205,5 +205,6 @@ $TRANSLATIONS = array(
 "File not found" => "Datei nicht gefunden",
 "The specified document has not been found on the server." => "Das ausgewählte Dokument wurde auf dem Server nicht gefunden.",
 "You can click here to return to %s." => "Du kannst zur Rückkehr zu %s hier klicken.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Zur Vermeidung von Zeitüberschreitungen bei größeren Installationen kannst Du stattdessen den folgenden Befehl in Deinem Installationsverzeichnis ausführen:",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

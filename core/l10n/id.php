@@ -172,6 +172,7 @@ $TRANSLATIONS = array(
 "Contact your system administrator if this message persists or appeared unexpectedly." => "Hubungi administrator sistem anda jika pesan ini terus muncul atau muncul tiba-tiba.",
 "Thank you for your patience." => "Terima kasih atas kesabaran anda.",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud ini sedang diperbarui, yang mungkin memakan waktu cukup lama.",
-"Please reload this page after a short time to continue using ownCloud." => "Muat ulang halaman ini setelah beberapa saat untuk tetap menggunakan ownCloud."
+"Please reload this page after a short time to continue using ownCloud." => "Muat ulang halaman ini setelah beberapa saat untuk tetap menggunakan ownCloud.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Untuk menghindari waktu habis dengan instalasi yang lebih besar, Anda bisa menjalankan perintah berikut dari direktori instalasi Anda:",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

@@ -97,5 +97,6 @@ $TRANSLATIONS = array(
 "File not found" => "Файлът не е открит.",
 "The specified document has not been found on the server." => "Избраният документ не е намерн на сървъра.",
 "You can click here to return to %s." => "Можеш да натиснеш тук, за да се върнеш на %s",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "За да избегнеш таймаутове при по-големи инсталации, можеш да изпълниш следните команди в инсталанционната директория:",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
