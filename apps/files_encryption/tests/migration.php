@@ -23,16 +23,20 @@
 use OCA\Encryption;
 use OCA\Files_Encryption\Migration;
 
-class Test_Migration extends PHPUnit_Framework_TestCase {
+class Test_Migration extends \Test\TestCase {
 
-	public function tearDown() {
+	protected function tearDown() {
 		if (OC_DB::tableExists('encryption_test')) {
 			OC_DB::dropTable('encryption_test');
 		}
 		$this->assertTableNotExist('encryption_test');
+
+		parent::tearDown();
 	}
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		if (OC_DB::tableExists('encryption_test')) {
 			OC_DB::dropTable('encryption_test');
 		}

@@ -11,23 +11,27 @@ namespace OC\Test;
 /**
  * @package OC\Test
  */
-class OC_TemplateLayout extends \PHPUnit_Framework_TestCase {
+class OC_TemplateLayout extends \Test\TestCase {
 
-	private $oldServerUri;
+	private $oldServerURI;
 	private $oldScriptName;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->oldServerURI = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null;
 		$this->oldScriptName = $_SERVER['SCRIPT_NAME'];
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->oldServerURI === null) {
 			unset($_SERVER['REQUEST_URI']);
 		} else {
 			$_SERVER['REQUEST_URI'] = $this->oldServerURI;
 		}
 		$_SERVER['SCRIPT_NAME'] = $this->oldScriptName;
+
+		parent::tearDown();
 	}
 
 	/**

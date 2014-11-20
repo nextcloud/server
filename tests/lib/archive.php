@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-abstract class Test_Archive extends PHPUnit_Framework_TestCase {
+abstract class Test_Archive extends \Test\TestCase {
 	/**
 	 * @var OC_Archive
 	 */

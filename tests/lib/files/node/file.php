@@ -12,10 +12,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Files\View;
 
-class File extends \PHPUnit_Framework_TestCase {
+class File extends \Test\TestCase {
 	private $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->user = new \OC\User\User('', new \OC_User_Dummy);
 	}
 

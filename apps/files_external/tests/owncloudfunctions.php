@@ -8,7 +8,7 @@
 
 namespace Test\Files\Storage;
 
-class OwnCloudFunctions extends \PHPUnit_Framework_TestCase {
+class OwnCloudFunctions extends \Test\TestCase {
 
 	function configUrlProvider() {
 		return array(

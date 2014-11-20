@@ -56,7 +56,7 @@ class EtagTest extends \Test\TestCase {
 	}
 
 	public function testNewUser() {
-		$user1 = uniqid('user_');
+		$user1 = $this->getUniqueID('user_');
 		$this->userBackend->createUser($user1, '');
 
 		\OC_Util::tearDownFS();

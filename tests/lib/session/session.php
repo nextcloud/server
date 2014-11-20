@@ -9,14 +9,15 @@
 
 namespace Test\Session;
 
-abstract class Session extends \PHPUnit_Framework_TestCase {
+abstract class Session extends \Test\TestCase {
 	/**
 	 * @var \OC\Session\Session
 	 */
 	protected $instance;
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->instance->clear();
+		parent::tearDown();
 	}
 
 	public function testNotExistsEmpty() {

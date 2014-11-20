@@ -6,12 +6,14 @@
  * later.
  * See the COPYING-README file.
  */
-class Test_Avatar extends PHPUnit_Framework_TestCase {
+class Test_Avatar extends \Test\TestCase {
 
 	private $user;
 
-	public function setUp() {
-		$this->user = uniqid();
+	protected function setUp() {
+		parent::setUp();
+
+		$this->user = $this->getUniqueID();
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage, array(), '/' . $this->user . '/');
 	}

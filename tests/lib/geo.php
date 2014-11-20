@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Geo extends PHPUnit_Framework_TestCase {
+class Test_Geo extends \Test\TestCase {
 	
 	/**
 	 * @medium

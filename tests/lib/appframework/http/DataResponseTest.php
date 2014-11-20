@@ -29,7 +29,7 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http;
 
 
-class DataResponseTest extends \PHPUnit_Framework_TestCase {
+class DataResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var DataResponse
@@ -37,6 +37,7 @@ class DataResponseTest extends \PHPUnit_Framework_TestCase {
 	private $response;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->response = new DataResponse();
 	}
 

@@ -18,7 +18,7 @@ use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\Http\Response;
 
 
-class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase {
+class SessionMiddlewareTest extends \Test\TestCase {
 
 	/**
 	 * @var ControllerMethodReflector
@@ -31,6 +31,8 @@ class SessionMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $request;
 
 	protected function setUp() {
+		parent::setUp();
+
 		$this->request = new Request();
 		$this->reflector = new ControllerMethodReflector();
 	}

@@ -65,7 +65,7 @@ class Test_Mount_Config_Hook_Test {
 /**
  * Class Test_Mount_Config
  */
-class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
+class Test_Mount_Config extends \Test\TestCase {
 
 	private $dataDir;
 	private $userHome;
@@ -79,7 +79,9 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 	const TEST_GROUP2 = 'group2';
 	const TEST_GROUP2B = 'group2b';
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		\OC_User::createUser(self::TEST_USER1, self::TEST_USER1);
 		\OC_User::createUser(self::TEST_USER2, self::TEST_USER2);
 
@@ -116,7 +118,7 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 		Test_Mount_Config_Hook_Test::setupHooks();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		Test_Mount_Config_Hook_Test::clear();
 		OC_Mount_Config::$skipTest = false;
 
@@ -134,6 +136,8 @@ class Test_Mount_Config extends \PHPUnit_Framework_TestCase {
 			'user_mounting_backends',
 			$this->oldAllowedBackends
 		);
+
+		parent::tearDown();
 	}
 
 	/**

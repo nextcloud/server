@@ -12,7 +12,7 @@ namespace Test\User;
 use OC\AllConfig;
 use OC\Hooks\PublicEmitter;
 
-class User extends \PHPUnit_Framework_TestCase {
+class User extends \Test\TestCase {
 	public function testDisplayName() {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend

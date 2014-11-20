@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class TestSqliteMigration extends \PHPUnit_Framework_TestCase {
+class TestSqliteMigration extends \Test\TestCase {
 
 	/** @var \Doctrine\DBAL\Connection */
 	private $connection;
@@ -14,7 +14,9 @@ class TestSqliteMigration extends \PHPUnit_Framework_TestCase {
 	/** @var string */
 	private $tableName;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->connection = \OC_DB::getConnection();
 		if (!$this->connection->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
 			$this->markTestSkipped("Test only relevant on Sqlite");
@@ -25,8 +27,9 @@ class TestSqliteMigration extends \PHPUnit_Framework_TestCase {
 		$this->connection->exec("CREATE TABLE $this->tableName(t0 tinyint unsigned, t1 tinyint)");
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->connection->getSchemaManager()->dropTable($this->tableName);
+		parent::tearDown();
 	}
 
 	public function testNonOCTables() {

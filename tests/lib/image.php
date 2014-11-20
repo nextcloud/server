@@ -6,10 +6,12 @@
  * See the COPYING-README file.
  */
 
-class Test_Image extends PHPUnit_Framework_TestCase {
+class Test_Image extends \Test\TestCase {
 	public static function tearDownAfterClass() {
 		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.png');
 		@unlink(OC::$SERVERROOT.'/tests/data/testimage2.jpg');
+
+		parent::tearDownAfterClass();
 	}
 
 	public function testGetMimeTypeForFile() {

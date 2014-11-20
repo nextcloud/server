@@ -21,18 +21,21 @@ class NullLogger extends Log {
 	}
 }
 
-class TempManager extends \PHPUnit_Framework_TestCase {
+class TempManager extends \Test\TestCase {
 	protected $baseDir;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->baseDir = get_temp_dir() . '/oc_tmp_test';
 		if (!is_dir($this->baseDir)) {
 			mkdir($this->baseDir);
 		}
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_Helper::rmdirr($this->baseDir);
+		parent::tearDown();
 	}
 
 	/**

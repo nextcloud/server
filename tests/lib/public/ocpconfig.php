@@ -19,12 +19,11 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_OCPConfig extends PHPUnit_Framework_TestCase
-{
+class Test_OCPConfig extends \Test\TestCase {
 
 	public function testSetAppValueIfSetToNull() {
 
-		$key = uniqid("key-");
+		$key = $this->getUniqueID('key-');
 
 		$result = \OCP\Config::setAppValue('unit-test', $key, null);
 		$this->assertTrue($result);

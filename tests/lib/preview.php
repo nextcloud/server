@@ -8,7 +8,7 @@
 
 namespace Test;
 
-class Preview extends \Test\TestCase {
+class Preview extends TestCase {
 
 	/**
 	 * @var string

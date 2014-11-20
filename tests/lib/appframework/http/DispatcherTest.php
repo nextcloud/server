@@ -62,9 +62,7 @@ class TestController extends Controller {
 }
 
 
-class DispatcherTest extends \PHPUnit_Framework_TestCase {
-
-
+class DispatcherTest extends \Test\TestCase {
 	private $middlewareDispatcher;
 	private $dispatcher;
 	private $controllerMethod;
@@ -75,6 +73,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase {
 	private $reflector;
 
 	protected function setUp() {
+		parent::setUp();
 		$this->controllerMethod = 'test';
 
 		$app = $this->getMockBuilder(

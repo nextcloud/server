@@ -10,9 +10,11 @@ namespace OC\AppFramework\Http;
 
 global $data;
 
-class RequestTest extends \PHPUnit_Framework_TestCase {
+class RequestTest extends \Test\TestCase {
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		require_once __DIR__ . '/requeststream.php';
 		if (in_array('fakeinput', stream_get_wrappers())) {
 			stream_wrapper_unregister('fakeinput');
@@ -21,8 +23,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase {
 		$this->stream = 'fakeinput://data';
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		stream_wrapper_unregister('fakeinput');
+		parent::tearDown();
 	}
 
 	public function testRequestAccessors() {

@@ -21,7 +21,7 @@
  *
  */
 
-class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
+class Test_OC_Files_App_Rename extends \Test\TestCase {
 	private static $user;
 
 	/**
@@ -34,7 +34,6 @@ class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 	 */
 	private $files;
 
-	/** @var \OC\Files\Storage\Storage */
 	private $originalStorage;
 
 	protected function setUp() {

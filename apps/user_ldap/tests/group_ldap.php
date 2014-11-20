@@ -22,14 +22,12 @@
 
 namespace OCA\user_ldap\tests;
 
-namespace OCA\user_ldap\tests;
-
 use \OCA\user_ldap\GROUP_LDAP as GroupLDAP;
 use \OCA\user_ldap\lib\Access;
 use \OCA\user_ldap\lib\Connection;
 use \OCA\user_ldap\lib\ILDAPWrapper;
 
-class Test_Group_Ldap extends \PHPUnit_Framework_TestCase {
+class Test_Group_Ldap extends \Test\TestCase {
 	private function getAccessMock() {
 		static $conMethods;
 		static $accMethods;

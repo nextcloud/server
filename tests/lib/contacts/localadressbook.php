@@ -11,7 +11,7 @@ use OC\Contacts\LocalAddressBook;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_LocalAddressBook extends PHPUnit_Framework_TestCase
+class Test_LocalAddressBook extends \Test\TestCase
 {
 
 	public function testSearchFN() {

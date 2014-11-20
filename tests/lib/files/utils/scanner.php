@@ -38,7 +38,6 @@ class TestScanner extends \OC\Files\Utils\Scanner {
 	}
 }
 
-
 class Scanner extends \Test\TestCase {
 	/** @var \OC\Files\Storage\Storage */
 	private $originalStorage;

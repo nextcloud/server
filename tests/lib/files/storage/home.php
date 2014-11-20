@@ -60,15 +60,18 @@ class Home extends Storage {
 	 */
 	private $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->tmpDir = \OC_Helper::tmpFolder();
-		$this->userId = uniqid('user_');
+		$this->userId = $this->getUniqueID('user_');
 		$this->user = new DummyUser($this->userId, $this->tmpDir);
 		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_Helper::rmdirr($this->tmpDir);
+		parent::tearDown();
 	}
 
 	/**

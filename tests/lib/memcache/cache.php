@@ -50,9 +50,11 @@ abstract class Cache extends \Test_Cache {
 		$this->assertFalse($this->instance->hasKey('foo'));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->instance) {
 			$this->instance->clear();
 		}
+
+		parent::tearDown();
 	}
 }

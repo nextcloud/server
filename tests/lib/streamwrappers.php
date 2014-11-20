@@ -20,7 +20,7 @@
  *
  */
 
-class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
+class Test_StreamWrappers extends \Test\TestCase {
 	public function testFakeDir() {
 		$items = array('foo', 'bar');
 		\OC\Files\Stream\Dir::register('test', $items);

@@ -16,7 +16,7 @@ class LongId extends \OC\Files\Storage\Temporary {
 	}
 }
 
-class Cache extends \PHPUnit_Framework_TestCase {
+class Cache extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage ;
 	 */
@@ -452,13 +452,17 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($this->cache->getFolderContents('folder')));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
+
+		parent::tearDown();
 	}
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->storage2 = new \OC\Files\Storage\Temporary(array());
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);

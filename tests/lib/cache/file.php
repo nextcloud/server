@@ -33,8 +33,10 @@ class FileCache extends \Test_Cache {
 	function skip() {
 		//$this->skipUnless(OC_User::isLoggedIn());
 	}
-	
-	public function setUp() {
+
+	protected function setUp() {
+		parent::setUp();
+
 		//clear all proxies and hooks so we can do clean testing
 		\OC_FileProxy::clearProxies();
 		\OC_Hook::clear('OC_Filesystem');
@@ -70,7 +72,7 @@ class FileCache extends \Test_Cache {
 		$this->instance=new \OC\Cache\File();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_User::setUserId($this->user);
 		\OC_Config::setValue('cachedirectory', $this->datadir);
 

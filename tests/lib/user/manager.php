@@ -9,7 +9,7 @@
 
 namespace Test\User;
 
-class Manager extends \PHPUnit_Framework_TestCase {
+class Manager extends \Test\TestCase {
 	public function testUserExistsSingleBackendExists() {
 		/**
 		 * @var \OC_User_Dummy | \PHPUnit_Framework_MockObject_MockObject $backend

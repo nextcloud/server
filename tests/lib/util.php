@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Util extends PHPUnit_Framework_TestCase {
+class Test_Util extends \Test\TestCase {
 	public function testGetVersion() {
 		$version = \OC_Util::getVersion();
 		$this->assertTrue(is_array($version));

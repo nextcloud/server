@@ -27,7 +27,7 @@ use OCA\Files\Share;
  */
 class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		$this->folder = '/folder_share_storage_test';
@@ -42,7 +42,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->view->unlink($this->folder);
 		$this->view->unlink($this->filename);
 

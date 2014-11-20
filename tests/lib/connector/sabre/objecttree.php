@@ -13,7 +13,7 @@ use OC\Files\FileInfo;
 use OC_Connector_Sabre_Directory;
 use PHPUnit_Framework_TestCase;
 
-class TestDoubleFileView extends \OC\Files\View{
+class TestDoubleFileView extends \OC\Files\View {
 
 	public function __construct($updatables, $deletables, $canRename = true) {
 		$this->updatables = $updatables;
@@ -42,7 +42,7 @@ class TestDoubleFileView extends \OC\Files\View{
 	}
 }
 
-class ObjectTree extends PHPUnit_Framework_TestCase {
+class ObjectTree extends \Test\TestCase {
 
 	/**
 	 * @dataProvider moveFailedProvider

@@ -8,7 +8,7 @@
 
 use \OC\Security\Certificate;
 
-class CertificateTest extends \PHPUnit_Framework_TestCase {
+class CertificateTest extends \Test\TestCase {
 
 	/** @var Certificate That contains a valid certificate */
 	protected $goodCertificate;
@@ -17,7 +17,9 @@ class CertificateTest extends \PHPUnit_Framework_TestCase {
 	/** @var Certificate That contains an expired certificate */
 	protected $expiredCertificate;
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$goodCertificate = file_get_contents(__DIR__ . '/../../data/certificates/goodCertificate.crt');
 		$this->goodCertificate = new Certificate($goodCertificate, 'GoodCertificate');
 		$badCertificate = file_get_contents(__DIR__ . '/../../data/certificates/badCertificate.crt');

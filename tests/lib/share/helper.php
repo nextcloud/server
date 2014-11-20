@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share_Helper extends PHPUnit_Framework_TestCase {
+class Test_Share_Helper extends \Test\TestCase {
 
 	public function expireDateProvider() {
 		return array(

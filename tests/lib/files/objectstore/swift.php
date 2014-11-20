@@ -30,7 +30,9 @@ class Swift extends \Test\Files\Storage\Storage {
 
 	private $objectStorage;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		if (!getenv('RUN_OBJECTSTORE_TESTS')) {
 			$this->markTestSkipped('objectstore tests are unreliable on travis');
 		}
@@ -74,12 +76,14 @@ class Swift extends \Test\Files\Storage\Storage {
 		$this->instance = new ObjectStoreStorage($params);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if (is_null($this->instance)) {
 			return;
 		}
 		$this->objectStorage->deleteContainer(true);
 		$this->instance->getCache()->clear();
+
+		parent::tearDown();
 	}
 
 	public function testStat() {

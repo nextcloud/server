@@ -54,7 +54,7 @@ class ChildController extends Controller {
 	}
 };
 
-class ControllerTest extends \PHPUnit_Framework_TestCase {
+class ControllerTest extends \Test\TestCase {
 
 	/**
 	 * @var Controller
@@ -63,6 +63,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 	private $app;
 
 	protected function setUp(){
+		parent::setUp();
+
 		$request = new Request(
 			array(
 				'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),

@@ -25,7 +25,7 @@ use OCA\Files_Trashbin;
 /**
  * Class Test_Encryption_Crypt
  */
-class Test_Trashbin extends \PHPUnit_Framework_TestCase {
+class Test_Trashbin extends \Test\TestCase {
 
 	const TEST_TRASHBIN_USER1 = "test-trashbin-user1";
 	const TEST_TRASHBIN_USER2 = "test-trashbin-user2";
@@ -43,6 +43,8 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 	private $rootView;
 
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		// reset backend
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
@@ -85,18 +87,24 @@ class Test_Trashbin extends \PHPUnit_Framework_TestCase {
 		\OC_Config::setValue('trashbin_auto_expire', self::$rememberAutoExpire);
 
 		\OC_Hook::clear();
+
+		parent::tearDownAfterClass();
 	}
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->trashRoot1 = '/' . self::TEST_TRASHBIN_USER1 . '/files_trashbin';
 		$this->trashRoot2 = '/' . self::TEST_TRASHBIN_USER2 . '/files_trashbin';
 		$this->rootView = new \OC\Files\View();
 		self::loginHelper(self::TEST_TRASHBIN_USER1);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->rootView->deleteAll($this->trashRoot1);
 		$this->rootView->deleteAll($this->trashRoot2);
+
+		parent::tearDown();
 	}
 
 	/**

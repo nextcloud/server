@@ -11,7 +11,7 @@
  *
  * @see \OC\Repair\RepairLegacyStorages
  */
-class TestRepairLegacyStorages extends PHPUnit_Framework_TestCase {
+class TestRepairLegacyStorages extends \Test\TestCase {
 
 	private $user;
 	private $repair;
@@ -22,7 +22,9 @@ class TestRepairLegacyStorages extends PHPUnit_Framework_TestCase {
 	private $legacyStorageId;
 	private $newStorageId;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->config = \OC::$server->getConfig();
 		$this->connection = \OC_DB::getConnection();
 		$this->oldDataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data/');
@@ -30,7 +32,7 @@ class TestRepairLegacyStorages extends PHPUnit_Framework_TestCase {
 		$this->repair = new \OC\Repair\RepairLegacyStorages($this->config, $this->connection);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_User::deleteUser($this->user);
 
 		$sql = 'DELETE FROM `*PREFIX*storages`';
@@ -39,6 +41,8 @@ class TestRepairLegacyStorages extends PHPUnit_Framework_TestCase {
 		$this->connection->executeQuery($sql);
 		\OCP\Config::setSystemValue('datadirectory', $this->oldDataDir);
 		$this->config->setAppValue('core', 'repairlegacystoragesdone', 'no');
+
+		parent::tearDown();
 	}
 
 	function prepareSettings($dataDir, $userId) {

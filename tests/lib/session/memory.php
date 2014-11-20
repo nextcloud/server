@@ -10,7 +10,8 @@
 namespace Test\Session;
 
 class Memory extends Session {
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->instance = new \OC\Session\Memory(uniqid());
 	}
 }

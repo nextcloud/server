@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Urlgenerator extends PHPUnit_Framework_TestCase {
+class Test_Urlgenerator extends \Test\TestCase {
 
 	/**
 	 * @small

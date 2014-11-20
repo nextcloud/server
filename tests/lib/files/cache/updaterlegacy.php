@@ -11,7 +11,7 @@ namespace Test\Files\Cache;
 use \OC\Files\Filesystem as Filesystem;
 use OC\Files\Storage\Temporary;
 
-class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
+class UpdaterLegacy extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -34,7 +34,8 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 
 	private static $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 
 		// remember files_encryption state
 		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
@@ -71,7 +72,7 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 		\OC_Hook::clear('OC_Filesystem');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
@@ -83,6 +84,8 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 		if ($this->stateFilesEncryption) {
 			\OC_App::enable('files_encryption');
 		}
+
+		parent::tearDown();
 	}
 
 	public function testWrite() {

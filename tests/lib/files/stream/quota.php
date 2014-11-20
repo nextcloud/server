@@ -8,9 +8,10 @@
 
 namespace Test\Files\Stream;
 
-class Quota extends \PHPUnit_Framework_TestCase {
-	public function tearDown() {
+class Quota extends \Test\TestCase {
+	protected function tearDown() {
 		\OC\Files\Stream\Quota::clear();
+		parent::tearDown();
 	}
 
 	/**

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_ResourceLocator extends PHPUnit_Framework_TestCase {
+class Test_ResourceLocator extends \Test\TestCase {
 
 	/**
 	 * @param string $theme

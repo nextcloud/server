@@ -11,26 +11,29 @@
  *
  * @see \OC\Repair\RepairMimeTypes
  */
-class TestRepairMimeTypes extends PHPUnit_Framework_TestCase {
+class TestRepairMimeTypes extends \Test\TestCase {
 
 	/** @var \OC\RepairStep */
 	private $repair;
 
 	private $storage;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 
 		$this->repair = new \OC\Repair\RepairMimeTypes();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->storage->getCache()->clear();
 		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
 		\OC_DB::executeAudited($sql, array($this->storage->getId()));
 		$this->clearMimeTypes();
 
 		DummyFileCache::clearCachedMimeTypes();
+
+		parent::tearDown();
 	}
 
 	private function clearMimeTypes() {

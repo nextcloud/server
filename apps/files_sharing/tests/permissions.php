@@ -61,7 +61,7 @@ class Test_Files_Sharing_Permissions extends OCA\Files_sharing\Tests\TestCase {
 	 */
 	private $ownerCache;
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -99,7 +99,7 @@ class Test_Files_Sharing_Permissions extends OCA\Files_sharing\Tests\TestCase {
 		$this->sharedCacheRestrictedShare = $this->sharedStorageRestrictedShare->getCache();
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->sharedCache->clear();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);

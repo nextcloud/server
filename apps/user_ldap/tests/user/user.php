@@ -24,7 +24,7 @@ namespace OCA\user_ldap\tests;
 
 use OCA\user_ldap\lib\user\User;
 
-class Test_User_User extends \PHPUnit_Framework_TestCase {
+class Test_User_User extends \Test\TestCase {
 
 	private function getTestInstances() {
 		$access  = $this->getMock('\OCA\user_ldap\lib\user\IUserTools');

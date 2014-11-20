@@ -12,7 +12,7 @@ namespace Test\User;
 use OC\Session\Memory;
 use OC\User\User;
 
-class Session extends \PHPUnit_Framework_TestCase {
+class Session extends \Test\TestCase {
 	public function testGetUser() {
 		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
 		$session->expects($this->once())

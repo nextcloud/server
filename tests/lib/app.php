@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-class Test_App extends PHPUnit_Framework_TestCase {
+class Test_App extends \Test\TestCase {
 
 	private $oldAppConfigService;
 

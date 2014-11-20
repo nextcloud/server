@@ -16,7 +16,7 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	}
 }
 
-class View extends \PHPUnit_Framework_TestCase {
+class View extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages
 	 */

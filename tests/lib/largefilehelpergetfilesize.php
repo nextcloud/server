@@ -12,11 +12,11 @@ namespace Test;
 * Tests whether LargeFileHelper is able to determine file size at all.
 * Large files are not considered yet.
 */
-class LargeFileHelperGetFileSize extends \PHPUnit_Framework_TestCase {
+class LargeFileHelperGetFileSize extends TestCase {
 	/** @var \OC\LargeFileHelper */
 	protected $helper;
 
-	public function setUp() {
+	protected function setUp() {
 		parent::setUp();
 		$this->helper = new \OC\LargeFileHelper();
 	}

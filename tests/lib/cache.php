@@ -6,16 +6,18 @@
  * See the COPYING-README file.
  */
 
-abstract class Test_Cache extends PHPUnit_Framework_TestCase {
+abstract class Test_Cache extends \Test\TestCase {
 	/**
 	 * @var \OC\Cache cache;
 	 */
 	protected $instance;
 
-	public function tearDown() {
+	protected function tearDown() {
 		if($this->instance) {
 			$this->instance->clear();
 		}
+
+		parent::tearDown();
 	}
 
 	function testSimple() {

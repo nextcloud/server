@@ -6,20 +6,24 @@
  * See the COPYING-README file.
  */
 
-class Test_Installer extends PHPUnit_Framework_TestCase {
+class Test_Installer extends \Test\TestCase {
 
 	private static $appid = 'testapp';
 	private $appstore;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->appstore = OC_Config::getValue('appstoreenabled', true);
 		OC_Config::setValue('appstoreenabled', true);
 		OC_Installer::removeApp(self::$appid);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		OC_Installer::removeApp(self::$appid);
 		OC_Config::setValue('appstoreenabled', $this->appstore);
+
+		parent::tearDown();
 	}
 
 	public function testInstallApp() {

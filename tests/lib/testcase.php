@@ -30,4 +30,14 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 			'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 		);
 	}
+
+	public static function tearDownAfterClass() {
+		if (\OC_Util::runningOnWindows()) {
+			$rootDirectory = \OC::$server->getConfig()->getSystemValue('datadirectory', \OC::$SERVERROOT . '/data-autotest');
+			$mapper = new \OC\Files\Mapper($rootDirectory);
+			$mapper->removePath($rootDirectory, true, true);
+		}
+
+		parent::tearDownAfterClass();
+	}
 }

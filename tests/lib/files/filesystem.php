@@ -55,6 +55,8 @@ class Filesystem extends \Test\TestCase {
 		\OC\Files\Filesystem::clearMounts();
 		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 		\OC_User::setUserId('');
+
+		parent::tearDown();
 	}
 
 	public function testMount() {

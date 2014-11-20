@@ -27,7 +27,7 @@ namespace OCP\AppFramework\Http;
 use OCP\AppFramework\Http;
 
 
-class RedirectResponseTest extends \PHPUnit_Framework_TestCase {
+class RedirectResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var RedirectResponse
@@ -35,6 +35,7 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase {
 	protected $response;
 
 	protected function setUp(){
+		parent::setUp();
 		$this->response = new RedirectResponse('/url');
 	}
 

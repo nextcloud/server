@@ -29,12 +29,13 @@ namespace OC\AppFramework\DependencyInjection;
 use \OC\AppFramework\Http\Request;
 
 
-class DIContainerTest extends \PHPUnit_Framework_TestCase {
+class DIContainerTest extends \Test\TestCase {
 
 	private $container;
 	private $api;
 
 	protected function setUp(){
+		parent::setUp();
 		$this->container = new DIContainer('name');
 		$this->api = $this->getMock('OC\AppFramework\Core\API', array(), array('hi'));
 	}

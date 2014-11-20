@@ -6,7 +6,7 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\routing\RouteConfig;
 
 
-class RoutingTest extends \PHPUnit_Framework_TestCase
+class RoutingTest extends \Test\TestCase
 {
 
 	public function testSimpleRoute()
