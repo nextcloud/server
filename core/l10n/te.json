@@ -33,11 +33,11 @@
     "Delete" : "తొలగించు",
     "Add" : "చేర్చు",
     "_download %n file_::_download %n files_" : ["",""],
-    "Username" : "వాడుకరి పేరు",
     "New password" : "కొత్త సంకేతపదం",
     "Personal" : "వ్యక్తిగతం",
     "Users" : "వాడుకరులు",
     "Help" : "సహాయం",
+    "Username" : "వాడుకరి పేరు",
     "Password" : "సంకేతపదం",
     "Log out" : "నిష్క్రమించు"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

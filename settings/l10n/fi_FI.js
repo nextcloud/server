@@ -214,6 +214,7 @@ OC.L10N.register(
     "Username" : "Käyttäjätunnus",
     "Create" : "Luo",
     "Admin Recovery Password" : "Ylläpitäjän palautussalasana",
+    "Search Users" : "Etsi käyttäjiä",
     "Add Group" : "Lisää ryhmä",
     "Group" : "Ryhmä",
     "Everyone" : "Kaikki",

@@ -222,6 +222,7 @@ OC.L10N.register(
     "Create" : "Anlegen",
     "Admin Recovery Password" : "Admin-Wiederherstellungspasswort",
     "Enter the recovery password in order to recover the users files during password change" : "Gib das Wiederherstellungspasswort ein, um die Benutzerdateien während Passwortänderung wiederherzustellen",
+    "Search Users" : "Nutzer suchen",
     "Add Group" : "Gruppe hinzufügen",
     "Group" : "Gruppe",
     "Everyone" : "Jeder",

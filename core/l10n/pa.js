@@ -34,8 +34,8 @@ OC.L10N.register(
     "Warning" : "ਚੇਤਾਵਨੀ",
     "Delete" : "ਹਟਾਓ",
     "_download %n file_::_download %n files_" : ["",""],
-    "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Security Warning" : "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
+    "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
     "Password" : "ਪਾਸਵਰ"
 },
 "nplurals=2; plural=(n != 1);");

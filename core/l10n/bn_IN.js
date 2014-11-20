@@ -11,7 +11,6 @@ OC.L10N.register(
     "Delete" : "মুছে ফেলা",
     "Add" : "যোগ করা",
     "_download %n file_::_download %n files_" : ["",""],
-    "Username" : "ইউজারনেম",
-    "Reset" : "রিসেট করুন"
+    "Username" : "ইউজারনেম"
 },
 "nplurals=2; plural=(n != 1);");

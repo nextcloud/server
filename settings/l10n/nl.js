@@ -222,6 +222,7 @@ OC.L10N.register(
     "Create" : "Aanmaken",
     "Admin Recovery Password" : "Beheer herstel wachtwoord",
     "Enter the recovery password in order to recover the users files during password change" : "Voer het herstel wachtwoord in om de gebruikersbestanden terug te halen bij wachtwoordwijziging",
+    "Search Users" : "Zoek gebruikers",
     "Add Group" : "Toevoegen groep",
     "Group" : "Groep",
     "Everyone" : "Iedereen",
