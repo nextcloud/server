@@ -479,7 +479,8 @@
 				mimetype: $el.attr('data-mime'),
 				type: $el.attr('data-type'),
 				size: parseInt($el.attr('data-size'), 10),
-				etag: $el.attr('data-etag')
+				etag: $el.attr('data-etag'),
+				permissions: parseInt($el.attr('data-permissions'), 10)
 			};
 		},
 
@@ -1562,7 +1563,7 @@
 				this.$el.find('.selectedActions').addClass('hidden');
 			}
 			else {
-				canDelete = (this.getDirectoryPermissions() & OC.PERMISSION_DELETE);
+				canDelete = (this.getDirectoryPermissions() & OC.PERMISSION_DELETE) && this.isSelectedDeletable();
 				this.$el.find('.selectedActions').removeClass('hidden');
 				this.$el.find('#headerSize a>span:first').text(OC.Util.humanFileSize(summary.totalSize));
 				var selection = '';
@@ -1580,6 +1581,15 @@
 				this.$el.find('table').addClass('multiselect');
 				this.$el.find('.delete-selected').toggleClass('hidden', !canDelete);
 			}
+		},
+
+		/**
+		 * Check whether all selected files are deletable
+		 */
+		isSelectedDeletable: function() {
+			return _.reduce(this.getSelectedFiles(), function(deletable, file) {
+				return deletable && (file.permissions & OC.PERMISSION_DELETE);
+			}, true);
 		},
 
 		/**
