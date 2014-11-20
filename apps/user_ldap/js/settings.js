@@ -670,7 +670,7 @@ var LdapWizard = {
 		delete LdapWizard.userFilter;
 		LdapWizard.userFilter = new LdapFilter('User', function(mode) {
 			if(mode === LdapWizard.filterModeAssisted) {
-				LdapWizard.groupFilter.updateCount();
+				LdapWizard.userFilter.updateCount();
 			}
 			LdapWizard.userFilter.findFeatures();
 		});
