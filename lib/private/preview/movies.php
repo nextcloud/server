@@ -10,18 +10,10 @@ namespace OC\Preview;
 
 // movie preview is currently not supported on Windows
 if (!\OC_Util::runningOnWindows()) {
-	$isExecEnabled = \OC_Helper::is_function_enabled('exec');
-	$ffmpegBinary = null;
-	$avconvBinary = null;
+	$avconvBinary = \OC_Helper::findBinaryPath('avconv');
+	$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
 
-	if ($isExecEnabled) {
-		$avconvBinary = \OC_Helper::findBinaryPath('avconv');
-		if (!$avconvBinary) {
-			$ffmpegBinary = \OC_Helper::findBinaryPath('ffmpeg');
-		}
-	}
-
-	if($isExecEnabled && ( $avconvBinary || $ffmpegBinary )) {
+	if ($avconvBinary || $ffmpegBinary) {
 
 		class Movie extends Provider {
 			public static $avconvBinary;
