@@ -222,5 +222,7 @@ $TRANSLATIONS = array(
 "Default" => "Standaard",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Als uw installatie niet in de hoofddirectory van het domein staat, maar wel cron gebruikt, dan kunnen er problemen ontstaan bij het genereren van URL's. Om deze problemen te voorkomen zou u de \"overwritewebroot\" optie in config.php moeten instellen op het webroot pad van uw ownCloud (aanbevolen: \"%s\") ",
 "URL generation in notification emails" => "URL genereren in notificatie e-mails",
+"Connectivity Checks" => "Verbindingscontroles",
+"No problems found" => "Geen problemen gevonden",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

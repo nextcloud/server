@@ -63,6 +63,7 @@ $TRANSLATIONS = array(
 "Unlimited" => "অসীম",
 "Other" => "অন্যান্য",
 "Username" => "ব্যবহারকারী",
-"Default" => "পূর্বনির্ধারিত"
+"Default" => "পূর্বনির্ধারিত",
+"No problems found" => "কোন সমস্যা পাওয়া গেল না",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

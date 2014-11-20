@@ -213,5 +213,6 @@ $TRANSLATIONS = array(
 "set new password" => "aseta uusi salasana",
 "Default" => "Oletus",
 "URL generation in notification emails" => "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
+"No problems found" => "Ongelmia ei löytynyt",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

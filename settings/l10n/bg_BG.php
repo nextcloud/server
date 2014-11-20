@@ -64,5 +64,7 @@ $TRANSLATIONS = array(
 "Default" => "По подразбиране",
 "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" => "Ако инсталацията не e инсталиранa в root на домейна и използва cron, може да има проблеми с генерирането на URL. За да избегнеш тези проблеми, моля, промени \"overwritewebroot\" в config.php с webroot пътя (Препоръчително: \"%s\")",
 "URL generation in notification emails" => "Генериране на URL в имейлите за известяване",
+"Connectivity Checks" => "Проверки за свързаност",
+"No problems found" => "Не са открити проблеми",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
