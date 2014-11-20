@@ -562,6 +562,7 @@ class OC_Util {
 			'classes' => array(
 				'ZipArchive' => 'zip',
 				'DOMDocument' => 'dom',
+				'XMLWriter' => 'XMLWriter'
 			),
 			'functions' => array(
 				'xml_parser_create' => 'libxml',
