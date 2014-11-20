@@ -68,6 +68,25 @@ class Preferences {
 	}
 
 	/**
+	 * Get all users using the preferences
+	 * @return array an array of user ids
+	 *
+	 * This function returns a list of all users that have at least one entry
+	 * in the preferences table.
+	 */
+	public function getUsers() {
+		$query = 'SELECT DISTINCT `userid` FROM `*PREFIX*preferences`';
+		$result = $this->conn->executeQuery($query);
+
+		$users = array();
+		while ($userid = $result->fetchColumn()) {
+			$users[] = $userid;
+		}
+
+		return $users;
+	}
+
+	/**
 	 * @param string $user
 	 * @return array[]
 	 */
@@ -87,6 +106,19 @@ class Preferences {
 		}
 		$this->cache[$user] = $data;
 		return $data;
+	}
+
+	/**
+	 * Get all apps of an user
+	 * @param string $user user
+	 * @return integer[] with app ids
+	 *
+	 * This function returns a list of all apps of the user that have at least
+	 * one entry in the preferences table.
+	 */
+	public function getApps($user) {
+		$data = $this->getUserValues($user);
+		return array_keys($data);
 	}
 
 	/**
