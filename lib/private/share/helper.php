@@ -189,19 +189,24 @@ class Helper extends \OC\Share\Constants {
 	public static function calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate = null) {
 
 		$expires = false;
+		$defaultExpires = null;
 
 		if (!empty($defaultExpireSettings['defaultExpireDateSet'])) {
-			$expires = $creationTime + $defaultExpireSettings['expireAfterDays'] * 86400;
+			$defaultExpires = $creationTime + $defaultExpireSettings['expireAfterDays'] * 86400;
 		}
 
 
 		if (isset($userExpireDate)) {
 			// if the admin decided to enforce the default expire date then we only take
 			// the user defined expire date of it is before the default expire date
-			if ($expires && !empty($defaultExpireSettings['enforceExpireDate'])) {
-				$expires = min($userExpireDate, $expires);
+			if ($defaultExpires && !empty($defaultExpireSettings['enforceExpireDate'])) {
+				$expires = min($userExpireDate, $defaultExpires);
 			} else {
 				$expires = $userExpireDate;
+			}
+		} else {
+			if ($defaultExpires && !empty($defaultExpireSettings['enforceExpireDate'])) {
+				$expires = $defaultExpires;
 			}
 		}
 
