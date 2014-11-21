@@ -204,10 +204,8 @@ class Helper extends \OC\Share\Constants {
 			} else {
 				$expires = $userExpireDate;
 			}
-		} else {
-			if ($defaultExpires && !empty($defaultExpireSettings['enforceExpireDate'])) {
-				$expires = $defaultExpires;
-			}
+		} else if ($defaultExpires && !empty($defaultExpireSettings['enforceExpireDate'])) {
+			$expires = $defaultExpires;
 		}
 
 		return $expires;
