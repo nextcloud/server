@@ -8,6 +8,7 @@ function LdapFilter(target, determineModeCallback) {
 	this.determineModeCallback = determineModeCallback;
 	this.foundFeatures = false;
 	this.activated = false;
+	this.countPending = false;
 
 	if( target === 'User' ||
 		target === 'Login' ||
@@ -25,8 +26,12 @@ LdapFilter.prototype.activate = function() {
 	this.determineMode();
 };
 
-LdapFilter.prototype.compose = function() {
+LdapFilter.prototype.compose = function(updateCount = false) {
 	var action;
+
+	if(updateCount) {
+		this.countPending = updateCount;
+	}
 
 	if(this.locked) {
 		this.lazyRunCompose = true;
@@ -57,6 +62,7 @@ LdapFilter.prototype.compose = function() {
 			filter.afterComposeSuccess(result);
 		},
 		function () {
+			filter.countPending = false;
 			console.log('LDAP Wizard: could not compose filter. '+
 				'Please check owncloud.log');
 		}
@@ -77,6 +83,10 @@ LdapFilter.prototype.afterDetectorsRan = function() {
  */
 LdapFilter.prototype.afterComposeSuccess = function(result) {
 	LdapWizard.applyChanges(result);
+	if(this.countPending) {
+		this.countPending = false;
+		this.updateCount();
+	}
 };
 
 LdapFilter.prototype.determineMode = function() {

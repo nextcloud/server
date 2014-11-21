@@ -669,7 +669,8 @@ var LdapWizard = {
 	instantiateFilters: function() {
 		delete LdapWizard.userFilter;
 		LdapWizard.userFilter = new LdapFilter('User', function(mode) {
-			if(mode === LdapWizard.filterModeAssisted) {
+			if( !LdapWizard.admin.isExperienced()
+			   || mode === LdapWizard.filterModeAssisted) {
 				LdapWizard.userFilter.updateCount();
 			}
 			LdapWizard.userFilter.findFeatures();
@@ -689,7 +690,8 @@ var LdapWizard = {
 
 		delete LdapWizard.groupFilter;
 		LdapWizard.groupFilter = new LdapFilter('Group', function(mode) {
-			if(mode === LdapWizard.filterModeAssisted) {
+			if( !LdapWizard.admin.isExperienced()
+			   || mode === LdapWizard.filterModeAssisted) {
 				LdapWizard.groupFilter.updateCount();
 			}
 			LdapWizard.groupFilter.findFeatures();
@@ -775,6 +777,12 @@ var LdapWizard = {
 		if(triggerObj.id === 'ldap_loginfilter_username'
 		   || triggerObj.id === 'ldap_loginfilter_email') {
 			LdapWizard.loginFilter.compose();
+		} else if (!LdapWizard.admin.isExperienced()) {
+			if(triggerObj.id === 'ldap_userlist_filter') {
+				LdapWizard.userFilter.updateCount();
+			} else if (triggerObj.id === 'ldap_group_filter') {
+				LdapWizard.groupFilter.updateCount();
+			}
 		}
 
 		if($('#ldapSettings').tabs('option', 'active') == 0) {
@@ -804,7 +812,7 @@ var LdapWizard = {
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
 		if(originalObj === 'ldap_userfilter_objectclass'
 		   || originalObj === 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose();
+			LdapWizard.userFilter.compose(!LdapWizard.admin.isExperienced());
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
 			if(!LdapWizard.loginFilter) {
@@ -815,7 +823,7 @@ var LdapWizard = {
 			LdapWizard.loginFilter.compose();
 		} else if(originalObj === 'ldap_groupfilter_objectclass'
 		   || originalObj === 'ldap_groupfilter_groups') {
-			LdapWizard.groupFilter.compose();
+			LdapWizard.groupFilter.compose(!LdapWizard.admin.isExperienced());
 		}
 	},
 
@@ -885,10 +893,10 @@ var LdapWizard = {
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
 			if(isUser) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
-				LdapWizard.userFilter.compose();
+				LdapWizard.userFilter.compose(!LdapWizard.admin.isExperienced());
 			} else {
 				LdapWizard.blacklistRemove('ldap_group_filter');
-				LdapWizard.groupFilter.compose();
+				LdapWizard.groupFilter.compose(!LdapWizard.admin.isExperienced());
 			}
 		}
 	},
