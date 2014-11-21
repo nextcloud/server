@@ -27,8 +27,8 @@ class Test_Share_Helper extends \Test\TestCase {
 			array(array('defaultExpireDateSet' => false), 2000000000, 2000010000, 2000010000),
 			// no default expire date and no user defined expire date, return false
 			array(array('defaultExpireDateSet' => false), 2000000000, null, false),
-			// unenforced expire data and no user defined expire date, take default expire date
-			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false), 2000000000, null, 2000086400),
+			// unenforced expire data and no user defined expire date, return false (because the default is not enforced)
+			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => false), 2000000000, null, false),
 			// enforced expire date and no user defined expire date, take default expire date
 			array(array('defaultExpireDateSet' => true, 'expireAfterDays' => 1, 'enforceExpireDate' => true), 2000000000, null, 2000086400),
 			// unenforced expire date and user defined date > default expire date, take users expire date
@@ -49,6 +49,4 @@ class Test_Share_Helper extends \Test\TestCase {
 		$result = \OC\Share\Helper::calculateExpireDate($defaultExpireSettings, $creationTime, $userExpireDate);
 		$this->assertSame($expected, $result);
 	}
-
-
 }
