@@ -640,7 +640,7 @@ $CONFIG = array(
  * The following providers are disabled by default due to performance or privacy
  * concerns:
  *
- *  - OC\Preview\Movies
+ *  - OC\Preview\Movie
  *  - OC\Preview\MSOffice2003
  *  - OC\Preview\MSOffice2007
  *  - OC\Preview\MSOfficeDoc
