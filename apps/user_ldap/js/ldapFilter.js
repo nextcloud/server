@@ -26,10 +26,10 @@ LdapFilter.prototype.activate = function() {
 	this.determineMode();
 };
 
-LdapFilter.prototype.compose = function(updateCount = false) {
+LdapFilter.prototype.compose = function(updateCount) {
 	var action;
 
-	if(updateCount) {
+	if(updateCount === true) {
 		this.countPending = updateCount;
 	}
 

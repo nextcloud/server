@@ -812,7 +812,7 @@ var LdapWizard = {
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
 		if(originalObj === 'ldap_userfilter_objectclass'
 		   || originalObj === 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose(!LdapWizard.admin.isExperienced());
+			LdapWizard.userFilter.compose(true);
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
 			if(!LdapWizard.loginFilter) {
@@ -823,7 +823,7 @@ var LdapWizard = {
 			LdapWizard.loginFilter.compose();
 		} else if(originalObj === 'ldap_groupfilter_objectclass'
 		   || originalObj === 'ldap_groupfilter_groups') {
-			LdapWizard.groupFilter.compose(!LdapWizard.admin.isExperienced());
+			LdapWizard.groupFilter.compose(true);
 		}
 	},
 
@@ -893,10 +893,10 @@ var LdapWizard = {
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
 			if(isUser) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
-				LdapWizard.userFilter.compose(!LdapWizard.admin.isExperienced());
+				LdapWizard.userFilter.compose(true);
 			} else {
 				LdapWizard.blacklistRemove('ldap_group_filter');
-				LdapWizard.groupFilter.compose(!LdapWizard.admin.isExperienced());
+				LdapWizard.groupFilter.compose(true);
 			}
 		}
 	},
