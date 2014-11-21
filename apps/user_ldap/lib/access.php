@@ -813,7 +813,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		}
 
 		//check whether paged search should be attempted
-		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
+		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, intval($limit), $offset);
 
 		$linkResources = array_pad(array(), count($base), $cr);
 		$sr = $this->ldap->search($linkResources, $base, $filter, $attr);
@@ -887,10 +887,9 @@ class Access extends LDAPUtility implements user\IUserTools {
 	private function count($filter, $base, $attr = null, $limit = null, $offset = null, $skipHandling = false) {
 		\OCP\Util::writeLog('user_ldap', 'Count filter:  '.print_r($filter, true), \OCP\Util::DEBUG);
 
-		$limitPerPage = (intval($limit) < intval($this->connection->ldapPagingSize)) ?
-			intval($limit) : intval($this->connection->ldapPagingSize);
-		if(is_null($limit) || $limit <= 0) {
-			$limitPerPage = intval($this->connection->ldapPagingSize);
+		$limitPerPage = intval($this->connection->ldapPagingSize);
+		if(!is_null($limit) && $limit < $limitPerPage && $limit > 0) {
+			$limitPerPage = $limit;
 		}
 
 		$counter = 0;
@@ -1472,7 +1471,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
 		$pagedSearchOK = false;
-		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
+		if($this->connection->hasPagedResultSupport && ($limit !== 0)) {
 			$offset = intval($offset); //can be null
 			\OCP\Util::writeLog('user_ldap',
 				'initializing paged search for  Filter '.$filter.' base '.print_r($bases, true)
