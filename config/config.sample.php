@@ -617,7 +617,7 @@ $CONFIG = array(
  * concerns:
  *
  *  - OC\Preview\Illustrator
- *  - OC\Preview\Movies
+ *  - OC\Preview\Movie
  *  - OC\Preview\MSOffice2003
  *  - OC\Preview\MSOffice2007
  *  - OC\Preview\MSOfficeDoc

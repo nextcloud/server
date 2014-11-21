@@ -17,7 +17,7 @@ use OC\Preview\Provider;
 use OCP\Files\NotFoundException;
 
 require_once 'preview/image.php';
-require_once 'preview/movies.php';
+require_once 'preview/movie.php';
 require_once 'preview/mp3.php';
 require_once 'preview/svg.php';
 require_once 'preview/txt.php';
@@ -713,7 +713,7 @@ class Preview {
 		 *  - OC\Preview\OpenDocument
 		 *  - OC\Preview\StarOffice
  		 *  - OC\Preview\SVG
-		 *  - OC\Preview\Movies
+		 *  - OC\Preview\Movie
 		 *  - OC\Preview\PDF
 		 *  - OC\Preview\TIFF
 		 *  - OC\Preview\Illustrator
