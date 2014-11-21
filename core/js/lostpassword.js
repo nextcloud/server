@@ -112,7 +112,11 @@ OC.Lostpassword = {
 	},
 
 	redirect : function(msg){
-		window.location = OC.webroot;
+		if(OC.webroot !== '') {
+			window.location = OC.webroot;
+		} else {
+			window.location = '/';
+		}
 	},
 
 	resetError : function(msg){
