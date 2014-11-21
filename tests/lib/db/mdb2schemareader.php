@@ -21,11 +21,11 @@ class MDB2SchemaReader extends \Test\TestCase {
 	 * @return \OC\Config
 	 */
 	protected function getConfig() {
-		$config = $this->getMockBuilder('\OC\Config')
+		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
 		$config->expects($this->any())
-			->method('getValue')
+			->method('getSystemValue')
 			->will($this->returnValueMap(array(
 				array('dbname', 'owncloud', 'testDB'),
 				array('dbtableprefix', 'oc_', 'test_')
