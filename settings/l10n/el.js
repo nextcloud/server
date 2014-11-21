@@ -117,7 +117,6 @@ OC.L10N.register(
     "Locale not working" : "Η μετάφραση δεν δουλεύει",
     "System locale can not be set to a one which supports UTF-8." : "Οι ρυθμίσεις τοποθεσίας συστήματος δεν μπορούν να οριστούν σε κάποιες που δεν υποστηρίζουν UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Αυτό σημαίνει ότι μπορεί να υπάρχουν προβλήματα με κάποιους χαρακτήρες στα ονόματα αρχείων.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Συνιστούμε σοβαρά να εγκαταστήσετε τα απαιτούμενα πακέτα στο σύστημά σας ώστε να υποστηρίζεται μια από τις ακόλουθες ρυθμίσεις τοποθεσίας: %s.",
     "URL generation in notification emails" : "Δημιουργία URL στις ειδοποιήσεις ηλεκτρονικού ταχυδρομείου",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Αν η εγκατάστασή σας δεν είναι εγκατεστημένη στη ρίζα της περιοχής και χρησιμοποιεί το cron του συστήματος, μπορεί να υπάρξουν ζητήματα με τη δημιουργία URL. Για να αποφύγετε αυτά τα προβλήματα, παρακαλώ ρυθμίστε την επιλογή \"overwritewebroot\" στον config.php φάκελό σας στη διαδρομή webroot της εγκατάστασής σας (Suggested: \"%s\")",
     "No problems found" : "Δεν βρέθηκαν προβλήματα",

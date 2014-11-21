@@ -109,7 +109,6 @@
     "Locale not working" : "Regionalna shema ne radi",
     "System locale can not be set to a one which supports UTF-8." : "Regionalnu shemu sustava nemoguće je postaviti na neku koja podržava UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To znači da se mogu javiti problemi s određenim znakovima u datoteci.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Toplo preporučpujemo da u svoj sustav instalirate potrebne pakete koji će podržatijednu od sljedećih regionalnih shema: %s.",
     "URL generation in notification emails" : "Generiranje URL-a u notifikacijskoj e-pošti",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ako vaša instalacija nije instalirana u korijenu domene i koristi sustav cron,mogu se javiti problemi s generiranjem URL. Da biste takve probleme izbjegli,molimo postavite opciju \"overwritewebroot\" u vašoj datoteci config.php.na webroot path vaše instalacije (Predlažemo: \"%s\").",
     "Please double check the <a href='%s'>installation guides</a>." : "Molimo provjerite <a href='%s'> instalacijske vodiče </a>.",

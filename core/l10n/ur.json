@@ -1,0 +1,5 @@
+{ "translations": {
+    "_{count} file conflict_::_{count} file conflicts_" : ["",""],
+    "Error" : "خرابی"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

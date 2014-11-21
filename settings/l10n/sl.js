@@ -113,7 +113,6 @@ OC.L10N.register(
     "Locale not working" : "Jezikovne prilagoditve ne delujejo.",
     "System locale can not be set to a one which supports UTF-8." : "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To pomeni, da se lahko pojavijo napake pri nekaterih znakih v imenih datotek.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Priporočljivo je namestiti zahtevane pakete v sistem za podporo ene izmed navedenih jezikovnih možnosti: %s",
     "Connectivity Checks" : "Preverjanje povezav",
     "No problems found" : "Ni zaznanih težav",
     "Please double check the <a href='%s'>installation guides</a>." : "Preverite <a href='%s'>navodila namestitve</a>.",

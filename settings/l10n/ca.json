@@ -104,7 +104,6 @@
     "Locale not working" : "Locale no funciona",
     "System locale can not be set to a one which supports UTF-8." : "No s'ha pogut establir cap localització del sistema amb suport per UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Això podria comportar problemes amb alguns caràcters en els noms dels fitxer.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Us recomanem que instal·leu els paquets necessaris en el sistema per donar suport a alguna de les localitzacions següents: %s",
     "Please double check the <a href='%s'>installation guides</a>." : "Comproveu les <a href='%s'>guies d'instal·lació</a>.",
     "Last cron was executed at %s." : "L'últim cron s'ha executat el %s",
     "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "L'últim cron es va executar a %s. Fa més d'una hora, alguna cosa sembla que va malament.",

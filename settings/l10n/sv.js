@@ -109,7 +109,6 @@ OC.L10N.register(
     "Locale not working" : "Locale fungerar inte",
     "System locale can not be set to a one which supports UTF-8." : "Systemspråk kan inte ställas in till ett som stödjer UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Detta betyder att där kan komma att uppstå problem med vissa tecken i filnamn.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Vi rekommenderar starkt att installera de paket som krävs på ditt system för att stödja en av följande systemspråk: %s.",
     "Please double check the <a href='%s'>installation guides</a>." : "Var god kontrollera <a href='%s'>installationsguiden</a>.",
     "Last cron was executed at %s." : "Sista cron kördes vid %s",
     "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Sista cron kördes vid %s. Detta är mer än en timme sedan, något verkar fel.",

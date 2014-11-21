@@ -117,7 +117,6 @@ OC.L10N.register(
     "Locale not working" : "Locale not working",
     "System locale can not be set to a one which supports UTF-8." : "System locale can not be set to a one which supports UTF-8.",
     "This means that there might be problems with certain characters in file names." : "This means that there might be problems with certain characters in file names.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "We strongly suggest installing the required packages on your system to support one of the following locales: %s.",
     "URL generation in notification emails" : "URL generation in notification emails",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")",
     "Connectivity Checks" : "Connectivity Checks",

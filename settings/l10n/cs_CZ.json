@@ -115,7 +115,6 @@
     "Locale not working" : "Lokalizace nefunguje",
     "System locale can not be set to a one which supports UTF-8." : "Není možné nastavit znakovou sadu, která podporuje UTF-8.",
     "This means that there might be problems with certain characters in file names." : "To znamená, že se mohou vyskytnout problémy s určitými znaky v názvech souborů.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Důrazně doporučujeme nainstalovat do vašeho systém balíčky nutné pro podporu některé z následujících znakových sad: %s.",
     "URL generation in notification emails" : "Generování adresy URL v oznamovacích e-mailech",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Instalace mimo kořenový adresář domény a používání systémového příkazu cron může způsobit problém s generováním správné URL. Pro zabránění těmto chybám nastavte prosím správnou cestu ve svém config.php souboru v hodnotě \"overwritewebroot\" (Doporučujeme: \"%s\")",
     "Connectivity Checks" : "Ověřování připojení",

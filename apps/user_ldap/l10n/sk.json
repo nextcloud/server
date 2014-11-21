@@ -1,0 +1,7 @@
+{ "translations": {
+    "_%s group found_::_%s groups found_" : ["","",""],
+    "_%s user found_::_%s users found_" : ["","",""],
+    "Save" : "Uložiť",
+    "Advanced" : "Pokročilé"
+},"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+}

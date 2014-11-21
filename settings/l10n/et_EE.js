@@ -117,7 +117,6 @@ OC.L10N.register(
     "Locale not working" : "Lokalisatsioon ei toimi",
     "System locale can not be set to a one which supports UTF-8." : "Süsteemi lokaliseeringuks ei saa panna sellist, mis toetab UTF-8-t.",
     "This means that there might be problems with certain characters in file names." : "See tähendab, et võib esineda probleeme failide nimedes mõnede sümbolitega.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Soovitame tungivalt paigaldada vajalikud paketid oma süsteemi tagamaks tuge järgmistele lokaliseeringutele: %s.",
     "URL generation in notification emails" : "URL-ide loomine teavituskirjades",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Kui sinu sait pole paigaldatud domeeni juurkausta ja see kasutab ajastatud tegevusi, siis võib tekkide probleeme URL-ide loomisega. Nende probleemide vältimiseks sisesta palun failis config.php valikusse \"overwritewebroot\" oma veebiserveri juurkaust (Soovituslik: \"%s\")",
     "Connectivity Checks" : "Ühenduse kontrollid",

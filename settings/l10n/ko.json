@@ -87,7 +87,6 @@
     "Locale not working" : "로캘이 작동하지 않음",
     "System locale can not be set to a one which supports UTF-8." : "UTF-8을 지원하는 시스템 로캘을 사용할 수 없습니다.",
     "This means that there might be problems with certain characters in file names." : "파일 이름의 일부 문자에 문제가 생길 수도 있습니다.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "다음 로캘을 지원하도록 시스템 설정을 변경하는 것을 추천합니다: %s",
     "Please double check the <a href='%s'>installation guides</a>." : "<a href='%s'>설치 가이드</a>를 다시 한 번 확인하십시오.",
     "Execute one task with each page loaded" : "개별 페이지를 불러올 때마다 실행",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php는 webcron 서비스에 등록되어 HTTP로 15분마다 cron.php에 접근합니다.",

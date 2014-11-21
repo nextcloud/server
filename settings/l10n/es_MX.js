@@ -68,7 +68,6 @@ OC.L10N.register(
     "Locale not working" : "La configuración regional no está funcionando",
     "System locale can not be set to a one which supports UTF-8." : "No se puede escoger una configuración regional que soporte UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Esto significa que puede haber problemas con ciertos caracteres en los nombres de los archivos.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Es muy recomendable instalar los paquetes necesarios para poder soportar una de las siguientes configuraciones regionales: %s. ",
     "Please double check the <a href='%s'>installation guides</a>." : "Por favor, vuelva a comprobar las <a href='%s'>guías de instalación</a>.",
     "Execute one task with each page loaded" : "Ejecutar una tarea con cada página cargada",
     "cron.php is registered at a webcron service to call cron.php every 15 minutes over http." : "cron.php se registra en un servicio webcron para llamar a cron.php cada 15 minutos a través de HTTP.",

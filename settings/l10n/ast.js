@@ -116,7 +116,6 @@ OC.L10N.register(
     "Locale not working" : "La configuración rexonal nun ta funcionando",
     "System locale can not be set to a one which supports UTF-8." : "Nun se pue escoyer una configuración rexonal que sofite UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Esto significa que pue haber problemes con ciertos caráuteres nos nomes de los ficheros.",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "Ye enforma recomendable instalar los paquetes necesarios pa poder soportar una de les siguientes configuraciones rexonales: %s. ",
     "URL generation in notification emails" : "Xeneración d'URL en mensaxes de notificación",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Si la so instalación nun ta asitiada nel raigañu del dominiu y uses el cron del sistema, pues atopar problemas cola xeneración d'URL. Pa evitar estos problemes, afita la opción \"overwritewebroot\" nel tu ficheru config.php pa qu'use'l camín del raigañu la so instalación  (Suxerencia: \"%s\")",
     "Please double check the <a href='%s'>installation guides</a>." : "Por favor, comprueba les <a href='%s'>guíes d'instalación</a>.",

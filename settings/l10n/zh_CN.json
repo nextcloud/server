@@ -109,7 +109,6 @@
     "Locale not working" : "本地化无法工作",
     "System locale can not be set to a one which supports UTF-8." : "系统语系无法设置为支持 UTF-8 的语系。",
     "This means that there might be problems with certain characters in file names." : "这意味着一些文件名中的特定字符可能有问题。",
-    "We strongly suggest to install the required packages on your system to support one of the following locales: %s." : "强烈建议在您的系统上安装需要的软件包来支持以下语系之一：%s。",
     "URL generation in notification emails" : "在通知邮件里生成URL",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "如果你没有安装ownCloud在域名的根目录里，并使用系统的crom，这会导致URL的生成出错。要避免这个问题，请设置 config.php 文件中的\"overwritewebroot\" 参数值为你的实际安装web路径。(建议为: \"%s\")",
     "No problems found" : "未发现问题",
