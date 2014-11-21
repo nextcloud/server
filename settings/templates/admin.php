@@ -184,7 +184,7 @@ if (!$_['isLocaleWorking']) {
 		?>
 			<br>
 			<?php
-			p($l->t('We strongly suggest to install the required packages on your system to support one of the following locales: %s.', array($locales)));
+			p($l->t('We strongly suggest installing the required packages on your system to support one of the following locales: %s.', array($locales)));
 			?>
 	</span>
 
