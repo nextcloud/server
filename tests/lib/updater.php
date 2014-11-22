@@ -10,7 +10,7 @@ namespace OC;
 
 class UpdaterTest extends \Test\TestCase {
 
-	public function testVersionCompatbility() {
+	public function versionCompatibilityTestData() {
 		return array(
 			array('1.0.0.0', '2.2.0', true),
 			array('1.1.1.1', '2.0.0', true),
@@ -24,7 +24,7 @@ class UpdaterTest extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider testVersionCompatbility
+	 * @dataProvider versionCompatibilityTestData
 	 */
 	function testIsUpgradePossible($oldVersion, $newVersion, $result) {
 		$updater = new Updater();

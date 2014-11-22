@@ -24,7 +24,7 @@ class TestHTTPHelper extends \Test\TestCase {
 			->getMock();
 	}
 
-	public function testIsHTTPProvider() {
+	public function isHttpTestData() {
 		return array(
 			array('http://wwww.owncloud.org/enterprise/', true),
 			array('https://wwww.owncloud.org/enterprise/', true),
@@ -81,7 +81,7 @@ class TestHTTPHelper extends \Test\TestCase {
 	}
 
 	/**
-	 * @dataProvider testIsHTTPProvider
+	 * @dataProvider isHttpTestData
 	 */
 	public function testIsHTTP($url, $expected) {
 			$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));
