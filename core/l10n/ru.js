@@ -113,7 +113,7 @@ OC.L10N.register(
     "Hello world!" : "Привет мир!",
     "sunny" : "солнечно",
     "Hello {name}, the weather is {weather}" : "Здравствуйте {name}, погода {weather}",
-    "_download %n file_::_download %n files_" : ["","",""],
+    "_download %n file_::_download %n files_" : ["загрузить %n файл","загрузить %n файла","загрузить %n файлов"],
     "Updating {productName} to version {version}, this may take a while." : "Обновление {productName} до версии {version}, пожалуйста, подождите.",
     "Please reload the page." : "Пожалуйста, перезагрузите страницу.",
     "The update was unsuccessful." : "Обновление не удалось.",

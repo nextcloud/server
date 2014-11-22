@@ -114,6 +114,7 @@ OC.L10N.register(
     "Locale not working" : "Maa-asetus ei toimi",
     "System locale can not be set to a one which supports UTF-8." : "Järjestelmän maa-asetusta ei voi asettaa UTF-8:aa tukevaksi.",
     "This means that there might be problems with certain characters in file names." : "Tämä tarkoittaa, että tiettyjen merkkien kanssa tiedostojen nimissä saattaa olla ongelmia.",
+    "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Suosittelemme asentamaan vaaditut paketit järjestelmään, jotta järjestelmässä on tuki yhdelle seuraavista maa-asetuksista: %s.",
     "URL generation in notification emails" : "Verkko-osoitteiden luominen sähköposti-ilmoituksissa",
     "No problems found" : "Ongelmia ei löytynyt",
     "Please double check the <a href='%s'>installation guides</a>." : "Lue tarkasti <a href='%s'>asennusohjeet</a>.",

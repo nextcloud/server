@@ -115,6 +115,7 @@
     "Locale not working" : "Ländereinstellung funktioniert nicht",
     "System locale can not be set to a one which supports UTF-8." : "Systemgebietsschema kann nicht auf eine UTF-8 unterstützende eingestellt werden.",
     "This means that there might be problems with certain characters in file names." : "Dies bedeutet, dass Probleme mit bestimmten Zeichen in den Dateinamen geben kann.",
+    "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Wir empfehlen dringend, die erforderlichen Pakete auf Ihrem System zu installieren, damit eine der folgenden Gebietsschemas unterstützt wird: %s.",
     "URL generation in notification emails" : "URL-Generierung in Mail-Benachrichtungen",
     "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Wenn sich Deine Installation nicht im Wurzelverzeichnis der Domain befindet und Cron aus dem System genutzt wird, kann es zu Fehlern bei der URL-Generierung kommen. Um dies zu verhindern, setze bitte die \"overwritewebroot\"-Option in Deiner config.php auf das Web-Wurzelverzeichnis Deiner Installation (Vorschlag: \"%s\").",
     "Connectivity Checks" : "Verbindungsüberprüfungen",

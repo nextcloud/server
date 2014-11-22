@@ -32,6 +32,7 @@ OC.L10N.register(
     "For anonymous access, leave DN and Password empty." : "Për tu lidhur në mënyre anonime, lini bosh hapsirat e DN dhe fjalëkalim",
     "One Base DN per line" : "Një baze DN për rrjesht",
     "You can specify Base DN for users and groups in the Advanced tab" : "Ju mund të specifikoni Bazen DN për përdorues dhe grupe në butonin 'Të Përparuara'",
+    "Continue" : "Vazhdo",
     "Advanced" : "E përparuar",
     "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." : "<b>Njoftim:</b> moduli PHP LDAP nuk është instaluar, motori nuk do të funksionojë.Kontaktoni me administratorin e sistemit.",
     "Connection Settings" : "Të dhënat e lidhjes",

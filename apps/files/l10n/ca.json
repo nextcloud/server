@@ -4,6 +4,7 @@
     "Unknown error" : "Error desconegut",
     "Could not move %s - File with this name already exists" : "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
     "Could not move %s" : " No s'ha pogut moure %s",
+    "Permission denied" : "Permís denegat",
     "File name cannot be empty." : "El nom del fitxer no pot ser buit.",
     "\"%s\" is an invalid file name." : "\"%s\" no es un fitxer vàlid.",
     "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." : "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
