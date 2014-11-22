@@ -39,11 +39,6 @@
 	</filter>
 	<listeners>
 		<listener class="StartSessionListener" file="startsessionlistener.php" />
-	  <listener class="TestCleanupListener" file="testcleanuplistener.php">
-		<arguments>
-			<string>detail</string>
-		</arguments>
-	  </listener>
 	</listeners>
 </phpunit>
 
