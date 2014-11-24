@@ -84,7 +84,6 @@ class ShareController extends Controller {
 	 * @NoCSRFRequired
 	 *
 	 * @param string $token
-	 *
 	 * @return TemplateResponse|RedirectResponse
 	 */
 	public function showAuthenticate($token) {
@@ -127,7 +126,6 @@ class ShareController extends Controller {
 	 *
 	 * @param string $token
 	 * @param string $path
-	 *
 	 * @return TemplateResponse
 	 */
 	public function showShare($token, $path = '') {
@@ -207,6 +205,8 @@ class ShareController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
+	 * @UseSession
+	 *
 	 * @param string $token
 	 * @param string $files
 	 * @param string $path
@@ -214,6 +214,12 @@ class ShareController extends Controller {
 	 */
 	public function downloadShare($token, $files = null, $path = '') {
 		\OC_User::setIncognitoMode(true);
+
+		// FIXME: Use DI once there is a suitable class
+		if (!\OCP\App::isEnabled('files_encryption')) {
+			// encryption app requires the session to store the keys in
+			\OC::$server->getSession()->close();
+		}
 
 		$linkItem = OCP\Share::getShareByToken($token, false);
 
