@@ -19,39 +19,30 @@ class InfoParser extends \PHPUnit_Framework_TestCase {
 	private $parser;
 
 	public function setUp() {
+		$config = $this->getMockBuilder('\OC\AllConfig')
+			->disableOriginalConstructor()->getMock();
 		$httpHelper = $this->getMockBuilder('\OC\HTTPHelper')
-			->disableOriginalConstructor()
+			->setConstructorArgs(array($config))
+			->setMethods(array('getHeaders'))
 			->getMock();
-
-		$httpHelper->expects($this->any())
-			->method('isHTTPURL')
-			->will($this->returnCallback(function ($url) {
-				return stripos($url, 'https://') === 0 || stripos($url, 'http://') === 0;
-			}));
-
 		$urlGenerator = $this->getMockBuilder('\OCP\IURLGenerator')
 			->disableOriginalConstructor()
 			->getMock();
 
 		//linkToDocs
-		$httpHelper->expects($this->any())
+		$urlGenerator->expects($this->any())
 			->method('linkToDocs')
 			->will($this->returnCallback(function ($url) {
-				return $url;
+				return "https://docs.example.com/server/go.php?to=$url";
 			}));
 
 		$this->parser = new \OC\App\InfoParser($httpHelper, $urlGenerator);
 	}
 
 	public function testParsingValidXml() {
+		$expectedData = json_decode(file_get_contents(OC::$SERVERROOT.'/tests/data/app/expected-info.json'), true);
 		$data = $this->parser->parse(OC::$SERVERROOT.'/tests/data/app/valid-info.xml');
 
-		$expectedKeys = array(
-			'id', 'info', 'remote', 'public', 'name', 'description', 'licence', 'author', 'requiremin', 'shipped',
-			'documentation', 'rememberlogin', 'types', 'ocsid'
-		);
-		foreach($expectedKeys as $expectedKey) {
-			$this->assertArrayHasKey($expectedKey, $data, "ExpectedKey($expectedKey) was missing.");
-		}
+		$this->assertEquals($expectedData, $data);
 	}
 }

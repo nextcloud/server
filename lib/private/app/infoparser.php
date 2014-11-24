@@ -33,60 +33,41 @@ class InfoParser {
 			return null;
 		}
 
-		$content = @file_get_contents($file);
-		if (!$content) {
+		$xml = simplexml_load_file($file);
+		$array = json_decode(json_encode((array)$xml), TRUE);
+		if (is_null($array)) {
 			return null;
 		}
-		$xml = new SimpleXMLElement($content);
-		$data['info'] = array();
-		$data['remote'] = array();
-		$data['public'] = array();
-		foreach ($xml->children() as $child) {
-			/**
-			 * @var $child SimpleXMLElement
-			 */
-			if ($child->getName() == 'remote') {
-				foreach ($child->children() as $remote) {
-					/**
-					 * @var $remote SimpleXMLElement
-					 */
-					$data['remote'][$remote->getName()] = (string)$remote;
-				}
-			} elseif ($child->getName() == 'public') {
-				foreach ($child->children() as $public) {
-					/**
-					 * @var $public SimpleXMLElement
-					 */
-					$data['public'][$public->getName()] = (string)$public;
-				}
-			} elseif ($child->getName() == 'types') {
-				$data['types'] = array();
-				foreach ($child->children() as $type) {
-					/**
-					 * @var $type SimpleXMLElement
-					 */
-					$data['types'][] = $type->getName();
-				}
-			} elseif ($child->getName() == 'description') {
-				$xml = (string)$child->asXML();
-				$data[$child->getName()] = substr($xml, 13, -14); //script <description> tags
-			} elseif ($child->getName() == 'documentation') {
-				foreach ($child as $subChild) {
-					$url = (string)$subChild;
+		if (!array_key_exists('info', $array)) {
+			$array['info'] = array();
+		}
+		if (!array_key_exists('remote', $array)) {
+			$array['remote'] = array();
+		}
+		if (!array_key_exists('public', $array)) {
+			$array['public'] = array();
+		}
 
-					// If it is not an absolute URL we assume it is a key
-					// i.e. admin-ldap will get converted to go.php?to=admin-ldap
-					if (!$this->httpHelper->isHTTPURL($url)) {
-						$url = $this->urlGenerator->linkToDocs($url);
-					}
-
-					$data["documentation"][$subChild->getName()] = $url;
+		if (array_key_exists('documentation', $array)) {
+			foreach ($array['documentation'] as $key => $url) {
+				// If it is not an absolute URL we assume it is a key
+				// i.e. admin-ldap will get converted to go.php?to=admin-ldap
+				if (!$this->httpHelper->isHTTPURL($url)) {
+					$url = $this->urlGenerator->linkToDocs($url);
 				}
-			} else {
-				$data[$child->getName()] = (string)$child;
+
+				$array["documentation"][$key] = $url;
+
+			}
+		}
+		if (array_key_exists('types', $array)) {
+			foreach ($array['types'] as $type => $v) {
+				unset($array['types'][$type]);
+				$array['types'][] = $type;
+
 			}
 		}
 
-		return $data;
+		return $array;
 	}
 }
