@@ -635,63 +635,10 @@ class OC_App {
 			}
 			$file = self::getAppPath($appId) . '/appinfo/info.xml';
 		}
-		$data = array();
-		if (!file_exists($file)) {
-			return null;
-		}
-		$content = @file_get_contents($file);
-		if (!$content) {
-			return null;
-		}
-		$xml = new SimpleXMLElement($content);
-		$data['info'] = array();
-		$data['remote'] = array();
-		$data['public'] = array();
-		foreach ($xml->children() as $child) {
-			/**
-			 * @var $child SimpleXMLElement
-			 */
-			if ($child->getName() == 'remote') {
-				foreach ($child->children() as $remote) {
-					/**
-					 * @var $remote SimpleXMLElement
-					 */
-					$data['remote'][$remote->getName()] = (string)$remote;
-				}
-			} elseif ($child->getName() == 'public') {
-				foreach ($child->children() as $public) {
-					/**
-					 * @var $public SimpleXMLElement
-					 */
-					$data['public'][$public->getName()] = (string)$public;
-				}
-			} elseif ($child->getName() == 'types') {
-				$data['types'] = array();
-				foreach ($child->children() as $type) {
-					/**
-					 * @var $type SimpleXMLElement
-					 */
-					$data['types'][] = $type->getName();
-				}
-			} elseif ($child->getName() == 'description') {
-				$xml = (string)$child->asXML();
-				$data[$child->getName()] = substr($xml, 13, -14); //script <description> tags
-			} elseif ($child->getName() == 'documentation') {
-				foreach ($child as $subChild) {
-					$url = (string) $subChild;
 
-					// If it is not an absolute URL we assume it is a key
-					// i.e. admin-ldap will get converted to go.php?to=admin-ldap
-					if(!\OC::$server->getHTTPHelper()->isHTTPURL($url)) {
-						$url = OC_Helper::linkToDocs($url);
-					}
+		$parser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
+		$data = $parser->parse($file);
 
-					$data["documentation"][$subChild->getName()] = $url;
-				}
-			} else {
-				$data[$child->getName()] = (string)$child;
-			}
-		}
 		self::$appInfo[$appId] = $data;
 
 		return $data;
