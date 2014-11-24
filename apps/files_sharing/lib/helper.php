@@ -21,6 +21,30 @@ class Helper {
 	}
 
 	/**
+	 * add server-to-server share to database
+	 *
+	 * @param string $remote
+	 * @param string $token
+	 * @param string $name
+	 * @param string $mountPoint
+	 * @param string $owner
+	 * @param string $user
+	 * @param string $password
+	 * @param int $remoteId
+	 * @param bool $accepted
+	 */
+	public static function addServer2ServerShare($remote, $token, $name, $mountPoint, $owner, $user, $password='', $remoteId=-1, $accepted = false) {
+		$accepted = $accepted ? 1 : 0;
+		$query = \OCP\DB::prepare('
+				INSERT INTO `*PREFIX*share_external`
+					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			');
+			$hash = md5($mountPoint);
+			$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId));
+	}
+
+	/**
 	 * Sets up the filesystem and user for public sharing
 	 * @param string $token string share token
 	 * @param string $relativePath optional path relative to the share

@@ -699,18 +699,19 @@ class Share extends \OC\Share\Constants {
 	 * @param string $itemSource
 	 * @param int $shareType SHARE_TYPE_USER, SHARE_TYPE_GROUP, or SHARE_TYPE_LINK
 	 * @param string $shareWith User or group the item is being shared with
+	 * @param string $owner owner of the share, if null the current user is used
 	 * @return boolean true on success or false on failure
 	 */
-	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
+	public static function unshare($itemType, $itemSource, $shareType, $shareWith, $owner = null) {
 
 		// check if it is a valid itemType
 		self::getBackend($itemType);
 
-		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith, null, $shareType);
+		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith, $owner, $shareType);
 
 		$toDelete = array();
 		$newParent = null;
-		$currentUser = \OC_User::getUser();
+		$currentUser = $owner ? $owner : \OC_User::getUser();
 		foreach ($items as $item) {
 			// delete the item with the expected share_type and owner
 			if ((int)$item['share_type'] === (int)$shareType && $item['uid_owner'] === $currentUser) {
