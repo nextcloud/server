@@ -1,0 +1,269 @@
+<?php
+/**
+ * ownCloud
+ *
+ * @author Joas Schilling
+ * @copyright 2014 Joas Schilling nickvergessen@owncloud.com
+ *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+namespace OC;
+
+class DateTimeFormatter implements \OCP\IDateTimeFormatter {
+	/** @var \DateTimeZone */
+	protected $defaultTimeZone;
+
+	/** @var \OC_L10N */
+	protected $defaultL10N;
+
+	/**
+	 * Constructor
+	 *
+	 * @param \DateTimeZone $defaultTimeZone Set the timezone for the format
+	 * @param \OC_L10N $defaultL10N Set the language for the format
+	 */
+	public function __construct(\DateTimeZone $defaultTimeZone, \OC_L10N $defaultL10N) {
+		$this->defaultTimeZone = $defaultTimeZone;
+		$this->defaultL10N = $defaultL10N;
+	}
+
+	/**
+	 * Get TimeZone to use
+	 *
+	 * @param \DateTimeZone $timeZone	The timezone to use
+	 * @return \DateTimeZone		The timezone to use, falling back to the current user's timezone
+	 */
+	protected function getTimeZone($timeZone = null) {
+		if ($timeZone === null) {
+			$timeZone = $this->defaultTimeZone;
+		}
+
+		return $timeZone;
+	}
+
+	/**
+	 * Get OC_L10N to use
+	 *
+	 * @param \OC_L10N $l	The locale to use
+	 * @return \OC_L10N		The locale to use, falling back to the current user's locale
+	 */
+	protected function getLocale($l = null) {
+		if ($l === null) {
+			$l = $this->defaultL10N;
+		}
+
+		return $l;
+	}
+
+	/**
+	 * Generates a DateTime object with the given timestamp and TimeZone
+	 *
+	 * @param mixed $timestamp
+	 * @param \DateTimeZone $timeZone	The timezone to use
+	 * @return \DateTime
+	 */
+	protected function getDateTime($timestamp, \DateTimeZone $timeZone = null) {
+		if ($timestamp === null) {
+			return new \DateTime('now', $timeZone);
+		} else if (!$timestamp instanceof \DateTime) {
+			$dateTime = new \DateTime('now', $timeZone);
+			$dateTime->setTimestamp($timestamp);
+			return $dateTime;
+		}
+		if ($timeZone) {
+			$timestamp->setTimezone($timeZone);
+		}
+		return $timestamp;
+	}
+
+	/**
+	 * Formats the date of the given timestamp
+	 *
+	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param string	$format			Either 'full', 'long', 'medium' or 'short'
+	 * 				full:	e.g. 'EEEE, MMMM d, y'	=> 'Wednesday, August 20, 2014'
+	 * 				long:	e.g. 'MMMM d, y'		=> 'August 20, 2014'
+	 * 				medium:	e.g. 'MMM d, y'			=> 'Aug 20, 2014'
+	 * 				short:	e.g. 'M/d/yy'			=> '8/20/14'
+	 * 				The exact format is dependent on the language
+	 * @param \DateTimeZone	$timeZone	The timezone to use
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return string Formatted date string
+	 */
+	public function formatDate($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OC_L10N $l = null) {
+		return $this->format($timestamp, 'date', $format, $timeZone, $l);
+	}
+
+	/**
+	 * Formats the date of the given timestamp
+	 *
+	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param string	$format			Either 'full', 'long', 'medium' or 'short'
+	 * 				full:	e.g. 'EEEE, MMMM d, y'	=> 'Wednesday, August 20, 2014'
+	 * 				long:	e.g. 'MMMM d, y'		=> 'August 20, 2014'
+	 * 				medium:	e.g. 'MMM d, y'			=> 'Aug 20, 2014'
+	 * 				short:	e.g. 'M/d/yy'			=> '8/20/14'
+	 * 				The exact format is dependent on the language
+	 * 					Uses 'Today', 'Yesterday' and 'Tomorrow' when applicable
+	 * @param \DateTimeZone	$timeZone	The timezone to use
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return string Formatted relative date string
+	 */
+	public function formatDateRelativeDay($timestamp, $format = 'long', \DateTimeZone $timeZone = null, \OC_L10N $l = null) {
+		if (substr($format, -1) !== '*' && substr($format, -1) !== '*') {
+			$format .= '^';
+		}
+
+		return $this->format($timestamp, 'date', $format, $timeZone, $l);
+	}
+
+	/**
+	 * Gives the relative date of the timestamp
+	 * Only works for past dates
+	 *
+	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
+	 * @return string	Dates returned are:
+	 * 				<  1 month	=> Today, Yesterday, n days ago
+	 * 				< 13 month	=> last month, n months ago
+	 * 				>= 13 month	=> last year, n years ago
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return \OC_L10N_String Formatted date span
+	 */
+	public function formatDateSpan($timestamp, $baseTimestamp = null, \OC_L10N $l = null) {
+		$l = $this->getLocale($l);
+		$timestamp = $this->getDateTime($timestamp);
+		$timestamp->setTime(0, 0, 0);
+		if ($baseTimestamp === null) {
+			$baseTimestamp = time();
+		}
+		$baseTimestamp = $this->getDateTime($baseTimestamp);
+		$baseTimestamp->setTime(0, 0, 0);
+		$dateInterval = $timestamp->diff($baseTimestamp);
+
+		if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 0) {
+			return $l->t('today');
+		} else if ($dateInterval->y == 0 && $dateInterval->m == 0 && $dateInterval->d == 1) {
+			return $l->t('yesterday');
+		} else if ($dateInterval->y == 0 && $dateInterval->m == 0) {
+			return $l->n('%n day ago', '%n days ago', $dateInterval->d);
+		} else if ($dateInterval->y == 0 && $dateInterval->m == 1) {
+			return $l->t('last month');
+		} else if ($dateInterval->y == 0) {
+			return $l->n('%n month ago', '%n months ago', $dateInterval->m);
+		} else if ($dateInterval->y == 1) {
+			return $l->t('last year');
+		}
+		return $l->n('%n year go', '%n years ago', $dateInterval->y);
+	}
+
+	/**
+	 * Formats the time of the given timestamp
+	 *
+	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param string	$format			Either 'full', 'long', 'medium' or 'short'
+	 * 				full:	e.g. 'h:mm:ss a zzzz'	=> '11:42:13 AM GMT+0:00'
+	 * 				long:	e.g. 'h:mm:ss a z'		=> '11:42:13 AM GMT'
+	 * 				medium:	e.g. 'h:mm:ss a'		=> '11:42:13 AM'
+	 * 				short:	e.g. 'h:mm a'			=> '11:42 AM'
+	 * 				The exact format is dependent on the language
+	 * @param \DateTimeZone	$timeZone	The timezone to use
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return string Formatted time string
+	 */
+	public function formatTime($timestamp, $format = 'medium', \DateTimeZone $timeZone = null, \OC_L10N $l = null) {
+		return $this->format($timestamp, 'time', $format, $timeZone, $l);
+	}
+
+	/**
+	 * Gives the relative past time of the timestamp
+	 *
+	 * @param int|\DateTime	$timestamp	Either a Unix timestamp or DateTime object
+	 * @param int|\DateTime	$baseTimestamp	Timestamp to compare $timestamp against, defaults to current time
+	 * @return string	Dates returned are:
+	 * 				< 60 sec	=> seconds ago
+	 * 				<  1 hour	=> n minutes ago
+	 * 				<  1 day	=> n hours ago
+	 * 				<  1 month	=> Yesterday, n days ago
+	 * 				< 13 month	=> last month, n months ago
+	 * 				>= 13 month	=> last year, n years ago
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return \OC_L10N_String Formatted time span
+	 */
+	public function formatTimeSpan($timestamp, $baseTimestamp = null, \OC_L10N $l = null) {
+		$l = $this->getLocale($l);
+		$timestamp = $this->getDateTime($timestamp);
+		if ($baseTimestamp === null) {
+			$baseTimestamp = time();
+		}
+		$baseTimestamp = $this->getDateTime($baseTimestamp);
+
+		$diff = $timestamp->diff($baseTimestamp);
+		if ($diff->y > 0 || $diff->m > 0 || $diff->d > 0) {
+			return $this->formatDateSpan($timestamp, $baseTimestamp);
+		}
+
+		if ($diff->h > 0) {
+			return $l->n('%n hour ago', '%n hours ago', $diff->h);
+		} else if ($diff->i > 0) {
+			return $l->n('%n minute ago', '%n minutes ago', $diff->i);
+		}
+		return $l->t('seconds ago');
+	}
+
+	/**
+	 * Formats the date and time of the given timestamp
+	 *
+	 * @param int|\DateTime $timestamp	Either a Unix timestamp or DateTime object
+	 * @param string	$formatDate		See formatDate() for description
+	 * @param string	$formatTime		See formatTime() for description
+	 * @param \DateTimeZone	$timeZone	The timezone to use
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return string Formatted date and time string
+	 */
+	public function formatDateTime($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OC_L10N $l = null) {
+		return $this->format($timestamp, 'datetime', $formatDate . '|' . $formatTime, $timeZone, $l);
+	}
+
+	/**
+	 * Formats the date and time of the given timestamp
+	 *
+	 * @param int|\DateTime $timestamp	Either a Unix timestamp or DateTime object
+	 * @param string	$formatDate		See formatDate() for description
+	 * 					Uses 'Today', 'Yesterday' and 'Tomorrow' when applicable
+	 * @param string	$formatTime		See formatTime() for description
+	 * @param \DateTimeZone	$timeZone	The timezone to use
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return string Formatted relative date and time string
+	 */
+	public function formatDateTimeRelativeDay($timestamp, $formatDate = 'long', $formatTime = 'medium', \DateTimeZone $timeZone = null, \OC_L10N $l = null) {
+		if (substr($formatDate, -1) !== '^' && substr($formatDate, -1) !== '*') {
+			$formatDate .= '^';
+		}
+
+		return $this->format($timestamp, 'datetime', $formatDate . '|' . $formatTime, $timeZone, $l);
+	}
+
+	/**
+	 * Formats the date and time of the given timestamp
+	 *
+	 * @param int|\DateTime $timestamp	Either a Unix timestamp or DateTime object
+	 * @param string		$type		One of 'date', 'datetime' or 'time'
+	 * @param string		$format		Format string
+	 * @param \DateTimeZone	$timeZone	The timezone to use
+	 * @param \OC_L10N		$l			The locale to use
+	 * @return string Formatted date and time string
+	 */
+	protected function format($timestamp, $type, $format, \DateTimeZone $timeZone = null, \OC_L10N $l = null) {
+		$l = $this->getLocale($l);
+		$timeZone = $this->getTimeZone($timeZone);
+		$timestamp = $this->getDateTime($timestamp, $timeZone);
+
+		return $l->l($type, $timestamp, array(
+			'width' => $format,
+		));
+	}
+}
