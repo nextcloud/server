@@ -8,28 +8,12 @@
  */
 namespace OC\Preview;
 
-function findBinaryPath($program) {
-	exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
-	if ($returnCode === 0 && count($output) > 0) {
-		return escapeshellcmd($output[0]);
-	}
-	return null;
-}
-
 // movie preview is currently not supported on Windows
 if (!\OC_Util::runningOnWindows()) {
-	$isExecEnabled = \OC_Helper::is_function_enabled('exec');
-	$ffmpegBinary = null;
-	$avconvBinary = null;
+	$avconvBinary = \OC_Helper::findBinaryPath('avconv');
+	$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
 
-	if ($isExecEnabled) {
-		$avconvBinary = findBinaryPath('avconv');
-		if (!$avconvBinary) {
-			$ffmpegBinary = findBinaryPath('ffmpeg');
-		}
-	}
-
-	if($isExecEnabled && ( $avconvBinary || $ffmpegBinary )) {
+	if ($avconvBinary || $ffmpegBinary) {
 
 		class Movie extends Provider {
 			public static $avconvBinary;
