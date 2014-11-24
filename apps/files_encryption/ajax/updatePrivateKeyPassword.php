@@ -26,9 +26,10 @@ $newPassword = $_POST['newPassword'];
 $view = new \OC\Files\View('/');
 $session = new \OCA\Encryption\Session($view);
 $user = \OCP\User::getUser();
+$loginName = \OC::$server->getUserSession()->getLoginName();
 
 // check new password
-$passwordCorrect = \OCP\User::checkPassword($user, $newPassword);
+$passwordCorrect = \OCP\User::checkPassword($loginName, $newPassword);
 
 if ($passwordCorrect !== false) {
 
