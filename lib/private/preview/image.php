@@ -11,7 +11,7 @@ namespace OC\Preview;
 class Image extends Provider {
 
 	public function getMimeType() {
-		return '/image\/.*/';
+		return '/image\/(?!tiff$)(?!svg.*).*/';
 	}
 
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
