@@ -163,6 +163,8 @@ class Util {
 	 * @param bool $dateOnly option to omit time from the result
 	 * @param DateTimeZone|string $timeZone where the given timestamp shall be converted to
 	 * @return string timestamp
+	 *
+	 * @deprecated Use \OC::$server->query('DateTimeFormatter') instead
 	 */
 	public static function formatDate($timestamp, $dateOnly=false, $timeZone = null) {
 		return(\OC_Util::formatDate($timestamp, $dateOnly, $timeZone));
