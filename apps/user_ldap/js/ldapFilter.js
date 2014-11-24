@@ -8,6 +8,7 @@ function LdapFilter(target, determineModeCallback) {
 	this.determineModeCallback = determineModeCallback;
 	this.foundFeatures = false;
 	this.activated = false;
+	this.countPending = false;
 
 	if( target === 'User' ||
 		target === 'Login' ||
@@ -25,8 +26,12 @@ LdapFilter.prototype.activate = function() {
 	this.determineMode();
 };
 
-LdapFilter.prototype.compose = function(callback) {
+LdapFilter.prototype.compose = function(updateCount) {
 	var action;
+
+	if(updateCount === true) {
+		this.countPending = updateCount;
+	}
 
 	if(this.locked) {
 		this.lazyRunCompose = true;
@@ -54,20 +59,34 @@ LdapFilter.prototype.compose = function(callback) {
 
 	LdapWizard.ajax(param,
 		function(result) {
-			LdapWizard.applyChanges(result);
-			filter.updateCount();
-			if(filter.target === 'Group') {
-				LdapWizard.detectGroupMemberAssoc();
-			}
-			if(typeof callback !== 'undefined') {
-				callback();
-			}
+			filter.afterComposeSuccess(result);
 		},
 		function () {
+			filter.countPending = false;
 			console.log('LDAP Wizard: could not compose filter. '+
 				'Please check owncloud.log');
 		}
 	);
+};
+
+/**
+ * this function is triggered after attribute detectors have completed in
+ * LdapWizard
+ */
+LdapFilter.prototype.afterDetectorsRan = function() {
+	this.updateCount();
+};
+
+/**
+ * this function is triggered after LDAP filters have been composed successfully
+ * @param {object} result returned by the ajax call
+ */
+LdapFilter.prototype.afterComposeSuccess = function(result) {
+	LdapWizard.applyChanges(result);
+	if(this.countPending) {
+		this.countPending = false;
+		this.updateCount();
+	}
 };
 
 LdapFilter.prototype.determineMode = function() {
@@ -145,10 +164,26 @@ LdapFilter.prototype.findFeatures = function() {
 	}
 };
 
+/**
+ * this function is triggered before user and group counts are executed
+ * resolving the passed status variable will fire up counting
+ * @param {object} status an instance of $.Deferred
+ */
+LdapFilter.prototype.beforeUpdateCount = function() {
+	var status = $.Deferred();
+	LdapWizard.runDetectors(this.target, function() {
+		status.resolve();
+	});
+	return status;
+};
+
 LdapFilter.prototype.updateCount = function(doneCallback) {
-	if(this.target === 'User') {
-		LdapWizard.countUsers(doneCallback);
-	} else if (this.target === 'Group') {
-		LdapWizard.countGroups(doneCallback);
-	}
+	var filter = this;
+	$.when(this.beforeUpdateCount()).done(function() {
+		if(filter.target === 'User') {
+			LdapWizard.countUsers(doneCallback);
+		} else if (filter.target === 'Group') {
+			LdapWizard.countGroups(doneCallback);
+		}
+	});
 };

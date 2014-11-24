@@ -56,7 +56,7 @@ class Wizard extends LDAPUtility {
 			Wizard::$l = \OC::$server->getL10N('user_ldap');
 		}
 		$this->access = $access;
-		$this->result = new WizardResult;
+		$this->result = new WizardResult();
 	}
 
 	public function  __destruct() {
@@ -120,7 +120,7 @@ class Wizard extends LDAPUtility {
 	 * @throws \Exception
 	 */
 	public function countUsers() {
-		$filter = $this->configuration->ldapUserFilter;
+		$filter = $this->access->getFilterForUserCount();
 
 		$usersTotal = $this->countEntries($filter, 'users');
 		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
@@ -132,9 +132,10 @@ class Wizard extends LDAPUtility {
 	/**
 	 * counts users with a specified attribute
 	 * @param string $attr
+	 * @param bool $existsCheck
 	 * @return int|bool
 	 */
-	public function countUsersWithAttribute($attr) {
+	public function countUsersWithAttribute($attr, $existsCheck = false) {
 		if(!$this->checkRequirements(array('ldapHost',
 										   'ldapPort',
 										   'ldapBase',
@@ -148,7 +149,51 @@ class Wizard extends LDAPUtility {
 			$attr . '=*'
 		));
 
-		return $this->access->countUsers($filter);
+		$limit = ($existsCheck === false) ? null : 1;
+
+		return $this->access->countUsers($filter, array('dn'), $limit);
+	}
+
+	/**
+	 * detects the display name attribute. If a setting is already present that
+	 * returns at least one hit, the detection will be canceled.
+	 * @return WizardResult|bool
+	 * @throws \Exception
+	 */
+	public function detectUserDisplayNameAttribute() {
+		if(!$this->checkRequirements(array('ldapHost',
+										'ldapPort',
+										'ldapBase',
+										'ldapUserFilter',
+										))) {
+			return  false;
+		}
+
+		$attr = $this->configuration->ldapUserDisplayName;
+		if($attr !== 'displayName' && !empty($attr)) {
+			// most likely not the default value with upper case N,
+			// verify it still produces a result
+			$count = intval($this->countUsersWithAttribute($attr, true));
+			if($count > 0) {
+				//no change, but we sent it back to make sure the user interface
+				//is still correct, even if the ajax call was cancelled inbetween
+				$this->result->addChange('ldap_display_name', $attr);
+				return $this->result;
+			}
+		}
+
+		// first attribute that has at least one result wins
+		$displayNameAttrs = array('displayname', 'cn');
+		foreach ($displayNameAttrs as $attr) {
+			$count = intval($this->countUsersWithAttribute($attr, true));
+
+			if($count > 0) {
+				$this->applyFind('ldap_display_name', $attr);
+				return $this->result;
+			}
+		};
+
+		throw new \Exception(self::$l->t('Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.'));
 	}
 
 	/**
@@ -168,7 +213,7 @@ class Wizard extends LDAPUtility {
 
 		$attr = $this->configuration->ldapEmailAttribute;
 		if(!empty($attr)) {
-			$count = intval($this->countUsersWithAttribute($attr));
+			$count = intval($this->countUsersWithAttribute($attr, true));
 			if($count > 0) {
 				return false;
 			}
@@ -189,7 +234,7 @@ class Wizard extends LDAPUtility {
 		}
 
 		if($winner !== '') {
-			$this->result->addChange('ldap_email_attr', $winner);
+			$this->applyFind('ldap_email_attr', $winner);
 			if($writeLog) {
 				\OCP\Util::writeLog('user_ldap', 'The mail attribute has ' .
 					'automatically been reset, because the original value ' .
