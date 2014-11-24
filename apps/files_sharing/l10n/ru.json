@@ -31,6 +31,9 @@
     "Add to your ownCloud" : "Добавить в свой ownCloud",
     "Download" : "Скачать",
     "Download %s" : "Скачать %s",
-    "Direct link" : "Прямая ссылка"
+    "Direct link" : "Прямая ссылка",
+    "Server-to-Server Sharing" : "Общий доступ Сервер-Сервер",
+    "Allow users on this server to send shares to other servers" : "Разрешить пользователям на этом сервере отправлять файлы на другие сервера",
+    "Allow users on this server to receive shares from other servers" : "Разрешить пользователям на том сервере получать файлы с других серверов"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"
 }

@@ -15,6 +15,8 @@
     "No app name specified" : "Nešpecifikované meno aplikácie",
     "Unknown filetype" : "Neznámy typ súboru",
     "Invalid image" : "Chybný obrázok",
+    "Database Error" : "Error databázy",
+    "Please contact your system administrator." : "Prosím kontaktujte administrátora.",
     "web services under your control" : "webové služby pod Vašou kontrolou",
     "App directory already exists" : "Aplikačný priečinok už existuje",
     "Can't create app folder. Please fix permissions. %s" : "Nemožno vytvoriť aplikačný priečinok. Prosím upravte povolenia. %s",
