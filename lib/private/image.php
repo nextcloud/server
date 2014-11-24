@@ -311,6 +311,10 @@ class OC_Image {
 	* @return int The orientation or -1 if no EXIF data is available.
 	*/
 	public function getOrientation() {
+		if ($this->imageType !== IMAGETYPE_JPEG) {
+			OC_Log::write('core', 'OC_Image->fixOrientation() Image is not a JPEG.', OC_Log::DEBUG);
+			return -1;
+		}
 		if(!is_callable('exif_read_data')) {
 			OC_Log::write('core', 'OC_Image->fixOrientation() Exif module not enabled.', OC_Log::DEBUG);
 			return -1;
