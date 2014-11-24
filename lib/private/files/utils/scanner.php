@@ -53,7 +53,7 @@ class Scanner extends PublicEmitter {
 	 * get all storages for $dir
 	 *
 	 * @param string $dir
-	 * @return \OC\Files\Mount\Mount[]
+	 * @return \OC\Files\Mount\MountPoint[]
 	 */
 	protected function getMounts($dir) {
 		//TODO: move to the node based fileapi once that's done
@@ -72,7 +72,7 @@ class Scanner extends PublicEmitter {
 	/**
 	 * attach listeners to the scanner
 	 *
-	 * @param \OC\Files\Mount\Mount $mount
+	 * @param \OC\Files\Mount\MountPoint $mount
 	 */
 	protected function attachListener($mount) {
 		$scanner = $mount->getStorage()->getScanner();

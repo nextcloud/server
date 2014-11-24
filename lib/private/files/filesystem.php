@@ -30,7 +30,7 @@
 
 namespace OC\Files;
 
-use OC\Files\Storage\Loader;
+use OC\Files\Storage\StorageFactory;
 
 class Filesystem {
 
@@ -165,7 +165,7 @@ class Filesystem {
 	const signal_param_users = 'users';
 
 	/**
-	 * @var \OC\Files\Storage\Loader $loader
+	 * @var \OC\Files\Storage\StorageFactory $loader
 	 */
 	private static $loader;
 
@@ -183,7 +183,7 @@ class Filesystem {
 
 	public static function getLoader() {
 		if (!self::$loader) {
-			self::$loader = new Loader();
+			self::$loader = new StorageFactory();
 		}
 		return self::$loader;
 	}
@@ -250,7 +250,7 @@ class Filesystem {
 
 	/**
 	 * @param string $id
-	 * @return Mount\Mount[]
+	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByStorageId($id) {
 		if (!self::$mounts) {
@@ -261,7 +261,7 @@ class Filesystem {
 
 	/**
 	 * @param int $id
-	 * @return Mount\Mount[]
+	 * @return Mount\MountPoint[]
 	 */
 	public static function getMountByNumericId($id) {
 		if (!self::$mounts) {
@@ -370,6 +370,11 @@ class Filesystem {
 		self::mountCacheDir($user);
 
 		// Chance to mount for other storages
+		if($userObject) {
+			$mountConfigManager = \OC::$server->getMountProviderCollection();
+			$mounts = $mountConfigManager->getMountsForUser($userObject);
+			array_walk($mounts, array(self::$mounts, 'addMount'));
+		}
 		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
 	}
 
@@ -447,7 +452,7 @@ class Filesystem {
 		if (!self::$mounts) {
 			\OC_Util::setupFS();
 		}
-		$mount = new Mount\Mount($class, $mountpoint, $arguments, self::getLoader());
+		$mount = new Mount\MountPoint($class, $mountpoint, $arguments, self::getLoader());
 		self::$mounts->addMount($mount);
 	}
 

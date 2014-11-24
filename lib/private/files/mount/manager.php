@@ -12,14 +12,14 @@ use \OC\Files\Filesystem;
 
 class Manager {
 	/**
-	 * @var Mount[]
+	 * @var MountPoint[]
 	 */
 	private $mounts = array();
 
 	/**
-	 * @param Mount $mount
+	 * @param MountPoint $mount
 	 */
-	public function addMount(Mount $mount) {
+	public function addMount(MountPoint $mount) {
 		$this->mounts[$mount->getMountPoint()] = $mount;
 	}
 
@@ -47,7 +47,7 @@ class Manager {
 	 * Find the mount for $path
 	 *
 	 * @param string $path
-	 * @return Mount
+	 * @return MountPoint
 	 */
 	public function find($path) {
 		\OC_Util::setupFS();
@@ -75,7 +75,7 @@ class Manager {
 	 * Find all mounts in $path
 	 *
 	 * @param string $path
-	 * @return Mount[]
+	 * @return MountPoint[]
 	 */
 	public function findIn($path) {
 		\OC_Util::setupFS();
@@ -99,7 +99,7 @@ class Manager {
 	 * Find mounts by storage id
 	 *
 	 * @param string $id
-	 * @return Mount[]
+	 * @return MountPoint[]
 	 */
 	public function findByStorageId($id) {
 		\OC_Util::setupFS();
@@ -116,7 +116,7 @@ class Manager {
 	}
 
 	/**
-	 * @return Mount[]
+	 * @return MountPoint[]
 	 */
 	public function getAll() {
 		return $this->mounts;
@@ -126,7 +126,7 @@ class Manager {
 	 * Find mounts by numeric storage id
 	 *
 	 * @param int $id
-	 * @return Mount[]
+	 * @return MountPoint[]
 	 */
 	public function findByNumericId($id) {
 		$storageId = \OC\Files\Cache\Storage::getStorageId($id);

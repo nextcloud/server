@@ -9,10 +9,11 @@
 namespace OC\Files\Mount;
 
 use \OC\Files\Filesystem;
-use OC\Files\Storage\Loader;
+use OC\Files\Storage\StorageFactory;
 use OC\Files\Storage\Storage;
+use OCP\Files\Mount\IMountPoint;
 
-class Mount {
+class MountPoint implements IMountPoint {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -23,7 +24,7 @@ class Mount {
 	protected $mountPoint;
 
 	/**
-	 * @var \OC\Files\Storage\Loader $loader
+	 * @var \OC\Files\Storage\StorageFactory $loader
 	 */
 	private $loader;
 
@@ -31,14 +32,14 @@ class Mount {
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional)\
-	 * @param \OC\Files\Storage\Loader $loader
+	 * @param \OCP\Files\Storage\IStorageFactory $loader
 	 */
 	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
 		if (is_null($arguments)) {
 			$arguments = array();
 		}
 		if (is_null($loader)) {
-			$this->loader = new Loader();
+			$this->loader = new StorageFactory();
 		} else {
 			$this->loader = $loader;
 		}
@@ -68,15 +69,6 @@ class Mount {
 	}
 
 	/**
-	 * get name of the mount point
-	 *
-	 * @return string
-	 */
-	public function getMountPointName() {
-		return basename(rtrim($this->mountPoint, '/'));
-	}
-
-	/**
 	 * @param string $mountPoint new mount point
 	 */
 	public function setMountPoint($mountPoint) {
@@ -91,7 +83,7 @@ class Mount {
 	private function createStorage() {
 		if (class_exists($this->class)) {
 			try {
-				return $this->loader->load($this->mountPoint, $this->class, $this->arguments);
+				return $this->loader->getInstance($this->mountPoint, $this->class, $this->arguments);
 			} catch (\Exception $exception) {
 				if ($this->mountPoint === '/') {
 					// the root storage could not be initialized, show the user!

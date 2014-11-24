@@ -301,7 +301,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 		$nodes = array();
 		foreach ($mounts as $mount) {
 			/**
-			 * @var \OC\Files\Mount\Mount $mount
+			 * @var \OC\Files\Mount\MountPoint $mount
 			 */
 			if ($mount->getStorage()) {
 				$cache = $mount->getStorage()->getCache();

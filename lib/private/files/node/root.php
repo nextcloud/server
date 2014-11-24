@@ -10,7 +10,7 @@ namespace OC\Files\Node;
 
 use OC\Files\Cache\Cache;
 use OC\Files\Mount\Manager;
-use OC\Files\Mount\Mount;
+use OC\Files\Mount\MountPoint;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Hooks\Emitter;
@@ -106,13 +106,13 @@ class Root extends Folder implements Emitter {
 	 * @param array $arguments
 	 */
 	public function mount($storage, $mountPoint, $arguments = array()) {
-		$mount = new Mount($storage, $mountPoint, $arguments);
+		$mount = new MountPoint($storage, $mountPoint, $arguments);
 		$this->mountManager->addMount($mount);
 	}
 
 	/**
 	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\Mount
+	 * @return \OC\Files\Mount\MountPoint
 	 */
 	public function getMount($mountPoint) {
 		return $this->mountManager->find($mountPoint);
@@ -120,7 +120,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param string $mountPoint
-	 * @return \OC\Files\Mount\Mount[]
+	 * @return \OC\Files\Mount\MountPoint[]
 	 */
 	public function getMountsIn($mountPoint) {
 		return $this->mountManager->findIn($mountPoint);
@@ -128,7 +128,7 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param string $storageId
-	 * @return \OC\Files\Mount\Mount[]
+	 * @return \OC\Files\Mount\MountPoint[]
 	 */
 	public function getMountByStorageId($storageId) {
 		return $this->mountManager->findByStorageId($storageId);
@@ -136,14 +136,14 @@ class Root extends Folder implements Emitter {
 
 	/**
 	 * @param int $numericId
-	 * @return Mount[]
+	 * @return MountPoint[]
 	 */
 	public function getMountByNumericStorageId($numericId) {
 		return $this->mountManager->findByNumericId($numericId);
 	}
 
 	/**
-	 * @param \OC\Files\Mount\Mount $mount
+	 * @param \OC\Files\Mount\MountPoint $mount
 	 */
 	public function unMount($mount) {
 		$this->mountManager->remove($mount);

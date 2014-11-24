@@ -8,13 +8,13 @@
 
 namespace OCA\Files_Sharing;
 
-use OC\Files\Mount\Mount;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 
 /**
  * Shared mount points can be moved by the user
  */
-class SharedMount extends Mount implements MoveableMount {
+class SharedMount extends MountPoint implements MoveableMount {
 	/**
 	 * @var \OC\Files\Storage\Shared $storage
 	 */

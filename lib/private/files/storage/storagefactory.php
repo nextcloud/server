@@ -8,7 +8,9 @@
 
 namespace OC\Files\Storage;
 
-class Loader {
+use OCP\Files\Storage\IStorageFactory;
+
+class StorageFactory implements IStorageFactory {
 	/**
 	 * @var callable[] $storageWrappers
 	 */
@@ -19,6 +21,7 @@ class Loader {
 	 *
 	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
 	 *
+	 * @param string $wrapperName
 	 * @param callable $callback
 	 */
 	public function addStorageWrapper($wrapperName, $callback) {
@@ -26,15 +29,21 @@ class Loader {
 	}
 
 	/**
+	 * Create an instance of a storage and apply the registered storage wrappers
+	 *
 	 * @param string|boolean $mountPoint
 	 * @param string $class
+	 * @param array $arguments
+	 * @return \OCP\Files\Storage
 	 */
-	public function load($mountPoint, $class, $arguments) {
+	public function getInstance($mountPoint, $class, $arguments) {
 		return $this->wrap($mountPoint, new $class($arguments));
 	}
 
 	/**
 	 * @param string|boolean $mountPoint
+	 * @param \OCP\Files\Storage $storage
+	 * @return \OCP\Files\Storage
 	 */
 	public function wrap($mountPoint, $storage) {
 		foreach ($this->storageWrappers as $wrapper) {
