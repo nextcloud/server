@@ -57,21 +57,34 @@ OCA.Trashbin.App = {
 			);
 		}, t('files_trashbin', 'Restore'));
 
-		fileActions.register('all', 'Delete', OC.PERMISSION_READ, function() {
-			return OC.imagePath('core', 'actions/delete');
-		}, function(filename, context) {
-			var fileList = context.fileList;
-			$('.tipsy').remove();
-			var tr = fileList.findFileEl(filename);
-			var deleteAction = tr.children("td.date").children(".action.delete");
-			deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
-			fileList.disableActions();
-			$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'), {
-					files: JSON.stringify([filename]),
-					dir: fileList.getCurrentDirectory()
-				},
-				_.bind(fileList._removeCallback, fileList)
-			);
+		fileActions.registerAction({
+			name: 'Delete',
+			displayName: '',
+			mime: 'all',
+			permissions: OC.PERMISSION_READ,
+			icon: function() {
+				return OC.imagePath('core', 'actions/delete');
+			},
+			render: function(actionSpec, isDefault, context) {
+				var $actionLink = fileActions._makeActionLink(actionSpec, context);
+				$actionLink.attr('original-title', t('files', 'Delete permanently'));
+				context.$file.find('td:last').append($actionLink);
+				return $actionLink;
+			},
+			actionHandler: function(filename, context) {
+				var fileList = context.fileList;
+				$('.tipsy').remove();
+				var tr = fileList.findFileEl(filename);
+				var deleteAction = tr.children("td.date").children(".action.delete");
+				deleteAction.removeClass('icon-delete').addClass('icon-loading-small');
+				fileList.disableActions();
+				$.post(OC.filePath('files_trashbin', 'ajax', 'delete.php'), {
+						files: JSON.stringify([filename]),
+						dir: fileList.getCurrentDirectory()
+					},
+					_.bind(fileList._removeCallback, fileList)
+				);
+			}
 		});
 		return fileActions;
 	}
