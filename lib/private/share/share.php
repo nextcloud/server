@@ -287,12 +287,12 @@ class Share extends \OC\Share\Constants {
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param string $user User user to whom the item was shared
+	 * @param string $user User to whom the item was shared
+	 * @param string $owner Owner of the share
 	 * @param int $shareType only look for a specific share type
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user, $shareType = null) {
-
+	public static function getItemSharedWithUser($itemType, $itemSource, $user, $owner = null, $shareType = null) {
 		$shares = array();
 		$fileDependend = false;
 
@@ -318,6 +318,11 @@ class Share extends \OC\Share\Constants {
 		if ($shareType !== null) {
 			$where .= ' AND `share_type` = ? ';
 			$arguments[] = $shareType;
+		}
+
+		if ($owner !== null) {
+			$where .= ' AND `uid_owner` = ? ';
+			$arguments[] = $owner;
 		}
 
 		$query = \OC_DB::prepare('SELECT ' . $select . ' FROM `*PREFIX*share` '. $where);
@@ -701,7 +706,7 @@ class Share extends \OC\Share\Constants {
 		// check if it is a valid itemType
 		self::getBackend($itemType);
 
-		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith, $shareType);
+		$items = self::getItemSharedWithUser($itemType, $itemSource, $shareWith, null, $shareType);
 
 		$toDelete = array();
 		$newParent = null;
@@ -1629,7 +1634,7 @@ class Share extends \OC\Share\Constants {
 			// Need to find a solution which works for all back-ends
 			$collectionItems = array();
 			$collectionBackend = self::getBackend('folder');
-			$sharedParents = $collectionBackend->getParents($item, $shareWith);
+			$sharedParents = $collectionBackend->getParents($item, $shareWith, $uidOwner);
 			foreach ($sharedParents as $parent) {
 				$collectionItems[] = $parent;
 			}

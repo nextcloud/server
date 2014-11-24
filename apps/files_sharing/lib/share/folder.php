@@ -26,13 +26,14 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share
 	 *
 	 * @param int $itemSource item source ID
 	 * @param string $shareWith with whom should the item be shared
+	 * @param string $owner owner of the item
 	 * @return array with shares
 	 */
-	public function getParents($itemSource, $shareWith = null) {
+	public function getParents($itemSource, $shareWith = null, $owner = null) {
 		$result = array();
 		$parent = $this->getParentId($itemSource);
 		while ($parent) {
-			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith);
+			$shares = \OCP\Share::getItemSharedWithUser('folder', $parent, $shareWith, $owner);
 			if ($shares) {
 				foreach ($shares as $share) {
 					$name = substr($share['path'], strrpos($share['path'], '/') + 1);

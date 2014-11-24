@@ -658,6 +658,50 @@ class Test_Share extends \Test\TestCase {
 		return $row;
 	}
 
+	public function testGetItemSharedWithUser() {
+		OC_User::setUserId($this->user1);
+
+		//add dummy values to the share table
+		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` ('
+			.' `item_type`, `item_source`, `item_target`, `share_type`,'
+			.' `share_with`, `uid_owner`) VALUES (?,?,?,?,?,?)');
+		$args = array('test', 99, 'target1', OCP\Share::SHARE_TYPE_USER, $this->user2, $this->user1);
+		$query->execute($args);
+		$args = array('test', 99, 'target2', OCP\Share::SHARE_TYPE_USER, $this->user4, $this->user1);
+		$query->execute($args);
+		$args = array('test', 99, 'target3', OCP\Share::SHARE_TYPE_USER, $this->user3, $this->user2);
+		$query->execute($args);
+		$args = array('test', 99, 'target4', OCP\Share::SHARE_TYPE_USER, $this->user3, $this->user4);
+		$query->execute($args);
+
+
+		$result1 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user2, $this->user1);
+		$this->assertSame(1, count($result1));
+		$this->verifyResult($result1, array('target1'));
+
+		$result2 = \OCP\Share::getItemSharedWithUser('test', 99, null, $this->user1);
+		$this->assertSame(2, count($result2));
+		$this->verifyResult($result2, array('target1', 'target2'));
+
+		$result3 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user3);
+		$this->assertSame(2, count($result3));
+		$this->verifyResult($result3, array('target3', 'target4'));
+
+		$result4 = \OCP\Share::getItemSharedWithUser('test', 99, null, null);
+		$this->assertSame(4, count($result4));
+		$this->verifyResult($result4, array('target1', 'target2', 'target3', 'target4'));
+	}
+
+	public function verifyResult($result, $expected) {
+		foreach ($result as $r) {
+			if (in_array($r['item_target'], $expected)) {
+				$key = array_search($r['item_target'], $expected);
+				unset($expected[$key]);
+			}
+		}
+		$this->assertEmpty($expected, 'did not found all expected values');
+	}
+
 	public function testShareItemWithLink() {
 		OC_User::setUserId($this->user1);
 		$token = OCP\Share::shareItem('test', 'test.txt', OCP\Share::SHARE_TYPE_LINK, null, OCP\PERMISSION_READ);
