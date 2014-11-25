@@ -72,8 +72,7 @@ $CONFIG = array(
 /**
  * Where user files are stored; this defaults to ``data/`` in the ownCloud
  * directory. The SQLite database is also stored here, when you use SQLite. (SQLite is 
-available only in ownCloud Community Edition)
-
+ * available only in ownCloud Community Edition)
  */
 'datadirectory' => '/var/www/owncloud/data',
 
@@ -810,7 +809,7 @@ available only in ownCloud Community Edition)
 
 /**
  * Database types that are supported for installation. (SQLite is available only in 
-   ownCloud Community Edition)
+ * ownCloud Community Edition)
  *
  * Available:
  * 	- sqlite (SQLite3)
