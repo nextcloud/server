@@ -91,7 +91,6 @@ class Proxy extends \OC_FileProxy {
 	private function shouldEncrypt($path, $mode = 'w') {
 
 		$userId = Helper::getUser($path);
-		$session = new Session(new \OC\Files\View());
 
 		// don't call the crypt stream wrapper, if...
 		if (
