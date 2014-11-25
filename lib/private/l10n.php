@@ -7,19 +7,9 @@
  * @copyright 2012 Frank Karlitschek frank@owncloud.org
  * @copyright 2013 Jakob Sack
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
- *
- * You should have received a copy of the GNU Affero General Public
- * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
  */
 
 /**
@@ -89,7 +79,8 @@ class OC_L10N implements \OCP\IL10N {
 	}
 
 	/**
-	 * @param string $transFile
+	 * @param $transFile
+	 * @param bool $mergeTranslations
 	 * @return bool
 	 */
 	public function load($transFile, $mergeTranslations = false) {
@@ -141,8 +132,8 @@ class OC_L10N implements \OCP\IL10N {
 				// load the translations file
 				if($this->load($transFile)) {
 					//merge with translations from theme
-					$theme = OC_Config::getValue( "theme" );
-					if (!is_null($theme)) {
+					$theme = \OC::$server->getConfig()->getSystemValue('theme');
+					if (!empty($theme)) {
 						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
 						if (file_exists($transFile)) {
 							$this->load($transFile, true);
@@ -285,7 +276,8 @@ class OC_L10N implements \OCP\IL10N {
 	 * Localization
 	 * @param string $type Type of localization
 	 * @param array|int|string $data parameters for this localization
-	 * @return String or false
+	 * @param array $options
+	 * @return string|false
 	 *
 	 * Returns the localized data.
 	 *
@@ -393,8 +385,8 @@ class OC_L10N implements \OCP\IL10N {
 			return self::$language;
 		}
 
-		if(OC_User::getUser() && OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang')) {
-			$lang = OC_Preferences::getValue(OC_User::getUser(), 'core', 'lang');
+		if(OC_User::getUser() && \OC::$server->getConfig()->getUserValue(OC_User::getUser(), 'core', 'lang')) {
+			$lang = \OC::$server->getConfig()->getUserValue(OC_User::getUser(), 'core', 'lang');
 			self::$language = $lang;
 			if(is_array($app)) {
 				$available = $app;
@@ -407,7 +399,7 @@ class OC_L10N implements \OCP\IL10N {
 			}
 		}
 
-		$default_language = OC_Config::getValue('default_language', false);
+		$default_language = \OC::$server->getConfig()->getSystemValue('default_language', false);
 
 		if($default_language !== false) {
 			return $default_language;
@@ -457,17 +449,17 @@ class OC_L10N implements \OCP\IL10N {
 	 */
 	protected static function findI18nDir($app) {
 		// find the i18n dir
-		$i18ndir = OC::$SERVERROOT.'/core/l10n/';
+		$i18nDir = OC::$SERVERROOT.'/core/l10n/';
 		if($app != '') {
 			// Check if the app is in the app folder
 			if(file_exists(OC_App::getAppPath($app).'/l10n/')) {
-				$i18ndir = OC_App::getAppPath($app).'/l10n/';
+				$i18nDir = OC_App::getAppPath($app).'/l10n/';
 			}
 			else{
-				$i18ndir = OC::$SERVERROOT.'/'.$app.'/l10n/';
+				$i18nDir = OC::$SERVERROOT.'/'.$app.'/l10n/';
 			}
 		}
-		return $i18ndir;
+		return $i18nDir;
 	}
 
 	/**
@@ -496,7 +488,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * @return bool
 	 */
 	public static function languageExists($app, $lang) {
-		if ($lang == 'en') {//english is always available
+		if ($lang === 'en') {//english is always available
 			return true;
 		}
 		$dir = self::findI18nDir($app);
