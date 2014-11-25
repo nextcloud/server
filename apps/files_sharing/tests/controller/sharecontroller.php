@@ -153,7 +153,7 @@ class ShareControllerTest extends \PHPUnit_Framework_TestCase {
 			'sharingToken' => $this->token,
 			'server2serversharing' => true,
 			'protected' => 'true',
-			'dir' => '/',
+			'dir' => '',
 			'downloadURL' => null,
 			'fileSize' => '33 B'
 		);
