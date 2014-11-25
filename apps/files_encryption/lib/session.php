@@ -126,8 +126,8 @@ class Session {
 	 * remove keys from session
 	 */
 	public function removeKeys() {
-		\OC::$session->remove('publicSharePrivateKey');
-		\OC::$session->remove('privateKey');
+		\OC::$server->getSession()->remove('publicSharePrivateKey');
+		\OC::$server->getSession()->remove('privateKey');
 	}
 
 	/**
