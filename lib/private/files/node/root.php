@@ -262,7 +262,7 @@ class Root extends Folder implements Emitter {
 	 * @return int
 	 */
 	public function getPermissions() {
-		return \OCP\PERMISSION_CREATE;
+		return \OCP\Constants::PERMISSION_CREATE;
 	}
 
 	/**

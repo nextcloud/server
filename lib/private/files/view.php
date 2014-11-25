@@ -933,7 +933,7 @@ class View {
 		}
 
 		if ($mount instanceof MoveableMount && $internalPath === '') {
-			$data['permissions'] |= \OCP\PERMISSION_DELETE | \OCP\PERMISSION_UPDATE;
+			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
 		}
 
 		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
@@ -988,7 +988,7 @@ class View {
 				}
 				// if sharing was disabled for the user we remove the share permissions
 				if (\OCP\Util::isSharingDisabledForUser()) {
-					$content['permissions'] = $content['permissions'] & ~\OCP\PERMISSION_SHARE;
+					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
 			}
@@ -1025,9 +1025,9 @@ class View {
 							// do not allow renaming/deleting the mount point if they are not shared files/folders
 							// for shared files/folders we use the permissions given by the owner
 							if ($mount instanceof MoveableMount) {
-								$rootEntry['permissions'] = $permissions | \OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE;
+								$rootEntry['permissions'] = $permissions | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 							} else {
-								$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
+								$rootEntry['permissions'] = $permissions & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
 							}
 
 							//remove any existing entry with the same name
@@ -1041,7 +1041,7 @@ class View {
 
 							// if sharing was disabled for the user we remove the share permissions
 							if (\OCP\Util::isSharingDisabledForUser()) {
-								$content['permissions'] = $content['permissions'] & ~\OCP\PERMISSION_SHARE;
+								$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 							}
 
 							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry);

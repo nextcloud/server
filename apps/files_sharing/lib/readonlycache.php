@@ -13,14 +13,14 @@ use OC\Files\Cache\Cache;
 class ReadOnlyCache extends Cache {
 	public function get($path) {
 		$data = parent::get($path);
-		$data['permissions'] &= (\OCP\PERMISSION_READ | \OCP\PERMISSION_SHARE);
+		$data['permissions'] &= (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE);
 		return $data;
 	}
 
 	public function getFolderContents($path) {
 		$content = parent::getFolderContents($path);
 		foreach ($content as &$data) {
-			$data['permissions'] &= (\OCP\PERMISSION_READ | \OCP\PERMISSION_SHARE);
+			$data['permissions'] &= (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE);
 		}
 		return $content;
 	}

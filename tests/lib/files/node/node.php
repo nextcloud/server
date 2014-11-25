@@ -246,7 +246,7 @@ class Node extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
@@ -299,7 +299,7 @@ class Node extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
@@ -323,7 +323,7 @@ class Node extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);

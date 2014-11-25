@@ -214,7 +214,7 @@ class Test_Tags extends \Test\TestCase {
 		$this->assertFalse($other_tagger->hasTag($test_tag));
 
 		OC_User::setUserId($this->user);
-		OCP\Share::shareItem('test', 1, OCP\Share::SHARE_TYPE_USER, $other_user, OCP\PERMISSION_READ);
+		OCP\Share::shareItem('test', 1, OCP\Share::SHARE_TYPE_USER, $other_user, \OCP\Constants::PERMISSION_READ);
 
 		OC_User::setUserId($other_user);
 		$other_tagger = $other_tagMgr->load('test', array(), true); // Update tags, load shared ones.

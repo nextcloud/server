@@ -128,11 +128,11 @@ interface Node {
 
 	/**
 	 * Get the permissions of the file or folder as a combination of one or more of the following constants:
-	 *  - \OCP\PERMISSION_READ
-	 *  - \OCP\PERMISSION_UPDATE
-	 *  - \OCP\PERMISSION_CREATE
-	 *  - \OCP\PERMISSION_DELETE
-	 *  - \OCP\PERMISSION_SHARE
+	 *  - \OCP\Constants::PERMISSION_READ
+	 *  - \OCP\Constants::PERMISSION_UPDATE
+	 *  - \OCP\Constants::PERMISSION_CREATE
+	 *  - \OCP\Constants::PERMISSION_DELETE
+	 *  - \OCP\Constants::PERMISSION_SHARE
 	 *
 	 * @return int
 	 */

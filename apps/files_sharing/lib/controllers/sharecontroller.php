@@ -182,7 +182,7 @@ class ShareController extends Controller {
 			$folder = new Template('files', 'list', '');
 			$folder->assign('dir', $getPath);
 			$folder->assign('dirToken', $linkItem['token']);
-			$folder->assign('permissions', OCP\PERMISSION_READ);
+			$folder->assign('permissions', \OCP\Constants::PERMISSION_READ);
 			$folder->assign('isPublic', true);
 			$folder->assign('publicUploadEnabled', 'no');
 			$folder->assign('files', $files);

@@ -547,7 +547,7 @@ class Share extends \OC\Share\Constants {
 
 		// single file shares should never have delete permissions
 		if ($itemType === 'file') {
-			$permissions = (int)$permissions & ~\OCP\PERMISSION_DELETE;
+			$permissions = (int)$permissions & ~\OCP\Constants::PERMISSION_DELETE;
 		}
 
 		// Verify share type and sharing conditions are met
@@ -929,7 +929,7 @@ class Share extends \OC\Share\Constants {
 			// Check if permissions were removed
 			if ($item['permissions'] & ~$permissions) {
 				// If share permission is removed all reshares must be deleted
-				if (($item['permissions'] & \OCP\PERMISSION_SHARE) && (~$permissions & \OCP\PERMISSION_SHARE)) {
+				if (($item['permissions'] & \OCP\Constants::PERMISSION_SHARE) && (~$permissions & \OCP\Constants::PERMISSION_SHARE)) {
 					Helper::delete($item['id'], true);
 				} else {
 					$ids = array();
@@ -1458,8 +1458,8 @@ class Share extends \OC\Share\Constants {
 						}
 						// Switch ids if sharing permission is granted on only
 						// one share to ensure correct parent is used if resharing
-						if (~(int)$items[$id]['permissions'] & \OCP\PERMISSION_SHARE
-							&& (int)$row['permissions'] & \OCP\PERMISSION_SHARE) {
+						if (~(int)$items[$id]['permissions'] & \OCP\Constants::PERMISSION_SHARE
+							&& (int)$row['permissions'] & \OCP\Constants::PERMISSION_SHARE) {
 							$items[$row['id']] = $items[$id];
 							$switchedItems[$id] = $row['id'];
 							unset($items[$id]);
@@ -1516,7 +1516,7 @@ class Share extends \OC\Share\Constants {
 			}
 			// Check if resharing is allowed, if not remove share permission
 			if (isset($row['permissions']) && (!self::isResharingAllowed() | \OC_Util::isSharingDisabledForUser())) {
-				$row['permissions'] &= ~\OCP\PERMISSION_SHARE;
+				$row['permissions'] &= ~\OCP\Constants::PERMISSION_SHARE;
 			}
 			// Add display names to result
 			if ( isset($row['share_with']) && $row['share_with'] != '' &&
@@ -1911,7 +1911,7 @@ class Share extends \OC\Share\Constants {
 			}
 
 			// Check if share permissions is granted
-			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & \OCP\PERMISSION_SHARE) {
+			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & \OCP\Constants::PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
 					$message = 'Sharing %s failed, because the permissions exceed permissions granted to %s';
 					$message_t = $l->t('Sharing %s failed, because the permissions exceed permissions granted to %s', array($itemSourceName, $uidOwner));

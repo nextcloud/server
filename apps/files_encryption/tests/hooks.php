@@ -256,7 +256,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the file with user2
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_HOOKS_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_HOOKS_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// check if new share key exists
 		$this->assertTrue($this->rootView->file_exists(

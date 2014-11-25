@@ -88,7 +88,7 @@ function human_file_size( $bytes ) {
  * Return the relative date in relation to today. Returns something like "last hour" or "two month ago"
  * @param int $timestamp unix timestamp
  * @param boolean $dateOnly
- * @return OC_L10N_String human readable interpretation of the timestamp
+ * @return \OC_L10N_String human readable interpretation of the timestamp
  */
 function relative_modified_date( $timestamp, $dateOnly = false ) {
 	return(\relative_modified_date($timestamp, null, $dateOnly));

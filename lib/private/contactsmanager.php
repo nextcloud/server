@@ -62,7 +62,7 @@ namespace OC {
 				return null;
 			}
 
-			if ($addressBook->getPermissions() & \OCP\PERMISSION_DELETE) {
+			if ($addressBook->getPermissions() & \OCP\Constants::PERMISSION_DELETE) {
 				return null;
 			}
 
@@ -83,7 +83,7 @@ namespace OC {
 				return null;
 			}
 
-			if ($addressBook->getPermissions() & \OCP\PERMISSION_CREATE) {
+			if ($addressBook->getPermissions() & \OCP\Constants::PERMISSION_CREATE) {
 				return null;
 			}
 
