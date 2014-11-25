@@ -174,7 +174,7 @@ if (isset($path)) {
 			$tmpl->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
-			$tmpl->assign('dir', $dir);
+			$tmpl->assign('dir', '');
 
 			// Show file preview if viewer is available
 			if ($type == 'file') {
