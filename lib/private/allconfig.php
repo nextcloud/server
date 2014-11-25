@@ -96,6 +96,15 @@ class AllConfig implements \OCP\IConfig {
 		\OC_Appconfig::deleteKey($appName, $key);
 	}
 
+	/**
+	 * Removes all keys in appconfig belonging to the app
+	 *
+	 * @param string $appName the appName the configs are stored under
+	 */
+	public function deleteAppValues($appName) {
+		\OC_Appconfig::deleteApp($appName);
+	}
+
 
 	/**
 	 * Set a user defined value

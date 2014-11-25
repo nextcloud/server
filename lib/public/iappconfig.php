@@ -87,6 +87,7 @@ interface IAppConfig {
 	 * Remove app from appconfig
 	 * @param string $app app
 	 * @return bool
+	 * @deprecated use method deleteAppValue of \OCP\IConfig
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */

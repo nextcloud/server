@@ -94,6 +94,13 @@ interface IConfig {
 	 */
 	public function deleteAppValue($appName, $key);
 
+	/**
+	 * Removes all keys in appconfig belonging to the app
+	 *
+	 * @param string $appName the appName the configs are stored under
+	 */
+	public function deleteAppValues($appName);
+
 
 	/**
 	 * Set a user defined value
