@@ -29,6 +29,7 @@ namespace OCA\Encryption;
 class Session {
 
 	private $view;
+	private static $publicShareKey = false;
 
 	const NOT_INITIALIZED = '0';
 	const INIT_EXECUTED = '1';
@@ -92,7 +93,7 @@ class Session {
 
 		}
 
-		if (\OCA\Encryption\Helper::isPublicAccess()) {
+		if (\OCA\Encryption\Helper::isPublicAccess() && !self::getPublicSharePrivateKey()) {
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
@@ -100,9 +101,7 @@ class Session {
 			$encryptedKey = $this->view->file_get_contents(
 				'/owncloud_private_key/' . $publicShareKeyId . '.private.key');
 			$privateKey = Crypt::decryptPrivateKey($encryptedKey, '');
-			$this->setPublicSharePrivateKey($privateKey);
-
-			$this->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
+			self::setPublicSharePrivateKey($privateKey);
 
 			\OC_FileProxy::$enabled = $proxyStatus;
 		}
@@ -127,8 +126,8 @@ class Session {
 	 * remove keys from session
 	 */
 	public function removeKeys() {
-		\OC::$session->remove('publicSharePrivateKey');
-		\OC::$session->remove('privateKey');
+		\OC::$server->getSession()->remove('publicSharePrivateKey');
+		\OC::$server->getSession()->remove('privateKey');
 	}
 
 	/**
@@ -164,6 +163,8 @@ class Session {
 	public function getInitialized() {
 		if (!is_null(\OC::$server->getSession()->get('encryptionInitialized'))) {
 			return \OC::$server->getSession()->get('encryptionInitialized');
+		} else if (\OCA\Encryption\Helper::isPublicAccess() && self::getPublicSharePrivateKey()) {
+			return self::INIT_SUCCESSFUL;
 		} else {
 			return self::NOT_INITIALIZED;
 		}
@@ -177,7 +178,7 @@ class Session {
 	public function getPrivateKey() {
 		// return the public share private key if this is a public access
 		if (\OCA\Encryption\Helper::isPublicAccess()) {
-			return $this->getPublicSharePrivateKey();
+			return self::getPublicSharePrivateKey();
 		} else {
 			if (!is_null(\OC::$server->getSession()->get('privateKey'))) {
 				return \OC::$server->getSession()->get('privateKey');
@@ -192,12 +193,9 @@ class Session {
 	 * @param string $privateKey
 	 * @return bool
 	 */
-	public function setPublicSharePrivateKey($privateKey) {
-
-		\OC::$server->getSession()->set('publicSharePrivateKey', $privateKey);
-
+	private static function setPublicSharePrivateKey($privateKey) {
+		self::$publicShareKey = $privateKey;
 		return true;
-
 	}
 
 	/**
@@ -205,13 +203,8 @@ class Session {
 	 * @return string $privateKey
 	 *
 	 */
-	public function getPublicSharePrivateKey() {
-
-		if (!is_null(\OC::$server->getSession()->get('publicSharePrivateKey'))) {
-			return \OC::$server->getSession()->get('publicSharePrivateKey');
-		} else {
-			return false;
-		}
+	private static function getPublicSharePrivateKey() {
+		return self::$publicShareKey;
 	}
 
 }

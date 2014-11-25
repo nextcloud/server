@@ -1,5 +1,7 @@
 <?php
 
+\OC::$server->getSession()->close();
+
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 
@@ -64,13 +66,7 @@ if (empty($_POST['dirToken'])) {
 	}
 }
 
-
 OCP\JSON::callCheck();
-if (!\OCP\App::isEnabled('files_encryption')) {
-	// encryption app need to create keys later, so can't close too early
-	\OC::$server->getSession()->close();
-}
-
 
 // get array with current storage stats (e.g. max file size)
 $storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);

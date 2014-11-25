@@ -203,7 +203,6 @@ class ShareController extends Controller {
 	/**
 	 * @PublicPage
 	 * @NoCSRFRequired
-	 * @UseSession
 	 *
 	 * @param string $token
 	 * @param string $files
@@ -212,12 +211,6 @@ class ShareController extends Controller {
 	 */
 	public function downloadShare($token, $files = null, $path = '') {
 		\OC_User::setIncognitoMode(true);
-
-		// FIXME: Use DI once there is a suitable class
-		if (!\OCP\App::isEnabled('files_encryption')) {
-			// encryption app requires the session to store the keys in
-			\OC::$server->getSession()->close();
-		}
 
 		$linkItem = OCP\Share::getShareByToken($token, false);
 
@@ -244,7 +237,7 @@ class ShareController extends Controller {
 			}
 
 			// FIXME: The exit is required here because otherwise the AppFramework is trying to add headers as well
-			// after dispatching the request which results in a "Cannot modify header information" notice. 
+			// after dispatching the request which results in a "Cannot modify header information" notice.
 			OC_Files::get($originalSharePath, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD');
 			exit();
 		} else {
