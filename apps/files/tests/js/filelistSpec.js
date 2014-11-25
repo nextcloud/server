@@ -97,7 +97,8 @@ describe('OCA.Files.FileList tests', function() {
 			name: 'One.txt',
 			mimetype: 'text/plain',
 			size: 12,
-			etag: 'abc'
+			etag: 'abc',
+			permissions: OC.PERMISSION_ALL
 		}, {
 			id: 2,
 			type: 'file',
@@ -105,6 +106,7 @@ describe('OCA.Files.FileList tests', function() {
 			mimetype: 'image/jpeg',
 			size: 12049,
 			etag: 'def',
+			permissions: OC.PERMISSION_ALL
 		}, {
 			id: 3,
 			type: 'file',
@@ -112,13 +114,15 @@ describe('OCA.Files.FileList tests', function() {
 			mimetype: 'application/pdf',
 			size: 58009,
 			etag: '123',
+			permissions: OC.PERMISSION_ALL
 		}, {
 			id: 4,
 			type: 'dir',
 			name: 'somedir',
 			mimetype: 'httpd/unix-directory',
 			size: 250,
-			etag: '456'
+			etag: '456',
+			permissions: OC.PERMISSION_ALL
 		}];
 		pageSizeStub = sinon.stub(OCA.Files.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'));
@@ -1479,6 +1483,17 @@ describe('OCA.Files.FileList tests', function() {
 				$('.select-all').click();
 				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
 			});
+			it('show doesnt show the delete action if one or more files are not deletable', function () {
+				fileList.setFiles(testFiles);
+				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
+				$('.select-all').click();
+				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(false);
+				testFiles[0].permissions = OC.PERMISSION_READ;
+				$('.select-all').click();
+				fileList.setFiles(testFiles);
+				$('.select-all').click();
+				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
+			});
 		});
 		describe('Actions', function() {
 			beforeEach(function() {
@@ -1495,7 +1510,8 @@ describe('OCA.Files.FileList tests', function() {
 					mimetype: 'text/plain',
 					type: 'file',
 					size: 12,
-					etag: 'abc'
+					etag: 'abc',
+					permissions: OC.PERMISSION_ALL
 				});
 				expect(files[1]).toEqual({
 					id: 3,
@@ -1503,7 +1519,8 @@ describe('OCA.Files.FileList tests', function() {
 					name: 'Three.pdf',
 					mimetype: 'application/pdf',
 					size: 58009,
-					etag: '123'
+					etag: '123',
+					permissions: OC.PERMISSION_ALL
 				});
 				expect(files[2]).toEqual({
 					id: 4,
@@ -1511,7 +1528,8 @@ describe('OCA.Files.FileList tests', function() {
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
 					size: 250,
-					etag: '456'
+					etag: '456',
+					permissions: OC.PERMISSION_ALL
 				});
 			});
 			it('Removing a file removes it from the selection', function() {
@@ -1524,7 +1542,8 @@ describe('OCA.Files.FileList tests', function() {
 					mimetype: 'text/plain',
 					type: 'file',
 					size: 12,
-					etag: 'abc'
+					etag: 'abc',
+					permissions: OC.PERMISSION_ALL
 				});
 				expect(files[1]).toEqual({
 					id: 4,
@@ -1532,7 +1551,8 @@ describe('OCA.Files.FileList tests', function() {
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
 					size: 250,
-					etag: '456'
+					etag: '456',
+					permissions: OC.PERMISSION_ALL
 				});
 			});
 			describe('Download', function() {
