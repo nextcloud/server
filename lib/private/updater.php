@@ -25,6 +25,11 @@ class Updater extends BasicEmitter {
 	 * @var \OC\Log $log
 	 */
 	private $log;
+	
+	/**
+	 * @var \OC\HTTPHelper $helper;
+	 */
+	private $httpHelper;
 
 	private $simulateStepEnabled;
 
@@ -33,7 +38,8 @@ class Updater extends BasicEmitter {
 	/**
 	 * @param \OC\Log $log
 	 */
-	public function __construct($log = null) {
+	public function __construct($httpHelper, $log = null) {
+		$this->httpHelper = $httpHelper;
 		$this->log = $log;
 		$this->simulateStepEnabled = true;
 		$this->updateStepEnabled = true;
@@ -95,30 +101,24 @@ class Updater extends BasicEmitter {
 		$url = $updaterUrl . '?version=' . $versionString;
 
 		// set a sensible timeout of 10 sec to stay responsive even if the update server is down.
-		$ctx = stream_context_create(
-			array(
-				'http' => array(
-					'timeout' => 10
-				)
-			)
-		);
-		$xml = @file_get_contents($url, 0, $ctx);
-		if ($xml == false) {
-			return array();
-		}
-		$loadEntities = libxml_disable_entity_loader(true);
-		$data = @simplexml_load_string($xml);
-		libxml_disable_entity_loader($loadEntities);
 
 		$tmp = array();
-		$tmp['version'] = $data->version;
-		$tmp['versionstring'] = $data->versionstring;
-		$tmp['url'] = $data->url;
-		$tmp['web'] = $data->web;
+		$xml = $this->httpHelper->getUrlContent($url);
+		if ($xml !== false) {
+			$loadEntities = libxml_disable_entity_loader(true);
+			$data = @simplexml_load_string($xml);
+			libxml_disable_entity_loader($loadEntities);
+
+			$tmp['version'] = $data->version;
+			$tmp['versionstring'] = $data->versionstring;
+			$tmp['url'] = $data->url;
+			$tmp['web'] = $data->web;
+		} else {
+			$data = array();
+		}
 
 		// Cache the result
 		\OC_Appconfig::setValue('core', 'lastupdateResult', json_encode($data));
-
 		return $tmp;
 	}
 
