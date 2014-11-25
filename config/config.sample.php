@@ -434,6 +434,15 @@ $CONFIG = array(
  */
 'check_for_working_htaccess' => true,
 
+/**
+ * In certain environments it is desired to have a read-only config file.
+ * When this switch is set to ``true`` ownCloud will not verify whether the
+ * configuration is writable. However, it will not be possible to configure
+ * all options via the web-interface. Furthermore, when updating ownCloud
+ * it is required to make the config file writable again for the update
+ * process.
+ */
+'config_is_read_only' => false,
 
 /**
  * Logging
