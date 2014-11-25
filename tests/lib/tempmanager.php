@@ -27,7 +27,7 @@ class TempManager extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->baseDir = get_temp_dir() . '/oc_tmp_test';
+		$this->baseDir = get_temp_dir() . $this->getUniqueID('/oc_tmp_test');
 		if (!is_dir($this->baseDir)) {
 			mkdir($this->baseDir);
 		}
@@ -39,7 +39,7 @@ class TempManager extends \Test\TestCase {
 	}
 
 	/**
-	 * @param \Psr\Log\LoggerInterface $logger
+	 * @param  \OCP\ILogger $logger
 	 * @return \OC\TempManager
 	 */
 	protected function getManager($logger = null) {
