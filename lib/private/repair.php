@@ -91,7 +91,7 @@ class Repair extends BasicEmitter {
 		//only 7.0.0 thru 7.0.2 generated broken previews
 		$currentVersion = \OC_Config::getValue('version');
 		if (version_compare($currentVersion, '7.0.0.0', '>=') &&
-			version_compare($currentVersion, '7.0.2.2', '<=')) {
+			version_compare($currentVersion, '7.0.3.4', '<=')) {
 			$steps[] = new \OC\Repair\Preview();
 		}
 
