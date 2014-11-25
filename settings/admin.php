@@ -42,6 +42,7 @@ $tmpl->assign('mail_smtppassword', OC_Config::getValue( "mail_smtppassword", '' 
 $tmpl->assign('entries', $entries);
 $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);
+$tmpl->assign('readOnlyConfigEnabled', OC_Helper::isReadOnlyConfigEnabled());
 $tmpl->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $tmpl->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
 $tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
@@ -56,6 +57,7 @@ $tmpl->assign('shareEnforceExpireDate', OC_Appconfig::getValue('core', 'shareapi
 $excludeGroups = OC_Appconfig::getValue('core', 'shareapi_exclude_groups', 'no') === 'yes' ? true : false;
 $tmpl->assign('shareExcludeGroups', $excludeGroups);
 $excludedGroupsList = OC_Appconfig::getValue('core', 'shareapi_exclude_groups_list', '');
+
 $excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
 $tmpl->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 

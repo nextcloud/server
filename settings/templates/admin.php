@@ -62,14 +62,28 @@ if (!$_['isConnectedViaHTTPS']) {
 // is htaccess working ?
 if (!$_['htaccessworking']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Security Warning'));?></h2>
+	<div class="section">
+		<h2><?php p($l->t('Security Warning')); ?></h2>
 
 	<span class="securitywarning">
 		<?php p($l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')); ?>
 	</span>
 
-</div>
+	</div>
+<?php
+}
+
+// is read only config enabled
+if ($_['readOnlyConfigEnabled']) {
+?>
+<div class="section">
+	<h2><?php p($l->t('Read-Only config enabled'));?></h2>
+
+	<span class="securitywarning">
+		<?php p($l->t('The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.')); ?>
+	</span>
+
+	</div>
 <?php
 }
 
