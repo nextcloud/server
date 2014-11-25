@@ -69,8 +69,14 @@ interface IURLGenerator {
 
 	/**
 	 * Makes an URL absolute
-	 * @param string $url the url in the owncloud host
+	 * @param string $url the url in the ownCloud host
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL($url);
+
+	/**
+	 * @param string $key
+	 * @return string url to the online documentation
+	 */
+	public function linkToDocs($key);
 }

@@ -58,12 +58,11 @@ class OC_Helper {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return string url to the online documentation
 	 */
 	public static function linkToDocs($key) {
-		$theme = new OC_Defaults();
-		return $theme->buildDocLinkToKey($key);
+		return OC::$server->getURLGenerator()->linkToDocs($key);
 	}
 
 	/**
