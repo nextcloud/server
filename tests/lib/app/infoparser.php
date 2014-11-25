@@ -45,4 +45,9 @@ class InfoParser extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($expectedData, $data);
 	}
+
+	public function testParsingInvalidXml() {
+		$data = $this->parser->parse(OC::$SERVERROOT.'/tests/data/app/invalid-info.xml');
+		$this->assertNull($data);
+	}
 }

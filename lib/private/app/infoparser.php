@@ -11,9 +11,17 @@
 namespace OC\App;
 
 use OCP\IURLGenerator;
-use SimpleXMLElement;
 
 class InfoParser {
+	/**
+	 * @var \OC\HTTPHelper
+	 */
+	private $httpHelper;
+
+	/**
+	 * @var IURLGenerator
+	 */
+	private $urlGenerator;
 
 	/**
 	 * @param \OC\HTTPHelper $httpHelper
@@ -25,15 +33,20 @@ class InfoParser {
 	}
 
 	/**
-	 * @param string $file
-	 * @return null|string
+	 * @param string $file the xml file to be loaded
+	 * @return null|array where null is an indicator for an error
 	 */
 	public function parse($file) {
 		if (!file_exists($file)) {
 			return null;
 		}
 
-		$xml = simplexml_load_file($file);
+		$loadEntities = libxml_disable_entity_loader(false);
+		$xml = @simplexml_load_file($file);
+		libxml_disable_entity_loader($loadEntities);
+		if ($xml == false) {
+			return null;
+		}
 		$array = json_decode(json_encode((array)$xml), TRUE);
 		if (is_null($array)) {
 			return null;
@@ -56,15 +69,13 @@ class InfoParser {
 					$url = $this->urlGenerator->linkToDocs($url);
 				}
 
-				$array["documentation"][$key] = $url;
-
+				$array['documentation'][$key] = $url;
 			}
 		}
 		if (array_key_exists('types', $array)) {
 			foreach ($array['types'] as $type => $v) {
 				unset($array['types'][$type]);
 				$array['types'][] = $type;
-
 			}
 		}
 
