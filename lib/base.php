@@ -66,15 +66,9 @@ class OC {
 	public static $REQUESTEDAPP = '';
 
 	/**
-	 * check if owncloud runs in cli mode
+	 * check if ownCloud runs in cli mode
 	 */
 	public static $CLI = false;
-
-	/**
-	 * @deprecated use \OC::$server->getSession() instead
-	 * @var \OC\Session\Session
-	 */
-	public static $session = null;
 
 	/**
 	 * @var \OC\Autoloader $loader
@@ -531,9 +525,7 @@ class OC {
 
 		\OC::$server->getEventLogger()->start('init_session', 'Initialize session');
 		OC_App::loadApps(array('session'));
-		if (self::$CLI) {
-			self::$session = new \OC\Session\Memory('');
-		} else {
+		if (!self::$CLI) {
 			self::initSession();
 		}
 		\OC::$server->getEventLogger()->end('init_session');
