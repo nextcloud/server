@@ -19,8 +19,6 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-OC::$CLASSPATH['OCP\Share_Backend']='lib/public/share.php';
-
 class Test_Share_Backend implements OCP\Share_Backend {
 
 	const FORMAT_SOURCE = 0;
