@@ -21,9 +21,6 @@
 
 namespace OC;
 
-class SyntaxException extends \Exception {
-}
-
 class ArrayParser {
 	const TYPE_NUM = 1;
 	const TYPE_BOOL = 2;
@@ -209,7 +206,7 @@ class ArrayParser {
 						$bracketDepth++;
 					} elseif ($char === ')') {
 						if ($bracketDepth <= 0) {
-							throw new SyntaxException;
+							throw new UnexpectedValueException();
 						} else {
 							$bracketDepth--;
 						}
