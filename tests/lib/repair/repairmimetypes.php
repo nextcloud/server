@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2014 Vincent Petry <pvince81@owncloud.com>
+ * Copyright (c) 2014 Olivier Paroz owncloud@oparoz.com
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -110,6 +111,33 @@ class TestRepairMimeTypes extends \Test\TestCase {
 			)
 		);
 	}
+	
+	/**
+	 * Test renaming old fonts mime types
+	 */
+	public function testRenameFontsMimeTypes() {
+		$this->addEntries(
+			array(
+				array('test.ttf', 'application/x-font-ttf'),
+				array('test.otf', 'font/opentype'),
+				array('test.pfb', 'application/octet-stream'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.ttf', 'application/font-sfnt'),
+				array('test.otf', 'application/font-sfnt'),
+				array('test.pfb', 'application/x-font'),
+			)
+		);
+	}
 
 	/**
 	 * Test renaming the APK mime type
@@ -134,6 +162,31 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.apk', 'application/vnd.android.package-archive'),
 				array('bogus.apk', 'application/vnd.android.package-archive'),
 				array('bogus2.apk', 'application/vnd.android.package-archive'),
+			)
+		);
+	}
+	
+	/**
+	 * Test renaming the postscript mime types
+	 */
+	public function testRenamePostscriptMimeType() {
+		$this->addEntries(
+			array(
+				array('test.eps', 'application/octet-stream'),
+				array('test.ps', 'application/octet-stream'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.eps', 'application/postscript'),
+				array('test.ps', 'application/postscript'),
 			)
 		);
 	}
@@ -188,6 +241,46 @@ class TestRepairMimeTypes extends \Test\TestCase {
 		$this->assertNull($this->getMimeTypeIdFromDB('application/msexcel'));
 		$this->assertNull($this->getMimeTypeIdFromDB('application/mspowerpoint'));
 	}
+	
+	/**
+	 * Test renaming old fonts mime types when
+	 * new ones already exist
+	 */
+	public function testRenameFontsMimeTypesWhenExist() {
+		$this->addEntries(
+			array(
+				array('test.ttf', 'application/x-font-ttf'),
+				array('test.otf', 'font/opentype'),
+				// make it so that the new mimetypes already exist
+				array('bogus.ttf', 'application/font-sfnt'),
+				array('bogus.otf', 'application/font-sfnt'),
+				array('bogus2.ttf', 'application/wrong'),
+				array('bogus2.otf', 'application/wrong'),
+			)
+		);
+
+		$this->repair->run();
+
+		// force mimetype reload
+		DummyFileCache::clearCachedMimeTypes();
+		$this->storage->getCache()->loadMimeTypes();
+
+		$this->checkEntries(
+			array(
+				array('test.ttf', 'application/font-sfnt'),
+				array('test.otf', 'application/font-sfnt'),
+				array('bogus.ttf', 'application/font-sfnt'),
+				array('bogus.otf', 'application/font-sfnt'),
+				array('bogus2.ttf', 'application/font-sfnt'),
+				array('bogus2.otf', 'application/font-sfnt'),
+			)
+		);
+
+		// wrong mimetypes are gone
+		$this->assertNull($this->getMimeTypeIdFromDB('application/x-font-ttf'));
+		$this->assertNull($this->getMimeTypeIdFromDB('font'));
+		$this->assertNull($this->getMimeTypeIdFromDB('font/opentype'));
+	}
 
 	/**
 	 * Test that nothing happens and no error happens when all mimetypes are
@@ -202,6 +295,12 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
 				array('test.ppt', 'application/vnd.ms-powerpoint'),
 				array('test.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+				array('test.apk', 'application/vnd.android.package-archive'),
+				array('test.ttf', 'application/font-sfnt'),
+				array('test.otf', 'application/font-sfnt'),
+				array('test.pfb', 'application/x-font'),
+				array('test.eps', 'application/postscript'),
+				array('test.ps', 'application/postscript'),
 			)
 		);
 
@@ -219,6 +318,12 @@ class TestRepairMimeTypes extends \Test\TestCase {
 				array('test.xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'),
 				array('test.ppt', 'application/vnd.ms-powerpoint'),
 				array('test.pptx', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'),
+				array('test.apk', 'application/vnd.android.package-archive'),
+				array('test.ttf', 'application/font-sfnt'),
+				array('test.otf', 'application/font-sfnt'),
+				array('test.pfb', 'application/x-font'),
+				array('test.eps', 'application/postscript'),
+				array('test.ps', 'application/postscript'),
 			)
 		);
 	}
