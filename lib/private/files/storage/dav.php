@@ -416,19 +416,19 @@ class DAV extends \OC\Files\Storage\Common {
 	}
 
 	public function isUpdatable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_UPDATE);
+		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
 	}
 
 	public function isCreatable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_CREATE);
+		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
 	}
 
 	public function isSharable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_SHARE);
+		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
 
 	public function isDeletable($path) {
-		return (bool)($this->getPermissions($path) & \OCP\PERMISSION_DELETE);
+		return (bool)($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
 	}
 
 	public function getPermissions($path) {
@@ -438,9 +438,9 @@ class DAV extends \OC\Files\Storage\Common {
 		if (isset($response['{http://owncloud.org/ns}permissions'])) {
 			return $this->parsePermissions($response['{http://owncloud.org/ns}permissions']);
 		} else if ($this->is_dir($path)) {
-			return \OCP\PERMISSION_ALL;
+			return \OCP\Constants::PERMISSION_ALL;
 		} else if ($this->file_exists($path)) {
-			return \OCP\PERMISSION_ALL - \OCP\PERMISSION_CREATE;
+			return \OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE;
 		} else {
 			return 0;
 		}
@@ -451,19 +451,19 @@ class DAV extends \OC\Files\Storage\Common {
 	 * @return int
 	 */
 	protected function parsePermissions($permissionsString) {
-		$permissions = \OCP\PERMISSION_READ;
+		$permissions = \OCP\Constants::PERMISSION_READ;
 		if (strpos($permissionsString, 'R') !== false) {
-			$permissions |= \OCP\PERMISSION_SHARE;
+			$permissions |= \OCP\Constants::PERMISSION_SHARE;
 		}
 		if (strpos($permissionsString, 'D') !== false) {
-			$permissions |= \OCP\PERMISSION_DELETE;
+			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 		if (strpos($permissionsString, 'W') !== false) {
-			$permissions |= \OCP\PERMISSION_UPDATE;
+			$permissions |= \OCP\Constants::PERMISSION_UPDATE;
 		}
 		if (strpos($permissionsString, 'CK') !== false) {
-			$permissions |= \OCP\PERMISSION_CREATE;
-			$permissions |= \OCP\PERMISSION_UPDATE;
+			$permissions |= \OCP\Constants::PERMISSION_CREATE;
+			$permissions |= \OCP\Constants::PERMISSION_UPDATE;
 		}
 		return $permissions;
 	}

@@ -277,7 +277,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 		$this->rootView->file_put_contents($v1, 'version1');
 		$this->rootView->file_put_contents($v2, 'version2');
 
-		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_VERSIONS_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_VERSIONS_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 
@@ -320,7 +320,7 @@ class Test_Files_Versioning extends \Test\TestCase {
 		$this->rootView->file_put_contents($v1, 'version1');
 		$this->rootView->file_put_contents($v2, 'version2');
 
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_VERSIONS_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_VERSIONS_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		self::loginHelper(self::TEST_VERSIONS_USER2);
 

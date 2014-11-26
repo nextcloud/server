@@ -91,7 +91,7 @@ class LocalAddressBook implements \OCP\IAddressBook {
 	 * @return int
 	 */
 	public function getPermissions() {
-		return \OCP\PERMISSION_READ;
+		return \OCP\Constants::PERMISSION_READ;
 	}
 
 	/**

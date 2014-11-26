@@ -81,7 +81,7 @@ class Node implements \OCP\Files\Node {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function touch($mtime = null) {
-		if ($this->checkPermissions(\OCP\PERMISSION_UPDATE)) {
+		if ($this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE)) {
 			$this->sendHooks(array('preTouch'));
 			$this->view->touch($this->path, $mtime);
 			$this->sendHooks(array('postTouch'));
@@ -163,28 +163,28 @@ class Node implements \OCP\Files\Node {
 	 * @return bool
 	 */
 	public function isReadable() {
-		return $this->checkPermissions(\OCP\PERMISSION_READ);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_READ);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isUpdateable() {
-		return $this->checkPermissions(\OCP\PERMISSION_UPDATE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isDeletable() {
-		return $this->checkPermissions(\OCP\PERMISSION_DELETE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_DELETE);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isShareable() {
-		return $this->checkPermissions(\OCP\PERMISSION_SHARE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_SHARE);
 	}
 
 	/**

@@ -171,7 +171,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// share the file
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -232,7 +232,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 			'/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename);
 
 		// share the file with user3
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -328,7 +328,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// share the folder with user1
-		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -406,7 +406,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// share the file with user3
-		\OCP\Share::shareItem('folder', $fileInfoSubFolder['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $fileInfoSubFolder['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -437,7 +437,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the file with user3
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER4, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -539,7 +539,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// share the file
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, false, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, false, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -617,7 +617,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// share the file
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_GROUP1, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_GROUP1, \OCP\Constants::PERMISSION_ALL);
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
@@ -923,7 +923,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// share the file
 		try {
-			\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_GROUP1, OCP\PERMISSION_ALL);
+			\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_GROUP1, \OCP\Constants::PERMISSION_ALL);
 		} catch (Exception $e) {
 			$this->assertEquals(0, strpos($e->getMessage(), "Following users are not set up for encryption"));
 		}
@@ -991,7 +991,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the file
-		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// check if share key for user2 exists
 		$this->assertTrue($this->view->file_exists(
@@ -1059,7 +1059,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the folder
-		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		\OC\Files\Filesystem::rename($folder, $newFolder);
 
@@ -1117,7 +1117,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
 
 		// share the folder
-		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// check that the share keys exist
 		$this->assertTrue($view->file_exists('files_encryption/share-keys' . $folder . '/' . $filename . '.' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));

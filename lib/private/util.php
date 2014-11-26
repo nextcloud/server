@@ -1336,7 +1336,7 @@ class OC_Util {
 			return false;
 		}
 		foreach (str_split($trimmed) as $char) {
-			if (strpos(\OCP\FILENAME_INVALID_CHARS, $char) !== false) {
+			if (strpos(\OCP\Constants::FILENAME_INVALID_CHARS, $char) !== false) {
 				return false;
 			}
 		}

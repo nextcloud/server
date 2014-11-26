@@ -39,7 +39,7 @@ class Folder extends \Test\TestCase {
 
 		$view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$view->expects($this->once())
 			->method('rmdir')
@@ -87,7 +87,7 @@ class Folder extends \Test\TestCase {
 
 		$view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL, 'fileid' => 1)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1)));
 
 		$view->expects($this->once())
 			->method('rmdir')
@@ -121,7 +121,7 @@ class Folder extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$node->delete();
@@ -255,7 +255,7 @@ class Folder extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$view->expects($this->once())
 			->method('mkdir')
@@ -285,7 +285,7 @@ class Folder extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$node->newFolder('asd');
@@ -305,7 +305,7 @@ class Folder extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$view->expects($this->once())
 			->method('touch')
@@ -335,7 +335,7 @@ class Folder extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\Folder($root, $view, '/bar/foo');
 		$node->newFile('asd');

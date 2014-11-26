@@ -15,15 +15,15 @@ use OC\Files\View;
 class Node extends \Test\TestCase {
 	public function davPermissionsProvider() {
 		return array(
-			array(\OCP\PERMISSION_ALL, 'file', false, false, 'RDNVW'),
-			array(\OCP\PERMISSION_ALL, 'dir', false, false, 'RDNVCK'),
-			array(\OCP\PERMISSION_ALL, 'file', true, false, 'SRDNVW'),
-			array(\OCP\PERMISSION_ALL, 'file', true, true, 'SRMDNVW'),
-			array(\OCP\PERMISSION_ALL - \OCP\PERMISSION_SHARE, 'file', true, false, 'SDNVW'),
-			array(\OCP\PERMISSION_ALL - \OCP\PERMISSION_UPDATE, 'file', false, false, 'RDNV'),
-			array(\OCP\PERMISSION_ALL - \OCP\PERMISSION_DELETE, 'file', false, false, 'RW'),
-			array(\OCP\PERMISSION_ALL - \OCP\PERMISSION_CREATE, 'file', false, false, 'RDNVW'),
-			array(\OCP\PERMISSION_ALL - \OCP\PERMISSION_CREATE, 'dir', false, false, 'RDNV'),
+			array(\OCP\Constants::PERMISSION_ALL, 'file', false, false, 'RDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL, 'dir', false, false, 'RDNVCK'),
+			array(\OCP\Constants::PERMISSION_ALL, 'file', true, false, 'SRDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL, 'file', true, true, 'SRMDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_SHARE, 'file', true, false, 'SDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_UPDATE, 'file', false, false, 'RDNV'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_DELETE, 'file', false, false, 'RW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'file', false, false, 'RDNVW'),
+			array(\OCP\Constants::PERMISSION_ALL - \OCP\Constants::PERMISSION_CREATE, 'dir', false, false, 'RDNV'),
 		);
 	}
 

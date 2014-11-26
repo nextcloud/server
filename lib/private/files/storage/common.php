@@ -113,19 +113,19 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function getPermissions($path) {
 		$permissions = 0;
 		if ($this->isCreatable($path)) {
-			$permissions |= \OCP\PERMISSION_CREATE;
+			$permissions |= \OCP\Constants::PERMISSION_CREATE;
 		}
 		if ($this->isReadable($path)) {
-			$permissions |= \OCP\PERMISSION_READ;
+			$permissions |= \OCP\Constants::PERMISSION_READ;
 		}
 		if ($this->isUpdatable($path)) {
-			$permissions |= \OCP\PERMISSION_UPDATE;
+			$permissions |= \OCP\Constants::PERMISSION_UPDATE;
 		}
 		if ($this->isDeletable($path)) {
-			$permissions |= \OCP\PERMISSION_DELETE;
+			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 		if ($this->isSharable($path)) {
-			$permissions |= \OCP\PERMISSION_SHARE;
+			$permissions |= \OCP\Constants::PERMISSION_SHARE;
 		}
 		return $permissions;
 	}

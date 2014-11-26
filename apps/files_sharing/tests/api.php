@@ -788,7 +788,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		$fileInfo = $this->view->getFileInfo($this->filename);
 
 		$result = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+				\Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// share was successful?
 		$this->assertTrue($result);
@@ -822,7 +822,7 @@ class Test_Files_Sharing_Api extends TestCase {
 
 		// check if share have expected permissions, single shared files never have
 		// delete permissions
-		$this->assertEquals(\OCP\PERMISSION_ALL & ~\OCP\PERMISSION_DELETE, $userShare['permissions']);
+		$this->assertEquals(\OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE, $userShare['permissions']);
 
 		// update permissions
 
@@ -1228,7 +1228,7 @@ class Test_Files_Sharing_Api extends TestCase {
 		$info = OC\Files\Filesystem::getFileInfo($this->filename);
 		$this->assertTrue($info instanceof \OC\Files\FileInfo);
 
-		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\PERMISSION_READ);
+		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_LINK, null, \OCP\Constants::PERMISSION_READ);
 		$this->assertTrue(is_string($result));
 
 		$result = \OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, \Test_Files_Sharing_Api::TEST_FILES_SHARING_API_USER2, 31);

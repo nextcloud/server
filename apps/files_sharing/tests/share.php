@@ -105,12 +105,12 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$fileinfo = $this->view->getFileInfo($this->filename);
 
 		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_GROUP1, \OCP\PERMISSION_READ);
+				\Test_Files_Sharing::TEST_FILES_SHARING_API_GROUP1, \OCP\Constants::PERMISSION_READ);
 
 		$this->assertTrue($result);
 
 		$result = \OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
-				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_UPDATE);
+				\Test_Files_Sharing::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_UPDATE);
 
 		$this->assertTrue($result);
 
@@ -124,7 +124,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertSame(1, count($result));
 
 		$share = reset($result);
-		$this->assertSame(\OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE, $share['permissions']);
+		$this->assertSame(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, $share['permissions']);
 
 		\OC\Files\Filesystem::rename($this->filename, $this->filename . '-renamed');
 
@@ -136,7 +136,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertSame(1, count($result));
 
 		$share = reset($result);
-		$this->assertSame(\OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE, $share['permissions']);
+		$this->assertSame(\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE, $share['permissions']);
 		$this->assertSame($this->filename . '-renamed', $share['file_target']);
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -157,7 +157,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 
 		$share = reset($result);
 		// only the group share permissions should be available now
-		$this->assertSame(\OCP\PERMISSION_READ, $share['permissions']);
+		$this->assertSame(\OCP\Constants::PERMISSION_READ, $share['permissions']);
 		$this->assertSame($this->filename . '-renamed', $share['file_target']);
 
 	}
@@ -172,8 +172,8 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$fileinfo = $this->view->getFileInfo($this->filename);
 
 		// share the file to group1 (user2 is a member of this group) and explicitely to user2
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_FILES_SHARING_API_GROUP1, \OCP\PERMISSION_ALL);
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_FILES_SHARING_API_GROUP1, \OCP\Constants::PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// user1 should have to shared files
 		$shares = \OCP\Share::getItemsShared('file');
@@ -203,7 +203,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertSame(1, count($shares));
 
 		// user1 shares a gain the file directly to user2
-		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
 
 		// user2 should see again welcome.txt and the shared file
 		\Test_Files_Sharing::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -271,14 +271,14 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 	}
 
 	function DataProviderTestFileSharePermissions() {
-		$permission1 = \OCP\PERMISSION_ALL;
-		$permission3 = \OCP\PERMISSION_READ;
-		$permission4 = \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE;
-		$permission5 = \OCP\PERMISSION_READ | \OCP\PERMISSION_DELETE;
-		$permission6 = \OCP\PERMISSION_READ | \OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE;
+		$permission1 = \OCP\Constants::PERMISSION_ALL;
+		$permission3 = \OCP\Constants::PERMISSION_READ;
+		$permission4 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE;
+		$permission5 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE;
+		$permission6 = \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 
 		return array(
-			array($permission1, \OCP\PERMISSION_ALL & ~\OCP\PERMISSION_DELETE),
+			array($permission1, \OCP\Constants::PERMISSION_ALL & ~\OCP\Constants::PERMISSION_DELETE),
 			array($permission3, $permission3),
 			array($permission4, $permission4),
 			array($permission5, $permission3),
