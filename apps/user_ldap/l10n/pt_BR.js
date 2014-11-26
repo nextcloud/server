@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Confirmar Exclusão",
     "_%s group found_::_%s groups found_" : ["grupo% s encontrado","grupos% s encontrado"],
     "_%s user found_::_%s users found_" : ["usuário %s encontrado","usuários %s encontrados"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Não foi possível detectar o nome de exibição do atributo do usuário. Por favor, indique-o você mesmo em configurações avançadas do LDAP.",
     "Could not find the desired feature" : "Não foi possível encontrar a função desejada",
     "Invalid Host" : "Host Inválido",
     "Server" : "Servidor",

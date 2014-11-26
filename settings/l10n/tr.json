@@ -136,7 +136,7 @@
     "days" : "gün sonra dolsun",
     "Enforce expiration date" : "Son kullanma tarihini zorla",
     "Allow resharing" : "Yeniden paylaşıma izin ver",
-    "Restrict users to only share with users in their groups" : "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına sınırla",
+    "Restrict users to only share with users in their groups" : "Kullanıcıların, dosyaları sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver",
     "Allow users to send mail notification for shared files" : "Paylaşılmış dosyalar için kullanıcıların posta bildirimi göndermesine izin ver",
     "Exclude groups from sharing" : "Grupları paylaşma eyleminden hariç tut",
     "These groups will still be able to receive shares, but not to initiate them." : "Bu gruplar hala paylaşımları alabilecek, ancak başlatamayacaktır.",

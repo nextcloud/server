@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Bevestig verwijderen",
     "_%s group found_::_%s groups found_" : ["%s groep gevonden","%s groepen gevonden"],
     "_%s user found_::_%s users found_" : ["%s gebruiker gevonden","%s gebruikers gevonden"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Kon het weergavenaam attribuut van de gebruiker niet vinden. Geef het zelf op in de geavanceerde ldap instellingen.",
     "Could not find the desired feature" : "Kon de gewenste functie niet vinden",
     "Invalid Host" : "Ongeldige server",
     "Server" : "Server",
