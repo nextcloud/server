@@ -64,7 +64,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Remove all entries from the storages table
-	 * @throws \DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	static protected function tearDownAfterClassCleanStorages() {
 		$sql = 'DELETE FROM `*PREFIX*storages`';
@@ -74,7 +74,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * Remove all entries from the filecache table
-	 * @throws \DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	static protected function tearDownAfterClassCleanFileCache() {
 		$sql = 'DELETE FROM `*PREFIX*filecache`';

@@ -205,7 +205,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$factory = new \OC\DB\ConnectionFactory();
 			$type = $c->getConfig()->getSystemValue('dbtype', 'sqlite');
 			if (!$factory->isValidType($type)) {
-				throw new \DatabaseException('Invalid database type');
+				throw new \OC\DatabaseException('Invalid database type');
 			}
 			$connectionParams = $factory->createConnectionParams($c->getConfig());
 			$connection = $factory->getConnection($type, $connectionParams);
