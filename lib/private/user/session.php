@@ -88,15 +88,6 @@ class Session implements IUserSession, Emitter {
 	 * @return \OCP\ISession
 	 */
 	public function getSession() {
-		// fetch the deprecated \OC::$session if it changed for backwards compatibility
-		if (isset(\OC::$session) && \OC::$session !== $this->session) {
-			\OC::$server->getLogger()->warning(
-				'One of your installed apps still seems to use the deprecated ' .
-				'\OC::$session and has replaced it with a new instance. Please file a bug against it.' .
-				'Closing and replacing session in UserSession instance.'
-			);
-			$this->setSession(\OC::$session);
-		}
 		return $this->session;
 	}
 
@@ -111,14 +102,6 @@ class Session implements IUserSession, Emitter {
 		}
 		$this->session = $session;
 		$this->activeUser = null;
-
-		// maintain deprecated \OC::$session
-		if (\OC::$session !== $this->session) {
-			if (\OC::$session instanceof \OCP\ISession) {
-				\OC::$session->close();
-			}
-			\OC::$session = $session;
-		}
 	}
 
 	/**
