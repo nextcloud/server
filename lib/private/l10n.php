@@ -20,6 +20,7 @@ class OC_L10N implements \OCP\IL10N {
 	 * cache
 	 */
 	protected static $cache = array();
+	protected static $availableLanguages = array();
 
 	/**
 	 * The best language
@@ -468,6 +469,9 @@ class OC_L10N implements \OCP\IL10N {
 	 * @return array an array of available languages
 	 */
 	public static function findAvailableLanguages($app=null) {
+		if(!empty(self::$availableLanguages)) {
+			return self::$availableLanguages;
+		}
 		$available=array('en');//english is always available
 		$dir = self::findI18nDir($app);
 		if(is_dir($dir)) {
@@ -479,6 +483,8 @@ class OC_L10N implements \OCP\IL10N {
 				}
 			}
 		}
+
+		self::$availableLanguages = $available;
 		return $available;
 	}
 
