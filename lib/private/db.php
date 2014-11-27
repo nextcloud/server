@@ -22,20 +22,6 @@
 
 define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
 
-class DatabaseException extends Exception {
-	private $query;
-
-	//FIXME getQuery seems to be unused, maybe use parent constructor with $message, $code and $previous
-	public function __construct($message, $query = null){
-		parent::__construct($message);
-		$this->query = $query;
-	}
-
-	public function getQuery() {
-		return $this->query;
-	}
-}
-
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * Doctrine with some adaptions.
@@ -65,7 +51,7 @@ class OC_DB {
 	 * @param int $limit
 	 * @param int $offset
 	 * @param bool $isManipulation
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 * @return OC_DB_StatementWrapper prepared SQL query
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
@@ -82,7 +68,7 @@ class OC_DB {
 		try {
 			$result =$connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
-			throw new \DatabaseException($e->getMessage(), $query);
+			throw new \OC\DatabaseException($e->getMessage(), $query);
 		}
 		// differentiate between query and manipulation
 		$result = new OC_DB_StatementWrapper($result, $isManipulation);
@@ -123,7 +109,7 @@ class OC_DB {
 	 *					.. or a simple sql query string
 	 * @param array $parameters
 	 * @return OC_DB_StatementWrapper
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	static public function executeAudited( $stmt, array $parameters = null) {
 		if (is_string($stmt)) {
@@ -132,7 +118,7 @@ class OC_DB {
 				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
-				throw new DatabaseException($message);
+				throw new \OC\DatabaseException($message);
 			}
 			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
 		}
@@ -140,7 +126,7 @@ class OC_DB {
 			// convert to prepared statement
 			if ( ! array_key_exists('sql', $stmt) ) {
 				$message = 'statement array must at least contain key \'sql\'';
-				throw new DatabaseException($message);
+				throw new \OC\DatabaseException($message);
 			}
 			if ( ! array_key_exists('limit', $stmt) ) {
 				$stmt['limit'] = null;
@@ -160,7 +146,7 @@ class OC_DB {
 			} else {
 				$message = 'Expected a prepared statement or array got ' . gettype($stmt);
 			}
-			throw new DatabaseException($message);
+			throw new \OC\DatabaseException($message);
 		}
 		return $result;
 	}
@@ -169,7 +155,7 @@ class OC_DB {
 	 * gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return string id
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 *
 	 * \Doctrine\DBAL\Connection lastInsertId
 	 *
@@ -312,7 +298,7 @@ class OC_DB {
 	 * @param mixed $result
 	 * @param string $message
 	 * @return void
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	public static function raiseExceptionOnError($result, $message = null) {
 		if(self::isError($result)) {
@@ -321,7 +307,7 @@ class OC_DB {
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage($result);
 			}
-			throw new DatabaseException($message, self::getErrorCode($result));
+			throw new \OC\DatabaseException($message, self::getErrorCode($result));
 		}
 	}
 
@@ -345,7 +331,7 @@ class OC_DB {
 	 *
 	 * @param string $table
 	 * @return bool
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	public static function tableExists($table) {
 
@@ -381,7 +367,7 @@ class OC_DB {
 				$result = \OC_DB::executeAudited($sql, array($table));
 				break;
 			default:
-				throw new DatabaseException("Unknown database type: $dbType");
+				throw new \OC\DatabaseException("Unknown database type: $dbType");
 		}
 
 		return $result->fetchOne() === $table;

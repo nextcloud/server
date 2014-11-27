@@ -45,14 +45,14 @@ class OCI extends AbstractDatabase {
 		if(!$connection) {
 			$errorMessage = $this->getLastError();
 			if ($errorMessage) {
-				throw new \DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
+				throw new \OC\DatabaseSetupException($this->trans->t('Oracle connection could not be established'),
 				$errorMessage.' Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
 							.' ORACLE_SID='.getenv('ORACLE_SID')
 							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
 							.' NLS_LANG='.getenv('NLS_LANG')
 							.' tnsnames.ora is '.(is_readable(getenv('ORACLE_HOME').'/network/admin/tnsnames.ora')?'':'not ').'readable');
 			}
-			throw new \DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
 					'Check environment: ORACLE_HOME='.getenv('ORACLE_HOME')
 							.' ORACLE_SID='.getenv('ORACLE_SID')
 							.' LD_LIBRARY_PATH='.getenv('LD_LIBRARY_PATH')
@@ -124,7 +124,7 @@ class OCI extends AbstractDatabase {
 		}
 		$connection = @oci_connect($this->dbuser, $this->dbpassword, $easy_connect_string);
 		if(!$connection) {
-			throw new \DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('Oracle username and/or password not valid'),
 					$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
 		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";

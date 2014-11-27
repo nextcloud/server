@@ -8,9 +8,6 @@
 
 use OCP\IConfig;
 
-class DatabaseSetupException extends \OC\HintException {
-}
-
 class OC_Setup {
 	/** @var IConfig */
 	protected $config;
@@ -195,7 +192,7 @@ class OC_Setup {
 		try {
 			$dbSetup->initialize($options);
 			$dbSetup->setupDatabase($username);
-		} catch (DatabaseSetupException $e) {
+		} catch (\OC\DatabaseSetupException $e) {
 			$error[] = array(
 				'error' => $e->getMessage(),
 				'hint' => $e->getHint()

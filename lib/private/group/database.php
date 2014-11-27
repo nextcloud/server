@@ -220,7 +220,7 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @param string $gid
 	 * @param string $search
 	 * @return int|false
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	public function countUsersInGroup($gid, $search = '') {
 		$stmt = OC_DB::prepare('SELECT COUNT(`uid`) AS `count` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?');
