@@ -109,6 +109,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
+		clearstatcache();
 		$fullPath = $this->getSourcePath($path);
 		$statResult = stat($fullPath);
 		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
