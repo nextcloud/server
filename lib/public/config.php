@@ -131,7 +131,7 @@ class Config {
 	 * not exist the default value will be returned
 	 */
 	public static function getUserValue( $user, $app, $key, $default = null ) {
-		return \OC_Preferences::getValue( $user, $app, $key, $default );
+		return \OC::$server->getConfig()->getUserValue( $user, $app, $key, $default );
 	}
 
 	/**
@@ -148,7 +148,7 @@ class Config {
 	 */
 	public static function setUserValue( $user, $app, $key, $value ) {
 		try {
-			\OC_Preferences::setValue( $user, $app, $key, $value );
+			\OC::$server->getConfig()->setUserValue( $user, $app, $key, $value );
 		} catch (\Exception $e) {
 			return false;
 		}

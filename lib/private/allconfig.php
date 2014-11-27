@@ -106,7 +106,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $value the value that you want to store
 	 */
 	public function setUserValue($userId, $appName, $key, $value) {
-		\OCP\Config::setUserValue($userId, $appName, $key, $value);
+		\OC_Preferences::setValue($userId, $appName, $key, $value);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return string
 	 */
 	public function getUserValue($userId, $appName, $key, $default = '') {
-		return \OCP\Config::getUserValue($userId, $appName, $key, $default);
+		return \OC_Preferences::getValue($userId, $appName, $key, $default);
 	}
 
 	/**
