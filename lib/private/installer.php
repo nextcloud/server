@@ -568,7 +568,7 @@ class OC_Installer{
 
 			// iterate the bad patterns
 			foreach($blacklist as $bl) {
-				$cmd = 'grep -ri '.escapeshellarg($bl).' '.$folder.'';
+				$cmd = 'grep --include \\*.php -ri '.escapeshellarg($bl).' '.$folder.'';
 				$result = exec($cmd);
 				// bad pattern found
 				if($result<>'') {
