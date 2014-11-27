@@ -31,7 +31,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function mkdir($path) {
-		return @mkdir($this->buildPath($path), 0777, true);
+		return @mkdir($this->getSourcePath($path), 0777, true);
 	}
 
 	public function rmdir($path) {
@@ -40,7 +40,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		}
 		try {
 			$it = new \RecursiveIteratorIterator(
-				new \RecursiveDirectoryIterator($this->buildPath($path)),
+				new \RecursiveDirectoryIterator($this->getSourcePath($path)),
 				\RecursiveIteratorIterator::CHILD_FIRST
 			);
 			/**
@@ -64,7 +64,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 				}
 				$it->next();
 			}
-			if ($result = @rmdir($this->buildPath($path))) {
+			if ($result = @rmdir($this->getSourcePath($path))) {
 				$this->cleanMapper($path);
 			}
 			return $result;
@@ -75,7 +75,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 
 	public function opendir($path) {
 		$files = array('.', '..');
-		$physicalPath = $this->buildPath($path);
+		$physicalPath = $this->getSourcePath($path);
 
 		$logicalPath = $this->mapper->physicalToLogic($physicalPath);
 		$dh = opendir($physicalPath);
@@ -101,15 +101,15 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		if (substr($path, -1) == '/') {
 			$path = substr($path, 0, -1);
 		}
-		return is_dir($this->buildPath($path));
+		return is_dir($this->getSourcePath($path));
 	}
 
 	public function is_file($path) {
-		return is_file($this->buildPath($path));
+		return is_file($this->getSourcePath($path));
 	}
 
 	public function stat($path) {
-		$fullPath = $this->buildPath($path);
+		$fullPath = $this->getSourcePath($path);
 		$statResult = stat($fullPath);
 		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
 			$filesize = $this->filesize($path);
@@ -120,9 +120,9 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function filetype($path) {
-		$filetype = filetype($this->buildPath($path));
+		$filetype = filetype($this->getSourcePath($path));
 		if ($filetype == 'link') {
-			$filetype = filetype(realpath($this->buildPath($path)));
+			$filetype = filetype(realpath($this->getSourcePath($path)));
 		}
 		return $filetype;
 	}
@@ -131,7 +131,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		if ($this->is_dir($path)) {
 			return 0;
 		}
-		$fullPath = $this->buildPath($path);
+		$fullPath = $this->getSourcePath($path);
 		if (PHP_INT_SIZE === 4) {
 			$helper = new \OC\LargeFileHelper;
 			return $helper->getFilesize($fullPath);
@@ -140,19 +140,19 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function isReadable($path) {
-		return is_readable($this->buildPath($path));
+		return is_readable($this->getSourcePath($path));
 	}
 
 	public function isUpdatable($path) {
-		return is_writable($this->buildPath($path));
+		return is_writable($this->getSourcePath($path));
 	}
 
 	public function file_exists($path) {
-		return file_exists($this->buildPath($path));
+		return file_exists($this->getSourcePath($path));
 	}
 
 	public function filemtime($path) {
-		return filemtime($this->buildPath($path));
+		return filemtime($this->getSourcePath($path));
 	}
 
 	public function touch($path, $mtime = null) {
@@ -160,23 +160,23 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		// If mtime is nil the current time is set.
 		// note that the access time of the file always changes to the current time.
 		if (!is_null($mtime)) {
-			$result = touch($this->buildPath($path), $mtime);
+			$result = touch($this->getSourcePath($path), $mtime);
 		} else {
-			$result = touch($this->buildPath($path));
+			$result = touch($this->getSourcePath($path));
 		}
 		if ($result) {
-			clearstatcache(true, $this->buildPath($path));
+			clearstatcache(true, $this->getSourcePath($path));
 		}
 
 		return $result;
 	}
 
 	public function file_get_contents($path) {
-		return file_get_contents($this->buildPath($path));
+		return file_get_contents($this->getSourcePath($path));
 	}
 
 	public function file_put_contents($path, $data) {
-		return file_put_contents($this->buildPath($path), $data);
+		return file_put_contents($this->getSourcePath($path), $data);
 	}
 
 	public function unlink($path) {
@@ -208,8 +208,8 @@ class MappedLocal extends \OC\Files\Storage\Common {
 			$this->unlink($path2);
 		}
 
-		$physicPath1 = $this->buildPath($path1);
-		$physicPath2 = $this->buildPath($path2);
+		$physicPath1 = $this->getSourcePath($path1);
+		$physicPath2 = $this->getSourcePath($path2);
 		if ($return = rename($physicPath1, $physicPath2)) {
 			// mapper needs to create copies or all children
 			$this->copyMapping($path1, $path2);
@@ -237,7 +237,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 			closedir($dir);
 			return true;
 		} else {
-			if ($return = copy($this->buildPath($path1), $this->buildPath($path2))) {
+			if ($return = copy($this->getSourcePath($path1), $this->getSourcePath($path2))) {
 				$this->copyMapping($path1, $path2);
 			}
 			return $return;
@@ -245,7 +245,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function fopen($path, $mode) {
-		return fopen($this->buildPath($path), $mode);
+		return fopen($this->getSourcePath($path), $mode);
 	}
 
 	/**
@@ -256,7 +256,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	private function delTree($dir, $isLogicPath = true) {
 		$dirRelative = $dir;
 		if ($isLogicPath) {
-			$dir = $this->buildPath($dir);
+			$dir = $this->getSourcePath($dir);
 		}
 		if (!file_exists($dir)) {
 			return true;
@@ -288,11 +288,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function hash($type, $path, $raw = false) {
-		return hash_file($type, $this->buildPath($path), $raw);
+		return hash_file($type, $this->getSourcePath($path), $raw);
 	}
 
 	public function free_space($path) {
-		return @disk_free_space($this->buildPath($path));
+		return @disk_free_space($this->getSourcePath($path));
 	}
 
 	public function search($query) {
@@ -300,11 +300,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function getLocalFile($path) {
-		return $this->buildPath($path);
+		return $this->getSourcePath($path);
 	}
 
 	public function getLocalFolder($path) {
-		return $this->buildPath($path);
+		return $this->getSourcePath($path);
 	}
 
 	/**
@@ -312,7 +312,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	 */
 	protected function searchInDir($query, $dir = '') {
 		$files = array();
-		$physicalDir = $this->buildPath($dir);
+		$physicalDir = $this->getSourcePath($dir);
 		foreach (scandir($physicalDir) as $item) {
 			if ($item == '.' || $item == '..')
 				continue;
@@ -341,14 +341,15 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	 * Get the source path (on disk) of a given path
+	 *
 	 * @param string $path
-	 * @param bool $create
 	 * @return string
 	 */
-	private function buildPath($path, $create = true) {
+	protected function getSourcePath($path) {
 		$path = $this->stripLeading($path);
 		$fullPath = $this->datadir . $path;
-		return $this->mapper->logicToPhysical($fullPath, $create);
+		return $this->mapper->logicToPhysical($fullPath, true);
 	}
 
 	/**
