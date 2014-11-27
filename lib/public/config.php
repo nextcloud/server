@@ -37,6 +37,7 @@ namespace OCP;
 /**
  * This class provides functions to read and write configuration data.
  * configuration can be on a system, application or user level
+ * @deprecated use methods of \OCP\IConfig
  */
 class Config {
 	/**
@@ -44,12 +45,13 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $default = null default value
 	 * @return mixed the value or $default
+	 * @deprecated use method getSystemValue of \OCP\IConfig
 	 *
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
 	public static function getSystemValue( $key, $default = null ) {
-		return \OC_Config::getValue( $key, $default );
+		return \OC::$server->getConfig()->getSystemValue( $key, $default );
 	}
 
 	/**
@@ -57,13 +59,14 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $value value
 	 * @return bool
+	 * @deprecated use method setSystemValue of \OCP\IConfig
 	 *
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
 	 */
 	public static function setSystemValue( $key, $value ) {
 		try {
-			\OC_Config::setValue( $key, $value );
+			\OC::$server->getConfig()->setSystemValue( $key, $value );
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -73,11 +76,12 @@ class Config {
 	/**
 	 * Deletes a value from config.php
 	 * @param string $key key
+	 * @deprecated use method deleteSystemValue of \OCP\IConfig
 	 *
 	 * This function deletes the value from config.php.
 	 */
 	public static function deleteSystemValue( $key ) {
-		return \OC_Config::deleteKey( $key );
+		\OC::$server->getConfig()->deleteSystemValue( $key );
 	}
 
 	/**

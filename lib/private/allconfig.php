@@ -13,6 +13,16 @@ namespace OC;
  * Class to combine all the configuration options ownCloud offers
  */
 class AllConfig implements \OCP\IConfig {
+	/** @var SystemConfig */
+	private $systemConfig;
+
+	/**
+	 * @param SystemConfig $systemConfig
+	 */
+	function __construct(SystemConfig $systemConfig) {
+		$this->systemConfig = $systemConfig;
+	}
+
 	/**
 	 * Sets a new system wide value
 	 *
@@ -20,7 +30,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param mixed $value the value that should be stored
 	 */
 	public function setSystemValue($key, $value) {
-		\OCP\Config::setSystemValue($key, $value);
+		$this->systemConfig->setValue($key, $value);
 	}
 
 	/**
@@ -31,7 +41,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @return mixed the value or $default
 	 */
 	public function getSystemValue($key, $default = '') {
-		return \OCP\Config::getSystemValue($key, $default);
+		return $this->systemConfig->getValue($key, $default);
 	}
 
 	/**
@@ -40,7 +50,7 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $key the key of the value, under which it was saved
 	 */
 	public function deleteSystemValue($key) {
-		\OCP\Config::deleteSystemValue($key);
+		$this->systemConfig->deleteValue($key);
 	}
 
 	/**

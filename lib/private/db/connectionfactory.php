@@ -123,23 +123,23 @@ class ConnectionFactory {
 	/**
 	 * Create the connection parameters for the config
 	 *
-	 * @param \OCP\IConfig $config
+	 * @param \OC\SystemConfig $config
 	 * @return array
 	 */
 	public function createConnectionParams($config) {
-		$type = $config->getSystemValue('dbtype', 'sqlite');
+		$type = $config->getValue('dbtype', 'sqlite');
 
 		$connectionParams = array(
-			'user' => $config->getSystemValue('dbuser', ''),
-			'password' => $config->getSystemValue('dbpassword', ''),
+			'user' => $config->getValue('dbuser', ''),
+			'password' => $config->getValue('dbpassword', ''),
 		);
-		$name = $config->getSystemValue('dbname', 'owncloud');
+		$name = $config->getValue('dbname', 'owncloud');
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$datadir = $config->getSystemValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$datadir = $config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
 			$connectionParams['path'] = $datadir . '/' . $name . '.db';
 		} else {
-			$host = $config->getSystemValue('dbhost', '');
+			$host = $config->getValue('dbhost', '');
 			if (strpos($host, ':')) {
 				// Host variable may carry a port or socket.
 				list($host, $portOrSocket) = explode(':', $host, 2);
@@ -153,11 +153,11 @@ class ConnectionFactory {
 			$connectionParams['dbname'] = $name;
 		}
 
-		$connectionParams['tablePrefix'] = $config->getSystemValue('dbtableprefix', 'oc_');
-		$connectionParams['sqlite.journal_mode'] = $config->getSystemValue('sqlite.journal_mode', 'WAL');
+		$connectionParams['tablePrefix'] = $config->getValue('dbtableprefix', 'oc_');
+		$connectionParams['sqlite.journal_mode'] = $config->getValue('sqlite.journal_mode', 'WAL');
 
 		//additional driver options, eg. for mysql ssl
-		$driverOptions = $config->getSystemValue('dbdriveroptions', null);
+		$driverOptions = $config->getValue('dbdriveroptions', null);
 		if ($driverOptions) {
 			$connectionParams['driverOptions'] = $driverOptions;
 		}
