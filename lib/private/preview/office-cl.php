@@ -7,9 +7,6 @@
  */
 namespace OC\Preview;
 
-// office preview is currently not supported on Windows
-if (!\OC_Util::runningOnWindows()) {
-
 	//we need imagick to convert
 	class Office extends Provider {
 
@@ -90,8 +87,6 @@ if (!\OC_Util::runningOnWindows()) {
 
 	}
 
-	\OC\Preview::registerProvider('OC\Preview\MSOfficeDoc');
-
 	//.docm, .dotm, .xls(m), .xlt(m), .xla(m), .ppt(m), .pot(m), .pps(m), .ppa(m)
 	class MSOffice2003 extends Office {
 
@@ -100,8 +95,6 @@ if (!\OC_Util::runningOnWindows()) {
 		}
 
 	}
-
-	\OC\Preview::registerProvider('OC\Preview\MSOffice2003');
 
 	//.docx, .dotx, .xlsx, .xltx, .pptx, .potx, .ppsx
 	class MSOffice2007 extends Office {
@@ -112,8 +105,6 @@ if (!\OC_Util::runningOnWindows()) {
 
 	}
 
-	\OC\Preview::registerProvider('OC\Preview\MSOffice2007');
-
 	//.odt, .ott, .oth, .odm, .odg, .otg, .odp, .otp, .ods, .ots, .odc, .odf, .odb, .odi, .oxt
 	class OpenDocument extends Office {
 
@@ -123,8 +114,6 @@ if (!\OC_Util::runningOnWindows()) {
 
 	}
 
-	\OC\Preview::registerProvider('OC\Preview\OpenDocument');
-
 	//.sxw, .stw, .sxc, .stc, .sxd, .std, .sxi, .sti, .sxg, .sxm
 	class StarOffice extends Office {
 
@@ -133,6 +122,3 @@ if (!\OC_Util::runningOnWindows()) {
 		}
 
 	}
-
-	\OC\Preview::registerProvider('OC\Preview\StarOffice');
-}

@@ -21,7 +21,7 @@ require_once 'preview/movie.php';
 require_once 'preview/mp3.php';
 require_once 'preview/svg.php';
 require_once 'preview/txt.php';
-require_once 'preview/office.php';
+require_once 'preview/office-cl.php';
 require_once 'preview/bitmap.php';
 
 class Preview {
@@ -744,10 +744,11 @@ class Preview {
 			return;
 		}
 
-		if (count(self::$providers) > 0) {
+		if (!empty(self::$providers)) {
 			return;
 		}
 
+		self::registerCoreProviders();
 		foreach (self::$registeredProviders as $provider) {
 			$class = $provider['class'];
 			$options = $provider['options'];
@@ -759,7 +760,74 @@ class Preview {
 
 		$keys = array_map('strlen', array_keys(self::$providers));
 		array_multisort($keys, SORT_DESC, self::$providers);
+	}
 
+	protected static function registerCoreProviders() {
+		self::registerProvider('OC\Preview\TXT');
+		self::registerProvider('OC\Preview\MarkDown');
+		self::registerProvider('OC\Preview\Image');
+		self::registerProvider('OC\Preview\MP3');
+
+		// SVG, Office and Bitmap require imagick
+		if (extension_loaded('imagick')) {
+			$checkImagick = new \Imagick();
+
+			$imagickProviders = array(
+				'SVG'	=> 'OC\Preview\SVG',
+				'TIFF'	=> 'OC\Preview\TIFF',
+				'PDF'	=> 'OC\Preview\PDF',
+				'AI'	=> 'OC\Preview\Illustrator',
+				'PSD'	=> 'OC\Preview\Photoshop',
+				// Requires adding 'eps' => array('application/postscript', null), to lib/private/mimetypes.list.php
+				'EPS'	=> 'OC\Preview\Postscript',
+			);
+
+			foreach ($imagickProviders as $queryFormat => $provider) {
+				if (count($checkImagick->queryFormats($queryFormat)) === 1) {
+					self::registerProvider($provider);
+				}
+			}
+
+			if (count($checkImagick->queryFormats('PDF')) === 1) {
+				// Office previews are currently not supported on Windows
+				if (!\OC_Util::runningOnWindows() && \OC_Helper::is_function_enabled('shell_exec')) {
+					$officeFound = is_string(\OC::$server->getConfig()->getSystemValue('preview_libreoffice_path', null));
+
+					if (!$officeFound) {
+						//let's see if there is libreoffice or openoffice on this machine
+						$whichLibreOffice = shell_exec('command -v libreoffice');
+						$officeFound = !empty($whichLibreOffice);
+						if (!$officeFound) {
+							$whichOpenOffice = shell_exec('command -v openoffice');
+							$officeFound = !empty($whichOpenOffice);
+						}
+					}
+
+					if ($officeFound) {
+						self::registerProvider('OC\Preview\MSOfficeDoc');
+						self::registerProvider('OC\Preview\MSOffice2003');
+						self::registerProvider('OC\Preview\MSOffice2007');
+						self::registerProvider('OC\Preview\OpenDocument');
+						self::registerProvider('OC\Preview\StarOffice');
+					}
+				}
+			}
+		}
+
+		// Video requires avconv or ffmpeg and is therefor
+		// currently not supported on Windows.
+		if (!\OC_Util::runningOnWindows()) {
+			$avconvBinary = \OC_Helper::findBinaryPath('avconv');
+			$ffmpegBinary = ($avconvBinary) ? null : \OC_Helper::findBinaryPath('ffmpeg');
+
+			if ($avconvBinary || $ffmpegBinary) {
+				// FIXME // a bit hacky but didn't want to use subclasses
+				\OC\Preview\Movie::$avconvBinary = $avconvBinary;
+				\OC\Preview\Movie::$ffmpegBinary = $ffmpegBinary;
+
+				self::registerProvider('OC\Preview\Movie');
+			}
+		}
 	}
 
 	/**

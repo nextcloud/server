@@ -35,5 +35,3 @@ class Image extends Provider {
 	}
 
 }
-
-\OC\Preview::registerProvider('OC\Preview\Image');

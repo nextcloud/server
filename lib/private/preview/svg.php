@@ -9,12 +9,6 @@ namespace OC\Preview;
 
 use Imagick;
 
-if (extension_loaded('imagick')) {
-
-	$checkImagick = new Imagick();
-
-	if(count($checkImagick->queryFormats('SVG')) === 1) {
-
 		class SVG extends Provider {
 
 			public function getMimeType() {
@@ -50,9 +44,4 @@ if (extension_loaded('imagick')) {
 				//check if image object is valid
 				return $image->valid() ? $image : false;
 			}
-
 		}
-
-		\OC\Preview::registerProvider('OC\Preview\SVG');
-	}
-}

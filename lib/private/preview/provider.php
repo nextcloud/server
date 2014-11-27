@@ -5,18 +5,21 @@ abstract class Provider {
 	private $options;
 
 	public function __construct($options) {
-		$this->options=$options;
+		$this->options = $options;
 	}
 
+	/**
+	 * @return string Regex with the mimetypes that are supported by this provider
+	 */
 	abstract public function getMimeType();
 
 	/**
 	 * Check if a preview can be generated for $path
 	 *
-	 * @param string $path
+	 * @param \OC\Files\FileInfo $file
 	 * @return bool
 	 */
-	public function isAvailable($path) {
+	public function isAvailable($file) {
 		return true;
 	}
 
@@ -32,5 +35,4 @@ abstract class Provider {
 	 *		OC_Image object of the preview
 	 */
 	abstract public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview);
-
 }
