@@ -337,7 +337,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
-		return $this->filemtime($path) > $time;
+		if ($this->file_exists($path)) {
+			return $this->filemtime($path) > $time;
+		} else {
+			return true;
+		}
 	}
 
 	/**
