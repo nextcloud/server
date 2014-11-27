@@ -631,4 +631,13 @@ class Server extends SimpleContainer implements IServerContainer {
 	function getAppManager() {
 		return $this->query('AppManager');
 	}
+
+	/**
+	 * Get the webroot
+	 *
+	 * @return string
+	 */
+	function getWebRoot() {
+		return \OC::$WEBROOT;
+	}
 }
