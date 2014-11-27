@@ -292,7 +292,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function free_space($path) {
-		return @disk_free_space($this->getSourcePath($path));
+		$space = @disk_free_space($this->getSourcePath($path));
+		if ($space === false || is_null($space)) {
+			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+		}
+		return $space;
 	}
 
 	public function search($query) {
