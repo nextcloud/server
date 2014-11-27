@@ -585,7 +585,7 @@ class Cache {
 	/**
 	 * find a folder in the cache which has not been fully scanned
 	 *
-	 * If multiply incomplete folders are in the cache, the one with the highest id will be returned,
+	 * If multiple incomplete folders are in the cache, the one with the highest id will be returned,
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *

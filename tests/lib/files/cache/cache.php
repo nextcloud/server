@@ -20,20 +20,20 @@ class Cache extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage ;
 	 */
-	private $storage;
+	protected $storage;
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage2 ;
 	 */
-	private $storage2;
+	protected $storage2;
 
 	/**
 	 * @var \OC\Files\Cache\Cache $cache
 	 */
-	private $cache;
+	protected $cache;
 	/**
 	 * @var \OC\Files\Cache\Cache $cache2
 	 */
-	private $cache2;
+	protected $cache2;
 
 	public function testSimple() {
 		$file1 = 'foo';
