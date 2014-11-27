@@ -159,6 +159,9 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		// sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
 		// note that the access time of the file always changes to the current time.
+		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
+			return false;
+		}
 		if (!is_null($mtime)) {
 			$result = touch($this->getSourcePath($path), $mtime);
 		} else {
