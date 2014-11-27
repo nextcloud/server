@@ -353,6 +353,13 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isLocal() {
+		return true;
+	}
+
+	/**
 	 * @param string $path
 	 * @return string
 	 */
