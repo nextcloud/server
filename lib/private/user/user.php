@@ -11,6 +11,7 @@ namespace OC\User;
 
 use OC\Hooks\Emitter;
 use OCP\IUser;
+use OCP\IConfig;
 
 class User implements IUser {
 	/**
@@ -49,7 +50,7 @@ class User implements IUser {
 	private $lastLogin;
 
 	/**
-	 * @var \OC\AllConfig $config
+	 * @var \OCP\IConfig $config
 	 */
 	private $config;
 
@@ -57,9 +58,9 @@ class User implements IUser {
 	 * @param string $uid
 	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
-	 * @param \OC\AllConfig $config
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($uid, $backend, $emitter = null, $config = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;

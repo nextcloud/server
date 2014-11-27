@@ -19,7 +19,7 @@ class InfoParser extends \PHPUnit_Framework_TestCase {
 	private $parser;
 
 	public function setUp() {
-		$config = $this->getMockBuilder('\OC\AllConfig')
+		$config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 		$httpHelper = $this->getMockBuilder('\OC\HTTPHelper')
 			->setConstructorArgs(array($config))

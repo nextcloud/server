@@ -11,6 +11,7 @@ namespace OC\User;
 
 use OC\Hooks\PublicEmitter;
 use OCP\IUserManager;
+use OCP\IConfig;
 
 /**
  * Class Manager
@@ -37,14 +38,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	private $cachedUsers = array();
 
 	/**
-	 * @var \OC\AllConfig $config
+	 * @var \OCP\IConfig $config
 	 */
 	private $config;
 
 	/**
-	 * @param \OC\AllConfig $config
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($config = null) {
+	public function __construct(IConfig $config = null) {
 		$this->config = $config;
 		$cachedUsers = &$this->cachedUsers;
 		$this->listen('\OC\User', 'postDelete', function ($user) use (&$cachedUsers) {

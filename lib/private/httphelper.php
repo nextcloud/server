@@ -8,16 +8,18 @@
 
 namespace OC;
 
+use \OCP\IConfig;
+
 class HTTPHelper {
 	const USER_AGENT = 'ownCloud Server Crawler';
 
-	/** @var \OC\AllConfig */
+	/** @var \OCP\IConfig */
 	private $config;
 
 	/**
-	 * @param \OC\AllConfig $config
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct(AllConfig $config) {
+	public function __construct(IConfig $config) {
 		$this->config = $config;
 	}
 

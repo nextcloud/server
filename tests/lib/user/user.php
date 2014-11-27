@@ -9,7 +9,6 @@
 
 namespace Test\User;
 
-use OC\AllConfig;
 use OC\Hooks\PublicEmitter;
 
 class User extends \Test\TestCase {
@@ -228,7 +227,7 @@ class User extends \Test\TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$allConfig = $this->getMockBuilder('\OC\AllConfig')
+		$allConfig = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()
 			->getMock();
 		$allConfig->expects($this->any())

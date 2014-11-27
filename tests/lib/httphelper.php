@@ -8,7 +8,7 @@
 
 class TestHTTPHelper extends \Test\TestCase {
 
-	/** @var \OC\AllConfig*/
+	/** @var \OCP\IConfig*/
 	private $config;
 	/** @var \OC\HTTPHelper */
 	private $httpHelperMock;
@@ -16,7 +16,7 @@ class TestHTTPHelper extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
-		$this->config = $this->getMockBuilder('\OC\AllConfig')
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
 			->setConstructorArgs(array($this->config))
