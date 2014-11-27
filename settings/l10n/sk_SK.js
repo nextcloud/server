@@ -219,6 +219,7 @@ OC.L10N.register(
     "Create" : "Vytvoriť",
     "Admin Recovery Password" : "Obnovenie hesla administrátora",
     "Enter the recovery password in order to recover the users files during password change" : "Zadajte heslo pre obnovenie súborov používateľa pri zmene hesla",
+    "Search Users" : "Hľadať používateľov",
     "Add Group" : "Pridať skupinu",
     "Group" : "Skupina",
     "Everyone" : "Všetci",
