@@ -33,15 +33,15 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
 		});
-		$this->registerService('Request', function ($c) {
+		$this->registerService('Request', function (Server $c) {
 			if (isset($c['urlParams'])) {
 				$urlParams = $c['urlParams'];
 			} else {
 				$urlParams = array();
 			}
 
-			if (\OC::$server->getSession()->exists('requesttoken')) {
-				$requestToken = \OC::$server->getSession()->get('requesttoken');
+			if ($c->getSession()->exists('requesttoken')) {
+				$requestToken = $c->getSession()->get('requesttoken');
 			} else {
 				$requestToken = false;
 			}
