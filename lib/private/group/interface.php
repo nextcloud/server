@@ -28,7 +28,7 @@ interface OC_Group_Interface {
 	* @return boolean
 	*
 	* Returns the supported actions as int to be
-	* compared with OC_GROUP_BACKEND_CREATE_GROUP etc.
+	* compared with \OC_Group_Backend::CREATE_GROUP etc.
 	*/
 	public function implementsActions($actions);
 

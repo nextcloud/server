@@ -23,29 +23,51 @@
 
 /**
  * error code for functions not provided by the group backend
+ * @deprecated Use \OC_Group_Backend::NOT_IMPLEMENTED instead
  */
 define('OC_GROUP_BACKEND_NOT_IMPLEMENTED',   -501);
 
 /**
  * actions that user backends can define
  */
+/** @deprecated Use \OC_Group_Backend::CREATE_GROUP instead */
 define('OC_GROUP_BACKEND_CREATE_GROUP',      0x00000001);
+/** @deprecated Use \OC_Group_Backend::DELETE_GROUP instead */
 define('OC_GROUP_BACKEND_DELETE_GROUP',      0x00000010);
+/** @deprecated Use \OC_Group_Backend::ADD_TO_GROUP instead */
 define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00000100);
+/** @deprecated Use \OC_Group_Backend::REMOVE_FROM_GOUP instead */
 define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
+/** @deprecated Obsolete */
 define('OC_GROUP_BACKEND_GET_DISPLAYNAME',   0x00010000); //OBSOLETE
+/** @deprecated Use \OC_Group_Backend::COUNT_USERS instead */
 define('OC_GROUP_BACKEND_COUNT_USERS',       0x00100000);
 
 /**
  * Abstract base class for user management
  */
 abstract class OC_Group_Backend implements OC_Group_Interface {
+	/**
+	 * error code for functions not provided by the group backend
+	 */
+	const NOT_IMPLEMENTED = -501;
+
+	/**
+	 * actions that user backends can define
+	 */
+	const CREATE_GROUP		= 0x00000001;
+	const DELETE_GROUP		= 0x00000010;
+	const ADD_TO_GROUP		= 0x00000100;
+	const REMOVE_FROM_GOUP	= 0x00001000;
+	//OBSOLETE const GET_DISPLAYNAME	= 0x00010000;
+	const COUNT_USERS		= 0x00100000;
+
 	protected $possibleActions = array(
-		OC_GROUP_BACKEND_CREATE_GROUP => 'createGroup',
-		OC_GROUP_BACKEND_DELETE_GROUP => 'deleteGroup',
-		OC_GROUP_BACKEND_ADD_TO_GROUP => 'addToGroup',
-		OC_GROUP_BACKEND_REMOVE_FROM_GOUP => 'removeFromGroup',
-		OC_GROUP_BACKEND_COUNT_USERS => 'countUsersInGroup',
+		self::CREATE_GROUP => 'createGroup',
+		self::DELETE_GROUP => 'deleteGroup',
+		self::ADD_TO_GROUP => 'addToGroup',
+		self::REMOVE_FROM_GOUP => 'removeFromGroup',
+		self::COUNT_USERS => 'countUsersInGroup',
 	);
 
 	/**
