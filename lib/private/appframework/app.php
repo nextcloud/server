@@ -53,7 +53,7 @@ class App {
 		// initialize the dispatcher and run all the middleware before the controller
 		$dispatcher = $container['Dispatcher'];
 
-		list($httpHeaders, $responseHeaders, $output) =
+		list($httpHeaders, $responseHeaders, $responseCookies, $output) =
 			$dispatcher->dispatch($controller, $methodName);
 
 		if(!is_null($httpHeaders)) {
@@ -62,6 +62,14 @@ class App {
 
 		foreach($responseHeaders as $name => $value) {
 			header($name . ': ' . $value);
+		}
+
+		foreach($responseCookies as $name => $value) {
+			$expireDate = null;
+			if($value['expireDate'] instanceof \DateTime) {
+				$expireDate = $value['expireDate']->getTimestamp();
+			}
+			setcookie($name, $value['value'], $expireDate, \OC::$WEBROOT, null, \OC::$server->getConfig()->getSystemValue('forcessl', false), true);
 		}
 
 		if(!is_null($output)) {

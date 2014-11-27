@@ -48,7 +48,7 @@ class Dispatcher {
 	 * @param Http $protocol the http protocol with contains all status headers
 	 * @param MiddlewareDispatcher $middlewareDispatcher the dispatcher which
 	 * runs the middleware
-	 * @param ControllerMethodReflector the reflector that is used to inject
+	 * @param ControllerMethodReflector $reflector the reflector that is used to inject
 	 * the arguments for the controller
 	 * @param IRequest $request the incoming request
 	 */
@@ -71,6 +71,7 @@ class Dispatcher {
 	 * @return array $array[0] contains a string with the http main header,
 	 * $array[1] contains headers in the form: $key => value, $array[2] contains
 	 * the response output
+	 * @throws \Exception
 	 */
 	public function dispatch(Controller $controller, $methodName) {
 		$out = array(null, array(), null);
@@ -102,13 +103,14 @@ class Dispatcher {
 		// get the output which should be printed and run the after output
 		// middleware to modify the response
 		$output = $response->render();
-		$out[2] = $this->middlewareDispatcher->beforeOutput(
+		$out[3] = $this->middlewareDispatcher->beforeOutput(
 			$controller, $methodName, $output);
 
 		// depending on the cache object the headers need to be changed
 		$out[0] = $this->protocol->getStatusHeader($response->getStatus(),
 			$response->getLastModified(), $response->getETag());
-		$out[1] = $response->getHeaders();
+		$out[1] = array_merge($response->getHeaders());
+		$out[2] = $response->getCookies();
 
 		return $out;
 	}
