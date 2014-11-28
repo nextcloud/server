@@ -26,7 +26,6 @@ class TXT extends Provider {
 	 * {@inheritDoc}
 	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-
 		$content = $fileview->fopen($path, 'r');
 		$content = stream_get_contents($content,3000);
 
@@ -72,11 +71,4 @@ class TXT extends Provider {
 
 		return $image->valid() ? $image : false;
 	}
-}
-
-class MarkDown extends TXT {
-	public function getMimeType() {
-		return '/text\/(x-)?markdown/';
-	}
-
 }

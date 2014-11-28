@@ -8,11 +8,16 @@
 namespace OC\Preview;
 
 class MP3 extends Provider {
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getMimeType() {
 		return '/audio\/mpeg/';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		$getID3 = new \getID3();
 
@@ -31,6 +36,12 @@ class MP3 extends Provider {
 		return $this->getNoCoverThumbnail();
 	}
 
+	/**
+	 * Generates a default image when the file has no cover
+	 *
+	 * @return false|\OC_Image	False if the default image is missing or invalid,
+	 *							otherwise the image is returned as \OC_Image
+	 */
 	private function getNoCoverThumbnail() {
 		$icon = \OC::$SERVERROOT . '/core/img/filetypes/audio.png';
 

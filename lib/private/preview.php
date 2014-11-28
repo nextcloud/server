@@ -16,11 +16,6 @@ namespace OC;
 use OC\Preview\Provider;
 use OCP\Files\NotFoundException;
 
-require_once 'preview/image.php';
-require_once 'preview/movie.php';
-require_once 'preview/mp3.php';
-require_once 'preview/svg.php';
-require_once 'preview/txt.php';
 require_once 'preview/office-cl.php';
 require_once 'preview/bitmap.php';
 
