@@ -809,7 +809,7 @@ $CONFIG = array(
 
 /**
  * Database types that are supported for installation. (SQLite is available only in 
- * ownCloud Community Edition)
+ * ownCloud Community Edition, oci and mssql only for the Enterprise Edition)
  *
  * Available:
  * 	- sqlite (SQLite3)
