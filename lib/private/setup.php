@@ -90,7 +90,9 @@ class OC_Setup {
 				'name' => 'MS SQL'
 			)
 		);
-		$configuredDatabases = $this->config->getSystemValue('supportedDatabases', array('sqlite', 'mysql', 'pgsql', 'oci', 'mssql'));
+
+		$configuredDatabases = $this->config->getSystemValue('supportedDatabases',
+			array('sqlite', 'mysql', 'pgsql'));
 		if(!is_array($configuredDatabases)) {
 			throw new Exception('Supported databases are not properly configured.');
 		}
