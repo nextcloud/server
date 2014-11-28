@@ -102,6 +102,11 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailSuccessful() {
+		if (\OC_Util::runningOnWindows()) {
+			// FIXME after OC_Mail refactor
+			$this->markTestSkipped('[Windows] sendmail is not supported on windows');
+		}
+
 		$randomToken = $this->container['SecureRandom'];
 		$this->container['SecureRandom']
 			->expects($this->once())
