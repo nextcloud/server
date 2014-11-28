@@ -403,6 +403,8 @@ class Access extends LDAPUtility implements user\IUserTools {
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
+		//NOTE: mind, disabling cache affects only this instance! Using it
+		// outside of core user management will still cache the user as non-existing.
 		$originalTTL = $this->connection->ldapCacheTTL;
 		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
 		if(($isUser && !\OCP\User::userExists($intName))
@@ -507,12 +509,21 @@ class Access extends LDAPUtility implements user\IUserTools {
 				if($isUsers) {
 					//cache the user names so it does not need to be retrieved
 					//again later (e.g. sharing dialogue).
+					$this->cacheUserExists($ocName);
 					$this->cacheUserDisplayName($ocName, $nameByLDAP);
 				}
 			}
 			continue;
 		}
 		return $ownCloudNames;
+	}
+
+	/**
+	 * caches a user as existing
+	 * @param string $ocName the internal ownCloud username
+	 */
+	public function cacheUserExists($ocName) {
+		$this->connection->writeToCache('userExists'.$ocName, true);
 	}
 
 	/**
