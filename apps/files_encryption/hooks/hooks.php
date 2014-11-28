@@ -432,15 +432,18 @@ class Hooks {
 		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
 		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
 
+		$oldKeysPath = Keymanager::getKeyPath($view, $util, $params['oldpath']);
+
 		if ($mp1 === $mp2) {
-
-			$oldKeysPath = Keymanager::getKeyPath($view, $util, $params['oldpath']);
-
 			self::$renamedFiles[$params['oldpath']] = array(
 				'operation' => $operation,
 				'oldKeysPath' => $oldKeysPath,
 				);
-
+		} else {
+			self::$renamedFiles[$params['oldpath']] = array(
+				'operation' => 'cleanup',
+				'oldKeysPath' => $oldKeysPath,
+				);
 		}
 	}
 
@@ -464,6 +467,9 @@ class Hooks {
 			$operation = self::$renamedFiles[$params['oldpath']]['operation'];
 			$oldKeysPath = self::$renamedFiles[$params['oldpath']]['oldKeysPath'];
 			unset(self::$renamedFiles[$params['oldpath']]);
+			if ($operation === 'cleanup') {
+				return $view->unlink($oldKeysPath);
+			}
 		} else {
 			\OCP\Util::writeLog('Encryption library', "can't get path and owner from the file before it was renamed", \OCP\Util::DEBUG);
 			return false;
