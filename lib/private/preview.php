@@ -16,7 +16,6 @@ namespace OC;
 use OC\Preview\Provider;
 use OCP\Files\NotFoundException;
 
-require_once 'preview/office-cl.php';
 require_once 'preview/bitmap.php';
 
 class Preview {
