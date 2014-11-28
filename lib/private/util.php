@@ -497,6 +497,13 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
+		if(!class_exists('XMLWriter')) {
+			$errors[] = array(
+				'error'=> $l->t('PHP module %s not installed.', array('XMLWriter')),
+				'hint'=>$moduleHint
+			);
+			$webServerRestart = true;
+		}		
 		if(!class_exists('DOMDocument')) {
 			$errors[] = array(
 				'error'=> $l->t('PHP module %s not installed.', array('dom')),
