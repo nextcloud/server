@@ -336,7 +336,3 @@ interface Storage {
 	 */
 	public function instanceOfStorage($class);
 }
-
-interface IHomeStorage {
-
-}

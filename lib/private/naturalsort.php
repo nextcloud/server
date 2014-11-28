@@ -9,16 +9,6 @@
 
 namespace OC;
 
-class NaturalSort_DefaultCollator {
-
-	public function compare($a, $b) {
-		if ($a === $b) {
-			return 0;
-		}
-		return ($a < $b) ? -1 : 1;
-	}
-}
-
 class NaturalSort {
 	private static $instance;
 	private $collator;
@@ -114,4 +104,3 @@ class NaturalSort {
 		return self::$instance;
 	}
 }
-
