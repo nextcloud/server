@@ -227,7 +227,7 @@ class DispatcherTest extends \Test\TestCase {
 
 		$this->assertEquals($httpHeaders, $response[0]);
 		$this->assertEquals($responseHeaders, $response[1]);
-		$this->assertEquals($out, $response[2]);
+		$this->assertEquals($out, $response[3]);
 	}
 
 
@@ -246,7 +246,7 @@ class DispatcherTest extends \Test\TestCase {
 
 		$this->assertEquals($httpHeaders, $response[0]);
 		$this->assertEquals($responseHeaders, $response[1]);
-		$this->assertEquals($out, $response[2]);
+		$this->assertEquals($out, $response[3]);
 	}
 
 
@@ -301,7 +301,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true,4,1]', $response[2]);
+		$this->assertEquals('[3,true,4,1]', $response[3]);
 	}
 
 
@@ -324,7 +324,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('[3,true,4,7]', $response[2]);
+		$this->assertEquals('[3,true,4,7]', $response[3]);
 	}
 
 
@@ -350,7 +350,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
 	}
 
 
@@ -375,7 +375,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'execDataResponse');
 
-		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
 	}
 
 
@@ -401,7 +401,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,false,4,1]}', $response[2]);
+		$this->assertEquals('{"text":[3,false,4,1]}', $response[3]);
 	}
 
 
@@ -429,7 +429,7 @@ class DispatcherTest extends \Test\TestCase {
 		$this->dispatcherPassthrough();
 		$response = $this->dispatcher->dispatch($controller, 'exec');
 
-		$this->assertEquals('{"text":[3,true,4,1]}', $response[2]);
+		$this->assertEquals('{"text":[3,true,4,1]}', $response[3]);
 	}
 
 

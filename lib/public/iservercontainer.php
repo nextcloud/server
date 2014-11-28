@@ -298,4 +298,11 @@ interface IServerContainer {
 	 * @return \OCP\App\IAppManager
 	 */
 	function getAppManager();
+
+	/**
+	 * Get the webroot
+	 *
+	 * @return string
+	 */
+	function getWebRoot();
 }

@@ -29,19 +29,27 @@ use OC\Tagging\TagMapper;
  * TODO: hookup all manager classes
  */
 class Server extends SimpleContainer implements IServerContainer {
-	function __construct() {
+	/** @var string */
+	private $webRoot;
+
+	/**
+	 * @param string $webRoot
+	 */
+	function __construct($webRoot) {
+		$this->webRoot = $webRoot;
+
 		$this->registerService('ContactsManager', function ($c) {
 			return new ContactsManager();
 		});
-		$this->registerService('Request', function ($c) {
+		$this->registerService('Request', function (Server $c) {
 			if (isset($c['urlParams'])) {
 				$urlParams = $c['urlParams'];
 			} else {
 				$urlParams = array();
 			}
 
-			if (\OC::$server->getSession()->exists('requesttoken')) {
-				$requestToken = \OC::$server->getSession()->get('requesttoken');
+			if ($c->getSession()->exists('requesttoken')) {
+				$requestToken = $c->getSession()->get('requesttoken');
 			} else {
 				$requestToken = false;
 			}
@@ -233,8 +241,7 @@ class Server extends SimpleContainer implements IServerContainer {
 				return new NullQueryLogger();
 			}
 		});
-		$this->registerService('TempManager', function ($c) {
-			/** @var Server $c */
+		$this->registerService('TempManager', function (Server $c) {
 			return new TempManager(get_temp_dir(), $c->getLogger());
 		});
 		$this->registerService('AppManager', function(Server $c) {
@@ -630,5 +637,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getAppManager() {
 		return $this->query('AppManager');
+	}
+
+	/**
+	 * Get the webroot
+	 *
+	 * @return string
+	 */
+	function getWebRoot() {
+		return $this->webRoot;
 	}
 }
