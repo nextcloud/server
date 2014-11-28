@@ -9,11 +9,16 @@
 namespace OC\Preview;
 
 class Image extends Provider {
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getMimeType() {
 		return '/image\/(?!tiff$)(?!svg.*).*/';
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
 		//get fileinfo
 		$fileInfo = $fileview->getFileInfo($path);
@@ -35,5 +40,3 @@ class Image extends Provider {
 	}
 
 }
-
-\OC\Preview::registerProvider('OC\Preview\Image');

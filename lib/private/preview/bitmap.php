@@ -5,113 +5,33 @@
  * later.
  * See the COPYING-README file.
  */
+
 namespace OC\Preview;
 
-use Imagick;
+abstract class Bitmap extends Provider {
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		$tmpPath = $fileview->toTmpFile($path);
 
-if (extension_loaded('imagick')) {
+		//create imagick object from bitmap or vector file
+		try {
+			// Layer 0 contains either the bitmap or
+			// a flat representation of all vector layers
+			$bp = new \Imagick($tmpPath . '[0]');
 
-	$checkImagick = new Imagick();
-
-	class Bitmap extends Provider {
-
-		public function getMimeType() {
-			return null;
+			$bp->setImageFormat('png');
+		} catch (\Exception $e) {
+			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+			return false;
 		}
 
-		public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
-			$tmpPath = $fileview->toTmpFile($path);
+		unlink($tmpPath);
 
-			//create imagick object from bitmap or vector file
-			try{
-				// Layer 0 contains either the bitmap or
-				// a flat representation of all vector layers
-				$bp = new Imagick($tmpPath . '[0]');
-				
-				$bp->setImageFormat('png');
-			} catch (\Exception $e) {
-				\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
-				return false;
-			}
-
-			unlink($tmpPath);
-			
-			//new bitmap image object
-			$image = new \OC_Image($bp);
-			//check if image object is valid
-			return $image->valid() ? $image : false;
-		}
-
-	}
-	
-	if(count($checkImagick->queryFormats('PDF')) === 1) {
-	
-		//.pdf
-		class PDF extends Bitmap {
-
-			public function getMimeType() {
-				return '/application\/pdf/';
-			}
-
-		}
-		
-		\OC\Preview::registerProvider('OC\Preview\PDF');
-	}
-	
-	if(count($checkImagick->queryFormats('TIFF')) === 1) {
-	
-		//.tiff
-		class TIFF extends Bitmap {
-
-			public function getMimeType() {
-				return '/image\/tiff/';
-			}
-
-		}
-		
-		\OC\Preview::registerProvider('OC\Preview\TIFF');
-	}
-
-	if(count($checkImagick->queryFormats('AI')) === 1) {
-	
-		//.ai
-		class Illustrator extends Bitmap {
-
-			public function getMimeType() {
-				return '/application\/illustrator/';
-			}
-
-		}
-		
-		\OC\Preview::registerProvider('OC\Preview\Illustrator');
-	}
-	
-	// Requires adding 'eps' => array('application/postscript', null), to lib/private/mimetypes.list.php
-	if(count($checkImagick->queryFormats('EPS')) === 1) {
-
-		//.eps
-		class Postscript extends Bitmap {
-
-			public function getMimeType() {
-				return '/application\/postscript/';
-			}
-
-		}
-
-		\OC\Preview::registerProvider('OC\Preview\Postscript');
-	}
-	
-	if(count($checkImagick->queryFormats('PSD')) === 1) {
-	
-		//.psd
-		class Photoshop extends Bitmap {
-
-			public function getMimeType() {
-				return '/application\/x-photoshop/';
-			}
-
-		}
-		
-		\OC\Preview::registerProvider('OC\Preview\Photoshop');
+		//new bitmap image object
+		$image = new \OC_Image($bp);
+		//check if image object is valid
+		return $image->valid() ? $image : false;
 	}
 }
