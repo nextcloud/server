@@ -87,11 +87,14 @@ class Test_ActivityManager extends \Test\TestCase {
 	}
 
 	public function testQueryForFilter() {
+		$this->activityManager->registerExtension(function() {
+			return new SimpleExtension();
+		});
 		$result = $this->activityManager->getQueryForFilter('filter1');
 		$this->assertEquals(
 			array(
-				'`app` = ? and `message` like ?',
-				array('mail', 'ownCloud%')
+				' and ((`app` = ? and `message` like ?) or (`app` = ? and `message` like ?))',
+				array('mail', 'ownCloud%', 'mail', 'ownCloud%')
 			), $result
 		);
 
