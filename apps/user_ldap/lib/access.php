@@ -1152,6 +1152,33 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * creates a filter part for searches by splitting up the given search
+	 * string into single words
+	 * @param string $search the search term
+	 * @param string[] $searchAttributes needs to have at least two attributes,
+	 * otherwise it does not make sense :)
+	 * @return string the final filter part to use in LDAP searches
+	 * @throws \Exception
+	 */
+	private function getAdvancedFilterPartForSearch($search, $searchAttributes) {
+		if(!is_array($searchAttributes) || count($searchAttributes) < 2) {
+			throw new \Exception('searchAttributes must be an array with at least two string');
+		}
+		$searchWords = explode(' ', trim($search));
+		$wordFilters = array();
+		foreach($searchWords as $word) {
+			$word .= '*';
+			//every word needs to appear at least once
+			$wordMatchOneAttrFilters = array();
+			foreach($searchAttributes as $attr) {
+				$wordMatchOneAttrFilters[] = $attr . '=' . $word;
+			}
+			$wordFilters[] = $this->combineFilterWithOr($wordMatchOneAttrFilters);
+		}
+		return $this->combineFilterWithAnd($wordFilters);
+	}
+
+	/**
 	 * creates a filter part for searches
 	 * @param string $search the search term
 	 * @param string[]|null $searchAttributes
@@ -1161,7 +1188,19 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	private function getFilterPartForSearch($search, $searchAttributes, $fallbackAttribute) {
 		$filter = array();
-		$search = empty($search) ? '*' : '*'.$search.'*';
+		$haveMultiSearchAttributes = (is_array($searchAttributes) && count($searchAttributes) > 0);
+		if($haveMultiSearchAttributes && strpos(trim($search), ' ') !== false) {
+			try {
+				return $this->getAdvancedFilterPartForSearch($search, $searchAttributes);
+			} catch(\Exception $e) {
+				\OCP\Util::writeLog(
+					'user_ldap',
+					'Creating advanced filter for search failed, falling back to simple method.',
+					\OCP\Util::INFO
+				);
+			}
+		}
+		$search = empty($search) ? '*' : $search.'*';
 		if(!is_array($searchAttributes) || count($searchAttributes) === 0) {
 			if(empty($fallbackAttribute)) {
 				return '';
