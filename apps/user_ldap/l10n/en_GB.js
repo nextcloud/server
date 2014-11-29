@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Confirm Deletion",
     "_%s group found_::_%s groups found_" : ["%s group found","%s groups found"],
     "_%s user found_::_%s users found_" : ["%s user found","%s users found"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings.",
     "Could not find the desired feature" : "Could not find the desired feature",
     "Invalid Host" : "Invalid Host",
     "Server" : "Server",

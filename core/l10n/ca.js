@@ -184,7 +184,7 @@ OC.L10N.register(
     "This means only administrators can use the instance." : "Això significa que només els administradors poden usar la instància.",
     "Contact your system administrator if this message persists or appeared unexpectedly." : "Contacteu amb l'administrador del sistema si aquest missatge persisteix o apareix inesperadament.",
     "Thank you for your patience." : "Gràcies per la paciència.",
-    "You are accessing the server from an untrusted domain." : "Esteu accedint el servidor des d'un domini no fiable",
+    "You are accessing the server from an untrusted domain." : "Esteu accedint al servidor des d'un domini no fiable",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Contacteu amb l'administrador. Si sou un administrador d'aquesta instància, configureu el paràmetre \"trusted_domain\" a config/config.php. Hi ha un exemple de configuració a config/config.sampe.php",
     "Depending on your configuration, as an administrator you might also be able to use the button below to trust this domain." : "En funció de la teva configuració, com a administrador podries utilitzar el botó d'abaix per confiar en aquest domini.",
     "Add \"%s\" as trusted domain" : "Afegeix \"%s\" com a domini de confiança",

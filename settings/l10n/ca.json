@@ -99,7 +99,7 @@
     "SSL" : "SSL",
     "TLS" : "TLS",
     "Security Warning" : "Avís de seguretat",
-    "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Esteu accedint %s a través de HTTP. Us recomanem fermament que configureu el servidor perquè requereixi HTTPS.",
+    "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Esteu accedint a %s a través de HTTP. Us recomanem fermament que configureu el servidor perquè requereixi HTTPS.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "La carpeta de dades i els vostres fitxersprobablement són accessibles des d'Internet. La fitxer .htaccess no funciona. Us recomanem que configureu el servidor web de tal manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de l'arrel de documents del servidor web.",
     "Setup Warning" : "Avís de configuració",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Aparentment PHP està configurat per mostrar blocs en línia de documentació. Això farà que algunes aplicacions core siguin inaccessibles.",
