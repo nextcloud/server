@@ -31,6 +31,7 @@
     "Confirm Deletion" : "Conferma l'eliminazione",
     "_%s group found_::_%s groups found_" : ["%s gruppo trovato","%s gruppi trovati"],
     "_%s user found_::_%s users found_" : ["%s utente trovato","%s utenti trovati"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Impossibile rilevare l'attributo nome visualizzato dell'utente. Specificalo nelle impostazioni avanzate di ldap.",
     "Could not find the desired feature" : "Impossibile trovare la funzionalità desiderata",
     "Invalid Host" : "Host non valido",
     "Server" : "Server",

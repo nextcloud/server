@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Silmeyi onayla",
     "_%s group found_::_%s groups found_" : ["%s grup bulundu","%s grup bulundu"],
     "_%s user found_::_%s users found_" : ["%s kullanıcı bulundu","%s kullanıcı bulundu"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Görüntülenecek kullanıcı adı özelliği algılanamadı. Lütfen gelişmiş ldap ayarlarına girerek kendiniz belirleyin.",
     "Could not find the desired feature" : "İstenen özellik bulunamadı",
     "Invalid Host" : "Geçersiz Makine",
     "Server" : "Sunucu",
