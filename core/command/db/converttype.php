@@ -228,6 +228,8 @@ class ConvertType extends Command {
 	}
 
 	protected function getTables(Connection $db) {
+		$db->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^'.$this->config->getSystemValue('dbtableprefix').'/');
 		return $db->getSchemaManager()->listTableNames();
 	}
 

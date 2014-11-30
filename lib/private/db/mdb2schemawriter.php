@@ -13,13 +13,17 @@ class OC_DB_MDB2SchemaWriter {
 	 * @param \Doctrine\DBAL\Schema\AbstractSchemaManager $sm
 	 * @return bool
 	 */
-	static public function saveSchemaToFile($file, $sm) {
+	static public function saveSchemaToFile($file, $conn) {
 		$xml = new SimpleXMLElement('<database/>');
 		$xml->addChild('name', OC_Config::getValue( "dbname", "owncloud" ));
 		$xml->addChild('create', 'true');
 		$xml->addChild('overwrite', 'false');
 		$xml->addChild('charset', 'utf8');
-		foreach ($sm->listTables() as $table) {
+		
+		$conn->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^'.\OCP\Config::getSystemValue('dbtableprefix'.'/'));
+		
+		foreach ($conn->getSchemaManager()->listTables() as $table) {
 			self::saveTable($table, $xml->addChild('table'));
 		}
 		file_put_contents($file, $xml->asXML());

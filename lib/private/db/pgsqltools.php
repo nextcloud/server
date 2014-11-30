@@ -21,6 +21,9 @@ class PgSqlTools {
 	*/
 	public function resynchronizeDatabaseSequences(Connection $conn) {
 		$databaseName = $conn->getDatabase();
+		$conn->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^'.\OCP\Config::getSystemValue('dbtableprefix').'/');
+
 		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
 			$sequenceName = $sequence->getName();
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
