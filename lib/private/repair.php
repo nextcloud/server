@@ -10,6 +10,7 @@ namespace OC;
 
 use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
+use OC\Repair\RepairConfig;
 
 class Repair extends BasicEmitter {
 	/**
@@ -69,7 +70,8 @@ class Repair extends BasicEmitter {
 	 */
 	public static function getRepairSteps() {
 		return array(
-			new \OC\Repair\RepairMimeTypes()
+			new \OC\Repair\RepairMimeTypes(),
+			new RepairConfig(),
 		);
 	}
 

@@ -10,6 +10,7 @@ use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OCP\IServerContainer;
+use OC\Security\Crypto;
 
 /**
  * Class Server
@@ -198,6 +199,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('Search', function ($c) {
 			return new Search();
+		});
+		$this->registerService('Crypto', function ($c) {
+			return new Crypto(\OC::$server->getConfig());
 		});
 		$this->registerService('Db', function ($c) {
 			return new Db();
@@ -477,6 +481,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getSearch() {
 		return $this->query('Search');
+	}
+
+	/**
+	 * Returns a Crypto instance
+	 *
+	 * @return \OCP\Security\ICrypto
+	 */
+	function getCrypto() {
+		return $this->query('Crypto');
 	}
 
 	/**

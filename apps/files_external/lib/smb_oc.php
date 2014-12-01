@@ -13,12 +13,16 @@ require_once __DIR__ . '/../3rdparty/smb4php/smb.php';
 class SMB_OC extends \OC\Files\Storage\SMB {
 	private $username_as_share;
 
+	/**
+	 * @param array $params
+	 * @throws \Exception
+	 */
 	public function __construct($params) {
 		if (isset($params['host']) && \OC::$session->exists('smb-credentials')) {
 			$host=$params['host'];
 			$this->username_as_share = ($params['username_as_share'] === 'true');
 
-			$params_auth = \OC::$session->get('smb-credentials');
+			$params_auth = json_decode(\OC::$server->getCrypto()->decrypt(\OC::$session->get('smb-credentials')), true);
 			$user = \OC::$session->get('loginname');
 			$password = $params_auth['password'];
 
@@ -44,14 +48,34 @@ class SMB_OC extends \OC\Files\Storage\SMB {
 		}
 	}
 
-	public static function login( $params ) {
-		\OC::$session->set('smb-credentials', $params);
+	/**
+	 * Intercepts the user credentials on login and stores them
+	 * encrypted inside the session if SMB_OC storage is enabled.
+	 * @param array $params
+	 */
+	public static function login($params) {
+		$mountpoints = \OC_Mount_Config::getAbsoluteMountPoints($params['uid']);
+		$mountpointClasses = array();
+		foreach($mountpoints as $mountpoint) {
+			$mountpointClasses[$mountpoint['class']] = true;
+		}
+		if(isset($mountpointClasses['\OC\Files\Storage\SMB_OC'])) {
+			\OC::$session->set('smb-credentials', \OC::$server->getCrypto()->encrypt(json_encode($params)));
+		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return boolean
+	 */
 	public function isSharable($path) {
 		return false;
 	}
 
+	/**
+	 * @param bool $isPersonal
+	 * @return bool
+	 */
 	public function test($isPersonal = true) {
 		if ($isPersonal) {
 			if ($this->stat('')) {
