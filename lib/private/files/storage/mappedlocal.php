@@ -109,6 +109,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
+		clearstatcache();
 		$fullPath = $this->getSourcePath($path);
 		$statResult = stat($fullPath);
 		if (PHP_INT_SIZE === 4 && !$this->is_dir($path)) {
@@ -159,6 +160,9 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		// sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
 		// note that the access time of the file always changes to the current time.
+		if ($this->file_exists($path) and !$this->isUpdatable($path)) {
+			return false;
+		}
 		if (!is_null($mtime)) {
 			$result = touch($this->getSourcePath($path), $mtime);
 		} else {
@@ -292,7 +296,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function free_space($path) {
-		return @disk_free_space($this->getSourcePath($path));
+		$space = @disk_free_space($this->getSourcePath($path));
+		if ($space === false || is_null($space)) {
+			return \OCP\Files\FileInfo::SPACE_UNKNOWN;
+		}
+		return $space;
 	}
 
 	public function search($query) {
@@ -337,7 +345,11 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
-		return $this->filemtime($path) > $time;
+		if ($this->file_exists($path)) {
+			return $this->filemtime($path) > $time;
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -350,6 +362,13 @@ class MappedLocal extends \OC\Files\Storage\Common {
 		$path = $this->stripLeading($path);
 		$fullPath = $this->datadir . $path;
 		return $this->mapper->logicToPhysical($fullPath, true);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isLocal() {
+		return true;
 	}
 
 	/**
