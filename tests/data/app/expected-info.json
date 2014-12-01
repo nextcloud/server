@@ -15,5 +15,10 @@
 	},
 	"rememberlogin": "false",
 	"types": ["filesystem"],
-	"ocsid": "166047"
+	"ocsid": "166047",
+	"dependencies": {
+		"php": {
+			"min-version": 5.4
+		}
+	}
 }
