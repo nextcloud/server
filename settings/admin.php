@@ -33,6 +33,7 @@ $template->assign('mail_smtppassword', $config->getSystemValue("mail_smtppasswor
 $template->assign('entries', $entries);
 $template->assign('entriesremain', $entriesRemaining);
 $template->assign('htaccessworking', $htAccessWorking);
+$template->assign('readOnlyConfigEnabled', OC_Helper::isReadOnlyConfigEnabled());
 $template->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $template->assign('isPhpCharSetUtf8', OC_Util::isPhpCharSetUtf8());
 $template->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
