@@ -39,15 +39,24 @@ class InfoParser extends \PHPUnit_Framework_TestCase {
 		$this->parser = new \OC\App\InfoParser($httpHelper, $urlGenerator);
 	}
 
-	public function testParsingValidXml() {
-		$expectedData = json_decode(file_get_contents(OC::$SERVERROOT.'/tests/data/app/expected-info.json'), true);
-		$data = $this->parser->parse(OC::$SERVERROOT.'/tests/data/app/valid-info.xml');
+	/**
+	 * @dataProvider providesInfoXml
+	 */
+	public function testParsingValidXml($expectedJson, $xmlFile) {
+		$expectedData = null;
+		if (!is_null($expectedJson)) {
+			$expectedData = json_decode(file_get_contents(OC::$SERVERROOT . "/tests/data/app/$expectedJson"), true);
+		}
+		$data = $this->parser->parse(OC::$SERVERROOT. "/tests/data/app/$xmlFile");
 
 		$this->assertEquals($expectedData, $data);
 	}
 
-	public function testParsingInvalidXml() {
-		$data = $this->parser->parse(OC::$SERVERROOT.'/tests/data/app/invalid-info.xml');
-		$this->assertNull($data);
+	function providesInfoXml() {
+		return array(
+			array('expected-info.json', 'valid-info.xml'),
+			array('strange-types-info.json', 'strange-types-info.xml'),
+			array(null, 'invalid-info.xml'),
+		);
 	}
 }

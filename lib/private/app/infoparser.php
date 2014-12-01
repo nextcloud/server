@@ -64,7 +64,7 @@ class InfoParser {
 			$array['types'] = array();
 		}
 
-		if (array_key_exists('documentation', $array)) {
+		if (array_key_exists('documentation', $array) && is_array($array['documentation'])) {
 			foreach ($array['documentation'] as $key => $url) {
 				// If it is not an absolute URL we assume it is a key
 				// i.e. admin-ldap will get converted to go.php?to=admin-ldap
@@ -78,7 +78,9 @@ class InfoParser {
 		if (array_key_exists('types', $array)) {
 			foreach ($array['types'] as $type => $v) {
 				unset($array['types'][$type]);
-				$array['types'][] = $type;
+				if (is_string($type)) {
+					$array['types'][] = $type;
+				}
 			}
 		}
 
