@@ -809,7 +809,7 @@ class OC_App {
 
 				if(isset($info['shipped']) and ($info['shipped'] == 'true')) {
 					$info['internal'] = true;
-					$info['internallabel'] = $l->t('Recommended');
+					$info['internallabel'] = (string)$l->t('Recommended');
 					$info['internalclass'] = 'recommendedapp';
 					$info['removable'] = false;
 				} else {
@@ -920,7 +920,7 @@ class OC_App {
 			$app1[$i]['score'] = $app['score'];
 			$app1[$i]['removable'] = false;
 			if ($app['label'] == 'recommended') {
-				$app1[$i]['internallabel'] = $l->t('Recommended');
+				$app1[$i]['internallabel'] = (string)$l->t('Recommended');
 				$app1[$i]['internalclass'] = 'recommendedapp';
 			}
 
