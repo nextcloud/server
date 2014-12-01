@@ -60,6 +60,9 @@ class InfoParser {
 		if (!array_key_exists('public', $array)) {
 			$array['public'] = array();
 		}
+		if (!array_key_exists('types', $array)) {
+			$array['types'] = array();
+		}
 
 		if (array_key_exists('documentation', $array)) {
 			foreach ($array['documentation'] as $key => $url) {
