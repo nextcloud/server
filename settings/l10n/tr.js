@@ -166,7 +166,7 @@ OC.L10N.register(
     "Less" : "Daha az",
     "Version" : "Sürüm",
     "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." : "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud topluluğu</a> tarafından geliştirilmiş olup, <a href=\"https://github.com/owncloud\" target=\"_blank\">kaynak kodu</a>, <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> altında lisanslanmıştır.",
-    "More apps" : "Daha fazla Uygulama",
+    "More apps" : "Daha fazla uygulama",
     "Add your app" : "Uygulamanızı ekleyin",
     "by" : "oluşturan",
     "licensed" : "lisanslı",
