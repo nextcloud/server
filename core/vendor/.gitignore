@@ -7,6 +7,7 @@ bower.json
 CHANGELOG*
 Gemfile
 gruntfile.js
+Gruntfile.js
 Makefile
 package.json
 README*
@@ -43,6 +44,9 @@ jcrop/demos
 jcrop/css/jquery.Jcrop.min.css
 jcrop/js/**
 !jcrop/js/jquery.Jcrop.js
+
+# jsTimezoneDetect
+jsTimezoneDetect/jstz.min.js
 
 # handlebars
 handlebars/**
