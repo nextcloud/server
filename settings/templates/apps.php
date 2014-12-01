@@ -51,6 +51,15 @@
 		{{/if}}
 	</p>
 	{{/if}}
+	{{#unless canInstall}}
+	<div><?php p($l->t('This app cannot be installed because the following dependencies are not fulfilled:')); ?></div>
+	<ul class="missing-dependencies">
+	{{#each missingDependencies}}
+	<li>{{this}}</li>
+	{{/each}}
+	</ul>
+	{{/unless}}
+
 	{{#if update}}
 	<input class="update" type="submit" value="<?php p($l->t('Update to %s', array('{{update}}'))); ?>" data-appid="{{id}}" />
 	{{/if}}
@@ -61,7 +70,9 @@
 	<br />
 	<input type="hidden" id="group_select" title="<?php p($l->t('All')); ?>" style="width: 200px">
 	{{else}}
+	{{#if canInstall}}
 	<input class="enable" type="submit" data-appid="{{id}}" data-active="false" value="<?php p($l->t("Enable"));?>"/>
+	{{/if}}
 	{{/if}}
 	{{#if canUnInstall}}
 	<input class="uninstall" type="submit" value="<?php p($l->t('Uninstall App')); ?>" data-appid="{{id}}" />
