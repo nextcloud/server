@@ -127,7 +127,7 @@ class AppSettingsController extends Controller {
 			$app['canUnInstall'] = !$app['active'] && $app['removable'];
 
 			// analyse dependencies
-			$dependencyAnalyzer = new DependencyAnalyzer($app, new Platform(), $this->l10n);
+			$dependencyAnalyzer = new DependencyAnalyzer($app, new Platform($this->config), $this->l10n);
 			$missing = $dependencyAnalyzer->analyze();
 
 			$app['canInstall'] = empty($missing);

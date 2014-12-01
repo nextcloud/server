@@ -19,6 +19,7 @@
 	"dependencies": {
 		"php": {
 			"min-version": 5.4
-		}
+		},
+		"database":["sqlite", "mysql"]
 	}
 }

@@ -27,10 +27,14 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 
 	public function setUp() {
 		$this->platformMock = $this->getMockBuilder('\OC\App\Platform')
+			->disableOriginalConstructor()
 			->getMock();
 		$this->platformMock->expects($this->any())
 			->method('getPhpVersion')
 			->will( $this->returnValue('5.4.3'));
+		$this->platformMock->expects($this->any())
+			->method('getDatabase')
+			->will( $this->returnValue('mysql'));
 		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
 			->getMock();
@@ -62,6 +66,34 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals(count($expectedMissing), count($missing));
 		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	/**
+	 * @dataProvider providesDatabases
+	 */
+	public function testDatabases($expectedMissing, $databases) {
+		$app = array(
+			'dependencies' => array(
+			)
+		);
+		if (!is_null($databases)) {
+			$app['dependencies']['database'] = $databases;
+		}
+		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
+		$missing = $analyser->analyze();
+
+		$this->assertTrue(is_array($missing));
+		$this->assertEquals(count($expectedMissing), count($missing));
+		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	function providesDatabases() {
+		return array(
+			// non BC - in case on databases are defined -> all are supported
+			array(array(), null),
+			array(array(), array()),
+			array(array('Following databases are supported: sqlite, postgres'), array('sqlite', 'postgres')),
+		);
 	}
 
 	function providesPhpVersion() {

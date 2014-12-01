@@ -33,6 +33,7 @@ class DependencyAnalyzer {
 	 */
 	public function analyze() {
 		$this->analysePhpVersion();
+		$this->analyseSupportedDatabases();
 		return $this->missing;
 	}
 
@@ -52,6 +53,21 @@ class DependencyAnalyzer {
 			if (version_compare($this->system->getPhpVersion(), $maxVersion, '>')) {
 				$this->missing[] = (string)$this->l->t('PHP with a version less then %s is required.', $maxVersion);
 			}
+		}
+	}
+
+	private function analyseSupportedDatabases() {
+		if (!array_key_exists('database', $this->dependencies)) {
+			return;
+		}
+
+		$supportedDatabases = $this->dependencies['database'];
+		if (empty($supportedDatabases)) {
+			return;
+		}
+		$currentDatabase = $this->system->getDatabase();
+		if (!in_array($currentDatabase, $supportedDatabases)) {
+			$this->missing[] = (string)$this->l->t('Following databases are supported: %s', join(', ', $supportedDatabases));
 		}
 	}
 
