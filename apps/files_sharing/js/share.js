@@ -17,46 +17,47 @@
 	 */
 	OCA.Sharing.Util = {
 		/**
-		 * Initialize the sharing app overrides of the default
-		 * file list.
+		 * Initialize the sharing plugin.
 		 *
 		 * Registers the "Share" file action and adds additional
 		 * DOM attributes for the sharing file info.
 		 *
-		 * @param {OCA.Files.FileActions} fileActions file actions to extend
+		 * @param {OCA.Files.FileList} fileList file list to be extended
 		 */
-		initialize: function(fileActions) {
-			if (OCA.Files.FileList) {
-				var oldCreateRow = OCA.Files.FileList.prototype._createRow;
-				OCA.Files.FileList.prototype._createRow = function(fileData) {
-					var tr = oldCreateRow.apply(this, arguments);
-					var sharePermissions = fileData.permissions;
-					if (fileData.mountType && fileData.mountType === "external-root"){
-						// for external storages we cant use the permissions of the mountpoint
-						// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
-						sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
-					}
-					if (fileData.type === 'file') {
-						// files can't be shared with delete permissions
-						sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
-					}
-					tr.attr('data-share-permissions', sharePermissions);
-					if (fileData.shareOwner) {
-						tr.attr('data-share-owner', fileData.shareOwner);
-						// user should always be able to rename a mount point
-						if (fileData.isShareMountPoint) {
-							tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
-						}
-					}
-					if (fileData.recipientsDisplayName) {
-						tr.attr('data-share-recipients', fileData.recipientsDisplayName);
-					}
-					return tr;
-				};
+		attach: function(fileList) {
+			if (fileList.id === 'trashbin') {
+				return;
 			}
+			var fileActions = fileList.fileActions;
+			var oldCreateRow = fileList._createRow;
+			fileList._createRow = function(fileData) {
+				var tr = oldCreateRow.apply(this, arguments);
+				var sharePermissions = fileData.permissions;
+				if (fileData.mountType && fileData.mountType === "external-root"){
+					// for external storages we cant use the permissions of the mountpoint
+					// instead we show all permissions and only use the share permissions from the mountpoint to handle resharing
+					sharePermissions = sharePermissions | (OC.PERMISSION_ALL & ~OC.PERMISSION_SHARE);
+				}
+				if (fileData.type === 'file') {
+					// files can't be shared with delete permissions
+					sharePermissions = sharePermissions & ~OC.PERMISSION_DELETE;
+				}
+				tr.attr('data-share-permissions', sharePermissions);
+				if (fileData.shareOwner) {
+					tr.attr('data-share-owner', fileData.shareOwner);
+					// user should always be able to rename a mount point
+					if (fileData.isShareMountPoint) {
+						tr.attr('data-permissions', fileData.permissions | OC.PERMISSION_UPDATE);
+					}
+				}
+				if (fileData.recipientsDisplayName) {
+					tr.attr('data-share-recipients', fileData.recipientsDisplayName);
+				}
+				return tr;
+			};
 
 			// use delegate to catch the case with multiple file lists
-			$('#content').delegate('#fileList', 'fileActionsReady', function(ev){
+			fileList.$el.on('fileActionsReady', function(ev){
 				var fileList = ev.fileList;
 				var $files = ev.$files;
 
@@ -198,12 +199,5 @@
 	};
 })();
 
-$(document).ready(function() {
-	// FIXME: HACK: do not init when running unit tests, need a better way
-	if (!window.TESTING) {
-		if (!_.isUndefined(OC.Share) && !_.isUndefined(OCA.Files)) {
-			OCA.Sharing.Util.initialize(OCA.Files.fileActions);
-		}
-	}
-});
+OC.Plugins.register('OCA.Files.FileList', OCA.Sharing.Util);
 

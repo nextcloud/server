@@ -30,6 +30,7 @@ OCA.Sharing.App = {
 		this._inFileList = new OCA.Sharing.FileList(
 			$el,
 			{
+				id: 'shares.self',
 				scrollContainer: $('#app-content'),
 				sharedWithUser: true,
 				fileActions: this._createFileActions()
@@ -49,6 +50,7 @@ OCA.Sharing.App = {
 		this._outFileList = new OCA.Sharing.FileList(
 			$el,
 			{
+				id: 'shares.others',
 				scrollContainer: $('#app-content'),
 				sharedWithUser: false,
 				fileActions: this._createFileActions()
@@ -68,6 +70,7 @@ OCA.Sharing.App = {
 		this._linkFileList = new OCA.Sharing.FileList(
 			$el,
 			{
+				id: 'shares.link',
 				scrollContainer: $('#app-content'),
 				linksOnly: true,
 				fileActions: this._createFileActions()

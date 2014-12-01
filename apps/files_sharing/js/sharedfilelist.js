@@ -55,6 +55,7 @@
 			if (options && options.linksOnly) {
 				this._linksOnly = true;
 			}
+			OC.Plugins.attach('OCA.Sharing.FileList', this);
 		},
 
 		_renderRow: function() {

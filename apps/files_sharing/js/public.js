@@ -53,6 +53,7 @@ OCA.Sharing.PublicApp = {
 			this.fileList = new OCA.Files.FileList(
 				$el,
 				{
+					id: 'files.public',
 					scrollContainer: $(window),
 					dragOptions: dragOptions,
 					folderDropOptions: folderDropOptions,
@@ -61,6 +62,9 @@ OCA.Sharing.PublicApp = {
 			);
 			this.files = OCA.Files.Files;
 			this.files.initialize();
+			// TODO: move to PublicFileList.initialize() once
+			// the code was split into a separate class
+			OC.Plugins.attach('OCA.Sharing.PublicFileList', this.fileList);
 		}
 
 		var mimetype = $('#mimetype').val();

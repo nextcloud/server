@@ -166,6 +166,9 @@
 			}
 
 			this.$el = $el;
+			if (options.id) {
+				this.id = options.id;
+			}
 			this.$container = options.scrollContainer || $(window);
 			this.$table = $el.find('table:first');
 			this.$fileList = $el.find('#fileList');
@@ -215,6 +218,8 @@
 					self.scrollTo(options.scrollTo);
 				});
 			}
+
+			OC.Plugins.attach('OCA.Files.FileList', this);
 		},
 
 		/**
@@ -224,6 +229,7 @@
 			// TODO: also unregister other event handlers
 			this.fileActions.off('registerAction', this._onFileActionsUpdated);
 			this.fileActions.off('setDefault', this._onFileActionsUpdated);
+			OC.Plugins.detach('OCA.Files.FileList', this);
 		},
 
 		/**

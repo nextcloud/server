@@ -120,6 +120,9 @@ window.isPhantom = /phantom/i.test(navigator.userAgent);
 		if (!OC.TestUtil) {
 			OC.TestUtil = TestUtil;
 		}
+
+		// reset plugins
+		OC.Plugins._plugins = [];
 	});
 
 	afterEach(function() {

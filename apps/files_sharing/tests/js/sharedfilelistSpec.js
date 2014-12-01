@@ -50,7 +50,6 @@ describe('OCA.Sharing.FileList tests', function() {
 		// the sharing code
 		oldFileListPrototype = _.extend({}, OCA.Files.FileList.prototype);
 		fileActions = new OCA.Files.FileActions();
-		OCA.Sharing.Util.initialize(fileActions);
 	});
 	afterEach(function() {
 		OCA.Files.FileList.prototype = oldFileListPrototype;
@@ -72,6 +71,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					sharedWithUser: true
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 
 			fileList.reload();
 
@@ -193,6 +193,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					sharedWithUser: false
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 
 			fileList.reload();
 
@@ -433,6 +434,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					linksOnly: true
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 
 			fileList.reload();
 
@@ -580,6 +582,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					fileActions: fileActions
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 		});
 
 		it('external storage root folder', function () {

@@ -41,12 +41,12 @@ describe('OCA.Sharing.Util tests', function() {
 		$('#content').append($div);
 
 		var fileActions = new OCA.Files.FileActions();
-		OCA.Sharing.Util.initialize(fileActions);
 		fileList = new OCA.Files.FileList(
 			$div, {
 				fileActions : fileActions
 			}
 		);
+		OCA.Sharing.Util.attach(fileList);
 
 		testFiles = [{
 			id: 1,
