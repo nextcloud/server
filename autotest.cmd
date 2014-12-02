@@ -10,7 +10,7 @@
 @echo off
 
 set BASEDIR=%~dp0
-set DATADIR=data-autotest
+set DATADIR=%BASEDIR%data-autotest
 
 :: create autoconfig for sqlite, mysql, postgresql and mssql
 echo ^<?php                                      > .\tests\autoconfig-sqlite.php
@@ -20,7 +20,7 @@ echo  'dbtype' ^=^> 'sqlite'^,                   >> .\tests\autoconfig-sqlite.ph
 echo  'dbtableprefix' ^=^> 'oc_'^,               >> .\tests\autoconfig-sqlite.php
 echo  'adminlogin' ^=^> 'admin'^,                >> .\tests\autoconfig-sqlite.php
 echo  'adminpass' ^=^> 'admin'^,                 >> .\tests\autoconfig-sqlite.php
-echo  'directory' ^=^> '%BASEDIR%%DATADIR%'^,    >> .\tests\autoconfig-sqlite.php
+echo  'directory' ^=^> '%DATADIR%'^,             >> .\tests\autoconfig-sqlite.php
 echo ^)^;                                        >> .\tests\autoconfig-sqlite.php
 
 echo ^<?php                                      > .\tests\autoconfig-mysql.php
@@ -30,7 +30,7 @@ echo   'dbtype' ^=^> 'mysql'^,                   >> .\tests\autoconfig-mysql.php
 echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-mysql.php
 echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-mysql.php
 echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-mysql.php
-echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-mysql.php
+echo   'directory' ^=^> '%DATADIR%'^,            >> .\tests\autoconfig-mysql.php
 echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mysql.php
 echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mysql.php
 echo   'dbhost' ^=^> 'localhost'^,               >> .\tests\autoconfig-mysql.php
@@ -44,7 +44,7 @@ echo   'dbtype' ^=^> 'pgsql'^,                   >> .\tests\autoconfig-pgsql.php
 echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-pgsql.php
 echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-pgsql.php
 echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-pgsql.php
-echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-pgsql.php
+echo   'directory' ^=^> '%DATADIR%'^,            >> .\tests\autoconfig-pgsql.php
 echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-pgsql.php
 echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-pgsql.php
 echo   'dbhost' ^=^> 'localhost'^,               >> .\tests\autoconfig-pgsql.php
@@ -58,7 +58,7 @@ echo   'dbtype' ^=^> 'mssql'^,                   >> .\tests\autoconfig-mssql.php
 echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-mssql.php
 echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-mssql.php
 echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-mssql.php
-echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-mssql.php
+echo   'directory' ^=^> '%DATADIR%'^,            >> .\tests\autoconfig-mssql.php
 echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mssql.php
 echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mssql.php
 echo   'dbhost' ^=^> 'localhost\sqlexpress'^,    >> .\tests\autoconfig-mssql.php
