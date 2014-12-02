@@ -31,7 +31,7 @@ class TestRepairInnoDB extends \Test\TestCase {
 		}
 
 		$dbPrefix = \OC::$server->getConfig()->getSystemValue("dbtableprefix");
-		$this->tableName = uniqid($dbPrefix . "_innodb_test");
+		$this->tableName = $this->getUniqueID($dbPrefix . "_innodb_test");
 		$this->connection->exec("CREATE TABLE $this->tableName(id INT) ENGINE MyISAM");
 
 		$this->repair = new \OC\Repair\InnoDB();

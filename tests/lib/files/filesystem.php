@@ -189,7 +189,7 @@ class Filesystem extends \Test\TestCase {
 		if (\OC\Files\Filesystem::getView()) {
 			$user = \OC_User::getUser();
 		} else {
-			$user = uniqid();
+			$user = $this->getUniqueID();
 			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
 		}
 		\OC_Hook::clear('OC_Filesystem');
@@ -217,7 +217,7 @@ class Filesystem extends \Test\TestCase {
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -231,7 +231,7 @@ class Filesystem extends \Test\TestCase {
 	 * Tests that the home storage is used for the user's mount point
 	 */
 	public function testHomeMount() {
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		\OC_User::createUser($userId, $userId);
 
@@ -251,7 +251,7 @@ class Filesystem extends \Test\TestCase {
 	 */
 	public function testLegacyHomeMount() {
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		// insert storage into DB by constructing it
 		// to make initMountsPoint find its existence
@@ -281,7 +281,7 @@ class Filesystem extends \Test\TestCase {
 	 * Test that the default cache dir is part of the user's home
 	 */
 	public function testMountDefaultCacheDir() {
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 		$oldCachePath = \OC_Config::getValue('cache_path', '');
 		// no cache path configured
 		\OC_Config::setValue('cache_path', '');
@@ -306,7 +306,7 @@ class Filesystem extends \Test\TestCase {
 	 * the user's home
 	 */
 	public function testMountExternalCacheDir() {
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		$oldCachePath = \OC_Config::getValue('cache_path', '');
 		// set cache path to temp dir

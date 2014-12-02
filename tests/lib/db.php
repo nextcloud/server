@@ -265,7 +265,7 @@ class Test_DB extends \Test\TestCase {
 
 	protected function insertCardData($fullname, $uri) {
 		$query = OC_DB::prepare("INSERT INTO `*PREFIX*{$this->table2}` (`fullname`, `uri`, `carddata`) VALUES (?, ?, ?)");
-		$this->assertSame(1, $query->execute(array($fullname, $uri, uniqid())));
+		$this->assertSame(1, $query->execute(array($fullname, $uri, $this->getUniqueID())));
 	}
 
 	protected function updateCardData($fullname, $uri) {

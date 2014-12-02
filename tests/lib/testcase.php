@@ -22,6 +22,8 @@
 
 namespace Test;
 
+use OCP\Security\ISecureRandom;
+
 abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	/**
 	 * Returns a unique identifier as uniqid() is not reliable sometimes
@@ -30,11 +32,11 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 	 * @param int $length
 	 * @return string
 	 */
-	protected function getUniqueID($prefix = '', $length = 13) {
+	protected static function getUniqueID($prefix = '', $length = 13) {
 		return $prefix . \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(
 			$length,
 			// Do not use dots and slashes as we use the value for file names
-			'0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+			ISecureRandom::CHAR_DIGITS . ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_UPPER
 		);
 	}
 

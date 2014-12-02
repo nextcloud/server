@@ -23,7 +23,7 @@ class TestMySqlMigration extends \Test\TestCase {
 		}
 
 		$dbPrefix = \OC::$server->getConfig()->getSystemValue("dbtableprefix");
-		$this->tableName = uniqid($dbPrefix . "_enum_bit_test");
+		$this->tableName = $this->getUniqueID($dbPrefix . '_enum_bit_test');
 		$this->connection->exec("CREATE TABLE $this->tableName(b BIT,  e ENUM('1','2','3','4'))");
 	}
 

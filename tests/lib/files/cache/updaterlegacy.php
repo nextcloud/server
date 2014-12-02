@@ -58,7 +58,7 @@ class UpdaterLegacy extends \Test\TestCase {
 		$this->originalStorage = Filesystem::getStorage('/');
 		Filesystem::tearDown();
 		if (!self::$user) {
-			self::$user = uniqid();
+			self::$user = $this->getUniqueID();
 		}
 
 		\OC_User::createUser(self::$user, 'password');

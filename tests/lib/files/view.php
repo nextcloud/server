@@ -71,7 +71,7 @@ class View extends \Test\TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
-		$root = '/' . uniqid();
+		$root = $this->getUniqueID('/');
 		\OC\Files\Filesystem::mount($storage1, array(), $root . '/');
 		\OC\Files\Filesystem::mount($storage2, array(), $root . '/substorage');
 		\OC\Files\Filesystem::mount($storage3, array(), $root . '/folder/anotherstorage');
