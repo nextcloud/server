@@ -24,6 +24,8 @@ namespace OCP\Search;
  */
 abstract class Provider {
 
+	const OPTION_APPS = 'apps';
+
 	/**
 	 * List of options (currently unused)
 	 * @var array
@@ -32,10 +34,36 @@ abstract class Provider {
 
 	/**
 	 * Constructor
-	 * @param array $options
+	 * @param array $options as key => value
 	 */
-	public function __construct($options) {
+	public function __construct($options = array()) {
 		$this->options = $options;
+	}
+
+	/**
+	 * get a value from the options array or null
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getOption($key) {
+		if (is_array($this->options) && isset($this->options[$key])) {
+			return $this->options[$key];
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * checks if the given apps and the apps this provider has results for intersect
+	 * returns true if the given array is empty (all apps)
+	 * or if this provider does not have a list of apps it provides results for (legacy search providers)
+	 * or if the two above arrays have elements in common (intersect)
+	 * @param string[] $apps
+	 * @return bool
+	 */
+	public function providesResultsFor(array $apps = array()) {
+		$forApps = $this->getOption(self::OPTION_APPS);
+		return empty($apps) || empty($forApps) || array_intersect($forApps, $apps);
 	}
 
 	/**
