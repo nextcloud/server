@@ -76,11 +76,15 @@ class InfoParser {
 			}
 		}
 		if (array_key_exists('types', $array)) {
-			foreach ($array['types'] as $type => $v) {
-				unset($array['types'][$type]);
-				if (is_string($type)) {
-					$array['types'][] = $type;
+			if (is_array($array['types'])) {
+				foreach ($array['types'] as $type => $v) {
+					unset($array['types'][$type]);
+					if (is_string($type)) {
+						$array['types'][] = $type;
+					}
 				}
+			} else {
+				$array['types'] = array();
 			}
 		}
 
