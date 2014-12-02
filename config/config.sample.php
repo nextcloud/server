@@ -457,8 +457,10 @@ $CONFIG = array(
 
 /**
  * By default the ownCloud logs are sent to the ``owncloud.log`` file in the
- * default ownCloud data directory. If syslogging is desired, set this parameter
- * to ``syslog``.
+ * default ownCloud data directory.
+ * If syslogging is desired, set this parameter to ``syslog``.
+ * Setting this parameter to ``errorlog`` will use the PHP error_log function
+ * for logging.
  */
 'log_type' => 'owncloud',
 
