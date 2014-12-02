@@ -72,13 +72,13 @@ echo localhost:5432:*:oc_autotest:owncloud > %APPDATA%\postgresql\pgpass.conf
 ::
 if [%1] == [] (
 	echo "Running on all database backends"
-	call:execute_tests "sqlite"
-	call:execute_tests "mysql"
-	call:execute_tests "mssql"
-	::call:execute_tests "ora"
-	call:execute_tests "pgsql"
+	call:execute_tests "sqlite" "%2"
+	call:execute_tests "mysql" "%2"
+	call:execute_tests "mssql" "%2"
+	::call:execute_tests "ora" "%2"
+	call:execute_tests "pgsql" "%2"
 ) else (
-	call:execute_tests "%1"
+	call:execute_tests "%1" "%2"
 )
 
 goto:eof
@@ -129,7 +129,7 @@ goto:eof
         php occ app:disable files_external
         cd tests
 
-	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
+	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1 %~2
 
 	@echo "Done with testing %~1 ..."
 	cd %BASEDIR%
