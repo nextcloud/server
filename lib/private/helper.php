@@ -158,7 +158,10 @@ class OC_Helper {
 		$alias = array(
 			'application/octet-stream' => 'file', // use file icon as fallback
 
-			'application/illustrator' => 'image',
+			'application/illustrator' => 'image/vector',
+			'application/postscript' => 'image/vector',
+			'image/svg+xml' => 'image/vector',
+			
 			'application/coreldraw' => 'image',
 			'application/x-gimp' => 'image',
 			'application/x-photoshop' => 'image',
