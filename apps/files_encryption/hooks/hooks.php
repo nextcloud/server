@@ -485,7 +485,7 @@ class Hooks {
 
 		// create  key folders if it doesn't exists
 		if (!$view->file_exists(dirname($newKeysPath))) {
-				$view->mkdir(dirname($newKeysPath));
+			$view->mkdir(dirname($newKeysPath));
 		}
 
 		$view->$operation($oldKeysPath, $newKeysPath);
@@ -566,7 +566,7 @@ class Hooks {
 			return true;
 		}
 
-		$util = new Util(new \OC\Files\View('/'), \OCP\USER::getUser());
+		$util = new Util($view, \OCP\USER::getUser());
 
 		$keysPath = Keymanager::getKeyPath($view, $util, $path);
 
