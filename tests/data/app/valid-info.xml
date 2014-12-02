@@ -25,5 +25,7 @@
 			<database min-version="3.0">sqlite</database>
 			<database>mysql</database>
 		</databases>
+		<command os="linux">grep</command>
+		<command os="windows">notepad.exe</command>
 	</dependencies>
 </info>

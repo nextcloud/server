@@ -32,6 +32,20 @@
 					"@value": "sqlite"},
 				"mysql"
 			]
-		}
+		},
+		"command": [
+			{
+				"@attributes" : {
+					"os": "linux"
+				},
+				"@value": "grep"
+			},
+			{
+				"@attributes" : {
+					"os": "windows"
+				},
+				"@value": "notepad.exe"
+			}
+		]
 	}
 }
