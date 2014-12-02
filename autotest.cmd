@@ -67,11 +67,18 @@ echo ^)^;                                        >> .\tests\autoconfig-mssql.php
 
 echo localhost:5432:*:oc_autotest:owncloud > %APPDATA%\postgresql\pgpass.conf
 
+@echo on
+
+:: Back up existing (dev) config if one exists
+if exist config\config.php (
+	copy /y config\config.php config\config-autotest-backup.php
+)
+
 ::
 :: start test execution
 ::
 if [%1] == [] (
-	echo "Running on all database backends"
+	@echo "Running on all database backends"
 	call:execute_tests "sqlite" "%2"
 	call:execute_tests "mysql" "%2"
 	call:execute_tests "mssql" "%2"
@@ -81,11 +88,18 @@ if [%1] == [] (
 	call:execute_tests "%1" "%2"
 )
 
+goto:restore_config
+
+goto:eof
+
+:restore_config
+	:: Restore existing config
+	if exist config\config-autotest-backup.php (
+		copy /y config\config-autotest-backup.php config\config.php
+	)
 goto:eof
 
 :execute_tests
-	@echo on
-
 	@echo "Setup environment for %~1 testing ..."
 	:: back to root folder
 	cd %BASEDIR%
