@@ -77,7 +77,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			)
 		);
 		if (!is_null($databases)) {
-			$app['dependencies']['databases'] = $databases;
+			$app['dependencies']['database'] = $databases;
 		}
 		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
 		$missing = $analyser->analyze();

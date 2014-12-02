@@ -65,11 +65,11 @@ class DependencyAnalyzer {
 	}
 
 	private function analyseSupportedDatabases() {
-		if (!isset($this->dependencies['databases'])) {
+		if (!isset($this->dependencies['database'])) {
 			return;
 		}
 
-		$supportedDatabases = $this->dependencies['databases'];
+		$supportedDatabases = $this->dependencies['database'];
 		if (empty($supportedDatabases)) {
 			return;
 		}

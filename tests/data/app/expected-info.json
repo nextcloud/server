@@ -23,16 +23,14 @@
 				"max-version": "5.5"
 			}
 		},
-		"databases": {
-			"database": [
-				{
-					"@attributes" : {
-						"min-version": "3.0"
-					},
-					"@value": "sqlite"},
-				"mysql"
-			]
-		},
+		"database": [
+			{
+				"@attributes" : {
+					"min-version": "3.0"
+				},
+				"@value": "sqlite"},
+			"mysql"
+		],
 		"command": [
 			{
 				"@attributes" : {
