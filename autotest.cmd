@@ -7,8 +7,10 @@
 :: @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 ::
 
-set DATADIR=data-autotest
+@echo off
+
 set BASEDIR=%~dp0
+set DATADIR=data-autotest
 
 :: create autoconfig for sqlite, mysql, postgresql and mssql
 echo ^<?php                                      > .\tests\autoconfig-sqlite.php
@@ -82,7 +84,9 @@ if [%1] == [] (
 goto:eof
 
 :execute_tests
-	echo "Setup environment for %~1 testing ..."
+	@echo on
+
+	@echo "Setup environment for %~1 testing ..."
 	:: back to root folder
 	cd %BASEDIR%
 
@@ -109,14 +113,17 @@ goto:eof
 	copy /y %BASEDIR%\tests\autoconfig-%~1.php %BASEDIR%\config\autoconfig.php
 
 	:: trigger installation
-	php -f index.php
+	@echo INDEX
+	call php -f index.php
+	@echo END INDEX
 
 	::test execution
-	echo "Testing with %~1 ..."
+	@echo "Testing with %~1 ..."
 	cd tests
 	rmdir /s /q coverage-html-%~1
 	md coverage-html-%~1
 	php -f enable_all.php
+
         :: no external files on windows for now
         cd ..
         php occ app:disable files_external
@@ -124,7 +131,7 @@ goto:eof
 
 	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
 
-	echo "Done with testing %~1 ..."
+	@echo "Done with testing %~1 ..."
 	cd %BASEDIR%
 goto:eof
 
