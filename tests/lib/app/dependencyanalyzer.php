@@ -55,10 +55,10 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			)
 		);
 		if (!is_null($minVersion)) {
-			$app['dependencies']['php']['min-version'] = $minVersion;
+			$app['dependencies']['php']['@attributes']['min-version'] = $minVersion;
 		}
 		if (!is_null($maxVersion)) {
-			$app['dependencies']['php']['max-version'] = $maxVersion;
+			$app['dependencies']['php']['@attributes']['max-version'] = $maxVersion;
 		}
 		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
 		$missing = $analyser->analyze();
@@ -77,7 +77,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			)
 		);
 		if (!is_null($databases)) {
-			$app['dependencies']['database'] = $databases;
+			$app['dependencies']['databases'] = $databases;
 		}
 		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
 		$missing = $analyser->analyze();
@@ -92,7 +92,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			// non BC - in case on databases are defined -> all are supported
 			array(array(), null),
 			array(array(), array()),
-			array(array('Following databases are supported: sqlite, postgres'), array('sqlite', 'postgres')),
+			array(array('Following databases are supported: sqlite, postgres'), array('sqlite', array('@value' => 'postgres'))),
 		);
 	}
 
