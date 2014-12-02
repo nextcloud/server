@@ -153,6 +153,7 @@ class MappedLocal extends \OC\Files\Storage\Common {
 	}
 
 	public function filemtime($path) {
+		clearstatcache($this->getSourcePath($path));
 		return filemtime($this->getSourcePath($path));
 	}
 
