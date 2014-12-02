@@ -47,7 +47,7 @@ class InfoParser {
 		if ($xml == false) {
 			return null;
 		}
-		$array = json_decode(json_encode((array)$xml), TRUE);
+		$array = $this->xmlToArray($xml, false);
 		if (is_null($array)) {
 			return null;
 		}
@@ -80,6 +80,61 @@ class InfoParser {
 				unset($array['types'][$type]);
 				if (is_string($type)) {
 					$array['types'][] = $type;
+				}
+			}
+		}
+
+		return $array;
+	}
+
+	/**
+	 * @param \SimpleXMLElement $xml
+	 * @return array
+	 */
+	function xmlToArray($xml) {
+		if (!$xml->children()) {
+			return (string)$xml;
+		}
+
+		$array = array();
+		foreach ($xml->children() as $element => $node) {
+			$totalElement = count($xml->{$element});
+
+			if (!isset($array[$element])) {
+				$array[$element] = "";
+			}
+			/**
+			 * @var \SimpleXMLElement $node
+			 */
+
+			// Has attributes
+			if ($attributes = $node->attributes()) {
+				$data = array(
+					'@attributes' => array(),
+				);
+				if (!count($node->children())){
+					$value = (string)$node;
+					if (!empty($value)) {
+						$data['@value'] = (string)$node;
+					}
+				} else {
+					$data = array_merge($data, $this->xmlToArray($node));
+				}
+				foreach ($attributes as $attr => $value) {
+					$data['@attributes'][$attr] = (string)$value;
+				}
+
+				if ($totalElement > 1) {
+					$array[$element][] = $data;
+				} else {
+					$array[$element] = $data;
+				}
+				// Just a value
+			} else {
+				if ($totalElement > 1) {
+					$array[$element][] = $this->xmlToArray($node);
+				} else {
+					$array[$element] = $this->xmlToArray($node);
 				}
 			}
 		}

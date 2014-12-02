@@ -20,10 +20,10 @@
 	</types>
 	<ocsid>166047</ocsid>
 	<dependencies>
-		<php>
-			<min-version>5.4</min-version>
-		</php>
-		<database>sqlite</database>
-		<database>mysql</database>
+		<php min-version="5.4" max-version="5.5"/>
+		<databases>
+			<database min-version="3.0">sqlite</database>
+			<database>mysql</database>
+		</databases>
 	</dependencies>
 </info>

@@ -55,7 +55,6 @@ class InfoParser extends \PHPUnit_Framework_TestCase {
 	function providesInfoXml() {
 		return array(
 			array('expected-info.json', 'valid-info.xml'),
-			array('strange-types-info.json', 'strange-types-info.xml'),
 			array(null, 'invalid-info.xml'),
 		);
 	}

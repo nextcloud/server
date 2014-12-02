@@ -18,8 +18,20 @@
 	"ocsid": "166047",
 	"dependencies": {
 		"php": {
-			"min-version": 5.4
+			"@attributes" : {
+				"min-version": "5.4",
+				"max-version": "5.5"
+			}
 		},
-		"database":["sqlite", "mysql"]
+		"databases": {
+			"database": [
+				{
+					"@attributes" : {
+						"min-version": "3.0"
+					},
+					"@value": "sqlite"},
+				"mysql"
+			]
+		}
 	}
 }
