@@ -53,6 +53,9 @@ $CONFIG = array(
  * all your passwords. This example is for documentation only,
  * and you should never use it.
  *
+ * @deprecated This salt is deprecated and only used for legacy-compatibility, developers
+ * should *NOT* use this value for anything nowadays.
+ * 
  *'passwordsalt' => 'd3c944a9af095aa08f',
  */
 'passwordsalt' => '',
