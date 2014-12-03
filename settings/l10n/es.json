@@ -101,6 +101,7 @@
     "Security Warning" : "Advertencia de seguridad",
     "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Está ingresando a %s vía HTTP. Le recomendamos encarecidamente que configure su servidor para que requiera HTTPS.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Su directorio de datos y archivos es probablemente accesible desde Internet pues el archivo .htaccess no está funcionando. Le sugerimos encarecidamente que configure su servidor web de modo que el directorio de datos no sea accesible o que mueva dicho directorio fuera de la raíz de documentos del servidor web.",
+    "Read-Only config enabled" : "Configuración de solo lectura activada",
     "Setup Warning" : "Advertencia de configuración",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP está aparentemente configurado para eliminar bloques de documentos en línea. Esto hará que varias aplicaciones del principales no estén accesibles.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Probablemente esto sea causado por un cache o acelerador, como por ejemplo Zend OPcache o eAccelerator.",

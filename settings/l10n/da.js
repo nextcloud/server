@@ -103,6 +103,8 @@ OC.L10N.register(
     "Security Warning" : "Sikkerhedsadvarsel",
     "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Du tilgår %s via HTTP. Vi anbefaler at du konfigurerer din server til i stedet at kræve HTTPS.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Din data mappe og dine filer er muligvis tilgængelige fra internettet. .htaccess filen virker ikke. Vi anbefaler på det kraftigste at du konfigurerer din webserver så data mappen ikke længere er tilgængelig, eller at du flytter data mappen uden for webserverens dokument rod.  ",
+    "Read-Only config enabled" : "Skrivebeskyttet konfig. slået til",
+    "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Den skrivebeskyttede konfiguration er blevet slået til. Dette forhindrer indstillinger af nogle konfigurationer via webgrænsefladen. I tillæg skal filen gøres skrivbar manuelt for hver opdatering.",
     "Setup Warning" : "Opsætnings Advarsel",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP opsætning blokere \"inline doc blocks\". dette gør at flere grundlæggende apps utilgængelige",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Dette er sansynligvis forårsaget af et accelerator eller cache som Zend OPcache eller eAccelerator",

@@ -103,6 +103,8 @@ OC.L10N.register(
     "Security Warning" : "Security Warning",
     "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.",
+    "Read-Only config enabled" : "Read-Only config enabled",
+    "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.",
     "Setup Warning" : "Setup Warning",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.",

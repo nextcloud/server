@@ -102,6 +102,7 @@ OC.L10N.register(
     "Security Warning" : "Turvallisuusvaroitus",
     "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Käytät %sia HTTP-yhteydellä. Suosittelemme määrittämään palvelimen vaatimaan salattua HTTPS-yhteyttä.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Datahakemistosi ja kaikki tiedostosi ovat luultavasti käytettävissä suoraan internetistä. .htaccess-tiedosto ei toimi tällä hetkellä. Määritä verkkopalvelimen asetukset siten, ettei datahakemistosi ole suoraan käytettävissä tai siirrä kyseinen hakemisto pois verkkopalvelimen dokumenttijuuresta.",
+    "Read-Only config enabled" : "Vain luku -määritykset otettu käyttöön",
     "Setup Warning" : "Asetusvaroitus",
     "Database Performance Info" : "Tietokannan suorituskyvyn tiedot",
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLitea käytetään tietokantana. Laajoja asennuksia varten tämä asetus kannattaa muuttaa. Käytä komentorivityökalua 'occ db:convert-type' siirtyäksesi toiseen tietokantaan.",

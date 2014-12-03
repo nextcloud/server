@@ -70,7 +70,7 @@ OC.L10N.register(
     "Your storage is almost full ({usedSpacePercent}%)" : "Votre espace de stockage est presque plein ({usedSpacePercent}%)",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clés ne sont pas initialisées, veuillez vous déconnecter et ensuite vous reconnecter.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Votre clef privée pour l'application de chiffrement est invalide ! Veuillez mettre à jour le mot de passe de votre clef privée dans vos paramètres personnels pour récupérer l'accès à vos fichiers chiffrés.",
-    "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Le chiffrement était désactivé mais vos fichiers sont toujours chiffrés. Veuillez vous rendre sur vos Paramètres personnels pour déchiffrer vos fichiers.",
+    "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Le chiffrement a été désactivé mais vos fichiers sont toujours chiffrés. Veuillez vous rendre sur vos paramètres personnels pour déchiffrer vos fichiers.",
     "{dirs} and {files}" : "{dirs} et {files}",
     "%s could not be renamed as it has been deleted" : "%s ne peut être renommé car il a été supprimé ",
     "%s could not be renamed" : "%s ne peut être renommé",

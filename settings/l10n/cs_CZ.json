@@ -101,6 +101,8 @@
     "Security Warning" : "Bezpečnostní upozornění",
     "You are accessing %s via HTTP. We strongly suggest you configure your server to require using HTTPS instead." : "Přistupujete na %s protokolem HTTP. Důrazně doporučujeme nakonfigurovat server pro použití HTTPS.",
     "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Váš datový adresář i vaše soubory jsou pravděpodobně přístupné z internetu. Soubor .htaccess nefunguje. Důrazně doporučujeme nakonfigurovat webový server tak, aby datový adresář nebyl nadále přístupný, nebo přesunout datový adresář mimo prostor zpřístupňovaný webovým serverem.",
+    "Read-Only config enabled" : "Konfigurační soubor pouze pro čtení",
+    "The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update." : "Konfigurační soubor je pouze pro čtení. Toto omezuje možnost nastavení přes webové rozhraní. Dále musí být pro každou změnu povolen zápis do souboru ručně.",
     "Setup Warning" : "Upozornění nastavení",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je patrně nastaveno tak, aby odstraňovalo bloky komentářů. Toto bude mít za následek nedostupnost množství hlavních aplikací.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Toto je pravděpodobně způsobeno aplikacemi pro urychlení načítání jako jsou Zend OPcache nebo eAccelerator.",
