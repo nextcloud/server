@@ -98,7 +98,7 @@ class Preview {
 			self::initProviders();
 		}
 
-		if (empty(self::$providers)) {
+		if (empty(self::$providers) && \OC::$server->getConfig()->getSystemValue('enable_previews', true)) {
 			\OC_Log::write('core', 'No preview providers exist', \OC_Log::ERROR);
 			throw new \Exception('No preview providers');
 		}
