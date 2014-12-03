@@ -21,7 +21,6 @@
  */
 
 require_once __DIR__ . '/../appinfo/app.php';
-require_once __DIR__ . '/../lib/versions.php';
 
 /**
  * Class Test_Files_versions
