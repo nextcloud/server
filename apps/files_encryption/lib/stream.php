@@ -30,7 +30,7 @@
  * and then fopen('crypt://streams/foo');
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 use OCA\Encryption\Exception\EncryptionException;
 
 /**

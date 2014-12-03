@@ -22,7 +22,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 /**
  * Class to manage storage and retrieval of encryption keys

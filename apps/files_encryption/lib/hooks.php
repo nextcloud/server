@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 use OC\Files\Filesystem;
 

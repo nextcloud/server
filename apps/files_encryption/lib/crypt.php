@@ -25,7 +25,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 /**
  * Class for common cryptography functionality

@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 /**
  * Class to manage registration of hooks an various helper methods

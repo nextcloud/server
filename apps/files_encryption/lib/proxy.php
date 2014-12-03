@@ -30,7 +30,7 @@
  *        webui.
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 /**
  * Class Proxy

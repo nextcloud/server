@@ -1,20 +1,5 @@
 <?php
 
-OC::$CLASSPATH['OCA\Encryption\Crypt'] = 'files_encryption/lib/crypt.php';
-OC::$CLASSPATH['OCA\Encryption\Hooks'] = 'files_encryption/hooks/hooks.php';
-OC::$CLASSPATH['OCA\Encryption\Util'] = 'files_encryption/lib/util.php';
-OC::$CLASSPATH['OCA\Encryption\Keymanager'] = 'files_encryption/lib/keymanager.php';
-OC::$CLASSPATH['OCA\Encryption\Stream'] = 'files_encryption/lib/stream.php';
-OC::$CLASSPATH['OCA\Encryption\Proxy'] = 'files_encryption/lib/proxy.php';
-OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
-OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
-OC::$CLASSPATH['OCA\Encryption\Helper'] = 'files_encryption/lib/helper.php';
-
-// Exceptions
-OC::$CLASSPATH['OCA\Encryption\Exception\MultiKeyEncryptException'] = 'files_encryption/exception/multiKeyEncryptException.php';
-OC::$CLASSPATH['OCA\Encryption\Exception\MultiKeyDecryptException'] = 'files_encryption/exception/multiKeyDecryptException.php';
-OC::$CLASSPATH['OCA\Encryption\Exception\EncryptionException'] = 'files_encryption/exception/encryptionException.php';
-
 \OCP\Util::addTranslations('files_encryption');
 \OCP\Util::addscript('files_encryption', 'encryption');
 \OCP\Util::addscript('files_encryption', 'detect-migration');

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
  
-namespace OCA\Encryption; 
+namespace OCA\Files_Encryption;
 
 class Capabilities {
 	

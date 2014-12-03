@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 /**
  * Class for utilities relating to encrypted file storage system
