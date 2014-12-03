@@ -553,13 +553,13 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 			$publicShareKeyId,
 			$recoveryKeyId,
 		);
-		\Test_Encryption_Util::loginHelper('readyUser', true);
-		\Test_Encryption_Util::loginHelper('notReadyUser', true);
+		self::loginHelper('readyUser', true);
+		self::loginHelper('notReadyUser', true);
 		// delete encryption dir to make it not ready
 		$this->view->unlink('notReadyUser/files_encryption/');
 
 		// login as user1
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
 
 		$result = $this->util->filterShareReadyUsers($usersToTest);
 		$this->assertEquals(

@@ -18,14 +18,14 @@ class Test_Encryption_Helper extends \OCA\Files_Encryption\Tests\TestCase {
 
 	protected function setUpUsers() {
 		// create test user
-		self::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2, true);
-		self::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1, true);
+		self::loginHelper(self::TEST_ENCRYPTION_HELPER_USER2, true);
+		self::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1, true);
 	}
 
 	protected  function cleanUpUsers() {
 		// cleanup test user
-		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
-		\OC_User::deleteUser(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER2);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_HELPER_USER1);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_HELPER_USER2);
 	}
 
 	public static function setupHooks() {
@@ -113,7 +113,7 @@ class Test_Encryption_Helper extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertFalse(Helper::getUser($path4));
 
 		// Log-in again
-		self::loginHelper(\Test_Encryption_Helper::TEST_ENCRYPTION_HELPER_USER1);
+		self::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1);
 		self::cleanUpUsers();
 	}
 

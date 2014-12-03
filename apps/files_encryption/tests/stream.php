@@ -41,16 +41,16 @@ class Test_Encryption_Stream extends \OCA\Files_Encryption\Tests\TestCase {
 		parent::setUpBeforeClass();
 
 		// create test user
-		self::loginHelper(\Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1, true);
+		self::loginHelper(self::TEST_ENCRYPTION_STREAM_USER1, true);
 	}
 
 	protected function setUp() {
 		parent::setUp();
 
 		// set user id
-		\OC_User::setUserId(\Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1);
-		$this->userId = \Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1;
-		$this->pass = \Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1;
+		\OC_User::setUserId(self::TEST_ENCRYPTION_STREAM_USER1);
+		$this->userId = self::TEST_ENCRYPTION_STREAM_USER1;
+		$this->pass = self::TEST_ENCRYPTION_STREAM_USER1;
 
 		// init filesystem view
 		$this->view = new \OC\Files\View('/');
@@ -79,7 +79,7 @@ class Test_Encryption_Stream extends \OCA\Files_Encryption\Tests\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
-		\OC_User::deleteUser(\Test_Encryption_Stream::TEST_ENCRYPTION_STREAM_USER1);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_STREAM_USER1);
 
 		parent::tearDownAfterClass();
 	}

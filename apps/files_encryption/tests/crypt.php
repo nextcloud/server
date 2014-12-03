@@ -34,16 +34,16 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		parent::setUpBeforeClass();
 
 		// create test user
-		self::loginHelper(\Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1, true);
+		self::loginHelper(self::TEST_ENCRYPTION_CRYPT_USER1, true);
 	}
 
 	protected function setUp() {
 		parent::setUp();
 
 		// set user id
-		self::loginHelper(\Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1);
-		$this->userId = \Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1;
-		$this->pass = \Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1;
+		self::loginHelper(self::TEST_ENCRYPTION_CRYPT_USER1);
+		$this->userId = self::TEST_ENCRYPTION_CRYPT_USER1;
+		$this->pass = self::TEST_ENCRYPTION_CRYPT_USER1;
 
 		// set content for encrypting / decrypting in tests
 		$this->dataLong = file_get_contents(__DIR__ . '/../lib/crypt.php');
@@ -83,7 +83,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
-		\OC_User::deleteUser(\Test_Encryption_Crypt::TEST_ENCRYPTION_CRYPT_USER1);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_CRYPT_USER1);
 
 		parent::tearDownAfterClass();
 	}
