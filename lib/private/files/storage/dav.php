@@ -123,7 +123,11 @@ class DAV extends \OC\Files\Storage\Common {
 			}
 			\OC\Files\Stream\Dir::register($id, $content);
 			return opendir('fakedir://' . $id);
+		} catch (Exception\NotFound $e) {
+			return false;
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -138,9 +142,11 @@ class DAV extends \OC\Files\Storage\Common {
 				$responseType = $response["{DAV:}resourcetype"]->resourceType;
 			}
 			return (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
+		} catch (Exception\NotFound $e) {
+			return false;
 		} catch (\Exception $e) {
-			error_log($e->getMessage());
-			\OCP\Util::writeLog("webdav client", \OCP\Util::sanitizeHTML($e->getMessage()), \OCP\Util::ERROR);
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -151,7 +157,11 @@ class DAV extends \OC\Files\Storage\Common {
 		try {
 			$this->client->propfind($this->encodePath($path), array('{DAV:}resourcetype'));
 			return true; //no 404 exception
+		} catch (Exception\NotFound $e) {
+			return false;
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -263,7 +273,11 @@ class DAV extends \OC\Files\Storage\Common {
 		if ($this->file_exists($path)) {
 			try {
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
-			} catch (\Sabre\DAV\Exception\NotImplemented $e) {
+			} catch (Exception\NotImplemented $e) {
+				return false;
+			} catch (\Exception $e) {
+				// TODO: log for now, but in the future need to wrap/rethrow exception
+				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 				return false;
 			}
 		} else {
@@ -313,6 +327,8 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->removeCachedFile($path2);
 			return true;
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -326,6 +342,8 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->removeCachedFile($path2);
 			return true;
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -339,7 +357,11 @@ class DAV extends \OC\Files\Storage\Common {
 				'mtime' => strtotime($response['{DAV:}getlastmodified']),
 				'size' => (int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
 			);
+		} catch (Exception\NotFound $e) {
+			return array();
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return array();
 		}
 	}
@@ -362,6 +384,8 @@ class DAV extends \OC\Files\Storage\Common {
 				return false;
 			}
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
@@ -400,6 +424,8 @@ class DAV extends \OC\Files\Storage\Common {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
 			return $response['statusCode'] == $expected;
 		} catch (\Exception $e) {
+			// TODO: log for now, but in the future need to wrap/rethrow exception
+			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
 			return false;
 		}
 	}
