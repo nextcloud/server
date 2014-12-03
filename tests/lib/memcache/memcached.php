@@ -16,14 +16,14 @@ class Memcached extends Cache {
 		if (!\OC\Memcache\Memcached::isAvailable()) {
 			self::markTestSkipped('The memcached extension is not available.');
 		}
-		$instance = new \OC\Memcache\Memcached(uniqid());
-		if ($instance->set(uniqid(), uniqid()) === false) {
+		$instance = new \OC\Memcache\Memcached(self::getUniqueID());
+		if ($instance->set(self::getUniqueID(), self::getUniqueID()) === false) {
 			self::markTestSkipped('memcached server seems to be down.');
 		}
 	}
 
 	protected function setUp() {
 		parent::setUp();
-		$this->instance = new \OC\Memcache\Memcached(uniqid());
+		$this->instance = new \OC\Memcache\Memcached($this->getUniqueID());
 	}
 }

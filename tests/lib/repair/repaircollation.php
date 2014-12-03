@@ -53,7 +53,7 @@ class TestRepairCollation extends \Test\TestCase {
 		}
 
 		$dbPrefix = $this->config->getSystemValue("dbtableprefix");
-		$this->tableName = uniqid($dbPrefix . "_collation_test");
+		$this->tableName = $this->getUniqueID($dbPrefix . "_collation_test");
 		$this->connection->exec("CREATE TABLE $this->tableName(text VARCHAR(16)) COLLATE utf8_unicode_ci");
 
 		$this->repair = new TestCollationRepair($this->config, $this->connection);

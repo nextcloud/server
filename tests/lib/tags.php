@@ -25,14 +25,18 @@ class Test_Tags extends \Test\TestCase {
 	protected $objectType;
 	protected $user;
 	protected $backupGlobals = FALSE;
+	/** @var \OC\Tagging\TagMapper */
+	protected $tagMapper;
+	/** @var \OC\TagManager */
+	protected $tagMgr;
 
 	protected function setUp() {
 		parent::setUp();
 
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
-		$this->user = uniqid('user_');
-		$this->objectType = uniqid('type_');
+		$this->user = $this->getUniqueID('user_');
+		$this->objectType = $this->getUniqueID('type_');
 		OC_User::createUser($this->user, 'pass');
 		OC_User::setUserId($this->user);
 		$this->tagMapper = new OC\Tagging\TagMapper(\OC::$server->getDb());
@@ -205,7 +209,7 @@ class Test_Tags extends \Test\TestCase {
 		$tagger = $this->tagMgr->load('test');
 		$tagger->tagAs(1, $test_tag);
 
-		$other_user = uniqid('user2_');
+		$other_user = $this->getUniqueID('user2_');
 		OC_User::createUser($other_user, 'pass');
 
 		OC_User::setUserId($other_user);

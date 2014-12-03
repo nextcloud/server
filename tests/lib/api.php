@@ -17,7 +17,7 @@ class Test_API extends \Test\TestCase {
 		return array(
 			'shipped' => $shipped,
 			'response' => new OC_OCS_Result($data, $code, $message),
-			'app' => uniqid('testapp_', true),
+			'app' => $this->getUniqueID('testapp_'),
 			);
 	}
 

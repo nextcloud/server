@@ -150,7 +150,7 @@ class Test_Util extends \Test\TestCase {
 	 * Tests that the home storage is not wrapped when no quota exists.
 	 */
 	function testHomeStorageWrapperWithoutQuota() {
-		$user1 = uniqid();
+		$user1 = $this->getUniqueID();
 		\OC_User::createUser($user1, 'test');
 		OC_Preferences::setValue($user1, 'files', 'quota', 'none');
 		\OC_User::setUserId($user1);
@@ -172,7 +172,7 @@ class Test_Util extends \Test\TestCase {
 	 * Tests that the home storage is not wrapped when no quota exists.
 	 */
 	function testHomeStorageWrapperWithQuota() {
-		$user1 = uniqid();
+		$user1 = $this->getUniqueID();
 		\OC_User::createUser($user1, 'test');
 		OC_Preferences::setValue($user1, 'files', 'quota', '1024');
 		\OC_User::setUserId($user1);
@@ -331,7 +331,7 @@ class Test_Util extends \Test\TestCase {
 
 		Dummy_OC_App::setEnabledApps($enabledApps);
 		// need to set a user id to make sure enabled apps are read from cache
-		\OC_User::setUserId(uniqid());
+		\OC_User::setUserId($this->getUniqueID());
 		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
 		$this->assertEquals('http://localhost/' . $expectedPath, \OC_Util::getDefaultPageUrl());
 

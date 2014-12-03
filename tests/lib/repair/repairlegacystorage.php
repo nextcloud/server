@@ -13,6 +13,8 @@
  */
 class TestRepairLegacyStorages extends \Test\TestCase {
 
+	private $connection;
+	private $config;
 	private $user;
 	private $repair;
 
@@ -247,12 +249,12 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 			// regular data dir
 			array(
 				'/tmp/oc-autotest/datadir/',
-				uniqid('user_'),
+				$this->getUniqueID('user_'),
 			),
 			// long datadir / short user
 			array(
 				'/tmp/oc-autotest/datadir01234567890123456789012345678901234567890123456789END/',
-				uniqid('user_'),
+				$this->getUniqueID('user_'),
 			),
 			// short datadir / long user
 			array(
@@ -271,7 +273,7 @@ class TestRepairLegacyStorages extends \Test\TestCase {
 			$output[] = 'info: ' . $description;
 		});
 
-		$this->prepareSettings('/tmp/oc-autotest/datadir', uniqid('user_'));
+		$this->prepareSettings('/tmp/oc-autotest/datadir', $this->getUniqueID('user_'));
 		$this->assertNotEquals('yes', $this->config->getAppValue('core', 'repairlegacystoragesdone'));
 		$this->repair->run();
 		$this->assertEquals(1, count($output));

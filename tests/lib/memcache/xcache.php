@@ -17,6 +17,6 @@ class XCache extends Cache {
 			$this->markTestSkipped('The xcache extension is not available.');
 			return;
 		}
-		$this->instance = new \OC\Memcache\XCache(uniqid());
+		$this->instance = new \OC\Memcache\XCache($this->getUniqueID());
 	}
 }

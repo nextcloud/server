@@ -21,6 +21,6 @@ class APC extends Cache {
 			$this->markTestSkipped('The apc extension is emulated by ACPu.');
 			return;
 		}
-		$this->instance=new \OC\Memcache\APC(uniqid());
+		$this->instance=new \OC\Memcache\APC($this->getUniqueID());
 	}
 }
