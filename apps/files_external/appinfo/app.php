@@ -177,3 +177,5 @@ OC_Mount_Config::registerBackend('\OC\Files\Storage\SFTP', array(
 		'password' => '*'.$l->t('Password'),
 		'root' => '&'.$l->t('Root'))));
 
+$mountProvider = new \OCA\Files_External\Config\ConfigAdapter();
+\OC::$server->getMountProviderCollection()->registerProvider($mountProvider);

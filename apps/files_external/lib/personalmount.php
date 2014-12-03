@@ -8,13 +8,13 @@
 
 namespace OCA\Files_External;
 
-use OC\Files\Mount\Mount;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Mount\MoveableMount;
 
 /**
  * Person mount points can be moved by the user
  */
-class PersonalMount extends Mount implements MoveableMount {
+class PersonalMount extends MountPoint implements MoveableMount {
 	/**
 	 * Move the mount point to $target
 	 *
