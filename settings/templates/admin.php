@@ -426,7 +426,7 @@ if ($_['suggestedOverwriteWebroot']) {
 		<p>
 			<label for="mail_from_address"><?php p($l->t( 'From address' )); ?></label>
 			<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p($l->t('mail'))?>"
-				   value='<?php p($_['mail_from_address']) ?>' />
+				   value='<?php p($_['mail_from_address']) ?>' />@
 			<input type="text" name='mail_domain' id="mail_domain" placeholder="example.com"
 				   value='<?php p($_['mail_domain']) ?>' />
 		</p>
