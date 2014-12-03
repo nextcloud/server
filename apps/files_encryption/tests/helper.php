@@ -38,14 +38,6 @@ class Test_Encryption_Helper extends \OCA\Files_Encryption\Tests\TestCase {
 	}
 
 	public static function tearDownAfterClass() {
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
-
 		parent::tearDownAfterClass();
 	}
 
@@ -125,56 +117,4 @@ class Test_Encryption_Helper extends \OCA\Files_Encryption\Tests\TestCase {
 		self::cleanUpUsers();
 	}
 
-	function userNamesProvider() {
-		return array(
-			array('testuser' . $this->getUniqueID()),
-			array('user.name.with.dots'),
-		);
-	}
-
-	/**
-	 * Tests whether share keys can be found
-	 *
-	 * @dataProvider userNamesProvider
-	 */
-	function testFindShareKeys($userName) {
-		self::setUpUsers();
-		// note: not using dataProvider as we want to make
-		// sure that the correct keys are match and not any
-		// other ones that might happen to have similar names
-		self::setupHooks();
-		self::loginHelper($userName, true);
-		$testDir = 'testFindShareKeys' . $this->getUniqueID() . '/';
-		$baseDir = $userName . '/files/' . $testDir;
-		$fileList = array(
-			't est.txt',
-			't est_.txt',
-			't est.doc.txt',
-			't est(.*).txt', // make sure the regexp is escaped
-			'multiple.dots.can.happen.too.txt',
-			't est.' . $userName . '.txt',
-			't est_.' . $userName . '.shareKey.txt',
-			'who would upload their.shareKey',
-			'user ones file.txt',
-			'user ones file.txt.backup',
-			'.t est.txt'
-		);
-
-		$rootView = new \OC\Files\View('/');
-		$rootView->mkdir($baseDir);
-		foreach ($fileList as $fileName) {
-			$rootView->file_put_contents($baseDir . $fileName, 'dummy');
-		}
-
-		$shareKeysDir = $userName . '/files_encryption/share-keys/' . $testDir;
-		foreach ($fileList as $fileName) {
-			// make sure that every file only gets its correct respective keys
-			$result = Encryption\Helper::findShareKeys($baseDir . $fileName, $shareKeysDir . $fileName, $rootView);
-			$this->assertEquals(
-				array($shareKeysDir . $fileName . '.' . $userName . '.shareKey'),
-				$result
-			);
-		}
-		self::cleanUpUsers();
-	}
 }

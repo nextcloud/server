@@ -3,10 +3,11 @@
 /**
  * ownCloud
  *
- * @author Bjoern Schiessle, Sam Tuke, Robin Appelman
- * @copyright 2012 Sam Tuke <samtuke@owncloud.com>
- *            2012 Robin Appelman <icewind1991@gmail.com>
- *            2014 Bjoern Schiessle <schiessle@owncloud.com>
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
+ * @author Sam Tuke <samtuke@owncloud.com>
+ * @author Robin Appelman <icewind1991@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -204,11 +205,11 @@ class Proxy extends \OC_FileProxy {
 	public function postFile_get_contents($path, $data) {
 
 		$plainData = null;
-		$view = new \OC\Files\View('/');
 
 		// If data is a catfile
 		if (
 			Crypt::mode() === 'server'
+			&& $this->shouldEncrypt($path)
 			&& Crypt::isCatfileContent($data)
 		) {
 

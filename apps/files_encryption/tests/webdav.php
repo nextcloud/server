@@ -45,20 +45,6 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerUserHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// create test user
 		self::loginHelper(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1, true);
 
@@ -106,14 +92,6 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Webdav::TEST_ENCRYPTION_WEBDAV_USER1);
 
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
-
 		parent::tearDownAfterClass();
 	}
 
@@ -143,11 +121,11 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// check if key-file was created
 		$this->assertTrue($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/keyfiles/' . $filename . '.key'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/fileKey'));
 
 		// check if shareKey-file was created
 		$this->assertTrue($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/share-keys/' . $filename . '.' . $this->userId . '.shareKey'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/' . $this->userId . '.shareKey'));
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -217,11 +195,11 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// check if key-file was removed
 		$this->assertFalse($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/keyfiles' . $filename . '.key'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/fileKey'));
 
 		// check if shareKey-file was removed
 		$this->assertFalse($this->view->file_exists(
-			'/' . $this->userId . '/files_encryption/share-keys' . $filename . '.' . $this->userId . '.shareKey'));
+			'/' . $this->userId . '/files_encryption/keys/' . $filename . '/' . $this->userId . '.shareKey'));
 	}
 
 	/**

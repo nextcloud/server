@@ -14,6 +14,7 @@ use OCA\Encryption;
  * Class Test_Encryption_TestCase
  */
 abstract class TestCase extends \Test\TestCase {
+
 	/**
 	 * @param string $user
 	 * @param bool $create
@@ -49,5 +50,35 @@ abstract class TestCase extends \Test\TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId(false);
 		\OC\Files\Filesystem::tearDown();
+	}
+
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
+		// reset backend
+		\OC_User::clearBackends();
+		\OC_User::useBackend('database');
+
+		\OCA\Encryption\Helper::registerFilesystemHooks();
+		\OCA\Encryption\Helper::registerUserHooks();
+		\OCA\Encryption\Helper::registerShareHooks();
+
+		\OC::registerShareHooks();
+		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+
+		// clear and register hooks
+		\OC_FileProxy::clearProxies();
+		\OC_FileProxy::register(new \OCA\Encryption\Proxy());
+	}
+
+	public static function tearDownAfterClass() {
+		\OC_Hook::clear();
+		\OC_FileProxy::clearProxies();
+
+		// Delete keys in /data/
+		$view = new \OC\Files\View('/');
+		$view->deleteAll('files_encryption');
+
+		parent::tearDownAfterClass();
 	}
 }

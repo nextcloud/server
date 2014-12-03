@@ -2,8 +2,9 @@
  /**
  * ownCloud
  *
- * @author Thomas Müller
- * @copyright 2014 Thomas Müller deepdiver@owncloud.com
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -23,7 +24,29 @@
 use OCA\Encryption;
 use OCA\Files_Encryption\Migration;
 
-class Test_Migration extends \Test\TestCase {
+class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
+
+	const TEST_ENCRYPTION_MIGRATION_USER1='test_encryption_user1';
+	const TEST_ENCRYPTION_MIGRATION_USER2='test_encryption_user2';
+	const TEST_ENCRYPTION_MIGRATION_USER3='test_encryption_user3';
+
+	private $view;
+	private $public_share_key_id;
+	private $recovery_key_id;
+
+	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+		self::loginHelper(self::TEST_ENCRYPTION_MIGRATION_USER1, true);
+		self::loginHelper(self::TEST_ENCRYPTION_MIGRATION_USER2, true);
+		self::loginHelper(self::TEST_ENCRYPTION_MIGRATION_USER3, true);
+	}
+
+	public static function tearDownAfterClass() {
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_MIGRATION_USER2);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_MIGRATION_USER3);
+		parent::tearDownAfterClass();
+	}
 
 	protected function tearDown() {
 		if (OC_DB::tableExists('encryption_test')) {
@@ -34,24 +57,15 @@ class Test_Migration extends \Test\TestCase {
 		parent::tearDown();
 	}
 
-	protected function setUp() {
-		parent::setUp();
-
+	public function setUp() {
+		$this->loginHelper(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		$this->view = new \OC\Files\View();
+		$this->public_share_key_id = Encryption\Helper::getPublicShareKeyId();
+		$this->recovery_key_id = Encryption\Helper::getRecoveryKeyId();
 		if (OC_DB::tableExists('encryption_test')) {
 			OC_DB::dropTable('encryption_test');
 		}
 		$this->assertTableNotExist('encryption_test');
-	}
-
-	public function testEncryptionTableDoesNotExist() {
-
-		$this->assertTableNotExist('encryption_test');
-
-		$migration = new Migration('encryption_test');
-		$migration->dropTableEncryption();
-
-		$this->assertTableNotExist('encryption_test');
-
 	}
 
 	public function checkLastIndexId() {
@@ -91,78 +105,6 @@ class Test_Migration extends \Test\TestCase {
 		$this->checkLastIndexId();
 	}
 
-	public function testDataMigration() {
-		// TODO travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('Fails on travis');
-		}
-
-		$this->assertTableNotExist('encryption_test');
-
-		// create test table
-		OC_DB::createDbFromStructure(__DIR__ . '/encryption_table.xml');
-		$this->assertTableExist('encryption_test');
-
-		OC_DB::executeAudited('INSERT INTO `*PREFIX*encryption_test` values(?, ?, ?, ?)',
-		array('user1', 'server-side', 1, 1));
-
-		// preform migration
-		$migration = new Migration('encryption_test');
-		$migration->dropTableEncryption();
-
-		// assert
-		$this->assertTableNotExist('encryption_test');
-
-		$rec = \OC_Preferences::getValue('user1', 'files_encryption', 'recovery_enabled');
-		$mig = \OC_Preferences::getValue('user1', 'files_encryption', 'migration_status');
-
-		$this->assertEquals(1, $rec);
-		$this->assertEquals(1, $mig);
-	}
-
-	public function testDuplicateDataMigration() {
-		// TODO travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('Fails on travis');
-		}
-
-		// create test table
-		OC_DB::createDbFromStructure(__DIR__ . '/encryption_table.xml');
-
-		// in case of duplicate entries we want to preserve 0 on migration status and 1 on recovery
-		$data = array(
-			array('user1', 'server-side', 1, 1),
-			array('user1', 'server-side', 1, 0),
-			array('user1', 'server-side', 0, 1),
-			array('user1', 'server-side', 0, 0),
-		);
-		foreach ($data as $d) {
-			OC_DB::executeAudited(
-				'INSERT INTO `*PREFIX*encryption_test` values(?, ?, ?, ?)',
-				$d);
-		}
-
-		// preform migration
-		$migration = new Migration('encryption_test');
-		$migration->dropTableEncryption();
-
-		// assert
-		$this->assertTableNotExist('encryption_test');
-
-		$rec = \OC_Preferences::getValue('user1', 'files_encryption', 'recovery_enabled');
-		$mig = \OC_Preferences::getValue('user1', 'files_encryption', 'migration_status');
-
-		$this->assertEquals(1, $rec);
-		$this->assertEquals(0, $mig);
-	}
-
-	/**
-	 * @param string $table
-	 */
-	public function assertTableExist($table) {
-		$this->assertTrue(OC_DB::tableExists($table), 'Table ' . $table . ' does not exist');
-	}
-
 	/**
 	 * @param string $table
 	 */
@@ -176,4 +118,147 @@ class Test_Migration extends \Test\TestCase {
 		}
 	}
 
+	protected function createDummyShareKeys($uid) {
+		$this->view->mkdir($uid . '/files_encryption/share-keys/folder1/folder2/folder3');
+		$this->view->mkdir($uid . '/files_encryption/share-keys/folder2/');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/folder2/folder3/file3.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/folder2/folder3/file3.' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/folder2/folder3/file3.' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/folder2/file2.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/folder2/file2.' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/folder2/file2.' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/file.1.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/file.1.' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder1/file.1.' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder2/file.2.1.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder2/file.2.1.' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder2/file.2.1.' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'  , 'data');
+		if ($this->public_share_key_id) {
+			$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder2/file.2.1.' . $this->public_share_key_id . '.shareKey'  , 'data');
+		}
+		if ($this->recovery_key_id) {
+			$this->view->file_put_contents($uid . '/files_encryption/share-keys/folder2/file.2.1.' . $this->recovery_key_id . '.shareKey'  , 'data');
+		}
+	}
+
+	protected function createDummyFileKeys($uid) {
+		$this->view->mkdir($uid . '/files_encryption/keyfiles/folder1/folder2/folder3');
+		$this->view->mkdir($uid . '/files_encryption/keyfiles/folder2/');
+		$this->view->file_put_contents($uid . '/files_encryption/keyfiles/folder1/folder2/folder3/file3.key'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/keyfiles/folder1/folder2/file2.key'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/keyfiles/folder1/file.1.key'  , 'data');
+		$this->view->file_put_contents($uid . '/files_encryption/keyfiles/folder2/file.2.1.key'  , 'data');
+	}
+
+	protected function createDummyFilesInTrash($uid) {
+		$this->view->mkdir($uid . '/files_trashbin/share-keys');
+		$this->view->mkdir($uid . '/files_trashbin/share-keys/folder1.d7437648723');
+		$this->view->file_put_contents($uid . '/files_trashbin/share-keys/file1.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey.d5457864' , 'data');
+		$this->view->file_put_contents($uid . '/files_trashbin/share-keys/file1.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey.d5457864' , 'data');
+		$this->view->file_put_contents($uid . '/files_trashbin/share-keys/folder1.d7437648723/file2.' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey' , 'data');
+
+		$this->view->mkdir($uid . '/files_trashbin/keyfiles');
+		$this->view->mkdir($uid . '/files_trashbin/keyfiles/folder1.d7437648723');
+		$this->view->file_put_contents($uid . '/files_trashbin/keyfiles/file1.key.d5457864' , 'data');
+		$this->view->file_put_contents($uid . '/files_trashbin/keyfiles/folder1.d7437648723/file2.key' , 'data');
+	}
+
+	protected function createDummySystemWideKeys() {
+		$this->view->mkdir('owncloud_private_key');
+		$this->view->file_put_contents('owncloud_private_key/systemwide_1.private.key', 'data');
+		$this->view->file_put_contents('owncloud_private_key/systemwide_2.private.key', 'data');
+	}
+
+	public function testMigrateToNewFolderStructure() {
+
+		// go back to the state before migration
+		$this->view->rename('/files_encryption/public_keys', '/public-keys');
+		$this->view->rename('/public-keys/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.publicKey', '/public-keys/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.public.key');
+		$this->view->rename('/public-keys/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.publicKey', '/public-keys/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.public.key');
+		$this->view->rename('/public-keys/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.publicKey', '/public-keys/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.public.key');
+		$this->view->deleteAll(self::TEST_ENCRYPTION_MIGRATION_USER1 . '/files_encryption/keys');
+		$this->view->deleteAll(self::TEST_ENCRYPTION_MIGRATION_USER2 . '/files_encryption/keys');
+		$this->view->deleteAll(self::TEST_ENCRYPTION_MIGRATION_USER3 . '/files_encryption/keys');
+		$this->view->rename(self::TEST_ENCRYPTION_MIGRATION_USER1 . '/files_encryption/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.privateKey',
+				self::TEST_ENCRYPTION_MIGRATION_USER1 . '/files_encryption/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.private.key');
+		$this->view->rename(self::TEST_ENCRYPTION_MIGRATION_USER2 . '/files_encryption/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.privateKey',
+				self::TEST_ENCRYPTION_MIGRATION_USER2 . '/files_encryption/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.private.key');
+		$this->view->rename(self::TEST_ENCRYPTION_MIGRATION_USER3 . '/files_encryption/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.privateKey',
+				self::TEST_ENCRYPTION_MIGRATION_USER3 . '/files_encryption/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.private.key');
+
+		$this->createDummyShareKeys(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		$this->createDummyShareKeys(self::TEST_ENCRYPTION_MIGRATION_USER2);
+		$this->createDummyShareKeys(self::TEST_ENCRYPTION_MIGRATION_USER3);
+
+		$this->createDummyFileKeys(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		$this->createDummyFileKeys(self::TEST_ENCRYPTION_MIGRATION_USER2);
+		$this->createDummyFileKeys(self::TEST_ENCRYPTION_MIGRATION_USER3);
+
+		$this->createDummyFilesInTrash(self::TEST_ENCRYPTION_MIGRATION_USER2);
+
+		// no user for system wide mount points
+		$this->createDummyFileKeys('');
+		$this->createDummyShareKeys('');
+
+		$this->createDummySystemWideKeys();
+
+		$m = new \OCA\Files_Encryption\Migration();
+		$m->reorganizeFolderStructure();
+
+		// TODO Verify that all files at the right place
+		$this->assertTrue($this->view->file_exists('/files_encryption/public_keys/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.publicKey'));
+		$this->assertTrue($this->view->file_exists('/files_encryption/public_keys/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.publicKey'));
+		$this->assertTrue($this->view->file_exists('/files_encryption/public_keys/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.publicKey'));
+		$this->verifyNewKeyPath(self::TEST_ENCRYPTION_MIGRATION_USER1);
+		$this->verifyNewKeyPath(self::TEST_ENCRYPTION_MIGRATION_USER2);
+		$this->verifyNewKeyPath(self::TEST_ENCRYPTION_MIGRATION_USER3);
+		// system wide keys
+		$this->verifyNewKeyPath('');
+		// trash
+		$this->verifyFilesInTrash(self::TEST_ENCRYPTION_MIGRATION_USER2);
+
+	}
+
+	protected function verifyFilesInTrash($uid) {
+		// share keys
+		$this->view->file_exists($uid . '/files_trashbin/keys/file1.d5457864/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey.d5457864' , 'data');
+		$this->view->file_exists($uid . '/files_trashbin/keys/file1.d5457864/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey.d5457864' , 'data');
+		$this->view->file_exists($uid . '/files_trashbin/keys/folder1.d7437648723/file2/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey' , 'data');
+
+		// file keys
+		$this->view->file_exists($uid . '/files_trashbin/keys/file1.d5457864/fileKey.d5457864' , 'data');
+		$this->view->file_exists($uid . '/files_trashbin/keyfiles/file1.d5457864/fileKey.d5457864' , 'data');
+		$this->view->file_exists($uid . '/files_trashbin/keyfiles/folder1.d7437648723/file2/fileKey' , 'data');
+	}
+
+	protected function verifyNewKeyPath($uid) {
+		// private key
+		if ($uid !== '') {
+			$this->assertTrue($this->view->file_exists($uid . '/files_encryption/' . $uid . '.privateKey'));
+		}
+		// file keys
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/folder3/file3/fileKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/file2/fileKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/file.1/fileKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder2/file.2.1/fileKey'));
+		// share keys
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/folder3/file3/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/folder3/file3/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/folder3/file3/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/file2/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/file2/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/folder2/file2/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/file.1/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/file.1/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder1/file.1/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder2/file.2.1/' . self::TEST_ENCRYPTION_MIGRATION_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder2/file.2.1/' . self::TEST_ENCRYPTION_MIGRATION_USER2 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder2/file.2.1/' . self::TEST_ENCRYPTION_MIGRATION_USER3 . '.shareKey'));
+		if ($this->public_share_key_id) {
+			$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder2/file.2.1/' . $this->public_share_key_id . '.shareKey'));
+		}
+		if ($this->recovery_key_id) {
+			$this->assertTrue($this->view->file_exists($uid . '/files_encryption/keys/folder2/file.2.1/' . $this->recovery_key_id . '.shareKey'));
+		}
+	}
 }

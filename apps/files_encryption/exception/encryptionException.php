@@ -27,7 +27,7 @@ namespace OCA\Encryption\Exception;
  * Base class for all encryption exception
  *
  * Possible Error Codes:
- * 10 - unknown error
+ * 10 - generic error
  * 20 - unexpected end of encryption header
  * 30 - unexpected blog size
  * 40 - encryption header to large
@@ -38,7 +38,7 @@ namespace OCA\Encryption\Exception;
  * 90 - private key missing
  */
 class EncryptionException extends \Exception {
-	const UNKNOWN = 10;
+	const GENERIC = 10;
 	const UNEXPECTED_END_OF_ENCRYPTION_HEADER = 20;
 	const UNEXPECTED_BLOG_SIZE = 30;
 	const ENCRYPTION_HEADER_TO_LARGE = 40;

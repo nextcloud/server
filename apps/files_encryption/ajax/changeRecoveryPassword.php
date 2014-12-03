@@ -55,16 +55,15 @@ $proxyStatus = \OC_FileProxy::$enabled;
 \OC_FileProxy::$enabled = false;
 
 $keyId = $util->getRecoveryKeyId();
-$keyPath = '/owncloud_private_key/' . $keyId . '.private.key';
 
-$encryptedRecoveryKey = $view->file_get_contents($keyPath);
-$decryptedRecoveryKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedRecoveryKey, $oldPassword);
+$encryptedRecoveryKey = Encryption\Keymanager::getPrivateSystemKey($keyId);
+$decryptedRecoveryKey = $encryptedRecoveryKey ? \OCA\Encryption\Crypt::decryptPrivateKey($encryptedRecoveryKey, $oldPassword) : false;
 
 if ($decryptedRecoveryKey) {
 	$cipher = \OCA\Encryption\Helper::getCipher();
 	$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($decryptedRecoveryKey, $newPassword, $cipher);
 	if ($encryptedKey) {
-		\OCA\Encryption\Keymanager::setPrivateSystemKey($encryptedKey, $keyId . '.private.key');
+		\OCA\Encryption\Keymanager::setPrivateSystemKey($encryptedKey, $keyId);
 		$return = true;
 	}
 }

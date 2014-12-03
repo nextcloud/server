@@ -28,17 +28,6 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
-
 		// disable file proxy by default
 		\OC_FileProxy::$enabled = false;
 
@@ -78,9 +67,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	}
 
 	function tearDown() {
-		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys');
-		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles');
-
+		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys');
 		parent::tearDown();
 	}
 
@@ -93,14 +80,6 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		if (self::$stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
 		}
-
-		\OC_Hook::clear();
-		\OC_FileProxy::clearProxies();
-
-		// Delete keys in /data/
-		$view = new \OC\Files\View('/');
-		$view->rmdir('public-keys');
-		$view->rmdir('owncloud_private_key');
 
 		parent::tearDownAfterClass();
 	}
@@ -140,27 +119,6 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertArrayHasKey('key', $sslInfo);
 	}
 
-	function fileNameFromShareKeyProvider() {
-		return array(
-			array('file.user.shareKey', 'user', 'file'),
-			array('file.name.with.dots.user.shareKey', 'user', 'file.name.with.dots'),
-			array('file.name.user.with.dots.shareKey', 'user.with.dots', 'file.name'),
-			array('file.txt', 'user', false),
-			array('user.shareKey', 'user', false),
-		);
-	}
-
-	/**
-	 * @small
-	 *
-	 * @dataProvider fileNameFromShareKeyProvider
-	 */
-	function testGetFilenameFromShareKey($fileName, $user, $expectedFileName) {
-		$this->assertEquals($expectedFileName,
-			\TestProtectedKeymanagerMethods::testGetFilenameFromShareKey($fileName, $user)
-		);
-	}
-
 	/**
 	 * @medium
 	 */
@@ -180,7 +138,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		Encryption\Keymanager::setFileKey($this->view, $util, $file, $key);
 
-		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keyfiles/' . $file . '.key'));
+		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keys/' . $file . '/fileKey'));
 
 		// cleanup
 		$this->view->unlink('/' . $this->userId . '/files/' . $file);
@@ -198,7 +156,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		Encryption\Keymanager::setPrivateKey($key, 'dummyUser');
 
-		$this->assertTrue($this->view->file_exists('/dummyUser/files_encryption/dummyUser.private.key'));
+		$this->assertTrue($this->view->file_exists('/dummyUser/files_encryption/dummyUser.privateKey'));
 
 		//clean up
 		$this->view->deleteAll('/dummyUser');
@@ -210,14 +168,19 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	function testSetPrivateSystemKey() {
 
 		$key = "dummy key";
-		$keyName = "myDummyKey.private.key";
+		$keyName = "myDummyKey";
+		$encHeader = Encryption\Crypt::generateHeader();
 
 		Encryption\Keymanager::setPrivateSystemKey($key, $keyName);
 
-		$this->assertTrue($this->view->file_exists('/owncloud_private_key/' . $keyName));
+		$this->assertTrue($this->view->file_exists('/files_encryption/' . $keyName . '.privateKey'));
+
+		$result = Encryption\Keymanager::getPrivateSystemKey($keyName);
+
+		$this->assertSame($encHeader . $key, $result);
 
 		// clean up
-		$this->view->unlink('/owncloud_private_key/' . $keyName);
+		$this->view->unlink('/files_encryption/' . $keyName.'.privateKey');
 	}
 
 
@@ -256,70 +219,78 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/existingFile.txt', 'data');
 
 		// create folder structure for some dummy share key files
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1');
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder');
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/existingFile.txt');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file2');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/file2');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file1');
+		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file2');
 
 		// create some dummy share keys
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user1.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.test.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.test-keymanager-userxdot.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.userx.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.' . Test_Encryption_Keymanager::TEST_USER . '.userx.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.' . Test_Encryption_Keymanager::TEST_USER . '.user1.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user2.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user3.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/file2.user3.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file1.user1.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user2.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user3.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/existingFile.txt/user1.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/existingFile.txt/' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/user1.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/user1.test.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/test-keymanager-userxdot.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/userx.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/' . Test_Encryption_Keymanager::TEST_USER . '.userx.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/user1.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/' . Test_Encryption_Keymanager::TEST_USER . '.user1.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file2/user2.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file2/user3.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/file2/user3.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file1/user1.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file2/user2.shareKey', 'data');
+		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file2/user3.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
-		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER), '/folder1/', Test_Encryption_Keymanager::TEST_USER);
+		Encryption\Keymanager::delShareKey($this->view,
+				array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER),
+				Encryption\Keymanager::getKeyPath($this->view, new Encryption\Util($this->view, Test_Encryption_Keymanager::TEST_USER), '/folder1'),
+				Test_Encryption_Keymanager::TEST_USER,
+				'/folder1');
 
 		// check if share keys from user1 and user2 are deleted
 		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.user1.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/existingFile.txt/user1.shareKey'));
 		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1/user1.shareKey'));
 		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user2.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2/user2.shareKey'));
 		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file1.user1.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file1/user1.shareKey'));
 		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user2.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2/user2.shareKey'));
 
 		// check if share keys from user3 still exists
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file2.user3.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file2/user3.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/subsubfolder/file2.user3.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file2/user3.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/subfolder/file2.user3.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/file2/user3.shareKey'));
 
-		// check if share keys for user or file with similar name 
+		// check if share keys for user or file with similar name
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.test.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/user1.test.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.test-keymanager-userxdot.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/test-keymanager-userxdot.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.' . Test_Encryption_Keymanager::TEST_USER . '.userx.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/' . Test_Encryption_Keymanager::TEST_USER . '.userx.shareKey'));
 		// FIXME: this case currently cannot be distinguished, needs further fixing
-		/*
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.userx.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/userx.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.user1.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/user1.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/file1.' . Test_Encryption_Keymanager::TEST_USER . '.user1.shareKey'));
-		 */
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/file1/' . Test_Encryption_Keymanager::TEST_USER . '.user1.shareKey'));
 
 		// owner key from existing file should still exists because the file is still there
 		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
+			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/existingFile.txt/' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
 
 		// cleanup
 		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
@@ -344,7 +315,12 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
-		Encryption\Keymanager::delShareKey($this->view, array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER), '/folder1/existingFile.txt', Test_Encryption_Keymanager::TEST_USER);
+		Encryption\Keymanager::delShareKey($this->view,
+				array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER),
+				Encryption\Keymanager::getKeyPath($this->view, new Encryption\Util($this->view, Test_Encryption_Keymanager::TEST_USER), '/folder1/existingFile.txt'),
+				Test_Encryption_Keymanager::TEST_USER,
+				'/folder1/existingFile.txt');
+
 
 		// check if share keys from user1 and user2 are deleted
 		$this->assertFalse($this->view->file_exists(
@@ -362,147 +338,16 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 	}
 
-	/**
-	 * @medium
-	 */
-	function testDeleteFileKey() {
-
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/existingFile.txt', 'data');
-
-		// create folder structure for some dummy file key files
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1');
-
-		// create dummy keyfile
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/dummyFile.txt.key', 'data');
-
-		// recursive delete share keys from user1 and user2
-		$result = Encryption\Keymanager::deleteFileKey($this->view, '/folder1/existingFile.txt');
-		$this->assertFalse($result);
-
-		$result2 = Encryption\Keymanager::deleteFileKey($this->view, '/folder1/dummyFile.txt');
-		$this->assertTrue($result2);
-
-		// check if file key from dummyFile was deleted
-		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/dummyFile.txt.key'));
-
-		// check if file key from existing file still exists
-		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/existingFile.txt.key'));
-
-		// cleanup
-		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-
-	}
-
-	/**
-	 * @medium
-	 */
-	function testDeleteFileKeyFolder() {
-
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/existingFile.txt', 'data');
-
-		// create folder structure for some dummy file key files
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1');
-
-		// create dummy keyfile
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/dummyFile.txt.key', 'data');
-
-		// recursive delete share keys from user1 and user2
-		$result = Encryption\Keymanager::deleteFileKey($this->view, '/folder1');
-		$this->assertFalse($result);
-
-		// all file keys should still exists if we try to delete a folder with keys for which some files still exists
-		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/dummyFile.txt.key'));
-		$this->assertTrue($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/existingFile.txt.key'));
-
-		// delete folder
-		$this->view->unlink('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-		// create dummy keyfile
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1/dummyFile.txt.key', 'data');
-
-		// now file keys should be deleted since the folder no longer exists
-		$result = Encryption\Keymanager::deleteFileKey($this->view, '/folder1');
-		$this->assertTrue($result);
-
-		$this->assertFalse($this->view->file_exists(
-			'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keyfiles/folder1'));
-
-		// cleanup
-		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-
-	}
-
-	function testDelAllShareKeysFile() {
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1/existingFile.txt', 'data');
-
-		// create folder structure for some dummy share key files
-		$this->view->mkdir('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1');
-
-		// create some dummy share keys for the existing file
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user1.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user2.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user3.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
-
-		// create some dummy share keys for a non-existing file
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.user1.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.user2.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.user3.shareKey', 'data');
-		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
-
-		// try to del all share keys from a existing file, should fail because the file still exists
-		$result = Encryption\Keymanager::delAllShareKeys($this->view, Test_Encryption_Keymanager::TEST_USER, 'folder1/existingFile.txt');
-		$this->assertFalse($result);
-
-		// check if share keys still exists
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user1.shareKey'));
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user2.shareKey'));
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.user3.shareKey'));
-
-		// try to del all share keys from file, should succeed because the does not exist any more
-		$result2 = Encryption\Keymanager::delAllShareKeys($this->view, Test_Encryption_Keymanager::TEST_USER, 'folder1/nonexistingFile.txt');
-		$this->assertTrue($result2);
-
-		// check if share keys are really gone
-		$this->assertFalse($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey'));
-		// check that it only deleted keys or users who had access, others remain
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.user1.shareKey'));
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.user2.shareKey'));
-		$this->assertTrue($this->view->file_exists(
-				'/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/nonexistingFile.txt.user3.shareKey'));
-
-		// cleanup
-		$this->view->deleteAll('/'.Test_Encryption_Keymanager::TEST_USER.'/files/folder1');
-
-	}
-
 	function testKeySetPreperation() {
 		$basePath = '/'.Test_Encryption_Keymanager::TEST_USER.'/files';
 		$path = '/folder1/subfolder/subsubfolder/file.txt';
 
 		$this->assertFalse($this->view->is_dir($basePath . '/testKeySetPreperation'));
 
-		$result = TestProtectedKeymanagerMethods::testKeySetPreperation($this->view, $path, $basePath);
-
-		// return path without leading slash
-		$this->assertSame('folder1/subfolder/subsubfolder/file.txt', $result);
+		TestProtectedKeymanagerMethods::testKeySetPreperation($this->view, $basePath . $path);
 
 		// check if directory structure was created
-		$this->assertTrue($this->view->is_dir($basePath . '/folder1/subfolder/subsubfolder'));
+		$this->assertTrue($this->view->is_dir($basePath . $path));
 
 		// cleanup
 		$this->view->deleteAll($basePath . '/folder1');
@@ -516,18 +361,11 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 class TestProtectedKeymanagerMethods extends \OCA\Encryption\Keymanager {
 
 	/**
-	 * @param string $sharekey
-	 */
-	public static function testGetFilenameFromShareKey($sharekey, $user) {
-		return self::getFilenameFromShareKey($sharekey, $user);
-	}
-
-	/**
 	 * @param \OC\Files\View $view relative to data/
 	 * @param string $path
 	 * @param string $basePath
 	 */
-	public static function testKeySetPreperation($view, $path, $basePath) {
-		return self::keySetPreparation($view, $path, $basePath);
+	public static function testKeySetPreperation($view, $path) {
+		return self::keySetPreparation($view, $path);
 	}
 }
