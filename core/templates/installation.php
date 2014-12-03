@@ -147,7 +147,9 @@
 		<?php endif; ?>
 	<?php endif; ?>
 
+	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<p id="sqliteInformation" class="info"><?php p($l->t('SQLite will be used as database. For larger installations we recommend to change this.'));?></p>
+	<?php endif ?>
 
 	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" data-finishing="<?php p($l->t( 'Finishing …' )); ?>" /></div>
 </form>

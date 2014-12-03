@@ -137,13 +137,24 @@ class Util {
 	}
 
 	/**
+	 * Add a translation JS file
+	 * @param string $application application id
+	 * @param string $languageCode language code, defaults to the current locale
+	 */
+	public static function addTranslations($application, $languageCode = null) {
+		\OC_Util::addTranslations($application, $languageCode);
+	}
+
+	/**
 	 * Add a custom element to the header
+	 * If $text is null then the element will be written as empty element.
+	 * So use "" to get a closing tag.
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
-	public static function addHeader( $tag, $attributes, $text='') {
-		\OC_Util::addHeader( $tag, $attributes, $text );
+	public static function addHeader($tag, $attributes, $text=null) {
+		\OC_Util::addHeader($tag, $attributes, $text);
 	}
 
 	/**
@@ -497,8 +508,8 @@ class Util {
 
 	/**
 	 * Compare two strings to provide a natural sort
-	 * @param $a first string to compare
-	 * @param $b second string to compare
+	 * @param string $a first string to compare
+	 * @param string $b second string to compare
 	 * @return -1 if $b comes before $a, 1 if $a comes before $b
 	 * or 0 if the strings are identical
 	 */

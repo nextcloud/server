@@ -145,26 +145,23 @@ class Shared_Cache extends Cache {
 	/**
 	 * get the metadata of all files stored in $folder
 	 *
-	 * @param string $folder
+	 * @param string $folderId
 	 * @return array
 	 */
-	public function getFolderContents($folder) {
-
-		if ($folder === false) {
-			$folder = '';
-		}
-
-		$dir = ($folder !== '') ? $folder . '/' : '';
-
-		$cache = $this->getSourceCache($folder);
+	public function getFolderContentsById($folderId) {
+		$cache = $this->getSourceCache('');
 		if ($cache) {
-			$parent = $this->storage->getFile($folder);
-			$sourceFolderContent = $cache->getFolderContents($this->files[$folder]);
-			foreach ($sourceFolderContent as $key => $c) {
-				$sourceFolderContent[$key]['path'] = $dir . $c['name'];
-				$sourceFolderContent[$key]['uid_owner'] = $parent['uid_owner'];
-				$sourceFolderContent[$key]['displayname_owner'] = \OC_User::getDisplayName($parent['uid_owner']);
-				$sourceFolderContent[$key]['permissions'] = $sourceFolderContent[$key]['permissions'] & $this->storage->getPermissions($dir . $c['name']);
+			$owner = $this->storage->getSharedFrom();
+			$parentPath = $this->getPathById($folderId);
+			if ($parentPath !== '') {
+				$parentPath .= '/';
+			}
+			$sourceFolderContent = $cache->getFolderContentsById($folderId);
+			foreach ($sourceFolderContent as &$c) {
+				$c['path'] = ltrim($parentPath . $c['name'], '/');
+				$c['uid_owner'] = $owner;
+				$c['displayname_owner'] = \OC_User::getDisplayName($owner);
+				$c['permissions'] = $c['permissions'] & $this->storage->getPermissions(false);
 			}
 
 			return $sourceFolderContent;

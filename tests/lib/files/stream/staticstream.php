@@ -8,18 +8,20 @@
 
 namespace Test\Files\Stream;
 
-class StaticStream extends \PHPUnit_Framework_TestCase {
+class StaticStream extends \Test\TestCase {
 
 	private $sourceFile;
 	private $sourceText;
 
-	public function __construct() {
+	protected function setUp() {
+		parent::setUp();
 		$this->sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->sourceText = file_get_contents($this->sourceFile);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC\Files\Stream\StaticStream::clear();
+		parent::tearDown();
 	}
 
 	public function testContent() {

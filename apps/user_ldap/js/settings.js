@@ -122,7 +122,7 @@ var LdapConfiguration = {
 			OC.filePath('user_ldap','ajax','clearMappings.php'),
 			'ldap_clear_mapping='+encodeURIComponent(mappingSubject),
 			function(result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					OC.dialogs.info(
 						t('user_ldap', 'mappings cleared'),
 						t('user_ldap', 'Success')
@@ -148,23 +148,35 @@ var LdapWizard = {
 	userFilter: false,
 	loginFilter: false,
 	groupFilter: false,
+	ajaxRequests: {},
 
-	ajax: function(param, fnOnSuccess, fnOnError) {
-		$.post(
+	ajax: function(param, fnOnSuccess, fnOnError, reqID) {
+		if(!_.isUndefined(reqID)) {
+			if(LdapWizard.ajaxRequests.hasOwnProperty(reqID)) {
+				console.log('aborting ' + reqID);
+				console.log(param);
+				LdapWizard.ajaxRequests[reqID].abort();
+			}
+		}
+		var request = $.post(
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
-				if(result.status == 'success') {
+				if(result.status === 'success') {
 					fnOnSuccess(result);
 				} else {
 					fnOnError(result);
 				}
 			}
 		);
+		if(!_.isUndefined(reqID)) {
+			LdapWizard.ajaxRequests[reqID] = request;
+		}
+		return request;
 	},
 
 	applyChanges: function (result) {
-		for (id in result.changes) {
+		for (var id in result.changes) {
 			LdapWizard.blacklistAdd(id);
 			if(id.indexOf('count') > 0) {
 				$('#'+id).text(result.changes[id]);
@@ -179,28 +191,41 @@ var LdapWizard = {
 		}
 	},
 
+	enableTabs: function() {
+		//do not use this function directly, use basicStatusCheck instead.
+		if(LdapWizard.saveProcesses === 0) {
+			$('.ldap_action_continue').removeAttr('disabled');
+			$('.ldap_action_back').removeAttr('disabled');
+			$('#ldapSettings').tabs('option', 'disabled', []);
+		}
+	},
+
+	disableTabs: function() {
+		$('.ldap_action_continue').attr('disabled', 'disabled');
+		$('.ldap_action_back').attr('disabled', 'disabled');
+		$('#ldapSettings').tabs('option', 'disabled', [1, 2, 3, 4, 5]);
+	},
+
 	basicStatusCheck: function() {
 		//criterias to continue from the first tab
 		// - host, port, user filter, agent dn, password, base dn
-		host	= $('#ldap_host').val();
-		port	= $('#ldap_port').val();
-		agent	= $('#ldap_dn').val();
-		pwd		= $('#ldap_agent_password').val();
-		base	= $('#ldap_base').val();
+		var host  = $('#ldap_host').val();
+		var port  = $('#ldap_port').val();
+		var agent = $('#ldap_dn').val();
+		var pwd   = $('#ldap_agent_password').val();
+		var base  = $('#ldap_base').val();
 
 		if((host && port  && base) && ((!agent && !pwd) || (agent && pwd))) {
-			$('.ldap_action_continue').removeAttr('disabled');
-			$('#ldapSettings').tabs('option', 'disabled', []);
+			LdapWizard.enableTabs();
 		} else {
-			$('.ldap_action_continue').attr('disabled', 'disabled');
-			$('#ldapSettings').tabs('option', 'disabled', [1, 2, 3, 4, 5]);
+			LdapWizard.disableTabs();
 		}
 	},
 
 
 	blacklistAdd: function(id) {
 		obj = $('#'+id);
-		if(!(obj[0].hasOwnProperty('multiple') && obj[0]['multiple'] == true)) {
+		if(!(obj[0].hasOwnProperty('multiple') && obj[0]['multiple'] === true)) {
 			//no need to blacklist multiselect
 			LdapWizard.saveBlacklist[id] = true;
 			return true;
@@ -244,7 +269,8 @@ var LdapWizard = {
 					LdapWizard.showInfoBox(t('user_ldap', 'Please specify a Base DN'));
 					LdapWizard.showInfoBox(t('user_ldap', 'Could not determine Base DN'));
 					$('#ldap_base').prop('disabled', false);
-				}
+				},
+				'guessBaseDN'
 			);
 		}
 	},
@@ -274,7 +300,8 @@ var LdapWizard = {
 					LdapWizard.hideSpinner('#ldap_port');
 					$('#ldap_port').prop('disabled', false);
 					LdapWizard.showInfoBox(t('user_ldap', 'Please specify the port'));
-				}
+				},
+				'guessPortAndTLS'
 			);
 		}
 	},
@@ -317,35 +344,87 @@ var LdapWizard = {
 		}
 	},
 
-	_countThings: function(method) {
-		param = 'action='+method+
+	_countThings: function(method, spinnerID, doneCallback) {
+		var param = 'action='+method+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
-		LdapWizard.ajax(param,
+		LdapWizard.showSpinner(spinnerID);
+		var request = LdapWizard.ajax(param,
 			function(result) {
 				LdapWizard.applyChanges(result);
+				LdapWizard.hideSpinner(spinnerID);
+				if(!_.isUndefined(doneCallback)) {
+					doneCallback(method);
+				}
 			},
 			function (result) {
-				// error handling
-			}
+				OC.Notification.show('Counting the entries failed with, ' + result.message);
+				LdapWizard.hideSpinner(spinnerID);
+				if(!_.isUndefined(doneCallback)) {
+					doneCallback(method);
+				}
+			},
+			method
 		);
 	},
 
-	countGroups: function() {
-		LdapWizard._countThings('countGroups');
+	countGroups: function(doneCallback) {
+		LdapWizard._countThings('countGroups', '#ldap_group_count', doneCallback);
 	},
 
-	countUsers: function() {
-		LdapWizard._countThings('countUsers');
+	countUsers: function(doneCallback) {
+		LdapWizard._countThings('countUsers', '#ldap_user_count', doneCallback);
+	},
+
+	/**
+	 * called after detectors have run
+	 * @callback runDetectorsCallback
+	 */
+
+	/**
+	 * runs detectors to determine appropriate attributes, e.g. displayName
+	 * @param {string} type either "User" or "Group"
+	 * @param {runDetectorsCallback} triggered after all detectors have completed
+	 */
+	runDetectors: function(type, callback) {
+		if(type === 'Group') {
+			$.when(LdapWizard.detectGroupMemberAssoc())
+				.then(callback, callback);
+			if(   LdapWizard.admin.isExperienced
+			   && !(LdapWizard.detectorsRunInXPMode & LdapWizard.groupDetectors)) {
+				LdapWizard.detectorsRunInXPMode += LdapWizard.groupDetectors;
+			}
+		} else if(type === 'User') {
+			var req1 = LdapWizard.detectUserDisplayNameAttribute();
+			var req2 = LdapWizard.detectEmailAttribute();
+			$.when(req1, req2)
+				.then(callback, callback);
+			if(   LdapWizard.admin.isExperienced
+			   && !(LdapWizard.detectorsRunInXPMode & LdapWizard.userDetectors)) {
+				LdapWizard.detectorsRunInXPMode += LdapWizard.userDetectors;
+			}
+		}
+	},
+
+	/**
+	 * runs detector to find out a fitting user display name attribute
+	 */
+	detectUserDisplayNameAttribute: function() {
+		var param = 'action=detectUserDisplayNameAttribute' +
+			'&ldap_serverconfig_chooser='+
+			encodeURIComponent($('#ldap_serverconfig_chooser').val());
+
+		//runs in the background, no callbacks necessary
+		return LdapWizard.ajax(param, LdapWizard.applyChanges, function(){}, 'detectUserDisplayNameAttribute');
 	},
 
 	detectEmailAttribute: function() {
-		param = 'action=detectEmailAttribute'+
+		var param = 'action=detectEmailAttribute'+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 		//runs in the background, no callbacks necessary
-		LdapWizard.ajax(param, LdapWizard.applyChanges, function(){});
+		return LdapWizard.ajax(param, LdapWizard.applyChanges, function(){}, 'detectEmailAttribute');
 	},
 
 	detectGroupMemberAssoc: function() {
@@ -353,13 +432,14 @@ var LdapWizard = {
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
-		LdapWizard.ajax(param,
+		return LdapWizard.ajax(param,
 			function(result) {
 				//pure background story
 			},
 			function (result) {
 				// error handling
-			}
+			},
+			'determineGroupMemberAssoc'
 		);
 	},
 
@@ -372,9 +452,9 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#ldap_loginfilter_attributes').find('option').remove();
-				for (i in result.options['ldap_loginfilter_attributes']) {
+				for (var i in result.options['ldap_loginfilter_attributes']) {
 					//FIXME: move HTML into template
-					attr = result.options['ldap_loginfilter_attributes'][i];
+					var attr = result.options['ldap_loginfilter_attributes'][i];
 					$('#ldap_loginfilter_attributes').append(
 								"<option value='"+attr+"'>"+attr+"</option>");
 				}
@@ -392,12 +472,13 @@ var LdapWizard = {
 									{noneSelectedText : 'No attributes found'});
 				$('#ldap_loginfilter_attributes').multiselect('disable');
 				LdapWizard.hideSpinner('#ldap_loginfilter_attributes');
-			}
+			},
+			'determineAttributes'
 		);
 	},
 
 	findAvailableGroups: function(multisel, type) {
-		if(type != 'Users' && type != 'Groups') {
+		if(type !== 'Users' && type !== 'Groups') {
 			return false;
 		}
 		param = 'action=determineGroupsFor'+encodeURIComponent(type)+
@@ -408,7 +489,7 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#'+multisel).find('option').remove();
-				for (i in result.options[multisel]) {
+				for (var i in result.options[multisel]) {
 					//FIXME: move HTML into template
 					objc = result.options[multisel][i];
 					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
@@ -435,16 +516,17 @@ var LdapWizard = {
 			function (result) {
 				LdapWizard.hideSpinner('#'+multisel);
 				$('#'+multisel).multiselect('disable');
-				if(type == 'Users') {
+				if(type === 'Users') {
 					LdapWizard.userFilterAvailableGroupsHasRun = true;
 					LdapWizard.postInitUserFilter();
 				}
-			}
+			},
+			'findAvailableGroupsFor' + type
 		);
 	},
 
 	findObjectClasses: function(multisel, type) {
-		if(type != 'User' && type != 'Group') {
+		if(type !== 'User' && type !== 'Group') {
 			return false;
 		}
 		param = 'action=determine'+encodeURIComponent(type)+'ObjectClasses'+
@@ -455,7 +537,7 @@ var LdapWizard = {
 		LdapWizard.ajax(param,
 			function(result) {
 				$('#'+multisel).find('option').remove();
-				for (i in result.options[multisel]) {
+				for (var i in result.options[multisel]) {
 					//FIXME: move HTML into template
 					objc = result.options[multisel][i];
 					$('#'+multisel).append("<option value='"+objc+"'>"+objc+"</option>");
@@ -476,12 +558,13 @@ var LdapWizard = {
 			},
 			function (result) {
 				LdapWizard.hideSpinner('#'+multisel);
-				if(type == 'User') {
+				if(type === 'User') {
 					LdapWizard.userFilterObjectClassesHasRun = true;
 					LdapWizard.postInitUserFilter();
 				}
 				//TODO: error handling
-			}
+			},
+			'determine' + type + 'ObjectClasses'
 		);
 	},
 
@@ -528,25 +611,27 @@ var LdapWizard = {
 	},
 
 	isConfigurationActiveControlLocked: true,
+	detectorsRunInXPMode: 0,
+	userDetectors: 1,
+	groupDetectors: 2,
 
 	init: function() {
+		LdapWizard.detectorsRunInXPMode = 0;
+		LdapWizard.instantiateFilters();
+		LdapWizard.admin.setExperienced($('#ldap_experienced_admin').is(':checked'));
 		LdapWizard.basicStatusCheck();
 		LdapWizard.functionalityCheck();
 		LdapWizard.isConfigurationActiveControlLocked = false;
 	},
 
 	initGroupFilter: function() {
-		LdapWizard.groupFilter = new LdapFilter('Group');
-		LdapWizard.findObjectClasses('ldap_groupfilter_objectclass', 'Group');
-		LdapWizard.findAvailableGroups('ldap_groupfilter_groups', 'Groups');
-		LdapWizard.countGroups();
+		LdapWizard.groupFilter.activate();
 	},
 
 	/** init login filter tab section **/
 
 	initLoginFilter: function() {
-		LdapWizard.loginFilter = new LdapFilter('Login');
-		LdapWizard.findAttributes();
+		LdapWizard.loginFilter.activate();
 	},
 
 	postInitLoginFilter: function() {
@@ -569,7 +654,56 @@ var LdapWizard = {
 		});
 	},
 
+	hideTestSpinner:function (countMethod) {
+		var selector;
+		if(countMethod === 'countUsers') {
+			selector = '#rawUserFilterContainer .ldapGetEntryCount';
+		} else {
+			selector = '#rawGroupFilterContainer .ldapGetEntryCount';
+		}
+		LdapWizard.hideSpinner(selector);
+	},
+
 	/** init user filter tab section **/
+
+	instantiateFilters: function() {
+		delete LdapWizard.userFilter;
+		LdapWizard.userFilter = new LdapFilter('User', function(mode) {
+			if( !LdapWizard.admin.isExperienced()
+			   || mode === LdapWizard.filterModeAssisted) {
+				LdapWizard.userFilter.updateCount();
+			}
+			LdapWizard.userFilter.findFeatures();
+		});
+		$('#rawUserFilterContainer .ldapGetEntryCount').click(function(event) {
+			event.preventDefault();
+			$('#ldap_user_count').text('');
+			LdapWizard.showSpinner('#rawUserFilterContainer .ldapGetEntryCount');
+			LdapWizard.userFilter.updateCount(LdapWizard.hideTestSpinner);
+			$('#ldap_user_count').removeClass('hidden');
+		});
+
+		delete LdapWizard.loginFilter;
+		LdapWizard.loginFilter = new LdapFilter('Login', function(mode) {
+			LdapWizard.loginFilter.findFeatures();
+		});
+
+		delete LdapWizard.groupFilter;
+		LdapWizard.groupFilter = new LdapFilter('Group', function(mode) {
+			if( !LdapWizard.admin.isExperienced()
+			   || mode === LdapWizard.filterModeAssisted) {
+				LdapWizard.groupFilter.updateCount();
+			}
+			LdapWizard.groupFilter.findFeatures();
+		});
+		$('#rawGroupFilterContainer .ldapGetEntryCount').click(function(event) {
+			event.preventDefault();
+			$('#ldap_group_count').text('');
+			LdapWizard.showSpinner('#rawGroupFilterContainer .ldapGetEntryCount');
+			LdapWizard.groupFilter.updateCount(LdapWizard.hideTestSpinner);
+			$('#ldap_group_count').removeClass('hidden');
+		});
+	},
 
 	userFilterObjectClassesHasRun: false,
 	userFilterAvailableGroupsHasRun: false,
@@ -577,23 +711,24 @@ var LdapWizard = {
 	initUserFilter: function() {
 		LdapWizard.userFilterObjectClassesHasRun = false;
 		LdapWizard.userFilterAvailableGroupsHasRun = false;
-		LdapWizard.userFilter = new LdapFilter('User');
-		LdapWizard.findObjectClasses('ldap_userfilter_objectclass', 'User');
-		LdapWizard.findAvailableGroups('ldap_userfilter_groups', 'Users');
+		LdapWizard.userFilter.activate();
 	},
 
 	postInitUserFilter: function() {
 		if(LdapWizard.userFilterObjectClassesHasRun &&
 			LdapWizard.userFilterAvailableGroupsHasRun) {
-			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
-			LdapWizard.countUsers();
+			LdapWizard.userFilter.compose();
 		}
 	},
 
 	/** end of init user filter tab section **/
 
 	onTabChange: function(event, ui) {
-		newTabIndex = 0;
+		if(LdapWizard.saveProcesses  > 0) {
+			//do not allow to switch tabs as long as a save process is active
+			return false;
+		}
+		var newTabIndex = 0;
 		if(ui.newTab[0].id === '#ldapWizard2') {
 			LdapWizard.initUserFilter();
 			newTabIndex = 1;
@@ -605,19 +740,33 @@ var LdapWizard = {
 			newTabIndex = 3;
 		}
 
-		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		var curTabIndex = $('#ldapSettings').tabs('option', 'active');
 		if(curTabIndex >= 0 && curTabIndex <= 3) {
 			LdapWizard.controlUpdate(newTabIndex);
+			//run detectors in XP mode, when "Test Filter" button has not been
+			//clicked in order to make sure that email, displayname, member-
+			//group association attributes are properly set.
+			if(   curTabIndex === 1
+			   && LdapWizard.admin.isExperienced
+			   && !(LdapWizard.detecorsRunInXPMode & LdapWizard.userDetectors)
+			) {
+				LdapWizard.runDetectors('User', function(){});
+			} else if(   curTabIndex === 3
+			          && LdapWizard.admin.isExperienced
+			          && !(LdapWizard.detecorsRunInXPMode & LdapWizard.groupDetectors)
+			) {
+				LdapWizard.runDetectors('Group', function(){});
+			}
 		}
 	},
 
 	processChanges: function(triggerObj) {
 		LdapWizard.hideInfoBox();
 
-		if(triggerObj.id == 'ldap_host'
-		   || triggerObj.id == 'ldap_port'
-		   || triggerObj.id == 'ldap_dn'
-		   || triggerObj.id == 'ldap_agent_password') {
+		if(triggerObj.id === 'ldap_host'
+		   || triggerObj.id === 'ldap_port'
+		   || triggerObj.id === 'ldap_dn'
+		   || triggerObj.id === 'ldap_agent_password') {
 			LdapWizard.checkPort();
 			if($('#ldap_port').val()) {
 				//if Port is already set, check BaseDN
@@ -625,17 +774,15 @@ var LdapWizard = {
 			}
 		}
 
-		if(triggerObj.id == 'ldap_userlist_filter') {
-			LdapWizard.countUsers();
-			LdapWizard.detectEmailAttribute();
-		} else if(triggerObj.id == 'ldap_group_filter') {
-			LdapWizard.countGroups();
-			LdapWizard.detectGroupMemberAssoc();
-		}
-
-		if(triggerObj.id == 'ldap_loginfilter_username'
-		   || triggerObj.id == 'ldap_loginfilter_email') {
+		if(triggerObj.id === 'ldap_loginfilter_username'
+		   || triggerObj.id === 'ldap_loginfilter_email') {
 			LdapWizard.loginFilter.compose();
+		} else if (!LdapWizard.admin.isExperienced()) {
+			if(triggerObj.id === 'ldap_userlist_filter') {
+				LdapWizard.userFilter.updateCount();
+			} else if (triggerObj.id === 'ldap_group_filter') {
+				LdapWizard.groupFilter.updateCount();
+			}
 		}
 
 		if($('#ldapSettings').tabs('option', 'active') == 0) {
@@ -663,24 +810,28 @@ var LdapWizard = {
 			values = values + "\n" + resultObj[i].value;
 		}
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
-		if(originalObj == 'ldap_userfilter_objectclass'
-		   || originalObj == 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
+		if(originalObj === 'ldap_userfilter_objectclass'
+		   || originalObj === 'ldap_userfilter_groups') {
+			LdapWizard.userFilter.compose(true);
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
 			if(!LdapWizard.loginFilter) {
 				LdapWizard.initLoginFilter();
 			}
 			LdapWizard.loginFilter.compose();
-		} else if(originalObj == 'ldap_loginfilter_attributes') {
+		} else if(originalObj === 'ldap_loginfilter_attributes') {
 			LdapWizard.loginFilter.compose();
-		} else if(originalObj == 'ldap_groupfilter_objectclass'
-		   || originalObj == 'ldap_groupfilter_groups') {
-			LdapWizard.groupFilter.compose();
+		} else if(originalObj === 'ldap_groupfilter_objectclass'
+		   || originalObj === 'ldap_groupfilter_groups') {
+			LdapWizard.groupFilter.compose(true);
 		}
 	},
 
+	saveProcesses: 0,
 	_save: function(object, value) {
+		$('#ldap .ldap_saving').removeClass('hidden');
+		LdapWizard.saveProcesses += 1;
+		$('#ldap *').addClass('save-cursor');
 		param = 'cfgkey='+encodeURIComponent(object.id)+
 				'&cfgval='+encodeURIComponent(value)+
 				'&action=save'+
@@ -690,10 +841,15 @@ var LdapWizard = {
 			OC.filePath('user_ldap','ajax','wizard.php'),
 			param,
 			function(result) {
-				if(result.status == 'success') {
+				LdapWizard.saveProcesses -= 1;
+				if(LdapWizard.saveProcesses === 0) {
+					$('#ldap .ldap_saving').addClass('hidden');
+					$('#ldap *').removeClass('save-cursor');
+				}
+				if(result.status === 'success') {
 					LdapWizard.processChanges(object);
 				} else {
-// 					alert('Oooooooooooh :(');
+					console.log('Could not save value for ' + object.id);
 				}
 			}
 		);
@@ -713,12 +869,15 @@ var LdapWizard = {
 	},
 
 	toggleRawFilter: function(container, moc, mg, stateVar, modeKey) {
+		var isUser = moc.indexOf('user') >= 0;
+		var filter = isUser ? LdapWizard.userFilter : LdapWizard.groupFilter;
 		//moc = multiselect objectclass
 		//mg = mutliselect groups
 		if($(container).hasClass('invisible')) {
+			filter.setMode(LdapWizard.filterModeRaw);
 			$(container).removeClass('invisible');
 			$(moc).multiselect('disable');
-			if($(mg).multiselect().attr('disabled') == 'disabled') {
+			if($(mg).multiselect().attr('disabled') === 'disabled') {
 				LdapWizard[stateVar] = 'disable';
 			} else {
 				LdapWizard[stateVar] = 'enable';
@@ -726,61 +885,110 @@ var LdapWizard = {
 			$(mg).multiselect('disable');
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeRaw);
 		} else {
+			filter.setMode(LdapWizard.filterModeAssisted);
+			filter.findFeatures();
 			$(container).addClass('invisible');
 			$(mg).multiselect(LdapWizard[stateVar]);
 			$(moc).multiselect('enable');
 			LdapWizard._save({ id: modeKey }, LdapWizard.filterModeAssisted);
-			if(moc.indexOf('user') >= 0) {
+			if(isUser) {
 				LdapWizard.blacklistRemove('ldap_userlist_filter');
-				LdapWizard.userFilter.compose(LdapWizard.detectEmailAttribute);
+				LdapWizard.userFilter.compose(true);
 			} else {
 				LdapWizard.blacklistRemove('ldap_group_filter');
-				LdapWizard.groupFilter.compose();
+				LdapWizard.groupFilter.compose(true);
 			}
 		}
 	},
 
+	onToggleRawFilterConfirmation: function(currentMode, isRawVisible, callback) {
+		if(   !LdapWizard.admin.isExperienced()
+		   || currentMode === LdapWizard.filterModeAssisted
+		   || (LdapWizard.admin.isExperienced() && !isRawVisible)
+		) {
+			return callback(true);
+		}
+
+		var confirmed = OCdialogs.confirm(
+			'Switching the mode will enable automatic LDAP queries. Depending on your LDAP size they may take a while. Do you still want to switch the mode?',
+			'Mode switch',
+			callback
+		);
+	},
+
 	toggleRawGroupFilter: function() {
-		LdapWizard.blacklistRemove('ldap_group_filter');
-		LdapWizard.toggleRawFilter('#rawGroupFilterContainer',
-								   '#ldap_groupfilter_objectclass',
-								   '#ldap_groupfilter_groups',
-								   'groupFilterGroupSelectState',
-								   'ldapGroupFilterMode'
-  								);
+		LdapWizard.onToggleRawFilterConfirmation(
+			LdapWizard.groupFilter.getMode(),
+			!$('#rawGroupFilterContainer').hasClass('invisible'),
+			function(confirmed) {
+				if(confirmed !== true) {
+					return;
+				}
+
+				LdapWizard.blacklistRemove('ldap_group_filter');
+				LdapWizard.toggleRawFilter('#rawGroupFilterContainer',
+										   '#ldap_groupfilter_objectclass',
+										   '#ldap_groupfilter_groups',
+										   'groupFilterGroupSelectState',
+										   'ldapGroupFilterMode'
+		  								);
+				LdapWizard.admin.updateGroupTab(LdapWizard.groupFilter.getMode());
+			}
+		);
 	},
 
 	toggleRawLoginFilter: function() {
-		LdapWizard.blacklistRemove('ldap_login_filter');
-		container = '#rawLoginFilterContainer';
-		if($(container).hasClass('invisible')) {
-			$(container).removeClass('invisible');
-			action = 'disable';
-			property = 'disabled';
-			mode = LdapWizard.filterModeRaw;
-		} else {
-			$(container).addClass('invisible');
-			action = 'enable';
-			property = false;
-			mode = LdapWizard.filterModeAssisted;
-		}
-		$('#ldap_loginfilter_attributes').multiselect(action);
-		$('#ldap_loginfilter_email').prop('disabled', property);
-		$('#ldap_loginfilter_username').prop('disabled', property);
-		LdapWizard._save({ id: 'ldapLoginFilterMode' }, mode);
-		if(action == 'enable') {
-			LdapWizard.loginFilter.compose();
-		}
+		LdapWizard.onToggleRawFilterConfirmation(
+			LdapWizard.loginFilter.getMode(),
+			!$('#rawLoginFilterContainer').hasClass('invisible'),
+			function(confirmed) {
+				if(confirmed !== true) {
+					return;
+				}
+
+				LdapWizard.blacklistRemove('ldap_login_filter');
+				container = '#rawLoginFilterContainer';
+				if($(container).hasClass('invisible')) {
+					$(container).removeClass('invisible');
+					action = 'disable';
+					property = 'disabled';
+					mode = LdapWizard.filterModeRaw;
+				} else {
+					$(container).addClass('invisible');
+					action = 'enable';
+					property = false;
+					mode = LdapWizard.filterModeAssisted;
+				}
+				LdapWizard.loginFilter.setMode(mode);
+				LdapWizard.loginFilter.findFeatures();
+				$('#ldap_loginfilter_attributes').multiselect(action);
+				$('#ldap_loginfilter_email').prop('disabled', property);
+				$('#ldap_loginfilter_username').prop('disabled', property);
+				LdapWizard._save({ id: 'ldapLoginFilterMode' }, mode);
+				if(action === 'enable') {
+					LdapWizard.loginFilter.compose();
+				}
+			}
+		);
 	},
 
 	toggleRawUserFilter: function() {
-		LdapWizard.blacklistRemove('ldap_userlist_filter');
-		LdapWizard.toggleRawFilter('#rawUserFilterContainer',
-								   '#ldap_userfilter_objectclass',
-								   '#ldap_userfilter_groups',
-								   'userFilterGroupSelectState',
-								   'ldapUserFilterMode'
-  								);
+		LdapWizard.onToggleRawFilterConfirmation(
+			LdapWizard.userFilter.getMode(),
+			!$('#rawUserFilterContainer').hasClass('invisible'),
+			function(confirmed) {
+				if(confirmed === true) {
+					LdapWizard.blacklistRemove('ldap_userlist_filter');
+					LdapWizard.toggleRawFilter('#rawUserFilterContainer',
+											   '#ldap_userfilter_objectclass',
+											   '#ldap_userfilter_groups',
+											   'userFilterGroupSelectState',
+											   'ldapUserFilterMode'
+			  								);
+					LdapWizard.admin.updateUserTab(LdapWizard.userFilter.getMode());
+				}
+			}
+		);
 	},
 
 	updateStatusIndicator: function(isComplete) {
@@ -837,6 +1045,7 @@ $(document).ready(function() {
 	LdapWizard.initMultiSelect($('#ldap_groupfilter_objectclass'),
 							   'ldap_groupfilter_objectclass',
 							   t('user_ldap', 'Select object classes'));
+
 	$('.lwautosave').change(function() { LdapWizard.save(this); });
 	$('#toggleRawUserFilter').click(LdapWizard.toggleRawUserFilter);
 	$('#toggleRawGroupFilter').click(LdapWizard.toggleRawGroupFilter);
@@ -930,5 +1139,11 @@ $(document).ready(function() {
 		} else {
 			LdapConfiguration.refreshConfig();
 		}
+	});
+
+	expAdminCB = $('#ldap_experienced_admin');
+	LdapWizard.admin = new ExperiencedAdmin(LdapWizard, expAdminCB.is(':checked'));
+	expAdminCB.change(function() {
+		LdapWizard.admin.setExperienced($(this).is(':checked'));
 	});
 });

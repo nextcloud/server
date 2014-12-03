@@ -313,7 +313,7 @@ class View {
 		if (!$result) {
 			// If create file fails because of permissions on external storage like SMB folders,
 			// check file exists and return false if not.
-			if(!$this->file_exists($path)){
+			if (!$this->file_exists($path)) {
 				return false;
 			}
 			if (is_null($mtime)) {
@@ -676,10 +676,6 @@ class View {
 				$this->mkdir($filePath);
 			}
 
-			if (!$tmpFile) {
-				debug_print_backtrace();
-			}
-
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
 				$this->file_put_contents($path, $source);
@@ -891,22 +887,24 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 
-			if (!$cache->inCache($internalPath)) {
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
+
+			// if the file is not in the cache or needs to be updated, trigger the scanner and reload the data
+			if (!$data) {
 				if (!$storage->file_exists($internalPath)) {
 					return false;
 				}
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-			} else {
-				$watcher = $storage->getWatcher($internalPath);
-				$data = $watcher->checkUpdate($internalPath);
-			}
-
-			if (!is_array($data)) {
+				$data = $cache->get($internalPath);
+			} else if (!Cache\Scanner::isPartialFile($internalPath) && $watcher->checkUpdate($internalPath, $data)) {
+				$this->updater->propagate($path);
 				$data = $cache->get($internalPath);
 			}
 
 			if ($data and isset($data['fileid'])) {
+				// upgrades from oc6 or lower might not have the permissions set in the file cache
 				if ($data['permissions'] === 0) {
 					$data['permissions'] = $storage->getPermissions($data['path']);
 					$cache->update($data['fileid'], array('permissions' => $data['permissions']));
@@ -935,7 +933,7 @@ class View {
 		}
 
 		if ($mount instanceof MoveableMount && $internalPath === '') {
-			$data['permissions'] |= \OCP\PERMISSION_DELETE | \OCP\PERMISSION_UPDATE;
+			$data['permissions'] |= \OCP\Constants::PERMISSION_DELETE | \OCP\Constants::PERMISSION_UPDATE;
 		}
 
 		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
@@ -956,26 +954,33 @@ class View {
 		if (!Filesystem::isValidPath($directory)) {
 			return $result;
 		}
-		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
-		list($storage, $internalPath) = Filesystem::resolvePath($path);
+		$path = $this->getAbsolutePath($directory);
+		/** @var \OC\Files\Storage\Storage $storage */
+		list($storage, $internalPath) = $this->resolvePath($directory);
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
 
-			if ($cache->getStatus($internalPath) < Cache\Cache::COMPLETE) {
+			$data = $cache->get($internalPath);
+			$watcher = $storage->getWatcher($internalPath);
+			if (!$data or $data['size'] === -1) {
+				if (!$storage->file_exists($internalPath)) {
+					return array();
+				}
 				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
-			} else {
-				$watcher = $storage->getWatcher($internalPath);
-				$watcher->checkUpdate($internalPath);
+				$data = $cache->get($internalPath);
+			} else if ($watcher->checkUpdate($internalPath, $data)) {
+				$this->updater->propagate($path);
+				$data = $cache->get($internalPath);
 			}
 
-			$folderId = $cache->getId($internalPath);
+			$folderId = $data['fileid'];
 			/**
 			 * @var \OC\Files\FileInfo[] $files
 			 */
 			$files = array();
-			$contents = $cache->getFolderContents($internalPath, $folderId); //TODO: mimetype_filter
+			$contents = $cache->getFolderContentsById($folderId); //TODO: mimetype_filter
 			foreach ($contents as $content) {
 				if ($content['permissions'] === 0) {
 					$content['permissions'] = $storage->getPermissions($content['path']);
@@ -983,7 +988,7 @@ class View {
 				}
 				// if sharing was disabled for the user we remove the share permissions
 				if (\OCP\Util::isSharingDisabledForUser()) {
-					$content['permissions'] = $content['permissions'] & ~\OCP\PERMISSION_SHARE;
+					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
 				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
 			}
@@ -1020,9 +1025,9 @@ class View {
 							// do not allow renaming/deleting the mount point if they are not shared files/folders
 							// for shared files/folders we use the permissions given by the owner
 							if ($mount instanceof MoveableMount) {
-								$rootEntry['permissions'] = $permissions | \OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE;
+								$rootEntry['permissions'] = $permissions | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE;
 							} else {
-								$rootEntry['permissions'] = $permissions & (\OCP\PERMISSION_ALL - (\OCP\PERMISSION_UPDATE | \OCP\PERMISSION_DELETE));
+								$rootEntry['permissions'] = $permissions & (\OCP\Constants::PERMISSION_ALL - (\OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_DELETE));
 							}
 
 							//remove any existing entry with the same name
@@ -1032,11 +1037,11 @@ class View {
 									break;
 								}
 							}
-							$rootEntry['path'] = substr($path . '/' . $rootEntry['name'], strlen($user) + 2); // full path without /$user/
+							$rootEntry['path'] = substr(Filesystem::normalizePath($path . '/' . $rootEntry['name']), strlen($user) + 2); // full path without /$user/
 
 							// if sharing was disabled for the user we remove the share permissions
 							if (\OCP\Util::isSharingDisabledForUser()) {
-								$content['permissions'] = $content['permissions'] & ~\OCP\PERMISSION_SHARE;
+								$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 							}
 
 							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry);
@@ -1107,6 +1112,16 @@ class View {
 	 */
 	public function search($query) {
 		return $this->searchCommon('%' . $query . '%', 'search');
+	}
+
+	/**
+	 * search for files with the name matching $query
+	 *
+	 * @param string $query
+	 * @return FileInfo[]
+	 */
+	public function searchRaw($query) {
+		return $this->searchCommon($query, 'search');
 	}
 
 	/**
@@ -1203,7 +1218,7 @@ class View {
 	 * @return string|null
 	 */
 	public function getPath($id) {
-		$id = (int) $id;
+		$id = (int)$id;
 		$manager = Filesystem::getMountManager();
 		$mounts = $manager->findIn($this->fakeRoot);
 		$mounts[] = $manager->find($this->fakeRoot);

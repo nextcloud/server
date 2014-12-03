@@ -5,6 +5,7 @@
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
+
 var oc_debug;
 var oc_webroot;
 
@@ -37,121 +38,6 @@ if (
 	}
 }
 
-function initL10N(app) {
-	if (!( t.cache[app] )) {
-		$.ajax(OC.filePath('core', 'ajax', 'translations.php'), {
-			// TODO a proper solution for this without sync ajax calls
-			async: false,
-			data: {'app': app},
-			type: 'POST',
-			success: function (jsondata) {
-				t.cache[app] = jsondata.data;
-				t.plural_form = jsondata.plural_form;
-			}
-		});
-
-		// Bad answer ...
-		if (!( t.cache[app] )) {
-			t.cache[app] = [];
-		}
-	}
-	if (typeof t.plural_function[app] === 'undefined') {
-		t.plural_function[app] = function (n) {
-			var p = (n !== 1) ? 1 : 0;
-			return { 'nplural' : 2, 'plural' : p };
-		};
-
-		/**
-		 * code below has been taken from jsgettext - which is LGPL licensed
-		 * https://developer.berlios.de/projects/jsgettext/
-		 * http://cvs.berlios.de/cgi-bin/viewcvs.cgi/jsgettext/jsgettext/lib/Gettext.js
-		 */
-		var pf_re = new RegExp('^(\\s*nplurals\\s*=\\s*[0-9]+\\s*;\\s*plural\\s*=\\s*(?:\\s|[-\\?\\|&=!<>+*/%:;a-zA-Z0-9_\\(\\)])+)', 'm');
-		if (pf_re.test(t.plural_form)) {
-			//ex english: "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-			//pf = "nplurals=2; plural=(n != 1);";
-			//ex russian: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10< =4 && (n%100<10 or n%100>=20) ? 1 : 2)
-			//pf = "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)";
-			var pf = t.plural_form;
-			if (! /;\s*$/.test(pf)) {
-				pf = pf.concat(';');
-			}
-			/* We used to use eval, but it seems IE has issues with it.
-			 * We now use "new Function", though it carries a slightly
-			 * bigger performance hit.
-			var code = 'function (n) { var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) }; };';
-			Gettext._locale_data[domain].head.plural_func = eval("("+code+")");
-			 */
-			var code = 'var plural; var nplurals; '+pf+' return { "nplural" : nplurals, "plural" : (plural === true ? 1 : plural ? plural : 0) };';
-			t.plural_function[app] = new Function("n", code);
-		} else {
-			console.log("Syntax error in language file. Plural-Forms header is invalid ["+t.plural_forms+"]");
-		}
-	}
-}
-/**
- * translate a string
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text the string to translate
- * @param [vars] FIXME
- * @param {number} [count] number to replace %n with
- * @return {string}
- */
-function t(app, text, vars, count){
-	initL10N(app);
-	var _build = function (text, vars, count) {
-		return text.replace(/%n/g, count).replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = vars[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-		);
-	};
-	var translation = text;
-	if( typeof( t.cache[app][text] ) !== 'undefined' ){
-		translation = t.cache[app][text];
-	}
-
-	if(typeof vars === 'object' || count !== undefined ) {
-		return _build(translation, vars, count);
-	} else {
-		return translation;
-	}
-}
-t.cache = {};
-// different apps might or might not redefine the nplurals function correctly
-// this is to make sure that a "broken" app doesn't mess up with the
-// other app's plural function
-t.plural_function = {};
-
-/**
- * translate a string
- * @param {string} app the id of the app for which to translate the string
- * @param {string} text_singular the string to translate for exactly one object
- * @param {string} text_plural the string to translate for n objects
- * @param {number} count number to determine whether to use singular or plural
- * @param [vars] FIXME
- * @return {string} Translated string
- */
-function n(app, text_singular, text_plural, count, vars) {
-	initL10N(app);
-	var identifier = '_' + text_singular + '_::_' + text_plural + '_';
-	if( typeof( t.cache[app][identifier] ) !== 'undefined' ){
-		var translation = t.cache[app][identifier];
-		if ($.isArray(translation)) {
-			var plural = t.plural_function[app](count);
-			return t(app, translation[plural.plural], vars, count);
-		}
-	}
-
-	if(count === 1) {
-		return t(app, text_singular, vars, count);
-	}
-	else{
-		return t(app, text_plural, vars, count);
-	}
-}
-
 /**
 * Sanitizes a HTML string by replacing all potential dangerous characters with HTML entities
 * @param {string} s String to sanitize
@@ -172,6 +58,7 @@ function fileDownloadPath(dir, file) {
 	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 }
 
+/** @namespace */
 var OC={
 	PERMISSION_CREATE:4,
 	PERMISSION_READ:1,
@@ -366,14 +253,33 @@ var OC={
 	},
 
 	/**
-	 * @todo Write the documentation
+	 * Loads translations for the given app asynchronously.
+	 *
+	 * @param {String} app app name
+	 * @param {Function} callback callback to call after loading
+	 * @return {Promise}
+	 */
+	addTranslations: function(app, callback) {
+		return OC.L10N.load(app, callback);
+	},
+
+	/**
+	 * Returns the base name of the given path.
+	 * For example for "/abc/somefile.txt" it will return "somefile.txt"
+	 *
+	 * @param {String} path
+	 * @return {String} base name
 	 */
 	basename: function(path) {
 		return path.replace(/\\/g,'/').replace( /.*\//, '' );
 	},
 
 	/**
-	 *  @todo Write the documentation
+	 * Returns the dir name of the given path.
+	 * For example for "/abc/somefile.txt" it will return "/abc"
+	 *
+	 * @param {String} path
+	 * @return {String} dir name
 	 */
 	dirname: function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
@@ -392,12 +298,16 @@ var OC={
 			});
 		}
 	}, 500),
+	/**
+	 * Dialog helper for jquery dialogs.
+	 *
+	 * @namespace OC.dialogs
+	 */
 	dialogs:OCdialogs,
-
 	/**
 	 * Parses a URL query string into a JS map
 	 * @param {string} queryString query string in the format param1=1234&param2=abcde&param3=xyz
-	 * @return map containing key/values matching the URL parameters
+	 * @return {Object.<string, string>} map containing key/values matching the URL parameters
 	 */
 	parseQueryString:function(queryString){
 		var parts,
@@ -449,7 +359,7 @@ var OC={
 
 	/**
 	 * Builds a URL query from a JS map.
-	 * @param params parameter map
+	 * @param {Object.<string, string>} params map containing key/values matching the URL parameters
 	 * @return {string} String containing a URL query (without question) mark
 	 */
 	buildQueryString: function(params) {
@@ -569,27 +479,32 @@ var OC={
 	 *
 	 * This is makes it possible for unit tests to
 	 * stub matchMedia (which doesn't work in PhantomJS)
-	 * @todo Write documentation
+	 * @private
 	 */
 	_matchMedia: function(media) {
 		if (window.matchMedia) {
 			return window.matchMedia(media);
 		}
 		return false;
+	},
+
+	/**
+	 * Returns the user's locale
+	 *
+	 * @return {String} locale string
+	 */
+	getLocale: function() {
+		return $('html').prop('lang');
 	}
 };
 
+/**
+ * @namespace OC.search
+ */
 OC.search.customResults={};
 OC.search.currentResult=-1;
 OC.search.lastQuery='';
 OC.search.lastResults={};
-//translations for result type ids, can be extended by apps
-OC.search.resultTypes={
-	file: t('core','File'),
-	folder: t('core','Folder'),
-	image: t('core','Image'),
-	audio: t('core','Audio')
-};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
@@ -653,6 +568,7 @@ OC.msg={
 
 /**
  * @todo Write documentation
+ * @namespace
  */
 OC.Notification={
 	queuedNotifications: [],
@@ -729,7 +645,12 @@ OC.Notification={
 };
 
 /**
- * @todo Write documentation
+ * Breadcrumb class
+ *
+ * @namespace
+ *
+ * @deprecated will be replaced by the breadcrumb implementation
+ * of the files app in the future
  */
 OC.Breadcrumb={
 	container:null,
@@ -843,6 +764,7 @@ OC.Breadcrumb={
 if(typeof localStorage !=='undefined' && localStorage !== null){
 	/**
 	 * User and instance aware localstorage
+	 * @namespace
 	 */
 	OC.localStorage={
 		namespace:'oc_'+OC.currentUser+'_'+OC.webroot+'_',
@@ -965,6 +887,12 @@ function object(o) {
  * Initializes core
  */
 function initCore() {
+
+	/**
+	 * Set users locale to moment.js as soon as possible
+	 */
+	moment.locale(OC.getLocale());
+
 
 	/**
 	 * Calls the server periodically to ensure that session doesn't
@@ -1280,6 +1208,7 @@ function relative_modified_date(timestamp) {
 
 /**
  * Utility functions
+ * @namespace
  */
 OC.Util = {
 	// TODO: remove original functions from global namespace
@@ -1430,6 +1359,8 @@ OC.Util = {
  * Utility class for the history API,
  * includes fallback to using the URL hash when
  * the browser doesn't support the history API.
+ *
+ * @namespace
  */
 OC.Util.History = {
 	_handlers: [],
@@ -1589,6 +1520,7 @@ OC.set=function(name, value) {
 
 /**
  * Namespace for apps
+ * @namespace OCA
  */
 window.OCA = {};
 

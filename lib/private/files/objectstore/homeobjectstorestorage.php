@@ -34,12 +34,6 @@ class HomeObjectStoreStorage extends ObjectStoreStorage implements \OCP\Files\IH
 		}
 		$this->user = $params['user'];
 		parent::__construct($params);
-
-
-		//initialize cache with root directory in cache
-		if ( ! $this->is_dir('files') ) {
-			$this->mkdir('files');
-		}
 	}
 
 	public function getId () {

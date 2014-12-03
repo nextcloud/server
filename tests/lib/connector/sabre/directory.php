@@ -6,12 +6,14 @@
  * later.
  * See the COPYING-README file.
  */
-class Test_OC_Connector_Sabre_Directory extends PHPUnit_Framework_TestCase {
+class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 
 	private $view;
 	private $info;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->view = $this->getMock('OC\Files\View', array(), array(), '', false);
 		$this->info = $this->getMock('OC\Files\FileInfo', array(), array(), '', false);
 	}

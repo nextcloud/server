@@ -27,7 +27,7 @@ class PostgreSQL extends AbstractDatabase {
 			$connection = @pg_connect($connection_string);
 
 			if(!$connection)
-				throw new \DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
+				throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
 						$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
 		$e_user = pg_escape_string($this->dbuser);
@@ -80,7 +80,7 @@ class PostgreSQL extends AbstractDatabase {
 		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' port='$port' password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
-			throw new \DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
 					$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
 		$query = "select count(*) FROM pg_class WHERE relname='".$this->tableprefix."users' limit 1";

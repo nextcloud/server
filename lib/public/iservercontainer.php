@@ -128,6 +128,19 @@ interface IServerContainer {
 	 */
 	function getConfig();
 
+	/**
+	 * Returns a Crypto instance
+	 *
+	 * @return \OCP\Security\ICrypto
+	 */
+	function getCrypto();
+
+	/**
+	 * Returns a Hasher instance
+	 *
+	 * @return \OCP\Security\IHasher
+	 */
+	function getHasher();
 
 	/**
 	 * Returns an instance of the db facade
@@ -215,6 +228,13 @@ interface IServerContainer {
 	function getJobList();
 
 	/**
+	 * Returns a logger instance
+	 *
+	 * @return \OCP\ILogger
+	 */
+	function getLogger();
+
+	/**
 	 * Returns a router for generating and matching urls
 	 *
 	 * @return \OCP\Route\IRouter
@@ -248,4 +268,41 @@ interface IServerContainer {
 	 * @return \OC\HTTPHelper
 	 */
 	function getHTTPHelper();
+
+	/**
+	 * Get the active event logger
+	 *
+	 * @return \OCP\Diagnostics\IEventLogger
+	 */
+	function getEventLogger();
+
+	/**
+	 * Get the active query logger
+	 *
+	 * The returned logger only logs data when debug mode is enabled
+	 *
+	 * @return \OCP\Diagnostics\IQueryLogger
+	 */
+	function getQueryLogger();
+
+	/**
+	 * Get the manager for temporary files and folders
+	 *
+	 * @return \OCP\ITempManager
+	 */
+	function getTempManager();
+
+	/**
+	 * Get the app manager
+	 *
+	 * @return \OCP\App\IAppManager
+	 */
+	function getAppManager();
+
+	/**
+	 * Get the webroot
+	 *
+	 * @return string
+	 */
+	function getWebRoot();
 }

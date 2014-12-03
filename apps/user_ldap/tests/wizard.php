@@ -29,8 +29,9 @@ use \OCA\user_ldap\lib\Wizard;
 // use \OCA\user_ldap\lib\Configuration;
 // use \OCA\user_ldap\lib\ILDAPWrapper;
 
-class Test_Wizard extends \PHPUnit_Framework_TestCase {
-	public function setUp() {
+class Test_Wizard extends \Test\TestCase {
+	protected function setUp() {
+		parent::setUp();
 		//we need to make sure the consts are defined, otherwise tests will fail
 		//on systems without php5_ldap
 		$ldapConsts = array('LDAP_OPT_PROTOCOL_VERSION',

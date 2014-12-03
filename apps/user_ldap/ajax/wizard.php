@@ -62,6 +62,7 @@ switch($action) {
 	case 'guessPortAndTLS':
 	case 'guessBaseDN':
 	case 'detectEmailAttribute':
+	case 'detectUserDisplayNameAttribute':
 	case 'determineGroupMemberAssoc':
 	case 'determineUserObjectClasses':
 	case 'determineGroupObjectClasses':
@@ -115,4 +116,3 @@ switch($action) {
 		//TODO: return 4xx error
 		break;
 }
-

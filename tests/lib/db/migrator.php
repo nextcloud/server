@@ -10,10 +10,12 @@
 namespace Test\DB;
 
 use \Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\SQLServerPlatform;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 
-class Migrator extends \PHPUnit_Framework_TestCase {
+class Migrator extends \Test\TestCase {
 	/**
 	 * @var \Doctrine\DBAL\Connection $connection
 	 */
@@ -26,17 +28,23 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 
 	private $tableName;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->connection = \OC_DB::getConnection();
-		if ($this->connection->getDriver() instanceof \Doctrine\DBAL\Driver\OCI8\Driver) {
-			$this->markTestSkipped('DB migration tests arent supported on OCI');
+		if ($this->connection->getDatabasePlatform() instanceof OraclePlatform) {
+			$this->markTestSkipped('DB migration tests are not supported on OCI');
+		}
+		if ($this->connection->getDatabasePlatform() instanceof SQLServerPlatform) {
+			$this->markTestSkipped('DB migration tests are not supported on MSSQL');
 		}
 		$this->manager = new \OC\DB\MDB2SchemaManager($this->connection);
-		$this->tableName = 'test_' . uniqid();
+		$this->tableName = strtolower($this->getUniqueID('test_'));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->connection->exec('DROP TABLE ' . $this->tableName);
+		parent::tearDown();
 	}
 
 	/**
@@ -73,7 +81,7 @@ class Migrator extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testDuplicateKeyUpgrade() {
 		if ($this->isSQLite()) {
-			$this->markTestSkipped('sqlite doesnt throw errors when creating a new key on existing data');
+			$this->markTestSkipped('sqlite does not throw errors when creating a new key on existing data');
 		}
 		list($startSchema, $endSchema) = $this->getDuplicateKeySchemas();
 		$migrator = $this->manager->getMigrator();

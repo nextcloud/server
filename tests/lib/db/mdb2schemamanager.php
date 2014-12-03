@@ -9,24 +9,32 @@
 
 namespace Test\DB;
 
-class MDB2SchemaManager extends \PHPUnit_Framework_TestCase {
+use Doctrine\DBAL\Platforms\OraclePlatform;
+use Doctrine\DBAL\Platforms\SQLServerPlatform;
 
-	public function tearDown() {
+class MDB2SchemaManager extends \Test\TestCase {
+
+	protected function tearDown() {
 		// do not drop the table for Oracle as it will create a bogus transaction
 		// that will break the following test suites requiring transactions
 		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
 			return;
 		}
 		\OC_DB::dropTable('table');
+
+		parent::tearDown();
 	}
 
 	public function testAutoIncrement() {
 
-		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') === 'oci') {
+		$connection = \OC_DB::getConnection();
+		if ($connection->getDatabasePlatform() instanceof OraclePlatform) {
 			$this->markTestSkipped('Adding auto increment columns in Oracle is not supported.');
 		}
+		if ($connection->getDatabasePlatform() instanceof SQLServerPlatform) {
+			$this->markTestSkipped('DB migration tests are not supported on MSSQL');
+		}
 
-		$connection = \OC_DB::getConnection();
 		$manager = new \OC\DB\MDB2SchemaManager($connection);
 
 		$manager->createDbFromStructure(__DIR__ . '/ts-autoincrement-before.xml');

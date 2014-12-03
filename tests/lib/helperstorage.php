@@ -9,14 +9,22 @@
 /**
  * Test the storage functions of OC_Helper
  */
-class Test_Helper_Storage extends PHPUnit_Framework_TestCase {
-	private $user;
-	private $storageMock;
 
-	public function setUp() {
-		$this->user = 'user_' . uniqid();
+class Test_Helper_Storage extends \Test\TestCase {
+	/** @var string */
+	private $user;
+	/** @var \OC\Files\Storage\Storage */
+	private $storageMock;
+	/** @var \OC\Files\Storage\Storage */
+	private $storage;
+
+	protected function setUp() {
+		parent::setUp();
+
+		$this->user = $this->getUniqueID('user_');
 		\OC_User::createUser($this->user, $this->user);
 
+		$this->storage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::tearDown();
 		\OC_User::setUserId($this->user);
 		\OC\Files\Filesystem::init($this->user, '/' . $this->user . '/files');
@@ -25,7 +33,7 @@ class Test_Helper_Storage extends PHPUnit_Framework_TestCase {
 		$this->storageMock = null;
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->user = null;
 
 		if ($this->storageMock) {
@@ -33,10 +41,13 @@ class Test_Helper_Storage extends PHPUnit_Framework_TestCase {
 			$this->storageMock = null;
 		}
 		\OC\Files\Filesystem::tearDown();
+		\OC\Files\Filesystem::mount($this->storage, array(), '/');
 
 		\OC_User::setUserId('');
 		\OC_User::deleteUser($this->user);
 		\OC_Preferences::deleteUser($this->user);
+
+		parent::tearDown();
 	}
 
 	/**

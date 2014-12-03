@@ -4,6 +4,9 @@
  * See the COPYING-README file.
  */
 
+/**
+ * @namespace
+ */
 OC.AppConfig={
 	url:OC.filePath('core','ajax','appconfig.php'),
 	getCall:function(action,data,callback){

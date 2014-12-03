@@ -22,6 +22,7 @@ OC::$CLASSPATH['OCA\Files_Sharing\Exceptions\BrokenPath'] = 'files_sharing/lib/e
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 
+OCP\Util::addTranslations('files_sharing');
 OCP\Util::addScript('files_sharing', 'share');
 OCP\Util::addScript('files_sharing', 'external');
 

@@ -25,7 +25,6 @@
  * Collection of useful functions
  */
 class OC_Helper {
-	private static $tmpFiles = array();
 	private static $mimetypeIcons = array();
 	private static $mimetypeDetector;
 	private static $templateManager;
@@ -59,12 +58,11 @@ class OC_Helper {
 	}
 
 	/**
-	 * @param $key
+	 * @param string $key
 	 * @return string url to the online documentation
 	 */
 	public static function linkToDocs($key) {
-		$theme = new OC_Defaults();
-		return $theme->buildDocLinkToKey($key);
+		return OC::$server->getURLGenerator()->linkToDocs($key);
 	}
 
 	/**
@@ -280,6 +278,21 @@ class OC_Helper {
 	}
 
 	/**
+	 * shows whether the user has an avatar
+	 * @param string $user username
+	 * @return bool avatar set or not
+	**/
+	public static function userAvatarSet($user) {
+		$avatar = new \OC_Avatar($user);
+		$image = $avatar->get(1);
+		if ($image instanceof \OC_Image) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Make a human file size
 	 * @param int $bytes file size in bytes
 	 * @return string a human readable file size
@@ -402,9 +415,10 @@ class OC_Helper {
 	/**
 	 * Recursive deletion of folders
 	 * @param string $dir path to the folder
+	 * @param bool $deleteSelf if set to false only the content of the folder will be deleted
 	 * @return bool
 	 */
-	static function rmdirr($dir) {
+	static function rmdirr($dir, $deleteSelf = true) {
 		if (is_dir($dir)) {
 			$files = new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -419,15 +433,19 @@ class OC_Helper {
 					unlink($fileInfo->getRealPath());
 				}
 			}
-			rmdir($dir);
+			if ($deleteSelf) {
+				rmdir($dir);
+			}
 		} elseif (file_exists($dir)) {
-			unlink($dir);
+			if ($deleteSelf) {
+				unlink($dir);
+			}
 		}
-		if (file_exists($dir)) {
-			return false;
-		} else {
+		if (!$deleteSelf) {
 			return true;
 		}
+
+		return !file_exists($dir);
 	}
 
 	/**
@@ -573,136 +591,24 @@ class OC_Helper {
 	 *
 	 * @param string $postfix
 	 * @return string
+	 * @deprecated Use the TempManager instead
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
 	public static function tmpFile($postfix = '') {
-		$file = get_temp_dir() . '/' . md5(time() . rand()) . $postfix;
-		$fh = fopen($file, 'w');
-		if ($fh!==false){
-			fclose($fh);
-			self::$tmpFiles[] = $file;
-		} else {
-			OC_Log::write(
-				'OC_Helper',
-				sprintf(
-					'Can not create a temporary file in directory %s. Check it exists and has correct permissions',
-					get_temp_dir()
-				),
-				OC_Log::WARN
-			);
-			$file = false;
-		}
-		return $file;
-	}
-
-	/**
-	 * move a file to oc-noclean temp dir
-	 *
-	 * @param string $filename
-	 * @return mixed
-	 *
-	 */
-	public static function moveToNoClean($filename = '') {
-		if ($filename == '') {
-			return false;
-		}
-		$tmpDirNoClean = get_temp_dir() . '/oc-noclean/';
-		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
-			if (file_exists($tmpDirNoClean)) {
-				unlink($tmpDirNoClean);
-			}
-			mkdir($tmpDirNoClean);
-		}
-		$newname = $tmpDirNoClean . basename($filename);
-		if (rename($filename, $newname)) {
-			return $newname;
-		} else {
-			return false;
-		}
+		return \OC::$server->getTempManager()->getTemporaryFile($postfix);
 	}
 
 	/**
 	 * create a temporary folder with an unique filename
 	 *
 	 * @return string
+	 * @deprecated Use the TempManager instead
 	 *
 	 * temporary files are automatically cleaned up after the script is finished
 	 */
 	public static function tmpFolder() {
-		$path = get_temp_dir() . DIRECTORY_SEPARATOR . md5(time() . rand());
-		mkdir($path);
-		self::$tmpFiles[] = $path;
-		return $path . DIRECTORY_SEPARATOR;
-	}
-
-	/**
-	 * remove all files created by self::tmpFile
-	 */
-	public static function cleanTmp() {
-		$leftoversFile = get_temp_dir() . '/oc-not-deleted';
-		if (file_exists($leftoversFile)) {
-			$leftovers = file($leftoversFile);
-			foreach ($leftovers as $file) {
-				try {
-					self::rmdirr($file);
-				} catch (UnexpectedValueException $ex) {
-					// not really much we can do here anymore
-					if (!is_null(\OC::$server)) {
-						$message = $ex->getMessage();
-						\OC::$server->getLogger()->error("Error deleting file/folder: $file - Reason: $message",
-							array('app' => 'core'));
-					}
-				}
-			}
-			unlink($leftoversFile);
-		}
-
-		foreach (self::$tmpFiles as $file) {
-			if (file_exists($file)) {
-				try {
-					if (!self::rmdirr($file)) {
-						file_put_contents($leftoversFile, $file . "\n", FILE_APPEND);
-					}
-				} catch (UnexpectedValueException $ex) {
-					// not really much we can do here anymore
-					if (!is_null(\OC::$server)) {
-						$message = $ex->getMessage();
-						\OC::$server->getLogger()->error("Error deleting file/folder: $file - Reason: $message",
-							array('app' => 'core'));
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * remove all files in PHP /oc-noclean temp dir
-	 */
-	public static function cleanTmpNoClean() {
-		$tmpDirNoCleanName=get_temp_dir() . '/oc-noclean/';
-		if(file_exists($tmpDirNoCleanName) && is_dir($tmpDirNoCleanName)) {
-			$files=scandir($tmpDirNoCleanName);
-			foreach($files as $file) {
-				$fileName = $tmpDirNoCleanName . $file;
-				if (!\OC\Files\Filesystem::isIgnoredDir($file) && filemtime($fileName) + 600 < time()) {
-					unlink($fileName);
-				}
-			}
-			// if oc-noclean is empty delete it
-			$isTmpDirNoCleanEmpty = true;
-			$tmpDirNoClean = opendir($tmpDirNoCleanName);
-			if(is_resource($tmpDirNoClean)) {
-				while (false !== ($file = readdir($tmpDirNoClean))) {
-					if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
-						$isTmpDirNoCleanEmpty = false;
-					}
-				}
-			}
-			if ($isTmpDirNoCleanEmpty) {
-				rmdir($tmpDirNoCleanName);
-			}
-		}
+		return \OC::$server->getTempManager()->getTemporaryFolder();
 	}
 
 	/**
@@ -966,6 +872,23 @@ class OC_Helper {
 	}
 
 	/**
+	 * Try to find a program
+	 * Note: currently windows is not supported
+	 *
+	 * @param string $program
+	 * @return null|string
+	 */
+	public static function findBinaryPath($program) {
+		if (!\OC_Util::runningOnWindows() && self::is_function_enabled('exec')) {
+			exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
+			if ($returnCode === 0 && count($output) > 0) {
+				return escapeshellcmd($output[0]);
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Calculate the disc space for the given path
 	 *
 	 * @param string $path
@@ -1049,5 +972,13 @@ class OC_Helper {
 
 		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 
+	}
+
+	/**
+	 * Returns whether the config file is set manually to read-only
+	 * @return bool
+	 */
+	public static function isReadOnlyConfigEnabled() {
+		return \OC::$server->getConfig()->getSystemValue('config_is_read_only', false);
 	}
 }

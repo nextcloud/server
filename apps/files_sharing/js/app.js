@@ -9,8 +9,14 @@
  */
 
 if (!OCA.Sharing) {
+	/**
+	 * @namespace OCA.Sharing
+	 */
 	OCA.Sharing = {};
 }
+/**
+ * @namespace
+ */
 OCA.Sharing.App = {
 
 	_inFileList: null,

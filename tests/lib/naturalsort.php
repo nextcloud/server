@@ -6,9 +6,11 @@
  * See the COPYING-README file.
  */
 
-class Test_NaturalSort extends PHPUnit_Framework_TestCase {
+class Test_NaturalSort extends \Test\TestCase {
 
 	public function setUp() {
+		parent::setUp();
+
 		if(!class_exists('Collator')) {
 			$this->markTestSkipped('The intl module is not available, natural sorting will not work as expected.');
 			return;

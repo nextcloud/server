@@ -129,8 +129,9 @@ class OC_OCSClient{
 		$data = simplexml_load_string($xml);
 		libxml_disable_entity_loader($loadEntities);
 
-		$tmp=$data->data->content;
-		for($i = 0; $i < count($tmp); $i++) {
+		$tmp = $data->data->content;
+		$tmpCount = count($tmp);
+		for($i = 0; $i < $tmpCount; $i++) {
 			$app=array();
 			$app['id']=(string)$tmp[$i]->id;
 			$app['name']=(string)$tmp[$i]->name;
@@ -142,9 +143,11 @@ class OC_OCSClient{
 			$app['license']=(string)$tmp[$i]->license;
 			$app['detailpage']=(string)$tmp[$i]->detailpage;
 			$app['preview']=(string)$tmp[$i]->smallpreviewpic1;
+			$app['preview-full']=(string)$tmp[$i]->previewpic1;
 			$app['changed']=strtotime($tmp[$i]->changed);
 			$app['description']=(string)$tmp[$i]->description;
 			$app['score']=(string)$tmp[$i]->score;
+			$app['downloads'] = $tmp[$i]->downloads;
 
 			$apps[]=$app;
 		}

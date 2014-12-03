@@ -132,7 +132,7 @@ class OC_API {
 	 * @return array|\OC_OCS_Result
 	 */
 	public static function mergeResponses($responses) {
-		// Sort into shipped and thirdparty
+		// Sort into shipped and third-party
 		$shipped = array(
 			'succeeded' => array(),
 			'failed' => array(),
@@ -162,7 +162,7 @@ class OC_API {
 		if(!empty($shipped['failed'])) {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
-			// Which reponse code should we return?
+			// Which response code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
 			// Merge failed responses if more than one
 			$data = array();
@@ -273,26 +273,32 @@ class OC_API {
 
 		// reuse existing login
 		$loggedIn = OC_User::isLoggedIn();
-		$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
-		if ($loggedIn === true && $ocsApiRequest) {
+		if ($loggedIn === true) {
+			$ocsApiRequest = isset($_SERVER['HTTP_OCS_APIREQUEST']) ? $_SERVER['HTTP_OCS_APIREQUEST'] === 'true' : false;
+			if ($ocsApiRequest) {
 
-			// initialize the user's filesystem
-			\OC_Util::setUpFS(\OC_User::getUser());
+				// initialize the user's filesystem
+				\OC_Util::setUpFS(\OC_User::getUser());
 
-			return OC_User::getUser();
+				return OC_User::getUser();
+			}
+			return false;
 		}
 
-		// basic auth
-		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
-		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
-		$return = OC_User::login($authUser, $authPw);
-		if ($return === true) {
-			self::$logoutRequired = true;
+		// basic auth - because OC_User::login will create a new session we shall only try to login
+		// if user and pass are set
+		if(isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW']) ) {
+			$authUser = $_SERVER['PHP_AUTH_USER'];
+			$authPw = $_SERVER['PHP_AUTH_PW'];
+			$return = OC_User::login($authUser, $authPw);
+			if ($return === true) {
+				self::$logoutRequired = true;
 
-			// initialize the user's filesystem
-			\OC_Util::setUpFS(\OC_User::getUser());
+				// initialize the user's filesystem
+				\OC_Util::setUpFS(\OC_User::getUser());
 
-			return $authUser;
+				return $authUser;
+			}
 		}
 
 		return false;

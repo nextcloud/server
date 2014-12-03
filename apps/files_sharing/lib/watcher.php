@@ -30,9 +30,11 @@ class Shared_Watcher extends Watcher {
 	 * check $path for updates
 	 *
 	 * @param string $path
+	 * @param array $cachedEntry
+	 * @return boolean true if path was updated
 	 */
-	public function checkUpdate($path) {
-		if (parent::checkUpdate($path) === true) {
+	public function checkUpdate($path, $cachedEntry = null) {
+		if (parent::checkUpdate($path, $cachedEntry) === true) {
 			// since checkUpdate() has already updated the size of the subdirs,
 			// only apply the update to the owner's parent dirs
 

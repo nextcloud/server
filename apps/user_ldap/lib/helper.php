@@ -111,9 +111,6 @@ class Helper {
 	 * @return bool true on success, false otherwise
 	 */
 	static public function deleteServerConfiguration($prefix) {
-		//just to be on the safe side
-		\OCP\User::checkAdminUser();
-
 		if(!in_array($prefix, self::getServerConfigurationPrefixes())) {
 			return false;
 		}

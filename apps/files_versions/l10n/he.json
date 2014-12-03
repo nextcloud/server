@@ -1,0 +1,6 @@
+{ "translations": {
+    "Could not revert: %s" : "לא ניתן להחזיר: %s",
+    "Versions" : "גרסאות",
+    "Restore" : "שחזור"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

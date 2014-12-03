@@ -17,7 +17,7 @@ class MSSQL extends AbstractDatabase {
 			} else {
 				$entry = '';
 			}
-			throw new \DatabaseSetupException($this->trans->t('MS SQL username and/or password not valid: %s', array($entry)),
+			throw new \OC\DatabaseSetupException($this->trans->t('MS SQL username and/or password not valid: %s', array($entry)),
 					$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
 

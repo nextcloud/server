@@ -8,7 +8,6 @@
  *
  */
 
-/* global OC */
 function Upload(fileSelector) {
 	if ($.support.xhrFileUpload) {
 		return new XHRUpload(fileSelector.target.files);

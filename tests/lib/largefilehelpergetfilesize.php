@@ -12,59 +12,78 @@ namespace Test;
 * Tests whether LargeFileHelper is able to determine file size at all.
 * Large files are not considered yet.
 */
-class LargeFileHelperGetFileSize extends \PHPUnit_Framework_TestCase {
-	protected $filename;
-	protected $fileSize;
+class LargeFileHelperGetFileSize extends TestCase {
+	/** @var \OC\LargeFileHelper */
 	protected $helper;
 
-	public function setUp() {
+	protected function setUp() {
 		parent::setUp();
-		$ds = DIRECTORY_SEPARATOR;
-		$this->filename = dirname(__DIR__) . "{$ds}data{$ds}data.tar.gz";
-		$this->fileSize = 4195;
-		$this->helper = new \OC\LargeFileHelper;
+		$this->helper = new \OC\LargeFileHelper();
 	}
 
-	public function testGetFileSizeViaCurl() {
+	public function dataFileNameProvider() {
+		$path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR;
+
+		$filePaths = array(array($path . 'lorem.txt', 446));
+		if (!\OC_Util::runningOnWindows()) {
+			$filePaths[] = array($path . 'strängé filename (duplicate #2).txt', 446);
+		}
+
+		return $filePaths;
+	}
+
+	/**
+	 * @dataProvider dataFileNameProvider
+	 */
+	public function testGetFileSizeViaCurl($filename, $fileSize) {
 		if (!extension_loaded('curl')) {
 			$this->markTestSkipped(
 				'The PHP curl extension is required for this test.'
 			);
 		}
 		$this->assertSame(
-			$this->fileSize,
-			$this->helper->getFileSizeViaCurl($this->filename)
+			$fileSize,
+			$this->helper->getFileSizeViaCurl($filename)
 		);
 	}
 
-	public function testGetFileSizeViaCOM() {
+	/**
+	 * @dataProvider dataFileNameProvider
+	 */
+	public function testGetFileSizeViaCOM($filename, $fileSize) {
 		if (!extension_loaded('COM')) {
 			$this->markTestSkipped(
 				'The PHP Windows COM extension is required for this test.'
 			);
 		}
 		$this->assertSame(
-			$this->fileSize,
-			$this->helper->getFileSizeViaCOM($this->filename)
+			$fileSize,
+			$this->helper->getFileSizeViaCOM($filename)
 		);
 	}
 
-	public function testGetFileSizeViaExec() {
+	/**
+	 * @dataProvider dataFileNameProvider
+	 */
+	public function testGetFileSizeViaExec($filename, $fileSize) {
 		if (!\OC_Helper::is_function_enabled('exec')) {
 			$this->markTestSkipped(
 				'The exec() function needs to be enabled for this test.'
 			);
 		}
 		$this->assertSame(
-			$this->fileSize,
-			$this->helper->getFileSizeViaExec($this->filename)
+			$fileSize,
+			$this->helper->getFileSizeViaExec($filename)
 		);
 	}
 
-	public function testGetFileSizeNative() {
+	/**
+	 * @dataProvider dataFileNameProvider
+	 */
+	public function testGetFileSizeNative($filename, $fileSize) {
 		$this->assertSame(
-			$this->fileSize,
-			$this->helper->getFileSizeNative($this->filename)
+			$fileSize,
+			$this->helper->getFileSizeNative($filename)
 		);
 	}
 }

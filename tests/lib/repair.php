@@ -29,7 +29,7 @@ class TestRepairStep extends BasicEmitter implements \OC\RepairStep{
 	}
 }
 
-class Test_Repair extends PHPUnit_Framework_TestCase {
+class Test_Repair extends \Test\TestCase {
 	public function testRunRepairStep() {
 		$output = array();
 

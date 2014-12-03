@@ -45,10 +45,10 @@ class Api {
 
 		$isSystemMount = !$mountConfig['personal'];
 
-		$permissions = \OCP\PERMISSION_READ;
+		$permissions = \OCP\Constants::PERMISSION_READ;
 		// personal mounts can be deleted
 		if (!$isSystemMount) {
-			$permissions |= \OCP\PERMISSION_DELETE;
+			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
 		$entry = array(

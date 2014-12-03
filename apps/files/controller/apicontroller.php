@@ -32,7 +32,7 @@ class ApiController extends Controller {
 	 *
 	 * @param int $x
 	 * @param int $y
-	 * @param string $file
+	 * @param string $file URL-encoded filename
 	 * @return JSONResponse|DownloadResponse
 	 */
 	public function getThumbnail($x, $y, $file) {
@@ -41,9 +41,9 @@ class ApiController extends Controller {
 		}
 
 		try {
-			$preview = new Preview('', 'files', $file, $x, $y, true);
+			$preview = new Preview('', 'files', urldecode($file), $x, $y, true);
 			echo($preview->showPreview('image/png'));
-			return new DownloadResponse($file.'.png', 'image/png');
+			return new DownloadResponse(urldecode($file).'.png', 'image/png');
 		} catch (\Exception $e) {
 			return new JSONResponse('File not found.', Http::STATUS_NOT_FOUND);
 		}

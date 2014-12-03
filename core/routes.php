@@ -30,9 +30,6 @@ $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 // Share
 $this->create('core_ajax_share', '/core/ajax/share.php')
 	->actionInclude('core/ajax/share.php');
-// Translations
-$this->create('core_ajax_translations', '/core/ajax/translations.php')
-	->actionInclude('core/ajax/translations.php');
 // Tags
 $this->create('core_tags_tags', '/tags/{type}')
 	->get()
@@ -98,9 +95,22 @@ $this->create('core_avatar_post_cropped', '/avatar/cropped')
 	->action('OC\Core\Avatar\Controller', 'postCroppedAvatar');
 
 // Sharing routes
-$this->create('core_share_show_share', '/s/{token}')
-	->get()
-	->action('OC\Core\Share\Controller', 'showShare');
+$this->create('files_sharing.sharecontroller.showShare', '/s/{token}')->action(function($urlParams) {
+	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app->dispatch('ShareController', 'showShare');
+});
+$this->create('files_sharing.sharecontroller.authenticate', '/s/{token}/authenticate')->post()->action(function($urlParams) {
+	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app->dispatch('ShareController', 'authenticate');
+});
+$this->create('files_sharing.sharecontroller.showAuthenticate', '/s/{token}/authenticate')->get()->action(function($urlParams) {
+	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app->dispatch('ShareController', 'showAuthenticate');
+});
+$this->create('files_sharing.sharecontroller.downloadShare', '/s/{token}/download')->get()->action(function($urlParams) {
+	$app = new \OCA\Files_Sharing\Application($urlParams);
+	$app->dispatch('ShareController', 'downloadShare');
+});
 
 // used for heartbeat
 $this->create('heartbeat', '/heartbeat')->action(function(){

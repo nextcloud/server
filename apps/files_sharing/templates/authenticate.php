@@ -1,4 +1,9 @@
-<form action="<?php p($_['URL']); ?>" method="post">
+<?php
+	/** @var $_ array */
+	/** @var $l OC_L10N */
+	style('files_sharing', 'authenticate');
+?>
+<form method="post">
 	<fieldset>
 		<?php if (!isset($_['wrongpw'])): ?>
 			<div class="warning-info"><?php p($l->t('This share is password-protected')); ?></div>
@@ -8,6 +13,7 @@
 		<?php endif; ?>
 		<p>
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
+			<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" />
 			<input type="password" name="password" id="password"
 				placeholder="<?php p($l->t('Password')); ?>" value=""
 				autocomplete="off" autocapitalize="off" autocorrect="off"

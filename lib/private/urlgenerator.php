@@ -8,6 +8,7 @@
  */
 
 namespace OC;
+use OC_Defaults;
 use OCP\IURLGenerator;
 use RuntimeException;
 
@@ -156,11 +157,15 @@ class URLGenerator implements IURLGenerator {
 
 	/**
 	 * Makes an URL absolute
-	 * @param string $url the url in the owncloud host
+	 * @param string $url the url in the ownCloud host
 	 * @return string the absolute version of the url
 	 */
 	public function getAbsoluteURL($url) {
 		$separator = $url[0] === '/' ? '' : '/';
+
+		if (\OC::$CLI && !defined('PHPUNIT_RUN')) {
+			return rtrim($this->config->getSystemValue('overwrite.cli.url'), '/') . '/' . ltrim($url, '/');
+		}
 
 		// The ownCloud web root can already be prepended.
 		$webRoot = substr($url, 0, strlen(\OC::$WEBROOT)) === \OC::$WEBROOT
@@ -168,5 +173,14 @@ class URLGenerator implements IURLGenerator {
 			: \OC::$WEBROOT;
 
 		return \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost(). $webRoot . $separator . $url;
+	}
+
+	/**
+	 * @param string $key
+	 * @return string url to the online documentation
+	 */
+	public function linkToDocs($key) {
+		$theme = new OC_Defaults();
+		return $theme->buildDocLinkToKey($key);
 	}
 }

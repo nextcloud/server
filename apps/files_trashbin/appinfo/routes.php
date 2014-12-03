@@ -13,3 +13,7 @@ $this->create('files_trashbin_ajax_list', 'ajax/list.php')
 	->actionInclude('files_trashbin/ajax/list.php');
 $this->create('files_trashbin_ajax_undelete', 'ajax/undelete.php')
 	->actionInclude('files_trashbin/ajax/undelete.php');
+
+
+// Register with the capabilities API
+\OC_API::register('get', '/cloud/capabilities', array('OCA\Files_Trashbin\Capabilities', 'getCapabilities'), 'files_trashbin', \OC_API::USER_AUTH);

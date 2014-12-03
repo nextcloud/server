@@ -38,3 +38,8 @@ Options -Indexes
 <IfModule pagespeed_module>
         ModPagespeed Off
 </IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch ".(css|js)$">
+    Header set Cache-Control "max-age=7200, public"
+  </FilesMatch>
+</IfModule>

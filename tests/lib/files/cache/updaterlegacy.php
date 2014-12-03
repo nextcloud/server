@@ -11,7 +11,7 @@ namespace Test\Files\Cache;
 use \OC\Files\Filesystem as Filesystem;
 use OC\Files\Storage\Temporary;
 
-class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
+class UpdaterLegacy extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -29,9 +29,13 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 	 */
 	private $cache;
 
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
 	private static $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 
 		// remember files_encryption state
 		$this->stateFilesEncryption = \OC_App::isEnabled('files_encryption');
@@ -51,15 +55,16 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 		$this->scanner->scan('');
 		$this->cache = $this->storage->getCache();
 
-		\OC\Files\Filesystem::tearDown();
+		$this->originalStorage = Filesystem::getStorage('/');
+		Filesystem::tearDown();
 		if (!self::$user) {
-			self::$user = uniqid();
+			self::$user = $this->getUniqueID();
 		}
 
 		\OC_User::createUser(self::$user, 'password');
 		\OC_User::setUserId(self::$user);
 
-		\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
+		Filesystem::init(self::$user, '/' . self::$user . '/files');
 
 		Filesystem::clearMounts();
 		Filesystem::mount($this->storage, array(), '/' . self::$user . '/files');
@@ -67,17 +72,20 @@ class UpdaterLegacy extends \PHPUnit_Framework_TestCase {
 		\OC_Hook::clear('OC_Filesystem');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
 		$result = \OC_User::deleteUser(self::$user);
 		$this->assertTrue($result);
 		Filesystem::tearDown();
+		Filesystem::mount($this->originalStorage, array(), '/');
 		// reset app files_encryption
 		if ($this->stateFilesEncryption) {
 			\OC_App::enable('files_encryption');
 		}
+
+		parent::tearDown();
 	}
 
 	public function testWrite() {

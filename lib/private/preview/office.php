@@ -5,24 +5,72 @@
  * later.
  * See the COPYING-README file.
  */
-//both, libreoffice backend and php fallback, need imagick
-if (extension_loaded('imagick')) {
+namespace OC\Preview;
 
-	$checkImagick = new Imagick();
+abstract class Office extends Provider {
+	private $cmd;
 
-	if(count($checkImagick->queryFormats('PDF')) === 1) {
-		$isShellExecEnabled = \OC_Helper::is_function_enabled('shell_exec');
-
-		// LibreOffice preview is currently not supported on Windows
-		if (!\OC_Util::runningOnWindows()) {
-			$whichLibreOffice = ($isShellExecEnabled ? shell_exec('command -v libreoffice') : '');
-			$isLibreOfficeAvailable = !empty($whichLibreOffice);
-			$whichOpenOffice = ($isShellExecEnabled ? shell_exec('command -v openoffice') : '');
-			$isOpenOfficeAvailable = !empty($whichOpenOffice);
-			//let's see if there is libreoffice or openoffice on this machine
-			if($isShellExecEnabled && ($isLibreOfficeAvailable || $isOpenOfficeAvailable || is_string(\OC_Config::getValue('preview_libreoffice_path', null)))) {
-				require_once('office-cl.php');
-			}
+	/**
+	 * {@inheritDoc}
+	 */
+	public function getThumbnail($path, $maxX, $maxY, $scalingup, $fileview) {
+		$this->initCmd();
+		if(is_null($this->cmd)) {
+			return false;
 		}
+
+		$absPath = $fileview->toTmpFile($path);
+
+		$tmpDir = get_temp_dir();
+
+		$defaultParameters = ' -env:UserInstallation=file://' . escapeshellarg($tmpDir . '/owncloud-' . \OC_Util::getInstanceId().'/') . ' --headless --nologo --nofirststartwizard --invisible --norestore --convert-to pdf --outdir ';
+		$clParameters = \OCP\Config::getSystemValue('preview_office_cl_parameters', $defaultParameters);
+
+		$exec = $this->cmd . $clParameters . escapeshellarg($tmpDir) . ' ' . escapeshellarg($absPath);
+
+		shell_exec($exec);
+
+		//create imagick object from pdf
+		try{
+			$pdf = new \imagick($absPath . '.pdf' . '[0]');
+			$pdf->setImageFormat('jpg');
+		} catch (\Exception $e) {
+			unlink($absPath);
+			unlink($absPath . '.pdf');
+			\OC_Log::write('core', $e->getmessage(), \OC_Log::ERROR);
+			return false;
+		}
+
+		$image = new \OC_Image();
+		$image->loadFromData($pdf);
+
+		unlink($absPath);
+		unlink($absPath . '.pdf');
+
+		return $image->valid() ? $image : false;
+	}
+
+	private function initCmd() {
+		$cmd = '';
+
+		if(is_string(\OC_Config::getValue('preview_libreoffice_path', null))) {
+			$cmd = \OC_Config::getValue('preview_libreoffice_path', null);
+		}
+
+		$whichLibreOffice = shell_exec('command -v libreoffice');
+		if($cmd === '' && !empty($whichLibreOffice)) {
+			$cmd = 'libreoffice';
+		}
+
+		$whichOpenOffice = shell_exec('command -v openoffice');
+		if($cmd === '' && !empty($whichOpenOffice)) {
+			$cmd = 'openoffice';
+		}
+
+		if($cmd === '') {
+			$cmd = null;
+		}
+
+		$this->cmd = $cmd;
 	}
 }

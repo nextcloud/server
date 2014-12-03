@@ -36,7 +36,7 @@ class Test_Mount_Config_Dummy_Backend {
 /**
  * Class Test_Dynamic_Mount_Config
  */
-class Test_Dynamic_Mount_Config extends \PHPUnit_Framework_TestCase {
+class Test_Dynamic_Mount_Config extends \Test\TestCase {
 
 	private $backup;
 
@@ -82,6 +82,7 @@ class Test_Dynamic_Mount_Config extends \PHPUnit_Framework_TestCase {
 	}
 
 	protected function setUp() {
+		parent::setUp();
 
 		$this->backup = OC_Mount_Config::setUp();
 
@@ -97,5 +98,6 @@ class Test_Dynamic_Mount_Config extends \PHPUnit_Framework_TestCase {
 	protected function tearDown()
 	{
 		OC_Mount_Config::setUp($this->backup);
+		parent::tearDown();
 	}
 }

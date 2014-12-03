@@ -34,6 +34,7 @@ class Upgrade extends Command {
 	 * @param IConfig $config
 	 */
 	public function __construct(IConfig $config) {
+		parent::__construct();
 		$this->config = $config;
 	}
 

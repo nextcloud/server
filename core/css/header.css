@@ -48,6 +48,9 @@
 	height: 120px;
 	margin: 0 auto;
 }
+#header .logo h1 {
+	display: none;
+}
 
 #header .logo-wide {
 	background-image: url(../img/logo-wide.svg);
@@ -239,6 +242,8 @@
 	display: inline-block;
 	margin-right: 5px;
 	cursor: pointer;
+	height: 32px;
+	width: 32px;
 }
 #header .avatardiv img {
 	opacity: 1;
@@ -268,8 +273,8 @@
 	z-index: 2000;
 	display: none;
 	background-color: #383c43;
-	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
-	box-shadow:0 0 7px rgb(29,45,68);
+	border-bottom-left-radius: 7px;
+	box-shadow: 0 0 7px rgb(29,45,68);
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 	#expanddiv a {

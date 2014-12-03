@@ -39,7 +39,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 				$this->root .= '/';
 			}
 		} else {
-			throw new \Exception();
+			throw new \Exception('Creating \OC\Files\Storage\FTP storage failed');
 		}
 		
 	}

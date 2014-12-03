@@ -30,6 +30,11 @@ class Updater {
 		$this->propagator = new ChangePropagator($view);
 	}
 
+	public function propagate($path, $time = null) {
+		$this->propagator->addChange($path);
+		$this->propagator->propagateChanges($time);
+	}
+
 	/**
 	 * Update the cache for $path
 	 *

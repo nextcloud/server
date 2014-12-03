@@ -60,22 +60,30 @@ class Home extends Storage {
 	 */
 	private $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->tmpDir = \OC_Helper::tmpFolder();
-		$this->userId = uniqid('user_');
+		$this->userId = $this->getUniqueID('user_');
 		$this->user = new DummyUser($this->userId, $this->tmpDir);
 		$this->instance = new \OC\Files\Storage\Home(array('user' => $this->user));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_Helper::rmdirr($this->tmpDir);
+		parent::tearDown();
 	}
 
 	/**
 	 * Tests that the root path matches the data dir
 	 */
 	public function testRoot() {
-		$this->assertEquals($this->tmpDir, $this->instance->getLocalFolder(''));
+		if (\OC_Util::runningOnWindows()) {
+			// Windows removes trailing slashes when returning paths
+			$this->assertEquals(rtrim($this->tmpDir, '/'), $this->instance->getLocalFolder(''));
+		} else {
+			$this->assertEquals($this->tmpDir, $this->instance->getLocalFolder(''));
+		}
 	}
 
 	/**

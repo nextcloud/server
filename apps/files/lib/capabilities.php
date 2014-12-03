@@ -15,7 +15,6 @@ class Capabilities {
 			'capabilities' => array(
 				'files' => array(
 					'bigfilechunking' => true,
-					'undelete' => true,
 					),
 				),
 			));

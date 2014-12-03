@@ -180,7 +180,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFolder($path) {
-		if ($this->checkPermissions(\OCP\PERMISSION_CREATE)) {
+		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $fullPath);
 			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
@@ -201,7 +201,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @throws \OCP\Files\NotPermittedException
 	 */
 	public function newFile($path) {
-		if ($this->checkPermissions(\OCP\PERMISSION_CREATE)) {
+		if ($this->checkPermissions(\OCP\Constants::PERMISSION_CREATE)) {
 			$fullPath = $this->getFullPath($path);
 			$nonExisting = new NonExistingFile($this->root, $this->view, $fullPath);
 			$this->root->emit('\OC\Files', 'preWrite', array($nonExisting));
@@ -325,11 +325,11 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return bool
 	 */
 	public function isCreatable() {
-		return $this->checkPermissions(\OCP\PERMISSION_CREATE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_CREATE);
 	}
 
 	public function delete() {
-		if ($this->checkPermissions(\OCP\PERMISSION_DELETE)) {
+		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(array('preDelete'));
 			$this->view->rmdir($this->path);
 			$nonExisting = new NonExistingFolder($this->root, $this->view, $this->path);

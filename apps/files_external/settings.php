@@ -25,8 +25,8 @@ OC_Util::checkAdminUser();
 OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addStyle('files_external', 'settings');
 
-OCP\Util::addScript('core', 'select2/select2');
-OCP\Util::addStyle('core', 'select2/select2');
+\OC_Util::addVendorScript('select2/select2');
+\OC_Util::addVendorStyle('select2/select2');
 
 $backends = OC_Mount_Config::getBackends();
 $personal_backends = array();

@@ -157,6 +157,18 @@ class OC_Defaults {
 	}
 
 	/**
+	 * Returns the short name of the software containing HTML strings
+	 * @return string title
+	 */
+	public function getHTMLName() {
+		if ($this->themeExist('getHTMLName')) {
+			return $this->theme->getHTMLName();
+		} else {
+			return $this->defaultName;
+		}
+	}
+
+	/**
 	 * Returns entity (e.g. company name) - used for footer, copyright
 	 * @return string entity name
 	 */

@@ -31,7 +31,7 @@ use OCP\AppFramework\Http\RedirectResponse;
 use OCP\AppFramework\Http\JSONResponse;
 
 
-class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
+class SecurityMiddlewareTest extends \Test\TestCase {
 
 	private $middleware;
 	private $controller;
@@ -43,7 +43,9 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	private $navigationManager;
 	private $urlGenerator;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->controller = $this->getMockBuilder('OCP\AppFramework\Controller')
 			->disableOriginalConstructor()
 				->getMock();
@@ -77,7 +79,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 			$this->navigationManager,
 			$this->urlGenerator,
 			$this->logger,
-			'test',
+			'files',
 			$isLoggedIn,
 			$isAdminUser
 		);
@@ -91,7 +93,7 @@ class SecurityMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	public function testSetNavigationEntry(){
 		$this->navigationManager->expects($this->once())
 			->method('setActiveEntry')
-			->with($this->equalTo('test'));
+			->with($this->equalTo('files'));
 
 		$this->reader->reflect(__CLASS__, __FUNCTION__);
 		$this->middleware->beforeController(__CLASS__, __FUNCTION__);

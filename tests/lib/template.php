@@ -20,9 +20,11 @@
 *
 */
 
-class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
+class Test_TemplateFunctions extends \Test\TestCase {
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$loader = new \OC\Autoloader();
 		$loader->load('OC_Template');
 	}

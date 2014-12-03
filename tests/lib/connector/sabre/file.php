@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
+class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 
 	/**
 	 * @expectedException \Sabre\DAV\Exception
@@ -23,7 +23,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue('/test.txt'));
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
-			'permissions'=>\OCP\PERMISSION_ALL
+			'permissions'=>\OCP\Constants::PERMISSION_ALL
 		));
 
 		$file = new OC_Connector_Sabre_File($view, $info);
@@ -58,7 +58,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		));
 
 		$file = new OC_Connector_Sabre_File($view, $info);
@@ -82,7 +82,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue('/super*star.txt'));
 
 		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		));
 		$file = new OC_Connector_Sabre_File($view, $info);
 
@@ -103,7 +103,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue('/super*star.txt'));
 
 		$info = new \OC\Files\FileInfo('/super*star.txt', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		));
 		$file = new OC_Connector_Sabre_File($view, $info);
 		$file->setName('/super*star.txt');
@@ -135,7 +135,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 		$_SERVER['REQUEST_METHOD'] = 'PUT';
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		));
 
 		$file = new OC_Connector_Sabre_File($view, $info);
@@ -157,7 +157,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(true));
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		));
 
 		$file = new OC_Connector_Sabre_File($view, $info);
@@ -198,7 +198,7 @@ class Test_OC_Connector_Sabre_File extends PHPUnit_Framework_TestCase {
 			->will($this->returnValue(false));
 
 		$info = new \OC\Files\FileInfo('/test.txt', null, null, array(
-			'permissions' => \OCP\PERMISSION_ALL
+			'permissions' => \OCP\Constants::PERMISSION_ALL
 		));
 
 		$file = new OC_Connector_Sabre_File($view, $info);

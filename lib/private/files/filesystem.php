@@ -45,6 +45,7 @@ class Filesystem {
 	 */
 	static private $defaultInstance;
 
+	static private $usersSetup = array();
 
 	/**
 	 * classname which used for hooks handling
@@ -157,6 +158,11 @@ class Filesystem {
 	 * run - changing this flag to false in hook handler will cancel event
 	 */
 	const signal_param_run = 'run';
+
+	const signal_create_mount = 'create_mount';
+	const signal_delete_mount = 'delete_mount';
+	const signal_param_mount_type = 'mounttype';
+	const signal_param_users = 'users';
 
 	/**
 	 * @var \OC\Files\Storage\Loader $loader
@@ -316,7 +322,10 @@ class Filesystem {
 		if ($user == '') {
 			$user = \OC_User::getUser();
 		}
-		$parser = new \OC\ArrayParser();
+		if (isset(self::$usersSetup[$user])) {
+			return;
+		}
+		self::$usersSetup[$user] = true;
 
 		$root = \OC_User::getHome($user);
 
@@ -422,6 +431,7 @@ class Filesystem {
 	 */
 	public static function clearMounts() {
 		if (self::$mounts) {
+			self::$usersSetup = array();
 			self::$mounts->clear();
 		}
 	}
@@ -688,12 +698,21 @@ class Filesystem {
 	 * @param bool $stripTrailingSlash
 	 * @return string
 	 */
-	public static function normalizePath($path, $stripTrailingSlash = true) {
+	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false) {
 		if ($path == '') {
 			return '/';
 		}
+
 		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
+
+		// When normalizing an absolute path, we need to ensure that the drive-letter
+		// is still at the beginning on windows
+		$windows_drive_letter = '';
+		if ($isAbsolutePath && \OC_Util::runningOnWindows() && preg_match('#^([a-zA-Z])$#', $path[0]) && $path[1] == ':' && $path[2] == '/') {
+			$windows_drive_letter = substr($path, 0, 2);
+			$path = substr($path, 2);
+		}
 
 		//add leading slash
 		if ($path[0] !== '/') {
@@ -723,7 +742,7 @@ class Filesystem {
 		//normalize unicode if possible
 		$path = \OC_Util::normalizeUnicode($path);
 
-		return $path;
+		return $windows_drive_letter . $path;
 	}
 
 	/**

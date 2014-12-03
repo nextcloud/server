@@ -138,12 +138,12 @@ class Config {
 
 		// Include file and merge config
 		foreach ($configFiles as $file) {
-			if(!@touch($file) && $file === $this->configFilePath) {
-				// Writing to the main config might not be possible, e.g. if the wrong
+			$filePointer = @fopen($file, 'r');
+			if($file === $this->configFilePath && $filePointer === false) {
+				// Opening the main config might not be possible, e.g. if the wrong
 				// permissions are set (likely on a new installation)
 				continue;
 			}
-			$filePointer = fopen($file, 'r');
 
 			// Try to acquire a file lock
 			if(!flock($filePointer, LOCK_SH)) {

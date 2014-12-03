@@ -12,30 +12,33 @@ if (!array_key_exists('appid', $_POST)) {
 	OCP\JSON::error(array(
 		'message' => 'No AppId given!'
 	));
-	exit;
+	return;
 }
 
 $appId = $_POST['appid'];
 
 if (!is_numeric($appId)) {
-	$appId = OC_Appconfig::getValue($appId, 'ocsid', null);
-	$isShipped = OC_App::isShipped($appId);
-
+	$appId = \OC::$server->getAppConfig()->getValue($appId, 'ocsid', null);
 	if ($appId === null) {
 		OCP\JSON::error(array(
 			'message' => 'No OCS-ID found for app!'
 		));
 		exit;
 	}
-} else {
-	$isShipped = false;
 }
 
 $appId = OC_App::cleanAppId($appId);
 
-\OC_Config::setValue('maintenance', true);
-$result = OC_Installer::updateAppByOCSId($appId, $isShipped);
-\OC_Config::setValue('maintenance', false);
+$config = \OC::$server->getConfig();
+$config->setSystemValue('maintenance', true);
+try {
+	$result = OC_Installer::updateAppByOCSId($appId);
+	$config->setSystemValue('maintenance', false);
+} catch(Exception $ex) {
+	$config->setSystemValue('maintenance', false);
+	OC_JSON::error(array("data" => array( "message" => $ex->getMessage() )));
+	return;
+}
 
 if($result !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appId)));

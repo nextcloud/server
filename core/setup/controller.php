@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2014 Lukas Reschke <lukas@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -8,7 +9,27 @@
 
 namespace OC\Core\Setup;
 
+use OCP\IConfig;
+
 class Controller {
+	/**
+	 * @var \OCP\IConfig
+	 */
+	protected $config;
+
+	/**
+	 * @var string
+	 */
+	private $autoConfigFile;
+
+	/**
+	 * @param IConfig $config
+	 */
+	function __construct(IConfig $config) {
+		$this->autoConfigFile = \OC::$SERVERROOT.'/config/autoconfig.php';
+		$this->config = $config;
+	}
+
 	public function run($post) {
 		// Check for autosetup:
 		$post = $this->loadAutoConfig($post);
@@ -44,22 +65,24 @@ class Controller {
 		);
 		$parameters = array_merge($defaults, $post);
 
-		\OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
-		\OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
+		\OC_Util::addVendorScript('strengthify/jquery.strengthify');
+		\OC_Util::addVendorStyle('strengthify/strengthify');
 		\OC_Util::addScript('setup');
 		\OC_Template::printGuestPage('', 'installation', $parameters);
 	}
 
 	public function finishSetup() {
+		if( file_exists( $this->autoConfigFile )) {
+			unlink($this->autoConfigFile);
+		}
 		\OC_Util::redirectToDefaultPage();
 	}
 
 	public function loadAutoConfig($post) {
-		$autosetup_file = \OC::$SERVERROOT.'/config/autoconfig.php';
-		if( file_exists( $autosetup_file )) {
+		if( file_exists($this->autoConfigFile)) {
 			\OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', \OC_Log::INFO);
 			$AUTOCONFIG = array();
-			include $autosetup_file;
+			include $this->autoConfigFile;
 			$post = array_merge ($post, $AUTOCONFIG);
 		}
 
@@ -69,9 +92,6 @@ class Controller {
 
 		if ($dbIsSet AND $directoryIsSet AND $adminAccountIsSet) {
 			$post['install'] = 'true';
-			if( file_exists( $autosetup_file )) {
-				unlink($autosetup_file);
-			}
 		}
 		$post['dbIsSet'] = $dbIsSet;
 		$post['directoryIsSet'] = $directoryIsSet;
@@ -87,28 +107,10 @@ class Controller {
 	 * in case of errors/warnings
 	 */
 	public function getSystemInfo() {
-		$hasSQLite = class_exists('SQLite3');
-		$hasMySQL = is_callable('mysql_connect');
-		$hasPostgreSQL = is_callable('pg_connect');
-		$hasOracle = is_callable('oci_connect');
-		$hasMSSQL = is_callable('sqlsrv_connect');
-		$databases = array();
-		if ($hasSQLite) {
-			$databases['sqlite'] = 'SQLite';
-		}
-		if ($hasMySQL) {
-			$databases['mysql'] = 'MySQL/MariaDB';
-		}
-		if ($hasPostgreSQL) {
-			$databases['pgsql'] = 'PostgreSQL';
-		}
-		if ($hasOracle) {
-			$databases['oci'] = 'Oracle';
-		}
-		if ($hasMSSQL) {
-			$databases['mssql'] = 'MS SQL';
-		}
-		$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT.'/data');
+		$setup = new \OC_Setup($this->config);
+		$databases = $setup->getSupportedDatabases();
+
+		$dataDir = $this->config->getSystemValue('datadirectory', \OC::$SERVERROOT.'/data');
 		$vulnerableToNullByte = false;
 		if(@file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
 			$vulnerableToNullByte = true;
@@ -119,25 +121,25 @@ class Controller {
 		// Create data directory to test whether the .htaccess works
 		// Notice that this is not necessarily the same data directory as the one
 		// that will effectively be used.
-		@mkdir($datadir);
-		if (is_dir($datadir) && is_writable($datadir)) {
+		@mkdir($dataDir);
+		$htAccessWorking = true;
+		if (is_dir($dataDir) && is_writable($dataDir)) {
 			// Protect data directory here, so we can test if the protection is working
 			\OC_Setup::protectDataDirectory();
 
 			try {
-				$htaccessWorking = \OC_Util::isHtaccessWorking();
+				$htAccessWorking = \OC_Util::isHtaccessWorking();
 			} catch (\OC\HintException $e) {
 				$errors[] = array(
 					'error' => $e->getMessage(),
 					'hint' => $e->getHint()
 				);
-				$htaccessWorking = false;
+				$htAccessWorking = false;
 			}
 		}
 
 		if (\OC_Util::runningOnMac()) {
 			$l10n = \OC::$server->getL10N('core');
-			$themeName = \OC_Util::getTheme();
 			$theme = new \OC_Defaults();
 			$errors[] = array(
 				'error' => $l10n->t(
@@ -150,14 +152,14 @@ class Controller {
 		}
 
 		return array(
-			'hasSQLite' => $hasSQLite,
-			'hasMySQL' => $hasMySQL,
-			'hasPostgreSQL' => $hasPostgreSQL,
-			'hasOracle' => $hasOracle,
-			'hasMSSQL' => $hasMSSQL,
+			'hasSQLite' => isset($databases['sqlite']),
+			'hasMySQL' => isset($databases['mysql']),
+			'hasPostgreSQL' => isset($databases['pgsql']),
+			'hasOracle' => isset($databases['oci']),
+			'hasMSSQL' => isset($databases['mssql']),
 			'databases' => $databases,
-			'directory' => $datadir,
-			'htaccessWorking' => $htaccessWorking,
+			'directory' => $dataDir,
+			'htaccessWorking' => $htAccessWorking,
 			'vulnerableToNullByte' => $vulnerableToNullByte,
 			'errors' => $errors,
 		);

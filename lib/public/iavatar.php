@@ -23,9 +23,9 @@ interface IAvatar {
 	/**
 	 * sets the users avatar
 	 * @param Image $data mixed imagedata or path to set a new avatar
-	 * @throws Exception if the provided file is not a jpg or png image
-	 * @throws Exception if the provided image is not valid
-	 * @throws \OCP\NotSquareException if the image is not square
+	 * @throws \Exception if the provided file is not a jpg or png image
+	 * @throws \Exception if the provided image is not valid
+	 * @throws \OC\NotSquareException if the image is not square
 	 * @return void
 	 */
 	function set($data);

@@ -6,20 +6,12 @@
  * See the COPYING-README file.
  */
 
-require_once __DIR__ . '/../../../lib/base.php';
-require_once __DIR__ . '/../lib/crypt.php';
-require_once __DIR__ . '/../lib/keymanager.php';
-require_once __DIR__ . '/../lib/proxy.php';
-require_once __DIR__ . '/../lib/stream.php';
-require_once __DIR__ . '/../lib/util.php';
-require_once __DIR__ . '/../appinfo/app.php';
-
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Util
  */
-class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_UTIL_USER1 = "test-util-user1";
 	const TEST_ENCRYPTION_UTIL_USER2 = "test-util-user2";
@@ -49,16 +41,12 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	public $stateFilesTrashbin;
 
 	public static function setUpBeforeClass() {
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		self::setupHooks();
+		parent::setUpBeforeClass();
 
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1, true);
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER2, true);
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER, true);
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1, true);
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER2, true);
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_LEGACY_USER, true);
 
 		// create groups
 		\OC_Group::createGroup(self::TEST_ENCRYPTION_UTIL_GROUP1);
@@ -68,13 +56,14 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		\OC_Group::addToGroup(self::TEST_ENCRYPTION_UTIL_USER1, self::TEST_ENCRYPTION_UTIL_GROUP1);
 	}
 
+	protected function setUp() {
+		parent::setUp();
 
-	function setUp() {
 		// login user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
-		\OC_User::setUserId(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
-		$this->userId = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1;
-		$this->pass = \Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1;
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
+		\OC_User::setUserId(self::TEST_ENCRYPTION_UTIL_USER1);
+		$this->userId = self::TEST_ENCRYPTION_UTIL_USER1;
+		$this->pass = self::TEST_ENCRYPTION_UTIL_USER1;
 
 		// set content for encrypting / decrypting in tests
 		$this->dataUrl = __DIR__ . '/../lib/crypt.php';
@@ -90,13 +79,13 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
-		$this->publicKeyDir = '/' . 'public-keys';
+		$this->publicKeyDir = \OCA\Encryption\Keymanager::getPublicKeyPath();
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
-		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
-			$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+			$this->publicKeyDir . '/' . $this->userId . '.publicKey'; // e.g. data/public-keys/admin.publicKey
 		$this->privateKeyPath =
-			$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+			$this->encryptionDir . '/' . $this->userId . '.privateKey'; // e.g. data/admin/admin.privateKey
 
 		$this->view = new \OC\Files\View('/');
 
@@ -109,7 +98,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		\OC_App::disable('files_trashbin');
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
 			OC_App::enable('files_trashbin');
@@ -117,25 +106,21 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		else {
 			OC_App::disable('files_trashbin');
 		}
+
+		parent::tearDown();
 	}
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
-		\OC_User::deleteUser(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
-		\OC_User::deleteUser(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER2);
-		\OC_User::deleteUser(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_LEGACY_USER);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_UTIL_USER1);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_UTIL_USER2);
+		\OC_User::deleteUser(self::TEST_ENCRYPTION_UTIL_LEGACY_USER);
+
 		//cleanup groups
 		\OC_Group::deleteGroup(self::TEST_ENCRYPTION_UTIL_GROUP1);
 		\OC_Group::deleteGroup(self::TEST_ENCRYPTION_UTIL_GROUP2);
-	}
 
-	public static function setupHooks() {
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
+		parent::tearDownAfterClass();
 	}
 
 	/**
@@ -147,7 +132,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		$this->assertEquals($this->publicKeyDir, $util->getPath('publicKeyDir'));
 		$this->assertEquals($this->encryptionDir, $util->getPath('encryptionDir'));
-		$this->assertEquals($this->keyfilesPath, $util->getPath('keyfilesPath'));
+		$this->assertEquals($this->keysPath, $util->getPath('keysPath'));
 		$this->assertEquals($this->publicKeyPath, $util->getPath('publicKeyPath'));
 		$this->assertEquals($this->privateKeyPath, $util->getPath('privateKeyPath'));
 
@@ -163,8 +148,8 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		self::loginHelper($this->userId);
 
-		$unencryptedFile = '/tmpUnencrypted-' . uniqid() . '.txt';
-		$encryptedFile =  '/tmpEncrypted-' . uniqid() . '.txt';
+		$unencryptedFile = '/tmpUnencrypted-' . $this->getUniqueID() . '.txt';
+		$encryptedFile =  '/tmpEncrypted-' . $this->getUniqueID() . '.txt';
 
 		// Disable encryption proxy to write a unencrypted file
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -243,9 +228,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 */
 	function testGetUidAndFilename() {
 
-		\OC_User::setUserId(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
+		\OC_User::setUserId(self::TEST_ENCRYPTION_UTIL_USER1);
 
-		$filename = '/tmp-' . uniqid() . '.test';
+		$filename = '/tmp-' . $this->getUniqueID() . '.test';
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -260,7 +245,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		list($fileOwnerUid, $file) = $util->getUidAndFilename($filename);
 
-		$this->assertEquals(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1, $fileOwnerUid);
+		$this->assertEquals(self::TEST_ENCRYPTION_UTIL_USER1, $fileOwnerUid);
 
 		$this->assertEquals($file, $filename);
 
@@ -271,9 +256,9 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 	 * Test that data that is read by the crypto stream wrapper
 	 */
 	function testGetFileSize() {
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
 
-		$filename = 'tmp-' . uniqid();
+		$filename = 'tmp-' . $this->getUniqueID();
 		$externalFilename = '/' . $this->userId . '/files/' . $filename;
 
 		// Test for 0 byte files
@@ -297,7 +282,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	function testEncryptAll() {
 
-		$filename = "/encryptAll" . uniqid() . ".txt";
+		$filename = "/encryptAll" . $this->getUniqueID() . ".txt";
 		$util = new Encryption\Util($this->view, $this->userId);
 
 		// disable encryption to upload a unencrypted file
@@ -328,7 +313,7 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 	function testDecryptAll() {
 
-		$filename = "/decryptAll" . uniqid() . ".txt";
+		$filename = "/decryptAll" . $this->getUniqueID() . ".txt";
 		$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
 		$userdir = $datadir . '/' . $this->userId . '/files/';
 
@@ -388,16 +373,18 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		// file should no longer be encrypted
 		$this->assertEquals(0, $fileInfoUnencrypted['encrypted']);
 
+		$backupPath = $this->getBackupPath('decryptAll');
+
 		// check if the keys where moved to the backup location
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keyfiles.backup'));
-		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keyfiles.backup/' . $filename . '.key'));
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/share-keys.backup'));
-		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/share-keys.backup/' . $filename . '.' . $user . '.shareKey'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/keys'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/fileKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/' . $user . '.shareKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.privateKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.publicKey'));
 
 		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
-		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
-		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
+		$this->view->deleteAll($backupPath);
 		OC_App::enable('files_encryption');
 
 	}
@@ -410,45 +397,35 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		// create some dummy key files
 		$encPath = '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '/files_encryption';
-		$this->view->file_put_contents($encPath . '/keyfiles/foo.key', 'key');
-		$this->view->file_put_contents($encPath . '/share-keys/foo.user1.shareKey', 'share key');
+		$this->view->mkdir($encPath . '/keys/foo');
+		$this->view->file_put_contents($encPath . '/keys/foo/fileKey', 'key');
+		$this->view->file_put_contents($encPath . '/keys/foo/user1.shareKey', 'share key');
 
 		$util = new \OCA\Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
 
-		$util->backupAllKeys('testing');
+		$util->backupAllKeys('testBackupAllKeys');
 
-		$encFolderContent = $this->view->getDirectoryContent($encPath);
-
-		$backupPath = '';
-		foreach ($encFolderContent as $c) {
-			$name = $c['name'];
-			if (substr($name, 0, strlen('backup'))  === 'backup') {
-				$backupPath = $encPath . '/'. $c['name'];
-				break;
-			}
-		}
-
-		$this->assertTrue($backupPath !== '');
+		$backupPath = $this->getBackupPath('testBackupAllKeys');
 
 		// check backupDir Content
-		$this->assertTrue($this->view->is_dir($backupPath . '/keyfiles'));
-		$this->assertTrue($this->view->is_dir($backupPath . '/share-keys'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/keyfiles/foo.key'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/share-keys/foo.user1.shareKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.private.key'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.public.key'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/keys'));
+		$this->assertTrue($this->view->is_dir($backupPath . '/keys/foo'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/fileKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/user1.shareKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.privateKey'));
+		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.publicKey'));
 
 		//cleanup
 		$this->view->deleteAll($backupPath);
-		$this->view->unlink($encPath . '/keyfiles/foo.key', 'key');
-		$this->view->unlink($encPath . '/share-keys/foo.user1.shareKey', 'share key');
+		$this->view->unlink($encPath . '/keys/foo/fileKey');
+		$this->view->unlink($encPath . '/keys/foo/user1.shareKey');
 	}
 
 
 	function testDescryptAllWithBrokenFiles() {
 
-		$file1 = "/decryptAll1" . uniqid() . ".txt";
-		$file2 = "/decryptAll2" . uniqid() . ".txt";
+		$file1 = "/decryptAll1" . $this->getUniqueID() . ".txt";
+		$file2 = "/decryptAll2" . $this->getUniqueID() . ".txt";
 
 		$util = new Encryption\Util($this->view, $this->userId);
 
@@ -465,8 +442,8 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 
 		// rename keyfile for file1 so that the decryption for file1 fails
 		// Expected behaviour: decryptAll() returns false, file2 gets decrypted anyway
-		$this->view->rename($this->userId . '/files_encryption/keyfiles/' . $file1 . '.key',
-				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved');
+		$this->view->rename($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey',
+				$this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved');
 
 		// decrypt all encrypted files
 		$result = $util->decryptAll();
@@ -484,12 +461,13 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $fileInfoUnencrypted2['encrypted']);
 
 		// keyfiles and share keys should still exist
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
-		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
+		$this->assertTrue($this->view->is_dir($this->userId . '/files_encryption/keys/'));
+		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved'));
+		$this->assertTrue($this->view->file_exists($this->userId . '/files_encryption/keys/' . $file1 . '/' . $this->userId . '.shareKey'));
 
 		// rename the keyfile for file1 back
-		$this->view->rename($this->userId . '/files_encryption/keyfiles/' . $file1 . '.key.moved',
-				$this->userId . '/files_encryption/keyfiles/' . $file1 . '.key');
+		$this->view->rename($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved',
+				$this->userId . '/files_encryption/keys/' . $file1 . '/fileKey');
 
 		// try again to decrypt all encrypted files
 		$result = $util->decryptAll();
@@ -507,15 +485,30 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $fileInfoUnencrypted2['encrypted']);
 
 		// keyfiles and share keys should be deleted
-		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/keyfiles/'));
-		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/share-keys/'));
+		$this->assertFalse($this->view->is_dir($this->userId . '/files_encryption/keys/'));
 
 		//cleanup
+		$backupPath = $this->getBackupPath('decryptAll');
 		$this->view->unlink($this->userId . '/files/' . $file1);
 		$this->view->unlink($this->userId . '/files/' . $file2);
-		$this->view->deleteAll($this->userId . '/files_encryption/keyfiles.backup');
-		$this->view->deleteAll($this->userId . '/files_encryption/share-keys.backup');
+		$this->view->deleteAll($backupPath);
 
+	}
+
+	function getBackupPath($extension) {
+		$encPath = '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '/files_encryption';
+		$encFolderContent = $this->view->getDirectoryContent($encPath);
+
+		$backupPath = '';
+		foreach ($encFolderContent as $c) {
+			$name = $c['name'];
+			if (substr($name, 0, strlen('backup.' . $extension))  === 'backup.' . $extension) {
+				$backupPath = $encPath . '/'. $c['name'];
+				break;
+			}
+		}
+
+		return $backupPath;
 	}
 
 	/**
@@ -539,6 +532,43 @@ class Test_Encryption_Util extends \PHPUnit_Framework_TestCase {
 			array(array('applicable' => array('groups' => array(self::TEST_ENCRYPTION_UTIL_GROUP2), 'users' => array(self::TEST_ENCRYPTION_UTIL_USER2, 'all'))), true),
 			array(array('applicable' => array('groups' => array(self::TEST_ENCRYPTION_UTIL_GROUP2), 'users' => array('all'))), true),
 		);
+	}
+
+	/**
+	 * Tests that filterShareReadyUsers() returns the correct list of
+	 * users that are ready or not ready for encryption
+	 */
+	public function testFilterShareReadyUsers() {
+		$appConfig = \OC::$server->getAppConfig();
+
+		$publicShareKeyId = $appConfig->getValue('files_encryption', 'publicShareKeyId');
+		$recoveryKeyId = $appConfig->getValue('files_encryption', 'recoveryKeyId');
+
+		$usersToTest = array(
+			'readyUser',
+			'notReadyUser',
+			'nonExistingUser',
+			$publicShareKeyId,
+			$recoveryKeyId,
+		);
+		\Test_Encryption_Util::loginHelper('readyUser', true);
+		\Test_Encryption_Util::loginHelper('notReadyUser', true);
+		// delete encryption dir to make it not ready
+		$this->view->unlink('notReadyUser/files_encryption/');
+
+		// login as user1
+		\Test_Encryption_Util::loginHelper(\Test_Encryption_Util::TEST_ENCRYPTION_UTIL_USER1);
+
+		$result = $this->util->filterShareReadyUsers($usersToTest);
+		$this->assertEquals(
+			array('readyUser', $publicShareKeyId, $recoveryKeyId),
+			$result['ready']
+		);
+		$this->assertEquals(
+			array('notReadyUser', 'nonExistingUser'),
+			$result['unready']
+		);
+		\OC_User::deleteUser('readyUser');
 	}
 
 	/**

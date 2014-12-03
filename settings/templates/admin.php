@@ -6,7 +6,18 @@
  */
 /**
  * @var array $_
+ * @var \OCP\IL10N $l
  */
+
+style('settings', 'settings');
+script('settings', 'settings');
+script( "settings", "admin" );
+script( "settings", "log" );
+script( 'core', 'multiselect' );
+vendor_script('select2/select2');
+vendor_style('select2/select2');
+script('core', 'setupchecks');
+
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 $levelLabels = array(
 	$l->t( 'Everything (fatal issues, errors, warnings, info, debug)' ),
@@ -39,9 +50,23 @@ if ($_['sendmail_is_available']) {
 if ($_['mail_smtpmode'] == 'qmail') {
 	$mail_smtpmode[] = 'qmail';
 }
-
 ?>
 
+<div id="app-navigation">
+	<ul>
+		<?php foreach($_['forms'] as $form) {
+			if (isset($form['anchor'])) {
+				$anchor = '#' . $form['anchor'];
+				$sectionName = $form['section-name'];
+				print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", OC_Util::sanitizeHTML($anchor), OC_Util::sanitizeHTML($sectionName)));
+			}
+		}?>
+	</ul>
+</div>
+
+<div id="app-content">
+
+<div id="security-warning">
 <?php
 
 // is ssl working ?
@@ -61,17 +86,30 @@ if (!$_['isConnectedViaHTTPS']) {
 // is htaccess working ?
 if (!$_['htaccessworking']) {
 	?>
-<div class="section">
-	<h2><?php p($l->t('Security Warning'));?></h2>
+	<div class="section">
+		<h2><?php p($l->t('Security Warning')); ?></h2>
 
 	<span class="securitywarning">
 		<?php p($l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')); ?>
 	</span>
 
-</div>
+	</div>
 <?php
 }
 
+// is read only config enabled
+if ($_['readOnlyConfigEnabled']) {
+?>
+<div class="section">
+	<h2><?php p($l->t('Read-Only config enabled'));?></h2>
+
+	<span class="securitywarning">
+		<?php p($l->t('The Read-Only config has been enabled. This prevents setting some configurations via the web-interface. Furthermore, the file needs to be made writable manually for every update.')); ?>
+	</span>
+
+	</div>
+<?php
+}
 // Are doc blocks accessible?
 if (!$_['isAnnotationsWorking']) {
 	?>
@@ -160,7 +198,7 @@ if (!$_['isLocaleWorking']) {
 		?>
 			<br>
 			<?php
-			p($l->t('We strongly suggest to install the required packages on your system to support one of the following locales: %s.', array($locales)));
+			p($l->t('We strongly suggest installing the required packages on your system to support one of the following locales: %s.', array($locales)));
 			?>
 	</span>
 
@@ -182,7 +220,7 @@ if ($_['suggestedOverwriteWebroot']) {
 }
 ?>
 <div id="postsetupchecks" class="section">
-	<h2><?php p($l->t('Connectivity checks'));?></h2>
+	<h2><?php p($l->t('Connectivity Checks'));?></h2>
 	<div class="loading"></div>
 	<div class="success hidden"><?php p($l->t('No problems found'));?></div>
 	<div class="errors hidden"></div>
@@ -192,10 +230,12 @@ if ($_['suggestedOverwriteWebroot']) {
 		?></span>
 	</div>
 </div>
-<?php foreach ($_['forms'] as $form) {
-	print_unescaped($form);
-}
-;?>
+</div>
+<?php foreach($_['forms'] as $form) {
+	if (isset($form['form'])) {?>
+		<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+	<?php }
+};?>
 
 <div class="section" id="backgroundjobs">
 	<h2 class="inlineblock"><?php p($l->t('Cron'));?></h2>
@@ -310,9 +350,9 @@ if ($_['suggestedOverwriteWebroot']) {
 		<input type="checkbox" name="forcessl"  id="forcessl"
 			<?php if ($_['enforceHTTPSEnabled']) {
 				print_unescaped('checked="checked" ');
-				print_unescaped('value="false"');
-			}  else {
 				print_unescaped('value="true"');
+			}  else {
+				print_unescaped('value="false"');
 			}
 			?>
 			<?php if (!$_['isConnectedViaHTTPS']) p('disabled'); ?> />
@@ -320,7 +360,23 @@ if ($_['suggestedOverwriteWebroot']) {
 		<em><?php p($l->t(
 			'Forces the clients to connect to %s via an encrypted connection.',
 			$theme->getName()
-		)); ?></em>
+		)); ?></em><br/>
+		<span id="forceSSLforSubdomainsSpan" <?php if(!$_['enforceHTTPSEnabled']) { print_unescaped('class="hidden"'); } ?>>
+			<input type="checkbox" name="forceSSLforSubdomains"  id="forceSSLforSubdomains"
+				<?php if ($_['forceSSLforSubdomainsEnabled']) {
+					print_unescaped('checked="checked" ');
+					print_unescaped('value="true"');
+				}  else {
+					print_unescaped('value="false"');
+				}
+				?>
+				<?php if (!$_['isConnectedViaHTTPS']) { p('disabled'); } ?> />
+			<label for="forceSSLforSubdomains"><?php p($l->t('Enforce HTTPS for subdomains'));?></label><br/>
+			<em><?php p($l->t(
+					'Forces the clients to connect to %s and subdomains via an encrypted connection.',
+					$theme->getName()
+				)); ?></em>
+		</span>
 		<?php if (!$_['isConnectedViaHTTPS']) {
 			print_unescaped("<br/><em>");
 			p($l->t(
@@ -333,89 +389,92 @@ if ($_['suggestedOverwriteWebroot']) {
 	</p>
 </div>
 
-<div class="section"><form id="mail_settings">
-	<h2><?php p($l->t('Email Server'));?></h2>
+<div class="section">
+	<form id="mail_general_settings" class="mail_settings">
+		<h2><?php p($l->t('Email Server'));?></h2>
 
-	<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
+		<p><?php p($l->t('This is used for sending out notifications.')); ?> <span id="mail_settings_msg" class="msg"></span></p>
 
-	<p>
-		<label for="mail_smtpmode"><?php p($l->t( 'Send mode' )); ?></label>
-		<select name='mail_smtpmode' id='mail_smtpmode'>
-			<?php foreach ($mail_smtpmode as $smtpmode):
-				$selected = '';
-				if ($smtpmode == $_['mail_smtpmode']):
-					$selected = 'selected="selected"';
-				endif; ?>
-				<option value='<?php p($smtpmode)?>' <?php p($selected) ?>><?php p($smtpmode) ?></option>
-			<?php endforeach;?>
-		</select>
+		<p>
+			<label for="mail_smtpmode"><?php p($l->t( 'Send mode' )); ?></label>
+			<select name='mail_smtpmode' id='mail_smtpmode'>
+				<?php foreach ($mail_smtpmode as $smtpmode):
+					$selected = '';
+					if ($smtpmode == $_['mail_smtpmode']):
+						$selected = 'selected="selected"';
+					endif; ?>
+					<option value='<?php p($smtpmode)?>' <?php p($selected) ?>><?php p($smtpmode) ?></option>
+				<?php endforeach;?>
+			</select>
 
-		<label id="mail_smtpsecure_label" for="mail_smtpsecure"
-			   <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-			<?php p($l->t( 'Encryption' )); ?>
-		</label>
-		<select name="mail_smtpsecure" id="mail_smtpsecure"
-				<?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-			<?php foreach ($mail_smtpsecure as $secure => $name):
-				$selected = '';
-				if ($secure == $_['mail_smtpsecure']):
-					$selected = 'selected="selected"';
-				endif; ?>
-				<option value='<?php p($secure)?>' <?php p($selected) ?>><?php p($name) ?></option>
-			<?php endforeach;?>
-		</select>
-	</p>
+			<label id="mail_smtpsecure_label" for="mail_smtpsecure"
+				   <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+				<?php p($l->t( 'Encryption' )); ?>
+			</label>
+			<select name="mail_smtpsecure" id="mail_smtpsecure"
+					<?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+				<?php foreach ($mail_smtpsecure as $secure => $name):
+					$selected = '';
+					if ($secure == $_['mail_smtpsecure']):
+						$selected = 'selected="selected"';
+					endif; ?>
+					<option value='<?php p($secure)?>' <?php p($selected) ?>><?php p($name) ?></option>
+				<?php endforeach;?>
+			</select>
+		</p>
 
-	<p>
-		<label for="mail_from_address"><?php p($l->t( 'From address' )); ?></label>
-		<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p($l->t('mail'))?>"
-			   value='<?php p($_['mail_from_address']) ?>' />
-		@
-		<input type="text" name='mail_domain' id="mail_domain" placeholder="example.com"
-			   value='<?php p($_['mail_domain']) ?>' />
-	</p>
+		<p>
+			<label for="mail_from_address"><?php p($l->t( 'From address' )); ?></label>
+			<input type="text" name='mail_from_address' id="mail_from_address" placeholder="<?php p($l->t('mail'))?>"
+				   value='<?php p($_['mail_from_address']) ?>' />@
+			<input type="text" name='mail_domain' id="mail_domain" placeholder="example.com"
+				   value='<?php p($_['mail_domain']) ?>' />
+		</p>
 
-	<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-		<label for="mail_smtpauthtype"><?php p($l->t( 'Authentication method' )); ?></label>
-		<select name='mail_smtpauthtype' id='mail_smtpauthtype'>
-			<?php foreach ($mail_smtpauthtype as $authtype => $name):
-				$selected = '';
-				if ($authtype == $_['mail_smtpauthtype']):
-					$selected = 'selected="selected"';
-				endif; ?>
-				<option value='<?php p($authtype)?>' <?php p($selected) ?>><?php p($name) ?></option>
-			<?php endforeach;?>
-		</select>
+		<p id="setting_smtpauth" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+			<label for="mail_smtpauthtype"><?php p($l->t( 'Authentication method' )); ?></label>
+			<select name='mail_smtpauthtype' id='mail_smtpauthtype'>
+				<?php foreach ($mail_smtpauthtype as $authtype => $name):
+					$selected = '';
+					if ($authtype == $_['mail_smtpauthtype']):
+						$selected = 'selected="selected"';
+					endif; ?>
+					<option value='<?php p($authtype)?>' <?php p($selected) ?>><?php p($name) ?></option>
+				<?php endforeach;?>
+			</select>
 
-		<input type="checkbox" name="mail_smtpauth" id="mail_smtpauth" value="1"
-			   <?php if ($_['mail_smtpauth']) print_unescaped('checked="checked"'); ?> />
-		<label for="mail_smtpauth"><?php p($l->t( 'Authentication required' )); ?></label>
-	</p>
+			<input type="checkbox" name="mail_smtpauth" id="mail_smtpauth" value="1"
+				   <?php if ($_['mail_smtpauth']) print_unescaped('checked="checked"'); ?> />
+			<label for="mail_smtpauth"><?php p($l->t( 'Authentication required' )); ?></label>
+		</p>
 
-	<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-		<label for="mail_smtphost"><?php p($l->t( 'Server address' )); ?></label>
-		<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="smtp.example.com"
-			   value='<?php p($_['mail_smtphost']) ?>' />
-		:
-		<input type="text" name='mail_smtpport' id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"
-			   value='<?php p($_['mail_smtpport']) ?>' />
-	</p>
-
-	<p id="mail_credentials" <?php if (!$_['mail_smtpauth'] || $_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
-		<label for="mail_smtpname"><?php p($l->t( 'Credentials' )); ?></label>
-		<input type="text" name='mail_smtpname' id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
-			   value='<?php p($_['mail_smtpname']) ?>' />
-		<input type="password" name='mail_smtppassword' id="mail_smtppassword"
-			   placeholder="<?php p($l->t('SMTP Password'))?>" value='<?php p($_['mail_smtppassword']) ?>' />
-	</p>
+		<p id="setting_smtphost" <?php if ($_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+			<label for="mail_smtphost"><?php p($l->t( 'Server address' )); ?></label>
+			<input type="text" name='mail_smtphost' id="mail_smtphost" placeholder="smtp.example.com"
+				   value='<?php p($_['mail_smtphost']) ?>' />
+			:
+			<input type="text" name='mail_smtpport' id="mail_smtpport" placeholder="<?php p($l->t('Port'))?>"
+				   value='<?php p($_['mail_smtpport']) ?>' />
+		</p>
+	</form>
+	<form class="mail_settings" id="mail_credentials_settings">
+		<p id="mail_credentials" <?php if (!$_['mail_smtpauth'] || $_['mail_smtpmode'] != 'smtp') print_unescaped(' class="hidden"'); ?>>
+			<label for="mail_smtpname"><?php p($l->t( 'Credentials' )); ?></label>
+			<input type="text" name='mail_smtpname' id="mail_smtpname" placeholder="<?php p($l->t('SMTP Username'))?>"
+				   value='<?php p($_['mail_smtpname']) ?>' />
+			<input type="password" name='mail_smtppassword' id="mail_smtppassword"
+				   placeholder="<?php p($l->t('SMTP Password'))?>" value='<?php p($_['mail_smtppassword']) ?>' />
+			<input id="mail_credentials_settings_submit" type="button" value="<?php p($l->t('Store credentials')) ?>">
+		</p>
+	</form>
 
 	<br />
 	<em><?php p($l->t( 'Test email settings' )); ?></em>
 	<input type="submit" name="sendtestemail" id="sendtestemail" value="<?php p($l->t( 'Send email' )); ?>"/>
 	<span id="sendtestmail_msg" class="msg"></span>
-</form></div>
+</div>
 
-<div class="section">
+<div class="section" id="log-section">
 	<h2><?php p($l->t('Log'));?></h2>
 	<?php p($l->t('Log level'));?> <select name='loglevel' id='loglevel'>
 <?php for ($i = 0; $i < 5; $i++):
@@ -467,4 +526,5 @@ if ($_['suggestedOverwriteWebroot']) {
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
+</div>
 </div>

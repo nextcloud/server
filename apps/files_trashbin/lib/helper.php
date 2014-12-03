@@ -88,7 +88,7 @@ class Helper
 			$entry = \OCA\Files\Helper::formatFileInfo($i);
 			$entry['id'] = $id++;
 			$entry['etag'] = $entry['mtime']; // add fake etag, it is only needed to identify the preview image
-			$entry['permissions'] = \OCP\PERMISSION_READ;
+			$entry['permissions'] = \OCP\Constants::PERMISSION_READ;
 			if (\OCP\App::isEnabled('files_encryption')) {
 				$entry['isPreviewAvailable'] = false;
 			}

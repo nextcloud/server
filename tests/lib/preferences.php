@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Preferences_Object extends PHPUnit_Framework_TestCase {
+class Test_Preferences_Object extends \Test\TestCase {
 	public function testGetUsers()
 	{
 		$statementMock = $this->getMock('\Doctrine\DBAL\Statement', array(), array(), '', false);

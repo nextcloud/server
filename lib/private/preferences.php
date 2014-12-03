@@ -36,7 +36,7 @@
 
 namespace OC;
 
-use \OC\DB\Connection;
+use OCP\IDBConnection;
 
 
 /**
@@ -61,9 +61,9 @@ class Preferences {
 	protected $cache = array();
 
 	/**
-	 * @param \OC\DB\Connection $conn
+	 * @param \OCP\IDBConnection $conn
 	 */
-	public function __construct(Connection $conn) {
+	public function __construct(IDBConnection $conn) {
 		$this->conn = $conn;
 	}
 

@@ -23,7 +23,7 @@ class TestQueuedJob extends \OC\BackgroundJob\QueuedJob {
 	}
 }
 
-class QueuedJob extends \PHPUnit_Framework_TestCase {
+class QueuedJob extends \Test\TestCase {
 	/**
 	 * @var DummyJobList $jobList
 	 */
@@ -39,7 +39,9 @@ class QueuedJob extends \PHPUnit_Framework_TestCase {
 		$this->jobRun = true;
 	}
 
-	public function setup() {
+	protected function setup() {
+		parent::setUp();
+
 		$this->jobList = new DummyJobList();
 		$this->job = new TestQueuedJob($this);
 		$this->jobList->add($this->job);

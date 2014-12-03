@@ -8,7 +8,7 @@
 
 use \OC\Security\CertificateManager;
 
-class CertificateManagerTest extends \PHPUnit_Framework_TestCase {
+class CertificateManagerTest extends \Test\TestCase {
 
 	/** @var CertificateManager */
 	private $certificateManager;
@@ -17,9 +17,11 @@ class CertificateManagerTest extends \PHPUnit_Framework_TestCase {
 	/** @var  \OC\User\User */
 	private $user;
 
-	function setUp() {
-		$this->username = OC_Util::generateRandomBytes(20);
-		OC_User::createUser($this->username, OC_Util::generateRandomBytes(20));
+	protected function setUp() {
+		parent::setUp();
+
+		$this->username = $this->getUniqueID('', 20);
+		OC_User::createUser($this->username, $this->getUniqueID('', 20));
 
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
@@ -31,8 +33,9 @@ class CertificateManagerTest extends \PHPUnit_Framework_TestCase {
 		$this->certificateManager = new CertificateManager($this->user);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		\OC_User::deleteUser($this->username);
+		parent::tearDown();
 	}
 
 	protected function assertEqualsArrays($expected, $actual) {

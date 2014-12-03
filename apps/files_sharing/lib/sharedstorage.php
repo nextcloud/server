@@ -67,7 +67,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 				if ($source) {
 					$source['path'] .= '.part';
 					// All partial files have delete permission
-					$source['permissions'] |= \OCP\PERMISSION_DELETE;
+					$source['permissions'] |= \OCP\Constants::PERMISSION_DELETE;
 				}
 			} else {
 				$source = \OC_Share_Backend_File::getSource($target, $this->getMountPoint(), $this->getItemType());
@@ -109,11 +109,11 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		$permissions = $this->share['permissions'];
 		// part files and the mount point always have delete permissions
 		if ($target === '' || pathinfo($target, PATHINFO_EXTENSION) === 'part') {
-			$permissions |= \OCP\PERMISSION_DELETE;
+			$permissions |= \OCP\Constants::PERMISSION_DELETE;
 		}
 
 		if (\OC_Util::isSharingDisabledForUser()) {
-			$permissions &= ~\OCP\PERMISSION_SHARE;
+			$permissions &= ~\OCP\Constants::PERMISSION_SHARE;
 		}
 
 		return $permissions;
@@ -197,7 +197,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function isCreatable($path) {
-		return ($this->getPermissions($path) & \OCP\PERMISSION_CREATE);
+		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_CREATE);
 	}
 
 	public function isReadable($path) {
@@ -205,18 +205,18 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public function isUpdatable($path) {
-		return ($this->getPermissions($path) & \OCP\PERMISSION_UPDATE);
+		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
-		return ($this->getPermissions($path) & \OCP\PERMISSION_DELETE);
+		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
 		if (\OCP\Util::isSharingDisabledForUser()) {
 			return false;
 		}
-		return ($this->getPermissions($path) & \OCP\PERMISSION_SHARE);
+		return ($this->getPermissions($path) & \OCP\Constants::PERMISSION_SHARE);
 	}
 
 	public function file_exists($path) {
@@ -300,7 +300,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 			$pathinfo = pathinfo($relPath1);
 			// for part files we need to ask for the owner and path from the parent directory because
 			// the file cache doesn't return any results for part files
-			if ($pathinfo['extension'] === 'part') {
+			if (isset($pathinfo['extension']) && $pathinfo['extension'] === 'part') {
 				list($user1, $path1) = \OCA\Files_Sharing\Helper::getUidAndFilename($pathinfo['dirname']);
 				$path1 = $path1 . '/' . $pathinfo['basename'];
 			} else {
@@ -397,7 +397,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 	}
 
 	public static function setup($options) {
-		$shares = \OCP\Share::getItemsSharedWith('file');
+		$shares = \OCP\Share::getItemsSharedWithUser('file', $options['user']);
 		$manager = Filesystem::getMountManager();
 		$loader = Filesystem::getLoader();
 		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user']
@@ -411,7 +411,8 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 							$options['user_dir'] . '/' . $share['file_target'],
 							array(
 								'share' => $share,
-								),
+								'user' => $options['user']
+							),
 							$loader
 							);
 					$manager->addMount($mount);

@@ -125,11 +125,12 @@ class Share extends \OC\Share\Constants {
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param string $user User user to whom the item was shared
+	 * @param string $user User to whom the item was shared
+	 * @param string $owner Owner of the share
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */
-	public static function getItemSharedWithUser($itemType, $itemSource, $user) {
-		return \OC\Share\Share::getItemSharedWithUser($itemType, $itemSource, $user);
+	public static function getItemSharedWithUser($itemType, $itemSource, $user, $owner = null) {
+		return \OC\Share\Share::getItemSharedWithUser($itemType, $itemSource, $user, $owner);
 	}
 
 	/**
@@ -340,87 +341,4 @@ class Share extends \OC\Share\Constants {
 	public static function isResharingAllowed() {
 		return \OC\Share\Share::isResharingAllowed();
 	}
-}
-
-/**
- * Interface that apps must implement to share content.
- */
-interface Share_Backend {
-
-	/**
-	 * Check if this $itemSource exist for the user
-	 * @param string $itemSource
-	 * @param string $uidOwner Owner of the item
-	 * @return boolean|null Source
-	 *
-	 * Return false if the item does not exist for the user
-	 */
-	public function isValidSource($itemSource, $uidOwner);
-
-	/**
-	 * Get a unique name of the item for the specified user
-	 * @param string $itemSource
-	 * @param string|false $shareWith User the item is being shared with
-	 * @param array|null $exclude List of similar item names already existing as shared items @deprecated since version OC7
-	 * @return string Target name
-	 *
-	 * This function needs to verify that the user does not already have an item with this name.
-	 * If it does generate a new name e.g. name_#
-	 */
-	public function generateTarget($itemSource, $shareWith, $exclude = null);
-
-	/**
-	 * Converts the shared item sources back into the item in the specified format
-	 * @param array $items Shared items
-	 * @param int $format
-	 * @return TODO
-	 *
-	 * The items array is a 3-dimensional array with the item_source as the
-	 * first key and the share id as the second key to an array with the share
-	 * info.
-	 *
-	 * The key/value pairs included in the share info depend on the function originally called:
-	 * If called by getItem(s)Shared: id, item_type, item, item_source,
-	 * share_type, share_with, permissions, stime, file_source
-	 *
-	 * If called by getItem(s)SharedWith: id, item_type, item, item_source,
-	 * item_target, share_type, share_with, permissions, stime, file_source,
-	 * file_target
-	 *
-	 * This function allows the backend to control the output of shared items with custom formats.
-	 * It is only called through calls to the public getItem(s)Shared(With) functions.
-	 */
-	public function formatItems($items, $format, $parameters = null);
-
-}
-
-/**
- * Interface for share backends that share content that is dependent on files.
- * Extends the Share_Backend interface.
- */
-interface Share_Backend_File_Dependent extends Share_Backend {
-
-	/**
-	 * Get the file path of the item
-	 * @param string $itemSource
-	 * @param string $uidOwner User that is the owner of shared item
-	 * @return string|false
-	 */
-	public function getFilePath($itemSource, $uidOwner);
-
-}
-
-/**
- * Interface for collections of of items implemented by another share backend.
- * Extends the Share_Backend interface.
- */
-interface Share_Backend_Collection extends Share_Backend {
-
-	/**
-	 * Get the sources of the children of the item
-	 * @param string $itemSource
-	 * @return array Returns an array of children each inside an array with the keys: source, target, and file_path if applicable
-	 */
-	public function getChildren($itemSource);
-
 }

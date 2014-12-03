@@ -26,7 +26,9 @@ class Swift extends Storage {
 
 	private $config;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->config = include('files_external/tests/config.php');
 		if (!is_array($this->config) or !isset($this->config['swift'])
                     or !$this->config['swift']['run']) {
@@ -35,7 +37,7 @@ class Swift extends Storage {
 		$this->instance = new \OC\Files\Storage\Swift($this->config['swift']);
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->instance) {
 			$connection = $this->instance->getConnection();
 			$container = $connection->getContainer($this->config['swift']['bucket']);
@@ -48,5 +50,7 @@ class Swift extends Storage {
 
 			$container->delete();
 		}
+
+		parent::tearDown();
 	}
 }

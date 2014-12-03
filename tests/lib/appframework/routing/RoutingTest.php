@@ -6,7 +6,7 @@ use OC\AppFramework\DependencyInjection\DIContainer;
 use OC\AppFramework\routing\RouteConfig;
 
 
-class RoutingTest extends \PHPUnit_Framework_TestCase
+class RoutingTest extends \Test\TestCase
 {
 
 	public function testSimpleRoute()
@@ -52,6 +52,15 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 		));
 
 		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array('param' => 'foobar'));
+	}
+
+	public function testSimpleRouteWithPostfix()
+	{
+		$routes = array('routes' => array(
+			array('name' => 'folders#open', 'url' => '/folders/{folderId}/open', 'verb' => 'delete', 'postfix' => '_something')
+		));
+
+		$this->assertSimpleRoute($routes, 'folders.open', 'DELETE', '/folders/{folderId}/open', 'FoldersController', 'open', array(), array(), '_something');
 	}
 
 
@@ -104,8 +113,12 @@ class RoutingTest extends \PHPUnit_Framework_TestCase
 	 * @param string $controllerName
 	 * @param string $actionName
 	 */
-	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=array(), array $defaults=array())
+	private function assertSimpleRoute($routes, $name, $verb, $url, $controllerName, $actionName, array $requirements=array(), array $defaults=array(), $postfix='')
 	{
+		if ($postfix) {
+			$name .= $postfix;
+		}
+
 		// route mocks
 		$route = $this->mockRoute($verb, $controllerName, $actionName, $requirements, $defaults);
 

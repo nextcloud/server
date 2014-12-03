@@ -21,7 +21,7 @@ class MDB2SchemaManager {
 	protected $conn;
 
 	/**
-	 * @param \OC\DB\Connection $conn
+	 * @param \OCP\IDBConnection $conn
 	 */
 	public function __construct($conn) {
 		$this->conn = $conn;
@@ -49,7 +49,7 @@ class MDB2SchemaManager {
 	 * TODO: write more documentation
 	 */
 	public function createDbFromStructure($file) {
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform());
 		$toSchema = $schemaReader->loadSchemaFromFile($file);
 		return $this->executeSchemaChange($toSchema);
 	}
@@ -58,20 +58,21 @@ class MDB2SchemaManager {
 	 * @return \OC\DB\Migrator
 	 */
 	public function getMigrator() {
+		$random = \OC::$server->getSecureRandom()->getMediumStrengthGenerator();
 		$platform = $this->conn->getDatabasePlatform();
 		if ($platform instanceof SqlitePlatform) {
 			$config = \OC::$server->getConfig();
-			return new SQLiteMigrator($this->conn, $config);
+			return new SQLiteMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof OraclePlatform) {
-			return new OracleMigrator($this->conn);
+			return new OracleMigrator($this->conn, $random);
 		} else if ($platform instanceof MySqlPlatform) {
-			return new MySQLMigrator($this->conn);
+			return new MySQLMigrator($this->conn, $random);
 		} else if ($platform instanceof SQLServerPlatform) {
-			return new MsSqlMigrator($this->conn);
+			return new MsSqlMigrator($this->conn, $random);
 		} else if ($platform instanceof PostgreSqlPlatform) {
-			return new Migrator($this->conn);
+			return new Migrator($this->conn, $random);
 		} else {
-			return new NoCheckMigrator($this->conn);
+			return new NoCheckMigrator($this->conn, $random);
 		}
 	}
 
@@ -82,7 +83,7 @@ class MDB2SchemaManager {
 	 */
 	private function readSchemaFromFile($file) {
 		$platform = $this->conn->getDatabasePlatform();
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $platform);
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $platform);
 		return $schemaReader->loadSchemaFromFile($file);
 	}
 
@@ -130,7 +131,7 @@ class MDB2SchemaManager {
 	 * @param string $file the xml file describing the tables
 	 */
 	public function removeDBStructure($file) {
-		$schemaReader = new MDB2SchemaReader(\OC_Config::getObject(), $this->conn->getDatabasePlatform());
+		$schemaReader = new MDB2SchemaReader(\OC::$server->getConfig(), $this->conn->getDatabasePlatform());
 		$fromSchema = $schemaReader->loadSchemaFromFile($file);
 		$toSchema = clone $fromSchema;
 		/** @var $table \Doctrine\DBAL\Schema\Table */
@@ -143,7 +144,7 @@ class MDB2SchemaManager {
 	}
 
 	/**
-	 * @param \Doctrine\DBAL\Schema\Schema $schema
+	 * @param \Doctrine\DBAL\Schema\Schema|\Doctrine\DBAL\Schema\SchemaDiff $schema
 	 * @return bool
 	 */
 	private function executeSchemaChange($schema) {
@@ -154,7 +155,8 @@ class MDB2SchemaManager {
 		$this->conn->commit();
 
 		if ($this->conn->getDatabasePlatform() instanceof SqlitePlatform) {
-			\OC_DB::reconnect();
+			$this->conn->close();
+			$this->conn->connect();
 		}
 		return true;
 	}

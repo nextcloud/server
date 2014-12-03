@@ -43,6 +43,15 @@ class AllConfig implements \OCP\IConfig {
 		\OCP\Config::deleteSystemValue($key);
 	}
 
+	/**
+	 * Get all keys stored for an app
+	 *
+	 * @param string $appName the appName that we stored the value under
+	 * @return string[] the keys stored for the app
+	 */
+	public function getAppKeys($appName) {
+		return \OC::$server->getAppConfig()->getKeys($appName);
+	}
 
 	/**
 	 * Writes a new app wide value

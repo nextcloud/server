@@ -1,0 +1,7 @@
+{ "translations": {
+    "Delete" : "Odstrániť",
+    "never" : "nikdy",
+    "Cancel" : "Zrušiť",
+    "Other" : "Ostatné"
+},"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
+}

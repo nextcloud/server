@@ -8,6 +8,9 @@
 
 namespace OC\DB;
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use OCP\IConfig;
+
 class MDB2SchemaReader {
 	/**
 	 * @var string $DBNAME
@@ -25,13 +28,13 @@ class MDB2SchemaReader {
 	protected $platform;
 
 	/**
-	 * @param \OC\Config $config
+	 * @param \OCP\IConfig $config
 	 * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
 	 */
-	public function __construct($config, $platform) {
+	public function __construct(IConfig $config, AbstractPlatform $platform) {
 		$this->platform = $platform;
-		$this->DBNAME = $config->getValue('dbname', 'owncloud');
-		$this->DBTABLEPREFIX = $config->getValue('dbtableprefix', 'oc_');
+		$this->DBNAME = $config->getSystemValue('dbname', 'owncloud');
+		$this->DBTABLEPREFIX = $config->getSystemValue('dbtableprefix', 'oc_');
 	}
 
 	/**

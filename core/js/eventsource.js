@@ -34,6 +34,8 @@
  * Create a new event source
  * @param {string} src
  * @param {object} [data] to be send as GET
+ *
+ * @constructs OC.EventSource
  */
 OC.EventSource=function(src,data){
 	var dataStr='';
@@ -92,6 +94,16 @@ OC.EventSource.prototype={
 	iframe:null,
 	listeners:{},//only for fallback
 	useFallBack:false,
+	/**
+	 * Fallback callback for browsers that don't have the
+	 * native EventSource object.
+	 *
+	 * Calls the registered listeners.
+	 *
+	 * @private
+	 * @param {String} type event type
+	 * @param {Object} data received data
+	 */
 	fallBackCallBack:function(type,data){
 		var i;
 		// ignore messages that might appear after closing
@@ -111,6 +123,12 @@ OC.EventSource.prototype={
 		}
 	},
 	lastLength:0,//for fallback
+	/**
+	 * Listen to a given type of events.
+	 *
+	 * @param {String} type event type
+	 * @param {Function} callback event callback
+	 */
 	listen:function(type,callback){
 		if(callback && callback.call){
 
@@ -134,6 +152,9 @@ OC.EventSource.prototype={
 			}
 		}
 	},
+	/**
+	 * Closes this event source.
+	 */
 	close:function(){
 		this.closed = true;
 		if (typeof this.source !== 'undefined') {

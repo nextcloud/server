@@ -14,7 +14,8 @@
 			</div>
 		<?php endif; ?>
 		<p id="message" class="hidden">
-			<img class="float-spinner" src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>"/>
+			<img class="float-spinner" alt=""
+				src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>" />
 			<span id="messageText"></span>
 			<!-- the following div ensures that the spinner is always inside the #message div -->
 			<div style="clear: both;"></div>

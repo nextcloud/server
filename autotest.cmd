@@ -7,8 +7,10 @@
 :: @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 ::
 
-set DATADIR=data-autotest
+@echo off
+
 set BASEDIR=%~dp0
+set DATADIR=%BASEDIR%data-autotest
 
 :: create autoconfig for sqlite, mysql, postgresql and mssql
 echo ^<?php                                      > .\tests\autoconfig-sqlite.php
@@ -18,7 +20,7 @@ echo  'dbtype' ^=^> 'sqlite'^,                   >> .\tests\autoconfig-sqlite.ph
 echo  'dbtableprefix' ^=^> 'oc_'^,               >> .\tests\autoconfig-sqlite.php
 echo  'adminlogin' ^=^> 'admin'^,                >> .\tests\autoconfig-sqlite.php
 echo  'adminpass' ^=^> 'admin'^,                 >> .\tests\autoconfig-sqlite.php
-echo  'directory' ^=^> '%BASEDIR%%DATADIR%'^,    >> .\tests\autoconfig-sqlite.php
+echo  'directory' ^=^> '%DATADIR%'^,             >> .\tests\autoconfig-sqlite.php
 echo ^)^;                                        >> .\tests\autoconfig-sqlite.php
 
 echo ^<?php                                      > .\tests\autoconfig-mysql.php
@@ -28,7 +30,7 @@ echo   'dbtype' ^=^> 'mysql'^,                   >> .\tests\autoconfig-mysql.php
 echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-mysql.php
 echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-mysql.php
 echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-mysql.php
-echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-mysql.php
+echo   'directory' ^=^> '%DATADIR%'^,            >> .\tests\autoconfig-mysql.php
 echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mysql.php
 echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mysql.php
 echo   'dbhost' ^=^> 'localhost'^,               >> .\tests\autoconfig-mysql.php
@@ -42,7 +44,7 @@ echo   'dbtype' ^=^> 'pgsql'^,                   >> .\tests\autoconfig-pgsql.php
 echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-pgsql.php
 echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-pgsql.php
 echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-pgsql.php
-echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-pgsql.php
+echo   'directory' ^=^> '%DATADIR%'^,            >> .\tests\autoconfig-pgsql.php
 echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-pgsql.php
 echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-pgsql.php
 echo   'dbhost' ^=^> 'localhost'^,               >> .\tests\autoconfig-pgsql.php
@@ -56,7 +58,7 @@ echo   'dbtype' ^=^> 'mssql'^,                   >> .\tests\autoconfig-mssql.php
 echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-mssql.php
 echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-mssql.php
 echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-mssql.php
-echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-mssql.php
+echo   'directory' ^=^> '%DATADIR%'^,            >> .\tests\autoconfig-mssql.php
 echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mssql.php
 echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mssql.php
 echo   'dbhost' ^=^> 'localhost\sqlexpress'^,    >> .\tests\autoconfig-mssql.php
@@ -65,24 +67,40 @@ echo ^)^;                                        >> .\tests\autoconfig-mssql.php
 
 echo localhost:5432:*:oc_autotest:owncloud > %APPDATA%\postgresql\pgpass.conf
 
+@echo on
+
+:: Back up existing (dev) config if one exists
+if exist config\config.php (
+	copy /y config\config.php config\config-autotest-backup.php
+)
+
 ::
 :: start test execution
 ::
 if [%1] == [] (
-	echo "Running on all database backends"
-	call:execute_tests "sqlite"
-	call:execute_tests "mysql"
-	call:execute_tests "mssql"
-	::call:execute_tests "ora"
-	call:execute_tests "pgsql"
+	@echo "Running on all database backends"
+	call:execute_tests "sqlite" "%2"
+	call:execute_tests "mysql" "%2"
+	call:execute_tests "mssql" "%2"
+	::call:execute_tests "ora" "%2"
+	call:execute_tests "pgsql" "%2"
 ) else (
-	call:execute_tests "%1"
+	call:execute_tests "%1" "%2"
 )
+
+goto:restore_config
 
 goto:eof
 
+:restore_config
+	:: Restore existing config
+	if exist config\config-autotest-backup.php (
+		copy /y config\config-autotest-backup.php config\config.php
+	)
+goto:eof
+
 :execute_tests
-	echo "Setup environment for %~1 testing ..."
+	@echo "Setup environment for %~1 testing ..."
 	:: back to root folder
 	cd %BASEDIR%
 
@@ -109,22 +127,25 @@ goto:eof
 	copy /y %BASEDIR%\tests\autoconfig-%~1.php %BASEDIR%\config\autoconfig.php
 
 	:: trigger installation
-	php -f index.php
+	@echo INDEX
+	call php -f index.php
+	@echo END INDEX
 
 	::test execution
-	echo "Testing with %~1 ..."
+	@echo "Testing with %~1 ..."
 	cd tests
 	rmdir /s /q coverage-html-%~1
 	md coverage-html-%~1
 	php -f enable_all.php
+
         :: no external files on windows for now
         cd ..
         php occ app:disable files_external
         cd tests
 
-	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
+	call phpunit --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1 %~2
 
-	echo "Done with testing %~1 ..."
+	@echo "Done with testing %~1 ..."
 	cd %BASEDIR%
 goto:eof
 

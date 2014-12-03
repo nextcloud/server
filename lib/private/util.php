@@ -64,6 +64,8 @@ class OC_Util {
 			return false;
 		}
 
+		\OC::$server->getEventLogger()->start('setup_fs', 'Setup filesystem');
+
 		// If we are not forced to load a specific user we load the one that is logged in
 		if ($user == "" && OC_User::isLoggedIn()) {
 			$user = OC_User::getUser();
@@ -88,6 +90,7 @@ class OC_Util {
 		}
 
 		if ($user != '' && !OCP\User::userExists($user)) {
+			\OC::$server->getEventLogger()->end('setup_fs');
 			return false;
 		}
 
@@ -115,16 +118,6 @@ class OC_Util {
 				return $storage;
 			});
 
-			// copy skeleton for local storage only
-			if (!isset($objectStore)) {
-				$userRoot = OC_User::getHome($user);
-				$userDirectory = $userRoot . '/files';
-				if (!is_dir($userDirectory)) {
-					mkdir($userDirectory, 0755, true);
-					OC_Util::copySkeleton($userDirectory);
-				}
-			}
-
 			$userDir = '/' . $user . '/files';
 
 			//jail the user into his "home" directory
@@ -133,8 +126,12 @@ class OC_Util {
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($fileOperationProxy);
 
+			//trigger creation of user home and /files folder
+			\OC::$server->getUserFolder($user);
+
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $userDir));
 		}
+		\OC::$server->getEventLogger()->end('setup_fs');
 		return true;
 	}
 
@@ -208,33 +205,44 @@ class OC_Util {
 	}
 
 	/**
-	 * copies the user skeleton files into the fresh user home files
+	 * copies the skeleton to the users /files
 	 *
-	 * @param string $userDirectory
+	 * @param \OC\User\User $user
+	 * @param \OCP\Files\Folder $userDirectory
 	 */
-	public static function copySkeleton($userDirectory) {
-		$skeletonDirectory = OC_Config::getValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+	public static function copySkeleton(\OC\User\User $user, \OCP\Files\Folder $userDirectory) {
+
+		$skeletonDirectory = \OCP\Config::getSystemValue('skeletondirectory', \OC::$SERVERROOT . '/core/skeleton');
+
 		if (!empty($skeletonDirectory)) {
-			OC_Util::copyr($skeletonDirectory, $userDirectory);
+			\OCP\Util::writeLog(
+				'files_skeleton',
+				'copying skeleton for '.$user->getUID().' from '.$skeletonDirectory.' to '.$userDirectory->getFullPath('/'),
+				\OCP\Util::DEBUG
+			);
+			self::copyr($skeletonDirectory, $userDirectory);
+			// update the file cache
+			$userDirectory->getStorage()->getScanner()->scan('', \OC\Files\Cache\Scanner::SCAN_RECURSIVE);
 		}
 	}
 
 	/**
-	 * copies a directory recursively
+	 * copies a directory recursively by using streams
 	 *
 	 * @param string $source
-	 * @param string $target
+	 * @param \OCP\Files\Folder $target
 	 * @return void
 	 */
-	public static function copyr($source, $target) {
+	public static function copyr($source, \OCP\Files\Folder $target) {
 		$dir = opendir($source);
-		@mkdir($target);
 		while (false !== ($file = readdir($dir))) {
 			if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
 				if (is_dir($source . '/' . $file)) {
-					OC_Util::copyr($source . '/' . $file, $target . '/' . $file);
+					$child = $target->newFolder($file);
+					self::copyr($source . '/' . $file, $child);
 				} else {
-					copy($source . '/' . $file, $target . '/' . $file);
+					$child = $target->newFile($file);
+					stream_copy_to_stream(fopen($source . '/' . $file,'r'), $child->fopen('w'));
 				}
 			}
 		}
@@ -323,52 +331,96 @@ class OC_Util {
 	}
 
 	/**
-	 * add a javascript file
+	 * generates a path for JS/CSS files. If no application is provided it will create the path for core.
 	 *
-	 * @param string $application
-	 * @param string|null $file filename
-	 * @return void
+	 * @param $application application to get the files from
+	 * @param $directory directory withing this application (css, js, vendor, etc)
+	 * @param $file the file inside of the above folder
+	 * @return string the path
 	 */
-	public static function addScript($application, $file = null) {
+	private static function generatePath($application, $directory, $file) {
 		if (is_null($file)) {
 			$file = $application;
 			$application = "";
 		}
 		if (!empty($application)) {
-			self::$scripts[] = "$application/js/$file";
+			return "$application/$directory/$file";
 		} else {
-			self::$scripts[] = "js/$file";
+			return "$directory/$file";
+		}
+	}
+
+	/**
+	 * add a javascript file
+	 *
+	 * @param string $application application id
+	 * @param string|null $file filename
+	 * @return void
+	 */
+	public static function addScript($application, $file = null) {
+		self::$scripts[] = OC_Util::generatePath($application, 'js', $file);
+	}
+
+	/**
+	 * add a javascript file from the vendor sub folder
+	 *
+	 * @param string $application application id
+	 * @param string|null $file filename
+	 * @return void
+	 */
+	public static function addVendorScript($application, $file = null) {
+		self::$scripts[] = OC_Util::generatePath($application, 'vendor', $file);
+	}
+
+	/**
+	 * add a translation JS file
+	 *
+	 * @param string $application application id
+	 * @param string $languageCode language code, defaults to the current language
+	 */
+	public static function addTranslations($application, $languageCode = null) {
+		if (is_null($languageCode)) {
+			$l = new \OC_L10N($application);
+			$languageCode = $l->getLanguageCode($application);
+		}
+		if (!empty($application)) {
+			self::$scripts[] = "$application/l10n/$languageCode";
+		} else {
+			self::$scripts[] = "l10n/$languageCode";
 		}
 	}
 
 	/**
 	 * add a css file
 	 *
-	 * @param string $application
+	 * @param string $application application id
 	 * @param string|null $file filename
 	 * @return void
 	 */
 	public static function addStyle($application, $file = null) {
-		if (is_null($file)) {
-			$file = $application;
-			$application = "";
-		}
-		if (!empty($application)) {
-			self::$styles[] = "$application/css/$file";
-		} else {
-			self::$styles[] = "css/$file";
-		}
+		self::$styles[] = OC_Util::generatePath($application, 'css', $file);
+	}
+
+	/**
+	 * add a css file from the vendor sub folder
+	 *
+	 * @param string $application application id
+	 * @param string|null $file filename
+	 * @return void
+	 */
+	public static function addVendorStyle($application, $file = null) {
+		self::$styles[] = OC_Util::generatePath($application, 'vendor', $file);
 	}
 
 	/**
 	 * Add a custom element to the header
-	 *
+	 * If $text is null then the element will be written as empty element.
+	 * So use "" to get a closing tag.
 	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
-	 * @return void
 	 */
-	public static function addHeader($tag, $attributes, $text = '') {
+	public static function addHeader($tag, $attributes, $text=null) {
 		self::$headers[] = array(
 			'tag' => $tag,
 			'attributes' => $attributes,
@@ -412,7 +464,7 @@ class OC_Util {
 	 * @param \OCP\IConfig $config
 	 * @return array arrays with error messages and hints
 	 */
-	public static function checkServer($config) {
+	public static function checkServer(\OCP\IConfig $config) {
 		$l = \OC::$server->getL10N('lib');
 		$errors = array();
 		$CONFIG_DATADIRECTORY = $config->getSystemValue('datadirectory', OC::$SERVERROOT . '/data');
@@ -428,12 +480,9 @@ class OC_Util {
 		}
 
 		$webServerRestart = false;
-		//check for database drivers
-		if (!(is_callable('sqlite_open') or class_exists('SQLite3'))
-			and !is_callable('mysql_connect')
-			and !is_callable('pg_connect')
-			and !is_callable('oci_connect')
-		) {
+		$setup = new OC_Setup($config);
+		$availableDatabases = $setup->getSupportedDatabases();
+		if (empty($availableDatabases)) {
 			$errors[] = array(
 				'error' => $l->t('No database drivers (sqlite, mysql, or postgresql) installed.'),
 				'hint' => '' //TODO: sane hint
@@ -513,6 +562,7 @@ class OC_Util {
 			'classes' => array(
 				'ZipArchive' => 'zip',
 				'DOMDocument' => 'dom',
+				'XMLWriter' => 'XMLWriter'
 			),
 			'functions' => array(
 				'xml_parser_create' => 'libxml',
@@ -986,7 +1036,7 @@ class OC_Util {
 	 * file in the data directory and trying to access via http
 	 */
 	public static function isHtaccessWorking() {
-		if (!OC::$server->getConfig()->getSystemValue('check_for_working_htaccess', true)) {
+		if (\OC::$CLI || !OC::$server->getConfig()->getSystemValue('check_for_working_htaccess', true)) {
 			return true;
 		}
 
@@ -1286,7 +1336,7 @@ class OC_Util {
 			return false;
 		}
 		foreach (str_split($trimmed) as $char) {
-			if (strpos(\OCP\FILENAME_INVALID_CHARS, $char) !== false) {
+			if (strpos(\OCP\Constants::FILENAME_INVALID_CHARS, $char) !== false) {
 				return false;
 			}
 		}
@@ -1301,7 +1351,7 @@ class OC_Util {
 	 * @param \OCP\IConfig $config
 	 * @return bool whether the core or any app needs an upgrade
 	 */
-	public static function needUpgrade($config) {
+	public static function needUpgrade(\OCP\IConfig $config) {
 		if ($config->getSystemValue('installed', false)) {
 			$installedVersion = $config->getSystemValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());

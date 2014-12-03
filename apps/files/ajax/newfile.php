@@ -33,7 +33,7 @@ function progress($notification_code, $severity, $message, $message_code, $bytes
 
 		case STREAM_NOTIFY_PROGRESS:
 			if ($bytes_transferred > 0) {
-				if (!isset($filesize)) {
+				if (!isset($filesize) || $filesize === 0) {
 				} else {
 					$progress = (int)(($bytes_transferred/$filesize)*100);
 					if($progress>$lastsize) { //limit the number or messages send

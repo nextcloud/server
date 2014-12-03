@@ -1,0 +1,6 @@
+{
+	"translations" : {
+		"_%n file_::_%n files_": ["%n Datei", "%n Dateien"]
+	},
+	"pluralForm" :	"nplurals=2; plural=(n != 1);"
+}

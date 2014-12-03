@@ -2,6 +2,7 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+\OC::$server->getSession()->close();
 
 $files = $_POST['files'];
 $dir = '/';

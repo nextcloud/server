@@ -22,11 +22,14 @@
 
 namespace Test\Files;
 
-class Filesystem extends \PHPUnit_Framework_TestCase {
+class Filesystem extends \Test\TestCase {
 	/**
 	 * @var array tmpDirs
 	 */
 	private $tmpDirs = array();
+
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
 
 	/**
 	 * @return array
@@ -37,17 +40,23 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 		return array('datadir' => $dir);
 	}
 
-	public function tearDown() {
+	protected function setUp() {
+		parent::setUp();
+
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
+		\OC_User::setUserId('');
+		\OC\Files\Filesystem::clearMounts();
+	}
+
+	protected function tearDown() {
 		foreach ($this->tmpDirs as $dir) {
 			\OC_Helper::rmdirr($dir);
 		}
 		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 		\OC_User::setUserId('');
-	}
 
-	public function setUp() {
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::clearMounts();
+		parent::tearDown();
 	}
 
 	public function testMount() {
@@ -68,78 +77,119 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('folder', $internalPath);
 	}
 
-	public function testNormalize() {
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath(''));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('/'));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('/', false));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('//'));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('//', false));
-		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('/path/'));
-		$this->assertEquals('/path/', \OC\Files\Filesystem::normalizePath('/path/', false));
-		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('path'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo//bar/'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo//bar/', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo////bar'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/////bar'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/.'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/./'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo/bar/./', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/./.'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/bar/././'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo/bar/././', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('/foo/./bar/'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('/foo/./bar/', false));
-		$this->assertEquals('/foo/.bar', \OC\Files\Filesystem::normalizePath('/foo/.bar/'));
-		$this->assertEquals('/foo/.bar/', \OC\Files\Filesystem::normalizePath('/foo/.bar/', false));
-		$this->assertEquals('/foo/.bar/tee', \OC\Files\Filesystem::normalizePath('/foo/.bar/tee'));
+	public function normalizePathData() {
+		return array(
+			array('/', ''),
+			array('/', '/'),
+			array('/', '//'),
+			array('/', '/', false),
+			array('/', '//', false),
 
-		// normalize does not resolve '..' (by design)
-		$this->assertEquals('/foo/..', \OC\Files\Filesystem::normalizePath('/foo/../'));
+			array('/path', '/path/'),
+			array('/path/', '/path/', false),
+			array('/path', 'path'),
 
-		if (class_exists('Patchwork\PHP\Shim\Normalizer')) {
-			$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("/foo/baru\xCC\x88"));
-		}
+			array('/foo/bar', '/foo//bar/'),
+			array('/foo/bar/', '/foo//bar/', false),
+			array('/foo/bar', '/foo////bar'),
+			array('/foo/bar', '/foo/////bar'),
+			array('/foo/bar', '/foo/bar/.'),
+			array('/foo/bar', '/foo/bar/./'),
+			array('/foo/bar/', '/foo/bar/./', false),
+			array('/foo/bar', '/foo/bar/./.'),
+			array('/foo/bar', '/foo/bar/././'),
+			array('/foo/bar/', '/foo/bar/././', false),
+			array('/foo/bar', '/foo/./bar/'),
+			array('/foo/bar/', '/foo/./bar/', false),
+			array('/foo/.bar', '/foo/.bar/'),
+			array('/foo/.bar/', '/foo/.bar/', false),
+			array('/foo/.bar/tee', '/foo/.bar/tee'),
+
+			// Windows paths
+			array('/', ''),
+			array('/', '\\'),
+			array('/', '\\', false),
+			array('/', '\\\\'),
+			array('/', '\\\\', false),
+
+			array('/path', '\\path'),
+			array('/path', '\\path', false),
+			array('/path', '\\path\\'),
+			array('/path/', '\\path\\', false),
+
+			array('/foo/bar', '\\foo\\\\bar\\'),
+			array('/foo/bar/', '\\foo\\\\bar\\', false),
+			array('/foo/bar', '\\foo\\\\\\\\bar'),
+			array('/foo/bar', '\\foo\\\\\\\\\\bar'),
+			array('/foo/bar', '\\foo\\bar\\.'),
+			array('/foo/bar', '\\foo\\bar\\.\\'),
+			array('/foo/bar/', '\\foo\\bar\\.\\', false),
+			array('/foo/bar', '\\foo\\bar\\.\\.'),
+			array('/foo/bar', '\\foo\\bar\\.\\.\\'),
+			array('/foo/bar/', '\\foo\\bar\\.\\.\\', false),
+			array('/foo/bar', '\\foo\\.\\bar\\'),
+			array('/foo/bar/', '\\foo\\.\\bar\\', false),
+			array('/foo/.bar', '\\foo\\.bar\\'),
+			array('/foo/.bar/', '\\foo\\.bar\\', false),
+			array('/foo/.bar/tee', '\\foo\\.bar\\tee'),
+
+			// Absolute windows paths NOT marked as absolute
+			array('/C:', 'C:\\'),
+			array('/C:/', 'C:\\', false),
+			array('/C:/tests', 'C:\\tests'),
+			array('/C:/tests', 'C:\\tests', false),
+			array('/C:/tests', 'C:\\tests\\'),
+			array('/C:/tests/', 'C:\\tests\\', false),
+
+			// normalize does not resolve '..' (by design)
+			array('/foo/..', '/foo/../'),
+			array('/foo/..', '\\foo\\..\\'),
+		);
 	}
 
-	public function testNormalizeWindowsPaths() {
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath(''));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\'));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\', false));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\\\'));
-		$this->assertEquals('/', \OC\Files\Filesystem::normalizePath('\\\\', false));
-		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path'));
-		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path', false));
-		$this->assertEquals('/path', \OC\Files\Filesystem::normalizePath('\\path\\'));
-		$this->assertEquals('/path/', \OC\Files\Filesystem::normalizePath('\\path\\', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\bar\\'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\\\bar\\', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\\\\\bar'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\\\\\\\\\bar'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\.'));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\.\\'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\bar\\.\\.\\', false));
-		$this->assertEquals('/foo/bar', \OC\Files\Filesystem::normalizePath('\\foo\\.\\bar\\'));
-		$this->assertEquals('/foo/bar/', \OC\Files\Filesystem::normalizePath('\\foo\\.\\bar\\', false));
-		$this->assertEquals('/foo/.bar', \OC\Files\Filesystem::normalizePath('\\foo\\.bar\\'));
-		$this->assertEquals('/foo/.bar/', \OC\Files\Filesystem::normalizePath('\\foo\\.bar\\', false));
-		$this->assertEquals('/foo/.bar/tee', \OC\Files\Filesystem::normalizePath('\\foo\\.bar\\tee'));
+	/**
+	 * @dataProvider normalizePathData
+	 */
+	public function testNormalizePath($expected, $path, $stripTrailingSlash = true) {
+		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
+	}
 
-		// normalize does not resolve '..' (by design)
-		$this->assertEquals('/foo/..', \OC\Files\Filesystem::normalizePath('\\foo\\..\\'));
+	public function normalizePathWindowsAbsolutePathData() {
+		return array(
+			array('C:/', 'C:\\'),
+			array('C:/', 'C:\\', false),
+			array('C:/tests', 'C:\\tests'),
+			array('C:/tests', 'C:\\tests', false),
+			array('C:/tests', 'C:\\tests\\'),
+			array('C:/tests/', 'C:\\tests\\', false),
+		);
+	}
 
-		if (class_exists('Patchwork\PHP\Shim\Normalizer')) {
-			$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("\\foo\\baru\xCC\x88"));
+	/**
+	 * @dataProvider normalizePathWindowsAbsolutePathData
+	 */
+	public function testNormalizePathWindowsAbsolutePath($expected, $path, $stripTrailingSlash = true) {
+		if (!\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('This test is Windows only');
 		}
+
+		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash, true));
+	}
+
+	public function testNormalizePathUTF8() {
+		if (!class_exists('Patchwork\PHP\Shim\Normalizer')) {
+			$this->markTestSkipped('UTF8 normalizer Patchwork was not found');
+		}
+
+		$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("/foo/baru\xCC\x88"));
+		$this->assertEquals("/foo/bar\xC3\xBC", \OC\Files\Filesystem::normalizePath("\\foo\\baru\xCC\x88"));
 	}
 
 	public function testHooks() {
 		if (\OC\Files\Filesystem::getView()) {
 			$user = \OC_User::getUser();
 		} else {
-			$user = uniqid();
+			$user = $this->getUniqueID();
 			\OC\Files\Filesystem::init($user, '/' . $user . '/files');
 		}
 		\OC_Hook::clear('OC_Filesystem');
@@ -167,7 +217,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testLocalMountWhenUserDoesNotExist() {
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -181,7 +231,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	 * Tests that the home storage is used for the user's mount point
 	 */
 	public function testHomeMount() {
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		\OC_User::createUser($userId, $userId);
 
@@ -201,7 +251,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	 */
 	public function testLegacyHomeMount() {
 		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		// insert storage into DB by constructing it
 		// to make initMountsPoint find its existence
@@ -231,7 +281,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	 * Test that the default cache dir is part of the user's home
 	 */
 	public function testMountDefaultCacheDir() {
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 		$oldCachePath = \OC_Config::getValue('cache_path', '');
 		// no cache path configured
 		\OC_Config::setValue('cache_path', '');
@@ -256,7 +306,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 	 * the user's home
 	 */
 	public function testMountExternalCacheDir() {
-		$userId = uniqid('user_');
+		$userId = $this->getUniqueID('user_');
 
 		$oldCachePath = \OC_Config::getValue('cache_path', '');
 		// set cache path to temp dir

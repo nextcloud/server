@@ -54,6 +54,7 @@ $entry = array(
 	'href' => OCP\Util::linkTo( 'user_ldap', 'settings.php' ),
 	'name' => 'LDAP'
 );
+OCP\Util::addTranslations('user_ldap');
 
 OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
 if(OCP\App::isEnabled('user_webdavauth')) {

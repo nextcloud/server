@@ -27,6 +27,7 @@ namespace OCP\AppFramework;
 use OC\AppFramework\Http\Request;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Http\JSONResponse;
+use OCP\AppFramework\Http\DataResponse;
 
 
 class ChildController extends Controller {
@@ -45,9 +46,15 @@ class ChildController extends Controller {
 
 		return $in;
 	}
+
+	public function customDataResponse($in) {
+		$response = new DataResponse($in, 300);
+		$response->addHeader('test', 'something');
+		return $response;
+	}
 };
 
-class ControllerTest extends \PHPUnit_Framework_TestCase {
+class ControllerTest extends \Test\TestCase {
 
 	/**
 	 * @var Controller
@@ -56,6 +63,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 	private $app;
 
 	protected function setUp(){
+		parent::setUp();
+
 		$request = new Request(
 			array(
 				'get' => array('name' => 'John Q. Public', 'nickname' => 'Joey'),
@@ -158,6 +167,21 @@ class ControllerTest extends \PHPUnit_Framework_TestCase {
 		$response = $this->controller->buildResponse(array('hi'), 'json');
 
 		$this->assertEquals(array('hi'), $response->getData());
+	}
+
+
+	public function testFormatDataResponseJSON() {
+		$expectedHeaders = array(
+			'test' => 'something',
+			'Cache-Control' => 'no-cache, must-revalidate'
+		);
+
+		$response = $this->controller->customDataResponse(array('hi'));
+		$response = $this->controller->buildResponse($response, 'json');
+
+		$this->assertEquals(array('hi'), $response->getData());
+		$this->assertEquals(300, $response->getStatus());
+		$this->assertEquals($expectedHeaders, $response->getHeaders());
 	}
 
 

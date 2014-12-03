@@ -25,11 +25,11 @@ interface OC_User_Interface {
 
 	/**
 	* Check if backend implements actions
-	* @param $actions bitwise-or'ed actions
+	* @param int $actions bitwise-or'ed actions
 	* @return boolean
 	*
 	* Returns the supported actions as int to be
-	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	* compared with \OC_User_Backend::CREATE_USER etc.
 	*/
 	public function implementsActions($actions);
 

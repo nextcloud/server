@@ -1,0 +1,27 @@
+{
+  "name": "ownCloud",
+  "version": "8.0 pre alpha",
+  "homepage": "https://www.owncloud.org",
+  "license": "AGPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "core/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "blueimp-md5": "1.0.1",
+    "handlebars": "1.3.0",
+    "jcrop": "~0.9.12",
+    "jquery": "~1.10.0",
+    "moment": "~2.8.3",
+    "select2": "3.4.8",
+    "zxcvbn": "*",
+    "snapjs": "2.0.0-rc1",
+    "strengthify": "*",
+    "underscore": "1.6.0"
+  }
+}

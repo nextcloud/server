@@ -7,8 +7,10 @@
  * See the COPYING-README file.
  */
 
-class Test_Appconfig extends PHPUnit_Framework_TestCase {
+class Test_Appconfig extends \Test\TestCase {
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*appconfig` VALUES (?, ?, ?)');
 
 		$query->execute(array('testapp', 'enabled', 'true'));
@@ -33,6 +35,8 @@ class Test_Appconfig extends PHPUnit_Framework_TestCase {
 		$query->execute(array('someapp'));
 		$query->execute(array('123456'));
 		$query->execute(array('anotherapp'));
+
+		parent::tearDownAfterClass();
 	}
 
 	public function testGetApps() {

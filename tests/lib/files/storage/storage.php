@@ -22,7 +22,7 @@
 
 namespace Test\Files\Storage;
 
-abstract class Storage extends \PHPUnit_Framework_TestCase {
+abstract class Storage extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage instance
 	 */
@@ -340,10 +340,10 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testTouchCreateFile() {
-		$this->assertFalse($this->instance->file_exists('foo'));
+		$this->assertFalse($this->instance->file_exists('touch'));
 		// returns true on success
-		$this->assertTrue($this->instance->touch('foo'));
-		$this->assertTrue($this->instance->file_exists('foo'));
+		$this->assertTrue($this->instance->touch('touch'));
+		$this->assertTrue($this->instance->file_exists('touch'));
 	}
 
 	public function testRecursiveRmdir() {

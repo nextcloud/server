@@ -1,4 +1,6 @@
 <?php
+use OCA\Files_sharing\Tests\TestCase;
+
 /**
  * ownCloud
  *
@@ -20,16 +22,27 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once __DIR__ . '/base.php';
 
-class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Cache extends TestCase {
 
 	/**
 	 * @var OC\Files\View
 	 */
 	public $user2View;
 
-	function setUp() {
+	/** @var \OC\Files\Cache\Cache */
+	protected $ownerCache;
+
+	/** @var \OC\Files\Cache\Cache */
+	protected $sharedCache;
+
+	/** @var \OC\Files\Storage\Storage */
+	protected $ownerStorage;
+
+	/** @var \OC\Files\Storage\Storage */
+	protected $sharedStorage;
+
+	protected function setUp() {
 		parent::setUp();
 
 		\OC_User::setDisplayName(self::TEST_FILES_SHARING_API_USER1, 'User One');
@@ -53,7 +66,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		$this->view->file_put_contents('container/shareddir/subdir/another too.txt', $textData);
 		$this->view->file_put_contents('container/shareddir/subdir/not a text file.xml', '<xml></xml>');
 
-		list($this->ownerStorage, $internalPath) = $this->view->resolvePath('');
+		list($this->ownerStorage,) = $this->view->resolvePath('');
 		$this->ownerCache = $this->ownerStorage->getCache();
 		$this->ownerStorage->getScanner()->scan('');
 
@@ -71,11 +84,11 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 
 		// retrieve the shared storage
 		$secondView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		list($this->sharedStorage, $internalPath) = $secondView->resolvePath('files/shareddir');
+		list($this->sharedStorage,) = $secondView->resolvePath('files/shareddir');
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->sharedCache->clear();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -335,7 +348,7 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Files\Filesystem::file_put_contents('test.txt', 'foo');
 		$info = \OC\Files\Filesystem::getFileInfo('test.txt');
-		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('file', $info->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
@@ -353,10 +366,10 @@ class Test_Files_Sharing_Cache extends Test_Files_Sharing_Base {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OC\Files\Filesystem::mkdir('foo');
 		\OC\Files\Filesystem::mkdir('foo/bar');
-		\OC\Files\Filesystem::touch('foo/bar/test.txt', 'bar');
+		\OC\Files\Filesystem::touch('foo/bar/test.txt');
 		$folderInfo = \OC\Files\Filesystem::getFileInfo('foo');
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('foo/bar/test.txt');
-		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\PERMISSION_ALL);
+		\OCP\Share::shareItem('folder', $folderInfo->getId(), \OCP\Share::SHARE_TYPE_USER, self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_ALL);
 		\OC_Util::tearDownFS();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);

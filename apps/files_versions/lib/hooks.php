@@ -16,12 +16,14 @@ class Hooks {
 
 	public static function connectHooks() {
 		// Listen to write signals
-		\OCP\Util::connectHook('OC_Filesystem', 'write', "OCA\Files_Versions\Hooks", "write_hook");
+		\OCP\Util::connectHook('OC_Filesystem', 'write', 'OCA\Files_Versions\Hooks', 'write_hook');
 		// Listen to delete and rename signals
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', "OCA\Files_Versions\Hooks", "remove_hook");
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Files_Versions\Hooks", "pre_remove_hook");
-		\OCP\Util::connectHook('OC_Filesystem', 'rename', "OCA\Files_Versions\Hooks", "rename_hook");
-		\OCP\Util::connectHook('OC_Filesystem', 'copy', "OCA\Files_Versions\Hooks", "copy_hook");
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Files_Versions\Hooks', 'remove_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Versions\Hooks', 'pre_remove_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Files_Versions\Hooks', 'rename_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', 'OCA\Files_Versions\Hooks', 'copy_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Files_Versions\Hooks', 'pre_renameOrCopy_hook');
+		\OCP\Util::connectHook('OC_Filesystem', 'copy', 'OCA\Files_Versions\Hooks', 'pre_renameOrCopy_hook');
 	}
 
 	/**
@@ -99,6 +101,37 @@ class Hooks {
 			if($oldpath<>'' && $newpath<>'') {
 				Storage::renameOrCopy($oldpath, $newpath, 'copy');
 			}
+		}
+	}
+
+	/**
+	 * Remember owner and the owner path of the source file.
+	 * If the file already exists, then it was a upload of a existing file
+	 * over the web interface and we call Storage::store() directly
+	 *
+	 * @param array $params array with oldpath and newpath
+	 *
+	 */
+	public static function pre_renameOrCopy_hook($params) {
+		if (\OCP\App::isEnabled('files_versions')) {
+
+			// if we rename a movable mount point, then the versions don't have
+			// to be renamed
+			$absOldPath = \OC\Files\Filesystem::normalizePath('/' . \OCP\User::getUser() . '/files' . $params['oldpath']);
+			$manager = \OC\Files\Filesystem::getMountManager();
+			$mount = $manager->find($absOldPath);
+			$internalPath = $mount->getInternalPath($absOldPath);
+			if ($internalPath === '' and $mount instanceof \OC\Files\Mount\MoveableMount) {
+				return;
+			}
+
+			$view = new \OC\Files\View(\OCP\User::getUser() . '/files');
+			if ($view->file_exists($params['newpath'])) {
+				Storage::store($params['newpath']);
+			} else {
+				Storage::setSourcePathAndUser($params['oldpath']);
+			}
+
 		}
 	}
 

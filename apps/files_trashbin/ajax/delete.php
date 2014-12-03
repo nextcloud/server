@@ -2,6 +2,8 @@
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+\OC::$server->getSession()->close();
+
 $folder = isset($_POST['dir']) ? $_POST['dir'] : '/';
 
 // "empty trash" command

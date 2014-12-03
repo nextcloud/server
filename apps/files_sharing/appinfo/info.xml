@@ -2,7 +2,11 @@
 <info>
 	<id>files_sharing</id>
 	<name>Share Files</name>
-	<description>File sharing between users</description>
+	<description>
+		This application enables users to share files within ownCloud. If enabled, the admin can choose which groups can share files. The applicable users can then share files and folders with other users and groups within ownCloud. In addition, if the admin enables the share link feature, an external link can be used to share files with other users outside of ownCloud. Admins can also enforce passwords, expirations dates, and enable server to server sharing via share links, as well as sharing from mobile devices.
+Turning the feature off removes shared files and folders on the server for all share recipients, and also on the sync clients and mobile apps. More information is available in the ownCloud Documentation.
+
+	</description>
 	<licence>AGPL</licence>
 	<author>Michael Gapczynski, Bjoern Schiessle</author>
 	<requiremin>4.93</requiremin>

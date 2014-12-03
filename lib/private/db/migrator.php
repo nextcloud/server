@@ -14,18 +14,27 @@ use \Doctrine\DBAL\Schema\Table;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 use \Doctrine\DBAL\Schema\Comparator;
+use OCP\Security\ISecureRandom;
 
 class Migrator {
+
 	/**
 	 * @var \Doctrine\DBAL\Connection $connection
 	 */
 	protected $connection;
 
 	/**
-	 * @param \Doctrine\DBAL\Connection $connection
+	 * @var ISecureRandom
 	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection) {
+	private $random;
+
+	/**
+	 * @param \Doctrine\DBAL\Connection $connection
+	 * @param ISecureRandom $random
+	 */
+	public function __construct(\Doctrine\DBAL\Connection $connection, ISecureRandom $random) {
 		$this->connection = $connection;
+		$this->random = $random;
 	}
 
 	/**
@@ -45,8 +54,7 @@ class Migrator {
 		$script = '';
 		$sqls = $schemaDiff->toSql($this->connection->getDatabasePlatform());
 		foreach ($sqls as $sql) {
-			$script .= $sql . ';';
-			$script .= PHP_EOL;
+			$script .= $this->convertStatementToScript($sql);
 		}
 
 		return $script;
@@ -84,7 +92,7 @@ class Migrator {
 	 * @return string
 	 */
 	protected function generateTemporaryTableName($name) {
-		return 'oc_' . $name . '_' . \OCP\Util::generateRandomBytes(13);
+		return 'oc_' . $name . '_' . $this->random->generate(13, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 	}
 
 	/**
@@ -135,7 +143,7 @@ class Migrator {
 				$indexName = $index->getName();
 			} else {
 				// avoid conflicts in index names
-				$indexName = 'oc_' . \OCP\Util::generateRandomBytes(13);
+				$indexName = 'oc_' . $this->random->generate(13, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS);
 			}
 			$newIndexes[] = new Index($indexName, $index->getColumns(), $index->isUnique(), $index->isPrimary());
 		}
@@ -200,5 +208,16 @@ class Migrator {
 	 */
 	protected function dropTable($name) {
 		$this->connection->exec('DROP TABLE ' . $this->connection->quoteIdentifier($name));
+	}
+
+	/**
+	 * @param $statement
+	 * @return string
+	 */
+	protected function convertStatementToScript($statement) {
+		$script = $statement . ';';
+		$script .= PHP_EOL;
+		$script .= PHP_EOL;
+		return $script;
 	}
 }

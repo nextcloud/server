@@ -6,19 +6,23 @@
  * See the COPYING-README file.
  */
 
-class Test_Request extends PHPUnit_Framework_TestCase {
+class Test_Request extends \Test\TestCase {
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		OC::$server->getConfig()->setSystemValue('overwritewebroot', '/domain.tld/ownCloud');
 
 		OC::$server->getConfig()->setSystemValue('trusted_proxies', array());
 		OC::$server->getConfig()->setSystemValue('forwarded_for_headers', array());
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		OC::$server->getConfig()->setSystemValue('overwritewebroot', '');
 		OC::$server->getConfig()->setSystemValue('trusted_proxies', array());
 		OC::$server->getConfig()->setSystemValue('forwarded_for_headers', array());
+
+		parent::tearDown();
 	}
 
 	public function testScriptNameOverWrite() {
@@ -240,7 +244,7 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 	}
 
 	public function trustedDomainDataProvider() {
-		$trustedHostTestList = array('host.one.test:8080', 'host.two.test:8080');
+		$trustedHostTestList = array('host.one.test', 'host.two.test', '[1fff:0:a88:85a3::ac1f]');
 		return array(
 			// empty defaults to true
 			array(null, 'host.one.test:8080', true),
@@ -249,8 +253,12 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 
 			// trust list when defined
 			array($trustedHostTestList, 'host.two.test:8080', true),
-			array($trustedHostTestList, 'host.two.test:9999', false),
+			array($trustedHostTestList, 'host.two.test:9999', true),
 			array($trustedHostTestList, 'host.three.test:8080', false),
+			array($trustedHostTestList, 'host.two.test:8080:aa:222', false),
+			array($trustedHostTestList, '[1fff:0:a88:85a3::ac1f]', true),
+			array($trustedHostTestList, '[1fff:0:a88:85a3::ac1f]:801', true),
+			array($trustedHostTestList, '[1fff:0:a88:85a3::ac1f]:801:34', false),
 
 			// trust localhost regardless of trust list
 			array($trustedHostTestList, 'localhost', true),

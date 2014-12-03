@@ -3,8 +3,10 @@
 /**
  * ownCloud
  *
- * @author Florin Peter
- * @copyright 2013 Florin Peter <owncloud@florin-peter.de>
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Florin Peter <owncloud@florin-peter.de>
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -68,8 +70,9 @@ class Helper {
 		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', 'OCA\Encryption\Hooks', 'postRenameOrCopy');
 		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Encryption\Hooks', 'postDelete');
 		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Encryption\Hooks', 'preDelete');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Encryption\Hooks', 'postUmount');
-		\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Encryption\Hooks', 'preUmount');
+		\OCP\Util::connectHook('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', 'OCA\Encryption\Hooks', 'postPasswordReset');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Encryption\Hooks', 'postUnmount');
+		\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Encryption\Hooks', 'preUnmount');
 	}
 
 	/**
@@ -89,7 +92,7 @@ class Helper {
 	 * @param string $password
 	 * @return bool
 	 */
-	public static function setupUser($util, $password) {
+	public static function setupUser(Util $util, $password) {
 		// Check files_encryption infrastructure is ready for action
 		if (!$util->ready()) {
 
@@ -102,6 +105,25 @@ class Helper {
 		}
 
 		return true;
+	}
+
+	/**
+	 * get recovery key id
+	 *
+	 * @return string|bool recovery key ID or false
+	 */
+	public static function getRecoveryKeyId() {
+		$appConfig = \OC::$server->getAppConfig();
+		$key = $appConfig->getValue('files_encryption', 'recoveryKeyId');
+
+		return ($key === null) ? false : $key;
+	}
+
+	public static function getPublicShareKeyId() {
+		$appConfig = \OC::$server->getAppConfig();
+		$key = $appConfig->getValue('files_encryption', 'publicShareKeyId');
+
+		return ($key === null) ? false : $key;
 	}
 
 	/**
@@ -123,37 +145,21 @@ class Helper {
 			$appConfig->setValue('files_encryption', 'recoveryKeyId', $recoveryKeyId);
 		}
 
-		if (!$view->is_dir('/owncloud_private_key')) {
-			$view->mkdir('/owncloud_private_key');
-		}
-
-		if (
-			(!$view->file_exists("/public-keys/" . $recoveryKeyId . ".public.key")
-			 || !$view->file_exists("/owncloud_private_key/" . $recoveryKeyId . ".private.key"))
-		) {
+		if (!Keymanager::recoveryKeyExists($view)) {
 
 			$keypair = \OCA\Encryption\Crypt::createKeypair();
 
-			\OC_FileProxy::$enabled = false;
-
 			// Save public key
-
-			if (!$view->is_dir('/public-keys')) {
-				$view->mkdir('/public-keys');
-			}
-
-			$view->file_put_contents('/public-keys/' . $recoveryKeyId . '.public.key', $keypair['publicKey']);
+			Keymanager::setPublicKey($keypair['publicKey'], $recoveryKeyId);
 
 			$cipher = \OCA\Encryption\Helper::getCipher();
 			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword, $cipher);
 			if ($encryptedKey) {
-				Keymanager::setPrivateSystemKey($encryptedKey, $recoveryKeyId . '.private.key');
+				Keymanager::setPrivateSystemKey($encryptedKey, $recoveryKeyId);
 				// Set recoveryAdmin as enabled
 				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
 				$return = true;
 			}
-
-			\OC_FileProxy::$enabled = true;
 
 		} else { // get recovery key and check the password
 			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
@@ -333,7 +339,7 @@ class Helper {
 	 * @param string $path
 	 * @param \OC\Files\View $view
 	 */
-	public static function mkdirr($path, $view) {
+	public static function mkdirr($path, \OC\Files\View $view) {
 		$dirname = \OC\Files\Filesystem::normalizePath(dirname($path));
 		$dirParts = explode('/', $dirname);
 		$dir = "";
@@ -348,8 +354,10 @@ class Helper {
 	/**
 	 * redirect to a error page
 	 * @param Session $session
+	 * @param int|null $errorCode
+	 * @throws \Exception
 	 */
-	public static function redirectToErrorPage($session, $errorCode = null) {
+	public static function redirectToErrorPage(Session $session, $errorCode = null) {
 
 		if ($errorCode === null) {
 			$init = $session->getInitialized();
@@ -427,47 +435,6 @@ class Helper {
 		$config = array('private_key_bits' => 4096);
 		$config = array_merge(\OCP\Config::getSystemValue('openssl', array()), $config);
 		return $config;
-	}
-
-	/**
-	 * find all share keys for a given file
-	 *
-	 * @param string $filePath path to the file name relative to the user's files dir
-	 * for example "subdir/filename.txt"
-	 * @param string $shareKeyPath share key prefix path relative to the user's data dir
-	 * for example "user1/files_encryption/share-keys/subdir/filename.txt"
-	 * @param \OC\Files\View $rootView root view, relative to data/
-	 * @return array list of share key files, path relative to data/$user
-	 */
-	public static function findShareKeys($filePath, $shareKeyPath, $rootView) {
-		$result = array();
-
-		$user = \OCP\User::getUser();
-		$util = new Util($rootView, $user);
-		// get current sharing state
-		$sharingEnabled = \OCP\Share::isEnabled();
-
-		// get users sharing this file
-		$usersSharing = $util->getSharingUsersArray($sharingEnabled, $filePath);
-
-		$pathinfo = pathinfo($shareKeyPath);
-
-		$baseDir = $pathinfo['dirname'] . '/';
-		$fileName = $pathinfo['basename'];
-		foreach ($usersSharing as $user) {
-			$keyName = $fileName . '.' . $user . '.shareKey';
-			if ($rootView->file_exists($baseDir . $keyName)) {
-				$result[] = $baseDir . $keyName;
-			} else {
-				\OC_Log::write(
-					'Encryption library',
-					'No share key found for user "' . $user . '" for file "' . $pathOld . '"',
-					\OC_Log::WARN
-				);
-			}
-		}
-
-		return $result;
 	}
 
 	/**

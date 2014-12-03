@@ -71,8 +71,7 @@ try {
 	// Handle unexpected errors
 	register_shutdown_function('handleUnexpectedShutdown');
 
-	// Delete temp folder
-	OC_Helper::cleanTmpNoClean();
+	\OC::$server->getTempManager()->cleanOld();
 
 	// Exit if background jobs are disabled!
 	$appmode = OC_BackgroundJob::getExecutionType();
@@ -132,9 +131,9 @@ try {
 
 	// done!
 	TemporaryCronClass::$sent = true;
-	// Log the successfull cron exec
-	if (OC_Config::getValue('cron_log', true)) {
-		OC_Appconfig::setValue('core', 'lastcron', time());
+	// Log the successful cron execution
+	if (\OC::$server->getConfig()->getSystemValue('cron_log', true)) {
+		\OC::$server->getAppConfig()->setValue('core', 'lastcron', time());
 	}
 	exit();
 

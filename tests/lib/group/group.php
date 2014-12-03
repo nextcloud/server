@@ -11,7 +11,7 @@ namespace Test\Group;
 
 use OC\User\User;
 
-class Group extends \PHPUnit_Framework_TestCase {
+class Group extends \Test\TestCase {
 	/**
 	 * @return \OC\User\Manager | \OC\User\Manager
 	 */

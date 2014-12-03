@@ -12,7 +12,7 @@ use OC\Files\Filesystem;
 use OC\Files\Storage\Temporary;
 use OC\Files\View;
 
-class ChangePropagator extends \PHPUnit_Framework_TestCase {
+class ChangePropagator extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Cache\ChangePropagator
 	 */
@@ -23,9 +23,11 @@ class ChangePropagator extends \PHPUnit_Framework_TestCase {
 	 */
 	private $view;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$storage = new Temporary(array());
-		$root = '/' . uniqid();
+		$root = $this->getUniqueID('/');
 		Filesystem::mount($storage, array(), $root);
 		$this->view = new View($root);
 		$this->propagator = new \OC\Files\Cache\ChangePropagator($this->view);

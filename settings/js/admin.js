@@ -3,13 +3,14 @@ $(document).ready(function(){
 
 	// Hack to add a trusted domain
 	if (params.trustDomain) {
-		OC.dialogs.confirm(t('core', 'Are you really sure you want add "{domain}" as trusted domain?', {domain: params.trustDomain}),
+		OC.dialogs.confirm(t('core', 'Are you really sure you want add "{domain}" as trusted domain?',
+				{domain: params.trustDomain}),
 			t('core', 'Add trusted domain'), function(answer) {
 				if(answer) {
 					$.ajax({
 						type: 'POST',
-						url: OC.generateUrl('settings/ajax/setsecurity.php'),
-						data: { trustedDomain: params.trustDomain }
+						url: OC.generateUrl('settings/admin/security/trustedDomains'),
+						data: { newTrustedDomain: params.trustDomain }
 					}).done(function() {
 						window.location.replace(OC.generateUrl('settings/admin'));
 					});
@@ -52,14 +53,13 @@ $(document).ready(function(){
 	});
 
 	$('#shareAPI input:not(#excludedGroups)').change(function() {
+		var value = $(this).val();
 		if ($(this).attr('type') === 'checkbox') {
 			if (this.checked) {
-				var value = 'yes';
+				value = 'yes';
 			} else {
-				var value = 'no';
+				value = 'no';
 			}
-		} else {
-			var value = $(this).val();
 		}
 		OC.AppConfig.setValue('core', $(this).attr('name'), value);
 	});
@@ -73,9 +73,31 @@ $(document).ready(function(){
 		$('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked));
 	});
 
-	$('#security').change(function(){
-		$.post(OC.filePath('settings','ajax','setsecurity.php'), { enforceHTTPS: $('#forcessl').val() },function(){} );
+	$('#forcessl').change(function(){
+		$(this).val(($(this).val() !== 'true'));
+		var forceSSLForSubdomain = $('#forceSSLforSubdomainsSpan');
+
+		$.post(OC.generateUrl('settings/admin/security/ssl'), {
+			enforceHTTPS: $(this).val()
+		},function(){} );
+
+		if($(this).val() === 'true') {
+			forceSSLForSubdomain.prop('disabled', false);
+			forceSSLForSubdomain.removeClass('hidden');
+		} else {
+			forceSSLForSubdomain.prop('disabled', true);
+			forceSSLForSubdomain.addClass('hidden');
+		}
 	});
+
+	$('#forceSSLforSubdomains').change(function(){
+		$(this).val(($(this).val() !== 'true'));
+
+		$.post(OC.generateUrl('settings/admin/security/ssl/subdomains'), {
+			forceSSLforSubdomains: $(this).val()
+		},function(){} );
+	});
+
 
 	$('#mail_smtpauth').change(function() {
 		if (!this.checked) {
@@ -103,10 +125,18 @@ $(document).ready(function(){
 		}
 	});
 
-	$('#mail_settings').change(function(){
+	$('#mail_general_settings').change(function(){
 		OC.msg.startSaving('#mail_settings_msg');
-		var post = $( "#mail_settings" ).serialize();
+		var post = $( "#mail_general_settings" ).serialize();
 		$.post(OC.generateUrl('/settings/admin/mailsettings'), post, function(data){
+			OC.msg.finishedSaving('#mail_settings_msg', data);
+		});
+	});
+
+	$('#mail_credentials_settings_submit').click(function(){
+		OC.msg.startSaving('#mail_settings_msg');
+		var post = $( "#mail_credentials_settings" ).serialize();
+		$.post(OC.generateUrl('/settings/admin/mailsettings/credentials'), post, function(data){
 			OC.msg.finishedSaving('#mail_settings_msg', data);
 		});
 	});

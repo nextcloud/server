@@ -1,5 +1,7 @@
 <?php
 
+\OC::$server->getSession()->close();
+
 // Firefox and Konqueror tries to download application/json for me.  --Arthur
 OCP\JSON::setContentTypeHeader('text/plain');
 
@@ -7,7 +9,7 @@ OCP\JSON::setContentTypeHeader('text/plain');
 // If not, check the login.
 // If no token is sent along, rely on login only
 
-$allowedPermissions = OCP\PERMISSION_ALL;
+$allowedPermissions = \OCP\Constants::PERMISSION_ALL;
 $errorCode = null;
 
 $l = \OC::$server->getL10N('files');
@@ -27,7 +29,7 @@ if (empty($_POST['dirToken'])) {
 	\OC_User::setIncognitoMode(true);
 
 	// return only read permissions for public upload
-	$allowedPermissions = OCP\PERMISSION_READ;
+	$allowedPermissions = \OCP\Constants::PERMISSION_READ;
 	$publicDirectory = !empty($_POST['subdir']) ? $_POST['subdir'] : '/';
 
 	$linkItem = OCP\Share::getShareByToken($_POST['dirToken']);
@@ -36,7 +38,7 @@ if (empty($_POST['dirToken'])) {
 		die();
 	}
 
-	if (!($linkItem['permissions'] & OCP\PERMISSION_CREATE)) {
+	if (!($linkItem['permissions'] & \OCP\Constants::PERMISSION_CREATE)) {
 		OCP\JSON::checkLoggedIn();
 	} else {
 		// resolve reshares
@@ -64,13 +66,7 @@ if (empty($_POST['dirToken'])) {
 	}
 }
 
-
 OCP\JSON::callCheck();
-if (!\OCP\App::isEnabled('files_encryption')) {
-	// encryption app need to create keys later, so can't close too early
-	\OC::$server->getSession()->close();
-}
-
 
 // get array with current storage stats (e.g. max file size)
 $storageStats = \OCA\Files\Helper::buildFileStorageStatistics($dir);

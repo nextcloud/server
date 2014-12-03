@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Util extends PHPUnit_Framework_TestCase {
+class Test_Util extends \Test\TestCase {
 	public function testGetVersion() {
 		$version = \OC_Util::getVersion();
 		$this->assertTrue(is_array($version));
@@ -29,7 +29,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		date_default_timezone_set("UTC");
 
 		$result = OC_Util::formatDate(1350129205);
-		$expected = 'October 13, 2012 11:53';
+		$expected = 'October 13, 2012 at 11:53:25 AM GMT+0';
 		$this->assertEquals($expected, $result);
 
 		$result = OC_Util::formatDate(1102831200, true);
@@ -41,7 +41,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		date_default_timezone_set("UTC");
 
 		$result = OC_Util::formatDate(1350129205, false, 'Europe/Berlin');
-		$expected = 'October 13, 2012 13:53';
+		$expected = 'October 13, 2012 at 1:53:25 PM GMT+0';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -57,7 +57,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 
 		\OC::$server->getSession()->set('timezone', 3);
 		$result = OC_Util::formatDate(1350129205, false);
-		$expected = 'October 13, 2012 14:53';
+		$expected = 'October 13, 2012 at 2:53:25 PM GMT+0';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -150,7 +150,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 	 * Tests that the home storage is not wrapped when no quota exists.
 	 */
 	function testHomeStorageWrapperWithoutQuota() {
-		$user1 = uniqid();
+		$user1 = $this->getUniqueID();
 		\OC_User::createUser($user1, 'test');
 		OC_Preferences::setValue($user1, 'files', 'quota', 'none');
 		\OC_User::setUserId($user1);
@@ -172,7 +172,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 	 * Tests that the home storage is not wrapped when no quota exists.
 	 */
 	function testHomeStorageWrapperWithQuota() {
-		$user1 = uniqid();
+		$user1 = $this->getUniqueID();
 		\OC_User::createUser($user1, 'test');
 		OC_Preferences::setValue($user1, 'files', 'quota', '1024');
 		\OC_User::setUserId($user1);
@@ -331,7 +331,7 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 
 		Dummy_OC_App::setEnabledApps($enabledApps);
 		// need to set a user id to make sure enabled apps are read from cache
-		\OC_User::setUserId(uniqid());
+		\OC_User::setUserId($this->getUniqueID());
 		\OCP\Config::setSystemValue('defaultapp', $defaultAppConfig);
 		$this->assertEquals('http://localhost/' . $expectedPath, \OC_Util::getDefaultPageUrl());
 

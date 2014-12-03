@@ -19,15 +19,10 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_Contacts extends PHPUnit_Framework_TestCase
-{
-
-	public function setUp() {
-
+class Test_Contacts extends \Test\TestCase {
+	protected function setUp() {
+		parent::setUp();
 		OCP\Contacts::clear();
-	}
-
-	public function tearDown() {
 	}
 
 	public function testDisabledIfEmpty() {

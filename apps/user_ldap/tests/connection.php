@@ -22,7 +22,7 @@
 
 namespace OCA\user_ldap\tests;
 
-class Test_Connection extends \PHPUnit_Framework_TestCase {
+class Test_Connection extends \Test\TestCase {
 
 	public function testOriginalAgentUnchangedOnClone() {
 		//background: upon login a bind is done with the user credentials

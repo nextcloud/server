@@ -20,22 +20,13 @@
  *
  */
 
-require_once __DIR__ . '/../../../lib/base.php';
-require_once __DIR__ . '/../lib/crypt.php';
-require_once __DIR__ . '/../lib/keymanager.php';
-require_once __DIR__ . '/../lib/proxy.php';
-require_once __DIR__ . '/../lib/stream.php';
-require_once __DIR__ . '/../lib/util.php';
-require_once __DIR__ . '/../appinfo/app.php';
-require_once __DIR__ . '/util.php';
-
 use OCA\Encryption;
 
 /**
  * Class Test_Encryption_Proxy
  * this class provide basic proxy app tests
  */
-class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Proxy extends \OCA\Files_Encryption\Tests\TestCase {
 
 	const TEST_ENCRYPTION_PROXY_USER1 = "test-proxy-user1";
 
@@ -51,25 +42,15 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 	public $filename;
 
 	public static function setUpBeforeClass() {
-		// reset backend
-		\OC_User::clearBackends();
-		\OC_User::useBackend('database');
-
-		\OC_Hook::clear('OC_Filesystem');
-		\OC_Hook::clear('OC_User');
-
-		// Filesystem related hooks
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-
-		// clear and register hooks
-		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new OCA\Encryption\Proxy());
+		parent::setUpBeforeClass();
 
 		// create test user
-		\Test_Encryption_Util::loginHelper(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1, true);
+		self::loginHelper(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1, true);
 	}
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		// set user id
 		\OC_User::setUserId(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1);
 		$this->userId = \Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1;
@@ -82,13 +63,15 @@ class Test_Encryption_Proxy extends \PHPUnit_Framework_TestCase {
 		// init short data
 		$this->data = 'hats';
 		$this->dataLong = file_get_contents(__DIR__ . '/../lib/crypt.php');
-		$this->filename = 'enc_proxy_tests-' . uniqid() . '.txt';
+		$this->filename = 'enc_proxy_tests-' . $this->getUniqueID() . '.txt';
 
 	}
 
 	public static function tearDownAfterClass() {
 		// cleanup test user
 		\OC_User::deleteUser(\Test_Encryption_Proxy::TEST_ENCRYPTION_PROXY_USER1);
+
+		parent::tearDownAfterClass();
 	}
 
 	/**

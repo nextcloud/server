@@ -6,7 +6,22 @@
  * See the COPYING-README file.
  */
 
-/** @var $this OCP\Route\IRouter */
+namespace OC\Settings;
+
+$application = new Application();
+$application->registerRoutes($this, array('routes' =>array(
+	array('name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST'),
+	array('name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST'),
+	array('name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST'),
+	array('name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'),
+	array('name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'),
+	array('name' => 'SecuritySettings#enforceSSL', 'url' => '/settings/admin/security/ssl', 'verb' => 'POST'),
+	array('name' => 'SecuritySettings#enforceSSLForSubdomains', 'url' => '/settings/admin/security/ssl/subdomains', 'verb' => 'POST'),
+	array('name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'),
+
+)));
+
+/** @var $this \OCP\Route\IRouter */
 
 // Settings pages
 $this->create('settings_help', '/settings/help')
@@ -69,8 +84,6 @@ $this->create('settings_cert_post', '/settings/ajax/addRootCertificate')
 $this->create('settings_cert_remove', '/settings/ajax/removeRootCertificate')
 	->actionInclude('settings/ajax/removeRootCertificate.php');
 // apps
-$this->create('settings_ajax_apps_ocs', '/settings/ajax/apps/ocs.php')
-	->actionInclude('settings/ajax/apps/ocs.php');
 $this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
 	->actionInclude('settings/ajax/enableapp.php');
 $this->create('settings_ajax_disableapp', '/settings/ajax/disableapp.php')
@@ -81,21 +94,11 @@ $this->create('settings_ajax_uninstallapp', '/settings/ajax/uninstallapp.php')
 	->actionInclude('settings/ajax/uninstallapp.php');
 $this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect.php')
 	->actionInclude('settings/ajax/navigationdetect.php');
-$this->create('apps_custom', '/settings/js/apps-custom.js')
-	->actionInclude('settings/js/apps-custom.php');
 // admin
 $this->create('settings_ajax_getlog', '/settings/ajax/getlog.php')
 	->actionInclude('settings/ajax/getlog.php');
 $this->create('settings_ajax_setloglevel', '/settings/ajax/setloglevel.php')
 	->actionInclude('settings/ajax/setloglevel.php');
-$this->create('settings_mail_settings', '/settings/admin/mailsettings')
-	->post()
-	->action('OC\Settings\Admin\Controller', 'setMailSettings');
-$this->create('settings_admin_mail_test', '/settings/admin/mailtest')
-	->post()
-	->action('OC\Settings\Admin\Controller', 'sendTestMail');
-$this->create('settings_ajax_setsecurity', '/settings/ajax/setsecurity.php')
-	->actionInclude('settings/ajax/setsecurity.php');
 $this->create('settings_ajax_excludegroups', '/settings/ajax/excludegroups.php')
 	->actionInclude('settings/ajax/excludegroups.php');
 $this->create('settings_ajax_checksetup', '/settings/ajax/checksetup')

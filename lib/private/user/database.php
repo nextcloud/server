@@ -33,27 +33,11 @@
  *
  */
 
-require_once 'phpass/PasswordHash.php';
-
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
 class OC_User_Database extends OC_User_Backend {
-	/**
-	 * @var PasswordHash
-	 */
-	private static $hasher = null;
-
 	private $cache = array();
-
-	private function getHasher() {
-		if (!self::$hasher) {
-			//we don't want to use DES based crypt(), since it doesn't return a hash with a recognisable prefix
-			$forcePortable = (CRYPT_BLOWFISH != 1);
-			self::$hasher = new PasswordHash(8, $forcePortable);
-		}
-		return self::$hasher;
-	}
 
 	/**
 	 * Create a new user
@@ -66,10 +50,8 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function createUser($uid, $password) {
 		if (!$this->userExists($uid)) {
-			$hasher = $this->getHasher();
-			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )');
-			$result = $query->execute(array($uid, $hash));
+			$result = $query->execute(array($uid, \OC::$server->getHasher()->hash($password)));
 
 			return $result ? true : false;
 		}
@@ -106,10 +88,8 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function setPassword($uid, $password) {
 		if ($this->userExists($uid)) {
-			$hasher = $this->getHasher();
-			$hash = $hasher->HashPassword($password . OC_Config::getValue('passwordsalt', ''));
 			$query = OC_DB::prepare('UPDATE `*PREFIX*users` SET `password` = ? WHERE `uid` = ?');
-			$result = $query->execute(array($hash, $uid));
+			$result = $query->execute(array(\OC::$server->getHasher()->hash($password), $uid));
 
 			return $result ? true : false;
 		}
@@ -159,7 +139,6 @@ class OC_User_Database extends OC_User_Backend {
 			. ' WHERE LOWER(`displayname`) LIKE LOWER(?) OR '
 			. 'LOWER(`uid`) LIKE LOWER(?) ORDER BY `uid` ASC', $limit, $offset);
 		$result = $query->execute(array('%' . $search . '%', '%' . $search . '%'));
-		$users = array();
 		while ($row = $result->fetchRow()) {
 			$displayNames[$row['uid']] = $row['displayname'];
 		}
@@ -183,18 +162,14 @@ class OC_User_Database extends OC_User_Backend {
 		$row = $result->fetchRow();
 		if ($row) {
 			$storedHash = $row['password'];
-			if ($storedHash[0] === '$') { //the new phpass based hashing
-				$hasher = $this->getHasher();
-				if ($hasher->CheckPassword($password . OC_Config::getValue('passwordsalt', ''), $storedHash)) {
-					return $row['uid'];
+			$newHash = '';
+			if(\OC::$server->getHasher()->verify($password, $storedHash, $newHash)) {
+				if(!empty($newHash)) {
+					$this->setPassword($uid, $password);
 				}
-
-			//old sha1 based hashing
-			} elseif (sha1($password) === $storedHash) {
-				//upgrade to new hashing
-				$this->setPassword($row['uid'], $password);
 				return $row['uid'];
 			}
+
 		}
 
 		return false;

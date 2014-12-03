@@ -20,14 +20,12 @@
  *
  */
 
-require_once __DIR__ . '/base.php';
-
 /**
  * Class Test_Files_Sharing_Api
  */
-class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		$this->folder = '/folder_share_storage_test';
@@ -42,7 +40,7 @@ class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
 		$this->view->file_put_contents($this->folder . $this->filename, "file in subfolder");
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->view->unlink($this->folder);
 		$this->view->unlink($this->filename);
 
@@ -228,6 +226,10 @@ class Test_Files_Sharing_Mount extends Test_Files_Sharing_Base {
 }
 
 class DummyTestClassSharedMount extends \OCA\Files_Sharing\SharedMount {
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null){
+		// noop
+	}
+
 	public function stripUserFilesPathDummy($path) {
 		return $this->stripUserFilesPath($path);
 	}

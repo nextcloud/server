@@ -12,8 +12,10 @@ class SMB extends Storage {
 
 	private $config;
 
-	public function setUp() {
-		$id = uniqid();
+	protected function setUp() {
+		parent::setUp();
+
+		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.php');
 		if (!is_array($this->config) or !isset($this->config['smb']) or !$this->config['smb']['run']) {
 			$this->markTestSkipped('Samba backend not configured');
@@ -23,10 +25,12 @@ class SMB extends Storage {
 		$this->instance->mkdir('/');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->instance) {
 			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
+
+		parent::tearDown();
 	}
 
 	public function directoryProvider() {

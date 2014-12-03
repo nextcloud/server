@@ -25,19 +25,28 @@
 
 /**
  * error code for functions not provided by the user backend
+ * @deprecated Use \OC_User_Backend::NOT_IMPLEMENTED instead
  */
 define('OC_USER_BACKEND_NOT_IMPLEMENTED',   -501);
 
 /**
  * actions that user backends can define
  */
+/** @deprecated Use \OC_User_Backend::CREATE_USER instead */
 define('OC_USER_BACKEND_CREATE_USER',       1 << 0);
+/** @deprecated Use \OC_User_Backend::SET_PASSWORD instead */
 define('OC_USER_BACKEND_SET_PASSWORD',      1 << 4);
+/** @deprecated Use \OC_User_Backend::CHECK_PASSWORD instead */
 define('OC_USER_BACKEND_CHECK_PASSWORD',    1 << 8);
+/** @deprecated Use \OC_User_Backend::GET_HOME instead */
 define('OC_USER_BACKEND_GET_HOME',          1 << 12);
+/** @deprecated Use \OC_User_Backend::GET_DISPLAYNAME instead */
 define('OC_USER_BACKEND_GET_DISPLAYNAME',   1 << 16);
+/** @deprecated Use \OC_User_Backend::SET_DISPLAYNAME instead */
 define('OC_USER_BACKEND_SET_DISPLAYNAME',   1 << 20);
+/** @deprecated Use \OC_User_Backend::PROVIDE_AVATAR instead */
 define('OC_USER_BACKEND_PROVIDE_AVATAR',    1 << 24);
+/** @deprecated Use \OC_User_Backend::COUNT_USERS instead */
 define('OC_USER_BACKEND_COUNT_USERS',       1 << 28);
 
 /**
@@ -47,16 +56,32 @@ define('OC_USER_BACKEND_COUNT_USERS',       1 << 28);
  * Subclass this for your own backends, and see OC_User_Example for descriptions
  */
 abstract class OC_User_Backend implements OC_User_Interface {
+	/**
+	 * error code for functions not provided by the user backend
+	 */
+	const NOT_IMPLEMENTED = -501;
+
+	/**
+	 * actions that user backends can define
+	 */
+	const CREATE_USER		= 1;			// 1 << 0
+	const SET_PASSWORD		= 16;			// 1 << 4
+	const CHECK_PASSWORD	= 256;			// 1 << 8
+	const GET_HOME			= 4096;			// 1 << 12
+	const GET_DISPLAYNAME	= 65536;		// 1 << 16
+	const SET_DISPLAYNAME	= 1048576;		// 1 << 20
+	const PROVIDE_AVATAR	= 16777216;		// 1 << 24
+	const COUNT_USERS		= 268435456;	// 1 << 28
 
 	protected $possibleActions = array(
-		OC_USER_BACKEND_CREATE_USER => 'createUser',
-		OC_USER_BACKEND_SET_PASSWORD => 'setPassword',
-		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
-		OC_USER_BACKEND_GET_HOME => 'getHome',
-		OC_USER_BACKEND_GET_DISPLAYNAME => 'getDisplayName',
-		OC_USER_BACKEND_SET_DISPLAYNAME => 'setDisplayName',
-		OC_USER_BACKEND_PROVIDE_AVATAR => 'canChangeAvatar',
-		OC_USER_BACKEND_COUNT_USERS => 'countUsers',
+		self::CREATE_USER => 'createUser',
+		self::SET_PASSWORD => 'setPassword',
+		self::CHECK_PASSWORD => 'checkPassword',
+		self::GET_HOME => 'getHome',
+		self::GET_DISPLAYNAME => 'getDisplayName',
+		self::SET_DISPLAYNAME => 'setDisplayName',
+		self::PROVIDE_AVATAR => 'canChangeAvatar',
+		self::COUNT_USERS => 'countUsers',
 	);
 
 	/**
@@ -64,7 +89,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	* @return int bitwise-or'ed actions
 	*
 	* Returns the supported actions as int to be
-	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	* compared with self::CREATE_USER etc.
 	*/
 	public function getSupportedActions() {
 		$actions = 0;
@@ -83,7 +108,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	* @return boolean
 	*
 	* Returns the supported actions as int to be
-	* compared with OC_USER_BACKEND_CREATE_USER etc.
+	* compared with self::CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
 		return (bool)($this->getSupportedActions() & $actions);

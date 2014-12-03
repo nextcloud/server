@@ -122,7 +122,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return int
 	 */
 	public function getSize() {
-		return $this->data['size'];
+		return isset($this->data['size']) ? $this->data['size'] : 0;
 	}
 
 	/**
@@ -173,14 +173,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isReadable() {
-		return $this->checkPermissions(\OCP\PERMISSION_READ);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_READ);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isUpdateable() {
-		return $this->checkPermissions(\OCP\PERMISSION_UPDATE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_UPDATE);
 	}
 
 	/**
@@ -189,21 +189,21 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	 * @return bool
 	 */
 	public function isCreatable() {
-		return $this->checkPermissions(\OCP\PERMISSION_CREATE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_CREATE);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isDeletable() {
-		return $this->checkPermissions(\OCP\PERMISSION_DELETE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_DELETE);
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function isShareable() {
-		return $this->checkPermissions(\OCP\PERMISSION_SHARE);
+		return $this->checkPermissions(\OCP\Constants::PERMISSION_SHARE);
 	}
 
 	/**

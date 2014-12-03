@@ -29,7 +29,7 @@ use OCP\AppFramework\Http\Response;
 use OCP\AppFramework\Http;
 
 
-class ResponseTest extends \PHPUnit_Framework_TestCase {
+class ResponseTest extends \Test\TestCase {
 
 	/**
 	 * @var \OCP\AppFramework\Http\Response
@@ -37,6 +37,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 	private $childResponse;
 
 	protected function setUp(){
+		parent::setUp();
 		$this->childResponse = new Response();
 	}
 
@@ -48,16 +49,116 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 	}
 
 
+	function testSetHeaders(){
+		$expected = array(
+			'Last-Modified' => 1,
+			'ETag' => 3,
+			'Something-Else' => 'hi'
+		);
+
+		$this->childResponse->setHeaders($expected);
+		$headers = $this->childResponse->getHeaders();
+
+		$this->assertEquals($expected, $headers);
+	}
+
+
 	public function testAddHeaderValueNullDeletesIt(){
 		$this->childResponse->addHeader('hello', 'world');
 		$this->childResponse->addHeader('hello', null);
-		$this->assertEquals(1, count($this->childResponse->getHeaders()));	
+		$this->assertEquals(1, count($this->childResponse->getHeaders()));
 	}
 
 
 	public function testCacheHeadersAreDisabledByDefault(){
 		$headers = $this->childResponse->getHeaders();
 		$this->assertEquals('no-cache, must-revalidate', $headers['Cache-Control']);
+	}
+
+
+	public function testAddCookie() {
+		$this->childResponse->addCookie('foo', 'bar');
+		$this->childResponse->addCookie('bar', 'foo', new \DateTime('1970-01-01'));
+
+		$expectedResponse = array(
+			'foo' => array(
+				'value' => 'bar',
+				'expireDate' => null,
+			),
+			'bar' => array(
+				'value' => 'foo',
+				'expireDate' => new \DateTime('1970-01-01')
+			)
+		);
+		$this->assertEquals($expectedResponse, $this->childResponse->getCookies());
+	}
+
+
+	function testSetCookies() {
+		$expected = array(
+			'foo' => array(
+				'value' => 'bar',
+				'expireDate' => null,
+			),
+			'bar' => array(
+				'value' => 'foo',
+				'expireDate' => new \DateTime('1970-01-01')
+			)
+		);
+
+		$this->childResponse->setCookies($expected);
+		$cookies = $this->childResponse->getCookies();
+
+		$this->assertEquals($expected, $cookies);
+	}
+
+
+	function testInvalidateCookie() {
+		$this->childResponse->addCookie('foo', 'bar');
+		$this->childResponse->invalidateCookie('foo');
+		$expected = array(
+			'foo' => array(
+				'value' => 'expired',
+				'expireDate' => new \DateTime('1971-01-01')
+			)
+		);
+
+		$cookies = $this->childResponse->getCookies();
+
+		$this->assertEquals($expected, $cookies);
+	}
+
+
+	function testInvalidateCookies() {
+		$this->childResponse->addCookie('foo', 'bar');
+		$this->childResponse->addCookie('bar', 'foo');
+		$expected = array(
+			'foo' => array(
+				'value' => 'bar',
+				'expireDate' => null
+			),
+			'bar' => array(
+				'value' => 'foo',
+				'expireDate' => null
+			)
+		);
+		$cookies = $this->childResponse->getCookies();
+		$this->assertEquals($expected, $cookies);
+
+		$this->childResponse->invalidateCookies(array('foo', 'bar'));
+		$expected = array(
+			'foo' => array(
+				'value' => 'expired',
+				'expireDate' => new \DateTime('1971-01-01')
+			),
+			'bar' => array(
+				'value' => 'expired',
+				'expireDate' => new \DateTime('1971-01-01')
+			)
+		);
+
+		$cookies = $this->childResponse->getCookies();
+		$this->assertEquals($expected, $cookies);
 	}
 
 
@@ -93,18 +194,18 @@ class ResponseTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCacheSecondsZero() {
 		$this->childResponse->cacheFor(0);
-		
+
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('no-cache, must-revalidate', $headers['Cache-Control']);	
+		$this->assertEquals('no-cache, must-revalidate', $headers['Cache-Control']);
 	}
 
 
 	public function testCacheSeconds() {
 		$this->childResponse->cacheFor(33);
-		
+
 		$headers = $this->childResponse->getHeaders();
-		$this->assertEquals('max-age=33, must-revalidate', 
-			$headers['Cache-Control']);	
+		$this->assertEquals('max-age=33, must-revalidate',
+			$headers['Cache-Control']);
 	}
 
 

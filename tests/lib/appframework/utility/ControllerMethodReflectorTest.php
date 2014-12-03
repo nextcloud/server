@@ -25,7 +25,7 @@
 namespace OC\AppFramework\Utility;
 
 
-class ControllerMethodReflectorTest extends \PHPUnit_Framework_TestCase {
+class ControllerMethodReflectorTest extends \Test\TestCase {
 
 
 	/**

@@ -49,6 +49,11 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			$path = $this->path;
 			$this->path = null;
 			return $path;
+		} else {
+			$path = \OC\Files\Filesystem::getPath($itemSource);
+			if ($path) {
+				return $path;
+			}
 		}
 		return false;
 	}

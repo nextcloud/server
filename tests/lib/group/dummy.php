@@ -21,7 +21,8 @@
 */
 
 class Test_Group_Dummy extends Test_Group_Backend {
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->backend=new OC_Group_Dummy();
 	}
 }

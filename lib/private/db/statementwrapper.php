@@ -64,7 +64,7 @@ class OC_DB_StatementWrapper {
 		} else {
 			$result = $this->statement->execute();
 		}
-		
+
 		if ($result === false) {
 			return false;
 		}
@@ -89,9 +89,10 @@ class OC_DB_StatementWrapper {
 			$cArg = 0;
 
 			$inSubstring = false;
+			$queryLength = strlen($query);
 
 			// Create new query
-			for ($i = 0; $i < strlen ($query); $i++) {
+			for ($i = 0; $i < $queryLength; $i++) {
 				if ($inSubstring == false) {
 					// Defines when we should start inserting values
 					if (substr ($query, $i, 9) == 'SUBSTRING') {
@@ -157,14 +158,16 @@ class OC_DB_StatementWrapper {
 			OC_Log::write('core', $entry, OC_Log::FATAL);
 			OC_User::setUserId(null);
 
-			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
-			OC_Template::printErrorPage('Failed to connect to database');
-			die ($entry);
+			$l = \OC::$server->getL10N('lib');
+			throw new \OC\HintException(
+				$l->t('Database Error'),
+				$l->t('Please contact your system administrator.'),
+				0,
+				$e
+			);
 		}
 	}
-    
+
 	/**
 	 * provide an alias for fetch
 	 *

@@ -34,6 +34,8 @@ use OCP\INavigationManager;
 use OCP\IURLGenerator;
 use OCP\IRequest;
 use OCP\ILogger;
+use OCP\AppFramework\Controller;
+use OCP\Util;
 
 
 /**
@@ -110,10 +112,22 @@ class SecurityMiddleware extends Middleware {
 			}
 		}
 
+		// CSRF check - also registers the CSRF token since the session may be closed later
+		Util::callRegister();
 		if(!$this->reflector->hasAnnotation('NoCSRFRequired')) {
 			if(!$this->request->passesCSRFCheck()) {
 				throw new SecurityException('CSRF check failed', Http::STATUS_PRECONDITION_FAILED);
 			}
+		}
+
+		/**
+		 * FIXME: Use DI once available
+		 * Checks if app is enabled (also inclues a check whether user is allowed to access the resource)
+		 * The getAppPath() check is here since components such as settings also use the AppFramework and
+		 * therefore won't pass this check.
+		 */
+		if(\OC_App::getAppPath($this->appName) !== false && !\OC_App::isEnabled($this->appName)) {
+			throw new SecurityException('App is not enabled', Http::STATUS_PRECONDITION_FAILED);
 		}
 
 	}

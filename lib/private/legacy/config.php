@@ -23,14 +23,6 @@ class OC_Config {
 	public static $object;
 
 	/**
-	 * Returns the config instance
-	 * @return \OC\Config
-	 */
-	public static function getObject() {
-		return self::$object;
-	}
-
-	/**
 	 * Lists all available config keys
 	 * @return array an array of key names
 	 *

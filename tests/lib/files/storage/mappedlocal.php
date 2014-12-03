@@ -27,14 +27,17 @@ class MappedLocal extends Storage {
 	 * @var string tmpDir
 	 */
 	private $tmpDir;
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->tmpDir=\OC_Helper::tmpFolder();
 		$this->instance=new \OC\Files\Storage\MappedLocal(array('datadir'=>$this->tmpDir));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_Helper::rmdirr($this->tmpDir);
 		unset($this->instance);
+		parent::tearDown();
 	}
 }
 

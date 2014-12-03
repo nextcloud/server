@@ -6,14 +6,13 @@
  * See the COPYING-README file.
  */
 
-require_once 'archive.php';
-
 class Test_Archive_TAR extends Test_Archive {
-	public function setUp() {
-		if (OC_Util::runningOnWindows()) {
-			$this->markTestSkipped('tar archives are not supported on windows');
-		}
+	protected function setUp() {
 		parent::setUp();
+
+		if (OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] tar archives are not supported on Windows');
+		}
 	}
 
 	protected function getExisting() {

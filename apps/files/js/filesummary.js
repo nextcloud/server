@@ -19,14 +19,15 @@
 *
 */
 
-/* global OC, n, t */
-
 (function() {
 	/**
 	 * The FileSummary class encapsulates the file summary values and
 	 * the logic to render it in the given container
+	 *
+	 * @constructs FileSummary
+	 * @memberof OCA.Files
+	 *
 	 * @param $tr table row element
-	 * $param summary optional initial summary value
 	 */
 	var FileSummary = function($tr) {
 		this.$el = $tr;

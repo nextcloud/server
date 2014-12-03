@@ -2,10 +2,11 @@
 /**
  * ownCloud
  *
- * @author Sam Tuke, Frank Karlitschek, Bjoern Schiessle
- * @copyright 2012 Sam Tuke <samtuke@owncloud.com>,
- * Frank Karlitschek <frank@owncloud.org>,
- * Bjoern Schiessle <schiessle@owncloud.com>
+ * @copyright (C) 2014 ownCloud, Inc.
+ *
+ * @author Sam Tuke <samtuke@owncloud.com>,
+ * @author Frank Karlitschek <frank@owncloud.org>,
+ * @author Bjoern Schiessle <schiessle@owncloud.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -44,10 +45,10 @@ class Util {
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
 	private $encryptionDir; // Dir containing user's files_encryption
-	private $keyfilesPath; // Dir containing user's keyfiles
-	private $shareKeysPath; // Dir containing env keys for shared files
+	private $keysPath; // Dir containing all file related encryption keys
 	private $publicKeyPath; // Path to user's public key
 	private $privateKeyPath; // Path to user's private key
+	private $userFilesDir;
 	private $publicShareKeyId;
 	private $recoveryKeyId;
 	private $isPublic;
@@ -72,14 +73,13 @@ class Util {
 		$this->fileFolderName = 'files';
 		$this->userFilesDir =
 				'/' . $userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
-		$this->publicKeyDir = '/' . 'public-keys';
+		$this->publicKeyDir = Keymanager::getPublicKeyPath();
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
-		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
-				$this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+				$this->publicKeyDir . '/' . $this->userId . '.publicKey'; // e.g. data/public-keys/admin.publicKey
 		$this->privateKeyPath =
-				$this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+				$this->encryptionDir . '/' . $this->userId . '.privateKey'; // e.g. data/admin/admin.privateKey
 		// make sure that the owners home is mounted
 		\OC\Files\Filesystem::initMountPoints($userId);
 
@@ -99,8 +99,7 @@ class Util {
 
 		if (
 			!$this->view->file_exists($this->encryptionDir)
-			or !$this->view->file_exists($this->keyfilesPath)
-			or !$this->view->file_exists($this->shareKeysPath)
+			or !$this->view->file_exists($this->keysPath)
 			or !$this->view->file_exists($this->publicKeyPath)
 			or !$this->view->file_exists($this->privateKeyPath)
 		) {
@@ -125,6 +124,18 @@ class Util {
 	}
 
 	/**
+	 * create a new public/private key pair for the user
+	 *
+	 * @param string $password password for the private key
+	 */
+	public function replaceUserKeys($password) {
+		$this->backupAllKeys('password_reset');
+		$this->view->unlink($this->publicKeyPath);
+		$this->view->unlink($this->privateKeyPath);
+		$this->setupServerSide($password);
+	}
+
+	/**
 	 * Sets up user folders and keys for serverside encryption
 	 *
 	 * @param string $passphrase to encrypt server-stored private key with
@@ -137,8 +148,7 @@ class Util {
 			$this->userDir,
 			$this->publicKeyDir,
 			$this->encryptionDir,
-			$this->keyfilesPath,
-			$this->shareKeysPath
+			$this->keysPath
 		);
 
 		// Check / create all necessary dirs
@@ -385,55 +395,71 @@ class Util {
 			&& $this->isEncryptedPath($path)
 		) {
 
-			$offset = 0;
-			if ($this->containHeader($path)) {
-				$offset = Crypt::BLOCKSIZE;
-			}
+			$cipher = 'AES-128-CFB';
+			$realSize = 0;
 
-			// get the size from filesystem if the file contains a encryption header we
-			// we substract it
-			$size = $this->view->filesize($path) - $offset;
-
-			// fast path, else the calculation for $lastChunkNr is bogus
-			if ($size === 0) {
-				\OC_FileProxy::$enabled = $proxyStatus;
-				return 0;
-			}
-
-			// calculate last chunk nr
-			// next highest is end of chunks, one subtracted is last one
-			// we have to read the last chunk, we can't just calculate it (because of padding etc)
-			$lastChunkNr = ceil($size/ Crypt::BLOCKSIZE) - 1;
-			$lastChunkSize = $size - ($lastChunkNr * Crypt::BLOCKSIZE);
+			// get the size from filesystem
+			$size = $this->view->filesize($path);
 
 			// open stream
-			$stream = fopen('crypt://' . $path, "r");
+			$stream = $this->view->fopen($path, "r");
 
 			if (is_resource($stream)) {
-				// calculate last chunk position
-				$lastChunckPos = ($lastChunkNr * Crypt::BLOCKSIZE);
 
-				// seek to end
-				if (@fseek($stream, $lastChunckPos) === -1) {
-					// storage doesn't support fseek, we need a local copy
-					fclose($stream);
-					$localFile = $this->view->getLocalFile($path);
-					Helper::addTmpFileToMapper($localFile, $path);
-					$stream = fopen('crypt://' . $localFile, "r");
-					if (fseek($stream, $lastChunckPos) === -1) {
-						// if fseek also fails on the local storage, than
-						// there is nothing we can do
-						fclose($stream);
-						\OCP\Util::writeLog('Encryption library', 'couldn\'t determine size of "' . $path, \OCP\Util::ERROR);
-						return $result;
-					}
+				// if the file contains a encryption header we
+				// we set the cipher
+				// and we update the size
+				if ($this->containHeader($path)) {
+					$data = fread($stream,Crypt::BLOCKSIZE);
+					$header = Crypt::parseHeader($data);
+					$cipher = Crypt::getCipher($header);
+					$size -= Crypt::BLOCKSIZE;
 				}
 
+				// fast path, else the calculation for $lastChunkNr is bogus
+				if ($size === 0) {
+					\OC_FileProxy::$enabled = $proxyStatus;
+					return 0;
+				}
+
+				// calculate last chunk nr
+				// next highest is end of chunks, one subtracted is last one
+				// we have to read the last chunk, we can't just calculate it (because of padding etc)
+				$lastChunkNr = ceil($size/Crypt::BLOCKSIZE)-1;
+
+				// calculate last chunk position
+				$lastChunkPos = ($lastChunkNr * Crypt::BLOCKSIZE);
+
 				// get the content of the last chunk
-				$lastChunkContent = fread($stream, $lastChunkSize);
+				if (@fseek($stream, $lastChunkPos, SEEK_CUR) === 0) {
+					$realSize+=$lastChunkNr*6126;
+				}
+				$lastChunkContentEncrypted='';
+				$count=Crypt::BLOCKSIZE;
+				while ($count>0) {
+					$data=fread($stream,Crypt::BLOCKSIZE);
+					$count=strlen($data);
+					$lastChunkContentEncrypted.=$data;
+					if(strlen($lastChunkContentEncrypted)>Crypt::BLOCKSIZE) {
+						$realSize+=6126;
+						$lastChunkContentEncrypted=substr($lastChunkContentEncrypted,Crypt::BLOCKSIZE);
+					}
+				}
+				fclose($stream);
+				$relPath = \OCA\Encryption\Helper::stripUserFilesPath($path);
+				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
+				if($shareKey===false) {
+					\OC_FileProxy::$enabled = $proxyStatus;
+					return $result;
+				}
+				$session = new \OCA\Encryption\Session($this->view);
+				$privateKey = $session->getPrivateKey();
+				$plainKeyfile = $this->decryptKeyfile($relPath, $privateKey);
+				$plainKey = Crypt::multiKeyDecrypt($plainKeyfile, $shareKey, $privateKey);
+				$lastChunkContent=Crypt::symmetricDecryptFileContent($lastChunkContentEncrypted, $plainKey, $cipher);
 
 				// calc the real file size with the size of the last chunk
-				$realSize = (($lastChunkNr * 6126) + strlen($lastChunkContent));
+				$realSize += strlen($lastChunkContent);
 
 				// store file size
 				$result = $realSize;
@@ -699,8 +725,8 @@ class Util {
 			}
 
 			if ($successful) {
-				$this->view->rename($this->keyfilesPath, $this->keyfilesPath . '.backup');
-				$this->view->rename($this->shareKeysPath, $this->shareKeysPath . '.backup');
+				$this->backupAllKeys('decryptAll');
+				$this->view->deleteAll($this->keysPath);
 			}
 
 			\OC_FileProxy::$enabled = true;
@@ -817,9 +843,9 @@ class Util {
 
 				break;
 
-			case 'keyfilesPath':
+			case 'keysPath':
 
-				return $this->keyfilesPath;
+				return $this->keysPath;
 
 				break;
 
@@ -841,6 +867,25 @@ class Util {
 	}
 
 	/**
+	 * Returns whether the given user is ready for encryption.
+	 * Also returns true if the given user is the public user
+	 * or the recovery key user.
+	 *
+	 * @param string $user user to check
+	 *
+	 * @return boolean true if the user is ready, false otherwise
+	 */
+	private function isUserReady($user) {
+		if ($user === $this->publicShareKeyId
+			|| $user === $this->recoveryKeyId
+		) {
+			return true;
+		}
+		$util = new Util($this->view, $user);
+		return $util->ready();
+	}
+
+	/**
 	 * Filter an array of UIDs to return only ones ready for sharing
 	 * @param array $unfilteredUsers users to be checked for sharing readiness
 	 * @return array as multi-dimensional array. keys: ready, unready
@@ -852,16 +897,9 @@ class Util {
 
 		// Loop through users and create array of UIDs that need new keyfiles
 		foreach ($unfilteredUsers as $user) {
-
-			$util = new Util($this->view, $user);
-
 			// Check that the user is encryption capable, or is the
-			// public system user 'ownCloud' (for public shares)
-			if (
-				$user === $this->publicShareKeyId
-				or $user === $this->recoveryKeyId
-				or $util->ready()
-			) {
+			// public system user (for public shares)
+			if ($this->isUserReady($user)) {
 
 				// Construct array of ready UIDs for Keymanager{}
 				$readyIds[] = $user;
@@ -944,7 +982,7 @@ class Util {
 			$plainKeyfile = $this->decryptKeyfile($filePath, $privateKey);
 			// Re-enc keyfile to (additional) sharekeys
 			$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
-		} catch (Exceptions\EncryptionException $e) {
+		} catch (Exception\EncryptionException $e) {
 			$msg = 'set shareFileKeyFailed (code: ' . $e->getCode() . '): ' . $e->getMessage();
 			\OCP\Util::writeLog('files_encryption', $msg, \OCP\Util::FATAL);
 			return false;
@@ -1325,21 +1363,13 @@ class Util {
 	public function checkRecoveryPassword($password) {
 
 		$result = false;
-		$pathKey = '/owncloud_private_key/' . $this->recoveryKeyId . ".private.key";
 
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$recoveryKey = $this->view->file_get_contents($pathKey);
-
+		$recoveryKey = Keymanager::getPrivateSystemKey($this->recoveryKeyId);
 		$decryptedRecoveryKey = Crypt::decryptPrivateKey($recoveryKey, $password);
 
 		if ($decryptedRecoveryKey) {
 			$result = true;
 		}
-
-		\OC_FileProxy::$enabled = $proxyStatus;
-
 
 		return $result;
 	}
@@ -1355,19 +1385,17 @@ class Util {
 	 * add recovery key to all encrypted files
 	 */
 	public function addRecoveryKeys($path = '/') {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		$dirContent = $this->view->getDirectoryContent($this->keysPath . '/' . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles/
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] === 'dir') {
+			$filePath = substr($item['path'], strlen('files_encryption/keys'));
+			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
 				$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $file);
-				$this->setSharedFileKeyfiles($session, $usersSharing, $file);
+				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $filePath);
+				$this->setSharedFileKeyfiles($session, $usersSharing, $filePath);
 			}
 		}
 	}
@@ -1376,16 +1404,14 @@ class Util {
 	 * remove recovery key to all encrypted files
 	 */
 	public function removeRecoveryKeys($path = '/') {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		$dirContent = $this->view->getDirectoryContent($this->keysPath . '/' . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] === 'dir') {
+			$filePath = substr($item['path'], strlen('files_encryption/keys'));
+			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->removeRecoveryKeys($filePath . '/');
 			} else {
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$this->view->unlink($this->shareKeysPath . '/' . $file . '.' . $this->recoveryKeyId . '.shareKey');
+				$this->view->unlink($this->keysPath . '/' . $filePath . '/' . $this->recoveryKeyId . '.shareKey');
 			}
 		}
 	}
@@ -1415,27 +1441,17 @@ class Util {
 		}
 		$filteredUids = $this->filterShareReadyUsers($userIds);
 
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
 		//decrypt file key
-		$encKeyfile = $this->view->file_get_contents($this->keyfilesPath . $file . ".key");
-		$shareKey = $this->view->file_get_contents(
-			$this->shareKeysPath . $file . "." . $this->recoveryKeyId . ".shareKey");
+		$encKeyfile = Keymanager::getFileKey($this->view, $this, $file);
+		$shareKey = Keymanager::getShareKey($this->view, $this->recoveryKeyId, $this, $file);
 		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
 		// encrypt file key again to all users, this time with the new public key for the recovered use
 		$userPubKeys = Keymanager::getPublicKeys($this->view, $filteredUids['ready']);
 		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
 
-		// write new keys to filesystem TDOO!
-		$this->view->file_put_contents($this->keyfilesPath . $file . '.key', $multiEncKey['data']);
-		foreach ($multiEncKey['keys'] as $userId => $shareKey) {
-			$shareKeyPath = $this->shareKeysPath . $file . '.' . $userId . '.shareKey';
-			$this->view->file_put_contents($shareKeyPath, $shareKey);
-		}
+		Keymanager::setFileKey($this->view, $this, $file, $multiEncKey['data']);
+		Keymanager::setShareKeys($this->view, $this, $file, $multiEncKey['keys']);
 
-		// Return proxy to original status
-		\OC_FileProxy::$enabled = $proxyStatus;
 	}
 
 	/**
@@ -1444,16 +1460,14 @@ class Util {
 	 * @param string $privateKey private recovery key which is used to decrypt the files
 	 */
 	private function recoverAllFiles($path, $privateKey) {
-		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		$dirContent = $this->view->getDirectoryContent($this->keysPath . '/' . $path);
 		foreach ($dirContent as $item) {
 			// get relative path from files_encryption/keyfiles
-			$filePath = substr($item['path'], strlen('files_encryption/keyfiles'));
-			if ($item['type'] === 'dir') {
+			$filePath = substr($item['path'], strlen('files_encryption/keys'));
+			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->recoverAllFiles($filePath . '/', $privateKey);
 			} else {
-				// remove '.key' extension from path e.g. 'file.txt.key' to 'file.txt'
-				$file = substr($filePath, 0, -4);
-				$this->recoverFile($file, $privateKey);
+				$this->recoverFile($filePath, $privateKey);
 			}
 		}
 	}
@@ -1464,15 +1478,8 @@ class Util {
 	 */
 	public function recoverUsersFiles($recoveryPassword) {
 
-		// Disable encryption proxy to prevent recursive calls
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
-		$encryptedKey = $this->view->file_get_contents(
-			'/owncloud_private_key/' . $this->recoveryKeyId . '.private.key');
+		$encryptedKey = Keymanager::getPrivateSystemKey( $this->recoveryKeyId);
 		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $recoveryPassword);
-
-		\OC_FileProxy::$enabled = $proxyStatus;
 
 		$this->recoverAllFiles('/', $privateKey);
 	}
@@ -1487,10 +1494,9 @@ class Util {
 		$backupDir = $this->encryptionDir . '/backup.';
 		$backupDir .= ($purpose === '') ? date("Y-m-d_H-i-s") . '/' : $purpose . '.' . date("Y-m-d_H-i-s") . '/';
 		$this->view->mkdir($backupDir);
-		$this->view->copy($this->shareKeysPath, $backupDir . 'share-keys/');
-		$this->view->copy($this->keyfilesPath, $backupDir . 'keyfiles/');
-		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.private.key');
-		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.public.key');
+		$this->view->copy($this->keysPath, $backupDir . 'keys/');
+		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.privateKey');
+		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.publicKey');
 	}
 
 	/**
@@ -1550,7 +1556,10 @@ class Util {
 
 		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
 
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+		$privateKey = false;
+		if ($encryptedKey) {
+			$privateKey = Crypt::decryptPrivateKey($encryptedKey, $params['password']);
+		}
 
 		if ($privateKey === false) {
 			\OCP\Util::writeLog('Encryption library', 'Private key for user "' . $params['uid']

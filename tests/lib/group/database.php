@@ -22,36 +22,27 @@
 
 class Test_Group_Database extends Test_Group_Backend {
 	private $groups=array();
-	
+
 	/**
 	 * get a new unique group name
 	 * test cases can override this in order to clean up created groups
 	 * @return string
 	 */
 	public function getGroupName($name = null) {
-		if(is_null($name)) {
-			$name=uniqid('test_');
-		}
-		$this->groups[]=$name;
+		$name = parent::getGroupName($name);
+		$this->groups[] = $name;
 		return $name;
 	}
 
-	/**
-	 * get a new unique user name
-	 * test cases can override this in order to clean up created user
-	 * @return string
-	 */
-	public function getUserName() {
-		return uniqid('test_');
-	}
-	
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->backend=new OC_Group_Database();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		foreach($this->groups as $group) {
 			$this->backend->deleteGroup($group);
 		}
+		parent::tearDown();
 	}
 }

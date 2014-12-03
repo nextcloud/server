@@ -12,7 +12,7 @@ namespace Test\Files\Mount;
 use OC\Files\Storage\Loader;
 use OC\Files\Storage\Wrapper\Wrapper;
 
-class Mount extends \PHPUnit_Framework_TestCase {
+class Mount extends \Test\TestCase {
 	public function testFromStorageObject() {
 		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
 			->disableOriginalConstructor()

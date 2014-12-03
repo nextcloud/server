@@ -39,7 +39,7 @@ $array = array(
 	"oc_isadmin" => OC_User::isAdminUser(OC_User::getUser()) ? 'true' : 'false',
 	"oc_webroot" => "\"".OC::$WEBROOT."\"",
 	"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
-	"datepickerFormatDate" => json_encode($l->l('jsdate', 'jsdate')),
+	"datepickerFormatDate" => json_encode($l->getDateFormat()),
 	"dayNames" =>  json_encode(
 		array(
 			(string)$l->t('Sunday'),
@@ -67,7 +67,7 @@ $array = array(
 			(string)$l->t('December')
 		)
 	),
-	"firstDay" => json_encode($l->l('firstday', 'firstday')) ,
+	"firstDay" => json_encode($l->getFirstWeekDay()) ,
 	"oc_config" => json_encode(
 		array(
 			'session_lifetime'	=> min(\OCP\Config::getSystemValue('session_lifetime', ini_get('session.gc_maxlifetime')), ini_get('session.gc_maxlifetime')),

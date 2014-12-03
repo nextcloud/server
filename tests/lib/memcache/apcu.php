@@ -10,11 +10,13 @@
 namespace Test\Memcache;
 
 class APCu extends Cache {
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		if(!\OC\Memcache\APCu::isAvailable()) {
 			$this->markTestSkipped('The APCu extension is not available.');
 			return;
 		}
-		$this->instance=new \OC\Memcache\APCu(uniqid());
+		$this->instance=new \OC\Memcache\APCu($this->getUniqueID());
 	}
 }

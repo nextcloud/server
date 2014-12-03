@@ -247,16 +247,28 @@ class ActivityManager implements IManager {
 	 * @return array
 	 */
 	function getQueryForFilter($filter) {
+
+		$conditions = array();
+		$parameters = array();
+
 		foreach($this->extensions as $extension) {
 			$c = $extension();
 			if ($c instanceof IExtension) {
 				$result = $c->getQueryForFilter($filter);
 				if (is_array($result)) {
-					return $result;
+					list($condition, $parameter) = $result;
+					if ($condition && is_array($parameter)) {
+						$conditions[] = $condition;
+						$parameters = array_merge($parameters, $parameter);
+					}
 				}
 			}
 		}
 
-		return array(null, null);
+		if (empty($conditions)) {
+			return array(null, null);
+		}
+
+		return array(' and ((' . implode(') or (', $conditions) . '))', $parameters);
 	}
 }

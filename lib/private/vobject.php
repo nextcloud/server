@@ -72,7 +72,8 @@ class OC_VObject{
 	 */
 	public static function unescapeSemicolons($value) {
 		$array = explode(';', $value);
-		for($i=0;$i<count($array);$i++) {
+		$arrayCount = count($array);
+		for($i = 0; $i < $arrayCount; $i++) {
 			if(substr($array[$i], -2, 2)=="\\\\") {
 				if(isset($array[$i+1])) {
 					$array[$i] = substr($array[$i], 0, count($array[$i])-2).';'.$array[$i+1];

@@ -7,6 +7,20 @@
 /** @var $_ array */
 ?>
 
+<div id="app-navigation">
+	<ul>
+	<?php foreach($_['forms'] as $form) {
+		if (isset($form['anchor'])) {
+			$anchor = '#' . $form['anchor'];
+			$sectionName = $form['section-name'];
+			print_unescaped(sprintf("<li><a href='%s'>%s</a></li>", OC_Util::sanitizeHTML($anchor), OC_Util::sanitizeHTML($sectionName)));
+		}
+	}?>
+	</ul>
+</div>
+
+<div id="app-content">
+
 <div class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
@@ -150,10 +164,12 @@ if($_['passwordChangeSupported']) {
 </form>
 
 <?php foreach($_['forms'] as $form) {
-	print_unescaped($form);
+	if (isset($form['form'])) {?>
+	<div id="<?php isset($form['anchor']) ? p($form['anchor']) : p('');?>"><?php print_unescaped($form['form']);?></div>
+	<?php }
 };?>
 
-<div class="section">
+<div id="ssl-root-certificates" class="section">
 	<h2><?php p($l->t('SSL root certificates')); ?></h2>
 	<table id="sslCertificate" class="grid">
 		<thead>
@@ -192,7 +208,7 @@ if($_['passwordChangeSupported']) {
 </div>
 
 <?php if($_['enableDecryptAll']): ?>
-<div class="section">
+<div id="encryption" class="section">
 
 	<h2>
 		<?php p( $l->t( 'Encryption' ) ); ?>
@@ -253,4 +269,8 @@ if($_['passwordChangeSupported']) {
 
 <div class="section credits-footer">
 	<p><?php print_unescaped($theme->getShortFooter()); ?></p>
+</div>
+
+
+
 </div>

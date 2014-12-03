@@ -7,8 +7,10 @@
  * See the COPYING-README file.
  */
 
-class Test_Preferences extends PHPUnit_Framework_TestCase {
+class Test_Preferences extends \Test\TestCase {
 	public static function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*preferences` VALUES(?, ?, ?, ?)');
 		$query->execute(array("Someuser", "someapp", "somekey", "somevalue"));
 
@@ -34,6 +36,8 @@ class Test_Preferences extends PHPUnit_Framework_TestCase {
 		$query->execute(array('Someuser'));
 		$query->execute(array('Anotheruser'));
 		$query->execute(array('Anuser'));
+
+		parent::tearDownAfterClass();
 	}
 
 	public function testGetUsers() {

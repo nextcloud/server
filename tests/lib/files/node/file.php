@@ -12,10 +12,11 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OC\Files\View;
 
-class File extends \PHPUnit_Framework_TestCase {
+class File extends \Test\TestCase {
 	private $user;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->user = new \OC\User\User('', new \OC_User_Dummy);
 	}
 
@@ -38,7 +39,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$view->expects($this->once())
 			->method('unlink')
@@ -88,7 +89,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL, 'fileid' => 1)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1)));
 
 		$view->expects($this->once())
 			->method('unlink')
@@ -123,7 +124,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$node->delete();
@@ -155,7 +156,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$this->assertEquals('bar', $node->getContent());
@@ -200,7 +201,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$view->expects($this->once())
 			->method('file_put_contents')
@@ -225,7 +226,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$node->putContent('bar');
@@ -278,7 +279,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$fh = $node->fopen('r');
@@ -315,7 +316,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$fh = $node->fopen('w');
@@ -374,7 +375,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_UPDATE)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_UPDATE)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$node->fopen('w');
@@ -401,7 +402,7 @@ class File extends \PHPUnit_Framework_TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$node->fopen('w');
@@ -424,7 +425,7 @@ class File extends \PHPUnit_Framework_TestCase {
 
 		$view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL, 'fileid' => 3)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 3)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($root, $view, '/bar');
@@ -468,7 +469,7 @@ class File extends \PHPUnit_Framework_TestCase {
 
 		$view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ, 'fileid' => 3)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ, 'fileid' => 3)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($root, $view, '/bar');
@@ -555,7 +556,7 @@ class File extends \PHPUnit_Framework_TestCase {
 
 		$view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_ALL, 'fileid' => 1)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL, 'fileid' => 1)));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$parentNode = new \OC\Files\Node\Folder($root, $view, '/bar');
@@ -586,7 +587,7 @@ class File extends \PHPUnit_Framework_TestCase {
 
 		$view->expects($this->any())
 			->method('getFileInfo')
-			->will($this->returnValue(array('permissions' => \OCP\PERMISSION_READ)));
+			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
 
 		$view->expects($this->never())
 			->method('rename');

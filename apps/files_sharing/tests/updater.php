@@ -20,13 +20,11 @@
  *
  */
 
-require_once __DIR__ . '/../appinfo/update.php';
-require_once __DIR__ . '/base.php';
 
 /**
  * Class Test_Files_Sharing_Updater
  */
-class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 
 	const TEST_FOLDER_NAME = '/folder_share_updater_test';
 
@@ -35,7 +33,7 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 		\OCA\Files_Sharing\Helper::registerHooks();
 	}
 
-	function setUp() {
+	protected function setUp() {
 		parent::setUp();
 
 		$this->folder = self::TEST_FOLDER_NAME;
@@ -48,7 +46,7 @@ class Test_Files_Sharing_Updater extends Test_Files_Sharing_Base {
 		$this->view->file_put_contents($this->folder . '/' . $this->filename, $this->data);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);
 

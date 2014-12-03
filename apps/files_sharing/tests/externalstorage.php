@@ -20,12 +20,10 @@
  *
  */
 
-require_once __DIR__ . '/base.php';
-
 /**
  * Tests for the external Storage class for remote shares.
  */
-class Test_Files_Sharing_External_Storage extends \PHPUnit_Framework_TestCase {
+class Test_Files_Sharing_External_Storage extends \Test\TestCase {
 
 	function optionsProvider() {
 		return array(

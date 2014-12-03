@@ -28,9 +28,7 @@ namespace Test\AppFramework\Db;
 /**
  * Simple utility class for testing mappers
  */
-abstract class MapperTestUtility extends \PHPUnit_Framework_TestCase {
-
-
+abstract class MapperTestUtility extends \Test\TestCase {
 	protected $db;
 	private $query;
 	private $pdoResult;
@@ -45,6 +43,8 @@ abstract class MapperTestUtility extends \PHPUnit_Framework_TestCase {
 	 * db. After this the db can be accessed by using $this->db
 	 */
 	protected function setUp(){
+		parent::setUp();
+
 		$this->db = $this->getMockBuilder(
 			'\OCP\IDb')
 			->disableOriginalConstructor()

@@ -20,7 +20,7 @@
 */
 
 describe('OCA.Files.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList;
+	var testFiles, alertStub, notificationStub, fileList, pageSizeStub;
 	var bcResizeStub;
 
 	/**
@@ -97,7 +97,8 @@ describe('OCA.Files.FileList tests', function() {
 			name: 'One.txt',
 			mimetype: 'text/plain',
 			size: 12,
-			etag: 'abc'
+			etag: 'abc',
+			permissions: OC.PERMISSION_ALL
 		}, {
 			id: 2,
 			type: 'file',
@@ -105,6 +106,7 @@ describe('OCA.Files.FileList tests', function() {
 			mimetype: 'image/jpeg',
 			size: 12049,
 			etag: 'def',
+			permissions: OC.PERMISSION_ALL
 		}, {
 			id: 3,
 			type: 'file',
@@ -112,15 +114,17 @@ describe('OCA.Files.FileList tests', function() {
 			mimetype: 'application/pdf',
 			size: 58009,
 			etag: '123',
+			permissions: OC.PERMISSION_ALL
 		}, {
 			id: 4,
 			type: 'dir',
 			name: 'somedir',
 			mimetype: 'httpd/unix-directory',
 			size: 250,
-			etag: '456'
+			etag: '456',
+			permissions: OC.PERMISSION_ALL
 		}];
-
+		pageSizeStub = sinon.stub(OCA.Files.FileList.prototype, 'pageSize').returns(20);
 		fileList = new OCA.Files.FileList($('#app-content-files'));
 	});
 	afterEach(function() {
@@ -130,6 +134,7 @@ describe('OCA.Files.FileList tests', function() {
 		notificationStub.restore();
 		alertStub.restore();
 		bcResizeStub.restore();
+		pageSizeStub.restore();
 	});
 	describe('Getters', function() {
 		it('Returns the current directory', function() {
@@ -218,13 +223,13 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect($tr).toBeDefined();
 			expect($tr[0].tagName.toLowerCase()).toEqual('tr');
-			expect($tr.attr('data-id')).toEqual(null);
+			expect($tr.attr('data-id')).toBeUndefined();
 			expect($tr.attr('data-type')).toEqual('file');
 			expect($tr.attr('data-file')).toEqual('testFile.txt');
-			expect($tr.attr('data-size')).toEqual(null);
-			expect($tr.attr('data-etag')).toEqual(null);
+			expect($tr.attr('data-size')).toBeUndefined();
+			expect($tr.attr('data-etag')).toBeUndefined();
 			expect($tr.attr('data-permissions')).toEqual('31');
-			expect($tr.attr('data-mime')).toEqual(null);
+			expect($tr.attr('data-mime')).toBeUndefined();
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
@@ -239,11 +244,11 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect($tr).toBeDefined();
 			expect($tr[0].tagName.toLowerCase()).toEqual('tr');
-			expect($tr.attr('data-id')).toEqual(null);
+			expect($tr.attr('data-id')).toBeUndefined();
 			expect($tr.attr('data-type')).toEqual('dir');
 			expect($tr.attr('data-file')).toEqual('testFolder');
-			expect($tr.attr('data-size')).toEqual(null);
-			expect($tr.attr('data-etag')).toEqual(null);
+			expect($tr.attr('data-size')).toBeUndefined();
+			expect($tr.attr('data-etag')).toBeUndefined();
 			expect($tr.attr('data-permissions')).toEqual('31');
 			expect($tr.attr('data-mime')).toEqual('httpd/unix-directory');
 			expect($tr.attr('data-mtime')).toEqual('123456');
@@ -814,7 +819,7 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.$fileList.on('fileActionsReady', handler);
 			fileList._nextPage();
 			expect(handler.calledOnce).toEqual(true);
-			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize);
+			expect(handler.getCall(0).args[0].$files.length).toEqual(fileList.pageSize());
 		});
 		it('does not trigger "fileActionsReady" event after single add with silent argument', function() {
 			var handler = sinon.stub();
@@ -1478,6 +1483,17 @@ describe('OCA.Files.FileList tests', function() {
 				$('.select-all').click();
 				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
 			});
+			it('show doesnt show the delete action if one or more files are not deletable', function () {
+				fileList.setFiles(testFiles);
+				$('#permissions').val(OC.PERMISSION_READ | OC.PERMISSION_DELETE);
+				$('.select-all').click();
+				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(false);
+				testFiles[0].permissions = OC.PERMISSION_READ;
+				$('.select-all').click();
+				fileList.setFiles(testFiles);
+				$('.select-all').click();
+				expect(fileList.$el.find('.delete-selected').hasClass('hidden')).toEqual(true);
+			});
 		});
 		describe('Actions', function() {
 			beforeEach(function() {
@@ -1494,7 +1510,8 @@ describe('OCA.Files.FileList tests', function() {
 					mimetype: 'text/plain',
 					type: 'file',
 					size: 12,
-					etag: 'abc'
+					etag: 'abc',
+					permissions: OC.PERMISSION_ALL
 				});
 				expect(files[1]).toEqual({
 					id: 3,
@@ -1502,7 +1519,8 @@ describe('OCA.Files.FileList tests', function() {
 					name: 'Three.pdf',
 					mimetype: 'application/pdf',
 					size: 58009,
-					etag: '123'
+					etag: '123',
+					permissions: OC.PERMISSION_ALL
 				});
 				expect(files[2]).toEqual({
 					id: 4,
@@ -1510,7 +1528,8 @@ describe('OCA.Files.FileList tests', function() {
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
 					size: 250,
-					etag: '456'
+					etag: '456',
+					permissions: OC.PERMISSION_ALL
 				});
 			});
 			it('Removing a file removes it from the selection', function() {
@@ -1523,7 +1542,8 @@ describe('OCA.Files.FileList tests', function() {
 					mimetype: 'text/plain',
 					type: 'file',
 					size: 12,
-					etag: 'abc'
+					etag: 'abc',
+					permissions: OC.PERMISSION_ALL
 				});
 				expect(files[1]).toEqual({
 					id: 4,
@@ -1531,7 +1551,8 @@ describe('OCA.Files.FileList tests', function() {
 					name: 'somedir',
 					mimetype: 'httpd/unix-directory',
 					size: 250,
-					etag: '456'
+					etag: '456',
+					permissions: OC.PERMISSION_ALL
 				});
 			});
 			describe('Download', function() {

@@ -28,6 +28,8 @@ OC_APP::registerAdmin('user_webdavauth', 'settings');
 OC_User::registerBackend("WEBDAVAUTH");
 OC_User::useBackend( "WEBDAVAUTH" );
 
+OCP\Util::addTranslations('user_webdavauth');
+
 // add settings page to navigation
 $entry = array(
 	'id' => "user_webdavauth_settings",

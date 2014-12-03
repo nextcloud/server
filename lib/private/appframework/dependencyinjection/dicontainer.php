@@ -31,6 +31,7 @@ use OC\AppFramework\Core\API;
 use OC\AppFramework\Middleware\MiddlewareDispatcher;
 use OC\AppFramework\Middleware\Security\SecurityMiddleware;
 use OC\AppFramework\Middleware\Security\CORSMiddleware;
+use OC\AppFramework\Middleware\SessionMiddleware;
 use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\AppFramework\Utility\ControllerMethodReflector;
@@ -58,22 +59,23 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 
 		$this->registerParameter('ServerContainer', \OC::$server);
 
-		$this['API'] = $this->share(function($c){
+		$this->registerService('API', function($c){
 			return new API($c['AppName']);
 		});
 
 		/**
 		 * Http
 		 */
-		$this['Request'] = $this->share(function($c) {
+		$this->registerService('Request', function($c) {
 			/** @var $c SimpleContainer */
-			/** @var $server IServerContainer */
+			/** @var $server SimpleContainer */
 			$server = $c->query('ServerContainer');
 			$server->registerParameter('urlParams', $c['urlParams']);
+			/** @var $server IServerContainer */
 			return $server->getRequest();
 		});
 
-		$this['Protocol'] = $this->share(function($c){
+		$this->registerService('Protocol', function($c){
 			if(isset($_SERVER['SERVER_PROTOCOL'])) {
 				return new Http($_SERVER, $_SERVER['SERVER_PROTOCOL']);
 			} else {
@@ -81,7 +83,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			}
 		});
 
-		$this['Dispatcher'] = $this->share(function($c) {
+		$this->registerService('Dispatcher', function($c) {
 			return new Dispatcher(
 				$c['Protocol'],
 				$c['MiddlewareDispatcher'],
@@ -95,7 +97,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		 * Middleware
 		 */
 		$app = $this;
-		$this['SecurityMiddleware'] = $this->share(function($c) use ($app){
+		$this->registerService('SecurityMiddleware', function($c) use ($app){
 			return new SecurityMiddleware(
 				$c['Request'],
 				$c['ControllerMethodReflector'],
@@ -108,15 +110,23 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 			);
 		});
 
-		$this['CORSMiddleware'] = $this->share(function($c) {
+		$this->registerService('CORSMiddleware', function($c) {
 			return new CORSMiddleware(
 				$c['Request'],
 				$c['ControllerMethodReflector']
 			);
 		});
 
+		$this->registerService('SessionMiddleware', function($c) use ($app) {
+			return new SessionMiddleware(
+				$c['Request'],
+				$c['ControllerMethodReflector'],
+				$app->getServer()->getSession()
+			);
+		});
+
 		$middleWares = &$this->middleWares;
-		$this['MiddlewareDispatcher'] = $this->share(function($c) use (&$middleWares) {
+		$this->registerService('MiddlewareDispatcher', function($c) use (&$middleWares) {
 			$dispatcher = new MiddlewareDispatcher();
 			$dispatcher->registerMiddleware($c['SecurityMiddleware']);
 			$dispatcher->registerMiddleware($c['CORSMiddleware']);
@@ -125,6 +135,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 				$dispatcher->registerMiddleware($c[$middleWare]);
 			}
 
+			$dispatcher->registerMiddleware($c['SessionMiddleware']);
 			return $dispatcher;
 		});
 
@@ -132,11 +143,11 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		/**
 		 * Utilities
 		 */
-		$this['TimeFactory'] = $this->share(function($c){
+		$this->registerService('TimeFactory', function($c){
 			return new TimeFactory();
 		});
 
-		$this['ControllerMethodReflector'] = $this->share(function($c) {
+		$this->registerService('ControllerMethodReflector', function($c) {
 			return new ControllerMethodReflector();
 		});
 

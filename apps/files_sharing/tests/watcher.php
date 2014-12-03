@@ -19,11 +19,30 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-require_once __DIR__ . '/base.php';
 
-class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
+class Test_Files_Sharing_Watcher extends OCA\Files_sharing\Tests\TestCase {
 
-	function setUp() {
+	/**
+	 * @var \OC\Files\Storage\Storage
+	 */
+	private $ownerStorage;
+
+	/**
+	 * @var \OC\Files\Cache\Cache
+	 */
+	private $ownerCache;
+
+	/**
+	 * @var \OC\Files\Storage\Storage
+	 */
+	private $sharedStorage;
+
+	/**
+	 * @var \OC\Files\Cache\Cache
+	 */
+	private $sharedCache;
+
+	protected function setUp() {
 		parent::setUp();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
@@ -52,7 +71,7 @@ class Test_Files_Sharing_Watcher extends Test_Files_Sharing_Base {
 		$this->sharedCache = $this->sharedStorage->getCache();
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		$this->sharedCache->clear();
 
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);

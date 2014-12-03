@@ -18,6 +18,7 @@ use OCA\Encryption;
 $l = \OC::$server->getL10N('core');
 
 $return = false;
+$errorMessage = $l->t('Could not update the private key password.');
 
 $oldPassword = $_POST['oldPassword'];
 $newPassword = $_POST['newPassword'];
@@ -25,14 +26,18 @@ $newPassword = $_POST['newPassword'];
 $view = new \OC\Files\View('/');
 $session = new \OCA\Encryption\Session($view);
 $user = \OCP\User::getUser();
+$loginName = \OC::$server->getUserSession()->getLoginName();
+
+// check new password
+$passwordCorrect = \OCP\User::checkPassword($loginName, $newPassword);
+
+if ($passwordCorrect !== false) {
 
 $proxyStatus = \OC_FileProxy::$enabled;
 \OC_FileProxy::$enabled = false;
 
-$keyPath = '/' . $user . '/files_encryption/' . $user . '.private.key';
-
-$encryptedKey = $view->file_get_contents($keyPath);
-$decryptedKey = \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, $oldPassword);
+$encryptedKey = Encryption\Keymanager::getPrivateKey($view, $user);
+$decryptedKey = $encryptedKey ? \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, $oldPassword) : false;
 
 if ($decryptedKey) {
 	$cipher = \OCA\Encryption\Helper::getCipher();
@@ -42,14 +47,22 @@ if ($decryptedKey) {
 		$session->setPrivateKey($decryptedKey);
 		$return = true;
 	}
+} else {
+	$result = false;
+	$errorMessage = $l->t('The old password was not correct, please try again.');
 }
 
 \OC_FileProxy::$enabled = $proxyStatus;
+
+} else {
+	$result = false;
+	$errorMessage = $l->t('The current log-in password was not correct, please try again.');
+}
 
 // success or failure
 if ($return) {
 	$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
 	\OCP\JSON::success(array('data' => array('message' => $l->t('Private key password successfully updated.'))));
 } else {
-	\OCP\JSON::error(array('data' => array('message' => $l->t('Could not update the private key password. Maybe the old password was not correct.'))));
+	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
 }

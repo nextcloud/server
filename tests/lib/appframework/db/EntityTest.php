@@ -49,11 +49,12 @@ class TestEntity extends Entity {
 };
 
 
-class EntityTest extends \PHPUnit_Framework_TestCase {
+class EntityTest extends \Test\TestCase {
 
 	private $entity;
 
 	protected function setUp(){
+		parent::setUp();
 		$this->entity = new TestEntity();
 	}
 

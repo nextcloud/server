@@ -11,16 +11,19 @@ namespace Test\Memcache;
 
 class Memcached extends Cache {
 	static public function setUpBeforeClass() {
+		parent::setUpBeforeClass();
+
 		if (!\OC\Memcache\Memcached::isAvailable()) {
 			self::markTestSkipped('The memcached extension is not available.');
 		}
-		$instance = new \OC\Memcache\Memcached(uniqid());
-		if ($instance->set(uniqid(), uniqid()) === false) {
+		$instance = new \OC\Memcache\Memcached(self::getUniqueID());
+		if ($instance->set(self::getUniqueID(), self::getUniqueID()) === false) {
 			self::markTestSkipped('memcached server seems to be down.');
 		}
 	}
 
-	public function setUp() {
-		$this->instance = new \OC\Memcache\Memcached(uniqid());
+	protected function setUp() {
+		parent::setUp();
+		$this->instance = new \OC\Memcache\Memcached($this->getUniqueID());
 	}
 }

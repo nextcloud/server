@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_API extends PHPUnit_Framework_TestCase {
+class Test_API extends \Test\TestCase {
 
 	// Helps build a response variable
 
@@ -17,7 +17,7 @@ class Test_API extends PHPUnit_Framework_TestCase {
 		return array(
 			'shipped' => $shipped,
 			'response' => new OC_OCS_Result($data, $code, $message),
-			'app' => uniqid('testapp_', true),
+			'app' => $this->getUniqueID('testapp_'),
 			);
 	}
 

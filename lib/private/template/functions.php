@@ -29,7 +29,7 @@ function print_unescaped($string) {
  * @param string|string[] $file the filename,
  * if an array is given it will add all scripts
  */
-function script($app, $file) {
+function script($app, $file = null) {
 	if(is_array($file)) {
 		foreach($file as $f) {
 			OC_Util::addScript($app, $f);
@@ -40,12 +40,28 @@ function script($app, $file) {
 }
 
 /**
+ * Shortcut for adding vendor scripts to a page
+ * @param string $app the appname
+ * @param string|string[] $file the filename,
+ * if an array is given it will add all scripts
+ */
+function vendor_script($app, $file = null) {
+	if(is_array($file)) {
+		foreach($file as $f) {
+			OC_Util::addVendorScript($app, $f);
+		}
+	} else {
+		OC_Util::addVendorScript($app, $file);
+	}
+}
+
+/**
  * Shortcut for adding styles to a page
  * @param string $app the appname
  * @param string|string[] $file the filename,
  * if an array is given it will add all styles
  */
-function style($app, $file) {
+function style($app, $file = null) {
 	if(is_array($file)) {
 		foreach($file as $f) {
 			OC_Util::addStyle($app, $f);
@@ -53,6 +69,31 @@ function style($app, $file) {
 	} else {
 		OC_Util::addStyle($app, $file);
 	}
+}
+
+/**
+ * Shortcut for adding vendor styles to a page
+ * @param string $app the appname
+ * @param string|string[] $file the filename,
+ * if an array is given it will add all styles
+ */
+function vendor_style($app, $file = null) {
+	if(is_array($file)) {
+		foreach($file as $f) {
+			OC_Util::addVendorStyle($app, $f);
+		}
+	} else {
+		OC_Util::addVendorStyle($app, $file);
+	}
+}
+
+/**
+ * Shortcut for adding translations to a page
+ * @param string $app the appname
+ * if an array is given it will add all styles
+ */
+function translation($app) {
+	OC_Util::addTranslations($app);
 }
 
 /**

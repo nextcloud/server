@@ -8,6 +8,7 @@
 namespace Test\Files;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Temporary;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	public function touch($path, $mtime = null) {
@@ -15,16 +16,22 @@ class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	}
 }
 
-class View extends \PHPUnit_Framework_TestCase {
+class View extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage[] $storages
 	 */
 	private $storages = array();
 	private $user;
 
+	/** @var \OC\Files\Storage\Storage */
 	private $tempStorage;
 
-	public function setUp() {
+	/** @var \OC\Files\Storage\Storage */
+	private $originalStorage;
+
+	protected function setUp() {
+		parent::setUp();
+
 		\OC_User::clearBackends();
 		\OC_User::useBackend(new \OC_User_Dummy());
 
@@ -33,12 +40,13 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->user = \OC_User::getUser();
 		\OC_User::setUserId('test');
 
+		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 		\OC\Files\Filesystem::clearMounts();
 
 		$this->tempStorage = null;
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		\OC_User::setUserId($this->user);
 		foreach ($this->storages as $storage) {
 			$cache = $storage->getCache();
@@ -49,6 +57,11 @@ class View extends \PHPUnit_Framework_TestCase {
 		if ($this->tempStorage && !\OC_Util::runningOnWindows()) {
 			system('rm -rf ' . escapeshellarg($this->tempStorage->getDataDir()));
 		}
+
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
+
+		parent::tearDown();
 	}
 
 	/**
@@ -58,7 +71,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$storage1 = $this->getTestStorage();
 		$storage2 = $this->getTestStorage();
 		$storage3 = $this->getTestStorage();
-		$root = '/' . uniqid();
+		$root = $this->getUniqueID('/');
 		\OC\Files\Filesystem::mount($storage1, array(), $root . '/');
 		\OC\Files\Filesystem::mount($storage2, array(), $root . '/substorage');
 		\OC\Files\Filesystem::mount($storage3, array(), $root . '/folder/anotherstorage');
@@ -177,8 +190,9 @@ class View extends \PHPUnit_Framework_TestCase {
 
 	function testCacheIncompleteFolder() {
 		$storage1 = $this->getTestStorage(false);
-		\OC\Files\Filesystem::mount($storage1, array(), '/');
-		$rootView = new \OC\Files\View('');
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount($storage1, array(), '/incomplete');
+		$rootView = new \OC\Files\View('/incomplete');
 
 		$entries = $rootView->getDirectoryContent('/');
 		$this->assertEquals(3, count($entries));
@@ -588,19 +602,32 @@ class View extends \PHPUnit_Framework_TestCase {
 		$rootView = new \OC\Files\View('');
 
 		$longPath = '';
-		// 4000 is the maximum path length in file_cache.path
+		$ds = DIRECTORY_SEPARATOR;
+		/*
+		 * 4096 is the maximum path length in file_cache.path in *nix
+		 * 1024 is the max path length in mac
+		 * 228 is the max path length in windows
+		 */
 		$folderName = 'abcdefghijklmnopqrstuvwxyz012345678901234567890123456789';
-		$depth = (4000 / 57);
+		$tmpdirLength = strlen(\OC_Helper::tmpFolder());
+		if (\OC_Util::runningOnWindows()) {
+			$this->markTestSkipped('[Windows] ');
+			$depth = ((260 - $tmpdirLength) / 57);
+		}elseif(\OC_Util::runningOnMac()){
+			$depth = ((1024 - $tmpdirLength) / 57);
+		} else {
+			$depth = ((4000 - $tmpdirLength) / 57);
+		}
 		foreach (range(0, $depth - 1) as $i) {
-			$longPath .= '/' . $folderName;
+			$longPath .= $ds . $folderName;
 			$result = $rootView->mkdir($longPath);
 			$this->assertTrue($result, "mkdir failed on $i - path length: " . strlen($longPath));
 
-			$result = $rootView->file_put_contents($longPath . '/test.txt', 'lorem');
+			$result = $rootView->file_put_contents($longPath . "{$ds}test.txt", 'lorem');
 			$this->assertEquals(5, $result, "file_put_contents failed on $i");
 
 			$this->assertTrue($rootView->file_exists($longPath));
-			$this->assertTrue($rootView->file_exists($longPath . '/test.txt'));
+			$this->assertTrue($rootView->file_exists($longPath . "{$ds}test.txt"));
 		}
 
 		$cache = $storage->getCache();
@@ -617,7 +644,7 @@ class View extends \PHPUnit_Framework_TestCase {
 			$this->assertTrue(is_array($cachedFile), "No cache entry for file at $i");
 			$this->assertEquals('test.txt', $cachedFile['name'], "Wrong cache entry for file at $i");
 
-			$longPath .= '/' . $folderName;
+			$longPath .= $ds . $folderName;
 		}
 	}
 
@@ -636,6 +663,36 @@ class View extends \PHPUnit_Framework_TestCase {
 
 		$info2 = $view->getFileInfo('/test/test');
 		$this->assertSame($info['etag'], $info2['etag']);
+	}
+
+	public function testWatcherEtagCrossStorage() {
+		$storage1 = new Temporary(array());
+		$storage2 = new Temporary(array());
+		$scanner1 = $storage1->getScanner();
+		$scanner2 = $storage2->getScanner();
+		$storage1->mkdir('sub');
+		\OC\Files\Filesystem::mount($storage1, array(), '/test/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/test/sub/storage');
+
+		$past = time() - 100;
+		$storage2->file_put_contents('test.txt', 'foobar');
+		$scanner1->scan('');
+		$scanner2->scan('');
+		$view = new \OC\Files\View('');
+
+		$storage2->getWatcher('')->setPolicy(Watcher::CHECK_ALWAYS);
+
+		$oldFileInfo = $view->getFileInfo('/test/sub/storage/test.txt');
+		$oldFolderInfo = $view->getFileInfo('/test');
+
+		$storage2->getCache()->update($oldFileInfo->getId(), array(
+			'storage_mtime' => $past
+		));
+
+		$view->getFileInfo('/test/sub/storage/test.txt');
+		$newFolderInfo = $view->getFileInfo('/test');
+
+		$this->assertNotEquals($newFolderInfo->getEtag(), $oldFolderInfo->getEtag());
 	}
 
 	/**

@@ -8,10 +8,11 @@
 
 namespace Test\BackgroundJob;
 
-class Job extends \PHPUnit_Framework_TestCase {
+class Job extends \Test\TestCase {
 	private $run = false;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->run = false;
 	}
 

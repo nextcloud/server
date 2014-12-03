@@ -98,6 +98,14 @@ class Defaults {
 	}
 
 	/**
+	 * name of your ownCloud instance containing HTML styles
+	 * @return string
+	 */
+	public function getHTMLName() {
+		return $this->defaults->getHTMLName();
+	}
+
+	/**
 	 * Entity behind your onwCloud instance
 	 * @return string
 	 */
@@ -135,5 +143,13 @@ class Defaults {
 	 */
 	public function getLongFooter() {
 		return $this->defaults->getLongFooter();
+	}
+
+	/**
+	 * Returns the AppId for the App Store for the iOS Client
+	 * @return string AppId
+	 */
+	public function getiTunesAppId() {
+		return $this->defaults->getiTunesAppId();
 	}
 }

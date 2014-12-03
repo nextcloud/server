@@ -8,7 +8,13 @@
  *
  */
 
+/**
+ * @namespace OCA.Trashbin
+ */
 OCA.Trashbin = {};
+/**
+ * @namespace OCA.Trashbin.App
+ */
 OCA.Trashbin.App = {
 	_initialized: false,
 

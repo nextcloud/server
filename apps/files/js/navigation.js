@@ -13,10 +13,19 @@
 
 (function() {
 
+	/**
+	 * @class OCA.Files.Navigation
+	 * @classdesc Navigation control for the files app sidebar.
+	 *
+	 * @param $el element containing the navigation
+	 */
 	var Navigation = function($el) {
 		this.initialize($el);
 	};
 
+	/**
+	 * @memberof OCA.Files
+	 */
 	Navigation.prototype = {
 
 		/**
@@ -31,6 +40,8 @@
 
 		/**
 		 * Initializes the navigation from the given container
+		 *
+		 * @private
 		 * @param $el element containing the navigation
 		 */
 		initialize: function($el) {

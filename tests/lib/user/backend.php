@@ -30,7 +30,7 @@
  * For an example see /tests/lib/user/dummy.php
  */
 
-abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
+abstract class Test_User_Backend extends \Test\TestCase {
 	/**
 	 * @var OC_User_Backend $backend
 	 */
@@ -42,7 +42,7 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 	 * @return string
 	 */
 	public function getUser() {
-		return uniqid('test_');
+		return $this->getUniqueID('test_');
 	}
 
 	public function testAddRemove() {
@@ -68,29 +68,29 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 		$this->assertTrue((array_search($name1, $this->backend->getUsers())!==false));
 		$this->assertFalse((array_search($name2, $this->backend->getUsers())!==false));
 	}
-	
+
 	public function testLogin() {
 		$name1=$this->getUser();
 		$name2=$this->getUser();
-		
+
 		$this->assertFalse($this->backend->userExists($name1));
 		$this->assertFalse($this->backend->userExists($name2));
-		
+
 		$this->backend->createUser($name1, 'pass1');
 		$this->backend->createUser($name2, 'pass2');
-		
+
 		$this->assertTrue($this->backend->userExists($name1));
 		$this->assertTrue($this->backend->userExists($name2));
-		
+
 		$this->assertSame($name1, $this->backend->checkPassword($name1, 'pass1'));
 		$this->assertSame($name2, $this->backend->checkPassword($name2, 'pass2'));
-		
+
 		$this->assertFalse($this->backend->checkPassword($name1, 'pass2'));
 		$this->assertFalse($this->backend->checkPassword($name2, 'pass1'));
-		
+
 		$this->assertFalse($this->backend->checkPassword($name1, 'dummy'));
 		$this->assertFalse($this->backend->checkPassword($name2, 'foobar'));
-		
+
 		$this->backend->setPassword($name1, 'newpass1');
 		$this->assertFalse($this->backend->checkPassword($name1, 'pass1'));
 		$this->assertSame($name1, $this->backend->checkPassword($name1, 'newpass1'));
@@ -112,5 +112,4 @@ abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 		$result = $this->backend->getDisplayNames('bar');
 		$this->assertSame(2, count($result));
 	}
-
 }

@@ -9,7 +9,7 @@ class MySQL extends AbstractDatabase {
 		//check if the database user has admin right
 		$connection = @mysql_connect($this->dbhost, $this->dbuser, $this->dbpassword);
 		if(!$connection) {
-			throw new \DatabaseSetupException($this->trans->t('MySQL/MariaDB username and/or password not valid'),
+			throw new \OC\DatabaseSetupException($this->trans->t('MySQL/MariaDB username and/or password not valid'),
 				$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
 		//user already specified in config
@@ -96,13 +96,13 @@ class MySQL extends AbstractDatabase {
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new \DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'localhost' exists already.", array($name)),
+			throw new \OC\DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'localhost' exists already.", array($name)),
 				$this->trans->t("Drop this user from MySQL/MariaDB", array($name)));
 		}
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new \DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'%%' already exists", array($name)),
+			throw new \OC\DatabaseSetupException($this->trans->t("MySQL/MariaDB user '%s'@'%%' already exists", array($name)),
 				$this->trans->t("Drop this user from MySQL/MariaDB."));
 		}
 	}

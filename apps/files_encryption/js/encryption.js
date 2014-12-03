@@ -5,6 +5,10 @@
  * See the COPYING-README file.
  */
 
+/**
+ * @namespace
+ * @memberOf OC
+ */
 OC.Encryption={
 	MIGRATION_OPEN:0,
 	MIGRATION_COMPLETED:1,

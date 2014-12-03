@@ -22,105 +22,17 @@
 
 define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
 
-class DatabaseException extends Exception {
-	private $query;
-
-	//FIXME getQuery seems to be unused, maybe use parent constructor with $message, $code and $previous
-	public function __construct($message, $query = null){
-		parent::__construct($message);
-		$this->query = $query;
-	}
-
-	public function getQuery() {
-		return $this->query;
-	}
-}
-
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * Doctrine with some adaptions.
  */
 class OC_DB {
-	/**
-	 * @var \OC\DB\Connection $connection
-	 */
-	static private $connection; //the preferred connection to use, only Doctrine
 
 	/**
-	 * connects to the database
-	 * @return boolean|null true if connection can be established or false on error
-	 *
-	 * Connects to the database as specified in config.php
-	 */
-	public static function connect() {
-		if(self::$connection) {
-			return true;
-		}
-
-		$type = OC_Config::getValue('dbtype', 'sqlite');
-		$factory = new \OC\DB\ConnectionFactory();
-		if (!$factory->isValidType($type)) {
-			return false;
-		}
-
-		$connectionParams = array(
-			'user' => OC_Config::getValue('dbuser', ''),
-			'password' => OC_Config::getValue('dbpassword', ''),
-		);
-		$name = OC_Config::getValue('dbname', 'owncloud');
-
-		if ($factory->normalizeType($type) === 'sqlite3') {
-			$datadir = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data');
-			$connectionParams['path'] = $datadir.'/'.$name.'.db';
-		} else {
-			$host = OC_Config::getValue('dbhost', '');
-			if (strpos($host, ':')) {
-				// Host variable may carry a port or socket.
-				list($host, $portOrSocket) = explode(':', $host, 2);
-				if (ctype_digit($portOrSocket)) {
-					$connectionParams['port'] = $portOrSocket;
-				} else {
-					$connectionParams['unix_socket'] = $portOrSocket;
-				}
-			}
-			$connectionParams['host'] = $host;
-			$connectionParams['dbname'] = $name;
-		}
-
-		$connectionParams['tablePrefix'] = OC_Config::getValue('dbtableprefix', 'oc_');
-
-		try {
-			self::$connection = $factory->getConnection($type, $connectionParams);
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
-			OC_User::setUserId(null);
-
-			// send http status 503
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
-			OC_Template::printErrorPage('Failed to connect to database');
-			die();
-		}
-
-		return true;
-	}
-
-	/**
-	 * The existing database connection is closed and connected again
-	 */
-	public static function reconnect() {
-		if(self::$connection) {
-			self::$connection->close();
-			self::$connection->connect();
-		}
-	}
-
-	/**
-	 * @return \OC\DB\Connection
+	 * @return \OCP\IDBConnection
 	 */
 	static public function getConnection() {
-		self::connect();
-		return self::$connection;
+		return \OC::$server->getDatabaseConnection();
 	}
 
 	/**
@@ -130,7 +42,7 @@ class OC_DB {
 	 */
 	private static function getMDB2SchemaManager()
 	{
-		return new \OC\DB\MDB2SchemaManager(self::getConnection());
+		return new \OC\DB\MDB2SchemaManager(\OC::$server->getDatabaseConnection());
 	}
 
 	/**
@@ -139,13 +51,13 @@ class OC_DB {
 	 * @param int $limit
 	 * @param int $offset
 	 * @param bool $isManipulation
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 * @return OC_DB_StatementWrapper prepared SQL query
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query , $limit = null, $offset = null, $isManipulation = null) {
-		self::connect();
+		$connection = \OC::$server->getDatabaseConnection();
 
 		if ($isManipulation === null) {
 			//try to guess, so we return the number of rows on manipulations
@@ -154,9 +66,9 @@ class OC_DB {
 
 		// return the result
 		try {
-			$result = self::$connection->prepare($query, $limit, $offset);
+			$result =$connection->prepare($query, $limit, $offset);
 		} catch (\Doctrine\DBAL\DBALException $e) {
-			throw new \DatabaseException($e->getMessage(), $query);
+			throw new \OC\DatabaseException($e->getMessage(), $query);
 		}
 		// differentiate between query and manipulation
 		$result = new OC_DB_StatementWrapper($result, $isManipulation);
@@ -197,7 +109,7 @@ class OC_DB {
 	 *					.. or a simple sql query string
 	 * @param array $parameters
 	 * @return OC_DB_StatementWrapper
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	static public function executeAudited( $stmt, array $parameters = null) {
 		if (is_string($stmt)) {
@@ -206,7 +118,7 @@ class OC_DB {
 				// TODO try to convert LIMIT OFFSET notation to parameters, see fixLimitClauseForMSSQL
 				$message = 'LIMIT and OFFSET are forbidden for portability reasons,'
 						 . ' pass an array with \'limit\' and \'offset\' instead';
-				throw new DatabaseException($message);
+				throw new \OC\DatabaseException($message);
 			}
 			$stmt = array('sql' => $stmt, 'limit' => null, 'offset' => null);
 		}
@@ -214,7 +126,7 @@ class OC_DB {
 			// convert to prepared statement
 			if ( ! array_key_exists('sql', $stmt) ) {
 				$message = 'statement array must at least contain key \'sql\'';
-				throw new DatabaseException($message);
+				throw new \OC\DatabaseException($message);
 			}
 			if ( ! array_key_exists('limit', $stmt) ) {
 				$stmt['limit'] = null;
@@ -234,7 +146,7 @@ class OC_DB {
 			} else {
 				$message = 'Expected a prepared statement or array got ' . gettype($stmt);
 			}
-			throw new DatabaseException($message);
+			throw new \OC\DatabaseException($message);
 		}
 		return $result;
 	}
@@ -243,7 +155,7 @@ class OC_DB {
 	 * gets last value of autoincrement
 	 * @param string $table The optional table name (will replace *PREFIX*) and add sequence suffix
 	 * @return string id
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 *
 	 * \Doctrine\DBAL\Connection lastInsertId
 	 *
@@ -251,8 +163,7 @@ class OC_DB {
 	 * cause trouble!
 	 */
 	public static function insertid($table=null) {
-		self::connect();
-		return self::$connection->lastInsertId($table);
+		return \OC::$server->getDatabaseConnection()->lastInsertId($table);
 	}
 
 	/**
@@ -262,24 +173,28 @@ class OC_DB {
 	 * @return boolean number of updated rows
 	 */
 	public static function insertIfNotExist($table, $input) {
-		self::connect();
-		return self::$connection->insertIfNotExist($table, $input);
+		return \OC::$server->getDatabaseConnection()->insertIfNotExist($table, $input);
 	}
 
 	/**
 	 * Start a transaction
 	 */
 	public static function beginTransaction() {
-		self::connect();
-		self::$connection->beginTransaction();
+		return \OC::$server->getDatabaseConnection()->beginTransaction();
 	}
 
 	/**
 	 * Commit the database changes done during a transaction that is in progress
 	 */
 	public static function commit() {
-		self::connect();
-		self::$connection->commit();
+		return \OC::$server->getDatabaseConnection()->commit();
+	}
+
+	/**
+	 * Rollback the database changes done during a transaction that is in progress
+	 */
+	public static function rollback() {
+		return \OC::$server->getDatabaseConnection()->rollback();
 	}
 
 	/**
@@ -347,17 +262,17 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-
+		$connection = \OC::$server->getDatabaseConnection();
 		$tableName = OC_Config::getValue('dbtableprefix', 'oc_' ) . trim($tableName);
 
-		self::$connection->beginTransaction();
+		$connection->beginTransaction();
 
-		$platform = self::$connection->getDatabasePlatform();
+		$platform = $connection->getDatabasePlatform();
 		$sql = $platform->getDropTableSQL($platform->quoteIdentifier($tableName));
 
-		self::$connection->query($sql);
+		$connection->executeQuery($sql);
 
-		self::$connection->commit();
+		$connection->commit();
 	}
 
 	/**
@@ -383,7 +298,7 @@ class OC_DB {
 	 * @param mixed $result
 	 * @param string $message
 	 * @return void
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	public static function raiseExceptionOnError($result, $message = null) {
 		if(self::isError($result)) {
@@ -392,13 +307,13 @@ class OC_DB {
 			} else {
 				$message .= ', Root cause:' . self::getErrorMessage($result);
 			}
-			throw new DatabaseException($message, self::getErrorCode($result));
+			throw new \OC\DatabaseException($message, self::getErrorCode($result));
 		}
 	}
 
 	public static function getErrorCode($error) {
-		$code = self::$connection->errorCode();
-		return $code;
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->errorCode();
 	}
 	/**
 	 * returns the error code and message as a string for logging
@@ -407,22 +322,8 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if (self::$connection) {
-			return self::$connection->getError();
-		}
-		return '';
-	}
-
-	/**
-	 * @param bool $enabled
-	 */
-	static public function enableCaching($enabled) {
-		self::connect();
-		if ($enabled) {
-			self::$connection->enableQueryStatementCaching();
-		} else {
-			self::$connection->disableQueryStatementCaching();
-		}
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->getError();
 	}
 
 	/**
@@ -430,7 +331,7 @@ class OC_DB {
 	 *
 	 * @param string $table
 	 * @return bool
-	 * @throws DatabaseException
+	 * @throws \OC\DatabaseException
 	 */
 	public static function tableExists($table) {
 
@@ -466,7 +367,7 @@ class OC_DB {
 				$result = \OC_DB::executeAudited($sql, array($table));
 				break;
 			default:
-				throw new DatabaseException("Unknown database type: $dbType");
+				throw new \OC\DatabaseException("Unknown database type: $dbType");
 		}
 
 		return $result->fetchOne() === $table;

@@ -6,14 +6,16 @@
  * See the COPYING-README file.
  */
 
-class TestHTTPHelper extends \PHPUnit_Framework_TestCase {
+class TestHTTPHelper extends \Test\TestCase {
 
 	/** @var \OC\AllConfig*/
 	private $config;
 	/** @var \OC\HTTPHelper */
 	private $httpHelperMock;
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->config = $this->getMockBuilder('\OC\AllConfig')
 			->disableOriginalConstructor()->getMock();
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
@@ -22,7 +24,7 @@ class TestHTTPHelper extends \PHPUnit_Framework_TestCase {
 			->getMock();
 	}
 
-	public function testIsHTTPProvider() {
+	public function isHttpTestData() {
 		return array(
 			array('http://wwww.owncloud.org/enterprise/', true),
 			array('https://wwww.owncloud.org/enterprise/', true),
@@ -79,7 +81,7 @@ class TestHTTPHelper extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @dataProvider testIsHTTPProvider
+	 * @dataProvider isHttpTestData
 	 */
 	public function testIsHTTP($url, $expected) {
 			$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));

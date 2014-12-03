@@ -13,14 +13,12 @@ $certificateManager = \OC::$server->getCertificateManager();
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
 OC_Util::addStyle( 'settings', 'settings' );
-OC_Util::addScript( '3rdparty', 'strengthify/jquery.strengthify' );
-OC_Util::addStyle( '3rdparty', 'strengthify/strengthify' );
-OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
-OC_Util::addStyle( '3rdparty', 'chosen/chosen' );
+\OC_Util::addVendorScript('strengthify/jquery.strengthify');
+\OC_Util::addVendorStyle('strengthify/strengthify');
 \OC_Util::addScript('files', 'jquery.fileupload');
 if (\OC_Config::getValue('enable_avatars', true) === true) {
-	\OC_Util::addScript('3rdparty/Jcrop', 'jquery.Jcrop.min');
-	\OC_Util::addStyle('3rdparty/Jcrop', 'jquery.Jcrop.min');
+	\OC_Util::addVendorScript('jcrop/js/jquery.Jcrop');
+	\OC_Util::addVendorStyle('jcrop/css/jquery.Jcrop');
 }
 
 // Highlight navigation entry
@@ -101,9 +99,38 @@ $tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 
+// add hardcoded forms from the template
+$l = OC_L10N::get('settings');
+$formsAndMore = array();
+$formsAndMore[]= array( 'anchor' => 'passwordform', 'section-name' => $l->t('Personal Info') );
+
 $forms=OC_App::getForms('personal');
-$tmpl->assign('forms', array());
-foreach($forms as $form) {
-	$tmpl->append('forms', $form);
+
+$formsMap = array_map(function($form){
+	if (preg_match('%(<h2[^>]*>.*?</h2>)%i', $form, $regs)) {
+		$sectionName = str_replace('<h2>', '', $regs[0]);
+		$sectionName = str_replace('</h2>', '', $sectionName);
+		$anchor = strtolower($sectionName);
+		$anchor = str_replace(' ', '-', $anchor);
+
+		return array(
+			'anchor' => 'goto-' . $anchor,
+			'section-name' => $sectionName,
+			'form' => $form
+		);
+	}
+	return array(
+		'form' => $form
+	);
+}, $forms);
+
+$formsAndMore = array_merge($formsAndMore, $formsMap);
+
+// add bottom hardcoded forms from the template
+$formsAndMore[]= array( 'anchor' => 'ssl-root-certificates', 'section-name' => $l->t('SSL root certificates') );
+if($enableDecryptAll) {
+	$formsAndMore[]= array( 'anchor' => 'encryption', 'section-name' => $l->t('Encryption') );
 }
+
+$tmpl->assign('forms', $formsAndMore);
 $tmpl->printPage();

@@ -8,7 +8,7 @@
 
 use \OC\Security\StringUtils;
 
-class StringUtilsTest extends \PHPUnit_Framework_TestCase {
+class StringUtilsTest extends \Test\TestCase {
 
 	public function dataProvider()
 	{

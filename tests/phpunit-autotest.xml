@@ -8,6 +8,8 @@
 >
 	<testsuite name='ownCloud'>
 		<directory suffix='.php'>lib/</directory>
+		<directory suffix='.php'>settings/</directory>
+		<directory suffix='.php'>core/</directory>
 		<file>apps.php</file>
 	</testsuite>
 	<!-- filters for code coverage -->
@@ -18,8 +20,7 @@
 			<exclude>
 				<directory suffix=".php">../3rdparty</directory>
 				<directory suffix=".php">../apps/files/l10n</directory>
-				<directory suffix=".php">../apps/files_external/l10n</directory>
-				<directory suffix=".php">../apps/files_external/3rdparty</directory>
+				<directory suffix=".php">../apps/files_external</directory>
 				<directory suffix=".php">../apps/files_versions/l10n</directory>
 				<directory suffix=".php">../apps/files_encryption/l10n</directory>
 				<directory suffix=".php">../apps/files_encryption/3rdparty</directory>
@@ -37,11 +38,6 @@
 	</filter>
 	<listeners>
 		<listener class="StartSessionListener" file="startsessionlistener.php" />
-	  <listener class="TestCleanupListener" file="testcleanuplistener.php">
-		<arguments>
-			<string>detail</string>
-		</arguments>
-	  </listener>
 	</listeners>
 </phpunit>
 

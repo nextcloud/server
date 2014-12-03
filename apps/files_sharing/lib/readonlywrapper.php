@@ -24,7 +24,7 @@ class ReadOnlyWrapper extends Wrapper {
 	}
 
 	public function getPermissions($path) {
-		return $this->storage->getPermissions($path) & (\OCP\PERMISSION_READ | \OCP\PERMISSION_SHARE);
+		return $this->storage->getPermissions($path) & (\OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_SHARE);
 	}
 
 	public function rename($path1, $path2) {

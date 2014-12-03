@@ -11,8 +11,10 @@ namespace Test\Files\Storage;
 class FTP extends Storage {
 	private $config;
 
-	public function setUp() {
-		$id = uniqid();
+	protected function setUp() {
+		parent::setUp();
+
+		$id = $this->getUniqueID();
 		$this->config = include('files_external/tests/config.php');
 		if ( ! is_array($this->config) or ! isset($this->config['ftp']) or ! $this->config['ftp']['run']) {
 			$this->markTestSkipped('FTP backend not configured');
@@ -22,10 +24,12 @@ class FTP extends Storage {
 		$this->instance->mkdir('/');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		if ($this->instance) {
 			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
+
+		parent::tearDown();
 	}
 
 	public function testConstructUrl(){

@@ -69,6 +69,12 @@ class RouteConfig {
 		$simpleRoutes = isset($routes['routes']) ? $routes['routes'] : array();
 		foreach ($simpleRoutes as $simpleRoute) {
 			$name = $simpleRoute['name'];
+			$postfix = '';
+
+			if (isset($simpleRoute['postfix'])) {
+				$postfix = $simpleRoute['postfix'];
+			}
+
 			$url = $simpleRoute['url'];
 			$verb = isset($simpleRoute['verb']) ? strtoupper($simpleRoute['verb']) : 'GET';
 
@@ -84,7 +90,7 @@ class RouteConfig {
 
 			// register the route
 			$handler = new RouteActionHandler($this->container, $controllerName, $actionName);
-			$router = $this->router->create($this->appName.'.'.$controller.'.'.$action, $url)
+			$router = $this->router->create($this->appName.'.'.$controller.'.'.$action . $postfix, $url)
 							->method($verb)
 							->action($handler);
 

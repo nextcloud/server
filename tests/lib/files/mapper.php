@@ -22,14 +22,15 @@
 
 namespace Test\Files;
 
-class Mapper extends \PHPUnit_Framework_TestCase {
+class Mapper extends \Test\TestCase {
 
 	/**
 	 * @var \OC\Files\Mapper
 	 */
 	private $mapper = null;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->mapper = new \OC\Files\Mapper('D:/');
 	}
 

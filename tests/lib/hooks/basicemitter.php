@@ -31,13 +31,14 @@ class DummyEmitter extends \OC\Hooks\BasicEmitter {
 class EmittedException extends \Exception {
 }
 
-class BasicEmitter extends \PHPUnit_Framework_TestCase {
+class BasicEmitter extends \Test\TestCase {
 	/**
 	 * @var \OC\Hooks\Emitter $emitter
 	 */
 	protected $emitter;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
 		$this->emitter = new DummyEmitter();
 	}
 

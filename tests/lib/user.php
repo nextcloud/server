@@ -9,13 +9,15 @@
 
 namespace Test;
 
-class User extends \PHPUnit_Framework_TestCase {
+class User extends TestCase {
 	/**
 	 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
 	 */
 	private $backend;
 	
 	protected function setUp(){
+		parent::setUp();
+
 		$this->backend = $this->getMock('\OC_User_Dummy');
 		$manager = \OC_User::getManager();
 		$manager->registerBackend($this->backend);

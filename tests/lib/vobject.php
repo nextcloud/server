@@ -6,9 +6,11 @@
  * See the COPYING-README file.
  */
 
-class Test_VObject extends PHPUnit_Framework_TestCase {
+class Test_VObject extends \Test\TestCase {
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		Sabre\VObject\Property::$classMap['SUMMARY'] = 'OC\VObject\StringProperty';
 		Sabre\VObject\Property::$classMap['ORG'] = 'OC\VObject\CompoundProperty';
 	}

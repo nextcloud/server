@@ -46,8 +46,15 @@ class Response {
 
 
 	/**
+	 * Cookies that will be need to be constructed as header
+	 * @var array
+	 */
+	private $cookies = array();
+
+
+	/**
 	 * HTTP status code - defaults to STATUS OK
-	 * @var string
+	 * @var int
 	 */
 	private $status = Http::STATUS_OK;
 
@@ -70,6 +77,7 @@ class Response {
 	 * Caches the response
 	 * @param int $cacheSeconds the amount of seconds that should be cached
 	 * if 0 then caching will be disabled
+	 * @return $this
 	 */
 	public function cacheFor($cacheSeconds) {
 
@@ -83,17 +91,72 @@ class Response {
 		return $this;
 	}
 
+	/**
+	 * Adds a new cookie to the response
+	 * @param string $name The name of the cookie
+	 * @param string $value The value of the cookie
+	 * @param \DateTime|null $expireDate Date on that the cookie should expire, if set
+	 * 									to null cookie will be considered as session
+	 * 									cookie.
+	 * @return $this
+	 */
+	public function addCookie($name, $value, \DateTime $expireDate = null) {
+		$this->cookies[$name] = array('value' => $value, 'expireDate' => $expireDate);
+		return $this;
+	}
+
+
+	/**
+	 * Set the specified cookies
+	 * @param array $cookies array('foo' => array('value' => 'bar', 'expire' => null))
+	 * @return $this
+	 */
+	public function setCookies(array $cookies) {
+		$this->cookies = $cookies;
+		return $this;
+	}
+
+
+	/**
+	 * Invalidates the specified cookie
+	 * @param string $name
+	 * @return $this
+	 */
+	public function invalidateCookie($name) {
+		$this->addCookie($name, 'expired', new \DateTime('1971-01-01 00:00'));
+		return $this;
+	}
+
+	/**
+	 * Invalidates the specified cookies
+	 * @param array $cookieNames array('foo', 'bar')
+	 * @return $this
+	 */
+	public function invalidateCookies(array $cookieNames) {
+		foreach($cookieNames as $cookieName) {
+			$this->invalidateCookie($cookieName);
+		}
+		return $this;
+	}
+
+	/**
+	 * Returns the cookies
+	 * @return array
+	 */
+	public function getCookies() {
+		return $this->cookies;
+	}
 
 	/**
 	 * Adds a new header to the response that will be called before the render
 	 * function
 	 * @param string $name The name of the HTTP header
 	 * @param string $value The value, null will delete it
-	 * @return Response Reference to this object
+	 * @return $this
 	 */
 	public function addHeader($name, $value) {
 		$name = trim($name);  // always remove leading and trailing whitespace
-		                      // to be able to reliably check for security 
+		                      // to be able to reliably check for security
 		                      // headers
 
 		if(is_null($value)) {
@@ -101,6 +164,18 @@ class Response {
 		} else {
 			$this->headers[$name] = $value;
 		}
+
+		return $this;
+	}
+
+
+	/**
+	 * Set the headers
+	 * @param array $headers value header pairs
+	 * @return $this
+	 */
+	public function setHeaders(array $headers) {
+		$this->headers = $headers;
 
 		return $this;
 	}

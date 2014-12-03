@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
  * This file is licensed under the Affero General Public License version 3 or
@@ -6,17 +7,22 @@
  * See the COPYING-README file.
  */
 
-class Test_DBSchema extends PHPUnit_Framework_TestCase {
+use OCP\Security\ISecureRandom;
+
+class Test_DBSchema extends \Test\TestCase {
 	protected $schema_file = 'static://test_db_scheme';
 	protected $schema_file2 = 'static://test_db_scheme2';
 	protected $table1;
 	protected $table2;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$dbfile = OC::$SERVERROOT.'/tests/data/db_structure.xml';
 		$dbfile2 = OC::$SERVERROOT.'/tests/data/db_structure2.xml';
 
-		$r = '_'.OC_Util::generateRandomBytes(4).'_';
+		$r = '_' . \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->
+			generate(4, ISecureRandom::CHAR_LOWER . ISecureRandom::CHAR_DIGITS) . '_';
 		$content = file_get_contents( $dbfile );
 		$content = str_replace( '*dbprefix*', '*dbprefix*'.$r, $content );
 		file_put_contents( $this->schema_file, $content );
@@ -28,9 +34,11 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 		$this->table2 = $r.'cntcts_cards';
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unlink($this->schema_file);
 		unlink($this->schema_file2);
+
+		parent::tearDown();
 	}
 
 	// everything in one test, they depend on each other
@@ -38,6 +46,10 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	 * @medium
 	 */
 	public function testSchema() {
+		$platform = \OC_DB::getConnection()->getDatabasePlatform();
+		if ($platform instanceof \Doctrine\DBAL\Platforms\SQLServerPlatform) {
+			$this->markTestSkipped("Test not relevant on MSSQL");
+		}
 		$this->doTestSchemaCreating();
 		$this->doTestSchemaChanging();
 		$this->doTestSchemaDumping();
@@ -80,8 +92,8 @@ class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	 * @param string $table
 	 */
 	public function assertTableNotExist($table) {
-		$type=OC_Config::getValue( "dbtype", "sqlite" );
-		if( $type == 'sqlite' || $type == 'sqlite3' ) {
+		$platform = \OC_DB::getConnection()->getDatabasePlatform();
+		if ($platform instanceof \Doctrine\DBAL\Platforms\SqlitePlatform) {
 			// sqlite removes the tables after closing the DB
 			$this->assertTrue(true);
 		} else {

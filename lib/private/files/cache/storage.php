@@ -105,10 +105,10 @@ class Storage {
 	 */
 	public static function remove($storageId) {
 		$storageId = self::adjustStorageId($storageId);
+		$numericId = self::getNumericStorageId($storageId);
 		$sql = 'DELETE FROM `*PREFIX*storages` WHERE `id` = ?';
 		\OC_DB::executeAudited($sql, array($storageId));
 
-		$numericId = self::getNumericStorageId($storageId);
 		if (!is_null($numericId)) {
 			$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `storage` = ?';
 			\OC_DB::executeAudited($sql, array($numericId));

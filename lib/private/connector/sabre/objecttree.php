@@ -138,27 +138,31 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			$isMovableMount = true;
 		}
 
-		// check update privileges
-		if (!$this->fileView->isUpdatable($sourcePath) && !$isMovableMount) {
-			throw new \Sabre\DAV\Exception\Forbidden();
-		}
-		if ($sourceDir !== $destinationDir) {
-			if (!$this->fileView->isCreatable($destinationDir)) {
+		try {
+			// check update privileges
+			if (!$this->fileView->isUpdatable($sourcePath) && !$isMovableMount) {
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
-			if (!$this->fileView->isDeletable($sourcePath) && !$isMovableMount) {
-				throw new \Sabre\DAV\Exception\Forbidden();
+			if ($sourceDir !== $destinationDir) {
+				if (!$this->fileView->isCreatable($destinationDir)) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
+				if (!$this->fileView->isDeletable($sourcePath) && !$isMovableMount) {
+					throw new \Sabre\DAV\Exception\Forbidden();
+				}
 			}
-		}
 
-		$fileName = basename($destinationPath);
-		if (!\OCP\Util::isValidFileName($fileName)) {
-			throw new \Sabre\DAV\Exception\BadRequest();
-		}
+			$fileName = basename($destinationPath);
+			if (!\OCP\Util::isValidFileName($fileName)) {
+				throw new \Sabre\DAV\Exception\BadRequest();
+			}
 
-		$renameOkay = $this->fileView->rename($sourcePath, $destinationPath);
-		if (!$renameOkay) {
-			throw new \Sabre\DAV\Exception\Forbidden('');
+			$renameOkay = $this->fileView->rename($sourcePath, $destinationPath);
+			if (!$renameOkay) {
+				throw new \Sabre\DAV\Exception\Forbidden('');
+			}
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
 
 		// update properties
@@ -188,19 +192,23 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable('filesystem not setup');
 		}
 
-		if ($this->fileView->is_file($source)) {
-			$this->fileView->copy($source, $destination);
-		} else {
-			$this->fileView->mkdir($destination);
-			$dh = $this->fileView->opendir($source);
-			if (is_resource($dh)) {
-				while (($subNode = readdir($dh)) !== false) {
+		try {
+			if ($this->fileView->is_file($source)) {
+				$this->fileView->copy($source, $destination);
+			} else {
+				$this->fileView->mkdir($destination);
+				$dh = $this->fileView->opendir($source);
+				if (is_resource($dh)) {
+					while (($subNode = readdir($dh)) !== false) {
 
-					if ($subNode == '.' || $subNode == '..') continue;
-					$this->copy($source . '/' . $subNode, $destination . '/' . $subNode);
+						if ($subNode == '.' || $subNode == '..') continue;
+						$this->copy($source . '/' . $subNode, $destination . '/' . $subNode);
 
+					}
 				}
 			}
+		} catch (\OCP\Files\StorageNotAvailableException $e) {
+			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
 		}
 
 		list($destinationDir,) = \Sabre\DAV\URLUtil::splitPath($destination);

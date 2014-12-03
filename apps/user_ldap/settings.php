@@ -26,10 +26,11 @@
 OC_Util::checkAdminUser();
 
 OCP\Util::addScript('user_ldap', 'ldapFilter');
+OCP\Util::addScript('user_ldap', 'experiencedAdmin');
 OCP\Util::addScript('user_ldap', 'settings');
-OCP\Util::addScript('core', 'jquery.multiselect');
+\OC_Util::addVendorScript('user_ldap', 'ui-multiselect/src/jquery.multiselect');
 OCP\Util::addStyle('user_ldap', 'settings');
-OCP\Util::addStyle('core', 'jquery.multiselect');
+\OC_Util::addVendorStyle('user_ldap', 'ui-multiselect/jquery.multiselect');
 OCP\Util::addStyle('core', 'jquery-ui-1.10.0.custom');
 
 // fill template
@@ -53,8 +54,8 @@ $wizTabs[] = array('tpl' => 'part.wizard-server',      'cap' => $l->t('Server'))
 $wizTabs[] = array('tpl' => 'part.wizard-userfilter',  'cap' => $l->t('User Filter'));
 $wizTabs[] = array('tpl' => 'part.wizard-loginfilter', 'cap' => $l->t('Login Filter'));
 $wizTabs[] = array('tpl' => 'part.wizard-groupfilter', 'cap' => $l->t('Group Filter'));
-
-for($i = 0; $i < count($wizTabs); $i++) {
+$wizTabsCount = count($wizTabs);
+for($i = 0; $i < $wizTabsCount; $i++) {
 	$tab = new OCP\Template('user_ldap', $wizTabs[$i]['tpl']);
 	if($i === 0) {
 		$tab->assign('serverConfigurationPrefixes', $prefixes);

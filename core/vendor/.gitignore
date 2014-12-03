@@ -1,0 +1,68 @@
+test/
+src/
+.bower.json
+bower.json
+.gitignore
+.jshintrc
+.travis.yml
+CHANGELOG*
+Gemfile
+gruntfile.js
+Makefile
+package.json
+README*
+
+# underscore
+underscore/**
+!underscore/underscore.js
+!underscore/LICENSE
+
+# blueimp-md5
+blueimp-md5/css
+blueimp-md5/js/*
+!blueimp-md5/js/md5.js
+blueimp-md5/index.html
+
+# momentjs - ignore all files except the two listed below
+moment/benchmarks
+moment/locale
+moment/min/**
+moment/moment.js
+!moment/min/moment-with-locales.js
+
+# jquery
+jquery/**
+!jquery/jquery*
+!jquery/MIT-LICENSE.txt
+
+# jcrop
+jcrop/index.html
+jcrop/demos
+jcrop/css/jquery.Jcrop.min.css
+jcrop/js/**
+!jcrop/js/jquery.Jcrop.js
+
+# handlebars
+handlebars/**
+!handlebars/handlebars.js
+
+# select2
+select2/**
+!select2/select2.js
+!select2/select2.css
+!select2/select2.png
+!select2/select2x2.png
+!select2/select2-spinner.gif
+!select2/LICENSE
+
+#zxcvbn
+zxcvbn/**
+!zxcvbn/zxcvbn.js
+!zxcvbn/LICENSE.txt
+
+# snapjs
+snapjs/demo
+snapjs/dist/2.0.0-rc1
+snapjs/dist/latest/snap.css
+snapjs/dist/latest/snap.min.js
+snapjs/scripts

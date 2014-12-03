@@ -22,6 +22,14 @@ class OwnCloud extends \OC\Files\Storage\DAV{
 		// extract context path from host if specified
 		// (owncloud install path on host)
 		$host = $params['host'];
+		// strip protocol
+		if (substr($host, 0, 8) == "https://") {
+			$host = substr($host, 8);
+			$params['secure'] = true;
+		} else if (substr($host, 0, 7) == "http://") {
+			$host = substr($host, 7);
+			$params['secure'] = false;
+		}
 		$contextPath = '';
 		$hostSlashPos = strpos($host, '/');
 		if ($hostSlashPos !== false){

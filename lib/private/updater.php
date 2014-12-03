@@ -66,11 +66,15 @@ class Updater extends BasicEmitter {
 	 * @param string $updaterUrl the url to check, i.e. 'http://apps.owncloud.com/updater.php'
 	 * @return array|bool
 	 */
-	public function check($updaterUrl) {
+	public function check($updaterUrl = null) {
 
 		// Look up the cache - it is invalidated all 30 minutes
 		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
 			return json_decode(\OC_Appconfig::getValue('core', 'lastupdateResult'), true);
+		}
+
+		if (is_null($updaterUrl)) {
+			$updaterUrl = 'https://apps.owncloud.com/updater.php';
 		}
 
 		\OC_Appconfig::setValue('core', 'lastupdatedat', time());
@@ -125,7 +129,6 @@ class Updater extends BasicEmitter {
 	 * @return bool true if the operation succeeded, false otherwise
 	 */
 	public function upgrade() {
-		\OC_DB::enableCaching(false);
 		\OC_Config::setValue('maintenance', true);
 
 		$installedVersion = \OC_Config::getValue('version', '0.0.0');
@@ -242,7 +245,6 @@ class Updater extends BasicEmitter {
 	protected function checkAppUpgrade($version) {
 		$apps = \OC_App::getEnabledApps();
 
-
 		foreach ($apps as $appId) {
 			if ($version) {
 				$info = \OC_App::getAppInfo($appId);
@@ -252,6 +254,15 @@ class Updater extends BasicEmitter {
 			}
 
 			if ($compatible && \OC_App::shouldUpgrade($appId)) {
+				/**
+				 * FIXME: The preupdate check is performed before the database migration, otherwise database changes
+				 * are not possible anymore within it. - Consider this when touching the code.
+				 * @link https://github.com/owncloud/core/issues/10980
+				 * @see \OC_App::updateApp
+				 */
+				if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/preupdate.php')) {
+					$this->includePreUpdate($appId);
+				}
 				if (file_exists(\OC_App::getAppPath($appId) . '/appinfo/database.xml')) {
 					\OC_DB::simulateUpdateDbFromStructure(\OC_App::getAppPath($appId) . '/appinfo/database.xml');
 				}
@@ -259,6 +270,14 @@ class Updater extends BasicEmitter {
 		}
 
 		$this->emit('\OC\Updater', 'appUpgradeCheck');
+	}
+
+	/**
+	 * Includes the pre-update file. Done here to prevent namespace mixups.
+	 * @param string $appId
+	 */
+	private function includePreUpdate($appId) {
+		include \OC_App::getAppPath($appId) . '/appinfo/preupdate.php';
 	}
 
 	protected function doAppUpgrade() {

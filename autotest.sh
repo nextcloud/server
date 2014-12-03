@@ -40,7 +40,7 @@ if ! [ $PHPUNIT_MAJOR_VERSION -gt 3 -o \( $PHPUNIT_MAJOR_VERSION -eq 3 -a $PHPUN
 	exit 4
 fi
 
-if ! [ -w config -a -w config/config.php ]; then
+if ! [ \( -w config -a ! -f config/config.php \) -o \( -f config/config.php -a -w config/config.php \) ]; then
 	echo "Please enable write permissions on config and config/config.php" >&2
 	exit 1
 fi

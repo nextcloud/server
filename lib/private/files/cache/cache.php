@@ -71,7 +71,7 @@ class Cache {
 		if (empty(self::$mimetypeIds)) {
 			$this->loadMimetypes();
 		}
-		
+
 		if (!isset(self::$mimetypeIds[$mime])) {
 			try{
 				$result = \OC_DB::executeAudited('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)', array($mime));
@@ -82,8 +82,8 @@ class Cache {
 				\OC_Log::write('core', 'Exception during mimetype insertion: ' . $e->getmessage(), \OC_Log::DEBUG);
 				return -1;
 			}
-		} 
-				
+		}
+
 		return self::$mimetypeIds[$mime];
 	}
 
@@ -371,7 +371,7 @@ class Cache {
 				$this->remove($child['path']);
 			}
 		}
-		
+
 		$sql = 'DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?';
 		\OC_DB::executeAudited($sql, array($entry['fileid']));
 	}
@@ -585,7 +585,7 @@ class Cache {
 	/**
 	 * find a folder in the cache which has not been fully scanned
 	 *
-	 * If multiply incomplete folders are in the cache, the one with the highest id will be returned,
+	 * If multiple incomplete folders are in the cache, the one with the highest id will be returned,
 	 * use the one with the highest id gives the best result with the background scanner, since that is most
 	 * likely the folder where we stopped scanning previously
 	 *

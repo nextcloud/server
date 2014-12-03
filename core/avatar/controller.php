@@ -12,6 +12,7 @@ class Controller {
 	public static function getAvatar($args) {
 		\OC_JSON::checkLoggedIn();
 		\OC_JSON::callCheck();
+		\OC::$server->getSession()->close();
 
 		$user = stripslashes($args['user']);
 		$size = (int)$args['size'];

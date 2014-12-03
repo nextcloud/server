@@ -1,25 +1,46 @@
 /* global LdapWizard */
 
-function LdapFilter(target)  {
+function LdapFilter(target, determineModeCallback) {
 	this.locked = true;
 	this.target = false;
 	this.mode = LdapWizard.filterModeAssisted;
 	this.lazyRunCompose = false;
+	this.determineModeCallback = determineModeCallback;
+	this.foundFeatures = false;
+	this.activated = false;
+	this.countPending = false;
 
 	if( target === 'User' ||
 		target === 'Login' ||
 		target === 'Group') {
 		this.target = target;
-		this.determineMode();
 	}
 }
 
-LdapFilter.prototype.compose = function(callback) {
+LdapFilter.prototype.activate = function() {
+	if(this.activated) {
+		return;
+	}
+	this.activated = true;
+
+	this.determineMode();
+};
+
+LdapFilter.prototype.compose = function(updateCount) {
 	var action;
+
+	if(updateCount === true) {
+		this.countPending = updateCount;
+	}
 
 	if(this.locked) {
 		this.lazyRunCompose = true;
 		return false;
+	}
+
+	if(this.mode === LdapWizard.filterModeRaw) {
+		//Raw filter editing, i.e. user defined filter, don't compose
+		return;
 	}
 
 	if(this.target === 'User') {
@@ -30,11 +51,6 @@ LdapFilter.prototype.compose = function(callback) {
 		action = 'getGroupFilter';
 	}
 
-	if(!$('#raw'+this.target+'FilterContainer').hasClass('invisible')) {
-		//Raw filter editing, i.e. user defined filter, don't compose
-		return;
-	}
-
 	var param = 'action='+action+
 		'&ldap_serverconfig_chooser='+
 		encodeURIComponent($('#ldap_serverconfig_chooser').val());
@@ -43,22 +59,34 @@ LdapFilter.prototype.compose = function(callback) {
 
 	LdapWizard.ajax(param,
 		function(result) {
-			LdapWizard.applyChanges(result);
-			if(filter.target === 'User') {
-				LdapWizard.countUsers();
-			} else if(filter.target === 'Group') {
-				LdapWizard.countGroups();
-				LdapWizard.detectGroupMemberAssoc();
-			}
-			if(typeof callback !== 'undefined') {
-				callback();
-			}
+			filter.afterComposeSuccess(result);
 		},
 		function () {
+			filter.countPending = false;
 			console.log('LDAP Wizard: could not compose filter. '+
 				'Please check owncloud.log');
 		}
 	);
+};
+
+/**
+ * this function is triggered after attribute detectors have completed in
+ * LdapWizard
+ */
+LdapFilter.prototype.afterDetectorsRan = function() {
+	this.updateCount();
+};
+
+/**
+ * this function is triggered after LDAP filters have been composed successfully
+ * @param {object} result returned by the ajax call
+ */
+LdapFilter.prototype.afterComposeSuccess = function(result) {
+	LdapWizard.applyChanges(result);
+	if(this.countPending) {
+		this.countPending = false;
+		this.updateCount();
+	}
 };
 
 LdapFilter.prototype.determineMode = function() {
@@ -82,6 +110,7 @@ LdapFilter.prototype.determineMode = function() {
 					filter.mode + '« of type ' + typeof filter.mode);
 			}
 			filter.unlock();
+			filter.determineModeCallback(filter.mode);
 		},
 		function () {
 			//on error case get back to default i.e. Assisted
@@ -90,8 +119,19 @@ LdapFilter.prototype.determineMode = function() {
 				filter.mode = LdapWizard.filterModeAssisted;
 			}
 			filter.unlock();
+			filter.determineModeCallback(filter.mode);
 		}
 	);
+};
+
+LdapFilter.prototype.setMode = function(mode) {
+	if(mode === LdapWizard.filterModeAssisted || mode === LdapWizard.filterModeRaw) {
+		this.mode = mode;
+	}
+};
+
+LdapFilter.prototype.getMode = function() {
+	return this.mode;
 };
 
 LdapFilter.prototype.unlock = function() {
@@ -100,4 +140,50 @@ LdapFilter.prototype.unlock = function() {
 		this.lazyRunCompose = false;
 		this.compose();
 	}
+};
+
+LdapFilter.prototype.findFeatures = function() {
+	//TODO: reset this.foundFeatures when any base DN changes
+	if(!this.foundFeatures && !this.locked && this.mode === LdapWizard.filterModeAssisted) {
+		this.foundFeatures = true;
+		var objcEl, avgrEl;
+		if(this.target === 'User') {
+			objcEl = 'ldap_userfilter_objectclass';
+			avgrEl = 'ldap_userfilter_groups';
+		} else if (this.target === 'Group') {
+			objcEl = 'ldap_groupfilter_objectclass';
+			avgrEl = 'ldap_groupfilter_groups';
+		} else if (this.target === 'Login') {
+			LdapWizard.findAttributes();
+			return;
+		} else {
+			return false;
+		}
+		LdapWizard.findObjectClasses(objcEl, this.target);
+		LdapWizard.findAvailableGroups(avgrEl, this.target + "s");
+	}
+};
+
+/**
+ * this function is triggered before user and group counts are executed
+ * resolving the passed status variable will fire up counting
+ * @param {object} status an instance of $.Deferred
+ */
+LdapFilter.prototype.beforeUpdateCount = function() {
+	var status = $.Deferred();
+	LdapWizard.runDetectors(this.target, function() {
+		status.resolve();
+	});
+	return status;
+};
+
+LdapFilter.prototype.updateCount = function(doneCallback) {
+	var filter = this;
+	$.when(this.beforeUpdateCount()).done(function() {
+		if(filter.target === 'User') {
+			LdapWizard.countUsers(doneCallback);
+		} else if (filter.target === 'Group') {
+			LdapWizard.countGroups(doneCallback);
+		}
+	});
 };

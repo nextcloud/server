@@ -8,10 +8,11 @@
 
 namespace Test\Files\Storage;
 
-class SMBFunctions extends \PHPUnit_Framework_TestCase {
+class SMBFunctions extends \Test\TestCase {
 
-	public function setUp() {
-		$id = uniqid();
+	protected function setUp() {
+		parent::setUp();
+
 		// dummy config
 		$this->config = array(
 			'run'=>false,
@@ -23,9 +24,6 @@ class SMBFunctions extends \PHPUnit_Framework_TestCase {
 		);
 
 		$this->instance = new \OC\Files\Storage\SMB($this->config);
-	}
-
-	public function tearDown() {
 	}
 
 	public function testGetId() {

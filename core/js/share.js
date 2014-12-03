@@ -444,7 +444,7 @@ OC.Share={
 					}
 				});
 			}
-			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
+			$('#shareWith').autocomplete({minLength: 2, delay: 750, source: function(search, response) {
 				var $loading = $('#dropdown .shareWithLoading');
 				$loading.removeClass('hidden');
 				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
@@ -1025,6 +1025,7 @@ $(document).ready(function() {
 			$loading.removeClass('hidden');
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', permissions, itemSourceName).then(function() {
 				$loading.addClass('hidden');
+				$('#linkPassText').attr('placeholder', t('core', 'Choose a password for the public link'));
 			});
 		} else {
 			$('#linkPassText').focus();

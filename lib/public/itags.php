@@ -54,6 +54,15 @@ interface ITags {
 	public function isEmpty();
 
 	/**
+	* Returns an array mapping a given tag's properties to its values:
+	* ['id' => 0, 'name' = 'Tag', 'owner' = 'User', 'type' => 'tagtype']
+	*
+	* @param string $id The ID of the tag that is going to be mapped
+	* @return array|false
+	*/
+	public function getTag($id);
+
+	/**
 	* Get the tags for a specific user.
 	*
 	* This returns an array with id/name maps:
@@ -85,6 +94,16 @@ interface ITags {
 	public function hasTag($name);
 
 	/**
+	* Checks whether a tag is saved for the given user,
+	* disregarding the ones shared with him or her.
+	*
+	* @param string $name The tag name to check for.
+	* @param string $user The user whose tags are to be checked.
+	* @return bool
+	*/
+	public function userHasTag($name, $user);
+
+	/**
 	* Add a new tag.
 	*
 	* @param string $name A string with a name of the tag
@@ -95,7 +114,7 @@ interface ITags {
 	/**
 	* Rename tag.
 	*
-	* @param string $from The name of the existing tag
+	* @param string|integer $from The name or ID of the existing tag
 	* @param string $to The new name of the tag.
 	* @return bool
 	*/
@@ -162,9 +181,9 @@ interface ITags {
 	public function unTag($objid, $tag);
 
 	/**
-	* Delete tags from the
+	* Delete tags from the database
 	*
-	* @param string[] $names An array of tags to delete
+	* @param string[]|integer[] $names An array of tags (names or IDs) to delete
 	* @return bool Returns false on error
 	*/
 	public function delete($names);

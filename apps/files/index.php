@@ -28,6 +28,7 @@ OCP\User::checkLoggedIn();
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addStyle('files', 'upload');
 OCP\Util::addStyle('files', 'mobile');
+OCP\Util::addTranslations('files');
 OCP\Util::addscript('files', 'app');
 OCP\Util::addscript('files', 'file-upload');
 OCP\Util::addscript('files', 'jquery.iframe-transport');

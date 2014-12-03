@@ -1,7 +1,7 @@
 <div id="controls">
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text"
-			placeholder="<?php p($l->t('Login Name'))?>"
+			placeholder="<?php p($l->t('Username'))?>"
 			autocomplete="off" autocapitalize="off" autocorrect="off" />
 		<input
 			type="password" id="newuserpassword"
@@ -29,6 +29,6 @@
 	</div>
 	<?php endif; ?>
 	<form autocomplete="off" id="usersearchform">
-		<input type="text" class="input userFilter" placeholder="<?php p($l->t('Search Users and Groups')); ?>" />
+		<input type="text" class="input userFilter" placeholder="<?php p($l->t('Search Users')); ?>" />
 	</form>
 </div>

@@ -8,7 +8,7 @@
 
 namespace Test\Files\Cache;
 
-class Scanner extends \PHPUnit_Framework_TestCase {
+class Scanner extends \Test\TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage $storage
 	 */
@@ -24,16 +24,20 @@ class Scanner extends \PHPUnit_Framework_TestCase {
 	 */
 	private $cache;
 
-	function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->storage = new \OC\Files\Storage\Temporary(array());
 		$this->scanner = new \OC\Files\Cache\Scanner($this->storage);
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
 	}
 
-	function tearDown() {
+	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();
 		}
+
+		parent::tearDown();
 	}
 
 	function testFile() {

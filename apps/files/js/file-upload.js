@@ -49,7 +49,7 @@ function supportAjaxUploadWithProgress() {
 
 /**
  * keeps track of uploads in progress and implements callbacks for the conflicts dialog
- * @type {OC.Upload}
+ * @namespace
  */
 OC.Upload = {
 	_uploads: [],

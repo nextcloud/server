@@ -41,8 +41,13 @@ class AdapterSqlite extends Adapter {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query . '<br />';
 			\OC_Log::write('core', $entry, \OC_Log::FATAL);
-			error_log('DB error: '.$entry);
-			\OC_Template::printErrorPage( $entry );
+			$l = \OC::$server->getL10N('lib');
+			throw new \OC\HintException(
+				$l->t('Database Error'),
+				$l->t('Please contact your system administrator.'),
+				0,
+				$e
+			);
 		}
 
 		if ($stmt->fetchColumn() === '0') {
@@ -60,8 +65,13 @@ class AdapterSqlite extends Adapter {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
 			\OC_Log::write('core', $entry, \OC_Log::FATAL);
-			error_log('DB error: ' . $entry);
-			\OC_Template::printErrorPage( $entry );
+			$l = \OC::$server->getL10N('lib');
+			throw new \OC\HintException(
+				$l->t('Database Error'),
+				$l->t('Please contact your system administrator.'),
+				0,
+				$e
+			);
 		}
 
 		return $result;

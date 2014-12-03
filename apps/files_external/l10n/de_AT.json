@@ -1,0 +1,10 @@
+{ "translations": {
+    "Location" : "Ort",
+    "Port" : "Port",
+    "Host" : "Host",
+    "Password" : "Passwort",
+    "Share" : "Freigeben",
+    "Personal" : "Persönlich",
+    "Delete" : "Löschen"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

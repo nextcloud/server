@@ -195,7 +195,10 @@
 
 		/**
 		 * Generates a preview URL based on the URL space.
-		 * @param urlSpec map with {x: width, y: height, file: file path}
+		 * @param urlSpec attributes for the URL
+		 * @param {int} urlSpec.x width
+		 * @param {int} urlSpec.y height
+		 * @param {String} urlSpec.file path to the file
 		 * @return preview URL
 		 * @deprecated used OCA.Files.FileList.generatePreviewUrl instead
 		 */
@@ -350,7 +353,7 @@ var createDragShadow = function(event) {
 	}
 
 	// do not show drag shadow for too many files
-	var selectedFiles = _.first(FileList.getSelectedFiles(), FileList.pageSize);
+	var selectedFiles = _.first(FileList.getSelectedFiles(), FileList.pageSize());
 	selectedFiles = _.sortBy(selectedFiles, FileList._fileInfoCompare);
 
 	if (!isDragSelected && selectedFiles.length === 1) {

@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-class Test_App extends PHPUnit_Framework_TestCase {
+class Test_App extends \Test\TestCase {
 
 	private $oldAppConfigService;
 
@@ -360,10 +360,7 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		$user1->delete();
 		$user2->delete();
 		$user3->delete();
-		// clear user cache...
-		$userManager->delete(self::TEST_USER1);
-		$userManager->delete(self::TEST_USER2);
-		$userManager->delete(self::TEST_USER3);
+
 		$group1->delete();
 		$group2->delete();
 	}
@@ -399,8 +396,6 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		\OC_User::setUserId(null);
 
 		$user1->delete();
-		// clear user cache...
-		$userManager->delete(self::TEST_USER1);
 	}
 
 	/**
@@ -460,6 +455,9 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		\OC::$server->registerService('AppConfig', function ($c) use ($oldService){
 			return $oldService;
 		});
+
+		// Remove the cache of the mocked apps list with a forceRefresh
+		\OC_App::getEnabledApps(true);
 	}
 }
 

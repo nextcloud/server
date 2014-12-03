@@ -72,7 +72,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 			'size' => 0,
 			'mtime' => $mTime,
 			'storage_mtime' => $mTime,
-			'permissions' => \OCP\PERMISSION_ALL,
+			'permissions' => \OCP\Constants::PERMISSION_ALL,
 		);
 
 		if ($dirName === '' && !$parentExists) {
@@ -332,7 +332,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 				'size' => 0,
 				'mtime' => $mtime,
 				'storage_mtime' => $mtime,
-				'permissions' => \OCP\PERMISSION_ALL,
+				'permissions' => \OCP\Constants::PERMISSION_ALL,
 			);
 			$fileId = $this->getCache()->put($path, $stat);
 			try {
@@ -349,7 +349,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 
 	public function writeBack($tmpFile) {
 		if (!isset(self::$tmpFiles[$tmpFile])) {
-			return false;
+			return;
 		}
 
 		$path = self::$tmpFiles[$tmpFile];
@@ -357,7 +357,7 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		if (empty($stat)) {
 			// create new file
 			$stat = array(
-				'permissions' => \OCP\PERMISSION_ALL,
+				'permissions' => \OCP\Constants::PERMISSION_ALL,
 			);
 		}
 		// update stat with new data
@@ -375,9 +375,8 @@ class ObjectStoreStorage extends \OC\Files\Storage\Common {
 		} catch (\Exception $ex) {
 			$this->getCache()->remove($path);
 			\OCP\Util::writeLog('objectstore', 'Could not create object: ' . $ex->getMessage(), \OCP\Util::ERROR);
-			return false;
+			throw $ex; // make this bubble up
 		}
-		return true;
 	}
 
 	/**

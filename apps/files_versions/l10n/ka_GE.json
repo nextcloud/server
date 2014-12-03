@@ -1,0 +1,6 @@
+{ "translations": {
+    "Could not revert: %s" : "ვერ მოხერხდა უკან დაბრუნება: %s",
+    "Versions" : "ვერსიები",
+    "Restore" : "აღდგენა"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

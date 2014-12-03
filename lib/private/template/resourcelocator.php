@@ -10,7 +10,6 @@ namespace OC\Template;
 
 abstract class ResourceLocator {
 	protected $theme;
-	protected $form_factor;
 
 	protected $mapping;
 	protected $serverroot;
@@ -21,11 +20,9 @@ abstract class ResourceLocator {
 
 	/**
 	 * @param string $theme
-	 * @param string $form_factor
 	 */
-	public function __construct( $theme, $form_factor, $core_map, $party_map ) {
+	public function __construct( $theme, $core_map, $party_map ) {
 		$this->theme = $theme;
-		$this->form_factor = $form_factor;
 		$this->mapping = $core_map + $party_map;
 		$this->serverroot = key($core_map);
 		$this->thirdpartyroot = key($party_map);
@@ -46,8 +43,7 @@ abstract class ResourceLocator {
 				}
 			}
 		} catch (\Exception $e) {
-			throw new \Exception($e->getMessage().' formfactor:'.$this->form_factor
-						.' serverroot:'.$this->serverroot);
+			throw new \Exception($e->getMessage().' serverroot:'.$this->serverroot);
 		}
 	}
 

@@ -8,12 +8,14 @@
  *
 */
 
-class Test_ActivityManager extends PHPUnit_Framework_TestCase {
+class Test_ActivityManager extends \Test\TestCase {
 
 	/** @var \OC\ActivityManager */
 	private $activityManager;
 
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		$this->activityManager = new \OC\ActivityManager();
 		$this->activityManager->registerExtension(function() {
 			return new NoOpExtension();
@@ -85,11 +87,14 @@ class Test_ActivityManager extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testQueryForFilter() {
+		$this->activityManager->registerExtension(function() {
+			return new SimpleExtension();
+		});
 		$result = $this->activityManager->getQueryForFilter('filter1');
 		$this->assertEquals(
 			array(
-				'`app` = ? and `message` like ?',
-				array('mail', 'ownCloud%')
+				' and ((`app` = ? and `message` like ?) or (`app` = ? and `message` like ?))',
+				array('mail', 'ownCloud%', 'mail', 'ownCloud%')
 			), $result
 		);
 

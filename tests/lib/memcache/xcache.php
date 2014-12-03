@@ -10,11 +10,13 @@
 namespace Test\Memcache;
 
 class XCache extends Cache {
-	public function setUp() {
+	protected function setUp() {
+		parent::setUp();
+
 		if (!\OC\Memcache\XCache::isAvailable()) {
 			$this->markTestSkipped('The xcache extension is not available.');
 			return;
 		}
-		$this->instance = new \OC\Memcache\XCache(uniqid());
+		$this->instance = new \OC\Memcache\XCache($this->getUniqueID());
 	}
 }
