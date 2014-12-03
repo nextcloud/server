@@ -80,6 +80,91 @@ class TestAllConfig extends \Test\TestCase {
 		$config->deleteUserValue('userSet', 'appSet', 'keySet');
 	}
 
+	public function testSetUserValueWithPreCondition() {
+		// mock the check for the database to run the correct SQL statements for each database type
+		$systemConfig = $this->getMock('\OC\SystemConfig');
+		$systemConfig->expects($this->once())
+			->method('getValue')
+			->with($this->equalTo('dbtype'),
+				$this->equalTo('sqlite'))
+			->will($this->returnValue(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite')));
+		$config = $this->getConfig($systemConfig);
+
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+
+		$config->setUserValue('userPreCond', 'appPreCond', 'keyPreCond', 'valuePreCond');
+
+		$result = $this->connection->executeQuery($selectAllSQL, array('userPreCond'))->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals(array(
+			'userid'      => 'userPreCond',
+			'appid'       => 'appPreCond',
+			'configkey'   => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		), $result[0]);
+
+		// test if the method overwrites existing database entries with valid precond
+		$config->setUserValue('userPreCond', 'appPreCond', 'keyPreCond', 'valuePreCond2', 'valuePreCond');
+
+		$result = $this->connection->executeQuery($selectAllSQL, array('userPreCond'))->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals(array(
+			'userid'      => 'userPreCond',
+			'appid'       => 'appPreCond',
+			'configkey'   => 'keyPreCond',
+			'configvalue' => 'valuePreCond2'
+		), $result[0]);
+
+		// cleanup
+		$config->deleteUserValue('userPreCond', 'appPreCond', 'keyPreCond');
+	}
+
+	/**
+	 * @expectedException \OCP\PreConditionNotMetException
+	 */
+	public function testSetUserValueWithPreConditionFailure() {
+		// mock the check for the database to run the correct SQL statements for each database type
+		$systemConfig = $this->getMock('\OC\SystemConfig');
+		$systemConfig->expects($this->once())
+			->method('getValue')
+			->with($this->equalTo('dbtype'),
+				$this->equalTo('sqlite'))
+			->will($this->returnValue(\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite')));
+		$config = $this->getConfig($systemConfig);
+
+		$selectAllSQL = 'SELECT `userid`, `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
+
+		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond');
+
+		$result = $this->connection->executeQuery($selectAllSQL, array('userPreCond1'))->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals(array(
+			'userid'      => 'userPreCond1',
+			'appid'       => 'appPreCond',
+			'configkey'   => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		), $result[0]);
+
+		// test if the method overwrites existing database entries with valid precond
+		$config->setUserValue('userPreCond1', 'appPreCond', 'keyPreCond', 'valuePreCond2', 'valuePreCond3');
+
+		$result = $this->connection->executeQuery($selectAllSQL, array('userPreCond1'))->fetchAll();
+
+		$this->assertEquals(1, count($result));
+		$this->assertEquals(array(
+			'userid'      => 'userPreCond1',
+			'appid'       => 'appPreCond',
+			'configkey'   => 'keyPreCond',
+			'configvalue' => 'valuePreCond'
+		), $result[0]);
+
+		// cleanup
+		$config->deleteUserValue('userPreCond1', 'appPreCond', 'keyPreCond');
+	}
+
 	public function testSetUserValueUnchanged() {
 		$resultMock = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
 			->disableOriginalConstructor()->getMock();

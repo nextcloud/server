@@ -70,10 +70,12 @@ class OC_Preferences{
 	 * will be added automagically.
 	 */
 	public static function setValue( $user, $app, $key, $value, $preCondition = null ) {
-		return \OC::$server->getConfig()->setUserValue($user, $app, $key, $value);
-
-		// TODO maybe catch exceptions and then return false
-		return true;
+		try {
+			\OC::$server->getConfig()->setUserValue($user, $app, $key, $value, $preCondition);
+			return true;
+		} catch(\OCP\PreConditionNotMetException $e) {
+			return false;
+		}
 	}
 
 	/**

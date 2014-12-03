@@ -37,6 +37,7 @@
 namespace OC;
 
 use OCP\IDBConnection;
+use OCP\PreConditionNotMetException;
 
 
 /**
@@ -111,10 +112,12 @@ class Preferences {
 	 * will be added automagically.
 	 */
 	public function setValue($user, $app, $key, $value, $preCondition = null) {
-		return $this->config->setUserValue($user, $app, $key, $value);
-
-		// TODO maybe catch exceptions and then return false
-		return true;
+		try {
+			$this->config->setUserValue($user, $app, $key, $value, $preCondition);
+			return true;
+		} catch(PreConditionNotMetException $e) {
+			return false;
+		}
 	}
 
 	/**

@@ -9,6 +9,7 @@
 
 namespace OC;
 use OCP\IDBConnection;
+use OCP\PreConditionNotMetException;
 
 /**
  * Class to combine all the configuration options ownCloud offers
@@ -140,8 +141,10 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $appName the appName that we want to store the value under
 	 * @param string $key the key under which the value is being stored
 	 * @param string $value the value that you want to store
+	 * @param string $preCondition only update if the config value was previously the value passed as $preCondition
+	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 */
-	public function setUserValue($userId, $appName, $key, $value) {
+	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
 		// Check if the key does exist
 		$sql  = 'SELECT `configvalue` FROM `*PREFIX*preferences` '.
 				'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
@@ -154,15 +157,24 @@ class AllConfig implements \OCP\IConfig {
 			return;
 		}
 
-		if (!$exists) {
+		$data = array($value, $userId, $appName, $key);
+		if (!$exists && $preCondition === null) {
 			$sql  = 'INSERT INTO `*PREFIX*preferences` (`configvalue`, `userid`, `appid`, `configkey`)'.
 					'VALUES (?, ?, ?, ?)';
-		} else {
+		} elseif ($exists) {
 			$sql  = 'UPDATE `*PREFIX*preferences` SET `configvalue` = ? '.
-					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
+					'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? ';
 
+			if($preCondition !== null) {
+				if($this->getSystemValue('dbtype', 'sqlite') === 'oci') {
+					//oracle hack: need to explicitly cast CLOB to CHAR for comparison
+					$sql .= 'AND to_char(`configvalue`) = ?';
+				} else {
+					$sql .= 'AND `configvalue` = ?';
+				}
+				$data[] = $preCondition;
+			}
 		}
-		$data = array($value, $userId, $appName, $key);
 		$affectedRows = $this->connection->executeUpdate($sql, $data);
 
 		// only add to the cache if we already loaded data for the user
@@ -171,6 +183,10 @@ class AllConfig implements \OCP\IConfig {
 				$this->userCache[$userId][$appName] = array();
 			}
 			$this->userCache[$userId][$appName][$key] = $value;
+		}
+
+		if ($preCondition !== null && $affectedRows === 0) {
+			throw new PreConditionNotMetException;
 		}
 	}
 
