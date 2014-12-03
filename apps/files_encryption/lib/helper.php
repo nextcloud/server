@@ -27,7 +27,7 @@ namespace OCA\Files_Encryption;
 
 /**
  * Class to manage registration of hooks an various helper methods
- * @package OCA\Encryption
+ * @package OCA\Files_Encryption
  */
 class Helper {
 
@@ -39,9 +39,9 @@ class Helper {
 	 */
 	public static function registerShareHooks() {
 
-		\OCP\Util::connectHook('OCP\Share', 'pre_shared', 'OCA\Encryption\Hooks', 'preShared');
-		\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared');
-		\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare');
+		\OCP\Util::connectHook('OCP\Share', 'pre_shared', 'OCA\Files_Encryption\Hooks', 'preShared');
+		\OCP\Util::connectHook('OCP\Share', 'post_shared', 'OCA\Files_Encryption\Hooks', 'postShared');
+		\OCP\Util::connectHook('OCP\Share', 'post_unshare', 'OCA\Files_Encryption\Hooks', 'postUnshare');
 	}
 
 	/**
@@ -50,12 +50,12 @@ class Helper {
 	 */
 	public static function registerUserHooks() {
 
-		\OCP\Util::connectHook('OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login');
-		\OCP\Util::connectHook('OC_User', 'logout', 'OCA\Encryption\Hooks', 'logout');
-		\OCP\Util::connectHook('OC_User', 'post_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase');
-		\OCP\Util::connectHook('OC_User', 'pre_setPassword', 'OCA\Encryption\Hooks', 'preSetPassphrase');
-		\OCP\Util::connectHook('OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser');
-		\OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OCA\Encryption\Hooks', 'postDeleteUser');
+		\OCP\Util::connectHook('OC_User', 'post_login', 'OCA\Files_Encryption\Hooks', 'login');
+		\OCP\Util::connectHook('OC_User', 'logout', 'OCA\Files_Encryption\Hooks', 'logout');
+		\OCP\Util::connectHook('OC_User', 'post_setPassword', 'OCA\Files_Encryption\Hooks', 'setPassphrase');
+		\OCP\Util::connectHook('OC_User', 'pre_setPassword', 'OCA\Files_Encryption\Hooks', 'preSetPassphrase');
+		\OCP\Util::connectHook('OC_User', 'post_createUser', 'OCA\Files_Encryption\Hooks', 'postCreateUser');
+		\OCP\Util::connectHook('OC_User', 'post_deleteUser', 'OCA\Files_Encryption\Hooks', 'postDeleteUser');
 	}
 
 	/**
@@ -64,15 +64,15 @@ class Helper {
 	 */
 	public static function registerFilesystemHooks() {
 
-		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Encryption\Hooks', 'preRename');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRenameOrCopy');
-		\OCP\Util::connectHook('OC_Filesystem', 'copy', 'OCA\Encryption\Hooks', 'preCopy');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', 'OCA\Encryption\Hooks', 'postRenameOrCopy');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Encryption\Hooks', 'postDelete');
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Encryption\Hooks', 'preDelete');
-		\OCP\Util::connectHook('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', 'OCA\Encryption\Hooks', 'postPasswordReset');
-		\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Encryption\Hooks', 'postUnmount');
-		\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Encryption\Hooks', 'preUnmount');
+		\OCP\Util::connectHook('OC_Filesystem', 'rename', 'OCA\Files_Encryption\Hooks', 'preRename');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Files_Encryption\Hooks', 'postRenameOrCopy');
+		\OCP\Util::connectHook('OC_Filesystem', 'copy', 'OCA\Files_Encryption\Hooks', 'preCopy');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_copy', 'OCA\Files_Encryption\Hooks', 'postRenameOrCopy');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_delete', 'OCA\Files_Encryption\Hooks', 'postDelete');
+		\OCP\Util::connectHook('OC_Filesystem', 'delete', 'OCA\Files_Encryption\Hooks', 'preDelete');
+		\OCP\Util::connectHook('\OC\Core\LostPassword\Controller\LostController', 'post_passwordReset', 'OCA\Files_Encryption\Hooks', 'postPasswordReset');
+		\OCP\Util::connectHook('OC_Filesystem', 'post_umount', 'OCA\Files_Encryption\Hooks', 'postUnmount');
+		\OCP\Util::connectHook('OC_Filesystem', 'umount', 'OCA\Files_Encryption\Hooks', 'preUnmount');
 	}
 
 	/**
@@ -81,8 +81,8 @@ class Helper {
 	 */
 	public static function registerAppHooks() {
 
-		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Encryption\Hooks', 'preDisable');
-		\OCP\Util::connectHook('OC_App', 'post_disable', 'OCA\Encryption\Hooks', 'postEnable');
+		\OCP\Util::connectHook('OC_App', 'pre_disable', 'OCA\Files_Encryption\Hooks', 'preDisable');
+		\OCP\Util::connectHook('OC_App', 'post_disable', 'OCA\Files_Encryption\Hooks', 'postEnable');
 	}
 
 	/**
@@ -131,8 +131,6 @@ class Helper {
 	 *
 	 * @param string $recoveryKeyId
 	 * @param string $recoveryPassword
-	 * @internal param \OCA\Encryption\Util $util
-	 * @internal param string $password
 	 * @return bool
 	 */
 	public static function adminEnableRecovery($recoveryKeyId, $recoveryPassword) {
@@ -147,13 +145,13 @@ class Helper {
 
 		if (!Keymanager::recoveryKeyExists($view)) {
 
-			$keypair = \OCA\Encryption\Crypt::createKeypair();
+			$keypair = Crypt::createKeypair();
 
 			// Save public key
 			Keymanager::setPublicKey($keypair['publicKey'], $recoveryKeyId);
 
-			$cipher = \OCA\Encryption\Helper::getCipher();
-			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword, $cipher);
+			$cipher = Helper::getCipher();
+			$encryptedKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $recoveryPassword, $cipher);
 			if ($encryptedKey) {
 				Keymanager::setPrivateSystemKey($encryptedKey, $recoveryKeyId);
 				// Set recoveryAdmin as enabled
@@ -162,7 +160,7 @@ class Helper {
 			}
 
 		} else { // get recovery key and check the password
-			$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \OCP\User::getUser());
+			$util = new Util(new \OC\Files\View('/'), \OCP\User::getUser());
 			$return = $util->checkRecoveryPassword($recoveryPassword);
 			if ($return) {
 				$appConfig->setValue('files_encryption', 'recoveryAdminEnabled', 1);
@@ -362,14 +360,14 @@ class Helper {
 		if ($errorCode === null) {
 			$init = $session->getInitialized();
 			switch ($init) {
-				case \OCA\Encryption\Session::INIT_EXECUTED:
-					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR;
+				case Session::INIT_EXECUTED:
+					$errorCode = Crypt::ENCRYPTION_PRIVATE_KEY_NOT_VALID_ERROR;
 					break;
-				case \OCA\Encryption\Session::NOT_INITIALIZED:
-					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_NOT_INITIALIZED_ERROR;
+				case Session::NOT_INITIALIZED:
+					$errorCode = Crypt::ENCRYPTION_NOT_INITIALIZED_ERROR;
 					break;
 				default:
-					$errorCode = \OCA\Encryption\Crypt::ENCRYPTION_UNKNOWN_ERROR;
+					$errorCode = Crypt::ENCRYPTION_UNKNOWN_ERROR;
 			}
 		}
 

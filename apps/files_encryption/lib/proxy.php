@@ -34,7 +34,7 @@ namespace OCA\Files_Encryption;
 
 /**
  * Class Proxy
- * @package OCA\Encryption
+ * @package OCA\Files_Encryption
  */
 class Proxy extends \OC_FileProxy {
 
@@ -130,7 +130,7 @@ class Proxy extends \OC_FileProxy {
 				$view = new \OC\Files\View('/');
 
 				// get relative path
-				$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
+				$relativePath = Helper::stripUserFilesPath($path);
 
 				if (!isset($relativePath)) {
 					return true;
@@ -338,7 +338,7 @@ class Proxy extends \OC_FileProxy {
 		}
 
 		// get relative path
-		$relativePath = \OCA\Encryption\Helper::stripUserFilesPath($path);
+		$relativePath = Helper::stripUserFilesPath($path);
 
 		// if path is empty we cannot resolve anything
 		if (empty($relativePath)) {

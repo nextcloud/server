@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-use OCA\Encryption;
+use OCA\Files_Encryption\Crypt;
+use OCA\Files_Encryption\Keymanager;
+use OCA\Files_Encryption\Util;
 
 /**
  * Class Test_Encryption_Util
@@ -31,7 +33,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	public $publicKeyPath;
 	public $privateKeyPath;
 	/**
-	 * @var \OCA\Encryption\Util
+	 * @var \OCA\Files_Encryption\Util
 	 */
 	public $util;
 	public $dataShort;
@@ -74,12 +76,12 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->legacyEncryptedDataKey = __DIR__ . '/encryption.key';
 		$this->legacyKey = "30943623843030686906\0\0\0\0";
 
-		$keypair = Encryption\Crypt::createKeypair();
+		$keypair = Crypt::createKeypair();
 
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
-		$this->publicKeyDir = \OCA\Encryption\Keymanager::getPublicKeyPath();
+		$this->publicKeyDir = Keymanager::getPublicKeyPath();
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
@@ -89,7 +91,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$this->view = new \OC\Files\View('/');
 
-		$this->util = new Encryption\Util($this->view, $this->userId);
+		$this->util = new Util($this->view, $this->userId);
 
 		// remember files_trashbin state
 		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
@@ -128,7 +130,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 * test that paths set during User construction are correct
 	 */
 	function testKeyPaths() {
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		$this->assertEquals($this->publicKeyDir, $util->getPath('publicKeyDir'));
 		$this->assertEquals($this->encryptionDir, $util->getPath('encryptionDir'));
@@ -144,7 +146,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testIsEncryptedPath() {
 
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		self::loginHelper($this->userId);
 
@@ -197,7 +199,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 //
 //		$params['uid'] = $this->userId;
 //		$params['password'] = $this->pass;
-//		$this->assertFalse(OCA\Encryption\Hooks::login($params));
+//		$this->assertFalse(OCA\Files_Encryption\Hooks::login($params));
 //
 //		$this->view->unlink($this->privateKeyPath);
 //	}
@@ -207,7 +209,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testRecoveryEnabledForUser() {
 
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		// Record the value so we can return it to it's original state later
 		$enabled = $util->recoveryEnabledForUser();
@@ -241,7 +243,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		// Re-enable proxy - our work is done
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		list($fileOwnerUid, $file) = $util->getUidAndFilename($filename);
 
@@ -283,7 +285,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	function testEncryptAll() {
 
 		$filename = "/encryptAll" . $this->getUniqueID() . ".txt";
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		// disable encryption to upload a unencrypted file
 		\OC_App::disable('files_encryption');
@@ -345,11 +347,11 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 			'password' => \OCP\User::getUser());
 
 		$view = new OC\Files\View('/');
-		$util = new \OCA\Encryption\Util($view, \OCP\User::getUser());
+		$util = new Util($view, \OCP\User::getUser());
 
 		$result = $util->initEncryption($params);
 
-		$this->assertTrue($result instanceof \OCA\Encryption\Session);
+		$this->assertTrue($result instanceof \OCA\Files_Encryption\Session);
 
 		$successful = $util->decryptAll();
 
@@ -401,7 +403,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->view->file_put_contents($encPath . '/keys/foo/fileKey', 'key');
 		$this->view->file_put_contents($encPath . '/keys/foo/user1.shareKey', 'share key');
 
-		$util = new \OCA\Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
+		$util = new Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
 
 		$util->backupAllKeys('testBackupAllKeys');
 
@@ -427,7 +429,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$file1 = "/decryptAll1" . $this->getUniqueID() . ".txt";
 		$file2 = "/decryptAll2" . $this->getUniqueID() . ".txt";
 
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file1, $this->dataShort);
 		$this->view->file_put_contents($this->userId . '/files/' . $file2, $this->dataShort);
@@ -598,7 +600,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		if ($loadEncryption) {
 			$params['uid'] = $user;
 			$params['password'] = $password;
-			OCA\Encryption\Hooks::login($params);
+			\OCA\Files_Encryption\Hooks::login($params);
 		}
 	}
 
@@ -625,9 +627,9 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 }
 
 /**
- * dummy class extends  \OCA\Encryption\Util to access protected methods for testing
+ * dummy class extends  \OCA\Files_Encryption\Util to access protected methods for testing
  */
-class DummyUtilClass extends \OCA\Encryption\Util {
+class DummyUtilClass extends \OCA\Files_Encryption\Util {
 	public function testIsMountPointApplicableToUser($mount) {
 		return $this->isMountPointApplicableToUser($mount);
 	}

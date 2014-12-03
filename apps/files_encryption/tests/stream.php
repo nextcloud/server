@@ -20,8 +20,6 @@
  *
  */
 
-use OCA\Encryption;
-
 /**
  * Class Test_Encryption_Stream
  * this class provide basic stream tests
@@ -208,7 +206,7 @@ class Test_Encryption_Stream extends \OCA\Files_Encryption\Tests\TestCase {
 
 		file_put_contents($tmpFilename, $encryptedContent);
 
-		\OCA\Encryption\Helper::addTmpFileToMapper($tmpFilename, $filename);
+		\OCA\Files_Encryption\Helper::addTmpFileToMapper($tmpFilename, $filename);
 
 		// try to read the file from /tmp
 		$handle = fopen("crypt://".$tmpFilename, "r");

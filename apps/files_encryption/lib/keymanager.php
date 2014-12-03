@@ -141,7 +141,7 @@ class Keymanager {
 	 * store file encryption key
 	 *
 	 * @param \OC\Files\View $view
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string $path relative path of the file, including filename
 	 * @param string $catfile keyfile content
 	 * @return bool true/false
@@ -158,7 +158,7 @@ class Keymanager {
 	 * get path to key folder for a given file
 	 *
 	 * @param \OC\Files\View $view relative to data directory
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string $path path to the file, relative to the users file directory
 	 * @return string
 	 */
@@ -186,7 +186,7 @@ class Keymanager {
 	 * get path to file key for a given file
 	 *
 	 * @param \OC\Files\View $view relative to data directory
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string $path path to the file, relative to the users file directory
 	 * @return string
 	 */
@@ -199,7 +199,7 @@ class Keymanager {
 	 * get path to share key for a given user
 	 *
 	 * @param \OC\Files\View $view relateive to data directory
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string $path path to file relative to the users files directoy
 	 * @param string $uid user for whom we want the share-key path
 	 * @retrun string
@@ -243,9 +243,8 @@ class Keymanager {
 	/**
 	 * retrieve keyfile for an encrypted file
 	 * @param \OC\Files\View $view
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string|false $filePath
-	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
@@ -347,7 +346,7 @@ class Keymanager {
 	/**
 	 * store multiple share keys for a single file
 	 * @param \OC\Files\View $view
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string $path
 	 * @param array $shareKeys
 	 * @return bool
@@ -376,7 +375,7 @@ class Keymanager {
 	 * retrieve shareKey for an encrypted file
 	 * @param \OC\Files\View $view
 	 * @param string $userId
-	 * @param \OCA\Encryption\Util $util
+	 * @param \OCA\Files_Encryption\Util $util
 	 * @param string $filePath
 	 * @return string file key or false
 	 * @note The sharekey returned is encrypted. Decryption

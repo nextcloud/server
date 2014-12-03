@@ -6,7 +6,8 @@
  *
  * check migration status
  */
-use OCA\Encryption\Util;
+
+use OCA\Files_Encryption\Util;
 
 \OCP\JSON::checkAppEnabled('files_encryption');
 

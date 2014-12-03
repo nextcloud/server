@@ -5,22 +5,22 @@
 \OCP\Util::addscript('files_encryption', 'detect-migration');
 
 if (!OC_Config::getValue('maintenance', false)) {
-	OC_FileProxy::register(new OCA\Encryption\Proxy());
+	OC_FileProxy::register(new OCA\Files_Encryption\Proxy());
 
 	// User related hooks
-	OCA\Encryption\Helper::registerUserHooks();
+	OCA\Files_Encryption\Helper::registerUserHooks();
 
 	// Sharing related hooks
-	OCA\Encryption\Helper::registerShareHooks();
+	OCA\Files_Encryption\Helper::registerShareHooks();
 
 	// Filesystem related hooks
-	OCA\Encryption\Helper::registerFilesystemHooks();
+	OCA\Files_Encryption\Helper::registerFilesystemHooks();
 
 	// App manager related hooks
-	OCA\Encryption\Helper::registerAppHooks();
+	OCA\Files_Encryption\Helper::registerAppHooks();
 
 	if(!in_array('crypt', stream_get_wrappers())) {
-		stream_wrapper_register('crypt', 'OCA\Encryption\Stream');
+		stream_wrapper_register('crypt', 'OCA\Files_Encryption\Stream');
 	}
 } else {
 	// logout user if we are in maintenance to force re-login

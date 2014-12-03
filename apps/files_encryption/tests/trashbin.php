@@ -20,8 +20,6 @@
  *
  */
 
-use OCA\Encryption;
-
 /**
  * Class Test_Encryption_Trashbin
  * this class provide basic trashbin app tests

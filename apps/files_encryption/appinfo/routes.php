@@ -19,4 +19,4 @@ $this->create('files_encryption_ajax_userrecovery', 'ajax/userrecovery.php')
 	->actionInclude('files_encryption/ajax/userrecovery.php');
 
 // Register with the capabilities API
-OC_API::register('get', '/cloud/capabilities', array('OCA\Encryption\Capabilities', 'getCapabilities'), 'files_encryption', OC_API::USER_AUTH);
+OC_API::register('get', '/cloud/capabilities', array('OCA\Files_Encryption\Capabilities', 'getCapabilities'), 'files_encryption', OC_API::USER_AUTH);

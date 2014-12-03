@@ -21,8 +21,7 @@
  *
  */
 
-use OCA\Encryption;
-use OCA\Files_Encryption\Migration;
+use OCA\Files_Encryption\Helper;
 
 class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
 
@@ -60,8 +59,8 @@ class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
 	public function setUp() {
 		$this->loginHelper(self::TEST_ENCRYPTION_MIGRATION_USER1);
 		$this->view = new \OC\Files\View();
-		$this->public_share_key_id = Encryption\Helper::getPublicShareKeyId();
-		$this->recovery_key_id = Encryption\Helper::getRecoveryKeyId();
+		$this->public_share_key_id = Helper::getPublicShareKeyId();
+		$this->recovery_key_id = Helper::getRecoveryKeyId();
 		if (OC_DB::tableExists('encryption_test')) {
 			OC_DB::dropTable('encryption_test');
 		}

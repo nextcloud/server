@@ -72,8 +72,8 @@ class Session {
 			Keymanager::setPublicKey($keypair['publicKey'], $publicShareKeyId);
 
 			// Encrypt private key empty passphrase
-			$cipher = \OCA\Encryption\Helper::getCipher();
-			$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], '', $cipher);
+			$cipher = Helper::getCipher();
+			$encryptedKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], '', $cipher);
 			if ($encryptedKey) {
 				Keymanager::setPrivateSystemKey($encryptedKey, $publicShareKeyId);
 			} else {
@@ -82,7 +82,7 @@ class Session {
 
 		}
 
-		if (\OCA\Encryption\Helper::isPublicAccess() && !self::getPublicSharePrivateKey()) {
+		if (Helper::isPublicAccess() && !self::getPublicSharePrivateKey()) {
 			// Disable encryption proxy to prevent recursive calls
 			$proxyStatus = \OC_FileProxy::$enabled;
 			\OC_FileProxy::$enabled = false;
@@ -151,7 +151,7 @@ class Session {
 	public function getInitialized() {
 		if (!is_null(\OC::$server->getSession()->get('encryptionInitialized'))) {
 			return \OC::$server->getSession()->get('encryptionInitialized');
-		} else if (\OCA\Encryption\Helper::isPublicAccess() && self::getPublicSharePrivateKey()) {
+		} else if (Helper::isPublicAccess() && self::getPublicSharePrivateKey()) {
 			return self::INIT_SUCCESSFUL;
 		} else {
 			return self::NOT_INITIALIZED;
@@ -165,7 +165,7 @@ class Session {
 	 */
 	public function getPrivateKey() {
 		// return the public share private key if this is a public access
-		if (\OCA\Encryption\Helper::isPublicAccess()) {
+		if (Helper::isPublicAccess()) {
 			return self::getPublicSharePrivateKey();
 		} else {
 			if (!is_null(\OC::$server->getSession()->get('privateKey'))) {

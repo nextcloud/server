@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-use OCA\Encryption;
+use OCA\Files_Encryption\Crypt;
+use OCA\Files_Encryption\Keymanager;
+use OCA\Files_Encryption\Util;
 
 /**
  * Class Test_Encryption_Keymanager
@@ -50,9 +52,9 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->dataUrl = __DIR__ . '/../lib/crypt.php';
 		$this->legacyData = __DIR__ . '/legacy-text.txt';
 		$this->legacyEncryptedData = __DIR__ . '/legacy-encrypted-text.txt';
-		$this->randomKey = Encryption\Crypt::generateKey();
+		$this->randomKey = Crypt::generateKey();
 
-		$keypair = Encryption\Crypt::createKeypair();
+		$keypair = Crypt::createKeypair();
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
@@ -89,9 +91,9 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testGetPrivateKey() {
 
-		$key = Encryption\Keymanager::getPrivateKey($this->view, $this->userId);
+		$key = Keymanager::getPrivateKey($this->view, $this->userId);
 
-		$privateKey = Encryption\Crypt::decryptPrivateKey($key, $this->pass);
+		$privateKey = Crypt::decryptPrivateKey($key, $this->pass);
 
 		$res = openssl_pkey_get_private($privateKey);
 
@@ -108,7 +110,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testGetPublicKey() {
 
-		$publiceKey = Encryption\Keymanager::getPublicKey($this->view, $this->userId);
+		$publiceKey = Keymanager::getPublicKey($this->view, $this->userId);
 
 		$res = openssl_pkey_get_public($publiceKey);
 
@@ -128,7 +130,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$file = 'unittest-' . $this->getUniqueID() . '.txt';
 
-		$util = new Encryption\Util($this->view, $this->userId);
+		$util = new Util($this->view, $this->userId);
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -136,7 +138,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file, $this->dataShort);
 
-		Encryption\Keymanager::setFileKey($this->view, $util, $file, $key);
+		Keymanager::setFileKey($this->view, $util, $file, $key);
 
 		$this->assertTrue($this->view->file_exists('/' . $this->userId . '/files_encryption/keys/' . $file . '/fileKey'));
 
@@ -154,7 +156,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$key = "dummy key";
 
-		Encryption\Keymanager::setPrivateKey($key, 'dummyUser');
+		Keymanager::setPrivateKey($key, 'dummyUser');
 
 		$this->assertTrue($this->view->file_exists('/dummyUser/files_encryption/dummyUser.privateKey'));
 
@@ -169,13 +171,13 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$key = "dummy key";
 		$keyName = "myDummyKey";
-		$encHeader = Encryption\Crypt::generateHeader();
+		$encHeader = Crypt::generateHeader();
 
-		Encryption\Keymanager::setPrivateSystemKey($key, $keyName);
+		Keymanager::setPrivateSystemKey($key, $keyName);
 
 		$this->assertTrue($this->view->file_exists('/files_encryption/' . $keyName . '.privateKey'));
 
-		$result = Encryption\Keymanager::getPrivateSystemKey($keyName);
+		$result = Keymanager::getPrivateSystemKey($keyName);
 
 		$this->assertSame($encHeader . $key, $result);
 
@@ -189,7 +191,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testGetUserKeys() {
 
-		$keys = Encryption\Keymanager::getUserKeys($this->view, $this->userId);
+		$keys = Keymanager::getUserKeys($this->view, $this->userId);
 
 		$resPublic = openssl_pkey_get_public($keys['publicKey']);
 
@@ -199,7 +201,7 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$this->assertArrayHasKey('key', $sslInfoPublic);
 
-		$privateKey = Encryption\Crypt::decryptPrivateKey($keys['privateKey'], $this->pass);
+		$privateKey = Crypt::decryptPrivateKey($keys['privateKey'], $this->pass);
 
 		$resPrivate = openssl_pkey_get_private($privateKey);
 
@@ -247,9 +249,9 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/keys/folder1/subfolder/subsubfolder/file2/user3.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
-		Encryption\Keymanager::delShareKey($this->view,
+		Keymanager::delShareKey($this->view,
 				array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER),
-				Encryption\Keymanager::getKeyPath($this->view, new Encryption\Util($this->view, Test_Encryption_Keymanager::TEST_USER), '/folder1'),
+				Keymanager::getKeyPath($this->view, new Util($this->view, Test_Encryption_Keymanager::TEST_USER), '/folder1'),
 				Test_Encryption_Keymanager::TEST_USER,
 				'/folder1');
 
@@ -315,9 +317,9 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->view->file_put_contents('/'.Test_Encryption_Keymanager::TEST_USER.'/files_encryption/share-keys/folder1/existingFile.txt.' . Test_Encryption_Keymanager::TEST_USER . '.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
-		Encryption\Keymanager::delShareKey($this->view,
+		Keymanager::delShareKey($this->view,
 				array('user1', 'user2', Test_Encryption_Keymanager::TEST_USER),
-				Encryption\Keymanager::getKeyPath($this->view, new Encryption\Util($this->view, Test_Encryption_Keymanager::TEST_USER), '/folder1/existingFile.txt'),
+				Keymanager::getKeyPath($this->view, new Util($this->view, Test_Encryption_Keymanager::TEST_USER), '/folder1/existingFile.txt'),
 				Test_Encryption_Keymanager::TEST_USER,
 				'/folder1/existingFile.txt');
 
@@ -356,9 +358,9 @@ class Test_Encryption_Keymanager extends \OCA\Files_Encryption\Tests\TestCase {
 }
 
 /**
- * dummy class to access protected methods of \OCA\Encryption\Keymanager for testing
+ * dummy class to access protected methods of \OCA\Files_Encryption\Keymanager for testing
  */
-class TestProtectedKeymanagerMethods extends \OCA\Encryption\Keymanager {
+class TestProtectedKeymanagerMethods extends \OCA\Files_Encryption\Keymanager {
 
 	/**
 	 * @param \OC\Files\View $view relative to data/

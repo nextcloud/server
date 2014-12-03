@@ -1,7 +1,7 @@
 <form id="encryption" class="section">
 	<h2><?php p($l->t('Encryption')); ?></h2>
 
-	<?php if($_["initStatus"] === \OCA\Encryption\Session::NOT_INITIALIZED): ?>
+	<?php if($_["initStatus"] === \OCA\Files_Encryption\Session::NOT_INITIALIZED): ?>
 		<?php p($l->t("Encryption App is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 	<?php else: ?>
 	<p id="encryptionSetRecoveryKey">

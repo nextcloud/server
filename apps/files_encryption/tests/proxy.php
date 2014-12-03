@@ -20,8 +20,6 @@
  *
  */
 
-use OCA\Encryption;
-
 /**
  * Class Test_Encryption_Proxy
  * this class provide basic proxy app tests
@@ -153,7 +151,7 @@ class Test_Encryption_Proxy extends \OCA\Files_Encryption\Tests\TestCase {
 /**
  * Dummy class to make protected methods available for testing
  */
-class DummyProxy extends \OCA\Encryption\Proxy {
+class DummyProxy extends \OCA\Files_Encryption\Proxy {
 	public function isExcludedPathTesting($path, $uid) {
 		return $this->isExcludedPath($path, $uid);
 	}

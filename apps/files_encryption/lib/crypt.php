@@ -133,7 +133,7 @@ class Crypt {
 	 * Check if a file's contents contains an IV and is symmetrically encrypted
 	 * @param string $content
 	 * @return boolean
-	 * @note see also OCA\Encryption\Util->isEncryptedPath()
+	 * @note see also \OCA\Files_Encryption\Util->isEncryptedPath()
 	 */
 	public static function isCatfileContent($content) {
 
@@ -190,7 +190,7 @@ class Crypt {
 	 * @param string $passphrase
 	 * @param string $cypher used for encryption, currently we support AES-128-CFB and AES-256-CFB
 	 * @return string encrypted file content
-	 * @throws \OCA\Encryption\Exception\EncryptionException
+	 * @throws \OCA\Files_Encryption\Exception\EncryptionException
 	 */
 	private static function encrypt($plainContent, $iv, $passphrase = '', $cipher = Crypt::DEFAULT_CIPHER) {
 
@@ -379,7 +379,7 @@ class Crypt {
 	 * @param string $plainContent content to be encrypted
 	 * @param array $publicKeys array keys must be the userId of corresponding user
 	 * @return array keys: keys (array, key = userId), data
-	 * @throws \OCA\Encryption\Exception\MultiKeyEncryptException if encryption failed
+	 * @throws \OCA\Files_Encryption\Exception\MultiKeyEncryptException if encryption failed
 	 * @note symmetricDecryptFileContent() can decrypt files created using this method
 	 */
 	public static function multiKeyEncrypt($plainContent, array $publicKeys) {
@@ -425,7 +425,7 @@ class Crypt {
 	 * @param string $encryptedContent
 	 * @param string $shareKey
 	 * @param mixed $privateKey
-	 * @throws \OCA\Encryption\Exception\MultiKeyDecryptException if decryption failed
+	 * @throws \OCA\Files_Encryption\Exception\MultiKeyDecryptException if decryption failed
 	 * @internal param string $plainContent contains decrypted content
 	 * @return string $plainContent decrypted string
 	 * @note symmetricDecryptFileContent() can be used to decrypt files created using this method
@@ -554,7 +554,7 @@ class Crypt {
 	 * get chiper from header
 	 *
 	 * @param array $header
-	 * @throws \OCA\Encryption\Exception\EncryptionException
+	 * @throws \OCA\Files_Encryption\Exception\EncryptionException
 	 */
 	public static function getCipher($header) {
 		$cipher = isset($header['cipher']) ? $header['cipher'] : 'AES-128-CFB';

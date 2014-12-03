@@ -31,7 +31,8 @@
  */
 
 namespace OCA\Files_Encryption;
-use OCA\Encryption\Exception\EncryptionException;
+
+use OCA\Files_Encryption\Exception\EncryptionException;
 
 /**
  * Provides 'crypt://' stream wrapper protocol.
@@ -81,7 +82,7 @@ class Stream {
 	private $rootView; // a fsview object set to '/'
 
 	/**
-	 * @var \OCA\Encryption\Session
+	 * @var \OCA\Files_Encryption\Session
 	 */
 	private $session;
 	private $privateKey;
@@ -92,7 +93,7 @@ class Stream {
 	 * @param int $options
 	 * @param string $opened_path
 	 * @return bool
-	 * @throw \OCA\Encryption\Exception\EncryptionException
+	 * @throw \OCA\Files_Encryption\Exception\EncryptionException
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path) {
 
@@ -106,7 +107,7 @@ class Stream {
 			$this->rootView = new \OC\Files\View('/');
 		}
 
-		$this->session = new \OCA\Encryption\Session($this->rootView);
+		$this->session = new Session($this->rootView);
 
 		$this->privateKey = $this->session->getPrivateKey();
 		if ($this->privateKey === false) {
@@ -162,7 +163,7 @@ class Stream {
 
 			if($this->privateKey === false) {
 				// if private key is not valid redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
+				Helper::redirectToErrorPage($this->session);
 			}
 
 			$this->size = $this->rootView->filesize($this->rawPath);
@@ -251,7 +252,7 @@ class Stream {
 	/**
 	 * @param int $count
 	 * @return bool|string
-	 * @throws \OCA\Encryption\Exception\EncryptionException
+	 * @throws \OCA\Files_Encryption\Exception\EncryptionException
 	 */
 	public function stream_read($count) {
 
@@ -329,7 +330,7 @@ class Stream {
 
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$util = new \OCA\Encryption\Util($this->rootView, $this->userId);
+		$util = new Util($this->rootView, $this->userId);
 		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
 
 		// If a keyfile already exists
@@ -340,13 +341,13 @@ class Stream {
 			// if there is no valid private key return false
 			if ($this->privateKey === false) {
 				// if private key is not valid redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage($this->session);
+				Helper::redirectToErrorPage($this->session);
 				return false;
 			}
 
 			if ($shareKey === false) {
 				// if no share key is available redirect user to a error page
-				\OCA\Encryption\Helper::redirectToErrorPage($this->session, \OCA\Encryption\Crypt::ENCRYPTION_NO_SHARE_KEY_FOUND);
+				Helper::redirectToErrorPage($this->session, Crypt::ENCRYPTION_NO_SHARE_KEY_FOUND);
 				return false;
 			}
 
@@ -367,7 +368,7 @@ class Stream {
 	/**
 	 * write header at beginning of encrypted file
 	 *
-	 * @throws Exception\EncryptionException
+	 * @throws \OCA\Files_Encryption\Exception\EncryptionException
 	 */
 	private function writeHeader() {
 
@@ -589,7 +590,7 @@ class Stream {
 			}
 
 			// if private key is not valid redirect user to a error page
-			\OCA\Encryption\Helper::redirectToErrorPage($this->session);
+			Helper::redirectToErrorPage($this->session);
 		}
 
 		if (

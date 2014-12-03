@@ -13,8 +13,8 @@ $tmpl = new OCP\Template('files_encryption', 'settings-personal');
 
 $user = \OCP\USER::getUser();
 $view = new \OC\Files\View('/');
-$util = new \OCA\Encryption\Util($view, $user);
-$session = new \OCA\Encryption\Session($view);
+$util = new \OCA\Files_Encryption\Util($view, $user);
+$session = new \OCA\Files_Encryption\Session($view);
 
 $privateKeySet = $session->getPrivateKey() !== false;
 // did we tried to initialize the keys for this session?

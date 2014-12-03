@@ -20,7 +20,10 @@
  *
  */
 
-use OCA\Encryption;
+use OCA\Files_Encryption\Helper;
+use OCA\Files_Encryption\Hooks;
+use OCA\Files_Encryption\Keymanager;
+use OCA\Files_Encryption\Util;
 
 /**
  * Class Test_Encryption_Share
@@ -651,13 +654,13 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
-		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
+		Helper::adminEnableRecovery(null, 'test123');
 		$recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryKeyId');
 
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
-		$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
+		$util = new Util(new \OC\Files\View('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
 		// check if recovery password match
 		$this->assertTrue($util->checkRecoveryPassword('test123'));
@@ -744,8 +747,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 			. $this->subfolder . $this->subsubfolder . '/'
 			. $this->filename . '/' . $recoveryKeyId . '.shareKey'));
 
-		$this->assertTrue(\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123'));
-		$this->assertTrue(\OCA\Encryption\Helper::adminDisableRecovery('test123'));
+		$this->assertTrue(Helper::adminEnableRecovery(null, 'test123'));
+		$this->assertTrue(Helper::adminDisableRecovery('test123'));
 		$this->assertEquals(0, \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled'));
 	}
 
@@ -757,7 +760,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		// login as admin
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1);
 
-		$result = \OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
+		$result = Helper::adminEnableRecovery(null, 'test123');
 		$this->assertTrue($result);
 
 		$recoveryKeyId = \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryKeyId');
@@ -765,7 +768,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		// login as user2
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
-		$util = new \OCA\Encryption\Util(new \OC\Files\View('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
+		$util = new Util(new \OC\Files\View('/'), \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2);
 
 		// enable recovery for admin
 		$this->assertTrue($util->setRecoveryForUser(1));
@@ -814,7 +817,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$params = array('uid' => \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2,
 			'password' => 'test',
 			'recoveryPassword' => 'test123');
-		\OCA\Encryption\Hooks::setPassphrase($params);
+		Hooks::setPassphrase($params);
 
 		// login as user2
 		self::loginHelper(\Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2, false, 'test');
@@ -853,7 +856,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		// enable recovery for admin
 		$this->assertTrue($util->setRecoveryForUser(0));
 
-		\OCA\Encryption\Helper::adminDisableRecovery('test123');
+		Helper::adminDisableRecovery('test123');
 		$this->assertEquals(0, \OC::$server->getAppConfig()->getValue('files_encryption', 'recoveryAdminEnabled'));
 
 		//clean up, reset passwords
@@ -861,7 +864,7 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$params = array('uid' => \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2,
 			'password' => \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER2,
 			'recoveryPassword' => 'test123');
-		\OCA\Encryption\Hooks::setPassphrase($params);
+		Hooks::setPassphrase($params);
 	}
 
 	/**
@@ -892,8 +895,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
 
 		// break users public key
-		$this->view->rename(\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey',
-			\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup');
+		$this->view->rename(Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey',
+			Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup');
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -920,8 +923,8 @@ class Test_Encryption_Share extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// break user1 public key
 		$this->view->rename(
-			\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup',
-			\OCA\Encryption\Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey');
+			Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey_backup',
+			Keymanager::getPublicKeyPath() . '/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER3 . '.publicKey');
 
 		// remove share file
 		$this->view->unlink('/' . \Test_Encryption_Share::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'

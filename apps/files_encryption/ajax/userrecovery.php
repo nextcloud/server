@@ -7,8 +7,6 @@
  * Script to handle admin settings for encrypted key recovery
  */
 
-use OCA\Encryption;
-
 \OCP\JSON::checkLoggedIn();
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
@@ -22,7 +20,7 @@ if (
 
 	$userId = \OCP\USER::getUser();
 	$view = new \OC\Files\View('/');
-	$util = new \OCA\Encryption\Util($view, $userId);
+	$util = new \OCA\Files_Encryption\Util($view, $userId);
 
 	// Save recovery preference to DB
 	$return = $util->setRecoveryForUser($_POST['userEnableRecovery']);

@@ -7,7 +7,7 @@
  * See the COPYING-README file.
  */
 
-use OCA\Encryption;
+use OCA\Files_Encryption\Crypt;
 
 /**
  * Class Test_Encryption_Crypt
@@ -52,9 +52,9 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->legacyData = __DIR__ . '/legacy-text.txt';
 		$this->legacyEncryptedData = __DIR__ . '/legacy-encrypted-text.txt';
 		$this->legacyEncryptedDataKey = __DIR__ . '/encryption.key';
-		$this->randomKey = Encryption\Crypt::generateKey();
+		$this->randomKey = Crypt::generateKey();
 
-		$keypair = Encryption\Crypt::createKeypair();
+		$keypair = Crypt::createKeypair();
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
@@ -95,7 +95,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		# TODO: use more accurate (larger) string length for test confirmation
 
-		$key = Encryption\Crypt::generateKey();
+		$key = Crypt::generateKey();
 
 		$this->assertTrue(strlen($key) > 16);
 
@@ -104,16 +104,16 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 	public function testDecryptPrivateKey() {
 
 		// test successful decrypt
-		$crypted = Encryption\Crypt::symmetricEncryptFileContent($this->genPrivateKey, 'hat');
+		$crypted = Crypt::symmetricEncryptFileContent($this->genPrivateKey, 'hat');
 
-		$header = Encryption\Crypt::generateHeader();
+		$header = Crypt::generateHeader();
 
-		$decrypted = Encryption\Crypt::decryptPrivateKey($header . $crypted, 'hat');
+		$decrypted = Crypt::decryptPrivateKey($header . $crypted, 'hat');
 
 		$this->assertEquals($this->genPrivateKey, $decrypted);
 
 		//test private key decrypt with wrong password
-		$wrongPasswd = Encryption\Crypt::decryptPrivateKey($crypted, 'hat2');
+		$wrongPasswd = Crypt::decryptPrivateKey($crypted, 'hat2');
 
 		$this->assertEquals(false, $wrongPasswd);
 
@@ -127,12 +127,12 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 
-		$crypted = Encryption\Crypt::symmetricEncryptFileContent($this->dataShort, 'hat');
+		$crypted = Crypt::symmetricEncryptFileContent($this->dataShort, 'hat');
 
 		$this->assertNotEquals($this->dataShort, $crypted);
 
 
-		$decrypt = Encryption\Crypt::symmetricDecryptFileContent($crypted, 'hat');
+		$decrypt = Crypt::symmetricDecryptFileContent($crypted, 'hat');
 
 		$this->assertEquals($this->dataShort, $decrypt);
 
@@ -145,12 +145,12 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 
-		$crypted = Encryption\Crypt::symmetricEncryptFileContent($this->dataShort, 'hat', 'AES-128-CFB');
+		$crypted = Crypt::symmetricEncryptFileContent($this->dataShort, 'hat', 'AES-128-CFB');
 
 		$this->assertNotEquals($this->dataShort, $crypted);
 
 
-		$decrypt = Encryption\Crypt::symmetricDecryptFileContent($crypted, 'hat', 'AES-128-CFB');
+		$decrypt = Crypt::symmetricDecryptFileContent($crypted, 'hat', 'AES-128-CFB');
 
 		$this->assertEquals($this->dataShort, $decrypt);
 
@@ -348,7 +348,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// remove the header to check if we can also decrypt old files without a header,
 		//  this files should fall back to AES-128
-		$cryptedWithoutHeader = substr($retreivedCryptedFile, Encryption\Crypt::BLOCKSIZE);
+		$cryptedWithoutHeader = substr($retreivedCryptedFile, Crypt::BLOCKSIZE);
 		$this->view->file_put_contents($this->userId . '/files/' . $filename, $cryptedWithoutHeader);
 
 		// Re-enable proxy - our work is done
@@ -367,13 +367,13 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	public function testIsEncryptedContent() {
 
-		$this->assertFalse(Encryption\Crypt::isCatfileContent($this->dataUrl));
+		$this->assertFalse(Crypt::isCatfileContent($this->dataUrl));
 
-		$this->assertFalse(Encryption\Crypt::isCatfileContent($this->legacyEncryptedData));
+		$this->assertFalse(Crypt::isCatfileContent($this->legacyEncryptedData));
 
-		$keyfileContent = Encryption\Crypt::symmetricEncryptFileContent($this->dataUrl, 'hat', 'AES-128-CFB');
+		$keyfileContent = Crypt::symmetricEncryptFileContent($this->dataUrl, 'hat', 'AES-128-CFB');
 
-		$this->assertTrue(Encryption\Crypt::isCatfileContent($keyfileContent));
+		$this->assertTrue(Crypt::isCatfileContent($keyfileContent));
 
 	}
 
@@ -384,7 +384,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 
 		# TODO: search in keyfile for actual content as IV will ensure this test always passes
 
-		$pair1 = Encryption\Crypt::createKeypair();
+		$pair1 = Crypt::createKeypair();
 
 		$this->assertEquals(2, count($pair1));
 
@@ -393,12 +393,12 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue(strlen($pair1['privateKey']) > 1);
 
 
-		$crypted = Encryption\Crypt::multiKeyEncrypt($this->dataShort, array($pair1['publicKey']));
+		$crypted = Crypt::multiKeyEncrypt($this->dataShort, array($pair1['publicKey']));
 
 		$this->assertNotEquals($this->dataShort, $crypted['data']);
 
 
-		$decrypt = Encryption\Crypt::multiKeyDecrypt($crypted['data'], $crypted['keys'][0], $pair1['privateKey']);
+		$decrypt = Crypt::multiKeyDecrypt($crypted['data'], $crypted['keys'][0], $pair1['privateKey']);
 
 		$this->assertEquals($this->dataShort, $decrypt);
 
@@ -529,7 +529,7 @@ class Test_Encryption_Crypt extends \OCA\Files_Encryption\Tests\TestCase {
 		// relogin
 		$params['uid'] = $this->userId;
 		$params['password'] = 'test';
-		OCA\Encryption\Hooks::login($params);
+		OCA\Files_Encryption\Hooks::login($params);
 
 		// Get file decrypted contents
 		$newDecrypt = file_get_contents('crypt:///' . $this->userId . '/files/' . $filename);

@@ -20,7 +20,7 @@
  *
  */
 
-use OCA\Encryption;
+use OCA\Files_Encryption\Crypt;
 
 /**
  * Class Test_Encryption_Webdav
@@ -138,7 +138,7 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// check if encrypted content is valid
-		$this->assertTrue(Encryption\Crypt::isCatfileContent($encryptedContent));
+		$this->assertTrue(Crypt::isCatfileContent($encryptedContent));
 
 		// get decrypted file contents
 		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files' . $filename);

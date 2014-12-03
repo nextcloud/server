@@ -1,11 +1,11 @@
 <form id="encryption" class="section">
 	<h2><?php p( $l->t( 'Encryption' ) ); ?></h2>
 
-	<?php if ( $_["initialized"] === \OCA\Encryption\Session::NOT_INITIALIZED ): ?>
+	<?php if ( $_["initialized"] === \OCA\Files_Encryption\Session::NOT_INITIALIZED ): ?>
 
 	<?php p($l->t("Encryption App is enabled but your keys are not initialized, please log-out and log-in again")); ?>
 
-	<?php elseif ( $_["initialized"] === \OCA\Encryption\Session::INIT_EXECUTED ): ?>
+	<?php elseif ( $_["initialized"] === \OCA\Files_Encryption\Session::INIT_EXECUTED ): ?>
 		<p>
 			<a name="changePKPasswd" />
 			<label for="changePrivateKeyPasswd">
@@ -37,7 +37,7 @@
 			<span class="msg"></span>
 		</p>
 
-	<?php elseif ( $_["recoveryEnabled"] && $_["privateKeySet"] &&  $_["initialized"] === \OCA\Encryption\Session::INIT_SUCCESSFUL ): ?>
+	<?php elseif ( $_["recoveryEnabled"] && $_["privateKeySet"] &&  $_["initialized"] === \OCA\Files_Encryption\Session::INIT_SUCCESSFUL ): ?>
 		<br />
 		<p id="userEnableRecovery">
 			<label for="userEnableRecovery"><?php p( $l->t( "Enable password recovery:" ) ); ?></label>
