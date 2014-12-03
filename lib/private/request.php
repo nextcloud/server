@@ -66,6 +66,22 @@ class OC_Request {
 	}
 
 	/**
+	 * Strips a potential port from a domain (in format domain:port)
+	 * @param $host
+	 * @return string $host without appended port
+	 */
+	public static function getDomainWithoutPort($host) {
+		$pos = strrpos($host, ':');
+		if ($pos !== false) {
+			$port = substr($host, $pos + 1);
+			if (is_numeric($port)) {
+				$host = substr($host, 0, $pos);
+			}
+		}
+		return $host;
+	}
+
+	/**
 	 * Checks whether a domain is considered as trusted from the list
 	 * of trusted domains. If no trusted domains have been configured, returns
 	 * true.
@@ -76,13 +92,7 @@ class OC_Request {
 	 */
 	public static function isTrustedDomain($domain) {
 		// Extract port from domain if needed
-		$pos = strrpos($domain, ':');
-		if ($pos !== false) {
-			$port = substr($domain, $pos + 1);
-			if (is_numeric($port)) {
-				$domain = substr($domain, 0, $pos);
-			}
-		}
+		$domain = self::getDomainWithoutPort($domain);
 
 		// FIXME: Empty config array defaults to true for now. - Deprecate this behaviour with ownCloud 8.
 		$trustedList = \OC::$server->getConfig()->getSystemValue('trusted_domains', array());
