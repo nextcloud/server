@@ -166,7 +166,7 @@ class OC_Setup {
 		    && is_array($options['trusted_domains'])) {
 			$trustedDomains = $options['trusted_domains'];
 		} else {
-			$trustedDomains = array(OC_Request::serverHost());
+			$trustedDomains = array(\OC_Request::getDomainWithoutPort(\OC_Request::serverHost()));
 		}
 
 		if (OC_Util::runningOnWindows()) {
