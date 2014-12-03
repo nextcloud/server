@@ -21,14 +21,15 @@
  *
  */
 
-use OCA\Files_Encryption\Helper;
+namespace OCA\Files_Encryption\Tests;
 
-class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
+class Migration extends TestCase {
 
 	const TEST_ENCRYPTION_MIGRATION_USER1='test_encryption_user1';
 	const TEST_ENCRYPTION_MIGRATION_USER2='test_encryption_user2';
 	const TEST_ENCRYPTION_MIGRATION_USER3='test_encryption_user3';
 
+	/** @var \OC\Files\View */
 	private $view;
 	private $public_share_key_id;
 	private $recovery_key_id;
@@ -48,8 +49,8 @@ class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
 	}
 
 	protected function tearDown() {
-		if (OC_DB::tableExists('encryption_test')) {
-			OC_DB::dropTable('encryption_test');
+		if (\OC_DB::tableExists('encryption_test')) {
+			\OC_DB::dropTable('encryption_test');
 		}
 		$this->assertTableNotExist('encryption_test');
 
@@ -59,10 +60,10 @@ class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
 	public function setUp() {
 		$this->loginHelper(self::TEST_ENCRYPTION_MIGRATION_USER1);
 		$this->view = new \OC\Files\View();
-		$this->public_share_key_id = Helper::getPublicShareKeyId();
-		$this->recovery_key_id = Helper::getRecoveryKeyId();
-		if (OC_DB::tableExists('encryption_test')) {
-			OC_DB::dropTable('encryption_test');
+		$this->public_share_key_id = \OCA\Files_Encryption\Helper::getPublicShareKeyId();
+		$this->recovery_key_id = \OCA\Files_Encryption\Helper::getRecoveryKeyId();
+		if (\OC_DB::tableExists('encryption_test')) {
+			\OC_DB::dropTable('encryption_test');
 		}
 		$this->assertTableNotExist('encryption_test');
 	}
@@ -100,7 +101,7 @@ class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
 
 		// create test table
 		$this->checkLastIndexId();
-		OC_DB::createDbFromStructure(__DIR__ . '/encryption_table.xml');
+		\OC_DB::createDbFromStructure(__DIR__ . '/encryption_table.xml');
 		$this->checkLastIndexId();
 	}
 
@@ -108,12 +109,12 @@ class Test_Migration extends \OCA\Files_Encryption\Tests\TestCase {
 	 * @param string $table
 	 */
 	public function assertTableNotExist($table) {
-		$type=OC_Config::getValue( "dbtype", "sqlite" );
+		$type = \OC_Config::getValue( "dbtype", "sqlite" );
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			// sqlite removes the tables after closing the DB
 			$this->assertTrue(true);
 		} else {
-			$this->assertFalse(OC_DB::tableExists($table), 'Table ' . $table . ' exists.');
+			$this->assertFalse(\OC_DB::tableExists($table), 'Table ' . $table . ' exists.');
 		}
 	}
 

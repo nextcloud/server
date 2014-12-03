@@ -20,11 +20,13 @@
  *
  */
 
+namespace OCA\Files_Encryption\Tests;
+
 /**
- * Class Test_Encryption_Stream
+ * Class Stream
  * this class provide basic stream tests
  */
-class Test_Encryption_Stream extends \OCA\Files_Encryption\Tests\TestCase {
+class Stream extends TestCase {
 
 	const TEST_ENCRYPTION_STREAM_USER1 = "test-stream-user1";
 
@@ -59,7 +61,7 @@ class Test_Encryption_Stream extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->dataShort = 'hats';
 
 		// remember files_trashbin state
-		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+		$this->stateFilesTrashbin = \OC_App::isEnabled('files_trashbin');
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
@@ -68,10 +70,10 @@ class Test_Encryption_Stream extends \OCA\Files_Encryption\Tests\TestCase {
 	protected function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
+			\OC_App::enable('files_trashbin');
 		}
 		else {
-			OC_App::disable('files_trashbin');
+			\OC_App::disable('files_trashbin');
 		}
 
 		parent::tearDown();

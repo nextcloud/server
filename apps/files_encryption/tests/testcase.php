@@ -8,10 +8,8 @@
 
 namespace OCA\Files_Encryption\Tests;
 
-use OCA\Files_Encryption\Helper;
-
 /**
- * Class Test_Encryption_TestCase
+ * Class TestCase
  */
 abstract class TestCase extends \Test\TestCase {
 
@@ -59,9 +57,9 @@ abstract class TestCase extends \Test\TestCase {
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
 
-		Helper::registerFilesystemHooks();
-		Helper::registerUserHooks();
-		Helper::registerShareHooks();
+		\OCA\Files_Encryption\Helper::registerFilesystemHooks();
+		\OCA\Files_Encryption\Helper::registerUserHooks();
+		\OCA\Files_Encryption\Helper::registerShareHooks();
 
 		\OC::registerShareHooks();
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');

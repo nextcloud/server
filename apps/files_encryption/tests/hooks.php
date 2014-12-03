@@ -20,15 +20,13 @@
  *
  */
 
-use OCA\Files_Encryption\Crypt;
-use OCA\Files_Encryption\Hooks;
-use OCA\Files_Encryption\Keymanager;
+namespace OCA\Files_Encryption\Tests;
 
 /**
- * Class Test_Encryption_Hooks
+ * Class Hooks
  * this class provide basic hook app tests
  */
-class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
+class Hooks extends TestCase {
 
 	const TEST_ENCRYPTION_HOOKS_USER1 = "test-encryption-hooks-user1.dot";
 	const TEST_ENCRYPTION_HOOKS_USER2 = "test-encryption-hooks-user2.dot";
@@ -106,7 +104,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertTrue(is_array($row));
 
 		// disabling the app should delete all user specific settings
-		Hooks::preDisable(array('app' => 'files_encryption'));
+		\OCA\Files_Encryption\Hooks::preDisable(array('app' => 'files_encryption'));
 
 		// check if user specific settings for the encryption app are really gone
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*preferences` WHERE `appid` = ?');
@@ -123,7 +121,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 	function testDeleteHooks() {
 
 		// remember files_trashbin state
-		$stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+		$stateFilesTrashbin = \OC_App::isEnabled('files_trashbin');
 
 		// we want to tests with app files_trashbin disabled
 		\OC_App::disable('files_trashbin');
@@ -190,10 +188,10 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 				self::TEST_ENCRYPTION_HOOKS_USER1 . '/files_encryption/keys/' . $this->filename . '/fileKey'));
 
 		if ($stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
+			\OC_App::enable('files_trashbin');
 		}
 		else {
-			OC_App::disable('files_trashbin');
+			\OC_App::disable('files_trashbin');
 		}
 	}
 
@@ -204,7 +202,7 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_User::setUserId(self::TEST_ENCRYPTION_HOOKS_USER1);
 
 		// remember files_trashbin state
-		$stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+		$stateFilesTrashbin = \OC_App::isEnabled('files_trashbin');
 
 		// we want to tests with app files_trashbin disabled
 		\OC_App::disable('files_trashbin');
@@ -271,10 +269,10 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_User::setUserId(self::TEST_ENCRYPTION_HOOKS_USER1);
 
 		if ($stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
+			\OC_App::enable('files_trashbin');
 		}
 		else {
-			OC_App::disable('files_trashbin');
+			\OC_App::disable('files_trashbin');
 		}
 	}
 
@@ -409,35 +407,35 @@ class Test_Encryption_Hooks extends \OCA\Files_Encryption\Tests\TestCase {
 		$view = new \OC\Files\View();
 
 		// set user password for the first time
-		Hooks::postCreateUser(array('uid' => 'newUser', 'password' => 'newUserPassword'));
+		\OCA\Files_Encryption\Hooks::postCreateUser(array('uid' => 'newUser', 'password' => 'newUserPassword'));
 
-		$this->assertTrue($view->file_exists(Keymanager::getPublicKeyPath() . '/newUser.publicKey'));
+		$this->assertTrue($view->file_exists(\OCA\Files_Encryption\Keymanager::getPublicKeyPath() . '/newUser.publicKey'));
 		$this->assertTrue($view->file_exists('newUser/files_encryption/newUser.privateKey'));
 
 		// check if we are able to decrypt the private key
-		$encryptedKey = Keymanager::getPrivateKey($view, 'newUser');
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, 'newUserPassword');
+		$encryptedKey = \OCA\Files_Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$privateKey = \OCA\Files_Encryption\Crypt::decryptPrivateKey($encryptedKey, 'newUserPassword');
 		$this->assertTrue(is_string($privateKey));
 
 		// change the password before the user logged-in for the first time,
 		// we can replace the encryption keys
-		Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged'));
+		\OCA\Files_Encryption\Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged'));
 
-		$encryptedKey = Keymanager::getPrivateKey($view, 'newUser');
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
+		$encryptedKey = \OCA\Files_Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$privateKey = \OCA\Files_Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
 		$this->assertTrue(is_string($privateKey));
 
 		// now create a files folder to simulate a already used account
 		$view->mkdir('/newUser/files');
 
 		// change the password after the user logged in, now the password should not change
-		Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged2'));
+		\OCA\Files_Encryption\Hooks::setPassphrase(array('uid' => 'newUser', 'password' => 'passwordChanged2'));
 
-		$encryptedKey = Keymanager::getPrivateKey($view, 'newUser');
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged2');
+		$encryptedKey = \OCA\Files_Encryption\Keymanager::getPrivateKey($view, 'newUser');
+		$privateKey = \OCA\Files_Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged2');
 		$this->assertFalse($privateKey);
 
-		$privateKey = Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
+		$privateKey = \OCA\Files_Encryption\Crypt::decryptPrivateKey($encryptedKey, 'passwordChanged');
 		$this->assertTrue(is_string($privateKey));
 
 	}

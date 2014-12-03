@@ -20,11 +20,13 @@
  *
  */
 
+namespace OCA\Files_Encryption\Tests;
+
 /**
- * Class Test_Encryption_Proxy
+ * Class Proxy
  * this class provide basic proxy app tests
  */
-class Test_Encryption_Proxy extends \OCA\Files_Encryption\Tests\TestCase {
+class Proxy extends TestCase {
 
 	const TEST_ENCRYPTION_PROXY_USER1 = "test-proxy-user1";
 

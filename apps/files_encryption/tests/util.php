@@ -6,14 +6,12 @@
  * See the COPYING-README file.
  */
 
-use OCA\Files_Encryption\Crypt;
-use OCA\Files_Encryption\Keymanager;
-use OCA\Files_Encryption\Util;
+namespace OCA\Files_Encryption\Tests;
 
 /**
- * Class Test_Encryption_Util
+ * Class Util
  */
-class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
+class Util extends TestCase {
 
 	const TEST_ENCRYPTION_UTIL_USER1 = "test-util-user1";
 	const TEST_ENCRYPTION_UTIL_USER2 = "test-util-user2";
@@ -26,7 +24,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	public $publicKeyDir;
 	public $pass;
 	/**
-	 * @var OC\Files\View
+	 * @var \OC\Files\View
 	 */
 	public $view;
 	public $keyfilesPath;
@@ -76,12 +74,12 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->legacyEncryptedDataKey = __DIR__ . '/encryption.key';
 		$this->legacyKey = "30943623843030686906\0\0\0\0";
 
-		$keypair = Crypt::createKeypair();
+		$keypair = \OCA\Files_Encryption\Crypt::createKeypair();
 
 		$this->genPublicKey = $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
 
-		$this->publicKeyDir = Keymanager::getPublicKeyPath();
+		$this->publicKeyDir = \OCA\Files_Encryption\Keymanager::getPublicKeyPath();
 		$this->encryptionDir = '/' . $this->userId . '/' . 'files_encryption';
 		$this->keysPath = $this->encryptionDir . '/' . 'keys';
 		$this->publicKeyPath =
@@ -91,10 +89,10 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 
 		$this->view = new \OC\Files\View('/');
 
-		$this->util = new Util($this->view, $this->userId);
+		$this->util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		// remember files_trashbin state
-		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+		$this->stateFilesTrashbin = \OC_App::isEnabled('files_trashbin');
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
@@ -103,10 +101,10 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	protected function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
+			\OC_App::enable('files_trashbin');
 		}
 		else {
-			OC_App::disable('files_trashbin');
+			\OC_App::disable('files_trashbin');
 		}
 
 		parent::tearDown();
@@ -130,7 +128,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 * test that paths set during User construction are correct
 	 */
 	function testKeyPaths() {
-		$util = new Util($this->view, $this->userId);
+		$util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		$this->assertEquals($this->publicKeyDir, $util->getPath('publicKeyDir'));
 		$this->assertEquals($this->encryptionDir, $util->getPath('encryptionDir'));
@@ -146,7 +144,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testIsEncryptedPath() {
 
-		$util = new Util($this->view, $this->userId);
+		$util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		self::loginHelper($this->userId);
 
@@ -209,7 +207,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function testRecoveryEnabledForUser() {
 
-		$util = new Util($this->view, $this->userId);
+		$util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		// Record the value so we can return it to it's original state later
 		$enabled = $util->recoveryEnabledForUser();
@@ -243,7 +241,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		// Re-enable proxy - our work is done
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		$util = new Util($this->view, $this->userId);
+		$util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		list($fileOwnerUid, $file) = $util->getUidAndFilename($filename);
 
@@ -285,7 +283,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	function testEncryptAll() {
 
 		$filename = "/encryptAll" . $this->getUniqueID() . ".txt";
-		$util = new Util($this->view, $this->userId);
+		$util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		// disable encryption to upload a unencrypted file
 		\OC_App::disable('files_encryption');
@@ -340,14 +338,14 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->assertSame($encContent, $content);
 
 		// now we load the encryption app again
-		OC_App::loadApp('files_encryption');
+		\OC_App::loadApp('files_encryption');
 
 		// init encryption app
 		$params = array('uid' => \OCP\User::getUser(),
 			'password' => \OCP\User::getUser());
 
-		$view = new OC\Files\View('/');
-		$util = new Util($view, \OCP\User::getUser());
+		$view = new \OC\Files\View('/');
+		$util = new \OCA\Files_Encryption\Util($view, \OCP\User::getUser());
 
 		$result = $util->initEncryption($params);
 
@@ -387,7 +385,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
 		$this->view->deleteAll($backupPath);
-		OC_App::enable('files_encryption');
+		\OC_App::enable('files_encryption');
 
 	}
 
@@ -403,7 +401,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->view->file_put_contents($encPath . '/keys/foo/fileKey', 'key');
 		$this->view->file_put_contents($encPath . '/keys/foo/user1.shareKey', 'share key');
 
-		$util = new Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
+		$util = new \OCA\Files_Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
 
 		$util->backupAllKeys('testBackupAllKeys');
 
@@ -429,7 +427,7 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 		$file1 = "/decryptAll1" . $this->getUniqueID() . ".txt";
 		$file2 = "/decryptAll2" . $this->getUniqueID() . ".txt";
 
-		$util = new Util($this->view, $this->userId);
+		$util = new \OCA\Files_Encryption\Util($this->view, $this->userId);
 
 		$this->view->file_put_contents($this->userId . '/files/' . $file1, $this->dataShort);
 		$this->view->file_put_contents($this->userId . '/files/' . $file2, $this->dataShort);

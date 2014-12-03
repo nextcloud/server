@@ -20,11 +20,13 @@
  *
  */
 
+namespace OCA\Files_Encryption\Tests;
+
 /**
- * Class Test_Encryption_Trashbin
+ * Class Trashbin
  * this class provide basic trashbin app tests
  */
-class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
+class Trashbin extends TestCase {
 
 	const TEST_ENCRYPTION_TRASHBIN_USER1 = "test-trashbin-user1";
 
@@ -69,7 +71,7 @@ class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->subsubfolder = '/subsubfolder1';
 
 		// remember files_trashbin state
-		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+		$this->stateFilesTrashbin = \OC_App::isEnabled('files_trashbin');
 
 		// we want to tests with app files_trashbin enabled
 		\OC_App::enable('files_trashbin');
@@ -78,10 +80,10 @@ class Test_Encryption_Trashbin extends \OCA\Files_Encryption\Tests\TestCase {
 	protected function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
+			\OC_App::enable('files_trashbin');
 		}
 		else {
-			OC_App::disable('files_trashbin');
+			\OC_App::disable('files_trashbin');
 		}
 
 		parent::tearDown();

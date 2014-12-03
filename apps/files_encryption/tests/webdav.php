@@ -20,14 +20,14 @@
  *
  */
 
-use OCA\Files_Encryption\Crypt;
+namespace OCA\Files_Encryption\Tests;
 
 /**
- * Class Test_Encryption_Webdav
+ * Class Webdav
  *
  * this class provide basic webdav tests for PUT,GET and DELETE
  */
-class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
+class Webdav extends TestCase {
 
 	const TEST_ENCRYPTION_WEBDAV_USER1 = "test-webdav-user1";
 
@@ -68,7 +68,7 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 		$this->dataShort = 'hats';
 
 		// remember files_trashbin state
-		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+		$this->stateFilesTrashbin = \OC_App::isEnabled('files_trashbin');
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
@@ -80,9 +80,9 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 	protected function tearDown() {
 		// reset app files_trashbin
 		if ($this->stateFilesTrashbin) {
-			OC_App::enable('files_trashbin');
+			\OC_App::enable('files_trashbin');
 		} else {
-			OC_App::disable('files_trashbin');
+			\OC_App::disable('files_trashbin');
 		}
 
 		parent::tearDown();
@@ -138,7 +138,7 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 		\OC_FileProxy::$enabled = $proxyStatus;
 
 		// check if encrypted content is valid
-		$this->assertTrue(Crypt::isCatfileContent($encryptedContent));
+		$this->assertTrue(\OCA\Files_Encryption\Crypt::isCatfileContent($encryptedContent));
 
 		// get decrypted file contents
 		$decrypt = file_get_contents('crypt:///' . $this->userId . '/files' . $filename);
@@ -211,14 +211,14 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 	 */
 	function handleWebdavRequest($body = false) {
 		// Backends
-		$authBackend = new OC_Connector_Sabre_Auth();
-		$lockBackend = new OC_Connector_Sabre_Locks();
-		$requestBackend = new OC_Connector_Sabre_Request();
+		$authBackend = new \OC_Connector_Sabre_Auth();
+		$lockBackend = new \OC_Connector_Sabre_Locks();
+		$requestBackend = new \OC_Connector_Sabre_Request();
 
 		// Create ownCloud Dir
 		$root = '/' . $this->userId . '/files';
 		$view = new \OC\Files\View($root);
-		$publicDir = new OC_Connector_Sabre_Directory($view, $view->getFileInfo(''));
+		$publicDir = new \OC_Connector_Sabre_Directory($view, $view->getFileInfo(''));
 		$objectTree = new \OC\Connector\Sabre\ObjectTree();
 		$mountManager = \OC\Files\Filesystem::getMountManager();
 		$objectTree->init($publicDir, $view, $mountManager);
@@ -232,8 +232,8 @@ class Test_Encryption_Webdav extends \OCA\Files_Encryption\Tests\TestCase {
 		$server->addPlugin(new \Sabre\DAV\Auth\Plugin($authBackend, 'ownCloud'));
 		$server->addPlugin(new \Sabre\DAV\Locks\Plugin($lockBackend));
 		$server->addPlugin(new \Sabre\DAV\Browser\Plugin(false)); // Show something in the Browser, but no upload
-		$server->addPlugin(new OC_Connector_Sabre_QuotaPlugin($view));
-		$server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
+		$server->addPlugin(new \OC_Connector_Sabre_QuotaPlugin($view));
+		$server->addPlugin(new \OC_Connector_Sabre_MaintenancePlugin());
 		$server->debugExceptions = true;
 
 		// And off we go!
