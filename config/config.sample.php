@@ -89,8 +89,15 @@ $CONFIG = array(
 'version' => '',
 
 /**
- * Identifies the database used with this installation: ``sqlite``, ``mysql``,
- * ``pgsql``, ``oci``, or ``mssql``.
+ * Identifies the database used with this installation. See also config option
+ * ``supportedDatabases``
+ *
+ * Available:
+ * 	- sqlite (SQLite3 - Community Edition Only)
+ * 	- mysql (MySQL)
+ * 	- pgsql (PostgreSQL)
+ * 	- oci (Oracle - Enterprise Edition Only)
+ * 	- mssql (Microsoft SQL Server - Enterprise Edition Only)
  */
 'dbtype' => 'sqlite',
 
@@ -841,15 +848,14 @@ $CONFIG = array(
 ),
 
 /**
- * Database types that are supported for installation. (SQLite is available only in 
- * ownCloud Community Edition, oci and mssql only for the Enterprise Edition)
+ * Database types that are supported for installation.
  *
  * Available:
- * 	- sqlite (SQLite3)
+ * 	- sqlite (SQLite3 - Community Edition Only)
  * 	- mysql (MySQL)
  * 	- pgsql (PostgreSQL)
- * 	- oci (Oracle)
- * 	- mssql (Microsoft SQL Server)
+ * 	- oci (Oracle - Enterprise Edition Only)
+ * 	- mssql (Microsoft SQL Server - Enterprise Edition Only)
  */
 'supportedDatabases' => array(
 	'sqlite',
