@@ -104,8 +104,26 @@ class Server extends SimpleContainer implements IServerContainer {
 			return new \OC\User\Manager($config);
 		});
 		$this->registerService('GroupManager', function (Server $c) {
-			$userManager = $c->getUserManager();
-			return new \OC\Group\Manager($userManager);
+			$groupManager = new \OC\Group\Manager($this->getUserManager());
+			$groupManager->listen('\OC\Group', 'preCreate', function ($gid) {
+				\OC_Hook::emit('OC_Group', 'pre_createGroup', array('run' => true, 'gid' => $gid));
+			});
+			$groupManager->listen('\OC\Group', 'postCreate', function (\OC\Group\Group $gid) {
+				\OC_Hook::emit('OC_User', 'post_createGroup', array('gid' => $gid->getGID()));
+			});
+			$groupManager->listen('\OC\Group', 'preDelete', function (\OC\Group\Group $group) {
+				\OC_Hook::emit('OC_Group', 'pre_deleteGroup', array('run' => true, 'gid' => $group->getGID()));
+			});
+			$groupManager->listen('\OC\Group', 'postDelete', function (\OC\Group\Group $group) {
+				\OC_Hook::emit('OC_User', 'post_deleteGroup', array('gid' => $group->getGID()));
+			});
+			$groupManager->listen('\OC\Group', 'preAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
+				\OC_Hook::emit('OC_Group', 'pre_addToGroup', array('run' => true, 'uid' => $user->getUID(), 'gid' => $group->getGID()));
+			});
+			$groupManager->listen('\OC\Group', 'postAddUser', function (\OC\Group\Group $group, \OC\User\User $user) {
+				\OC_Hook::emit('OC_Group', 'post_addToGroup', array('uid' => $user->getUID(), 'gid' => $group->getGID()));
+			});
+			return $groupManager;
 		});
 		$this->registerService('UserSession', function (Server $c) {
 			$manager = $c->getUserManager();

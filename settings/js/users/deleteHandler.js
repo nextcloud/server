@@ -189,11 +189,10 @@ DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 	var payload = {};
 	payload[dh.ajaxParamID] = dh.oidToDelete;
 	$.ajax({
-		type: 'POST',
-		url: OC.filePath('settings', 'ajax', dh.ajaxEndpoint),
+		type: 'DELETE',
+		url: OC.generateUrl(dh.ajaxEndpoint+'/'+this.oidToDelete),
 		// FIXME: do not use synchronous ajax calls as they block the browser !
 		async: false,
-		data: payload,
 		success: function (result) {
 			if (result.status === 'success') {
 				// Remove undo option, & remove user from table

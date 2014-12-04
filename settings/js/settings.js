@@ -41,7 +41,7 @@ OC.Settings = _.extend(OC.Settings, {
 						};
 					}
 					$.ajax({
-						url: OC.generateUrl('/settings/ajax/grouplist'),
+						url: OC.generateUrl('/settings/users/groups'),
 						data: queryData,
 						dataType: 'json',
 						success: function(data) {

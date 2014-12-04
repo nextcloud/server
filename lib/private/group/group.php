@@ -229,6 +229,11 @@ class Group implements IGroup {
 	 * @return bool
 	 */
 	public function delete() {
+		// Prevent users from deleting group admin
+		if ($this->getGID() === 'admin') {
+			return false;
+		}
+
 		$result = false;
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\Group', 'preDelete', array($this));

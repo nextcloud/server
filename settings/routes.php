@@ -9,17 +9,22 @@
 namespace OC\Settings;
 
 $application = new Application();
-$application->registerRoutes($this, array('routes' =>array(
-	array('name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST'),
-	array('name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST'),
-	array('name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST'),
-	array('name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'),
-	array('name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'),
-	array('name' => 'SecuritySettings#enforceSSL', 'url' => '/settings/admin/security/ssl', 'verb' => 'POST'),
-	array('name' => 'SecuritySettings#enforceSSLForSubdomains', 'url' => '/settings/admin/security/ssl/subdomains', 'verb' => 'POST'),
-	array('name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'),
-
-)));
+$application->registerRoutes($this, array(
+	'resources' => array(
+		'groups' => array('url' => '/settings/users/groups'),
+		'users' => array('url' => '/settings/users/users')
+	),
+	'routes' =>array(
+		array('name' => 'MailSettings#setMailSettings', 'url' => '/settings/admin/mailsettings', 'verb' => 'POST'),
+		array('name' => 'MailSettings#storeCredentials', 'url' => '/settings/admin/mailsettings/credentials', 'verb' => 'POST'),
+		array('name' => 'MailSettings#sendTestMail', 'url' => '/settings/admin/mailtest', 'verb' => 'POST'),
+		array('name' => 'AppSettings#listCategories', 'url' => '/settings/apps/categories', 'verb' => 'GET'),
+		array('name' => 'AppSettings#listApps', 'url' => '/settings/apps/list', 'verb' => 'GET'),
+		array('name' => 'SecuritySettings#enforceSSL', 'url' => '/settings/admin/security/ssl', 'verb' => 'POST'),
+		array('name' => 'SecuritySettings#enforceSSLForSubdomains', 'url' => '/settings/admin/security/ssl/subdomains', 'verb' => 'POST'),
+		array('name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'),
+	)
+));
 
 /** @var $this \OCP\Route\IRouter */
 
@@ -38,26 +43,14 @@ $this->create('settings_admin', '/settings/admin')
 	->actionInclude('settings/admin.php');
 // Settings ajax actions
 // users
-$this->create('settings_ajax_userlist', '/settings/ajax/userlist')
-	->actionInclude('settings/ajax/userlist.php');
-$this->create('settings_ajax_grouplist', '/settings/ajax/grouplist')
-	->actionInclude('settings/ajax/grouplist.php');
 $this->create('settings_ajax_everyonecount', '/settings/ajax/geteveryonecount')
 	->actionInclude('settings/ajax/geteveryonecount.php');
-$this->create('settings_ajax_createuser', '/settings/ajax/createuser.php')
-	->actionInclude('settings/ajax/createuser.php');
-$this->create('settings_ajax_removeuser', '/settings/ajax/removeuser.php')
-	->actionInclude('settings/ajax/removeuser.php');
 $this->create('settings_ajax_setquota', '/settings/ajax/setquota.php')
 	->actionInclude('settings/ajax/setquota.php');
-$this->create('settings_ajax_creategroup', '/settings/ajax/creategroup.php')
-	->actionInclude('settings/ajax/creategroup.php');
 $this->create('settings_ajax_togglegroups', '/settings/ajax/togglegroups.php')
 	->actionInclude('settings/ajax/togglegroups.php');
 $this->create('settings_ajax_togglesubadmins', '/settings/ajax/togglesubadmins.php')
 	->actionInclude('settings/ajax/togglesubadmins.php');
-$this->create('settings_ajax_removegroup', '/settings/ajax/removegroup.php')
-	->actionInclude('settings/ajax/removegroup.php');
 $this->create('settings_users_changepassword', '/settings/users/changepassword')
 	->post()
 	->action('OC\Settings\ChangePassword\Controller', 'changeUserPassword');

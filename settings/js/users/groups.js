@@ -84,9 +84,9 @@ GroupList = {
 
 	createGroup: function (groupname) {
 		$.post(
-			OC.filePath('settings', 'ajax', 'creategroup.php'),
+			OC.generateUrl('/settings/users/groups'),
 			{
-				groupname: groupname
+				id: groupname
 			},
 			function (result) {
 				if (result.status !== 'success') {
@@ -221,7 +221,7 @@ GroupList = {
 	},
 	initDeleteHandling: function () {
 		//set up handler
-		GroupDeleteHandler = new DeleteHandler('removegroup.php', 'groupname',
+		GroupDeleteHandler = new DeleteHandler('/settings/users/groups', 'groupname',
 			GroupList.hide, GroupList.remove);
 
 		//configure undo

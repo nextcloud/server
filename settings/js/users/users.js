@@ -292,7 +292,7 @@ var UserList = {
 	},
 	initDeleteHandling: function() {
 		//set up handler
-		UserDeleteHandler = new DeleteHandler('removeuser.php', 'username',
+		UserDeleteHandler = new DeleteHandler('/settings/users/users', 'username',
 											UserList.markRemove, UserList.remove);
 
 		//configure undo
@@ -326,7 +326,7 @@ var UserList = {
 		UserList.currentGid = gid;
 		var pattern = filter.getPattern();
 		$.get(
-			OC.generateUrl('/settings/ajax/userlist'),
+			OC.generateUrl('/settings/users/users'),
 			{ offset: UserList.offset, limit: UserList.usersToLoad, gid: gid, pattern: pattern },
 			function (result) {
 				var loadedUsers = 0;
@@ -667,7 +667,7 @@ $(document).ready(function () {
 		var groups = $('#newusergroups').val();
 		$('#newuser').get(0).reset();
 		$.post(
-			OC.filePath('settings', 'ajax', 'createuser.php'),
+			OC.generateUrl('/settings/users/users'),
 			{
 				username: username,
 				password: password,
