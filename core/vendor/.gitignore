@@ -1,6 +1,5 @@
 test/
 src/
-.bower.json
 bower.json
 .gitignore
 .jshintrc
@@ -8,12 +7,14 @@ bower.json
 CHANGELOG*
 Gemfile
 gruntfile.js
+Gruntfile.js
 Makefile
 package.json
 README*
 
 # underscore
 underscore/**
+!underscore/.bower.json
 !underscore/underscore.js
 !underscore/LICENSE
 
@@ -28,10 +29,12 @@ moment/benchmarks
 moment/locale
 moment/min/**
 moment/moment.js
+moment/scripts
 !moment/min/moment-with-locales.js
 
 # jquery
 jquery/**
+!jquery/.bower.json
 !jquery/jquery*
 !jquery/MIT-LICENSE.txt
 
@@ -42,12 +45,17 @@ jcrop/css/jquery.Jcrop.min.css
 jcrop/js/**
 !jcrop/js/jquery.Jcrop.js
 
+# jsTimezoneDetect
+jsTimezoneDetect/jstz.min.js
+
 # handlebars
 handlebars/**
+!handlebars/.bower.json
 !handlebars/handlebars.js
 
 # select2
 select2/**
+!select2/.bower.json
 !select2/select2.js
 !select2/select2.css
 !select2/select2.png
@@ -57,6 +65,7 @@ select2/**
 
 #zxcvbn
 zxcvbn/**
+!zxcvbn/.bower.json
 !zxcvbn/zxcvbn.js
 !zxcvbn/LICENSE.txt
 

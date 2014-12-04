@@ -1,5 +1,5 @@
 <?php /** @var $l OC_L10N */ ?>
-<?php script('core', 'jstz') ?>
+<?php vendor_script('jsTimezoneDetect/jstz') ?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
 <form method="post" name="login">
