@@ -4,24 +4,14 @@
 
 #searchresults {
 	background-color:#fff;
-	border-bottom-left-radius:11px;
-	box-shadow:0 0 10px #000;
-	list-style:none;
-	max-height:80%;
 	overflow-x:hidden;
 	overflow-y: auto;
-	padding-bottom:6px;
 	position:fixed;
-	right:0;
 	text-overflow:ellipsis;
-	top:45px;
-	width:380px;
-	max-width: 95%;
+	top:0;
+	padding-top: 45px;
+	height: 100%;
 	z-index:75;
-}
-
-.ie8 #searchresults {
-	border: 1px solid #666 !important;
 }
 
 #searchresults li.resultHeader {
@@ -44,22 +34,34 @@
 }
 
 #searchresults td {
-	padding:0 .3em;
-	height: 44px;
+	border-top: 20px solid white;
+	border-bottom: none;
 }
 #searchresults tr.template {
 	display: none;
 }
 
 #searchresults .name,
-#searchresults .text {
+#searchresults .text,
+#searchresults .path {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+#searchresults .name {
+	font-size: larger;
+}
 #searchresults .text {
-	padding-left: 16px;
-	color: #999;
+	white-space: normal;
+	color: #545454;
+}
+#searchresults .path {
+	color: green;
+}
+#searchresults .text em {
+	color: #545454;
+	font-weight: bold;
+	opacity: 1;
 }
 
 #searchresults td.result * {
@@ -79,8 +81,6 @@
 }
 
 #searchresults td.type {
-	border-bottom:none;
-	border-right:1px solid #aaa;
 	font-weight:700;
 	text-align:right;
 	width:3.5em;

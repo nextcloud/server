@@ -45,8 +45,8 @@ OC.search.showResults=function(results){
 		return;
 	}
 	if(!OC.search.showResults.loaded){
-		var parent=$('<div/>');
-		$('body').append(parent);
+		var parent=$('<div class="searchresults-wrapper"/>');
+		$('#app-content').append(parent);
 		parent.load(OC.filePath('search','templates','part.results.php'),function(){
 			OC.search.showResults.loaded=true;
 			$('#searchresults').click(function(event){
@@ -74,19 +74,37 @@ OC.search.showResults=function(results){
 					var row=$('#searchresults tr.template').clone();
 					row.removeClass('template');
 					row.addClass('result');
-					
+
 					row.data('type', typeid);
 					row.data('name', type[i].name);
+					row.data('path', type[i].path);
 					row.data('text', type[i].text);
 					row.data('index',index);
-					
+
 					if (i === 0){
 						var typeName = OC.search.resultTypes[typeid];
 						row.children('td.type').text(t('lib', typeName));
 					}
+
+					if (type[i].path) {
+						OCA.Files.App.fileList.lazyLoadPreview({
+							path: type[i].path,
+							mime: type[i].mime_type,
+							callback: function (url) {
+								row.find('td.type').css('background-image', 'url(' + url + ')');
+							}
+						});
+					}
+
 					row.find('td.result div.name').text(type[i].name);
-					row.find('td.result div.text').text(type[i].text);
-					
+					row.find('td.result div.path').text(type[i].path);
+					if (typeof type[i].highlights === 'object') {
+						var highlights = type[i].highlights.join(' … ');
+						row.find('td.result div.text').html(highlights);
+					} else {
+						row.find('td.result div.text').text(type[i].text);
+					}
+
 					if (type[i].path) {
 						var parent = OC.dirname(type[i].path);
 						if (parent === '') {
@@ -105,7 +123,7 @@ OC.search.showResults=function(results){
 					} else {
 						row.find('td.result a').attr('href', type[i].link);
 					}
-					
+
 					index++;
 					/** 
 					 * Give plugins the ability to customize the search results. For example:

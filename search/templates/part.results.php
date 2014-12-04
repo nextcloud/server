@@ -5,7 +5,8 @@
 				<td class="type"></td>
 				<td class="result">
 					<a>
-						<div class="name"></div>
+						<div class="name"></div><div class="storage"></div>
+						<div class="path"></div>
 						<div class="text"></div>
 					</a>
 				</td>
