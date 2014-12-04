@@ -152,7 +152,7 @@ class Test_Util extends \Test\TestCase {
 	function testHomeStorageWrapperWithoutQuota() {
 		$user1 = $this->getUniqueID();
 		\OC_User::createUser($user1, 'test');
-		OC_Preferences::setValue($user1, 'files', 'quota', 'none');
+		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', 'none');
 		\OC_User::setUserId($user1);
 
 		\OC_Util::setupFS($user1);
@@ -164,7 +164,7 @@ class Test_Util extends \Test\TestCase {
 		// clean up
 		\OC_User::setUserId('');
 		\OC_User::deleteUser($user1);
-		OC_Preferences::deleteUser($user1);
+		\OC::$server->getConfig()->deleteAllUserValues($user1);
 		\OC_Util::tearDownFS();
 	}
 
@@ -174,7 +174,7 @@ class Test_Util extends \Test\TestCase {
 	function testHomeStorageWrapperWithQuota() {
 		$user1 = $this->getUniqueID();
 		\OC_User::createUser($user1, 'test');
-		OC_Preferences::setValue($user1, 'files', 'quota', '1024');
+		\OC::$server->getConfig()->setUserValue($user1, 'files', 'quota', '1024');
 		\OC_User::setUserId($user1);
 
 		\OC_Util::setupFS($user1);
@@ -191,7 +191,7 @@ class Test_Util extends \Test\TestCase {
 		// clean up
 		\OC_User::setUserId('');
 		\OC_User::deleteUser($user1);
-		OC_Preferences::deleteUser($user1);
+		\OC::$server->getConfig()->deleteAllUserValues($user1);
 		\OC_Util::tearDownFS();
 	}
 

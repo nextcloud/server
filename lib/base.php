@@ -236,7 +236,7 @@ class OC {
 			$header = 'Strict-Transport-Security: max-age=31536000';
 
 			// If SSL for subdomains is enabled add "; includeSubDomains" to the header
-			if(\OC::$server->getSystemConfig()->getmValue('forceSSLforSubdomains', false)) {
+			if(\OC::$server->getSystemConfig()->getValue('forceSSLforSubdomains', false)) {
 				$header .= '; includeSubDomains';
 			}
 			header($header);

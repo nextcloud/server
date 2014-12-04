@@ -79,7 +79,7 @@ class MailNotifications {
 
 		foreach ($recipientList as $recipient) {
 			$recipientDisplayName = \OCP\User::getDisplayName($recipient);
-			$to = \OC_Preferences::getValue($recipient, 'settings', 'email', '');
+			$to = \OC::$server->getConfig()->getUserValue($recipient, 'settings', 'email', '');
 
 			if ($to === '') {
 				$noMail[] = $recipientDisplayName;

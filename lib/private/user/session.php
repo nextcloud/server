@@ -211,15 +211,15 @@ class Session implements IUserSession, Emitter {
 		}
 
 		// get stored tokens
-		$tokens = \OC_Preferences::getKeys($uid, 'login_token');
+		$tokens = \OC::$server->getConfig()->getUserKeys($uid, 'login_token');
 		// test cookies token against stored tokens
 		if (!in_array($currentToken, $tokens, true)) {
 			return false;
 		}
 		// replace successfully used token with a new one
-		\OC_Preferences::deleteKey($uid, 'login_token', $currentToken);
+		\OC::$server->getConfig()->deleteUserValue($uid, 'login_token', $currentToken);
 		$newToken = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(32);
-		\OC_Preferences::setValue($uid, 'login_token', $newToken, time());
+		\OC::$server->getConfig()->setUserValue($uid, 'login_token', $newToken, time());
 		$this->setMagicInCookie($user->getUID(), $newToken);
 
 		//login

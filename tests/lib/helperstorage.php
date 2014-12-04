@@ -45,7 +45,7 @@ class Test_Helper_Storage extends \Test\TestCase {
 
 		\OC_User::setUserId('');
 		\OC_User::deleteUser($this->user);
-		\OC_Preferences::deleteUser($this->user);
+		\OC::$server->getConfig()->deleteAllUserValues($this->user);
 
 		parent::tearDown();
 	}

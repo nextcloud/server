@@ -68,10 +68,11 @@ class User implements IUser {
 		if ($this->config) {
 			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
 			$this->enabled = ($enabled === 'true');
+			$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
 		} else {
 			$this->enabled = true;
+			$this->lastLogin = \OC::$server->getConfig()->getUserValue($uid, 'login', 'lastLogin', 0);
 		}
-		$this->lastLogin = \OC_Preferences::getValue($uid, 'login', 'lastLogin', 0);
 	}
 
 	/**
@@ -140,7 +141,7 @@ class User implements IUser {
 	 */
 	public function updateLastLoginTimestamp() {
 		$this->lastLogin = time();
-		\OC_Preferences::setValue(
+		\OC::$server->getConfig()->setUserValue(
 			$this->uid, 'login', 'lastLogin', $this->lastLogin);
 	}
 
@@ -163,7 +164,7 @@ class User implements IUser {
 				\OC_Group::removeFromGroup($this->uid, $i);
 			}
 			// Delete the user's keys in preferences
-			\OC_Preferences::deleteUser($this->uid);
+			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
 			// Delete user files in /data/
 			\OC_Helper::rmdirr(\OC_User::getHome($this->uid));

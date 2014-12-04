@@ -27,7 +27,7 @@ if($quota !== 'none' and $quota !== 'default') {
 
 // Return Success story
 if($username) {
-	OC_Preferences::setValue($username, 'files', 'quota', $quota);
+	\OC::$server->getConfig()->setUserValue($username, 'files', 'quota', $quota);
 }else{//set the default quota when no username is specified
 	if($quota === 'default') {//'default' as default quota makes no sense
 		$quota='none';

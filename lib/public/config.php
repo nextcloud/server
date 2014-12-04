@@ -96,7 +96,7 @@ class Config {
 	 * not exist the default value will be returned
 	 */
 	public static function getAppValue( $app, $key, $default = null ) {
-		return \OC_Appconfig::getValue( $app, $key, $default );
+		return \OC::$server->getConfig()->getAppValue( $app, $key, $default );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Config {
 	 */
 	public static function setAppValue( $app, $key, $value ) {
 		try {
-			\OC_Appconfig::setValue( $app, $key, $value );
+			\OC::$server->getConfig()->setAppValue( $app, $key, $value );
 		} catch (\Exception $e) {
 			return false;
 		}

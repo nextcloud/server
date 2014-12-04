@@ -91,7 +91,7 @@ class OC_OCS_Cloud {
 	}
 
 	public static function getCurrentUser() {
-		$email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
+		$email=\OC::$server->getConfig()->getUserValue(OC_User::getUser(), 'settings', 'email', '');
 		$data  = array(
 			'id' => OC_User::getUser(),
 			'display-name' => OC_User::getDisplayName(),

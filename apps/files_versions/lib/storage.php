@@ -479,15 +479,16 @@ class Storage {
 	 * Erase a file's versions which exceed the set quota
 	 */
 	private static function expire($filename, $versionsSize = null, $offset = 0) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		$config = \OC::$server->getConfig();
+		if($config->getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$versionsFileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
 			$softQuota = true;
-			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
+			$quota = $config->getUserValue($uid, 'files', 'quota', null);
 			if ( $quota === null || $quota === 'default') {
-				$quota = \OC::$server->getAppConfig()->getValue('files', 'default_quota');
+				$quota = $config->getAppValue('files', 'default_quota', null);
 			}
 			if ( $quota === null || $quota === 'none' ) {
 				$quota = \OC\Files\Filesystem::free_space('/');
