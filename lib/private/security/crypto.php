@@ -43,22 +43,6 @@ class Crypto implements ICrypto {
 	}
 
 	/**
-	 * Custom implementation of hex2bin since the function is only available starting
-	 * with PHP 5.4
-	 *
-	 * @TODO Remove this once 5.3 support for ownCloud is dropped
-	 * @param $message
-	 * @return string
-	 */
-	protected static function hexToBin($message) {
-		if (function_exists('hex2bin')) {
-			return hex2bin($message);
-		}
-
-		return pack("H*", $message);
-	}
-
-	/**
 	 * @param string $message The message to authenticate
 	 * @param string $password Password to use (defaults to `secret` in config.php)
 	 * @return string Calculated HMAC
@@ -115,9 +99,9 @@ class Crypto implements ICrypto {
 			throw new \Exception('Authenticated ciphertext could not be decoded.');
 		}
 
-		$ciphertext = self::hexToBin($parts[0]);
+		$ciphertext = hex2bin($parts[0]);
 		$iv = $parts[1];
-		$hmac = self::hexToBin($parts[2]);
+		$hmac = hex2bin($parts[2]);
 
 		$this->cipher->setIV($iv);
 
