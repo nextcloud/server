@@ -32,7 +32,7 @@
 			<field>
 				<name>password</name>
 				<type>text</type>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>64</length>
 				<comments>Optional password for the public share</comments>
 			</field>
