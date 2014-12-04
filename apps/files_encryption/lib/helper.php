@@ -392,14 +392,10 @@ class Helper {
 	 * @return bool true if requirements are met
 	 */
 	public static function checkRequirements() {
-		$result = true;
 
 		//openssl extension needs to be loaded
-		$result &= extension_loaded("openssl");
-		// we need php >= 5.3.3
-		$result &= version_compare(phpversion(), '5.3.3', '>=');
+		return extension_loaded("openssl");
 
-		return (bool) $result;
 	}
 
 	/**
