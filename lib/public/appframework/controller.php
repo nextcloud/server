@@ -70,7 +70,7 @@ abstract class Controller {
 						$data->getData(),
 						$data->getStatus()
 					);
-					$response->setHeaders($data->getHeaders());
+					$response->setHeaders(array_merge($data->getHeaders(), $response->getHeaders()));
 					return $response;
 				} else {
 					return new JSONResponse($data);
