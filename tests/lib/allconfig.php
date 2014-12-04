@@ -166,6 +166,9 @@ class TestAllConfig extends \Test\TestCase {
 	}
 
 	public function testSetUserValueUnchanged() {
+		// TODO - FIXME until the dependency injection is handled properly (in AllConfig)
+		$this->markTestSkipped('Skipped because this is just testable if database connection can be injected');
+
 		$resultMock = $this->getMockBuilder('\Doctrine\DBAL\Driver\Statement')
 			->disableOriginalConstructor()->getMock();
 		$resultMock->expects($this->once())

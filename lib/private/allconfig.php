@@ -46,9 +46,27 @@ class AllConfig implements \OCP\IConfig {
 	/**
 	 * @param SystemConfig $systemConfig
 	 */
-	function __construct(SystemConfig $systemConfig, IDBConnection $connection) {
+	function __construct(SystemConfig $systemConfig) {
 		$this->systemConfig = $systemConfig;
-		$this->connection = $connection;
+	}
+
+	/**
+	 * TODO - FIXME This fixes an issue with base.php that cause cyclic
+	 * dependencies, especially with autoconfig setup
+	 *
+	 * Replace this by properly injected database connection. Currently the
+	 * base.php triggers the getDatabaseConnection too early which causes in
+	 * autoconfig setup case a too early distributed database connection and
+	 * the autoconfig then needs to reinit all already initialized dependencies
+	 * that use the database connection.
+	 *
+	 * otherwise a SQLite database is created in the wrong directory
+	 * because the database connection was created with an uninitialized config
+	 */
+	private function fixDIInit() {
+		if($this->connection === null) {
+			$this->connection = \OC::$server->getDatabaseConnection();
+		}
 	}
 
 	/**
@@ -145,6 +163,9 @@ class AllConfig implements \OCP\IConfig {
 	 * @throws \OCP\PreConditionNotMetException if a precondition is specified and is not met
 	 */
 	public function setUserValue($userId, $appName, $key, $value, $preCondition = null) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		// Check if the key does exist
 		$sql  = 'SELECT `configvalue` FROM `*PREFIX*preferences` '.
 				'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
@@ -232,6 +253,9 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $key the key under which the value is being stored
 	 */
 	public function deleteUserValue($userId, $appName, $key) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		$sql  = 'DELETE FROM `*PREFIX*preferences` '.
 				'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
 		$this->connection->executeUpdate($sql, array($userId, $appName, $key));
@@ -247,6 +271,9 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $userId the userId of the user that we want to remove all values from
 	 */
 	public function deleteAllUserValues($userId) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		$sql  = 'DELETE FROM `*PREFIX*preferences` '.
 			'WHERE `userid` = ?';
 		$this->connection->executeUpdate($sql, array($userId));
@@ -260,6 +287,9 @@ class AllConfig implements \OCP\IConfig {
 	 * @param string $appName the appName of the app that we want to remove all values from
 	 */
 	public function deleteAppFromAllUsers($appName) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		$sql  = 'DELETE FROM `*PREFIX*preferences` '.
 				'WHERE `appid` = ?';
 		$this->connection->executeUpdate($sql, array($appName));
@@ -279,6 +309,9 @@ class AllConfig implements \OCP\IConfig {
 	 *     ]
 	 */
 	private function getUserValues($userId) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		if (isset($this->userCache[$userId])) {
 			return $this->userCache[$userId];
 		}
@@ -305,6 +338,9 @@ class AllConfig implements \OCP\IConfig {
 	 * @return array Mapped values: userId => value
 	 */
 	public function getUserValueForUsers($appName, $key, $userIds) {
+		// TODO - FIXME
+		$this->fixDIInit();
+
 		if (empty($userIds) || !is_array($userIds)) {
 			return array();
 		}
@@ -333,7 +369,6 @@ class AllConfig implements \OCP\IConfig {
 		}
 
 		return $userValues;
-
 	}
 
 	/**
