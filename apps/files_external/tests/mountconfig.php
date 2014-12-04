@@ -296,10 +296,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * @dataProvider applicableConfigProvider
 	 */
 	public function testReadWriteGlobalConfig($mountType, $applicable, $expectApplicableArray) {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountType = $mountType;
 		$applicable = $applicable;
@@ -340,10 +336,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * Test reading and writing config
 	 */
 	public function testReadWritePersonalConfig() {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
 		$applicable = self::TEST_USER1;
@@ -479,10 +471,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * Test password obfuscation
 	 */
 	public function testPasswordObfuscation() {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
 		$applicable = self::TEST_USER1;
@@ -524,10 +512,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * Test read legacy passwords
 	 */
 	public function testReadLegacyPassword() {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
 		$applicable = self::TEST_USER1;
@@ -640,10 +624,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * @param bool $expectVisible whether to expect the mount point to be visible for $testUser
 	 */
 	public function testMount($isPersonal, $mountType, $applicable, $testUser, $expectVisible) {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountConfig = array(
 			'host' => 'someost',
@@ -684,10 +664,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * The config will be merged by getSystemMountPoints().
 	 */
 	public function testConfigMerging() {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
 		$isPersonal = false;
@@ -759,10 +735,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * have the same path, the config must NOT be merged.
 	 */
 	public function testRereadMountpointWithSamePath() {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountType = OC_Mount_Config::MOUNT_TYPE_USER;
 		$isPersonal = false;
@@ -895,10 +867,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * @param int $expected index of expected visible mount
 	 */
 	public function testPriority($mounts, $expected) {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$mountConfig = array(
 			'host' => 'somehost',
@@ -933,10 +901,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * Test for persistence of priority when changing mount options
 	 */
 	public function testPriorityPersistence() {
-		// TODO travis: samba share test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('samba share test doesn\'t work on travis');
-		}
 
 		$class = '\OC\Files\Storage\SMB';
 		$priority = 123;
@@ -986,10 +950,6 @@ class Test_Mount_Config extends \Test\TestCase {
 	 * Test for correct personal configuration loading in file sharing scenarios
 	 */
 	public function testMultiUserPersonalConfigLoading() {
-		// TODO travis: multi user config test doesn't work on travis
-		if (getenv('TRAVIS')) {
-			$this->markTestSkipped('multi user config test doesn\'t work on travis');
-		}
 		$mountConfig = array(
 			'host' => 'somehost',
 			'user' => 'someuser',
