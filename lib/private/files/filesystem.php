@@ -687,6 +687,14 @@ class Filesystem {
 	}
 
 	/**
+	 * @param string|int $tag name or tag id
+	 * @return FileInfo[] array or file info
+	 */
+	static public function searchByTag($tag) {
+		return self::$defaultInstance->searchByTag($tag);
+	}
+
+	/**
 	 * check if a file or folder has been updated since $time
 	 *
 	 * @param string $path

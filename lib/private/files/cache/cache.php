@@ -504,6 +504,54 @@ class Cache {
 	}
 
 	/**
+	 * Search for files by tag of a given users.
+	 *
+	 * Note that every user can tag files differently.
+	 *
+	 * @param string|int $tag name or tag id
+	 * @param string $userId owner of the tags
+	 * @return array file data
+	 */
+	public function searchByTag($tag, $userId = null) {
+		if (is_null($userId)) {
+			$userId = \OC::$server->getUserSession()->getUser()->getUID(); 
+		}
+		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
+			'`mimetype`, `mimepart`, `size`, `mtime`, ' .
+			'`encrypted`, `unencrypted_size`, `etag`, `permissions` ' .
+			'FROM `*PREFIX*filecache` `file`, ' .
+			'`*PREFIX*vcategory_to_object` `tagmap`, ' .
+			'`*PREFIX*vcategory` `tag` ' .
+			// JOIN filecache to vcategory_to_object
+			'WHERE `file`.`fileid` = `tagmap`.`objid` '.
+			// JOIN vcategory_to_object to vcategory
+			'AND `tagmap`.`type` = `tag`.`type` ' .
+			'AND `tagmap`.`categoryid` = `tag`.`id` ' .
+			// conditions
+			'AND `file`.`storage` = ? '.
+			'AND `tag`.`type` = \'files\' ' .
+			'AND `tag`.`uid` = ? ';
+		if (is_int($tag)) {
+			$sql .= 'AND `tag`.`id` = ? ';
+		} else {
+			$sql .= 'AND `tag`.`category` = ? ';
+		}
+		$result = \OC_DB::executeAudited(
+			$sql,
+			array(
+				$this->getNumericStorageId(),
+				$userId,
+				$tag
+			)
+		);
+		$files = array();
+		while ($row = $result->fetchRow()) {
+			$files[] = $row;
+		}
+		return $files;
+	}
+
+	/**
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path

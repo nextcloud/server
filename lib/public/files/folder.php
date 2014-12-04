@@ -117,6 +117,14 @@ interface Folder extends Node {
 	public function searchByMime($mimetype);
 
 	/**
+	 * search for files by tag
+	 *
+	 * @param string|int $tag tag name or tag id
+	 * @return \OCP\Files\Node[]
+	 */
+	public function searchByTag($tag);
+
+	/**
 	 * get a file or folder inside the folder by it's internal id
 	 *
 	 * @param int $id

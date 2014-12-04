@@ -237,6 +237,16 @@ class Folder extends Node implements \OCP\Files\Folder {
 	}
 
 	/**
+	 * search for files by tag
+	 *
+	 * @param string $tag
+	 * @return Node[]
+	 */
+	public function searchByTag($tag) {
+		return $this->searchCommon($tag, 'searchByTag');
+	}
+
+	/**
 	 * @param string $query
 	 * @param string $method
 	 * @return \OC\Files\Node\Node[]

@@ -204,6 +204,39 @@ class Test_Files_Sharing_Cache extends TestCase {
 		$this->verifyFiles($check, $results);
 	}
 
+	/**
+	 * Test searching by tag
+	 */
+	function testSearchByTag() {
+		$id1 = $this->sharedCache->get('bar.txt')['fileid'];
+		$id2 = $this->sharedCache->get('subdir/another too.txt')['fileid'];
+		$id3 = $this->sharedCache->get('subdir/not a text file.xml')['fileid'];
+		$id4 = $this->sharedCache->get('subdir/another.txt')['fileid'];
+		$tagManager = \OC::$server->getTagManager()->load('files');
+		$tagManager->tagAs($id1, 'tag1');
+		$tagManager->tagAs($id1, 'tag2');
+		$tagManager->tagAs($id2, 'tag1');
+		$tagManager->tagAs($id3, 'tag1');
+		$tagManager->tagAs($id4, 'tag2');
+		$results = $this->sharedStorage->getCache()->searchByTag('tag1');
+		$check = array(
+				array(
+					'name' => 'bar.txt',
+					'path' => 'bar.txt'
+				),
+				array(
+					'name' => 'another too.txt',
+					'path' => 'subdir/another too.txt'
+				),
+				array(
+					'name' => 'not a text file.xml',
+					'path' => 'subdir/not a text file.xml'
+				),
+			);
+		$this->verifyFiles($check, $results);
+		$tagManager->delete(array('tag1', 'tag2'));
+	}
+
 	function testGetFolderContentsInRoot() {
 		$results = $this->user2View->getDirectoryContent('/');
 

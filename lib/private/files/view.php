@@ -1135,6 +1135,16 @@ class View {
 	}
 
 	/**
+	 * search for files by tag
+	 *
+	 * @param string|int $tag name or tag id
+	 * @return FileInfo[]
+	 */
+	public function searchByTag($tag) {
+		return $this->searchCommon($tag, 'searchByTag');
+	}
+
+	/**
 	 * @param string $query
 	 * @param string $method
 	 * @return FileInfo[]
