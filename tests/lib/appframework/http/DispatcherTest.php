@@ -232,10 +232,6 @@ class DispatcherTest extends \Test\TestCase {
 
 
 	public function testExceptionCallsAfterException() {
-		// TODO fails on PHP 5.3
-		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-			$this->markTestSkipped('Fails on PHP 5.3');
-		}
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = array('hell' => 'yeah');
@@ -251,10 +247,6 @@ class DispatcherTest extends \Test\TestCase {
 
 
 	public function testExceptionThrowsIfCanNotBeHandledByAfterException() {
-		// TODO fails on PHP 5.3
-		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-			$this->markTestSkipped('Fails on PHP 5.3 and causes infinite loop');
-		}
 		$out = 'yo';
 		$httpHeaders = 'Http';
 		$responseHeaders = array('hell' => 'yeah');
