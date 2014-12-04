@@ -9,8 +9,7 @@
  */
 
 describe('OCA.External.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList, fileActions;
-	var oldFileListPrototype;
+	var testFiles, alertStub, notificationStub, fileList;
 
 	beforeEach(function() {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
@@ -49,14 +48,11 @@ describe('OCA.External.FileList tests', function() {
 			'<div id="emptycontent">Empty content message</div>' +
 			'</div>'
 		);
-		fileActions = new OCA.Files.FileActions();
 	});
 	afterEach(function() {
-		OCA.Files.FileList.prototype = oldFileListPrototype;
 		testFiles = undefined;
 		fileList.destroy();
 		fileList = undefined;
-		fileActions = undefined;
 
 		notificationStub.restore();
 		alertStub.restore();
