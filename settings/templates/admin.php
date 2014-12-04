@@ -153,20 +153,6 @@ if (!$_['has_fileinfo']) {
 <?php
 }
 
-// is PHP at least at 5.3.8?
-if ($_['old_php']) {
-	?>
-	<div class="section">
-		<h2><?php p($l->t('Your PHP version is outdated'));?></h2>
-
-		<span class="connectionwarning">
-		<?php p($l->t('Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly.')); ?>
-	</span>
-
-	</div>
-<?php
-}
-
 // is PHP charset set to UTF8?
 if (!$_['isPhpCharSetUtf8']) {
 	?>

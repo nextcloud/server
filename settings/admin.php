@@ -38,7 +38,6 @@ $template->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $template->assign('isPhpCharSetUtf8', OC_Util::isPhpCharSetUtf8());
 $template->assign('isAnnotationsWorking', OC_Util::isAnnotationsWorking());
 $template->assign('has_fileinfo', OC_Util::fileInfoLoaded());
-$template->assign('old_php', OC_Util::isPHPoutdated());
 $template->assign('backgroundjobs_mode', $appConfig->getValue('core', 'backgroundjobs_mode', 'ajax'));
 $template->assign('cron_log', $config->getSystemValue('cron_log', true));
 $template->assign('lastcron', $appConfig->getValue('core', 'lastcron', false));
@@ -81,7 +80,7 @@ $l = OC_L10N::get('settings');
 $formsAndMore = array();
 if (OC_Request::serverProtocol() !== 'https' || !$htAccessWorking || !OC_Util::isAnnotationsWorking() ||
 	$suggestedOverwriteWebRoot || !OC_Util::isSetLocaleWorking() || !OC_Util::isPhpCharSetUtf8() ||
-	OC_Util::isPHPoutdated() || !OC_Util::fileInfoLoaded() || $databaseOverload
+	!OC_Util::fileInfoLoaded() || $databaseOverload
 ) {
 	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & Setup Warnings'));
 }
