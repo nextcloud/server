@@ -447,7 +447,7 @@ OC.Share={
 			$('#shareWith').autocomplete({minLength: 2, delay: 750, source: function(search, response) {
 				var $loading = $('#dropdown .shareWithLoading');
 				$loading.removeClass('hidden');
-				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term, itemShares: OC.Share.itemShares }, function(result) {
+				$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getShareWith', search: search.term.trim(), itemShares: OC.Share.itemShares }, function(result) {
 					$loading.addClass('hidden');
 					if (result.status == 'success' && result.data.length > 0) {
 						$( "#shareWith" ).autocomplete( "option", "autoFocus", true );
