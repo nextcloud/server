@@ -321,13 +321,6 @@ class Folder extends Node implements \OCP\Files\Folder {
 		return $this->view->free_space($this->path);
 	}
 
-	/**
-	 * @return bool
-	 */
-	public function isCreatable() {
-		return $this->checkPermissions(\OCP\Constants::PERMISSION_CREATE);
-	}
-
 	public function delete() {
 		if ($this->checkPermissions(\OCP\Constants::PERMISSION_DELETE)) {
 			$this->sendHooks(array('preDelete'));

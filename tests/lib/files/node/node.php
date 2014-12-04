@@ -8,12 +8,18 @@
 
 namespace Test\Files\Node;
 
+use OC\Files\FileInfo;
+
 class Node extends \Test\TestCase {
 	private $user;
 
 	protected function setUp() {
 		parent::setUp();
 		$this->user = new \OC\User\User('', new \OC_User_Dummy);
+	}
+
+	protected function getFileInfo($data) {
+		return new FileInfo('', null, '', $data);
 	}
 
 	public function testStat() {
@@ -55,12 +61,12 @@ class Node extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$stat = array(
+		$stat = $this->getFileInfo(array(
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50
-		);
+		));
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -82,10 +88,18 @@ class Node extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
+
+		$stat = $this->getFileInfo(array(
+			'fileid' => 1,
+			'size' => 100,
+			'etag' => 'qwerty',
+			'mtime' => 50
+		));
+
 		$view->expects($this->once())
-			->method('filesize')
+			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(100));
+			->will($this->returnValue($stat));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$this->assertEquals(100, $node->getSize());
@@ -102,12 +116,12 @@ class Node extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 
-		$stat = array(
+		$stat = $this->getFileInfo(array(
 			'fileid' => 1,
 			'size' => 100,
 			'etag' => 'qwerty',
 			'mtime' => 50
-		);
+		));
 
 		$view->expects($this->once())
 			->method('getFileInfo')
@@ -128,15 +142,18 @@ class Node extends \Test\TestCase {
 		$root->expects($this->any())
 			->method('getUser')
 			->will($this->returnValue($this->user));
-		/**
-		 * @var \OC\Files\Storage\Storage | \PHPUnit_Framework_MockObject_MockObject $storage
-		 */
-		$storage = $this->getMock('\OC\Files\Storage\Storage');
+
+		$stat = $this->getFileInfo(array(
+			'fileid' => 1,
+			'size' => 100,
+			'etag' => 'qwerty',
+			'mtime' => 50
+		));
 
 		$view->expects($this->once())
-			->method('filemtime')
+			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(50));
+			->will($this->returnValue($stat));
 
 		$node = new \OC\Files\Node\File($root, $view, '/bar/foo');
 		$this->assertEquals(50, $node->getMTime());
@@ -239,14 +256,9 @@ class Node extends \Test\TestCase {
 			->will($this->returnValue(true));
 
 		$view->expects($this->once())
-			->method('filemtime')
-			->with('/bar/foo')
-			->will($this->returnValue(100));
-
-		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
+			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
@@ -299,7 +311,7 @@ class Node extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_ALL)));
+			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_ALL))));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);
@@ -323,7 +335,7 @@ class Node extends \Test\TestCase {
 		$view->expects($this->any())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('permissions' => \OCP\Constants::PERMISSION_READ)));
+			->will($this->returnValue($this->getFileInfo(array('permissions' => \OCP\Constants::PERMISSION_READ))));
 
 		$node = new \OC\Files\Node\Node($root, $view, '/bar/foo');
 		$node->touch(100);

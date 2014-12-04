@@ -8,6 +8,7 @@
 
 namespace Test\Files\Node;
 
+use OC\Files\FileInfo;
 use OCP\Files\NotPermittedException;
 use OC\Files\Mount\Manager;
 
@@ -17,6 +18,10 @@ class Root extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 		$this->user = new \OC\User\User('', new \OC_User_Dummy);
+	}
+
+	protected function getFileInfo($data) {
+		return new FileInfo('', null, '', $data);
 	}
 
 	public function testGet() {
@@ -34,7 +39,7 @@ class Root extends \Test\TestCase {
 		$view->expects($this->once())
 			->method('getFileInfo')
 			->with('/bar/foo')
-			->will($this->returnValue(array('fileid' => 10, 'path' => 'bar/foo', 'name', 'mimetype' => 'text/plain')));
+			->will($this->returnValue($this->getFileInfo(array('fileid' => 10, 'path' => 'bar/foo', 'name', 'mimetype' => 'text/plain'))));
 
 		$view->expects($this->once())
 			->method('is_dir')
