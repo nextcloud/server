@@ -25,8 +25,6 @@
 
 namespace OCA\Files_Encryption;
 
-use OC\Files\Filesystem;
-
 /**
  * Class for hook specific logic
  */
@@ -364,15 +362,16 @@ class Hooks {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 
 			$view = new \OC\Files\View('/');
-			$userId = \OCP\User::getUser();
+			$userId = $params['uidOwner'];
+			$userView = new \OC\Files\View('/' . $userId . '/files');
 			$util = new Util($view, $userId);
-			$path = \OC\Files\Filesystem::getPath($params['fileSource']);
+			$path = $userView->getPath($params['fileSource']);
 
 			// for group shares get a list of the group members
 			if ($params['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
 				$userIds = \OC_Group::usersInGroup($params['shareWith']);
 			} else {
-				if ($params['shareType'] === \OCP\Share::SHARE_TYPE_LINK) {
+				if ($params['shareType'] === \OCP\Share::SHARE_TYPE_LINK || $params['shareType'] === \OCP\Share::SHARE_TYPE_REMOTE) {
 					$userIds = array($util->getPublicShareKeyId());
 				} else {
 					$userIds = array($params['shareWith']);
@@ -619,8 +618,8 @@ class Hooks {
 
 		// check if the user still has access to the file, otherwise delete share key
 		$sharingUsers = \OCP\Share::getUsersSharingFile($path, $user);
-		if (!in_array(\OCP\User::getUser(), $sharingUsers['users'])) {
-			Keymanager::delShareKey($view, array(\OCP\User::getUser()), $keyPath, $owner, $ownerPath);
+		if (!in_array($user, $sharingUsers['users'])) {
+			Keymanager::delShareKey($view, array($user), $keyPath, $owner, $ownerPath);
 		}
 	}
 

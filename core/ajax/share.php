@@ -36,7 +36,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$shareWith = null;
 					}
  					$itemSourceName=(isset($_POST['itemSourceName'])) ? $_POST['itemSourceName']:'';
-					
+
 					$token = OCP\Share::shareItem(
 						$_POST['itemType'],
 						$_POST['itemSource'],
@@ -309,6 +309,21 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						break;
 					}
 				}
+
+				// allow user to add unknown remote addresses for server-to-server share
+				$backend = \OCP\Share::getBackend($_GET['itemType']);
+				if ($backend->isShareTypeAllowed(\OCP\Share::SHARE_TYPE_REMOTE)) {
+					if (substr_count($_GET['search'], '@') === 1) {
+						$shareWith[] = array(
+							'label' => $_GET['search'],
+							'value' => array(
+								'shareType' => \OCP\Share::SHARE_TYPE_REMOTE,
+								'shareWith' => $_GET['search']
+							)
+						);
+					}
+				}
+
 				$sorter = new \OC\Share\SearchResultSorter($_GET['search'],
 														   'label',
 														   new \OC\Log());

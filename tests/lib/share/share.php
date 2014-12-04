@@ -849,6 +849,23 @@ class Test_Share extends \Test\TestCase {
 	}
 
 	/**
+	 * @dataProvider urls
+	 */
+	function testRemoveProtocolFromUrl($url, $expectedResult) {
+		$share = new \OC\Share\Share();
+		$result = \Test_Helper::invokePrivate($share, 'removeProtocolFromUrl', array($url));
+		$this->assertSame($expectedResult, $result);
+	}
+
+	function urls() {
+		return array(
+			array('http://owncloud.org', 'owncloud.org'),
+			array('https://owncloud.org', 'owncloud.org'),
+			array('owncloud.org', 'owncloud.org'),
+		);
+	}
+
+	/**
 	 * @dataProvider dataProviderTestGroupItems
 	 * @param type $ungrouped
 	 * @param type $grouped

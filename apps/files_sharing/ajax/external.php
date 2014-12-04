@@ -31,10 +31,11 @@ if(!\OCP\Util::isValidFileName($name)) {
 }
 
 $externalManager = new \OCA\Files_Sharing\External\Manager(
-	\OC::$server->getDatabaseConnection(),
-	\OC\Files\Filesystem::getMountManager(),
-	\OC\Files\Filesystem::getLoader(),
-	\OC::$server->getUserSession()
+		\OC::$server->getDatabaseConnection(),
+		\OC\Files\Filesystem::getMountManager(),
+		\OC\Files\Filesystem::getLoader(),
+		\OC::$server->getUserSession(),
+		\OC::$server->getHTTPHelper()
 );
 
 $name = OCP\Files::buildNotExistingFileName('/', $name);
@@ -44,7 +45,7 @@ if (substr($remote, 0, 5) === 'https' and !OC_Util::getUrlContent($remote)) {
 	\OCP\JSON::error(array('data' => array('message' => $l->t("Invalid or untrusted SSL certificate"))));
 	exit;
 } else {
-	$mount = $externalManager->addShare($remote, $token, $password, $name, $owner);
+	$mount = $externalManager->addShare($remote, $token, $password, $name, $owner, true);
 	/**
 	 * @var \OCA\Files_Sharing\External\Storage $storage
 	 */

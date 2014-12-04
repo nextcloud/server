@@ -30,30 +30,30 @@ class UpdaterTest extends \Test\TestCase {
 		$updater = new Updater(\OC::$server->getHTTPHelper(), \OC::$server->getConfig());
 		$this->assertSame($result, $updater->isUpgradePossible($oldVersion, $newVersion));
 	}
-	
+
 	public function testBrokenXmlResponse(){
 		$invalidUpdater = $this->getUpdaterMock('OMG!');
 		$invalidResult = $invalidUpdater->check();
 		$this->assertEmpty($invalidResult);
 	}
-	
+
 	public function testEmptyResponse(){
 		$emptyUpdater = $this->getUpdaterMock('');
 		$emptyResult = $emptyUpdater->check();
 		$this->assertEmpty($emptyResult);
-		
+
 		// Error while fetching new contents e.g. too many redirects
 		$falseUpdater = $this->getUpdaterMock(false);
 		$falseResult = $falseUpdater->check();
 		$this->assertEmpty($falseResult);
 	}
-	
+
 	public function testValidEmptyXmlResponse(){
 		$updater = $this->getUpdaterMock(
 				'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
 		);
 		$result = array_map('strval', $updater->check());
-		
+
 		$this->assertArrayHasKey('version', $result);
 		$this->assertArrayHasKey('versionstring', $result);
 		$this->assertArrayHasKey('url', $result);
@@ -63,7 +63,7 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEmpty($result['url']);
 		$this->assertEmpty($result['web']);
 	}
-	
+
 	public function testValidUpdateResponse(){
 		$newUpdater = $this->getUpdaterMock(
 				'<?xml version="1.0"?>
@@ -75,7 +75,7 @@ class UpdaterTest extends \Test\TestCase {
 </owncloud>'
 		);
 		$newResult = array_map('strval', $newUpdater->check());
-		
+
 		$this->assertArrayHasKey('version', $newResult);
 		$this->assertArrayHasKey('versionstring', $newResult);
 		$this->assertArrayHasKey('url', $newResult);
@@ -85,22 +85,22 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals('http://download.owncloud.org/community/owncloud-7.0.3.zip', $newResult['url']);
 		$this->assertEquals('http://owncloud.org/', $newResult['web']);
 	}
-	
+
 	protected function getUpdaterMock($content){
 		// Invalidate cache
 		$mockedAppConfig = $this->getMockBuilder('\OC\AppConfig')
 				->disableOriginalConstructor()
 				->getMock()
 		;
-		
+
+		$certificateManager = $this->getMock('\OCP\ICertificateManager');
 		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
-				->setConstructorArgs(array(\OC::$server->getConfig()))
+				->setConstructorArgs(array(\OC::$server->getConfig(), $certificateManager))
 				->getMock()
 		;
-		
-		$mockedHTTPHelper->method('getUrlContent')
-				->willReturn($content)
-		;
+
+		$mockedHTTPHelper->expects($this->once())->method('getUrlContent')->will($this->returnValue($content));
+
 		return new Updater($mockedHTTPHelper, $mockedAppConfig);
 	}
 

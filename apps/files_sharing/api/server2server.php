@@ -34,7 +34,7 @@ class Server2Server {
 	public function createShare($params) {
 
 		if (!$this->isS2SEnabled(true)) {
-			return \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
 		}
 
 		$remote = isset($_POST['remote']) ? $_POST['remote'] : null;
@@ -42,7 +42,7 @@ class Server2Server {
 		$name = isset($_POST['name']) ? $_POST['name'] : null;
 		$owner = isset($_POST['owner']) ? $_POST['owner'] : null;
 		$shareWith = isset($_POST['shareWith']) ? $_POST['shareWith'] : null;
-		$remoteId = isset($_POST['remote_id']) ? (int)$_POST['remote_id'] : null;
+		$remoteId = isset($_POST['remoteId']) ? (int)$_POST['remoteId'] : null;
 
 		if ($remote && $token && $name && $owner && $remoteId && $shareWith) {
 
@@ -56,19 +56,28 @@ class Server2Server {
 
 			\OC_Util::setupFS($shareWith);
 
-			$mountPoint = \OC\Files\Filesystem::normalizePath('/' . $name);
+			$externalManager = new \OCA\Files_Sharing\External\Manager(
+					\OC::$server->getDatabaseConnection(),
+					\OC\Files\Filesystem::getMountManager(),
+					\OC\Files\Filesystem::getLoader(),
+					\OC::$server->getUserSession(),
+					\OC::$server->getHTTPHelper());
+
 			$name = \OCP\Files::buildNotExistingFileName('/', $name);
 
 			try {
-				\OCA\Files_Sharing\Helper::addServer2ServerShare($remote, $token, $name, $mountPoint, $owner, $shareWith, '', $remoteId);
+				$externalManager->addShare($remote, $token, '', $name, $owner, false, $shareWith, $remoteId);
+
+				$user = $owner . '@' . $this->cleanupRemote($remote);
 
 				\OC::$server->getActivityManager()->publishActivity(
-						'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($owner), '', array(),
-						'', '', $shareWith, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_LOW);
+					'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_RECEIVED, array($user), '', array(),
+					'', '', $shareWith, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_LOW);
 
 				return new \OC_OCS_Result();
 			} catch (\Exception $e) {
-				return new \OC_OCS_Result(null, 500, 'server can not add remote share, ' . $e->getMessage());
+				\OCP\Util::writeLog('files_sharing', 'server can not add remote share, ' . $e->getMessage(), \OCP\Util::ERROR);
+				return new \OC_OCS_Result(null, 500, 'internal server error, was not able to add share from ' . $remote);
 			}
 		}
 
@@ -84,7 +93,7 @@ class Server2Server {
 	public function acceptShare($params) {
 
 		if (!$this->isS2SEnabled()) {
-			return \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
 		}
 
 		$id = $params['id'];
@@ -95,8 +104,8 @@ class Server2Server {
 			list($file, $link) = self::getFile($share['uid_owner'], $share['file_source']);
 
 			\OC::$server->getActivityManager()->publishActivity(
-					'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_ACCEPTED, array($share['share_with'], basename($file)), '', array(),
-					$file, $link, $share['uid_owner'], \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_LOW);
+				'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_ACCEPTED, array($share['share_with'], basename($file)), '', array(),
+				$file, $link, $share['uid_owner'], \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_LOW);
 		}
 
 		return new \OC_OCS_Result();
@@ -111,7 +120,7 @@ class Server2Server {
 	public function declineShare($params) {
 
 		if (!$this->isS2SEnabled()) {
-			return \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
 		}
 
 		$id = $params['id'];
@@ -126,8 +135,8 @@ class Server2Server {
 			list($file, $link) = $this->getFile($share['uid_owner'], $share['file_source']);
 
 			\OC::$server->getActivityManager()->publishActivity(
-					'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_DECLINED, array($share['share_with'], basename($file)), '', array(),
-					$file, $link, $share['uid_owner'], \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_LOW);
+				'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_DECLINED, array($share['share_with'], basename($file)), '', array(),
+				$file, $link, $share['uid_owner'], \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_LOW);
 		}
 
 		return new \OC_OCS_Result();
@@ -142,7 +151,7 @@ class Server2Server {
 	public function unshare($params) {
 
 		if (!$this->isS2SEnabled()) {
-			return \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
 		}
 
 		$id = $params['id'];
@@ -154,7 +163,9 @@ class Server2Server {
 
 		if ($token && $id && !empty($share)) {
 
-			$owner = $share['owner'] . '@' . $share['remote'];
+			$remote = $this->cleanupRemote($share['remote']);
+
+			$owner = $share['owner'] . '@' . $remote;
 			$mountpoint = $share['mountpoint'];
 			$user = $share['user'];
 
@@ -162,11 +173,17 @@ class Server2Server {
 			$query->execute(array($id, $token));
 
 			\OC::$server->getActivityManager()->publishActivity(
-					'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_DECLINED, array($owner, $mountpoint), '', array(),
-					'', '', $user, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_MEDIUM);
+				'files_sharing', \OCA\Files_Sharing\Activity::SUBJECT_REMOTE_SHARE_UNSHARED, array($owner, $mountpoint), '', array(),
+				'', '', $user, \OCA\Files_Sharing\Activity::TYPE_REMOTE_SHARE, \OCA\Files_Sharing\Activity::PRIORITY_MEDIUM);
 		}
 
 		return new \OC_OCS_Result();
+	}
+
+	private function cleanupRemote($remote) {
+		$remote = substr($remote, strpos($remote, '://') + 3);
+
+		return rtrim($remote, '/');
 	}
 
 	/**

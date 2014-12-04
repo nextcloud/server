@@ -33,7 +33,7 @@ class CertificateManager implements ICertificateManager {
 	 * @return \OCP\ICertificate[]
 	 */
 	public function listCertificates() {
-		$path = $this->user->getHome() . '/files_external/uploads/';
+		$path = $this->getPathToCertificates() . 'uploads/';
 		if (!is_dir($path)) {
 			return array();
 		}
@@ -57,7 +57,7 @@ class CertificateManager implements ICertificateManager {
 	 * create the certificate bundle of all trusted certificated
 	 */
 	protected function createCertificateBundle() {
-		$path = $this->user->getHome() . '/files_external/';
+		$path = $this->getPathToCertificates();
 		$certs = $this->listCertificates();
 
 		$fh_certs = fopen($path . '/rootcerts.crt', 'w');
@@ -86,7 +86,7 @@ class CertificateManager implements ICertificateManager {
 			return false;
 		}
 
-		$dir = $this->user->getHome() . '/files_external/uploads/';
+		$dir = $this->getPathToCertificates() . 'uploads/';
 		if (!file_exists($dir)) {
 			//path might not exist (e.g. non-standard OC_User::getHome() value)
 			//in this case create full path using 3rd (recursive=true) parameter.
@@ -116,7 +116,7 @@ class CertificateManager implements ICertificateManager {
 		if (!Filesystem::isValidPath($name)) {
 			return false;
 		}
-		$path = $this->user->getHome() . '/files_external/uploads/';
+		$path = $this->getPathToCertificates() . 'uploads/';
 		if (file_exists($path . $name)) {
 			unlink($path . $name);
 			$this->createCertificateBundle();
@@ -130,6 +130,12 @@ class CertificateManager implements ICertificateManager {
 	 * @return string
 	 */
 	public function getCertificateBundle() {
-		return $this->user->getHome() . '/files_external/rootcerts.crt';
+		return $this->getPathToCertificates() . 'rootcerts.crt';
+	}
+
+	private function getPathToCertificates() {
+		$path = $this->user ? $this->user->getHome() . '/files_external/' : '/files_external/';
+
+		return $path;
 	}
 }

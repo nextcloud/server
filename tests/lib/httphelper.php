@@ -12,14 +12,17 @@ class TestHTTPHelper extends \Test\TestCase {
 	private $config;
 	/** @var \OC\HTTPHelper */
 	private $httpHelperMock;
+	/** @var \OC\Security\CertificateManager */
+	private $certificateManager;
 
 	protected function setUp() {
 		parent::setUp();
 
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
+		$this->certificateManager = $this->getMock('\OCP\ICertificateManager');
 		$this->httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
-			->setConstructorArgs(array($this->config))
+			->setConstructorArgs(array($this->config, $this->certificateManager))
 			->setMethods(array('getHeaders'))
 			->getMock();
 	}
@@ -86,5 +89,24 @@ class TestHTTPHelper extends \Test\TestCase {
 	public function testIsHTTP($url, $expected) {
 			$this->assertSame($expected, $this->httpHelperMock->isHTTPURL($url));
 	}
+
+
+	/**
+	 * @dataProvider postParameters
+	 */
+	public function testassemblePostParameters($parameterList, $expectedResult) {
+		$helper = \OC::$server->getHTTPHelper();
+		$result = \Test_Helper::invokePrivate($helper, 'assemblePostParameters', array($parameterList));
+		$this->assertSame($expectedResult, $result);
+	}
+
+	public function postParameters() {
+		return array(
+			array(array('k1' => 'v1'), 'k1=v1'),
+			array(array('k1' => 'v1', 'k2' => 'v2'), 'k1=v1&k2=v2'),
+			array(array(), ''),
+		);
+	}
+
 
 }

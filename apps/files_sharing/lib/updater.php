@@ -161,7 +161,10 @@ class Shared_Updater {
 	 */
 	static public function postUnshareHook($params) {
 
-		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+		// only update etags for file/folders shared to local users/groups
+		if (($params['itemType'] === 'file' || $params['itemType'] === 'folder') &&
+				$params['shareType'] !== \OCP\Share::SHARE_TYPE_LINK &&
+				$params['shareType'] !== \OCP\Share::SHARE_TYPE_REMOTE) {
 
 			$deletedShares = isset($params['deletedShares']) ? $params['deletedShares'] : array();
 
@@ -212,7 +215,7 @@ class Shared_Updater {
 
 	/**
 	 * rename mount point from the children if the parent was renamed
-	 * 
+	 *
 	 * @param string $oldPath old path relative to data/user/files
 	 * @param string $newPath new path relative to data/user/files
 	 */
