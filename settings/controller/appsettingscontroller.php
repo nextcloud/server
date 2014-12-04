@@ -11,6 +11,8 @@
 
 namespace OC\Settings\Controller;
 
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
 use \OCP\AppFramework\Controller;
 use OCP\IRequest;
 use OCP\IL10N;
@@ -123,10 +125,16 @@ class AppSettingsController extends Controller {
 			}
 			$app['groups'] = $groups;
 			$app['canUnInstall'] = !$app['active'] && $app['removable'];
+
+			// analyse dependencies
+			$dependencyAnalyzer = new DependencyAnalyzer($app, new Platform($this->config), $this->l10n);
+			$missing = $dependencyAnalyzer->analyze();
+
+			$app['canInstall'] = empty($missing);
+			$app['missingDependencies'] = $missing;
 			return $app;
 		}, $apps);
 
 		return array('apps' => $apps, 'status' => 'success');
 	}
-
 }

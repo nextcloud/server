@@ -15,5 +15,35 @@
 	},
 	"rememberlogin": "false",
 	"types": ["filesystem"],
-	"ocsid": "166047"
+	"ocsid": "166047",
+	"dependencies": {
+		"php": {
+			"@attributes" : {
+				"min-version": "5.4",
+				"max-version": "5.5"
+			}
+		},
+		"database": [
+			{
+				"@attributes" : {
+					"min-version": "3.0"
+				},
+				"@value": "sqlite"},
+			"mysql"
+		],
+		"command": [
+			{
+				"@attributes" : {
+					"os": "linux"
+				},
+				"@value": "grep"
+			},
+			{
+				"@attributes" : {
+					"os": "windows"
+				},
+				"@value": "notepad.exe"
+			}
+		]
+	}
 }
