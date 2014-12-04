@@ -232,7 +232,8 @@ class Test_Request extends \Test\TestCase {
 		return array(
 			array('localhost:500', 'localhost'),
 			array('foo.com', 'foo.com'),
-			array('[1fff:0:a88:85a3::ac1f]:801', '[1fff:0:a88:85a3::ac1f]')
+			array('[1fff:0:a88:85a3::ac1f]:801', '[1fff:0:a88:85a3::ac1f]'),
+			array('[1fff:0:a88:85a3::ac1f]', '[1fff:0:a88:85a3::ac1f]')
 		);
 	}
 
