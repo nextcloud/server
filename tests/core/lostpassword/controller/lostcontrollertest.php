@@ -102,9 +102,12 @@ class LostControllerTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testEmailSuccessful() {
-		if (\OC_Util::runningOnWindows()) {
-			// FIXME after OC_Mail refactor
-			$this->markTestSkipped('[Windows] sendmail is not supported on windows');
+		/**
+		 * FIXME: Disable test for systems where no sendmail is available since code is static.
+		 * @link https://github.com/owncloud/core/pull/12085
+		 */
+		if (is_null(\OC_Helper::findBinaryPath('sendmail'))) {
+			$this->markTestSkipped('sendmail is not available');
 		}
 
 		$randomToken = $this->container['SecureRandom'];
