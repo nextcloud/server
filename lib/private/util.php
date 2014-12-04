@@ -605,9 +605,9 @@ class OC_Util {
 			$webServerRestart = true;
 		}
 
-		if (version_compare(phpversion(), '5.3.3', '<')) {
+		if (version_compare(phpversion(), '5.4.0', '<')) {
 			$errors[] = array(
-				'error' => $l->t('PHP %s or higher is required.', '5.3.3'),
+				'error' => $l->t('PHP %s or higher is required.', '5.4.0'),
 				'hint' => $l->t('Please ask your server administrator to update PHP to the latest version.'
 					. ' Your PHP version is no longer supported by ownCloud and the PHP community.')
 			);
@@ -1111,15 +1111,6 @@ class OC_Util {
 	 */
 	public static function fileInfoLoaded() {
 		return function_exists('finfo_open');
-	}
-
-	/**
-	 * Check if a PHP version older then 5.3.8 is installed.
-	 *
-	 * @return bool
-	 */
-	public static function isPHPoutdated() {
-		return version_compare(phpversion(), '5.3.8', '<');
 	}
 
 	/**
