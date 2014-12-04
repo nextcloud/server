@@ -35,6 +35,15 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$this->platformMock->expects($this->any())
 			->method('getDatabase')
 			->will( $this->returnValue('mysql'));
+		$this->platformMock->expects($this->any())
+			->method('getOS')
+			->will( $this->returnValue('Linux'));
+		$this->platformMock->expects($this->any())
+			->method('isCommandKnown')
+			->will( $this->returnCallback(function($command) {
+				return ($command === 'grep');
+			}));
+
 		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
 			->getMock();
@@ -64,7 +73,6 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$missing = $analyser->analyze();
 
 		$this->assertTrue(is_array($missing));
-		$this->assertEquals(count($expectedMissing), count($missing));
 		$this->assertEquals($expectedMissing, $missing);
 	}
 
@@ -83,8 +91,39 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$missing = $analyser->analyze();
 
 		$this->assertTrue(is_array($missing));
-		$this->assertEquals(count($expectedMissing), count($missing));
 		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	/**
+	 * @dataProvider providesCommands
+	 */
+	public function testCommand($expectedMissing, $commands) {
+		$app = array(
+			'dependencies' => array(
+			)
+		);
+		if (!is_null($commands)) {
+			$app['dependencies']['command'] = $commands;
+		}
+		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
+		$missing = $analyser->analyze();
+
+		$this->assertTrue(is_array($missing));
+		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	function providesCommands() {
+		return array(
+			array(array(), null),
+			// grep is known on linux
+			array(array(), array(array('@attributes' => array('os' => 'Linux'), '@value' => 'grep'))),
+			// grepp is not known on linux
+			array(array('The command line tool grepp could not be found'), array(array('@attributes' => array('os' => 'Linux'), '@value' => 'grepp'))),
+			// we don't care about tools on Windows - we are on Linux
+			array(array(), array(array('@attributes' => array('os' => 'Windows'), '@value' => 'grepp'))),
+			// grep is known on all systems
+			array(array(), array('grep')),
+		);
 	}
 
 	function providesDatabases() {

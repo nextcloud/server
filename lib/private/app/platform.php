@@ -12,16 +12,32 @@ namespace OC\App;
 
 use OCP\IConfig;
 
+/**
+ * Class Platform
+ *
+ * This class basically abstracts any kind of information which can be retrieved from the underlying system.
+ *
+ * @package OC\App
+ */
 class Platform {
 
+	/**
+	 * @param IConfig $config
+	 */
 	function __construct(IConfig $config) {
 		$this->config = $config;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getPhpVersion() {
 		return phpversion();
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getDatabase() {
 		$dbType = $this->config->getSystemValue('dbtype', 'sqlite');
 		if ($dbType === 'sqlite3') {
@@ -29,5 +45,21 @@ class Platform {
 		}
 
 		return $dbType;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOS() {
+		return php_uname('s');
+	}
+
+	/**
+	 * @param $command
+	 * @return bool
+	 */
+	public function isCommandKnown($command) {
+		$path = \OC_Helper::findBinaryPath($command);
+		return ($path !== null);
 	}
 }
