@@ -148,4 +148,25 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase {
 		\OC_FileProxy::$enabled = true;
 		\OC_FileProxy::clearProxies();
 	}
+
+	/**
+	 * Login and setup FS as a given user,
+	 * sets the given user as the current user.
+	 *
+	 * @param string $user user id
+	 */
+	static protected function loginAsUser($user) {
+		self::logout();
+		\OC\Files\Filesystem::tearDown();
+		\OC_User::setUserId($user);
+		\OC_Util::setupFS($user);
+	}
+
+	/**
+	 * Logout the current user and tear down the filesystem.
+	 */
+	static protected function logout() {
+		\OC_Util::tearDownFS();
+		\OC_User::setUserId('');
+	}
 }
