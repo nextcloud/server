@@ -310,4 +310,11 @@ interface IServerContainer {
 	 * @return \OCP\Files\Config\IMountProviderCollection
 	 */
 	function getMountProviderCollection();
+
+	/**
+	 * Get the IniWrapper
+	 *
+	 * @return \bantu\IniGetWrapper\IniGetWrapper
+	 */
+	 function getIniWrapper();
 }
