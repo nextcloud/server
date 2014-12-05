@@ -13,6 +13,10 @@ namespace Test;
 * Large files are not considered yet.
 */
 class LargeFileHelperGetFileSize extends TestCase {
+	/** @var string */
+	protected $filename;
+	/** @var int */
+	protected $fileSize;
 	/** @var \OC\LargeFileHelper */
 	protected $helper;
 
@@ -39,6 +43,11 @@ class LargeFileHelperGetFileSize extends TestCase {
 		if (!extension_loaded('curl')) {
 			$this->markTestSkipped(
 				'The PHP curl extension is required for this test.'
+			);
+		}
+		if (\OC::$server->getIniWrapper()->getString('open_basedir') !== '') {
+			$this->markTestSkipped(
+				'The PHP curl extension does not work with the file:// protocol when open_basedir is enabled.'
 			);
 		}
 		$this->assertSame(
