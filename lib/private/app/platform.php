@@ -62,4 +62,10 @@ class Platform {
 		$path = \OC_Helper::findBinaryPath($command);
 		return ($path !== null);
 	}
+
+	public function getLibraryVersion($name) {
+		$repo = new PlatformRepository();
+		$lib = $repo->findLibrary($name);
+		return $lib;
+	}
 }

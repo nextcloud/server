@@ -44,13 +44,14 @@ class DependencyAnalyzer {
 	 * @returns array of missing dependencies
 	 */
 	public function analyze() {
-		$this->analysePhpVersion();
-		$this->analyseSupportedDatabases();
-		$this->analyseCommands();
+		$this->analyzePhpVersion();
+		$this->analyzeDatabases();
+		$this->analyzeCommands();
+		$this->analyzeLibraries();
 		return $this->missing;
 	}
 
-	private function analysePhpVersion() {
+	private function analyzePhpVersion() {
 		if (isset($this->dependencies['php']['@attributes']['min-version'])) {
 			$minVersion = $this->dependencies['php']['@attributes']['min-version'];
 			if (version_compare($this->platform->getPhpVersion(), $minVersion, '<')) {
@@ -60,12 +61,12 @@ class DependencyAnalyzer {
 		if (isset($this->dependencies['php']['@attributes']['max-version'])) {
 			$maxVersion = $this->dependencies['php']['@attributes']['max-version'];
 			if (version_compare($this->platform->getPhpVersion(), $maxVersion, '>')) {
-				$this->addMissing((string)$this->l->t('PHP with a version less then %s is required.', $maxVersion));
+				$this->addMissing((string)$this->l->t('PHP with a version lower than %s is required.', $maxVersion));
 			}
 		}
 	}
 
-	private function analyseSupportedDatabases() {
+	private function analyzeDatabases() {
 		if (!isset($this->dependencies['database'])) {
 			return;
 		}
@@ -83,7 +84,7 @@ class DependencyAnalyzer {
 		}
 	}
 
-	private function analyseCommands() {
+	private function analyzeCommands() {
 		if (!isset($this->dependencies['command'])) {
 			return;
 		}
@@ -97,6 +98,39 @@ class DependencyAnalyzer {
 			$commandName = $this->getValue($command);
 			if (!$this->platform->isCommandKnown($commandName)) {
 				$this->addMissing((string)$this->l->t('The command line tool %s could not be found', $commandName));
+			}
+		}
+	}
+
+	private function analyzeLibraries() {
+		if (!isset($this->dependencies['lib'])) {
+			return;
+		}
+
+		$libs = $this->dependencies['lib'];
+		foreach($libs as $lib) {
+			$libName = $this->getValue($lib);
+			$libVersion = $this->platform->getLibraryVersion($libName);
+			if (is_null($libVersion)) {
+				$this->addMissing((string)$this->l->t('The library %s is not available.', $libName));
+				continue;
+			}
+
+			if (is_array($lib)) {
+				if (isset($lib['@attributes']['min-version'])) {
+					$minVersion = $lib['@attributes']['min-version'];
+					if (version_compare($libVersion, $minVersion, '<')) {
+						$this->addMissing((string)$this->l->t('Library %s with a version higher than %s is required - available version %s.',
+							array($libName, $minVersion, $libVersion)));
+					}
+				}
+				if (isset($lib['@attributes']['max-version'])) {
+					$maxVersion = $lib['@attributes']['max-version'];
+					if (version_compare($libVersion, $maxVersion, '>')) {
+						$this->addMissing((string)$this->l->t('Library %s with a version lower than %s is required - available version %s.',
+							array($libName, $maxVersion, $libVersion)));
+					}
+				}
 			}
 		}
 	}

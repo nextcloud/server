@@ -25,5 +25,8 @@
 		<database>mysql</database>
 		<command os="linux">grep</command>
 		<command os="windows">notepad.exe</command>
+		<lib min-version="1.2">xml</lib>
+		<lib max-version="2.0">intl</lib>
+		<lib>curl</lib>
 	</dependencies>
 </info>

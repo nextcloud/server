@@ -43,6 +43,14 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			->will( $this->returnCallback(function($command) {
 				return ($command === 'grep');
 			}));
+		$this->platformMock->expects($this->any())
+			->method('getLibraryVersion')
+			->will( $this->returnCallback(function($lib) {
+				if ($lib === 'curl') {
+					return "2.3.4";
+				}
+				return null;
+			}));
 
 		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
@@ -112,6 +120,42 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedMissing, $missing);
 	}
 
+	/**
+	 * @dataProvider providesLibs
+	 * @param $expectedMissing
+	 * @param $libs
+	 */
+	function testLibs($expectedMissing, $libs) {
+		$app = array(
+			'dependencies' => array(
+			)
+		);
+		if (!is_null($libs)) {
+			$app['dependencies']['lib'] = $libs;
+		}
+
+		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
+		$missing = $analyser->analyze();
+
+		$this->assertTrue(is_array($missing));
+		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	function providesLibs() {
+		return array(
+			// we expect curl to exist
+			array(array(), array('curl')),
+			// we expect abcde to exist
+			array(array('The library abcde is not available.'), array('abcde')),
+			// curl in version 100.0 does not exist
+			array(array('Library curl with a version higher than 100.0 is required - available version 2.3.4.'),
+				array(array('@attributes' => array('min-version' => '100.0'), '@value' => 'curl'))),
+			// curl in version 100.0 does not exist
+			array(array('Library curl with a version lower than 1.0.0 is required - available version 2.3.4.'),
+				array(array('@attributes' => array('max-version' => '1.0.0'), '@value' => 'curl')))
+		);
+	}
+
 	function providesCommands() {
 		return array(
 			array(array(), null),
@@ -142,7 +186,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			array(array(), null, '5.5'),
 			array(array(), '5.4', '5.5'),
 			array(array('PHP 5.4.4 or higher is required.'), '5.4.4', null),
-			array(array('PHP with a version less then 5.4.2 is required.'), null, '5.4.2'),
+			array(array('PHP with a version lower than 5.4.2 is required.'), null, '5.4.2'),
 		);
 	}
 }
