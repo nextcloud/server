@@ -22,7 +22,6 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Sa ei saa seda faili dekrüpteerida, see on tõenäoliselt jagatud fail. Palun lase omanikul seda faili sinuga uuesti jagada.",
     "Unknown error. Please check your system settings or contact your administrator" : "Tundmatu viga. Palun võta ühendust oma administraatoriga.",
     "Missing requirements." : "Nõutavad on puudu.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Palun veendu, et on paigaldatud PHP 5.3.3 või uuem ning PHP OpenSSL laiendus on lubatud ning seadistatud korrektselt. Hetkel krüpteerimise rakendus on peatatud.",
     "Following users are not set up for encryption:" : "Järgmised kasutajad pole seadistatud krüpteeringuks:",
     "Initial encryption started... This can take some time. Please wait." : "Algne krüpteerimine käivitati... See võib võtta natuke aega. Palun oota.",
     "Initial encryption running... Please try again later." : "Toimub esmane krüpteerimine... Palun proovi hiljem uuesti.",

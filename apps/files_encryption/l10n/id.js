@@ -21,7 +21,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Tidak dapat mendekripsi berkas ini, mungkin ini adalah berkas bersama. Silakan meminta pemilik berkas ini untuk membagikan kembali dengan Anda.",
     "Unknown error. Please check your system settings or contact your administrator" : "Kesalahan tidak diketahui. Silakan periksa pengaturan sistem Anda atau hubungi administrator",
     "Missing requirements." : "Persyaratan tidak terpenuhi.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Pastikan bahwa PHP 5.3.3 atau yang lebih baru telah diinstal dan OpenSSL bersama ekstensi PHP telah diaktifkan dan dikonfigurasi dengan benar. Untuk saat ini, aplikasi enkripsi akan dinonaktifkan.",
     "Following users are not set up for encryption:" : "Pengguna berikut belum diatur untuk enkripsi:",
     "Initial encryption started... This can take some time. Please wait." : "Enskripsi awal dijalankan... Ini dapat memakan waktu. Silakan tunggu.",
     "Initial encryption running... Please try again later." : "Enkripsi awal sedang berjalan... Sialakn coba lagi nanti.",

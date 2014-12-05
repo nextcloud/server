@@ -110,8 +110,6 @@ OC.L10N.register(
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "В якості бази даних використовується SQLite. Для більш навантажених серверів, ми рекомендуємо користуватися іншими типами баз даних. Для зміни типу бази даних використовуйте інструмент командного рядка: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Модуль 'fileinfo' відсутній",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів.",
-    "Your PHP version is outdated" : "Ваш версія PHP застаріла",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Ваш версія PHP застаріла. Ми наполегливо рекомендуємо оновитися до версії 5.3.8 або новішої, оскільки старі версії працюють не правильно.  ",
     "PHP charset is not set to UTF-8" : "Кодування PHP не співпадає з UTF-8",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "Кодування PHP не співпадає з UTF-8. Це може викликати проблеми іменами файлів, які містять нелатинські символи. Ми наполегливо рекомендуємо змінити значення перемінної default_charset у файлі php.ini на UTF-8.",
     "Locale not working" : "Локалізація не працює",

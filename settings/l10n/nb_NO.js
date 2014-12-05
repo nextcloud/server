@@ -104,8 +104,6 @@ OC.L10N.register(
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite brukes som database. For større installasjoner anbefaler vi å endre dette. For å migrere til en annen database, bruk kommandolinjeverktøyet: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Modulen 'fileinfo' mangler",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modulen 'fileinfo' mangler. Vi anbefaler at du aktiverer denne modulen for å kunne detektere mime-typen korrekt.",
-    "Your PHP version is outdated" : "Din PHP-versjon er udatert",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "PHP-versjonen din er utdatert. Vi anbefaler på det sterkeste at du oppdaterer til 5.3.8 eller nyere fordi eldre versjoner ikke vil virke. Det er mulig at denne installasjoner ikke fungerer korrekt.",
     "PHP charset is not set to UTF-8" : "PHP-tegnsett er ikke satt til UTF-8",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP-tegnsett er ikke satt til UTF-8. Dette kan forårsake store problemer med tegn som ikke er ASCII i filnavn. Vi anbefaler på det sterkeste å endre verdien av 'default_charset' i php.ini til 'UTF-8'.",
     "Locale not working" : "Nasjonale innstillinger virker ikke",

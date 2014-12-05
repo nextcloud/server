@@ -24,7 +24,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Bu dosya muhtemelen bir paylaşılan dosya olduğundan şifrelemesi kaldırılamıyor. Lütfen dosyayı sizinle bir daha paylaşması için dosya sahibi ile iletişime geçin.",
     "Unknown error. Please check your system settings or contact your administrator" : "Bilinmeyen hata. Lütfen sistem ayarlarınızı denetleyin veya yöneticiniz ile iletişime geçin",
     "Missing requirements." : "Gereklilikler eksik.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "PHP 5.3.3 veya daha sürümü ile birlikte OpenSSL ve OpenSSL PHP uzantısının birlikte etkin olduğundan ve doğru bir şekilde yapılandırıldığından emin olun. Şimdilik şifreleme uygulaması devre dışı bırakıldı.",
     "Following users are not set up for encryption:" : "Aşağıdaki kullanıcılar şifreleme için ayarlanmamış:",
     "Initial encryption started... This can take some time. Please wait." : "İlk şifreleme başladı... Bu biraz zaman alabilir. Lütfen bekleyin.",
     "Initial encryption running... Please try again later." : "İlk şifreleme çalışıyor... Lütfen daha sonra tekrar deneyin.",

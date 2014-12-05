@@ -14,7 +14,6 @@ OC.L10N.register(
     "Your private key is not valid! Likely your password was changed outside of %s (e.g. your corporate directory). You can update your private key password in your personal settings to recover access to your encrypted files." : "¡Su clave privada no es válida! Tal vez su contraseña ha sido cambiada desde fuera. de %s (Ej:Su directorio corporativo). Puede actualizar la contraseña de su clave privada en sus opciones personales para recuperar el acceso a sus archivos.",
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No fue posible descifrar este archivo, probablemente se trate de un archivo compartido. Solicite al propietario del mismo que vuelva a compartirlo con usted.",
     "Missing requirements." : "Requisitos incompletos.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Por favor, asegúrese de que PHP 5.3.3 o posterior está instalado y que la extensión OpenSSL de PHP está habilitada y configurada correctamente. Por el momento, la aplicación de cifrado ha sido deshabilitada.",
     "Following users are not set up for encryption:" : "Los siguientes usuarios no han sido configurados para el cifrado:",
     "Initial encryption started... This can take some time. Please wait." : "Encriptación iniciada... Esto puede tomar un tiempo. Por favor espere.",
     "Encryption" : "Cifrado",

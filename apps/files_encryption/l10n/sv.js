@@ -15,7 +15,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan ej dekryptera denna fil, förmodligen är det en delad fil. Be ägaren av filen att dela den med dig.",
     "Unknown error. Please check your system settings or contact your administrator" : "Okänt fel. Kontrollera dina systeminställningar eller kontakta din administratör",
     "Missing requirements." : "Krav som saknas",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Kontrollera att PHP 5.3.3 eller senare är installerad och att tillägget OpenSSL PHP är aktiverad och korrekt konfigurerad. Kryptering är tillsvidare inaktiverad.",
     "Following users are not set up for encryption:" : "Följande användare har inte aktiverat kryptering:",
     "Initial encryption started... This can take some time. Please wait." : "Initiala krypteringen har påbörjats... Detta kan ta lite tid. Var god vänta.",
     "Initial encryption running... Please try again later." : "Initiala krypteringen körs... Var god försök igen senare.",

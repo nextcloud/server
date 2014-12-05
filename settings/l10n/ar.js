@@ -76,8 +76,6 @@ OC.L10N.register(
     "Setup Warning" : "تحذير في التنصيب",
     "Module 'fileinfo' missing" : "الموديل 'fileinfo' مفقود",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق ",
-    "Your PHP version is outdated" : "اصدار PHP الخاص بك قديم",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "اصدار PHP الخاص بك قديم. نحن نقترح لك باصرار ان يتم ترقية الاصدار الى  5.3.8 او احدث بسبب ان الاصدارات القديمة معروفة انها مهمشة. من الممكن ان التنزيل قد لا يتم بصورة صحيحة.",
     "Locale not working" : "اللغه لا تعمل",
     "System locale can not be set to a one which supports UTF-8." : "لا يمكن تعيين لغة النظام الى احد اللغات التي تدعم UTF-8.",
     "This means that there might be problems with certain characters in file names." : "هذا يعني انه من الممكن ان يكون هناك مشكلة في بعض الاحرف في اسم الملف.",

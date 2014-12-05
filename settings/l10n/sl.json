@@ -105,8 +105,6 @@
     "Database Performance Info" : "Podrobnosti delovanja podatkovne zbirke",
     "Module 'fileinfo' missing" : "Manjka modul 'fileinfo'.",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Manjka modul PHP 'fileinfo'. Priporočljivo je omogočiti ta modul za popolno zaznavanje vrst MIME.",
-    "Your PHP version is outdated" : "Nameščena različica PHP je zastarela",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Nameščena različica PHP je zastarela. Priporočljivo je posodobiti namestitev na različico 5.3.8 ali novejše, saj starejše različice ne podpirajo vseh zmožnosti. Mogoče je, da namestitev ne deluje pravilno.",
     "PHP charset is not set to UTF-8" : "Jezikovni znakovni nabor PHP ni določen kot UTF-8",
     "Locale not working" : "Jezikovne prilagoditve ne delujejo.",
     "System locale can not be set to a one which supports UTF-8." : "Sistemskih jezikovnih nastavitev ni mogoče nastaviti na možnost, ki podpira nabor UTF-8.",

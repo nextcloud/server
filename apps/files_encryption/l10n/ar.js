@@ -15,7 +15,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "لا يمكن فك التشفير من هذا الملف, من الممكن ان يكون هذا الملف مُشارك. يرجى سؤال صاحب الملف لإعادة مشاركتة معك.",
     "Unknown error. Please check your system settings or contact your administrator" : "خطأ غير معروف, الرجاء التحقق من إعدادات نظامك أو راسل المدير",
     "Missing requirements." : "متطلبات ناقصة.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "يرجى التاكد من ان اصدار PHP 5.3.3 او احدث , مثبت و التاكد من ان OpenSSL مفعل و مهيئ بشكل صحيح. حتى الان برنامج التتشفير تم تعطيلة.",
     "Following users are not set up for encryption:" : "المستخدمين التاليين لم يتم تعيين لهم التشفيير:",
     "Initial encryption started... This can take some time. Please wait." : "بدأ التشفير... من الممكن ان ياخذ بعض الوقت. يرجى الانتظار.",
     "Initial encryption running... Please try again later." : "جاري تفعيل التشفير المبدئي ، الرجاء المحاولة لاحقا",

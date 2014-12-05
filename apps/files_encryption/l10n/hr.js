@@ -15,7 +15,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Ovu datoteku nije moguće dešifrirati, vjerojatno je riječ o zajedničkoj datoteci. Molimopitajte vlasnika datoteke da je ponovo podijeli s vama.",
     "Unknown error. Please check your system settings or contact your administrator" : "Pogreška nepoznata. Molimo provjerite svoje sistemske postavke ili kontaktirajte svog administratora.",
     "Missing requirements." : "Nedostaju preduvjeti.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Molimo osigurajte da je instaliran PHP 5.3.3 ili noviji i da je OpenSSL zajedno s PHP ekstenzijom propisno aktivirani konfiguriran. Za sada, aplikacija šifriranja je deaktivirana.",
     "Following users are not set up for encryption:" : "Sljedeći korisnici nisu određeni za šifriranje:",
     "Initial encryption started... This can take some time. Please wait." : "Počelo inicijalno šifriranje... To može potrajati neko vrijeme. Molimo, pričekajte.",
     "Initial encryption running... Please try again later." : "Inicijalno šifriranje u tijeku... Molimo, pokušajte ponovno kasnije.",

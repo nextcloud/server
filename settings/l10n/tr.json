@@ -110,8 +110,6 @@
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "Veritabanı olarak SQLite kullanılıyor. Daha büyük kurulumlar için bunu değiştirmenizi öneririz. Farklı bir veritabanına geçiş yapmak için komut satırı aracını kullanın: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Modül 'fileinfo' kayıp",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP modülü 'fileinfo' kayıp. MIME türü tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz.",
-    "Your PHP version is outdated" : "PHP sürümünüz eski",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "PHP sürümünüz eski. Eski sürümlerde sorun olduğundan 5.3.8 veya daha yeni bir sürüme güncellemenizi şiddetle tavsiye ederiz. Bu kurulumun da doğru çalışmaması da olasıdır.",
     "PHP charset is not set to UTF-8" : "PHP karakter kümesi UTF-8 olarak ayarlı değil",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP karakter kümesi UTF-8 olarak ayarlı değil. Bu, dosya isimlerindeki ASCII olmayan karakterler için büyük sorunlara yol açabilir. php.ini içerisindeki 'default_charset' ayarını 'UTF-8' olarak ayarlamanızı şiddetle tavsiye ediyoruz.",
     "Locale not working" : "Yerel çalışmıyor",

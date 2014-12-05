@@ -13,7 +13,6 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "No es pot desencriptar aquest fitxer, probablement és un fitxer compartit. Demaneu al propietari del fitxer que el comparteixi de nou amb vós.",
     "Unknown error. Please check your system settings or contact your administrator" : "Error desconegut. Comproveu l'arranjament del sistema o aviseu a l'administrador",
     "Missing requirements." : "Manca de requisits.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Assegureu-vos que teniu instal·lat PHP 5.3.3 o una versió superior i que està activat Open SSL i habilitada i configurada correctament l'extensió de PHP. De moment, l'aplicació d'encriptació s'ha desactivat.",
     "Following users are not set up for encryption:" : "Els usuaris següents no estan configurats per a l'encriptació:",
     "Initial encryption started... This can take some time. Please wait." : "La encriptació inicial ha començat... Pot trigar una estona, espereu.",
     "Initial encryption running... Please try again later." : "encriptació inicial en procés... Proveu-ho més tard.",

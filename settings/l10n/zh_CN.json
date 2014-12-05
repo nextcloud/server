@@ -102,8 +102,6 @@
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite 正在使用。我们建议大型网站切换到其他数据库。请使用命令行工具：“occ db:convert-type”迁移数据库",
     "Module 'fileinfo' missing" : "模块'文件信息'丢失",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP模块'文件信息'丢失. 我们强烈建议启用此模块以便mime类型检测取得最佳结果.",
-    "Your PHP version is outdated" : "您的 PHP 版本不是最新版",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "您的 PHP 版本已过期。强烈建议更新至 5.3.8 或者更新版本因为老版本存在已知问题。本次安装可能并未正常工作。",
     "PHP charset is not set to UTF-8" : "PHP字符集没有设置为UTF-8",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP字符集没有设置为UTF-8。这会导致非ASC||字符的文件名出现乱码。我们强烈建议修改php.ini文件中的'default_charset' 的值为 'UTF-8'",
     "Locale not working" : "本地化无法工作",

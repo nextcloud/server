@@ -108,8 +108,6 @@
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite をデータベースとして利用しています。大規模な運用では、利用しないことをお勧めします。別のデータベースへ移行する場合は、コマンドラインツール: 'occ db:convert-type'を使ってください。",
     "Module 'fileinfo' missing" : "モジュール 'fileinfo' が見つかりません",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。",
-    "Your PHP version is outdated" : "PHPバーションが古くなっています。",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "PHPバーションが古くなっています。古いバージョンには既知の問題があるため、5.3.8以降のバージョンにアップデートすることを強く推奨します。このインストール状態では正常に動作しない可能性があります。",
     "PHP charset is not set to UTF-8" : "PHP の文字コードは UTF-8 に設定されていません",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP の文字コードは UTF-8 に設定されていません。ファイル名に非アスキー文字が含まれる場合は、大きな問題となる可能性があります。php.ini の 'default_charset' の値を 'UTF-8' に変更することを強くお勧めします。",
     "Locale not working" : "ロケールが動作していません",

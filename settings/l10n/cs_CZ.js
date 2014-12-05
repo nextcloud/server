@@ -112,8 +112,6 @@ OC.L10N.register(
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "Je použita databáze SQLite. Pro větší instalace doporučujeme toto změnit. Pro migraci na jiný typ databáze lze použít nástroj pro příkazový řádek: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Schází modul 'fileinfo'",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "Schází PHP modul 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME.",
-    "Your PHP version is outdated" : "Vaše verze PHP je zastaralá",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Vámi používaná verze PHP je zastaralá. Důrazně doporučujeme aktualizovat na verzi 5.3.8 nebo novější, protože starší verze obsahují chyby. Je možné, že tato instalace nebude fungovat správně.",
     "PHP charset is not set to UTF-8" : "Znaková sada PHP není nastavena na UTF-8",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "Znaková sada PHP není nastavena na UTF-8. To může způsobit závažné problémy se jmény souborů se znaky neobsaženými v ASCII. Důrazně doporučujeme změnit hodnotu 'default_charset' v php.ini na 'UTF-8'.",
     "Locale not working" : "Lokalizace nefunguje",

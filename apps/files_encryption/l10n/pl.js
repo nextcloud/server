@@ -24,7 +24,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nie można odszyfrować tego pliku, prawdopodobnie jest to plik udostępniony. Poproś właściciela pliku o ponowne udostępnianie pliku Tobie.",
     "Unknown error. Please check your system settings or contact your administrator" : "Nieznany błąd. Proszę sprawdzić ustawienia systemowe lub skontaktować się z administratorem",
     "Missing requirements." : "Brak wymagań.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Proszę upewnić się, że PHP 5.3.3 lub nowszy jest zainstalowany i że OpenSSL oraz rozszerzenie PHP jest włączone i poprawnie skonfigurowane. Obecnie szyfrowanie aplikacji zostało wyłączone.",
     "Following users are not set up for encryption:" : "Następujący użytkownicy nie mają skonfigurowanego szyfrowania:",
     "Initial encryption started... This can take some time. Please wait." : "Rozpoczęto szyfrowanie... To może chwilę potrwać. Proszę czekać.",
     "Initial encryption running... Please try again later." : "Trwa szyfrowanie początkowe...Spróbuj ponownie.",

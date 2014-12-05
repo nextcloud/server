@@ -104,8 +104,6 @@ OC.L10N.register(
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLite används som databas. För större installationer rekommenderar vi att ändra på detta. För att migrera till en annan databas, använd kommandoverktyget: 'occ db:convert-type'",
     "Module 'fileinfo' missing" : "Modulen \"fileinfo\" saknas",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den här modulen för att kunna upptäcka korrekt mime-typ.",
-    "Your PHP version is outdated" : "Din PHP version är föråldrad",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Din PHP version är föråldrad. Vi rekommenderar starkt att uppdatera till 5.3.8 eller nyare eftersom äldre versioner är obrukbara. Det är möjligt att denna installation inte fungerar korrekt.",
     "Locale not working" : "Locale fungerar inte",
     "System locale can not be set to a one which supports UTF-8." : "Systemspråk kan inte ställas in till ett som stödjer UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Detta betyder att där kan komma att uppstå problem med vissa tecken i filnamn.",

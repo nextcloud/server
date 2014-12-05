@@ -84,8 +84,6 @@ OC.L10N.register(
     "Database Performance Info" : "데이터베이스 성능 정보",
     "Module 'fileinfo' missing" : "모듈 'fileinfo'가 없음",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP 모듈 'fileinfo'가 존재하지 않습니다. MIME 형식 감지 결과를 향상시키기 위하여 이 모듈을 활성화하는 것을 추천합니다.",
-    "Your PHP version is outdated" : "PHP 버전이 오래됨",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "PHP 버전이 오래되었습니다. 오래된 버전은 작동하지 않을 수도 있기 때문에 PHP 5.3.8 이상을 사용하는 것을 추천합니다.",
     "Locale not working" : "로캘이 작동하지 않음",
     "System locale can not be set to a one which supports UTF-8." : "UTF-8을 지원하는 시스템 로캘을 사용할 수 없습니다.",
     "This means that there might be problems with certain characters in file names." : "파일 이름의 일부 문자에 문제가 생길 수도 있습니다.",

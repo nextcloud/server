@@ -108,8 +108,6 @@
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "В качестве Базы Данных используется SQLite. Для больших установок рекомендуется использовать другие типы Баз Данных. Чтобы переехать на другую Базу Данных используйте инструмент командной строки: 'ooc: db:conver-type'",
     "Module 'fileinfo' missing" : "Модуль 'fileinfo' отсутствует",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-модуль 'fileinfo' отсутствует. Мы настоятельно рекомендуем включить этот модуль для улучшения определения типов (mime-type) файлов.",
-    "Your PHP version is outdated" : "Ваша версия PHP устарела",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Ваша версия PHP устарела. Мы настоятельно рекомендуем  обновиться до 5.3.8 или новее,  так как старые версии работают не корректно. Вполне возможно, что эта установка не работает должным образом.",
     "PHP charset is not set to UTF-8" : "Кодировка PHP не совпадает с UTF-8",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "Кодировка PHP не совпадает с UTF-8. Это может вызвать трудности с именами файлов, содержащими нелатинские символы. Мы настоятельно рекомендуем сменить значение переменной default_charset в файле php.ini на UTF-8.",
     "Locale not working" : "Локализация не работает",

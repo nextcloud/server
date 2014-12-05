@@ -22,7 +22,6 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Die Datei kann nicht entschlüsselt werden, da die Datei möglicherweise eine geteilte Datei ist. Bitte fragen Sie den Dateibesitzer, dass er die Datei nochmals mit Ihnen teilt.",
     "Unknown error. Please check your system settings or contact your administrator" : "Unbekannter Fehler. Bitte prüfen Sie die Systemeinstellungen oder kontaktieren Sie Ihren Administrator",
     "Missing requirements." : "Fehlende Voraussetzungen",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Bitte stellen Sie sicher, dass PHP 5.3.3 oder neuer installiert und das OpenSSL zusammen mit der PHP-Erweiterung aktiviert und richtig konfiguriert ist. Zur Zeit ist die Verschlüsselungs-App deaktiviert.",
     "Following users are not set up for encryption:" : "Für folgende Nutzer ist keine Verschlüsselung eingerichtet:",
     "Initial encryption started... This can take some time. Please wait." : "Anfangsverschlüsselung gestartet … Dieses kann einige Zeit dauern. Bitte warten.",
     "Initial encryption running... Please try again later." : "Anfangsverschlüsselung läuft … Bitte versuchen Sie es später wieder.",

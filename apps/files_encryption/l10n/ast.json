@@ -13,7 +13,6 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Nun pudo descifrase esti ficheru, dablemente seya un ficheru compartíu. Solicita al propietariu del mesmu que vuelva a compartilu contigo.",
     "Unknown error. Please check your system settings or contact your administrator" : "Fallu desconocíu. Por favor, comprueba los axustes del sistema o contauta col alministrador",
     "Missing requirements." : "Requisitos incompletos.",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Por favor, asegúrate de que PHP 5.3.3 o postreru ta instaláu y que la estensión OpenSSL de PHP ta habilitada y configurada correutamente. Pel momentu, l'aplicación de cifráu deshabilitóse.",
     "Following users are not set up for encryption:" : "Los siguientes usuarios nun se configuraron pal cifráu:",
     "Initial encryption started... This can take some time. Please wait." : "Cifráu aniciáu..... Esto pue llevar un tiempu. Por favor espera.",
     "Initial encryption running... Please try again later." : "Cifráu inicial en cursu... Inténtalo dempués.",

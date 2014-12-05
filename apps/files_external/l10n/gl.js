@@ -18,7 +18,7 @@ OC.L10N.register(
     "Secret Key" : "Clave secreta",
     "Hostname" : "Nome de máquina",
     "Port" : "Porto",
-    "Region" : "Autonomía",
+    "Region" : "Rexión",
     "Enable SSL" : "Activar SSL",
     "Enable Path Style" : "Activar o estilo de ruta",
     "App key" : "Clave da API",

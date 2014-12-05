@@ -1,6 +1,7 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "无法写入“config”目录！",
     "See %s" : "查看 %s",
+    "PHP %s or higher is required." : "要求 PHP 版本 %s 或者更高。",
     "Help" : "帮助",
     "Personal" : "个人",
     "Settings" : "设置",
@@ -87,7 +88,6 @@
     "Setting locale to %s failed" : "设置语言为 %s 失败",
     "Please ask your server administrator to install the module." : "请联系服务器管理员安装模块。",
     "PHP module %s not installed." : "PHP %s 模块未安装。",
-    "PHP %s or higher is required." : "要求 PHP 版本 %s 或者更高。",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "请联系服务器管理员升级 PHP 到最新的版本。ownCloud 和 PHP 社区已经不再支持此版本的 PHP。",
     "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." : "PHP Safe Mode 已经启用，ownCloud 需要 Safe Mode 停用以正常工作。",
     "PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config." : "PHP Safe Mode 已经被废弃并且应当被停用。请联系服务器管理员在 php.ini 或您的服务器设置中停用 Safe Mode。",

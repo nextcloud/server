@@ -24,7 +24,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "このファイルを復号化できません、共有ファイルの可能性があります。ファイルの所有者にお願いして、ファイルを共有しなおしてもらってください。",
     "Unknown error. Please check your system settings or contact your administrator" : "不明なエラーです。システム設定を確認するか、管理者に問い合わせてください。",
     "Missing requirements." : "必要要件が満たされていません。",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "必ず、PHP 5.3.3もしくはそれ以上をインストールし、同時にOpenSSLのPHP拡張を有効にした上でOpenSSLも同様にインストール、適切に設定してください。現時点では暗号化アプリは無効になっています。",
     "Following users are not set up for encryption:" : "以下のユーザーは、暗号化設定がされていません：",
     "Initial encryption started... This can take some time. Please wait." : "暗号化の初期化作業を開始しました... この処理にはしばらく時間がかかります。お待ちください。",
     "Initial encryption running... Please try again later." : "初期暗号化実行中... 後でもう一度お試しください。",

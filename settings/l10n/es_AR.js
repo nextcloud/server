@@ -80,8 +80,6 @@ OC.L10N.register(
     "Setup Warning" : "Alerta de Configuración",
     "Module 'fileinfo' missing" : "El módulo 'fileinfo' no existe",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "El módulo PHP 'fileinfo' no existe. Es recomendable que actives este módulo para obtener mejores resultados con la detección mime-type",
-    "Your PHP version is outdated" : "Su versión de PHP está fuera de término",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Su versión de PHP está fuera de término. Recomendamos fuertemente actualizar a 5.3.8 o a una más nueva porque se sabe que versiones anteriores están falladas. Es posible que esta instalación no funcione adecuadamente.",
     "Locale not working" : "\"Locale\" no está funcionando",
     "System locale can not be set to a one which supports UTF-8." : "La localización del sistema no puede cambiarse a una que soporta UTF-8",
     "This means that there might be problems with certain characters in file names." : "Esto significa que puede haber problemas con ciertos caracteres en los nombres de archivos.",

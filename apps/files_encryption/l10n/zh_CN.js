@@ -15,7 +15,6 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : " 无法解密这个文件（或许这是一个共享文件？），请询问文件所有者重新与您分享这个文件。",
     "Unknown error. Please check your system settings or contact your administrator" : "未知错误。请检查系统设置或联系您的管理员",
     "Missing requirements." : "必填项未填写。",
-    "Please make sure that PHP 5.3.3 or newer is installed and that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "请确认安装了 PHP 5.3.3 或更新版本，且 OpenSSL 及其 PHP 扩展已经启用并正确配置。加密应用现在已被禁用。",
     "Following users are not set up for encryption:" : "以下用户还没有设置加密：",
     "Initial encryption started... This can take some time. Please wait." : "初始加密启动中....这可能会花一些时间，请稍后再试。",
     "Initial encryption running... Please try again later." : "初始加密运行中....请稍后再试。",

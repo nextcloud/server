@@ -1,6 +1,7 @@
 { "translations": {
     "Cannot write into \"config\" directory!" : "Nu se poate scrie în folderul \"config\"!",
     "See %s" : "Vezi %s",
+    "PHP %s or higher is required." : "Versiunea PHP %s sau mai mare este necesară.",
     "Help" : "Ajutor",
     "Personal" : "Personal",
     "Settings" : "Setări",
@@ -47,7 +48,6 @@
     "Cannot write into \"config\" directory" : "Nu se poate scrie în folderul \"config\"",
     "Cannot write into \"apps\" directory" : "Nu se poate scrie în folderul \"apps\"",
     "PHP module %s not installed." : "Modulul PHP %s nu este instalat.",
-    "PHP %s or higher is required." : "Versiunea PHP %s sau mai mare este necesară.",
     "PHP modules have been installed, but they are still listed as missing?" : "Modulele PHP au fost instalate, dar apar ca lipsind?",
     "PostgreSQL >= 9 required" : "Este necesară versiunea 9 sau mai mare a PostgreSQL",
     "Please upgrade your database version" : "Actualizați baza de date la o versiune mai nouă",

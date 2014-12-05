@@ -108,8 +108,6 @@ OC.L10N.register(
     "SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: 'occ db:convert-type'" : "SQLitea käytetään tietokantana. Laajoja asennuksia varten tämä asetus kannattaa muuttaa. Käytä komentorivityökalua 'occ db:convert-type' siirtyäksesi toiseen tietokantaan.",
     "Module 'fileinfo' missing" : "Moduuli 'fileinfo' puuttuu",
     "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." : "PHP-moduuli \"fileinfo\" puuttuu. Sen käyttö on erittäin suositeltavaa, jotta MIME-tyypin havaitseminen onnistuu parhaalla mahdollisella tavalla.",
-    "Your PHP version is outdated" : "Käytössä oleva PHP-versio on vanhentunut",
-    "Your PHP version is outdated. We strongly recommend to update to 5.3.8 or newer because older versions are known to be broken. It is possible that this installation is not working correctly." : "Käytössä oleva PHP on vanhentunut. Päivitä versioon 5.3.8 tai uudempaan, koska aiemmat versiot eivät ole toimivia. On mahdollista, että tämä ownCloud-asennus ei toimi kunnolla.",
     "PHP charset is not set to UTF-8" : "PHP:n merkistöä ei ole asetettu UTF-8:ksi",
     "PHP charset is not set to UTF-8. This can cause major issues with non-ASCII characters in file names. We highly recommend to change the value of 'default_charset' php.ini to 'UTF-8'." : "PHP:n merkistöä ei ole asetettu UTF-8:ksi. Tämä saattaa aiheuttaa suuria ongelmia sellaisten tiedostojen kanssa, joiden nimi koostuu muista kuin ASCII-merkeistä. Suosittelemme asettamaan php.ini-tiedoston kohdan 'default_charset' arvoon 'UTF-8'.",
     "Locale not working" : "Maa-asetus ei toimi",
