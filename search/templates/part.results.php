@@ -1,13 +1,12 @@
 <div id="searchresults">
+	<!-- p>{message}</p -->
 	<table>
 		<tbody>
 			<tr class="template">
-				<td class="type"></td>
-				<td class="result">
-					<a>
-						<div class="name"></div><div class="storage"></div>
-						<div class="path"></div>
-						<div class="text"></div>
+				<td class="icon"></td>
+				<td class="info">
+					<a class="link">
+						<div class="name"></div>
 					</a>
 				</td>
 			</tr>

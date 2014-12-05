@@ -9,24 +9,13 @@
  */
 
 //translations for result type ids, can be extended by apps
-OC.search.resultTypes={
+OC.Search.resultTypes={
 	file: t('core','File'),
 	folder: t('core','Folder'),
 	image: t('core','Image'),
 	audio: t('core','Audio')
 };
-OC.search.catagorizeResults=function(results){
-	var types={};
-	for(var i=0;i<results.length;i++){
-		var type=results[i].type;
-		if(!types[type]){
-			types[type]=[];
-		}
-		types[type].push(results[i]);
-	}
-	return types;
-};
-OC.search.hide=function(){
+OC.Search.hide=function(){
 	$('#searchresults').hide();
 	if($('#searchbox').val().length>2){
 		$('#searchbox').val('');
@@ -40,117 +29,149 @@ OC.search.hide=function(){
 		}
 	}
 };
-OC.search.showResults=function(results){
+OC.Search.showResults=function(results){
 	if(results.length === 0){
 		return;
 	}
-	if(!OC.search.showResults.loaded){
+	if(!OC.Search.showResults.loaded){
 		var parent=$('<div class="searchresults-wrapper"/>');
 		$('#app-content').append(parent);
 		parent.load(OC.filePath('search','templates','part.results.php'),function(){
-			OC.search.showResults.loaded=true;
+			OC.Search.showResults.loaded=true;
 			$('#searchresults').click(function(event){
-				OC.search.hide();
+				OC.Search.hide();
 				event.stopPropagation();
 			});
 			$(document).click(function(event){
-				OC.search.hide();
+				OC.Search.hide();
 				if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
 					FileList.unfilter();
 				}
 			});
-			OC.search.lastResults=results;
-			OC.search.showResults(results);
+			OC.Search.lastResults=results;
+			OC.Search.showResults(results);
 		});
-	}else{
-		var types=OC.search.catagorizeResults(results);
-		$('#searchresults').show();
+	} else {
 		$('#searchresults tr.result').remove();
-		var index=0;
-		for(var typeid in types){
-			var type=types[typeid];
-			if(type.length>0){
-				for(var i=0;i<type.length;i++){
-					var row=$('#searchresults tr.template').clone();
-					row.removeClass('template');
-					row.addClass('result');
+		$('#searchresults').show();
+		jQuery.each(results, function(i, result) {
+			var $row = $('#searchresults tr.template').clone();
+			$row.removeClass('template');
+			$row.addClass('result');
 
-					row.data('type', typeid);
-					row.data('name', type[i].name);
-					row.data('path', type[i].path);
-					row.data('text', type[i].text);
-					row.data('index',index);
+			$row.data('result', result);
 
-					if (i === 0){
-						var typeName = OC.search.resultTypes[typeid];
-						row.children('td.type').text(t('lib', typeName));
-					}
+			// generic results only have four attributes
+			$row.find('td.info div.name').text(result.name);
+			$row.find('td.info a').attr('href', result.link);
 
-					if (type[i].path) {
-						OCA.Files.App.fileList.lazyLoadPreview({
-							path: type[i].path,
-							mime: type[i].mime_type,
-							callback: function (url) {
-								row.find('td.type').css('background-image', 'url(' + url + ')');
-							}
-						});
-					}
-
-					row.find('td.result div.name').text(type[i].name);
-					row.find('td.result div.path').text(type[i].path);
-					if (typeof type[i].highlights === 'object') {
-						var highlights = type[i].highlights.join(' … ');
-						row.find('td.result div.text').html(highlights);
-					} else {
-						row.find('td.result div.text').text(type[i].text);
-					}
-
-					if (type[i].path) {
-						var parent = OC.dirname(type[i].path);
-						if (parent === '') {
-							parent = '/';
-						}
-						var containerName = OC.basename(parent);
-						if (containerName === '') {
-							containerName = '/';
-						}
-						var containerLink = OC.linkTo('files', 'index.php')
-							+'/?dir='+encodeURIComponent(parent)
-							+'&scrollto='+encodeURIComponent(type[i].name);
-						row.find('td.result a')
-							.attr('href', containerLink)
-							.attr('title', t('core', 'Show in {folder}', {folder: containerName}));
-					} else {
-						row.find('td.result a').attr('href', type[i].link);
-					}
-
-					index++;
-					/** 
-					 * Give plugins the ability to customize the search results. For example:
-					 * OC.search.customResults.file = function (row, item){
-				 	 *  if(item.name.search('.json') >= 0) ...
-					 * };
-					 */
-					if(OC.search.customResults[typeid]){
-						OC.search.customResults[typeid](row, type[i]);
-					}
-					$('#searchresults tbody').append(row);
+			$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'places/link') + ')');
+			/**
+			 * Give plugins the ability to customize the search results. For example:
+			 * OC.search.customResults.file = function (row, item){
+			 *  if(item.name.search('.json') >= 0) ...
+			 * };
+			 */
+			if(OC.Search.hasFormatter(result.type)){
+				OC.Search.getFormatter(result.type)($row, result);
+			} else
+			{
+				// for backward compatibility add text div
+				$row.find('td.info div.name').addClass('result')
+				$row.find('td.result div.name').after('<div class="text"></div>');
+				$row.find('td.result div.text').text(result.name);
+				if(OC.search.customResults[result.type]){
+					OC.search.customResults[result.type]($row, result);
 				}
 			}
-		}
-		$('#searchresults').on('click', 'result', function () {
-			if ($(this).data('type') === 'Files') {
-				//FIXME use ajax to navigate to folder & highlight file
+			$('#searchresults tbody').append($row);
+		});
+
+		$('#searchresults').on('click', 'tr.result', function (event) {
+			var $row = $(this);
+			var result = $row.data('result');
+			if(OC.Search.hasHandler(result.type)){
+				var result = OC.Search.getHandler(result.type)($row, result, event);
+				OC.Search.hide();
+				event.stopPropagation();
+				return result;
 			}
 		});
 	}
 };
-OC.search.showResults.loaded=false;
+OC.Search.showResults.loaded=false;
 
-OC.search.renderCurrent=function(){
+OC.Search.renderCurrent=function(){
 	if($('#searchresults tr.result')[OC.search.currentResult]){
 		var result=$('#searchresults tr.result')[OC.search.currentResult];
 		$('#searchresults tr.result').removeClass('current');
 		$(result).addClass('current');
 	}
 };
+
+OC.Search.setFormatter('file', function ($row, result) {
+	// backward compatibility:
+	if (typeof result.mime !== 'undefined') {
+		result.mime_type = result.mime;
+	} else if (typeof result.mime_type !== 'undefined') {
+		result.mime = result.mime_type;
+	}
+
+	$pathDiv = $('<div class="path"></div>').text(result.path)
+	$row.find('td.info div.name').after($pathDiv).text(result.name);
+
+	$row.find('td.result a').attr('href', result.link);
+
+	if (OCA.Files) {
+		OCA.Files.App.fileList.lazyLoadPreview({
+			path: result.path,
+			mime: result.mime,
+			callback: function (url) {
+				$row.find('td.icon').css('background-image', 'url(' + url + ')');
+			}
+		});
+	} else {
+		// FIXME how to get mime icon if not in files app
+		var mimeicon = result.mime.replace('/','-');
+		$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/'+mimeicon) + ')');
+		var dir = OC.dirname(result.path);
+		if (dir === '') {
+			dir = '/';
+		}
+		$row.find('td.info a').attr('href',
+			OC.generateUrl('/apps/files/?dir={dir}&scrollto={scrollto}', {dir:dir, scrollto:result.name})
+		);
+	}
+});
+OC.Search.setHandler('file', function ($row, result, event) {
+	if (OCA.Files) {
+		OCA.Files.App.fileList.changeDirectory(OC.dirname(result.path));
+		OCA.Files.App.fileList.scrollTo(result.name);
+		return false;
+	} else {
+		return true;
+	}
+});
+
+OC.Search.setFormatter('folder',  function ($row, result) {
+	// backward compatibility:
+	if (typeof result.mime !== 'undefined') {
+		result.mime_type = result.mime;
+	} else if (typeof result.mime_type !== 'undefined') {
+		result.mime = result.mime_type;
+	}
+
+	var $pathDiv = $('<div class="path"></div>').text(result.path)
+	$row.find('td.info div.name').after($pathDiv).text(result.name);
+
+	$row.find('td.result a').attr('href', result.link);
+	$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/folder') + ')');
+});
+OC.Search.setHandler('folder',  function ($row, result, event) {
+	if (OCA.Files) {
+		OCA.Files.App.fileList.changeDirectory(result.path);
+		return false;
+	} else {
+		return true;
+	}
+});
