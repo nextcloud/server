@@ -613,26 +613,6 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
-		if (((strtolower(@ini_get('safe_mode')) == 'on')
-			|| (strtolower(@ini_get('safe_mode')) == 'yes')
-			|| (strtolower(@ini_get('safe_mode')) == 'true')
-			|| (ini_get("safe_mode") == 1))
-		) {
-			$errors[] = array(
-				'error' => $l->t('PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.'),
-				'hint' => $l->t('PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. '
-					. 'Please ask your server administrator to disable it in php.ini or in your webserver config.')
-			);
-			$webServerRestart = true;
-		}
-		if (get_magic_quotes_gpc() == 1) {
-			$errors[] = array(
-				'error' => $l->t('Magic Quotes is enabled. ownCloud requires that it is disabled to work properly.'),
-				'hint' => $l->t('Magic Quotes is a deprecated and mostly useless setting that should be disabled. '
-					. 'Please ask your server administrator to disable it in php.ini or in your webserver config.')
-			);
-			$webServerRestart = true;
-		}
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = array(
 				'error' => 'PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.',

@@ -481,10 +481,6 @@ class OC {
 		date_default_timezone_set('UTC');
 		ini_set('arg_separator.output', '&amp;');
 
-		// try to switch magic quotes off.
-		if (get_magic_quotes_gpc() == 1) {
-			ini_set('magic_quotes_runtime', 0);
-		}
 		//try to configure php to enable big file uploads.
 		//this doesn´t work always depending on the webserver and php configuration.
 		//Let´s try to overwrite some defaults anyways
