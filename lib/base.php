@@ -188,7 +188,15 @@ class OC {
 
 	public static function checkConfig() {
 		$l = OC_L10N::get('lib');
-		$configFileWritable = file_exists(self::$configDir . "/config.php") && is_writable(self::$configDir . "/config.php");
+
+		// Create config in case it does not already exists
+		$configFilePath = self::$configDir .'/config.php';
+		if(!file_exists($configFilePath)) {
+			@touch($configFilePath);
+		}
+
+		// Check if config is writable
+		$configFileWritable = is_writable($configFilePath);
 		if (!$configFileWritable && !OC_Helper::isReadOnlyConfigEnabled()
 			|| !$configFileWritable && \OCP\Util::needUpgrade()) {
 			if (self::$CLI) {
