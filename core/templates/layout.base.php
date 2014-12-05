@@ -6,7 +6,7 @@
 <!--[if gt IE 9]><html class="ng-csp ie" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" ><![endif]-->
 <!--[if !IE]><!--><html class="ng-csp" data-placeholder-focus="false" lang="<?php p($_['language']); ?>" ><!--<![endif]-->
 
-	<head>
+	<head data-requesttoken="<?php p($_['requesttoken']); ?>">
 		<title>
 		<?php p($theme->getTitle()); ?>
 		</title>
