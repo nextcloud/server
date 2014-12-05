@@ -228,6 +228,23 @@ class Test_Request extends \Test\TestCase {
 		OC_Config::deleteKey('overwritehost');
 	}
 
+	public function hostWithPortProvider() {
+		return array(
+			array('localhost:500', 'localhost'),
+			array('foo.com', 'foo.com'),
+			array('[1fff:0:a88:85a3::ac1f]:801', '[1fff:0:a88:85a3::ac1f]'),
+			array('[1fff:0:a88:85a3::ac1f]', '[1fff:0:a88:85a3::ac1f]')
+		);
+	}
+
+	/**
+	 * @dataProvider hostWithPortProvider
+	 */
+	public function testGetDomainWithoutPort($hostWithPort, $host) {
+		$this->assertEquals($host, OC_Request::getDomainWithoutPort($hostWithPort));
+
+	}
+
 	/**
 	 * @dataProvider trustedDomainDataProvider
 	 */
