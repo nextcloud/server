@@ -10,6 +10,7 @@
 
 namespace OC\App;
 
+use OC_Util;
 use OCP\IConfig;
 
 /**
@@ -33,6 +34,13 @@ class Platform {
 	 */
 	public function getPhpVersion() {
 		return phpversion();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOcVersion() {
+		return OC_Util::getVersion();
 	}
 
 	/**

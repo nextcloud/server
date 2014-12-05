@@ -29,5 +29,6 @@
 		<lib max-version="2.0">intl</lib>
 		<lib>curl</lib>
 		<os>Linux</os>
+		<owncloud min-version="7.0.1" max-version="8" />
 	</dependencies>
 </info>

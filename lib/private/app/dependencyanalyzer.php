@@ -26,6 +26,8 @@ class DependencyAnalyzer {
 	/** @var array  */
 	private $dependencies = array();
 
+	private $appInfo = array();
+
 	/**
 	 * @param array $app
 	 * @param Platform $platform
@@ -49,6 +51,7 @@ class DependencyAnalyzer {
 		$this->analyzeCommands();
 		$this->analyzeLibraries();
 		$this->analyzeOS();
+		$this->analyzeOC();
 		return $this->missing;
 	}
 
@@ -154,7 +157,31 @@ class DependencyAnalyzer {
 		}
 	}
 
+	private function analyzeOC() {
+		$minVersion = null;
+		if (isset($this->dependencies['owncloud']['@attributes']['min-version'])) {
+			$minVersion = $this->dependencies['owncloud']['@attributes']['min-version'];
+		} elseif (isset($this->appInfo['requiremin'])) {
+			$minVersion = $this->appInfo['requiremin'];
+		}
+		$maxVersion = null;
+		if (isset($this->dependencies['oc']['@attributes']['max-version'])) {
+			$maxVersion = $this->dependencies['oc']['@attributes']['max-version'];
+		} elseif (isset($this->appInfo['requiremax'])) {
+			$maxVersion = $this->appInfo['requiremax'];
+		}
 
+		if (!is_null($minVersion)) {
+			if (version_compare($this->platform->getOcVersion(), $minVersion, '<')) {
+				$this->addMissing((string)$this->l->t('ownCloud %s or higher is required.', $minVersion));
+			}
+		}
+		if (!is_null($maxVersion)) {
+			if (version_compare($this->platform->getOcVersion(), $maxVersion, '>')) {
+				$this->addMissing((string)$this->l->t('ownCloud with a version lower than %s is required.', $maxVersion));
+			}
+		}
+	}
 
 	/**
 	 * @param $element

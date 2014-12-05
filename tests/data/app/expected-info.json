@@ -60,6 +60,12 @@
 			},
 			"curl"
 		],
-		"os": "Linux"
+		"os": "Linux",
+		"owncloud": {
+			"@attributes" : {
+				"min-version": "7.01",
+				"max-version": "8"
+			}
+		}
 	}
 }

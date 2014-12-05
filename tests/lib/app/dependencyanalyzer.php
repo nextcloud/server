@@ -51,6 +51,9 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 				}
 				return null;
 			}));
+		$this->platformMock->expects($this->any())
+			->method('getOcVersion')
+			->will( $this->returnValue('8.0.1'));
 
 		$this->l10nMock = $this->getMockBuilder('\OCP\IL10N')
 			->disableOriginalConstructor()
@@ -159,6 +162,35 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	/**
+	 * @dataProvider providesOC
+	 * @param $expectedMissing
+	 * @param $oc
+	 */
+	function testOC($expectedMissing, $oc) {
+		$app = array(
+			'dependencies' => array()
+		);
+		if (!is_null($oc)) {
+			$app['dependencies']['oc'] = $oc;
+		}
+
+		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
+		$missing = $analyser->analyze();
+
+		$this->assertTrue(is_array($missing));
+		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	function providesOC() {
+		return array(
+			// no version -> no missing dependency
+			array(array(), null),
+			array(array('ownCloud 9 or higher is required.'), array('@attributes' => array('min-version' => '9'))),
+			array(array('ownCloud with a version lower than 5.1.2 is required.'), array('@attributes' => array('max-version' => '5.1.2'))),
+		);
 	}
 
 	function providesOS() {
