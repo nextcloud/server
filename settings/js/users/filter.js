@@ -70,7 +70,14 @@ UserManagementFilter.prototype.run = _.debounce(function() {
  * @returns string
  */
 UserManagementFilter.prototype.getPattern = function() {
-	return this.filterInput.val();
+	var input = this.filterInput.val(),
+		html = $('html'),
+		isIE8or9 = html.hasClass('lte9');
+	// FIXME - TODO - once support for IE8 and IE9 is dropped
+	if(isIE8or9 && input == this.filterInput.attr('placeholder')) {
+		input = '';
+	}
+	return input;
 };
 
 /**
