@@ -141,6 +141,34 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedMissing, $missing);
 	}
 
+	/**
+	 * @dataProvider providesOS
+	 * @param $expectedMissing
+	 * @param $oss
+	 */
+	function testOS($expectedMissing, $oss) {
+		$app = array(
+			'dependencies' => array()
+		);
+		if (!is_null($oss)) {
+			$app['dependencies']['os'] = $oss;
+		}
+
+		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
+		$missing = $analyser->analyze();
+
+		$this->assertTrue(is_array($missing));
+		$this->assertEquals($expectedMissing, $missing);
+	}
+
+	function providesOS() {
+		return array(
+			array(array(), null),
+			array(array(), array()),
+			array(array('Following platforms are supported: WINNT'), array('WINNT'))
+		);
+	}
+
 	function providesLibs() {
 		return array(
 			// we expect curl to exist

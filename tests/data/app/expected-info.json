@@ -59,6 +59,7 @@
 				"@value": "intl"
 			},
 			"curl"
-		]
+		],
+		"os": "Linux"
 	}
 }

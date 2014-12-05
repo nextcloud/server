@@ -48,6 +48,7 @@ class DependencyAnalyzer {
 		$this->analyzeDatabases();
 		$this->analyzeCommands();
 		$this->analyzeLibraries();
+		$this->analyzeOS();
 		return $this->missing;
 	}
 
@@ -134,6 +135,26 @@ class DependencyAnalyzer {
 			}
 		}
 	}
+
+	private function analyzeOS() {
+		if (!isset($this->dependencies['os'])) {
+			return;
+		}
+
+		$oss = $this->dependencies['os'];
+		if (empty($oss)) {
+			return;
+		}
+		$oss = array_map(function($os) {
+			return $this->getValue($os);
+		}, $oss);
+		$currentOS = $this->platform->getOS();
+		if (!in_array($currentOS, $oss)) {
+			$this->addMissing((string)$this->l->t('Following platforms are supported: %s', join(', ', $oss)));
+		}
+	}
+
+
 
 	/**
 	 * @param $element
