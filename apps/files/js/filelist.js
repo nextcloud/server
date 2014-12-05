@@ -637,11 +637,15 @@
 				icon = OC.Util.replaceSVGIcon(fileData.icon),
 				name = fileData.name,
 				type = fileData.type || 'file',
-				mtime = parseInt(fileData.mtime, 10) || new Date().getTime(),
+				mtime = parseInt(fileData.mtime, 10),
 				mime = fileData.mimetype,
 				path = fileData.path,
 				linkUrl;
 			options = options || {};
+
+			if (isNaN(mtime)) {
+				mtime = new Date().getTime()
+			}
 
 			if (type === 'dir') {
 				mime = mime || 'httpd/unix-directory';
@@ -753,12 +757,21 @@
 			if (modifiedColor >= '160') {
 				modifiedColor = 160;
 			}
+			var formatted;
+			var text;
+			if (mtime > 0) {
+				formatted = formatDate(mtime);
+				text = OC.Util.relativeModifiedDate(mtime);
+			} else {
+				formatted = t('files', 'Unable to determine date');
+				text = '?';
+			}
 			td = $('<td></td>').attr({ "class": "date" });
 			td.append($('<span></span>').attr({
 				"class": "modified",
-				"title": formatDate(mtime),
+				"title": formatted,
 				"style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')'
-			}).text(OC.Util.relativeModifiedDate(mtime)));
+			}).text(text));
 			tr.find('.filesize').text(simpleSize);
 			tr.append(td);
 			return tr;

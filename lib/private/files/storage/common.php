@@ -132,7 +132,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function filemtime($path) {
 		$stat = $this->stat($path);
-		if (isset($stat['mtime'])) {
+		if (isset($stat['mtime']) && $stat['mtime'] > 0) {
 			return $stat['mtime'];
 		} else {
 			return 0;
