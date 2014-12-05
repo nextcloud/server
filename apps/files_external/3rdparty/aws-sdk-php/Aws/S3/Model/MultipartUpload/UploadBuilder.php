@@ -67,7 +67,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param string $bucket Name of the bucket
      *
-     * @return self
+     * @return $this
      */
     public function setBucket($bucket)
     {
@@ -79,7 +79,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param string $key Key of the object to upload
      *
-     * @return self
+     * @return $this
      */
     public function setKey($key)
     {
@@ -91,7 +91,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param int $minSize Minimum acceptable part size in bytes
      *
-     * @return self
+     * @return $this
      */
     public function setMinPartSize($minSize)
     {
@@ -107,7 +107,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param int $concurrency Concurrency level
      *
-     * @return self
+     * @return $this
      */
     public function setConcurrency($concurrency)
     {
@@ -121,7 +121,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param string $md5 MD5 hash of the entire body
      *
-     * @return self
+     * @return $this
      */
     public function setMd5($md5)
     {
@@ -137,7 +137,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param bool $calculateMd5 Set to true to calculate the MD5 hash of the body
      *
-     * @return self
+     * @return $this
      */
     public function calculateMd5($calculateMd5)
     {
@@ -152,7 +152,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param bool $usePartMd5 Set to true to calculate the MD5 has of each part
      *
-     * @return self
+     * @return $this
      */
     public function calculatePartMd5($usePartMd5)
     {
@@ -166,7 +166,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param Acp $acp ACP to set on the object
      *
-     * @return self
+     * @return $this
      */
     public function setAcp(Acp $acp)
     {
@@ -179,7 +179,7 @@ class UploadBuilder extends AbstractUploadBuilder
      * @param string $name  Option name
      * @param string $value Option value
      *
-     * @return self
+     * @return $this
      */
     public function setOption($name, $value)
     {
@@ -193,7 +193,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param array $options Array of CreateMultipartUpload operation parameters
      *
-     * @return self
+     * @return $this
      */
     public function addOptions(array $options)
     {
@@ -207,7 +207,7 @@ class UploadBuilder extends AbstractUploadBuilder
      *
      * @param array $options Transfer options
      *
-     * @return self
+     * @return $this
      */
     public function setTransferOptions(array $options)
     {

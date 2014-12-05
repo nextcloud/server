@@ -271,7 +271,7 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
         if ($listener instanceof \Closure) {
             $info += array(
                 'type' => 'Closure',
-                'pretty' => 'closure'
+                'pretty' => 'closure',
             );
         } elseif (is_string($listener)) {
             try {

@@ -36,7 +36,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
      *
      * @param string $path Path that contains files to upload
      *
-     * @return self
+     * @return $this
      */
     public function uploadFromDirectory($path)
     {
@@ -54,7 +54,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
      *
      * @param string $glob Glob expression
      *
-     * @return self
+     * @return $this
      * @link http://www.php.net/manual/en/function.glob.php
      */
     public function uploadFromGlob($glob)
@@ -71,7 +71,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
      *
      * @param string $acl Canned ACL for each upload
      *
-     * @return self
+     * @return $this
      */
     public function setAcl($acl)
     {
@@ -85,7 +85,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
      *
      * @param Acp $acp Access control policy
      *
-     * @return self
+     * @return $this
      */
     public function setAcp(Acp $acp)
     {
@@ -100,7 +100,7 @@ class UploadSyncBuilder extends AbstractSyncBuilder
      *
      * @param int $size Size threshold
      *
-     * @return self
+     * @return $this
      */
     public function setMultipartUploadSize($size)
     {

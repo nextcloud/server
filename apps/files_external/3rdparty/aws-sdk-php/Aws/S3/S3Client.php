@@ -24,7 +24,6 @@ use Aws\Common\Enum\ClientOptions as Options;
 use Aws\Common\Exception\RuntimeException;
 use Aws\Common\Exception\InvalidArgumentException;
 use Aws\Common\Signature\SignatureV4;
-use Aws\Common\Signature\SignatureInterface;
 use Aws\Common\Model\MultipartUpload\AbstractTransfer;
 use Aws\S3\Exception\AccessDeniedException;
 use Aws\S3\Exception\Parser\S3ExceptionParser;
@@ -156,7 +155,7 @@ class S3Client extends AbstractClient
      *
      * @param array|Collection $config Client configuration data
      *
-     * @return self
+     * @return S3Client
      * @link http://docs.aws.amazon.com/aws-sdk-php/guide/latest/configuration.html#client-configuration-options
      */
     public static function factory($config = array())
@@ -165,10 +164,10 @@ class S3Client extends AbstractClient
 
         // Configure the custom exponential backoff plugin for retrying S3 specific errors
         if (!isset($config[Options::BACKOFF])) {
-            $config[Options::BACKOFF] = self::createBackoffPlugin($exceptionParser);
+            $config[Options::BACKOFF] = static::createBackoffPlugin($exceptionParser);
         }
 
-        $config[Options::SIGNATURE] = $signature = self::createSignature($config);
+        $config[Options::SIGNATURE] = $signature = static::createSignature($config);
 
         $client = ClientBuilder::factory(__NAMESPACE__)
             ->setConfig($config)
@@ -222,7 +221,7 @@ class S3Client extends AbstractClient
         // Add aliases for some S3 operations
         $default = CompositeFactory::getDefaultChain($client);
         $default->add(
-            new AliasFactory($client, self::$commandAliases),
+            new AliasFactory($client, static::$commandAliases),
             'Guzzle\Service\Command\Factory\ServiceDescriptionFactory'
         );
         $client->setCommandFactory($default);
@@ -266,11 +265,16 @@ class S3Client extends AbstractClient
     {
         $currentValue = isset($config[Options::SIGNATURE]) ? $config[Options::SIGNATURE] : null;
 
+        // Force v4 if no value is provided, a region is in the config, and
+        // the region starts with "cn-" or "eu-central-".
+        $requiresV4 = !$currentValue
+            && isset($config['region'])
+            && (strpos($config['region'], 'eu-central-') === 0
+                || strpos($config['region'], 'cn-') === 0);
+
         // Use the Amazon S3 signature V4 when the value is set to "v4" or when
         // the value is not set and the region starts with "cn-".
-        if ($currentValue == 'v4' ||
-            (!$currentValue && isset($config['region']) && substr($config['region'], 0, 3) == 'cn-')
-        ) {
+        if ($currentValue == 'v4' || $requiresV4) {
             // Force SignatureV4 for specific regions or if specified in the config
             $currentValue = new S3SignatureV4('s3');
         } elseif (!$currentValue || $currentValue == 's3') {
@@ -456,7 +460,7 @@ class S3Client extends AbstractClient
     /**
      * Register the Amazon S3 stream wrapper and associates it with this client object
      *
-     * @return self
+     * @return $this
      */
     public function registerStreamWrapper()
     {
@@ -515,8 +519,7 @@ class S3Client extends AbstractClient
             ->setTransferOptions($options->toArray())
             ->addOptions($options['params'])
             ->setOption('ACL', $acl)
-            ->build()
-            ->upload();
+            ->build();
 
         if ($options['before_upload']) {
             $transfer->getEventDispatcher()->addListener(
@@ -525,7 +528,7 @@ class S3Client extends AbstractClient
             );
         }
 
-        return $transfer;
+        return $transfer->upload();
     }
 
     /**

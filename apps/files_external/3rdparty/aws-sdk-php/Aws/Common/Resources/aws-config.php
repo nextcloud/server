@@ -78,6 +78,12 @@ return array(
             'class'   => 'Aws\CloudWatch\CloudWatchClient'
         ),
 
+        'cloudwatchlogs' => array(
+            'alias'   => 'CloudWatchLogs',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\CloudWatchLogs\CloudWatchLogsClient'
+        ),
+
         'cognito-identity' => array(
             'alias'   => 'CognitoIdentity',
             'extends' => 'default_settings',
@@ -94,10 +100,16 @@ return array(
 
         'cognitosync' => array('extends' => 'cognito-sync'),
 
-        'cloudwatchlogs' => array(
-            'alias'   => 'CloudWatchLogs',
+        'codedeploy' => array(
+            'alias'   => 'CodeDeploy',
             'extends' => 'default_settings',
-            'class'   => 'Aws\CloudWatchLogs\CloudWatchLogsClient'
+            'class'   => 'Aws\CodeDeploy\CodeDeployClient'
+        ),
+
+        'config' => array(
+            'alias'   => 'ConfigService',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\ConfigService\ConfigServiceClient'
         ),
 
         'datapipeline' => array(
@@ -171,6 +183,18 @@ return array(
             'alias'   => 'Kinesis',
             'extends' => 'default_settings',
             'class'   => 'Aws\Kinesis\KinesisClient'
+        ),
+
+        'kms' => array(
+            'alias'   => 'Kms',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\Kms\KmsClient'
+        ),
+
+        'lambda' => array(
+            'alias'   => 'Lambda',
+            'extends' => 'default_settings',
+            'class'   => 'Aws\Lambda\LambdaClient'
         ),
 
         'iam' => array(

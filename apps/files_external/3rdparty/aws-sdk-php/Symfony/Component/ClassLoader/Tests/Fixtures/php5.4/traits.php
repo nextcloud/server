@@ -25,6 +25,7 @@ namespace Foo {
 
     class CBar implements IBar
     {
-        use TBar, TFooBar;
+        use TBar;
+        use TFooBar;
     }
 }

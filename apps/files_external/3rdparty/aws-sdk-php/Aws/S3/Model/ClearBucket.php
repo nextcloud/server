@@ -81,7 +81,7 @@ class ClearBucket extends AbstractHasDispatcher
      *
      * @param string $bucket Name of the bucket to clear
      *
-     * @return self
+     * @return $this
      */
     public function setBucket($bucket)
     {
@@ -114,7 +114,7 @@ class ClearBucket extends AbstractHasDispatcher
      *
      * @param \Iterator $iterator Iterator used to yield the keys to be deleted
      *
-     * @return self
+     * @return $this
      */
     public function setIterator(\Iterator $iterator)
     {
@@ -129,7 +129,7 @@ class ClearBucket extends AbstractHasDispatcher
      * @param string $mfa MFA token to send with each request. The value is the concatenation of the authentication
      *                    device's serial number, a space, and the value displayed on your authentication device.
      *
-     * @return self
+     * @return $this
      */
     public function setMfa($mfa)
     {

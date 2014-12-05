@@ -17,7 +17,6 @@
 namespace Aws\Common\Client;
 
 use Aws\Common\Aws;
-use Aws\Common\Credentials\Credentials;
 use Aws\Common\Credentials\CredentialsInterface;
 use Aws\Common\Credentials\NullCredentials;
 use Aws\Common\Enum\ClientOptions as Options;
@@ -111,13 +110,7 @@ abstract class AbstractClient extends Client implements AwsClientInterface
 
     /**
      * Get an endpoint for a specific region from a service description
-     *
-     * @param ServiceDescriptionInterface $description Service description
-     * @param string                      $region      Region of the endpoint
-     * @param string                      $scheme      URL scheme
-     *
-     * @return string
-     * @throws InvalidArgumentException
+     * @deprecated This function will no longer be updated to work with new regions.
      */
     public static function getEndpoint(ServiceDescriptionInterface $description, $region, $scheme)
     {
@@ -177,12 +170,27 @@ abstract class AbstractClient extends Client implements AwsClientInterface
         $config = $this->getConfig();
         $formerRegion = $config->get(Options::REGION);
         $global = $this->serviceDescription->getData('globalEndpoint');
+        $provider = $config->get('endpoint_provider');
+
+        if (!$provider) {
+            throw new \RuntimeException('No endpoint provider configured');
+        }
 
         // Only change the region if the service does not have a global endpoint
         if (!$global || $this->serviceDescription->getData('namespace') === 'S3') {
-            $baseUrl = self::getEndpoint($this->serviceDescription, $region, $config->get(Options::SCHEME));
-            $this->setBaseUrl($baseUrl);
-            $config->set(Options::BASE_URL, $baseUrl)->set(Options::REGION, $region);
+
+            $endpoint = call_user_func(
+                $provider,
+                array(
+                    'scheme'  => $config->get(Options::SCHEME),
+                    'region'  => $region,
+                    'service' => $config->get(Options::SERVICE)
+                )
+            );
+
+            $this->setBaseUrl($endpoint['endpoint']);
+            $config->set(Options::BASE_URL, $endpoint['endpoint']);
+            $config->set(Options::REGION, $region);
 
             // Update the signature if necessary
             $signature = $this->getSignature();

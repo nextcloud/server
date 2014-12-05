@@ -64,7 +64,7 @@ class DeleteObjectsTransfer implements BatchTransferInterface
      *
      * @param string $token MFA token
      *
-     * @return self
+     * @return $this
      */
     public function setMfa($token)
     {

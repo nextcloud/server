@@ -13,5 +13,4 @@ namespace ClassMap;
 
 interface SomeInterface
 {
-
 }

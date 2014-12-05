@@ -13,5 +13,4 @@ namespace ClassMap;
 
 abstract class SomeParent
 {
-
 }

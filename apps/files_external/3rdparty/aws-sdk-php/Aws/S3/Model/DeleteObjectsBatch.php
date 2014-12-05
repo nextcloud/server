@@ -38,7 +38,7 @@ class DeleteObjectsBatch extends AbstractBatchDecorator
      * @param string             $bucket Bucket that contains the objects to delete
      * @param string             $mfa    MFA token to use with the request
      *
-     * @return self
+     * @return static
      */
     public static function factory(AwsClientInterface $client, $bucket, $mfa = null)
     {
@@ -47,7 +47,7 @@ class DeleteObjectsBatch extends AbstractBatchDecorator
             ->transferWith(new DeleteObjectsTransfer($client, $bucket, $mfa))
             ->build();
 
-        return new self($batch);
+        return new static($batch);
     }
 
     /**
@@ -56,7 +56,7 @@ class DeleteObjectsBatch extends AbstractBatchDecorator
      * @param string $key       Key of the object
      * @param string $versionId VersionID of the object
      *
-     * @return self
+     * @return $this
      */
     public function addKey($key, $versionId = null)
     {
@@ -82,6 +82,6 @@ class DeleteObjectsBatch extends AbstractBatchDecorator
             throw new InvalidArgumentException('Item must be a DeleteObject command or array containing a Key and VersionId key.');
         }
 
-        return $this->decoratedBatch->add($item);
+        return parent::add($item);
     }
 }

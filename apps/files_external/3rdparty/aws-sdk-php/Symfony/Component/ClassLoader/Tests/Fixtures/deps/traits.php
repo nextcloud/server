@@ -1,7 +1,8 @@
 <?php
 
 trait TD
-{}
+{
+}
 
 trait TZ
 {

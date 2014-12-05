@@ -133,7 +133,7 @@ class StreamWrapper
         }
 
         stream_wrapper_register('s3', get_called_class(), STREAM_IS_URL);
-        self::$client = $client;
+        static::$client = $client;
     }
 
     /**
@@ -172,7 +172,7 @@ class StreamWrapper
         }
 
         // When using mode "x" validate if the file exists before attempting to read
-        if ($mode == 'x' && self::$client->doesObjectExist($params['Bucket'], $params['Key'], $this->getOptions())) {
+        if ($mode == 'x' && static::$client->doesObjectExist($params['Bucket'], $params['Key'], $this->getOptions())) {
             $errors[] = "{$path} already exists on Amazon S3";
         }
 
@@ -219,7 +219,7 @@ class StreamWrapper
         }
 
         try {
-            self::$client->putObject($params);
+            static::$client->putObject($params);
             return true;
         } catch (\Exception $e) {
             return $this->triggerError($e->getMessage());
@@ -283,7 +283,7 @@ class StreamWrapper
     {
         try {
             $this->clearStatInfo($path);
-            self::$client->deleteObject($this->getParams($path));
+            static::$client->deleteObject($this->getParams($path));
             return true;
         } catch (\Exception $e) {
             return $this->triggerError($e->getMessage());
@@ -316,15 +316,15 @@ class StreamWrapper
     public function url_stat($path, $flags)
     {
         // Check if this path is in the url_stat cache
-        if (isset(self::$nextStat[$path])) {
-            return self::$nextStat[$path];
+        if (isset(static::$nextStat[$path])) {
+            return static::$nextStat[$path];
         }
 
         $parts = $this->getParams($path);
 
         if (!$parts['Key']) {
             // Stat "directories": buckets, or "s3://"
-            if (!$parts['Bucket'] || self::$client->doesBucketExist($parts['Bucket'])) {
+            if (!$parts['Bucket'] || static::$client->doesBucketExist($parts['Bucket'])) {
                 return $this->formatUrlStat($path);
             } else {
                 return $this->triggerError("File or directory not found: {$path}", $flags);
@@ -333,7 +333,7 @@ class StreamWrapper
 
         try {
             try {
-                $result = self::$client->headObject($parts)->toArray();
+                $result = static::$client->headObject($parts)->toArray();
                 if (substr($parts['Key'], -1, 1) == '/' && $result['ContentLength'] == 0) {
                     // Return as if it is a bucket to account for console bucket objects (e.g., zero-byte object "foo/")
                     return $this->formatUrlStat($path);
@@ -343,7 +343,7 @@ class StreamWrapper
                 }
             } catch (NoSuchKeyException $e) {
                 // Maybe this isn't an actual key, but a prefix. Do a prefix listing of objects to determine.
-                $result = self::$client->listObjects(array(
+                $result = static::$client->listObjects(array(
                     'Bucket'  => $parts['Bucket'],
                     'Prefix'  => rtrim($parts['Key'], '/') . '/',
                     'MaxKeys' => 1
@@ -404,7 +404,7 @@ class StreamWrapper
         try {
 
             if (!$params['Key']) {
-                self::$client->deleteBucket(array('Bucket' => $params['Bucket']));
+                static::$client->deleteBucket(array('Bucket' => $params['Bucket']));
                 $this->clearStatInfo($path);
                 return true;
             }
@@ -412,7 +412,7 @@ class StreamWrapper
             // Use a key that adds a trailing slash if needed.
             $prefix = rtrim($params['Key'], '/') . '/';
 
-            $result = self::$client->listObjects(array(
+            $result = static::$client->listObjects(array(
                 'Bucket'  => $params['Bucket'],
                 'Prefix'  => $prefix,
                 'MaxKeys' => 1
@@ -476,7 +476,7 @@ class StreamWrapper
             $operationParams['Delimiter'] = $delimiter;
         }
 
-        $objectIterator = self::$client->getIterator('ListObjects', $operationParams, array(
+        $objectIterator = static::$client->getIterator('ListObjects', $operationParams, array(
             'return_prefixes' => true,
             'sort_results'    => true
         ));
@@ -554,7 +554,7 @@ class StreamWrapper
 
         // Cache the object data for quick url_stat lookups used with
         // RecursiveDirectoryIterator.
-        self::$nextStat = array($key => $stat);
+        static::$nextStat = array($key => $stat);
         $this->objectIterator->next();
 
         return $result;
@@ -582,14 +582,14 @@ class StreamWrapper
 
         try {
             // Copy the object and allow overriding default parameters if desired, but by default copy metadata
-            self::$client->copyObject($this->getOptions() + array(
+            static::$client->copyObject($this->getOptions() + array(
                 'Bucket' => $partsTo['Bucket'],
                 'Key' => $partsTo['Key'],
                 'CopySource' => '/' . $partsFrom['Bucket'] . '/' . rawurlencode($partsFrom['Key']),
                 'MetadataDirective' => 'COPY'
             ));
             // Delete the original object
-            self::$client->deleteObject(array(
+            static::$client->deleteObject(array(
                 'Bucket' => $partsFrom['Bucket'],
                 'Key'    => $partsFrom['Key']
             ) + $this->getOptions());
@@ -685,7 +685,7 @@ class StreamWrapper
     protected function openReadStream(array $params, array &$errors)
     {
         // Create the command and serialize the request
-        $request = $this->getSignedRequest(self::$client->getCommand('GetObject', $params));
+        $request = $this->getSignedRequest(static::$client->getCommand('GetObject', $params));
         // Create a stream that uses the EntityBody object
         $factory = $this->getOption('stream_factory') ?: new PhpStreamRequestFactory();
         $this->body = $factory->fromRequest($request, array(), array('stream_class' => 'Guzzle\Http\EntityBody'));
@@ -723,7 +723,7 @@ class StreamWrapper
     {
         try {
             // Get the body of the object
-            $this->body = self::$client->getObject($params)->get('Body');
+            $this->body = static::$client->getObject($params)->get('Body');
             $this->body->seek(0, SEEK_END);
         } catch (S3Exception $e) {
             // The object does not exist, so use a simple write stream
@@ -810,7 +810,7 @@ class StreamWrapper
      */
     protected function clearStatInfo($path = null)
     {
-        self::$nextStat = array();
+        static::$nextStat = array();
         if ($path) {
             clearstatcache(true, $path);
         }
@@ -826,12 +826,12 @@ class StreamWrapper
      */
     private function createBucket($path, array $params)
     {
-        if (self::$client->doesBucketExist($params['Bucket'])) {
+        if (static::$client->doesBucketExist($params['Bucket'])) {
             return $this->triggerError("Directory already exists: {$path}");
         }
 
         try {
-            self::$client->createBucket($params);
+            static::$client->createBucket($params);
             $this->clearStatInfo($path);
             return true;
         } catch (\Exception $e) {
@@ -854,12 +854,12 @@ class StreamWrapper
         $params['Body'] = '';
 
         // Fail if this pseudo directory key already exists
-        if (self::$client->doesObjectExist($params['Bucket'], $params['Key'])) {
+        if (static::$client->doesObjectExist($params['Bucket'], $params['Key'])) {
             return $this->triggerError("Directory already exists: {$path}");
         }
 
         try {
-            self::$client->putObject($params);
+            static::$client->putObject($params);
             $this->clearStatInfo($path);
             return true;
         } catch (\Exception $e) {
