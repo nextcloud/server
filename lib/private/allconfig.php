@@ -152,4 +152,13 @@ class AllConfig implements \OCP\IConfig {
 	public function deleteUserValue($userId, $appName, $key) {
 		\OC_Preferences::deleteKey($userId, $appName, $key);
 	}
+
+	/**
+	 * Delete all user values
+	 *
+	 * @param string $userId the userId of the user that we want to remove all values from
+	 */
+	public function deleteAllUserValues($userId) {
+		\OC_Preferences::deleteUser($userId);
+	}
 }

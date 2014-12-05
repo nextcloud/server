@@ -141,4 +141,11 @@ interface IConfig {
 	 * @param string $key the key under which the value is being stored
 	 */
 	public function deleteUserValue($userId, $appName, $key);
+
+	/**
+	 * Delete all user values
+	 *
+	 * @param string $userId the userId of the user that we want to remove all values from
+	 */
+	public function deleteAllUserValues($userId);
 }
