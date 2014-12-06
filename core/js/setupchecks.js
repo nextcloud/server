@@ -49,9 +49,14 @@
 			var afterCall = function(data, statusText, xhr) {
 				var messages = [];
 				if (xhr.status === 200 && data) {
-					if (!data.serverhasinternetconnection) {
+					if (!data.serverHasInternetConnection) {
 						messages.push(
 							t('core', 'This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features.')
+						);
+					}
+					if(!data.dataDirectoryProtected) {
+						messages.push(
+							t('core', 'Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.')
 						);
 					}
 				} else {
