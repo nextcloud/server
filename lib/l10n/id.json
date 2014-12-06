@@ -99,7 +99,6 @@
     "Please ask your server administrator to install the module." : "Mohon tanyakan administrator Anda untuk menginstal module.",
     "PHP module %s not installed." : "Module PHP %s tidak terinstal.",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Mohon tanyakan administrator Anda untuk memperbarui PHP ke versi terkini. Versi PHP Anda tidak lagi didukung oleh ownCloud dan komunitas PHP.",
-    "PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly." : "PHP Safe Mode diaktifkan. ownCloud memerlukan ini untuk dinonaktifkan untuk dapat bekerja dengan banar.",
     "PHP modules have been installed, but they are still listed as missing?" : "Modul PHP telah terinstal, tetapi mereka terlihat tidak ada?",
     "Please ask your server administrator to restart the web server." : "Mohon minta administrator Anda untuk menjalankan ulang server web.",
     "PostgreSQL >= 9 required" : "Diperlukan PostgreSQL >= 9",

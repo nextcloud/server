@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Kan dit bestand niet ontcijferen, waarschijnlijk is het een gedeeld bestand, Vraag de eigenaar om het bestand opnieuw met u te delen.",
     "Unknown error. Please check your system settings or contact your administrator" : "Onbekende fout. Controleer uw systeeminstellingen of neem contact op met de beheerder",
     "Missing requirements." : "Missende benodigdheden.",
+    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Weed er zeker van dat OpenSSL met de PHP extensie is ingeschakeld en goed geconfigureerd. Op dit moment is de encryptie app uitgeschakeld.",
     "Following users are not set up for encryption:" : "De volgende gebruikers hebben geen configuratie voor encryptie:",
     "Initial encryption started... This can take some time. Please wait." : "initiële versleuteling gestart... Dit kan even duren, geduld a.u.b.",
     "Initial encryption running... Please try again later." : "Initiële versleuteling bezig... Probeer het later opnieuw.",

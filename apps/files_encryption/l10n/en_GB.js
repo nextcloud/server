@@ -24,6 +24,7 @@ OC.L10N.register(
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Cannot decrypt this file, which is probably a shared file. Please ask the file owner to reshare the file with you.",
     "Unknown error. Please check your system settings or contact your administrator" : "Unknown error. Please check your system settings or contact your administrator",
     "Missing requirements." : "Missing requirements.",
+    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Please make sure that OpenSSL together with the PHP extension is enabled and properly configured. For now, the encryption app has been disabled.",
     "Following users are not set up for encryption:" : "Following users are not set up for encryption:",
     "Initial encryption started... This can take some time. Please wait." : "Initial encryption started... This can take some time. Please wait.",
     "Initial encryption running... Please try again later." : "Initial encryption running... Please try again later.",

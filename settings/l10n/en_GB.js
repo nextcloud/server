@@ -173,6 +173,7 @@ OC.L10N.register(
     "Documentation:" : "Documentation:",
     "User Documentation" : "User Documentation",
     "Admin Documentation" : "Admin Documentation",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "This app cannot be installed because the following dependencies are not fulfilled:",
     "Update to %s" : "Update to %s",
     "Enable only for specific groups" : "Enable only for specific groups",
     "Uninstall App" : "Uninstall App",

@@ -22,6 +22,7 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Impossibile decifrare questo file, probabilmente è un file condiviso. Chiedi al proprietario del file di condividere nuovamente il file con te.",
     "Unknown error. Please check your system settings or contact your administrator" : "Errore sconosciuto. Controlla le impostazioni di sistema o contatta il tuo amministratore",
     "Missing requirements." : "Requisiti mancanti.",
+    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Assicurati che OpenSSL e l'estensione PHP sia abilitatati e configurati correttamente. Per ora, l'applicazione di cifratura è disabilitata.",
     "Following users are not set up for encryption:" : "I seguenti utenti non sono configurati per la cifratura:",
     "Initial encryption started... This can take some time. Please wait." : "Cifratura iniziale avviata... Potrebbe richiedere del tempo. Attendi.",
     "Initial encryption running... Please try again later." : "Cifratura iniziale in esecuzione... Riprova più tardi.",

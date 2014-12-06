@@ -173,6 +173,7 @@ OC.L10N.register(
     "Documentation:" : "Dokumentace:",
     "User Documentation" : "Uživatelská dokumentace",
     "Admin Documentation" : "Dokumentace pro administrátory",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Tuto aplikaci nelze nainstalovat, protože nejsou splněny následující závislosti:",
     "Update to %s" : "Aktualizovat na %s",
     "Enable only for specific groups" : "Povolit pouze pro vybrané skupiny",
     "Uninstall App" : "Odinstalovat aplikaci",

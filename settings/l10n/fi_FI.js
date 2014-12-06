@@ -166,6 +166,7 @@ OC.L10N.register(
     "Documentation:" : "Ohjeistus:",
     "User Documentation" : "Käyttäjäohjeistus",
     "Admin Documentation" : "Ylläpitäjän ohjeistus",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Tätä sovellusta ei voi asentaa, koska seuraavat riippuvuudet eivät täyty:",
     "Update to %s" : "Päivitä versioon %s",
     "Enable only for specific groups" : "Salli vain tietyille ryhmille",
     "Uninstall App" : "Poista sovelluksen asennus",
