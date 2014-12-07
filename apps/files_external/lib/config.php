@@ -729,7 +729,7 @@ class OC_Mount_Config {
 				$backends = '';
 				for ($i = 0; $i < $dependencyGroupCount; $i++) {
 					if ($i > 0 && $i === $dependencyGroupCount - 1) {
-						$backends .= $l->t(' and ');
+						$backends .= ' '.$l->t('and').' ';
 					} elseif ($i > 0) {
 						$backends .= ', ';
 					}
