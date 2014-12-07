@@ -47,13 +47,10 @@ class Test_ContactsManager extends \Test\TestCase {
 		);
 
 		$expectedResult =  array_merge($search1, $search2);
-
 		return array(
 			array(
-				array(
-					new SimpleAddressbook('simple:1', 'Simeple Addressbook 1', $search1, \OCP\Constants::PERMISSION_ALL),
-					new SimpleAddressbook('simple:2', 'Simeple Addressbook 2', $search2, \OCP\Constants::PERMISSION_ALL),
-				),
+				$search1,
+				$search2,
 				$expectedResult
 			)
 		);
@@ -62,10 +59,34 @@ class Test_ContactsManager extends \Test\TestCase {
 	/**
 	 * @dataProvider searchProvider
 	 */
-	public function testSearch(array $addressBooks,$expectedResult ){
-		foreach ($addressBooks as $addressBook) {
-			$this->cm->registerAddressBook($addressBook);
-		}
+	public function testSearch($search1, $search2, $expectedResult ){
+		$addressbook1 = $this->getMockBuilder('SimpleAddressbook')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$addressbook1->expects($this->once())
+			->method('search')
+			->willReturn($search1);
+
+		$addressbook1->expects($this->any())
+			->method('getKey')
+			->willReturn('simple:1');
+
+		$addressbook2 = $this->getMockBuilder('SimpleAddressbook')
+			->disableOriginalConstructor()
+			->getMock();
+
+		$addressbook2->expects($this->once())
+			->method('search')
+			->willReturn($search2);
+
+		$addressbook2->expects($this->any())
+			->method('getKey')
+			->willReturn('simple:2');
+
+
+		$this->cm->registerAddressBook($addressbook1);
+		$this->cm->registerAddressBook($addressbook2);
 		$result =  $this->cm->search('');
 		$this->assertEquals($expectedResult, $result);
 	}
@@ -185,41 +206,23 @@ class Test_ContactsManager extends \Test\TestCase {
 		$this->assertTrue($result);
 	}
 
-
-
-
-
-
 }
-
 
 class SimpleAddressbook implements \OCP\IAddressBook {
 
-	public function __construct($key, $displayName, $contacts, $permissions){
-		$this->key = $key;
-		$this->contacts = $contacts;
-		$this->displayName = $displayName;
-		$this->permissions = $permissions;
-	}
-
-
 	public function getKey(){
-		return $this->key;
 	}
 
 	public function getDisplayName(){
-		return $this->displayName;
 	}
 
 	public function search($pattern, $searchProperties, $options){
-		return $this->contacts;
 	}
 
 	public function createOrUpdate($properties){
 	}
 
 	public function getPermissions(){
-		return $this->permissions;
 	}
 
 	public function delete($id){
