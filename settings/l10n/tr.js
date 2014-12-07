@@ -173,6 +173,7 @@ OC.L10N.register(
     "Documentation:" : "Belgelendirme:",
     "User Documentation" : "Kullanıcı Belgelendirmesi",
     "Admin Documentation" : "Yönetici Belgelendirmesi",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Bu uygulama, aşağıdaki bağımlılıklar sağlanmadığından yüklenemiyor:",
     "Update to %s" : "%s sürümüne güncelle",
     "Enable only for specific groups" : "Sadece belirli gruplar için etkinleştir",
     "Uninstall App" : "Uygulamayı Kaldır",

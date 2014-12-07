@@ -171,6 +171,7 @@
     "Documentation:" : "Dokumentation:",
     "User Documentation" : "Dokumentation für Benutzer",
     "Admin Documentation" : "Dokumentation für Administratoren",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Diese App kann nicht installiert werden, weil die folgenden Abhängigkeiten nicht erfüllt sind:",
     "Update to %s" : "Aktualisierung auf %s",
     "Enable only for specific groups" : "Nur für bestimmte Gruppen aktivieren",
     "Uninstall App" : "App deinstallieren",

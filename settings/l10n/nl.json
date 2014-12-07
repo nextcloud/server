@@ -171,6 +171,7 @@
     "Documentation:" : "Documentatie:",
     "User Documentation" : "Gebruikersdocumentatie",
     "Admin Documentation" : "Beheerdocumentatie",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Deze app kan niet worden geïnstalleerd omdat de volgende afhankelijkheden niet zijn ingevuld:",
     "Update to %s" : "Bijgewerkt naar %s",
     "Enable only for specific groups" : "Alleen voor bepaalde groepen activeren",
     "Uninstall App" : "De-installeren app",

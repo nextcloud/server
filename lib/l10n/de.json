@@ -6,6 +6,8 @@
     "Sample configuration detected" : "Beispielkonfiguration gefunden",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Es wurde festgestellt, dass die Beispielkonfiguration kopiert wurde, Dies wird nicht unterstützt kann zum Abruch Ihrer Installation führen. Bitte lese die Dokumentation vor der Änderung an der config.php.",
     "PHP %s or higher is required." : "PHP %s oder höher wird benötigt.",
+    "PHP with a version less then %s is required." : "PHP wird in einer früheren Version als %s benötigt.",
+    "Following databases are supported: %s" : "Die folgenden Datenbanken werden unterstützt: %s",
     "Help" : "Hilfe",
     "Personal" : "Persönlich",
     "Settings" : "Einstellungen",
