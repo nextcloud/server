@@ -54,7 +54,6 @@ OC.L10N.register(
     "(group)" : "(groupe)",
     "Saved" : "Sauvegarder",
     "<b>Note:</b> " : "<b>Attention :</b>",
-    " and " : "et",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention :</b> La prise en charge de cURL par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> La prise en charge du FTP par PHP n'est pas activée ou installée. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Attention : </b> \"%s\" n'est pas installé. Le montage de %s n'est pas possible. Contactez votre administrateur système pour l'installer.",

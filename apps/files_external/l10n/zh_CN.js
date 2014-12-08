@@ -34,7 +34,6 @@ OC.L10N.register(
     "System" : "系统",
     "Saved" : "已保存",
     "<b>Note:</b> " : "<b>注意：</b>",
-    " and " : "和",
     "You don't have any external storages" : "您没有外部存储",
     "Name" : "名称",
     "Storage type" : "存储类型",

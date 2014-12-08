@@ -38,7 +38,6 @@ OC.L10N.register(
     "Personal" : "Persona",
     "Saved" : "Konservita",
     "<b>Note:</b> " : "<b>Noto:</b>",
-    " and " : "kaj",
     "Name" : "Nomo",
     "External Storage" : "Malena memorilo",
     "Folder name" : "Dosierujnomo",

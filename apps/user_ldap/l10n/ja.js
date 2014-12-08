@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "削除の確認",
     "_%s group found_::_%s groups found_" : ["%s グループが見つかりました"],
     "_%s user found_::_%s users found_" : ["%s ユーザーが見つかりました"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "ユーザー表示名の属性を検出できませんでした。詳細設定で対応する属性を指定してください。",
     "Could not find the desired feature" : "望ましい機能は見つかりませんでした",
     "Invalid Host" : "無効なホスト",
     "Server" : "サーバー",

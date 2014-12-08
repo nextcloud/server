@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Potrdi brisanje",
     "_%s group found_::_%s groups found_" : ["%s najdena skupina","%s najdeni skupini","%s najdene skupine","%s najdenih skupin"],
     "_%s user found_::_%s users found_" : ["%s najden uporabnik","%s najdena uporabnika","%s najdeni uporabniki","%s najdenih uporabnikov"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Ni mogoče prebrati atributa prikaznega imena. Določiti ga je treba ročno med nastavitvami LDAP.",
     "Could not find the desired feature" : "Želene zmožnosti ni mogoče najti",
     "Invalid Host" : "Neveljaven gostitelj",
     "Server" : "Strežnik",

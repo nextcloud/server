@@ -33,7 +33,6 @@ OC.L10N.register(
     "(group)" : "(গোষ্ঠি)",
     "Saved" : "সংরক্ষণ করা হলো",
     "<b>Note:</b> " : "<b>দ্রষ্টব্য:</b> ",
-    " and " : "এবং",
     "Name" : "রাম",
     "External Storage" : "বাহ্যিক সংরক্ষণাগার",
     "Folder name" : "ফোলডারের নাম",

@@ -54,7 +54,6 @@ OC.L10N.register(
     "(group)" : "(grupa)",
     "Saved" : "Spremljeno",
     "<b>Note:</b> " : "<b>Bilješka:</b>",
-    " and " : " i ",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> Podrška cURL u PHP nije omogućena ili nije instalirana. Postavljanje%s nije moguće. Molimo zamolite svog administratora sustava da je instalira.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> Podrška FTP u PHP nije omogućena ili nije instalirana. Postavljanje%s nije moguće. Molimo zamolite svotg administratora sustava da je instalira.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Note:</b> \"%s\" nije instaliran. Postavljanje %s nije moguće. Molimo zamolitesvog administratora sustava da ga instalira.",

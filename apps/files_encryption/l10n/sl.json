@@ -22,6 +22,7 @@
     "Can not decrypt this file, probably this is a shared file. Please ask the file owner to reshare the file with you." : "Te datoteke ni mogoče šifrirati, ker je to najverjetneje datoteka v souporabi. Prosite lastnika datoteke, da jo da ponovno v souporabo.",
     "Unknown error. Please check your system settings or contact your administrator" : "Neznana napaka. Preverite nastavitve sistema ali pa stopite v stik s skrbnikom sistema.",
     "Missing requirements." : "Manjkajoče zahteve",
+    "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Preverite, ali je OpenSSL z ustrezno razširitvijo PHP omogočen in ustrezno nastavljen. Trenutno je šifriranje onemogočeno.",
     "Following users are not set up for encryption:" : "Navedeni uporabniki še nimajo nastavljenega šifriranja:",
     "Initial encryption started... This can take some time. Please wait." : "Začetno šifriranje je začeto ... Opravilo je lahko dolgotrajno.",
     "Initial encryption running... Please try again later." : "Začetno šifriranje je v teku ... Poskusite kasneje.",

@@ -54,7 +54,6 @@ OC.L10N.register(
     "(group)" : "(grup)",
     "Saved" : "Disimpan",
     "<b>Note:</b> " : "<b>Catatan:</b> ",
-    " and " : "dan",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Catatan:</b> Dukungan cURL di PHP tidak diaktifkan atau belum diinstal. Mengaitkan %s tidak dimungkinkan. Silakan minta administrator sistem Anda untuk menginstalnya.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Catatan:</b> Dukungan FTP di PHP tidak diaktifkan atau belum diinstal. Mengaitkan %s tidak dimungkinkan. Silakan minta administrator sistem Anda untuk menginstalnya.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Catatan:</b> \"%s\" belum diinstal. Mengaitkan %s tidak dimungkinkan. Silakan minta administrator sistem Anda untuk menginstalnya.",

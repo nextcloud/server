@@ -52,7 +52,6 @@
     "(group)" : "(グループ)",
     "Saved" : "保存されました",
     "<b>Note:</b> " : "<b>注意:</b> ",
-    " and " : "と",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにcURLのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> PHPにFTPのエクステンションが入っていないか、有効ではありません。%s をマウントすることができません。このシステムの管理者にインストールをお願いしてください。",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>注意:</b> \"%s\" がインストールされていません。%sをマウントできません。このシステムの管理者にインストールをお願いしてください。",
