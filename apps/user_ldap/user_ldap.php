@@ -93,7 +93,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
-		$search = $this->access->escapeFilterPart($search);
+		$search = $this->access->escapeFilterPart($search, true);
 		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
 
 		//check if users are cached, if so return

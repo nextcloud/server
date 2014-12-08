@@ -1087,10 +1087,15 @@ class Access extends LDAPUtility implements user\IUserTools {
 	* @param string $input, the provided value
 	* @return string the escaped string
 	*/
-	public function escapeFilterPart($input) {
+	public function escapeFilterPart($input, $allowAsterisk = false) {
+		$asterisk = '';
+		if($allowAsterisk && strlen($input) > 0 && $input[0] === '*') {
+			$asterisk = '*';
+			$input = mb_substr($input, 1, null, 'UTF-8');
+		}
 		$search  = array('*', '\\', '(', ')');
 		$replace = array('\\*', '\\\\', '\\(', '\\)');
-		return str_replace($search, $replace, $input);
+		return $asterisk . str_replace($search, $replace, $input);
 	}
 
 	/**
