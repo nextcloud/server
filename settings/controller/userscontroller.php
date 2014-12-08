@@ -161,10 +161,7 @@ class UsersController extends Controller {
 		} catch (\Exception $exception) {
 			return new DataResponse(
 				array(
-					'status' => 'error',
-					'data' => array(
-						'message' => (string)$this->l10n->t('Unable to create user.')
-					)
+					'message' => (string)$this->l10n->t('Unable to create user.')
 				),
 				Http::STATUS_FORBIDDEN
 			);
@@ -183,12 +180,9 @@ class UsersController extends Controller {
 
 		return new DataResponse(
 			array(
-				'status' => 'success',
-				'data' => array(
-					'username' => $username,
-					'groups' => $this->groupManager->getUserGroupIds($user),
-					'storageLocation' => $user->getHome()
-				)
+				'username' => $username,
+				'groups' => $this->groupManager->getUserGroupIds($user),
+				'storageLocation' => $user->getHome()
 			),
 			Http::STATUS_CREATED
 		);

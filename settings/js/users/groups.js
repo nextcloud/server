@@ -89,24 +89,19 @@ GroupList = {
 				id: groupname
 			},
 			function (result) {
-				if (result.status !== 'success') {
-					OC.dialogs.alert(result.data.message,
-						t('settings', 'Error creating group'));
-				}
-				else {
-					if (result.data.groupname) {
-						var addedGroup = result.data.groupname;
-						UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
-						GroupList.addGroup(result.data.groupname);
+				if (result.groupname) {
+					var addedGroup = result.groupname;
+					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, [addedGroup]));
+					GroupList.addGroup(result.groupname);
 
-						$('.groupsselect, .subadminsselect')
-							.append($('<option>', { value: result.data.groupname })
-								.text(result.data.groupname));
-					}
-					GroupList.toggleAddGroup();
+					$('.groupsselect, .subadminsselect')
+						.append($('<option>', { value: result.groupname })
+							.text(result.groupname));
 				}
-			}
-		);
+				GroupList.toggleAddGroup();
+			}).fail(function(result, textStatus, errorThrown) {
+				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating group'));
+			});
 	},
 
 	update: function () {

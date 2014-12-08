@@ -82,10 +82,7 @@ class GroupsController extends Controller {
 		if($this->groupManager->groupExists($id)) {
 			return new DataResponse(
 				array(
-					'status' => 'error',
-					'data' => array(
-							'message' => (string)$this->l10n->t('Group already exists.')
-						)
+					'message' => (string)$this->l10n->t('Group already exists.')
 				),
 				Http::STATUS_CONFLICT
 			);
@@ -93,10 +90,7 @@ class GroupsController extends Controller {
 		if($this->groupManager->createGroup($id)) {
 			return new DataResponse(
 				array(
-					'status' => 'success',
-					'data' => array(
-						'groupname' => $id
-					)
+					'groupname' => $id
 				),
 				Http::STATUS_CREATED
 			);

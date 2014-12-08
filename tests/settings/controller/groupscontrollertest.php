@@ -148,10 +148,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'status' => 'error',
-				'data' => array(
-					'message' => 'Group already exists.'
-				)
+				'message' => 'Group already exists.'
 			),
 			Http::STATUS_CONFLICT
 		);
@@ -173,8 +170,7 @@ class GroupsControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'status' => 'success',
-				'data' => array('groupname' => 'NewGroup')
+				'groupname' => 'NewGroup'
 			),
 			Http::STATUS_CREATED
 		);

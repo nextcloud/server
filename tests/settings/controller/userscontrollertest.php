@@ -153,12 +153,9 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'status' => 'success',
-				'data' => array(
-					'username' => 'foo',
-					'groups' => null,
-					'storageLocation' => '/home/user'
-				)
+				'username' => 'foo',
+				'groups' => null,
+				'storageLocation' => '/home/user'
 			),
 			Http::STATUS_CREATED
 		);
@@ -213,12 +210,9 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'status' => 'success',
-				'data' => array(
-					'username' => 'foo',
-					'groups' => array('NewGroup', 'ExistingGroup'),
-					'storageLocation' => '/home/user'
-				)
+				'username' => 'foo',
+				'groups' => array('NewGroup', 'ExistingGroup'),
+				'storageLocation' => '/home/user'
 			),
 			Http::STATUS_CREATED
 		);
@@ -237,10 +231,7 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'status' => 'error',
-				'data' => array(
-					'message' => 'Unable to create user.'
-				)
+				'message' => 'Unable to create user.'
 			),
 			Http::STATUS_FORBIDDEN
 		);

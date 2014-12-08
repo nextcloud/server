@@ -674,42 +674,37 @@ $(document).ready(function () {
 				groups: groups
 			},
 			function (result) {
-				if (result.status !== 'success') {
-					OC.dialogs.alert(result.data.message,
-						t('settings', 'Error creating user'));
-				} else {
-					if (result.data.groups) {
-						var addedGroups = result.data.groups;
-						for (var i in result.data.groups) {
-							var gid = result.data.groups[i];
-							if(UserList.availableGroups.indexOf(gid) === -1) {
-								UserList.availableGroups.push(gid);
-							}
-							$li = GroupList.getGroupLI(gid);
-							userCount = GroupList.getUserCount($li);
-							GroupList.setUserCount($li, userCount + 1);
+				if (result.groups) {
+					for (var i in result.groups) {
+						var gid = result.groups[i];
+						if(UserList.availableGroups.indexOf(gid) === -1) {
+							UserList.availableGroups.push(gid);
 						}
+						$li = GroupList.getGroupLI(gid);
+						userCount = GroupList.getUserCount($li);
+						GroupList.setUserCount($li, userCount + 1);
 					}
-					if (result.data.homeExists){
-						OC.Notification.hide();
-						OC.Notification.show(t('settings', 'Warning: Home directory for user "{user}" already exists', {user: result.data.username}));
-						if (UserList.notificationTimeout){
-							window.clearTimeout(UserList.notificationTimeout);
-						}
-						UserList.notificationTimeout = window.setTimeout(
-							function(){
-								OC.Notification.hide();
-								UserList.notificationTimeout = null;
-							}, 10000);
-					}
-					if(!UserList.has(username)) {
-						UserList.add(username, username, result.data.groups, null, 'default', result.data.storageLocation, 0, true);
-					}
-					$('#newusername').focus();
-					GroupList.incEveryoneCount();
 				}
-			}
-		);
+				if (result.homeExists){
+					OC.Notification.hide();
+					OC.Notification.show(t('settings', 'Warning: Home directory for user "{user}" already exists', {user: result.username}));
+					if (UserList.notificationTimeout){
+						window.clearTimeout(UserList.notificationTimeout);
+					}
+					UserList.notificationTimeout = window.setTimeout(
+						function(){
+							OC.Notification.hide();
+							UserList.notificationTimeout = null;
+						}, 10000);
+				}
+				if(!UserList.has(username)) {
+					UserList.add(username, username, result.groups, null, 'default', result.storageLocation, 0, true);
+				}
+				$('#newusername').focus();
+				GroupList.incEveryoneCount();
+			}).fail(function(result, textStatus, errorThrown) {
+				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating user'));
+			});
 	});
 
 	// Option to display/hide the "Storage location" column
