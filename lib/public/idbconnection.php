@@ -158,4 +158,11 @@ interface IDBConnection {
 	 * @return \Doctrine\DBAL\Platforms\AbstractPlatform The database platform.
 	 */
 	public function getDatabasePlatform();
+
+	/**
+	 * Drop a table from the database if it exists
+	 *
+	 * @param string $table
+	 */
+	public function dropTable($table);
 }

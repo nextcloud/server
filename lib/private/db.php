@@ -263,16 +263,7 @@ class OC_DB {
 	 */
 	public static function dropTable($tableName) {
 		$connection = \OC::$server->getDatabaseConnection();
-		$tableName = OC_Config::getValue('dbtableprefix', 'oc_' ) . trim($tableName);
-
-		$connection->beginTransaction();
-
-		$platform = $connection->getDatabasePlatform();
-		$sql = $platform->getDropTableSQL($platform->quoteIdentifier($tableName));
-
-		$connection->executeQuery($sql);
-
-		$connection->commit();
+		$connection->dropTable($tableName);
 	}
 
 	/**
