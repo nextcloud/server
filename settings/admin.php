@@ -76,7 +76,7 @@ $template->assign('databaseOverload', $databaseOverload);
 $forms = OC_App::getForms('admin');
 $l = OC_L10N::get('settings');
 $formsAndMore = array();
-if (OC_Request::serverProtocol() !== 'https' || !$htAccessWorking || !OC_Util::isAnnotationsWorking() ||
+if (OC_Request::serverProtocol() !== 'https' || !OC_Util::isAnnotationsWorking() ||
 	$suggestedOverwriteWebRoot || !OC_Util::isSetLocaleWorking() || !OC_Util::isPhpCharSetUtf8() ||
 	!OC_Util::fileInfoLoaded() || $databaseOverload
 ) {
