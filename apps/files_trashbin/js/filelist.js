@@ -255,6 +255,10 @@
 		updateStorageStatistics: function() {
 			// no op because the trashbin doesn't have
 			// storage info like free space / used space
+		},
+
+		isSelectedDeletable: function() {
+			return true;
 		}
 
 	});
