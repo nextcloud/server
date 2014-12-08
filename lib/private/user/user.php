@@ -153,6 +153,24 @@ class User implements IUser {
 			$this->emitter->emit('\OC\User', 'preDelete', array($this));
 		}
 		$result = $this->backend->deleteUser($this->uid);
+		if ($result) {
+
+			// FIXME: Feels like an hack - suggestions?
+
+			// We have to delete the user from all groups
+			foreach (\OC_Group::getUserGroups($this->uid) as $i) {
+				\OC_Group::removeFromGroup($this->uid, $i);
+			}
+			// Delete the user's keys in preferences
+			\OC_Preferences::deleteUser($this->uid);
+
+			// Delete user files in /data/
+			\OC_Helper::rmdirr(\OC_User::getHome($this->uid));
+
+			// Delete the users entry in the storage table
+			\OC\Files\Cache\Storage::remove('home::' . $this->uid);
+		}
+
 		if ($this->emitter) {
 			$this->emitter->emit('\OC\User', 'postDelete', array($this));
 		}

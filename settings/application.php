@@ -10,11 +10,14 @@
 
 namespace OC\Settings;
 
-use OC\AppFramework\Utility\SimpleContainer;
 use OC\Settings\Controller\AppSettingsController;
+use OC\Settings\Controller\GroupsController;
 use OC\Settings\Controller\MailSettingsController;
 use OC\Settings\Controller\SecuritySettingsController;
+use OC\Settings\Controller\UsersController;
+use OC\Settings\Middleware\SubadminMiddleware;
 use \OCP\AppFramework\App;
+use OCP\IContainer;
 use \OCP\Util;
 
 /**
@@ -34,7 +37,7 @@ class Application extends App {
 		/**
 		 * Controllers
 		 */
-		$container->registerService('MailSettingsController', function(SimpleContainer $c) {
+		$container->registerService('MailSettingsController', function(IContainer $c) {
 			return new MailSettingsController(
 				$c->query('AppName'),
 				$c->query('Request'),
@@ -46,7 +49,7 @@ class Application extends App {
 				$c->query('DefaultMailAddress')
 			);
 		});
-		$container->registerService('AppSettingsController', function(SimpleContainer $c) {
+		$container->registerService('AppSettingsController', function(IContainer $c) {
 			return new AppSettingsController(
 				$c->query('AppName'),
 				$c->query('Request'),
@@ -54,33 +57,81 @@ class Application extends App {
 				$c->query('Config')
 			);
 		});
-		$container->registerService('SecuritySettingsController', function(SimpleContainer $c) {
+		$container->registerService('SecuritySettingsController', function(IContainer $c) {
 			return new SecuritySettingsController(
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('Config')
 			);
 		});
+		$container->registerService('GroupsController', function(IContainer $c) {
+			return new GroupsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('GroupManager'),
+				$c->query('UserSession'),
+				$c->query('IsAdmin'),
+				$c->query('L10N')
+			);
+		});
+		$container->registerService('UsersController', function(IContainer $c) {
+			return new UsersController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('UserManager'),
+				$c->query('GroupManager'),
+				$c->query('UserSession'),
+				$c->query('Config'),
+				$c->query('IsAdmin'),
+				$c->query('L10N')
+			);
+		});
+
+		/**
+		 * Middleware
+		 */
+		$container->registerService('SubadminMiddleware', function(IContainer $c){
+			return new SubadminMiddleware(
+				$c->query('ControllerMethodReflector'),
+				$c->query('IsSubAdmin')
+			);
+		});
+		// Execute middlewares
+		$container->registerMiddleware('SubadminMiddleware');
 
 		/**
 		 * Core class wrappers
 		 */
-		$container->registerService('Config', function(SimpleContainer $c) {
+		$container->registerService('Config', function(IContainer $c) {
 			return $c->query('ServerContainer')->getConfig();
 		});
-		$container->registerService('L10N', function(SimpleContainer $c) {
+		$container->registerService('L10N', function(IContainer $c) {
 			return $c->query('ServerContainer')->getL10N('settings');
 		});
-		$container->registerService('UserSession', function(SimpleContainer $c) {
+		$container->registerService('GroupManager', function(IContainer $c) {
+			return $c->query('ServerContainer')->getGroupManager();
+		});
+		$container->registerService('UserManager', function(IContainer $c) {
+			return $c->query('ServerContainer')->getUserManager();
+		});
+		$container->registerService('UserSession', function(IContainer $c) {
 			return $c->query('ServerContainer')->getUserSession();
 		});
-		$container->registerService('Mail', function(SimpleContainer $c) {
+		/** FIXME: Remove once OC_User is non-static and mockable */
+		$container->registerService('IsAdmin', function(IContainer $c) {
+			return \OC_User::isAdminUser(\OC_User::getUser());
+		});
+		/** FIXME: Remove once OC_SubAdmin is non-static and mockable */
+		$container->registerService('IsSubAdmin', function(IContainer $c) {
+			return \OC_Subadmin::isSubAdmin(\OC_User::getUser());
+		});
+		$container->registerService('Mail', function(IContainer $c) {
 			return new \OC_Mail;
 		});
-		$container->registerService('Defaults', function(SimpleContainer $c) {
+		$container->registerService('Defaults', function(IContainer $c) {
 			return new \OC_Defaults;
 		});
-		$container->registerService('DefaultMailAddress', function(SimpleContainer $c) {
+		$container->registerService('DefaultMailAddress', function(IContainer $c) {
 			return Util::getDefaultEmailAddress('no-reply');
 		});
 	}

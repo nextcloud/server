@@ -220,7 +220,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @param string $uid
 	 * @param string $password
 	 * @throws \Exception
-	 * @return bool|\OC\User\User the created user of false
+	 * @return bool|\OC\User\User the created user or false
 	 */
 	public function createUser($uid, $password) {
 		$l = \OC::$server->getL10N('lib');

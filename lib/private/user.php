@@ -47,6 +47,7 @@ class OC_User {
 
 	/**
 	 * @return \OC\User\Manager
+	 * @deprecated Use \OC::$server->getUserManager()
 	 */
 	public static function getManager() {
 		return OC::$server->getUserManager();
@@ -179,6 +180,7 @@ class OC_User {
 	 * itself, not in its subclasses.
 	 *
 	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
+	 * @deprecated Use \OC::$server->getUserManager->createUser($uid, $password)
 	 */
 	public static function createUser($uid, $password) {
 		return self::getManager()->createUser($uid, $password);
@@ -190,30 +192,12 @@ class OC_User {
 	 * @return bool
 	 *
 	 * Deletes a user
+	 * @deprecated Use \OC::$server->getUserManager->delete()
 	 */
 	public static function deleteUser($uid) {
 		$user = self::getManager()->get($uid);
 		if ($user) {
-			$result = $user->delete();
-
-			// if delete was successful we clean-up the rest
-			if ($result) {
-
-				// We have to delete the user from all groups
-				foreach (OC_Group::getUserGroups($uid) as $i) {
-					OC_Group::removeFromGroup($uid, $i);
-				}
-				// Delete the user's keys in preferences
-				OC_Preferences::deleteUser($uid);
-
-				// Delete user files in /data/
-				OC_Helper::rmdirr(\OC_User::getHome($uid));
-
-				// Delete the users entry in the storage table
-				\OC\Files\Cache\Storage::remove('home::' . $uid);
-			}
-
-			return true;
+			return $user->delete();
 		} else {
 			return false;
 		}
@@ -525,6 +509,7 @@ class OC_User {
 	 * @return string
 	 *
 	 * returns the path to the users home directory
+	 * @deprecated Use \OC::$server->getUserManager->getHome()
 	 */
 	public static function getHome($uid) {
 		$user = self::getManager()->get($uid);

@@ -29,7 +29,7 @@ class MetaData {
 	protected $metaData = array();
 
 	/**
-	 * @var \OC\Group\Manager $groupManager
+	 * @var \OCP\IGroupManager $groupManager
 	 */
 	protected $groupManager;
 
@@ -41,12 +41,12 @@ class MetaData {
 	/**
 	 * @param string $user the uid of the current user
 	 * @param bool $isAdmin whether the current users is an admin
-	 * @param \OC\Group\Manager $groupManager
+	 * @param \OCP\IGroupManager $groupManager
 	 */
 	public function __construct(
 			$user,
 			$isAdmin,
-			\OC\Group\Manager $groupManager
+			\OCP\IGroupManager $groupManager
 			) {
 		$this->user = $user;
 		$this->isAdmin = (bool)$isAdmin;
@@ -168,6 +168,7 @@ class MetaData {
 		if($this->isAdmin) {
 			return $this->groupManager->search($search);
 		} else {
+			// FIXME: Remove static method call
 			$groupIds = \OC_SubAdmin::getSubAdminsGroups($this->user);
 
 			/* \OC_SubAdmin::getSubAdminsGroups() returns an array of GIDs, but this
