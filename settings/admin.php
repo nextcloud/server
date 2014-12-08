@@ -9,7 +9,6 @@ OC_Util::checkAdminUser();
 OC_App::setActiveNavigationEntry("admin");
 
 $template = new OC_Template('settings', 'admin', 'user');
-$htAccessWorking = OC_Util::isHtaccessWorking();
 
 $entries = OC_Log_Owncloud::getEntries(3);
 $entriesRemaining = count(OC_Log_Owncloud::getEntries(4)) > 3;
@@ -32,7 +31,6 @@ $template->assign('mail_smtpname', $config->getSystemValue("mail_smtpname", ''))
 $template->assign('mail_smtppassword', $config->getSystemValue("mail_smtppassword", ''));
 $template->assign('entries', $entries);
 $template->assign('entriesremain', $entriesRemaining);
-$template->assign('htaccessworking', $htAccessWorking);
 $template->assign('readOnlyConfigEnabled', OC_Helper::isReadOnlyConfigEnabled());
 $template->assign('isLocaleWorking', OC_Util::isSetLocaleWorking());
 $template->assign('isPhpCharSetUtf8', OC_Util::isPhpCharSetUtf8());

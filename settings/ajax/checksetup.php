@@ -17,7 +17,8 @@ if (OC_Util::isInternetConnectionEnabled()) {
 }
 
 OCP\JSON::success(
-	array(
-		'serverhasinternetconnection' => $hasInternet
+	array (
+		'serverHasInternetConnection' => $hasInternet,
+		'dataDirectoryProtected' => OC_Util::isHtaccessWorking()
 	)
 );
