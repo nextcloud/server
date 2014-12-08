@@ -119,6 +119,9 @@ if($source) {
 			$freeSpace = $storageStats['freeSpace'];
 
 			foreach($meta['wrapper_data'] as $header) {
+				if (strpos($header, ':') === false){
+					continue;
+				}
 				list($name, $value) = explode(':', $header);
 				if ('content-length' === strtolower(trim($name))) {
 					$length = (int) trim($value);
