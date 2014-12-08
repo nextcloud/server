@@ -193,6 +193,54 @@ describe('OCA.Files.FileActions tests', function() {
 		context = actionStub.getCall(0).args[1];
 		expect(context.dir).toEqual('/somepath');
 	});
+	describe('custom rendering', function() {
+		var $tr;
+		beforeEach(function() {
+			var fileData = {
+				id: 18,
+				type: 'file',
+				name: 'testName.txt',
+				mimetype: 'text/plain',
+				size: '1234',
+				etag: 'a01234c',
+				mtime: '123456'
+			};
+			$tr = fileList.add(fileData);
+		});
+		it('regular function', function() {
+			var actionStub = sinon.stub();
+			FileActions.registerAction({
+				name: 'Test',
+				displayName: '',
+				mime: 'all',
+				permissions: OC.PERMISSION_READ,
+				render: function(actionSpec, isDefault, context) {
+					expect(actionSpec.name).toEqual('Test');
+					expect(actionSpec.displayName).toEqual('');
+					expect(actionSpec.permissions).toEqual(OC.PERMISSION_READ);
+					expect(actionSpec.mime).toEqual('all');
+					expect(isDefault).toEqual(false);
+
+					expect(context.fileList).toEqual(fileList);
+					expect(context.$file[0]).toEqual($tr[0]);
+
+					var $customEl = $('<a href="#"><span>blabli</span><span>blabla</span></a>');
+					$tr.find('td:first').append($customEl);
+					return $customEl;
+				},
+				actionHandler: actionStub
+			});
+			FileActions.display($tr.find('td.filename'), true, fileList);
+
+			var $actionEl = $tr.find('td:first .action-test');
+			expect($actionEl.length).toEqual(1);
+			expect($actionEl.hasClass('action')).toEqual(true);
+
+			$actionEl.click();
+			expect(actionStub.calledOnce).toEqual(true);
+			expect(actionStub.getCall(0).args[0]).toEqual('testName.txt');
+		});
+	});
 	describe('merging', function() {
 		var $tr;
 		beforeEach(function() {
