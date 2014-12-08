@@ -104,15 +104,16 @@ class Updater extends BasicEmitter {
 
 		$tmp = array();
 		$xml = $this->httpHelper->getUrlContent($url);
-		if ($xml !== false) {
+		if ($xml) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$data = @simplexml_load_string($xml);
 			libxml_disable_entity_loader($loadEntities);
-
-			$tmp['version'] = $data->version;
-			$tmp['versionstring'] = $data->versionstring;
-			$tmp['url'] = $data->url;
-			$tmp['web'] = $data->web;
+			if ($data !== false) {
+				$tmp['version'] = $data->version;
+				$tmp['versionstring'] = $data->versionstring;
+				$tmp['url'] = $data->url;
+				$tmp['web'] = $data->web;
+			}
 		} else {
 			$data = array();
 		}

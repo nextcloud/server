@@ -33,58 +33,71 @@ class UpdaterTest extends \Test\TestCase {
 	
 	
 	public function testCheck(){
-		$httpHelper = $this->getMockBuilder('\OC\HTTPHelper')
-				->getMock();
+		// Valid XML. Empty values
+		$updater = $this->getUpdaterMock(
+				'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
+		);
+		$result = array_map('strval', $updater->check());
 		
-		$httpHelper->method('getUrlContent')
-				->willReturn(
-					'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
-				)
-		;
-		
-		$updater = new Updater($httpHelper);
-		// Invalidate cache
-		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
-		$result = $updater->check();
-		$this->assertContains('version', $result);
-		$this->assertContains('versionstring', $result);
-		$this->assertContains('url', $result);
-		$this->assertContains('web', $result);
+		$this->assertArrayHasKey('version', $result);
+		$this->assertArrayHasKey('versionstring', $result);
+		$this->assertArrayHasKey('url', $result);
+		$this->assertArrayHasKey('web', $result);
 		$this->assertEmpty($result['version']);
 		$this->assertEmpty($result['versionstring']);
 		$this->assertEmpty($result['url']);
 		$this->assertEmpty($result['web']);
 		
-		// Invalidate cache
-		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
-		$httpHelper->method('getUrlContent')
-				->willReturn('')
-		;
-		
-		$emptyResult = $updater->check();
+		// Empty feed
+		$emptyUpdater = $this->getUpdaterMock('');
+		$emptyResult = $emptyUpdater->check();
 		$this->assertEmpty($emptyResult);
-
-		// Invalidate cache
-		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
-		$httpHelper->method('getUrlContent')
-				->willReturn('<?xml version="1.0"?>
+		
+		// Error while fetching new contents e.g. too many redirects
+		$falseUpdater = $this->getUpdaterMock(false);
+		$falseResult = $falseUpdater->check();
+		$this->assertEmpty($falseResult);
+		
+		// Valid XML. New version available
+		$newUpdater = $this->getUpdaterMock(
+				'<?xml version="1.0"?>
 <owncloud>
   <version>7.0.3.4</version>
   <versionstring>ownCloud 7.0.3</versionstring>
   <url>http://download.owncloud.org/community/owncloud-7.0.3.zip</url>
   <web>http://owncloud.org/</web>
-</owncloud>')
+</owncloud>'
+		);
+		$newResult = array_map('strval', $newUpdater->check());
+		
+		$this->assertArrayHasKey('version', $newResult);
+		$this->assertArrayHasKey('versionstring', $newResult);
+		$this->assertArrayHasKey('url', $newResult);
+		$this->assertArrayHasKey('web', $newResult);
+		$this->assertEquals('7.0.3.4', $newResult['version']);
+		$this->assertEquals('ownCloud 7.0.3', $newResult['versionstring']);
+		$this->assertEquals('http://download.owncloud.org/community/owncloud-7.0.3.zip', $newResult['url']);
+		$this->assertEquals('http://owncloud.org/', $newResult['web']);
+		
+		// Invalid XML
+		$invalidUpdater = $this->getUpdaterMock('OMG!');
+		$invalidResult = $invalidUpdater->check();
+		$this->assertEmpty($invalidResult);
+	}
+	
+	protected function getUpdaterMock($content){
+		// Invalidate cache
+		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
+		
+		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
+				->setConstructorArgs(array(\OC::$server->getConfig()))
+				->getMock()
 		;
 		
-		$newResult = $updater->check();
-		$this->assertContains('version', $newResult);
-		$this->assertContains('versionstring', $newResult);
-		$this->assertContains('url', $newResult);
-		$this->assertContains('web', $newResult);
-		$this->assertEqual('7.0.3.4', $newResult['version']);
-		$this->assertEqual('ownCloud 7.0.3', $newResult['versionstring']);
-		$this->assertEqual('http://download.owncloud.org/community/owncloud-7.0.3.zip', $newResult['url']);
-		$this->assertEqual('http://owncloud.org/', $newResult['web']);
+		$mockedHTTPHelper->method('getUrlContent')
+				->willReturn($content)
+		;
+		return new Updater($mockedHTTPHelper);
 	}
 
 }
