@@ -115,7 +115,7 @@ GroupList = {
 		}
 		GroupList.updating = true;
 		$.get(
-			OC.generateUrl('/settings/ajax/grouplist'),
+			OC.generateUrl('/settings/users/groups'),
 			{
 				pattern: filter.getPattern(),
 				filterGroups: filter.filterGroups ? 1 : 0
