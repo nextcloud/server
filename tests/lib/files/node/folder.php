@@ -10,7 +10,7 @@ namespace Test\Files\Node;
 
 use OC\Files\Cache\Cache;
 use OC\Files\FileInfo;
-use OC\Files\Mount\Mount;
+use OC\Files\Mount\MountPoint;
 use OC\Files\Node\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -419,7 +419,7 @@ class Folder extends \Test\TestCase {
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 		$subCache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 		$subStorage = $this->getMock('\OC\Files\Storage\Storage');
-		$subMount = $this->getMock('\OC\Files\Mount\Mount', array(), array(null, ''));
+		$subMount = $this->getMock('\OC\Files\Mount\MountPoint', array(), array(null, ''));
 
 		$subMount->expects($this->once())
 			->method('getStorage')
@@ -487,7 +487,7 @@ class Folder extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 		$storage = $this->getMock('\OC\Files\Storage\Storage');
-		$mount = new Mount($storage, '/bar');
+		$mount = new MountPoint($storage, '/bar');
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$view->expects($this->once())
@@ -530,7 +530,7 @@ class Folder extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 		$storage = $this->getMock('\OC\Files\Storage\Storage');
-		$mount = new Mount($storage, '/bar');
+		$mount = new MountPoint($storage, '/bar');
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$storage->expects($this->once())
@@ -568,8 +568,8 @@ class Folder extends \Test\TestCase {
 			->method('getUser')
 			->will($this->returnValue($this->user));
 		$storage = $this->getMock('\OC\Files\Storage\Storage');
-		$mount1 = new Mount($storage, '/bar');
-		$mount2 = new Mount($storage, '/bar/foo/asd');
+		$mount1 = new MountPoint($storage, '/bar');
+		$mount2 = new MountPoint($storage, '/bar/foo/asd');
 		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
 
 		$view->expects($this->any())

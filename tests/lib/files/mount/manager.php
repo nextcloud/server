@@ -30,33 +30,33 @@ class Manager extends \Test\TestCase {
 	public function testFind() {
 		$this->assertNull($this->manager->find('/'));
 
-		$rootMount = new \OC\Files\Mount\Mount(new Temporary(array()), '/');
+		$rootMount = new \OC\Files\Mount\MountPoint(new Temporary(array()), '/');
 		$this->manager->addMount($rootMount);
 		$this->assertEquals($rootMount, $this->manager->find('/'));
 		$this->assertEquals($rootMount, $this->manager->find('/foo/bar'));
 
 		$storage = new Temporary(array());
-		$mount1 = new \OC\Files\Mount\Mount($storage, '/foo');
+		$mount1 = new \OC\Files\Mount\MountPoint($storage, '/foo');
 		$this->manager->addMount($mount1);
 		$this->assertEquals($rootMount, $this->manager->find('/'));
 		$this->assertEquals($mount1, $this->manager->find('/foo/bar'));
 
 		$this->assertEquals(1, count($this->manager->findIn('/')));
-		$mount2 = new \OC\Files\Mount\Mount(new Temporary(array()), '/bar');
+		$mount2 = new \OC\Files\Mount\MountPoint(new Temporary(array()), '/bar');
 		$this->manager->addMount($mount2);
 		$this->assertEquals(2, count($this->manager->findIn('/')));
 
 		$id = $mount1->getStorageId();
 		$this->assertEquals(array($mount1), $this->manager->findByStorageId($id));
 
-		$mount3 = new \OC\Files\Mount\Mount($storage, '/foo/bar');
+		$mount3 = new \OC\Files\Mount\MountPoint($storage, '/foo/bar');
 		$this->manager->addMount($mount3);
 		$this->assertEquals(array($mount1, $mount3), $this->manager->findByStorageId($id));
 	}
 
 	public function testLong() {
 		$storage = new LongId(array());
-		$mount = new \OC\Files\Mount\Mount($storage, '/foo');
+		$mount = new \OC\Files\Mount\MountPoint($storage, '/foo');
 		$this->manager->addMount($mount);
 
 		$id = $mount->getStorageId();

@@ -103,22 +103,6 @@ class OC_Mount_Config {
 	 * @param array $data
 	 */
 	public static function initMountPointsHook($data) {
-		$mountPoints = self::getAbsoluteMountPoints($data['user']);
-		$loader = \OC\Files\Filesystem::getLoader();
-		$manager = \OC\Files\Filesystem::getMountManager();
-		foreach ($mountPoints as $mountPoint => $options) {
-			if (isset($options['options']['objectstore'])) {
-				$objectClass = $options['options']['objectstore']['class'];
-				$options['options']['objectstore'] = new $objectClass($options['options']['objectstore']);
-			}
-			if (isset($options['personal']) && $options['personal']) {
-				$mount = new \OCA\Files_External\PersonalMount($options['class'], $mountPoint, $options['options'], $loader);
-			} else{
-				$mount = new \OC\Files\Mount\Mount($options['class'], $mountPoint, $options['options'], $loader);
-			}
-			$manager->addMount($mount);
-		}
-
 		if ($data['user']) {
 			$user = \OC::$server->getUserManager()->get($data['user']);
 			if (!$user) {

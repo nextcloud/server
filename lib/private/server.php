@@ -9,6 +9,7 @@ use OC\Cache\UserCache;
 use OC\Diagnostics\NullQueryLogger;
 use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
+use OC\Files\Config\StorageManager;
 use OC\Security\CertificateManager;
 use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
@@ -267,6 +268,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			$appConfig = $c->getAppConfig();
 			$groupManager = $c->getGroupManager();
 			return new \OC\App\AppManager($userSession, $appConfig, $groupManager);
+		});
+		$this->registerService('MountConfigManager', function () {
+			$loader = \OC\Files\Filesystem::getLoader();
+			return new \OC\Files\Config\MountProviderCollection($loader);
 		});
 	}
 
@@ -664,5 +669,12 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getWebRoot() {
 		return $this->webRoot;
+	}
+
+	/**
+	 * @return \OCP\Files\Config\IMountProviderCollection
+	 */
+	function getMountProviderCollection(){
+		return $this->query('MountConfigManager');
 	}
 }

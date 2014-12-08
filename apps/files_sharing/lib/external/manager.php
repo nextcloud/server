@@ -24,7 +24,7 @@ class Manager {
 	private $mountManager;
 
 	/**
-	 * @var \OC\Files\Storage\Loader
+	 * @var \OC\Files\Storage\StorageFactory
 	 */
 	private $storageLoader;
 
@@ -37,10 +37,10 @@ class Manager {
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OC\User\Session $userSession
-	 * @param \OC\Files\Storage\Loader $storageLoader
+	 * @param \OC\Files\Storage\StorageFactory $storageLoader
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OC\Files\Storage\Loader $storageLoader, \OC\User\Session $userSession) {
+								\OC\Files\Storage\StorageFactory $storageLoader, \OC\User\Session $userSession) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->userSession = $userSession;

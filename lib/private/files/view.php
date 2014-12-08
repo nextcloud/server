@@ -465,7 +465,7 @@ class View {
 				if ($internalPath1 === '' and $mount instanceof MoveableMount) {
 					if ($this->isTargetAllowed($absolutePath2)) {
 						/**
-						 * @var \OC\Files\Mount\Mount | \OC\Files\Mount\MoveableMount $mount
+						 * @var \OC\Files\Mount\MountPoint | \OC\Files\Mount\MoveableMount $mount
 						 */
 						$sourceMountPoint = $mount->getMountPoint();
 						$result = $mount->moveMount($absolutePath2);
@@ -1227,7 +1227,7 @@ class View {
 		$mounts = array_reverse($mounts);
 		foreach ($mounts as $mount) {
 			/**
-			 * @var \OC\Files\Mount\Mount $mount
+			 * @var \OC\Files\Mount\MountPoint $mount
 			 */
 			if ($mount->getStorage()) {
 				$cache = $mount->getStorage()->getCache();

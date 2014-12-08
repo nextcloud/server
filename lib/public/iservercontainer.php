@@ -305,4 +305,9 @@ interface IServerContainer {
 	 * @return string
 	 */
 	function getWebRoot();
+
+	/**
+	 * @return \OCP\Files\Config\IMountProviderCollection
+	 */
+	function getMountProviderCollection();
 }
