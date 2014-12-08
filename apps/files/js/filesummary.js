@@ -180,7 +180,7 @@
 				fileSize = '<td class="filesize">' + OC.Util.humanFileSize(summary.totalSize) + '</td>';
 			}
 
-			var info = t('files', '{dirs} and {files}', infoVars);
+			var info = t('files', '{dirs} and {files}', infoVars, null, {'escape': false});
 
 			var $summary = $('<td><span class="info">'+info+'</span></td>'+fileSize+'<td class="date"></td>');
 

@@ -255,7 +255,7 @@ OC.Share={
 				message = this._formatSharedByOwner(owner);
 			}
 			else if (recipients) {
-				message = t('core', 'Shared with {recipients}', {recipients: escapeHTML(recipients)});
+				message = t('core', 'Shared with {recipients}', {recipients: recipients});
 			}
 			action.html(' <span>' + message + '</span>').prepend(img);
 			if (owner) {
@@ -355,9 +355,9 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop shareDropDown" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: escapeHTML(data.reshare.share_with), owner: escapeHTML(data.reshare.displayname_owner)})+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.displayname_owner})+'</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: escapeHTML(data.reshare.displayname_owner)})+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.displayname_owner})+'</span>';
 			}
 			html += '<br />';
 		}
@@ -395,7 +395,7 @@ OC.Share={
 
 				var defaultExpireMessage = '';
 				if ((itemType === 'folder' || itemType === 'file') && oc_appconfig.core.defaultExpireDateEnforced) {
-					defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
+					defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': oc_appconfig.core.defaultExpireDate}) + '<br/>';
 				}
 
 				html += '<label for="linkText" class="hidden-visually">'+t('core', 'Link')+'</label>';
@@ -622,7 +622,7 @@ OC.Share={
 			if (collectionList.length > 0) {
 				$(collectionList).append(', '+shareWithDisplayName);
 			} else {
-				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': escapeHTML(item), user: escapeHTML(shareWithDisplayName)})+'</li>';
+				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWithDisplayName})+'</li>';
 				$('#shareWithList').prepend(html);
 			}
 		} else {

@@ -42,6 +42,16 @@ describe('OC.L10N tests', function() {
 				t(TEST_APP, 'Hello {name}, the weather is {weather}', {name: 'Steve', weather: t(TEST_APP, 'sunny')})
 			).toEqual('Hallo Steve, das Wetter ist sonnig');
 		});
+		it('returns text with escaped placeholder', function() {
+			expect(
+				t(TEST_APP, 'Hello {name}', {name: '<strong>Steve</strong>'})
+			).toEqual('Hello &lt;strong&gt;Steve&lt;/strong&gt;');
+		});
+		it('returns text with not escaped placeholder', function() {
+			expect(
+				t(TEST_APP, 'Hello {name}', {name: '<strong>Steve</strong>'}, null, {escape: false})
+			).toEqual('Hello <strong>Steve</strong>');
+		});
 	});
 	describe('plurals', function() {
 		function checkPlurals() {

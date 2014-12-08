@@ -62,8 +62,8 @@ OC.L10N = {
 	 * Register an app's translation bundle.
 	 *
 	 * @param {String} appName name of the app
-	 * @param {Object<String,String>} strings bundle
-	 * @param {{Function|String}} [pluralForm] optional plural function or plural string
+	 * @param {Object<String,String>} bundle
+	 * @param {Function|String} [pluralForm] optional plural function or plural string
 	 */
 	register: function(appName, bundle, pluralForm) {
 		this._bundles[appName] = bundle || {};
@@ -129,9 +129,17 @@ OC.L10N = {
 	 * @param {string} text the string to translate
 	 * @param [vars] map of placeholder key to value
 	 * @param {number} [count] number to replace %n with
+	 * @param {array} [options] options array
+	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
 	 * @return {string}
 	 */
-	translate: function(app, text, vars, count) {
+	translate: function(app, text, vars, count, options) {
+		var defaultOptions = {
+				escape: true
+			},
+			allOptions = options || {};
+		_.defaults(allOptions, defaultOptions);
+
 		// TODO: cache this function to avoid inline recreation
 		// of the same function over and over again in case
 		// translate() is used in a loop
@@ -139,7 +147,15 @@ OC.L10N = {
 			return text.replace(/%n/g, count).replace(/{([^{}]*)}/g,
 				function (a, b) {
 					var r = vars[b];
-					return typeof r === 'string' || typeof r === 'number' ? r : a;
+					if(typeof r === 'string' || typeof r === 'number') {
+						if(allOptions.escape) {
+							return escapeHTML(r);
+						} else {
+							return r;
+						}
+					} else {
+						return a;
+					}
 				}
 			);
 		};
@@ -160,13 +176,15 @@ OC.L10N = {
 	/**
 	 * Translate a plural string
 	 * @param {string} app the id of the app for which to translate the string
-	 * @param {string} text_singular the string to translate for exactly one object
-	 * @param {string} text_plural the string to translate for n objects
+	 * @param {string} textSingular the string to translate for exactly one object
+	 * @param {string} textPlural the string to translate for n objects
 	 * @param {number} count number to determine whether to use singular or plural
 	 * @param [vars] map of placeholder key to value
+	 * @param {array} [options] options array
+	 * @param {bool} [options.escape=true] enable/disable auto escape of placeholders (by default enabled)
 	 * @return {string} Translated string
 	 */
-	translatePlural: function(app, textSingular, textPlural, count, vars) {
+	translatePlural: function(app, textSingular, textPlural, count, vars, options) {
 		var identifier = '_' + textSingular + '_::_' + textPlural + '_';
 		var bundle = this._bundles[app] || {};
 		var value = bundle[identifier];
@@ -174,15 +192,15 @@ OC.L10N = {
 			var translation = value;
 			if ($.isArray(translation)) {
 				var plural = this._pluralFunctions[app](count);
-				return this.translate(app, translation[plural.plural], vars, count);
+				return this.translate(app, translation[plural.plural], vars, count, options);
 			}
 		}
 
 		if(count === 1) {
-			return this.translate(app, textSingular, vars, count);
+			return this.translate(app, textSingular, vars, count, options);
 		}
 		else{
-			return this.translate(app, textPlural, vars, count);
+			return this.translate(app, textPlural, vars, count, options);
 		}
 	}
 };
