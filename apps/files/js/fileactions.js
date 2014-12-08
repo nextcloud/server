@@ -264,6 +264,7 @@
 		_renderRenameAction: function(actionSpec, isDefault, context) {
 			var $actionEl = this._makeActionLink(actionSpec, context);
 			var $container = context.$file.find('a.name span.nametext');
+			$actionEl.find('img').attr('alt', t('files', 'Rename'));
 			$container.find('.action-rename').remove();
 			$container.append($actionEl);
 			return $actionEl;
