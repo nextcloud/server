@@ -1,6 +1,8 @@
 <?php
 /**
  * Copyright (c) 2013 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2014 Jordi Boggiano <j.boggiano@seld.be>
+ * Copyright (c) 2014 Olivier Paroz <owncloud@oparoz.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -147,6 +149,8 @@ class Log implements ILogger {
 		// interpolate $message as defined in PSR-3
 		$replace = array();
 		foreach ($context as $key => $val) {
+			// Allows us to dump arrays, objects and exceptions to the log
+			$val = $this->normalize($val);
 			$replace['{' . $key . '}'] = $val;
 		}
 
@@ -155,5 +159,79 @@ class Log implements ILogger {
 
 		$logger = $this->logger;
 		call_user_func(array($logger, 'write'), $app, $message, $level);
+	}
+
+	private function normalize($data) {
+		if (null === $data || is_scalar($data)) {
+			return $data;
+		}
+
+		if (is_array($data) || $data instanceof \Traversable) {
+			$normalized = array();
+			$count = 1;
+			foreach ($data as $key => $value) {
+				if ($count++ >= 1000) {
+					$normalized['...'] = 'Over 1000 items, aborting normalization';
+					break;
+				}
+				$normalized[$key] = $this->normalize($value);
+			}
+
+			//return $normalized;
+			return $this->toJson($normalized, true);
+		}
+
+		if (is_object($data)) {
+			if ($data instanceof \Exception) {
+				return $this->normalizeException($data);
+			}
+
+			$arrayObject = new \ArrayObject($data);
+			$serializedObject = $arrayObject->getArrayCopy();
+			return sprintf("[object] (%s: %s)", get_class($data), $this->toJson($serializedObject, true));
+		}
+
+		if (is_resource($data)) {
+			return '[resource]';
+		}
+
+		return '[unknown(' . gettype($data) . ')]';
+	}
+
+	private function normalizeException(\Exception $e) {
+		$data = array(
+			'class'   => get_class($e),
+			'message' => $e->getMessage(),
+			'file'    => $e->getFile() . ':' . $e->getLine(),
+		);
+		$trace = $e->getTrace();
+		foreach ($trace as $frame) {
+			if (isset($frame['file'])) {
+				$data['trace'][] = $frame['file'] . ':' . $frame['line'];
+			} else {
+				$data['trace'][] = $this->toJson($frame, true);
+			}
+		}
+		if ($previous = $e->getPrevious()) {
+			$data['previous'] = $this->normalizeException($previous);
+		}
+
+		return $this->toJson($data, true);
+	}
+
+	private function toJson($data, $ignoreErrors = false) {
+		// suppress json_encode errors since it's twitchy with some inputs
+		if ($ignoreErrors) {
+			if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+				return @json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+			}
+
+			return @json_encode($data);
+		}
+		if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
+			return json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		}
+
+		return json_encode($data);
 	}
 }
