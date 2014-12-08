@@ -10,6 +10,7 @@
 namespace OC\Settings\Controller;
 
 use \OC\Settings\Application;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 
 /**
@@ -158,7 +159,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => null,
 					'storageLocation' => '/home/user'
 				)
-			)
+			),
+			Http::STATUS_CREATED
 		);
 		$response = $this->usersController->create('foo', 'password', array());
 		$this->assertEquals($expectedResponse, $response);
@@ -217,7 +219,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'groups' => array('NewGroup', 'ExistingGroup'),
 					'storageLocation' => '/home/user'
 				)
-			)
+			),
+			Http::STATUS_CREATED
 		);
 		$response = $this->usersController->create('foo', 'password', array('NewGroup', 'ExistingGroup'));
 		$this->assertEquals($expectedResponse, $response);
@@ -238,7 +241,8 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => array(
 					'message' => 'Unable to create user.'
 				)
-			)
+			),
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->usersController->create('foo', 'password', array());
 		$this->assertEquals($expectedResponse, $response);
@@ -265,7 +269,8 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => array(
 					'message' => 'Unable to delete user.'
 				)
-			)
+			),
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->usersController->destroy('myself');
 		$this->assertEquals($expectedResponse, $response);
@@ -302,7 +307,45 @@ class UsersControllerTest extends \Test\TestCase {
 				'data' => array(
 					'username' => 'UserToDelete'
 				)
-			)
+			),
+			Http::STATUS_NO_CONTENT
+		);
+		$response = $this->usersController->destroy('UserToDelete');
+		$this->assertEquals($expectedResponse, $response);
+	}
+	/**
+	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
+	 * to test for subadmins. Thus the test always assumes you have admin permissions...
+	 */
+	public function testDestroyUnsuccessful() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->once())
+			->method('getUID')
+			->will($this->returnValue('Admin'));
+		$toDeleteUser = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$toDeleteUser
+			->expects($this->once())
+			->method('delete')
+			->will($this->returnValue(false));
+		$this->container['UserSession']
+			->method('getUser')
+			->will($this->returnValue($user));
+		$this->container['UserManager']
+			->method('get')
+			->with('UserToDelete')
+			->will($this->returnValue($toDeleteUser));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array(
+					'message' => 'Unable to delete user.'
+				)
+			),
+			Http::STATUS_FORBIDDEN
 		);
 		$response = $this->usersController->destroy('UserToDelete');
 		$this->assertEquals($expectedResponse, $response);

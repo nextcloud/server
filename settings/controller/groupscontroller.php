@@ -10,6 +10,7 @@
 
 namespace OC\Settings\Controller;
 
+use OC\AppFramework\Http;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IGroupManager;
@@ -85,7 +86,8 @@ class GroupsController extends Controller {
 					'data' => array(
 							'message' => (string)$this->l10n->t('Group already exists.')
 						)
-				)
+				),
+				Http::STATUS_CONFLICT
 			);
 		}
 		if($this->groupManager->createGroup($id)) {
@@ -95,7 +97,8 @@ class GroupsController extends Controller {
 					'data' => array(
 						'groupname' => $id
 					)
-				)
+				),
+				Http::STATUS_CREATED
 			);
 		}
 
@@ -105,7 +108,8 @@ class GroupsController extends Controller {
 				'data' => array(
 					'message' => (string)$this->l10n->t('Unable to add group.')
 				)
-			)
+			),
+			Http::STATUS_FORBIDDEN
 		);
 	}
 
@@ -123,7 +127,8 @@ class GroupsController extends Controller {
 						'data' => array(
 							'groupname' => $id
 						)
-					)
+					),
+					Http::STATUS_NO_CONTENT
 				);
 			}
 		}
@@ -132,8 +137,9 @@ class GroupsController extends Controller {
 				'status' => 'error',
 				'data' => array(
 					'message' => (string)$this->l10n->t('Unable to delete group.')
-				)
-			)
+				),
+			),
+			Http::STATUS_FORBIDDEN
 		);
 	}
 

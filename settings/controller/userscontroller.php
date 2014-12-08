@@ -10,6 +10,7 @@
 
 namespace OC\Settings\Controller;
 
+use OC\AppFramework\Http;
 use OC\User\User;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -164,7 +165,8 @@ class UsersController extends Controller {
 					'data' => array(
 						'message' => (string)$this->l10n->t('Unable to create user.')
 					)
-				)
+				),
+				Http::STATUS_FORBIDDEN
 			);
 		}
 
@@ -187,7 +189,8 @@ class UsersController extends Controller {
 					'groups' => $this->groupManager->getUserGroupIds($user),
 					'storageLocation' => $user->getHome()
 				)
-			)
+			),
+			Http::STATUS_CREATED
 		);
 
 	}
@@ -208,7 +211,8 @@ class UsersController extends Controller {
 					'data' => array(
 						'message' => (string)$this->l10n->t('Unable to delete user.')
 					)
-				)
+				),
+				Http::STATUS_FORBIDDEN
 			);
 		}
 
@@ -218,8 +222,10 @@ class UsersController extends Controller {
 				array(
 					'status' => 'error',
 					'data' => array(
-						'message' => (string)$this->l10n->t('Authentication error'))
-				)
+						'message' => (string)$this->l10n->t('Authentication error')
+					)
+				),
+				Http::STATUS_FORBIDDEN
 			);
 		}
 
@@ -232,7 +238,8 @@ class UsersController extends Controller {
 						'data' => array(
 							'username' => $id
 						)
-					)
+					),
+					Http::STATUS_NO_CONTENT
 				);
 			}
 		}
@@ -243,7 +250,8 @@ class UsersController extends Controller {
 				'data' => array(
 					'message' => (string)$this->l10n->t('Unable to delete user.')
 				)
-			)
+			),
+			Http::STATUS_FORBIDDEN
 		);
 
 	}

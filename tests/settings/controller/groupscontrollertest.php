@@ -11,6 +11,7 @@ namespace OC\Settings\Controller;
 
 use OC\Group\Group;
 use \OC\Settings\Application;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 
 /**
@@ -145,7 +146,15 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('ExistingGroup')
 			->will($this->returnValue(true));
 
-		$expectedResponse = new DataResponse(array('status' => 'error', 'data' => array('message' => 'Group already exists.')));
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array(
+					'message' => 'Group already exists.'
+				)
+			),
+			Http::STATUS_CONFLICT
+		);
 		$response = $this->groupsController->create('ExistingGroup');
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -162,7 +171,13 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('NewGroup')
 			->will($this->returnValue(true));
 
-		$expectedResponse = new DataResponse(array('status' => 'success', 'data' => array('groupname' => 'NewGroup')));
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'success',
+				'data' => array('groupname' => 'NewGroup')
+			),
+			Http::STATUS_CREATED
+		);
 		$response = $this->groupsController->create('NewGroup');
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -179,7 +194,13 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('NewGroup')
 			->will($this->returnValue(false));
 
-		$expectedResponse = new DataResponse(array('status' => 'error', 'data' => array('message' => 'Unable to add group.')));
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array('message' => 'Unable to add group.')
+			),
+			Http::STATUS_FORBIDDEN
+		);
 		$response = $this->groupsController->create('NewGroup');
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -197,7 +218,13 @@ class GroupsControllerTest extends \Test\TestCase {
 			->method('delete')
 			->will($this->returnValue(true));
 
-		$expectedResponse = new DataResponse(array('status' => 'success', 'data' => array('groupname' => 'ExistingGroup')));
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'success',
+				'data' => array('groupname' => 'ExistingGroup')
+			),
+			Http::STATUS_NO_CONTENT
+		);
 		$response = $this->groupsController->destroy('ExistingGroup');
 		$this->assertEquals($expectedResponse, $response);
 	}
@@ -209,7 +236,13 @@ class GroupsControllerTest extends \Test\TestCase {
 			->with('ExistingGroup')
 			->will($this->returnValue(null));
 
-		$expectedResponse = new DataResponse(array('status' => 'error', 'data' => array('message' => 'Unable to delete group.')));
+		$expectedResponse = new DataResponse(
+			array(
+				'status' => 'error',
+				'data' => array('message' => 'Unable to delete group.')
+			),
+			Http::STATUS_FORBIDDEN
+		);
 		$response = $this->groupsController->destroy('ExistingGroup');
 		$this->assertEquals($expectedResponse, $response);
 	}
