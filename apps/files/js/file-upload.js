@@ -175,7 +175,14 @@ OC.Upload = {
 	 * @param {function} callbacks.onCancel
 	 */
 	checkExistingFiles: function (selection, callbacks) {
-		// TODO check filelist before uploading and show dialog on conflicts, use callbacks
+		/*
+		$.each(selection.uploads, function(i, upload) {
+			var $row = OCA.Files.App.fileList.findFileEl(upload.files[0].name);
+			if ($row) {
+				// TODO check filelist before uploading and show dialog on conflicts, use callbacks
+			}
+		});
+		*/
 		callbacks.onNoConflicts(selection);
 	},
 
@@ -417,11 +424,15 @@ OC.Upload = {
 						data.textStatus = 'servererror';
 						data.errorThrown = t('files', 'Could not get result from server.');
 						fu._trigger('fail', e, data);
+					} else if (result[0].status === 'readonly') {
+						var original = result[0];
+						var replacement = data.files[0];
+						OC.dialogs.fileexists(data, original, replacement, OC.Upload);
 					} else if (result[0].status === 'existserror') {
 						//show "file already exists" dialog
 						var original = result[0];
 						var replacement = data.files[0];
-						OC.dialogs.fileexists(data, original, replacement, OC.Upload, fu);
+						OC.dialogs.fileexists(data, original, replacement, OC.Upload);
 					} else if (result[0].status !== 'success') {
 						//delete data.jqXHR;
 						data.textStatus = 'servererror';

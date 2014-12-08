@@ -117,6 +117,12 @@ if (strpos($dir, '..') === false) {
 	$fileCount = count($files['name']);
 	for ($i = 0; $i < $fileCount; $i++) {
 
+		if (isset($_POST['resolution'])) {
+			$resolution = $_POST['resolution'];
+		} else {
+			$resolution = null;
+		}
+
 		// target directory for when uploading folders
 		$relativePath = '';
 		if(!empty($_POST['file_directory'])) {
@@ -124,7 +130,7 @@ if (strpos($dir, '..') === false) {
 		}
 
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
-		if (isset($_POST['resolution']) && $_POST['resolution']==='autorename') {
+		if ($resolution === 'autorename') {
 			// append a number in brackets like 'filename (2).ext'
 			$target = OCP\Files::buildNotExistingFileName(stripslashes($dir . $relativePath), $files['name'][$i]);
 		} else {
@@ -141,9 +147,12 @@ if (strpos($dir, '..') === false) {
 		}
 		$returnedDir = \OC\Files\Filesystem::normalizePath($returnedDir);
 
-		if ( ! \OC\Files\Filesystem::file_exists($target)
-			|| (isset($_POST['resolution']) && $_POST['resolution']==='replace')
-		) {
+
+		$exists = \OC\Files\Filesystem::file_exists($target);
+		if ($exists) {
+			$updatable = \OC\Files\Filesystem::isUpdatable($target);
+		}
+		if ( ! $exists || ($updatable && $resolution === 'replace' ) ) {
 			// upload and overwrite file
 			try
 			{
@@ -181,8 +190,11 @@ if (strpos($dir, '..') === false) {
 				$error = $l->t('Upload failed. Could not get file info.');
 			} else {
 				$data = \OCA\Files\Helper::formatFileInfo($meta);
-				$data['permissions'] = $data['permissions'] & $allowedPermissions;
-				$data['status'] = 'existserror';
+				if ($updatable) {
+					$data['status'] = 'existserror';
+				} else {
+					$data['status'] = 'readonly';
+				}
 				$data['originalname'] = $files['tmp_name'][$i];
 				$data['uploadMaxFilesize'] = $maxUploadFileSize;
 				$data['maxHumanFilesize'] = $maxHumanFileSize;
