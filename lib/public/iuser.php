@@ -69,6 +69,13 @@ interface IUser {
 	public function getHome();
 
 	/**
+	 * Get the name of the backend class the user is connected with
+	 *
+	 * @return string
+	 */
+	public function getBackendClassName();
+
+	/**
 	 * check if the backend allows the user to change his avatar on Personal page
 	 *
 	 * @return bool

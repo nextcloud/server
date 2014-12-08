@@ -216,6 +216,13 @@ class User extends \Test\TestCase {
 		$this->assertEquals('/home/foo', $user->getHome());
 	}
 
+	public function testGetBackendClassName() {
+		$user = new \OC\User\User('foo', new \OC_User_Dummy());
+		$this->assertEquals('OC_User_Dummy', $user->getBackendClassName());
+		$user = new \OC\User\User('foo', new \OC_User_Database());
+		$this->assertEquals('OC_User_Database', $user->getBackendClassName());
+	}
+
 	public function testGetHomeNotSupported() {
 		/**
 		 * @var \OC_User_Backend | \PHPUnit_Framework_MockObject_MockObject $backend
