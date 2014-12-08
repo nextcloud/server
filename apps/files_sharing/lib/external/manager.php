@@ -50,14 +50,8 @@ class Manager {
 	public function addShare($remote, $token, $password, $name, $owner) {
 		$user = $this->userSession->getUser();
 		if ($user) {
-			$query = $this->connection->prepare('
-				INSERT INTO `*PREFIX*share_external`
-					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-			');
 			$mountPoint = Filesystem::normalizePath('/' . $name);
-			$hash = md5($mountPoint);
-			$query->execute(array($remote, $token, $password, $name, $owner, $user->getUID(), $mountPoint, $hash));
+			\OCA\Files_Sharing\Helper::addServer2ServerShare($remote, $token, $name, $mountPoint, $owner, $user->getUID(), $password, -1, true);
 
 			$options = array(
 				'remote' => $remote,
@@ -81,9 +75,9 @@ class Manager {
 			$query = $this->connection->prepare('
 				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
 				FROM `*PREFIX*share_external`
-				WHERE `user` = ?
+				WHERE `user` = ? AND `accepted` = ?
 			');
-			$query->execute(array($user->getUID()));
+			$query->execute(array($user->getUID(), 1));
 
 			while ($row = $query->fetch()) {
 				$row['manager'] = $this;

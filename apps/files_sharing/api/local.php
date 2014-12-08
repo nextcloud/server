@@ -1,6 +1,6 @@
 <?php
 /**
- * ownCloud
+ * ownCloud - OCS API for local shares
  *
  * @author Bjoern Schiessle
  * @copyright 2013 Bjoern Schiessle schiessle@owncloud.com
@@ -20,9 +20,9 @@
  *
  */
 
-namespace OCA\Files\Share;
+namespace OCA\Files_Sharing\API;
 
-class Api {
+class Local {
 
 	/**
 	 * get all shares

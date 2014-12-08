@@ -23,6 +23,12 @@
 				<comments>Url of the remove owncloud instance</comments>
 			</field>
 			<field>
+				<name>remote_id</name>
+				<type>integer</type>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+			<field>
 				<name>share_token</name>
 				<type>text</type>
 				<notnull>true</notnull>
@@ -32,7 +38,7 @@
 			<field>
 				<name>password</name>
 				<type>text</type>
-				<notnull>true</notnull>
+				<notnull>false</notnull>
 				<length>64</length>
 				<comments>Optional password for the public share</comments>
 			</field>
@@ -70,6 +76,13 @@
 				<notnull>true</notnull>
 				<length>32</length>
 				<comments>md5 hash of the mountpoint</comments>
+			</field>
+			<field>
+				<name>accepted</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
 			</field>
 			<index>
 				<name>sh_external_user</name>
