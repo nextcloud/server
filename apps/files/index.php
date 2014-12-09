@@ -120,6 +120,7 @@ $tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 $tmpl->assign('isPublic', false);
 $tmpl->assign("encryptedFiles", \OCP\Util::encryptedFiles());
 $tmpl->assign("mailNotificationEnabled", $config->getAppValue('core', 'shareapi_allow_mail_notification', 'no'));
+$tmpl->assign("mailPublicNotificationEnabled", $config->getAppValue('core', 'shareapi_allow_public_notification', 'no'));
 $tmpl->assign("allowShareWithLink", $config->getAppValue('core', 'shareapi_allow_links', 'yes'));
 $tmpl->assign("encryptionInitStatus", $encryptionInitStatus);
 $tmpl->assign('appNavigation', $nav);
