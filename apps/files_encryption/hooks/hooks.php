@@ -502,7 +502,7 @@ class Hooks {
 	public static function preDisable($params) {
 		if ($params['app'] === 'files_encryption') {
 
-			\OC_Preferences::deleteAppFromAllUsers('files_encryption');
+			\OC::$server->getConfig()->deleteAppFromAllUsers('files_encryption');
 
 			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
 			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);

@@ -37,6 +37,7 @@ namespace OCP;
 /**
  * This class provides functions to read and write configuration data.
  * configuration can be on a system, application or user level
+ * @deprecated use methods of \OCP\IConfig
  */
 class Config {
 	/**
@@ -44,12 +45,13 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $default = null default value
 	 * @return mixed the value or $default
+	 * @deprecated use method getSystemValue of \OCP\IConfig
 	 *
 	 * This function gets the value from config.php. If it does not exist,
 	 * $default will be returned.
 	 */
 	public static function getSystemValue( $key, $default = null ) {
-		return \OC_Config::getValue( $key, $default );
+		return \OC::$server->getConfig()->getSystemValue( $key, $default );
 	}
 
 	/**
@@ -57,13 +59,14 @@ class Config {
 	 * @param string $key key
 	 * @param mixed $value value
 	 * @return bool
+	 * @deprecated use method setSystemValue of \OCP\IConfig
 	 *
 	 * This function sets the value and writes the config.php. If the file can
 	 * not be written, false will be returned.
 	 */
 	public static function setSystemValue( $key, $value ) {
 		try {
-			\OC_Config::setValue( $key, $value );
+			\OC::$server->getConfig()->setSystemValue( $key, $value );
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -73,11 +76,12 @@ class Config {
 	/**
 	 * Deletes a value from config.php
 	 * @param string $key key
+	 * @deprecated use method deleteSystemValue of \OCP\IConfig
 	 *
 	 * This function deletes the value from config.php.
 	 */
 	public static function deleteSystemValue( $key ) {
-		return \OC_Config::deleteKey( $key );
+		\OC::$server->getConfig()->deleteSystemValue( $key );
 	}
 
 	/**
@@ -86,12 +90,13 @@ class Config {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
+	 * @deprecated use method getAppValue of \OCP\IConfig
 	 *
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
 	public static function getAppValue( $app, $key, $default = null ) {
-		return \OC_Appconfig::getValue( $app, $key, $default );
+		return \OC::$server->getConfig()->getAppValue( $app, $key, $default );
 	}
 
 	/**
@@ -100,12 +105,13 @@ class Config {
 	 * @param string $key key
 	 * @param string $value value
 	 * @return boolean true/false
+	 * @deprecated use method setAppValue of \OCP\IConfig
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
 	public static function setAppValue( $app, $key, $value ) {
 		try {
-			\OC_Appconfig::setValue( $app, $key, $value );
+			\OC::$server->getConfig()->setAppValue( $app, $key, $value );
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -119,12 +125,13 @@ class Config {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
+	 * @deprecated use method getUserValue of \OCP\IConfig
 	 *
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
 	 */
 	public static function getUserValue( $user, $app, $key, $default = null ) {
-		return \OC_Preferences::getValue( $user, $app, $key, $default );
+		return \OC::$server->getConfig()->getUserValue( $user, $app, $key, $default );
 	}
 
 	/**
@@ -134,13 +141,14 @@ class Config {
 	 * @param string $key key
 	 * @param string $value value
 	 * @return bool
+	 * @deprecated use method setUserValue of \OCP\IConfig
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
 	public static function setUserValue( $user, $app, $key, $value ) {
 		try {
-			\OC_Preferences::setValue( $user, $app, $key, $value );
+			\OC::$server->getConfig()->setUserValue( $user, $app, $key, $value );
 		} catch (\Exception $e) {
 			return false;
 		}

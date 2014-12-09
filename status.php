@@ -25,8 +25,10 @@ try {
 
 	require_once 'lib/base.php';
 
-	$installed = OC_Config::getValue('installed') == 1;
-	$maintenance = OC_Config::getValue('maintenance', false);
+	$systemConfig = \OC::$server->getSystemConfig();
+
+	$installed = $systemConfig->getValue('installed') == 1;
+	$maintenance = $systemConfig->getValue('maintenance', false);
 	$values=array(
 		'installed'=>$installed,
 		'maintenance' => $maintenance,

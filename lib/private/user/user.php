@@ -11,6 +11,7 @@ namespace OC\User;
 
 use OC\Hooks\Emitter;
 use OCP\IUser;
+use OCP\IConfig;
 
 class User implements IUser {
 	/**
@@ -49,7 +50,7 @@ class User implements IUser {
 	private $lastLogin;
 
 	/**
-	 * @var \OC\AllConfig $config
+	 * @var \OCP\IConfig $config
 	 */
 	private $config;
 
@@ -57,9 +58,9 @@ class User implements IUser {
 	 * @param string $uid
 	 * @param \OC_User_Interface $backend
 	 * @param \OC\Hooks\Emitter $emitter
-	 * @param \OC\AllConfig $config
+	 * @param \OCP\IConfig $config
 	 */
-	public function __construct($uid, $backend, $emitter = null, $config = null) {
+	public function __construct($uid, $backend, $emitter = null, IConfig $config = null) {
 		$this->uid = $uid;
 		$this->backend = $backend;
 		$this->emitter = $emitter;
@@ -67,10 +68,11 @@ class User implements IUser {
 		if ($this->config) {
 			$enabled = $this->config->getUserValue($uid, 'core', 'enabled', 'true');
 			$this->enabled = ($enabled === 'true');
+			$this->lastLogin = $this->config->getUserValue($uid, 'login', 'lastLogin', 0);
 		} else {
 			$this->enabled = true;
+			$this->lastLogin = \OC::$server->getConfig()->getUserValue($uid, 'login', 'lastLogin', 0);
 		}
-		$this->lastLogin = \OC_Preferences::getValue($uid, 'login', 'lastLogin', 0);
 	}
 
 	/**
@@ -139,7 +141,7 @@ class User implements IUser {
 	 */
 	public function updateLastLoginTimestamp() {
 		$this->lastLogin = time();
-		\OC_Preferences::setValue(
+		\OC::$server->getConfig()->setUserValue(
 			$this->uid, 'login', 'lastLogin', $this->lastLogin);
 	}
 
@@ -162,7 +164,7 @@ class User implements IUser {
 				\OC_Group::removeFromGroup($this->uid, $i);
 			}
 			// Delete the user's keys in preferences
-			\OC_Preferences::deleteUser($this->uid);
+			\OC::$server->getConfig()->deleteAllUserValues($this->uid);
 
 			// Delete user files in /data/
 			\OC_Helper::rmdirr(\OC_User::getHome($this->uid));

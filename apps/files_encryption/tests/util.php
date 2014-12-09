@@ -617,7 +617,9 @@ class Test_Encryption_Util extends \OCA\Files_Encryption\Tests\TestCase {
 	 * @return boolean
 	 */
 	private function setMigrationStatus($status, $user) {
-		return \OC_Preferences::setValue($user, 'files_encryption', 'migration_status', (string)$status);
+		\OC::$server->getConfig()->setUserValue($user, 'files_encryption', 'migration_status', (string)$status);
+		// the update will definitely be executed -> return value is always true
+		return true;
 	}
 
 }

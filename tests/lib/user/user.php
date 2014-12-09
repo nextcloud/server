@@ -9,7 +9,6 @@
 
 namespace Test\User;
 
-use OC\AllConfig;
 use OC\Hooks\PublicEmitter;
 
 class User extends \Test\TestCase {
@@ -228,10 +227,19 @@ class User extends \Test\TestCase {
 			->method('implementsActions')
 			->will($this->returnValue(false));
 
-		$allConfig = new AllConfig();
+		$allConfig = $this->getMockBuilder('\OCP\IConfig')
+			->disableOriginalConstructor()
+			->getMock();
+		$allConfig->expects($this->any())
+			->method('getUserValue')
+			->will($this->returnValue(true));
+		$allConfig->expects($this->any())
+			->method('getSystemValue')
+			->with($this->equalTo('datadirectory'))
+			->will($this->returnValue('arbitrary/path'));
 
 		$user = new \OC\User\User('foo', $backend, null, $allConfig);
-		$this->assertEquals(\OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data") . '/foo', $user->getHome());
+		$this->assertEquals('arbitrary/path/foo', $user->getHome());
 	}
 
 	public function testCanChangePassword() {

@@ -40,24 +40,6 @@ class Config {
 	}
 
 	/**
-	 * Enables or disables the debug mode
-	 * @param bool $state True to enable, false to disable
-	 */
-	public function setDebugMode($state) {
-		$this->debugMode = $state;
-		$this->writeData();
-		$this->cache;
-	}
-
-	/**
-	 * Returns whether the debug mode is enabled or disabled
-	 * @return bool True when enabled, false otherwise
-	 */
-	public function isDebugMode() {
-		return $this->debugMode;
-	}
-
-	/**
 	 * Lists all available config keys
 	 * @return array an array of key names
 	 *

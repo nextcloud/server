@@ -167,8 +167,13 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('NavigationManager', function ($c) {
 			return new \OC\NavigationManager();
 		});
-		$this->registerService('AllConfig', function ($c) {
-			return new \OC\AllConfig();
+		$this->registerService('AllConfig', function (Server $c) {
+			return new \OC\AllConfig(
+				$c->getSystemConfig()
+			);
+		});
+		$this->registerService('SystemConfig', function ($c) {
+			return new \OC\SystemConfig();
 		});
 		$this->registerService('AppConfig', function ($c) {
 			return new \OC\AppConfig(\OC_DB::getConnection());
@@ -230,11 +235,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('DatabaseConnection', function (Server $c) {
 			$factory = new \OC\DB\ConnectionFactory();
-			$type = $c->getConfig()->getSystemValue('dbtype', 'sqlite');
+			$systemConfig = $c->getSystemConfig();
+			$type = $systemConfig->getValue('dbtype', 'sqlite');
 			if (!$factory->isValidType($type)) {
 				throw new \OC\DatabaseException('Invalid database type');
 			}
-			$connectionParams = $factory->createConnectionParams($c->getConfig());
+			$connectionParams = $factory->createConnectionParams($systemConfig);
 			$connection = $factory->getConnection($type, $connectionParams);
 			$connection->getConfiguration()->setSQLLogger($c->getQueryLogger());
 			return $connection;
@@ -443,6 +449,15 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getConfig() {
 		return $this->query('AllConfig');
+	}
+
+	/**
+	 * For internal use only
+	 *
+	 * @return \OC\SystemConfig
+	 */
+	function getSystemConfig() {
+		return $this->query('SystemConfig');
 	}
 
 	/**

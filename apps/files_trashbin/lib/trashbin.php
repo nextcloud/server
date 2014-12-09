@@ -621,11 +621,13 @@ class Trashbin {
 	 * @return int available free space for trash bin
 	 */
 	private static function calculateFreeSpace($trashbinSize, $user) {
+		$config = \OC::$server->getConfig();
+
 		$softQuota = true;
-		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
+		$quota = $config->getUserValue($user, 'files', 'quota', null);
 		$view = new \OC\Files\View('/' . $user);
 		if ($quota === null || $quota === 'default') {
-			$quota = \OC::$server->getAppConfig()->getValue('files', 'default_quota');
+			$quota = $config->getAppValue('files', 'default_quota', null);
 		}
 		if ($quota === null || $quota === 'none') {
 			$quota = \OC\Files\Filesystem::free_space('/');

@@ -234,7 +234,7 @@ class Session extends \Test\TestCase {
 
 		//prepare login token
 		$token = 'goodToken';
-		\OC_Preferences::setValue('foo', 'login_token', $token, time());
+		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
 		$userSession = $this->getMock(
 			'\OC\User\Session',
@@ -282,7 +282,7 @@ class Session extends \Test\TestCase {
 
 		//prepare login token
 		$token = 'goodToken';
-		\OC_Preferences::setValue('foo', 'login_token', $token, time());
+		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
 		$userSession = new \OC\User\Session($manager, $session);
 		$granted = $userSession->loginWithCookie('foo', 'badToken');
@@ -323,7 +323,7 @@ class Session extends \Test\TestCase {
 
 		//prepare login token
 		$token = 'goodToken';
-		\OC_Preferences::setValue('foo', 'login_token', $token, time());
+		\OC::$server->getConfig()->setUserValue('foo', 'login_token', $token, time());
 
 		$userSession = new \OC\User\Session($manager, $session);
 		$granted = $userSession->loginWithCookie('foo', $token);

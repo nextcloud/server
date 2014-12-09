@@ -37,16 +37,14 @@
 namespace OC;
 
 use OCP\IDBConnection;
+use OCP\PreConditionNotMetException;
 
 
 /**
  * This class provides an easy way for storing user preferences.
+ * @deprecated use \OCP\IConfig methods instead
  */
 class Preferences {
-	/**
-	 * @var \OC\DB\Connection
-	 */
-	protected $conn;
 
 	/**
 	 * 3 dimensional array with the following structure:
@@ -60,65 +58,14 @@ class Preferences {
 	 */
 	protected $cache = array();
 
+	/** @var \OCP\IConfig */
+	protected $config;
+
 	/**
 	 * @param \OCP\IDBConnection $conn
 	 */
 	public function __construct(IDBConnection $conn) {
-		$this->conn = $conn;
-	}
-
-	/**
-	 * Get all users using the preferences
-	 * @return array an array of user ids
-	 *
-	 * This function returns a list of all users that have at least one entry
-	 * in the preferences table.
-	 */
-	public function getUsers() {
-		$query = 'SELECT DISTINCT `userid` FROM `*PREFIX*preferences`';
-		$result = $this->conn->executeQuery($query);
-
-		$users = array();
-		while ($userid = $result->fetchColumn()) {
-			$users[] = $userid;
-		}
-
-		return $users;
-	}
-
-	/**
-	 * @param string $user
-	 * @return array[]
-	 */
-	protected function getUserValues($user) {
-		if (isset($this->cache[$user])) {
-			return $this->cache[$user];
-		}
-		$data = array();
-		$query = 'SELECT `appid`, `configkey`, `configvalue` FROM `*PREFIX*preferences` WHERE `userid` = ?';
-		$result = $this->conn->executeQuery($query, array($user));
-		while ($row = $result->fetch()) {
-			$app = $row['appid'];
-			if (!isset($data[$app])) {
-				$data[$app] = array();
-			}
-			$data[$app][$row['configkey']] = $row['configvalue'];
-		}
-		$this->cache[$user] = $data;
-		return $data;
-	}
-
-	/**
-	 * Get all apps of an user
-	 * @param string $user user
-	 * @return integer[] with app ids
-	 *
-	 * This function returns a list of all apps of the user that have at least
-	 * one entry in the preferences table.
-	 */
-	public function getApps($user) {
-		$data = $this->getUserValues($user);
-		return array_keys($data);
+		$this->config = \OC::$server->getConfig();
 	}
 
 	/**
@@ -126,17 +73,13 @@ class Preferences {
 	 * @param string $user user
 	 * @param string $app the app we are looking for
 	 * @return array an array of key names
+	 * @deprecated use getUserKeys of \OCP\IConfig instead
 	 *
 	 * This function gets all keys of an app of an user. Please note that the
 	 * values are not returned.
 	 */
 	public function getKeys($user, $app) {
-		$data = $this->getUserValues($user);
-		if (isset($data[$app])) {
-			return array_keys($data[$app]);
-		} else {
-			return array();
-		}
+		return $this->config->getUserKeys($user, $app);
 	}
 
 	/**
@@ -146,17 +89,13 @@ class Preferences {
 	 * @param string $key key
 	 * @param string $default = null, default value if the key does not exist
 	 * @return string the value or $default
+	 * @deprecated use getUserValue of \OCP\IConfig instead
 	 *
 	 * This function gets a value from the preferences table. If the key does
 	 * not exist the default value will be returned
 	 */
 	public function getValue($user, $app, $key, $default = null) {
-		$data = $this->getUserValues($user);
-		if (isset($data[$app]) and isset($data[$app][$key])) {
-			return $data[$app][$key];
-		} else {
-			return $default;
-		}
+		return $this->config->getUserValue($user, $app, $key, $default);
 	}
 
 	/**
@@ -167,59 +106,18 @@ class Preferences {
 	 * @param string $value value
 	 * @param string $preCondition only set value if the key had a specific value before
 	 * @return bool true if value was set, otherwise false
+	 * @deprecated use setUserValue of \OCP\IConfig instead
 	 *
 	 * Adds a value to the preferences. If the key did not exist before, it
 	 * will be added automagically.
 	 */
 	public function setValue($user, $app, $key, $value, $preCondition = null) {
-		// Check if the key does exist
-		$query = 'SELECT `configvalue` FROM `*PREFIX*preferences`'
-			. ' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
-		$oldValue = $this->conn->fetchColumn($query, array($user, $app, $key));
-		$exists = $oldValue !== false;
-
-		if($oldValue === strval($value)) {
-			// no changes
+		try {
+			$this->config->setUserValue($user, $app, $key, $value, $preCondition);
 			return true;
+		} catch(PreConditionNotMetException $e) {
+			return false;
 		}
-		
-		$affectedRows = 0;
-
-		if (!$exists && $preCondition === null) {
-			$data = array(
-				'userid' => $user,
-				'appid' => $app,
-				'configkey' => $key,
-				'configvalue' => $value,
-			);
-			$affectedRows = $this->conn->insert('*PREFIX*preferences', $data);
-		} elseif ($exists) {
-			$data = array($value, $user, $app, $key);
-			$sql  = "UPDATE `*PREFIX*preferences` SET `configvalue` = ?"
-					. " WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?";
-
-			if ($preCondition !== null) {
-				if (\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
-					//oracle hack: need to explicitly cast CLOB to CHAR for comparison
-					$sql .= " AND to_char(`configvalue`) = ?";
-				} else {
-					$sql .= " AND `configvalue` = ?";
-				}
-				$data[] = $preCondition;
-			}
-			$affectedRows = $this->conn->executeUpdate($sql, $data);
-		}
-
-		// only add to the cache if we already loaded data for the user
-		if ($affectedRows > 0 && isset($this->cache[$user])) {
-			if (!isset($this->cache[$user][$app])) {
-				$this->cache[$user][$app] = array();
-			}
-			$this->cache[$user][$app][$key] = $value;
-		}
-
-		return ($affectedRows > 0) ? true : false;
-
 	}
 
 	/**
@@ -228,35 +126,10 @@ class Preferences {
 	 * @param string $key
 	 * @param array $users
 	 * @return array Mapped values: userid => value
+	 * @deprecated use getUserValueForUsers of \OCP\IConfig instead
 	 */
 	public function getValueForUsers($app, $key, $users) {
-		if (empty($users) || !is_array($users)) {
-			return array();
-		}
-
-		$chunked_users = array_chunk($users, 50, true);
-		$placeholders_50 = implode(',', array_fill(0, 50, '?'));
-
-		$userValues = array();
-		foreach ($chunked_users as $chunk) {
-			$queryParams = $chunk;
-			array_unshift($queryParams, $key);
-			array_unshift($queryParams, $app);
-
-			$placeholders = (sizeof($chunk) == 50) ? $placeholders_50 : implode(',', array_fill(0, sizeof($chunk), '?'));
-
-			$query = 'SELECT `userid`, `configvalue` '
-				. ' FROM `*PREFIX*preferences` '
-				. ' WHERE `appid` = ? AND `configkey` = ?'
-				. ' AND `userid` IN (' . $placeholders . ')';
-			$result = $this->conn->executeQuery($query, $queryParams);
-
-			while ($row = $result->fetch()) {
-				$userValues[$row['userid']] = $row['configvalue'];
-			}
-		}
-
-		return $userValues;
+		return $this->config->getUserValueForUsers($app, $key, $users);
 	}
 
 	/**
@@ -265,28 +138,10 @@ class Preferences {
 	 * @param string $key
 	 * @param string $value
 	 * @return array
+	 * @deprecated use getUsersForUserValue of \OCP\IConfig instead
 	 */
 	public function getUsersForValue($app, $key, $value) {
-		$users = array();
-
-		$query = 'SELECT `userid` '
-			. ' FROM `*PREFIX*preferences` '
-			. ' WHERE `appid` = ? AND `configkey` = ? AND ';
-
-		if (\OC_Config::getValue( 'dbtype', 'sqlite' ) === 'oci') {
-			//FIXME oracle hack: need to explicitly cast CLOB to CHAR for comparison
-			$query .= ' to_char(`configvalue`)= ?';
-		} else {
-			$query .= ' `configvalue` = ?';
-		}
-
-		$result = $this->conn->executeQuery($query, array($app, $key, $value));
-
-		while ($row = $result->fetch()) {
-			$users[] = $row['userid'];
-		}
-
-		return $users;
+		return $this->config->getUsersForUserValue($app, $key, $value);
 	}
 
 	/**
@@ -294,72 +149,33 @@ class Preferences {
 	 * @param string $user user
 	 * @param string $app app
 	 * @param string $key key
+	 * @deprecated use deleteUserValue of \OCP\IConfig instead
 	 *
 	 * Deletes a key.
 	 */
 	public function deleteKey($user, $app, $key) {
-		$where = array(
-			'userid' => $user,
-			'appid' => $app,
-			'configkey' => $key,
-		);
-		$this->conn->delete('*PREFIX*preferences', $where);
-
-		if (isset($this->cache[$user]) and isset($this->cache[$user][$app])) {
-			unset($this->cache[$user][$app][$key]);
-		}
-	}
-
-	/**
-	 * Remove app of user from preferences
-	 * @param string $user user
-	 * @param string $app app
-	 *
-	 * Removes all keys in preferences belonging to the app and the user.
-	 */
-	public function deleteApp($user, $app) {
-		$where = array(
-			'userid' => $user,
-			'appid' => $app,
-		);
-		$this->conn->delete('*PREFIX*preferences', $where);
-
-		if (isset($this->cache[$user])) {
-			unset($this->cache[$user][$app]);
-		}
+		$this->config->deleteUserValue($user, $app, $key);
 	}
 
 	/**
 	 * Remove user from preferences
 	 * @param string $user user
+	 * @deprecated use deleteAllUserValues of \OCP\IConfig instead
 	 *
 	 * Removes all keys in preferences belonging to the user.
 	 */
 	public function deleteUser($user) {
-		$where = array(
-			'userid' => $user,
-		);
-		$this->conn->delete('*PREFIX*preferences', $where);
-
-		unset($this->cache[$user]);
+		$this->config->deleteAllUserValues($user);
 	}
 
 	/**
 	 * Remove app from all users
 	 * @param string $app app
+	 * @deprecated use deleteAppFromAllUsers of \OCP\IConfig instead
 	 *
 	 * Removes all keys in preferences belonging to the app.
 	 */
 	public function deleteAppFromAllUsers($app) {
-		$where = array(
-			'appid' => $app,
-		);
-		$this->conn->delete('*PREFIX*preferences', $where);
-
-		foreach ($this->cache as &$userCache) {
-			unset($userCache[$app]);
-		}
+		$this->config->deleteAppFromAllUsers($app);
 	}
 }
-
-require_once __DIR__ . '/legacy/' . basename(__FILE__);

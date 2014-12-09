@@ -9,6 +9,7 @@ OC_Util::checkLoggedIn();
 
 $defaults = new OC_Defaults(); // initialize themable default strings and urls
 $certificateManager = \OC::$server->getCertificateManager();
+$config = \OC::$server->getConfig();
 
 // Highlight navigation entry
 OC_Util::addScript( 'settings', 'personal' );
@@ -16,7 +17,7 @@ OC_Util::addStyle( 'settings', 'settings' );
 \OC_Util::addVendorScript('strengthify/jquery.strengthify');
 \OC_Util::addVendorStyle('strengthify/strengthify');
 \OC_Util::addScript('files', 'jquery.fileupload');
-if (\OC_Config::getValue('enable_avatars', true) === true) {
+if ($config->getSystemValue('enable_avatars', true) === true) {
 	\OC_Util::addVendorScript('jcrop/js/jquery.Jcrop');
 	\OC_Util::addVendorStyle('jcrop/css/jquery.Jcrop');
 }
@@ -26,9 +27,9 @@ OC_App::setActiveNavigationEntry( 'personal' );
 
 $storageInfo=OC_Helper::getStorageInfo('/');
 
-$email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
+$email=$config->getUserValue(OC_User::getUser(), 'settings', 'email', '');
 
-$userLang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
+$userLang=$config->getUserValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
 
 //check if encryption was enabled in the past
@@ -74,9 +75,9 @@ usort( $languages, function ($a, $b) {
 
 //links to clients
 $clients = array(
-	'desktop' => OC_Config::getValue('customclient_desktop', $defaults->getSyncClientUrl()),
-	'android' => OC_Config::getValue('customclient_android', $defaults->getAndroidClientUrl()),
-	'ios'     => OC_Config::getValue('customclient_ios', $defaults->getiOSClientUrl())
+	'desktop' => $config->getSystemValue('customclient_desktop', $defaults->getSyncClientUrl()),
+	'android' => $config->getSystemValue('customclient_android', $defaults->getAndroidClientUrl()),
+	'ios'     => $config->getSystemValue('customclient_ios', $defaults->getiOSClientUrl())
 );
 
 // Return template
@@ -95,7 +96,7 @@ $tmpl->assign('displayName', OC_User::getDisplayName());
 $tmpl->assign('enableDecryptAll' , $enableDecryptAll);
 $tmpl->assign('backupKeysExists' , $backupKeysExists);
 $tmpl->assign('filesStillEncrypted' , $filesStillEncrypted);
-$tmpl->assign('enableAvatars', \OC_Config::getValue('enable_avatars', true));
+$tmpl->assign('enableAvatars', $config->getSystemValue('enable_avatars', true));
 $tmpl->assign('avatarChangeSupported', OC_User::canUserChangeAvatar(OC_User::getUser()));
 $tmpl->assign('certs', $certificateManager->listCertificates());
 

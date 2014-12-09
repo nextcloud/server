@@ -225,7 +225,7 @@ class Util {
 	 */
 	public function recoveryEnabledForUser() {
 
-		$recoveryMode = \OC_Preferences::getValue($this->userId, 'files_encryption', 'recovery_enabled', '0');
+		$recoveryMode = \OC::$server->getConfig()->getUserValue($this->userId, 'files_encryption', 'recovery_enabled', '0');
 
 		return ($recoveryMode === '1') ? true : false;
 
@@ -239,7 +239,12 @@ class Util {
 	public function setRecoveryForUser($enabled) {
 
 		$value = $enabled ? '1' : '0';
-		return \OC_Preferences::setValue($this->userId, 'files_encryption', 'recovery_enabled', $value);
+		try {
+			\OC::$server->getConfig()->setUserValue($this->userId, 'files_encryption', 'recovery_enabled', $value);
+			return true;
+		} catch(\OCP\PreConditionNotMetException $e) {
+			return false;
+		}
 
 	}
 
@@ -1102,7 +1107,12 @@ class Util {
 		// convert to string if preCondition is set
 		$preCondition = ($preCondition === null) ? null : (string)$preCondition;
 
-		return \OC_Preferences::setValue($this->userId, 'files_encryption', 'migration_status', (string)$status, $preCondition);
+		try {
+			\OC::$server->getConfig()->setUserValue($this->userId, 'files_encryption', 'migration_status', (string)$status, $preCondition);
+			return true;
+		} catch(\OCP\PreConditionNotMetException $e) {
+			return false;
+		}
 
 	}
 
@@ -1154,9 +1164,9 @@ class Util {
 
 		$migrationStatus = false;
 		if (\OCP\User::userExists($this->userId)) {
-			$migrationStatus = \OC_Preferences::getValue($this->userId, 'files_encryption', 'migration_status');
+			$migrationStatus = \OC::$server->getConfig()->getUserValue($this->userId, 'files_encryption', 'migration_status', null);
 			if ($migrationStatus === null) {
-				\OC_Preferences::setValue($this->userId, 'files_encryption', 'migration_status', (string)self::MIGRATION_OPEN);
+				\OC::$server->getConfig()->setUserValue($this->userId, 'files_encryption', 'migration_status', (string)self::MIGRATION_OPEN);
 				$migrationStatus = self::MIGRATION_OPEN;
 			}
 		}
