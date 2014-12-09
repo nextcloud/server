@@ -30,6 +30,11 @@ class Updater extends BasicEmitter {
 	 * @var \OC\HTTPHelper $helper;
 	 */
 	private $httpHelper;
+	
+	/**
+	 * @var \OCP\IAppConfig;
+	 */
+	private $config;
 
 	private $simulateStepEnabled;
 
@@ -38,9 +43,10 @@ class Updater extends BasicEmitter {
 	/**
 	 * @param \OC\Log $log
 	 */
-	public function __construct($httpHelper, $log = null) {
+	public function __construct($httpHelper, $config,  $log = null) {
 		$this->httpHelper = $httpHelper;
 		$this->log = $log;
+		$this->config = $config;
 		$this->simulateStepEnabled = true;
 		$this->updateStepEnabled = true;
 	}
@@ -75,23 +81,23 @@ class Updater extends BasicEmitter {
 	public function check($updaterUrl = null) {
 
 		// Look up the cache - it is invalidated all 30 minutes
-		if ((\OC_Appconfig::getValue('core', 'lastupdatedat') + 1800) > time()) {
-			return json_decode(\OC_Appconfig::getValue('core', 'lastupdateResult'), true);
+		if (($this->config->getValue('core', 'lastupdatedat') + 1800) > time()) {
+			return json_decode($this->config->getValue('core', 'lastupdateResult'), true);
 		}
 
 		if (is_null($updaterUrl)) {
 			$updaterUrl = 'https://apps.owncloud.com/updater.php';
 		}
 
-		\OC_Appconfig::setValue('core', 'lastupdatedat', time());
+		$this->config->setValue('core', 'lastupdatedat', time());
 
-		if (\OC_Appconfig::getValue('core', 'installedat', '') == '') {
-			\OC_Appconfig::setValue('core', 'installedat', microtime(true));
+		if ($this->config->getValue('core', 'installedat', '') == '') {
+			$this->config->setValue('core', 'installedat', microtime(true));
 		}
 
 		$version = \OC_Util::getVersion();
-		$version['installed'] = \OC_Appconfig::getValue('core', 'installedat');
-		$version['updated'] = \OC_Appconfig::getValue('core', 'lastupdatedat');
+		$version['installed'] = $this->config->getValue('core', 'installedat');
+		$version['updated'] = $this->config->getValue('core', 'lastupdatedat');
 		$version['updatechannel'] = \OC_Util::getChannel();
 		$version['edition'] = \OC_Util::getEditionString();
 		$version['build'] = \OC_Util::getBuild();
@@ -119,7 +125,7 @@ class Updater extends BasicEmitter {
 		}
 
 		// Cache the result
-		\OC_Appconfig::setValue('core', 'lastupdateResult', json_encode($data));
+		$this->config->setValue('core', 'lastupdateResult', json_encode($data));
 		return $tmp;
 	}
 
@@ -219,7 +225,7 @@ class Updater extends BasicEmitter {
 			$repair->run();
 
 			//Invalidate update feed
-			\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
+			$this->config->setValue('core', 'lastupdatedat', 0);
 
 			// only set the final version if everything went well
 			\OC_Config::setValue('version', implode('.', \OC_Util::getVersion()));

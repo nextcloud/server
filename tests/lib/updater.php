@@ -27,13 +27,28 @@ class UpdaterTest extends \Test\TestCase {
 	 * @dataProvider versionCompatibilityTestData
 	 */
 	public function testIsUpgradePossible($oldVersion, $newVersion, $result) {
-		$updater = new Updater(\OC::$server->getHTTPHelper());
+		$updater = new Updater(\OC::$server->getHTTPHelper(), \OC::$server->getConfig());
 		$this->assertSame($result, $updater->isUpgradePossible($oldVersion, $newVersion));
 	}
 	
+	public function testBrokenXmlResponse(){
+		$invalidUpdater = $this->getUpdaterMock('OMG!');
+		$invalidResult = $invalidUpdater->check();
+		$this->assertEmpty($invalidResult);
+	}
 	
-	public function testCheck(){
-		// Valid XML. Empty values
+	public function testEmptyResponse(){
+		$emptyUpdater = $this->getUpdaterMock('');
+		$emptyResult = $emptyUpdater->check();
+		$this->assertEmpty($emptyResult);
+		
+		// Error while fetching new contents e.g. too many redirects
+		$falseUpdater = $this->getUpdaterMock(false);
+		$falseResult = $falseUpdater->check();
+		$this->assertEmpty($falseResult);
+	}
+	
+	public function testValidEmptyXmlResponse(){
 		$updater = $this->getUpdaterMock(
 				'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
 		);
@@ -47,18 +62,9 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEmpty($result['versionstring']);
 		$this->assertEmpty($result['url']);
 		$this->assertEmpty($result['web']);
-		
-		// Empty feed
-		$emptyUpdater = $this->getUpdaterMock('');
-		$emptyResult = $emptyUpdater->check();
-		$this->assertEmpty($emptyResult);
-		
-		// Error while fetching new contents e.g. too many redirects
-		$falseUpdater = $this->getUpdaterMock(false);
-		$falseResult = $falseUpdater->check();
-		$this->assertEmpty($falseResult);
-		
-		// Valid XML. New version available
+	}
+	
+	public function testValidUpdateResponse(){
 		$newUpdater = $this->getUpdaterMock(
 				'<?xml version="1.0"?>
 <owncloud>
@@ -78,15 +84,14 @@ class UpdaterTest extends \Test\TestCase {
 		$this->assertEquals('ownCloud 7.0.3', $newResult['versionstring']);
 		$this->assertEquals('http://download.owncloud.org/community/owncloud-7.0.3.zip', $newResult['url']);
 		$this->assertEquals('http://owncloud.org/', $newResult['web']);
-		
-		// Invalid XML
-		$invalidUpdater = $this->getUpdaterMock('OMG!');
-		$invalidResult = $invalidUpdater->check();
-		$this->assertEmpty($invalidResult);
 	}
 	
 	protected function getUpdaterMock($content){
 		// Invalidate cache
+		$mockedAppConfig = $this->getMockBuilder('\OC\AppConfig')
+				->disableOriginalConstructor()
+				->getMock()
+		;
 		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		
 		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
@@ -97,7 +102,7 @@ class UpdaterTest extends \Test\TestCase {
 		$mockedHTTPHelper->method('getUrlContent')
 				->willReturn($content)
 		;
-		return new Updater($mockedHTTPHelper);
+		return new Updater($mockedHTTPHelper, $mockedAppConfig);
 	}
 
 }

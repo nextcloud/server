@@ -84,7 +84,7 @@ class Upgrade extends Command {
 
 		if(\OC::checkUpgrade(false)) {
 			$self = $this;
-			$updater = new Updater(\OC::$server->getHTTPHelper());
+			$updater = new Updater(\OC::$server->getHTTPHelper(), \OC::$server->getAppConfig());
 
 			$updater->setSimulateStepEnabled($simulateStepEnabled);
 			$updater->setUpdateStepEnabled($updateStepEnabled);
