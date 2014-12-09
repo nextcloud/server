@@ -164,6 +164,31 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 		return $msg;
 	}
 
+	/**
+	 * Drop a table from the database if it exists
+	 *
+	 * @param string $table table name without the prefix
+	 */
+	public function dropTable($table) {
+		$table = $this->tablePrefix . trim($table);
+		$schema = $this->getSchemaManager();
+		if($schema->tablesExist(array($table))) {
+			$schema->dropTable($table);
+		}
+	}
+
+	/**
+	 * Check if a table exists
+	 *
+	 * @param string $table table name without the prefix
+	 * @return bool
+	 */
+	public function tableExists($table){
+		$table = $this->tablePrefix . trim($table);
+		$schema = $this->getSchemaManager();
+		return $schema->tablesExist(array($table));
+	}
+
 	// internal use
 	/**
 	 * @param string $statement

@@ -263,16 +263,7 @@ class OC_DB {
 	 */
 	public static function dropTable($tableName) {
 		$connection = \OC::$server->getDatabaseConnection();
-		$tableName = OC_Config::getValue('dbtableprefix', 'oc_' ) . trim($tableName);
-
-		$connection->beginTransaction();
-
-		$platform = $connection->getDatabasePlatform();
-		$sql = $platform->getDropTableSQL($platform->quoteIdentifier($tableName));
-
-		$connection->executeQuery($sql);
-
-		$connection->commit();
+		$connection->dropTable($tableName);
 	}
 
 	/**
@@ -334,42 +325,7 @@ class OC_DB {
 	 * @throws \OC\DatabaseException
 	 */
 	public static function tableExists($table) {
-
-		$table = OC_Config::getValue('dbtableprefix', 'oc_' ) . trim($table);
-
-		$dbType = OC_Config::getValue( 'dbtype', 'sqlite' );
-		switch ($dbType) {
-			case 'sqlite':
-			case 'sqlite3':
-				$sql = "SELECT name FROM sqlite_master "
-					.  "WHERE type = 'table' AND name = ? "
-					.  "UNION ALL SELECT name FROM sqlite_temp_master "
-					.  "WHERE type = 'table' AND name = ?";
-				$result = \OC_DB::executeAudited($sql, array($table, $table));
-				break;
-			case 'mysql':
-				$sql = 'SHOW TABLES LIKE ?';
-				$result = \OC_DB::executeAudited($sql, array($table));
-				break;
-			case 'pgsql':
-				$sql = 'SELECT tablename AS table_name, schemaname AS schema_name '
-					.  'FROM pg_tables WHERE schemaname NOT LIKE \'pg_%\' '
-					.  'AND schemaname != \'information_schema\' '
-					.  'AND tablename = ?';
-				$result = \OC_DB::executeAudited($sql, array($table));
-				break;
-			case 'oci':
-				$sql = 'SELECT TABLE_NAME FROM USER_TABLES WHERE TABLE_NAME = ?';
-				$result = \OC_DB::executeAudited($sql, array($table));
-				break;
-			case 'mssql':
-				$sql = 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?';
-				$result = \OC_DB::executeAudited($sql, array($table));
-				break;
-			default:
-				throw new \OC\DatabaseException("Unknown database type: $dbType");
-		}
-
-		return $result->fetchOne() === $table;
+		$connection = \OC::$server->getDatabaseConnection();
+		return $connection->tableExists($table);
 	}
 }
