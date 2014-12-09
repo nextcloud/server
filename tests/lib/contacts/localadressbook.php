@@ -78,6 +78,9 @@ class SimpleUserForTesting implements \OCP\IUser {
 	public function getHome() {
 	}
 
+	public function getBackendClassName() {
+	}
+
 	public function canChangeAvatar() {
 	}
 
