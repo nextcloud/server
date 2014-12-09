@@ -54,6 +54,7 @@ OC.L10N.register(
     "(group)" : "(groep)",
     "Saved" : "Bewaard",
     "<b>Note:</b> " : "<b>Let op:</b> ",
+    "and" : "en",
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> Curl ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw systeembeheerder dit te installeren.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> FTP ondersteuning in PHP is niet geactiveerd of geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw beheerder dit te installeren.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Let op:</b> \"%s\" is niet geïnstalleerd. Mounten van %s is niet mogelijk. Vraag uw beheerder om dit te installeren.",

@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Files" : "फाइलें ",
-    "Share" : "साझा करें",
     "Error" : "त्रुटि",
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],

@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Unknown error" : "ਅਣਜਾਣ ਗਲਤੀ",
     "Files" : "ਫਾਇਲਾਂ",
-    "Share" : "ਸਾਂਝਾ ਕਰੋ",
     "Delete" : "ਹਟਾਓ",
     "Rename" : "ਨਾਂ ਬਦਲੋ",
     "Error" : "ਗਲਤੀ",

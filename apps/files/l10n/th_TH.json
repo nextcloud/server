@@ -18,7 +18,6 @@
     "Upload cancelled." : "การอัพโหลดถูกยกเลิก",
     "File upload is in progress. Leaving the page now will cancel the upload." : "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก",
     "{new_name} already exists" : "{new_name} มีอยู่แล้วในระบบ",
-    "Share" : "แชร์",
     "Delete" : "ลบ",
     "Unshare" : "ยกเลิกการแชร์",
     "Rename" : "เปลี่ยนชื่อ",

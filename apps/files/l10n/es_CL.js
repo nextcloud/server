@@ -3,7 +3,6 @@ OC.L10N.register(
     {
     "Unknown error" : "Error desconocido",
     "Files" : "Archivos",
-    "Share" : "Compartir",
     "Rename" : "Renombrar",
     "Error" : "Error",
     "_%n folder_::_%n folders_" : ["",""],

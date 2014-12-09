@@ -2,12 +2,8 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "Villa við auðkenningu",
-    "Group already exists" : "Hópur er þegar til",
-    "Unable to add group" : "Ekki tókst að bæta við hóp",
     "Email saved" : "Netfang vistað",
     "Invalid email" : "Ógilt netfang",
-    "Unable to delete group" : "Ekki tókst að eyða hóp",
-    "Unable to delete user" : "Ekki tókst að eyða notenda",
     "Language changed" : "Tungumáli breytt",
     "Invalid request" : "Ógild fyrirspurn",
     "Admins can't remove themself from the admin group" : "Stjórnendur geta ekki fjarlægt sjálfa sig úr stjórnendahóp",

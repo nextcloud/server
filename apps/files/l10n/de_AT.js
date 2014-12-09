@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Files" : "Dateien",
-    "Share" : "Freigeben",
     "Delete" : "Löschen",
     "Unshare" : "Teilung zurücknehmen",
     "Error" : "Fehler",

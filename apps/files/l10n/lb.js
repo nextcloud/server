@@ -11,7 +11,6 @@ OC.L10N.register(
     "Files" : "Dateien",
     "Upload cancelled." : "Upload ofgebrach.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
-    "Share" : "Deelen",
     "Delete" : "Läschen",
     "Unshare" : "Net méi deelen",
     "Rename" : "Ëm-benennen",

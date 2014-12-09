@@ -4,7 +4,6 @@ OC.L10N.register(
     "Unknown error" : "不明錯誤",
     "Files" : "文件",
     "All files" : "所有文件",
-    "Share" : "分享",
     "Delete" : "刪除",
     "Unshare" : "取消分享",
     "Rename" : "重新命名",

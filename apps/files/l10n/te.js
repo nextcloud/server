@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Delete" : "తొలగించు",
-    "Delete permanently" : "శాశ్వతంగా తొలగించు",
     "Error" : "పొరపాటు",
     "Name" : "పేరు",
     "Size" : "పరిమాణం",

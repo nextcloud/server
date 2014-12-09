@@ -13,7 +13,6 @@ OC.L10N.register(
     "Upload cancelled." : "பதிவேற்றல் இரத்து செய்யப்பட்டுள்ளது",
     "File upload is in progress. Leaving the page now will cancel the upload." : "கோப்பு பதிவேற்றம் செயல்பாட்டில் உள்ளது. இந்தப் பக்கத்திலிருந்து வெறியேறுவதானது பதிவேற்றலை இரத்து செய்யும்.",
     "{new_name} already exists" : "{new_name} ஏற்கனவே உள்ளது",
-    "Share" : "பகிர்வு",
     "Delete" : "நீக்குக",
     "Unshare" : "பகிரப்படாதது",
     "Rename" : "பெயர்மாற்றம்",

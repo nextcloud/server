@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Share" : "Deel",
     "Unshare" : "Deel terug neem",
     "Error" : "Fout",
     "_%n folder_::_%n folders_" : ["",""],

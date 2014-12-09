@@ -2,12 +2,8 @@ OC.L10N.register(
     "settings",
     {
     "Authentication error" : "அத்தாட்சிப்படுத்தலில் வழு",
-    "Group already exists" : "குழு ஏற்கனவே உள்ளது",
-    "Unable to add group" : "குழுவை சேர்க்க முடியாது",
     "Email saved" : "மின்னஞ்சல் சேமிக்கப்பட்டது",
     "Invalid email" : "செல்லுபடியற்ற மின்னஞ்சல்",
-    "Unable to delete group" : "குழுவை நீக்க முடியாது",
-    "Unable to delete user" : "பயனாளரை நீக்க முடியாது",
     "Language changed" : "மொழி மாற்றப்பட்டது",
     "Invalid request" : "செல்லுபடியற்ற வேண்டுகோள்",
     "Unable to add user to group %s" : "குழு %s இல் பயனாளரை சேர்க்க முடியாது",

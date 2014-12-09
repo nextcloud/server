@@ -32,7 +32,6 @@ OC.L10N.register(
     "Upload cancelled." : "আপলোড বাতিল করা হয়েছে।",
     "File upload is in progress. Leaving the page now will cancel the upload." : "ফাইল আপলোড চলমান। এই পৃষ্ঠা পরিত্যাগ করলে আপলোড বাতিল করা হবে।",
     "{new_name} already exists" : "{new_name} টি বিদ্যমান",
-    "Share" : "ভাগাভাগি কর",
     "Delete" : "মুছে",
     "Unshare" : "ভাগাভাগি বাতিল ",
     "Rename" : "পূনঃনামকরণ",

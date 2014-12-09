@@ -10,7 +10,6 @@ OC.L10N.register(
     "Failed to write to disk" : "Gagal untuk disimpan",
     "Files" : "Fail-fail",
     "Upload cancelled." : "Muatnaik dibatalkan.",
-    "Share" : "Kongsi",
     "Delete" : "Padam",
     "Rename" : "Namakan",
     "Pending" : "Dalam proses",

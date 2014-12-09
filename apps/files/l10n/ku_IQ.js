@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Files" : "په‌ڕگەکان",
-    "Share" : "هاوبەشی کردن",
     "Error" : "هه‌ڵه",
     "Name" : "ناو",
     "_%n folder_::_%n folders_" : ["",""],

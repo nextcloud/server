@@ -2,7 +2,6 @@ OC.L10N.register(
     "files",
     {
     "Unknown error" : "غیر معروف خرابی",
-    "Share" : "تقسیم",
     "Delete" : "حذف کریں",
     "Unshare" : "شئیرنگ ختم کریں",
     "Error" : "ایرر",

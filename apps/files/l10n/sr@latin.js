@@ -7,7 +7,6 @@ OC.L10N.register(
     "No file was uploaded" : "Nijedan fajl nije poslat",
     "Missing a temporary folder" : "Nedostaje privremena fascikla",
     "Files" : "Fajlovi",
-    "Share" : "Podeli",
     "Delete" : "Obriši",
     "Unshare" : "Ukljoni deljenje",
     "Rename" : "Preimenij",

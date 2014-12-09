@@ -46,7 +46,6 @@ OC.L10N.register(
     "Could not create file" : "Faylı yaratmaq olmur",
     "Could not create folder" : "Qovluğu yaratmaq olmur",
     "Error fetching URL" : "URL-in gətirilməsində səhv baş verdi",
-    "Share" : "Yayımla",
     "Delete" : "Sil",
     "Rename" : "Adı dəyiş",
     "Error" : "Səhv",

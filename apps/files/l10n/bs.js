@@ -1,7 +1,6 @@
 OC.L10N.register(
     "files",
     {
-    "Share" : "Podijeli",
     "Name" : "Ime",
     "Size" : "Veličina",
     "_%n folder_::_%n folders_" : ["","",""],
