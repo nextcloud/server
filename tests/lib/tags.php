@@ -136,6 +136,36 @@ class Test_Tags extends \Test\TestCase {
 		$this->assertFalse($tagger->isEmpty());
 	}
 
+	public function testGetTagsForObjects() {
+		$defaultTags = array('Friends', 'Family', 'Work', 'Other');
+		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
+
+		$tagger->tagAs(1, 'Friends');
+		$tagger->tagAs(1, 'Other');
+		$tagger->tagAs(2, 'Family');
+
+		$tags = $tagger->getTagsForObjects(array(1));
+		$this->assertEquals(1, count($tags));
+		$tags = current($tags);
+		sort($tags);
+		$this->assertSame(array('Friends', 'Other'), $tags);
+
+		$tags = $tagger->getTagsForObjects(array(1, 2));
+		$this->assertEquals(2, count($tags));
+		$tags1 = $tags[1];
+		sort($tags1);
+		$this->assertSame(array('Friends', 'Other'), $tags1);
+		$this->assertSame(array('Family'), $tags[2]);
+		$this->assertEquals(
+			array(),
+			$tagger->getTagsForObjects(array(4))
+		);
+		$this->assertEquals(
+			array(),
+			$tagger->getTagsForObjects(array(4, 5))
+		);
+	}
+
 	public function testdeleteTags() {
 		$defaultTags = array('Friends', 'Family', 'Work', 'Other');
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);

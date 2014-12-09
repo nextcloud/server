@@ -200,6 +200,48 @@ class Tags implements \OCP\ITags {
 	}
 
 	/**
+	 * Get the list of tags for the given ids.
+	 *
+	 * @param array $objIds array of object ids
+	 * @return array|boolean of tags id as key to array of tag names
+	 * or false if an error occurred
+	 */
+	public function getTagsForObjects(array $objIds) {
+		$entries = array();
+
+		try {
+			$conn = \OC_DB::getConnection();
+			$chunks = array_chunk($objIds, 1000, false);
+			foreach ($chunks as $chunk) {
+				$result = $conn->executeQuery(
+					'SELECT `category`, `categoryid`, `objid` ' .
+					'FROM `' . self::RELATION_TABLE . '` r, `' . self::TAG_TABLE . '` ' .
+					'WHERE `categoryid` = `id` AND `uid` = ? AND r.`type` = ? AND `objid` IN (?)',
+					array($this->user, $this->type, $chunk),
+					array(null, null, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+				);
+				while ($row = $result->fetch()) {
+					$objId = (int)$row['objid'];
+					if (!isset($entries[$objId])) {
+						$entry = $entries[$objId] = array();
+					}
+					$entry = $entries[$objId][] = $row['category'];
+				}
+			}
+			if (\OCP\DB::isError($result)) {
+				\OCP\Util::writeLog('core', __METHOD__. 'DB error: ' . \OCP\DB::getErrorMessage($result), \OCP\Util::ERROR);
+				return false;
+			}
+		} catch(\Exception $e) {
+			\OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
+				\OCP\Util::ERROR);
+			return false;
+		}
+
+		return $entries;
+	}
+
+	/**
 	* Get the a list if items tagged with $tag.
 	*
 	* Throws an exception if the tag could not be found.
