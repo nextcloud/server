@@ -92,7 +92,6 @@ class UpdaterTest extends \Test\TestCase {
 				->disableOriginalConstructor()
 				->getMock()
 		;
-		\OC_Appconfig::setValue('core', 'lastupdatedat', 0);
 		
 		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
 				->setConstructorArgs(array(\OC::$server->getConfig()))
