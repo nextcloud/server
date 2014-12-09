@@ -227,7 +227,11 @@ if [ -z "$1" ]
 		execute_tests $DBCONFIG
 	done
 else
-	execute_tests "$1" "$2" "$3"
+	FILENAME="$2"
+	if [ ! -f "tests/$FILENAME" ]; then
+		FILENAME="../$FILENAME"
+	fi
+	execute_tests "$1" "$FILENAME" "$3"
 fi
 
 cd "$BASEDIR"
