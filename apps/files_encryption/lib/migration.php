@@ -35,8 +35,8 @@ class Migration {
 
 	public function __construct() {
 		$this->view = new \OC\Files\View();
-		$this->public_share_key_id = \OCA\Encryption\Helper::getPublicShareKeyId();
-		$this->recovery_key_id = \OCA\Encryption\Helper::getRecoveryKeyId();
+		$this->public_share_key_id = Helper::getPublicShareKeyId();
+		$this->recovery_key_id = Helper::getRecoveryKeyId();
 	}
 
 	public function reorganizeFolderStructure() {

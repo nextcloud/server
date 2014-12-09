@@ -21,14 +21,14 @@
  *
  */
 
-namespace OCA\Encryption\Exception;
+namespace OCA\Files_Encryption\Exception;
 
 /**
- * Throw this exception if multi key encrytion fails
+ * Throw this encryption if multi key decryption failed
  *
  * Possible error codes:
- * 110 - openssl_seal failed
+ * 110 - openssl_open failed
  */
-class MultiKeyEncryptException extends EncryptionException {
-	const OPENSSL_SEAL_FAILED = 110;
+class MultiKeyDecryptException extends EncryptionException {
+	const OPENSSL_OPEN_FAILED = 110;
 }

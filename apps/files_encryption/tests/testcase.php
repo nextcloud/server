@@ -8,10 +8,8 @@
 
 namespace OCA\Files_Encryption\Tests;
 
-use OCA\Encryption;
-
 /**
- * Class Test_Encryption_TestCase
+ * Class TestCase
  */
 abstract class TestCase extends \Test\TestCase {
 
@@ -42,7 +40,7 @@ abstract class TestCase extends \Test\TestCase {
 		if ($loadEncryption) {
 			$params['uid'] = $user;
 			$params['password'] = $password;
-			\OCA\Encryption\Hooks::login($params);
+			\OCA\Files_Encryption\Hooks::login($params);
 		}
 	}
 
@@ -59,16 +57,16 @@ abstract class TestCase extends \Test\TestCase {
 		\OC_User::clearBackends();
 		\OC_User::useBackend('database');
 
-		\OCA\Encryption\Helper::registerFilesystemHooks();
-		\OCA\Encryption\Helper::registerUserHooks();
-		\OCA\Encryption\Helper::registerShareHooks();
+		\OCA\Files_Encryption\Helper::registerFilesystemHooks();
+		\OCA\Files_Encryption\Helper::registerUserHooks();
+		\OCA\Files_Encryption\Helper::registerShareHooks();
 
 		\OC::registerShareHooks();
 		\OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
 		// clear and register hooks
 		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new \OCA\Encryption\Proxy());
+		\OC_FileProxy::register(new \OCA\Files_Encryption\Proxy());
 	}
 
 	public static function tearDownAfterClass() {

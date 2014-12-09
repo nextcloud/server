@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 use OC\Files\Filesystem;
 
@@ -59,7 +59,7 @@ class Hooks {
 			\OC_Util::setupFS($params['uid']);
 		}
 
-		$privateKey = \OCA\Encryption\Keymanager::getPrivateKey($view, $params['uid']);
+		$privateKey = Keymanager::getPrivateKey($view, $params['uid']);
 
 		// if no private key exists, check server configuration
 		if (!$privateKey) {
@@ -128,7 +128,7 @@ class Hooks {
 	 * remove keys from session during logout
 	 */
 	public static function logout() {
-		$session = new \OCA\Encryption\Session(new \OC\Files\View());
+		$session = new Session(new \OC\Files\View());
 		$session->removeKeys();
 	}
 
@@ -182,7 +182,7 @@ class Hooks {
 		if (Crypt::mode() === 'server') {
 
 			$view = new \OC\Files\View('/');
-			$session = new \OCA\Encryption\Session($view);
+			$session = new Session($view);
 
 			// Get existing decrypted private key
 			$privateKey = $session->getPrivateKey();
@@ -236,7 +236,7 @@ class Hooks {
 					Keymanager::setPublicKey($keypair['publicKey'], $user);
 
 					// Encrypt private key with new password
-					$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword, Helper::getCipher());
+					$encryptedKey = Crypt::symmetricEncryptFileContent($keypair['privateKey'], $newUserPassword, Helper::getCipher());
 					if ($encryptedKey) {
 						Keymanager::setPrivateKey($encryptedKey, $user);
 
@@ -331,7 +331,7 @@ class Hooks {
 	private static function updateKeyfiles($path) {
 		$view = new \OC\Files\View('/');
 		$userId = \OCP\User::getUser();
-		$session = new \OCA\Encryption\Session($view);
+		$session = new Session($view);
 		$util = new Util($view, $userId);
 		$sharingEnabled = \OCP\Share::isEnabled();
 
@@ -504,8 +504,8 @@ class Hooks {
 
 			\OC::$server->getConfig()->deleteAppFromAllUsers('files_encryption');
 
-			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
-			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
+			$session = new Session(new \OC\Files\View('/'));
+			$session->setInitialized(Session::NOT_INITIALIZED);
 		}
 	}
 
@@ -515,8 +515,8 @@ class Hooks {
 	 */
 	public static function postEnable($params) {
 		if ($params['app'] === 'files_encryption') {
-			$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
-			$session->setInitialized(\OCA\Encryption\Session::NOT_INITIALIZED);
+			$session = new Session(new \OC\Files\View('/'));
+			$session->setInitialized(Session::NOT_INITIALIZED);
 		}
 	}
 

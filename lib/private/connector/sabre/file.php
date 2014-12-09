@@ -104,7 +104,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		} catch (\OCP\Files\LockNotAcquiredException $e) {
 			// the file is currently being written to by another process
 			throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
-		} catch (\OCA\Encryption\Exception\EncryptionException $e) {
+		} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
 			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
 			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
@@ -166,7 +166,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		} else {
 			try {
 				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
-			} catch (\OCA\Encryption\Exception\EncryptionException $e) {
+			} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
 				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
 				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());

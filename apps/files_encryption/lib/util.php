@@ -23,7 +23,7 @@
  *
  */
 
-namespace OCA\Encryption;
+namespace OCA\Files_Encryption;
 
 /**
  * Class for utilities relating to encrypted file storage system
@@ -83,7 +83,7 @@ class Util {
 		// make sure that the owners home is mounted
 		\OC\Files\Filesystem::initMountPoints($userId);
 
-		if (\OCA\Encryption\Helper::isPublicAccess()) {
+		if (Helper::isPublicAccess()) {
 			$this->keyId = $this->publicShareKeyId;
 			$this->isPublic = true;
 		} else {
@@ -277,7 +277,7 @@ class Util {
 					if ($file !== "." && $file !== "..") {
 
 						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
-						$relPath = \OCA\Encryption\Helper::stripUserFilesPath($filePath);
+						$relPath = Helper::stripUserFilesPath($filePath);
 
 						// If the path is a directory, search
 						// its contents
@@ -451,13 +451,13 @@ class Util {
 					}
 				}
 				fclose($stream);
-				$relPath = \OCA\Encryption\Helper::stripUserFilesPath($path);
+				$relPath = Helper::stripUserFilesPath($path);
 				$shareKey = Keymanager::getShareKey($this->view, $this->keyId, $this, $relPath);
 				if($shareKey===false) {
 					\OC_FileProxy::$enabled = $proxyStatus;
 					return $result;
 				}
-				$session = new \OCA\Encryption\Session($this->view);
+				$session = new Session($this->view);
 				$privateKey = $session->getPrivateKey();
 				$plainKeyfile = $this->decryptKeyfile($relPath, $privateKey);
 				$plainKey = Crypt::multiKeyDecrypt($plainKeyfile, $shareKey, $privateKey);
@@ -1040,7 +1040,7 @@ class Util {
 		// Make sure that a share key is generated for the owner too
 		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
 
-		$ownerPath = \OCA\Encryption\Helper::stripPartialFileExtension($ownerPath);
+		$ownerPath = Helper::stripPartialFileExtension($ownerPath);
 
 		// always add owner to the list of users with access to the file
 		$userIds = array($owner);
@@ -1402,7 +1402,7 @@ class Util {
 			if ($this->view->is_dir($this->userFilesDir . '/' . $filePath)) {
 				$this->addRecoveryKeys($filePath . '/');
 			} else {
-				$session = new \OCA\Encryption\Session(new \OC\Files\View('/'));
+				$session = new Session(new \OC\Files\View('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
 				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $filePath);
 				$this->setSharedFileKeyfiles($session, $usersSharing, $filePath);
@@ -1559,10 +1559,10 @@ class Util {
 	 */
 	public function initEncryption($params) {
 
-		$session = new \OCA\Encryption\Session($this->view);
+		$session = new Session($this->view);
 
 		// we tried to initialize the encryption app for this session
-		$session->setInitialized(\OCA\Encryption\Session::INIT_EXECUTED);
+		$session->setInitialized(Session::INIT_EXECUTED);
 
 		$encryptedKey = Keymanager::getPrivateKey($this->view, $params['uid']);
 
@@ -1578,7 +1578,7 @@ class Util {
 		}
 
 		$session->setPrivateKey($privateKey);
-		$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
+		$session->setInitialized(Session::INIT_SUCCESSFUL);
 
 		return $session;
 	}
@@ -1587,7 +1587,7 @@ class Util {
 	 * remove encryption related keys from the session
 	 */
 	public function closeEncryptionSession() {
-		$session = new \OCA\Encryption\Session($this->view);
+		$session = new Session($this->view);
 		$session->closeSession();
 	}
 

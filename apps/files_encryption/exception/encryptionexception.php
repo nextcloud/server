@@ -21,7 +21,7 @@
  *
  */
 
-namespace OCA\Encryption\Exception;
+namespace OCA\Files_Encryption\Exception;
 
 /**
  * Base class for all encryption exception

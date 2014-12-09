@@ -9,8 +9,6 @@
  *
  */
 
-use OCA\Encryption;
-
 \OCP\JSON::checkLoggedIn();
 \OCP\JSON::checkAppEnabled('files_encryption');
 \OCP\JSON::callCheck();
@@ -24,7 +22,7 @@ $oldPassword = $_POST['oldPassword'];
 $newPassword = $_POST['newPassword'];
 
 $view = new \OC\Files\View('/');
-$session = new \OCA\Encryption\Session($view);
+$session = new \OCA\Files_Encryption\Session($view);
 $user = \OCP\User::getUser();
 $loginName = \OC::$server->getUserSession()->getLoginName();
 
@@ -36,14 +34,14 @@ if ($passwordCorrect !== false) {
 $proxyStatus = \OC_FileProxy::$enabled;
 \OC_FileProxy::$enabled = false;
 
-$encryptedKey = Encryption\Keymanager::getPrivateKey($view, $user);
-$decryptedKey = $encryptedKey ? \OCA\Encryption\Crypt::decryptPrivateKey($encryptedKey, $oldPassword) : false;
+$encryptedKey = \OCA\Files_Encryption\Keymanager::getPrivateKey($view, $user);
+$decryptedKey = $encryptedKey ? \OCA\Files_Encryption\Crypt::decryptPrivateKey($encryptedKey, $oldPassword) : false;
 
 if ($decryptedKey) {
-	$cipher = \OCA\Encryption\Helper::getCipher();
-	$encryptedKey = \OCA\Encryption\Crypt::symmetricEncryptFileContent($decryptedKey, $newPassword, $cipher);
+	$cipher = \OCA\Files_Encryption\Helper::getCipher();
+	$encryptedKey = \OCA\Files_Encryption\Crypt::symmetricEncryptFileContent($decryptedKey, $newPassword, $cipher);
 	if ($encryptedKey) {
-		\OCA\Encryption\Keymanager::setPrivateKey($encryptedKey, $user);
+		\OCA\Files_Encryption\Keymanager::setPrivateKey($encryptedKey, $user);
 		$session->setPrivateKey($decryptedKey);
 		$return = true;
 	}
@@ -61,7 +59,7 @@ if ($decryptedKey) {
 
 // success or failure
 if ($return) {
-	$session->setInitialized(\OCA\Encryption\Session::INIT_SUCCESSFUL);
+	$session->setInitialized(\OCA\Files_Encryption\Session::INIT_SUCCESSFUL);
 	\OCP\JSON::success(array('data' => array('message' => $l->t('Private key password successfully updated.'))));
 } else {
 	\OCP\JSON::error(array('data' => array('message' => $errorMessage)));
