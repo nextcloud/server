@@ -63,6 +63,14 @@ class Manager extends PublicEmitter implements IUserManager {
 	}
 
 	/**
+	 * Get the active backends
+	 * @return \OC_User_Interface[]
+	 */
+	public function getBackends() {
+		return $this->backends;
+	}
+
+	/**
 	 * register a user backend
 	 *
 	 * @param \OC_User_Interface $backend

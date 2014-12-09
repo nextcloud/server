@@ -10,6 +10,17 @@
 namespace Test\User;
 
 class Manager extends \Test\TestCase {
+	public function testGetBackends() {
+		$userDummyBackend = $this->getMock('\OC_User_Dummy');
+		$manager = new \OC\User\Manager();
+		$manager->registerBackend($userDummyBackend);
+		$this->assertEquals([$userDummyBackend], $manager->getBackends());
+		$dummyDatabaseBackend = $this->getMock('\OC_User_Database');
+		$manager->registerBackend($dummyDatabaseBackend);
+		$this->assertEquals([$userDummyBackend, $dummyDatabaseBackend], $manager->getBackends());
+	}
+
+
 	public function testUserExistsSingleBackendExists() {
 		/**
 		 * @var \OC_User_Dummy | \PHPUnit_Framework_MockObject_MockObject $backend
