@@ -28,7 +28,6 @@ $result = false;
 if ($recoveryAdminEnabled || !$privateKeySet) {
 
 	\OCP\Util::addscript('files_encryption', 'settings-personal');
-	\OCP\Util::addScript('settings', 'personal');
 
 	$tmpl->assign('recoveryEnabled', $recoveryAdminEnabled);
 	$tmpl->assign('recoveryEnabledForUser', $recoveryEnabledForUser);
