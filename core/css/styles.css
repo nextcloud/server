@@ -365,6 +365,11 @@ input[type="submit"].enabled {
 	margin-bottom: 30px;
 }
 
+#body-login .update a {
+	color: #fff;
+	border-bottom: 1px solid #aaa;
+}
+
 #body-login .infogroup {
 	margin-bottom: 15px;
 }
