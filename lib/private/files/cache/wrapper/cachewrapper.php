@@ -234,6 +234,15 @@ class CacheWrapper extends Cache {
 	}
 
 	/**
+	 * Returns the numeric storage id
+	 *
+	 * @return int
+	 */
+	public function getNumericStorageId() {
+		return $this->cache->getNumericStorageId();
+	}
+
+	/**
 	 * get the storage id of the storage for a file and the internal path of the file
 	 * unlike getPathById this does not limit the search to files on this storage and
 	 * instead does a global search in the cache table

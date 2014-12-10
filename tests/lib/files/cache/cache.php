@@ -35,6 +35,10 @@ class Cache extends \Test\TestCase {
 	 */
 	protected $cache2;
 
+	public function testGetNumericId() {
+		$this->assertNotNull($this->cache->getNumericStorageId());
+	}
+
 	public function testSimple() {
 		$file1 = 'foo';
 		$file2 = 'foo/bar';
