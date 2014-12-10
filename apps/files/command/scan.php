@@ -41,8 +41,7 @@ class Scan extends Command {
 				'path',
 				'p',
 				InputArgument::OPTIONAL,
-				'limit rescan to this path, eg. --path="files/Music"',
-				''
+				'limit rescan to this path, eg. --path="/alice/files/Music", the user_id is determined by the path and the user_id parameter and --all are ignored'
 			)
 			->addOption(
 				'quiet',
@@ -62,10 +61,10 @@ class Scan extends Command {
 		$scanner = new \OC\Files\Utils\Scanner($user, \OC::$server->getDatabaseConnection());
 		if (!$quiet) {
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFile', function ($path) use ($output) {
-				$output->writeln("Scanning <info>$path</info>");
+				$output->writeln("Scanning file   <info>$path</info>");
 			});
 			$scanner->listen('\OC\Files\Utils\Scanner', 'scanFolder', function ($path) use ($output) {
-				$output->writeln("Scanning <info>$path</info>");
+				$output->writeln("Scanning folder <info>$path</info>");
 			});
 		}
 		try {
@@ -77,16 +76,21 @@ class Scan extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		if ($input->getOption('all')) {
+		$path = $input->getOption('path');
+		if ($path !== false) {
+			$path = '/'.trim($path, '/');
+			list (, $user, ) = explode('/', $path, 3);
+			$users = array($user);
+		} else if ($input->getOption('all')) {
 			$users = $this->userManager->search('');
 		} else {
 			$users = $input->getArgument('user_id');
 		}
-		$path = trim($input->getOption('path'), '/');
 		$quiet = $input->getOption('quiet');
 
+
 		if (count($users) === 0) {
-			$output->writeln("<error>Please specify the user id to scan or \"--all\" to scan for all users</error>");
+			$output->writeln("<error>Please specify the user id to scan, \"--all\" to scan for all users or \"--path=...\"</error>");
 			return;
 		}
 

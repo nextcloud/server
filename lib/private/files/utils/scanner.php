@@ -127,11 +127,12 @@ class Scanner extends PublicEmitter {
 			) {
 				throw new ForbiddenException();
 			}
+			$relativePath = $mount->getInternalPath($dir);
 			$scanner = $storage->getScanner();
 			$scanner->setUseTransactions(false);
 			$this->attachListener($mount);
 			$this->db->beginTransaction();
-			$scanner->scan($dir, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
+			$scanner->scan($relativePath, \OC\Files\Cache\Scanner::SCAN_RECURSIVE, \OC\Files\Cache\Scanner::REUSE_ETAG | \OC\Files\Cache\Scanner::REUSE_SIZE);
 			$this->db->commit();
 		}
 		$this->propagator->propagateChanges(time());
