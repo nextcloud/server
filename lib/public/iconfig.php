@@ -128,9 +128,9 @@ interface IConfig {
 	/**
 	 * Fetches a mapped list of userId -> value, for a specified app and key and a list of user IDs.
 	 *
-	 * @param $appName app to get the value for
-	 * @param $key the key to get the value for
-	 * @param $userIds the user IDs to fetch the values for
+	 * @param string $appName app to get the value for
+	 * @param string $key the key to get the value for
+	 * @param array $userIds the user IDs to fetch the values for
 	 * @return array Mapped values: userId => value
 	 */
 	public function getUserValueForUsers($appName, $key, $userIds);
