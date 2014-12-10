@@ -594,7 +594,7 @@ class View extends \Test\TestCase {
 		}
 	}
 
-	public function testLongPath() {
+	public function xtestLongPath() {
 
 		$storage = new \OC\Files\Storage\Temporary(array());
 		\OC\Files\Filesystem::mount($storage, array(), '/');
