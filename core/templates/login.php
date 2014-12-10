@@ -1,5 +1,11 @@
 <?php /** @var $l OC_L10N */ ?>
-<?php vendor_script('jsTimezoneDetect/jstz') ?>
+<?php
+vendor_script('jsTimezoneDetect/jstz');
+script('core', [
+	'visitortimezone',
+	'lostpassword'
+]);
+?>
 
 <!--[if IE 8]><style>input[type="checkbox"]{padding:0;}</style><![endif]-->
 <form method="post" name="login">
@@ -65,8 +71,5 @@
 		</ul>
 	</fieldset>
 </form>
-<?php } ?>
+<?php }
 
-<?php
-OCP\Util::addscript('core', 'visitortimezone');
-OCP\Util::addScript('core', 'lostpassword');
