@@ -8,14 +8,7 @@
  *
  */
 
-//translations for result type ids, can be extended by apps
-OC.Search.resultTypes={
-	file: t('core','File'),
-	folder: t('core','Folder'),
-	image: t('core','Image'),
-	audio: t('core','Audio')
-};
-OC.Search.hide=function(){
+OC.Search.hide = function(){
 	$('#searchresults').hide();
 	if($('#searchbox').val().length>2){
 		$('#searchbox').val('');
@@ -29,15 +22,15 @@ OC.Search.hide=function(){
 		}
 	}
 };
-OC.Search.showResults=function(results){
+OC.Search.showResults = function(results){
 	if(results.length === 0){
 		return;
 	}
-	if(!OC.Search.showResults.loaded){
-		var parent=$('<div class="searchresults-wrapper"/>');
+	if (!OC.Search.showResults.loaded){
+		var parent = $('<div class="searchresults-wrapper"/>');
 		$('#app-content').append(parent);
 		parent.load(OC.filePath('search','templates','part.results.php'),function(){
-			OC.Search.showResults.loaded=true;
+			OC.Search.showResults.loaded = true;
 			$('#searchresults').click(function(event){
 				OC.Search.hide();
 				event.stopPropagation();
@@ -68,19 +61,18 @@ OC.Search.showResults=function(results){
 			$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'places/link') + ')');
 			/**
 			 * Give plugins the ability to customize the search results. For example:
-			 * OC.search.customResults.file = function (row, item){
+			 * OC.search.customResults.file = function (row, item){ FIXME
 			 *  if(item.name.search('.json') >= 0) ...
 			 * };
 			 */
-			if(OC.Search.hasFormatter(result.type)){
+			if (OC.Search.hasFormatter(result.type)) {
 				OC.Search.getFormatter(result.type)($row, result);
-			} else
-			{
+			} else {
 				// for backward compatibility add text div
 				$row.find('td.info div.name').addClass('result')
 				$row.find('td.result div.name').after('<div class="text"></div>');
 				$row.find('td.result div.text').text(result.name);
-				if(OC.search.customResults[result.type]){
+				if(OC.search.customResults && OC.search.customResults[result.type]) {
 					OC.search.customResults[result.type]($row, result);
 				}
 			}
@@ -99,13 +91,22 @@ OC.Search.showResults=function(results){
 		});
 	}
 };
-OC.Search.showResults.loaded=false;
+OC.Search.showResults.loaded = false;
 
-OC.Search.renderCurrent=function(){
-	if($('#searchresults tr.result')[OC.search.currentResult]){
-		var result=$('#searchresults tr.result')[OC.search.currentResult];
-		$('#searchresults tr.result').removeClass('current');
-		$(result).addClass('current');
+OC.Search.renderCurrent = function(){
+	var $resultsContainer = $('#searchresults');
+	var result = $resultsContainer.find('tr.result')[OC.Search.currentResult]
+	if (result) {
+		var $result = $(result);
+		var currentOffset = $resultsContainer.scrollTop();
+		$resultsContainer.animate({
+			// Scrolling to the top of the new result
+			scrollTop: currentOffset + $result.offset().top - $result.height() * 2
+		}, {
+			duration: 100
+		});
+		$resultsContainer.find('tr.result.current').removeClass('current');
+		$result.addClass('current');
 	}
 };
 
@@ -117,7 +118,7 @@ OC.Search.setFormatter('file', function ($row, result) {
 		result.mime = result.mime_type;
 	}
 
-	$pathDiv = $('<div class="path"></div>').text(result.path)
+	$pathDiv = $('<div class="path"></div>').text(result.path);
 	$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 	$row.find('td.result a').attr('href', result.link);
