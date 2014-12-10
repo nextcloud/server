@@ -100,6 +100,7 @@ class Updater extends BasicEmitter {
 		);
 		$xml = @file_get_contents($url, 0, $ctx);
 		if ($xml == false) {
+			\OC_Appconfig::setValue('core', 'lastupdateResult', json_encode(array()));
 			return array();
 		}
 		$loadEntities = libxml_disable_entity_loader(true);
