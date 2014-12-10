@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Kunde inte återställa %s",
     "Deleted files" : "Raderade filer",
     "Restore" : "Återskapa",
+    "Delete permanently" : "Radera permanent",
     "Error" : "Fel",
     "restored" : "återställd",
     "Nothing in here. Your trash bin is empty!" : "Ingenting här. Din papperskorg är tom!",

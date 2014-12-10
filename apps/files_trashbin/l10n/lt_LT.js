@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Nepavyko atkurti %s",
     "Deleted files" : "Ištrinti failai",
     "Restore" : "Atstatyti",
+    "Delete permanently" : "Ištrinti negrįžtamai",
     "Error" : "Klaida",
     "restored" : "atstatyta",
     "Nothing in here. Your trash bin is empty!" : "Nieko nėra. Jūsų šiukšliadėžė tuščia!",

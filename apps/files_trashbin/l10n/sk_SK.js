@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Nemožno obnoviť %s",
     "Deleted files" : "Zmazané súbory",
     "Restore" : "Obnoviť",
+    "Delete permanently" : "Zmazať  trvalo",
     "Error" : "Chyba",
     "restored" : "obnovené",
     "Nothing in here. Your trash bin is empty!" : "Žiadny obsah. Kôš je prázdny!",

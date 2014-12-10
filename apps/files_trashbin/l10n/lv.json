@@ -3,6 +3,7 @@
     "Couldn't restore %s" : "Nevarēja atjaunot %s",
     "Deleted files" : "Dzēstās datnes",
     "Restore" : "Atjaunot",
+    "Delete permanently" : "Dzēst pavisam",
     "Error" : "Kļūda",
     "restored" : "atjaunots",
     "Nothing in here. Your trash bin is empty!" : "Šeit nekā nav. Jūsu miskaste ir tukša!",

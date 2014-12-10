@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Deleted files" : "Sterge fisierele",
     "Restore" : "Restabilire",
+    "Delete permanently" : "Șterge permanent",
     "Error" : "Eroare",
     "Name" : "Nume",
     "Delete" : "Șterge"

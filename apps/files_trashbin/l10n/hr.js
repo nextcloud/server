@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Nije moguće obnoviti %s",
     "Deleted files" : "Izbrisane datoteke",
     "Restore" : "Obnovite",
+    "Delete permanently" : "Trajno izbrišite",
     "Error" : "Pogreška",
     "restored" : "Obnovljeno",
     "Nothing in here. Your trash bin is empty!" : "Ovdje nema ničega. Vaša kantica je prazna!",

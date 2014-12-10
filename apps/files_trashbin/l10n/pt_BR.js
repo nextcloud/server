@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Não foi possível restaurar %s",
     "Deleted files" : "Arquivos apagados",
     "Restore" : "Restaurar",
+    "Delete permanently" : "Excluir permanentemente",
     "Error" : "Erro",
     "restored" : "restaurado",
     "Nothing in here. Your trash bin is empty!" : "Nada aqui. Sua lixeira está vazia!",

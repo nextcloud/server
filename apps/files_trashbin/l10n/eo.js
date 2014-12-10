@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Ne povis restaŭriĝi %s",
     "Deleted files" : "Forigitaj dosieroj",
     "Restore" : "Restaŭri",
+    "Delete permanently" : "Forigi por ĉiam",
     "Error" : "Eraro",
     "restored" : "restaŭrita",
     "Nothing in here. Your trash bin is empty!" : "Nenio estas ĉi tie. Via rubujo malplenas!",

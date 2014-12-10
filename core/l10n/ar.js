@@ -37,6 +37,7 @@ OC.L10N.register(
     "Strong password" : "كلمة السر قوية",
     "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." : "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة",
     "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." : "هذا الخادم لا يوجد لدية اتصال انترنت. هذا يعني ان بعض الميزات مثل mounting التخزين الخارجي , تنبيهات عن التحديثات او تنزيلات برامج الطرف الثالث3  لا تعمل. الدخول للملفات البعيدة و ارسال تنبيهات البريد الالكتروني ممكن ان لا تعمل ايضا. نحن نقترح بتفعيل اتصال الانترنت لهذا الخادم لتتمكن من الاستفادة من كل الميزات",
+    "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "مجلد data و ملفاتك يمكن الوصول لها عن طريق الانترنت. ملف .htaccess لا يمكن تشغيلة. نحن نقترح باصرار ان تعيد اعداد خادمك لمنع الدخول الى بياناتك عن طريق الانترنت او بالامكان ان تنقل مجلد data خارج document root بشكل مؤقت. ",
     "Shared" : "مشارك",
     "Share" : "شارك",
     "Error" : "خطأ",

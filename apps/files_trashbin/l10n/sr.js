@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Deleted files" : "Обрисане датотеке",
     "Restore" : "Врати",
+    "Delete permanently" : "Обриши за стално",
     "Error" : "Грешка",
     "Nothing in here. Your trash bin is empty!" : "Овде нема ништа. Корпа за отпатке је празна.",
     "Name" : "Име",

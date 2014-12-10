@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Kunne ikke gjenopprette %s",
     "Deleted files" : "Slettede filer",
     "Restore" : "Gjenopprett",
+    "Delete permanently" : "Slett permanent",
     "Error" : "Feil",
     "restored" : "gjenopprettet",
     "Nothing in here. Your trash bin is empty!" : "Ingenting her. Søppelkassen din er tom!",

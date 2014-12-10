@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Không thể khôi phục %s",
     "Deleted files" : "File đã bị xóa",
     "Restore" : "Khôi phục",
+    "Delete permanently" : "Xóa vĩnh vễn",
     "Error" : "Lỗi",
     "restored" : "khôi phục",
     "Nothing in here. Your trash bin is empty!" : "Không có gì ở đây. Thùng rác của bạn rỗng!",

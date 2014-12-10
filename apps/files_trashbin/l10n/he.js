@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "לא ניתן לשחזר את %s",
     "Deleted files" : "קבצים שנמחקו",
     "Restore" : "שחזור",
+    "Delete permanently" : "מחיקה לצמיתות",
     "Error" : "שגיאה",
     "restored" : "שוחזר",
     "Nothing in here. Your trash bin is empty!" : "אין כאן שום דבר. סל המיחזור שלך ריק!",

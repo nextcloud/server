@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Konnte %s nicht wiederherstellen",
     "Deleted files" : "Gelöschte Dateien",
     "Restore" : "Wiederherstellen",
+    "Delete permanently" : "Endgültig löschen",
     "Error" : "Fehler",
     "restored" : "Wiederhergestellt",
     "Nothing in here. Your trash bin is empty!" : "Nichts zu löschen, Ihr Papierkorb ist leer!",

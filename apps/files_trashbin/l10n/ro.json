@@ -1,6 +1,7 @@
 { "translations": {
     "Deleted files" : "Sterge fisierele",
     "Restore" : "Restabilire",
+    "Delete permanently" : "Șterge permanent",
     "Error" : "Eroare",
     "Name" : "Nume",
     "Delete" : "Șterge"

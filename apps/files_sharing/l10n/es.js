@@ -19,6 +19,7 @@ OC.L10N.register(
     "No ownCloud installation found at {remote}" : "No se encontró una instalación de ownCloud en {remote}",
     "Invalid ownCloud url" : "URL de ownCloud inválido",
     "Shared by" : "Compartido por",
+    "A file or folder was shared from <strong>another server</strong>" : "Se ha compartido un archivo o carpeta desde <strong>otro servidor</strong>",
     "This share is password-protected" : "Este elemento compartido esta protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña introducida es errónea. Inténtelo de nuevo.",
     "Password" : "Contraseña",

@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "No s'ha pogut restaurar %s",
     "Deleted files" : "Fitxers esborrats",
     "Restore" : "Recupera",
+    "Delete permanently" : "Esborra permanentment",
     "Error" : "Error",
     "restored" : "restaurat",
     "Nothing in here. Your trash bin is empty!" : "La paperera està buida!",

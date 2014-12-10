@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Αδυναμία επαναφοράς %s",
     "Deleted files" : "Διεγραμμένα αρχεία",
     "Restore" : "Επαναφορά",
+    "Delete permanently" : "Μόνιμη διαγραφή",
     "Error" : "Σφάλμα",
     "restored" : "επαναφέρθηκαν",
     "Nothing in here. Your trash bin is empty!" : "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!",

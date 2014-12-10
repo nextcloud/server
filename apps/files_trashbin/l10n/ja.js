@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "%s を復元できませんでした",
     "Deleted files" : "ゴミ箱",
     "Restore" : "復元",
+    "Delete permanently" : "完全に削除する",
     "Error" : "エラー",
     "restored" : "復元済",
     "Nothing in here. Your trash bin is empty!" : "ここには何もありません。ゴミ箱は空です！",

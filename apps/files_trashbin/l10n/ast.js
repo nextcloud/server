@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Nun pudo restaurase %s",
     "Deleted files" : "Ficheros desaniciaos",
     "Restore" : "Restaurar",
+    "Delete permanently" : "Desaniciar dafechu",
     "Error" : "Fallu",
     "restored" : "recuperóse",
     "Nothing in here. Your trash bin is empty!" : "Nun hai un res equí. La papelera ta balera!",

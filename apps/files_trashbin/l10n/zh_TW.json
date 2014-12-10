@@ -3,6 +3,7 @@
     "Couldn't restore %s" : "無法還原 %s",
     "Deleted files" : "回收桶",
     "Restore" : "還原",
+    "Delete permanently" : "永久刪除",
     "Error" : "錯誤",
     "restored" : "已還原",
     "Nothing in here. Your trash bin is empty!" : "您的回收桶是空的！",

@@ -3,6 +3,7 @@
     "Couldn't restore %s" : "Ni mogoče obnoviti %s",
     "Deleted files" : "Izbrisane datoteke",
     "Restore" : "Obnovi",
+    "Delete permanently" : "Izbriši dokončno",
     "Error" : "Napaka",
     "restored" : "obnovljeno",
     "Nothing in here. Your trash bin is empty!" : "Mapa smeti je prazna.",

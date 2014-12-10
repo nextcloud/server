@@ -64,6 +64,7 @@ OC.L10N.register(
     "Strong password" : "强密码",
     "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." : "您的Web服务器尚未正确设置以允许文件同步, 因为WebDAV的接口似乎已损坏.",
     "This server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features." : "此服务器上没有可用的因特网连接. 这意味着某些特性将无法工作，例如挂载外部存储器, 提醒更新或安装第三方应用等. 从远程访问文件和发送提醒电子邮件也可能无法工作. 如果你想要ownCloud的所有特性, 我们建议启用此服务器的因特网连接.",
+    "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器以外。",
     "Error occurred while checking server setup" : "当检查服务器启动时出错",
     "Shared" : "已共享",
     "Shared with {recipients}" : "由{recipients}分享",

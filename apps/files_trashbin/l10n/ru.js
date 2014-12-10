@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "%s не может быть восстановлен",
     "Deleted files" : "Удалённые файлы",
     "Restore" : "Восстановить",
+    "Delete permanently" : "Удалить окончательно",
     "Error" : "Ошибка",
     "restored" : "восстановлен",
     "Nothing in here. Your trash bin is empty!" : "Здесь ничего нет. Ваша корзина пуста!",

@@ -45,6 +45,7 @@
     "(all selected)" : "(Tất cả các lựa chọn)",
     "({count} selected)" : "({count} được chọn)",
     "Error loading file exists template" : "Lỗi khi tải tập tin mẫu đã tồn tại",
+    "Your data directory and your files are probably accessible from the internet. The .htaccess file is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." : "Thư mục và các tập tin của bạn có thể được truy cập từ Internet. Tập tin .htaccess không làm việc. Chúng tôi đề nghị bạn cấu hình ebserver ,phân quyền lại thư mục dữ liệu và cấp quyền truy cập hoặc di chuyển thư mục dữ liệu bên ngoài tài liệu gốc máy chủ web.",
     "Shared" : "Được chia sẻ",
     "Share" : "Chia sẻ",
     "Error" : "Lỗi",

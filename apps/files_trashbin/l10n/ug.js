@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_trashbin",
     {
     "Deleted files" : "ئۆچۈرۈلگەن ھۆججەتلەر",
+    "Delete permanently" : "مەڭگۈلۈك ئۆچۈر",
     "Error" : "خاتالىق",
     "Nothing in here. Your trash bin is empty!" : "بۇ جايدا ھېچنېمە يوق. Your trash bin is empty!",
     "Name" : "ئاتى",

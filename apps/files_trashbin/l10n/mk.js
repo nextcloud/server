@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "Не можеше да се поврати %s",
     "Deleted files" : "Избришани датотеки",
     "Restore" : "Поврати",
+    "Delete permanently" : "Трајно избришани",
     "Error" : "Грешка",
     "restored" : "повратени",
     "Nothing in here. Your trash bin is empty!" : "Тука нема ништо. Вашата корпа за отпадоци е празна!",

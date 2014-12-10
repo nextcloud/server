@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "%s–ის აღდგენა ვერ მოხერხდა",
     "Deleted files" : "წაშლილი ფაილები",
     "Restore" : "აღდგენა",
+    "Delete permanently" : "სრულად წაშლა",
     "Error" : "შეცდომა",
     "Nothing in here. Your trash bin is empty!" : "აქ არაფერი არ არის. სანაგვე ყუთი ცარიელია!",
     "Name" : "სახელი",

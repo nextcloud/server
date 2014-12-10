@@ -5,6 +5,7 @@ OC.L10N.register(
     "Couldn't restore %s" : "无法恢复%s",
     "Deleted files" : "已删除文件",
     "Restore" : "恢复",
+    "Delete permanently" : "永久删除",
     "Error" : "错误",
     "restored" : "已恢复",
     "Nothing in here. Your trash bin is empty!" : "这里没有东西. 你的回收站是空的!",
