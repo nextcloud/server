@@ -749,9 +749,21 @@ $CONFIG = array(
  */
 'cipher' => 'AES-256-CFB',
 
+
+/**
+ * Connection details for redis to use for memory caching.
+ * Redis is only used if other memory cache options (xcache, apc, apcu) are
+ * not available.
+ */
+'redis' => array(
+	'host' => 'localhost', // can also be a unix domain socket: '/tmp/redis.sock'
+	'port' => 6379,
+	'timeout' => 0.0
+),
+
 /**
  * Server details for one or more memcached servers to use for memory caching.
- * Memcache is only used if other memory cache options (xcache, apc, apcu) are
+ * Memcache is only used if other memory cache options (xcache, apc, apcu, redis) are
  * not available.
  */
 'memcached_servers' => array(
