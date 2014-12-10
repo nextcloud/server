@@ -23,7 +23,10 @@
 class Test_Tags extends \Test\TestCase {
 
 	protected $objectType;
+	/** @var \OC\IUser */
 	protected $user;
+	/** @var \OC\IUserSession */
+	protected $userSession;
 	protected $backupGlobals = FALSE;
 	/** @var \OC\Tagging\TagMapper */
 	protected $tagMapper;
@@ -35,12 +38,19 @@ class Test_Tags extends \Test\TestCase {
 
 		OC_User::clearBackends();
 		OC_User::useBackend('dummy');
-		$this->user = $this->getUniqueID('user_');
+		$userId = $this->getUniqueID('user_');
+		OC_User::createUser($userId, 'pass');
+		OC_User::setUserId($userId);
+		$this->user = new OC\User\User($userId, null);
+		$this->userSession = $this->getMock('\OCP\IUserSession');
+		$this->userSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($this->user));
+
 		$this->objectType = $this->getUniqueID('type_');
-		OC_User::createUser($this->user, 'pass');
-		OC_User::setUserId($this->user);
 		$this->tagMapper = new OC\Tagging\TagMapper(\OC::$server->getDb());
-		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->user);
+		$this->tagMgr = new OC\TagManager($this->tagMapper, $this->userSession);
 
 	}
 
@@ -166,7 +176,7 @@ class Test_Tags extends \Test\TestCase {
 		);
 	}
 
-	public function testdeleteTags() {
+	public function testDeleteTags() {
 		$defaultTags = array('Friends', 'Family', 'Work', 'Other');
 		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
 
@@ -177,7 +187,6 @@ class Test_Tags extends \Test\TestCase {
 
 		$tagger->delete(array('Friends', 'Work', 'Other'));
 		$this->assertEquals(0, count($tagger->getTags()));
-
 	}
 
 	public function testRenameTag() {
@@ -233,27 +242,32 @@ class Test_Tags extends \Test\TestCase {
 	}
 
 	public function testShareTags() {
-		$test_tag = 'TestTag';
+		$testTag = 'TestTag';
 		OCP\Share::registerBackend('test', 'Test_Share_Backend');
 
 		$tagger = $this->tagMgr->load('test');
-		$tagger->tagAs(1, $test_tag);
+		$tagger->tagAs(1, $testTag);
 
-		$other_user = $this->getUniqueID('user2_');
-		OC_User::createUser($other_user, 'pass');
+		$otherUserId = $this->getUniqueID('user2_');
+		OC_User::createUser($otherUserId, 'pass');
+		OC_User::setUserId($otherUserId);
+		$otherUserSession = $this->getMock('\OCP\IUserSession');
+		$otherUserSession
+			->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue(new OC\User\User($otherUserId, null)));
 
-		OC_User::setUserId($other_user);
-		$other_tagMgr = new OC\TagManager($this->tagMapper, $other_user);
-		$other_tagger = $other_tagMgr->load('test');
-		$this->assertFalse($other_tagger->hasTag($test_tag));
+		$otherTagMgr = new OC\TagManager($this->tagMapper, $otherUserSession);
+		$otherTagger = $otherTagMgr->load('test');
+		$this->assertFalse($otherTagger->hasTag($testTag));
 
-		OC_User::setUserId($this->user);
-		OCP\Share::shareItem('test', 1, OCP\Share::SHARE_TYPE_USER, $other_user, \OCP\Constants::PERMISSION_READ);
+		OC_User::setUserId($this->user->getUID());
+		OCP\Share::shareItem('test', 1, OCP\Share::SHARE_TYPE_USER, $otherUserId, \OCP\Constants::PERMISSION_READ);
 
-		OC_User::setUserId($other_user);
-		$other_tagger = $other_tagMgr->load('test', array(), true); // Update tags, load shared ones.
-		$this->assertTrue($other_tagger->hasTag($test_tag));
-		$this->assertContains(1, $other_tagger->getIdsForTag($test_tag));
+		OC_User::setUserId($otherUserId);
+		$otherTagger = $otherTagMgr->load('test', array(), true); // Update tags, load shared ones.
+		$this->assertTrue($otherTagger->hasTag($testTag));
+		$this->assertContains(1, $otherTagger->getIdsForTag($testTag));
 	}
 
 }
