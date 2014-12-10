@@ -117,15 +117,15 @@ class Test_TemplateFunctions extends \Test\TestCase {
 
 	public function testRelativeDateMonthsAgo(){
 		$currentTime = 1380703592;
-		$elementTime = $currentTime - 86400 * 60;
-		$result = (string)relative_modified_date($elementTime, $currentTime, true);
-
-		$this->assertEquals('2 months ago', $result);
-
 		$elementTime = $currentTime - 86400 * 65;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
 
 		$this->assertEquals('2 months ago', $result);
+
+		$elementTime = $currentTime - 86400 * 130;
+		$result = (string)relative_modified_date($elementTime, $currentTime, true);
+
+		$this->assertEquals('4 months ago', $result);
 	}
 
 	public function testRelativeDateLastYear(){
@@ -146,12 +146,12 @@ class Test_TemplateFunctions extends \Test\TestCase {
 		$elementTime = $currentTime - 86400 * 365.25 * 2;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
 
-		$this->assertEquals('years ago', $result);
+		$this->assertEquals('2 years ago', $result);
 
 		$elementTime = $currentTime - 86400 * 365.25 * 3;
 		$result = (string)relative_modified_date($elementTime, $currentTime, true);
 
-		$this->assertEquals('years ago', $result);
+		$this->assertEquals('3 years ago', $result);
 	}
 
 	// ---------------------------------------------------------------------------
@@ -211,15 +211,15 @@ class Test_TemplateFunctions extends \Test\TestCase {
 
 	public function testRelativeTimeMonthsAgo(){
 		$currentTime = 1380703592;
-		$elementTime = $currentTime - 86400 * 60;
-		$result = (string)relative_modified_date($elementTime, $currentTime, false);
-
-		$this->assertEquals('2 months ago', $result);
-
 		$elementTime = $currentTime - 86400 * 65;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
 
 		$this->assertEquals('2 months ago', $result);
+
+		$elementTime = $currentTime - 86400 * 130;
+		$result = (string)relative_modified_date($elementTime, $currentTime, false);
+
+		$this->assertEquals('4 months ago', $result);
 	}
 
 	public function testRelativeTimeLastYear(){
@@ -240,11 +240,11 @@ class Test_TemplateFunctions extends \Test\TestCase {
 		$elementTime = $currentTime - 86400 * 365.25 * 2;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
 
-		$this->assertEquals('years ago', $result);
+		$this->assertEquals('2 years ago', $result);
 
 		$elementTime = $currentTime - 86400 * 365.25 * 3;
 		$result = (string)relative_modified_date($elementTime, $currentTime, false);
 
-		$this->assertEquals('years ago', $result);
+		$this->assertEquals('3 years ago', $result);
 	}
 }

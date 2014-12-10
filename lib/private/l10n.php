@@ -311,7 +311,13 @@ class OC_L10N implements \OCP\IL10N {
 		} else {
 			$value->setTimestamp($data);
 		}
-		$locale = self::findLanguage();
+
+		// Use the language of the instance, before falling back to the current user's language
+		$locale = $this->lang;
+		if ($locale === null) {
+			$locale = self::findLanguage();
+		}
+
 		$options = array_merge(array('width' => 'long'), $options);
 		$width = $options['width'];
 		switch($type) {
