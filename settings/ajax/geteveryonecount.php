@@ -25,7 +25,7 @@ OC_JSON::checkSubAdminUser();
 
 $userCount = 0;
 
-$currentUser = \OC::$server->getUserSession()->getLoginName();
+$currentUser = \OC::$server->getUserSession()->getUser()->getUID();
 
 if (!OC_User::isAdminUser($currentUser)) {
 	$groups = OC_SubAdmin::getSubAdminsGroups($currentUser);
