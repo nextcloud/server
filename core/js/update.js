@@ -47,9 +47,8 @@
 			updateEventSource.listen('failure', function(message) {
 				$('<span>').addClass('error').append(message).append('<br />').appendTo($el);
 				$('<span>')
-				.addClass('error bold')
-				.append('<br />')
-				.append(t('core', 'The update was unsuccessful.' +
+				.addClass('bold')
+				.append(t('core', 'The update was unsuccessful. ' +
 					'Please report this issue to the ' +
 					'<a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'))
 				.appendTo($el);
