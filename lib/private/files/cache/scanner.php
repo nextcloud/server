@@ -219,8 +219,10 @@ class Scanner extends BasicEmitter {
 			$reuse = ($recursive === self::SCAN_SHALLOW) ? self::REUSE_ETAG | self::REUSE_SIZE : 0;
 		}
 		$data = $this->scanFile($path, $reuse);
-		$size = $this->scanChildren($path, $recursive, $reuse);
-		$data['size'] = $size;
+		if ($data !== null) {
+			$size = $this->scanChildren($path, $recursive, $reuse);
+			$data['size'] = $size;
+		}
 		return $data;
 	}
 
