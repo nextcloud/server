@@ -331,35 +331,34 @@ var UserList = {
 			function (result) {
 				var loadedUsers = 0;
 				var trs = [];
-				if (result.status === 'success') {
-					//The offset does not mirror the amount of users available,
-					//because it is backend-dependent. For correct retrieval,
-					//always the limit(requested amount of users) needs to be added.
-					$.each(result.data, function (index, user) {
-						if(UserList.has(user.name)) {
-							return true;
-						}
-						var $tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, user.storageLocation, user.lastLogin, false);
-						$tr.addClass('appear transparent');
-						trs.push($tr);
-						loadedUsers++;
-					});
-					if (result.data.length > 0) {
-						UserList.doSort();
-						$userList.siblings('.loading').css('visibility', 'hidden');
+				//The offset does not mirror the amount of users available,
+				//because it is backend-dependent. For correct retrieval,
+				//always the limit(requested amount of users) needs to be added.
+				$.each(result, function (index, user) {
+					if(UserList.has(user.name)) {
+						return true;
 					}
-					else {
-						UserList.noMoreEntries = true;
-						$userList.siblings('.loading').remove();
-					}
-					UserList.offset += loadedUsers;
-					// animate
-					setTimeout(function() {
-						for (var i = 0; i < trs.length; i++) {
-							trs[i].removeClass('transparent');
-						}
-					}, 0);
+					var $tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, user.storageLocation, user.lastLogin, false);
+					$tr.addClass('appear transparent');
+					trs.push($tr);
+					loadedUsers++;
+				});
+				if (result.length > 0) {
+					UserList.doSort();
+					$userList.siblings('.loading').css('visibility', 'hidden');
 				}
+				else {
+					UserList.noMoreEntries = true;
+					$userList.siblings('.loading').remove();
+				}
+				UserList.offset += loadedUsers;
+				// animate
+				setTimeout(function() {
+					for (var i = 0; i < trs.length; i++) {
+						trs[i].removeClass('transparent');
+					}
+				}, 0);
+			}).always(function() {
 				UserList.updating = false;
 			});
 	},

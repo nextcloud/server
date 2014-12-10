@@ -18,6 +18,7 @@ use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
 use OCP\IRequest;
+use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
 
@@ -66,8 +67,26 @@ class UsersController extends Controller {
 	}
 
 	/**
+	 * @param IUser $user
+	 * @param array $userGroups
+	 * @return array
+	 */
+	private function formatUserForIndex(IUser $user, array $userGroups = null) {
+		return array(
+			'name' => $user->getUID(),
+			'displayname' => $user->getDisplayName(),
+			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
+			'subadmin' => \OC_SubAdmin::getSubAdminsGroups($user->getUID()),
+			'quota' => $this->config->getUserValue($user->getUID(), 'files', 'quota', 'default'),
+			'storageLocation' => $user->getHome(),
+			'lastLogin' => $user->getLastLogin(),
+			'backend' => $user->getBackendClassName()
+		);
+	}
+
+	/**
 	 * @NoAdminRequired
-	 * @NoCSRFRequired
+	 *
 	 * @param int $offset
 	 * @param int $limit
 	 * @param string $gid
@@ -91,16 +110,7 @@ class UsersController extends Controller {
 			}
 
 			foreach ($batch as $uid => $displayname) {
-				$user = $this->userManager->get($uid);
-				$users[] = array(
-					'name' => $uid,
-					'displayname' => $displayname,
-					'groups' => $this->groupManager->getUserGroupIds($user),
-					'subadmin' => \OC_SubAdmin::getSubAdminsGroups($uid),
-					'quota' => $this->config->getUserValue($uid, 'files', 'quota', 'default'),
-					'storageLocation' => $user->getHome(),
-					'lastLogin' => $user->getLastLogin(),
-				);
+				$users[] = $this->formatUserForIndex($this->userManager->get($uid));
 			}
 		} else {
 			$groups = \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID());
@@ -115,20 +125,13 @@ class UsersController extends Controller {
 				$user = $this->userManager->get($uid);
 
 				// Only add the groups, this user is a subadmin of
-				$userGroups = array_intersect($this->groupManager->getUserGroupIds($user), \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()));
-				$users[] = array(
-					'name' => $uid,
-					'displayname' => $user->getDisplayName(),
-					'groups' => $userGroups,
-					'quota' => $this->config->getUserValue($uid, 'files', 'quota', 'default'),
-					'storageLocation' => $user->getHome(),
-					'lastLogin' => $user->getLastLogin(),
-				);
+				$userGroups = array_intersect($this->groupManager->getUserGroupIds($user),
+					\OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()));
+				$users[] = $this->formatUserForIndex($user, $userGroups);
 			}
 		}
 
-		// FIXME: That assignment on "data" is uneeded here - JS should be adjusted
-		return new DataResponse(array('data' => $users, 'status' => 'success'));
+		return new DataResponse($users);
 	}
 
 	/**
@@ -142,7 +145,7 @@ class UsersController extends Controller {
 	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
 	public function create($username, $password, array $groups) {
-		
+
 		if (!$this->isAdmin) {
 			if (!empty($groups)) {
 				foreach ($groups as $key => $group) {
@@ -247,7 +250,6 @@ class UsersController extends Controller {
 			),
 			Http::STATUS_FORBIDDEN
 		);
-
 	}
 
 }
