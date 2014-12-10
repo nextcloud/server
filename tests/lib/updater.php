@@ -26,9 +26,82 @@ class UpdaterTest extends \Test\TestCase {
 	/**
 	 * @dataProvider versionCompatibilityTestData
 	 */
-	function testIsUpgradePossible($oldVersion, $newVersion, $result) {
-		$updater = new Updater();
+	public function testIsUpgradePossible($oldVersion, $newVersion, $result) {
+		$updater = new Updater(\OC::$server->getHTTPHelper(), \OC::$server->getConfig());
 		$this->assertSame($result, $updater->isUpgradePossible($oldVersion, $newVersion));
+	}
+	
+	public function testBrokenXmlResponse(){
+		$invalidUpdater = $this->getUpdaterMock('OMG!');
+		$invalidResult = $invalidUpdater->check();
+		$this->assertEmpty($invalidResult);
+	}
+	
+	public function testEmptyResponse(){
+		$emptyUpdater = $this->getUpdaterMock('');
+		$emptyResult = $emptyUpdater->check();
+		$this->assertEmpty($emptyResult);
+		
+		// Error while fetching new contents e.g. too many redirects
+		$falseUpdater = $this->getUpdaterMock(false);
+		$falseResult = $falseUpdater->check();
+		$this->assertEmpty($falseResult);
+	}
+	
+	public function testValidEmptyXmlResponse(){
+		$updater = $this->getUpdaterMock(
+				'<?xml version="1.0"?><owncloud><version></version><versionstring></versionstring><url></url><web></web></owncloud>'
+		);
+		$result = array_map('strval', $updater->check());
+		
+		$this->assertArrayHasKey('version', $result);
+		$this->assertArrayHasKey('versionstring', $result);
+		$this->assertArrayHasKey('url', $result);
+		$this->assertArrayHasKey('web', $result);
+		$this->assertEmpty($result['version']);
+		$this->assertEmpty($result['versionstring']);
+		$this->assertEmpty($result['url']);
+		$this->assertEmpty($result['web']);
+	}
+	
+	public function testValidUpdateResponse(){
+		$newUpdater = $this->getUpdaterMock(
+				'<?xml version="1.0"?>
+<owncloud>
+  <version>7.0.3.4</version>
+  <versionstring>ownCloud 7.0.3</versionstring>
+  <url>http://download.owncloud.org/community/owncloud-7.0.3.zip</url>
+  <web>http://owncloud.org/</web>
+</owncloud>'
+		);
+		$newResult = array_map('strval', $newUpdater->check());
+		
+		$this->assertArrayHasKey('version', $newResult);
+		$this->assertArrayHasKey('versionstring', $newResult);
+		$this->assertArrayHasKey('url', $newResult);
+		$this->assertArrayHasKey('web', $newResult);
+		$this->assertEquals('7.0.3.4', $newResult['version']);
+		$this->assertEquals('ownCloud 7.0.3', $newResult['versionstring']);
+		$this->assertEquals('http://download.owncloud.org/community/owncloud-7.0.3.zip', $newResult['url']);
+		$this->assertEquals('http://owncloud.org/', $newResult['web']);
+	}
+	
+	protected function getUpdaterMock($content){
+		// Invalidate cache
+		$mockedAppConfig = $this->getMockBuilder('\OC\AppConfig')
+				->disableOriginalConstructor()
+				->getMock()
+		;
+		
+		$mockedHTTPHelper = $this->getMockBuilder('\OC\HTTPHelper')
+				->setConstructorArgs(array(\OC::$server->getConfig()))
+				->getMock()
+		;
+		
+		$mockedHTTPHelper->method('getUrlContent')
+				->willReturn($content)
+		;
+		return new Updater($mockedHTTPHelper, $mockedAppConfig);
 	}
 
 }

@@ -9,7 +9,11 @@ if (OC::checkUpgrade(false)) {
 
 	$l = new \OC_L10N('core');
 	$eventSource = \OC::$server->createEventSource();
-	$updater = new \OC\Updater(\OC_Log::$object);
+	$updater = new \OC\Updater(
+			\OC::$server->getHTTPHelper(),
+			\OC::$server->getAppConfig(),
+			\OC_Log::$object
+	);
 	$updater->listen('\OC\Updater', 'maintenanceStart', function () use ($eventSource, $l) {
 		$eventSource->send('success', (string)$l->t('Turned on maintenance mode'));
 	});
