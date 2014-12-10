@@ -89,16 +89,18 @@ class Shared_Cache extends Cache {
 			$cache = $this->getSourceCache($file);
 			if ($cache) {
 				$data = $cache->get($this->files[$file]);
-				$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
-				$data['path'] = $file;
-				if ($file === '') {
-					$data['is_share_mount_point'] = true;
-				}
-				$data['uid_owner'] = $this->storage->getOwner($file);
-				if (isset($data['permissions'])) {
-					$data['permissions'] &= $this->storage->getPermissions($file);
-				} else {
-					$data['permissions'] = $this->storage->getPermissions($file);
+				if ($data) {
+					$data['displayname_owner'] = \OC_User::getDisplayName($this->storage->getSharedFrom());
+					$data['path'] = $file;
+					if ($file === '') {
+						$data['is_share_mount_point'] = true;
+					}
+					$data['uid_owner'] = $this->storage->getOwner($file);
+					if (isset($data['permissions'])) {
+						$data['permissions'] &= $this->storage->getPermissions($file);
+					} else {
+						$data['permissions'] = $this->storage->getPermissions($file);
+					}
 				}
 				return $data;
 			}
