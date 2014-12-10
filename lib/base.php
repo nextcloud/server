@@ -336,7 +336,6 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
-
 		// following logic will import all vendor libraries that are
 		// specified in core/js/core.json
 		$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
@@ -351,7 +350,6 @@ class OC {
 			throw new \Exception('Cannot read core/js/core.json');
 		}
 
-		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("placeholders");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");

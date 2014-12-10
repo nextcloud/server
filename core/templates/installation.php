@@ -1,3 +1,9 @@
+<?php
+script('core', [
+	'jquery-showpassword',
+	'installation'
+]);
+?>
 <input type='hidden' id='hasMySQL' value='<?php p($_['hasMySQL']) ?>'>
 <input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
