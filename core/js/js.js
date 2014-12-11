@@ -309,7 +309,7 @@ var OC={
 	 * @param {string} query the search query
 	 */
 	search: function (query) {
-		OC.Search.search(query)
+		OC.Search.search(query, 0, 30);
 	},
 	/**
 	 * Dialog helper for jquery dialogs.

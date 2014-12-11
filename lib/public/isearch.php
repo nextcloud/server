@@ -34,8 +34,18 @@ interface ISearch {
 	 * @param string $query
 	 * @param string[] $inApps optionally limit results to the given apps
 	 * @return array An array of OCP\Search\Result's
+	 * @deprecated use searchPaged() with page and size
 	 */
 	public function search($query, array $inApps = array());
+
+	/**
+	 * Search all providers for $query
+	 * @param string $query
+	 * @param int $page
+	 * @param int $size
+	 * @return array An array of OCP\Search\Result's
+	 */
+	public function searchPaged($query, $page = 0, $size = 30);
 
 	/**
 	 * Register a new search provider to search with

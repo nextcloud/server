@@ -46,10 +46,16 @@
 		 * Do a search query and display the results
 		 * @param {string} query the search query
 		 */
-		search: _.debounce(function(query) {
+		search: _.debounce(function(query, page, size) {
 			if(query) {
 				exports.addStyle('search','results');
-				$.getJSON(exports.filePath('search','ajax','search.php')+'?query=' + encodeURIComponent(query), function(results) {
+				if (typeof page !== 'number') {
+					page = 0;
+				}
+				if (typeof size !== 'number') {
+					size = 30;
+				}
+				$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, page:page, size:size }, function(results) {
 					exports.Search.lastResults = results;
 					exports.Search.showResults(results);
 				});

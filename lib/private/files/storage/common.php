@@ -278,6 +278,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 				}
 			}
 		}
+		closedir($dh);
 		return $files;
 	}
 

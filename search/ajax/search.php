@@ -38,8 +38,18 @@ if (isset($_GET['inApps'])) {
 } else {
 	$inApps = array();
 }
+if (isset($_GET['page'])) {
+	$page = (int)$_GET['page'];
+} else {
+	$page = 0;
+}
+if (isset($_GET['size'])) {
+	$size = (int)$_GET['size'];
+} else {
+	$size = 0;
+}
 if($query) {
-	$result = \OC::$server->getSearch()->search($query, $inApps);
+	$result = \OC::$server->getSearch()->search($query, $inApps, $page, $size);
 	OC_JSON::encodedPrint($result);
 }
 else {
