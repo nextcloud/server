@@ -2,6 +2,7 @@
 
 namespace OC;
 
+use bantu\IniGetWrapper\IniGetWrapper;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Db\Db;
 use OC\AppFramework\Utility\SimpleContainer;
@@ -11,7 +12,6 @@ use OC\Diagnostics\EventLogger;
 use OC\Diagnostics\QueryLogger;
 use OC\Files\Config\StorageManager;
 use OC\Security\CertificateManager;
-use OC\DB\ConnectionWrapper;
 use OC\Files\Node\Root;
 use OC\Files\View;
 use OC\Security\Crypto;
@@ -284,6 +284,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		$this->registerService('MountConfigManager', function () {
 			$loader = \OC\Files\Filesystem::getLoader();
 			return new \OC\Files\Config\MountProviderCollection($loader);
+		});
+		$this->registerService('IniWrapper', function ($c) {
+			return new IniGetWrapper();
 		});
 	}
 
@@ -722,5 +725,14 @@ class Server extends SimpleContainer implements IServerContainer {
 	 */
 	function getMountProviderCollection(){
 		return $this->query('MountConfigManager');
+	}
+
+	/**
+	 * Get the IniWrapper
+	 *
+	 * @return IniGetWrapper
+	 */
+	public function getIniWrapper() {
+		return $this->query('IniWrapper');
 	}
 }

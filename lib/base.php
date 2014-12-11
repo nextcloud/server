@@ -717,7 +717,7 @@ class OC {
 		// Check if ownCloud is installed or in maintenance (update) mode
 		if (!$systemConfig->getValue('installed', false)) {
 			\OC::$server->getSession()->clear();
-			$controller = new OC\Core\Setup\Controller(\OC::$server->getConfig());
+			$controller = new OC\Core\Setup\Controller(\OC::$server->getConfig(), \OC::$server->getIniWrapper(), \OC::$server->getL10N('core'), new \OC_Defaults());
 			$controller->run($_POST);
 			exit();
 		}
