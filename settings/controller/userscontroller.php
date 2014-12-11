@@ -122,6 +122,7 @@ class UsersController extends Controller {
 			foreach($activeBackends as $singleActiveBackend) {
 				if($backend === get_class($singleActiveBackend)) {
 					$this->userManager->registerBackend($singleActiveBackend);
+					break;
 				}
 			}
 		}
