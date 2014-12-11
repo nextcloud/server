@@ -64,8 +64,10 @@ class Search implements ISearch {
 				$providerResults = $provider->search($query);
 				if ($size > 0) {
 					$slicedResults = array_slice($providerResults, $page * $size, $size);
+					$results = array_merge($results, $slicedResults);
+				} else {
+					$results = array_merge($results, $providerResults);
 				}
-				$results = array_merge($results, $slicedResults);
 			} else {
 				\OC::$server->getLogger()->warning('Ignoring Unknown search provider', array('provider' => $provider));
 			}

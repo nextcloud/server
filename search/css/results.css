@@ -14,6 +14,9 @@
 	box-sizing: border-box;
 	z-index:75;
 }
+#searchresults * {
+	box-sizing: content-box;
+}
 
 #searchresults table {
 	border-spacing:0;
@@ -23,6 +26,9 @@
 }
 
 #searchresults td {
+	padding: 0 15px;
+	font-style: normal;
+	vertical-align: middle;
 	border-top: 20px solid white;
 	border-bottom: none;
 }
