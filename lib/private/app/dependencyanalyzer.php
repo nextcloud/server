@@ -79,6 +79,9 @@ class DependencyAnalyzer {
 		if (empty($supportedDatabases)) {
 			return;
 		}
+		if (!is_array($supportedDatabases)) {
+			$supportedDatabases = array($supportedDatabases);
+		}
 		$supportedDatabases = array_map(function($db) {
 			return $this->getValue($db);
 		}, $supportedDatabases);
@@ -94,6 +97,9 @@ class DependencyAnalyzer {
 		}
 
 		$commands = $this->dependencies['command'];
+		if (!is_array($commands)) {
+			$commands = array($commands);
+		}
 		$os = $this->platform->getOS();
 		foreach($commands as $command) {
 			if (isset($command['@attributes']['os']) && $command['@attributes']['os'] !== $os) {
@@ -112,6 +118,9 @@ class DependencyAnalyzer {
 		}
 
 		$libs = $this->dependencies['lib'];
+		if (!is_array($libs)) {
+			$libs = array($libs);
+		}
 		foreach($libs as $lib) {
 			$libName = $this->getValue($lib);
 			$libVersion = $this->platform->getLibraryVersion($libName);
@@ -148,9 +157,13 @@ class DependencyAnalyzer {
 		if (empty($oss)) {
 			return;
 		}
-		$oss = array_map(function($os) {
-			return $this->getValue($os);
-		}, $oss);
+		if (is_array($oss)) {
+			$oss = array_map(function ($os) {
+				return $this->getValue($os);
+			}, $oss);
+		} else {
+			$oss = array($oss);
+		}
 		$currentOS = $this->platform->getOS();
 		if (!in_array($currentOS, $oss)) {
 			$this->addMissing((string)$this->l->t('Following platforms are supported: %s', join(', ', $oss)));
@@ -165,8 +178,8 @@ class DependencyAnalyzer {
 			$minVersion = $this->appInfo['requiremin'];
 		}
 		$maxVersion = null;
-		if (isset($this->dependencies['oc']['@attributes']['max-version'])) {
-			$maxVersion = $this->dependencies['oc']['@attributes']['max-version'];
+		if (isset($this->dependencies['owncloud']['@attributes']['max-version'])) {
+			$maxVersion = $this->dependencies['owncloud']['@attributes']['max-version'];
 		} elseif (isset($this->appInfo['requiremax'])) {
 			$maxVersion = $this->appInfo['requiremax'];
 		}
@@ -190,7 +203,7 @@ class DependencyAnalyzer {
 	private function getValue($element) {
 		if (isset($element['@value']))
 			return $element['@value'];
-		return strval($element);
+		return (string)$element;
 	}
 
 	/**

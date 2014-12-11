@@ -174,7 +174,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			'dependencies' => array()
 		);
 		if (!is_null($oc)) {
-			$app['dependencies']['oc'] = $oc;
+			$app['dependencies']['owncloud'] = $oc;
 		}
 
 		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
@@ -197,6 +197,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		return array(
 			array(array(), null),
 			array(array(), array()),
+			array(array('Following platforms are supported: ANDROID'), 'ANDROID'),
 			array(array('Following platforms are supported: WINNT'), array('WINNT'))
 		);
 	}
@@ -204,7 +205,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 	function providesLibs() {
 		return array(
 			// we expect curl to exist
-			array(array(), array('curl')),
+			array(array(), 'curl'),
 			// we expect abcde to exist
 			array(array('The library abcde is not available.'), array('abcde')),
 			// curl in version 100.0 does not exist
@@ -226,7 +227,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			// we don't care about tools on Windows - we are on Linux
 			array(array(), array(array('@attributes' => array('os' => 'Windows'), '@value' => 'grepp'))),
 			// grep is known on all systems
-			array(array(), array('grep')),
+			array(array(), 'grep'),
 		);
 	}
 
@@ -235,6 +236,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			// non BC - in case on databases are defined -> all are supported
 			array(array(), null),
 			array(array(), array()),
+			array(array('Following databases are supported: mongodb'), 'mongodb'),
 			array(array('Following databases are supported: sqlite, postgres'), array('sqlite', array('@value' => 'postgres'))),
 		);
 	}
