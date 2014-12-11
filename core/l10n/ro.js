@@ -89,7 +89,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["","",""],
     "Updating {productName} to version {version}, this may take a while." : "Se actualizează {productName} la versiunea {version}, poate dura câteva momente.",
     "Please reload the page." : "Te rugăm să reîncarci pagina.",
-    "The update was unsuccessful." : "Actualizare eșuată.",
     "The update was successful. Redirecting you to ownCloud now." : "Actualizare reușită. Ești redirecționat către ownCloud.",
     "%s password reset" : "%s resetare parola",
     "Use the following link to reset your password: {link}" : "Folosește următorul link pentru a reseta parola: {link}",

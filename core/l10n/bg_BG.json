@@ -115,7 +115,6 @@
     "_download %n file_::_download %n files_" : ["изтегли %n файл","изтегли %n файла"],
     "Updating {productName} to version {version}, this may take a while." : "Обновява се {productName} на версия {version}, това може да отнеме време.",
     "Please reload the page." : "Моля, презареди страницата.",
-    "The update was unsuccessful." : "Обновяването неуспешно.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновяването е успешно. Пренасочване към твоя ownCloud сега.",
     "Couldn't reset password because the token is invalid" : "Невалиден линк за промяна на паролата.",
     "Couldn't send reset email. Please make sure your username is correct." : "Неуспешно изпращане на имейл за възстановяване на паролата. Моля, увери се, че потребителското име е правилно.",

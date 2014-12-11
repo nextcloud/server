@@ -115,7 +115,6 @@
     "_download %n file_::_download %n files_" : ["Lade %n Datei herunter","Lade %n Dateien herunter"],
     "Updating {productName} to version {version}, this may take a while." : "{productName} wird auf Version {version} aktualisiert. Das könnte eine Weile dauern.",
     "Please reload the page." : "Bitte laden Sie diese Seite neu.",
-    "The update was unsuccessful." : "Die Aktualisierung war erfolgreich.",
     "The update was successful. Redirecting you to ownCloud now." : "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet.",
     "Couldn't reset password because the token is invalid" : "Aufgrund eines ungültigen Tokens kann das Passwort nicht zurück gesetzt werden",
     "Couldn't send reset email. Please make sure your username is correct." : "E-Mail zum Zurücksetzen kann nicht versendet werden. Bitte stellen Sie sicher, dass Ihr Benutzername richtig ist.",

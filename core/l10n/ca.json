@@ -111,7 +111,6 @@
     "_download %n file_::_download %n files_" : ["",""],
     "Updating {productName} to version {version}, this may take a while." : "Actualitzant {productName} a la versió {version}. Pot trigar una estona.",
     "Please reload the page." : "Carregueu la pàgina de nou.",
-    "The update was unsuccessful." : "L'actualització no ha tingut èxit.",
     "The update was successful. Redirecting you to ownCloud now." : "L'actualització ha estat correcte. Ara us redirigim a ownCloud.",
     "Couldn't reset password because the token is invalid" : "No es pot restablir la contrasenya perquè el testimoni no és vàlid",
     "Couldn't send reset email. Please make sure your username is correct." : "No s'ha pogut enviar el correu de restabliment. Assegureu-vos que el vostre nom d'usuari és correcte.",

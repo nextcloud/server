@@ -111,7 +111,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["","",""],
     "Updating {productName} to version {version}, this may take a while." : "Uređivanje {productName} u verziiju {version}, to može potrajati neko vrijeme.",
     "Please reload the page." : "Molimo, ponovno učitajte stranicu",
-    "The update was unsuccessful." : "Ažuriranje nije uspjelo",
     "The update was successful. Redirecting you to ownCloud now." : "Ažuriranje je uspjelo. Upravo ste preusmjeravani na ownCloud.",
     "Couldn't reset password because the token is invalid" : "Resetiranje lozinke nije moguće jer je token neispravan.",
     "Couldn't send reset email. Please make sure your username is correct." : "Resetiranu e-poštu nije moguće poslati.Molimo provjerite ispravnost svoga korisničkog imena.",

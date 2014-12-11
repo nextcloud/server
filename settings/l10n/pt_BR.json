@@ -138,6 +138,7 @@
     "Enforce expiration date" : "Fazer cumprir a data de expiração",
     "Allow resharing" : "Permitir recompartilhamento",
     "Restrict users to only share with users in their groups" : "Restringir os usuários a compartilhar somente com os usuários em seus grupos",
+    "Allow users to send mail notification for shared files to other users" : "Permitir aos usuários enviar notificação de email de arquivos compartilhados para outros usuários",
     "Exclude groups from sharing" : "Excluir grupos de compartilhamento",
     "These groups will still be able to receive shares, but not to initiate them." : "Esses grupos ainda serão capazes de receber compartilhamentos, mas não para iniciá-los.",
     "Enforce HTTPS" : "Forçar HTTPS",

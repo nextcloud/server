@@ -138,6 +138,7 @@
     "Enforce expiration date" : "Enforce expiry date",
     "Allow resharing" : "Allow resharing",
     "Restrict users to only share with users in their groups" : "Restrict users to only share with users in their groups",
+    "Allow users to send mail notification for shared files to other users" : "Allow users to send email notification for shared files to other users",
     "Exclude groups from sharing" : "Exclude groups from sharing",
     "These groups will still be able to receive shares, but not to initiate them." : "These groups will still be able to receive shares, but not to initiate them.",
     "Enforce HTTPS" : "Enforce HTTPS",

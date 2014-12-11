@@ -140,6 +140,7 @@ OC.L10N.register(
     "Enforce expiration date" : "Vynutit datum vypršení",
     "Allow resharing" : "Povolit znovu-sdílení",
     "Restrict users to only share with users in their groups" : "Povolit sdílení pouze mezi uživateli v rámci skupiny",
+    "Allow users to send mail notification for shared files to other users" : "Povolit uživatelům odesílat e-mailová upozornění na sdílené soubory",
     "Exclude groups from sharing" : "Vyjmout skupiny ze sdílení",
     "These groups will still be able to receive shares, but not to initiate them." : "Těmto skupinám bude stále možno sdílet, nemohou ale sami sdílet ostatním.",
     "Enforce HTTPS" : "Vynutit HTTPS",

@@ -113,7 +113,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["",""],
     "Updating {productName} to version {version}, this may take a while." : "Eguneratu  {productName} {version} bertsiora, bere denbora behar du.",
     "Please reload the page." : "Mesedez birkargatu orria.",
-    "The update was unsuccessful." : "Eguneraketak ez du arrakasta izan.",
     "The update was successful. Redirecting you to ownCloud now." : "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
     "Couldn't reset password because the token is invalid" : "Ezin izan da pasahitza berrezarri tokena baliogabea delako",
     "Couldn't send reset email. Please make sure your username is correct." : "Ezin izan da berrezartzeko eposta bidali. Ziurtatu zure erabiltzaile izena egokia dela.",

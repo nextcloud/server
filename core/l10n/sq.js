@@ -116,7 +116,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["shkarko %n skedar","shkarko %n skedarë"],
     "Updating {productName} to version {version}, this may take a while." : "Po përditësoj {productName} në versionin {version}, kjo mund të zgjasë pak.",
     "Please reload the page." : "Ju lutem ringarkoni faqen.",
-    "The update was unsuccessful." : "Përditësimi nuk rezultoi me sukses.",
     "The update was successful. Redirecting you to ownCloud now." : "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i.",
     "Couldn't reset password because the token is invalid" : "Nuk mund të rivendos fjalëkalimin sepse shenja është e pavlefshme.",
     "Couldn't send reset email. Please make sure your username is correct." : "Emaili i rivendosjes nuk mund të dërgohet. Ju lutem sigurohuni që përdoruesi juaj është i saktë.",

@@ -111,7 +111,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["",""],
     "Updating {productName} to version {version}, this may take a while." : "Anovando {productName} a la versión {version}, esto pue llevar un tiempu.",
     "Please reload the page." : "Por favor, recarga la páxina",
-    "The update was unsuccessful." : "L'anovamientu nun foi esitosu.",
     "The update was successful. Redirecting you to ownCloud now." : "L'anovamientu fízose con ésitu. Redirixiendo agora al to ownCloud.",
     "Couldn't reset password because the token is invalid" : "Nun pudo reaniciase la contraseña porque'l token ye inválidu",
     "Couldn't send reset email. Please make sure your username is correct." : "Nun pudo unviase'l corréu. Por favor, asegurate que'l to nome d'usuariu seya correutu",

@@ -96,7 +96,6 @@
     "Edit tags" : "Modifica etiquettas",
     "_download %n file_::_download %n files_" : ["",""],
     "Please reload the page." : "Pro favor recarga le pagina.",
-    "The update was unsuccessful." : "Le actualisation esseva successose.",
     "The update was successful. Redirecting you to ownCloud now." : "Le actualisation terminava con successo. On redirige nunc a tu ownCloud.",
     "%s password reset" : "%s contrasigno re-fixate",
     "Use the following link to reset your password: {link}" : "Usa le ligamine sequente pro re-fixar tu contrasigno: {link}",

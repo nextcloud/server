@@ -117,7 +117,6 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["laadi alla %n fail","laadi alla %n faili"],
     "Updating {productName} to version {version}, this may take a while." : "Uuendan {productName} versioonile {version}, see võtab veidi aega.",
     "Please reload the page." : "Palun laadi see uuesti.",
-    "The update was unsuccessful." : "Uuendus ebaõnnestus.",
     "The update was successful. Redirecting you to ownCloud now." : "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi.",
     "Couldn't reset password because the token is invalid" : "Ei saanud parooli taastada, kuna märgend on vigane",
     "Couldn't send reset email. Please make sure your username is correct." : "Ei suutnud lähtestada e-maili. Palun veendu, et kasutajatunnus on õige.",

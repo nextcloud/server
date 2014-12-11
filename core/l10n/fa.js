@@ -99,7 +99,6 @@ OC.L10N.register(
     "Add" : "افزودن",
     "Edit tags" : "ویرایش تگ ها",
     "_download %n file_::_download %n files_" : [""],
-    "The update was unsuccessful." : "بروزرسانی موفقیت آمیز نبود.",
     "The update was successful. Redirecting you to ownCloud now." : "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
     "Use the following link to reset your password: {link}" : "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
     "New password" : "گذرواژه جدید",

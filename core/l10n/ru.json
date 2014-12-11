@@ -115,7 +115,6 @@
     "_download %n file_::_download %n files_" : ["загрузить %n файл","загрузить %n файла","загрузить %n файлов"],
     "Updating {productName} to version {version}, this may take a while." : "Обновление {productName} до версии {version}, пожалуйста, подождите.",
     "Please reload the page." : "Пожалуйста, перезагрузите страницу.",
-    "The update was unsuccessful." : "Обновление не удалось.",
     "The update was successful. Redirecting you to ownCloud now." : "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
     "Couldn't reset password because the token is invalid" : "Невозможно сбросить пароль потому, что ключ неправильный",
     "Couldn't send reset email. Please make sure your username is correct." : "Не удалось отправить письмо для сброса пароля. Пожалуйста, убедитесь в том, что ваше имя пользователя введено верно.",

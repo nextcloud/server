@@ -6,16 +6,16 @@
     "Admin" : "Administration",
     "Unknown filetype" : "Typo de file incognite",
     "Invalid image" : "Imagine invalide",
-    "web services under your control" : "servicios web sub tu controlo",
-    "seconds ago" : "secundas passate",
-    "_%n minute ago_::_%n minutes ago_" : ["","%n minutas passate"],
-    "_%n hour ago_::_%n hours ago_" : ["","%n horas passate"],
     "today" : "hodie",
     "yesterday" : "heri",
-    "_%n day go_::_%n days ago_" : ["","%n dies ante"],
+    "_%n day ago_::_%n days ago_" : ["",""],
     "last month" : "ultime mense",
     "_%n month ago_::_%n months ago_" : ["","%n menses ante"],
     "last year" : "ultime anno",
-    "years ago" : "annos passate"
+    "_%n year go_::_%n years ago_" : ["",""],
+    "_%n hour ago_::_%n hours ago_" : ["","%n horas passate"],
+    "_%n minute ago_::_%n minutes ago_" : ["","%n minutas passate"],
+    "seconds ago" : "secundas passate",
+    "web services under your control" : "servicios web sub tu controlo"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

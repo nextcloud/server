@@ -111,7 +111,6 @@
     "_download %n file_::_download %n files_" : [""],
     "Updating {productName} to version {version}, this may take a while." : "正在更新 {productName} 到版本 {version} ，請稍候",
     "Please reload the page." : "請重新整理頁面",
-    "The update was unsuccessful." : "更新失敗",
     "The update was successful. Redirecting you to ownCloud now." : "升級成功，正將您重新導向至 ownCloud 。",
     "Couldn't reset password because the token is invalid" : "無法重設密碼因為 token 無效",
     "Couldn't send reset email. Please make sure your username is correct." : "無法寄送重設 email ，請確認您的帳號輸入正確",

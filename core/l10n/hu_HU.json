@@ -111,7 +111,6 @@
     "_download %n file_::_download %n files_" : ["",""],
     "Updating {productName} to version {version}, this may take a while." : " {productName} frissítése zajlik erre a verzióra: {version}. Ez eltarthat egy darabig.",
     "Please reload the page." : "Kérjük frissítse az oldalt!",
-    "The update was unsuccessful." : "A frissítés nem sikerült.",
     "The update was successful. Redirecting you to ownCloud now." : "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatáshoz.",
     "Couldn't reset password because the token is invalid" : "Nem lehet a jelszót törölni, mert a token érvénytelen.",
     "Couldn't send reset email. Please make sure your username is correct." : "Visszaállítási e-mail nem küldhető. Kérjük, lépjen kapcsolatba a rendszergazdával. ",
