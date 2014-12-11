@@ -94,13 +94,44 @@ class Activity implements \OCP\Activity\IExtension {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
 					return $l->t('You received a new remote share from %s', $params)->__toString();
 				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
-					return $l->t('%1$s accepted remote share <strong>%2$s</strong>', $params)->__toString();
+					return $l->t('%1$s accepted remote share %2$s', $params)->__toString();
 				case self::SUBJECT_REMOTE_SHARE_DECLINED:
-					return $l->t('%1$s declined remote share <strong>%2$s</strong>', $params)->__toString();
+					return $l->t('%1$s declined remote share %2$s', $params)->__toString();
 					case self::SUBJECT_REMOTE_SHARE_UNSHARED:
-					return $l->t('%1$s unshared <strong>%2$s</strong>', $params)->__toString();
+					return $l->t('%1$s unshared %2$s', $params)->__toString();
 			}
 		}
+	}
+
+	/**
+	 * The extension can define the type of parameters for translation
+	 *
+	 * Currently known types are:
+	 * * file		=> will strip away the path of the file and add a tooltip with it
+	 * * username	=> will add the avatar of the user
+	 *
+	 * @param string $app
+	 * @param string $text
+	 * @return array|false
+	 */
+	public function getSpecialParameterList($app, $text) {
+		if ($app === 'files_sharing') {
+			switch ($text) {
+				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
+					return array(
+						0 => '',// We can not use 'username' since the user is in a different ownCloud
+					);
+				case self::SUBJECT_REMOTE_SHARE_ACCEPTED:
+				case self::SUBJECT_REMOTE_SHARE_DECLINED:
+				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+					return array(
+						0 => '',// We can not use 'username' since the user is in a different ownCloud
+						1 => 'file',
+					);
+			}
+		}
+
+		return false;
 	}
 
 	/**
