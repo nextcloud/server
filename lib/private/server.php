@@ -361,6 +361,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		} else {
 			$user = $this->getUserManager()->get($userId);
 		}
+		\OC\Files\Filesystem::initMountPoints($userId);
 		$dir = '/' . $userId;
 		$root = $this->getRootFolder();
 		$folder = null;
