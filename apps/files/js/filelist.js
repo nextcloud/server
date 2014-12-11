@@ -94,6 +94,12 @@
 		fileActions: null,
 
 		/**
+		 * Whether selection is allowed, checkboxes and selection overlay will
+		 * be rendered
+		 */
+		_allowSelection: true,
+
+		/**
 		 * Map of file id to file data
 		 * @type Object.<int, Object>
 		 */
@@ -679,10 +685,8 @@
 			}
 
 			// filename td
-			td = $('<td></td>').attr({
-				"class": "filename",
-				"style": 'background-image:url(' + icon + '); background-size: 32px;'
-			});
+			td = $('<td class="filename"></td>');
+
 
 			// linkUrl
 			if (type === 'dir') {
@@ -691,8 +695,16 @@
 			else {
 				linkUrl = this.getDownloadUrl(name, path);
 			}
-			td.append('<input id="select-' + this.id + '-' + fileData.id +
-				'" type="checkbox" /><label for="select-' + this.id + '-' + fileData.id + '"></label>');
+			if (this._allowSelection) {
+				td.append(
+					'<input id="select-' + this.id + '-' + fileData.id +
+					'" type="checkbox" /><label for="select-' + this.id + '-' + fileData.id + '">' +
+					'<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>' +
+					'</label>'
+				);
+			} else {
+				td.append('<div class="thumbnail" style="background-image:url(' + icon + '); background-size: 32px;"></div>');
+			}
 			var linkElem = $('<a></a>').attr({
 				"class": "name",
 				"href": linkUrl
@@ -888,6 +900,7 @@
 			this.fileActions.display(filenameTd, !options.silent, this);
 
 			if (fileData.isPreviewAvailable) {
+				var iconDiv = filenameTd.find('.thumbnail');
 				// lazy load / newly inserted td ?
 				if (options.animate) {
 					this.lazyLoadPreview({
@@ -895,7 +908,7 @@
 						mime: mime,
 						etag: fileData.etag,
 						callback: function(url) {
-							filenameTd.css('background-image', 'url(' + url + ')');
+							iconDiv.css('background-image', 'url(' + url + ')');
 						}
 					});
 				}
@@ -907,7 +920,7 @@
 						};
 					var previewUrl = this.generatePreviewUrl(urlSpec);
 					previewUrl = previewUrl.replace('(', '%28').replace(')', '%29');
-					filenameTd.css('background-image', 'url(' + previewUrl + ')');
+					iconDiv.css('background-image', 'url(' + previewUrl + ')');
 				}
 			}
 			return tr;

@@ -38,6 +38,7 @@
 		_sharedWithUser: false,
 		_linksOnly: false,
 		_clientSideSort: true,
+		_allowSelection: false,
 
 		/**
 		 * @private

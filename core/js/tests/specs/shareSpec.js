@@ -509,7 +509,7 @@ describe('OC.Share tests', function() {
 
 		beforeEach(function() {
 			tipsyStub = sinon.stub($.fn, 'tipsy');
-			$file = $('<tr><td class="filename">File name</td></tr>');
+			$file = $('<tr><td class="filename"><div class="thumbnail"></div><span class="name">File name</span></td></tr>');
 			$file.find('.filename').append(
 				'<span class="fileactions">' +
 				'<a href="#" class="action action-share" data-action="Share">' +
@@ -581,7 +581,7 @@ describe('OC.Share tests', function() {
 
 		describe('displaying the folder icon', function() {
 			function checkIcon(expectedImage) {
-				var imageUrl = OC.TestUtil.getImageUrl($file.find('.filename'));
+				var imageUrl = OC.TestUtil.getImageUrl($file.find('.filename .thumbnail'));
 				expectedIcon = OC.imagePath('core', expectedImage);
 				expect(imageUrl).toEqual(expectedIcon);
 			}

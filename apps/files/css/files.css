@@ -244,6 +244,15 @@ table td.filename a.name {
 	line-height: 50px;
 	padding: 0;
 }
+table td.filename .thumbnail {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-left: 8px;
+	margin-top: 9px;
+	cursor: pointer;
+	float: left;
+}
 table td.filename input.filename {
 	width: 70%;
 	margin-top: 1px;
@@ -383,6 +392,7 @@ table td.filename .uploadtext {
 	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
 	 * to prevent it to increase the height */
 	position: absolute;
+	z-index: 10;
 }
 #fileList tr td.filename>input[type="checkbox"] + label {
 	left: 0;
@@ -395,6 +405,7 @@ table td.filename .uploadtext {
 	position: absolute;
 	top: 18px;
 	left: 18px;
+	z-index: 10;
 }
 
 #fileList tr td.filename {
