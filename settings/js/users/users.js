@@ -12,9 +12,7 @@ var filter;
 
 var UserList = {
 	availableGroups: [],
-	offset: 30, //The first 30 users are there. No prob, if less in total.
-				//hardcoded in settings/users.php
-
+	offset: 0,
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
 	currentGid: '',
 
@@ -32,13 +30,23 @@ var UserList = {
 
 	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
 		var $tr = $userListBody.find('tr:first-child').clone();
+		// this removes just the `display:none` of the template row
+		$tr.removeAttr('style');
 		var subAdminsEl;
 		var subAdminSelect;
 		var groupsSelect;
+
+		/**
+		 * Avatar or placeholder
+		 */
 		if ($tr.find('div.avatardiv').length){
 			$tr.find('.avatardiv').imageplaceholder(username, displayname);
 			$('div.avatardiv', $tr).avatar(username, 32);
 		}
+
+		/**
+		 * add username and displayname to row (in data and visible markup
+		 */
 		$tr.data('uid', username);
 		$tr.data('displayname', displayname);
 		$tr.find('td.name').text(username);
@@ -727,6 +735,7 @@ $(document).ready(function () {
 		}
 	});
 
-
+	// trigger loading of users on startup
+	UserList.update(UserList.currentGid);
 
 });

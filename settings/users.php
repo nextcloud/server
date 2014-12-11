@@ -17,7 +17,6 @@ OC_Util::addScript( 'core', 'singleselect' );
 OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
-$users = array();
 $userManager = \OC_User::getManager();
 $groupManager = \OC_Group::getManager();
 
@@ -33,7 +32,6 @@ $recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
 					    $config->getAppValue( 'files_encryption', 'recoveryAdminEnabled', null );
 
 if($isAdmin) {
-	$accessibleUsers = OC_User::getDisplayNames('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
 	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
@@ -43,48 +41,22 @@ if($isAdmin) {
 			$gids[] = $group['id'];
 		}
 	}
-	$accessibleUsers = OC_Group::displayNamesInGroups($gids, '', 30);
 	$subadmins = false;
 }
 
 // load preset quotas
-$quotaPreset=OC_Appconfig::getValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
+$quotaPreset=$config->getAppValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
 $quotaPreset=explode(',', $quotaPreset);
 foreach($quotaPreset as &$preset) {
 	$preset=trim($preset);
 }
 $quotaPreset=array_diff($quotaPreset, array('default', 'none'));
 
-$defaultQuota=OC_Appconfig::getValue('files', 'default_quota', 'none');
+$defaultQuota=$config->getAppValue('files', 'default_quota', 'none');
 $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false
 	&& array_search($defaultQuota, array('none', 'default'))===false;
 
-// load users and quota
-foreach($accessibleUsers as $uid => $displayName) {
-	$quota = $config->getUserValue($uid, 'files', 'quota', 'default');
-	$isQuotaUserDefined = array_search($quota, $quotaPreset) === false
-		&& array_search($quota, array('none', 'default')) === false;
-
-	$name = $displayName;
-	if ($displayName !== $uid) {
-		$name = $name . ' (' . $uid . ')';
-	}
-
-	$user = $userManager->get($uid);
-	$users[] = array(
-		"name" => $uid,
-		"displayName" => $displayName,
-		"groups" => OC_Group::getUserGroups($uid),
-		'quota' => $quota,
-		'isQuotaUserDefined' => $isQuotaUserDefined,
-		'subadmin' => OC_SubAdmin::getSubAdminsGroups($uid),
-		'storageLocation' => $user->getHome(),
-		'lastLogin' => $user->getLastLogin(),
-	);
-}
-
 $tmpl = new OC_Template("settings", "users/main", "user");
-$tmpl->assign('users', $users);
 $tmpl->assign('groups', $groups);
 $tmpl->assign('adminGroup', $adminGroup);
 $tmpl->assign('isAdmin', (int)$isAdmin);
