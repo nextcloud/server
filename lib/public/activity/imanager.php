@@ -100,6 +100,13 @@ interface IManager {
 	function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
 
 	/**
+	 * @param string $app
+	 * @param string $text
+	 * @return array|false
+	 */
+	function getSpecialParameterList($app, $text);
+
+	/**
 	 * @param string $type
 	 * @return string
 	 */

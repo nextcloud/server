@@ -80,6 +80,19 @@ interface IExtension {
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode);
 
 	/**
+	 * The extension can define the type of parameters for translation
+	 *
+	 * Currently known types are:
+	 * * file		=> will strip away the path of the file and add a tooltip with it
+	 * * username	=> will add the avatar of the user
+	 *
+	 * @param string $app
+	 * @param string $text
+	 * @return array|false
+	 */
+	function getSpecialParameterList($app, $text);
+
+	/**
 	 * A string naming the css class for the icon to be used can be returned.
 	 * If no icon is known for the given type false is to be returned.
 	 *
