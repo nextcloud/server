@@ -157,7 +157,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 		} else if ($dateInterval->y == 1) {
 			return (string) $l->t('last year');
 		}
-		return (string) $l->n('%n year go', '%n years ago', $dateInterval->y);
+		return (string) $l->n('%n year ago', '%n years ago', $dateInterval->y);
 	}
 
 	/**
