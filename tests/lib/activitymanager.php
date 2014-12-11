@@ -59,6 +59,14 @@ class Test_ActivityManager extends \Test\TestCase {
 		$this->assertFalse($result);
 	}
 
+	public function testGetSpecialParameterList() {
+		$result = $this->activityManager->getSpecialParameterList('APP0', '');
+		$this->assertEquals(array(0 => 'file', 1 => 'username'), $result);
+
+		$result = $this->activityManager->getSpecialParameterList('APP1', '');
+		$this->assertFalse($result);
+	}
+
 	public function testTypeIcon() {
 		$result = $this->activityManager->getTypeIcon('NT1');
 		$this->assertEquals('icon-nt-one', $result);
@@ -132,6 +140,14 @@ class SimpleExtension implements \OCP\Activity\IExtension {
 		return false;
 	}
 
+	public function getSpecialParameterList($app, $text) {
+		if ($app === 'APP0') {
+			return array(0 => 'file', 1 => 'username');
+		}
+
+		return false;
+	}
+
 	public function getTypeIcon($type) {
 		if ($type === 'NT1') {
 			return 'icon-nt-one';
@@ -182,6 +198,10 @@ class NoOpExtension implements \OCP\Activity\IExtension {
 	}
 
 	public function translate($app, $text, $params, $stripPath, $highlightParams, $languageCode) {
+		return false;
+	}
+
+	public function getSpecialParameterList($app, $text) {
 		return false;
 	}
 
