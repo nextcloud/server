@@ -28,7 +28,7 @@ use OCP\IConfig;
  */
 class Manager extends PublicEmitter implements IUserManager {
 	/**
-	 * @var \OC_User_Interface[] $backends
+	 * @var \OCP\UserInterface [] $backends
 	 */
 	private $backends = array();
 
@@ -64,7 +64,7 @@ class Manager extends PublicEmitter implements IUserManager {
 
 	/**
 	 * Get the active backends
-	 * @return \OC_User_Interface[]
+	 * @return \OCP\UserInterface[]
 	 */
 	public function getBackends() {
 		return $this->backends;
@@ -73,7 +73,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * register a user backend
 	 *
-	 * @param \OC_User_Interface $backend
+	 * @param \OCP\UserInterface $backend
 	 */
 	public function registerBackend($backend) {
 		$this->backends[] = $backend;
@@ -82,7 +82,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	/**
 	 * remove a user backend
 	 *
-	 * @param \OC_User_Interface $backend
+	 * @param \OCP\UserInterface $backend
 	 */
 	public function removeBackend($backend) {
 		$this->cachedUsers = array();
@@ -121,7 +121,7 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * get or construct the user object
 	 *
 	 * @param string $uid
-	 * @param \OC_User_Interface $backend
+	 * @param \OCP\UserInterface $backend
 	 * @return \OC\User\User
 	 */
 	protected function getUserObject($uid, $backend) {

@@ -33,7 +33,7 @@ interface IUserManager {
 
 	/**
 	 * Get the active backends
-	 * @return \OC_User_Interface[]
+	 * @return \OCP\UserInterface[]
 	 */
 	public function getBackends();
 
