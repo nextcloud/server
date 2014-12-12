@@ -13,7 +13,7 @@
     "last month" : "praeitą mėnesį",
     "_%n month ago_::_%n months ago_" : ["Prieš %n mėnesį","Prieš %n mėnesius","Prieš %n mėnesių"],
     "last year" : "praeitais metais",
-    "_%n year go_::_%n years ago_" : ["","",""],
+    "_%n year ago_::_%n years ago_" : ["","",""],
     "_%n hour ago_::_%n hours ago_" : ["Prieš %n valandą","Prieš %n valandas","Prieš %n valandų"],
     "_%n minute ago_::_%n minutes ago_" : ["prieš %n min.","Prieš % minutes","Prieš %n minučių"],
     "seconds ago" : "prieš sekundę",

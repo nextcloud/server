@@ -12,7 +12,7 @@
     "last month" : "førre månad",
     "_%n month ago_::_%n months ago_" : ["","%n månadar sidan"],
     "last year" : "i fjor",
-    "_%n year go_::_%n years ago_" : ["",""],
+    "_%n year ago_::_%n years ago_" : ["",""],
     "_%n hour ago_::_%n hours ago_" : ["","%n timar sidan"],
     "_%n minute ago_::_%n minutes ago_" : ["","%n minutt sidan"],
     "seconds ago" : "sekund sidan",

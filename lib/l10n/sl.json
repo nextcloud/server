@@ -24,7 +24,7 @@
     "last month" : "zadnji mesec",
     "_%n month ago_::_%n months ago_" : ["pred %n mesecem","pred %n mesecema","pred %n meseci","pred %n meseci"],
     "last year" : "lansko leto",
-    "_%n year go_::_%n years ago_" : ["","","",""],
+    "_%n year ago_::_%n years ago_" : ["","","",""],
     "_%n hour ago_::_%n hours ago_" : ["pred %n uro","pred %n urama","pred %n urami","pred %n urami"],
     "_%n minute ago_::_%n minutes ago_" : ["pred %n minuto","pred %n minutama","pred %n minutami","pred %n minutami"],
     "seconds ago" : "pred nekaj sekundami",

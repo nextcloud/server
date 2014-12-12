@@ -12,7 +12,7 @@
     "last month" : "ultime mense",
     "_%n month ago_::_%n months ago_" : ["","%n menses ante"],
     "last year" : "ultime anno",
-    "_%n year go_::_%n years ago_" : ["",""],
+    "_%n year ago_::_%n years ago_" : ["",""],
     "_%n hour ago_::_%n hours ago_" : ["","%n horas passate"],
     "_%n minute ago_::_%n minutes ago_" : ["","%n minutas passate"],
     "seconds ago" : "secundas passate",

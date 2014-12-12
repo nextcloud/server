@@ -24,7 +24,7 @@
     "last month" : "1ヶ月前",
     "_%n month ago_::_%n months ago_" : ["%nヶ月前"],
     "last year" : "1年前",
-    "_%n year go_::_%n years ago_" : [""],
+    "_%n year ago_::_%n years ago_" : [""],
     "_%n hour ago_::_%n hours ago_" : ["%n 時間前"],
     "_%n minute ago_::_%n minutes ago_" : ["%n 分前"],
     "seconds ago" : "数秒前",

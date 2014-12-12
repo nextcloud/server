@@ -10,7 +10,7 @@
     "last month" : "เดือนที่แล้ว",
     "_%n month ago_::_%n months ago_" : [""],
     "last year" : "ปีที่แล้ว",
-    "_%n year go_::_%n years ago_" : [""],
+    "_%n year ago_::_%n years ago_" : [""],
     "_%n hour ago_::_%n hours ago_" : [""],
     "_%n minute ago_::_%n minutes ago_" : [""],
     "seconds ago" : "วินาที ก่อนหน้านี้",

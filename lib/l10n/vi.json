@@ -12,7 +12,7 @@
     "last month" : "tháng trước",
     "_%n month ago_::_%n months ago_" : ["%n tháng trước"],
     "last year" : "năm trước",
-    "_%n year go_::_%n years ago_" : [""],
+    "_%n year ago_::_%n years ago_" : [""],
     "_%n hour ago_::_%n hours ago_" : ["%n giờ trước"],
     "_%n minute ago_::_%n minutes ago_" : ["%n phút trước"],
     "seconds ago" : "vài giây trước",

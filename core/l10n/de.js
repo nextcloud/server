@@ -117,6 +117,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["Lade %n Datei herunter","Lade %n Dateien herunter"],
     "Updating {productName} to version {version}, this may take a while." : "Aktualisiere {productName} auf Version {version}. Dies könnte eine Weile dauern.",
     "Please reload the page." : "Bitte lade diese Seite neu.",
+    "The update was unsuccessful. " : "Die Aktualisierung war nicht erfolgreich.",
     "The update was successful. Redirecting you to ownCloud now." : "Das Update war erfolgreich. Du wirst nun zu ownCloud weitergeleitet.",
     "Couldn't reset password because the token is invalid" : "Aufgrund eines ungültigen Tokens kann das Passwort nicht zurück gesetzt werden",
     "Couldn't send reset email. Please make sure your username is correct." : "E-Mail zum Zurücksetzen kann nicht versendet werden. Stelle sicher, dass Dein Nutzername korrekt ist.",

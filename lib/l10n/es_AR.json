@@ -13,7 +13,7 @@
     "last month" : "el mes pasado",
     "_%n month ago_::_%n months ago_" : ["Hace %n mes","Hace %n meses"],
     "last year" : "el año pasado",
-    "_%n year go_::_%n years ago_" : ["",""],
+    "_%n year ago_::_%n years ago_" : ["",""],
     "_%n hour ago_::_%n hours ago_" : ["Hace %n hora","Hace %n horas"],
     "_%n minute ago_::_%n minutes ago_" : ["Hace %n minuto","Hace %n minutos"],
     "seconds ago" : "segundos atrás",
