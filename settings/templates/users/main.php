@@ -44,14 +44,24 @@ translation('settings');
 			<?php print_unescaped($this->inc('users/part.setquota')); ?>
 
 			<div id="userlistoptions">
-				<p><label>
-						<input type="checkbox" name="StorageLocation" value="StorageLocation" id="CheckboxStorageLocation">
+				<p>
+					<input type="checkbox" name="StorageLocation" value="StorageLocation" id="CheckboxStorageLocation">
+					<label for="CheckboxStorageLocation">
 						<?php p($l->t('Show storage location')) ?>
-				</label></p>
-				<p><label>
+					</label>
+				</p>
+				<p>
 					<input type="checkbox" name="LastLogin" value="LastLogin" id="CheckboxLastLogin">
-					<?php p($l->t('Show last log in')) ?>
-				</label></p>
+					<label for="CheckboxLastLogin">
+						<?php p($l->t('Show last log in')) ?>
+					</label>
+				</p>
+				<p>
+					<input type="checkbox" name="UserBackend" value="UserBackend" id="CheckboxUserBackend">
+					<label for="CheckboxUserBackend">
+						<?php p($l->t('Show user backend')) ?>
+					</label>
+				</p>
 			</div>
 		</div>
 	</div>

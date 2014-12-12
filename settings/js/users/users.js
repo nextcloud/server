@@ -28,7 +28,7 @@ var UserList = {
 		this.$el.find('.quota-user').singleSelect().on('change', this.onQuotaSelect);
 	},
 
-	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
+	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort, backend) {
 		var $tr = $userListBody.find('tr:first-child').clone();
 		// this removes just the `display:none` of the template row
 		$tr.removeAttr('style');
@@ -115,6 +115,11 @@ var UserList = {
 		 * storage location
 		 */
 		$tr.find('td.storageLocation').text(storageLocation);
+
+		/**
+		 * user backend
+		 */
+		$tr.find('td.userBackend').text(backend);
 
 		/**
 		 * last login
@@ -372,7 +377,7 @@ var UserList = {
 					if(UserList.has(user.name)) {
 						return true;
 					}
-					var $tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, user.storageLocation, user.lastLogin, false);
+					var $tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, user.storageLocation, user.lastLogin, false, user.backend);
 					$tr.addClass('appear transparent');
 					trs.push($tr);
 					loadedUsers++;
@@ -731,7 +736,7 @@ $(document).ready(function () {
 						}, 10000);
 				}
 				if(!UserList.has(username)) {
-					UserList.add(username, username, result.groups, null, 'default', result.storageLocation, 0, true);
+					UserList.add(username, username, result.groups, null, 'default', result.storageLocation, 0, true, result.backend);
 				}
 				$('#newusername').focus();
 				GroupList.incEveryoneCount();
@@ -743,21 +748,25 @@ $(document).ready(function () {
 	// Option to display/hide the "Storage location" column
 	$('#CheckboxStorageLocation').click(function() {
 		if ($('#CheckboxStorageLocation').is(':checked')) {
-			$("#headerStorageLocation").show();
-			$("#userlist td.storageLocation").show();
+			$("#userlist .storageLocation").show();
 		} else {
-			$("#headerStorageLocation").hide();
-			$("#userlist td.storageLocation").hide();
+			$("#userlist .storageLocation").hide();
 		}
 	});
 	// Option to display/hide the "Last Login" column
 	$('#CheckboxLastLogin').click(function() {
 		if ($('#CheckboxLastLogin').is(':checked')) {
-			$("#headerLastLogin").show();
-			$("#userlist td.lastLogin").show();
+			$("#userlist .lastLogin").show();
 		} else {
-			$("#headerLastLogin").hide();
-			$("#userlist td.lastLogin").hide();
+			$("#userlist .lastLogin").hide();
+		}
+	});
+	// Option to display/hide the "Last Login" column
+	$('#CheckboxUserBackend').click(function() {
+		if ($('#CheckboxUserBackend').is(':checked')) {
+			$("#userlist .userBackend").show();
+		} else {
+			$("#userlist .userBackend").hide();
 		}
 	});
 
