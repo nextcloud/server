@@ -168,6 +168,25 @@ class ActivityManager implements IManager {
 	}
 
 	/**
+	 * @param string $app
+	 * @param string $text
+	 * @return array|false
+	 */
+	function getSpecialParameterList($app, $text) {
+		foreach($this->extensions as $extension) {
+			$c = $extension();
+			if ($c instanceof IExtension) {
+				$specialParameter = $c->getSpecialParameterList($app, $text);
+				if (is_array($specialParameter)) {
+					return $specialParameter;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @param string $type
 	 * @return string
 	 */
