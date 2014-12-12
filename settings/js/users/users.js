@@ -52,6 +52,9 @@ var UserList = {
 		$tr.find('td.name').text(username);
 		$tr.find('td.displayName > span').text(displayname);
 
+		/**
+		 * groups and subadmins
+		 */
 		// make them look like the multiselect buttons
 		// until they get time to really get initialized
 		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'no group') + '"></select>')
@@ -75,6 +78,10 @@ var UserList = {
 		if (subAdminsEl.length > 0) {
 			subAdminsEl.append(subAdminSelect);
 		}
+
+		/**
+		 * remove action
+		 */
 		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== username) {
 			var deleteImage = $('<img class="svg action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
@@ -86,6 +93,10 @@ var UserList = {
 		} else if (OC.currentUser === username) {
 			$tr.find('td.remove a').remove();
 		}
+
+		/**
+		 * quota
+		 */
 		var $quotaSelect = $tr.find('.quota-user');
 		if (quota === 'default') {
 			$quotaSelect
@@ -99,8 +110,15 @@ var UserList = {
 				$quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
 		}
+
+		/**
+		 * storage location
+		 */
 		$tr.find('td.storageLocation').text(storageLocation);
 
+		/**
+		 * last login
+		 */
 		var lastLoginRel = t('settings', 'never');
 		var lastLoginAbs = lastLoginRel;
 		if(lastLogin !== 0) {
@@ -115,6 +133,10 @@ var UserList = {
 		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
 		$tdLastLogin.tipsy({gravity:'s', fade:true, html:true});
 		$tdLastLogin.attr('title', tooltip);
+
+		/**
+		 * append generated row to user list
+		 */
 		$tr.appendTo($userList);
 		if(UserList.isEmpty === true) {
 			//when the list was emptied, one row was left, necessary to keep
@@ -124,6 +146,10 @@ var UserList = {
 			UserList.isEmpty = false;
 			UserList.checkUsersToLoad();
 		}
+
+		/**
+		 * sort list
+		 */
 		if (sort) {
 			UserList.doSort();
 		}
