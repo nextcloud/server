@@ -678,7 +678,7 @@ class View {
 
 			$source = fopen($tmpFile, 'r');
 			if ($source) {
-				$this->file_put_contents($path, $source);
+				$result = $this->file_put_contents($path, $source);
 				// $this->file_put_contents() might have already closed
 				// the resource, so we check it, before trying to close it
 				// to avoid messages in the error log.
@@ -686,7 +686,7 @@ class View {
 					fclose($source);
 				}
 				unlink($tmpFile);
-				return true;
+				return $result;
 			} else {
 				return false;
 			}
