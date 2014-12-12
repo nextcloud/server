@@ -270,6 +270,63 @@ class Cache extends \Test\TestCase {
 		$this->assertEquals(2, count($this->cache->searchByMime('foo/file')));
 	}
 
+	function testSearchByTag() {
+		$userId = $this->getUniqueId('user');
+		\OC_User::createUser($userId, $userId);
+		$this->loginAsUser($userId);
+		$user = new \OC\User\User($userId, null);
+
+		$file1 = 'folder';
+		$file2 = 'folder/foobar';
+		$file3 = 'folder/foo';
+		$file4 = 'folder/foo2';
+		$file5 = 'folder/foo3';
+		$data1 = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/folder');
+		$fileData = array();
+		$fileData['foobar'] = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$fileData['foo'] = array('size' => 20, 'mtime' => 25, 'mimetype' => 'foo/file');
+		$fileData['foo2'] = array('size' => 25, 'mtime' => 28, 'mimetype' => 'foo/file');
+		$fileData['foo3'] = array('size' => 88, 'mtime' => 34, 'mimetype' => 'foo/file');
+
+		$id1 = $this->cache->put($file1, $data1);
+		$id2 = $this->cache->put($file2, $fileData['foobar']);
+		$id3 = $this->cache->put($file3, $fileData['foo']);
+		$id4 = $this->cache->put($file4, $fileData['foo2']);
+		$id5 = $this->cache->put($file5, $fileData['foo3']);
+
+		$tagManager = \OC::$server->getTagManager()->load('files', null, null, $userId);
+		$this->assertTrue($tagManager->tagAs($id1, 'tag1'));
+		$this->assertTrue($tagManager->tagAs($id1, 'tag2'));
+		$this->assertTrue($tagManager->tagAs($id2, 'tag2'));
+		$this->assertTrue($tagManager->tagAs($id3, 'tag1'));
+		$this->assertTrue($tagManager->tagAs($id4, 'tag2'));
+
+		// use tag name
+		$results = $this->cache->searchByTag('tag1', $userId);
+
+		$this->assertEquals(2, count($results));
+
+		$this->assertEquals('folder', $results[0]['name']);
+		$this->assertEquals('foo', $results[1]['name']);
+
+		// use tag id
+		$tags = $tagManager->getTagsForUser($userId);
+		$this->assertNotEmpty($tags);
+		$tags = array_filter($tags, function($tag) { return $tag->getName() === 'tag2'; });
+		$results = $this->cache->searchByTag(current($tags)->getId(), $userId);
+		$this->assertEquals(3, count($results));
+
+		$this->assertEquals('folder', $results[0]['name']);
+		$this->assertEquals('foobar', $results[1]['name']);
+		$this->assertEquals('foo2', $results[2]['name']);
+
+		$tagManager->delete('tag1');
+		$tagManager->delete('tag2');
+
+		$this->logout();
+		\OC_User::deleteUser($userId);
+	}
+
 	function testMove() {
 		$file1 = 'folder';
 		$file2 = 'folder/bar';

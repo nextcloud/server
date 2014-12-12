@@ -345,6 +345,46 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
+	 * search for files by tag
+	 *
+	 * @param string|int $tag tag to search for
+	 * @param string $userId owner of the tags
+	 * @return array file data
+	 */
+	public function searchByTag($tag, $userId) {
+		// TODO: inject this
+		$tagger = \OC::$server->getTagManager()->load('files', null, null, $userId);
+		$result = array();
+		$exploreDirs = array('');
+		// FIXME: this is so wrong and unefficient, need to replace with actual DB queries
+		while (count($exploreDirs) > 0) {
+			$dir = array_pop($exploreDirs);
+			$files = $this->getFolderContents($dir);
+			// no results?
+			if (!$files) {
+				// maybe it's a single shared file
+				$file = $this->get('');
+				$tags = $tagger->getTagsForObjects(array((int)$file['fileid']));
+				if (!empty($tags) && in_array($tag, current($tags))) {
+					$result[] = $file;
+				}
+				continue;
+			}
+			foreach ($files as $file) {
+				if ($file['mimetype'] === 'httpd/unix-directory') {
+					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
+				} else {
+					$tags = $tagger->getTagsForObjects(array((int)$file['fileid']));
+					if (!empty($tags) && in_array($tag, current($tags))) {
+						$result[] = $file;
+					}
+				}
+			}
+		}
+		return $result;
+	}
+
+	/**
 	 * get the size of a folder and set it in the cache
 	 *
 	 * @param string $path

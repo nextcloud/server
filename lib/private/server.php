@@ -87,8 +87,7 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('TagManager', function (Server $c) {
 			$tagMapper = $c->query('TagMapper');
-			$user = \OC_User::getUser();
-			return new TagManager($tagMapper, $user);
+			return new TagManager($tagMapper, $c->getUserSession());
 		});
 		$this->registerService('RootFolder', function (Server $c) {
 			// TODO: get user and user manager from container as well

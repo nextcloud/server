@@ -198,6 +198,18 @@ class CacheJail extends CacheWrapper {
 	}
 
 	/**
+	 * search for files by mimetype
+	 *
+	 * @param string|int $tag name or tag id
+	 * @param string $userId owner of the tags
+	 * @return array
+	 */
+	public function searchByTag($tag, $userId) {
+		$results = $this->cache->searchByTag($tag, $userId);
+		return $this->formatSearchResults($results);
+	}
+
+	/**
 	 * update the folder size and the size of all parent folders
 	 *
 	 * @param string|boolean $path

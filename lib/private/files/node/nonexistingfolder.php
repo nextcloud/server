@@ -99,6 +99,10 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
+	public function searchByTag($tag, $userId) {
+		throw new NotFoundException();
+	}
+
 	public function getById($id) {
 		throw new NotFoundException();
 	}
