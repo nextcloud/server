@@ -91,7 +91,7 @@ class UsersController extends Controller {
 	 */
 	private function getUsersForUID(array $userIDs) {
 		$users = [];
-		foreach ($userIDs as $uid) {
+		foreach ($userIDs as $uid => $displayName) {
 			$users[] = $this->userManager->get($uid);
 		}
 		return $users;

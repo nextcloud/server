@@ -126,9 +126,20 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserGroupIds')
 			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
 		$this->container['UserManager']
-			->expects($this->exactly(3))
+			->expects($this->at(0))
 			->method('get')
-			->will($this->onConsecutiveCalls($foo, $admin, $bar));
+			->with('foo')
+			->will($this->returnValue($foo));
+		$this->container['UserManager']
+			->expects($this->at(1))
+			->method('get')
+			->with('admin')
+			->will($this->returnValue($admin));
+		$this->container['UserManager']
+			->expects($this->at(2))
+			->method('get')
+			->with('bar')
+			->will($this->returnValue($bar));
 		$this->container['Config']
 			->expects($this->exactly(3))
 			->method('getUserValue')
@@ -168,7 +179,7 @@ class UsersControllerTest extends \Test\TestCase {
 				),
 			)
 		);
-		$response = $this->usersController->index(0, 10, 'pattern');
+		$response = $this->usersController->index(0, 10, 'gid', 'pattern');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
