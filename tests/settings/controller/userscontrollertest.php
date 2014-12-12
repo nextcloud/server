@@ -182,6 +182,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$user
 			->method('getHome')
 			->will($this->returnValue('/home/user'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('bar'));
 
 		$this->container['UserManager']
 			->expects($this->once())
@@ -193,7 +197,8 @@ class UsersControllerTest extends \Test\TestCase {
 			array(
 				'username' => 'foo',
 				'groups' => null,
-				'storageLocation' => '/home/user'
+				'storageLocation' => '/home/user',
+				'backend' => 'bar'
 			),
 			Http::STATUS_CREATED
 		);
@@ -214,6 +219,10 @@ class UsersControllerTest extends \Test\TestCase {
 		$user
 			->method('getHome')
 			->will($this->returnValue('/home/user'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('bar'));
 		$existingGroup = $this->getMockBuilder('\OCP\IGroup')
 			->disableOriginalConstructor()->getMock();
 		$existingGroup
@@ -250,7 +259,8 @@ class UsersControllerTest extends \Test\TestCase {
 			array(
 				'username' => 'foo',
 				'groups' => array('NewGroup', 'ExistingGroup'),
-				'storageLocation' => '/home/user'
+				'storageLocation' => '/home/user',
+				'backend' => 'bar'
 			),
 			Http::STATUS_CREATED
 		);

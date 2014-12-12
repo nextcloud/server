@@ -12,8 +12,9 @@
 			<th id="headerSubAdmins"><?php p($l->t('Group Admin for')); ?></th>
 			<?php endif;?>
 			<th id="headerQuota"><?php p($l->t('Quota')); ?></th>
-			<th id="headerStorageLocation"><?php p($l->t('Storage Location')); ?></th>
-			<th id="headerLastLogin"><?php p($l->t('Last Login')); ?></th>
+			<th class="storageLocation"><?php p($l->t('Storage Location')); ?></th>
+			<th class="userBackend"><?php p($l->t('User Backend')); ?></th>
+			<th class="lastLogin"><?php p($l->t('Last Login')); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
 	</thead>
@@ -55,6 +56,7 @@
 				</select>
 			</td>
 			<td class="storageLocation"></td>
+			<td class="userBackend"></td>
 			<td class="lastLogin"></td>
 			<td class="remove"></td>
 		</tr>

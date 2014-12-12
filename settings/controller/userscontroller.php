@@ -185,7 +185,8 @@ class UsersController extends Controller {
 			array(
 				'username' => $username,
 				'groups' => $this->groupManager->getUserGroupIds($user),
-				'storageLocation' => $user->getHome()
+				'storageLocation' => $user->getHome(),
+				'backend' => $user->getBackendClassName()
 			),
 			Http::STATUS_CREATED
 		);
