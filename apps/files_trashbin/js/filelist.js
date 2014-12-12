@@ -64,6 +64,7 @@
 				return parts;
 			};
 
+			OC.Plugins.attach('OCA.Trashbin.FileList', this);
 			return result;
 		},
 

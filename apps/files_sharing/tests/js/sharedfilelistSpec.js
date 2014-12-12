@@ -9,8 +9,7 @@
  */
 
 describe('OCA.Sharing.FileList tests', function() {
-	var testFiles, alertStub, notificationStub, fileList, fileActions;
-	var oldFileListPrototype;
+	var testFiles, alertStub, notificationStub, fileList;
 
 	beforeEach(function() {
 		alertStub = sinon.stub(OC.dialogs, 'alert');
@@ -46,18 +45,11 @@ describe('OCA.Sharing.FileList tests', function() {
 			'<div id="emptycontent">Empty content message</div>' +
 			'</div>'
 		);
-		// back up prototype, as it will be extended by
-		// the sharing code
-		oldFileListPrototype = _.extend({}, OCA.Files.FileList.prototype);
-		fileActions = new OCA.Files.FileActions();
-		OCA.Sharing.Util.initialize(fileActions);
 	});
 	afterEach(function() {
-		OCA.Files.FileList.prototype = oldFileListPrototype;
 		testFiles = undefined;
 		fileList.destroy();
 		fileList = undefined;
-		fileActions = undefined;
 
 		notificationStub.restore();
 		alertStub.restore();
@@ -72,6 +64,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					sharedWithUser: true
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 
 			fileList.reload();
 
@@ -193,6 +186,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					sharedWithUser: false
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 
 			fileList.reload();
 
@@ -433,6 +427,7 @@ describe('OCA.Sharing.FileList tests', function() {
 					linksOnly: true
 				}
 			);
+			OCA.Sharing.Util.attach(fileList);
 
 			fileList.reload();
 
@@ -575,11 +570,8 @@ describe('OCA.Sharing.FileList tests', function() {
 				'</div>');
 			$('#content').append($div);
 
-			fileList = new OCA.Files.FileList(
-				$div, {
-					fileActions: fileActions
-				}
-			);
+			fileList = new OCA.Files.FileList($div);
+			OCA.Sharing.Util.attach(fileList);
 		});
 
 		it('external storage root folder', function () {

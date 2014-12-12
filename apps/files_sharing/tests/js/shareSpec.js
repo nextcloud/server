@@ -9,7 +9,6 @@
  */
 
 describe('OCA.Sharing.Util tests', function() {
-	var oldFileListPrototype;
 	var fileList;
 	var testFiles;
 
@@ -24,10 +23,6 @@ describe('OCA.Sharing.Util tests', function() {
 	}
 
 	beforeEach(function() {
-		// back up prototype, as it will be extended by
-		// the sharing code
-		oldFileListPrototype = _.extend({}, OCA.Files.FileList.prototype);
-
 		var $content = $('<div id="content"></div>');
 		$('#testArea').append($content);
 		// dummy file list
@@ -41,12 +36,12 @@ describe('OCA.Sharing.Util tests', function() {
 		$('#content').append($div);
 
 		var fileActions = new OCA.Files.FileActions();
-		OCA.Sharing.Util.initialize(fileActions);
 		fileList = new OCA.Files.FileList(
 			$div, {
 				fileActions : fileActions
 			}
 		);
+		OCA.Sharing.Util.attach(fileList);
 
 		testFiles = [{
 			id: 1,
@@ -67,7 +62,6 @@ describe('OCA.Sharing.Util tests', function() {
 		};
 	});
 	afterEach(function() {
-		OCA.Files.FileList.prototype = oldFileListPrototype;
 		delete OCA.Sharing.sharesLoaded;
 		delete OC.Share.droppedDown;
 		fileList.destroy();
