@@ -353,9 +353,12 @@ var UserList = {
 			UserDeleteHandler.deleteEntry();
 		});
 	},
-	update: function (gid) {
+	update: function (gid, limit) {
 		if (UserList.updating) {
 			return;
+		}
+		if(!limit) {
+			limit = UserList.usersToLoad;
 		}
 		$userList.siblings('.loading').css('visibility', 'visible');
 		UserList.updating = true;
@@ -366,7 +369,7 @@ var UserList = {
 		var pattern = filter.getPattern();
 		$.get(
 			OC.generateUrl('/settings/users/users'),
-			{ offset: UserList.offset, limit: UserList.usersToLoad, gid: gid, pattern: pattern },
+			{ offset: UserList.offset, limit: limit, gid: gid, pattern: pattern },
 			function (result) {
 				var loadedUsers = 0;
 				var trs = [];
@@ -385,6 +388,8 @@ var UserList = {
 				if (result.length > 0) {
 					UserList.doSort();
 					$userList.siblings('.loading').css('visibility', 'hidden');
+					// reset state on load
+					UserList.noMoreEntries = false;
 				}
 				else {
 					UserList.noMoreEntries = true;
@@ -537,7 +542,7 @@ var UserList = {
 			return;
 		}
 		if (UserList.scrollArea.scrollTop() + UserList.scrollArea.height() > UserList.scrollArea.get(0).scrollHeight - 500) {
-			UserList.update(UserList.currentGid, true);
+			UserList.update(UserList.currentGid);
 		}
 	},
 
@@ -770,7 +775,14 @@ $(document).ready(function () {
 		}
 	});
 
+	// calculate initial limit of users to load
+	var initialUserCountLimit = 20,
+		containerHeight = $('#app-content').height();
+	if(containerHeight > 40) {
+		initialUserCountLimit = Math.floor(containerHeight/40);
+	}
+
 	// trigger loading of users on startup
-	UserList.update(UserList.currentGid);
+	UserList.update(UserList.currentGid, initialUserCountLimit);
 
 });
