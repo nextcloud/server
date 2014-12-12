@@ -42,7 +42,7 @@
 						'<a href="#" class="action action-favorite ' + (isFavorite ? 'permanent' : '') + '">' +
 						starState + '</a>'
 					);
-					$file.find('td:first>.favorite').prepend($icon);
+					$file.find('td:first>.favorite').replaceWith($icon);
 					return $icon;
 				},
 				actionHandler: function(fileName, context) {
