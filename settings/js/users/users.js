@@ -12,9 +12,7 @@ var filter;
 
 var UserList = {
 	availableGroups: [],
-	offset: 30, //The first 30 users are there. No prob, if less in total.
-				//hardcoded in settings/users.php
-
+	offset: 0,
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
 	currentGid: '',
 
@@ -32,18 +30,31 @@ var UserList = {
 
 	add: function (username, displayname, groups, subadmin, quota, storageLocation, lastLogin, sort) {
 		var $tr = $userListBody.find('tr:first-child').clone();
+		// this removes just the `display:none` of the template row
+		$tr.removeAttr('style');
 		var subAdminsEl;
 		var subAdminSelect;
 		var groupsSelect;
+
+		/**
+		 * Avatar or placeholder
+		 */
 		if ($tr.find('div.avatardiv').length){
 			$tr.find('.avatardiv').imageplaceholder(username, displayname);
 			$('div.avatardiv', $tr).avatar(username, 32);
 		}
+
+		/**
+		 * add username and displayname to row (in data and visible markup
+		 */
 		$tr.data('uid', username);
 		$tr.data('displayname', displayname);
 		$tr.find('td.name').text(username);
 		$tr.find('td.displayName > span').text(displayname);
 
+		/**
+		 * groups and subadmins
+		 */
 		// make them look like the multiselect buttons
 		// until they get time to really get initialized
 		groupsSelect = $('<select multiple="multiple" class="groupsselect multiselect button" data-placehoder="Groups" title="' + t('settings', 'no group') + '"></select>')
@@ -67,6 +78,10 @@ var UserList = {
 		if (subAdminsEl.length > 0) {
 			subAdminsEl.append(subAdminSelect);
 		}
+
+		/**
+		 * remove action
+		 */
 		if ($tr.find('td.remove img').length === 0 && OC.currentUser !== username) {
 			var deleteImage = $('<img class="svg action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
@@ -78,6 +93,10 @@ var UserList = {
 		} else if (OC.currentUser === username) {
 			$tr.find('td.remove a').remove();
 		}
+
+		/**
+		 * quota
+		 */
 		var $quotaSelect = $tr.find('.quota-user');
 		if (quota === 'default') {
 			$quotaSelect
@@ -91,8 +110,15 @@ var UserList = {
 				$quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
 		}
+
+		/**
+		 * storage location
+		 */
 		$tr.find('td.storageLocation').text(storageLocation);
 
+		/**
+		 * last login
+		 */
 		var lastLoginRel = t('settings', 'never');
 		var lastLoginAbs = lastLoginRel;
 		if(lastLogin !== 0) {
@@ -107,6 +133,10 @@ var UserList = {
 		var tooltip = $('<div>').html($($tdLastLogin.attr('original-title')).text(lastLoginAbs)).html();
 		$tdLastLogin.tipsy({gravity:'s', fade:true, html:true});
 		$tdLastLogin.attr('title', tooltip);
+
+		/**
+		 * append generated row to user list
+		 */
 		$tr.appendTo($userList);
 		if(UserList.isEmpty === true) {
 			//when the list was emptied, one row was left, necessary to keep
@@ -116,6 +146,10 @@ var UserList = {
 			UserList.isEmpty = false;
 			UserList.checkUsersToLoad();
 		}
+
+		/**
+		 * sort list
+		 */
 		if (sort) {
 			UserList.doSort();
 		}
@@ -727,6 +761,7 @@ $(document).ready(function () {
 		}
 	});
 
-
+	// trigger loading of users on startup
+	UserList.update(UserList.currentGid);
 
 });
