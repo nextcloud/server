@@ -187,7 +187,7 @@ class CacheWrapper extends Cache {
 	 * @param string $userId owner of the tags
 	 * @return array file data
 	 */
-	public function searchByTag($tag, $userId = null) {
+	public function searchByTag($tag, $userId) {
 		$results = $this->cache->searchByTag($tag, $userId);
 		return array_map(array($this, 'formatCacheEntry'), $results);
 	}

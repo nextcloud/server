@@ -512,10 +512,7 @@ class Cache {
 	 * @param string $userId owner of the tags
 	 * @return array file data
 	 */
-	public function searchByTag($tag, $userId = null) {
-		if (is_null($userId)) {
-			$userId = \OC::$server->getUserSession()->getUser()->getUID(); 
-		}
+	public function searchByTag($tag, $userId) {
 		$sql = 'SELECT `fileid`, `storage`, `path`, `parent`, `name`, ' .
 			'`mimetype`, `mimepart`, `size`, `mtime`, ' .
 			'`encrypted`, `unencrypted_size`, `etag`, `permissions` ' .

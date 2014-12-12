@@ -120,9 +120,10 @@ interface Folder extends Node {
 	 * search for files by tag
 	 *
 	 * @param string|int $tag tag name or tag id
+	 * @param string $userId owner of the tags
 	 * @return \OCP\Files\Node[]
 	 */
-	public function searchByTag($tag);
+	public function searchByTag($tag, $userId);
 
 	/**
 	 * get a file or folder inside the folder by it's internal id

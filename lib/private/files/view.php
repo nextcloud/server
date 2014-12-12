@@ -1111,7 +1111,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function search($query) {
-		return $this->searchCommon('%' . $query . '%', 'search');
+		return $this->searchCommon('search', array('%' . $query . '%'));
 	}
 
 	/**
@@ -1121,7 +1121,7 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function searchRaw($query) {
-		return $this->searchCommon($query, 'search');
+		return $this->searchCommon('search', array($query));
 	}
 
 	/**
@@ -1131,25 +1131,26 @@ class View {
 	 * @return FileInfo[]
 	 */
 	public function searchByMime($mimetype) {
-		return $this->searchCommon($mimetype, 'searchByMime');
+		return $this->searchCommon('searchByMime', array($mimetype));
 	}
 
 	/**
 	 * search for files by tag
 	 *
 	 * @param string|int $tag name or tag id
+	 * @param string $userId owner of the tags
 	 * @return FileInfo[]
 	 */
-	public function searchByTag($tag) {
-		return $this->searchCommon($tag, 'searchByTag');
+	public function searchByTag($tag, $userId) {
+		return $this->searchCommon('searchByTag', array($tag, $userId));
 	}
 
 	/**
-	 * @param string $query
-	 * @param string $method
+	 * @param string $method cache method
+	 * @param array $args
 	 * @return FileInfo[]
 	 */
-	private function searchCommon($query, $method) {
+	private function searchCommon($method, $args) {
 		$files = array();
 		$rootLength = strlen($this->fakeRoot);
 
@@ -1158,7 +1159,7 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache('');
 
-			$results = $cache->$method($query);
+			$results = call_user_func_array(array($cache, $method), $args);
 			foreach ($results as $result) {
 				if (substr($mountPoint . $result['path'], 0, $rootLength + 1) === $this->fakeRoot . '/') {
 					$internalPath = $result['path'];
@@ -1175,7 +1176,7 @@ class View {
 					$cache = $storage->getCache('');
 
 					$relativeMountPoint = substr($mountPoint, $rootLength);
-					$results = $cache->$method($query);
+					$results = call_user_func_array(array($cache, $method), $args);
 					if ($results) {
 						foreach ($results as $result) {
 							$internalPath = $result['path'];

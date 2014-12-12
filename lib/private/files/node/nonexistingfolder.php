@@ -99,7 +99,7 @@ class NonExistingFolder extends Folder {
 		throw new NotFoundException();
 	}
 
-	public function searchByTag($mime) {
+	public function searchByTag($tag, $userId) {
 		throw new NotFoundException();
 	}
 

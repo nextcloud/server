@@ -351,7 +351,7 @@ class Shared_Cache extends Cache {
 	 * @param string $userId owner of the tags
 	 * @return array file data
 	 */
-	public function searchByTag($tag, $userId = null) {
+	public function searchByTag($tag, $userId) {
 		// TODO: inject this
 		$tagger = \OC::$server->getTagManager()->load('files', null, null, $userId);
 		$result = array();

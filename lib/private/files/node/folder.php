@@ -223,7 +223,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return \OC\Files\Node\Node[]
 	 */
 	public function search($query) {
-		return $this->searchCommon('%' . $query . '%', 'search');
+		return $this->searchCommon('search', array('%' . $query . '%'));
 	}
 
 	/**
@@ -233,25 +233,26 @@ class Folder extends Node implements \OCP\Files\Folder {
 	 * @return Node[]
 	 */
 	public function searchByMime($mimetype) {
-		return $this->searchCommon($mimetype, 'searchByMime');
+		return $this->searchCommon('searchByMime', array($mimetype));
 	}
 
 	/**
 	 * search for files by tag
 	 *
-	 * @param string $tag
+	 * @param string|int $tag name or tag id
+	 * @param string $userId owner of the tags
 	 * @return Node[]
 	 */
-	public function searchByTag($tag) {
-		return $this->searchCommon($tag, 'searchByTag');
+	public function searchByTag($tag, $userId) {
+		return $this->searchCommon('searchByTag', array($tag, $userId));
 	}
 
 	/**
-	 * @param string $query
-	 * @param string $method
+	 * @param string $method cache method
+	 * @param array $args call args
 	 * @return \OC\Files\Node\Node[]
 	 */
-	private function searchCommon($query, $method) {
+	private function searchCommon($method, $args) {
 		$files = array();
 		$rootLength = strlen($this->path);
 		/**
@@ -262,7 +263,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 
 		$cache = $storage->getCache('');
 
-		$results = $cache->$method($query);
+		$results = call_user_func_array(array($cache, $method), $args);
 		foreach ($results as $result) {
 			if ($internalRootLength === 0 or substr($result['path'], 0, $internalRootLength) === $internalPath) {
 				$result['internalPath'] = $result['path'];
@@ -279,7 +280,7 @@ class Folder extends Node implements \OCP\Files\Folder {
 				$cache = $storage->getCache('');
 
 				$relativeMountPoint = substr($mount->getMountPoint(), $rootLength);
-				$results = $cache->$method($query);
+				$results = call_user_func_array(array($cache, $method), $args);
 				foreach ($results as $result) {
 					$result['internalPath'] = $result['path'];
 					$result['path'] = $relativeMountPoint . $result['path'];
