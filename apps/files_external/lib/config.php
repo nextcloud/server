@@ -644,12 +644,7 @@ class OC_Mount_Config {
 			$datadir = \OC_Config::getValue('datadirectory', \OC::$SERVERROOT . '/data/');
 			$file = \OC_Config::getValue('mount_file', $datadir . '/mount.json');
 		}
-		$options = 0;
-		if (defined('JSON_PRETTY_PRINT')) {
-			// only for PHP >= 5.4
-			$options = JSON_PRETTY_PRINT;
-		}
-		$content = json_encode($data, $options);
+		$content = json_encode($data, JSON_PRETTY_PRINT);
 		@file_put_contents($file, $content);
 		@chmod($file, 0640);
 	}
