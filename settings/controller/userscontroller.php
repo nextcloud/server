@@ -86,7 +86,7 @@ class UsersController extends Controller {
 	}
 
 	/**
-	 * @param array $userIDs
+	 * @param array $userIDs Array with schema [$uid => $displayName]
 	 * @return IUser[]
 	 */
 	private function getUsersForUID(array $userIDs) {
