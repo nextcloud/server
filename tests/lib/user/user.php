@@ -217,9 +217,9 @@ class User extends \Test\TestCase {
 
 	public function testGetBackendClassName() {
 		$user = new \OC\User\User('foo', new \OC_User_Dummy());
-		$this->assertEquals('OC_User_Dummy', $user->getBackendClassName());
+		$this->assertEquals('Dummy', $user->getBackendClassName());
 		$user = new \OC\User\User('foo', new \OC_User_Database());
-		$this->assertEquals('OC_User_Database', $user->getBackendClassName());
+		$this->assertEquals('Database', $user->getBackendClassName());
 	}
 
 	public function testGetHomeNotSupported() {

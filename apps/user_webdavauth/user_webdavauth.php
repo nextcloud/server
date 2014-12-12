@@ -21,7 +21,7 @@
  *
  */
 
-class OC_USER_WEBDAVAUTH extends OC_User_Backend {
+class OC_USER_WEBDAVAUTH extends OC_User_Backend implements \OCP\IUserBackend {
 	protected $webdavauth_url;
 
 	public function __construct() {
@@ -85,5 +85,13 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		$returnArray = array();
 
 		return $returnArray;
+	}
+
+	/**
+	 * Backend name to be shown in user management
+	 * @return string the name of the backend to be shown
+	 */
+	public function getBackendName(){
+		return 'WebDAV';
 	}
 }

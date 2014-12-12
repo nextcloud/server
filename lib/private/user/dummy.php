@@ -24,7 +24,7 @@
 /**
  * dummy user backend, does not keep state, only for testing use
  */
-class OC_User_Dummy extends OC_User_Backend {
+class OC_User_Dummy extends OC_User_Backend implements \OCP\IUserBackend {
 	private $users = array();
 	private $displayNames = array();
 
@@ -155,5 +155,13 @@ class OC_User_Dummy extends OC_User_Backend {
 
 	public function getDisplayName($uid) {
 		return isset($this->displayNames[$uid])? $this->displayNames[$uid]: $uid;
+	}
+
+	/**
+	 * Backend name to be shown in user management
+	 * @return string the name of the backend to be shown
+	 */
+	public function getBackendName(){
+		return 'Dummy';
 	}
 }

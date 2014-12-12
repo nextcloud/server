@@ -225,6 +225,9 @@ class User implements IUser {
 	 * @return string
 	 */
 	public function getBackendClassName() {
+		if($this->backend instanceof \OCP\IUserBackend) {
+			return $this->backend->getBackendName();
+		}
 		return get_class($this->backend);
 	}
 

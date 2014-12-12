@@ -24,7 +24,7 @@
 /**
  * user backend using http auth requests
  */
-class OC_User_HTTP extends OC_User_Backend {
+class OC_User_HTTP extends OC_User_Backend implements \OCP\IUserBackend {
 	/**
 	 * split http://user@host/path into a user and url part
 	 * @param string $url
@@ -108,5 +108,13 @@ class OC_User_HTTP extends OC_User_Backend {
 		}else{
 			return false;
 		}
+	}
+
+	/**
+	 * Backend name to be shown in user management
+	 * @return string the name of the backend to be shown
+	 */
+	public function getBackendName(){
+		return 'HTTP';
 	}
 }

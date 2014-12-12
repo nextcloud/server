@@ -36,7 +36,7 @@
 /**
  * Class for user management in a SQL Database (e.g. MySQL, SQLite)
  */
-class OC_User_Database extends OC_User_Backend {
+class OC_User_Database extends OC_User_Backend implements \OCP\IUserBackend {
 	private $cache = array();
 
 	/**
@@ -258,6 +258,14 @@ class OC_User_Database extends OC_User_Backend {
 			return false;
 		}
 		return $result->fetchOne();
+	}
+
+	/**
+	 * Backend name to be shown in user management
+	 * @return string the name of the backend to be shown
+	 */
+	public function getBackendName(){
+		return 'Database';
 	}
 
 }
