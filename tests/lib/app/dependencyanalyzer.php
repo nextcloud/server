@@ -15,15 +15,14 @@ use OCP\IL10N;
 
 class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 
-	/**
-	 * @var Platform
-	 */
+	/** @var Platform */
 	private $platformMock;
 
-	/**
-	 * @var IL10N
-	 */
+	/** @var IL10N */
 	private $l10nMock;
+
+	/** @var \OC\App\DependencyAnalyzer */
+	private $analyser;
 
 	public function setUp() {
 		$this->platformMock = $this->getMockBuilder('\OC\App\Platform')
@@ -63,6 +62,8 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			->will($this->returnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
+
+		$this->analyser = new \OC\App\DependencyAnalyzer($this->platformMock, $this->l10nMock);
 	}
 
 	/**
@@ -80,8 +81,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		if (!is_null($maxVersion)) {
 			$app['dependencies']['php']['@attributes']['max-version'] = $maxVersion;
 		}
-		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
-		$missing = $analyser->analyze();
+		$missing = $this->analyser->analyze($app);
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);
@@ -98,8 +98,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		if (!is_null($databases)) {
 			$app['dependencies']['database'] = $databases;
 		}
-		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
-		$missing = $analyser->analyze();
+		$missing = $this->analyser->analyze($app);
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);
@@ -116,8 +115,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 		if (!is_null($commands)) {
 			$app['dependencies']['command'] = $commands;
 		}
-		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
-		$missing = $analyser->analyze();
+		$missing = $this->analyser->analyze($app);
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);
@@ -137,8 +135,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			$app['dependencies']['lib'] = $libs;
 		}
 
-		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
-		$missing = $analyser->analyze();
+		$missing = $this->analyser->analyze($app);
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);
@@ -157,8 +154,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			$app['dependencies']['os'] = $oss;
 		}
 
-		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
-		$missing = $analyser->analyze();
+		$missing = $this->analyser->analyze($app);
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);
@@ -177,8 +173,7 @@ class DependencyAnalyzer extends \PHPUnit_Framework_TestCase {
 			$app['dependencies']['owncloud'] = $oc;
 		}
 
-		$analyser = new \OC\App\DependencyAnalyzer($app, $this->platformMock, $this->l10nMock);
-		$missing = $analyser->analyze();
+		$missing = $this->analyser->analyze($app);
 
 		$this->assertTrue(is_array($missing));
 		$this->assertEquals($expectedMissing, $missing);

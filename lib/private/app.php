@@ -1112,8 +1112,8 @@ class OC_App {
 			}
 
 			// check for required dependencies
-			$dependencyAnalyzer = new DependencyAnalyzer($app, new Platform($config), $l);
-			$missing = $dependencyAnalyzer->analyze();
+			$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
+			$missing = $dependencyAnalyzer->analyze($app);
 			if(!empty($missing)) {
 				$missingMsg = join(PHP_EOL, $missing);
 				throw new \Exception(
