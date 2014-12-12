@@ -7,14 +7,6 @@
 
 OC_Util::checkSubAdminUser();
 
-// We have some javascript foo!
-OC_Util::addScript('settings', 'users/deleteHandler');
-OC_Util::addScript('settings', 'users/filter');
-OC_Util::addScript( 'settings', 'users/users' );
-OC_Util::addScript( 'settings', 'users/groups' );
-OC_Util::addScript( 'core', 'multiselect' );
-OC_Util::addScript( 'core', 'singleselect' );
-OC_Util::addStyle( 'settings', 'settings' );
 OC_App::setActiveNavigationEntry( 'core_users' );
 
 $userManager = \OC_User::getManager();

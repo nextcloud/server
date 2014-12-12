@@ -4,6 +4,19 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
+
+script('settings', [
+	'users/deleteHandler',
+	'users/filter',
+	'users/users',
+	'users/groups'
+]);
+script('core', [
+	'multiselect',
+	'singleselect'
+]);
+style('settings', 'settings');
+
 $userlistParams = array();
 $allGroups=array();
 foreach($_["groups"] as $group) {
