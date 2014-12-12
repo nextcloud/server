@@ -228,6 +228,22 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testIndexWithBackendNoUser() {
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('getBackends')
+			->will($this->returnValue([new \OC_User_Dummy(), new \OC_User_Database()]));
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('search')
+			->with('')
+			->will($this->returnValue([]));
+
+		$expectedResponse = new DataResponse([]);
+		$response = $this->usersController->index(0, 10, '','', 'OC_User_Dummy');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	/**
 	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
