@@ -141,6 +141,7 @@ class UsersController extends Controller {
 			}
 
 		} else {
+			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
 			if($gid !== '' && !in_array($gid, \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()))) {
 				$gid = '';
 			}
