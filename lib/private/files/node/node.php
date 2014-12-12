@@ -43,7 +43,12 @@ class Node implements \OCP\Files\Node, FileInfo {
 		$this->path = $path;
 	}
 
-	private function getFileInfo() {
+	/**
+	 * Returns the matching file info
+	 *
+	 * @return \OCP\Files\FileInfo
+	 */
+	public function getFileInfo() {
 		if (!$this->fileInfo) {
 			$this->fileInfo = $this->view->getFileInfo($this->path);
 		}
