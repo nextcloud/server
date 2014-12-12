@@ -55,14 +55,17 @@ if ($config->getAppValue('core', 'shareapi_enabled', 'yes') === 'yes') {
 				"name" => $l->t('Shared with others')
 			)
 		);
-		\OCA\Files\App::getNavigationManager()->add(
-			array(
-				"id" => 'sharinglinks',
-				"appname" => 'files_sharing',
-				"script" => 'list.php',
-				"order" => 20,
-				"name" => $l->t('Shared by link')
-			)
-		);
+		// Check if sharing by link is enabled
+		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+			\OCA\Files\App::getNavigationManager()->add(
+				array(
+					"id" => 'sharinglinks',
+					"appname" => 'files_sharing',
+					"script" => 'list.php',
+					"order" => 20,
+					"name" => $l->t('Shared by link')
+				)
+			);
+		}
 	}
 }
