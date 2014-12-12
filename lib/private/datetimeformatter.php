@@ -203,7 +203,7 @@ class DateTimeFormatter implements \OCP\IDateTimeFormatter {
 
 		$diff = $timestamp->diff($baseTimestamp);
 		if ($diff->y > 0 || $diff->m > 0 || $diff->d > 0) {
-			return (string) $this->formatDateSpan($timestamp, $baseTimestamp);
+			return (string) $this->formatDateSpan($timestamp, $baseTimestamp, $l);
 		}
 
 		if ($diff->h > 0) {
