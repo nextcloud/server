@@ -183,6 +183,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.find('.nametext').text().trim()).toEqual('testName.txt');
 
 			expect($tr.find('.filesize').text()).toEqual('1 kB');
+			expect($tr.find('.date').text()).not.toEqual('?');
 			expect(fileList.findFileEl('testName.txt')[0]).toEqual($tr[0]);
 		});
 		it('generates dir element with correct attributes when calling add() with dir data', function() {
@@ -209,6 +210,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
 			expect($tr.find('.filesize').text()).toEqual('1 kB');
+			expect($tr.find('.date').text()).not.toEqual('?');
 
 			expect(fileList.findFileEl('testFolder')[0]).toEqual($tr[0]);
 		});
@@ -233,6 +235,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
+			expect($tr.find('.date').text()).not.toEqual('?');
 		});
 		it('generates dir element with default attributes when calling add() with minimal data', function() {
 			var fileData = {
@@ -254,6 +257,7 @@ describe('OCA.Files.FileList tests', function() {
 			expect($tr.attr('data-mtime')).toEqual('123456');
 
 			expect($tr.find('.filesize').text()).toEqual('Pending');
+			expect($tr.find('.date').text()).not.toEqual('?');
 		});
 		it('generates file element with zero size when size is explicitly zero', function() {
 			var fileData = {
@@ -263,6 +267,15 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			expect($tr.find('.filesize').text()).toEqual('0 kB');
+		});
+		it('generates file element with unknown date when mtime invalid', function() {
+			var fileData = {
+				type: 'dir',
+				name: 'testFolder',
+				mtime: -1
+			};
+			var $tr = fileList.add(fileData);
+			expect($tr.find('.date').text()).toEqual('?');
 		});
 		it('adds new file to the end of the list', function() {
 			var $tr;
