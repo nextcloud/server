@@ -37,6 +37,22 @@ use OC\AppFramework\routing\RouteConfig;
  * to be registered using IContainer::registerService
  */
 class App {
+
+
+	/**
+	 * Turns an app id into a namespace by convetion. The id is split at the
+	 * underscores, all parts are camelcased and reassembled. e.g.:
+	 * some_app_id -> OCA\SomeAppId
+	 * @param string $appId the app id
+	 * @param string $topNamespace the namespace which should be prepended to
+	 * the transformed app id, defaults to OCA\
+	 * @return string the starting namespace for the app
+	 */
+	public static function buildAppNamespace($appId, $topNamespace='OCA\\') {
+		return \OC\AppFramework\App::buildAppNamespace($appId, $topNamespace);
+	}
+
+
 	/**
 	 * @param array $urlParams an array with variables extracted from the routes
 	 */

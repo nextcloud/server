@@ -36,12 +36,13 @@ use OC\AppFramework\Utility\SimpleContainer;
 use OC\AppFramework\Utility\TimeFactory;
 use OC\AppFramework\Utility\ControllerMethodReflector;
 use OCP\AppFramework\IApi;
+use OCP\AppFramework\QueryException;
 use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Middleware;
 use OCP\IServerContainer;
 
 
-class DIContainer extends SimpleContainer implements IAppContainer{
+class DIContainer extends SimpleContainer implements IAppContainer {
 
 	/**
 	 * @var array
@@ -53,19 +54,181 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	 * @param string $appName the name of the app
 	 */
 	public function __construct($appName, $urlParams = array()){
-
 		$this['AppName'] = $appName;
 		$this['urlParams'] = $urlParams;
 
-		$this->registerParameter('ServerContainer', \OC::$server);
+		/**
+		 * Core services
+		 */
+		$this->registerService('OCP\\IAppConfig', function($c) {
+			return \OC::$server->getAppConfig();
+		});
 
+		$this->registerService('OCP\\IAppManager', function($c) {
+			return \OC::$server->getAppManager();
+		});
+
+		$this->registerService('OCP\\IAvatarManager', function($c) {
+			return \OC::$server->getAvatarManager();
+		});
+
+		$this->registerService('OCP\\Activity\\IManager', function($c) {
+			return \OC::$server->getActivityManager();
+		});
+
+		$this->registerService('OCP\\ICache', function($c) {
+			return \OC::$server->getCache();
+		});
+
+		$this->registerService('OCP\\ICacheFactory', function($c) {
+			return \OC::$server->getMemCacheFactory();
+		});
+
+		$this->registerService('OCP\\IConfig', function($c) {
+			return \OC::$server->getConfig();
+		});
+
+		$this->registerService('OCP\\Contacts\\IManager', function($c) {
+			return \OC::$server->getContactsManager();
+		});
+
+		$this->registerService('OCP\\IDateTimeZone', function($c) {
+			return \OC::$server->getDateTimeZone();
+		});
+
+		$this->registerService('OCP\\IDb', function($c) {
+			return \OC::$server->getDb();
+		});
+
+		$this->registerService('OCP\\IDBConnection', function($c) {
+			return \OC::$server->getDatabaseConnection();
+		});
+
+		$this->registerService('OCP\\Diagnostics\\IEventLogger', function($c) {
+			return \OC::$server->getEventLogger();
+		});
+
+		$this->registerService('OCP\\Diagnostics\\IQueryLogger', function($c) {
+			return \OC::$server->getQueryLogger();
+		});
+
+		$this->registerService('OCP\\Files\\Config\\IMountProviderCollection', function($c) {
+			return \OC::$server->getMountProviderCollection();
+		});
+
+		$this->registerService('OCP\\Files\\IRootFolder', function($c) {
+			return \OC::$server->getRootFolder();
+		});
+
+		$this->registerService('OCP\\IGroupManager', function($c) {
+			return \OC::$server->getGroupManager();
+		});
+
+		$this->registerService('OCP\\IL10N', function($c) {
+			return \OC::$server->getL10N($c->query('AppName'));
+		});
+
+		$this->registerService('OCP\\ILogger', function($c) {
+			return \OC::$server->getLogger();
+		});
+
+		$this->registerService('OCP\\BackgroundJob\\IJobList', function($c) {
+			return \OC::$server->getJobList();
+		});
+
+		$this->registerService('OCP\\AppFramework\\Utility\\IControllerMethodReflector', function($c) {
+			return $c->query('ControllerMethodReflector');
+		});
+
+		$this->registerService('OCP\\INavigationManager', function($c) {
+			return \OC::$server->getNavigationManager();
+		});
+
+		$this->registerService('OCP\\IPreview', function($c) {
+			return \OC::$server->getPreviewManager();
+		});
+
+		$this->registerService('OCP\\IRequest', function($c) {
+			return $c->query('Request');
+		});
+
+		$this->registerService('OCP\\ITagManager', function($c) {
+			return \OC::$server->getTagManager();
+		});
+
+		$this->registerService('OCP\\ITempManager', function($c) {
+			return \OC::$server->getTempManager();
+		});
+
+		$this->registerService('OCP\\AppFramework\\Utility\\ITimeFactory', function($c) {
+			return $c->query('TimeFactory');
+		});
+
+		$this->registerService('OCP\\Route\\IRouter', function($c) {
+			return \OC::$server->getRouter();
+		});
+
+		$this->registerService('OCP\\ISearch', function($c) {
+			return \OC::$server->getSearch();
+		});
+
+		$this->registerService('OCP\\ISearch', function($c) {
+			return \OC::$server->getSearch();
+		});
+
+		$this->registerService('OCP\\Security\\ICrypto', function($c) {
+			return \OC::$server->getCrypto();
+		});
+
+		$this->registerService('OCP\\Security\\IHasher', function($c) {
+			return \OC::$server->getHasher();
+		});
+
+		$this->registerService('OCP\\Security\\ISecureRandom', function($c) {
+			return \OC::$server->getSecureRandom();
+		});
+
+		$this->registerService('OCP\\IURLGenerator', function($c) {
+			return \OC::$server->getURLGenerator();
+		});
+
+		$this->registerService('OCP\\IUserManager', function($c) {
+			return \OC::$server->getUserManager();
+		});
+
+		$this->registerService('OCP\\IUserSession', function($c) {
+			return \OC::$server->getUserSession();
+		});
+
+		$this->registerService('ServerContainer', function ($c) {
+			$c->query('OCP\\ILogger')->warning(
+				'Accessing the server container is deprecated. Use type ' .
+				'annotations to inject core services instead!'
+			);
+			return \OC::$server;
+		});
+
+		// commonly used attributes
+		$this->registerService('UserId', function ($c) {
+			return $c->query('OCP\\IUserSession')->getSession()->get('user_id');
+		});
+
+		$this->registerService('WebRoot', function ($c) {
+			return $c->query('ServerContainer')->getWebRoot();
+		});
+
+
+		/**
+		 * App Framework APIs
+		 */
 		$this->registerService('API', function($c){
+			$c->query('OCP\\ILogger')->warning(
+				'Accessing the API class is deprecated! Use the appropriate ' .
+				'services instead!'
+			);
 			return new API($c['AppName']);
 		});
 
-		/**
-		 * Http
-		 */
 		$this->registerService('Request', function($c) {
 			/** @var $c SimpleContainer */
 			/** @var $server SimpleContainer */
@@ -234,4 +397,6 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 		}
 		\OCP\Util::writeLog($this->getAppName(), $message, $level);
 	}
+
+
 }

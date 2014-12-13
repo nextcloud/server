@@ -9,6 +9,7 @@
 namespace OC\Route;
 
 use OCP\Route\IRouter;
+use OCP\AppFramework\App;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RequestContext;
@@ -129,7 +130,7 @@ class Router implements IRouter {
 			if (!isset($this->loadedApps[$app])) {
 				$this->loadedApps[$app] = true;
 				$this->useCollection($app);
-				$this->requireRouteFile($file);
+				$this->requireRouteFile($file, $app);
 				$collection = $this->getCollection($app);
 				$collection->addPrefix('/apps/' . $app);
 				$this->root->addCollection($collection);
@@ -283,10 +284,39 @@ class Router implements IRouter {
 
 	/**
 	 * To isolate the variable scope used inside the $file it is required in it's own method
-	 * @param string $file
+	 * @param string $file the route file location to include
+	 * @param string $appName
 	 */
-	private function requireRouteFile($file) {
-		require_once $file;
+	private function requireRouteFile($file, $appName) {
+		$this->setupRoutes(include_once $file, $appName);
 	}
+
+
+	/**
+	 * If a routes.php file returns an array, try to set up the application and
+	 * register the routes for the app. The application class will be chosen by
+	 * camelcasing the appname, e.g.: my_app will be turned into
+	 * \OCA\MyApp\AppInfo\Application. If that class does not exist, a default
+	 * App will be intialized. This makes it optional to ship an
+	 * appinfo/application.php by using the built in query resolver
+	 * @param array $routes the application routes
+	 * @param string $appName the name of the app.
+	 */
+	private function setupRoutes($routes, $appName) {
+		if (is_array($routes)) {
+			$appNameSpace = App::buildAppNamespace($appName);
+
+			$applicationClassName = $appNameSpace . '\\AppInfo\\Application';
+
+			if (class_exists($applicationClassName)) {
+				$application = new $applicationClassName();
+			} else {
+				$application = new App($appName);
+			}
+
+			$application->registerRoutes($this, $routes);
+		}
+	}
+
 
 }
