@@ -244,6 +244,15 @@ table td.filename a.name {
 	line-height: 50px;
 	padding: 0;
 }
+table td.filename .thumbnail {
+	display: inline-block;
+	width: 32px;
+	height: 32px;
+	margin-left: 8px;
+	margin-top: 9px;
+	cursor: pointer;
+	float: left;
+}
 table td.filename input.filename {
 	width: 70%;
 	margin-top: 1px;
@@ -348,7 +357,7 @@ table td.filename .uploadtext {
 }
 
 /* File checkboxes */
-#fileList tr td.filename>input[type="checkbox"]:first-child {
+#fileList tr td.filename>.selectCheckBox {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
 	opacity: 0;
@@ -357,36 +366,33 @@ table td.filename .uploadtext {
 	margin: 32px 0 4px 32px; /* bigger clickable area doesn’t work in FF width:2.8em; height:2.4em;*/
 }
 /* Show checkbox when hovering, checked, or selected */
-#fileList tr:hover td.filename>input[type="checkbox"]:first-child,
-#fileList tr:focus td.filename>input[type="checkbox"]:first-child,
-#fileList tr td.filename>input[type="checkbox"]:checked:first-child,
-#fileList tr.selected td.filename>input[type="checkbox"]:first-child {
+#fileList tr:hover td.filename>.selectCheckBox,
+#fileList tr:focus td.filename>.selectCheckBox,
+#fileList tr td.filename>.selectCheckBox:checked,
+#fileList tr.selected td.filename>.selectCheckBox {
 	opacity: 1;
 }
-.lte9 #fileList tr:hover td.filename>input[type="checkbox"]:first-child,
-.lte9 #fileList tr:focus td.filename>input[type="checkbox"]:first-child,
-.lte9 #fileList tr td.filename>input[type="checkbox"][checked=checked]:first-child,
-.lte9 #fileList tr.selected td.filename>input[type="checkbox"]:first-child {
+.lte9 #fileList tr:hover td.filename>.selectCheckBox,
+.lte9 #fileList tr:focus td.filename>.selectCheckBox,
+.lte9 #fileList tr td.filename>.selectCheckBox[checked=checked],
+.lte9 #fileList tr.selected td.filename>.selectCheckBox {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 }
 
 /* Use label to have bigger clickable size for checkbox */
-#fileList tr td.filename>input[type="checkbox"] + label,
+#fileList tr td.filename>.selectCheckBox + label,
 .select-all + label {
 	height: 50px;
 	position: absolute;
 	width: 50px;
 	z-index: 5;
 }
-#fileList tr td.filename>input[type="checkbox"]{
+#fileList tr td.filename>.selectCheckBox {
 	/* sometimes checkbox height is bigger (KDE/Qt), so setting to absolute
 	 * to prevent it to increase the height */
 	position: absolute;
-}
-#fileList tr td.filename>input[type="checkbox"] + label {
-	left: 0;
-	top: 0;
+	z-index: 10;
 }
 .select-all + label {
 	top: 0;
@@ -395,6 +401,7 @@ table td.filename .uploadtext {
 	position: absolute;
 	top: 18px;
 	left: 18px;
+	z-index: 10;
 }
 
 #fileList tr td.filename {

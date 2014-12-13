@@ -955,8 +955,8 @@ describe('OCA.Files.FileList tests', function() {
 				name: 'testFile.txt'
 			};
 			var $tr = fileList.add(fileData);
-			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td)).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
+			var $imgDiv = $tr.find('td.filename .thumbnail');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 		it('renders default icon for dir when none provided and no preview is available', function() {
@@ -965,8 +965,8 @@ describe('OCA.Files.FileList tests', function() {
 				name: 'test dir'
 			};
 			var $tr = fileList.add(fileData);
-			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td)).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
+			var $imgDiv = $tr.find('td.filename .thumbnail');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/folder.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 		it('renders provided icon for file when provided', function() {
@@ -976,8 +976,8 @@ describe('OCA.Files.FileList tests', function() {
 				icon: OC.webroot + '/core/img/filetypes/application-pdf.svg'
 			};
 			var $tr = fileList.add(fileData);
-			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td)).toEqual(OC.webroot + '/core/img/filetypes/application-pdf.svg');
+			var $imgDiv = $tr.find('td.filename .thumbnail');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/application-pdf.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 		it('renders preview when no icon was provided and preview is available', function() {
@@ -988,11 +988,11 @@ describe('OCA.Files.FileList tests', function() {
 			};
 			var $tr = fileList.add(fileData);
 			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td)).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
 			expect(previewLoadStub.calledOnce).toEqual(true);
 			// third argument is callback
 			previewLoadStub.getCall(0).args[0].callback(OC.webroot + '/somepath.png');
-			expect(OC.TestUtil.getImageUrl($td)).toEqual(OC.webroot + '/somepath.png');
+			expect(OC.TestUtil.getImageUrl($td.find('.thumbnail'))).toEqual(OC.webroot + '/somepath.png');
 		});
 		it('renders default file type icon when no icon was provided and no preview is available', function() {
 			var fileData = {
@@ -1001,8 +1001,8 @@ describe('OCA.Files.FileList tests', function() {
 				isPreviewAvailable: false
 			};
 			var $tr = fileList.add(fileData);
-			var $td = $tr.find('td.filename');
-			expect(OC.TestUtil.getImageUrl($td)).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
+			var $imgDiv = $tr.find('td.filename .thumbnail');
+			expect(OC.TestUtil.getImageUrl($imgDiv)).toEqual(OC.webroot + '/core/img/filetypes/file.svg');
 			expect(previewLoadStub.notCalled).toEqual(true);
 		});
 	});

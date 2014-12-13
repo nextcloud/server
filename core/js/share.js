@@ -131,7 +131,7 @@ OC.Share={
 								}
 								for(i = 0; i < files.length; i++) {
 									if ($(files[i]).closest('tr').data('type') === 'dir') {
-										$(files[i]).css('background-image', 'url('+shareFolder+')');
+										$(files[i]).find('.thumbnail').css('background-image', 'url('+shareFolder+')');
 									}
 								}
 							}
@@ -238,10 +238,10 @@ OC.Share={
 			else {
 				shareFolderIcon = OC.imagePath('core', 'filetypes/folder-shared');
 			}
-			$tr.children('.filename').css('background-image', 'url(' + shareFolderIcon + ')');
+			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 		} else if (type === 'dir') {
 			shareFolderIcon = OC.imagePath('core', 'filetypes/folder');
-			$tr.children('.filename').css('background-image', 'url(' + shareFolderIcon + ')');
+			$tr.find('.filename .thumbnail').css('background-image', 'url(' + shareFolderIcon + ')');
 		}
 		// update share action text / icon
 		if (hasShares || owner) {
