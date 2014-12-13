@@ -46,6 +46,7 @@ OC.L10N.register(
     "Error loading file picker template: {error}" : "Chyba při nahrávání šablony výběru souborů: {error}",
     "Ok" : "Ok",
     "Error loading message template: {error}" : "Chyba při nahrávání šablony zprávy: {error}",
+    "read-only" : "pouze ke čtení",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} souborový konflikt","{count} souborové konflikty","{count} souborových konfliktů"],
     "One file conflict" : "Jeden konflikt souboru",
     "New Files" : "Nové soubory",

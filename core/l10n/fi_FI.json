@@ -44,6 +44,7 @@
     "Error loading file picker template: {error}" : "Virhe ladatessa tiedostopohjia: {error}",
     "Ok" : "Ok",
     "Error loading message template: {error}" : "Virhe ladatessa viestipohjaa: {error}",
+    "read-only" : "vain luku",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} tiedoston ristiriita","{count} tiedoston ristiriita"],
     "One file conflict" : "Yhden tiedoston ristiriita",
     "New Files" : "Uudet tiedostot",

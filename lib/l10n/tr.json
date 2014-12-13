@@ -20,7 +20,7 @@
     "Invalid image" : "Geçersiz resim",
     "today" : "bugün",
     "yesterday" : "dün",
-    "_%n day ago_::_%n days ago_" : ["",""],
+    "_%n day ago_::_%n days ago_" : ["%n gün önce","%n gün önce"],
     "last month" : "geçen ay",
     "_%n month ago_::_%n months ago_" : ["","%n ay önce"],
     "last year" : "geçen yıl",
