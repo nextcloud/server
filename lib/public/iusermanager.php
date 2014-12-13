@@ -32,6 +32,12 @@ interface IUserManager {
 	public function registerBackend($backend);
 
 	/**
+	 * Get the active backends
+	 * @return \OCP\UserInterface[]
+	 */
+	public function getBackends();
+
+	/**
 	 * remove a user backend
 	 *
 	 * @param \OCP\UserInterface $backend

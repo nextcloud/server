@@ -11,6 +11,7 @@
 namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
+use OC\User\Manager;
 use OC\User\User;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
@@ -85,45 +86,68 @@ class UsersController extends Controller {
 	}
 
 	/**
+	 * @param array $userIDs Array with schema [$uid => $displayName]
+	 * @return IUser[]
+	 */
+	private function getUsersForUID(array $userIDs) {
+		$users = [];
+		foreach ($userIDs as $uid => $displayName) {
+			$users[] = $this->userManager->get($uid);
+		}
+		return $users;
+	}
+
+	/**
 	 * @NoAdminRequired
 	 *
 	 * @param int $offset
 	 * @param int $limit
-	 * @param string $gid
-	 * @param string $pattern
+	 * @param string $gid GID to filter for
+	 * @param string $pattern Pattern to search for in the username
+	 * @param string $backend Backend to filter for (class-name)
 	 * @return DataResponse
 	 *
 	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
-	public function index($offset = 0, $limit = 10, $gid = '', $pattern = '') {
+	public function index($offset = 0, $limit = 10, $gid = '', $pattern = '', $backend = '') {
 		// FIXME: The JS sends the group '_everyone' instead of no GID for the "all users" group.
 		if($gid === '_everyone') {
 			$gid = '';
 		}
+
+		// Remove backends
+		if(!empty($backend)) {
+			$activeBackends = $this->userManager->getBackends();
+			$this->userManager->clearBackends();
+			foreach($activeBackends as $singleActiveBackend) {
+				if($backend === get_class($singleActiveBackend)) {
+					$this->userManager->registerBackend($singleActiveBackend);
+					break;
+				}
+			}
+		}
+
 		$users = array();
 		if ($this->isAdmin) {
+
 			if($gid !== '') {
-				$batch = $this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset);
+				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
-				// FIXME: Remove static method call
-				$batch = \OC_User::getDisplayNames($pattern, $limit, $offset);
+				$batch = $this->userManager->search('', $limit, $offset);
 			}
 
-			foreach ($batch as $uid => $displayname) {
-				$users[] = $this->formatUserForIndex($this->userManager->get($uid));
+			foreach ($batch as $user) {
+				$users[] = $this->formatUserForIndex($user);
 			}
+
 		} else {
-			$groups = \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID());
-			if($gid !== '' && in_array($gid, $groups)) {
-				$groups = array($gid);
-			} elseif($gid !== '') {
-				//don't you try to investigate loops you must not know about
-				$groups = array();
+			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
+			if($gid !== '' && !in_array($gid, \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()))) {
+				$gid = '';
 			}
-			$batch = \OC_Group::usersInGroups($groups, $pattern, $limit, $offset);
-			foreach ($batch as $uid) {
-				$user = $this->userManager->get($uid);
 
+			$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
+			foreach ($batch as $user) {
 				// Only add the groups, this user is a subadmin of
 				$userGroups = array_intersect($this->groupManager->getUserGroupIds($user),
 					\OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()));

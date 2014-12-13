@@ -126,9 +126,20 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getUserGroupIds')
 			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
 		$this->container['UserManager']
-			->expects($this->exactly(3))
+			->expects($this->at(0))
 			->method('get')
-			->will($this->onConsecutiveCalls($foo, $admin, $bar));
+			->with('foo')
+			->will($this->returnValue($foo));
+		$this->container['UserManager']
+			->expects($this->at(1))
+			->method('get')
+			->with('admin')
+			->will($this->returnValue($admin));
+		$this->container['UserManager']
+			->expects($this->at(2))
+			->method('get')
+			->with('bar')
+			->will($this->returnValue($bar));
 		$this->container['Config']
 			->expects($this->exactly(3))
 			->method('getUserValue')
@@ -168,7 +179,79 @@ class UsersControllerTest extends \Test\TestCase {
 				),
 			)
 		);
-		$response = $this->usersController->index(0, 10, 'pattern');
+		$response = $this->usersController->index(0, 10, 'gid', 'pattern');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testIndexWithBackend() {
+		$user = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$user
+			->expects($this->exactly(3))
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('M. Foo'));
+		$user
+			->method('getLastLogin')
+			->will($this->returnValue(500));
+		$user
+			->method('getHome')
+			->will($this->returnValue('/home/foo'));
+		$user
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Database'));
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('getBackends')
+			->will($this->returnValue([new \OC_User_Dummy(), new \OC_User_Database()]));
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('clearBackends');
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('registerBackend')
+			->with(new \OC_User_Dummy());
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('search')
+			->with('')
+			->will($this->returnValue([$user]));
+
+		$expectedResponse = new DataResponse(
+			array(
+				0 => array(
+					'name' => 'foo',
+					'displayname' => 'M. Foo',
+					'groups' => null,
+					'subadmin' => array(),
+					'quota' => null,
+					'storageLocation' => '/home/foo',
+					'lastLogin' => 500,
+					'backend' => 'OC_User_Database'
+				)
+			)
+		);
+		$response = $this->usersController->index(0, 10, '','', 'OC_User_Dummy');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	public function testIndexWithBackendNoUser() {
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('getBackends')
+			->will($this->returnValue([new \OC_User_Dummy(), new \OC_User_Database()]));
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('search')
+			->with('')
+			->will($this->returnValue([]));
+
+		$expectedResponse = new DataResponse([]);
+		$response = $this->usersController->index(0, 10, '','', 'OC_User_Dummy');
 		$this->assertEquals($expectedResponse, $response);
 	}
 
