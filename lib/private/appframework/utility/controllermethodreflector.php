@@ -54,7 +54,7 @@ class ControllerMethodReflector {
 		$this->annotations = $matches[1];
 
 		// extract type parameter information
-		preg_match_all('/@param (?<type>\w+) \$(?<var>\w+)/', $docs, $matches);
+		preg_match_all('/@param (?P<type>\w+) \$(?P<var>\w+)/', $docs, $matches);
 		// this is just a fix for PHP 5.3 (array_combine raises warning if called with
 		// two empty arrays
 		if($matches['var'] === array() && $matches['type'] === array()) {
