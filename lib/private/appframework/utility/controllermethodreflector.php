@@ -24,11 +24,13 @@
 
 namespace OC\AppFramework\Utility;
 
+use \OCP\AppFramework\Utility\IControllerMethodReflector;
+
 
 /**
  * Reads and parses annotations from doc comments
  */
-class ControllerMethodReflector {
+class ControllerMethodReflector implements IControllerMethodReflector{
 
 	private $annotations;
 	private $types;
