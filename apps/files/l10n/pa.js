@@ -3,8 +3,8 @@ OC.L10N.register(
     {
     "Unknown error" : "ਅਣਜਾਣ ਗਲਤੀ",
     "Files" : "ਫਾਇਲਾਂ",
-    "Delete" : "ਹਟਾਓ",
     "Rename" : "ਨਾਂ ਬਦਲੋ",
+    "Delete" : "ਹਟਾਓ",
     "Error" : "ਗਲਤੀ",
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],

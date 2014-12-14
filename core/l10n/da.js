@@ -46,6 +46,7 @@ OC.L10N.register(
     "Error loading file picker template: {error}" : "Fejl ved indlæsning af filvælger skabelon: {error}",
     "Ok" : "OK",
     "Error loading message template: {error}" : "Fejl ved indlæsning af besked skabelon: {error}",
+    "read-only" : "skrivebeskyttet",
     "_{count} file conflict_::_{count} file conflicts_" : ["{count} filkonflikt","{count} filkonflikter"],
     "One file conflict" : "En filkonflikt",
     "New Files" : "Nye filer",
