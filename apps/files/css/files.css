@@ -293,6 +293,7 @@ table td.filename .nametext {
 }
 #fileList.has-favorites td.filename a.name {
 	left: 50px;
+	margin-right: 50px;
 }
 
 table td.filename .nametext .innernametext {
