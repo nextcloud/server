@@ -21,8 +21,7 @@
  *
  */
 
-// Check if we are a user
-OCP\User::checkLoggedIn();
+// TODO: move to handlebars
 
 // renders the controls and table headers template
 $tmpl = new OCP\Template('files', 'simplelist', '');

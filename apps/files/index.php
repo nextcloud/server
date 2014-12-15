@@ -90,11 +90,11 @@ function sortNavigationItems($item1, $item2) {
 
 \OCA\Files\App::getNavigationManager()->add(
 	array(
-		"id" => 'favorites',
-		"appname" => 'files',
-		"script" => 'simplelist.php',
-		"order" => 50,
-		"name" => $l->t('Favorites')
+		'id' => 'favorites',
+		'appname' => 'files',
+		'script' => 'simplelist.php',
+		'order' => 50,
+		'name' => $l->t('Favorites')
 	)
 );
 

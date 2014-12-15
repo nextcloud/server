@@ -19,6 +19,11 @@ use OCA\Files\Service\TagService;
 
 class ApiController extends Controller {
 
+	/**
+	 * @var TagService $tagService
+	 */
+	private $tagService;
+
 	public function __construct($appName, IRequest $request, TagService $tagService){
 		parent::__construct($appName, $request);
 		$this->tagService = $tagService;

@@ -31,9 +31,9 @@ class Application extends App {
 			);
 		});
 
-        /**
-         * Core
-         */
+		/**
+		 * Core
+		 */
 		$container->registerService('L10N', function(IContainer $c) {
 			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
 		});

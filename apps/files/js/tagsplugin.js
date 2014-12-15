@@ -12,7 +12,7 @@
 
 (function(OCA) {
 
-	var TEMPLATE_FAVORITE_ACTION = 
+	var TEMPLATE_FAVORITE_ACTION =
 		'<a href="#" ' +
 		'class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
 		'<img class="svg" alt="{{altText}}" src="{{imgFile}}" />' +
@@ -30,7 +30,7 @@
 
 	/**
 	 * Render the star icon with the given state
-	 * 
+	 *
 	 * @param {boolean} state true if starred, false otherwise
 	 * @return {Object} jQuery object
 	 */
