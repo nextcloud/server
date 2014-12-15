@@ -45,6 +45,17 @@
 		});
 	}
 
+	/**
+	 * Toggle star icon on action element
+	 *
+	 * @param {Object} action element
+	 * @param {boolean} state true if starred, false otherwise
+	 */
+	function toggleStar($actionEl, state) {
+		$actionEl.find('img').attr('src', getStarImage(state));
+		$actionEl.toggleClass('permanent', state);
+	}
+
 	OCA.Files = OCA.Files || {};
 
 	/**
@@ -93,20 +104,14 @@
 					} else {
 						tags.push(OC.TAG_FAVORITE);
 					}
-					if ($actionEl.hasClass('icon-loading')) {
-						// do nothing
-						return;
-					}
-					$actionEl.addClass('icon-loading permanent');
+					toggleStar($actionEl, !isFavorite);
+
 					self.applyFileTags(
 						dir + '/' + fileName,
 						tags
 					).then(function(result) {
 						// read latest state from result
-						var isFavorite = (result.tags.indexOf(OC.TAG_FAVORITE) >= 0);
-						$actionEl.removeClass('icon-loading');
-						$actionEl.find('img').attr('src', getStarImage(isFavorite));
-						$actionEl.toggleClass('permanent', isFavorite);
+						toggleStar($actionEl, (result.tags.indexOf(OC.TAG_FAVORITE) >= 0));
 						$file.attr('data-tags', tags.join('|'));
 						$file.attr('data-favorite', !isFavorite);
 					});
