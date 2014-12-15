@@ -118,7 +118,8 @@ class AppSettingsController extends Controller {
 		}
 
 		// fix groups to be an array
-		$apps = array_map(function($app){
+		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
+		$apps = array_map(function($app) use ($dependencyAnalyzer) {
 			$groups = array();
 			if (is_string($app['groups'])) {
 				$groups = json_decode($app['groups']);
@@ -127,8 +128,7 @@ class AppSettingsController extends Controller {
 			$app['canUnInstall'] = !$app['active'] && $app['removable'];
 
 			// analyse dependencies
-			$dependencyAnalyzer = new DependencyAnalyzer($app, new Platform($this->config), $this->l10n);
-			$missing = $dependencyAnalyzer->analyze();
+			$missing = $dependencyAnalyzer->analyze($app);
 
 			$app['canInstall'] = empty($missing);
 			$app['missingDependencies'] = $missing;

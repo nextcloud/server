@@ -25,6 +25,8 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+use OC\App\DependencyAnalyzer;
+use OC\App\Platform;
 
 /**
  * This class manages the apps. It allows them to register and integrate in the
@@ -1082,6 +1084,7 @@ class OC_App {
 	 */
 	public static function installApp($app) {
 		$l = \OC::$server->getL10N('core');
+		$config = \OC::$server->getConfig();
 		$appData=OC_OCSClient::getApplication($app);
 
 		// check if app is a shipped app or not. OCS apps have an integer as id, shipped apps use a string
@@ -1106,13 +1109,25 @@ class OC_App {
 						array($info['name'])
 					)
 				);
-			}else{
-				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
-				if(isset($appData['id'])) {
-					OC_Appconfig::setValue( $app, 'ocsid', $appData['id'] );
-				}
-				\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 			}
+
+			// check for required dependencies
+			$dependencyAnalyzer = new DependencyAnalyzer(new Platform($config), $l);
+			$missing = $dependencyAnalyzer->analyze($app);
+			if(!empty($missing)) {
+				$missingMsg = join(PHP_EOL, $missing);
+				throw new \Exception(
+					$l->t('App \"%s\" cannot be installed because the following dependencies are not fulfilled: %s',
+						array($info['name'], $missingMsg)
+					)
+				);
+			}
+
+			$config->setAppValue($app, 'enabled', 'yes');
+			if(isset($appData['id'])) {
+				$config->setAppValue($app, 'ocsid', $appData['id'] );
+			}
+			\OC_Hook::emit('OC_App', 'post_enable', array('app' => $app));
 		}else{
 			throw new \Exception($l->t("No app name specified"));
 		}

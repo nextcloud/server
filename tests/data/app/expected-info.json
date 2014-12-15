@@ -44,6 +44,28 @@
 				},
 				"@value": "notepad.exe"
 			}
-		]
+		],
+		"lib": [
+			{
+				"@attributes" : {
+					"min-version": "1.2"
+				},
+				"@value": "xml"
+			},
+			{
+				"@attributes" : {
+					"max-version": "2.0"
+				},
+				"@value": "intl"
+			},
+			"curl"
+		],
+		"os": "Linux",
+		"owncloud": {
+			"@attributes" : {
+				"min-version": "7.0.1",
+				"max-version": "8"
+			}
+		}
 	}
 }

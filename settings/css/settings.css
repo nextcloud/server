@@ -203,6 +203,11 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 	border-bottom: 1px solid #e8e8e8;
 }
 
+.app-dependencies {
+	margin-top: 10px;
+	color: #c33;
+}
+
 .missing-dependencies {
 	list-style: initial;
 	list-style-type: initial;
