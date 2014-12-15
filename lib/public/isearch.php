@@ -32,16 +32,17 @@ interface ISearch {
 	/**
 	 * Search all providers for $query
 	 * @param string $query
+	 * @param string[] $inApps optionally limit results to the given apps
 	 * @return array An array of OCP\Search\Result's
 	 */
-	public function search($query);
+	public function search($query, array $inApps = array());
 
 	/**
 	 * Register a new search provider to search with
 	 * @param string $class class name of a OCP\Search\Provider
 	 * @param array $options optional
 	 */
-	public function registerProvider($class, $options = array());
+	public function registerProvider($class, array $options = array());
 
 	/**
 	 * Remove one existing search provider

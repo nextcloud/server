@@ -292,7 +292,14 @@ var OC={
 	search: _.debounce(function(query){
 		if(query){
 			OC.addStyle('search','results');
-			$.getJSON(OC.filePath('search','ajax','search.php')+'?query='+encodeURIComponent(query), function(results){
+			var classList = document.getElementById('content').className.split(/\s+/);
+			var inApps = [];
+			for (var i = 0; i < classList.length; i++) {
+				if (classList[i].indexOf('app-') === 0) {
+					var inApps = [classList[i].substr(4)];
+				}
+			}
+			$.getJSON(OC.generateUrl('search/ajax/search.php'), {inApps:inApps, query:query}, function(results){
 				OC.search.lastResults=results;
 				OC.search.showResults(results);
 			});

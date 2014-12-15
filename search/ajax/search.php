@@ -22,12 +22,24 @@
 */
 
 // Check if we are a user
-OC_JSON::checkLoggedIn();
+\OC_JSON::checkLoggedIn();
 \OC::$server->getSession()->close();
 
-$query=(isset($_GET['query']))?$_GET['query']:'';
+if (isset($_GET['query'])) {
+	$query = $_GET['query'];
+} else {
+	$query = '';
+}
+if (isset($_GET['inApps'])) {
+	$inApps = $_GET['inApps'];
+	if (is_string($inApps)) {
+		$inApps = array($inApps);
+	}
+} else {
+	$inApps = array();
+}
 if($query) {
-	$result = \OC::$server->getSearch()->search($query);
+	$result = \OC::$server->getSearch()->search($query, $inApps);
 	OC_JSON::encodedPrint($result);
 }
 else {
