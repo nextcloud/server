@@ -191,10 +191,15 @@ table th#headerName {
 	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
+
 #headerName-container {
 	position: relative;
 	height: 50px;
 }
+.has-favorites #headerName-container {
+	padding-left: 50px;
+}
+
 table th#headerSize, table td.filesize {
 	text-align: right;
 }
@@ -405,6 +410,9 @@ table td.filename .uploadtext {
 	top: 18px;
 	left: 18px;
 	z-index: 10;
+}
+.has-favorites .select-all {
+	left: 68px;
 }
 
 #fileList tr td.filename {
