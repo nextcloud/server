@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Verbinding met opslag verbreken",
     "Unshare" : "Stop met delen",
     "Pending" : "In behandeling",
+    "Unable to determine date" : "Kon datum niet vaststellen",
     "Error moving file." : "Fout bij verplaatsen bestand.",
     "Error moving file" : "Fout bij verplaatsen bestand",
     "Error" : "Fout",

@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Odpojit úložiště",
     "Unshare" : "Zrušit sdílení",
     "Pending" : "Nevyřízené",
+    "Unable to determine date" : "Nelze určit datum",
     "Error moving file." : "Chyba při přesunu souboru.",
     "Error moving file" : "Chyba při přesunu souboru",
     "Error" : "Chyba",

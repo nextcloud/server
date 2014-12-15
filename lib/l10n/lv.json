@@ -4,6 +4,8 @@
     "Settings" : "Iestatījumi",
     "Users" : "Lietotāji",
     "Admin" : "Administratori",
+    "Unknown filetype" : "Nezināms datnes tips",
+    "Invalid image" : "Nederīgs attēls",
     "today" : "šodien",
     "yesterday" : "vakar",
     "_%n day ago_::_%n days ago_" : ["","",""],

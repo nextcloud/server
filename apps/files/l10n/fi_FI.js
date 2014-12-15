@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
     "Pending" : "Odottaa",
+    "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
     "Error moving file." : "Virhe tiedostoa siirrettäessä.",
     "Error moving file" : "Virhe tiedostoa siirrettäessä",
     "Error" : "Virhe",

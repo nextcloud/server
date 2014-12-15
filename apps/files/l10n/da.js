@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Frakobl lager",
     "Unshare" : "Fjern deling",
     "Pending" : "Afventer",
+    "Unable to determine date" : "Kan ikke fastslå datoen",
     "Error moving file." : "Fejl ved flytning af fil",
     "Error moving file" : "Fejl ved flytning af fil",
     "Error" : "Fejl",
