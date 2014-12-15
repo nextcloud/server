@@ -21,8 +21,17 @@
  *
  */
 
+use OC\Connector\Sabre\TagList;
+
 class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
+
+	/**
+	 * Cached directory content
+	 *
+	 * @var \OCP\FileInfo[]
+	 */
+	private $dirContent;
 
 	/**
 	 * Creates a new file in the directory
@@ -133,18 +142,33 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	}
 
 	/**
+	 * Return the directory content as fileinfo objects
+	 *
+	 * @return \OCP\FileInfo[]
+	 */
+	public function getDirectoryContent() {
+	}
+
+	/**
 	 * Returns an array with all the child nodes
 	 *
 	 * @return \Sabre\DAV\INode[]
 	 */
 	public function getChildren() {
-
-		$folder_content = $this->fileView->getDirectoryContent($this->path);
-		$paths = array();
-		foreach($folder_content as $info) {
-			$paths[] = $this->path.'/'.$info['name'];
-			$properties[$this->path.'/'.$info['name']][self::GETETAG_PROPERTYNAME] = '"' . $info['etag'] . '"';
+		if (!is_null($this->dirContent)) {
+			return $this->dirContent;
 		}
+		$folderContent = $this->fileView->getDirectoryContent($this->path);
+
+		$properties = array();
+		$paths = array();
+		foreach($folderContent as $info) {
+			$name = $info->getName();
+			$paths[] = $this->path . '/' . $name;
+			$properties[$this->path.'/' . $name][self::GETETAG_PROPERTYNAME] = '"' . $info->getEtag() . '"';
+		}
+		// TODO: move this to a beforeGetPropertiesForPath event to pre-cache properties
+		// TODO: only fetch the requested properties
 		if(count($paths)>0) {
 			//
 			// the number of arguments within IN conditions are limited in most databases
@@ -169,12 +193,13 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 		}
 
 		$nodes = array();
-		foreach($folder_content as $info) {
+		foreach($folderContent as $info) {
 			$node = $this->getChild($info->getName(), $info);
-			$node->setPropertyCache($properties[$this->path.'/'.$info['name']]);
+			$node->setPropertyCache($properties[$this->path . '/' . $info->getName()]);
 			$nodes[] = $node;
 		}
-		return $nodes;
+		$this->dirContent = $nodes;
+		return $this->dirContent;
 	}
 
 	/**
