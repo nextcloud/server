@@ -39,6 +39,7 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}id';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}permissions';
 		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}size';
+		$server->protectedProperties[] = '{' . self::NS_OWNCLOUD . '}dDU';
 
 		$this->server = $server;
 		$this->server->subscribeEvent('beforeGetProperties', array($this, 'beforeGetProperties'));
@@ -77,6 +78,15 @@ class OC_Connector_Sabre_FilesPlugin extends \Sabre\DAV\ServerPlugin
 			$permissions = $node->getDavPermissions();
 			if (!is_null($permissions)) {
 				$returnedProperties[200][$permissionsPropertyName] = $permissions;
+			}
+		}
+
+		if ($node instanceof OC_Connector_Sabre_File) {
+			/** @var $node OC_Connector_Sabre_File */
+			$directDownloadUrl = $node->getDirectDownload();
+			if (isset($directDownloadUrl['url'])) {
+				$directDownloadUrlPropertyName = '{' . self::NS_OWNCLOUD . '}dDU';
+				$returnedProperties[200][$directDownloadUrlPropertyName] = $directDownloadUrl['url'];
 			}
 		}
 

@@ -226,6 +226,19 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		return \OC_Helper::getSecureMimeType($mimeType);
 	}
 
+	public function getDirectDownload() {
+		if (\OCP\App::isEnabled('encryption')) {
+			return [];
+		}
+		/** @var \OCP\Files\Storage $storage */
+		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
+		if (is_null($storage)) {
+			return [];
+		}
+
+		return $storage->getDirectDownload($internalPath);
+	}
+
 	/**
 	 * @param resource $data
 	 * @return null|string
