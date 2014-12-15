@@ -291,7 +291,7 @@ table td.filename .nametext {
 	max-width: 800px;
 	height: 100%;
 }
-#fileList.has-favorites td.filename a.name {
+.has-favorites #fileList td.filename a.name {
 	left: 50px;
 	margin-right: 50px;
 }

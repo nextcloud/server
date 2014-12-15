@@ -116,7 +116,7 @@
 
 		_extendFileList: function(fileList) {
 			// extend row prototype
-			fileList.$fileList.addClass('has-favorites');
+			fileList.$el.addClass('has-favorites');
 			var oldCreateRow = fileList._createRow;
 			fileList._createRow = function(fileData) {
 				var $tr = oldCreateRow.apply(this, arguments);

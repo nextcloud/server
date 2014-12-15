@@ -71,6 +71,9 @@ describe('OCA.Files.TagsPlugin tests', function() {
 			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', OC.TAG_FAVORITE]);
 			expect($tr.attr('data-favorite')).toEqual('true');
 		});
+		it('adds has-favorites class on table', function() {
+			expect(fileList.$el.hasClass('has-favorites')).toEqual(true);
+		});
 	});
 	describe('Applying tags', function() {
 		it('sends request to server and updates icon', function() {
