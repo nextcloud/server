@@ -40,7 +40,8 @@ class Platform {
 	 * @return string
 	 */
 	public function getOcVersion() {
-		return OC_Util::getVersion();
+		$v = OC_Util::getVersion();
+		return join('.', $v);
 	}
 
 	/**
