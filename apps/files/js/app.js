@@ -80,6 +80,8 @@
 			// refer to the one of the "files" view
 			window.FileList = this.fileList;
 
+			OC.Plugins.attach('OCA.Files.App', this);
+
 			this._setupEvents();
 			// trigger URL change event handlers
 			this._onPopState(urlParams);

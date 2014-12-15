@@ -4,7 +4,8 @@
 		"jquery/jquery-migrate.min.js",
 		"jquery-ui/ui/jquery-ui.custom.js",
 		"underscore/underscore.js",
-		"moment/min/moment-with-locales.js"
+		"moment/min/moment-with-locales.js",
+		"handlebars/handlebars.js"
 	],
 	"libraries": [
 		"jquery-showpassword.js",

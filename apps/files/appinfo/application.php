@@ -11,6 +11,8 @@ namespace OCA\Files\Appinfo;
 use OC\AppFramework\Utility\SimpleContainer;
 use OCA\Files\Controller\ApiController;
 use OCP\AppFramework\App;
+use \OCA\Files\Service\TagService;
+use \OCP\IContainer;
 
 class Application extends App {
 	public function __construct(array $urlParams=array()) {
@@ -21,10 +23,44 @@ class Application extends App {
 		/**
 		 * Controllers
 		 */
-		$container->registerService('APIController', function (SimpleContainer $c) {
+		$container->registerService('APIController', function (IContainer $c) {
 			return new ApiController(
 				$c->query('AppName'),
-				$c->query('Request')
+				$c->query('Request'),
+				$c->query('TagService')
+			);
+		});
+
+		/**
+		 * Core
+		 */
+		$container->registerService('L10N', function(IContainer $c) {
+			return $c->query('ServerContainer')->getL10N($c->query('AppName'));
+		});
+
+		/**
+		 * Services
+		 */
+		$container->registerService('Tagger', function(IContainer $c)  {
+			return $c->query('ServerContainer')->getTagManager()->load('files');
+		});
+		$container->registerService('TagService', function(IContainer $c)  {
+			$homeFolder = $c->query('ServerContainer')->getUserFolder();
+			return new TagService(
+				$c->query('ServerContainer')->getUserSession(),
+				$c->query('Tagger'),
+				$homeFolder
+			);
+		});
+
+		/**
+		 * Controllers
+		 */
+		$container->registerService('APIController', function (IContainer $c) {
+			return new ApiController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('TagService')
 			);
 		});
 	}

@@ -191,10 +191,15 @@ table th#headerName {
 	width: 9999px; /* not really sure why this works better than 100% … table styling */
 	padding: 0;
 }
+
 #headerName-container {
 	position: relative;
 	height: 50px;
 }
+.has-favorites #headerName-container {
+	padding-left: 50px;
+}
+
 table th#headerSize, table td.filesize {
 	text-align: right;
 }
@@ -285,6 +290,10 @@ table td.filename .nametext {
 	text-overflow: ellipsis;
 	max-width: 800px;
 	height: 100%;
+}
+.has-favorites #fileList td.filename a.name {
+	left: 50px;
+	margin-right: 50px;
 }
 
 table td.filename .nametext .innernametext {
@@ -403,6 +412,9 @@ table td.filename .uploadtext {
 	left: 18px;
 	z-index: 10;
 }
+.has-favorites .select-all {
+	left: 68px;
+}
 
 #fileList tr td.filename {
 	position: relative;
@@ -415,6 +427,18 @@ table td.filename .uploadtext {
 	position: absolute;
 	width: 80%;
 	height: 50px;
+}
+
+#fileList tr td.filename .favorite {
+	display: inline-block;
+	float: left;
+}
+#fileList tr td.filename .action-favorite {
+	display: block;
+	float: left;
+	width: 30px;
+	line-height: 100%;
+	text-align: center;
 }
 
 #uploadsize-message,#delete-confirm { display:none; }
@@ -442,7 +466,7 @@ table td.filename .uploadtext {
 	padding: 17px 14px;
 }
 
-#fileList .action.action-share-notification span, #fileList a {
+#fileList .action.action-share-notification span, #fileList a.name {
 	cursor: default !important;
 }
 
