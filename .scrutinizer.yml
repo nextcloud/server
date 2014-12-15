@@ -12,7 +12,6 @@ filter:
         - 'core/js/tests/specs/*.js'
         - 'core/js/jquery-showpassword.js'
         - 'core/js/jquery-tipsy.js'
-        - 'core/js/jquery-ui-1.10.0.custom.js'
         - 'core/js/placeholders.js'
 
 

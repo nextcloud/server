@@ -2,11 +2,11 @@
 	"vendor": [
 		"jquery/jquery.min.js",
 		"jquery/jquery-migrate.min.js",
+		"jquery-ui/ui/jquery-ui.custom.js",
 		"underscore/underscore.js",
 		"moment/min/moment-with-locales.js"
 	],
 	"libraries": [
-		"jquery-ui-1.10.0.custom.js",
 		"jquery-showpassword.js",
 		"jquery-tipsy.js"
 	],
