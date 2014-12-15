@@ -43,6 +43,8 @@ OCP\Util::addscript('files', 'filelist');
 \OCP\Util::addScript('files', 'tagsplugin');
 \OCP\Util::addScript('files', 'favoritesplugin');
 
+\OC_Util::addVendorScript('core', 'handlebars/handlebars');
+
 OCP\App::setActiveNavigationEntry('files_index');
 
 $l = \OC::$server->getL10N('files');

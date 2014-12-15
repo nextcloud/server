@@ -7,7 +7,43 @@
  * See the COPYING-README file.
  *
  */
+
+/* global Handlebars */
+
 (function(OCA) {
+
+	var TEMPLATE_FAVORITE_ACTION = 
+		'<a href="#" ' +
+		'class="action action-favorite {{#isFavorite}}permanent{{/isFavorite}}">' +
+		'<img class="svg" alt="{{altText}}" src="{{imgFile}}" />' +
+		'</a>';
+
+	/**
+	 * Returns the path to the star image
+	 *
+	 * @param {boolean} state true if starred, false otherwise
+	 * @return {string} path to star image
+	 */
+	function getStarImage(state) {
+		return OC.imagePath('core', state ? 'actions/starred' : 'actions/star');
+	}
+
+	/**
+	 * Render the star icon with the given state
+	 * 
+	 * @param {boolean} state true if starred, false otherwise
+	 * @return {Object} jQuery object
+	 */
+	function renderStar(state) {
+		if (!this._template) {
+			this._template = Handlebars.compile(TEMPLATE_FAVORITE_ACTION);
+		}
+		return this._template({
+			isFavorite: state,
+			altText: state ? t('core', 'Favorited') : t('core', 'Favorite'),
+			imgFile: getStarImage(state)
+		});
+	}
 
 	OCA.Files = OCA.Files || {};
 
@@ -34,14 +70,9 @@
 				mime: 'all',
 				permissions: OC.PERMISSION_READ,
 				render: function(actionSpec, isDefault, context) {
-					// TODO: use proper icon
 					var $file = context.$file;
 					var isFavorite = $file.data('favorite') === true;
-					var starState = isFavorite ? '&#x2605' : '&#x2606;';
-					var $icon = $(
-						'<a href="#" class="action action-favorite ' + (isFavorite ? 'permanent' : '') + '">' +
-						starState + '</a>'
-					);
+					var $icon = $(renderStar(isFavorite));
 					$file.find('td:first>.favorite').replaceWith($icon);
 					return $icon;
 				},
@@ -70,11 +101,12 @@
 					self.applyFileTags(
 						dir + '/' + fileName,
 						tags
-					).then(function() {
-						// TODO: read from result
+					).then(function(result) {
+						// read latest state from result
+						var isFavorite = (result.tags.indexOf(OC.TAG_FAVORITE) >= 0);
 						$actionEl.removeClass('icon-loading');
-						$actionEl.html(isFavorite ? '&#x2606;' : '&#x2605;');
-						$actionEl.toggleClass('permanent', !isFavorite);
+						$actionEl.find('img').attr('src', getStarImage(isFavorite));
+						$actionEl.toggleClass('permanent', isFavorite);
 						$file.attr('data-tags', tags.join('|'));
 						$file.attr('data-favorite', !isFavorite);
 					});
