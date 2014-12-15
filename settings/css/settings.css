@@ -94,6 +94,7 @@ td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidde
 td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
 td.password>span, td.quota>span, rd.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
 span.usersLastLoginTooltip { white-space: nowrap; }
+#userlist .mailAddress,
 #userlist .storageLocation,
 #userlist .userBackend,
 #userlist .lastLogin {
