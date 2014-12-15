@@ -336,15 +336,25 @@ class OC {
 
 	public static function initTemplateEngine() {
 		// Add the stuff we need always
-		// TODO: read from core/js/core.json
-		OC_Util::addVendorScript('jquery/jquery.min');
-		OC_Util::addVendorScript('jquery/jquery-migrate.min');
-		OC_Util::addVendorScript('jquery-ui/ui/jquery-ui.custom');
+
+		// following logic will import all vendor libraries that are
+		// specified in core/js/core.json
+		$fileContent = file_get_contents(OC::$SERVERROOT . '/core/js/core.json');
+		if($fileContent !== false) {
+			$coreDependencies = json_decode($fileContent, true);
+			foreach($coreDependencies['vendor'] as $vendorLibrary) {
+				// remove trailing ".js" as addVendorScript will append it
+				OC_Util::addVendorScript(
+					substr($vendorLibrary, 0, strlen($vendorLibrary) - 3));
+			}
+		} else {
+			throw new \Exception('Cannot read core/js/core.json');
+		}
+
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("placeholders");
 		OC_Util::addScript("jquery-tipsy");
 		OC_Util::addScript("compatibility");
-		OC_Util::addVendorScript("underscore/underscore");
 		OC_Util::addScript("jquery.ocdialog");
 		OC_Util::addScript("oc-dialogs");
 		OC_Util::addScript("js");
@@ -358,7 +368,6 @@ class OC {
 		OC_Util::addScript("oc-requesttoken");
 		OC_Util::addScript("apps");
 		OC_Util::addVendorScript('snapjs/dist/latest/snap');
-		OC_Util::addVendorScript('moment/min/moment-with-locales');
 
 		// avatars
 		if (\OC::$server->getSystemConfig()->getValue('enable_avatars', true) === true) {
