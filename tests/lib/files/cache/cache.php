@@ -306,6 +306,8 @@ class Cache extends \Test\TestCase {
 
 		$this->assertEquals(2, count($results));
 
+		usort($results, function($value1, $value2) { return $value1['name'] >= $value2['name']; });
+
 		$this->assertEquals('folder', $results[0]['name']);
 		$this->assertEquals('foo', $results[1]['name']);
 
@@ -316,9 +318,11 @@ class Cache extends \Test\TestCase {
 		$results = $this->cache->searchByTag(current($tags)->getId(), $userId);
 		$this->assertEquals(3, count($results));
 
+		usort($results, function($value1, $value2) { return $value1['name'] >= $value2['name']; });
+
 		$this->assertEquals('folder', $results[0]['name']);
-		$this->assertEquals('foobar', $results[1]['name']);
-		$this->assertEquals('foo2', $results[2]['name']);
+		$this->assertEquals('foo2', $results[1]['name']);
+		$this->assertEquals('foobar', $results[2]['name']);
 
 		$tagManager->delete('tag1');
 		$tagManager->delete('tag2');
