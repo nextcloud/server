@@ -63,6 +63,7 @@ interface IAppContainer extends IContainer {
 	function isLoggedIn();
 
 	/**
+	 * @deprecated use IGroupManager->isAdmin($userId)
 	 * @return boolean
 	 * @deprecated use the groupmanager instead to find out if the user is in
 	 * the admin group
