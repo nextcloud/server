@@ -26,5 +26,7 @@ http://owncloud.org/contribute/
 Please submit translations via Transifex:
 https://www.transifex.com/projects/p/owncloud/
 
+[![Transifex](https://www.transifex.com/projects/p/owncloud/resource/core/chart/image_png)](https://www.transifex.com/projects/p/owncloud/)
+
 For more detailed information about translations:
 http://doc.owncloud.org/server/7.0/developer_manual/core/translation.html
