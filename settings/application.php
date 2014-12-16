@@ -84,11 +84,11 @@ class Application extends App {
 				$c->query('Config'),
 				$c->query('IsAdmin'),
 				$c->query('L10N'),
-				$c->getServer()->getLogger(),
+				$c->query('Logger'),
 				$c->query('Defaults'),
 				$c->query('Mail'),
 				$c->query('DefaultMailAddress'),
-				$c->getServer()->getURLGenerator()
+				$c->query('URLGenerator')
 			);
 		});
 
@@ -138,6 +138,12 @@ class Application extends App {
 		});
 		$container->registerService('DefaultMailAddress', function(IContainer $c) {
 			return Util::getDefaultEmailAddress('no-reply');
+		});
+		$container->registerService('Logger', function(IContainer $c) {
+			return $c->query('ServerContainer')->getLogger();
+		});
+		$container->registerService('URLGenerator', function(IContainer $c) {
+			return $c->query('ServerContainer')->getURLGenerator();
 		});
 	}
 }
