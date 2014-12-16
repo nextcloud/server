@@ -39,6 +39,27 @@ class Session extends \Test\TestCase {
 		$session->expects($this->once())
 			->method('get')
 			->with('user_id')
+			->will($this->returnValue('foo'));
+
+		$backend = $this->getMock('OC_User_Dummy');
+		$backend->expects($this->once())
+			->method('userExists')
+			->with('foo')
+			->will($this->returnValue(true));
+
+		$manager = new \OC\User\Manager();
+		$manager->registerBackend($backend);
+
+		$userSession = new \OC\User\Session($manager, $session);
+		$isLoggedIn = $userSession->isLoggedIn();
+		$this->assertTrue($isLoggedIn);
+	}
+
+	public function testNotLoggedIn() {
+		$session = $this->getMock('\OC\Session\Memory', array(), array(''));
+		$session->expects($this->once())
+			->method('get')
+			->with('user_id')
 			->will($this->returnValue(null));
 
 		$backend = $this->getMock('OC_User_Dummy');
@@ -53,13 +74,6 @@ class Session extends \Test\TestCase {
 		$userSession = new \OC\User\Session($manager, $session);
 		$isLoggedIn = $userSession->isLoggedIn();
 		$this->assertFalse($isLoggedIn);
-
-		$session->expects($this->once())
-			->method('get')
-			->with('user_id')
-			->will($this->returnValue('foo'));
-		$isLoggedIn = $userSession->isLoggedIn();
-		$this->assertTrue($isLoggedIn);
 	}
 
 	public function testSetUser() {
