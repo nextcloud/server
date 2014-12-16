@@ -31,8 +31,10 @@ class Helper
 			return $result;
 		}
 
-		list($storage, $internalPath) = $view->resolvePath($dir);
+		$mount = $view->getMount($dir);
+		$storage = $mount->getStorage();
 		$absoluteDir = $view->getAbsolutePath($dir);
+		$internalPath = $mount->getInternalPath($absoluteDir);
 
 		if (is_resource($dirContent)) {
 			$originalLocations = \OCA\Files_Trashbin\Trashbin::getLocations($user);
@@ -65,7 +67,7 @@ class Helper
 					if ($originalPath) {
 						$i['extraData'] = $originalPath.'/'.$id;
 					}
-					$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i);
+					$result[] = new FileInfo($absoluteDir . '/' . $i['name'], $storage, $internalPath . '/' . $i['name'], $i, $mount);
 				}
 			}
 			closedir($dirContent);

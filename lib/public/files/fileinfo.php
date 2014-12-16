@@ -169,4 +169,11 @@ interface FileInfo {
 	 * @return bool
 	 */
 	public function isMounted();
+
+	/**
+	 * Get the mountpoint the file belongs to
+	 *
+	 * @return \OCP\Files\Mount\IMountPoint
+	 */
+	public function getMountPoint();
 }

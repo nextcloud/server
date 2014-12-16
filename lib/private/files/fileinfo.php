@@ -30,14 +30,23 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 	private $internalPath;
 
 	/**
+	 * @var \OCP\Files\Mount\IMountPoint
+	 */
+	private $mount;
+
+	/**
 	 * @param string|boolean $path
 	 * @param Storage\Storage $storage
+	 * @param string $internalPath
+	 * @param array $data
+	 * @param \OCP\Files\Mount\IMountPoint $mount
 	 */
-	public function __construct($path, $storage, $internalPath, $data) {
+	public function __construct($path, $storage, $internalPath, $data, $mount) {
 		$this->path = $path;
 		$this->storage = $storage;
 		$this->internalPath = $internalPath;
 		$this->data = $data;
+		$this->mount = $mount;
 	}
 
 	public function offsetSet($offset, $value) {
@@ -208,6 +217,7 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 
 	/**
 	 * Check if a file or folder is shared
+	 *
 	 * @return bool
 	 */
 	public function isShared() {
@@ -228,5 +238,14 @@ class FileInfo implements \OCP\Files\FileInfo, \ArrayAccess {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the mountpoint the file belongs to
+	 *
+	 * @return \OCP\Files\Mount\IMountPoint
+	 */
+	public function getMountPoint() {
+		return $this->mount;
 	}
 }

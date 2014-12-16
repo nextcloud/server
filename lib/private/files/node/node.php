@@ -288,4 +288,8 @@ class Node implements \OCP\Files\Node, FileInfo {
 	public function isEncrypted() {
 		return $this->getFileInfo()->isEncrypted();
 	}
+
+	public function getMountPoint() {
+		return $this->getFileInfo()->getMountPoint();
+	}
 }
