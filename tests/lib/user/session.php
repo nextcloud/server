@@ -63,10 +63,8 @@ class Session extends \Test\TestCase {
 			->will($this->returnValue(null));
 
 		$backend = $this->getMock('OC_User_Dummy');
-		$backend->expects($this->once())
-			->method('userExists')
-			->with('foo')
-			->will($this->returnValue(true));
+		$backend->expects($this->never())
+			->method('userExists');
 
 		$manager = new \OC\User\Manager();
 		$manager->registerBackend($backend);
