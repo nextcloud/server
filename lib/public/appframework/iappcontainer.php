@@ -40,6 +40,7 @@ interface IAppContainer extends IContainer{
 	function getAppName();
 
 	/**
+	 * @deprecated implements only deprecated methods
 	 * @return IApi
 	 */
 	function getCoreApi();
@@ -62,10 +63,13 @@ interface IAppContainer extends IContainer{
 
 	/**
 	 * @return boolean
+	 * @deprecated use the groupmanager instead to find out if the user is in
+	 * the admin group
 	 */
 	function isAdminUser();
 
 	/**
+	 * @deprecated use the ILogger instead
 	 * @param string $message
 	 * @param string $level
 	 * @return mixed
