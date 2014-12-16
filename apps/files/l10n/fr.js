@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Déconnecter ce support de stockage",
     "Unshare" : "Ne plus partager",
     "Pending" : "En attente",
+    "Unable to determine date" : "Impossible de déterminer la date",
     "Error moving file." : "Erreur lors du déplacement du fichier.",
     "Error moving file" : "Erreur lors du déplacement du fichier",
     "Error" : "Erreur",

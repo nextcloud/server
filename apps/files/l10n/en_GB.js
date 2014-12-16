@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Disconnect storage",
     "Unshare" : "Unshare",
     "Pending" : "Pending",
+    "Unable to determine date" : "Unable to determine date",
     "Error moving file." : "Error moving file.",
     "Error moving file" : "Error moving file",
     "Error" : "Error",

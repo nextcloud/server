@@ -51,6 +51,7 @@ OC.L10N.register(
     "Disconnect storage" : "Odklopi shrambo",
     "Unshare" : "Prekini souporabo",
     "Pending" : "V čakanju ...",
+    "Unable to determine date" : "Ni mogoče določiti datuma",
     "Error moving file." : "Napaka premikanja datoteke.",
     "Error moving file" : "Napaka premikanja datoteke",
     "Error" : "Napaka",

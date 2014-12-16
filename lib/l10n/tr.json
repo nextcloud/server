@@ -6,7 +6,6 @@
     "Sample configuration detected" : "Örnek yapılandırma tespit edildi",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Örnek yapılandırmanın kopyalanmış olabileceği tespit edildi. Bu kurulumunuzu bozabilir ve desteklenmemektedir. Lütfen config.php dosyasında değişiklik yapmadan önce belgelendirmeyi okuyun",
     "PHP %s or higher is required." : "PHP %s veya daha üst sürümü gerekli.",
-    "PHP with a version less then %s is required." : "PHP'nin %s sürümü öncesi gerekli.",
     "Following databases are supported: %s" : "Şu veritabanları desteklenmekte: %s",
     "Help" : "Yardım",
     "Personal" : "Kişisel",

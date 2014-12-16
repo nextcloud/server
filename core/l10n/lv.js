@@ -64,6 +64,7 @@ OC.L10N.register(
     "Resharing is not allowed" : "Atkārtota dalīšanās nav atļauta",
     "Shared in {item} with {user}" : "Dalījās ar {item} ar {user}",
     "Unshare" : "Pārtraukt dalīšanos",
+    "can share" : "Var dalīties",
     "can edit" : "var rediģēt",
     "access control" : "piekļuves vadība",
     "create" : "izveidot",

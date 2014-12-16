@@ -6,7 +6,6 @@
     "Sample configuration detected" : "Sample configuration detected",
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php",
     "PHP %s or higher is required." : "PHP %s or higher is required.",
-    "PHP with a version less then %s is required." : "PHP with a version earlier than %s is required.",
     "Following databases are supported: %s" : "Following databases are supported: %s",
     "Help" : "Help",
     "Personal" : "Personal",
