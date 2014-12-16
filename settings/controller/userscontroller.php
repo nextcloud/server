@@ -15,10 +15,13 @@ use OC\User\Manager;
 use OC\User\User;
 use \OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\ILogger;
 use OCP\IRequest;
+use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
@@ -39,6 +42,16 @@ class UsersController extends Controller {
 	private $groupManager;
 	/** @var IConfig */
 	private $config;
+	/** @var ILogger */
+	private $log;
+	/** @var \OC_Defaults */
+	private $defaults;
+	/** @var \OC_Mail */
+	private $mail;
+	/** @var string */
+	private $fromMailAddress;
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/**
 	 * @param string $appName
@@ -49,6 +62,10 @@ class UsersController extends Controller {
 	 * @param IConfig $config
 	 * @param bool $isAdmin
 	 * @param IL10N $l10n
+	 * @param ILogger $log
+	 * @param \OC_Defaults $defaults
+	 * @param \OC_Mail $mail
+	 * @param string $fromMailAddress
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -57,7 +74,12 @@ class UsersController extends Controller {
 								IUserSession $userSession,
 								IConfig $config,
 								$isAdmin,
-								IL10N $l10n) {
+								IL10N $l10n,
+								ILogger $log,
+								\OC_Defaults $defaults,
+								\OC_Mail $mail,
+								$fromMailAddress,
+								IURLGenerator $urlGenerator) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -65,6 +87,11 @@ class UsersController extends Controller {
 		$this->config = $config;
 		$this->isAdmin = $isAdmin;
 		$this->l10n = $l10n;
+		$this->log = $log;
+		$this->defaults = $defaults;
+		$this->mail = $mail;
+		$this->fromMailAddress = $fromMailAddress;
+		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -164,12 +191,23 @@ class UsersController extends Controller {
 	 * @param string $username
 	 * @param string $password
 	 * @param array $groups
+	 * @param string $email
 	 * @return DataResponse
 	 *
 	 * TODO: Tidy up and write unit tests - code is mainly static method calls
 	 */
-	public function create($username, $password, array $groups) {
+	public function create($username, $password, array $groups=array(), $email='') {
 
+		if($email !== '' && !$this->mail->validateAddress($email)) {
+			return new DataResponse(
+				array(
+					'message' => (string)$this->l10n->t('Invalid mail address')
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
+		// TODO FIXME get rid of the static calls to OC_Subadmin
 		if (!$this->isAdmin) {
 			if (!empty($groups)) {
 				foreach ($groups as $key => $group) {
@@ -195,13 +233,49 @@ class UsersController extends Controller {
 		}
 
 		if($user instanceof User) {
-			foreach( $groups as $groupName ) {
-				$group = $this->groupManager->get($groupName);
+			if($groups !== null) {
+				foreach( $groups as $groupName ) {
+					$group = $this->groupManager->get($groupName);
 
-				if(empty($group)) {
-					$group = $this->groupManager->createGroup($groupName);
+					if(empty($group)) {
+						$group = $this->groupManager->createGroup($groupName);
+					}
+					$group->addUser($user);
 				}
-				$group->addUser($user);
+			}
+			/**
+			 * Send new user mail only if a mail is set
+			 */
+			if($email !== '') {
+				$this->config->setUserValue($username, 'settings', 'email', $email);
+
+				// data for the mail template
+				$mailData = array(
+					'username' => $username,
+					'url' => $this->urlGenerator->getAbsoluteURL('/')
+				);
+
+				$mail = new TemplateResponse('settings', 'email.new_user', $mailData, 'blank');
+				$mailContent = $mail->render();
+
+				$mail = new TemplateResponse('settings', 'email.new_user_plain_text', $mailData, 'blank');
+				$plainTextMailContent = $mail->render();
+
+				$subject = $this->l10n->t('Your %s account was created', [$this->defaults->getName()]);
+
+				try {
+					$this->mail->send(
+						$email,
+						$username,
+						$subject,
+						$mailContent,
+						$this->fromMailAddress,
+						$this->defaults->getName(),
+						1,
+						$plainTextMailContent);
+				} catch(\Exception $e) {
+					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
+				}
 			}
 		}
 

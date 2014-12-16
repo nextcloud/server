@@ -83,7 +83,12 @@ class Application extends App {
 				$c->query('UserSession'),
 				$c->query('Config'),
 				$c->query('IsAdmin'),
-				$c->query('L10N')
+				$c->query('L10N'),
+				$c->getServer()->getLogger(),
+				$c->query('Defaults'),
+				$c->query('Mail'),
+				$c->query('DefaultMailAddress'),
+				$c->getServer()->getURLGenerator()
 			);
 		});
 
