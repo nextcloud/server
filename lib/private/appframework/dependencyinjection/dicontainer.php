@@ -187,6 +187,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
+	 * @deprecated use IUserSession->isLoggedIn()
 	 * @return boolean
 	 */
 	function isLoggedIn() {

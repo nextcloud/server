@@ -3,7 +3,9 @@
  * ownCloud
  *
  * @author Bart Visscher
+ * @author Bernhard Posselt
  * @copyright 2013 Bart Visscher bartv@thisnet.nl
+ * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -62,4 +64,11 @@ interface IUserSession {
 	 * @return \OCP\IUser
 	 */
 	public function getUser();
+
+	/**
+	 * Checks wether the user is logged in
+	 *
+	 * @return bool if logged in
+	 */
+	public function isLoggedIn();
 }
