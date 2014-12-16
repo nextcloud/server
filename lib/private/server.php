@@ -274,11 +274,19 @@ class Server extends SimpleContainer implements IServerContainer {
 			$groupManager = $c->getGroupManager();
 			return new \OC\App\AppManager($userSession, $appConfig, $groupManager);
 		});
+		$this->registerService('DateTimeZone', function(Server $c) {
+			return new DateTimeZone(
+				$c->getConfig(),
+				$c->getSession()
+			);
+		});
 		$this->registerService('DateTimeFormatter', function(Server $c) {
-			$timeZone = $c->getTimeZone();
 			$language = $c->getConfig()->getUserValue($c->getSession()->get('user_id'), 'core', 'lang', null);
 
-			return new \OC\DateTimeFormatter($timeZone, $c->getL10N('lib', $language));
+			return new DateTimeFormatter(
+				$c->getDateTimeZone()->getTimeZone(),
+				$c->getL10N('lib', $language)
+			);
 		});
 		$this->registerService('MountConfigManager', function () {
 			$loader = \OC\Files\Filesystem::getLoader();
@@ -696,28 +704,17 @@ class Server extends SimpleContainer implements IServerContainer {
 	}
 
 	/**
-	 * Get the timezone of the current user, based on his session information and config data
-	 *
-	 * @return \DateTimeZone
+	 * @return \OCP\IDateTimeZone
 	 */
-	public function getTimeZone() {
-		$timeZone = $this->getConfig()->getUserValue($this->getSession()->get('user_id'), 'core', 'timezone', null);
-		if ($timeZone === null) {
-			if ($this->getSession()->exists('timezone')) {
-				$offsetHours = $this->getSession()->get('timezone');
-				// Note: the timeZone name is the inverse to the offset,
-				// so a positive offset means negative timeZone
-				// and the other way around.
-				if ($offsetHours > 0) {
-					return new \DateTimeZone('Etc/GMT-' . $offsetHours);
-				} else {
-					return new \DateTimeZone('Etc/GMT+' . abs($offsetHours));
-				}
-			} else {
-				return new \DateTimeZone('UTC');
-			}
-		}
-		return new \DateTimeZone($timeZone);
+	public function getDateTimeZone() {
+		return $this->query('DateTimeZone');
+	}
+
+	/**
+	 * @return \OCP\IDateTimeFormatter
+	 */
+	public function getDateTimeFormatter() {
+		return $this->query('DateTimeFormatter');
 	}
 
 	/**
