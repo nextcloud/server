@@ -31,7 +31,7 @@ use OCP\IContainer;
  *
  * This container interface provides short cuts for app developers to access predefined app service.
  */
-interface IAppContainer extends IContainer{
+interface IAppContainer extends IContainer {
 
 	/**
 	 * used to return the appname of the set application
@@ -57,6 +57,7 @@ interface IAppContainer extends IContainer{
 	function registerMiddleWare($middleWare);
 
 	/**
+	 * @deprecated use IUserSession->isLoggedIn()
 	 * @return boolean
 	 */
 	function isLoggedIn();
