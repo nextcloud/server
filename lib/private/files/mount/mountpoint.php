@@ -20,8 +20,21 @@ class MountPoint implements IMountPoint {
 	protected $storage = null;
 	protected $class;
 	protected $storageId;
+
+	/**
+	 * Configuration options for the storage backend
+	 *
+	 * @var array
+	 */
 	protected $arguments = array();
 	protected $mountPoint;
+
+	/**
+	 * Mount specific options
+	 *
+	 * @var array
+	 */
+	protected $mountOptions = array();
 
 	/**
 	 * @var \OC\Files\Storage\StorageFactory $loader
@@ -31,10 +44,11 @@ class MountPoint implements IMountPoint {
 	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
-	 * @param array $arguments (optional)\
+	 * @param array $arguments (optional) configuration for the storage backend
 	 * @param \OCP\Files\Storage\IStorageFactory $loader
+	 * @param array $mountOptions mount specific options
 	 */
-	public function __construct($storage, $mountpoint, $arguments = null, $loader = null) {
+	public function __construct($storage, $mountpoint, $arguments = null, $loader = null, $mountOptions = null) {
 		if (is_null($arguments)) {
 			$arguments = array();
 		}
@@ -42,6 +56,10 @@ class MountPoint implements IMountPoint {
 			$this->loader = new StorageFactory();
 		} else {
 			$this->loader = $loader;
+		}
+
+		if (!is_null($mountOptions)) {
+			$this->mountOptions = $mountOptions;
 		}
 
 		$mountpoint = $this->formatPath($mountpoint);
@@ -160,5 +178,16 @@ class MountPoint implements IMountPoint {
 	 */
 	public function wrapStorage($wrapper) {
 		$this->storage = $wrapper($this->mountPoint, $this->getStorage());
+	}
+
+	/**
+	 * Get a mount option
+	 *
+	 * @param string $name Name of the mount option to get
+	 * @param mixed $default Default value for the mount option
+	 * @return mixed
+	 */
+	public function getOption($name, $default) {
+		return isset($this->mountOptions[$name]) ? $this->mountOptions[$name] : $default;
 	}
 }

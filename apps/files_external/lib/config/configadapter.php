@@ -33,10 +33,11 @@ class ConfigAdapter implements IMountProvider {
 				$objectClass = $options['options']['objectstore']['class'];
 				$options['options']['objectstore'] = new $objectClass($options['options']['objectstore']);
 			}
+			$mountOptions = isset($options['mountOptions']) ? $options['mountOptions'] : [];
 			if (isset($options['personal']) && $options['personal']) {
-				$mounts[] = new PersonalMount($options['class'], $mountPoint, $options['options'], $loader);
+				$mounts[] = new PersonalMount($options['class'], $mountPoint, $options['options'], $loader, $mountOptions);
 			} else {
-				$mounts[] = new MountPoint($options['class'], $mountPoint, $options['options'], $loader);
+				$mounts[] = new MountPoint($options['class'], $mountPoint, $options['options'], $loader, $mountOptions);
 			}
 		}
 		return $mounts;
