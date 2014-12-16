@@ -57,7 +57,7 @@ class Test_Util extends \Test\TestCase {
 
 		$oldDateTimeFormatter = \OC::$server->query('DateTimeFormatter');
 		\OC::$server->getSession()->set('timezone', 3);
-		$newDateTimeFormatter = new \OC\DateTimeFormatter(\OC::$server->getTimeZone(), new \OC_L10N('lib', 'en'));
+		$newDateTimeFormatter = new \OC\DateTimeFormatter(\OC::$server->getDateTimeZone()->getTimeZone(), new \OC_L10N('lib', 'en'));
 		$this->setDateFormatter($newDateTimeFormatter);
 
 		$result = OC_Util::formatDate(1350129205, false);
