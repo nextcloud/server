@@ -74,7 +74,13 @@ class Memcached extends Cache {
 				$keys[] = $key;
 			}
 		}
-		self::$cache->deleteMulti($keys);
+		if (method_exists(self::$cache, 'deleteMulti')) {
+			self::$cache->deleteMulti($keys);
+		} else {
+			foreach ($keys as $key) {
+				self::$cache->delete($key);
+			}
+		}
 		return true;
 	}
 
