@@ -760,13 +760,13 @@ class OC {
 		// Load minimum set of apps
 		if (!self::checkUpgrade(false)) {
 			// For logged-in users: Load everything
-			\OC_User::tryBasicAuthLogin();
 			if(OC_User::isLoggedIn()) {
 				OC_App::loadApps();
 			} else {
 				// For guests: Load only authentication, filesystem and logging
 				OC_App::loadApps(array('authentication'));
 				OC_App::loadApps(array('filesystem', 'logging'));
+				\OC_User::tryBasicAuthLogin();
 			}
 		}
 
