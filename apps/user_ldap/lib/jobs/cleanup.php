@@ -131,7 +131,7 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	 */
 	public function isCleanUpAllowed() {
 		try {
-			if($this->haveDisabledConfigurations()) {
+			if($this->ldapHelper->haveDisabledConfigurations()) {
 				return false;
 			}
 		} catch (\Exception $e) {
@@ -153,22 +153,6 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	}
 
 	/**
-	 * checks whether there is one or more disabled LDAP configurations
-	 * @throws \Exception
-	 * @return bool
-	 */
-	private function haveDisabledConfigurations() {
-		$all = $this->ldapHelper->getServerConfigurationPrefixes(false);
-		$active = $this->ldapHelper->getServerConfigurationPrefixes(true);
-
-		if(!is_array($all) || !is_array($active)) {
-			throw new \Exception('Unexpected Return Value');
-		}
-
-		return count($all) !== count($active) || count($all) === 0;
-	}
-
-	/**
 	 * checks users whether they are still existing
 	 * @param array $users result from getMappedUsers()
 	 */
@@ -183,11 +167,13 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	 * @param string[] $user
 	 */
 	private function checkUser($user) {
-		if($this->userBackend->userExists($user['name'])) {
+		if($this->userBackend->userExistsOnLDAP($user['name'])) {
 			//still available, all good
 			return;
 		}
 
+		// TODO FIXME consolidate next line in DeletedUsersIndex
+		// (impractical now, because of class dependencies)
 		$this->ocConfig->setUserValue($user['name'], 'user_ldap', 'isDeleted', '1');
 	}
 

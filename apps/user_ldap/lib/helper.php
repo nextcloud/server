@@ -145,6 +145,22 @@ class Helper {
 	}
 
 	/**
+	 * checks whether there is one or more disabled LDAP configurations
+	 * @throws \Exception
+	 * @return bool
+	 */
+	public function haveDisabledConfigurations() {
+		$all = $this->getServerConfigurationPrefixes(false);
+		$active = $this->getServerConfigurationPrefixes(true);
+
+		if(!is_array($all) || !is_array($active)) {
+			throw new \Exception('Unexpected Return Value');
+		}
+
+		return count($all) !== count($active) || count($all) === 0;
+	}
+
+	/**
 	 * Truncate's the given mapping table
 	 *
 	 * @param string $mapping either 'user' or 'group'

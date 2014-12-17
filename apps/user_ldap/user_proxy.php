@@ -24,6 +24,7 @@
 namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
+use OCA\User_LDAP\lib\User\User;
 
 class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	private $backends = array();
@@ -142,6 +143,17 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 */
 	public function userExists($uid) {
 		return $this->handleRequest($uid, 'userExists', array($uid));
+	}
+
+	/**
+	 * check if a user exists on LDAP
+	 * @param string|OCA\User_LDAP\lib\User\User $user either the ownCloud user
+	 * name or an instance of that user
+	 * @return boolean
+	 */
+	public function userExistsOnLDAP($user) {
+		$id = ($user instanceof User) ? $user->getUsername() : $user;
+		return $this->handleRequest($id, 'userExistsOnLDAP', array($user));
 	}
 
 	/**

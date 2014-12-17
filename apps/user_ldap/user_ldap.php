@@ -146,6 +146,33 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 	}
 
 	/**
+	 * checks whether a user is still available on LDAP
+	 * @param string|OCA\User_LDAP\lib\User\User $user either the ownCloud user
+	 * name or an instance of that user
+	 * @return bool
+	 */
+	public function userExistsOnLDAP($user) {
+		if(is_string($user)) {
+			$user = $this->access->userManager->get($user);
+		}
+		if(!$user instanceof User) {
+			return false;
+		}
+
+		$dn = $user->getDN();
+		//check if user really still exists by reading its entry
+		if(!is_array($this->access->readAttribute($dn, ''))) {
+			$lcr = $this->access->connection->getConnectionResource();
+			if(is_null($lcr)) {
+				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
@@ -166,18 +193,18 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 			//necessary for cleanup
 			return true;
 		}
-		$dn = $user->getDN();
-		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, ''))) {
-			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn.' on '.
-				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
-			$this->access->connection->writeToCache('userExists'.$uid, false);
+
+		try {
+			$result = $this->userExistsOnLDAP($user);
+			$this->access->connection->writeToCache('userExists'.$uid, $result);
+			if($result === true) {
+				$user->update();
+			}
+			return $result;
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog('user_ldap', $e->getMessage(), \OCP\Util::WARN);
 			return false;
 		}
-
-		$this->access->connection->writeToCache('userExists'.$uid, true);
-		$user->update();
-		return true;
 	}
 
 	/**
