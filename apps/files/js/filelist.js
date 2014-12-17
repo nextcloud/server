@@ -1307,9 +1307,9 @@
 			}
 			_.each(fileNames, function(fileName) {
 				var $tr = self.findFileEl(fileName);
-				var $td = $tr.children('td.filename');
-				var oldBackgroundImage = $td.css('background-image');
-				$td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+				var $thumbEl = $tr.find('.thumbnail');
+				var oldBackgroundImage = $thumbEl.css('background-image');
+				$thumbEl.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
 				// TODO: improve performance by sending all file names in a single call
 				$.post(
 					OC.filePath('files', 'ajax', 'move.php'),
@@ -1351,7 +1351,7 @@
 						} else {
 							OC.dialogs.alert(t('files', 'Error moving file'), t('files', 'Error'));
 						}
-						$td.css('background-image', oldBackgroundImage);
+						$thumbEl.css('background-image', oldBackgroundImage);
 					}
 				);
 			});
@@ -1412,13 +1412,14 @@
 
 				try {
 					var newName = input.val();
+					var $thumbEl = tr.find('.thumbnail');
 					input.tipsy('hide');
 					form.remove();
 
 					if (newName !== oldname) {
 						checkInput();
 						// mark as loading (temp element)
-						td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
+						$thumbEl.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
 						tr.attr('data-file', newName);
 						var basename = newName;
 						if (newName.indexOf('.') > 0 && tr.data('type') !== 'dir') {
@@ -1841,7 +1842,7 @@
 					var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 					if (currentUploads === 1) {
 						var img = OC.imagePath('core', 'loading.gif');
-						data.context.find('td.filename').attr('style','background-image:url('+img+')');
+						data.context.find('.thumbnail').css('background-image', 'url(' + img + ')');
 						uploadText.text(translatedText);
 						uploadText.show();
 					} else {
@@ -1880,7 +1881,7 @@
 						var translatedText = n('files', 'Uploading %n file', 'Uploading %n files', currentUploads);
 						if (currentUploads === 0) {
 							var img = OC.imagePath('core', 'filetypes/folder');
-							data.context.find('td.filename').attr('style','background-image:url('+img+')');
+							data.context.find('.thumbnail').css('background-image', 'url(' + img + ')');
 							uploadText.text(translatedText);
 							uploadText.hide();
 						} else {
@@ -1965,7 +1966,7 @@
 					//cleanup uploading to a dir
 					var uploadText = $('tr .uploadtext');
 					var img = OC.imagePath('core', 'filetypes/folder');
-					uploadText.parents('td.filename').attr('style','background-image:url('+img+')');
+					uploadText.parents('td.filename').find('.thumbnail').css('background-image', 'url(' + img + ')');
 					uploadText.fadeOut();
 					uploadText.attr('currentUploads', 0);
 				}
@@ -1979,7 +1980,7 @@
 					//cleanup uploading to a dir
 					var uploadText = $('tr .uploadtext');
 					var img = OC.imagePath('core', 'filetypes/folder');
-					uploadText.parents('td.filename').attr('style','background-image:url('+img+')');
+					uploadText.parents('td.filename').find('.thumbnail').css('background-image', 'url(' + img + ')');
 					uploadText.fadeOut();
 					uploadText.attr('currentUploads', 0);
 				}
