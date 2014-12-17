@@ -167,6 +167,14 @@ class Storage extends DAV implements ISharedStorage {
 		}
 	}
 
+	public function file_exists($path) {
+		if ($path === '') {
+			return true;
+		} else {
+			return parent::file_exists($path);
+		}
+	}
+
 	/**
 	 * check if the configured remote is a valid ownCloud instance
 	 *
