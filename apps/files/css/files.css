@@ -557,7 +557,9 @@ table tr.summary td {
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
 #emptycontent .icon-starred {
-	height: 50px;
+	height: 30px;
+	width: 30px;
+	margin: 0 auto 10px;
 }
 
 table.dragshadow {
