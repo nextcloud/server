@@ -342,7 +342,14 @@ class OC_User {
 	 */
 	public static function setIncognitoMode($status) {
 		self::$incognitoMode = $status;
+	}
 
+	/**
+	 * get incognito mode status
+	 * @return bool
+	 */
+	public static function isIncognitoMode() {
+		return self::$incognitoMode;
 	}
 
 	/**
