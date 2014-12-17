@@ -93,7 +93,7 @@ function sortNavigationItems($item1, $item2) {
 		'id' => 'favorites',
 		'appname' => 'files',
 		'script' => 'simplelist.php',
-		'order' => 50,
+		'order' => 5,
 		'name' => $l->t('Favorites')
 	)
 );
