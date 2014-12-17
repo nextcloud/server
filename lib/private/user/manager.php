@@ -151,6 +151,9 @@ class Manager extends PublicEmitter implements IUserManager {
 	 * @return mixed the User object on success, false otherwise
 	 */
 	public function checkPassword($loginname, $password) {
+		$loginname = str_replace("\0", '', $loginname);
+		$password = str_replace("\0", '', $password);
+		
 		foreach ($this->backends as $backend) {
 			if ($backend->implementsActions(\OC_User_Backend::CHECK_PASSWORD)) {
 				$uid = $backend->checkPassword($loginname, $password);
