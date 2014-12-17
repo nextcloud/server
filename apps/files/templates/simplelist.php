@@ -5,7 +5,8 @@
 
 <div id="emptycontent" class="hidden">
 	<div class="icon-starred"></div>
-	<?php p($l->t('Files and folders you mark as favorites will show up here')); ?>
+	<h2><?php p($l->t('No favorites')); ?></h2>
+	<p><?php p($l->t('Files and folders you mark as favorite will show up here')); ?></p>
 </div>
 
 <input type="hidden" name="dir" value="" id="dir">

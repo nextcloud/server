@@ -328,6 +328,17 @@ input[type="submit"].enabled {
 	top: 30%;
 	width: 100%;
 }
+#emptycontent h2 {
+	font-size: 22px;
+	margin-bottom: 10px;
+}
+#emptycontent [class^="icon-"],
+#emptycontent [class*=" icon-"] {
+	background-size: 64px;
+	height: 64px;
+	width: 64px;
+	margin: 0 auto 15px;
+}
 
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
