@@ -1,0 +1,9 @@
+{ "translations": {
+    "Delete" : "Poista",
+    "More" : "Lisää",
+    "Password" : "Salasana",
+    "Cancel" : "Peruuta",
+    "Username" : "Käyttäjätunnus",
+    "Create" : "Luo"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

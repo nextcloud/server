@@ -1,0 +1,7 @@
+{ "translations": {
+    "Username" : "Käyttäjätunnus",
+    "Password" : "Salasana",
+    "URL" : "URL",
+    "Delete" : "Poista"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

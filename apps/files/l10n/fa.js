@@ -19,6 +19,7 @@ OC.L10N.register(
     "Not enough storage available" : "فضای کافی در دسترس نیست",
     "Invalid directory." : "فهرست راهنما نامعتبر می باشد.",
     "Files" : "پرونده‌ها",
+    "Favorites" : "موارد محبوب",
     "Upload cancelled." : "بار گذاری لغو شد",
     "File upload is in progress. Leaving the page now will cancel the upload." : "آپلودکردن پرونده در حال پیشرفت است. در صورت خروج از صفحه آپلود لغو میگردد. ",
     "{new_name} already exists" : "{نام _جدید} در حال حاضر وجود دارد.",

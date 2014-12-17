@@ -9,6 +9,7 @@ OC.L10N.register(
     "Missing a temporary folder" : "Et feelt en temporären Dossier",
     "Failed to write to disk" : "Konnt net op den Disk schreiwen",
     "Files" : "Dateien",
+    "Favorites" : "Favoriten",
     "Upload cancelled." : "Upload ofgebrach.",
     "File upload is in progress. Leaving the page now will cancel the upload." : "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
     "Rename" : "Ëm-benennen",

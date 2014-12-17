@@ -59,6 +59,7 @@ OC.L10N.register(
     "Error while changing permissions" : "Eroare la modificarea permisiunilor",
     "Shared with you and the group {group} by {owner}" : "Distribuie cu tine si grupul {group} de {owner}",
     "Shared with you by {owner}" : "Distribuie cu tine de {owner}",
+    "Share link" : "Share link",
     "Password protect" : "Protejare cu parolă",
     "Allow Public Upload" : "Permiteţi încărcarea publică.",
     "Email link to person" : "Expediază legătura prin poșta electronică",
