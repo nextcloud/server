@@ -155,6 +155,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 
 
 	/**
+	 * @deprecated implements only deprecated methods
 	 * @return IApi
 	 */
 	function getCoreApi()
@@ -194,6 +195,8 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
+	 * @deprecated use the groupmanager instead to find out if the user is in
+	 * the admin group
 	 * @return boolean
 	 */
 	function isAdminUser() {
@@ -206,6 +209,7 @@ class DIContainer extends SimpleContainer implements IAppContainer{
 	}
 
 	/**
+	 * @deprecated use the ILogger instead
 	 * @param string $message
 	 * @param string $level
 	 * @return mixed
