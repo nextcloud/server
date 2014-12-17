@@ -138,6 +138,15 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
+	 * Checks wether the user is logged in
+	 *
+	 * @return bool if logged in
+	 */
+	public function isLoggedIn() {
+		return $this->getUser() !== null;
+	}
+
+	/**
 	 * set the login name
 	 *
 	 * @param string|null $loginName for the logged in user

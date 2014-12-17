@@ -80,4 +80,19 @@ interface IGroupManager {
 	 * @return array an array of display names (value) and user ids (key)
 	 */
 	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0);
+
+	/**
+	 * Checks if a userId is in the admin group
+	 * @param string $userId
+	 * @return bool if admin
+	 */
+	public function isAdmin($userId);
+
+	/**
+	 * Checks if a userId is in a group
+	 * @param string $userId
+	 * @param group $group
+	 * @return bool if in group
+	 */
+	public function isInGroup($userId, $group);
 }
