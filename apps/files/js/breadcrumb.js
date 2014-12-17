@@ -106,6 +106,7 @@
 				if (part.img) {
 					$image = $('<img class="svg"></img>');
 					$image.attr('src', part.img);
+					$image.attr('alt', part.alt);
 					$link.append($image);
 				}
 				this.breadcrumbs.push($crumb);
@@ -151,6 +152,7 @@
 			crumbs.push({
 				dir: '/',
 				name: '',
+				alt: t('files', 'Home'),
 				img: OC.imagePath('core', 'places/home.svg')
 			});
 			for (var i = 0; i < parts.length; i++) {
