@@ -7,6 +7,22 @@
 	-ms-user-select: none;
 }
 
+#skip-to-content a {
+	position: absolute;
+	left: -10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+#skip-to-content a:focus {
+	left: 76px;
+	top: -9px;
+	color: #fff;
+	width: auto;
+	height: auto;
+}
+
 
 
 /* HEADERS ------------------------------------------------------------------ */
