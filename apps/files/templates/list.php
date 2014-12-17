@@ -52,7 +52,7 @@
 <div id="emptycontent" class="hidden">
 	<div class="icon-folder"></div>
 	<h2><?php p($l->t('No files yet')); ?></h2>
-	<p><?php p($l->t('Upload some content or sync with your devices')); ?></p>
+	<p><?php p($l->t('Upload some content or sync with your devices!')); ?></p>
 </div>
 
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
