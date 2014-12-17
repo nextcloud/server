@@ -182,7 +182,7 @@
 						$('#app-content').on('scroll', _.bind(onScroll, this));
 						lastResults = results;
 						$status = $searchResults.find('#status')
-							.text(t('search', '{count} Search results', {count:results.length}, results.length));
+							.text(t('search', '{count} search results in other folders', {count:results.length}, results.length));
 						placeStatus();
 						showResults(results);
 					});

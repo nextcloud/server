@@ -17,9 +17,11 @@
 }
 
 #searchresults #status {
-	background-color:#ccc;
-	height: 24px;
-	padding: 17px 15px;
+	background-color: rgba(255, 255, 255, .85);
+	height: 12px;
+	padding: 28px 0;
+	font-size: 18px;
+	text-align: center;
 }
 #searchresults #status.fixed {
 	position: fixed;
@@ -36,10 +38,9 @@
 }
 
 #searchresults td {
-	padding: 0 15px;
+	padding: 5px 15px;
 	font-style: normal;
 	vertical-align: middle;
-	border-top: 20px solid white;
 	border-bottom: none;
 }
 #searchresults tr.template {
@@ -53,15 +54,14 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
-#searchresults .name {
-	font-size: larger;
-}
 #searchresults .text {
 	white-space: normal;
 	color: #545454;
 }
 #searchresults .path {
-	color: green;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
 }
 #searchresults .text em {
 	color: #545454;
@@ -74,11 +74,10 @@
 }
 
 #searchresults td.icon {
-	font-weight:700;
 	text-align:right;
-	width:32px;
+	width: 32px;
 	height: 40px;
-	background-position: 30px 4px;
+	background-position: 30px 8px;
 	background-repeat: no-repeat;
 }
 
