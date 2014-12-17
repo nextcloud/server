@@ -39,7 +39,9 @@ OCA.Sharing.App = {
 
 		this._extendFileList(this._inFileList);
 		this._inFileList.appName = t('files_sharing', 'Shared with you');
-		this._inFileList.$el.find('#emptycontent').text(t('files_sharing', 'No files have been shared with you yet.'));
+		this._inFileList.$el.find('#emptycontent').html('<div class="icon-share"></div>' +
+			'<h2>' + t('files_sharing', 'Nothing shared with you') + '</h2>' +
+			'<p>' + t('files_sharing', 'Files and folders others share with you will show up here') + '</p>');
 		return this._inFileList;
 	},
 
