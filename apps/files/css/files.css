@@ -556,6 +556,10 @@ table tr.summary td {
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
+#emptycontent .icon-starred {
+	height: 50px;
+}
+
 table.dragshadow {
 	width:auto;
 }
