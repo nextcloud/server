@@ -289,7 +289,8 @@
 			}
 			var $actionLink = $('<a href="#" original-title="' +
 				escapeHTML(deleteTitle) +
-				'" class="action delete icon-delete" />'
+				'" class="action delete icon-delete">' +
+				'<span class="hidden">Delete</span></a>'
 			);
 			var $container = context.$file.find('td:last');
 			$container.find('.delete').remove();
