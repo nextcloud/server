@@ -4,7 +4,11 @@
 </div>
 <div id='notification'></div>
 
-<div id="emptycontent" class="hidden"><?php p($l->t( 'You don\'t have any external storages' )); ?></div>
+<div id="emptycontent" class="hidden">
+	<div class="icon-external"></div>
+	<h2><?php p($l->t('No external storages')); ?></h2>
+	<p><?php p($l->t('You can configure external storages in the personal settings')); ?></p>
+</div>
 
 <input type="hidden" name="dir" value="" id="dir">
 
