@@ -661,6 +661,23 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.$fileList.find('input.filename').length).toEqual(0);
 			expect(fileList.$fileList.find('form').length).toEqual(0);
 		});
+		it('Restores thumbnail when rename was cancelled', function() {
+			doRename();
+
+			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('Tu_after_three.txt').find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'loading.gif'));
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'error',
+				data: {
+					message: 'Something went wrong'
+				}
+			}));
+
+			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'filetypes/file.svg'));
+		});
 	});
 	describe('Moving files', function() {
 		beforeEach(function() {
@@ -754,6 +771,31 @@ describe('OCA.Files.FileList tests', function() {
 
 			expect(notificationStub.calledOnce).toEqual(true);
 			expect(notificationStub.getCall(0).args[0]).toEqual('Error while moving file');
+		});
+		it('Restores thumbnail if a file could not be moved', function() {
+			var request;
+			fileList.move('One.txt', '/somedir');
+
+			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'loading.gif'));
+
+			expect(fakeServer.requests.length).toEqual(1);
+			request = fakeServer.requests[0];
+
+			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				status: 'error',
+				data: {
+					message: 'Error while moving file',
+				}
+			}));
+
+			expect(fileList.findFileEl('One.txt').length).toEqual(1);
+
+			expect(notificationStub.calledOnce).toEqual(true);
+			expect(notificationStub.getCall(0).args[0]).toEqual('Error while moving file');
+
+			expect(OC.TestUtil.getImageUrl(fileList.findFileEl('One.txt').find('.thumbnail')))
+				.toEqual(OC.imagePath('core', 'filetypes/file.svg'));
 		});
 	});
 	describe('List rendering', function() {
