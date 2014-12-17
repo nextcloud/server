@@ -3,7 +3,10 @@
 </div>
 <div id='notification'></div>
 
-<div id="emptycontent" class="hidden"></div>
+<div id="emptycontent" class="hidden">
+	<div class="icon-starred"></div>
+	<?php p($l->t('Files and folders you mark as favorites will show up here')); ?>
+</div>
 
 <input type="hidden" name="dir" value="" id="dir">
 
