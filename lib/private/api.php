@@ -297,7 +297,7 @@ class OC_API {
 				// initialize the user's filesystem
 				\OC_Util::setUpFS(\OC_User::getUser());
 
-				return $authUser;
+				return \OC_User::getUser();
 			}
 		}
 
