@@ -290,7 +290,7 @@
 			var $actionLink = $('<a href="#" original-title="' +
 				escapeHTML(deleteTitle) +
 				'" class="action delete icon-delete">' +
-				'<span class="hidden">' + escapeHTML(deleteTitle) + '</span>' +
+				'<span class="hidden-visually">' + escapeHTML(deleteTitle) + '</span>' +
 				'</a>'
 			);
 			var $container = context.$file.find('td:last');
