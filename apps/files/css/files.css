@@ -105,6 +105,7 @@
 #filestable tbody tr { background-color:#fff; height:40px; }
 #filestable tbody tr:hover,
 #filestable tbody tr:focus,
+#filestable tbody .name:focus,
 #filestable tbody tr:active {
 	background-color: rgb(240,240,240);
 }
@@ -503,7 +504,7 @@ a.action>img {
 
 #fileList a.action {
 	display: inline;
-	padding: 18px 8px;
+	padding: 17px 8px;
 	line-height: 50px;
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
@@ -516,15 +517,19 @@ a.action>img {
 	position: relative;
 	top: -21px;
 }
-#fileList tr:hover a.action, #fileList a.action.permanent
-#fileList tr:focus a.action, #fileList a.action.permanent {
+#fileList tr:hover a.action,
+#fileList a.action.permanent,
+#fileList tr:focus a.action,
+#fileList a.action.permanent
+/*#fileList .name:focus .action*/ {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 	filter: alpha(opacity=50);
 	opacity: .5;
 	display:inline;
 }
 #fileList tr:hover a.action:hover,
-#fileList tr:focus a.action:focus {
+#fileList tr:focus a.action:focus,
+#fileList .name:focus a.action:focus {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
 	opacity: 1;
