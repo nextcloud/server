@@ -673,7 +673,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$table = $this->getMapTable($isUser);
 
 		$sqlAdjustment = '';
-		$dbType = \OCP\Config::getSystemValue('dbtype');
+		$dbType = \OC::$server->getConfig()->getSystemValue('dbtype', null);
 		if($dbType === 'mysql' || $dbType == 'oci') {
 			$sqlAdjustment = 'FROM DUAL';
 		}

@@ -831,7 +831,7 @@ class OC_Mount_Config {
 			include('Crypt/AES.php');
 		}
 		$cipher = new Crypt_AES(CRYPT_AES_MODE_CBC);
-		$cipher->setKey(\OCP\Config::getSystemValue('passwordsalt'));
+		$cipher->setKey(\OC::$server->getConfig()->getSystemValue('passwordsalt', null));
 		return $cipher;
 	}
 

@@ -427,7 +427,7 @@ class Helper {
 	 */
 	public static function getOpenSSLConfig() {
 		$config = array('private_key_bits' => 4096);
-		$config = array_merge(\OCP\Config::getSystemValue('openssl', array()), $config);
+		$config = array_merge(\OC::$server->getConfig()->getSystemValue('openssl', array()), $config);
 		return $config;
 	}
 
@@ -460,7 +460,7 @@ class Helper {
 	 */
 	public static function getCipher() {
 
-		$cipher = \OCP\Config::getSystemValue('cipher', Crypt::DEFAULT_CIPHER);
+		$cipher = \OC::$server->getConfig()->getSystemValue('cipher', Crypt::DEFAULT_CIPHER);
 
 		if ($cipher !== 'AES-256-CFB' && $cipher !== 'AES-128-CFB') {
 			\OCP\Util::writeLog('files_encryption',
