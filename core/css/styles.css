@@ -975,6 +975,7 @@ div.crumb a.ellipsislink {
 /* some feedback for hover/tap on breadcrumbs */
 div.crumb:hover,
 div.crumb:focus,
+div.crumb a:focus,
 div.crumb:active {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter:alpha(opacity=70);
