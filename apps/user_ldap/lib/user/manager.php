@@ -61,7 +61,9 @@ class Manager {
 	 */
 	protected $avatarManager;
 	/**
-	 * @var string[][]
+	 * array['byDN']	\OCA\user_ldap\lib\User[]
+	 * 	['byUid']	\OCA\user_ldap\lib\User[]
+	 * @var array $users
 	 */
 	protected $users = array(
 		'byDN'  => array(),
@@ -170,7 +172,7 @@ class Manager {
 	/**
 	 * @brief returns a User object by it's DN or ownCloud username
 	 * @param string the DN or username of the user
-	 * @return \OCA\user_ldap\lib\user\User | \OCA\user_ldap\lib\user\OfflineUser | null
+	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
 	 */
 	public function get($id) {
 		$this->checkAccess();

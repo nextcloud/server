@@ -20,10 +20,10 @@ use OCA\user_ldap\lib\Helper;
 use OCA\user_ldap\User_Proxy;
 
 class CheckUser extends Command {
-	/** @var OCA\user_ldap\User_Proxy */
+	/** @var \OCA\user_ldap\User_Proxy */
 	protected $backend;
 
-	/** @var OCA\User_LDAP\lib\Helper */
+	/** @var \OCA\User_LDAP\lib\Helper */
 	protected $helper;
 
 	/** @var \OCP\IConfig */

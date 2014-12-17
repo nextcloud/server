@@ -147,7 +147,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 
 	/**
 	 * checks whether a user is still available on LDAP
-	 * @param string|OCA\User_LDAP\lib\User\User $user either the ownCloud user
+	 * @param string|\OCA\User_LDAP\lib\user\User $user either the ownCloud user
 	 * name or an instance of that user
 	 * @return bool
 	 */
