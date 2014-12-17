@@ -91,6 +91,9 @@
 			</div>
 
 			<form class="searchbox" action="#" method="post">
+				<label for="query" class="visually-hidden">
+					<?php p($l->t('Search'));?>
+				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
 					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
 					autocomplete="off" tabindex="2" />
