@@ -83,9 +83,9 @@
 }
 .menutoggle:hover .header-appname,
 .menutoggle:hover .icon-caret,
-.menutoggle:focus .header-appname
-.menutoggle:focus .icon-caret
-.menutoggle.active .header-appname
+.menutoggle:focus .header-appname,
+.menutoggle:focus .icon-caret,
+.menutoggle.active .header-appname,
 .menutoggle.active .icon-caret {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 	filter: alpha(opacity=100);
