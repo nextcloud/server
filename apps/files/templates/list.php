@@ -57,7 +57,9 @@
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
 					<input type="checkbox" id="select_all_files" class="select-all"/>
-					<label for="select_all_files"></label>
+					<label for="select_all_files">
+						<span class="hidden"><?php p($l->t('Select all'))?></span>
+					</label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="download">
