@@ -280,6 +280,11 @@ class View {
 	}
 
 	public function isDeletable($path) {
+		$absolutePath = $this->getAbsolutePath($path);
+		$mount = Filesystem::getMountManager()->find($absolutePath);
+		if ($mount->getInternalPath($absolutePath) === '') {
+			return $mount instanceof MoveableMount;
+		}
 		return $this->basicOperation('isDeletable', $path);
 	}
 
