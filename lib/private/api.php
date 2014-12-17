@@ -47,6 +47,7 @@ class OC_API {
 	 */
 	protected static $actions = array();
 	private static $logoutRequired = false;
+	private static $isLoggedIn = false;
 
 	/**
 	 * registers an api call
@@ -269,7 +270,10 @@ class OC_API {
 	 * http basic auth
 	 * @return string|false (username, or false on failure)
 	 */
-	private static function loginUser(){
+	private static function loginUser() {
+		if(self::$isLoggedIn === true) {
+			return \OC_User::getUser();
+		}
 
 		// reuse existing login
 		$loggedIn = OC_User::isLoggedIn();
@@ -279,6 +283,7 @@ class OC_API {
 
 				// initialize the user's filesystem
 				\OC_Util::setUpFS(\OC_User::getUser());
+				self::$isLoggedIn = true;
 
 				return OC_User::getUser();
 			}
@@ -296,6 +301,7 @@ class OC_API {
 
 				// initialize the user's filesystem
 				\OC_Util::setUpFS(\OC_User::getUser());
+				self::$isLoggedIn = true;
 
 				return $authUser;
 			}
