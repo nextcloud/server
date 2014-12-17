@@ -41,11 +41,12 @@ interface ISearch {
 	/**
 	 * Search all providers for $query
 	 * @param string $query
-	 * @param int $page
+	 * @param string[] $inApps optionally limit results to the given apps
+	 * @param int $page pages start at page 1
 	 * @param int $size
 	 * @return array An array of OCP\Search\Result's
 	 */
-	public function searchPaged($query, $page = 0, $size = 30);
+	public function searchPaged($query, array $inApps = array(), $page = 1, $size = 30);
 
 	/**
 	 * Register a new search provider to search with

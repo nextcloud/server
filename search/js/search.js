@@ -36,17 +36,31 @@
 			var that = this;
 
 			/**
-			 * contains closures that are called to format search results
+			 * contains closures that are called to filter the current content
 			 */
-			var formatters = {};
-			this.setFormatter = function(type, formatter) {
-				formatters[type] = formatter;
+			var filters = {};
+			this.setFilter = function(type, filter) {
+				filters[type] = filter;
 			};
-			this.hasFormatter = function(type) {
-				return typeof formatters[type] !== 'undefined';
+			this.hasFilter = function(type) {
+				return typeof filters[type] !== 'undefined';
 			};
-			this.getFormatter = function(type) {
-				return formatters[type];
+			this.getFilter = function(type) {
+				return filters[type];
+			};
+
+			/**
+			 * contains closures that are called to render search results
+			 */
+			var renderers = {};
+			this.setRenderer = function(type, renderer) {
+				renderers[type] = renderer;
+			};
+			this.hasRenderer = function(type) {
+				return typeof renderers[type] !== 'undefined';
+			};
+			this.getRenderer = function(type) {
+				return renderers[type];
 			};
 
 			/**
@@ -73,25 +87,33 @@
 			 * Do a search query and display the results
 			 * @param {string} query the search query
 			 */
-			this.search = _.debounce(function(query, page, size) {
+			this.search = _.debounce(function(query, inApps, page, size) {
 				if(query) {
 					OC.addStyle('search','results');
 					if (typeof page !== 'number') {
-						page = 0;
+						page = 1;
 					}
 					if (typeof size !== 'number') {
 						size = 30;
 					}
+					if (typeof inApps !== 'object') {
+						var currentApp = getCurrentApp();
+						if(currentApp) {
+							inApps = [currentApp];
+						} else {
+							inApps = [];
+						}
+					}
 					// prevent double pages
-					if (query === lastPage && page === lastPage && currentResult !== -1) {
+					if ($searchResults && query === lastQuery && page === lastPage&& size === lastSize) {
 						return;
 					}
-					$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, page:page, size:size }, function(results) {
-						lastQuery = query;
-						lastPage = page;
-						lastSize = size;
+					lastQuery = query;
+					lastPage = page;
+					lastSize = size;
+					$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
 						lastResults = results;
-						if (page === 0) {
+						if (page === 1) {
 							showResults(results);
 						} else {
 							addResults(results);
@@ -99,29 +121,69 @@
 					});
 				}
 			}, 500);
-			var $searchResults = false;
 
+			function getCurrentApp() {
+				var classList = document.getElementById('content').className.split(/\s+/);
+				for (var i = 0; i < classList.length; i++) {
+					if (classList[i].indexOf('app-') === 0) {
+						return classList[i].substr(4);
+					}
+				}
+				return false;
+			}
+
+			var $searchResults = false;
+			var $wrapper = false;
+			var $status = false;
+			const summaryAndStatusHeight = 118;
+
+			function isStatusOffScreen() {
+				return $searchResults.position().top + summaryAndStatusHeight > window.innerHeight;
+			}
+
+			function placeStatus() {
+				if (isStatusOffScreen()) {
+					$status.addClass('fixed');
+				} else {
+					$status.removeClass('fixed');
+				}
+			}
 			function showResults(results) {
 				if (results.length === 0) {
 					return;
 				}
 				if (!$searchResults) {
-					var $parent = $('<div class="searchresults-wrapper"/>');
-					$('#app-content').append($parent);
-					$parent.load(OC.webroot + '/search/templates/part.results.html', function () {
-						$searchResults = $parent.find('#searchresults');
-						$searchResults.click(function (event) {
-							that.hideResults();
-							event.stopPropagation();
+					$wrapper = $('<div class="searchresults-wrapper"/>');
+					$('#app-content')
+						.append($wrapper)
+						.find('.viewcontainer').css('min-height', 'initial');
+					$wrapper.load(OC.webroot + '/search/templates/part.results.html', function () {
+						$searchResults = $wrapper.find('#searchresults');
+						$searchResults.on('click', 'tr.result', function (event) {
+							var $row = $(this);
+							var item = $row.data('result');
+							if(that.hasHandler(item.type)){
+								var result = that.getHandler(item.type)($row, result, event);
+								that.hideResults();
+								return result;
+							}
+						});
+						$searchResults.on('click', '#status', function (event) {
+							event.preventDefault();
+							scrollToResults();
+							return false;
 						});
 						$(document).click(function (event) {
 							that.hideResults();
-							if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
-								FileList.unfilter();
+							if(that.hasFilter(getCurrentApp())) {
+								that.getFilter(getCurrentApp())('');
 							}
 						});
-						$searchResults.on('scroll', _.bind(onScroll, this));
+						$('#app-content').on('scroll', _.bind(onScroll, this));
 						lastResults = results;
+						$status = $searchResults.find('#status')
+							.text(t('search', '{count} Search results', {count:results.length}, results.length));
+						placeStatus();
 						showResults(results);
 					});
 				} else {
@@ -147,8 +209,8 @@
 					/**
 					 * Give plugins the ability to customize the search results. see result.js for examples
 					 */
-					if (that.hasFormatter(result.type)) {
-						that.getFormatter(result.type)($row, result);
+					if (that.hasRenderer(result.type)) {
+						that.getRenderer(result.type)($row, result);
 					} else {
 						// for backward compatibility add text div
 						$row.find('td.info div.name').addClass('result');
@@ -166,7 +228,7 @@
 				if (result) {
 					var $result = $(result);
 					var currentOffset = $searchResults.scrollTop();
-					$searchResults.animate({
+					$('#app-content').animate({
 						// Scrolling to the top of the new result
 						scrollTop: currentOffset + $result.offset().top - $result.height() * 2
 					}, {
@@ -179,17 +241,10 @@
 			this.hideResults = function() {
 				if ($searchResults) {
 					$searchResults.hide();
-					if ($searchBox.val().length > 2) {
-						$searchBox.val('');
-						if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
-							FileList.unfilter();
-						}
-					}
-					if ($searchBox.val().length === 0) {
-						if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
-							FileList.unfilter();
-						}
-					}
+					$searchBox.val('');
+					$wrapper.remove();
+					$searchResults = false;
+					$wrapper = false;
 				}
 			};
 
@@ -212,16 +267,13 @@
 					}
 				} else if(event.keyCode === 27) { //esc
 					that.hideResults();
-					if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
-						FileList.unfilter();
-					}
 				} else {
 					var query = $searchBox.val();
 					if (lastQuery !== query) {
 						lastQuery = query;
 						currentResult = -1;
-						if (FileList && typeof FileList.filter === 'function') { //TODO add hook system
-							FileList.filter(query);
+						if(that.hasFilter(getCurrentApp())) {
+							that.getFilter(getCurrentApp())(query);
 						}
 						if (query.length > 2) {
 							that.search(query);
@@ -239,14 +291,39 @@
 			 * This appends/renders the next page of entries when reaching the bottom.
 			 */
 			function onScroll(e) {
-				if ( $searchResults.scrollTop() + $searchResults.height() > $searchResults.find('table').height() - 300 ) {
-					that.search(lastQuery, lastPage + 1);
+				if ($searchResults) {
+					//if ( $searchResults && $searchResults.scrollTop() + $searchResults.height() > $searchResults.find('table').height() - 300 ) {
+					//	that.search(lastQuery, lastPage + 1);
+					//}
+					placeStatus();
 				}
+			}
+
+			/**
+			 * scrolls the search results to the top
+			 */
+			function scrollToResults() {
+				setTimeout(function() {
+					if (isStatusOffScreen()) {
+						var newScrollTop = $('#app-content').prop('scrollHeight') - $searchResults.height();
+						console.log('scrolling to ' + newScrollTop);
+						$('#app-content').animate({
+							scrollTop: newScrollTop
+						}, {
+							duration: 100,
+							complete: function () {
+								scrollToResults();
+							}
+						});
+					}
+				}, 150);
 			}
 
 			$('form.searchbox').submit(function(event) {
 				event.preventDefault();
 			});
+
+			OC.Plugins.attach('OCA.Search', this);
 		}
 	};
 	OCA.Search = Search;
@@ -257,10 +334,10 @@ $(document).ready(function() {
 });
 
 /**
- * @deprecated use get/setFormatter() instead
+ * @deprecated use get/setRenderer() instead
  */
 OC.search.customResults = {};
 /**
- * @deprecated use get/setFormatter() instead
+ * @deprecated use get/setRenderer() instead
  */
 OC.search.resultTypes = {};

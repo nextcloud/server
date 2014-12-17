@@ -1640,21 +1640,14 @@
 		},
 		filter:function(query) {
 			this.$fileList.find('tr').each(function(i,e) {
-				if ($(e).data('file').toString().toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-					$(e).addClass("searchresult");
-				} else {
-					$(e).removeClass("searchresult");
+				if ($(e).data('file').toString().toLowerCase().indexOf(query.toLowerCase()) === -1) {
+					$(e).hide();
 				}
 			});
-			//do not use scrollto to prevent removing searchresult css class
-			var first = this.$fileList.find('tr.searchresult').first();
-			if (first.exists()) {
-				$(window).scrollTop(first.position().top);
-			}
 		},
 		unfilter:function() {
-			this.$fileList.find('tr.searchresult').each(function(i,e) {
-				$(e).removeClass("searchresult");
+			this.$fileList.find('tr:hidden').each(function(i,e) {
+				$(e).show();
 			});
 		},
 		/**

@@ -44,15 +44,16 @@ abstract class PagedProvider extends Provider {
 	 * @return array An array of OCP\Search\Result's
 	 */
 	public function search($query) {
-		$this->searchPaged($query, 0, 0);
+		// old apps might assume they get all results, so we set size 0
+		$this->searchPaged($query, 1, 0);
 	}
 
 	/**
 	 * Search for $query
 	 * @param string $query
-	 * @param int $limit, 0 = unlimited
-	 * @param int $offset
+	 * @param int $page pages start at page 1
+	 * @param int $size, 0 = all
 	 * @return array An array of OCP\Search\Result's
 	 */
-	abstract public function searchPaged($query, $limit, $offset);
+	abstract public function searchPaged($query, $page, $size);
 }

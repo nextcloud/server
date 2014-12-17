@@ -309,7 +309,7 @@ var OC={
 	 * @param {string} query the search query
 	 */
 	search: function (query) {
-		OC.Search.search(query, 0, 30);
+		OC.Search.search(query, null, 0, 30);
 	},
 	/**
 	 * Dialog helper for jquery dialogs.
@@ -600,41 +600,6 @@ OC.search.customResults = {};
  * @deprecated use get/setFormatter() instead
  */
 OC.search.resultTypes = {};
-
-/**
- * @namespace OC.Search
- */
-OC.Search = {
-	/**
-	 * contains closures that are called to format search results
-	 */
-	formatter:{},
-	setFormatter: function(type, formatter) {
-		this.formatter[type] = formatter;
-	},
-	hasFormatter: function(type) {
-		return typeof this.formatter[type] !== 'undefined';
-	},
-	getFormatter: function(type) {
-		return this.formatter[type];
-	},
-	/**
-	 * contains closures that are called when a search result has been clicked
-	 */
-	handler:{},
-	setHandler: function(type, handler) {
-		this.handler[type] = handler;
-	},
-	hasHandler: function(type) {
-		return typeof this.handler[type] !== 'undefined';
-	},
-	getHandler: function(type) {
-		return this.handler[type];
-	},
-	currentResult:-1,
-	lastQuery:'',
-	lastResults:{}
-};
 
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];

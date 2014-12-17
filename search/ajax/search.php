@@ -41,7 +41,7 @@ if (isset($_GET['inApps'])) {
 if (isset($_GET['page'])) {
 	$page = (int)$_GET['page'];
 } else {
-	$page = 0;
+	$page = 1;
 }
 if (isset($_GET['size'])) {
 	$size = (int)$_GET['size'];
@@ -49,7 +49,7 @@ if (isset($_GET['size'])) {
 	$size = 30;
 }
 if($query) {
-	$result = \OC::$server->getSearch()->search($query, $inApps, $page, $size);
+	$result = \OC::$server->getSearch()->searchPaged($query, $inApps, $page, $size);
 	OC_JSON::encodedPrint($result);
 }
 else {
