@@ -192,6 +192,7 @@ input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
 button:hover, button:focus,
 .button:hover, .button:focus,
+.button a:focus,
 select:hover, select:focus, select:active {
 	background-color: rgba(255, 255, 255, .95);
 	color: #111;
