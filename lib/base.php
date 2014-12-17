@@ -760,6 +760,7 @@ class OC {
 		// Load minimum set of apps
 		if (!self::checkUpgrade(false)) {
 			// For logged-in users: Load everything
+			\OC_User::tryBasicAuthLogin();
 			if(OC_User::isLoggedIn()) {
 				OC_App::loadApps();
 			} else {
