@@ -142,14 +142,6 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	}
 
 	/**
-	 * Return the directory content as fileinfo objects
-	 *
-	 * @return \OCP\FileInfo[]
-	 */
-	public function getDirectoryContent() {
-	}
-
-	/**
 	 * Returns an array with all the child nodes
 	 *
 	 * @return \Sabre\DAV\INode[]
