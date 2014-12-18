@@ -490,6 +490,21 @@ OC.Upload = {
 					}
 				});
 
+			} else {
+				// for all browsers that don't support the progress bar
+				// IE 8 & 9
+
+				// show a spinner
+				fileupload.on('fileuploadstart', function() {
+					$('#upload').addClass('icon-loading');
+					$('#upload .icon-upload').hide();
+				});
+
+				// hide a spinner
+				fileupload.on('fileuploadstop fileuploadfail', function() {
+					$('#upload').removeClass('icon-loading');
+					$('#upload .icon-upload').show();
+				});
 			}
 		}
 
