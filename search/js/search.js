@@ -246,6 +246,9 @@
 				}
 			}
 			this.hideResults = function() {
+				if(that.hasFilter(getCurrentApp())) {
+					that.getFilter(getCurrentApp())('');
+				}
 				if ($searchResults) {
 					$searchResults.hide();
 					$searchBox.val('');
