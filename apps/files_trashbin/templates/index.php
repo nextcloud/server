@@ -4,7 +4,11 @@
 </div>
 <div id='notification'></div>
 
-<div id="emptycontent" class="hidden"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
+<div id="emptycontent" class="hidden">
+	<div class="icon-delete"></div>
+	<h2><?php p($l->t('No deleted files')); ?></h2>
+	<p><?php p($l->t('You will be able to recover deleted files from here')); ?></p>
+</div>
 
 <input type="hidden" name="dir" value="" id="dir">
 

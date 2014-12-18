@@ -68,6 +68,10 @@
 	background-image: url('../img/actions/download.svg');
 }
 
+.icon-external {
+	background-image: url('../img/actions/external.svg');
+}
+
 .icon-history {
 	background-image: url('../img/actions/history.svg');
 }
