@@ -15,11 +15,8 @@
 		attach: function(search) {
 			search.setFilter('files', function (query) {
 				if (OCA.Files.Search.fileAppLoaded()) {
-					if (query) {
-						OCA.Files.App.fileList.setFilter(query);
-					} else {
-						OCA.Files.App.fileList.unfilter();
-					}
+					OCA.Files.App.fileList.setFilter(query);
+
 				}
 			});
 

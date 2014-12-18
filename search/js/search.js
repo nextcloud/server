@@ -227,7 +227,7 @@
 						// not showing result, decrease counter
 						var count = $status.data('count') - 1;
 						$status.data('count', count)
-							.text(t('search', '{count} search results in other folders', {count:count}, count));
+							.text(t('search', '{count} search results in other places', {count:count}, count));
 					}
 				});
 			}

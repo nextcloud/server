@@ -1668,6 +1668,8 @@
 		 */
 		setFilter:function(filter) {
 			this._filter = filter;
+			this.fileSummary.setFilter(filter, this.files);
+			this.hideHeaderWhenNoFilesMatch();
 			var that = this;
 			this.$fileList.find('tr').each(function(i,e) {
 				var $e = $(e);
@@ -1678,6 +1680,13 @@
 					$e.removeClass('hidden');
 				}
 			});
+		},
+		hideHeaderWhenNoFilesMatch:function() {
+			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
+				this.$el.find('#filestable thead th').addClass('hidden');
+			} else {
+				this.$el.find('#filestable thead th').removeClass('hidden');
+			}
 		},
 		/**
 		 * get the current filter
