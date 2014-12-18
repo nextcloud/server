@@ -579,7 +579,7 @@ OC.Upload = {
 				input.val(newName);
 				input.attr('id', fileType);
 			}
-			var label = $('<label class="hidden-visually" for="">' + newName + '</label>');
+			var label = $('<label class="hidden-visually" for="">' + escapeHTML(newName) + '</label>');
 			label.attr('for', fileType);
 
 			form.append(label).append(input);
