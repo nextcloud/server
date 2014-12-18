@@ -27,12 +27,9 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_runNotAllowedByDisabledConfigurations() {
 		$args = $this->getMocks();
-		$args['helper']->expects($this->exactly(2))
-			->method('getServerConfigurationPrefixes')
-			->will($this->onConsecutiveCalls(
-				array_pad(array(), 4, true),
-				array_pad(array(), 3, true))
-			);
+		$args['helper']->expects($this->once())
+			->method('haveDisabledConfigurations')
+			->will($this->returnValue(true)	);
 
 		$args['ocConfig']->expects($this->never())
 			->method('getSystemValue');
@@ -50,9 +47,9 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_runNotAllowedByBrokenHelper() {
 		$args = $this->getMocks();
-		$args['helper']->expects($this->exactly(2))
-			->method('getServerConfigurationPrefixes')
-			->will($this->returnValue(null)	);
+		$args['helper']->expects($this->once())
+			->method('haveDisabledConfigurations')
+			->will($this->throwException(new \Exception()));
 
 		$args['ocConfig']->expects($this->never())
 			->method('getSystemValue');
@@ -69,12 +66,9 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_runNotAllowedBySysConfig() {
 		$args = $this->getMocks();
-		$args['helper']->expects($this->exactly(2))
-			->method('getServerConfigurationPrefixes')
-			->will($this->onConsecutiveCalls(
-				array_pad(array(), 4, true),
-				array_pad(array(), 4, true))
-			);
+		$args['helper']->expects($this->once())
+			->method('haveDisabledConfigurations')
+			->will($this->returnValue(false));
 
 		$args['ocConfig']->expects($this->once())
 			->method('getSystemValue')
@@ -92,12 +86,9 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_runIsAllowed() {
 		$args = $this->getMocks();
-		$args['helper']->expects($this->exactly(2))
-			->method('getServerConfigurationPrefixes')
-			->will($this->onConsecutiveCalls(
-				array_pad(array(), 4, true),
-				array_pad(array(), 4, true))
-			);
+		$args['helper']->expects($this->once())
+			->method('haveDisabledConfigurations')
+			->will($this->returnValue(false));
 
 		$args['ocConfig']->expects($this->once())
 			->method('getSystemValue')
