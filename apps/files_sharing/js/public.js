@@ -96,7 +96,7 @@ OCA.Sharing.PublicApp = {
 			scalingup: 0
 		};
 
-		var img = $('<img class="publicpreview">');
+		var img = $('<img class="publicpreview" alt="">');
 		if (previewSupported === 'true' || mimetype.substr(0, mimetype.indexOf('/')) === 'image' && mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
 			img.appendTo('#imgframe');

@@ -380,6 +380,7 @@ OC.Share={
 				}
 			});
 
+			html += '<label for="shareWith" class="hidden-visually">'+t('core', 'Share')+'</label>';
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Share with user or group …')+'" />';
 			html += '<span class="shareWithLoading icon-loading-small hidden"></span>';
 			html += '<ul id="shareWithList">';
@@ -396,9 +397,11 @@ OC.Share={
 					defaultExpireMessage = t('core', 'The public link will expire no later than {days} days after it is created',  {'days': escapeHTML(oc_appconfig.core.defaultExpireDate)}) + '<br/>';
 				}
 
+				html += '<label for="linkText" class="hidden-visually">'+t('core', 'Link')+'</label>';
 				html += '<input id="linkText" type="text" readonly="readonly" />';
 				html += '<input type="checkbox" name="showPassword" id="showPassword" value="1" style="display:none;" /><label for="showPassword" style="display:none;">'+t('core', 'Password protect')+'</label>';
 				html += '<div id="linkPass">';
+				html += '<label for="linkPassText" class="hidden-visually">'+t('core', 'Password')+'</label>';
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Choose a password for the public link')+'" />';
 				html += '<span class="icon-loading-small hidden"></span>';
 				html += '</div>';
@@ -422,6 +425,7 @@ OC.Share={
 
 			html += '<div id="expiration">';
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
+			html += '<label for="expirationDate" class="hidden-visually">'+t('core', 'Expiration')+'</label>';
 			html += '<input id="expirationDate" type="text" placeholder="'+t('core', 'Expiration date')+'" style="display:none; width:90%;" />';
 			html += '<em id="defaultExpireMessage">'+defaultExpireMessage+'</em>';
 			html += '</div>';
@@ -636,7 +640,7 @@ OC.Share={
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				html += '<input id="canEdit-'+escapeHTML(shareWith)+'" type="checkbox" name="edit" class="permissions" '+editChecked+' /><label for="canEdit-'+escapeHTML(shareWith)+'">'+t('core', 'can edit')+'</label>';
 			}
-			showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" title="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
+			showCrudsButton = '<a href="#" class="showCruds"><img class="svg" alt="'+t('core', 'access control')+'" src="'+OC.imagePath('core', 'actions/triangle-s')+'"/></a>';
 			html += '<div class="cruds" style="display:none;">';
 				if (possiblePermissions & OC.PERMISSION_CREATE) {
 					html += '<input id="canCreate-'+escapeHTML(shareWith)+'" type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.PERMISSION_CREATE+'"/><label for="canCreate-'+escapeHTML(shareWith)+'">'+t('core', 'create')+'</label>';

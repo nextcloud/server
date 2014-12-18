@@ -34,13 +34,17 @@
 						   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
 					<input type="file" id="file_upload_start" name='files[]'
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
-					<a href="#" class="svg icon-upload"></a>
+					<label for="file_upload_start" class="svg icon-upload">
+						<span class="hidden-visually"><?php p($l->t('Upload'))?></span>
+					</label>
 			</div>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
-				<input type="button" class="stop icon-close"
-					style="display:none" value=""
-					alt="<?php p($l->t('Cancel upload'))?>" />
+				<button class="stop icon-close" style="display:none">
+					<span class="hidden-visually">
+						<?php p($l->t('Cancel upload'))?>
+					</span>
+				</button>
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
@@ -68,7 +72,7 @@
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="download">
-							<img class="svg" alt="Download"
+							<img class="svg" alt=""
 								 src="<?php print_unescaped(OCP\image_path("core", "actions/download.svg")); ?>" />
 							<?php p($l->t('Download'))?>
 						</a>
@@ -82,7 +86,7 @@
 				<a id="modified" class="columntitle" data-sort="mtime"><span><?php p($l->t( 'Modified' )); ?></span><span class="sort-indicator"></span></a>
 					<span class="selectedActions"><a href="" class="delete-selected">
 						<?php p($l->t('Delete'))?>
-						<img class="svg" alt="<?php p($l->t('Delete'))?>"
+						<img class="svg" alt=""
 							 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />
 					</a></span>
 			</th>

@@ -68,6 +68,7 @@ OCA.Trashbin.App = {
 			render: function(actionSpec, isDefault, context) {
 				var $actionLink = fileActions._makeActionLink(actionSpec, context);
 				$actionLink.attr('original-title', t('files', 'Delete permanently'));
+				$actionLink.children('img').attr('alt', t('files', 'Delete permanently'));
 				context.$file.find('td:last').append($actionLink);
 				return $actionLink;
 			},

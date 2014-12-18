@@ -187,7 +187,7 @@ OC.Upload = {
 	},
 
 	_hideProgressBar: function() {
-		$('#uploadprogresswrapper input.stop').fadeOut();
+		$('#uploadprogresswrapper .stop').fadeOut();
 		$('#uploadprogressbar').fadeOut(function() {
 			$('#file_upload_start').trigger(new $.Event('resized'));
 		});
@@ -469,13 +469,13 @@ OC.Upload = {
 					OC.Upload.log('progress handle fileuploadadd', e, data);
 					//show cancel button
 					//if (data.dataType !== 'iframe') { //FIXME when is iframe used? only for ie?
-					//	$('#uploadprogresswrapper input.stop').show();
+					//	$('#uploadprogresswrapper .stop').show();
 					//}
 				});
 				// add progress handlers
 				fileupload.on('fileuploadstart', function(e, data) {
 					OC.Upload.log('progress handle fileuploadstart', e, data);
-					$('#uploadprogresswrapper input.stop').show();
+					$('#uploadprogresswrapper .stop').show();
 					$('#uploadprogressbar').progressbar({value: 0});
 					OC.Upload._showProgressBar();
 				});
@@ -589,10 +589,15 @@ OC.Upload = {
 			var form = $('<form></form>');
 			var input = $('<input type="text">');
 			var newName = $(this).attr('data-newname') || '';
+			var fileType = 'input-' + $(this).attr('data-type');
 			if (newName) {
 				input.val(newName);
+				input.attr('id', fileType);
 			}
-			form.append(input);
+			var label = $('<label class="hidden-visually" for="">' + escapeHTML(newName) + '</label>');
+			label.attr('for', fileType);
+
+			form.append(label).append(input);
 			$(this).append(form);
 			var lastPos;
 			var checkInput = function () {

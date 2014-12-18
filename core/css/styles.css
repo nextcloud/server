@@ -193,8 +193,8 @@ input[type="button"]:hover, input[type="button"]:focus,
 button:hover, button:focus,
 .button:hover, .button:focus,
 select:hover, select:focus, select:active {
-	background-color:rgba(250,250,250,.9);
-	color:#333;
+	background-color: rgba(255, 255, 255, .95);
+	color: #111;
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 #header .button {

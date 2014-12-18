@@ -48,9 +48,6 @@
 	height: 120px;
 	margin: 0 auto;
 }
-#header .logo h1 {
-	display: none;
-}
 
 #header .logo-wide {
 	background-image: url(../img/logo-wide.svg);
