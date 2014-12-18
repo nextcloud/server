@@ -21,15 +21,13 @@
  *
  */
 
-use OC\Connector\Sabre\TagList;
-
 class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 	implements \Sabre\DAV\ICollection, \Sabre\DAV\IQuota {
 
 	/**
 	 * Cached directory content
 	 *
-	 * @var \OCP\FileInfo[]
+	 * @var \OCP\Files\FileInfo[]
 	 */
 	private $dirContent;
 

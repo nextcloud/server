@@ -85,7 +85,7 @@ class TagList extends DAV\Property {
      * It will only decode tag values.
      *
      * @param \DOMElement $dom
-     * @return DAV\Property\TagList
+     * @return \OC\Connector\Sabre\TagList
      */
     static function unserialize(\DOMElement $dom) {
 

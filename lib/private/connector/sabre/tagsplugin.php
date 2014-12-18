@@ -28,8 +28,8 @@ class TagsPlugin extends \Sabre\DAV\ServerPlugin
 
 	// namespace
 	const NS_OWNCLOUD = 'http://owncloud.org/ns';
-	const TAGS_PROPERTYNAME = '{' . self::NS_OWNCLOUD . '}tags';
-	const FAVORITE_PROPERTYNAME = '{' . self::NS_OWNCLOUD . '}favorite';
+	const TAGS_PROPERTYNAME = '{http://owncloud.org/ns}tags';
+	const FAVORITE_PROPERTYNAME = '{http://owncloud.org/ns}favorite';
 	const TAG_FAVORITE = '_$!<Favorite>!$_';
 
 	/**
