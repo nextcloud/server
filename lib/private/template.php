@@ -122,7 +122,7 @@ class OC_Template extends \OC\Template\Base {
 			foreach(OC_Util::$headers as $header) {
 				$headers .= '<'.OC_Util::sanitizeHTML($header['tag']);
 				foreach($header['attributes'] as $name=>$value) {
-					$headers .= ' "'.OC_Util::sanitizeHTML($name).'"="'.OC_Util::sanitizeHTML($value).'"';
+					$headers .= ' '.OC_Util::sanitizeHTML($name).'="'.OC_Util::sanitizeHTML($value).'"';
 				}
 				if ($header['text'] !== null) {
 					$headers .= '>'.OC_Util::sanitizeHTML($header['text']).'</'.OC_Util::sanitizeHTML($header['tag']).'>';
