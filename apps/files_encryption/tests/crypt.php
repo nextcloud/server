@@ -30,6 +30,9 @@ class Crypt extends TestCase {
 	public $genPrivateKey;
 	public $genPublicKey;
 
+	/** @var  \OCP\IConfig */
+	private $config;
+
 	public static function setUpBeforeClass() {
 		parent::setUpBeforeClass();
 
@@ -65,6 +68,8 @@ class Crypt extends TestCase {
 
 		// we don't want to tests with app files_trashbin enabled
 		\OC_App::disable('files_trashbin');
+
+		$this->config = \OC::$server->getConfig();
 	}
 
 	protected function tearDown() {
@@ -76,7 +81,7 @@ class Crypt extends TestCase {
 		}
 
 		$this->assertTrue(\OC_FileProxy::$enabled);
-		\OCP\Config::deleteSystemValue('cipher');
+		$this->config->deleteSystemValue('cipher');
 
 		parent::tearDown();
 	}
@@ -198,14 +203,14 @@ class Crypt extends TestCase {
 
 		$filename = 'tmp-' . $this->getUniqueID() . '.test';
 
-		\OCP\Config::setSystemValue('cipher', 'AES-128-CFB');
+		$this->config->setSystemValue('cipher', 'AES-128-CFB');
 
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/'. $filename, $this->dataShort);
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
 
-		\OCP\Config::deleteSystemValue('cipher');
+		$this->config->deleteSystemValue('cipher');
 
 		// Disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -282,7 +287,7 @@ class Crypt extends TestCase {
 		// Generate a a random filename
 		$filename = 'tmp-' . $this->getUniqueID() . '.test';
 
-		\OCP\Config::setSystemValue('cipher', 'AES-128-CFB');
+		$this->config->setSystemValue('cipher', 'AES-128-CFB');
 
 		// Save long data as encrypted file using stream wrapper
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);
@@ -294,7 +299,7 @@ class Crypt extends TestCase {
 		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
-		\OCP\Config::deleteSystemValue('cipher');
+		$this->config->deleteSystemValue('cipher');
 
 		// Get file contents without using any wrapper to get it's actual contents on disk
 		$retreivedCryptedFile = $this->view->file_get_contents($this->userId . '/files/' . $filename);
@@ -326,12 +331,12 @@ class Crypt extends TestCase {
 		// Generate a a random filename
 		$filename = 'tmp-' . $this->getUniqueID() . '.test';
 
-		\OCP\Config::setSystemValue('cipher', 'AES-128-CFB');
+		$this->config->setSystemValue('cipher', 'AES-128-CFB');
 
 		// Save long data as encrypted file using stream wrapper
 		$cryptedFile = file_put_contents('crypt:///' . $this->userId . '/files/' . $filename, $this->dataLong . $this->dataLong);
 
-		\OCP\Config::deleteSystemValue('cipher');
+		$this->config->deleteSystemValue('cipher');
 
 		// Test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));

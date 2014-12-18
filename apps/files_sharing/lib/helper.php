@@ -280,7 +280,7 @@ class Helper {
 	 * @return string
 	 */
 	public static function getShareFolder() {
-		$shareFolder = \OCP\Config::getSystemValue('share_folder', '/');
+		$shareFolder = \OC::$server->getConfig()->getSystemValue('share_folder', '/');
 
 		return \OC\Files\Filesystem::normalizePath($shareFolder);
 	}
@@ -291,7 +291,7 @@ class Helper {
 	 * @param string $shareFolder
 	 */
 	public static function setShareFolder($shareFolder) {
-		\OCP\Config::setSystemValue('share_folder', $shareFolder);
+		\OC::$server->getConfig()->setSystemValue('share_folder', $shareFolder);
 	}
 
 }

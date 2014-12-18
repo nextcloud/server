@@ -948,10 +948,11 @@ class Test_Files_Sharing_Api extends TestCase {
 	function testUpdateShareExpireDate() {
 
 		$fileInfo = $this->view->getFileInfo($this->folder);
+		$config = \OC::$server->getConfig();
 
 		// enforce expire date, by default 7 days after the file was shared
-		\OCP\Config::setAppValue('core', 'shareapi_default_expire_date', 'yes');
-		\OCP\Config::setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'yes');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'yes');
 
 		$dateWithinRange = new \DateTime();
 		$dateWithinRange->add(new \DateInterval('P5D'));
@@ -1008,8 +1009,8 @@ class Test_Files_Sharing_Api extends TestCase {
 		$this->assertEquals($dateWithinRange->format('Y-m-d') . ' 00:00:00', $updatedLinkShare['expiration']);
 
 		// cleanup
-		\OCP\Config::setAppValue('core', 'shareapi_default_expire_date', 'no');
-		\OCP\Config::setAppValue('core', 'shareapi_enforce_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_default_expire_date', 'no');
+		$config->setAppValue('core', 'shareapi_enforce_expire_date', 'no');
 		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
 
 	}

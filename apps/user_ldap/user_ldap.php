@@ -199,7 +199,7 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 				) {
 					$homedir = $path;
 				} else {
-					$homedir = \OCP\Config::getSystemValue('datadirectory',
+					$homedir = \OC::$server->getConfig()->getSystemValue('datadirectory',
 						\OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
 				}
 				$this->access->connection->writeToCache($cacheKey, $homedir);

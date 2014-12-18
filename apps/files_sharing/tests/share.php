@@ -243,7 +243,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue(\OC\Files\Filesystem::file_exists('/Shared/subfolder/' . $this->folder));
 
 		//cleanup
-		\OCP\Config::deleteSystemValue('share_folder');
+		\OC::$server->getConfig()->deleteSystemValue('share_folder');
 	}
 
 	/**

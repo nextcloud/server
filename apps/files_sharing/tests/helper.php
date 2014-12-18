@@ -35,7 +35,7 @@ class Test_Files_Sharing_Helper extends TestCase {
 		$this->assertSame('/Shared', \OCA\Files_Sharing\Helper::getShareFolder());
 
 		// cleanup
-		\OCP\Config::deleteSystemValue('share_folder');
+		\OC::$server->getConfig()->deleteSystemValue('share_folder');
 
 	}
 
