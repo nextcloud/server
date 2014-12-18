@@ -9,7 +9,7 @@
 	overflow: hidden;
 	vertical-align: top;
 }
-#upload a {
+#upload .icon-upload {
 	position: relative;
 	display: block;
 	width: 100%;

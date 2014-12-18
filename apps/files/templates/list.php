@@ -34,13 +34,17 @@
 						   value="(max <?php isset($_['uploadMaxHumanFilesize']) ? p($_['uploadMaxHumanFilesize']) : ''; ?>)">
 					<input type="file" id="file_upload_start" name='files[]'
 						   data-url="<?php print_unescaped(OCP\Util::linkTo('files', 'ajax/upload.php')); ?>" />
-					<a href="#" class="svg icon-upload"></a>
+					<label for="file_upload_start" class="svg icon-upload">
+						<span class="hidden-visually"><?php p($l->t('Upload'))?></span>
+					</label>
 			</div>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
-				<input type="button" class="stop icon-close"
-					style="display:none" value=""
-					alt="<?php p($l->t('Cancel upload'))?>" />
+				<button class="stop icon-close" style="display:none">
+					<span class="hidden-visually">
+						<?php p($l->t('Cancel upload'))?>
+					</span>
+				</button>
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
