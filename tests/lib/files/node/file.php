@@ -22,7 +22,7 @@ class File extends \Test\TestCase {
 	}
 
 	protected function getFileInfo($data) {
-		return new FileInfo('', null, '', $data);
+		return new FileInfo('', null, '', $data, null);
 	}
 
 	public function testDelete() {

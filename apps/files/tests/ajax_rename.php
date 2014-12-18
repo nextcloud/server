@@ -107,7 +107,7 @@ class Test_OC_Files_App_Rename extends \Test\TestCase {
 				'etag' => 'abcdef',
 				'directory' => '/',
 				'name' => 'new_name',
-			))));
+			), null)));
 
 		$result = $this->files->rename($dir, $oldname, $newname);
 

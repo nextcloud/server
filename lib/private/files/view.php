@@ -113,6 +113,19 @@ class View {
 	}
 
 	/**
+	 * get the mountpoint of the storage object for a path
+	 * ( note: because a storage is not always mounted inside the fakeroot, the
+	 * returned mountpoint is relative to the absolute root of the filesystem
+	 * and doesn't take the chroot into account )
+	 *
+	 * @param string $path
+	 * @return \OCP\Files\Mount\IMountPoint
+	 */
+	public function getMount($path) {
+		return Filesystem::getMountManager()->find($this->getAbsolutePath($path));
+	}
+
+	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
@@ -943,7 +956,7 @@ class View {
 
 		$data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
 
-		return new FileInfo($path, $storage, $internalPath, $data);
+		return new FileInfo($path, $storage, $internalPath, $data, $mount);
 	}
 
 	/**
@@ -960,8 +973,10 @@ class View {
 			return $result;
 		}
 		$path = $this->getAbsolutePath($directory);
-		/** @var \OC\Files\Storage\Storage $storage */
-		list($storage, $internalPath) = $this->resolvePath($directory);
+		$path = Filesystem::normalizePath($path);
+		$mount = $this->getMount($directory);
+		$storage = $mount->getStorage();
+		$internalPath = $mount->getInternalPath($path);
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
 			$user = \OC_User::getUser();
@@ -995,7 +1010,7 @@ class View {
 				if (\OCP\Util::isSharingDisabledForUser()) {
 					$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 				}
-				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content);
+				$files[] = new FileInfo($path . '/' . $content['name'], $storage, $content['path'], $content, $mount);
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
@@ -1003,7 +1018,7 @@ class View {
 			$dirLength = strlen($path);
 			foreach ($mounts as $mount) {
 				$mountPoint = $mount->getMountPoint();
-				$subStorage = Filesystem::getStorage($mountPoint);
+				$subStorage = $mount->getStorage();
 				if ($subStorage) {
 					$subCache = $subStorage->getCache('');
 
@@ -1049,7 +1064,7 @@ class View {
 								$content['permissions'] = $content['permissions'] & ~\OCP\Constants::PERMISSION_SHARE;
 							}
 
-							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry);
+							$files[] = new FileInfo($path . '/' . $rootEntry['name'], $subStorage, '', $rootEntry, $mount);
 						}
 					}
 				}
@@ -1159,8 +1174,9 @@ class View {
 		$files = array();
 		$rootLength = strlen($this->fakeRoot);
 
-		$mountPoint = Filesystem::getMountPoint($this->fakeRoot);
-		$storage = Filesystem::getStorage($mountPoint);
+		$mount = $this->getMount('');
+		$mountPoint = $mount->getMountPoint();
+		$storage = $mount->getStorage();
 		if ($storage) {
 			$cache = $storage->getCache('');
 
@@ -1170,13 +1186,14 @@ class View {
 					$internalPath = $result['path'];
 					$path = $mountPoint . $result['path'];
 					$result['path'] = substr($mountPoint . $result['path'], $rootLength);
-					$files[] = new FileInfo($path, $storage, $internalPath, $result);
+					$files[] = new FileInfo($path, $storage, $internalPath, $result, $mount);
 				}
 			}
 
-			$mountPoints = Filesystem::getMountPoints($this->fakeRoot);
-			foreach ($mountPoints as $mountPoint) {
-				$storage = Filesystem::getStorage($mountPoint);
+			$mounts = Filesystem::getMountManager()->findIn($this->fakeRoot);
+			foreach ($mounts as $mount) {
+				$mountPoint = $mount->getMountPoint();
+				$storage = $mount->getStorage();
 				if ($storage) {
 					$cache = $storage->getCache('');
 
@@ -1187,7 +1204,7 @@ class View {
 							$internalPath = $result['path'];
 							$result['path'] = rtrim($relativeMountPoint . $result['path'], '/');
 							$path = rtrim($mountPoint . $internalPath, '/');
-							$files[] = new FileInfo($path, $storage, $internalPath, $result);
+							$files[] = new FileInfo($path, $storage, $internalPath, $result, $mount);
 						}
 					}
 				}

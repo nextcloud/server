@@ -24,7 +24,8 @@ class Test_Files_Helper extends \Test\TestCase {
 				'mtime' => $mtime,
 				'type' => $isDir ? 'dir' : 'file',
 				'mimetype' => $isDir ? 'httpd/unix-directory' : 'application/octet-stream'
-			)	
+			),
+			null
 		);
 	}
 

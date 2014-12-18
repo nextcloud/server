@@ -55,4 +55,13 @@ interface IMountPoint {
 	 * @param callable $wrapper
 	 */
 	public function wrapStorage($wrapper);
+
+	/**
+	 * Get a mount option
+	 *
+	 * @param string $name Name of the mount option to get
+	 * @param mixed $default Default value for the mount option
+	 * @return mixed
+	 */
+	public function getOption($name, $default);
 }

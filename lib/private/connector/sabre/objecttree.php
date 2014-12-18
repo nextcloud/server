@@ -71,7 +71,9 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 		if (pathinfo($path, PATHINFO_EXTENSION) === 'part') {
 			// read from storage
 			$absPath = $this->fileView->getAbsolutePath($path);
-			list($storage, $internalPath) = Filesystem::resolvePath('/' . $absPath);
+			$mount = $this->fileView->getMount($path);
+			$storage = $mount->getStorage();
+			$internalPath = $mount->getInternalPath($absPath);
 			if ($storage) {
 				/**
 				 * @var \OC\Files\Storage\Storage $storage
@@ -79,7 +81,7 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 				$scanner = $storage->getScanner($internalPath);
 				// get data directly
 				$data = $scanner->getData($internalPath);
-				$info = new FileInfo($absPath, $storage, $internalPath, $data);
+				$info = new FileInfo($absPath, $storage, $internalPath, $data, $mount);
 			} else {
 				$info = null;
 			}

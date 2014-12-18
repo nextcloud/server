@@ -72,7 +72,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node
 
 			$path = $this->fileView->getAbsolutePath($this->path) . '/' . $name;
 			// using a dummy FileInfo is acceptable here since it will be refreshed after the put is complete
-			$info = new \OC\Files\FileInfo($path, null, null, array());
+			$info = new \OC\Files\FileInfo($path, null, null, array(), null);
 			$node = new OC_Connector_Sabre_File($this->fileView, $info);
 			return $node->put($data);
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
