@@ -62,6 +62,12 @@ translation('settings');
 						<?php p($l->t('Show user backend')) ?>
 					</label>
 				</p>
+				<p>
+					<input type="checkbox" name="MailOnUserCreate" value="MailOnUserCreate" id="CheckboxMailOnUserCreate">
+					<label for="CheckboxMailOnUserCreate">
+						<?php p($l->t('Send mail to new user')) ?>
+					</label>
+				</p>
 			</div>
 		</div>
 	</div>

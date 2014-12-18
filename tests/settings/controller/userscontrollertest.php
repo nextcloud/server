@@ -45,6 +45,16 @@ class UsersControllerTest extends \Test\TestCase {
 			->will($this->returnCallback(function($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->container['Defaults'] = $this->getMockBuilder('\OC_Defaults')
+			->disableOriginalConstructor()->getMock();
+		$this->container['Mail'] = $this->getMockBuilder('\OC_Mail')
+			->disableOriginalConstructor()->getMock();
+		$this->container['DefaultMailAddress'] = 'no-reply@owncloud.com';
+		$this->container['Logger'] = $this->getMockBuilder('\OCP\ILogger')
+			->disableOriginalConstructor()->getMock();
+		$this->container['URLGenerator'] = $this->getMockBuilder('\OCP\IURLGenerator')
+			->disableOriginalConstructor()->getMock();
+
 		$this->usersController = $this->container['UsersController'];
 
 	}
@@ -471,6 +481,66 @@ class UsersControllerTest extends \Test\TestCase {
 		);
 		$response = $this->usersController->destroy('UserToDelete');
 		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * test if an invalid mail result in a failure response
+	 */
+	public function testCreateUnsuccessfulWithInvalidEMail() {
+		/**
+		 * FIXME: Disabled due to missing DI on mail class.
+		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
+		 */
+		$this->markTestSkipped('Disable test until OC_Mail is rewritten.');
+
+		$this->container['Mail']
+			->expects($this->once())
+			->method('validateAddress')
+			->will($this->returnValue(false));
+
+		$expectedResponse = new DataResponse(
+			array(
+				'message' => 'Invalid mail address'
+			),
+			Http::STATUS_UNPROCESSABLE_ENTITY
+		);
+		$response = $this->usersController->create('foo', 'password', array(), 'invalidMailAdress');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
+	/**
+	 * test if a valid mail result in a successful mail send
+	 */
+	public function testCreateSuccessfulWithValidEMail() {
+		/**
+		 * FIXME: Disabled due to missing DI on mail class.
+		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
+		 */
+		$this->markTestSkipped('Disable test until OC_Mail is rewritten.');
+
+		$this->container['Mail']
+			->expects($this->once())
+			->method('validateAddress')
+			->will($this->returnValue(true));
+		$this->container['Mail']
+			->expects($this->once())
+			->method('send')
+			->with(
+				$this->equalTo('validMail@Adre.ss'),
+				$this->equalTo('foo'),
+				$this->anything(),
+				$this->anything(),
+				$this->anything(),
+				$this->equalTo('no-reply@owncloud.com'),
+				$this->equalTo(1),
+				$this->anything()
+			);
+		$this->container['Logger']
+			->expects($this->never())
+			->method('error');
+
+		$response = $this->usersController->create('foo', 'password', array(), 'validMail@Adre.ss');
+		$this->assertEquals(Http::STATUS_CREATED, $response->getStatus());
 	}
 
 }
