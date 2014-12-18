@@ -206,7 +206,6 @@
 					$row.find('td.info div.name').text(result.name);
 					$row.find('td.info a').attr('href', result.link);
 
-					$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'places/link') + ')');
 					/**
 					 * Give plugins the ability to customize the search results. see result.js for examples
 					 */
