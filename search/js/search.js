@@ -26,7 +26,7 @@
 	Search.prototype = {
 
 		/**
-		 * Initialize the search box and results
+		 * Initialize the search box
 		 *
 		 * @param $searchBox container element with existing markup for the #searchbox form
 		 * @private
@@ -182,6 +182,7 @@
 						$('#app-content').on('scroll', _.bind(onScroll, this));
 						lastResults = results;
 						$status = $searchResults.find('#status')
+							.data('count', results.length)
 							.text(t('search', '{count} search results in other folders', {count:results.length}, results.length));
 						placeStatus();
 						showResults(results);
@@ -210,7 +211,7 @@
 					 * Give plugins the ability to customize the search results. see result.js for examples
 					 */
 					if (that.hasRenderer(result.type)) {
-						that.getRenderer(result.type)($row, result);
+						$row = that.getRenderer(result.type)($row, result);
 					} else {
 						// for backward compatibility add text div
 						$row.find('td.info div.name').addClass('result');
@@ -220,7 +221,14 @@
 							OC.search.customResults[result.type]($row, result);
 						}
 					}
-					$searchResults.find('tbody').append($row);
+					if ($row) {
+						$searchResults.find('tbody').append($row);
+					} else {
+						// not showing result, decrease counter
+						var count = $status.data('count') - 1;
+						$status.data('count', count)
+							.text(t('search', '{count} search results in other folders', {count:count}, count));
+					}
 				});
 			}
 			function renderCurrent() {

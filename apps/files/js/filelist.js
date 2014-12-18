@@ -112,6 +112,12 @@
 		_selectionSummary: null,
 
 		/**
+		 * If not empty, only files containing this string will be shown
+		 * @type String
+		 */
+		_filter: '',
+
+		/**
 		 * Sort attribute
 		 * @type String
 		 */
@@ -551,6 +557,7 @@
 		_nextPage: function(animate) {
 			var index = this.$fileList.children().length,
 				count = this.pageSize(),
+				hidden,
 				tr,
 				fileData,
 				newTrs = [],
@@ -562,7 +569,12 @@
 
 			while (count > 0 && index < this.files.length) {
 				fileData = this.files[index];
-				tr = this._renderRow(fileData, {updateSummary: false, silent: true});
+				if (this._filter) {
+					hidden = fileData.name.toLowerCase().indexOf(this._filter.toLowerCase()) === -1;
+				} else {
+					hidden = false;
+				}
+				tr = this._renderRow(fileData, {updateSummary: false, silent: true, hidden: hidden});
 				this.$fileList.append(tr);
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
@@ -1638,17 +1650,41 @@
 				});
 			});
 		},
+		/**
+		 * @deprecated use setFilter(filter)
+		 */
 		filter:function(query) {
+			this.setFilter('');
+		},
+		/**
+		 * @deprecated use setFilter('')
+		 */
+		unfilter:function() {
+			this.setFilter('');
+		},
+		/**
+		 * hide files matching the given filter
+		 * @param filter
+		 */
+		setFilter:function(filter) {
+			this._filter = filter;
+			var that = this;
 			this.$fileList.find('tr').each(function(i,e) {
-				if ($(e).data('file').toString().toLowerCase().indexOf(query.toLowerCase()) === -1) {
-					$(e).hide();
+				var $e = $(e);
+				if ($e.data('file').toString().toLowerCase().indexOf(filter.toLowerCase()) === -1) {
+					$e.addClass('hidden');
+					that.$container.trigger('scroll');
+				} else {
+					$e.removeClass('hidden');
 				}
 			});
 		},
-		unfilter:function() {
-			this.$fileList.find('tr:hidden').each(function(i,e) {
-				$(e).show();
-			});
+		/**
+		 * get the current filter
+		 * @param filter
+		 */
+		getFilter:function(filter) {
+			return this._filter;
 		},
 		/**
 		 * Update UI based on the current selection
