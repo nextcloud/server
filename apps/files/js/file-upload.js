@@ -574,10 +574,15 @@ OC.Upload = {
 			var form = $('<form></form>');
 			var input = $('<input type="text">');
 			var newName = $(this).attr('data-newname') || '';
+			var fileType = 'input-' + $(this).attr('data-type');
 			if (newName) {
 				input.val(newName);
+				input.attr('id', fileType);
 			}
-			form.append(input);
+			var label = $('<label class="hidden-visually" for="">' + newName + '</label>');
+			label.attr('for', fileType);
+
+			form.append(label).append(input);
 			$(this).append(form);
 			var lastPos;
 			var checkInput = function () {
