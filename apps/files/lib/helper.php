@@ -174,7 +174,6 @@ class Helper
 	 */
 	public static function getFiles($dir, $sortAttribute = 'name', $sortDescending = false) {
 		$content = \OC\Files\Filesystem::getDirectoryContent($dir);
-		$content = self::populateTags($content);
 
 		return self::sortFiles($content, $sortAttribute, $sortDescending);
 	}
