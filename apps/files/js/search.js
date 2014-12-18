@@ -34,12 +34,7 @@
 			}
 			/*render folder icon, show path beneath filename,
 			 show size and last modified date on the right */
-			// backward compatibility:
-			if (typeof result.mime !== 'undefined') {
-				result.mime_type = result.mime;
-			} else if (typeof result.mime_type !== 'undefined') {
-				result.mime = result.mime_type;
-			}
+			OCA.Files.Search.updateLegacyMimetype(result);
 
 			var $pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
@@ -54,12 +49,7 @@
 			}
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right */
-			// backward compatibility:
-			if (typeof result.mime !== 'undefined') {
-				result.mime_type = result.mime;
-			} else if (typeof result.mime_type !== 'undefined') {
-				result.mime = result.mime_type;
-			}
+			OCA.Files.Search.updateLegacyMimetype(result);
 
 			$pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
@@ -89,21 +79,23 @@
 			return $row;
 		},
 		renderAudioResult: function($row, result) {
-			if (OCA.Files.Search.inFileList($row, result)) {
-				return null;
-			}
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right
 			 show Artist and Album */
+			$row = OCA.Files.Search.renderFileResult($row, result);
+			if ($row) {
+				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/audio') + ')');
+			}
 			return $row;
 		},
 		renderImageResult: function($row, result) {
-			if (OCA.Files.Search.inFileList($row, result)) {
-				return null;
-			}
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right
 			 show width and height */
+			$row = OCA.Files.Search.renderFileResult($row, result);
+			if ($row && !OCA.Files.Search.fileAppLoaded()) {
+				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/image') + ')');
+			}
 			return $row;
 		},
 		inFileList: function($row, result){
@@ -111,6 +103,12 @@
 				return true;
 			} else {
 				return false;
+			}
+		},
+		updateLegacyMimetype: function(result){
+			// backward compatibility:
+			if (!result.mime && result.mime_type) {
+				result.mime = result.mime_type;
 			}
 		},
 		handleFolderClick: function($row, result, event) {
