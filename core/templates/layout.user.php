@@ -61,7 +61,8 @@
 					<?php if ($_['enableAvatars']): ?>
 					<div class="avatardiv<?php if ($_['userAvatarSet']) { print_unescaped(' avatardiv-shown"'); } else { print_unescaped('" style="display: none"'); } ?>>
 						<?php if ($_['userAvatarSet']): ?>
-							<img src="<?php p(link_to('', 'index.php').'/avatar/'.$_['user_uid'].'/32?requesttoken='.$_['requesttoken']); ?>">
+							<img src="<?php p(link_to('', 'index.php').'/avatar/'.$_['user_uid'].'/32?requesttoken='.$_['requesttoken']); ?>"
+								alt="" />
 						<?php endif; ?>
 					</div>
 					<?php endif; ?>
@@ -90,6 +91,9 @@
 			</div>
 
 			<form class="searchbox" action="#" method="post">
+				<label for="query" class="visually-hidden">
+					<?php p($l->t('Search'));?>
+				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
 					value="<?php if(isset($_POST['query'])) {p($_POST['query']);};?>"
 					autocomplete="off" tabindex="2" />

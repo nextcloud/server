@@ -725,7 +725,18 @@ label.infield {
 
 
 /* VARIOUS REUSABLE SELECTORS */
-.hidden { display:none; }
+.hidden {
+	display: none;
+}
+.hidden-visually {
+	position: absolute;
+	left:-10000px;
+	top: auto;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
 .bold { font-weight:bold; }
 .center { text-align:center; }
 .inlineblock { display: inline-block; }

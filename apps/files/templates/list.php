@@ -39,7 +39,8 @@
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
 				<input type="button" class="stop icon-close"
-					style="display:none" value="" />
+					style="display:none" value=""
+					alt="<?php p($l->t('Cancel upload'))?>" />
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
@@ -61,7 +62,9 @@
 			<th id='headerName' class="hidden column-name">
 				<div id="headerName-container">
 					<input type="checkbox" id="select_all_files" class="select-all"/>
-					<label for="select_all_files"></label>
+					<label for="select_all_files">
+						<span class="hidden-visually"><?php p($l->t('Select all'))?></span>
+					</label>
 					<a class="name sort columntitle" data-sort="name"><span><?php p($l->t( 'Name' )); ?></span><span class="sort-indicator"></span></a>
 					<span id="selectedActionsList" class="selectedActions">
 						<a href="" class="download">
