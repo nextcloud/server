@@ -407,7 +407,7 @@ OC.Share={
 					html += '<div id="allowPublicUploadWrapper" style="display:none;">';
 					html += '<span class="icon-loading-small hidden"></span>';
 					html += '<input type="checkbox" value="1" name="allowPublicUpload" id="sharingDialogAllowPublicUpload"' + ((allowPublicUploadStatus) ? 'checked="checked"' : '') + ' />';
-					html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow Public Upload') + '</label>';
+					html += '<label for="sharingDialogAllowPublicUpload">' + t('core', 'Allow editing') + '</label>';
 					html += '</div>';
 				}
 				html += '</div>';
