@@ -136,7 +136,8 @@ class Quota extends \Test\Files\Storage\Storage {
 		$instance = $this->getLimitedStorage(9);
 		$stream = $instance->fopen('foo', 'w+');
 		$meta = stream_get_meta_data($stream);
-		$this->assertEquals('user-space', $meta['wrapper_type']);
+		$expected_type = defined('HHVM_VERSION') ? 'File' : 'user-space';
+		$this->assertEquals($expected_type, $meta['wrapper_type']);
 		fclose($stream);
 	}
 
