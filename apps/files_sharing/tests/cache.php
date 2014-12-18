@@ -22,7 +22,6 @@ use OCA\Files_sharing\Tests\TestCase;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 class Test_Files_Sharing_Cache extends TestCase {
 
 	/**
@@ -236,6 +235,62 @@ class Test_Files_Sharing_Cache extends TestCase {
 			);
 		$this->verifyFiles($check, $results);
 		$tagManager->delete(array('tag1', 'tag2'));
+	}
+
+	/**
+	 * Test searching by tag for multiple sections of the tree
+	 */
+	function testSearchByTagTree() {
+		$userId = \OC::$server->getUserSession()->getUser()->getUId();
+		$this->sharedStorage->mkdir('subdir/emptydir');
+		$this->sharedStorage->mkdir('subdir/emptydir2');
+		$this->ownerStorage->getScanner()->scan('');
+		$allIds = array(
+			$this->sharedCache->get('')['fileid'],
+			$this->sharedCache->get('bar.txt')['fileid'],
+			$this->sharedCache->get('subdir/another too.txt')['fileid'],
+			$this->sharedCache->get('subdir/not a text file.xml')['fileid'],
+			$this->sharedCache->get('subdir/another.txt')['fileid'],
+			$this->sharedCache->get('subdir/emptydir')['fileid'],
+			$this->sharedCache->get('subdir/emptydir2')['fileid'],
+		);
+		$tagManager = \OC::$server->getTagManager()->load('files', null, null, $userId);
+		foreach ($allIds as $id) {
+			$tagManager->tagAs($id, 'tag1');
+		}
+		$results = $this->sharedStorage->getCache()->searchByTag('tag1', $userId);
+		$check = array(
+				array(
+					'name' => 'shareddir',
+					'path' => ''
+				),
+				array(
+					'name' => 'bar.txt',
+					'path' => 'bar.txt'
+				),
+				array(
+					'name' => 'another.txt',
+					'path' => 'subdir/another.txt'
+				),
+				array(
+					'name' => 'another too.txt',
+					'path' => 'subdir/another too.txt'
+				),
+				array(
+					'name' => 'emptydir',
+					'path' => 'subdir/emptydir'
+				),
+				array(
+					'name' => 'emptydir2',
+					'path' => 'subdir/emptydir2'
+				),
+				array(
+					'name' => 'not a text file.xml',
+					'path' => 'subdir/not a text file.xml'
+				),
+			);
+		$this->verifyFiles($check, $results);
+		$tagManager->delete(array('tag1'));
 	}
 
 	function testGetFolderContentsInRoot() {
