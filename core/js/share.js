@@ -642,7 +642,7 @@ OC.Share={
 					html += '<input id="canCreate-'+escapeHTML(shareWith)+'" type="checkbox" name="create" class="permissions" '+createChecked+' data-permissions="'+OC.PERMISSION_CREATE+'"/><label for="canCreate-'+escapeHTML(shareWith)+'">'+t('core', 'create')+'</label>';
 				}
 				if (possiblePermissions & OC.PERMISSION_UPDATE) {
-					html += '<input id="canUpdate-'+escapeHTML(shareWith)+'" type="checkbox" name="update" class="permissions" '+updateChecked+' data-permissions="'+OC.PERMISSION_UPDATE+'"/><label for="canUpdate-'+escapeHTML(shareWith)+'">'+t('core', 'update')+'</label>';
+					html += '<input id="canUpdate-'+escapeHTML(shareWith)+'" type="checkbox" name="update" class="permissions" '+updateChecked+' data-permissions="'+OC.PERMISSION_UPDATE+'"/><label for="canUpdate-'+escapeHTML(shareWith)+'">'+t('core', 'change')+'</label>';
 				}
 				if (possiblePermissions & OC.PERMISSION_DELETE) {
 					html += '<input id="canDelete-'+escapeHTML(shareWith)+'" type="checkbox" name="delete" class="permissions" '+deleteChecked+' data-permissions="'+OC.PERMISSION_DELETE+'"/><label for="canDelete-'+escapeHTML(shareWith)+'">'+t('core', 'delete')+'</label>';
