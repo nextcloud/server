@@ -76,7 +76,7 @@
 								<?php endif; ?>
 							<?php endif; ?>
 						<?php endforeach; ?>
-						<?php if (isset($_['backends'][$mount['class']]['custom']) && !in_array('files_external/js/'.$_['backends'][$mount['class']]['custom'], \OC_Util::$scripts)): ?>
+						<?php if (isset($_['backends'][$mount['class']]['custom'])): ?>
 							<?php OCP\Util::addScript('files_external', $_['backends'][$mount['class']]['custom']); ?>
 						<?php endif; ?>
 					<?php endif; ?>

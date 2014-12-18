@@ -1081,35 +1081,6 @@ function initCore() {
 		}
 	});
 
-	var setShowPassword = function(input, label) {
-		input.showPassword().keyup();
-	};
-	setShowPassword($('#adminpass'), $('label[for=show]'));
-	setShowPassword($('#pass2'), $('label[for=personal-show]'));
-	setShowPassword($('#dbpass'), $('label[for=dbpassword]'));
-
-	var checkShowCredentials = function() {
-		var empty = false;
-		$('input#user, input#password').each(function() {
-			if ($(this).val() === '') {
-				empty = true;
-			}
-		});
-		if(empty) {
-			$('#submit').fadeOut();
-			$('#remember_login').hide();
-			$('#remember_login+label').fadeOut();
-		} else {
-			$('#submit').fadeIn();
-			$('#remember_login').show();
-			$('#remember_login+label').fadeIn();
-		}
-	};
-	// hide log in button etc. when form fields not filled
-	// commented out due to some browsers having issues with it
-	// checkShowCredentials();
-	// $('input#user, input#password').keyup(checkShowCredentials);
-
 	// user menu
 	$('#settings #expand').keydown(function(event) {
 		if (event.which === 13 || event.which === 32) {

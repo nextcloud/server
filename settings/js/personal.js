@@ -157,6 +157,7 @@ function avatarResponseHandler (data) {
 }
 
 $(document).ready(function () {
+	$('#pass2').showPassword().keyup();
 	$("#passwordbutton").click(function () {
 		if ($('#pass1').val() !== '' && $('#pass2').val() !== '') {
 			// Serialize the data

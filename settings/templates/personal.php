@@ -63,6 +63,7 @@
 
 <?php
 if($_['passwordChangeSupported']) {
+	script('jquery-showpassword');
 ?>
 <form id="passwordform" class="section">
 	<h2><?php p($l->t('Password'));?></h2>

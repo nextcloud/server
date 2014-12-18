@@ -333,9 +333,9 @@ class OC_Util {
 	/**
 	 * generates a path for JS/CSS files. If no application is provided it will create the path for core.
 	 *
-	 * @param $application application to get the files from
-	 * @param $directory directory withing this application (css, js, vendor, etc)
-	 * @param $file the file inside of the above folder
+	 * @param string $application application to get the files from
+	 * @param string $directory directory withing this application (css, js, vendor, etc)
+	 * @param string $file the file inside of the above folder
 	 * @return string the path
 	 */
 	private static function generatePath($application, $directory, $file) {
@@ -358,7 +358,10 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function addScript($application, $file = null) {
-		self::$scripts[] = OC_Util::generatePath($application, 'js', $file);
+		$path = OC_Util::generatePath($application, 'js', $file);
+		if (!in_array($path, self::$scripts)) {
+			self::$scripts[] = $path;
+		}
 	}
 
 	/**
@@ -369,7 +372,10 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function addVendorScript($application, $file = null) {
-		self::$scripts[] = OC_Util::generatePath($application, 'vendor', $file);
+		$path = OC_Util::generatePath($application, 'vendor', $file);
+		if (!in_array($path, self::$scripts)) {
+			self::$scripts[] = $path;
+		}
 	}
 
 	/**
@@ -384,9 +390,12 @@ class OC_Util {
 			$languageCode = $l->getLanguageCode($application);
 		}
 		if (!empty($application)) {
-			self::$scripts[] = "$application/l10n/$languageCode";
+			$path = "$application/l10n/$languageCode";
 		} else {
-			self::$scripts[] = "l10n/$languageCode";
+			$path = "l10n/$languageCode";
+		}
+		if (!in_array($path, self::$scripts)) {
+			self::$scripts[] = $path;
 		}
 	}
 
@@ -398,7 +407,10 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function addStyle($application, $file = null) {
-		self::$styles[] = OC_Util::generatePath($application, 'css', $file);
+		$path = OC_Util::generatePath($application, 'css', $file);
+		if (!in_array($path, self::$styles)) {
+			self::$styles[] = $path;
+		}
 	}
 
 	/**
@@ -409,7 +421,10 @@ class OC_Util {
 	 * @return void
 	 */
 	public static function addVendorStyle($application, $file = null) {
-		self::$styles[] = OC_Util::generatePath($application, 'vendor', $file);
+		$path = OC_Util::generatePath($application, 'vendor', $file);
+		if (!in_array($path, self::$styles)) {
+			self::$styles[] = $path;
+		}
 	}
 
 	/**
@@ -1344,4 +1359,5 @@ class OC_Util {
 	public static function isPhpCharSetUtf8() {
 		return ini_get('default_charset') === 'UTF-8';
 	}
+
 }
