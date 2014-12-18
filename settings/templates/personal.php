@@ -24,13 +24,16 @@
 <div class="clientsbox center">
 	<h2><?php p($l->t('Get the apps to sync your files'));?></h2>
 	<a href="<?php p($_['clients']['desktop']); ?>" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.png')); ?>" />
+		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'desktopapp.png')); ?>"
+			alt="<?php p($l->t('Desktop client'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['android']); ?>" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'googleplay.png')); ?>" />
+		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'googleplay.png')); ?>"
+			alt="<?php p($l->t('Android app'));?>" />
 	</a>
 	<a href="<?php p($_['clients']['ios']); ?>" target="_blank">
-		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.png')); ?>" />
+		<img src="<?php print_unescaped(OCP\Util::imagePath('core', 'appstore.png')); ?>"
+			alt="<?php p($l->t('iOS app'));?>" />
 	</a>
 
 	<?php if (OC_Util::getEditionString() === ''): ?>
@@ -88,7 +91,9 @@ if($_['passwordChangeSupported']) {
 if($_['displayNameChangeSupported']) {
 ?>
 <form id="displaynameform" class="section">
-	<h2><?php echo $l->t('Full Name');?></h2>
+	<h2>
+		<label for="displayName"><?php echo $l->t('Full Name');?></label>
+	</h2>
 	<input type="text" id="displayName" name="displayName"
 		value="<?php p($_['displayName'])?>"
 		autocomplete="on" autocapitalize="off" autocorrect="off" />
@@ -103,7 +108,9 @@ if($_['displayNameChangeSupported']) {
 if($_['passwordChangeSupported']) {
 ?>
 <form id="lostpassword" class="section">
-	<h2><?php p($l->t('Email'));?></h2>
+	<h2>
+		<label for="email"><?php p($l->t('Email'));?></label>
+	</h2>
 	<input type="email" name="email" id="email" value="<?php p($_['email']); ?>"
 		placeholder="<?php p($l->t('Your email address'));?>"
 		autocomplete="on" autocapitalize="off" autocorrect="off" />
@@ -138,7 +145,9 @@ if($_['passwordChangeSupported']) {
 <?php endif; ?>
 
 <form class="section">
-	<h2><?php p($l->t('Language'));?></h2>
+	<h2>
+		<label for="languageinput"><?php p($l->t('Language'));?></label>
+	</h2>
 	<select id="languageinput" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
 		<option value="<?php p($_['activelanguage']['code']);?>">
 			<?php p($_['activelanguage']['name']);?>
