@@ -85,7 +85,6 @@ OC.L10N.register(
     "New folder" : "Dosje e're",
     "Folder" : "Dosje",
     "From link" : "Nga lidhja",
-    "Nothing in here. Upload something!" : "Këtu nuk ka asgje. Ngarko dicka",
     "Download" : "Shkarko",
     "Upload too large" : "Ngarkimi shumë i madh",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skedarët që po mundoheni të ngarkoni e tejkalojnë madhësinë maksimale të lejuar nga serveri.",

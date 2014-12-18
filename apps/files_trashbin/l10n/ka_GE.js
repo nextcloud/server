@@ -7,7 +7,6 @@ OC.L10N.register(
     "Restore" : "აღდგენა",
     "Delete permanently" : "სრულად წაშლა",
     "Error" : "შეცდომა",
-    "Nothing in here. Your trash bin is empty!" : "აქ არაფერი არ არის. სანაგვე ყუთი ცარიელია!",
     "Name" : "სახელი",
     "Deleted" : "წაშლილი",
     "Delete" : "წაშლა"

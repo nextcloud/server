@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Ezabatu betirako",
     "Error" : "Errorea",
     "restored" : "Berrezarrita",
-    "Nothing in here. Your trash bin is empty!" : "Ez dago ezer ez. Zure zakarrontzia hutsik dago!",
     "Name" : "Izena",
     "Deleted" : "Ezabatuta",
     "Delete" : "Ezabatu"

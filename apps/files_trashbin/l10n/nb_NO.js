@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Slett permanent",
     "Error" : "Feil",
     "restored" : "gjenopprettet",
-    "Nothing in here. Your trash bin is empty!" : "Ingenting her. Søppelkassen din er tom!",
     "Name" : "Navn",
     "Deleted" : "Slettet",
     "Delete" : "Slett"

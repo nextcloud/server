@@ -26,7 +26,6 @@
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告:</b> PHP 並未啓用 Curl 的支援，因此無法掛載 %s 。請洽您的系統管理員將其安裝並啓用。",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>：PHP 並未啓用 FTP 的支援，因此無法掛載 %s，請洽您的系統管理員將其安裝並啓用。",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>警告</b>並未安裝 \"%s\"，因此無法掛載 %s。請洽您的系統管理員將其安裝並啓用。",
-    "You don't have any external storages" : "您沒有任何外部儲存",
     "Name" : "名稱",
     "External Storage" : "外部儲存",
     "Folder name" : "資料夾名稱",

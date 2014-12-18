@@ -7,7 +7,6 @@ OC.L10N.register(
     "Restore" : "Pulihkan",
     "Error" : "Ralat",
     "restored" : "dipulihkan",
-    "Nothing in here. Your trash bin is empty!" : "Tiada apa disini. Tong sampah anda kosong!",
     "Name" : "Nama",
     "Deleted" : "Dipadam",
     "Delete" : "Padam"

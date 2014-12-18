@@ -45,7 +45,6 @@ OC.L10N.register(
     "New folder" : "ახალი ფოლდერი",
     "Folder" : "საქაღალდე",
     "From link" : "მისამართიდან",
-    "Nothing in here. Upload something!" : "აქ არაფერი არ არის. ატვირთე რამე!",
     "Download" : "ჩამოტვირთვა",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",

@@ -60,7 +60,6 @@ OC.L10N.register(
     "New folder" : "Нова папка",
     "Folder" : "Папка",
     "From link" : "Од врска",
-    "Nothing in here. Upload something!" : "Тука нема ништо. Снимете нешто!",
     "Download" : "Преземи",
     "Upload too large" : "Фајлот кој се вчитува е преголем",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",

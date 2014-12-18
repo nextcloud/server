@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Dzēst pavisam",
     "Error" : "Kļūda",
     "restored" : "atjaunots",
-    "Nothing in here. Your trash bin is empty!" : "Šeit nekā nav. Jūsu miskaste ir tukša!",
     "Name" : "Nosaukums",
     "Deleted" : "Dzēsts",
     "Delete" : "Dzēst"

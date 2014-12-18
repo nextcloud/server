@@ -5,7 +5,6 @@ OC.L10N.register(
     "Restore" : "Врати",
     "Delete permanently" : "Обриши за стално",
     "Error" : "Грешка",
-    "Nothing in here. Your trash bin is empty!" : "Овде нема ништа. Корпа за отпатке је празна.",
     "Name" : "Име",
     "Deleted" : "Обрисано",
     "Delete" : "Обриши"

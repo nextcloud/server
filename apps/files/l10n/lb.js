@@ -29,7 +29,6 @@ OC.L10N.register(
     "New" : "Nei",
     "Text file" : "Text Fichier",
     "Folder" : "Dossier",
-    "Nothing in here. Upload something!" : "Hei ass näischt. Lued eppes rop!",
     "Download" : "Download",
     "Upload too large" : "Upload ze grouss",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",

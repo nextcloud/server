@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Un nou dosar",
     "Folder" : "Dosar",
     "From link" : "De la adresa",
-    "Nothing in here. Upload something!" : "Nimic aici. Încarcă ceva!",
     "Download" : "Descarcă",
     "Upload too large" : "Fișierul încărcat este prea mare",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fișierele pe care încerci să le încarci depășesc limita de încărcare maximă admisă pe acest server.",

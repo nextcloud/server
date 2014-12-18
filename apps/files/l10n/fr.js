@@ -88,7 +88,6 @@ OC.L10N.register(
     "New folder" : "Nouveau dossier",
     "Folder" : "Dossier",
     "From link" : "Depuis un lien",
-    "Nothing in here. Upload something!" : "Il n'y a rien ici ! Envoyez donc quelque chose :)",
     "Download" : "Télécharger",
     "Upload too large" : "Téléversement trop volumineux",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur.",

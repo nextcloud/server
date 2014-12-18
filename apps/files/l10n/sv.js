@@ -81,7 +81,6 @@ OC.L10N.register(
     "New folder" : "Ny mapp",
     "Folder" : "Mapp",
     "From link" : "Från länk",
-    "Nothing in here. Upload something!" : "Ingenting här. Ladda upp något!",
     "Download" : "Ladda ner",
     "Upload too large" : "För stor uppladdning",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",

@@ -73,7 +73,6 @@ OC.L10N.register(
     "New folder" : "Naujas aplankas",
     "Folder" : "Katalogas",
     "From link" : "Iš nuorodos",
-    "Nothing in here. Upload something!" : "Čia tuščia. Įkelkite ką nors!",
     "Download" : "Atsisiųsti",
     "Upload too large" : "Įkėlimui failas per didelis",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje",

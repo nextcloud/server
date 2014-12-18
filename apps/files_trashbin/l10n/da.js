@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Slet permanent",
     "Error" : "Fejl",
     "restored" : "Gendannet",
-    "Nothing in here. Your trash bin is empty!" : "Intet at se her. Din papirkurv er tom!",
     "Name" : "Navn",
     "Deleted" : "Slettet",
     "Delete" : "Slet"

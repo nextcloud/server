@@ -89,7 +89,6 @@ OC.L10N.register(
     "New folder" : "Nueva carpeta",
     "Folder" : "Carpeta",
     "From link" : "Desde enlace",
-    "Nothing in here. Upload something!" : "No hay nada aquí. ¡Suba algo!",
     "Download" : "Descargar",
     "Upload too large" : "Subida demasido grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",

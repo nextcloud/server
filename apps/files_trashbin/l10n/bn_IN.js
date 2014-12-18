@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "স্থায়ীভাবে মুছে দিন",
     "Error" : "ভুল",
     "restored" : "পুনরুদ্ধার করা হয়েছে",
-    "Nothing in here. Your trash bin is empty!" : "কিছুই নেই এখানে।আপনার ট্র্যাশ বিন খালি!",
     "Name" : "নাম",
     "Deleted" : "মুছে ফেলা হয়েছে",
     "Delete" : "মুছে ফেলা"

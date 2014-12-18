@@ -4,8 +4,6 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Partajarea server-server nu este activată pe acest server",
     "Shared with you" : "Partajat cu tine",
     "Shared with others" : "Partajat cu alții",
-    "No files have been shared with you yet." : "Nu sunt încă fișiere partajate cu tine.",
-    "You haven't shared any files yet." : "Nu ai partajat încă nici un fișier.",
     "Cancel" : "Anulare",
     "Shared by" : "impartite in ",
     "This share is password-protected" : "Această partajare este protejată cu parolă",

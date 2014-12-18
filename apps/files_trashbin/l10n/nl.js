@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Definitief verwijderen",
     "Error" : "Fout",
     "restored" : "hersteld",
-    "Nothing in here. Your trash bin is empty!" : "Niets te vinden. Uw prullenbak is leeg!",
     "Name" : "Naam",
     "Deleted" : "Verwijderd",
     "Delete" : "Verwijder"

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Végleges törlés",
     "Error" : "Hiba",
     "restored" : "visszaállítva",
-    "Nothing in here. Your trash bin is empty!" : "Itt nincs semmi. Az Ön szemetes mappája üres!",
     "Name" : "Név",
     "Deleted" : "Törölve",
     "Delete" : "Törlés"

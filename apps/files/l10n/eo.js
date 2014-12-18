@@ -65,7 +65,6 @@ OC.L10N.register(
     "New folder" : "Nova dosierujo",
     "Folder" : "Dosierujo",
     "From link" : "El ligilo",
-    "Nothing in here. Upload something!" : "Nenio estas ĉi tie. Alŝutu ion!",
     "Download" : "Elŝuti",
     "Upload too large" : "Alŝuto tro larĝa",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",

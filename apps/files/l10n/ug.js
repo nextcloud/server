@@ -31,7 +31,6 @@ OC.L10N.register(
     "Text file" : "تېكىست ھۆججەت",
     "New folder" : "يېڭى قىسقۇچ",
     "Folder" : "قىسقۇچ",
-    "Nothing in here. Upload something!" : "بۇ جايدا ھېچنېمە يوق. Upload something!",
     "Download" : "چۈشۈر",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
 },

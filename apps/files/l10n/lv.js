@@ -49,7 +49,6 @@ OC.L10N.register(
     "New folder" : "Jauna mape",
     "Folder" : "Mape",
     "From link" : "No saites",
-    "Nothing in here. Upload something!" : "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!",
     "Download" : "Lejupielādēt",
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu",

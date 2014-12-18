@@ -45,7 +45,6 @@ OC.L10N.register(
     "New folder" : "โฟลเดอร์ใหม่",
     "Folder" : "แฟ้มเอกสาร",
     "From link" : "จากลิงก์",
-    "Nothing in here. Upload something!" : "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!",
     "Download" : "ดาวน์โหลด",
     "Upload too large" : "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",

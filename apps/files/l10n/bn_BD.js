@@ -60,7 +60,6 @@ OC.L10N.register(
     "New folder" : "নব ফােলডার",
     "Folder" : "ফোল্ডার",
     "From link" : " লিংক থেকে",
-    "Nothing in here. Upload something!" : "এখানে কিছুই নেই। কিছু আপলোড করুন !",
     "Download" : "ডাউনলোড",
     "Upload too large" : "আপলোডের আকারটি অনেক বড়",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "আপনি এই সার্ভারে আপলোড করার জন্য অনুমোদিত ফাইলের সর্বোচ্চ আকারের চেয়ে বৃহদাকার ফাইল আপলোড করার চেষ্টা করছেন ",

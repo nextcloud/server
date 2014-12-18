@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Forigi por ĉiam",
     "Error" : "Eraro",
     "restored" : "restaŭrita",
-    "Nothing in here. Your trash bin is empty!" : "Nenio estas ĉi tie. Via rubujo malplenas!",
     "Name" : "Nomo",
     "Deleted" : "Forigita",
     "Delete" : "Forigi"

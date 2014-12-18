@@ -41,7 +41,6 @@ OC.L10N.register(
     "Text file" : "текстуална датотека",
     "Folder" : "фасцикла",
     "From link" : "Са везе",
-    "Nothing in here. Upload something!" : "Овде нема ничег. Отпремите нешто!",
     "Download" : "Преузми",
     "Upload too large" : "Датотека је превелика",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеке које желите да отпремите прелазе ограничење у величини.",

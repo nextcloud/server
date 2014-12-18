@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Fshi përfundimisht",
     "Error" : "Veprim i gabuar",
     "restored" : "rivendosur",
-    "Nothing in here. Your trash bin is empty!" : "Këtu nuk ka asgjë. Koshi juaj është bosh!",
     "Name" : "Emri",
     "Deleted" : "Eliminuar",
     "Delete" : "Elimino"

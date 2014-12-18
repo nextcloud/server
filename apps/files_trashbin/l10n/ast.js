@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Desaniciar dafechu",
     "Error" : "Fallu",
     "restored" : "recuperóse",
-    "Nothing in here. Your trash bin is empty!" : "Nun hai un res equí. La papelera ta balera!",
     "Name" : "Nome",
     "Deleted" : "Desaniciáu",
     "Delete" : "Desaniciar"

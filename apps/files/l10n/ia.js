@@ -23,7 +23,6 @@ OC.L10N.register(
     "Text file" : "File de texto",
     "New folder" : "Nove dossier",
     "Folder" : "Dossier",
-    "Nothing in here. Upload something!" : "Nihil hic. Incarga alcun cosa!",
     "Download" : "Discargar",
     "Upload too large" : "Incargamento troppo longe"
 },

@@ -57,7 +57,6 @@ OC.L10N.register(
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> El soporte de cURL en PHP nun ta activáu o instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> El soporte de FTP en PHP nun ta activáu o instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Nota:</b> \"%s\" nun ta instaláu. Nun pue montase %s. Pídi-y al alministrador de sistema que lu instale.",
-    "You don't have any external storages" : "Nun tienes almacenamientos esternos",
     "Name" : "Nome",
     "Storage type" : "Triba d'almacenamientu",
     "Scope" : "Ámbitu",

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Delete permanently",
     "Error" : "Error",
     "restored" : "restored",
-    "Nothing in here. Your trash bin is empty!" : "Nothing in here. Your recycle bin is empty!",
     "Name" : "Name",
     "Deleted" : "Deleted",
     "Delete" : "Delete"

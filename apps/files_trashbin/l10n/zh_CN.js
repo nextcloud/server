@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "永久删除",
     "Error" : "错误",
     "restored" : "已恢复",
-    "Nothing in here. Your trash bin is empty!" : "这里没有东西. 你的回收站是空的!",
     "Name" : "名称",
     "Deleted" : "已删除",
     "Delete" : "删除"

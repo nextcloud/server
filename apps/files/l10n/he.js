@@ -47,7 +47,6 @@ OC.L10N.register(
     "New folder" : "תיקייה חדשה",
     "Folder" : "תיקייה",
     "From link" : "מקישור",
-    "Nothing in here. Upload something!" : "אין כאן שום דבר. אולי ברצונך להעלות משהו?",
     "Download" : "הורדה",
     "Upload too large" : "העלאה גדולה מידי",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",

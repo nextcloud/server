@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Poista pysyvästi",
     "Error" : "Virhe",
     "restored" : "palautettu",
-    "Nothing in here. Your trash bin is empty!" : "Tyhjää täynnä! Roskakorissa ei ole mitään.",
     "Name" : "Nimi",
     "Deleted" : "Poistettu",
     "Delete" : "Poista"

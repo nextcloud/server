@@ -56,7 +56,6 @@
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> cURL podpora v PHP není povolena nebo nainstalována. Není možné připojení %s. Prosím požádejte svého správce systému ať ji nainstaluje.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> FTP podpora v PHP není povolena nebo nainstalována. Není možné připojení %s. Prosím požádejte svého správce systému ať ji nainstaluje.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Poznámka:</b> \"%s\" není instalováno. Není možné připojení %s. Prosím požádejte svého správce systému o instalaci.",
-    "You don't have any external storages" : "Nemáte žádná externí úložiště",
     "Name" : "Název",
     "Storage type" : "Typ úložiště",
     "Scope" : "Rozsah",

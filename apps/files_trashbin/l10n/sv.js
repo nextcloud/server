@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Radera permanent",
     "Error" : "Fel",
     "restored" : "återställd",
-    "Nothing in here. Your trash bin is empty!" : "Ingenting här. Din papperskorg är tom!",
     "Name" : "Namn",
     "Deleted" : "Raderad",
     "Delete" : "Radera"

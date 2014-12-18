@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Novo cartafol",
     "Folder" : "Cartafol",
     "From link" : "Desde a ligazón",
-    "Nothing in here. Upload something!" : "Aquí non hai nada. Envíe algo.",
     "Download" : "Descargar",
     "Upload too large" : "Envío grande de máis",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",

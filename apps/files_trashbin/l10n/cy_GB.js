@@ -7,7 +7,6 @@ OC.L10N.register(
     "Restore" : "Adfer",
     "Delete permanently" : "Dileu'n barhaol",
     "Error" : "Gwall",
-    "Nothing in here. Your trash bin is empty!" : "Does dim byd yma. Mae eich bin sbwriel yn wag!",
     "Name" : "Enw",
     "Deleted" : "Wedi dileu",
     "Delete" : "Dileu"

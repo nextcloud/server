@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Нова тека",
     "Folder" : "Тека",
     "From link" : "З посилання",
-    "Nothing in here. Upload something!" : "Тут нічого немає. Відвантажте що-небудь!",
     "Download" : "Завантажити",
     "Upload too large" : "Файл занадто великий",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",

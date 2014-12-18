@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Трајно избришани",
     "Error" : "Грешка",
     "restored" : "повратени",
-    "Nothing in here. Your trash bin is empty!" : "Тука нема ништо. Вашата корпа за отпадоци е празна!",
     "Name" : "Име",
     "Deleted" : "Избришан",
     "Delete" : "Избриши"

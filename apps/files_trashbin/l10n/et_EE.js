@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Kustuta jäädavalt",
     "Error" : "Viga",
     "restored" : "taastatud",
-    "Nothing in here. Your trash bin is empty!" : "Siin pole midagi. Sinu prügikast on tühi!",
     "Name" : "Nimi",
     "Deleted" : "Kustutatud",
     "Delete" : "Kustuta"

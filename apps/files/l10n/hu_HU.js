@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Új mappa",
     "Folder" : "Mappa",
     "From link" : "Feltöltés linkről",
-    "Nothing in here. Upload something!" : "Itt nincs semmi. Töltsön fel valamit!",
     "Download" : "Letöltés",
     "Upload too large" : "A feltöltés túl nagy",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",

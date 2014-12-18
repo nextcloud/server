@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Nueva carpeta",
     "Folder" : "Carpeta",
     "From link" : "Dende enllaz",
-    "Nothing in here. Upload something!" : "Nun hai nada equí. ¡Xubi daqué!",
     "Download" : "Descargar",
     "Upload too large" : "La xuba ye abondo grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los ficheros que tas intentando xubir perpasen el tamañu máximu pa les xubíes de ficheros nesti servidor.",

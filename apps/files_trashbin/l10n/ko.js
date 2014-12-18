@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "영구히 삭제",
     "Error" : "오류",
     "restored" : "복원됨",
-    "Nothing in here. Your trash bin is empty!" : "휴지통이 비어 있습니다!",
     "Name" : "이름",
     "Deleted" : "삭제됨",
     "Delete" : "삭제"

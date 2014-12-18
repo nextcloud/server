@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Yeni klasör",
     "Folder" : "Klasör",
     "From link" : "Bağlantıdan",
-    "Nothing in here. Upload something!" : "Burada hiçbir şey yok. Bir şeyler yükleyin!",
     "Download" : "İndir",
     "Upload too large" : "Yükleme çok büyük",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucudaki azami yükleme boyutunu aşıyor.",

@@ -58,7 +58,6 @@ OC.L10N.register(
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> Die cURL-Unterstützung von PHP ist nicht aktiviert oder installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich zur Installation an Deinen Systemadministrator.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> Die FTP Unterstützung von PHP ist nicht aktiviert oder installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich sich zur Installation an Deinen Systemadministrator.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Hinweis:</b> \"%s\" ist nicht installiert. Das Hinzufügen von %s ist nicht möglich. Bitte wende Dich sich zur Installation an Deinen Systemadministrator.",
-    "You don't have any external storages" : "Du hast noch keinen externen Speicher",
     "Name" : "Name",
     "Storage type" : "Du hast noch keinen externen Speicher",
     "Scope" : "Anwendungsbereich",

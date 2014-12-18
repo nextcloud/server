@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Zmazať  trvalo",
     "Error" : "Chyba",
     "restored" : "obnovené",
-    "Nothing in here. Your trash bin is empty!" : "Žiadny obsah. Kôš je prázdny!",
     "Name" : "Názov",
     "Deleted" : "Zmazané",
     "Delete" : "Zmazať"

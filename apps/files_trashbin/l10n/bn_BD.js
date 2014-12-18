@@ -7,7 +7,6 @@ OC.L10N.register(
     "Restore" : "ফিরিয়ে দাও",
     "Error" : "সমস্যা",
     "restored" : "পূণঃসংরক্ষিত",
-    "Nothing in here. Your trash bin is empty!" : "এখানে কিছু নেই। আপনার ট্র্যাসবিন শুন্য",
     "Name" : "নাম",
     "Deleted" : "মুছে ফেলা",
     "Delete" : "মুছে"

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Kalıcı olarak sil",
     "Error" : "Hata",
     "restored" : "geri yüklendi",
-    "Nothing in here. Your trash bin is empty!" : "Burada hiçbir şey yok. Çöp kutunuz tamamen boş!",
     "Name" : "İsim",
     "Deleted" : "Silinme",
     "Delete" : "Sil"

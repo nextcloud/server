@@ -88,7 +88,6 @@ OC.L10N.register(
     "New folder" : "Ny Mappe",
     "Folder" : "Mappe",
     "From link" : "Fra link",
-    "Nothing in here. Upload something!" : "Her er tomt. Upload noget!",
     "Download" : "Download",
     "Upload too large" : "Upload er for stor",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",

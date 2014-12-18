@@ -6,8 +6,6 @@ OC.L10N.register(
     "Couldn't add remote share" : "Uzaqda olan yayımlanmanı əlavə etmək mümkün olmadı",
     "Shared with you" : "Sizinlə yayımlanan",
     "Shared with others" : "Hər kəsə yayımlanmış",
-    "You haven't shared any files yet." : "Siz hələki heç bir faylı yayımlamamısnız.",
-    "You haven't shared any files by link yet." : "Hələki siz bu link ilə heç bir faylı yayımlamamısıniz.",
     "Remote share" : "Uzaq yayımlanma",
     "Remote share password" : "Uzaq yayımlanma şifrəsi",
     "Cancel" : "Dayandır",

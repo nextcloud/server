@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "מחיקה לצמיתות",
     "Error" : "שגיאה",
     "restored" : "שוחזר",
-    "Nothing in here. Your trash bin is empty!" : "אין כאן שום דבר. סל המיחזור שלך ריק!",
     "Name" : "שם",
     "Deleted" : "נמחק",
     "Delete" : "מחיקה"

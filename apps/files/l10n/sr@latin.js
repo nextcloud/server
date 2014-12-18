@@ -20,7 +20,6 @@ OC.L10N.register(
     "Maximum upload size" : "Maksimalna veličina pošiljke",
     "Save" : "Snimi",
     "Folder" : "Direktorijum",
-    "Nothing in here. Upload something!" : "Ovde nema ničeg. Pošaljite nešto!",
     "Download" : "Preuzmi",
     "Upload too large" : "Pošiljka je prevelika",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fajlovi koje želite da pošaljete prevazilaze ograničenje maksimalne veličine pošiljke na ovom serveru."

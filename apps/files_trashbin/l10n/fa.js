@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "حذف قطعی",
     "Error" : "خطا",
     "restored" : "بازیابی شد",
-    "Nothing in here. Your trash bin is empty!" : "هیچ چیزی اینجا نیست. سطل زباله ی شما خالی است.",
     "Name" : "نام",
     "Deleted" : "حذف شده",
     "Delete" : "حذف"

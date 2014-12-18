@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Xóa vĩnh vễn",
     "Error" : "Lỗi",
     "restored" : "khôi phục",
-    "Nothing in here. Your trash bin is empty!" : "Không có gì ở đây. Thùng rác của bạn rỗng!",
     "Name" : "Tên",
     "Deleted" : "Đã xóa",
     "Delete" : "Xóa"

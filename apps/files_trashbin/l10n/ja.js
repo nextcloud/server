@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "完全に削除する",
     "Error" : "エラー",
     "restored" : "復元済",
-    "Nothing in here. Your trash bin is empty!" : "ここには何もありません。ゴミ箱は空です！",
     "Name" : "名前",
     "Deleted" : "削除日時",
     "Delete" : "削除"

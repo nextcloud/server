@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Изтрий завинаги",
     "Error" : "Грешка",
     "restored" : "възстановено",
-    "Nothing in here. Your trash bin is empty!" : "Няма нищо. Кошчето е празно!",
     "Name" : "Име",
     "Deleted" : "Изтрито",
     "Delete" : "Изтрий"

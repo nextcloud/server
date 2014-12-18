@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "លុប​ជា​អចិន្ត្រៃយ៍",
     "Error" : "កំហុស",
     "restored" : "បាន​ស្ដារ​វិញ",
-    "Nothing in here. Your trash bin is empty!" : "គ្មាន​អ្វី​នៅ​ទីនេះ​ទេ។ ធុង​សំរាម​របស់​អ្នក​គឺ​ទទេ!",
     "Name" : "ឈ្មោះ",
     "Deleted" : "បាន​លុប",
     "Delete" : "លុប"

@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Eliminar permanentemente",
     "Error" : "Error",
     "restored" : "recuperado",
-    "Nothing in here. Your trash bin is empty!" : "No hay nada aquí. ¡Tu papelera esta vacía!",
     "Name" : "Nombre",
     "Deleted" : "Eliminado",
     "Delete" : "Eliminar"

@@ -88,7 +88,6 @@ OC.L10N.register(
     "New folder" : "Nieuwe map",
     "Folder" : "Map",
     "From link" : "Vanaf link",
-    "Nothing in here. Upload something!" : "Niets te zien hier. Upload iets!",
     "Download" : "Downloaden",
     "Upload too large" : "Upload is te groot",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",

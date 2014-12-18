@@ -57,7 +57,6 @@ OC.L10N.register(
     "Save" : "Saxlamaq",
     "New folder" : "Yeni qovluq",
     "Folder" : "Qovluq",
-    "Nothing in here. Upload something!" : "Burda heçnə yoxdur. Nese yükləyin!",
     "Download" : "Yüklə"
 },
 "nplurals=2; plural=(n != 1);");

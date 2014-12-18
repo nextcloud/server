@@ -56,7 +56,6 @@ OC.L10N.register(
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Oharra:</b> :PHPko cURL euskarria ez dago instalatuta edo gaitua. Ezinezko da %s muntatzea. Mesedez eskatu sistema administratzaleari instala dezan. ",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Oharra:</b> :PHPko FTP euskarria ez dago instalatuta edo gaitua. Ezinezko da %s muntatzea. Mesedez eskatu sistema administratzaleari instala dezan. ",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Oharra:</b>\"%s\" euskarria ez dago instalatuta Ezinezko da %s muntatzea. Mesedez eskatu sistema administratzaleari instala dezan. ",
-    "You don't have any external storages" : "Ez duzu kanpoko biltegiratzerik",
     "Name" : "Izena",
     "Storage type" : "Biltegiratze mota",
     "External Storage" : "Kanpoko biltegiratzea",

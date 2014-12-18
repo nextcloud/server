@@ -7,7 +7,6 @@ OC.L10N.register(
     "Restore" : "بحال",
     "Error" : "ایرر",
     "restored" : "بحال شدہ",
-    "Nothing in here. Your trash bin is empty!" : " یہاں کچھ بھی نہیں .آپکی ردی کی ٹوکری خالی ہے.",
     "Name" : "اسم",
     "Deleted" : "حذف شدہ ",
     "Delete" : "حذف کریں"

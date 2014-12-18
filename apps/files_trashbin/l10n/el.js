@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Μόνιμη διαγραφή",
     "Error" : "Σφάλμα",
     "restored" : "επαναφέρθηκαν",
-    "Nothing in here. Your trash bin is empty!" : "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!",
     "Name" : "Όνομα",
     "Deleted" : "Διαγραμμένα",
     "Delete" : "Διαγραφή"

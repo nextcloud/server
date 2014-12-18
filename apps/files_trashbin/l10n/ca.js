@@ -8,7 +8,6 @@ OC.L10N.register(
     "Delete permanently" : "Esborra permanentment",
     "Error" : "Error",
     "restored" : "restaurat",
-    "Nothing in here. Your trash bin is empty!" : "La paperera està buida!",
     "Name" : "Nom",
     "Deleted" : "Eliminat",
     "Delete" : "Esborra"

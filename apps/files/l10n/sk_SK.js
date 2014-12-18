@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Nový priečinok",
     "Folder" : "Priečinok",
     "From link" : "Z odkazu",
-    "Nothing in here. Upload something!" : "Žiadny súbor. Nahrajte niečo!",
     "Download" : "Sťahovanie",
     "Upload too large" : "Nahrávanie je príliš veľké",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",

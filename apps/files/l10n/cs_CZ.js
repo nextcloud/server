@@ -89,7 +89,6 @@ OC.L10N.register(
     "New folder" : "Nová složka",
     "Folder" : "Složka",
     "From link" : "Z odkazu",
-    "Nothing in here. Upload something!" : "Žádný obsah. Nahrajte něco.",
     "Download" : "Stáhnout",
     "Upload too large" : "Odesílaný soubor je příliš velký",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",

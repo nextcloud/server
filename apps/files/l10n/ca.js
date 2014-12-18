@@ -87,7 +87,6 @@ OC.L10N.register(
     "New folder" : "Carpeta nova",
     "Folder" : "Carpeta",
     "From link" : "Des d'enllaç",
-    "Nothing in here. Upload something!" : "Res per aquí. Pugeu alguna cosa!",
     "Download" : "Baixa",
     "Upload too large" : "La pujada és massa gran",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",

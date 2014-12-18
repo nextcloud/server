@@ -57,7 +57,6 @@ OC.L10N.register(
     "<b>Note:</b> The cURL support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Märkus:</b> cURL tugi puudub PHP paigalduses. FTP %s hoidla ühendamine pole võimalik. Palu oma süsteemihalduril paigaldata cURL tugi.",
     "<b>Note:</b> The FTP support in PHP is not enabled or installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Märkus:</b> FTP tugi puudub PHP paigalduses. FTP %s hoidla ühendamine pole võimalik. Palu oma süsteemihalduril paigaldata FTP tugi.",
     "<b>Note:</b> \"%s\" is not installed. Mounting of %s is not possible. Please ask your system administrator to install it." : "<b>Märkus:</b> \"%s\" pole paigaldatud. Hoidla %s ühendamine pole võimalik. Palu oma süsteemihalduril paigaldata vajalik tugi.",
-    "You don't have any external storages" : "Sul pole ühtegi välist andmehoidlat",
     "Name" : "Nimi",
     "Storage type" : "Andmehoidla tüüp",
     "Scope" : "Skoop",

@@ -89,7 +89,6 @@ OC.L10N.register(
     "New folder" : "Uusi kansio",
     "Folder" : "Kansio",
     "From link" : "Linkistä",
-    "Nothing in here. Upload something!" : "Täällä ei ole mitään. Lähetä tänne jotakin!",
     "Download" : "Lataa",
     "Upload too large" : "Lähetettävä tiedosto on liian suuri",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
