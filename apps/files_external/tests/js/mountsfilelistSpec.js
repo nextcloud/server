@@ -144,7 +144,7 @@ describe('OCA.External.FileList tests', function() {
 				'?dir=/mount%20points/smb%20mount'
 			);
 			expect($tr.find('.nametext').text().trim()).toEqual('smb mount');
-			expect($tr.find('.column-scope').text().trim()).toEqual('Personal');
+			expect($tr.find('.column-scope > span').text().trim()).toEqual('Personal');
 			expect($tr.find('.column-backend').text().trim()).toEqual('SMB');
 
 		});

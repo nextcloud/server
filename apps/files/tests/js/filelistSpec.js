@@ -275,7 +275,7 @@ describe('OCA.Files.FileList tests', function() {
 				mtime: -1
 			};
 			var $tr = fileList.add(fileData);
-			expect($tr.find('.date').text()).toEqual('?');
+			expect($tr.find('.date .modified').text()).toEqual('?');
 		});
 		it('adds new file to the end of the list', function() {
 			var $tr;
