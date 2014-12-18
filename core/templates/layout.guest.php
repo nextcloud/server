@@ -32,7 +32,9 @@
 					<header>
 						<div id="header">
 							<div class="logo svg">
-								<h1><?php p($theme->getName()); ?></h1>
+								<h1 class="hidden-visually">
+									<?php p($theme->getName()); ?>
+								</h1>
 							</div>
 							<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 						</div>
