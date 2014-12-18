@@ -95,7 +95,7 @@
 			</div>
 
 			<form class="searchbox" action="#" method="post">
-				<label for="query" class="visually-hidden">
+				<label for="searchbox" class="hidden-visually">
 					<?php p($l->t('Search'));?>
 				</label>
 				<input id="searchbox" class="svg" type="search" name="query"
