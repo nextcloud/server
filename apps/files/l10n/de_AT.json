@@ -7,6 +7,7 @@
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "Speichern",
+    "Settings" : "Einstellungen",
     "Download" : "Herunterladen"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

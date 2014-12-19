@@ -34,6 +34,7 @@
     "Files" : "Tiedostot",
     "All files" : "Kaikki tiedostot",
     "Favorites" : "Suosikit",
+    "Home" : "Koti",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Kohdetta {filename} ei voi lähettää, koska se on joko kansio tai sen koko on 0 tavua",
     "Total file size {size1} exceeds upload limit {size2}" : "Yhteiskoko {size1} ylittää lähetysrajan {size2}",
     "Not enough free space, you are uploading {size1} but only {size2} is left" : "Ei riittävästi vapaata tilaa. Lähetyksesi koko on {size1}, mutta vain {size2} on jäljellä",
@@ -49,6 +50,7 @@
     "Delete" : "Poista",
     "Disconnect storage" : "Katkaise yhteys tallennustilaan",
     "Unshare" : "Peru jakaminen",
+    "Select" : "Valitse",
     "Pending" : "Odottaa",
     "Unable to determine date" : "Päivämäärän määrittäminen epäonnistui",
     "Error moving file." : "Virhe tiedostoa siirrettäessä.",
@@ -79,6 +81,7 @@
     "Maximum upload size" : "Lähetettävän tiedoston suurin sallittu koko",
     "max. possible: " : "suurin mahdollinen:",
     "Save" : "Tallenna",
+    "Settings" : "Asetukset",
     "WebDAV" : "WebDAV",
     "Use this address to <a href=\"%s\" target=\"_blank\">access your Files via WebDAV</a>" : "Käytä tätä osoitetta <a href=\"%s\" target=\"_blank\">käyttääksesi tiedostojasi WebDAVin kautta</a>",
     "New" : "Uusi",
@@ -87,10 +90,16 @@
     "New folder" : "Uusi kansio",
     "Folder" : "Kansio",
     "From link" : "Linkistä",
+    "Cancel upload" : "Peru lähetys",
+    "No files yet" : "EI yhtäkään tiedostoa vielä",
+    "Upload some content or sync with your devices!" : "Lähetä tiedostoja tai synkronoi sisältö laitteidesi kanssa!",
+    "Select all" : "Valitse kaikki",
     "Download" : "Lataa",
     "Upload too large" : "Lähetettävä tiedosto on liian suuri",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
     "Files are being scanned, please wait." : "Tiedostoja tarkistetaan, odota hetki.",
-    "Currently scanning" : "Tutkitaan parhaillaan"
+    "Currently scanning" : "Tutkitaan parhaillaan",
+    "No favorites" : "Ei suosikkeja",
+    "Files and folders you mark as favorite will show up here" : "Suosikeiksi merkitsemäsi tiedostot ja kansiot näkyvät täällä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

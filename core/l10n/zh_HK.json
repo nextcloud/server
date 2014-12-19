@@ -35,6 +35,7 @@
     "Shared with you by {owner}" : "{owner}與你的分享",
     "Share link" : "分享連結",
     "Password protect" : "密碼保護",
+    "Password" : "密碼",
     "Send" : "傳送",
     "Set expiration date" : "設定分享期限",
     "Expiration date" : "分享期限",
@@ -61,12 +62,12 @@
     "Help" : "幫助",
     "Create an <strong>admin account</strong>" : "建立管理員帳戶",
     "Username" : "用戶名稱",
-    "Password" : "密碼",
     "Configure the database" : "設定資料庫",
     "Database user" : "資料庫帳戶",
     "Database password" : "資料庫密碼",
     "Database name" : "資料庫名稱",
     "Log out" : "登出",
+    "Search" : "尋找",
     "remember" : "記住",
     "Log in" : "登入"
 },"pluralForm" :"nplurals=1; plural=0;"

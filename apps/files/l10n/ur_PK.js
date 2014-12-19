@@ -10,6 +10,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "حفظ",
+    "Settings" : "ترتیبات",
     "Download" : "ڈاؤن لوڈ،"
 },
 "nplurals=2; plural=(n != 1);");

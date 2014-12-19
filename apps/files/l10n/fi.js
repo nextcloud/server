@@ -9,6 +9,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Favorite" : "Suosikit",
     "Save" : "Tallenna",
+    "Settings" : "Asetukset",
     "New folder" : "Luo kansio",
     "Folder" : "Kansio"
 },

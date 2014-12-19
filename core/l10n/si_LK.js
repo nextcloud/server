@@ -31,6 +31,7 @@ OC.L10N.register(
     "Share" : "බෙදා හදා ගන්න",
     "Error" : "දෝෂයක්",
     "Password protect" : "මුර පදයකින් ආරක්ශාකරන්න",
+    "Password" : "මුර පදය",
     "Set expiration date" : "කල් ඉකුත් විමේ දිනය දමන්න",
     "Expiration date" : "කල් ඉකුත් විමේ දිනය",
     "group" : "කණ්ඩායම",
@@ -57,7 +58,6 @@ OC.L10N.register(
     "Access forbidden" : "ඇතුල් වීම තහනම්",
     "Security Warning" : "ආරක්ෂක නිවේදනයක්",
     "Username" : "පරිශීලක නම",
-    "Password" : "මුර පදය",
     "Data folder" : "දත්ත ෆෝල්ඩරය",
     "Configure the database" : "දත්ත සමුදාය හැඩගැසීම",
     "Database user" : "දත්තගබඩා භාවිතාකරු",
@@ -66,6 +66,7 @@ OC.L10N.register(
     "Database host" : "දත්තගබඩා සේවාදායකයා",
     "Finish setup" : "ස්ථාපනය කිරීම අවසන් කරන්න",
     "Log out" : "නික්මීම",
+    "Search" : "සොයන්න",
     "remember" : "මතක තබාගන්න",
     "Log in" : "ප්‍රවේශවන්න"
 },

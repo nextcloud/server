@@ -6,6 +6,8 @@
     "Delete permanently" : "Supprimer de façon définitive",
     "Error" : "Erreur",
     "restored" : "restauré",
+    "No deleted files" : "Aucun fichier supprimé",
+    "You will be able to recover deleted files from here" : "Vous pourrez restaurer vos fichiers supprimés ici",
     "Name" : "Nom",
     "Deleted" : "Effacé",
     "Delete" : "Supprimer"

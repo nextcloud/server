@@ -39,6 +39,7 @@ OC.L10N.register(
     "Shared with you and the group {group} by {owner}" : "გაზიარდა თქვენთვის და ჯგუფისთვის {group}, {owner}–ის მიერ",
     "Shared with you by {owner}" : "გაზიარდა თქვენთვის {owner}–ის მიერ",
     "Password protect" : "პაროლით დაცვა",
+    "Password" : "პაროლი",
     "Email link to person" : "ლინკის პიროვნების იმეილზე გაგზავნა",
     "Send" : "გაგზავნა",
     "Set expiration date" : "მიუთითე ვადის გასვლის დრო",
@@ -77,7 +78,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს.",
     "Create an <strong>admin account</strong>" : "შექმენი <strong>ადმინ ექაუნტი</strong>",
     "Username" : "მომხმარებლის სახელი",
-    "Password" : "პაროლი",
     "Data folder" : "მონაცემთა საქაღალდე",
     "Configure the database" : "მონაცემთა ბაზის კონფიგურირება",
     "Database user" : "მონაცემთა ბაზის მომხმარებელი",
@@ -87,6 +87,7 @@ OC.L10N.register(
     "Database host" : "მონაცემთა ბაზის ჰოსტი",
     "Finish setup" : "კონფიგურაციის დასრულება",
     "Log out" : "გამოსვლა",
+    "Search" : "ძებნა",
     "remember" : "დამახსოვრება",
     "Log in" : "შესვლა",
     "Alternative Logins" : "ალტერნატიული Login–ი"

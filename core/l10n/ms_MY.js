@@ -29,6 +29,7 @@ OC.L10N.register(
     "Cancel" : "Batal",
     "Share" : "Kongsi",
     "Error" : "Ralat",
+    "Password" : "Kata laluan",
     "group" : "kumpulan",
     "can share" : "boleh berkongsi",
     "can edit" : "boleh mengubah",
@@ -48,7 +49,6 @@ OC.L10N.register(
     "Security Warning" : "Amaran keselamatan",
     "Create an <strong>admin account</strong>" : "buat <strong>akaun admin</strong>",
     "Username" : "Nama pengguna",
-    "Password" : "Kata laluan",
     "Data folder" : "Fail data",
     "Configure the database" : "Konfigurasi pangkalan data",
     "Database user" : "Nama pengguna pangkalan data",
@@ -57,6 +57,7 @@ OC.L10N.register(
     "Database host" : "Hos pangkalan data",
     "Finish setup" : "Setup selesai",
     "Log out" : "Log keluar",
+    "Search" : "Cari",
     "remember" : "ingat",
     "Log in" : "Log masuk"
 },

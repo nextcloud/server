@@ -51,6 +51,7 @@ OC.L10N.register(
     "Shared with you by {owner}" : "{owner} আপনার সাথে ভাগাভাগি করেছেন",
     "Share link" : "লিংক ভাগাভাগি করেন",
     "Password protect" : "কূটশব্দ সুরক্ষিত",
+    "Password" : "কূটশব্দ",
     "Email link to person" : "ব্যক্তির সাথে ই-মেইল যুক্ত কর",
     "Send" : "পাঠাও",
     "Set expiration date" : "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করুন",
@@ -97,7 +98,6 @@ OC.L10N.register(
     "Security Warning" : "নিরাপত্তাজনিত সতর্কতা",
     "Create an <strong>admin account</strong>" : "<strong>প্রশাসক একাউন্ট</strong> তৈরী করুন",
     "Username" : "ব্যবহারকারী",
-    "Password" : "কূটশব্দ",
     "Data folder" : "ডাটা ফোল্ডার ",
     "Configure the database" : "ডাটাবেচ কনফিগার করুন",
     "Database user" : "ডাটাবেজ ব্যবহারকারী",
@@ -108,6 +108,7 @@ OC.L10N.register(
     "Finish setup" : "সেটআপ সুসম্পন্ন কর",
     "Finishing …" : "সম্পন্ন হচ্ছে....",
     "Log out" : "প্রস্থান",
+    "Search" : "অনুসন্ধান",
     "remember" : "মনে রাখ",
     "Log in" : "প্রবেশ",
     "Alternative Logins" : "বিকল্প লগইন"

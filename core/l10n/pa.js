@@ -30,12 +30,13 @@ OC.L10N.register(
     "Cancel" : "ਰੱਦ ਕਰੋ",
     "Share" : "ਸਾਂਝਾ ਕਰੋ",
     "Error" : "ਗਲ",
+    "Password" : "ਪਾਸਵਰ",
     "Send" : "ਭੇਜੋ",
     "Warning" : "ਚੇਤਾਵਨੀ",
     "Delete" : "ਹਟਾਓ",
     "_download %n file_::_download %n files_" : ["",""],
     "Security Warning" : "ਸੁਰੱਖਿਆ ਚੇਤਾਵਨੀ",
     "Username" : "ਯੂਜ਼ਰ-ਨਾਂ",
-    "Password" : "ਪਾਸਵਰ"
+    "Search" : "ਖੋਜ"
 },
 "nplurals=2; plural=(n != 1);");

@@ -24,6 +24,7 @@
     "Continue" : "Weiter",
     "Share" : "Freigeben",
     "Error" : "Fehler",
+    "Password" : "Passwort",
     "group" : "Gruppe",
     "Unshare" : "Teilung zurücknehmen",
     "can share" : "Kann teilen",
@@ -31,7 +32,6 @@
     "Delete" : "Löschen",
     "_download %n file_::_download %n files_" : ["",""],
     "Personal" : "Persönlich",
-    "Help" : "Hilfe",
-    "Password" : "Passwort"
+    "Help" : "Hilfe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

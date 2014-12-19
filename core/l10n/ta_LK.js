@@ -36,6 +36,7 @@ OC.L10N.register(
     "Shared with you and the group {group} by {owner}" : "உங்களுடனும் குழுவுக்கிடையிலும் {குழு} பகிரப்பட்டுள்ளது {உரிமையாளர்}",
     "Shared with you by {owner}" : "உங்களுடன் பகிரப்பட்டுள்ளது {உரிமையாளர்}",
     "Password protect" : "கடவுச்சொல்லை பாதுகாத்தல்",
+    "Password" : "கடவுச்சொல்",
     "Set expiration date" : "காலாவதி தேதியை குறிப்பிடுக",
     "Expiration date" : "காலவதியாகும் திகதி",
     "group" : "குழு",
@@ -67,7 +68,6 @@ OC.L10N.register(
     "Security Warning" : "பாதுகாப்பு எச்சரிக்கை",
     "Create an <strong>admin account</strong>" : "<strong> நிர்வாக கணக்கொன்றை </strong> உருவாக்குக",
     "Username" : "பயனாளர் பெயர்",
-    "Password" : "கடவுச்சொல்",
     "Data folder" : "தரவு கோப்புறை",
     "Configure the database" : "தரவுத்தளத்தை தகவமைக்க",
     "Database user" : "தரவுத்தள பயனாளர்",
@@ -77,6 +77,7 @@ OC.L10N.register(
     "Database host" : "தரவுத்தள ஓம்புனர்",
     "Finish setup" : "அமைப்பை முடிக்க",
     "Log out" : "விடுபதிகை செய்க",
+    "Search" : "தேடுதல்",
     "remember" : "ஞாபகப்படுத்துக",
     "Log in" : "புகுபதிகை"
 },

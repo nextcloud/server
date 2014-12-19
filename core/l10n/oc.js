@@ -34,6 +34,7 @@ OC.L10N.register(
     "Error while unsharing" : "Error al non partejar",
     "Error while changing permissions" : "Error al cambiar permissions",
     "Password protect" : "Parat per senhal",
+    "Password" : "Senhal",
     "Set expiration date" : "Met la data d'expiracion",
     "Expiration date" : "Data d'expiracion",
     "group" : "grop",
@@ -62,7 +63,6 @@ OC.L10N.register(
     "Security Warning" : "Avertiment de securitat",
     "Create an <strong>admin account</strong>" : "Crea un <strong>compte admin</strong>",
     "Username" : "Non d'usancièr",
-    "Password" : "Senhal",
     "Data folder" : "Dorsièr de donadas",
     "Configure the database" : "Configura la basa de donadas",
     "Database user" : "Usancièr de la basa de donadas",
@@ -72,6 +72,7 @@ OC.L10N.register(
     "Database host" : "Òste de basa de donadas",
     "Finish setup" : "Configuracion acabada",
     "Log out" : "Sortida",
+    "Search" : "Cèrca",
     "remember" : "bremba-te",
     "Log in" : "Dintrada"
 },

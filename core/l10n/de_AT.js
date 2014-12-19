@@ -26,6 +26,7 @@ OC.L10N.register(
     "Continue" : "Weiter",
     "Share" : "Freigeben",
     "Error" : "Fehler",
+    "Password" : "Passwort",
     "group" : "Gruppe",
     "Unshare" : "Teilung zurücknehmen",
     "can share" : "Kann teilen",
@@ -33,7 +34,6 @@ OC.L10N.register(
     "Delete" : "Löschen",
     "_download %n file_::_download %n files_" : ["",""],
     "Personal" : "Persönlich",
-    "Help" : "Hilfe",
-    "Password" : "Passwort"
+    "Help" : "Hilfe"
 },
 "nplurals=2; plural=(n != 1);");

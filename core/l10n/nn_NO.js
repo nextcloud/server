@@ -62,6 +62,7 @@ OC.L10N.register(
     "Shared with you by {owner}" : "Delt med deg av {owner}",
     "Share link" : "Del lenkje",
     "Password protect" : "Passordvern",
+    "Password" : "Passord",
     "Choose a password for the public link" : "Vel eit passord for den offentlege lenkja",
     "Allow Public Upload" : "Tillat offentleg opplasting",
     "Email link to person" : "Send lenkja over e-post",
@@ -106,7 +107,6 @@ OC.L10N.register(
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Ver venleg og les <a href=\"%s\" target=\"_blank\">dokumentasjonen</a> for meir informasjon om korleis du konfigurerer tenaren din.",
     "Create an <strong>admin account</strong>" : "Lag ein <strong>admin-konto</strong>",
     "Username" : "Brukarnamn",
-    "Password" : "Passord",
     "Data folder" : "Datamappe",
     "Configure the database" : "Set opp databasen",
     "Database user" : "Databasebrukar",
@@ -117,6 +117,7 @@ OC.L10N.register(
     "Finish setup" : "Fullfør oppsettet",
     "%s is available. Get more information on how to update." : "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer.",
     "Log out" : "Logg ut",
+    "Search" : "Søk",
     "remember" : "hugs",
     "Log in" : "Logg inn",
     "Alternative Logins" : "Alternative innloggingar"

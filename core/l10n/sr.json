@@ -35,6 +35,7 @@
     "Shared with you and the group {group} by {owner}" : "Дељено са вама и са групом {group}. Поделио {owner}.",
     "Shared with you by {owner}" : "Поделио са вама {owner}",
     "Password protect" : "Заштићено лозинком",
+    "Password" : "Лозинка",
     "Send" : "Пошаљи",
     "Set expiration date" : "Постави датум истека",
     "Expiration date" : "Датум истека",
@@ -69,7 +70,6 @@
     "Security Warning" : "Сигурносно упозорење",
     "Create an <strong>admin account</strong>" : "Направи <strong>административни налог</strong>",
     "Username" : "Корисничко име",
-    "Password" : "Лозинка",
     "Data folder" : "Фацикла података",
     "Configure the database" : "Подешавање базе",
     "Database user" : "Корисник базе",
@@ -79,6 +79,7 @@
     "Database host" : "Домаћин базе",
     "Finish setup" : "Заврши подешавање",
     "Log out" : "Одјава",
+    "Search" : "Претражи",
     "remember" : "упамти",
     "Log in" : "Пријава"
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

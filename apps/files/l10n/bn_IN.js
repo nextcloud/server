@@ -24,6 +24,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "সেভ",
+    "Settings" : "সেটিংস",
     "New folder" : "নতুন ফোল্ডার",
     "Folder" : "ফোল্ডার",
     "Download" : "ডাউনলোড করুন"

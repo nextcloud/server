@@ -7,6 +7,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "सहेजें",
+    "Settings" : "सेटिंग्स",
     "New folder" : "नया फ़ोल्डर"
 },
 "nplurals=2; plural=(n != 1);");

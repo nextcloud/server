@@ -9,6 +9,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "భద్రపరచు",
+    "Settings" : "అమరికలు",
     "New folder" : "కొత్త సంచయం",
     "Folder" : "సంచయం"
 },

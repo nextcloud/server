@@ -9,12 +9,12 @@ OC.L10N.register(
     "Cancel" : "Peruuta",
     "Error" : "Virhe",
     "Share link" : "Jaa linkki",
+    "Password" : "Salasana",
     "Delete" : "Poista",
     "Add" : "Lisää",
     "_download %n file_::_download %n files_" : ["",""],
     "Help" : "Apua",
     "Username" : "Käyttäjätunnus",
-    "Password" : "Salasana",
     "Log in" : "Kirjaudu sisään"
 },
 "nplurals=2; plural=(n != 1);");

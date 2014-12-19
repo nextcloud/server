@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Definitief verwijderen",
     "Error" : "Fout",
     "restored" : "hersteld",
+    "No deleted files" : "Geen verwijderde bestanden",
+    "You will be able to recover deleted files from here" : "U kunt verwijderde bestanden hier vandaan weer terugzetten",
     "Name" : "Naam",
     "Deleted" : "Verwijderd",
     "Delete" : "Verwijder"

@@ -8,6 +8,7 @@
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "حفظ",
+    "Settings" : "ترتیبات",
     "Download" : "ڈاؤن لوڈ،"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -53,8 +53,10 @@
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "Saxlamaq",
+    "Settings" : "Quraşdırmalar",
     "New folder" : "Yeni qovluq",
     "Folder" : "Qovluq",
+    "Cancel upload" : "Yüklənməni dayandır",
     "Download" : "Yüklə"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

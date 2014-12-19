@@ -30,6 +30,7 @@ OC.L10N.register(
     "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." : "سىزنىڭ تور مۇلازىمېتىرىڭىز ھۆججەت قەدەمداشلاشقا يول قويىدىغان قىلىپ توغرا تەڭشەلمەپتۇ، چۈنكى WebDAV نىڭ ئېغىزى بۇزۇلغاندەك تۇرىدۇ.",
     "Share" : "ھەمبەھىر",
     "Error" : "خاتالىق",
+    "Password" : "ئىم",
     "Send" : "يوللا",
     "group" : "گۇرۇپپا",
     "Unshare" : "ھەمبەھىرلىمە",
@@ -45,8 +46,8 @@ OC.L10N.register(
     "Help" : "ياردەم",
     "Security Warning" : "بىخەتەرلىك ئاگاھلاندۇرۇش",
     "Username" : "ئىشلەتكۈچى ئاتى",
-    "Password" : "ئىم",
     "Finish setup" : "تەڭشەك تامام",
-    "Log out" : "تىزىمدىن چىق"
+    "Log out" : "تىزىمدىن چىق",
+    "Search" : "ئىزدە"
 },
 "nplurals=1; plural=0;");

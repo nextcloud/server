@@ -55,6 +55,7 @@ OC.L10N.register(
     "Shared with you and the group {group} by {owner}" : "{owner} dalījās ar jums un grupu {group}",
     "Shared with you by {owner}" : "{owner} dalījās ar jums",
     "Password protect" : "Aizsargāt ar paroli",
+    "Password" : "Parole",
     "Allow Public Upload" : "Ļaut publisko augšupielādi.",
     "Email link to person" : "Sūtīt saiti personai pa e-pastu",
     "Send" : "Sūtīt",
@@ -98,7 +99,6 @@ OC.L10N.register(
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "Vairāk informācijai kā konfigurēt serveri, lūdzu skatiet <a href=\"%s\" target=\"_blank\">dokumentāciju</a>.",
     "Create an <strong>admin account</strong>" : "Izveidot <strong>administratora kontu</strong>",
     "Username" : "Lietotājvārds",
-    "Password" : "Parole",
     "Data folder" : "Datu mape",
     "Configure the database" : "Konfigurēt datubāzi",
     "Database user" : "Datubāzes lietotājs",
@@ -109,6 +109,7 @@ OC.L10N.register(
     "Finish setup" : "Pabeigt iestatīšanu",
     "%s is available. Get more information on how to update." : "%s ir pieejams. Uzziniet vairāk kā atjaunināt.",
     "Log out" : "Izrakstīties",
+    "Search" : "Meklēt",
     "remember" : "atcerēties",
     "Log in" : "Ierakstīties",
     "Alternative Logins" : "Alternatīvās pieteikšanās"

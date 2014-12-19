@@ -48,6 +48,7 @@ OC.L10N.register(
     "Shared with you by {owner}" : "شورك معك من قبل {owner}",
     "Share link" : "شارك الرابط",
     "Password protect" : "حماية كلمة السر",
+    "Password" : "كلمة المرور",
     "Allow Public Upload" : "اسمح بالرفع للعامة",
     "Email link to person" : "ارسل الرابط بالبريد الى صديق",
     "Send" : "أرسل",
@@ -91,7 +92,6 @@ OC.L10N.register(
     "For information how to properly configure your server, please see the <a href=\"%s\" target=\"_blank\">documentation</a>." : "لمزيد من المعلومات عن كيفية إعداد خادمك، يرجى الاطلاع على <a href=\"%s\" target=\"_blank\">صفحة المساعدة</a>.",
     "Create an <strong>admin account</strong>" : "أضف </strong>مستخدم رئيسي <strong>",
     "Username" : "إسم المستخدم",
-    "Password" : "كلمة المرور",
     "Data folder" : "مجلد المعلومات",
     "Configure the database" : "أسس قاعدة البيانات",
     "Database user" : "مستخدم قاعدة البيانات",
@@ -101,6 +101,7 @@ OC.L10N.register(
     "Database host" : "خادم قاعدة البيانات",
     "Finish setup" : "انهاء التعديلات",
     "Log out" : "الخروج",
+    "Search" : "البحث",
     "remember" : "تذكر",
     "Log in" : "أدخل",
     "Alternative Logins" : "اسماء دخول بديلة"

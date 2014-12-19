@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Endgültig löschen",
     "Error" : "Fehler",
     "restored" : "Wiederhergestellt",
+    "No deleted files" : "Keine gelöschten Dateien",
+    "You will be able to recover deleted files from here" : "Du kannst hier gelöschte Dateien wiederherstellen",
     "Name" : "Name",
     "Deleted" : "gelöscht",
     "Delete" : "Löschen"

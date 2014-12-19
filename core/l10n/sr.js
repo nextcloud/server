@@ -37,6 +37,7 @@ OC.L10N.register(
     "Shared with you and the group {group} by {owner}" : "Дељено са вама и са групом {group}. Поделио {owner}.",
     "Shared with you by {owner}" : "Поделио са вама {owner}",
     "Password protect" : "Заштићено лозинком",
+    "Password" : "Лозинка",
     "Send" : "Пошаљи",
     "Set expiration date" : "Постави датум истека",
     "Expiration date" : "Датум истека",
@@ -71,7 +72,6 @@ OC.L10N.register(
     "Security Warning" : "Сигурносно упозорење",
     "Create an <strong>admin account</strong>" : "Направи <strong>административни налог</strong>",
     "Username" : "Корисничко име",
-    "Password" : "Лозинка",
     "Data folder" : "Фацикла података",
     "Configure the database" : "Подешавање базе",
     "Database user" : "Корисник базе",
@@ -81,6 +81,7 @@ OC.L10N.register(
     "Database host" : "Домаћин базе",
     "Finish setup" : "Заврши подешавање",
     "Log out" : "Одјава",
+    "Search" : "Претражи",
     "remember" : "упамти",
     "Log in" : "Пријава"
 },

@@ -36,6 +36,7 @@
     "Shared with you and the group {group} by {owner}" : "ได้แชร์ให้กับคุณ และกลุ่ม {group} โดย {owner}",
     "Shared with you by {owner}" : "ถูกแชร์ให้กับคุณโดย {owner}",
     "Password protect" : "ใส่รหัสผ่านไว้",
+    "Password" : "รหัสผ่าน",
     "Email link to person" : "ส่งลิงก์ให้ทางอีเมล",
     "Send" : "ส่ง",
     "Set expiration date" : "กำหนดวันที่หมดอายุ",
@@ -73,7 +74,6 @@
     "Security Warning" : "คำเตือนเกี่ยวกับความปลอดภัย",
     "Create an <strong>admin account</strong>" : "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>",
     "Username" : "ชื่อผู้ใช้งาน",
-    "Password" : "รหัสผ่าน",
     "Data folder" : "โฟลเดอร์เก็บข้อมูล",
     "Configure the database" : "กำหนดค่าฐานข้อมูล",
     "Database user" : "ชื่อผู้ใช้งานฐานข้อมูล",
@@ -83,6 +83,7 @@
     "Database host" : "Database host",
     "Finish setup" : "ติดตั้งเรียบร้อยแล้ว",
     "Log out" : "ออกจากระบบ",
+    "Search" : "ค้นหา",
     "remember" : "จำรหัสผ่าน",
     "Log in" : "เข้าสู่ระบบ"
 },"pluralForm" :"nplurals=1; plural=0;"

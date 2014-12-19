@@ -35,6 +35,7 @@ OC.L10N.register(
     "Error while sharing" : "Ocurrió un error mientras compartía",
     "Error while unsharing" : "Ocurrió un error mientras dejaba de compartir",
     "Error while changing permissions" : "Ocurrió un error mientras se cambiaban los permisos",
+    "Password" : "Clave",
     "The object type is not specified." : "El tipo de objeto no está especificado.",
     "_download %n file_::_download %n files_" : ["",""],
     "Personal" : "Personal",
@@ -42,7 +43,6 @@ OC.L10N.register(
     "Admin" : "Administración",
     "Help" : "Ayuda",
     "Username" : "Usuario",
-    "Password" : "Clave",
     "You are accessing the server from an untrusted domain." : "Usted está accediendo al servidor desde un dominio no confiable.",
     "Please contact your administrator. If you are an administrator of this instance, configure the \"trusted_domain\" setting in config/config.php. An example configuration is provided in config/config.sample.php." : "Por favor contacte con su administrador. Si usted es el administrador de esta instancia, configure la opción \"trusted_domain\" en \"config/config.php\". Un ejemplo de la configuración está disponible en config/config.sample.php"
 },

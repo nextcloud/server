@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Trvale odstranit",
     "Error" : "Chyba",
     "restored" : "obnoveno",
+    "No deleted files" : "Žádné smazané soubory",
+    "You will be able to recover deleted files from here" : "Odtud budete moci obnovovat odstraněné soubory",
     "Name" : "Název",
     "Deleted" : "Smazáno",
     "Delete" : "Smazat"

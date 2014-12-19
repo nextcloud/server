@@ -55,8 +55,10 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Save" : "Saxlamaq",
+    "Settings" : "Quraşdırmalar",
     "New folder" : "Yeni qovluq",
     "Folder" : "Qovluq",
+    "Cancel upload" : "Yüklənməni dayandır",
     "Download" : "Yüklə"
 },
 "nplurals=2; plural=(n != 1);");

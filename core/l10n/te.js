@@ -28,6 +28,7 @@ OC.L10N.register(
     "Cancel" : "రద్దుచేయి",
     "Continue" : "కొనసాగించు",
     "Error" : "పొరపాటు",
+    "Password" : "సంకేతపదం",
     "Send" : "పంపించు",
     "Expiration date" : "కాలం చెల్లు తేదీ",
     "delete" : "తొలగించు",
@@ -40,7 +41,6 @@ OC.L10N.register(
     "Users" : "వాడుకరులు",
     "Help" : "సహాయం",
     "Username" : "వాడుకరి పేరు",
-    "Password" : "సంకేతపదం",
     "Log out" : "నిష్క్రమించు"
 },
 "nplurals=2; plural=(n != 1);");

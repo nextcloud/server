@@ -40,6 +40,7 @@ OC.L10N.register(
     "Shared with you by {owner}" : "שותף אתך על ידי {owner}",
     "Share link" : "קישור לשיתוף",
     "Password protect" : "הגנה בססמה",
+    "Password" : "סיסמא",
     "Email link to person" : "שליחת קישור בדוא״ל למשתמש",
     "Send" : "שליחה",
     "Set expiration date" : "הגדרת תאריך תפוגה",
@@ -80,7 +81,6 @@ OC.L10N.register(
     "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." : "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד.",
     "Create an <strong>admin account</strong>" : "יצירת <strong>חשבון מנהל</strong>",
     "Username" : "שם משתמש",
-    "Password" : "סיסמא",
     "Data folder" : "תיקיית נתונים",
     "Configure the database" : "הגדרת מסד הנתונים",
     "Database user" : "שם משתמש במסד הנתונים",
@@ -91,6 +91,7 @@ OC.L10N.register(
     "Finish setup" : "סיום התקנה",
     "%s is available. Get more information on how to update." : "%s זמינה להורדה. ניתן ללחוץ כדי לקבל מידע נוסף כיצד לעדכן.",
     "Log out" : "התנתקות",
+    "Search" : "חיפוש",
     "remember" : "שמירת הססמה",
     "Log in" : "כניסה",
     "Alternative Logins" : "כניסות אלטרנטיביות"
