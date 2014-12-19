@@ -8,10 +8,11 @@
  * See the COPYING-README file.
  */
 
-namespace OC\Connector\Sabre;
+namespace Test\Connector\Sabre;
 
 use OCP\IUserManager;
 use OCP\IConfig;
+use OC\Connector\Sabre\Principal;
 
 class Test_Principal extends \Test\TestCase {
 	/** @var IUserManager */
