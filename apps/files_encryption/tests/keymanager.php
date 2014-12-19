@@ -84,6 +84,24 @@ class Keymanager extends TestCase {
 		parent::tearDownAfterClass();
 	}
 
+	function testKeyCacheUpdate() {
+		$testUser = 'testKeyCacheUpdate';
+		\OCA\Files_Encryption\Keymanager::setPublicKey('oldKey', $testUser);
+
+		$this->assertSame('oldKey',
+				\OCA\Files_Encryption\Keymanager::getPublicKey($this->view, $testUser));
+
+		// update key
+		\OCA\Files_Encryption\Keymanager::setPublicKey('newKey', $testUser);
+
+		$this->assertSame('newKey',
+				\OCA\Files_Encryption\Keymanager::getPublicKey($this->view, $testUser));
+
+		// cleanup
+		\OCA\Files_Encryption\Keymanager::deletePublicKey($this->view, $testUser);
+
+	}
+
 	/**
 	 * @medium
 	 */
@@ -306,13 +324,14 @@ class Keymanager extends TestCase {
 		$this->view->file_put_contents('/' . self::TEST_USER . '/files/folder1/existingFile.txt', 'data');
 
 		// create folder structure for some dummy share key files
-		$this->view->mkdir('/' . self::TEST_USER . '/files_encryption/share-keys/folder1');
+		$this->view->mkdir('/' . self::TEST_USER . '/files_encryption/keys/folder1');
+		$this->view->mkdir('/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt');
 
 		// create some dummy share keys
-		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.txt.user1.shareKey', 'data');
-		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.txt.user2.shareKey', 'data');
-		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.txt.user3.shareKey', 'data');
-		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.txt.' . self::TEST_USER . '.shareKey', 'data');
+		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt/user1.shareKey', 'data');
+		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt/user2.shareKey', 'data');
+		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt/user3.shareKey', 'data');
+		$this->view->file_put_contents('/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt/' . self::TEST_USER . '.shareKey', 'data');
 
 		// recursive delete share keys from user1 and user2
 		\OCA\Files_Encryption\Keymanager::delShareKey($this->view,
@@ -324,15 +343,15 @@ class Keymanager extends TestCase {
 
 		// check if share keys from user1 and user2 are deleted
 		$this->assertFalse($this->view->file_exists(
-			'/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.user1.shareKey'));
+			'/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile/user1.shareKey'));
 		$this->assertFalse($this->view->file_exists(
-				'/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.user2.shareKey'));
+				'/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile/user2.shareKey'));
 
 		// check if share keys for user3 and owner
 		$this->assertTrue($this->view->file_exists(
-				'/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.txt.' . self::TEST_USER . '.shareKey'));
+				'/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt/' . self::TEST_USER . '.shareKey'));
 		$this->assertTrue($this->view->file_exists(
-				'/' . self::TEST_USER . '/files_encryption/share-keys/folder1/existingFile.txt.user3.shareKey'));
+				'/' . self::TEST_USER . '/files_encryption/keys/folder1/existingFile.txt/user3.shareKey'));
 		// cleanup
 		$this->view->deleteAll('/' . self::TEST_USER . '/files/folder1');
 

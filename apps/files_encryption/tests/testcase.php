@@ -79,4 +79,18 @@ abstract class TestCase extends \Test\TestCase {
 
 		parent::tearDownAfterClass();
 	}
+
+	protected function tearDown() {
+		parent::tearDown();
+		$this->resetKeyCache();
+	}
+
+	protected function resetKeyCache() {
+		// reset key cache for every testrun
+		$keyCache = new \ReflectionProperty('\OCA\Files_Encryption\Keymanager', 'key_cache');
+		$keyCache->setAccessible(true);
+		$keyCache->setValue(array());
+		$keyCache->setAccessible(false);
+	}
+
 }

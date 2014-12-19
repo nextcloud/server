@@ -445,6 +445,9 @@ class Util extends TestCase {
 		$this->view->rename($this->userId . '/files_encryption/keys/' . $file1 . '/fileKey',
 				$this->userId . '/files_encryption/keys/' . $file1 . '/fileKey.moved');
 
+		// need to reset key cache that we don't use the cached key
+		$this->resetKeyCache();
+
 		// decrypt all encrypted files
 		$result = $util->decryptAll();
 

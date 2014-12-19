@@ -35,6 +35,8 @@ class Keymanager {
 	private static $encryption_base_dir = '/files_encryption';
 	private static $public_key_dir = '/files_encryption/public_keys';
 
+	private static $key_cache = array(); // cache keys
+
 	/**
 	 * read key from hard disk
 	 *
@@ -42,15 +44,24 @@ class Keymanager {
 	 * @return string|bool either the key or false
 	 */
 	private static function getKey($path, $view) {
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
 
 		$key = false;
-		if ($view->file_exists($path)) {
-			$key = $view->file_get_contents($path);
-		}
 
-		\OC_FileProxy::$enabled = $proxyStatus;
+		if (isset(self::$key_cache[$path])) {
+			$key =  self::$key_cache[$path];
+		} else {
+
+			$proxyStatus = \OC_FileProxy::$enabled;
+			\OC_FileProxy::$enabled = false;
+
+			if ($view->file_exists($path)) {
+				$key = $view->file_get_contents($path);
+				self::$key_cache[$path] = $key;
+			}
+
+			\OC_FileProxy::$enabled = $proxyStatus;
+
+		}
 
 		return $key;
 	}
@@ -70,11 +81,17 @@ class Keymanager {
 		\OC_FileProxy::$enabled = false;
 
 		self::keySetPreparation($view, $path);
-		$result = $view->file_put_contents($path . '/' . $name, $key);
+		$pathToKey = \OC\Files\Filesystem::normalizePath($path . '/' . $name);
+		$result = $view->file_put_contents($pathToKey, $key);
 
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-		return (is_int($result) && $result > 0) ? true : false;
+		if (is_int($result) && $result > 0) {
+			self::$key_cache[$pathToKey] = $key;
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -210,6 +227,25 @@ class Keymanager {
 	}
 
 	/**
+	 * delete key
+	 *
+	 * @param \OC\Files\View $view
+	 * @param string $path
+	 * @return boolean
+	 */
+	private static function deleteKey($view, $path) {
+		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
+		$result = $view->unlink($normalizedPath);
+
+		if ($result) {
+			unset(self::$key_cache[$normalizedPath]);
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * delete public key from a given user
 	 *
 	 * @param \OC\Files\View $view
@@ -222,7 +258,7 @@ class Keymanager {
 
 		if (!\OCP\User::userExists($uid)) {
 			$publicKey = self::$public_key_dir . '/' . $uid . '.publicKey';
-			$result = $view->unlink($publicKey);
+			self::deleteKey($view, $publicKey);
 		}
 
 		return $result;
@@ -426,7 +462,7 @@ class Keymanager {
 						foreach ($userIds as $userId) {
 							if ($userId . '.shareKey' === $file) {
 								\OCP\Util::writeLog('files_encryption', 'recursiveDelShareKey: delete share key: ' . $file, \OCP\Util::DEBUG);
-								$view->unlink($dir . '/' . $file);
+								self::deleteKey($view, $dir . '/' . $file);
 							}
 						}
 					}
