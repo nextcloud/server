@@ -27,10 +27,10 @@ abstract class Provider {
 	const OPTION_APPS = 'apps';
 
 	/**
-	 * List of options (currently unused)
+	 * List of options
 	 * @var array
 	 */
-	private $options;
+	protected $options;
 
 	/**
 	 * Constructor

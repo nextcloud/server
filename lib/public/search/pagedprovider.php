@@ -25,12 +25,6 @@ namespace OCP\Search;
 abstract class PagedProvider extends Provider {
 
 	/**
-	 * List of options (currently unused)
-	 * @var array
-	 */
-	private $options;
-
-	/**
 	 * Constructor
 	 * @param array $options
 	 */
