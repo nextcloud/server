@@ -146,6 +146,8 @@
 		</fieldset>
 		<?php endif; ?>
 	<?php endif; ?>
+	
+	<div class="icon-loading-dark float-spinner">&nbsp;</div>
 
 	<?php if(!$_['dbIsSet'] OR count($_['errors']) > 0): ?>
 	<p id="sqliteInformation" class="info"><?php p($l->t('SQLite will be used as database. For larger installations we recommend to change this.'));?></p>
