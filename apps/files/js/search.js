@@ -8,33 +8,30 @@
  *
  */
 (function() {
-	if (!OCA.Files) {
-		OCA.Files = {};
-	}
-	OCA.Files.Search = {
+	OCA.Search.Files = {
 		attach: function(search) {
 			search.setFilter('files', function (query) {
-				if (OCA.Files.Search.fileAppLoaded()) {
+				if (OCA.Search.Files.fileAppLoaded()) {
 					OCA.Files.App.fileList.setFilter(query);
 
 				}
 			});
 
-			search.setRenderer('folder', OCA.Files.Search.renderFolderResult);
-			search.setRenderer('file',   OCA.Files.Search.renderFileResult);
-			search.setRenderer('audio',  OCA.Files.Search.renderAudioResult);
-			search.setRenderer('image',  OCA.Files.Search.renderImageResult);
+			search.setRenderer('folder', OCA.Search.Files.renderFolderResult);
+			search.setRenderer('file',   OCA.Search.Files.renderFileResult);
+			search.setRenderer('audio',  OCA.Search.Files.renderAudioResult);
+			search.setRenderer('image',  OCA.Search.Files.renderImageResult);
 
-			search.setHandler('folder',  OCA.Files.Search.handleFolderClick);
-			search.setHandler(['file', 'audio', 'image'], OCA.Files.Search.handleFileClick);
+			search.setHandler('folder',  OCA.Search.Files.handleFolderClick);
+			search.setHandler(['file', 'audio', 'image'], OCA.Search.Files.handleFileClick);
 		},
 		renderFolderResult: function($row, result) {
-			if (OCA.Files.Search.inFileList($row, result)) {
+			if (OCA.Search.Files.inFileList($row, result)) {
 				return null;
 			}
 			/*render folder icon, show path beneath filename,
 			 show size and last modified date on the right */
-			OCA.Files.Search.updateLegacyMimetype(result);
+			OCA.Search.Files.updateLegacyMimetype(result);
 
 			var $pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
@@ -44,19 +41,19 @@
 			return $row;
 		},
 		renderFileResult: function($row, result) {
-			if (OCA.Files.Search.inFileList($row, result)) {
+			if (OCA.Search.Files.inFileList($row, result)) {
 				return null;
 			}
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right */
-			OCA.Files.Search.updateLegacyMimetype(result);
+			OCA.Search.Files.updateLegacyMimetype(result);
 
 			$pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 			$row.find('td.result a').attr('href', result.link);
 
-			if (OCA.Files.Search.fileAppLoaded()) {
+			if (OCA.Search.Files.fileAppLoaded()) {
 				OCA.Files.App.fileList.lazyLoadPreview({
 					path: result.path,
 					mime: result.mime,
@@ -82,7 +79,7 @@
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right
 			 show Artist and Album */
-			$row = OCA.Files.Search.renderFileResult($row, result);
+			$row = OCA.Search.Files.renderFileResult($row, result);
 			if ($row) {
 				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/audio') + ')');
 			}
@@ -92,14 +89,14 @@
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right
 			 show width and height */
-			$row = OCA.Files.Search.renderFileResult($row, result);
-			if ($row && !OCA.Files.Search.fileAppLoaded()) {
+			$row = OCA.Search.Files.renderFileResult($row, result);
+			if ($row && !OCA.Search.Files.fileAppLoaded()) {
 				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/image') + ')');
 			}
 			return $row;
 		},
 		inFileList: function($row, result){
-			if (OCA.Files.Search.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name)) {
+			if (OCA.Search.Files.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name)) {
 				return true;
 			} else {
 				return false;
@@ -113,7 +110,7 @@
 		},
 		handleFolderClick: function($row, result, event) {
 			// open folder
-			if (OCA.Files.Search.fileAppLoaded()) {
+			if (OCA.Search.Files.fileAppLoaded()) {
 				OCA.Files.App.fileList.changeDirectory(result.path);
 				return false;
 			} else {
@@ -121,7 +118,7 @@
 			}
 		},
 		handleFileClick: function($row, result, event) {
-			if (OCA.Files.Search.fileAppLoaded()) {
+			if (OCA.Search.Files.fileAppLoaded()) {
 				OCA.Files.App.fileList.changeDirectory(OC.dirname(result.path));
 				OCA.Files.App.fileList.scrollTo(result.name);
 				return false;
@@ -130,8 +127,9 @@
 			}
 		},
 		fileAppLoaded: function() {
-			return OCA.Files && OCA.Files.App;
+			return !!OCA.Files && !!OCA.Files.App;
 		}
 	};
 })();
-OC.Plugins.register('OCA.Search', OCA.Files.Search);
+
+OC.Plugins.register('OCA.Search', OCA.Search.Files);
