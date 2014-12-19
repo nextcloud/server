@@ -32,7 +32,7 @@ class APC extends Cache {
 	public function clear($prefix = '') {
 		$ns = $this->getPrefix() . $prefix;
 		$ns = preg_quote($ns, '/');
-		$iter = new \APCIterator('user', '/^' . $ns . '/');
+		$iter = new \APCIterator('user', '/^' . $ns . '/', APC_ITER_KEY);
 		return apc_delete($iter);
 	}
 
