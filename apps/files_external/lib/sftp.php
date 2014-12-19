@@ -37,6 +37,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	private $user;
 	private $password;
 	private $root;
+	private $port = 22;
 
 	/**
 	* @var \Net_SFTP
@@ -50,10 +51,21 @@ class SFTP extends \OC\Files\Storage\Common {
 		\Net_SFTP_Stream::register();
 
 		$this->host = $params['host'];
+		
+		//deals with sftp://server example
 		$proto = strpos($this->host, '://');
 		if ($proto != false) {
 			$this->host = substr($this->host, $proto+3);
 		}
+
+		//deals with server:port
+		$HasPort = strpos($this->host,':');
+		if($HasPort != false) {
+			$pieces = explode(":", $this->host);
+			$this->host = $pieces[0];
+			$this->port = $pieces[1];
+		}
+
 		$this->user = $params['user'];
 		$this->password
 			= isset($params['password']) ? $params['password'] : '';
@@ -81,7 +93,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 
 		$hostKeys = $this->readHostKeys();
-		$this->client = new \Net_SFTP($this->host);
+		$this->client = new \Net_SFTP($this->host, $this->port);
 
 		// The SSH Host Key MUST be verified before login().
 		$currentHostKey = $this->client->getServerPublicHostKey();
@@ -112,7 +124,7 @@ class SFTP extends \OC\Files\Storage\Common {
 	}
 
 	public function getId(){
-		return 'sftp::' . $this->user . '@' . $this->host . '/' . $this->root;
+		return 'sftp::' . $this->user . '@' . $this->host . ':' . $this->port . '/' . $this->root;
 	}
 
 	public function getHost() {
@@ -342,7 +354,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		// Do not pass the password here. We want to use the Net_SFTP object
 		// supplied via stream context or fail. We only supply username and
 		// hostname because this might show up in logs (they are not used).
-		$url = 'sftp://'.$this->user.'@'.$this->host.$this->root.$path;
+		$url = 'sftp://'.$this->user.'@'.$this->host.':'.$this->port.$this->root.$path;
 		return $url;
 	}
 }
