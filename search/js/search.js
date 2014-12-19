@@ -168,6 +168,10 @@
 							var item = $row.data('result');
 							if(that.hasHandler(item.type)){
 								var result = that.getHandler(item.type)($row, result, event);
+								$searchBox.val('');
+								if(that.hasFilter(getCurrentApp())) {
+									that.getFilter(getCurrentApp())('');
+								}
 								that.hideResults();
 								return result;
 							}
@@ -178,10 +182,11 @@
 							return false;
 						});
 						$(document).click(function (event) {
-							that.hideResults();
+							$searchBox.val('');
 							if(that.hasFilter(getCurrentApp())) {
 								that.getFilter(getCurrentApp())('');
 							}
+							that.hideResults();
 						});
 						$('#app-content').on('scroll', _.bind(onScroll, this));
 						lastResults = results;
@@ -250,12 +255,8 @@
 				}
 			}
 			this.hideResults = function() {
-				if(that.hasFilter(getCurrentApp())) {
-					that.getFilter(getCurrentApp())('');
-				}
 				if ($searchResults) {
 					$searchResults.hide();
-					$searchBox.val('');
 					$wrapper.remove();
 					$searchResults = false;
 					$wrapper = false;
@@ -272,7 +273,6 @@
 					if(currentResult > 0) {
 						currentResult--;
 						renderCurrent();
-
 					}
 				} else if(event.keyCode === 40) { //down
 					if(lastResults.length > currentResult + 1){
@@ -280,11 +280,14 @@
 						renderCurrent();
 					}
 				} else if(event.keyCode === 27) { //esc
+					$searchBox.val('');
+					if(that.hasFilter(getCurrentApp())) {
+						that.getFilter(getCurrentApp())('');
+					}
 					that.hideResults();
 				} else {
 					var query = $searchBox.val();
 					if (lastQuery !== query) {
-						lastQuery = query;
 						currentResult = -1;
 						if(that.hasFilter(getCurrentApp())) {
 							that.getFilter(getCurrentApp())(query);
@@ -292,9 +295,7 @@
 						if (query.length > 2) {
 							that.search(query);
 						} else {
-							if (that.hideResults) {
-								that.hideResults();
-							}
+							that.hideResults();
 						}
 					}
 				}
