@@ -17,7 +17,7 @@ class MsSqlMigrator extends Migrator {
 	 */
 	public function migrate(Schema $targetSchema) {
 		throw new MigrationException('',
-			'Database migration is required to continue operations. Please contact support@owncloud.com to get the required sql migration scripts to be applied.');
+			'Database migration is required to continue operation. This feature is provided within the Enterprise Edition.');
 	}
 
 }
