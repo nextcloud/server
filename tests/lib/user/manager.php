@@ -380,6 +380,10 @@ class Manager extends \Test\TestCase {
 			->with(\OC_USER_BACKEND_COUNT_USERS)
 			->will($this->returnValue(true));
 
+		$backend->expects($this->once())
+			->method('getBackendName')
+			->will($this->returnValue('Mock_OC_User_Dummy'));
+
 		$manager = new \OC\User\Manager();
 		$manager->registerBackend($backend);
 
@@ -404,6 +408,9 @@ class Manager extends \Test\TestCase {
 			->method('implementsActions')
 			->with(\OC_USER_BACKEND_COUNT_USERS)
 			->will($this->returnValue(true));
+		$backend1->expects($this->once())
+			->method('getBackendName')
+			->will($this->returnValue('Mock_OC_User_Dummy'));
 
 		$backend2 = $this->getMock('\OC_User_Dummy');
 		$backend2->expects($this->once())
@@ -414,6 +421,9 @@ class Manager extends \Test\TestCase {
 			->method('implementsActions')
 			->with(\OC_USER_BACKEND_COUNT_USERS)
 			->will($this->returnValue(true));
+		$backend2->expects($this->once())
+			->method('getBackendName')
+			->will($this->returnValue('Mock_OC_User_Dummy'));
 
 		$manager = new \OC\User\Manager();
 		$manager->registerBackend($backend1);

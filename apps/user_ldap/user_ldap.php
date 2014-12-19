@@ -27,7 +27,7 @@ namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\BackendUtility;
 
-class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
+class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
 	/**
 	 * checks whether the user is allowed to change his avatar in ownCloud
 	 * @param string $uid the ownCloud user name
@@ -299,4 +299,13 @@ class USER_LDAP extends BackendUtility implements \OCP\UserInterface {
 		$this->access->connection->writeToCache($cacheKey, $entries);
 		return $entries;
 	}
+
+	/**
+	 * Backend name to be shown in user management
+	 * @return string the name of the backend to be shown
+	 */
+	public function getBackendName(){
+		return 'LDAP';
+	}
+
 }

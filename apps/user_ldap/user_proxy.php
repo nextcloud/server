@@ -25,7 +25,7 @@ namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
 
-class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
+class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterface {
 	private $backends = array();
 	private $refBackend = null;
 
@@ -115,6 +115,14 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	public function implementsActions($actions) {
 		//it's the same across all our user backends obviously
 		return $this->refBackend->implementsActions($actions);
+	}
+
+	/**
+	 * Backend name to be shown in user management
+	 * @return string the name of the backend to be shown
+	 */
+	public function getBackendName() {
+		return $this->refBackend->getBackendName();
 	}
 
 	/**

@@ -279,10 +279,15 @@ class Manager extends PublicEmitter implements IUserManager {
 			if ($backend->implementsActions(\OC_User_Backend::COUNT_USERS)) {
 				$backendusers = $backend->countUsers();
 				if($backendusers !== false) {
-					if(isset($userCountStatistics[get_class($backend)])) {
-						$userCountStatistics[get_class($backend)] += $backendusers;
+					if($backend instanceof \OCP\IUserBackend) {
+						$name = $backend->getBackendName();
 					} else {
-						$userCountStatistics[get_class($backend)] = $backendusers;
+						$name = get_class($backend);
+					}
+					if(isset($userCountStatistics[$name])) {
+						$userCountStatistics[$name] += $backendusers;
+					} else {
+						$userCountStatistics[$name] = $backendusers;
 					}
 				}
 			}
