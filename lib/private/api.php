@@ -303,7 +303,7 @@ class OC_API {
 				\OC_Util::setUpFS(\OC_User::getUser());
 				self::$isLoggedIn = true;
 
-				return $authUser;
+				return \OC_User::getUser();
 			}
 		}
 
