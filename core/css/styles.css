@@ -192,6 +192,7 @@ input[type="submit"]:hover, input[type="submit"]:focus,
 input[type="button"]:hover, input[type="button"]:focus,
 button:hover, button:focus,
 .button:hover, .button:focus,
+.button a:focus,
 select:hover, select:focus, select:active {
 	background-color: rgba(255, 255, 255, .95);
 	color: #111;
@@ -974,6 +975,7 @@ div.crumb a.ellipsislink {
 /* some feedback for hover/tap on breadcrumbs */
 div.crumb:hover,
 div.crumb:focus,
+div.crumb a:focus,
 div.crumb:active {
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 	filter:alpha(opacity=70);

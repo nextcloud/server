@@ -56,6 +56,7 @@
 
 #app-navigation li:hover > a,
 #app-navigation li:focus > a,
+#app-navigation a:focus,
 #app-navigation .selected,
 #app-navigation .selected a {
 	background-color: #ddd;
