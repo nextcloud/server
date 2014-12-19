@@ -33,7 +33,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 					'{DAV:}displayname' => $user,
 				);
 
-				$email= \OCP\Config::getUserValue($user, 'settings', 'email');
+				$email = \OCP\Config::getUserValue($user, 'settings', 'email');
 				if($email) {
 					$principal['{http://sabredav.org/ns}email-address'] = $email;
 				}
@@ -79,6 +79,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *
 	 * @param string $principal
 	 * @return string[]
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function getGroupMemberSet($principal) {
 		// TODO: for now the group principal has only one member, the user itself
@@ -97,6 +98,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *
 	 * @param string $principal
 	 * @return array
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function getGroupMembership($principal) {
 		list($prefix, $name) = \Sabre\DAV\URLUtil::splitPath($principal);
@@ -128,7 +130,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *
 	 * @param string $principal
 	 * @param array $members
-	 * @return void
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
 		throw new \Sabre\DAV\Exception('Setting members of the group is not supported yet');
