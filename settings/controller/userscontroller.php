@@ -108,7 +108,8 @@ class UsersController extends Controller {
 			'quota' => $this->config->getUserValue($user->getUID(), 'files', 'quota', 'default'),
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin(),
-			'backend' => $user->getBackendClassName()
+			'backend' => $user->getBackendClassName(),
+			'email' => $this->config->getUserValue($user->getUID(), 'settings', 'email', '')
 		);
 	}
 
@@ -277,16 +278,20 @@ class UsersController extends Controller {
 					$this->log->error("Can't send new user mail to $email: " . $e->getMessage(), array('app' => 'settings'));
 				}
 			}
+			// fetch users groups
+			$userGroups = $this->groupManager->getUserGroupIds($user);
+
+			return new DataResponse(
+				$this->formatUserForIndex($user, $userGroups),
+				Http::STATUS_CREATED
+			);
 		}
 
 		return new DataResponse(
 			array(
-				'username' => $username,
-				'groups' => $this->groupManager->getUserGroupIds($user),
-				'storageLocation' => $user->getHome(),
-				'backend' => $user->getBackendClassName()
+				'message' => (string)$this->l10n->t('Unable to create user.')
 			),
-			Http::STATUS_CREATED
+			Http::STATUS_FORBIDDEN
 		);
 
 	}
@@ -348,6 +353,88 @@ class UsersController extends Controller {
 				)
 			),
 			Http::STATUS_FORBIDDEN
+		);
+	}
+
+	/**
+	 * Set the mail address of a user
+	 *
+	 * @NoAdminRequired
+	 * @NoSubadminRequired
+	 *
+	 * @param string $id
+	 * @param string $mailAddress
+	 * @return DataResponse
+	 *
+	 * TODO: Tidy up and write unit tests - code is mainly static method calls
+	 */
+	public function setMailAddress($id, $mailAddress) {
+		// FIXME: Remove this static function call at some point…
+		if($this->userSession->getUser()->getUID() !== $id
+			&& !$this->isAdmin
+			&& !\OC_SubAdmin::isUserAccessible($this->userSession->getUser()->getUID(), $id)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Forbidden')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		if($mailAddress !== '' && !$this->mail->validateAddress($mailAddress)) {
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Invalid mail address')
+					)
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
+		$user = $this->userManager->get($id);
+		if(!$user){
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Invalid user')
+					)
+				),
+				Http::STATUS_UNPROCESSABLE_ENTITY
+			);
+		}
+
+		// this is the only permission a backend provides and is also used
+		// for the permission of setting a email address
+		if(!$user->canChangeDisplayName()){
+			return new DataResponse(
+				array(
+					'status' => 'error',
+					'data' => array(
+						'message' => (string)$this->l10n->t('Unable to change mail address')
+					)
+				),
+				Http::STATUS_FORBIDDEN
+			);
+		}
+
+		$this->config->setUserValue($id, 'settings', 'email', $mailAddress);
+
+		return new DataResponse(
+			array(
+				'status' => 'success',
+				'data' => array(
+					'username' => $id,
+					'mailAddress' => $mailAddress,
+					'message' => (string)$this->l10n->t('Email saved')
+				)
+			),
+			Http::STATUS_OK
 		);
 	}
 

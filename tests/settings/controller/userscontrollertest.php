@@ -67,7 +67,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$foo
@@ -87,7 +87,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$admin = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$admin
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('admin'));
 		$admin
@@ -109,7 +109,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$bar = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$bar
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('bar'));
 		$bar
@@ -151,9 +151,11 @@ class UsersControllerTest extends \Test\TestCase {
 			->with('bar')
 			->will($this->returnValue($bar));
 		$this->container['Config']
-			->expects($this->exactly(3))
+			->expects($this->exactly(6))
 			->method('getUserValue')
-			->will($this->onConsecutiveCalls(1024, 404, 2323));
+			->will($this->onConsecutiveCalls(1024, 'foo@bar.com',
+											404, 'admin@bar.com',
+											2323, 'bar@dummy.com'));
 
 		$expectedResponse = new DataResponse(
 			array(
@@ -165,7 +167,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 1024,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500,
-					'backend' => 'OC_User_Database'
+					'backend' => 'OC_User_Database',
+					'email' => 'foo@bar.com'
 				),
 				1 => array(
 					'name' => 'admin',
@@ -175,7 +178,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 404,
 					'storageLocation' => '/home/admin',
 					'lastLogin' => 12,
-					'backend' => 'OC_User_Dummy'
+					'backend' => 'OC_User_Dummy',
+					'email' => 'admin@bar.com'
 				),
 				2 => array(
 					'name' => 'bar',
@@ -185,7 +189,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => 2323,
 					'storageLocation' => '/home/bar',
 					'lastLogin' => 3999,
-					'backend' => 'OC_User_Dummy'
+					'backend' => 'OC_User_Dummy',
+					'email' => 'bar@dummy.com'
 				),
 			)
 		);
@@ -197,7 +202,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
-			->expects($this->exactly(3))
+			->expects($this->exactly(4))
 			->method('getUID')
 			->will($this->returnValue('foo'));
 		$user
@@ -241,7 +246,8 @@ class UsersControllerTest extends \Test\TestCase {
 					'quota' => null,
 					'storageLocation' => '/home/foo',
 					'lastLogin' => 500,
-					'backend' => 'OC_User_Database'
+					'backend' => 'OC_User_Database',
+					'email' => null
 				)
 			)
 		);
@@ -276,6 +282,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->method('getHome')
 			->will($this->returnValue('/home/user'));
 		$user
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$user
 			->expects($this->once())
 			->method('getBackendClassName')
 			->will($this->returnValue('bar'));
@@ -288,10 +297,15 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'username' => 'foo',
+				'name' => 'foo',
 				'groups' => null,
 				'storageLocation' => '/home/user',
-				'backend' => 'bar'
+				'backend' => 'bar',
+				'lastLogin' => null,
+				'displayname' => null,
+				'quota' => null,
+				'subadmin' => array(),
+				'email' => null
 			),
 			Http::STATUS_CREATED
 		);
@@ -312,6 +326,9 @@ class UsersControllerTest extends \Test\TestCase {
 		$user
 			->method('getHome')
 			->will($this->returnValue('/home/user'));
+		$user
+			->method('getUID')
+			->will($this->returnValue('foo'));
 		$user
 			->expects($this->once())
 			->method('getBackendClassName')
@@ -350,10 +367,15 @@ class UsersControllerTest extends \Test\TestCase {
 
 		$expectedResponse = new DataResponse(
 			array(
-				'username' => 'foo',
+				'name' => 'foo',
 				'groups' => array('NewGroup', 'ExistingGroup'),
 				'storageLocation' => '/home/user',
-				'backend' => 'bar'
+				'backend' => 'bar',
+				'lastLogin' => null,
+				'displayname' => null,
+				'quota' => null,
+				'subadmin' => array(),
+				'email' => null
 			),
 			Http::STATUS_CREATED
 		);

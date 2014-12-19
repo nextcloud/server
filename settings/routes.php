@@ -23,6 +23,7 @@ $application->registerRoutes($this, array(
 		array('name' => 'SecuritySettings#enforceSSL', 'url' => '/settings/admin/security/ssl', 'verb' => 'POST'),
 		array('name' => 'SecuritySettings#enforceSSLForSubdomains', 'url' => '/settings/admin/security/ssl/subdomains', 'verb' => 'POST'),
 		array('name' => 'SecuritySettings#trustedDomains', 'url' => '/settings/admin/security/trustedDomains', 'verb' => 'POST'),
+		array('name' => 'Users#setMailAddress', 'url' => '/settings/users/{id}/mailAddress', 'verb' => 'PUT'),
 	)
 ));
 
@@ -62,8 +63,6 @@ $this->create('settings_ajax_changegorupname', '/settings/ajax/changegroupname.p
 $this->create('settings_personal_changepassword', '/settings/personal/changepassword')
 	->post()
 	->action('OC\Settings\ChangePassword\Controller', 'changePersonalPassword');
-$this->create('settings_ajax_lostpassword', '/settings/ajax/lostpassword.php')
-	->actionInclude('settings/ajax/lostpassword.php');
 $this->create('settings_ajax_setlanguage', '/settings/ajax/setlanguage.php')
 	->actionInclude('settings/ajax/setlanguage.php');
 $this->create('settings_ajax_decryptall', '/settings/ajax/decryptall.php')
