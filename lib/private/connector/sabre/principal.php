@@ -2,12 +2,28 @@
 /**
  * Copyright (c) 2011 Jakob Sack mail@jakobsack.de
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2014 Lukas Reschke lukas@owncloud.com
+ *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
 
+use OCP\IUserManager;
+use OCP\IConfig;
+
 class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
+	/** @var IConfig */
+	private $config;
+	/** @var IUserManager */
+	private $userManager;
+
+	public function __construct(IConfig $config,
+								IUserManager $userManager) {
+		$this->config = $config;
+		$this->userManager = $userManager;
+	}
+
 	/**
 	 * Returns a list of principals based on a prefix.
 	 *
@@ -19,22 +35,21 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *   {DAV:}displayname
 	 *
 	 * @param string $prefixPath
-	 * @return array
+	 * @return string[]
 	 */
-	public function getPrincipalsByPrefix( $prefixPath ) {
-		$principals = array();
+	public function getPrincipalsByPrefix($prefixPath) {
+		$principals = [];
 
-		if ($prefixPath == 'principals') {
-			foreach(OC_User::getUsers() as $user) {
+		if ($prefixPath === 'principals') {
+			foreach($this->userManager->search('') as $user) {
 
-				$user_uri = 'principals/'.$user;
-				$principal = array(
-					'uri' => $user_uri,
-					'{DAV:}displayname' => $user,
-				);
+				$principal = [
+					'uri' => 'principals/' . $user->getUID(),
+					'{DAV:}displayname' => $user->getUID()
+				];
 
-				$email = \OCP\Config::getUserValue($user, 'settings', 'email');
-				if($email) {
+				$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
+				if(!empty($email)) {
 					$principal['{http://sabredav.org/ns}email-address'] = $email;
 				}
 
@@ -55,15 +70,15 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 */
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = explode('/', $path);
+		$user = $this->userManager->get($name);
 
-		if ($prefix == 'principals' && OC_User::userExists($name)) {
+		if ($prefix === 'principals' && !is_null($user)) {
+			$principal = [
+				'uri' => 'principals/' . $user->getUID(),
+				'{DAV:}displayname' => $user->getUID(),
+			];
 
-			$principal = array(
-				'uri' => 'principals/'.$name,
-				'{DAV:}displayname' => $name,
-			);
-
-			$email= \OCP\Config::getUserValue($name, 'settings', 'email');
+			$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
 			if($email) {
 				$principal['{http://sabredav.org/ns}email-address'] = $email;
 			}
@@ -88,9 +103,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 			throw new \Sabre\DAV\Exception('Principal not found');
 		}
 
-		return array(
-			$principal['uri']
-		);
+		return [$principal['uri']];
 	}
 
 	/**
@@ -104,7 +117,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 		list($prefix, $name) = \Sabre\DAV\URLUtil::splitPath($principal);
 
 		$group_membership = array();
-		if ($prefix == 'principals') {
+		if ($prefix === 'principals') {
 			$principal = $this->getPrincipalByPath($principal);
 			if (!$principal) {
 				throw new \Sabre\DAV\Exception('Principal not found');
@@ -141,6 +154,6 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	}
 
 	function searchPrincipals($prefixPath, array $searchProperties) {
-		return array();
+		return [];
 	}
 }
