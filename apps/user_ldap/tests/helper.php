@@ -23,7 +23,8 @@ class Test_Helper extends \PHPUnit_Framework_TestCase {
 		$result = $statement->execute();
 		$this->assertEquals(2, $result->fetchOne());
 
-		Helper::clearMapping('user');
+		$helper = new Helper();
+		$helper->clearMapping('user');
 
 		$result = $statement->execute();
 		$this->assertEquals(0, $result->fetchOne());

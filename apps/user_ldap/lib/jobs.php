@@ -156,7 +156,8 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		if(!is_null(self::$groupBE)) {
 			return self::$groupBE;
 		}
-		$configPrefixes = Helper::getServerConfigurationPrefixes(true);
+		$helper = new Helper();
+		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 		if(count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured

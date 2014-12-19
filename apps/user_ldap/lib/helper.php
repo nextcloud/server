@@ -45,7 +45,7 @@ class Helper {
 	 * except the default (first) server shall be connected to.
 	 *
 	 */
-	static public function getServerConfigurationPrefixes($activeConfigurations = false) {
+	public function getServerConfigurationPrefixes($activeConfigurations = false) {
 		$referenceConfigkey = 'ldap_configuration_active';
 
 		$sql = '
@@ -83,7 +83,7 @@ class Helper {
 	 * @return array an array with configprefix as keys
 	 *
 	 */
-	static public function getServerConfigurationHosts() {
+	public function getServerConfigurationHosts() {
 		$referenceConfigkey = 'ldap_host';
 
 		$query = '
@@ -110,7 +110,7 @@ class Helper {
 	 * @param string $prefix the configuration prefix of the config to delete
 	 * @return bool true on success, false otherwise
 	 */
-	static public function deleteServerConfiguration($prefix) {
+	public function deleteServerConfiguration($prefix) {
 		//just to be on the safe side
 		\OCP\User::checkAdminUser();
 
@@ -145,12 +145,28 @@ class Helper {
 	}
 
 	/**
+	 * checks whether there is one or more disabled LDAP configurations
+	 * @throws \Exception
+	 * @return bool
+	 */
+	public function haveDisabledConfigurations() {
+		$all = $this->getServerConfigurationPrefixes(false);
+		$active = $this->getServerConfigurationPrefixes(true);
+
+		if(!is_array($all) || !is_array($active)) {
+			throw new \Exception('Unexpected Return Value');
+		}
+
+		return count($all) !== count($active) || count($all) === 0;
+	}
+
+	/**
 	 * Truncate's the given mapping table
 	 *
 	 * @param string $mapping either 'user' or 'group'
 	 * @return bool true on success, false otherwise
 	 */
-	static public function clearMapping($mapping) {
+	public function clearMapping($mapping) {
 		if($mapping === 'user') {
 			$table = '`*PREFIX*ldap_user_mapping`';
 		} else if ($mapping === 'group') {
@@ -176,7 +192,7 @@ class Helper {
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
 	 */
-	static public function getDomainFromURL($url) {
+	public function getDomainFromURL($url) {
 		$uinfo = parse_url($url);
 		if(!is_array($uinfo)) {
 			return false;

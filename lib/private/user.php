@@ -216,7 +216,7 @@ class OC_User {
 				self::getManager()->delete($uid);
 			}
 
-			return true;
+			return $result;
 		} else {
 			return false;
 		}

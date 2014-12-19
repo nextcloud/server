@@ -71,7 +71,7 @@ $CONFIG = array(
 
 /**
  * Where user files are stored; this defaults to ``data/`` in the ownCloud
- * directory. The SQLite database is also stored here, when you use SQLite. (SQLite is 
+ * directory. The SQLite database is also stored here, when you use SQLite. (SQLite is
  * available only in ownCloud Community Edition)
  */
 'datadirectory' => '/var/www/owncloud/data',
@@ -643,6 +643,20 @@ $CONFIG = array(
 	'OC\Preview\TXT',
 	'OC\Preview\MarkDown'
 ),
+
+/**
+ * LDAP
+ *
+ * Global settings used by LDAP User and Group Backend
+ */
+
+/**
+ * defines the interval in minutes for the background job that checks user
+ * existance and marks them as ready to be cleaned up. The number is always
+ * minutes. Setting it to 0 disables the feature.
+ * See command line (occ) methods ldap:show-remnants and user:delete
+ */
+'ldapUserCleanupInterval' => 51,
 
 
 /**
