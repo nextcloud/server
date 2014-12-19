@@ -121,7 +121,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * get the current active user
 	 *
-	 * @return \OC\User\User
+	 * @return \OCP\IUser|null Current user, otherwise null
 	 */
 	public function getUser() {
 		if ($this->activeUser) {
