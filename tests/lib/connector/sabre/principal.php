@@ -12,14 +12,13 @@ namespace Test\Connector\Sabre;
 
 use OCP\IUserManager;
 use OCP\IConfig;
-use OC\Connector\Sabre\Principal;
 
-class Test_Principal extends \Test\TestCase {
+class Principal extends \Test\TestCase {
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IConfig */
 	private $config;
-	/** @var Principal */
+	/** @var \OC\Connector\Sabre\Principal */
 	private $connector;
 
 	public function setUp() {
@@ -28,7 +27,7 @@ class Test_Principal extends \Test\TestCase {
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 
-		$this->connector = new Principal($this->config, $this->userManager);
+		$this->connector = new \OC\Connector\Sabre\Principal($this->config, $this->userManager);
 		parent::setUp();
 	}
 
