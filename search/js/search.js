@@ -83,6 +83,10 @@
 			var lastSize = 30;
 			var lastResults = {};
 
+			this.getLastQuery = function() {
+				return lastQuery;
+			};
+
 			/**
 			 * Do a search query and display the results
 			 * @param {string} query the search query
