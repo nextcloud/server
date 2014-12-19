@@ -205,5 +205,6 @@ $TRANSLATIONS = array(
 "File not found" => "Dosya bulunamadı",
 "The specified document has not been found on the server." => "Belirtilen dosya sunucuda bulunamadı.",
 "You can click here to return to %s." => "%s ana sayfasına dönmek için buraya tıklayabilirsiniz.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Daha büyük kurulumlarda zaman aşımlarının önüne geçmek için, kurulum dizininizden aşağıdaki komutu da çalıştırabilirsiniz:",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n > 1);";

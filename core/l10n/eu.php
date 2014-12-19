@@ -201,6 +201,7 @@ $TRANSLATIONS = array(
 "Please make sure that the database, the config folder and the data folder have been backed up before proceeding." => "Ekin aurretik egiazta ezazu datu basearen, ezarpenen karpetaren eta datuen karpetaren babeskopia duzula.",
 "Start update" => "Hasi eguneraketa",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud instantzia hau eguneratzen ari da, honek denbora har dezake.",
-"Please reload this page after a short time to continue using ownCloud." => "Mesedez birkargatu orri hau denbora gutxi barru ownCloud erabiltzen jarraitzeko."
+"Please reload this page after a short time to continue using ownCloud." => "Mesedez birkargatu orri hau denbora gutxi barru ownCloud erabiltzen jarraitzeko.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Instalazio handien itxarote-denbora saihesteko, ondoko komandoa exekuta dezakezu instalazio direktoriotik:",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";

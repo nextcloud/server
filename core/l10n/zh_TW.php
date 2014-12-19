@@ -162,6 +162,7 @@ $TRANSLATIONS = array(
 "Contact your system administrator if this message persists or appeared unexpectedly." => "若這個訊息持續出現，請聯絡系統管理員",
 "Thank you for your patience." => "感謝您的耐心",
 "This ownCloud instance is currently being updated, which may take a while." => "ownCloud 正在升級，請稍待一會。",
-"Please reload this page after a short time to continue using ownCloud." => "請稍後重新載入這個頁面就可以繼續使用 ownCloud"
+"Please reload this page after a short time to continue using ownCloud." => "請稍後重新載入這個頁面就可以繼續使用 ownCloud",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "在大型安裝上，為了避免升級請求逾時，你也可以在安裝目錄執行下列指令：",
 );
 $PLURAL_FORMS = "nplurals=1; plural=0;";

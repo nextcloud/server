@@ -199,5 +199,6 @@ $TRANSLATIONS = array(
 "File not found" => "Tiedostoa ei löytynyt",
 "The specified document has not been found on the server." => "Määritettyä asiakirjaa ei löytynyt palvelimelta.",
 "You can click here to return to %s." => "Napsauta tästä palataksesi %siin.",
+"To avoid timeouts with larger installations, you can instead run the following command from your installation directory:" => "Välttääksesi aikakatkaisuja suurikokoisten asennusten kanssa, voit suorittaa vaihtoehtoisesti seuraavan komennon asennushakemistossa:",
 );
 $PLURAL_FORMS = "nplurals=2; plural=(n != 1);";
