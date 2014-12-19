@@ -28,7 +28,7 @@ Tell us what happens instead
 
 ```
 Insert your config.php content here
-(Without the database password and passwordsalt)
+(Without the database password, passwordsalt and secret)
 ```
 
 **Are you using external storage, if yes which one:** local/smb/sftp/...
