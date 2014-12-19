@@ -1,5 +1,7 @@
 <?php
+
 use Sabre\DAV\URLUtil;
+use OC\Connector\Sabre\TagList;
 
 /**
  * ownCloud
@@ -224,6 +226,15 @@ abstract class OC_Connector_Sabre_Node implements \Sabre\DAV\INode, \Sabre\DAV\I
 		}
 
 		return $props;
+	}
+
+	/**
+	 * Returns the cache's file id
+	 *
+	 * @return int
+	 */
+	public function getId() {
+		return $this->info->getId();
 	}
 
 	/**

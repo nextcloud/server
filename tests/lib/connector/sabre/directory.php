@@ -101,4 +101,58 @@ class Test_OC_Connector_Sabre_Directory extends \Test\TestCase {
 		$dir = $this->getRootDir();
 		$dir->delete();
 	}
+
+	public function testGetChildren() {
+		$info1 = $this->getMockBuilder('OC\Files\FileInfo')
+			->disableOriginalConstructor()
+			->getMock();
+		$info2 = $this->getMockBuilder('OC\Files\FileInfo')
+			->disableOriginalConstructor()
+			->getMock();
+		$info1->expects($this->any())
+			->method('getName')
+			->will($this->returnValue('first'));
+		$info1->expects($this->any())
+			->method('getEtag')
+			->will($this->returnValue('abc'));
+		$info2->expects($this->any())
+			->method('getName')
+			->will($this->returnValue('second'));
+		$info2->expects($this->any())
+			->method('getEtag')
+			->will($this->returnValue('def'));
+
+		$this->view->expects($this->once())
+			->method('getDirectoryContent')
+			->with('')
+			->will($this->returnValue(array($info1, $info2)));
+
+		$this->view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue(''));
+
+		$dir = new OC_Connector_Sabre_Directory($this->view, $this->info);
+		$nodes = $dir->getChildren();
+
+		$this->assertEquals(2, count($nodes));
+
+		// calling a second time just returns the cached values,
+		// does not call getDirectoryContents again
+		$nodes = $dir->getChildren();
+
+		$properties = array('testprop', OC_Connector_Sabre_Node::GETETAG_PROPERTYNAME);
+		$this->assertEquals(2, count($nodes));
+		$this->assertEquals(
+			array(
+				OC_Connector_Sabre_Node::GETETAG_PROPERTYNAME => '"abc"'
+			),
+			$nodes[0]->getProperties($properties)
+		);
+		$this->assertEquals(
+			array(
+				OC_Connector_Sabre_Node::GETETAG_PROPERTYNAME => '"def"'
+			),
+			$nodes[1]->getProperties($properties)
+		);
+	}
 }
