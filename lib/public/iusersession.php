@@ -66,7 +66,7 @@ interface IUserSession {
 	public function getUser();
 
 	/**
-	 * Checks wether the user is logged in
+	 * Checks whether the user is logged in
 	 *
 	 * @return bool if logged in
 	 */
