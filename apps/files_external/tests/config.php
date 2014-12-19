@@ -88,5 +88,13 @@ return array(
 		'user'=>'test',
 		'password'=>'test',
 		'root'=>'/test'
-	)
+	),
+	'sftp_key' => array (
+                'run'=>false,
+                'host'=>'localhost',
+                'user'=>'test',
+                'public_key'=>'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDJPTvz3OLonF2KSGEKP/nd4CPmRYvemG2T4rIiNYjDj0U5y+2sKEWbjiUlQl2bsqYuVoJ+/UNJlGQbbZ08kQirFeo1GoWBzqioaTjUJfbLN6TzVVKXxR9YIVmH7Ajg2iEeGCndGgbmnPfj+kF9TR9IH8vMVvtubQwf7uEwB0ALhw== phpseclib-generated-key',
+		'private_key'=>'test',
+                'root'=>'/test'
+        ),
 );
