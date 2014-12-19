@@ -124,6 +124,11 @@ class Session implements IUserSession, Emitter {
 	 * @return \OC\User\User
 	 */
 	public function getUser() {
+		// FIXME: This is a quick'n dirty work-around for the incognito mode as
+		// described at https://github.com/owncloud/core/pull/12912#issuecomment-67391155
+		if (\OC_User::isIncognitoMode()) {
+			return null;
+		}
 		if ($this->activeUser) {
 			return $this->activeUser;
 		} else {
