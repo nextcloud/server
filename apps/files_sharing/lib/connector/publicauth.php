@@ -69,6 +69,8 @@ class PublicAuth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 				} else {
 					return false;
 				}
+			} elseif ($linkItem['share_type'] == \OCP\Share::SHARE_TYPE_REMOTE) {
+				return true;
 			} else {
 				return false;
 			}

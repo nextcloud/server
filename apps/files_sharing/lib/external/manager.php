@@ -34,25 +34,41 @@ class Manager {
 	private $userSession;
 
 	/**
+	 * @var \OC\HTTPHelper
+	 */
+	private $httpHelper;
+
+	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OC\User\Session $userSession
 	 * @param \OC\Files\Storage\StorageFactory $storageLoader
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OC\Files\Storage\StorageFactory $storageLoader, \OC\User\Session $userSession) {
+								\OC\Files\Storage\StorageFactory $storageLoader, \OC\User\Session $userSession, \OC\HTTPHelper $httpHelper) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
 		$this->userSession = $userSession;
 		$this->storageLoader = $storageLoader;
+		$this->httpHelper = $httpHelper;
 	}
 
-	public function addShare($remote, $token, $password, $name, $owner) {
-		$user = $this->userSession->getUser();
-		if ($user) {
-			$mountPoint = Filesystem::normalizePath('/' . $name);
-			\OCA\Files_Sharing\Helper::addServer2ServerShare($remote, $token, $name, $mountPoint, $owner, $user->getUID(), $password, -1, true);
+	public function addShare($remote, $token, $password, $name, $owner, $accepted=false, $user = null, $remoteId = -1) {
 
+		$user = $user ? $user: $this->userSession->getUser()->getUID();
+		$accepted = $accepted ? 1 : 0;
+
+		$mountPoint = Filesystem::normalizePath('/' . $name);
+
+		$query = $this->connection->prepare('
+				INSERT INTO `*PREFIX*share_external`
+					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`)
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			');
+		$hash = md5($mountPoint);
+		$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId));
+
+		if ($accepted) {
 			$options = array(
 				'remote' => $remote,
 				'token' => $token,
@@ -87,12 +103,85 @@ class Manager {
 		}
 	}
 
+	/**
+	 * get share
+	 *
+	 * @param int $id share id
+	 * @return mixed share of false
+	 */
+	private function getShare($id) {
+		$getShare = $this->connection->prepare('
+			SELECT `remote`, `share_token`
+			FROM  `*PREFIX*share_external`
+			WHERE `id` = ? AND `user` = ?');
+		$result = $getShare->execute(array($id,  $this->userSession->getUser()->getUID()));
+
+		return $result ? $getShare->fetch() : false;
+	}
+
+	/**
+	 * accept server-to-server share
+	 *
+	 * @param int $id
+	 */
+	public function acceptShare($id) {
+
+		$share = $this->getShare($id);
+
+		if ($share) {
+			$acceptShare = $this->connection->prepare('
+				UPDATE `*PREFIX*share_external`
+				SET `accepted` = ?
+				WHERE `id` = ? AND `user` = ?');
+			$acceptShare->execute(array(1, $id,  $this->userSession->getUser()->getUID()));
+			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'accept');
+		}
+	}
+
+	/**
+	 * decline server-to-server share
+	 *
+	 * @param int $id
+	 */
+	public function declineShare($id) {
+
+		$share = $this->getShare($id);
+
+		if ($share) {
+			$removeShare = $this->connection->prepare('
+				DELETE FROM `*PREFIX*share_external` WHERE `id` = ? AND `user` = ?');
+			$removeShare->execute(array($id, $this->userSession->getUser()->getUID()));
+			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'decline');
+		}
+	}
+
+	/**
+	 * inform remote server whether server-to-server share was accepted/declined
+	 *
+	 * @param string $remote
+	 * @param string $token
+	 * @param int $id
+	 * @param string $feedback
+	 * @return boolean
+	 */
+	private function sendFeedbackToRemote($remote, $token, $id, $feedback) {
+
+		$url = $remote . \OCP\Share::BASE_PATH_TO_SHARE_API . '/' . $id . '/' . $feedback . '?format=' . \OCP\Share::RESPONSE_FORMAT;
+		$fields = array('token' => $token);
+
+		$result = $this->httpHelper->post($url, $fields);
+		$status = json_decode($result['result'], true);
+
+		return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
+	}
+
 	public static function setup() {
 		$externalManager = new \OCA\Files_Sharing\External\Manager(
-			\OC::$server->getDatabaseConnection(),
-			\OC\Files\Filesystem::getMountManager(),
-			\OC\Files\Filesystem::getLoader(),
-			\OC::$server->getUserSession()
+				\OC::$server->getDatabaseConnection(),
+				\OC\Files\Filesystem::getMountManager(),
+				\OC\Files\Filesystem::getLoader(),
+				\OC::$server->getUserSession(),
+				\OC::$server->getHTTPHelper()
 		);
 		$externalManager->setupMounts();
 	}
@@ -151,11 +240,36 @@ class Manager {
 		$user = $this->userSession->getUser();
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
+
+		$getShare = $this->connection->prepare('
+			SELECT `remote`, `share_token`, `remote_id`
+			FROM  `*PREFIX*share_external`
+			WHERE `mountpoint_hash` = ? AND `user` = ?');
+		$result = $getShare->execute(array($hash, $user->getUID()));
+
+		if ($result) {
+			$share = $getShare->fetch();
+			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+		}
+
 		$query = $this->connection->prepare('
 			DELETE FROM `*PREFIX*share_external`
 			WHERE `mountpoint_hash` = ?
 			AND `user` = ?
 		');
 		return (bool)$query->execute(array($hash, $user->getUID()));
+	}
+
+	/**
+	 * return a list of shares which are not yet accepted by the user
+	 *
+	 * @return array list of open server-to-server shares
+	 */
+	public function getOpenShares() {
+		$openShares = $this->connection->prepare('SELECT * FROM `*PREFIX*share_external` WHERE `accepted` = ? AND `user` = ?');
+		$result = $openShares->execute(array(0, $this->userSession->getUser()->getUID()));
+
+		return $result ? $openShares->fetchAll() : array();
+
 	}
 }

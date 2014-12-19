@@ -160,6 +160,20 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	}
 
 	/**
+	 * check if server2server share is enabled
+	 *
+	 * @param int $shareType
+	 * @return boolean
+	 */
+	public function isShareTypeAllowed($shareType) {
+		if ($shareType === \OCP\Share::SHARE_TYPE_REMOTE) {
+			return \OCA\Files_Sharing\Helper::isOutgoingServer2serverShareEnabled();
+		}
+
+		return true;
+	}
+
+	/**
 	 * resolve reshares to return the correct source item
 	 * @param array $source
 	 * @return array source item

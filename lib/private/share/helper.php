@@ -38,7 +38,7 @@ class Helper extends \OC\Share\Constants {
 	public static function generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $suggestedTarget = null, $groupParent = null) {
 		// FIXME: $uidOwner and $groupParent seems to be unused
 		$backend = \OC\Share\Share::getBackend($itemType);
-		if ($shareType == self::SHARE_TYPE_LINK) {
+		if ($shareType === self::SHARE_TYPE_LINK || $shareType === self::SHARE_TYPE_REMOTE) {
 			if (isset($suggestedTarget)) {
 				return $suggestedTarget;
 			}

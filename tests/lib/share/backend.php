@@ -84,4 +84,8 @@ class Test_Share_Backend implements OCP\Share_Backend {
 		return $testItems;
 	}
 
+	public function isShareTypeAllowed($shareType) {
+		return true;
+	}
+
 }

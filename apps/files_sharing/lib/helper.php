@@ -2,8 +2,6 @@
 
 namespace OCA\Files_Sharing;
 
-use OC_Config;
-
 class Helper {
 
 	public static function registerHooks() {
@@ -18,30 +16,6 @@ class Helper {
 		\OCP\Util::connectHook('OCP\Share', 'post_shared', '\OC\Files\Cache\Shared_Updater', 'postShareHook');
 		\OCP\Util::connectHook('OCP\Share', 'post_unshare', '\OC\Files\Cache\Shared_Updater', 'postUnshareHook');
 		\OCP\Util::connectHook('OCP\Share', 'post_unshareFromSelf', '\OC\Files\Cache\Shared_Updater', 'postUnshareFromSelfHook');
-	}
-
-	/**
-	 * add server-to-server share to database
-	 *
-	 * @param string $remote
-	 * @param string $token
-	 * @param string $name
-	 * @param string $mountPoint
-	 * @param string $owner
-	 * @param string $user
-	 * @param string $password
-	 * @param int $remoteId
-	 * @param bool $accepted
-	 */
-	public static function addServer2ServerShare($remote, $token, $name, $mountPoint, $owner, $user, $password='', $remoteId=-1, $accepted = false) {
-		$accepted = $accepted ? 1 : 0;
-		$query = \OCP\DB::prepare('
-				INSERT INTO `*PREFIX*share_external`
-					(`remote`, `share_token`, `password`, `name`, `owner`, `user`, `mountpoint`, `mountpoint_hash`, `accepted`, `remote_id`)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			');
-			$hash = md5($mountPoint);
-			$query->execute(array($remote, $token, $password, $name, $owner, $user, $mountPoint, $hash, $accepted, $remoteId));
 	}
 
 	/**
@@ -89,7 +63,7 @@ class Helper {
 			exit();
 		}
 
-		if (isset($linkItem['share_with'])) {
+		if (isset($linkItem['share_with']) && (int)$linkItem['share_type'] === \OCP\Share::SHARE_TYPE_LINK) {
 			if (!self::authenticate($linkItem, $password)) {
 				\OC_Response::setStatus(403);
 				\OCP\JSON::error(array('success' => false));

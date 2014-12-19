@@ -115,6 +115,91 @@ class Share extends TestCase {
 		parent::tearDownAfterClass();
 	}
 
+	/**
+	 * @medium
+	 */
+	function testDeclineServer2ServerShare() {
+
+		$config = $this->getMockBuilder('\OCP\IConfig')
+				->disableOriginalConstructor()->getMock();
+		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
+				->setConstructorArgs(array($config, $certificateManager))
+				->getMock();
+		$httpHelperMock->expects($this->once())->method('post')->with($this->anything())->will($this->returnValue(true));
+
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
+
+		// save file with content
+		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename, $this->dataShort);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// get the file info from previous created file
+		$fileInfo = $this->view->getFileInfo(
+			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+
+
+		// share the file
+		$token = \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, '', \OCP\Constants::PERMISSION_ALL);
+		$this->assertTrue(is_string($token));
+
+		$publicShareKeyId = \OC::$server->getConfig()->getAppValue('files_encryption', 'publicShareKeyId');
+
+		// check if share key for public exists
+		$this->assertTrue($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+			. $this->filename . '/' . $publicShareKeyId . '.shareKey'));
+
+		// manipulate share
+		$query = \OC::$server->getDatabaseConnection()->prepare('UPDATE `*PREFIX*share` SET `share_type` = ?, `share_with` = ? WHERE `token`=?');
+		$this->assertTrue($query->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, 'foo@bar', $token)));
+
+		// check if share key not exists
+		$this->assertTrue($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+			. $this->filename . '/' . $publicShareKeyId . '.shareKey'));
+
+
+		$query = \OC::$server->getDatabaseConnection()->prepare('SELECT * FROM `*PREFIX*share` WHERE `token`=?');
+		$query->execute(array($token));
+
+		$share = $query->fetch();
+
+		$this->registerHttpHelper($httpHelperMock);
+		$_POST['token'] = $token;
+		$s2s = new \OCA\Files_Sharing\API\Server2Server();
+		$s2s->declineShare(array('id' => $share['id']));
+		$this->restoreHttpHelper();
+
+		$this->assertFalse($this->view->file_exists(
+			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+			. $this->filename . '/' . $publicShareKeyId . '.shareKey'));
+
+	}
+
+
+	/**
+	 * Register an http helper mock for testing purposes.
+	 * @param $httpHelper http helper mock
+	 */
+	private function registerHttpHelper($httpHelper) {
+		$this->oldHttpHelper = \OC::$server->query('HTTPHelper');
+		\OC::$server->registerService('HTTPHelper', function ($c) use ($httpHelper) {
+			return $httpHelper;
+		});
+	}
+
+	/**
+	 * Restore the original http helper
+	 */
+	private function restoreHttpHelper() {
+		$oldHttpHelper = $this->oldHttpHelper;
+		\OC::$server->registerService('HTTPHelper', function ($c) use ($oldHttpHelper) {
+			return $oldHttpHelper;
+		});
+	}
 
 	/**
 	 * @medium
@@ -285,7 +370,7 @@ class Share extends TestCase {
 
 		// save file with content
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
-										 . $this->filename, $this->dataShort);
+			. $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile));
@@ -677,7 +762,7 @@ class Share extends TestCase {
 		// save file with content
 		$cryptedFile1 = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 		$cryptedFile2 = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
-										  . $this->filename, $this->dataShort);
+			. $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile1));
@@ -784,7 +869,7 @@ class Share extends TestCase {
 		// save file with content
 		$cryptedFile1 = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER2. '/files/' . $this->filename, $this->dataShort);
 		$cryptedFile2 = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/'
-										  . $this->filename, $this->dataShort);
+			. $this->filename, $this->dataShort);
 
 		// test that data was successfully written
 		$this->assertTrue(is_int($cryptedFile1));
@@ -925,8 +1010,8 @@ class Share extends TestCase {
 
 		// remove share file
 		$this->view->unlink('/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
-							. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER3
-							. '.shareKey');
+			. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER3
+			. '.shareKey');
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -990,7 +1075,7 @@ class Share extends TestCase {
 
 		// move the file to a subfolder
 		$this->view->rename('/' . self::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename,
-				'/' . self::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1 . $this->filename);
+			'/' . self::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1 . $this->filename);
 
 		// check if we can read the moved file
 		$retrievedRenamedFile = $this->view->file_get_contents(

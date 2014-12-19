@@ -11,6 +11,7 @@
 namespace OCA\Files_Sharing;
 
 use OC\AppFramework\Utility\SimpleContainer;
+use OCA\Files_Sharing\Controllers\ExternalSharesController;
 use OCA\Files_Sharing\Controllers\ShareController;
 use OCA\Files_Sharing\Middleware\SharingCheckMiddleware;
 use \OCP\AppFramework\App;
@@ -44,6 +45,14 @@ class Application extends App {
 				$c->query('ServerContainer')->getLogger()
 			);
 		});
+		$container->registerService('ExternalSharesController', function(SimpleContainer $c) {
+			return new ExternalSharesController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('IsIncomingShareEnabled'),
+				$c->query('ExternalManager')
+			);
+		});
 
 		/**
 		 * Core class wrappers
@@ -53,6 +62,18 @@ class Application extends App {
 		});
 		$container->registerService('URLGenerator', function(SimpleContainer $c) {
 			return $c->query('ServerContainer')->getUrlGenerator();
+		});
+		$container->registerService('IsIncomingShareEnabled', function(SimpleContainer $c) {
+			return Helper::isIncomingServer2serverShareEnabled();
+		});
+		$container->registerService('ExternalManager', function(SimpleContainer $c) {
+			return new \OCA\Files_Sharing\External\Manager(
+					\OC::$server->getDatabaseConnection(),
+					\OC\Files\Filesystem::getMountManager(),
+					\OC\Files\Filesystem::getLoader(),
+					\OC::$server->getUserSession(),
+					\OC::$server->getHTTPHelper()
+			);
 		});
 
 		/**

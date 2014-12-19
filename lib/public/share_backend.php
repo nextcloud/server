@@ -65,4 +65,16 @@ interface Share_Backend {
 	 */
 	public function formatItems($items, $format, $parameters = null);
 
+	/**
+	 * Check if a given share type is allowd by the back-end
+	 *
+	 * @param int $shareType share type
+	 * @return boolean
+	 *
+	 * The back-end can enable/disable specific share types. Just return true if
+	 * the back-end doesn't provide any specific settings for it and want to allow
+	 * all share types defined by the share API
+	 */
+	public function isShareTypeAllowed($shareType);
+
 }

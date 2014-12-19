@@ -38,6 +38,16 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OCP\Share::registerBackend('test', 'Test_Share_Backend');
 
+		$config = $this->getMockBuilder('\OCP\IConfig')
+				->disableOriginalConstructor()->getMock();
+		$certificateManager = $this->getMock('\OCP\ICertificateManager');
+		$httpHelperMock = $this->getMockBuilder('\OC\HTTPHelper')
+				->setConstructorArgs(array($config, $certificateManager))
+				->getMock();
+		$httpHelperMock->expects($this->any())->method('post')->with($this->anything())->will($this->returnValue(true));
+
+		$this->registerHttpHelper($httpHelperMock);
+
 		$this->s2s = new \OCA\Files_Sharing\API\Server2Server();
 	}
 
@@ -45,7 +55,30 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 		$query = \OCP\DB::prepare('DELETE FROM `*PREFIX*share_external`');
 		$query->execute();
 
+		$this->restoreHttpHelper();
+
 		parent::tearDown();
+	}
+
+	/**
+	 * Register an http helper mock for testing purposes.
+	 * @param $httpHelper http helper mock
+	 */
+	private function registerHttpHelper($httpHelper) {
+		$this->oldHttpHelper = \OC::$server->query('HTTPHelper');
+		\OC::$server->registerService('HTTPHelper', function ($c) use ($httpHelper) {
+			return $httpHelper;
+		});
+	}
+
+	/**
+	 * Restore the original http helper
+	 */
+	private function restoreHttpHelper() {
+		$oldHttpHelper = $this->oldHttpHelper;
+		\OC::$server->registerService('HTTPHelper', function ($c) use ($oldHttpHelper) {
+			return $oldHttpHelper;
+		});
 	}
 
 	/**
@@ -58,7 +91,7 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 		$_POST['name'] = 'name';
 		$_POST['owner'] = 'owner';
 		$_POST['shareWith'] = self::TEST_FILES_SHARING_API_USER2;
-		$_POST['remote_id'] = 1;
+		$_POST['remoteId'] = 1;
 
 		$result = $this->s2s->createShare(null);
 
@@ -81,10 +114,10 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 	function testDeclineShare() {
 		$dummy = \OCP\DB::prepare('
 			INSERT INTO `*PREFIX*share`
-			(`share_type`, `uid_owner`, `item_type`, `item_source`, `item_target`, `file_source`, `file_target`, `permissions`, `stime`, `token`)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			(`share_type`, `uid_owner`, `item_type`, `item_source`, `item_target`, `file_source`, `file_target`, `permissions`, `stime`, `token`, `share_with`)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 			');
-		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token'));
+		$dummy->execute(array(\OCP\Share::SHARE_TYPE_REMOTE, self::TEST_FILES_SHARING_API_USER1, 'test', '1', '/1', '1', '/test.txt', '1', time(), 'token', 'foo@bar'));
 
 		$verify = \OCP\DB::prepare('SELECT * FROM `*PREFIX*share`');
 		$result = $verify->execute();
