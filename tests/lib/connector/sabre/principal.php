@@ -8,15 +8,17 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Connector\Sabre;
+
 use OCP\IUserManager;
 use OCP\IConfig;
 
-class Test_OC_Connector_Sabre_Principal extends \Test\TestCase {
+class Test_Principal extends \Test\TestCase {
 	/** @var IUserManager */
 	private $userManager;
 	/** @var IConfig */
 	private $config;
-	/** @var OC_Connector_Sabre_Principal */
+	/** @var Principal */
 	private $connector;
 
 	public function setUp() {
@@ -25,7 +27,7 @@ class Test_OC_Connector_Sabre_Principal extends \Test\TestCase {
 		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
 
-		$this->connector = new OC_Connector_Sabre_Principal($this->config, $this->userManager);
+		$this->connector = new Principal($this->config, $this->userManager);
 		parent::setUp();
 	}
 

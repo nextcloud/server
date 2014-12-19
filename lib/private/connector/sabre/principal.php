@@ -9,15 +9,21 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Connector\Sabre;
+
 use OCP\IUserManager;
 use OCP\IConfig;
 
-class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
+class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
 	/** @var IConfig */
 	private $config;
 	/** @var IUserManager */
 	private $userManager;
 
+	/**
+	 * @param IConfig $config
+	 * @param IUserManager $userManager
+	 */
 	public function __construct(IConfig $config,
 								IUserManager $userManager) {
 		$this->config = $config;
@@ -45,7 +51,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 
 				$principal = [
 					'uri' => 'principals/' . $user->getUID(),
-					'{DAV:}displayname' => $user->getUID()
+					'{DAV:}displayname' => $user->getUID(),
 				];
 
 				$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
@@ -149,10 +155,20 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 		throw new \Sabre\DAV\Exception('Setting members of the group is not supported yet');
 	}
 
+	/**
+	 * @param string $path
+	 * @param array $mutations
+	 * @return int
+	 */
 	function updatePrincipal($path, $mutations) {
 		return 0;
 	}
 
+	/**
+	 * @param string $prefixPath
+	 * @param array $searchProperties
+	 * @return array
+	 */
 	function searchPrincipals($prefixPath, array $searchProperties) {
 		return [];
 	}
