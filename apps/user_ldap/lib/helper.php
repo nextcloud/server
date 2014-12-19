@@ -142,33 +142,6 @@ class Helper {
 	}
 
 	/**
-	 * Truncate's the given mapping table
-	 *
-	 * @param string $mapping either 'user' or 'group'
-	 * @return bool true on success, false otherwise
-	 */
-	static public function clearMapping($mapping) {
-		if($mapping === 'user') {
-			$table = '`*PREFIX*ldap_user_mapping`';
-		} else if ($mapping === 'group') {
-			$table = '`*PREFIX*ldap_group_mapping`';
-		} else {
-			return false;
-		}
-
-		$connection = \OC_DB::getConnection();
-		$sql = $connection->getDatabasePlatform()->getTruncateTableSQL($table);
-		$query = \OCP\DB::prepare($sql);
-		$res = $query->execute();
-
-		if(\OCP\DB::isError($res)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * extracts the domain from a given URL
 	 * @param string $url the URL
 	 * @return string|false domain as string on success, false otherwise
