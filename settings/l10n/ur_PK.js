@@ -12,6 +12,7 @@ OC.L10N.register(
     "Security Warning" : "حفاظتی انتباہ",
     "More" : "مزید",
     "Less" : "کم",
+    "Cheers!" : "واہ!",
     "Password" : "پاسورڈ",
     "New password" : "نیا پاسورڈ",
     "Cancel" : "منسوخ کریں",

@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Νέος κατάλογος",
     "Folder" : "Φάκελος",
     "From link" : "Από σύνδεσμο",
+    "Upload" : "Μεταφόρτωση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
     "Download" : "Λήψη",
     "Upload too large" : "Πολύ μεγάλο αρχείο προς αποστολή",

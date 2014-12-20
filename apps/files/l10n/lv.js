@@ -51,6 +51,7 @@ OC.L10N.register(
     "New folder" : "Jauna mape",
     "Folder" : "Mape",
     "From link" : "No saites",
+    "Upload" : "Augšupielādēt",
     "Cancel upload" : "Atcelt augšupielādi",
     "Download" : "Lejupielādēt",
     "Upload too large" : "Datne ir par lielu, lai to augšupielādētu",

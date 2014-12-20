@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Novo cartafol",
     "Folder" : "Cartafol",
     "From link" : "Desde a ligazón",
+    "Upload" : "Enviar",
     "Cancel upload" : "Cancelar o envío",
     "Download" : "Descargar",
     "Upload too large" : "Envío grande de máis",

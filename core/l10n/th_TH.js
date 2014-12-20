@@ -51,7 +51,6 @@ OC.L10N.register(
     "can edit" : "สามารถแก้ไข",
     "access control" : "ระดับควบคุมการเข้าใช้งาน",
     "create" : "สร้าง",
-    "update" : "อัพเดท",
     "delete" : "ลบ",
     "Password protected" : "ใส่รหัสผ่านไว้",
     "Error unsetting expiration date" : "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ",

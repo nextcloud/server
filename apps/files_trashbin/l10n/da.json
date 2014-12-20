@@ -6,6 +6,9 @@
     "Delete permanently" : "Slet permanent",
     "Error" : "Fejl",
     "restored" : "Gendannet",
+    "No deleted files" : "Ingen slettede filer",
+    "You will be able to recover deleted files from here" : "Du vil kunne gendanne slettede filer herfra",
+    "Select all" : "Vælg alle",
     "Name" : "Navn",
     "Deleted" : "Slettet",
     "Delete" : "Slet"

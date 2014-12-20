@@ -87,6 +87,7 @@ OC.L10N.register(
     "New folder" : "Dosje e're",
     "Folder" : "Dosje",
     "From link" : "Nga lidhja",
+    "Upload" : "Ngarko",
     "Cancel upload" : "Anullo ngarkimin",
     "Download" : "Shkarko",
     "Upload too large" : "Ngarkimi shumë i madh",

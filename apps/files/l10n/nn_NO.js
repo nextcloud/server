@@ -57,6 +57,7 @@ OC.L10N.register(
     "New folder" : "Ny mappe",
     "Folder" : "Mappe",
     "From link" : "Frå lenkje",
+    "Upload" : "Last opp",
     "Cancel upload" : "Avbryt opplasting",
     "Download" : "Last ned",
     "Upload too large" : "For stor opplasting",

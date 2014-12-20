@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Új mappa",
     "Folder" : "Mappa",
     "From link" : "Feltöltés linkről",
+    "Upload" : "Feltöltés",
     "Cancel upload" : "A feltöltés megszakítása",
     "Download" : "Letöltés",
     "Upload too large" : "A feltöltés túl nagy",

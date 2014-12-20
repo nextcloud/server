@@ -68,6 +68,7 @@ OC.L10N.register(
     "New folder" : "Nova dosierujo",
     "Folder" : "Dosierujo",
     "From link" : "El ligilo",
+    "Upload" : "Alŝuti",
     "Cancel upload" : "Nuligi alŝuton",
     "Download" : "Elŝuti",
     "Upload too large" : "Alŝuto tro larĝa",

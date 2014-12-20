@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "永久删除",
     "Error" : "错误",
     "restored" : "已恢复",
+    "Select all" : "全部选择",
     "Name" : "名称",
     "Deleted" : "已删除",
     "Delete" : "删除"

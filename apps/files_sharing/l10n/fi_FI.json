@@ -24,7 +24,6 @@
     "You received a new remote share from %s" : "Vastaanotit uuden etäjaon käyttäjältä %s",
     "%1$s accepted remote share %2$s" : "%1$s hyväksyi etäjaon %2$s",
     "%1$s declined remote share %2$s" : "%1$s kieltäytyi etäjaosta %2$s",
-    "%1$s unshared %2$s" : "%1$s lopetti kohteen %2$s jakamisen",
     "This share is password-protected" : "Tämä jako on suojattu salasanalla",
     "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",

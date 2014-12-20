@@ -48,7 +48,6 @@ OC.L10N.register(
     "can edit" : "може да мења",
     "access control" : "права приступа",
     "create" : "направи",
-    "update" : "ажурирај",
     "delete" : "обриши",
     "Password protected" : "Заштићено лозинком",
     "Error unsetting expiration date" : "Грешка код поништавања датума истека",

@@ -32,6 +32,7 @@ OC.L10N.register(
     "New" : "Nei",
     "Text file" : "Text Fichier",
     "Folder" : "Dossier",
+    "Upload" : "Eroplueden",
     "Cancel upload" : "Upload ofbriechen",
     "Download" : "Download",
     "Upload too large" : "Upload ze grouss",

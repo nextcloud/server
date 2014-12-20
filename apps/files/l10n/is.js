@@ -40,6 +40,7 @@ OC.L10N.register(
     "Text file" : "Texta skrá",
     "Folder" : "Mappa",
     "From link" : "Af tengli",
+    "Upload" : "Senda inn",
     "Cancel upload" : "Hætta við innsendingu",
     "Download" : "Niðurhal",
     "Upload too large" : "Innsend skrá er of stór",

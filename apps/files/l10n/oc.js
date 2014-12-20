@@ -29,6 +29,7 @@ OC.L10N.register(
     "New" : "Nòu",
     "Text file" : "Fichièr de tèxte",
     "Folder" : "Dorsièr",
+    "Upload" : "Amontcarga",
     "Cancel upload" : " Anulla l'amontcargar",
     "Download" : "Avalcarga",
     "Upload too large" : "Amontcargament tròp gròs",

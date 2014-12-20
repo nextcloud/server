@@ -50,7 +50,6 @@ OC.L10N.register(
     "can edit" : "yn gallu golygu",
     "access control" : "rheolaeth mynediad",
     "create" : "creu",
-    "update" : "diweddaru",
     "delete" : "dileu",
     "Password protected" : "Diogelwyd â chyfrinair",
     "Error unsetting expiration date" : "Gwall wrth ddad-osod dyddiad dod i ben",

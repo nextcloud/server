@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Nueva carpeta",
     "Folder" : "Carpeta",
     "From link" : "Desde enlace",
+    "Upload" : "Subir",
     "Cancel upload" : "Cancelar subida",
     "No files yet" : "Aún no hay archivos",
     "Upload some content or sync with your devices!" : "Suba contenidos o sincronice sus dispositivos.",

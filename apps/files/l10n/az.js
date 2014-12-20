@@ -58,6 +58,7 @@ OC.L10N.register(
     "Settings" : "Quraşdırmalar",
     "New folder" : "Yeni qovluq",
     "Folder" : "Qovluq",
+    "Upload" : "Serverə yüklə",
     "Cancel upload" : "Yüklənməni dayandır",
     "Download" : "Yüklə"
 },

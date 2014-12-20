@@ -24,7 +24,6 @@
     "You received a new remote share from %s" : "U ontving een nieuwe externe share van %s",
     "%1$s accepted remote share %2$s" : "%1$s accepteerde externe share %2$s",
     "%1$s declined remote share %2$s" : "%1$s weigerde externe share %2$s",
-    "%1$s unshared %2$s" : "%1$s stopte met delen van %2$s",
     "This share is password-protected" : "Deze share is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
     "Password" : "Wachtwoord",

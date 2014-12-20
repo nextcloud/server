@@ -8,6 +8,9 @@ OC.L10N.register(
     "Delete permanently" : "Delete permanently",
     "Error" : "Error",
     "restored" : "restored",
+    "No deleted files" : "No deleted files",
+    "You will be able to recover deleted files from here" : "You will be able to recover deleted files from here",
+    "Select all" : "Select all",
     "Name" : "Name",
     "Deleted" : "Deleted",
     "Delete" : "Delete"

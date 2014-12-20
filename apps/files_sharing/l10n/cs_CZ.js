@@ -26,7 +26,6 @@ OC.L10N.register(
     "You received a new remote share from %s" : "Obdrželi jste nové vzdálené sdílení z %s",
     "%1$s accepted remote share %2$s" : "%1$s přijal(a) vzdálené sdílení %2$s",
     "%1$s declined remote share %2$s" : "%1$s odmítl(a) vzdálené sdílení %2$s",
-    "%1$s unshared %2$s" : "%1$s zrušil(a) sdílení %2$s",
     "This share is password-protected" : "Toto sdílení je chráněno heslem",
     "The password is wrong. Try again." : "Heslo není správné. Zkuste to znovu.",
     "Password" : "Heslo",

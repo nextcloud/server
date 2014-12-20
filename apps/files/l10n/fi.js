@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "Tallenna",
     "Settings" : "Asetukset",
     "New folder" : "Luo kansio",
-    "Folder" : "Kansio"
+    "Folder" : "Kansio",
+    "Upload" : "Lähetä"
 },
 "nplurals=2; plural=(n != 1);");

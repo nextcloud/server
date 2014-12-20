@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Nova Pasta",
     "Folder" : "Pasta",
     "From link" : "Da hiperligação",
+    "Upload" : "Enviar",
     "Cancel upload" : "Cancelar o envio",
     "Download" : "Transferir",
     "Upload too large" : "Upload muito grande",

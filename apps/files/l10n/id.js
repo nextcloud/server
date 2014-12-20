@@ -89,6 +89,7 @@ OC.L10N.register(
     "New folder" : "Map baru",
     "Folder" : "Folder",
     "From link" : "Dari tautan",
+    "Upload" : "Unggah",
     "Cancel upload" : "Batal unggah",
     "Download" : "Unduh",
     "Upload too large" : "Yang diunggah terlalu besar",

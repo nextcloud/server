@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Нова тека",
     "Folder" : "Тека",
     "From link" : "З посилання",
+    "Upload" : "Вивантажити",
     "Cancel upload" : "Перервати завантаження",
     "Download" : "Завантажити",
     "Upload too large" : "Файл занадто великий",

@@ -8,6 +8,9 @@ OC.L10N.register(
     "Delete permanently" : "Ištrinti negrįžtamai",
     "Error" : "Klaida",
     "restored" : "atstatyta",
+    "No deleted files" : "Nėra ištrintų failų",
+    "You will be able to recover deleted files from here" : "Jūs galėsite atkurti ištrintus failus iš čia",
+    "Select all" : "Pažymėti viską",
     "Name" : "Pavadinimas",
     "Deleted" : "Ištrinti",
     "Delete" : "Ištrinti"

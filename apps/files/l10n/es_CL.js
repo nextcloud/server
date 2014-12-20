@@ -10,6 +10,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Settings" : "Configuración",
     "New folder" : "Nuevo directorio",
+    "Upload" : "Subir",
     "Cancel upload" : "cancelar subida",
     "Download" : "Descargar"
 },

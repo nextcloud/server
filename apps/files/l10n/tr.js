@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Yeni klasör",
     "Folder" : "Klasör",
     "From link" : "Bağlantıdan",
+    "Upload" : "Yükle",
     "Cancel upload" : "Yüklemeyi iptal et",
     "Download" : "İndir",
     "Upload too large" : "Yükleme çok büyük",

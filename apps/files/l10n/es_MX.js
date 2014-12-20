@@ -75,6 +75,7 @@ OC.L10N.register(
     "New folder" : "Nueva carpeta",
     "Folder" : "Carpeta",
     "From link" : "Desde enlace",
+    "Upload" : "Subir archivo",
     "Cancel upload" : "Cancelar subida",
     "Download" : "Descargar",
     "Upload too large" : "Subida demasido grande",

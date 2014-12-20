@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Karpeta berria",
     "Folder" : "Karpeta",
     "From link" : "Estekatik",
+    "Upload" : "Igo",
     "Cancel upload" : "Ezeztatu igoera",
     "Download" : "Deskargatu",
     "Upload too large" : "Igoera handiegia da",

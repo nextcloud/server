@@ -50,6 +50,7 @@
     "Delete" : "Delete",
     "Disconnect storage" : "Disconnect storage",
     "Unshare" : "Unshare",
+    "Select" : "Select",
     "Pending" : "Pending",
     "Unable to determine date" : "Unable to determine date",
     "Error moving file." : "Error moving file.",
@@ -71,6 +72,7 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.",
     "{dirs} and {files}" : "{dirs} and {files}",
+    "Favorited" : "Favourited",
     "Favorite" : "Favourite",
     "%s could not be renamed as it has been deleted" : "%s could not be renamed as it has been deleted",
     "%s could not be renamed" : "%s could not be renamed",
@@ -88,11 +90,17 @@
     "New folder" : "New folder",
     "Folder" : "Folder",
     "From link" : "From link",
+    "Upload" : "Upload",
     "Cancel upload" : "Cancel upload",
+    "No files yet" : "No files yet",
+    "Upload some content or sync with your devices!" : "Upload some content or sync with your devices!",
+    "Select all" : "Select all",
     "Download" : "Download",
     "Upload too large" : "Upload too large",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "The files you are trying to upload exceed the maximum size for file uploads on this server.",
     "Files are being scanned, please wait." : "Files are being scanned, please wait.",
-    "Currently scanning" : "Currently scanning"
+    "Currently scanning" : "Currently scanning",
+    "No favorites" : "No favourites",
+    "Files and folders you mark as favorite will show up here" : "Files and folders you mark as favourite will show up here"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

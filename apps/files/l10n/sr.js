@@ -43,6 +43,7 @@ OC.L10N.register(
     "Text file" : "текстуална датотека",
     "Folder" : "фасцикла",
     "From link" : "Са везе",
+    "Upload" : "Отпреми",
     "Cancel upload" : "Прекини отпремање",
     "Download" : "Преузми",
     "Upload too large" : "Датотека је превелика",

@@ -29,6 +29,7 @@ OC.L10N.register(
     "New" : "Baru",
     "Text file" : "Fail teks",
     "Folder" : "Folder",
+    "Upload" : "Muat naik",
     "Cancel upload" : "Batal muat naik",
     "Download" : "Muat turun",
     "Upload too large" : "Muatnaik terlalu besar",

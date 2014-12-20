@@ -63,6 +63,7 @@ OC.L10N.register(
     "New folder" : "Нова папка",
     "Folder" : "Папка",
     "From link" : "Од врска",
+    "Upload" : "Подигни",
     "Cancel upload" : "Откажи прикачување",
     "Download" : "Преземи",
     "Upload too large" : "Фајлот кој се вчитува е преголем",

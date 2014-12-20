@@ -26,7 +26,6 @@ OC.L10N.register(
     "You received a new remote share from %s" : "Du hast eine neue Remotefreigabe von %s erhalten",
     "%1$s accepted remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s akzeptiert",
     "%1$s declined remote share %2$s" : "%1$s hat die Remotefreigabe von %2$s abgelehnt",
-    "%1$s unshared %2$s" : "%1$s hat die Remotefreigabe von %2$s entfernt",
     "This share is password-protected" : "Diese Freigabe ist durch ein Passwort geschützt",
     "The password is wrong. Try again." : "Bitte überprüfe Dein Passwort und versuche es erneut.",
     "Password" : "Passwort",

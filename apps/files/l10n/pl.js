@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Nowy folder",
     "Folder" : "Folder",
     "From link" : "Z odnośnika",
+    "Upload" : "Wyślij",
     "Cancel upload" : "Anuluj wysyłanie",
     "Download" : "Pobierz",
     "Upload too large" : "Ładowany plik jest za duży",

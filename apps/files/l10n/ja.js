@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "新しいフォルダー",
     "Folder" : "フォルダー",
     "From link" : "リンク",
+    "Upload" : "アップロード",
     "Cancel upload" : "アップロードをキャンセル",
     "Download" : "ダウンロード",
     "Upload too large" : "アップロードには大きすぎます。",

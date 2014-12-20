@@ -62,6 +62,7 @@ OC.L10N.register(
     "New folder" : "নব ফােলডার",
     "Folder" : "ফোল্ডার",
     "From link" : " লিংক থেকে",
+    "Upload" : "আপলোড",
     "Cancel upload" : "আপলোড বাতিল কর",
     "Download" : "ডাউনলোড",
     "Upload too large" : "আপলোডের আকারটি অনেক বড়",

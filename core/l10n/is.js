@@ -48,7 +48,6 @@ OC.L10N.register(
     "can edit" : "getur breytt",
     "access control" : "aðgangsstýring",
     "create" : "mynda",
-    "update" : "uppfæra",
     "delete" : "eyða",
     "Password protected" : "Verja með lykilorði",
     "Error unsetting expiration date" : "Villa við að aftengja gildistíma",

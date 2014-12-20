@@ -53,7 +53,6 @@ OC.L10N.register(
     "can edit" : "ניתן לערוך",
     "access control" : "בקרת גישה",
     "create" : "יצירה",
-    "update" : "עדכון",
     "delete" : "מחיקה",
     "Password protected" : "מוגן בססמה",
     "Error unsetting expiration date" : "אירעה שגיאה בביטול תאריך התפוגה",

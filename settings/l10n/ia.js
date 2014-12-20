@@ -18,6 +18,7 @@ OC.L10N.register(
     "Security Warning" : "Aviso de securitate",
     "More" : "Plus",
     "by" : "per",
+    "Cheers!" : "Acclamationes!",
     "Get the apps to sync your files" : "Obtene le apps (applicationes) pro synchronizar tu files",
     "Password" : "Contrasigno",
     "Unable to change your password" : "Non pote cambiar tu contrasigno",

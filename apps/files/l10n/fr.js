@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Nouveau dossier",
     "Folder" : "Dossier",
     "From link" : "Depuis un lien",
+    "Upload" : "Chargement",
     "Cancel upload" : "Annuler l'envoi",
     "No files yet" : "Aucun fichier pour l'instant",
     "Upload some content or sync with your devices!" : "Envoyez des fichiers ou synchronisez en depuis vos appareils",

@@ -74,6 +74,7 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ugyldig privat nøgle for krypteringsprogrammet. Opdater venligst dit kodeord for den private nøgle i dine personlige indstillinger. Det kræves for at få adgang til dine krypterede filer.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Krypteringen blev deaktiveret, men dine filer er stadig krypteret. Gå venligst til dine personlige indstillinger for at dekryptere dine filer. ",
     "{dirs} and {files}" : "{dirs} og {files}",
+    "Favorited" : "Gjort til favorit",
     "Favorite" : "Foretrukken",
     "%s could not be renamed as it has been deleted" : "%s kunne ikke omdøbes, da den er blevet slettet",
     "%s could not be renamed" : "%s kunne ikke omdøbes",
@@ -91,11 +92,17 @@ OC.L10N.register(
     "New folder" : "Ny Mappe",
     "Folder" : "Mappe",
     "From link" : "Fra link",
+    "Upload" : "Upload",
     "Cancel upload" : "Fortryd upload",
+    "No files yet" : "Endnu ingen filer",
+    "Upload some content or sync with your devices!" : "Overfør indhold eller synkronisér med dine enheder!",
+    "Select all" : "Vælg alle",
     "Download" : "Download",
     "Upload too large" : "Upload er for stor",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
     "Files are being scanned, please wait." : "Filerne bliver indlæst, vent venligst.",
-    "Currently scanning" : "Indlæser"
+    "Currently scanning" : "Indlæser",
+    "No favorites" : "Ingen favoritter",
+    "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som favoritter, vil blive vist her"
 },
 "nplurals=2; plural=(n != 1);");

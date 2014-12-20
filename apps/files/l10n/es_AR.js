@@ -76,6 +76,7 @@ OC.L10N.register(
     "New folder" : "Nueva Carpeta",
     "Folder" : "Carpeta",
     "From link" : "Desde enlace",
+    "Upload" : "Subir",
     "Cancel upload" : "Cancelar subida",
     "Download" : "Descargar",
     "Upload too large" : "El tamaño del archivo que querés subir es demasiado grande",

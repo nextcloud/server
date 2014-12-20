@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Nieuwe map",
     "Folder" : "Map",
     "From link" : "Vanaf link",
+    "Upload" : "Uploaden",
     "Cancel upload" : "Upload afbreken",
     "No files yet" : "Nog geen bestanden.",
     "Upload some content or sync with your devices!" : "Upload bestanden of synchroniseer met uw apparaten!",

@@ -26,7 +26,6 @@ OC.L10N.register(
     "You received a new remote share from %s" : "Vous avez reçu un partage distant de %s",
     "%1$s accepted remote share %2$s" : "%1$s a accepté le partage distant %2$s",
     "%1$s declined remote share %2$s" : "%1$s a refusé le partage distant %2$s",
-    "%1$s unshared %2$s" : "%1$s a cessé de partager %2$s",
     "This share is password-protected" : "Ce partage est protégé par un mot de passe",
     "The password is wrong. Try again." : "Le mot de passe est incorrect. Veuillez réessayer.",
     "Password" : "Mot de passe",

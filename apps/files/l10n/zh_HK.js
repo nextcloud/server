@@ -21,6 +21,7 @@ OC.L10N.register(
     "New" : "新增",
     "New folder" : "新資料夾",
     "Folder" : "資料夾",
+    "Upload" : "上戴",
     "Cancel upload" : "取消上戴",
     "Download" : "下載"
 },

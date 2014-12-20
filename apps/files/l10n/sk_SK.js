@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Nový priečinok",
     "Folder" : "Priečinok",
     "From link" : "Z odkazu",
+    "Upload" : "Nahrať",
     "Cancel upload" : "Zrušiť nahrávanie",
     "Download" : "Sťahovanie",
     "Upload too large" : "Nahrávanie je príliš veľké",

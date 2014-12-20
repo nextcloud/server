@@ -25,6 +25,7 @@ OC.L10N.register(
     "Text file" : "File de texto",
     "New folder" : "Nove dossier",
     "Folder" : "Dossier",
+    "Upload" : "Incargar",
     "Download" : "Discargar",
     "Upload too large" : "Incargamento troppo longe"
 },

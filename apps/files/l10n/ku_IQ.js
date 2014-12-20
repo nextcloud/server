@@ -11,6 +11,7 @@ OC.L10N.register(
     "Save" : "پاشکه‌وتکردن",
     "Settings" : "ڕێکخستنه‌کان",
     "Folder" : "بوخچه",
+    "Upload" : "بارکردن",
     "Download" : "داگرتن"
 },
 "nplurals=2; plural=(n != 1);");

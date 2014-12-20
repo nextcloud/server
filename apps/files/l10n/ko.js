@@ -76,6 +76,7 @@ OC.L10N.register(
     "New folder" : "새 폴더",
     "Folder" : "폴더",
     "From link" : "링크에서",
+    "Upload" : "업로드",
     "Cancel upload" : "업로드 취소",
     "Download" : "다운로드",
     "Upload too large" : "업로드한 파일이 너무 큼",

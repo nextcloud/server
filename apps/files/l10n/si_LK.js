@@ -32,6 +32,7 @@ OC.L10N.register(
     "Text file" : "පෙළ ගොනුව",
     "Folder" : "ෆෝල්ඩරය",
     "From link" : "යොමුවෙන්",
+    "Upload" : "උඩුගත කරන්න",
     "Cancel upload" : "උඩුගත කිරීම අත් හරින්න",
     "Download" : "බාන්න",
     "Upload too large" : "උඩුගත කිරීම විශාල වැඩිය",

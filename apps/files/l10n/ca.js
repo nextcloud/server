@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Carpeta nova",
     "Folder" : "Carpeta",
     "From link" : "Des d'enllaç",
+    "Upload" : "Puja",
     "Cancel upload" : "Cancel·la la pujada",
     "Download" : "Baixa",
     "Upload too large" : "La pujada és massa gran",

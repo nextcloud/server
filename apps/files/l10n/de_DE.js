@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Neuer Ordner",
     "Folder" : "Ordner",
     "From link" : "Von einem Link",
+    "Upload" : "Hochladen",
     "Cancel upload" : "Upload abbrechen",
     "No files yet" : "Noch keine Dateien",
     "Upload some content or sync with your devices!" : "Laden Sie Inhalte hoch oder synchronisieren Sie mit Ihren Geräten!",

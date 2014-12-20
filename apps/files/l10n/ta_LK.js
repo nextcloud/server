@@ -37,6 +37,7 @@ OC.L10N.register(
     "Text file" : "கோப்பு உரை",
     "Folder" : "கோப்புறை",
     "From link" : "இணைப்பிலிருந்து",
+    "Upload" : "பதிவேற்றுக",
     "Cancel upload" : "பதிவேற்றலை இரத்து செய்க",
     "Download" : "பதிவிறக்குக",
     "Upload too large" : "பதிவேற்றல் மிகப்பெரியது",

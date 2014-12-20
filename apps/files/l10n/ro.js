@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Un nou dosar",
     "Folder" : "Dosar",
     "From link" : "De la adresa",
+    "Upload" : "Încărcă",
     "Cancel upload" : "Anulează încărcarea",
     "Download" : "Descarcă",
     "Upload too large" : "Fișierul încărcat este prea mare",

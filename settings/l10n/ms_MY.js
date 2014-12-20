@@ -3,10 +3,9 @@ OC.L10N.register(
     {
     "Log" : "Log",
     "Authentication error" : "Ralat pengesahan",
-    "Email saved" : "Emel disimpan",
-    "Invalid email" : "Emel tidak sah",
     "Language changed" : "Bahasa diubah",
     "Invalid request" : "Permintaan tidak sah",
+    "Email saved" : "Emel disimpan",
     "Disable" : "Nyahaktif",
     "Enable" : "Aktif",
     "Delete" : "Padam",

@@ -91,6 +91,7 @@ OC.L10N.register(
     "New folder" : "Nova mapa",
     "Folder" : "Mapa",
     "From link" : "Iz povezave",
+    "Upload" : "Pošlji",
     "Cancel upload" : "Prekliči pošiljanje",
     "Download" : "Prejmi",
     "Upload too large" : "Prekoračenje omejitve velikosti",

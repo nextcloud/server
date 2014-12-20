@@ -8,6 +8,7 @@
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Settings" : "Configuración",
     "New folder" : "Nuevo directorio",
+    "Upload" : "Subir",
     "Cancel upload" : "cancelar subida",
     "Download" : "Descargar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

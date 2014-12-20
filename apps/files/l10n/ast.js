@@ -89,6 +89,7 @@ OC.L10N.register(
     "New folder" : "Nueva carpeta",
     "Folder" : "Carpeta",
     "From link" : "Dende enllaz",
+    "Upload" : "Xubir",
     "Cancel upload" : "Encaboxar xuba",
     "Download" : "Descargar",
     "Upload too large" : "La xuba ye abondo grande",

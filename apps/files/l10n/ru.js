@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Новый каталог",
     "Folder" : "Каталог",
     "From link" : "Объект по ссылке",
+    "Upload" : "Загрузить",
     "Cancel upload" : "Отменить загрузку",
     "Download" : "Скачать",
     "Upload too large" : "Файл слишком велик",

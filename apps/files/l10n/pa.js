@@ -10,6 +10,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Settings" : "ਸੈਟਿੰਗ",
+    "Upload" : "ਅੱਪਲੋਡ",
     "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ",
     "Download" : "ਡਾਊਨਲੋਡ"
 },

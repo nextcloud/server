@@ -50,6 +50,7 @@ OC.L10N.register(
     "New folder" : "תיקייה חדשה",
     "Folder" : "תיקייה",
     "From link" : "מקישור",
+    "Upload" : "העלאה",
     "Cancel upload" : "ביטול ההעלאה",
     "Download" : "הורדה",
     "Upload too large" : "העלאה גדולה מידי",

@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "新資料夾",
     "Folder" : "資料夾",
     "From link" : "從連結",
+    "Upload" : "上傳",
     "Cancel upload" : "取消上傳",
     "Download" : "下載",
     "Upload too large" : "上傳過大",

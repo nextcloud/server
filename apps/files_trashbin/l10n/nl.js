@@ -10,6 +10,7 @@ OC.L10N.register(
     "restored" : "hersteld",
     "No deleted files" : "Geen verwijderde bestanden",
     "You will be able to recover deleted files from here" : "U kunt verwijderde bestanden hier vandaan weer terugzetten",
+    "Select all" : "Alles selecteren",
     "Name" : "Naam",
     "Deleted" : "Verwijderd",
     "Delete" : "Verwijder"

@@ -73,6 +73,7 @@ OC.L10N.register(
     "New folder" : "Tạo thư mục",
     "Folder" : "Thư mục",
     "From link" : "Từ liên kết",
+    "Upload" : "Tải lên",
     "Cancel upload" : "Hủy upload",
     "Download" : "Tải về",
     "Upload too large" : "Tập tin tải lên quá lớn",

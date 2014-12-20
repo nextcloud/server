@@ -8,6 +8,7 @@
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Settings" : "ਸੈਟਿੰਗ",
+    "Upload" : "ਅੱਪਲੋਡ",
     "Cancel upload" : "ਅੱਪਲੋਡ ਰੱਦ ਕਰੋ",
     "Download" : "ਡਾਊਨਲੋਡ"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

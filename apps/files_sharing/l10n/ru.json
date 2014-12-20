@@ -18,7 +18,6 @@
     "You received a new remote share from %s" : "Вы получили новую публикацию от %s",
     "%1$s accepted remote share %2$s" : "%1$s принял удалённую публикацию %2$s",
     "%1$s declined remote share %2$s" : "%1$s отклонил удалённую публикацию %2$s",
-    "%1$s unshared %2$s" : "%1$s отменил публикацию %2$s",
     "This share is password-protected" : "Для доступа к информации необходимо ввести пароль",
     "The password is wrong. Try again." : "Неверный пароль. Попробуйте еще раз.",
     "Password" : "Пароль",

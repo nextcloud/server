@@ -43,7 +43,6 @@ OC.L10N.register(
     "can edit" : "pòt modificar",
     "access control" : "Contraròtle d'acces",
     "create" : "crea",
-    "update" : "met a jorn",
     "delete" : "escafa",
     "Password protected" : "Parat per senhal",
     "Error unsetting expiration date" : "Error al metre de la data d'expiracion",

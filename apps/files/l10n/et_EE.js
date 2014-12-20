@@ -90,6 +90,7 @@ OC.L10N.register(
     "New folder" : "Uus kaust",
     "Folder" : "Kaust",
     "From link" : "Allikast",
+    "Upload" : "Lae üles",
     "Cancel upload" : "Tühista üleslaadimine",
     "Download" : "Lae alla",
     "Upload too large" : "Üleslaadimine on liiga suur",

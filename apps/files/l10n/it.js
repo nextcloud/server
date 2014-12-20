@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Nuova cartella",
     "Folder" : "Cartella",
     "From link" : "Da collegamento",
+    "Upload" : "Carica",
     "Cancel upload" : "Annulla caricamento",
     "No files yet" : "Nessun file ancora",
     "Upload some content or sync with your devices!" : "Carica alcuni contenuti o sincronizza con i tuoi dispositivi!",

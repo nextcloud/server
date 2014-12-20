@@ -92,6 +92,7 @@ OC.L10N.register(
     "New folder" : "Nová složka",
     "Folder" : "Složka",
     "From link" : "Z odkazu",
+    "Upload" : "Odeslat",
     "Cancel upload" : "Zrušit odesílání",
     "No files yet" : "Zatím žádné soubory",
     "Upload some content or sync with your devices!" : "Nahrajte nějaký obsah nebo synchronizujte se svými přístroji!",
