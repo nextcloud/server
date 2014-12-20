@@ -4,7 +4,7 @@
  * ownCloud - App Framework
  *
  * @author Bernhard Posselt
- * @copyright 2012 Bernhard Posselt <dev@bernhard-posselt.com>
+ * @copyright 2014 Bernhard Posselt <dev@bernhard-posselt.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -22,23 +22,17 @@
  */
 
 
-namespace OC\AppFramework\Utility;
-
-use OCP\AppFramework\Utility\ITimeFactory;
+namespace OCP\AppFramework\Utility;
 
 
 /**
  * Needed to mock calls to time()
  */
-class TimeFactory implements ITimeFactory {
-
+interface ITimeFactory {
 
 	/**
 	 * @return int the result of a call to time()
 	 */
-	public function getTime() {
-		return time();
-	}
-
+	public function getTime();
 
 }
