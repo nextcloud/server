@@ -23,6 +23,8 @@
 
 namespace OCA\user_ldap\lib;
 
+use OCA\User_LDAP\Mapping\GroupMapping;
+
 class Jobs extends \OC\BackgroundJob\TimedJob {
 	static private $groupsFromDB;
 
@@ -169,6 +171,7 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 				new \OCP\Image());
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $ldapWrapper, $userManager);
+			$groupMapper = new GroupMapping(\OC::$server->getDatabaseConnection());
 			self::$groupBE = new \OCA\user_ldap\GROUP_LDAP($ldapAccess);
 		} else {
 			self::$groupBE = new \OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);

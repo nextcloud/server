@@ -229,7 +229,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		//necessary for removing directories as done by OC_User.
 		$home = $pref->getUserValue($uid, 'user_ldap', 'homePath', '');
 		$this->homesToKill[$uid] = $home;
-		$this->access->unmapUser($uid);
+		$this->access->getUserMapper()->unmap($uid);
 
 		return true;
 	}

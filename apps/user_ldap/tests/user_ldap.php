@@ -239,6 +239,16 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testDeleteUserSuccess() {
 		$access = $this->getAccessMock();
+		$mapping = $this->getMockBuilder('\OCA\User_LDAP\Mapping\UserMapping')
+			->disableOriginalConstructor()
+			->getMock();
+		$mapping->expects($this->once())
+			->method('unmap')
+			->will($this->returnValue(true));
+		$access->expects($this->once())
+			->method('getUserMapper')
+			->will($this->returnValue($mapping));
+
 		$backend = new UserLDAP($access);
 
 		$pref = \OC::$server->getConfig();

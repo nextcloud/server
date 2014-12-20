@@ -76,11 +76,35 @@ class Access extends LDAPUtility implements user\IUserTools {
 	}
 
 	/**
+	 * returns the User Mapper
+	 * @throws \Exception
+	 * @return AbstractMapping
+	 */
+	public function getUserMapper() {
+		if(is_null($this->userMapper)) {
+			throw new \Exception('UserMapper was not assigned to this Access instance.');
+		}
+		return $this->userMapper;
+	}
+
+	/**
 	 * sets the Group Mapper
 	 * @param AbstractMapping $mapper
 	 */
 	public function setGroupMapper(AbstractMapping $mapper) {
 		$this->groupMapper = $mapper;
+	}
+
+	/**
+	 * returns the Group Mapper
+	 * @throws \Exception
+	 * @return AbstractMapping
+	 */
+	public function getGroupMapper() {
+		if(is_null($this->groupMapper)) {
+			throw new \Exception('GroupMapper was not assigned to this Access instance.');
+		}
+		return $this->groupMapper;
 	}
 
 	/**
@@ -333,10 +357,10 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
 		if($isUser) {
-			$mapper = $this->userMapper;
+			$mapper = $this->getUserMapper();
 			$nameAttribute = $this->connection->ldapUserDisplayName;
 		} else {
-			$mapper = $this->groupMapper;
+			$mapper = $this->getGroupMapper();
 			$nameAttribute = $this->connection->ldapGroupDisplayName;
 		}
 

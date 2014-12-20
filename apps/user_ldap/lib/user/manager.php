@@ -154,7 +154,7 @@ class Manager {
 			$id,
 			new \OC\Preferences(\OC_DB::getConnection()),
 			\OC::$server->getDatabaseConnection(),
-			$this->access);
+			$this->access->getUserMapper());
 	}
 
 	protected function createInstancyByUserName($id) {

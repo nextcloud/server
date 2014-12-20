@@ -38,8 +38,4 @@ interface IUserTools {
 	public function dn2username($dn, $ldapname = null);
 
 	public function username2dn($name);
-
-	//temporary hack for LDAP user cleanup, will be removed in OC 8.
-	public function ocname2dn($name, $isUser);
-
 }

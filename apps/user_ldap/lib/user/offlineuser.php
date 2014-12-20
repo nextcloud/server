@@ -23,7 +23,7 @@
 
 namespace OCA\user_ldap\lib\user;
 
-use OCA\user_ldap\lib\Access;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 class OfflineUser {
 	/**
@@ -67,15 +67,15 @@ class OfflineUser {
 	 */
 	protected $db;
 	/**
-	 * @var \OCA\user_ldap\lib\Access
+	 * @var OCA\User_LDAP\Mapping\UserMapping
 	 */
-	protected $access;
+	protected $mapping;
 
-	public function __construct($ocName, \OC\Preferences $preferences, \OCP\IDBConnection $db, Access $access) {
+	public function __construct($ocName, \OC\Preferences $preferences, \OCP\IDBConnection $db, UserMapping $mapping) {
 		$this->ocName = $ocName;
 		$this->preferences = $preferences;
 		$this->db = $db;
-		$this->access = $access;
+		$this->mapping = $mapping;
 		$this->fetchDetails();
 	}
 
@@ -176,7 +176,7 @@ class OfflineUser {
 			$this->$property = $this->preferences->getValue($this->ocName, $app, $property, '');
 		}
 
-		$dn = $this->access->ocname2dn($this->ocName, true);
+		$dn = $this->mapping->getDNByName($this->ocName);
 		$this->dn = ($dn !== false) ? $dn : '';
 
 		$this->determineShares();

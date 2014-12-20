@@ -16,9 +16,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\user_ldap\lib\user\DeletedUsersIndex;
 use OCA\User_LDAP\lib\Connection;
-use OCA\User_LDAP\lib\Access;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 class ShowRemnants extends Command {
+	/** @var OCA\User_LDAP\Mapping\UserMapping */
+	protected $mapping;
+
+	/**
+	 * @param OCA\user_ldap\User_Proxy $uBackend
+	 * @param OCA\User_LDAP\lib\Helper $helper
+	 * @param OCP\IConfig $config
+	 */
+	public function __construct(UserMapping $mapper) {
+		$this->mapper = $mapper;
+		parent::__construct();
+	}
 
 	protected function configure() {
 		$this
@@ -31,7 +43,7 @@ class ShowRemnants extends Command {
 		$dui = new DeletedUsersIndex(
 			new \OC\Preferences(\OC_DB::getConnection()),
 			\OC::$server->getDatabaseConnection(),
-			$this->getAccess()
+			$this->mapper
 		);
 
 		/** @var \Symfony\Component\Console\Helper\Table $table */
@@ -63,19 +75,4 @@ class ShowRemnants extends Command {
 		$table->setRows($rows);
 		$table->render($output);
 	}
-
-	protected function getAccess() {
-		$ldap = new \OCA\user_ldap\lib\LDAP();
-		$dummyConnection = new Connection($ldap, '', null);
-		$userManager = new \OCA\user_ldap\lib\user\Manager(
-			\OC::$server->getConfig(),
-			new \OCA\user_ldap\lib\FilesystemHelper(),
-			new \OCA\user_ldap\lib\LogWrapper(),
-			\OC::$server->getAvatarManager(),
-			new \OCP\Image()
-		);
-		$access = new Access($dummyConnection, $ldap, $userManager);
-		return $access;
-	}
-
 }

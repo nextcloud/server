@@ -24,7 +24,7 @@
 namespace OCA\user_ldap\lib\user;
 
 use OCA\user_ldap\lib\user\OfflineUser;
-use OCA\user_ldap\lib\Access;
+use OCA\User_LDAP\Mapping\UserMapping;
 
 /**
  * Class DeletedUsersIndex
@@ -42,9 +42,9 @@ class DeletedUsersIndex {
 	protected $db;
 
 	/**
-	 * @var \OCA\user_ldap\lib\Access $access
+	 * @var \OCA\User_LDAP\Mapping\UserMapping $mapping
 	 */
-	protected $access;
+	protected $mapping;
 
 	/**
 	 * @var int $limit
@@ -56,10 +56,10 @@ class DeletedUsersIndex {
 	 */
 	protected $deletedUsers = false;
 
-	public function __construct(\OC\Preferences $preferences, \OCP\IDBConnection $db, Access $access) {
+	public function __construct(\OC\Preferences $preferences, \OCP\IDBConnection $db, UserMapping $mapping) {
 		$this->preferences = $preferences;
 		$this->db = $db;
-		$this->access = $access;
+		$this->mapping = $mapping;
 	}
 
 	/**
@@ -84,7 +84,7 @@ class DeletedUsersIndex {
 
 		$userObjects = array();
 		foreach($deletedUsers as $user) {
-			$userObjects[] = new OfflineUser($user, $this->preferences, $this->db, $this->access);
+			$userObjects[] = new OfflineUser($user, $this->preferences, $this->db, $this->mapping);
 		}
 
 		$this->deletedUsers[$key] = $userObjects;
