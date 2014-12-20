@@ -462,6 +462,7 @@ if ($_['suggestedOverwriteWebroot']) {
 		<option value='<?php p($i)?>' <?php p($selected) ?>><?php p($levelLabels[$i])?></option>
 <?php endfor;?>
 </select>
+<?php if ($_['showLog'] && $_['doesLogFileExist']): ?>
 	<table id="log" class="grid">
 		<?php foreach ($_['entries'] as $entry): ?>
 		<tr>
@@ -484,11 +485,20 @@ if ($_['suggestedOverwriteWebroot']) {
 		</tr>
 		<?php endforeach;?>
 	</table>
+	<?php if ($_['logFileSize'] > 0): ?>
+	<a href="<?php print_unescaped(OC::$server->getURLGenerator()->linkToRoute('settings.LogSettings.download')); ?>" class="button" id="downloadLog"><?php p($l->t('Download logfile'));?></a>
+	<?php endif; ?>
 	<?php if ($_['entriesremain']): ?>
 	<input id="moreLog" type="button" value="<?php p($l->t('More'));?>...">
 	<input id="lessLog" type="button" value="<?php p($l->t('Less'));?>...">
 	<?php endif; ?>
-
+	<?php if ($_['logFileSize'] > (100 * 1024 * 1024)): ?>
+	<br>
+	<em>
+		<?php p($l->t('The logfile is bigger than 100MB. Downloading it may take some time!')); ?>
+	</em>
+	<?php endif; ?>
+	<?php endif; ?>
 </div>
 
 <div class="section">
