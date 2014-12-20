@@ -152,7 +152,7 @@ class Manager {
 	public function getDeletedUser($id) {
 		return new OfflineUser(
 			$id,
-			new \OC\Preferences(\OC_DB::getConnection()),
+			$this->ocConfig,
 			\OC::$server->getDatabaseConnection(),
 			$this->access->getUserMapper());
 	}

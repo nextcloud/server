@@ -59,9 +59,9 @@ class OfflineUser {
 	 */
 	protected $hasActiveShares;
 	/**
-	 * @var \OC\Preferences $preferences
+	 * @var \OCP\IConfig $config
 	 */
-	protected $preferences;
+	protected $config;
 	/**
 	 * @var \OCP\IDBConnection $db
 	 */
@@ -71,9 +71,9 @@ class OfflineUser {
 	 */
 	protected $mapping;
 
-	public function __construct($ocName, \OC\Preferences $preferences, \OCP\IDBConnection $db, UserMapping $mapping) {
+	public function __construct($ocName, \OCP\IConfig $config, \OCP\IDBConnection $db, UserMapping $mapping) {
 		$this->ocName = $ocName;
-		$this->preferences = $preferences;
+		$this->config = $config;
 		$this->db = $db;
 		$this->mapping = $mapping;
 		$this->fetchDetails();
@@ -173,7 +173,7 @@ class OfflineUser {
 			'lastLogin'   => 'login'
 		);
 		foreach($properties as $property => $app) {
-			$this->$property = $this->preferences->getValue($this->ocName, $app, $property, '');
+			$this->$property = $this->config->getUserValue($this->ocName, $app, $property, '');
 		}
 
 		$dn = $this->mapping->getDNByName($this->ocName);

@@ -32,9 +32,9 @@ use OCA\User_LDAP\Mapping\UserMapping;
  */
 class DeletedUsersIndex {
 	/**
-	 * @var \OC\Preferences $preferences
+	 * @var \OCP\IConfig $config
 	 */
-	protected $preferences;
+	protected $config;
 
 	/**
 	 * @var \OCP\IDBConnection $db
@@ -47,64 +47,41 @@ class DeletedUsersIndex {
 	protected $mapping;
 
 	/**
-	 * @var int $limit
-	 */
-	protected $limit = 10;
-
-	/**
 	 * @var array $deletedUsers
 	 */
 	protected $deletedUsers = false;
 
-	public function __construct(\OC\Preferences $preferences, \OCP\IDBConnection $db, UserMapping $mapping) {
-		$this->preferences = $preferences;
+	public function __construct(\OCP\IConfig $config, \OCP\IDBConnection $db, UserMapping $mapping) {
+		$this->config = $config;
 		$this->db = $db;
 		$this->mapping = $mapping;
 	}
 
 	/**
-	 * returns key to be used against $this->deletedUsers
-	 * @param int $limit
-	 * @param int $offset
-	 * @return string
-	 */
-	private function getDeletedUsersCacheKey($limit, $offset) {
-		return strval($limit) . '.' . strval($offset);
-	}
-
-	/**
 	 * reads LDAP users marked as deleted from the database
-	 * @param int $offset
 	 * @return OCA\user_ldap\lib\user\OfflineUser[]
 	 */
-	private function fetchDeletedUsers($offset) {
-		$deletedUsers = $this->preferences->getUsersForValue(
-			'user_ldap', 'isDeleted', '1', $this->limit, $offset);
-		$key = $this->getDeletedUsersCacheKey($this->limit, $offset);
+	private function fetchDeletedUsers() {
+		$deletedUsers = $this->config->getUsersForUserValue(
+			'user_ldap', 'isDeleted', '1');
 
 		$userObjects = array();
 		foreach($deletedUsers as $user) {
-			$userObjects[] = new OfflineUser($user, $this->preferences, $this->db, $this->mapping);
+			$userObjects[] = new OfflineUser($user, $this->config, $this->db, $this->mapping);
 		}
 
-		$this->deletedUsers[$key] = $userObjects;
-		if(count($userObjects) > 0) {
-			$this->hasUsers();
-		}
-		return $this->deletedUsers[$key];
+		return $this->deletedUsers;
 	}
 
 	/**
 	 * returns all LDAP users that are marked as deleted
-	 * @param int|null $offset
 	 * @return OCA\user_ldap\lib\user\OfflineUser[]
 	 */
-	public function getUsers($offset = null) {
-		$key = $this->getDeletedUsersCacheKey($this->limit, $offset);
-		if(is_array($this->deletedUsers) && isset($this->deletedUsers[$key])) {
-			return $this->deletedUsers[$key];
+	public function getUsers() {
+		if(is_array($this->deletedUsers)) {
+			return $this->deletedUsers;
 		}
-		return $this->fetchDeletedUsers($offset);
+		return $this->fetchDeletedUsers();
 	}
 
 	/**
@@ -113,12 +90,10 @@ class DeletedUsersIndex {
 	 */
 	public function hasUsers() {
 		if($this->deletedUsers === false) {
-			$this->fetchDeletedUsers(0);
+			$this->fetchDeletedUsers();
 		}
-		foreach($this->deletedUsers as $batch) {
-			if(count($batch) > 0) {
-				return true;
-			}
+		if(is_array($this->deletedUsers) && count($this->deletedUsers) > 0) {
+			return true;
 		}
 		return false;
 	}

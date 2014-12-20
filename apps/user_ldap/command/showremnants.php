@@ -41,7 +41,7 @@ class ShowRemnants extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$dui = new DeletedUsersIndex(
-			new \OC\Preferences(\OC_DB::getConnection()),
+			\OC::$server->getConfig(),
 			\OC::$server->getDatabaseConnection(),
 			$this->mapper
 		);
@@ -52,25 +52,21 @@ class ShowRemnants extends Command {
 			'ownCloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
 			'Dir', 'Sharer'));
 		$rows = array();
-		$offset = 0;
-		do {
-			$resultSet = $dui->getUsers($offset);
-			$offset += count($resultSet);
-			foreach($resultSet as $user) {
-				$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
-				$lastLogin = ($user->getLastLogin() > 0) ?
-					\OCP\Util::formatDate($user->getLastLogin()) : '-';
-				$rows[] = array(
-					$user->getOCName(),
-					$user->getDisplayName(),
-					$user->getUid(),
-					$user->getDN(),
-					$lastLogin,
-					$user->getHomePath(),
-					$hAS
-				);
-			}
-		} while (count($resultSet) === 10);
+		$resultSet = $dui->getUsers();
+		foreach($resultSet as $user) {
+			$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
+			$lastLogin = ($user->getLastLogin() > 0) ?
+				\OCP\Util::formatDate($user->getLastLogin()) : '-';
+			$rows[] = array(
+				$user->getOCName(),
+				$user->getDisplayName(),
+				$user->getUid(),
+				$user->getDN(),
+				$lastLogin,
+				$user->getHomePath(),
+				$hAS
+			);
+		}
 
 		$table->setRows($rows);
 		$table->render($output);
