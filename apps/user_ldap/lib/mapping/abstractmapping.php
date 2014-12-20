@@ -153,6 +153,27 @@ abstract class AbstractMapping {
 	}
 
 	/**
+	 * gets a piece of the mapping list
+	 * @param int $offset
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getList($offset = null, $limit = null) {
+		$query = $this->dbc->prepare('
+			SELECT
+				`ldap_dn` AS `dn`,
+				`owncloud_name` AS `name`,
+				`directory_uuid` AS `uuid`
+			FROM `*PREFIX*ldap_user_mapping`',
+			$limit,
+			$offset
+		);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * attempts to map the given entry
 	 * @param string $fdn fully distinguished name (from LDAP)
 	 * @param string $name

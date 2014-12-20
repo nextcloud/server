@@ -69,6 +69,7 @@ class DeletedUsersIndex {
 		foreach($deletedUsers as $user) {
 			$userObjects[] = new OfflineUser($user, $this->config, $this->db, $this->mapping);
 		}
+		$this->deletedUsers = $userObjects;
 
 		return $this->deletedUsers;
 	}
@@ -96,5 +97,13 @@ class DeletedUsersIndex {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * marks a user as deleted
+	 * @param string ocName
+	 */
+	public function markUser($ocName) {
+		$this->config->setUserValue($ocName, 'user_ldap', 'isDeleted', '1');
 	}
 }

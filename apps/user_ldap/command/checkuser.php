@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\user_ldap\lib\user\User;
 use OCA\User_LDAP\lib\user\Manager;
+use OCA\User_LDAP\lib\User\DeletedUsersIndex;
 use OCA\user_ldap\lib\Helper;
 use OCA\user_ldap\User_Proxy;
 
@@ -26,18 +27,22 @@ class CheckUser extends Command {
 	/** @var \OCA\User_LDAP\lib\Helper */
 	protected $helper;
 
-	/** @var \OCP\IConfig */
-	protected $config;
+	/** @var \OCA\User_LDAP\lib\User\DeletedUsersIndex */
+	protected $dui;
+
+	/** @var \OCA\User_LDAP\Mapping\UserMapping */
+	protected $mapping;
 
 	/**
 	 * @param OCA\user_ldap\User_Proxy $uBackend
 	 * @param OCA\User_LDAP\lib\Helper $helper
 	 * @param OCP\IConfig $config
 	 */
-	public function __construct(User_Proxy $uBackend, Helper $helper, \OCP\IConfig $config) {
+	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
 		$this->backend = $uBackend;
 		$this->helper = $helper;
-		$this->config = $config;
+		$this->dui = $dui;
+		$this->mapping = $mapping;
 		parent::__construct();
 	}
 
@@ -70,10 +75,7 @@ class CheckUser extends Command {
 				return;
 			}
 
-			// TODO FIXME consolidate next line in DeletedUsersIndex
-			// (impractical now, because of class dependencies)
-			$this->config->setUserValue($uid, 'user_ldap', 'isDeleted', '1');
-
+			$this->dui->markUser($uid);
 			$output->writeln('The user does not exists on LDAP anymore.');
 			$output->writeln('Clean up the user\'s remnants by: ./occ user:delete "'
 				. $uid . '"');
@@ -86,22 +88,11 @@ class CheckUser extends Command {
 	 * checks whether a user is actually mapped
 	 * @param string $ocName the username as used in ownCloud
 	 * @throws \Exception
-	 * @return bool
+	 * @return true
 	 */
 	protected function confirmUserIsMapped($ocName) {
-		//TODO FIXME this should go to Mappings in OC 8
-		$db = \OC::$server->getDatabaseConnection();
-		$query = $db->prepare('
-			SELECT
-				`ldap_dn` AS `dn`
-			FROM `*PREFIX*ldap_user_mapping`
-			WHERE `owncloud_name` = ?'
-		);
-
-		$query->execute(array($ocName));
-		$result = $query->fetchColumn();
-
-		if($result === false) {
+		$dn = $this->mapping->getDNByName($ocName);
+		if ($dn === false) {
 			throw new \Exception('The given user is not a recognized LDAP user.');
 		}
 

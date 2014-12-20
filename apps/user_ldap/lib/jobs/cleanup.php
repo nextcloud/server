@@ -11,6 +11,8 @@ namespace OCA\User_LDAP\Jobs;
 use \OCA\user_ldap\User_Proxy;
 use \OCA\user_ldap\lib\Helper;
 use \OCA\user_ldap\lib\LDAP;
+use \OCA\User_LDAP\lib\User\DeletedUsersIndex;
+use \OCA\User_LDAP\Mapping\UserMapping;
 
 /**
  * Class CleanUp
@@ -44,6 +46,12 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	 * @var Helper $ldapHelper
 	 */
 	protected $ldapHelper;
+
+	/** @var \OCA\User_LDAP\Mapping\UserMapping */
+	protected $mapping;
+
+	/** @var \OCA\User_LDAP\lib\User\DeletedUsersIndex */
+	protected $dui;
 
 	/**
 	 * @var int $defaultIntervalMin default interval in minutes
@@ -92,6 +100,19 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 		} else {
 			$this->db = \OC::$server->getDatabaseConnection();
 		}
+
+		if(isset($arguments['mapping'])) {
+			$this->mapping = $arguments['mapping'];
+		} else {
+			$this->mapping = new UserMapping($this->db);
+		}
+
+		if(isset($arguments['deletedUsersIndex'])) {
+			$this->dui = $arguments['deletedUsersIndex'];
+		} else {
+			$this->dui = new DeletedUsersIndex(
+				$this->ocConfig, $this->db, $this->mapping);
+		}
 	}
 
 	/**
@@ -104,7 +125,7 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 		if(!$this->isCleanUpAllowed()) {
 			return;
 		}
-		$users = $this->getMappedUsers($this->limit, $this->getOffset());
+		$users = $this->mapping->getList($this->limit, $this->getOffset());
 		if(!is_array($users)) {
 			//something wrong? Let's start from the beginning next time and
 			//abort
@@ -169,33 +190,11 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	private function checkUser($user) {
 		if($this->userBackend->userExistsOnLDAP($user['name'])) {
 			//still available, all good
+
 			return;
 		}
 
-		// TODO FIXME consolidate next line in DeletedUsersIndex
-		// (impractical now, because of class dependencies)
-		$this->ocConfig->setUserValue($user['name'], 'user_ldap', 'isDeleted', '1');
-	}
-
-	/**
-	 * returns a batch of users from the mappings table
-	 * @param int $limit
-	 * @param int $offset
-	 * @return array
-	 */
-	public function getMappedUsers($limit, $offset) {
-		$query = $this->db->prepare('
-			SELECT
-				`ldap_dn` AS `dn`,
-				`owncloud_name` AS `name`,
-				`directory_uuid` AS `uuid`
-			FROM `*PREFIX*ldap_user_mapping`',
-			$limit,
-			$offset
-		);
-
-		$query->execute();
-		return $query->fetchAll();
+		$this->dui->markUser($user['name']);
 	}
 
 	/**

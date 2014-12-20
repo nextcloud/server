@@ -15,6 +15,10 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 			$this->getMockBuilder('\OCA\user_ldap\User_Proxy')
 				->disableOriginalConstructor()
 				->getMock();
+		$mocks['deletedUsersIndex'] =
+			$this->getMockBuilder('\OCA\user_ldap\lib\user\deletedUsersIndex')
+				->disableOriginalConstructor()
+				->getMock();
 		$mocks['ocConfig']    = $this->getMock('\OCP\IConfig');
 		$mocks['db']          = $this->getMock('\OCP\IDBConnection');
 		$mocks['helper']      = $this->getMock('\OCA\user_ldap\lib\Helper');
