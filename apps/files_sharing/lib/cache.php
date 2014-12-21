@@ -345,6 +345,20 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
+	 * Checks whether the given file has the given tag.
+	 *
+	 * @param \OCP\ITags $tagger
+	 * @param array $fileData file data
+	 * @param string $tag tag to check for
+	 * @return boolean true if the given file has the expected tag,
+	 * false otherwise
+	 */
+	private function hasTag($tagger, $fileData, $tag) {
+		$tags = $tagger->getTagsForObjects(array((int)$fileData['fileid']));
+		return (!empty($tags) && in_array($tag, current($tags)));
+	}
+
+	/**
 	 * search for files by tag
 	 *
 	 * @param string|int $tag tag to search for
@@ -356,28 +370,24 @@ class Shared_Cache extends Cache {
 		$tagger = \OC::$server->getTagManager()->load('files', null, null, $userId);
 		$result = array();
 		$exploreDirs = array('');
+		// check if root is tagged
+		$file = $this->get('');
+		if ($this->hasTag($tagger, $file, $tag)) {
+			$result[] = $file;
+		}
 		// FIXME: this is so wrong and unefficient, need to replace with actual DB queries
 		while (count($exploreDirs) > 0) {
 			$dir = array_pop($exploreDirs);
 			$files = $this->getFolderContents($dir);
-			// no results?
 			if (!$files) {
-				// maybe it's a single shared file
-				$file = $this->get('');
-				$tags = $tagger->getTagsForObjects(array((int)$file['fileid']));
-				if (!empty($tags) && in_array($tag, current($tags))) {
-					$result[] = $file;
-				}
 				continue;
 			}
 			foreach ($files as $file) {
+				if ($this->hasTag($tagger, $file, $tag)) {
+					$result[] = $file;
+				}
 				if ($file['mimetype'] === 'httpd/unix-directory') {
 					$exploreDirs[] = ltrim($dir . '/' . $file['name'], '/');
-				} else {
-					$tags = $tagger->getTagsForObjects(array((int)$file['fileid']));
-					if (!empty($tags) && in_array($tag, current($tags))) {
-						$result[] = $file;
-					}
 				}
 			}
 		}
