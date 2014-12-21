@@ -33,7 +33,7 @@
     "Invalid directory." : "Neveljavna mapa.",
     "Files" : "Datoteke",
     "All files" : "Vse datoteke",
-    "Favorites" : "Priljubljeni",
+    "Favorites" : "Priljubljene",
     "Home" : "Domači naslov",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "Ni mogoče poslati datoteke {filename}, saj je to ali mapa ali pa je velikost datoteke 0 bajtov.",
     "Total file size {size1} exceeds upload limit {size2}" : "Skupna velikost {size1} presega omejitev velikosti {size2}",
@@ -72,7 +72,8 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ni ustreznega osebnega ključa za program za šifriranje. Posodobite osebni ključ za dostop do šifriranih datotek med nastavitvami.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Šifriranje je onemogočeno, datoteke pa so še vedno šifrirane. Odšifrirajte jih med nastavitvami.",
     "{dirs} and {files}" : "{dirs} in {files}",
-    "Favorite" : "Priljubljeno",
+    "Favorited" : "Označeno kot priljubljeno",
+    "Favorite" : "Priljubljene",
     "%s could not be renamed as it has been deleted" : "Datoteke %s ni mogoče preimenovati, ker je bila že prej izbrisana.",
     "%s could not be renamed" : "%s ni mogoče preimenovati",
     "Upload (max. %s)" : "Pošiljanje (omejitev %s)",
@@ -91,10 +92,15 @@
     "From link" : "Iz povezave",
     "Upload" : "Pošlji",
     "Cancel upload" : "Prekliči pošiljanje",
+    "No files yet" : "Ni datotek",
+    "Upload some content or sync with your devices!" : "Uvozite vsebino ali pa omogočite usklajevanje z napravami!",
+    "Select all" : "izberi vse",
     "Download" : "Prejmi",
     "Upload too large" : "Prekoračenje omejitve velikosti",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku.",
     "Files are being scanned, please wait." : "Poteka preučevanje datotek, počakajte ...",
-    "Currently scanning" : "Poteka preverjanje"
+    "Currently scanning" : "Poteka preverjanje",
+    "No favorites" : "Ni priljubljenih",
+    "Files and folders you mark as favorite will show up here" : "Datoteke ali mape, ki so označene kot priljubljene, bodo izpisane tukaj."
 },"pluralForm" :"nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);"
 }

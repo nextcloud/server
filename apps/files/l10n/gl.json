@@ -52,6 +52,7 @@
     "Unshare" : "Deixar de compartir",
     "Select" : "Seleccionar",
     "Pending" : "Pendentes",
+    "Unable to determine date" : "Non é posíbel determinar a data",
     "Error moving file." : "Produciuse un erro ao mover o ficheiro.",
     "Error moving file" : "Produciuse un erro ao mover o ficheiro",
     "Error" : "Erro",
@@ -71,6 +72,7 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "A chave privada para a aplicación de cifrado non é correcta. Actualice o contrasinal da súa chave privada nos seus axustes persoais para recuperar o acceso aos seus ficheiros cifrados.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "O cifrado foi desactivado, mais os ficheiros están cifrados. Vaia á configuración persoal para descifrar os ficheiros.",
     "{dirs} and {files}" : "{dirs} e {files}",
+    "Favorited" : "Marcado como favorito",
     "Favorite" : "Favorito",
     "%s could not be renamed as it has been deleted" : "Non é posíbel renomear %s xa que foi eliminado",
     "%s could not be renamed" : "%s non pode cambiar de nome",
@@ -90,10 +92,15 @@
     "From link" : "Desde a ligazón",
     "Upload" : "Enviar",
     "Cancel upload" : "Cancelar o envío",
+    "No files yet" : "Aínda non hai ficheiros",
+    "Upload some content or sync with your devices!" : "Envíe algún contido ou sincronice cos seus dispositivos!",
+    "Select all" : "Seleccionar todo",
     "Download" : "Descargar",
     "Upload too large" : "Envío grande de máis",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiros que tenta enviar exceden do tamaño máximo permitido neste servidor",
     "Files are being scanned, please wait." : "Estanse analizando os ficheiros. Agarde.",
-    "Currently scanning" : "Análise actual"
+    "Currently scanning" : "Análise actual",
+    "No favorites" : "Non hai favoritos",
+    "Files and folders you mark as favorite will show up here" : "Os ficheiros e cartafoles que marque como favoritos amosaranse aquí"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

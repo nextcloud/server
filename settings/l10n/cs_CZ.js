@@ -46,6 +46,9 @@ OC.L10N.register(
     "Unable to create user." : "Nelze vytvořit uživatele.",
     "Your %s account was created" : "Účet %s byl vytvořen",
     "Unable to delete user." : "Nelze smazat uživatele.",
+    "Forbidden" : "Zakázáno",
+    "Invalid user" : "Neplatné uživatelské jméno",
+    "Unable to change mail address" : "Nelze změnit e-mail",
     "Email saved" : "E-mail uložen",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Jste si jisti, že chcete přidat \"{domain}\" mezi důvěryhodné domény?",
     "Add trusted domain" : "Přidat důvěryhodnou doménu",
@@ -228,6 +231,8 @@ OC.L10N.register(
     "Show storage location" : "Zobrazit umístění úložiště",
     "Show last log in" : "Zobrazit poslední přihlášení",
     "Show user backend" : "Zobrazit uživatelskou podpůrnou vrstvu",
+    "Send email to new user" : "Poslat e-mail novému uživateli",
+    "Show email address" : "Zobrazit e-mail",
     "Username" : "Uživatelské jméno",
     "E-Mail" : "E-Mail",
     "Create" : "Vytvořit",
@@ -249,6 +254,7 @@ OC.L10N.register(
     "Last Login" : "Poslední přihlášení",
     "change full name" : "změnit celé jméno",
     "set new password" : "nastavit nové heslo",
+    "change email address" : "změnit e-mail",
     "Default" : "Výchozí"
 },
 "nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;");

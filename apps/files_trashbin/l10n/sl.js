@@ -8,6 +8,9 @@ OC.L10N.register(
     "Delete permanently" : "Izbriši dokončno",
     "Error" : "Napaka",
     "restored" : "obnovljeno",
+    "No deleted files" : "Ni izbrisanih datotek",
+    "You will be able to recover deleted files from here" : "Izbrisane datoteke je mogoče povrniti na tem mestu",
+    "Select all" : "izberi vse",
     "Name" : "Ime",
     "Deleted" : "Izbrisano",
     "Delete" : "Izbriši"

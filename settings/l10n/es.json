@@ -43,6 +43,9 @@
     "Invalid mail address" : "Dirección de correo inválida",
     "Unable to create user." : "No se pudo crear el usuario.",
     "Unable to delete user." : "No se pudo eliminar el usuario.",
+    "Forbidden" : "Prohibido",
+    "Invalid user" : "Usuario no válido",
+    "Unable to change mail address" : "No se pudo cambiar la dirección de correo electrónico",
     "Email saved" : "Correo electrónico guardado",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "¿Está seguro de querer agregar \"{domain}\" como un dominio de confianza?",
     "Add trusted domain" : "Agregar dominio de confianza",
@@ -183,6 +186,7 @@
     "Bugtracker" : "Rastreador de fallos",
     "Commercial Support" : "Soporte comercial",
     "Get the apps to sync your files" : "Obtener las aplicaciones para sincronizar sus archivos",
+    "Desktop client" : "Cliente de escritorio",
     "Android app" : "La aplicación de Android",
     "iOS app" : "La aplicación de iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" : "Si desea contribuir al proyecto\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">únase al desarrollo</a>\n\t\to\n\t\t¡<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">corra la voz</a>!",
@@ -222,6 +226,8 @@
     "Show storage location" : "Mostrar la ubicación del almacenamiento",
     "Show last log in" : "Mostrar el último inicio de sesión",
     "Show user backend" : "Mostrar motor de usuario",
+    "Send email to new user" : "Enviar correo al usuario nuevo",
+    "Show email address" : "Mostrar dirección de correo electrónico",
     "Username" : "Nombre de usuario",
     "E-Mail" : "Correo electrónico",
     "Create" : "Crear",
@@ -243,6 +249,7 @@
     "Last Login" : "Último inicio de sesión",
     "change full name" : "cambiar el nombre completo",
     "set new password" : "establecer nueva contraseña",
+    "change email address" : "cambiar dirección de correo electrónico",
     "Default" : "Predeterminado"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

@@ -44,6 +44,9 @@
     "Unable to create user." : "Käyttäjän luominen ei onnistunut.",
     "Your %s account was created" : "%s-tilisi luotiin",
     "Unable to delete user." : "Käyttäjän poistaminen ei onnistunut.",
+    "Forbidden" : "Estetty",
+    "Invalid user" : "Virheellinen käyttäjä",
+    "Unable to change mail address" : "Sähköpostiosoitteen vaihtaminen ei onnistunut",
     "Email saved" : "Sähköposti tallennettu",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Haluatko varmasti liittää kohteen \"{domain}\" luotetuksi toimialueeksi?",
     "Add trusted domain" : "Lisää luotettu toimialue",
@@ -170,7 +173,9 @@
     "Update to %s" : "Päivitä versioon %s",
     "Enable only for specific groups" : "Salli vain tietyille ryhmille",
     "Uninstall App" : "Poista sovelluksen asennus",
+    "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Hei<br><br>Sinulla on nyt %s-tili.<br><br>Käyttäjätunnus: %s<br>Aloita käyttö: <a href=\"%s\">%s</a><br><br>",
     "Cheers!" : "Kippis!",
+    "Hey there,\n\njust letting you know that you now have an %s account.\n\nYour username: %s\nAccess it: %s\n\n" : "Hei\n\nSinulla on nyt %s-tili.\n\nKäyttäjätunnuksesi: %s\nAloita käyttö: %s\n\n",
     "Administrator Documentation" : "Ylläpito-ohjeistus",
     "Online Documentation" : "Verkko-ohjeistus",
     "Forum" : "Keskustelupalsta",
@@ -216,6 +221,8 @@
     "Show storage location" : "Näytä tallennustilan sijainti",
     "Show last log in" : "Näytä viimeisin sisäänkirjautuminen",
     "Show user backend" : "Näytä käyttäjätaustaosa",
+    "Send email to new user" : "Lähetä sähköpostia uudelle käyttäjälle",
+    "Show email address" : "Näytä sähköpostiosoite",
     "Username" : "Käyttäjätunnus",
     "E-Mail" : "Sähköposti",
     "Create" : "Luo",
@@ -236,6 +243,7 @@
     "Last Login" : "Viimeisin kirjautuminen",
     "change full name" : "muuta koko nimi",
     "set new password" : "aseta uusi salasana",
+    "change email address" : "vaihda sähköpostiosoite",
     "Default" : "Oletus"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
