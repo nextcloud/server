@@ -16,6 +16,8 @@ use OCP\Files\NotPermittedException;
 use OC\Hooks\Emitter;
 use OC\Hooks\PublicEmitter;
 
+use OCP\Files\IRootFolder;
+
 /**
  * Class Root
  *
@@ -35,7 +37,7 @@ use OC\Hooks\PublicEmitter;
  *
  * @package OC\Files\Node
  */
-class Root extends Folder implements Emitter {
+class Root extends Folder implements IRootFolder {
 
 	/**
 	 * @var \OC\Files\Mount\Manager $mountManager
