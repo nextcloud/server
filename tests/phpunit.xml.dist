@@ -23,6 +23,8 @@
 				<directory suffix=".php">../apps/files_trashbin/l10n</directory>
 				<directory suffix=".php">../apps/user_ldap/l10n</directory>
 				<directory suffix=".php">../apps/user_webdavauth/l10n</directory>
+				<directory suffix=".php">../provisioning_api/l10n</directory>
+				<directory suffix=".php">../provisioning_api/tests</directory>
 				<directory suffix=".php">../lib/MDB2</directory>
 				<directory suffix=".php">../lib/l10n</directory>
 				<directory suffix=".php">../core/l10n</directory>

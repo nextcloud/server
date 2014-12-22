@@ -21,4 +21,5 @@ enableApp('files_trashbin');
 enableApp('files_encryption');
 enableApp('user_ldap');
 enableApp('files_versions');
+enableApp('provisioning_api');
 
