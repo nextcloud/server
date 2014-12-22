@@ -62,10 +62,6 @@
 				<div class="icon-caret svg"></div>
 			</a>
 
-			<div id="skip-to-content">
-				<a href="#app-content" tabindex="1"><?php p($l->t('Skip to content')); ?></a>
-			</div>
-
 			<div id="logo-claim" style="display:none;"><?php p($theme->getLogoClaim()); ?></div>
 			<div id="settings" class="svg">
 				<div id="expand" tabindex="4" role="link">
