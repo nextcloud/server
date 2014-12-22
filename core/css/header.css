@@ -7,6 +7,7 @@
 	-ms-user-select: none;
 }
 
+/* removed until content-focusing issue is fixed */
 #skip-to-content a {
 	position: absolute;
 	left: -10000px;
