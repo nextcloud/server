@@ -61,12 +61,12 @@ interface IUserSession {
 	/**
 	 * get the current active user
 	 *
-	 * @return \OCP\IUser
+	 * @return \OCP\IUser|null Current user, otherwise null
 	 */
 	public function getUser();
 
 	/**
-	 * Checks wether the user is logged in
+	 * Checks whether the user is logged in
 	 *
 	 * @return bool if logged in
 	 */

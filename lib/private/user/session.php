@@ -121,7 +121,7 @@ class Session implements IUserSession, Emitter {
 	/**
 	 * get the current active user
 	 *
-	 * @return \OC\User\User
+	 * @return \OCP\IUser|null Current user, otherwise null
 	 */
 	public function getUser() {
 		// FIXME: This is a quick'n dirty work-around for the incognito mode as
@@ -143,7 +143,7 @@ class Session implements IUserSession, Emitter {
 	}
 
 	/**
-	 * Checks wether the user is logged in
+	 * Checks whether the user is logged in
 	 *
 	 * @return bool if logged in
 	 */
