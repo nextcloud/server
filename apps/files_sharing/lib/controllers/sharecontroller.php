@@ -232,7 +232,7 @@ class ShareController extends Controller {
 
 		if (isset($originalSharePath) && Filesystem::isReadable($originalSharePath . $path)) {
 				$getPath = Filesystem::normalizePath($path);
-				$originalSharePath .= $getPath;
+				$originalSharePath = Filesystem::normalizePath($originalSharePath . $getPath);
 				$type = \OC\Files\Filesystem::is_dir($originalSharePath) ? 'folder' : 'file';
 				$args = $type === 'folder' ? array('dir' => $originalSharePath) : array('dir' => dirname($originalSharePath), 'scrollto' => basename($originalSharePath));
 				$linkToFile = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
