@@ -42,7 +42,8 @@ class Application extends App {
 				$c->query('ServerContainer')->getConfig(),
 				$c->query('URLGenerator'),
 				$c->query('ServerContainer')->getUserManager(),
-				$c->query('ServerContainer')->getLogger()
+				$c->query('ServerContainer')->getLogger(),
+				$c->query('ServerContainer')->getActivityManager()
 			);
 		});
 		$container->registerService('ExternalSharesController', function(SimpleContainer $c) {
