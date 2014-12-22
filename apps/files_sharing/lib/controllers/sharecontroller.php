@@ -29,6 +29,7 @@ use OCP\ILogger;
 use OCA\Files_Sharing\Helper;
 use OCP\User;
 use OCP\Util;
+use OCA\Files_Sharing\Activity;
 
 /**
  * Class ShareController
@@ -49,6 +50,8 @@ class ShareController extends Controller {
 	protected $userManager;
 	/** @var \OCP\ILogger */
 	protected $logger;
+	/** @var OCP\Activity\IManager */
+	protected $activityManager;
 
 	/**
 	 * @param string $appName
@@ -59,6 +62,7 @@ class ShareController extends Controller {
 	 * @param URLGenerator $urlGenerator
 	 * @param OC\User\Manager $userManager
 	 * @param ILogger $logger
+	 * @param OCP\Activity\IManager $activityManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -67,7 +71,8 @@ class ShareController extends Controller {
 								OCP\IConfig $config,
 								URLGenerator $urlGenerator,
 								OC\User\Manager $userManager,
-								ILogger $logger) {
+								ILogger $logger,
+								OCP\Activity\IManager $activityManager) {
 		parent::__construct($appName, $request);
 
 		$this->userSession = $userSession;
@@ -76,6 +81,7 @@ class ShareController extends Controller {
 		$this->urlGenerator = $urlGenerator;
 		$this->userManager = $userManager;
 		$this->logger = $logger;
+		$this->activityManager = $activityManager;
 	}
 
 	/**
@@ -227,7 +233,15 @@ class ShareController extends Controller {
 		if (isset($originalSharePath) && Filesystem::isReadable($originalSharePath . $path)) {
 				$getPath = Filesystem::normalizePath($path);
 				$originalSharePath .= $getPath;
+				$type = \OC\Files\Filesystem::is_dir($originalSharePath) ? 'folder' : 'file';
+				$args = $type === 'folder' ? array('dir' => $originalSharePath) : array('dir' => dirname($originalSharePath), 'scrollto' => basename($originalSharePath));
+				$linkToFile = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
 		}
+
+		$subject = $type === 'folder' ? Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED : Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+		$this->activityManager->publishActivity(
+				'files_sharing', $subject, array($originalSharePath), '', array(),
+				$originalSharePath, $linkToFile, $linkItem['uid_owner'], Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM);
 
 		if (!is_null($files)) { // download selected files
 			$files_list = json_decode($files);

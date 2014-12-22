@@ -25,10 +25,13 @@ namespace OCA\Files_Sharing;
 class Activity implements \OCP\Activity\IExtension {
 
 	const TYPE_REMOTE_SHARE = 'remote_share';
+	const TYPE_PUBLIC_LINKS = 'public_links';
 	const SUBJECT_REMOTE_SHARE_RECEIVED = 'remote_share_received';
 	const SUBJECT_REMOTE_SHARE_ACCEPTED = 'remote_share_accepted';
 	const SUBJECT_REMOTE_SHARE_DECLINED = 'remote_share_declined';
 	const SUBJECT_REMOTE_SHARE_UNSHARED = 'remote_share_unshared';
+	const SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED = 'public_shared_file_downloaded';
+	const SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED = 'public_shared_folder_downloaded';
 
 	/**
 	 * The extension can return an array of additional notification types.
@@ -39,7 +42,10 @@ class Activity implements \OCP\Activity\IExtension {
 	 */
 	public function getNotificationTypes($languageCode) {
 		$l = \OC::$server->getL10N('files_sharing', $languageCode);
-		return array(self::TYPE_REMOTE_SHARE => $l->t('A file or folder was shared from <strong>another server</strong>'));
+		return array(
+			self::TYPE_REMOTE_SHARE => $l->t('A file or folder was shared from <strong>another server</strong>'),
+			self::TYPE_PUBLIC_LINKS => $l->t('A public shared file or folder was <strong>downloaded</strong>'),
+			);
 	}
 
 	/**
@@ -63,7 +69,7 @@ class Activity implements \OCP\Activity\IExtension {
 	 */
 	public function getDefaultTypes($method) {
 		if ($method === 'stream') {
-			return array(self::TYPE_REMOTE_SHARE);
+			return array(self::TYPE_REMOTE_SHARE, self::TYPE_PUBLIC_LINKS);
 		}
 
 		return false;
@@ -97,8 +103,12 @@ class Activity implements \OCP\Activity\IExtension {
 					return $l->t('%1$s accepted remote share %2$s', $params)->__toString();
 				case self::SUBJECT_REMOTE_SHARE_DECLINED:
 					return $l->t('%1$s declined remote share %2$s', $params)->__toString();
-					case self::SUBJECT_REMOTE_SHARE_UNSHARED:
+				case self::SUBJECT_REMOTE_SHARE_UNSHARED:
 					return $l->t('%1$s unshared %2$s from you', $params)->__toString();
+				case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+					return $l->t('Public shared folder %1$s was downloaded', $params)->__toString();
+				case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
+					return $l->t('Public shared file %1$s was downloaded', $params)->__toString();
 			}
 		}
 	}
@@ -128,6 +138,11 @@ class Activity implements \OCP\Activity\IExtension {
 						0 => '',// We can not use 'username' since the user is in a different ownCloud
 						1 => 'file',
 					);
+				case self::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED:
+				case self::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED:
+					return array(
+						0 => 'file',
+					);
 			}
 		}
 
@@ -142,7 +157,14 @@ class Activity implements \OCP\Activity\IExtension {
 	 * @return string|false
 	 */
 	public function getTypeIcon($type) {
-		return 'icon-share';
+		switch ($type) {
+			case self::TYPE_REMOTE_SHARE:
+				return 'icon-share';
+			case self::TYPE_PUBLIC_LINKS:
+				return 'icon-download';
+		}
+
+		return false;
 	}
 
 	/**
