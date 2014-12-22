@@ -75,9 +75,9 @@ class Migrator {
 		 * @var \Doctrine\DBAL\Schema\Table[] $tables
 		 */
 		$tables = $targetSchema->getTables();
-		
+
 		$this->connection->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^'.\OCP\Config::getSystemValue('dbtableprefix').'/');
+			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix') . '/');
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
 		foreach ($tables as $table) {
@@ -162,7 +162,7 @@ class Migrator {
 
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
 		$connection->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^'.\OCP\Config::getSystemValue('dbtableprefix').'/');
+			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix') . '/');
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about

@@ -266,7 +266,7 @@ class ConvertType extends Command {
 				$this->copyTable($fromDB, $toDB, $table, $input, $output);
 			}
 			if ($input->getArgument('type') === 'pgsql') {
-				$tools = new \OC\DB\PgSqlTools;
+				$tools = new \OC\DB\PgSqlTools($this->config);
 				$tools->resynchronizeDatabaseSequences($toDB);
 			}
 			// save new database config
