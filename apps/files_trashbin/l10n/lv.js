@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Dzēst pavisam",
     "Error" : "Kļūda",
     "restored" : "atjaunots",
+    "Select all" : "Atzīmēt visu",
     "Name" : "Nosaukums",
     "Deleted" : "Dzēsts",
     "Delete" : "Dzēst"

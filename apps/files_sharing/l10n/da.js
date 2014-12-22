@@ -26,6 +26,7 @@ OC.L10N.register(
     "You received a new remote share from %s" : "Du modtog en ny ekstern deling fra %s",
     "%1$s accepted remote share %2$s" : "%1$s accepterede den ekstern deling %2$s",
     "%1$s declined remote share %2$s" : "%1$s afviste den eksterne deling %2$s",
+    "%1$s unshared %2$s from you" : "%1$s stoppede med at dele %2$s med dig",
     "This share is password-protected" : "Delingen er beskyttet af kodeord",
     "The password is wrong. Try again." : "Kodeordet er forkert. Prøv igen.",
     "Password" : "Kodeord",

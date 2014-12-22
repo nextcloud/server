@@ -46,6 +46,9 @@ OC.L10N.register(
     "Unable to create user." : "Não é possível criar usuário.",
     "Your %s account was created" : "Sua conta %s foi criada",
     "Unable to delete user." : "Não é possível excluir usuário.",
+    "Forbidden" : "Proibido",
+    "Invalid user" : "Usuário inválido",
+    "Unable to change mail address" : "Não é possível trocar o endereço de email",
     "Email saved" : "E-mail salvo",
     "Are you really sure you want add \"{domain}\" as trusted domain?" : "Você tem certeza que você quer adicionar \"{domain}\" como domínio confiável?",
     "Add trusted domain" : "Adicionar domínio confiável",
@@ -228,6 +231,8 @@ OC.L10N.register(
     "Show storage location" : "Mostrar localização de armazenamento",
     "Show last log in" : "Mostrar o último acesso",
     "Show user backend" : "Mostrar administrador do usuário",
+    "Send email to new user" : "Enviar um email para o novo usuário",
+    "Show email address" : "Mostrar o endereço de email",
     "Username" : "Nome de Usuário",
     "E-Mail" : "E-Mail",
     "Create" : "Criar",
@@ -249,6 +254,7 @@ OC.L10N.register(
     "Last Login" : "Último Login",
     "change full name" : "alterar nome completo",
     "set new password" : "definir nova senha",
+    "change email address" : "Trocar o endereço de email",
     "Default" : "Padrão"
 },
 "nplurals=2; plural=(n > 1);");

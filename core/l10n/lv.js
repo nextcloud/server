@@ -1,6 +1,7 @@
 OC.L10N.register(
     "core",
     {
+    "Couldn't send mail to following users: %s " : "Nevar nosūtīt epastu, sekojošiem lietotājiem: %s",
     "Turned on maintenance mode" : "Ieslēgts uzturēšanas režīms",
     "Turned off maintenance mode" : "Izslēgts uzturēšanas režīms",
     "Updated database" : "Atjaunota datu bāze",
