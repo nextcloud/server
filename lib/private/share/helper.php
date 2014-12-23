@@ -96,12 +96,12 @@ class Helper extends \OC\Share\Constants {
 			// finding and deleting the reshares by a single user of a group share
 			if (count($ids) == 1 && isset($uidOwner)) {
 				$query = \OC_DB::prepare('SELECT `id`, `share_with`, `item_type`, `share_type`, `item_target`, `file_target`, `parent`'
-					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ?');
-				$result = $query->execute(array($uidOwner));
+					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ? AND `share_type` != ?');
+				$result = $query->execute(array($uidOwner, self::$shareTypeGroupUserUnique));
 			} else {
 				$query = \OC_DB::prepare('SELECT `id`, `share_with`, `item_type`, `share_type`, `item_target`, `file_target`, `parent`, `uid_owner`'
-					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.')');
-				$result = $query->execute();
+					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `share_type` != ?');
+				$result = $query->execute(array(self::$shareTypeGroupUserUnique));
 			}
 			// Reset parents array, only go through loop again if items are found
 			$parents = array();
