@@ -23,7 +23,7 @@ class OC_DB_MDB2SchemaWriter {
 		$xml->addChild('charset', 'utf8');
 
 		$conn->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^' . $config->getSystemValue('dbtableprefix') . '/');
+			setFilterSchemaAssetsExpression('/^' . $config->getSystemValue('dbtableprefix', 'oc_') . '/');
 
 		foreach ($conn->getSchemaManager()->listTables() as $table) {
 			self::saveTable($table, $xml->addChild('table'));

@@ -34,7 +34,7 @@ class PgSqlTools {
 	public function resynchronizeDatabaseSequences(Connection $conn) {
 		$databaseName = $conn->getDatabase();
 		$conn->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix') . '/');
+			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix', 'oc_') . '/');
 
 		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
 			$sequenceName = $sequence->getName();
