@@ -18,6 +18,25 @@ class Connection extends \Test\TestCase {
 	 */
 	private $connection;
 
+	public static function setUpBeforeClass()
+	{
+		self::dropTestTable();
+		parent::setUpBeforeClass();
+	}
+
+	public static function tearDownAfterClass()
+	{
+		self::dropTestTable();
+		parent::tearDownAfterClass();
+	}
+
+	protected static function dropTestTable()
+	{
+		if (\OC::$server->getConfig()->getSystemValue('dbtype', 'sqlite') !== 'oci') {
+			\OC_DB::dropTable('table');
+		}
+	}
+
 	public function setUp() {
 		parent::setUp();
 		$this->connection = \OC::$server->getDatabaseConnection();
