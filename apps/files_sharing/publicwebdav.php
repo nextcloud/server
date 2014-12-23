@@ -54,7 +54,6 @@ $server->subscribeEvent('beforeMethod', function () use ($server, $objectTree, $
 	$ownerView = \OC\Files\Filesystem::getView();
 	$path = $ownerView->getPath($fileId);
 
-
 	$view = new \OC\Files\View($ownerView->getAbsolutePath($path));
 	$rootInfo = $view->getFileInfo('');
 
