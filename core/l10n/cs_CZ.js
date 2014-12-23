@@ -190,7 +190,6 @@ OC.L10N.register(
     "Finishing …" : "Dokončuji...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Tato aplikace potřebuje pro správnou funkčnost JavaScript. Prosím <a href=\"http://enable-javascript.com/\" target=\"_blank\">povolte JavaScript</a> a znovu načtěte stránku.",
     "%s is available. Get more information on how to update." : "%s je dostupná. Získejte více informací k postupu aktualizace.",
-    "Skip to content" : "Přeskočit na obsah",
     "Log out" : "Odhlásit se",
     "Search" : "Hledat",
     "Server side authentication failed!" : "Autentizace na serveru selhala!",

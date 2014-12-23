@@ -190,7 +190,6 @@ OC.L10N.register(
     "Finishing …" : "Færdigbehandler ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Applikationen kræver JavaScript for at fungere korrekt. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Slå venligst JavaScript til</a> og genindlæs siden.",
     "%s is available. Get more information on how to update." : "%s er tilgængelig. Få mere information om, hvordan du opdaterer.",
-    "Skip to content" : "Gå til indhold",
     "Log out" : "Log ud",
     "Search" : "Søg",
     "Server side authentication failed!" : "Server side godkendelse mislykkedes!",

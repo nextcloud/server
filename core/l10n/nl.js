@@ -190,7 +190,6 @@ OC.L10N.register(
     "Finishing …" : "Afronden ...",
     "This application requires JavaScript for correct operation. Please <a href=\"http://enable-javascript.com/\" target=\"_blank\">enable JavaScript</a> and reload the page." : "Deze applicatie heeft JavaScript nodig. <a href=\"http://enable-javascript.com/\" target=\"_blank\">Activeer JavaScript</a> en herlaad deze interface.",
     "%s is available. Get more information on how to update." : "%s is beschikbaar. Verkrijg meer informatie over het bijwerken.",
-    "Skip to content" : "Door naar inhoud",
     "Log out" : "Afmelden",
     "Search" : "Zoeken",
     "Server side authentication failed!" : "Authenticatie bij de server mislukte!",

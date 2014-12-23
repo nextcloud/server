@@ -92,6 +92,7 @@
     "From link" : "Объект по ссылке",
     "Upload" : "Загрузить",
     "Cancel upload" : "Отменить загрузку",
+    "Select all" : "Выбрать все",
     "Download" : "Скачать",
     "Upload too large" : "Файл слишком велик",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Файлы, которые вы пытаетесь загрузить, превышают лимит максимального размера на этом сервере.",
