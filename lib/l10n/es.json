@@ -7,6 +7,8 @@
     "It has been detected that the sample configuration has been copied. This can break your installation and is unsupported. Please read the documentation before performing changes on config.php" : "Se ha detectado que el ejemplo de configuración ha sido copiado. Esto puede arruinar su instalación y es un caso para el que no se brinda soporte. Lea la documentación antes de hacer cambios en config.php",
     "PHP %s or higher is required." : "Se requiere PHP %s o superior.",
     "Following databases are supported: %s" : "Las siguientes bases de datos están soportadas: %s",
+    "The library %s is not available." : "La librería %s no está disponible",
+    "Following platforms are supported: %s" : "Las siguientes plataformas son soportadas: %s",
     "Help" : "Ayuda",
     "Personal" : "Personal",
     "Settings" : "Ajustes",

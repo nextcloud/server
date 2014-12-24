@@ -31,6 +31,7 @@
     "Confirm Deletion" : "Επιβεβαίωση Διαγραφής",
     "_%s group found_::_%s groups found_" : ["%s ομάδα βρέθηκε","%s ομάδες βρέθηκαν"],
     "_%s user found_::_%s users found_" : ["%s χρήστης βρέθηκε","%s χρήστες βρέθηκαν"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Δεν ήταν δυνατή η ανίχνευση της ιδιότητας του εμφανιζόμενου ονόματος χρήστη . Παρακαλείστε να το προσδιορίσετε στις προηγμένες ρυθμίσεις LDAP",
     "Could not find the desired feature" : "Αδυναμία εύρεσης επιθυμητου χαρακτηριστικού",
     "Invalid Host" : "Άκυρος εξυπηρετητής",
     "Server" : "Διακομιστής",
