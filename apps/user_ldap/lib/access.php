@@ -1406,7 +1406,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 					if(!$pagedSearchOK) {
 						return false;
 					}
-					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::INFO);
+					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::DEBUG);
 				} else {
 					\OCP\Util::writeLog('user_ldap',
 						'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset,
