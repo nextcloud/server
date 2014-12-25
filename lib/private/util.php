@@ -325,8 +325,6 @@ class OC_Util {
 			$session->set('OC_Version', $OC_Version);
 			/** @var $OC_VersionString string */
 			$session->set('OC_VersionString', $OC_VersionString);
-			/** @var $OC_Edition string */
-			$session->set('OC_Edition', $OC_Edition);
 			/** @var $OC_Channel string */
 			$session->set('OC_Channel', $OC_Channel);
 			/** @var $OC_Build string */
