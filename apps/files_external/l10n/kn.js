@@ -7,6 +7,7 @@ OC.L10N.register(
     "Username" : "﻿ಬಳಕೆಯ ಹೆಸರು",
     "Password" : "ಗುಪ್ತ ಪದ",
     "Share" : "﻿ಹಂಚಿಕೊಳ್ಳಿ",
+    "URL" : "ಜಾಲದ ಕೊಂಡಿ",
     "Personal" : "﻿ವೈಯಕ್ತಿಕ",
     "Saved" : "﻿ಉಳಿಸಿದ",
     "Name" : "﻿ಹೆಸರು",

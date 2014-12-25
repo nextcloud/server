@@ -1,4 +1,6 @@
 { "translations": {
+    "Unknown filetype" : "Nepoznat tip datoteke",
+    "Invalid image" : "Nevažeća datoteka",
     "_%n day ago_::_%n days ago_" : ["","",""],
     "_%n month ago_::_%n months ago_" : ["","",""],
     "_%n year ago_::_%n years ago_" : ["","",""],
