@@ -285,8 +285,12 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getEditionString() {
-		OC_Util::loadVersion();
-		return \OC::$server->getSession()->get('OC_Edition');
+		if (OC_App::isEnabled('enterprise_key')) {
+			return "Enterprise";
+		} else {
+			return "";
+		}
+
 	}
 
 	/**
