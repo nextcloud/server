@@ -44,6 +44,7 @@
     "Unable to create user." : "Impossible de créer l'utilisateur.",
     "Your %s account was created" : "Votre compte %s a été créé.",
     "Unable to delete user." : "Impossible de supprimer l'utilisateur.",
+    "Forbidden" : "Iinterdit",
     "Invalid user" : "Utilisateur non valide",
     "Unable to change mail address" : "Impossible de modifier l'adresse de courriel",
     "Email saved" : "E-mail sauvegardé",
