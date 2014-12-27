@@ -506,7 +506,7 @@ class Connection extends LDAPUtility {
 				if(putenv('LDAPTLS_REQCERT=never')) {
 					\OCP\Util::writeLog('user_ldap',
 						'Turned off SSL certificate validation successfully.',
-						\OCP\Util::WARN);
+						\OCP\Util::DEBUG);
 				} else {
 					\OCP\Util::writeLog('user_ldap',
 										'Could not turn off SSL certificate validation.',
