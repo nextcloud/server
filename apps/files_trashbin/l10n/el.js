@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Μόνιμη διαγραφή",
     "Error" : "Σφάλμα",
     "restored" : "επαναφέρθηκαν",
+    "No deleted files" : "Κανένα διαγεγραμμένο αρχείο",
+    "Select all" : "Επιλογή όλων",
     "Name" : "Όνομα",
     "Deleted" : "Διαγραμμένα",
     "Delete" : "Διαγραφή"

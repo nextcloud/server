@@ -8,6 +8,8 @@ OC.L10N.register(
     "Shared with you" : "Διαμοιρασμένο με εσάς",
     "Shared with others" : "Διαμοιρασμένο με άλλους",
     "Shared by link" : "Διαμοιρασμένο μέσω συνδέσμου",
+    "Nothing shared yet" : "Δεν έχει διαμοιραστεί τίποτα μέχρι στιγμής",
+    "No shared links" : "Κανένας διαμοιρασμένος σύνδεσμος",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Θέλετε να προσθέσουμε τον απομακρυσμένο κοινόχρηστο φάκελο {name} από {owner}@{remote}?",
     "Remote share" : "Απομακρυσμένος κοινόχρηστος φάκελος",
     "Remote share password" : "Κωδικός πρόσβασης απομακρυσμένου κοινόχρηστου φακέλου",
@@ -31,6 +33,7 @@ OC.L10N.register(
     "Download" : "Λήψη",
     "Download %s" : "Λήψη %s",
     "Direct link" : "Άμεσος σύνδεσμος",
+    "Server-to-Server Sharing" : "Διαμοιρασμός διακομιστής προς διακομιστή",
     "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές"
 },
 "nplurals=2; plural=(n != 1);");

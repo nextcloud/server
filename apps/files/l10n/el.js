@@ -92,6 +92,7 @@ OC.L10N.register(
     "From link" : "Από σύνδεσμο",
     "Upload" : "Μεταφόρτωση",
     "Cancel upload" : "Ακύρωση μεταφόρτωσης",
+    "Select all" : "Επιλογή όλων",
     "Download" : "Λήψη",
     "Upload too large" : "Πολύ μεγάλο αρχείο προς αποστολή",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
