@@ -231,22 +231,20 @@ class ShareController extends Controller {
 		$originalSharePath = self::getPath($token);
 
 		if (isset($originalSharePath) && Filesystem::isReadable($originalSharePath . $path)) {
-				$getPath = Filesystem::normalizePath($path);
-				$originalSharePath = Filesystem::normalizePath($originalSharePath . $getPath);
-				$type = \OC\Files\Filesystem::is_dir($originalSharePath) ? 'folder' : 'file';
-				$args = $type === 'folder' ? array('dir' => $originalSharePath) : array('dir' => dirname($originalSharePath), 'scrollto' => basename($originalSharePath));
-				$linkToFile = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
+			$originalSharePath = Filesystem::normalizePath($originalSharePath . $path);
+			$type = \OC\Files\Filesystem::is_dir($originalSharePath) ? 'folder' : 'file';
+			$args = $type === 'folder' ? array('dir' => $originalSharePath) : array('dir' => dirname($originalSharePath), 'scrollto' => basename($originalSharePath));
+			$linkToFile = \OCP\Util::linkToAbsolute('files', 'index.php', $args);
+			$subject = $type === 'folder' ? Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED : Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
+			$this->activityManager->publishActivity(
+					'files_sharing', $subject, array($originalSharePath), '', array(), $originalSharePath,
+					$linkToFile, $linkItem['uid_owner'], Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM);
 		}
-
-		$subject = $type === 'folder' ? Activity::SUBJECT_PUBLIC_SHARED_FOLDER_DOWNLOADED : Activity::SUBJECT_PUBLIC_SHARED_FILE_DOWNLOADED;
-		$this->activityManager->publishActivity(
-				'files_sharing', $subject, array($originalSharePath), '', array(),
-				$originalSharePath, $linkToFile, $linkItem['uid_owner'], Activity::TYPE_PUBLIC_LINKS, Activity::PRIORITY_MEDIUM);
 
 		if (!is_null($files)) { // download selected files
 			$files_list = json_decode($files);
 			// in case we get only a single file
-			if ($files_list === NULL ) {
+			if ($files_list === NULL) {
 				$files_list = array($files);
 			}
 
