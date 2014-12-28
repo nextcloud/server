@@ -285,8 +285,12 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getEditionString() {
-		OC_Util::loadVersion();
-		return \OC::$server->getSession()->get('OC_Edition');
+		if (OC_App::isEnabled('enterprise_key')) {
+			return "Enterprise";
+		} else {
+			return "";
+		}
+
 	}
 
 	/**
@@ -321,8 +325,6 @@ class OC_Util {
 			$session->set('OC_Version', $OC_Version);
 			/** @var $OC_VersionString string */
 			$session->set('OC_VersionString', $OC_VersionString);
-			/** @var $OC_Edition string */
-			$session->set('OC_Edition', $OC_Edition);
 			/** @var $OC_Channel string */
 			$session->set('OC_Channel', $OC_Channel);
 			/** @var $OC_Build string */
