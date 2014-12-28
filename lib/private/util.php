@@ -582,7 +582,8 @@ class OC_Util {
 				'gd_info' => 'GD',
 				'gzencode' => 'zlib',
 				'iconv' => 'iconv',
-				'simplexml_load_string' => 'SimpleXML'
+				'simplexml_load_string' => 'SimpleXML',
+				'hash' => 'HASH Message Digest Framework'
 			),
 			'defined' => array(
 				'PDO::ATTR_DRIVER_NAME' => 'PDO'
