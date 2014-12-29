@@ -465,4 +465,16 @@ class Wrapper implements \OC\Files\Storage\Storage {
 	public function __call($method, $args) {
 		return call_user_func_array(array($this->storage, $method), $args);
 	}
+
+	/**
+	 * A custom storage implementation can return an url for direct download of a give file.
+	 *
+	 * For now the returned array can hold the parameter url - in future more attributes might follow.
+	 *
+	 * @param string $path
+	 * @return array
+	 */
+	public function getDirectDownload($path) {
+		return $this->storage->getDirectDownload($path);
+	}
 }
