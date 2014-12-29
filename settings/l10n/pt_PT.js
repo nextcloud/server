@@ -175,6 +175,8 @@ OC.L10N.register(
     "Bugtracker" : "Bugtracker",
     "Commercial Support" : "Suporte Comercial",
     "Get the apps to sync your files" : "Obtenha as aplicações para sincronizar os seus ficheiros",
+    "Android app" : "Aplicação Android",
+    "iOS app" : "Aplicação iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" : "Se quer ajudar no projecto\n⇥⇥<a href=\"https://owncloud.org/contribute\"\n⇥⇥⇥target=\"_blank\">aderir desenvolvimento</a>\n⇥⇥ou\n⇥⇥<a href=\"https://owncloud.org/promote\"\n⇥⇥⇥target=\"_blank\">espalhe a palavra</a>!",
     "Show First Run Wizard again" : "Mostrar novamente Wizard de Arranque Inicial",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Usou <strong>%s</strong> do disponivel <strong>%s</strong>",

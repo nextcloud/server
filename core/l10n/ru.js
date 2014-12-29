@@ -82,6 +82,7 @@ OC.L10N.register(
     "Password protect" : "Защитить паролем",
     "Password" : "Пароль",
     "Choose a password for the public link" : "Выберите пароль для публичной ссылки",
+    "Allow editing" : "Разрешить редактирование",
     "Email link to person" : "Почтовая ссылка на персону",
     "Send" : "Отправить",
     "Set expiration date" : "Установить срок доступа",

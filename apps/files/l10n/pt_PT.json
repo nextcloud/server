@@ -52,6 +52,7 @@
     "Unshare" : "Deixar de partilhar",
     "Select" : "Selecionar",
     "Pending" : "Pendente",
+    "Unable to determine date" : "Impossível determinar a data",
     "Error moving file." : "Erro a mover o ficheiro.",
     "Error moving file" : "Erro ao mover o ficheiro",
     "Error" : "Erro",
@@ -90,10 +91,12 @@
     "From link" : "Da hiperligação",
     "Upload" : "Enviar",
     "Cancel upload" : "Cancelar o envio",
+    "Select all" : "Seleccionar todos",
     "Download" : "Transferir",
     "Upload too large" : "Upload muito grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor.",
     "Files are being scanned, please wait." : "Os ficheiros estão a ser analisados, por favor aguarde.",
-    "Currently scanning" : "A analisar"
+    "Currently scanning" : "A analisar",
+    "No favorites" : "Sem favoritos"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
