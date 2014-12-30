@@ -33,7 +33,7 @@
 		 */
 		initialize: function($searchBox) {
 
-			var that = this;
+			var self = this;
 
 			/**
 			 * contains closures that are called to filter the current content
@@ -166,13 +166,13 @@
 						$searchResults.on('click', 'tr.result', function (event) {
 							var $row = $(this);
 							var item = $row.data('result');
-							if(that.hasHandler(item.type)){
-								var result = that.getHandler(item.type)($row, result, event);
+							if(self.hasHandler(item.type)){
+								var result = self.getHandler(item.type)($row, result, event);
 								$searchBox.val('');
-								if(that.hasFilter(getCurrentApp())) {
-									that.getFilter(getCurrentApp())('');
+								if(self.hasFilter(getCurrentApp())) {
+									self.getFilter(getCurrentApp())('');
 								}
-								that.hideResults();
+								self.hideResults();
 								return result;
 							}
 						});
@@ -183,10 +183,10 @@
 						});
 						$(document).click(function (event) {
 							$searchBox.val('');
-							if(that.hasFilter(getCurrentApp())) {
-								that.getFilter(getCurrentApp())('');
+							if(self.hasFilter(getCurrentApp())) {
+								self.getFilter(getCurrentApp())('');
 							}
-							that.hideResults();
+							self.hideResults();
 						});
 						$('#app-content').on('scroll', _.bind(onScroll, this));
 						lastResults = results;
@@ -218,8 +218,8 @@
 					/**
 					 * Give plugins the ability to customize the search results. see result.js for examples
 					 */
-					if (that.hasRenderer(result.type)) {
-						$row = that.getRenderer(result.type)($row, result);
+					if (self.hasRenderer(result.type)) {
+						$row = self.getRenderer(result.type)($row, result);
 					} else {
 						// for backward compatibility add text div
 						$row.find('td.info div.name').addClass('result');
@@ -281,21 +281,21 @@
 					}
 				} else if(event.keyCode === 27) { //esc
 					$searchBox.val('');
-					if(that.hasFilter(getCurrentApp())) {
-						that.getFilter(getCurrentApp())('');
+					if(self.hasFilter(getCurrentApp())) {
+						self.getFilter(getCurrentApp())('');
 					}
-					that.hideResults();
+					self.hideResults();
 				} else {
 					var query = $searchBox.val();
 					if (lastQuery !== query) {
 						currentResult = -1;
-						if(that.hasFilter(getCurrentApp())) {
-							that.getFilter(getCurrentApp())(query);
+						if(self.hasFilter(getCurrentApp())) {
+							self.getFilter(getCurrentApp())(query);
 						}
 						if (query.length > 2) {
-							that.search(query);
+							self.search(query);
 						} else {
-							that.hideResults();
+							self.hideResults();
 						}
 					}
 				}
@@ -308,7 +308,7 @@
 			function onScroll(e) {
 				if ($searchResults) {
 					//if ( $searchResults && $searchResults.scrollTop() + $searchResults.height() > $searchResults.find('table').height() - 300 ) {
-					//	that.search(lastQuery, lastPage + 1);
+					//	self.search(lastQuery, lastPage + 1);
 					//}
 					placeStatus();
 				}
