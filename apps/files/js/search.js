@@ -8,7 +8,25 @@
  *
  */
 (function() {
-	OCA.Search.Files = {
+
+	/**
+	 * Construct a new FileActions instance
+	 * @constructs Files
+	 */
+	var Files = function() {
+		this.initialize();
+	};
+	/**
+	 * @memberof OCA.Search
+	 */
+	Files.prototype = {
+
+		/**
+		 * Initialize the file search
+		 */
+		initialize: function() {
+			OC.Plugins.register('OCA.Search', this);
+		},
 		attach: function(search) {
 			search.setFilter('files', function (query) {
 				if (OCA.Search.Files.fileAppLoaded()) {
@@ -48,7 +66,7 @@
 			 show size and last modified date on the right */
 			OCA.Search.Files.updateLegacyMimetype(result);
 
-			$pathDiv = $('<div class="path"></div>').text(result.path);
+			var $pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 			$row.find('td.result a').attr('href', result.link);
@@ -96,11 +114,7 @@
 			return $row;
 		},
 		inFileList: function($row, result){
-			if (OCA.Search.Files.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name)) {
-				return true;
-			} else {
-				return false;
-			}
+			return OCA.Search.Files.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name);
 		},
 		updateLegacyMimetype: function(result){
 			// backward compatibility:
@@ -132,4 +146,3 @@
 	};
 })();
 
-OC.Plugins.register('OCA.Search', OCA.Search.Files);
