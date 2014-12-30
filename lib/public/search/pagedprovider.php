@@ -25,6 +25,11 @@ namespace OCP\Search;
 abstract class PagedProvider extends Provider {
 
 	/**
+	 * show all results
+	 */
+	const SIZE_ALL = 0;
+
+	/**
 	 * Constructor
 	 * @param array $options
 	 */
@@ -38,15 +43,15 @@ abstract class PagedProvider extends Provider {
 	 * @return array An array of OCP\Search\Result's
 	 */
 	public function search($query) {
-		// old apps might assume they get all results, so we set size 0
-		$this->searchPaged($query, 1, 0);
+		// old apps might assume they get all results, so we use SIZE_ALL
+		$this->searchPaged($query, 1, self::SIZE_ALL);
 	}
 
 	/**
 	 * Search for $query
 	 * @param string $query
 	 * @param int $page pages start at page 1
-	 * @param int $size, 0 = all
+	 * @param int $size, 0 = SIZE_ALL
 	 * @return array An array of OCP\Search\Result's
 	 */
 	abstract public function searchPaged($query, $page, $size);
