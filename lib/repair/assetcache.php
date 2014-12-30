@@ -22,7 +22,7 @@ class AssetCache extends BasicEmitter implements \OC\RepairStep {
 			$this->emit('\OC\Repair', 'info', array('Asset pipeline disabled -> nothing to do'));
 			return;
 		}
-		$assetDir = \OC::$SERVERROOT . '/assets';
+		$assetDir = \OC::$server->getConfig()->getSystemValue('assetdirectory', \OC::$SERVERROOT) . '/assets';
 		\OC_Helper::rmdirr($assetDir, false);
 		$this->emit('\OC\Repair', 'info', array('Asset cache cleared.'));
 	}

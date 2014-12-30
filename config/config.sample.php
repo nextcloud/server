@@ -811,6 +811,16 @@ $CONFIG = array(
 'asset-pipeline.enabled' => false,
 
 /**
+ * The parent of the directory where css and js assets will be stored if
+ * piplelining is enabled; this defaults to the ownCloud directory. The assets
+ * will be stored in a subdirectory of this directory named 'assets'. The
+ * server *must* be configured to serve that directory as $WEBROOT/assets.
+ * You will only likely need to change this if the main ownCloud directory
+ * is not writeable by the web server in your configuration.
+ */
+'assetdirectory' => '/var/www/owncloud',
+
+/**
  * Where ``mount.json`` file should be stored, defaults to ``data/mount.json``
  */
 'mount_file' => 'data/mount.json',

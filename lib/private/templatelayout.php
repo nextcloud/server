@@ -154,10 +154,11 @@ class OC_TemplateLayout extends OC_Template {
 	}
 
 	public function generateAssets() {
+		$assetDir = \OC::$server->getConfig()->getSystemValue('assetdirectory', \OC::$SERVERROOT);
 		$jsFiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$jsHash = self::hashFileNames($jsFiles);
 
-		if (!file_exists("assets/$jsHash.js")) {
+		if (!file_exists("$assetDir/assets/$jsHash.js")) {
 			$jsFiles = array_map(function ($item) {
 				$root = $item[0];
 				$file = $item[2];
@@ -172,14 +173,14 @@ class OC_TemplateLayout extends OC_Template {
 			$jsCollection = new AssetCollection($jsFiles);
 			$jsCollection->setTargetPath("assets/$jsHash.js");
 
-			$writer = new AssetWriter(\OC::$SERVERROOT);
+			$writer = new AssetWriter($assetDir);
 			$writer->writeAsset($jsCollection);
 		}
 
 		$cssFiles = self::findStylesheetFiles(OC_Util::$styles);
 		$cssHash = self::hashFileNames($cssFiles);
 
-		if (!file_exists("assets/$cssHash.css")) {
+		if (!file_exists("$assetDir/assets/$cssHash.css")) {
 			$cssFiles = array_map(function ($item) {
 				$root = $item[0];
 				$file = $item[2];
@@ -200,7 +201,7 @@ class OC_TemplateLayout extends OC_Template {
 			$cssCollection = new AssetCollection($cssFiles);
 			$cssCollection->setTargetPath("assets/$cssHash.css");
 
-			$writer = new AssetWriter(\OC::$SERVERROOT);
+			$writer = new AssetWriter($assetDir);
 			$writer->writeAsset($cssCollection);
 		}
 
