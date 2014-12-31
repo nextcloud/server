@@ -49,7 +49,7 @@
 		 * @param update whether to update the display
 		 */
 		add: function(file, update) {
-			if (file.name.toLowerCase().indexOf(this.summary.filter) === -1) {
+			if (file.name && file.name.toLowerCase().indexOf(this.summary.filter) === -1) {
 				return;
 			}
 			if (file.type === 'dir' || file.mime === 'httpd/unix-directory') {
@@ -69,7 +69,7 @@
 		 * @param update whether to update the display
 		 */
 		remove: function(file, update) {
-			if (file.name.toLowerCase().indexOf(this.summary.filter) === -1) {
+			if (file.name && file.name.toLowerCase().indexOf(this.summary.filter) === -1) {
 				return;
 			}
 			if (file.type === 'dir' || file.mime === 'httpd/unix-directory') {
@@ -133,6 +133,9 @@
 		 */
 		setSummary: function(summary) {
 			this.summary = summary;
+			if (typeof this.summary.filter === 'undefined') {
+				this.summary.filter = '';
+			}
 			this.update();
 		},
 
@@ -157,7 +160,6 @@
 			// Substitute old content with new translations
 			$dirInfo.html(n('files', '%n folder', '%n folders', this.summary.totalDirs));
 			$fileInfo.html(n('files', '%n file', '%n files', this.summary.totalFiles));
-			$filterInfo.html(n('files', 'matches \'{filter}\'', 'match \'{filter}\'', this.summary.totalDirs + this.summary.totalFiles, {filter: this.summary.filter}));
 			this.$el.find('.filesize').html(OC.Util.humanFileSize(this.summary.totalSize));
 
 			// Show only what's necessary (may be hidden)
@@ -177,8 +179,10 @@
 				$connector.removeClass('hidden');
 			}
 			if (this.summary.filter === '') {
+				$filterInfo.html('');
 				$filterInfo.addClass('hidden');
 			} else {
+				$filterInfo.html(n('files', ' matches \'{filter}\'', ' match \'{filter}\'', this.summary.totalDirs + this.summary.totalFiles, {filter: this.summary.filter}));
 				$filterInfo.removeClass('hidden');
 			}
 		},
@@ -190,7 +194,11 @@
 			var summary = this.summary;
 			var directoryInfo = n('files', '%n folder', '%n folders', summary.totalDirs);
 			var fileInfo = n('files', '%n file', '%n files', summary.totalFiles);
-			var filterInfo = n('files', 'matches \'{filter}\'', 'match \'{filter}\'', summary.totalFiles + summary.totalDirs, {filter: summary.filter})
+			if (this.summary.filter === '') {
+				var filterInfo = '';
+			} else {
+				var filterInfo = n('files', ' matches \'{filter}\'', ' match \'{filter}\'', summary.totalFiles + summary.totalDirs, {filter: summary.filter});
+			}
 
 			var infoVars = {
 				dirs: '<span class="dirinfo">'+directoryInfo+'</span><span class="connector">',
@@ -205,13 +213,10 @@
 
 			var info = t('files', '{dirs} and {files}', infoVars);
 
-			var $summary = $('<td><span class="info">'+info+' <span class="filter">'+filterInfo+'</span></span></td>'+fileSize+'<td class="date"></td>');
+			var $summary = $('<td><span class="info">'+info+'<span class="filter">'+filterInfo+'</span></span></td>'+fileSize+'<td class="date"></td>');
 
 			if (!this.summary.totalFiles && !this.summary.totalDirs) {
 				this.$el.addClass('hidden');
-			}
-			if (!summary.filter) {
-				$summary.find('.filter').addClass('hidden');
 			}
 
 			this.$el.append($summary);
