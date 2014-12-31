@@ -108,7 +108,7 @@
 
 			for (var i = 0; i < files.length; i++) {
 				file = files[i];
-				if (file.name.toLowerCase().indexOf(this.summary.filter) === -1) {
+				if (file.name && file.name.toLowerCase().indexOf(this.summary.filter) === -1) {
 					continue;
 				}
 				if (file.type === 'dir' || file.mime === 'httpd/unix-directory') {

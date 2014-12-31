@@ -234,6 +234,9 @@
 					} else {
 						// not showing result, decrease counter
 						var count = $status.data('count') - 1;
+						if (count < 0) {
+							count = 0;
+						}
 						$status.data('count', count)
 							.text(t('search', '{count} search results in other places', {count:count}, count));
 					}
