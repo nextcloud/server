@@ -136,6 +136,13 @@
 				}
 			};
 
+			this.updateLegacyMimetype = function (result) {
+				// backward compatibility:
+				if (!result.mime && result.mime_type) {
+					result.mime = result.mime_type;
+				}
+			};
+
 			OC.Plugins.register('OCA.Search', this);
 		},
 		attach: function(search) {
@@ -146,13 +153,13 @@
 				}
 			});
 
-			search.setRenderer('folder', this.renderFolderResult);
-			search.setRenderer('file',   this.renderFileResult);
-			search.setRenderer('audio',  this.renderAudioResult);
-			search.setRenderer('image',  this.renderImageResult);
+			search.setRenderer('folder', this.renderFolderResult.bind(this));
+			search.setRenderer('file',   this.renderFileResult.bind(this));
+			search.setRenderer('audio',  this.renderAudioResult.bind(this));
+			search.setRenderer('image',  this.renderImageResult.bind(this));
 
-			search.setHandler('folder',  this.handleFolderClick);
-			search.setHandler(['file', 'audio', 'image'], this.handleFileClick);
+			search.setHandler('folder',  this.handleFolderClick.bind(this));
+			search.setHandler(['file', 'audio', 'image'], this.handleFileClick.bind(this));
 		}
 	};
 	new Files();
