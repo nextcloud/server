@@ -52,6 +52,7 @@
     "Unshare" : "共有解除",
     "Select" : "選択",
     "Pending" : "中断",
+    "Unable to determine date" : "更新日不明",
     "Error moving file." : "ファイル移動でエラー",
     "Error moving file" : "ファイルの移動エラー",
     "Error" : "エラー",
@@ -71,6 +72,7 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "暗号化アプリの無効なプライベートキーです。あなたの暗号化されたファイルへアクセスするために、個人設定からプライベートキーのパスワードを更新してください。",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "暗号化の機能は無効化されましたが、ファイルはすでに暗号化されています。個人設定からファイルを複合を行ってください。",
     "{dirs} and {files}" : "{dirs} と {files}",
+    "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",
     "%s could not be renamed as it has been deleted" : "%s は削除された為、ファイル名を変更できません",
     "%s could not be renamed" : "%sの名前を変更できませんでした",
@@ -90,10 +92,15 @@
     "From link" : "リンク",
     "Upload" : "アップロード",
     "Cancel upload" : "アップロードをキャンセル",
+    "No files yet" : "ファイルなし",
+    "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
+    "Select all" : "すべて選択",
     "Download" : "ダウンロード",
     "Upload too large" : "アップロードには大きすぎます。",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "アップロードしようとしているファイルは、サーバーで規定された最大サイズを超えています。",
     "Files are being scanned, please wait." : "ファイルをスキャンしています、しばらくお待ちください。",
-    "Currently scanning" : "現在スキャン中"
+    "Currently scanning" : "現在スキャン中",
+    "No favorites" : "お気に入りなし",
+    "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダは、ここに表示されます。"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

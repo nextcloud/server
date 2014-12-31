@@ -1,4 +1,9 @@
 { "translations": {
+    "Help" : "Pomoć",
+    "Personal" : "Osobno",
+    "Settings" : "Postavke",
+    "Users" : "Korisnici",
+    "Admin" : "Admin",
     "Unknown filetype" : "Nepoznat tip datoteke",
     "Invalid image" : "Nevažeća datoteka",
     "_%n day ago_::_%n days ago_" : ["","",""],

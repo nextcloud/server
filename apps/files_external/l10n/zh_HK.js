@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_external",
     {
     "Port" : "連接埠",
+    "Host" : "主機",
     "Username" : "用戶名稱",
     "Password" : "密碼",
     "Share" : "分享",

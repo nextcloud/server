@@ -27,6 +27,7 @@ OC.L10N.register(
     "Ok" : "確認",
     "_{count} file conflict_::_{count} file conflicts_" : [""],
     "Cancel" : "取消",
+    "Continue" : "繼續",
     "Shared" : "已分享",
     "Share" : "分享",
     "Error" : "錯誤",

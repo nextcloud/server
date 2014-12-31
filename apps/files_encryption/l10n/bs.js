@@ -1,9 +1,7 @@
 OC.L10N.register(
-    "files_trashbin",
+    "files_encryption",
     {
-    "Restore" : "Obnovi",
-    "Error" : "Greška",
-    "Name" : "Ime",
-    "Delete" : "Izbriši"
+    "Unknown error" : "Nepoznata greška",
+    "Disabled" : "Onemogućeno"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

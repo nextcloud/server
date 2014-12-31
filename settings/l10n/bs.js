@@ -1,0 +1,28 @@
+OC.L10N.register(
+    "settings",
+    {
+    "Invalid request" : "Neispravan zahtjev",
+    "Saved" : "Spremljeno",
+    "Email sent" : "E-pošta poslana",
+    "All" : "Svi",
+    "Very weak password" : "Veoma slaba lozinka",
+    "Weak password" : "Slaba lozinka",
+    "So-so password" : "Tu-i-tamo lozinka",
+    "Good password" : "Dobra lozinka",
+    "Strong password" : "Jaka lozinka",
+    "Delete" : "Izbriši",
+    "Groups" : "Grupe",
+    "never" : "Nikad",
+    "Security Warning" : "Sigurnosno Upozorenje",
+    "by" : "od strane",
+    "Cheers!" : "Cheers!",
+    "Password" : "Lozinka",
+    "New password" : "Nova lozinka",
+    "Email" : "E-pošta",
+    "Cancel" : "Odustani",
+    "Username" : "Korisničko ime",
+    "Create" : "Kreiraj",
+    "Group" : "Grupa",
+    "Other" : "Ostalo"
+},
+"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");
