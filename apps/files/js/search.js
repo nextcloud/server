@@ -28,28 +28,29 @@
 			OC.Plugins.register('OCA.Search', this);
 		},
 		attach: function(search) {
+			var self = this;
 			search.setFilter('files', function (query) {
-				if (OCA.Search.Files.fileAppLoaded()) {
+				if (self.fileAppLoaded()) {
 					OCA.Files.App.fileList.setFilter(query);
 
 				}
 			});
 
-			search.setRenderer('folder', OCA.Search.Files.renderFolderResult);
-			search.setRenderer('file',   OCA.Search.Files.renderFileResult);
-			search.setRenderer('audio',  OCA.Search.Files.renderAudioResult);
-			search.setRenderer('image',  OCA.Search.Files.renderImageResult);
+			search.setRenderer('folder', this.renderFolderResult);
+			search.setRenderer('file',   this.renderFileResult);
+			search.setRenderer('audio',  this.renderAudioResult);
+			search.setRenderer('image',  this.renderImageResult);
 
-			search.setHandler('folder',  OCA.Search.Files.handleFolderClick);
-			search.setHandler(['file', 'audio', 'image'], OCA.Search.Files.handleFileClick);
+			search.setHandler('folder',  this.handleFolderClick);
+			search.setHandler(['file', 'audio', 'image'], this.handleFileClick);
 		},
 		renderFolderResult: function($row, result) {
-			if (OCA.Search.Files.inFileList($row, result)) {
+			if (this.inFileList($row, result)) {
 				return null;
 			}
 			/*render folder icon, show path beneath filename,
 			 show size and last modified date on the right */
-			OCA.Search.Files.updateLegacyMimetype(result);
+			this.updateLegacyMimetype(result);
 
 			var $pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
@@ -59,19 +60,19 @@
 			return $row;
 		},
 		renderFileResult: function($row, result) {
-			if (OCA.Search.Files.inFileList($row, result)) {
+			if (this.inFileList($row, result)) {
 				return null;
 			}
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right */
-			OCA.Search.Files.updateLegacyMimetype(result);
+			this.updateLegacyMimetype(result);
 
 			var $pathDiv = $('<div class="path"></div>').text(result.path);
 			$row.find('td.info div.name').after($pathDiv).text(result.name);
 
 			$row.find('td.result a').attr('href', result.link);
 
-			if (OCA.Search.Files.fileAppLoaded()) {
+			if (this.fileAppLoaded()) {
 				OCA.Files.App.fileList.lazyLoadPreview({
 					path: result.path,
 					mime: result.mime,
@@ -97,7 +98,7 @@
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right
 			 show Artist and Album */
-			$row = OCA.Search.Files.renderFileResult($row, result);
+			$row = this.renderFileResult($row, result);
 			if ($row) {
 				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/audio') + ')');
 			}
@@ -107,14 +108,14 @@
 			/*render preview icon, show path beneath filename,
 			 show size and last modified date on the right
 			 show width and height */
-			$row = OCA.Search.Files.renderFileResult($row, result);
-			if ($row && !OCA.Search.Files.fileAppLoaded()) {
+			$row = this.renderFileResult($row, result);
+			if ($row && !this.fileAppLoaded()) {
 				$row.find('td.icon').css('background-image', 'url(' + OC.imagePath('core', 'filetypes/image') + ')');
 			}
 			return $row;
 		},
 		inFileList: function($row, result){
-			return OCA.Search.Files.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name);
+			return this.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name);
 		},
 		updateLegacyMimetype: function(result){
 			// backward compatibility:
@@ -124,7 +125,7 @@
 		},
 		handleFolderClick: function($row, result, event) {
 			// open folder
-			if (OCA.Search.Files.fileAppLoaded()) {
+			if (this.fileAppLoaded()) {
 				OCA.Files.App.fileList.changeDirectory(result.path);
 				return false;
 			} else {
@@ -132,7 +133,7 @@
 			}
 		},
 		handleFileClick: function($row, result, event) {
-			if (OCA.Search.Files.fileAppLoaded()) {
+			if (this.fileAppLoaded()) {
 				OCA.Files.App.fileList.changeDirectory(OC.dirname(result.path));
 				OCA.Files.App.fileList.scrollTo(result.name);
 				return false;
@@ -144,5 +145,5 @@
 			return !!OCA.Files && !!OCA.Files.App;
 		}
 	};
+	new Files();
 })();
-
