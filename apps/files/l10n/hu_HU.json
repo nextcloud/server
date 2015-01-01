@@ -71,6 +71,7 @@
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Az állományok titkosításához használt titkos kulcsa érvénytelen. Kérjük frissítse a titkos kulcs jelszót a személyes beállításokban, hogy ismét hozzáférjen a titkosított állományaihoz!",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "A titkosítási funkciót kikapcsolták, de az Ön állományai még mindig titkosított állapotban vannak. A személyes beállításoknál tudja a titkosítást feloldani.",
     "{dirs} and {files}" : "{dirs} és {files}",
+    "Favorited" : "Kedvenc",
     "Favorite" : "Kedvenc",
     "%s could not be renamed as it has been deleted" : "%s nem lehet átnevezni, mivel törölve lett",
     "%s could not be renamed" : "%s átnevezése nem sikerült",
@@ -90,10 +91,14 @@
     "From link" : "Feltöltés linkről",
     "Upload" : "Feltöltés",
     "Cancel upload" : "A feltöltés megszakítása",
+    "No files yet" : "Még nincsenek fájlok",
+    "Select all" : "Összes kijelölése",
     "Download" : "Letöltés",
     "Upload too large" : "A feltöltés túl nagy",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",
     "Files are being scanned, please wait." : "A fájllista ellenőrzése zajlik, kis türelmet!",
-    "Currently scanning" : "Mappaellenőrzés: "
+    "Currently scanning" : "Mappaellenőrzés: ",
+    "No favorites" : "Nincsenek kedvencek",
+    "Files and folders you mark as favorite will show up here" : "A kedvencnek jelölt fájlokat és mappákat itt találod meg"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

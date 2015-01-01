@@ -191,6 +191,7 @@ OC.L10N.register(
     "Bugtracker" : "Suivi de bugs",
     "Commercial Support" : "Support commercial",
     "Get the apps to sync your files" : "Obtenez les applications de synchronisation de vos fichiers",
+    "Desktop client" : "Client de bureau",
     "Android app" : "Application Android",
     "iOS app" : "Application iOS",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" : "Si voulez soutenir le projet, \n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">rejoignez le développement</a>\n\t\tou \n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">parlez-en</a> !",
@@ -231,6 +232,7 @@ OC.L10N.register(
     "Show last log in" : "Montrer la dernière connexion",
     "Show user backend" : "Montrer la source de l'identifiant",
     "Send email to new user" : "Envoyer un courriel au nouvel utilisateur",
+    "Show email address" : "Afficher l'adresse email",
     "Username" : "Nom d'utilisateur",
     "E-Mail" : "Courriel",
     "Create" : "Créer",
@@ -251,6 +253,7 @@ OC.L10N.register(
     "Last Login" : "Dernière Connexion",
     "change full name" : "Modifier le nom complet",
     "set new password" : "Changer le mot de passe",
+    "change email address" : "changer l'adresse email",
     "Default" : "Défaut"
 },
 "nplurals=2; plural=(n > 1);");

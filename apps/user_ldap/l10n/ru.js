@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Подтверждение удаления",
     "_%s group found_::_%s groups found_" : ["%s группа найдена","%s группы найдены","%s групп найдено"],
     "_%s user found_::_%s users found_" : ["%s пользователь найден","%s пользователя найдено","%s пользователей найдено"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Не удалось автоматически определить атрибут содержащий отображаемое имя пользователя. Зайдите в расширенные настройки ldap и укажите его вручную.",
     "Could not find the desired feature" : "Не могу найти требуемой функциональности",
     "Invalid Host" : "Неверный сервер",
     "Server" : "Сервер",

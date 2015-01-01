@@ -173,6 +173,7 @@
     "Update to %s" : "Обновить до %s",
     "Enable only for specific groups" : "Включить только для этих групп",
     "Uninstall App" : "Удалить приложение",
+    "Hey there,<br><br>just letting you know that you now have an %s account.<br><br>Your username: %s<br>Access it: <a href=\"%s\">%s</a><br><br>" : "Здравствуйте,<br><br>просто даём вам знать, что теперь у вас есть учетная запись на %s.<br><br>Ваше имя пользователя: %s<br>Зайти: <a href=\"%s\">%s</a><br><br>",
     "Cheers!" : "Удачи!",
     "Administrator Documentation" : "Документация администратора",
     "Online Documentation" : "Online документация",

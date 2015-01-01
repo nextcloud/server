@@ -7,6 +7,7 @@ OC.L10N.register(
     "_%s user found_::_%s users found_" : ["","",""],
     "Save" : "Spasi",
     "Help" : "Pomoć",
+    "Port" : "Priključak",
     "Password" : "Lozinka",
     "Continue" : "Nastavi",
     "Advanced" : "Napredno"

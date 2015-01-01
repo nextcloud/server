@@ -97,6 +97,7 @@ OC.L10N.register(
     "can edit" : "módosíthat",
     "access control" : "jogosultság",
     "create" : "létrehoz",
+    "change" : "változtatás",
     "delete" : "töröl",
     "Password protected" : "Jelszóval van védve",
     "Error unsetting expiration date" : "Nem sikerült a lejárati időt törölni",

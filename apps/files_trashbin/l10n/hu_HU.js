@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Végleges törlés",
     "Error" : "Hiba",
     "restored" : "visszaállítva",
+    "Select all" : "Összes kijelölése",
     "Name" : "Név",
     "Deleted" : "Törölve",
     "Delete" : "Törlés"

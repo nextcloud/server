@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Local" : "Lokalno",
     "Location" : "Lokacija",
+    "Port" : "Priključak",
     "Username" : "Korisničko ime",
     "Password" : "Lozinka",
     "Share" : "Podijeli",

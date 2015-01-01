@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Restore" : "Obnovi",
     "Error" : "Greška",
+    "Select all" : "Označi sve",
     "Name" : "Ime",
     "Delete" : "Izbriši"
 },
