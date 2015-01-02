@@ -163,4 +163,5 @@
 		}
 	};
 	new Files();
+	OCA.Search.Files = Files;
 })();
