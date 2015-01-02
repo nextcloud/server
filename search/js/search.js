@@ -16,9 +16,10 @@
 	 * The Search class manages a search queries and their results
 	 *
 	 * @param $searchBox container element with existing markup for the #searchbox form
+	 * @param $searchResults container element for results und status message
 	 */
-	var Search = function($searchBox) {
-		this.initialize($searchBox);
+	var Search = function($searchBox, $searchResults) {
+		this.initialize($searchBox, $searchResults);
 	};
 	/**
 	 * @memberof OC
@@ -31,7 +32,7 @@
 		 * @param $searchBox container element with existing markup for the #searchbox form
 		 * @private
 		 */
-		initialize: function($searchBox) {
+		initialize: function($searchBox, $searchResults) {
 
 			var self = this;
 
@@ -115,6 +116,10 @@
 					lastQuery = query;
 					lastPage = page;
 					lastSize = size;
+
+					$searchResults.removeClass('hidden');
+					$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading-dark.gif" />');
+					// do the actual search query
 					$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
 						lastResults = results;
 						if (page === 1) {
@@ -126,23 +131,25 @@
 				}
 			}, 500);
 
+			//TODO should be a core method, see https://github.com/owncloud/core/issues/12557
 			function getCurrentApp() {
-				var classList = document.getElementById('content').className.split(/\s+/);
-				for (var i = 0; i < classList.length; i++) {
-					if (classList[i].indexOf('app-') === 0) {
-						return classList[i].substr(4);
+				var content = document.getElementById('content');
+				if (content) {
+					var classList = document.getElementById('content').className.split(/\s+/);
+					for (var i = 0; i < classList.length; i++) {
+						if (classList[i].indexOf('app-') === 0) {
+							return classList[i].substr(4);
+						}
 					}
 				}
 				return false;
 			}
 
-			var $searchResults = false;
-			var $wrapper = false;
-			var $status = false;
+			var $status = $searchResults.find('#status');
 			const summaryAndStatusHeight = 118;
 
 			function isStatusOffScreen() {
-				return $searchResults.position().top + summaryAndStatusHeight > window.innerHeight;
+				return $searchResults.position() && ($searchResults.position().top + summaryAndStatusHeight > window.innerHeight);
 			}
 
 			function placeStatus() {
@@ -153,49 +160,10 @@
 				}
 			}
 			function showResults(results) {
-				if (!$searchResults) {
-					$wrapper = $('<div class="searchresults-wrapper"/>');
-					$('#app-content')
-						.append($wrapper)
-						.find('.viewcontainer').css('min-height', 'initial');
-					$wrapper.load(OC.webroot + '/search/templates/part.results.html', function () {
-						$searchResults = $wrapper.find('#searchresults');
-						$searchResults.on('click', 'tr.result', function (event) {
-							var $row = $(this);
-							var item = $row.data('result');
-							if(self.hasHandler(item.type)){
-								var result = self.getHandler(item.type)($row, result, event);
-								$searchBox.val('');
-								if(self.hasFilter(getCurrentApp())) {
-									self.getFilter(getCurrentApp())('');
-								}
-								self.hideResults();
-								return result;
-							}
-						});
-						$searchResults.on('click', '#status', function (event) {
-							event.preventDefault();
-							scrollToResults();
-							return false;
-						});
-						$(document).click(function (event) {
-							$searchBox.val('');
-							if(self.hasFilter(getCurrentApp())) {
-								self.getFilter(getCurrentApp())('');
-							}
-							self.hideResults();
-						});
-						$('#app-content').on('scroll', _.bind(onScroll, this));
-						lastResults = results;
-						$status = $searchResults.find('#status');
-						placeStatus();
-						showResults(results);
-					});
-				} else {
-					$searchResults.find('tr.result').remove();
-					$searchResults.show();
-					addResults(results);
-				}
+				lastResults = results;
+				$searchResults.find('tr.result').remove();
+				$searchResults.show();
+				addResults(results);
 			}
 			function addResults(results) {
 				var $template = $searchResults.find('tr.template');
@@ -248,14 +216,49 @@
 				}
 			}
 			this.hideResults = function() {
-				if ($searchResults) {
-					$searchResults.hide();
-					$wrapper.remove();
-					$searchResults = false;
-					$wrapper = false;
-					lastQuery = false;
-				}
+				$searchResults.addClass('hidden');
+				$searchResults.find('tr.result').remove();
+				lastQuery = false;
 			};
+
+			/**
+			 * Event handler for when scrolling the list container.
+			 * This appends/renders the next page of entries when reaching the bottom.
+			 */
+			function onScroll(e) {
+				if ($searchResults) {
+					//if ( $searchResults && $searchResults.scrollTop() + $searchResults.height() > $searchResults.find('table').height() - 300 ) {
+					//	self.search(lastQuery, lastPage + 1);
+					//}
+					placeStatus();
+				}
+			}
+
+			$('#app-content').on('scroll', _.bind(onScroll, this));
+
+			/**
+			 * scrolls the search results to the top
+			 */
+			function scrollToResults() {
+				setTimeout(function() {
+					if (isStatusOffScreen()) {
+						var newScrollTop = $('#app-content').prop('scrollHeight') - $searchResults.height();
+						console.log('scrolling to ' + newScrollTop);
+						$('#app-content').animate({
+							scrollTop: newScrollTop
+						}, {
+							duration: 100,
+							complete: function () {
+								scrollToResults();
+							}
+						});
+					}
+				}, 150);
+			}
+
+			$('form.searchbox').submit(function(event) {
+				event.preventDefault();
+			});
 
 			$searchBox.keyup(function(event) {
 				if (event.keyCode === 13) { //enter
@@ -295,42 +298,32 @@
 				}
 			});
 
-			/**
-			 * Event handler for when scrolling the list container.
-			 * This appends/renders the next page of entries when reaching the bottom.
-			 */
-			function onScroll(e) {
-				if ($searchResults) {
-					//if ( $searchResults && $searchResults.scrollTop() + $searchResults.height() > $searchResults.find('table').height() - 300 ) {
-					//	self.search(lastQuery, lastPage + 1);
-					//}
-					placeStatus();
-				}
-			}
-
-			/**
-			 * scrolls the search results to the top
-			 */
-			function scrollToResults() {
-				setTimeout(function() {
-					if (isStatusOffScreen()) {
-						var newScrollTop = $('#app-content').prop('scrollHeight') - $searchResults.height();
-						console.log('scrolling to ' + newScrollTop);
-						$('#app-content').animate({
-							scrollTop: newScrollTop
-						}, {
-							duration: 100,
-							complete: function () {
-								scrollToResults();
-							}
-						});
+			$searchResults.on('click', 'tr.result', function (event) {
+				var $row = $(this);
+				var item = $row.data('result');
+				if(self.hasHandler(item.type)){
+					var result = self.getHandler(item.type)($row, result, event);
+					$searchBox.val('');
+					if(self.hasFilter(getCurrentApp())) {
+						self.getFilter(getCurrentApp())('');
 					}
-				}, 150);
-			}
-
-			$('form.searchbox').submit(function(event) {
-				event.preventDefault();
+					self.hideResults();
+					return result;
+				}
 			});
+			$searchResults.on('click', '#status', function (event) {
+				event.preventDefault();
+				scrollToResults();
+				return false;
+			});
+			$(document).click(function (event) {
+				$searchBox.val('');
+				if(self.hasFilter(getCurrentApp())) {
+					self.getFilter(getCurrentApp())('');
+				}
+				self.hideResults();
+			});
+			placeStatus();
 
 			OC.Plugins.attach('OCA.Search', this);
 		}
@@ -339,7 +332,13 @@
 })();
 
 $(document).ready(function() {
-	OC.Search = new OCA.Search($('#searchbox'));
+	var $searchResults = $('<div id="searchresults" class="hidden"/>');
+	$('#app-content')
+		.append($searchResults)
+		.find('.viewcontainer').css('min-height', 'initial');
+	$searchResults.load(OC.webroot + '/search/templates/part.results.html', function () {
+		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
+	});
 });
 
 /**

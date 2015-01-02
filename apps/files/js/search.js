@@ -34,13 +34,13 @@
 			function inFileList($row, result) {
 				return self.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name);
 			}
-			function updateLegacyMimetype(result){
+			function updateLegacyMimetype(result) {
 				// backward compatibility:
 				if (!result.mime && result.mime_type) {
 					result.mime = result.mime_type;
 				}
 			}
-			function hideNoFilterResults (){
+			function hideNoFilterResults() {
 				var $nofilterresults = $('#nofilterresults');
 				if ( ! $nofilterresults.hasClass('hidden') ) {
 					$nofilterresults.addClass('hidden');
@@ -158,6 +158,9 @@
 			search.setFilter('files', function (query) {
 				if (self.fileAppLoaded()) {
 					OCA.Files.App.fileList.setFilter(query);
+					if (query.length > 2) {
+						$('#nofilterresults').addClass('hidden');
+					}
 				}
 			});
 

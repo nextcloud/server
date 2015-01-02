@@ -22,7 +22,7 @@
 	padding: 28px 0 28px 56px;
 	font-size: 18px;
 }
-.has-favorites:not(.hidden) ~ .searchresults-wrapper #searchresults #status {
+.has-favorites:not(.hidden) ~ #searchresults #status {
 	padding-left: 102px;
 }
 #searchresults #status.fixed {
@@ -32,6 +32,12 @@
 	z-index: 10;
 }
 
+#searchresults #status .spinner {
+	height: 16px;
+	width: 16px;
+	vertical-align: middle;
+	margin-left: 10px;
+}
 #searchresults table {
 	border-spacing:0;
 	table-layout:fixed;
@@ -53,7 +59,7 @@
 	background-position: right center;
 	background-repeat: no-repeat;
 }
-.has-favorites:not(.hidden) ~ .searchresults-wrapper #searchresults td.icon {
+.has-favorites:not(.hidden) ~ #searchresults td.icon {
 	width: 86px;
 }
 
