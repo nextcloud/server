@@ -200,8 +200,12 @@
 					}
 				});
 				var count = $searchResults.find('tr.result').length;
-				$status.data('count', count)
-					.text(t('search', '{count} search results in other places', {count:count}, count));
+				$status.data('count', count);
+				if (count === 0) {
+					$status.text(t('core', 'No search result in other places'));
+				} else {
+					$status.text(n('core', '{count} search result in other places', '{count} search results in other places', count, {count:count}));
+				}
 			}
 			function renderCurrent() {
 				var result = $searchResults.find('tr.result')[currentResult];
