@@ -6,7 +6,7 @@
 
 <div id="emptycontent" class="hidden">
 	<div class="icon-external"></div>
-	<h2><?php p($l->t('No external storages')); ?></h2>
+	<h2><?php p($l->t('No external storages configured')); ?></h2>
 	<p><?php p($l->t('You can configure external storages in the personal settings')); ?></p>
 </div>
 
