@@ -1,10 +1,10 @@
 OC.L10N.register(
     "files_sharing",
     {
-    "Server to server sharing is not enabled on this server" : "На данном сервере выключено межсерверное предоставление общих папок",
+    "Server to server sharing is not enabled on this server" : "На данном сервере выключено межсерверное предоставление общего доступа",
     "The mountpoint name contains invalid characters." : "Имя точки монтирования содержит недопустимые символы.",
     "Invalid or untrusted SSL certificate" : "Недействительный или недоверенный сертификат SSL",
-    "Couldn't add remote share" : "Невозможно добавить удалённую общую папку",
+    "Couldn't add remote share" : "Не удалось добавить удалённую общую папку",
     "Shared with you" : "Доступные для Вас",
     "Shared with others" : "Доступные для других",
     "Shared by link" : "Доступные по ссылке",
@@ -40,7 +40,7 @@ OC.L10N.register(
     "the item was removed" : "объект был удалён",
     "the link expired" : "срок действия ссылки истёк",
     "sharing is disabled" : "общий доступ отключён",
-    "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, пожалуйста, свяжитесь с тем, кто отправил Вам эту ссылку.",
+    "For more info, please ask the person who sent this link." : "Для получения дополнительной информации, свяжитесь с тем, кто отправил вам эту ссылку.",
     "Add to your ownCloud" : "Добавить в свой ownCloud",
     "Download" : "Скачать",
     "Download %s" : "Скачать %s",

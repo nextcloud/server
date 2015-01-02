@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." : "Ошибка при получении токенов. Проверьте правильность вашего ключа приложения и секретного ключа.",
     "Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." : "Ошибка при получении токена доступа.  Проверьте правильность вашего ключа приложения и секретного ключа.",
-    "Please provide a valid Dropbox app key and secret." : "Пожалуйста, предоставьте действующий ключ Dropbox и пароль.",
+    "Please provide a valid Dropbox app key and secret." : "Укажите действительные ключ и пароль для Dropbox.",
     "Step 1 failed. Exception: %s" : "Шаг 1 неудачен. Исключение: %s",
     "Step 2 failed. Exception: %s" : "Шаг 2 неудачен. Исключение: %s",
     "External storage" : "Внешнее хранилище",

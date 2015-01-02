@@ -15,6 +15,7 @@ OC.L10N.register(
     "Grant access" : "Piešķirt pieeju",
     "Error configuring Google Drive storage" : "Kļūda, konfigurējot Google Drive krātuvi",
     "Personal" : "Personīgi",
+    "Saved" : "Saglabāts",
     "Name" : "Nosaukums",
     "External Storage" : "Ārējā krātuve",
     "Folder name" : "Mapes nosaukums",

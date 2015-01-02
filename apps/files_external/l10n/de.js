@@ -38,7 +38,7 @@ OC.L10N.register(
     "Service Name (required for OpenStack Object Storage)" : "Name der Dienstleistung (Erforderlich für Openstack-Objektspeicher)",
     "URL of identity endpoint (required for OpenStack Object Storage)" : "URL des Identitätsendpunktes (Erforderlich für Openstack-Objektspeicher)",
     "Timeout of HTTP requests in seconds" : "Zeitüberschreitung von HTTP-Anfragen in Sekunden",
-    "Share" : "Teilen",
+    "Share" : "Share",
     "SMB / CIFS using OC login" : "SMB / CIFS mit OC-Login",
     "Username as share" : "Benutzername als Freigabe",
     "URL" : "URL",
