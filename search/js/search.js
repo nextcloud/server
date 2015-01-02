@@ -30,6 +30,7 @@
 		 * Initialize the search box
 		 *
 		 * @param $searchBox container element with existing markup for the #searchbox form
+		 * @param $searchResults container element for results und status message
 		 * @private
 		 */
 		initialize: function($searchBox, $searchResults) {
@@ -117,8 +118,10 @@
 					lastPage = page;
 					lastSize = size;
 
+					//show spinner
 					$searchResults.removeClass('hidden');
 					$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading-dark.gif" />');
+
 					// do the actual search query
 					$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
 						lastResults = results;
@@ -260,6 +263,14 @@
 				event.preventDefault();
 			});
 
+			$searchBox.on('search', function (event) {
+				if($searchBox.val() === '') {
+					if(self.hasFilter(getCurrentApp())) {
+						self.getFilter(getCurrentApp())('');
+					}
+					self.hideResults();
+				}
+			});
 			$searchBox.keyup(function(event) {
 				if (event.keyCode === 13) { //enter
 					if(currentResult > -1) {
