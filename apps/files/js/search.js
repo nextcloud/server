@@ -159,7 +159,10 @@
 				if (self.fileAppLoaded()) {
 					OCA.Files.App.fileList.setFilter(query);
 					if (query.length > 2) {
-						$('#nofilterresults').addClass('hidden');
+						//search is not started until 500msec have passed
+						window.setTimeout(function() {
+							$('#nofilterresults').addClass('hidden');
+						}, 500);
 					}
 				}
 			});
