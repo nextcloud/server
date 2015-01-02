@@ -61,8 +61,8 @@
 </div>
 
 <div id="nofilterresults" class="hidden">
-	<div class="icon-folder"></div>
-	<h2><?php p($l->t('No files found in this folder')); ?></h2>
+	<div class="icon-search"></div>
+	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
 	<p></p>
 </div>
 
