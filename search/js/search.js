@@ -109,7 +109,7 @@
 						}
 					}
 					// prevent double pages
-					if ($searchResults && query === lastQuery && page === lastPage&& size === lastSize) {
+					if ($searchResults && query === lastQuery && page === lastPage && size === lastSize) {
 						return;
 					}
 					lastQuery = query;
@@ -153,9 +153,6 @@
 				}
 			}
 			function showResults(results) {
-				if (results.length === 0) {
-					return;
-				}
 				if (!$searchResults) {
 					$wrapper = $('<div class="searchresults-wrapper"/>');
 					$('#app-content')
@@ -190,9 +187,7 @@
 						});
 						$('#app-content').on('scroll', _.bind(onScroll, this));
 						lastResults = results;
-						$status = $searchResults.find('#status')
-							.data('count', results.length)
-							.text(t('search', '{count} search results in other folders', {count:results.length}, results.length));
+						$status = $searchResults.find('#status');
 						placeStatus();
 						showResults(results);
 					});
@@ -231,16 +226,11 @@
 					}
 					if ($row) {
 						$searchResults.find('tbody').append($row);
-					} else {
-						// not showing result, decrease counter
-						var count = $status.data('count') - 1;
-						if (count < 0) {
-							count = 0;
-						}
-						$status.data('count', count)
-							.text(t('search', '{count} search results in other places', {count:count}, count));
 					}
 				});
+				var count = $searchResults.find('tr.result').length;
+				$status.data('count', count)
+					.text(t('search', '{count} search results in other places', {count:count}, count));
 			}
 			function renderCurrent() {
 				var result = $searchResults.find('tr.result')[currentResult];
@@ -263,6 +253,7 @@
 					$wrapper.remove();
 					$searchResults = false;
 					$wrapper = false;
+					lastQuery = false;
 				}
 			};
 
@@ -292,13 +283,13 @@
 					var query = $searchBox.val();
 					if (lastQuery !== query) {
 						currentResult = -1;
-						if(self.hasFilter(getCurrentApp())) {
-							self.getFilter(getCurrentApp())(query);
-						}
 						if (query.length > 2) {
 							self.search(query);
 						} else {
 							self.hideResults();
+						}
+						if(self.hasFilter(getCurrentApp())) {
+							self.getFilter(getCurrentApp())(query);
 						}
 					}
 				}

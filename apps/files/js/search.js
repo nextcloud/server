@@ -40,11 +40,18 @@
 					result.mime = result.mime_type;
 				}
 			}
+			function hideNoFilterResults (){
+				var $nofilterresults = $('#nofilterresults');
+				if ( ! $nofilterresults.hasClass('hidden') ) {
+					$nofilterresults.addClass('hidden');
+				}
+			}
 
 			this.renderFolderResult = function($row, result) {
 				if (inFileList($row, result)) {
 					return null;
 				}
+				hideNoFilterResults();
 				/*render folder icon, show path beneath filename,
 				 show size and last modified date on the right */
 				this.updateLegacyMimetype(result);
@@ -61,6 +68,7 @@
 				if (inFileList($row, result)) {
 					return null;
 				}
+				hideNoFilterResults();
 				/*render preview icon, show path beneath filename,
 				 show size and last modified date on the right */
 				this.updateLegacyMimetype(result);
