@@ -276,12 +276,6 @@
 						currentResult++;
 						renderCurrent();
 					}
-				} else if(event.keyCode === 27) { //esc
-					$searchBox.val('');
-					if(self.hasFilter(getCurrentApp())) {
-						self.getFilter(getCurrentApp())('');
-					}
-					self.hideResults();
 				} else {
 					var query = $searchBox.val();
 					if (lastQuery !== query) {
@@ -295,6 +289,15 @@
 							self.getFilter(getCurrentApp())(query);
 						}
 					}
+				}
+			});
+			$(document).keyup(function(event) {
+				if(event.keyCode === 27) { //esc
+					$searchBox.val('');
+					if(self.hasFilter(getCurrentApp())) {
+						self.getFilter(getCurrentApp())('');
+					}
+					self.hideResults();
 				}
 			});
 
@@ -315,13 +318,6 @@
 				event.preventDefault();
 				scrollToResults();
 				return false;
-			});
-			$(document).click(function (event) {
-				$searchBox.val('');
-				if(self.hasFilter(getCurrentApp())) {
-					self.getFilter(getCurrentApp())('');
-				}
-				self.hideResults();
 			});
 			placeStatus();
 

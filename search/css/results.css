@@ -7,10 +7,14 @@
 	overflow-x:hidden;
 	overflow-y: auto;
 	text-overflow:ellipsis;
-	padding-top: 45px;
+	padding-top: 65px;
 	height: 100%;
 	box-sizing: border-box;
 	z-index:75;
+}
+
+#searchresults.hidden {
+	display: none;
 }
 #searchresults * {
 	box-sizing: content-box;
