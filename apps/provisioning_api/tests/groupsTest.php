@@ -67,8 +67,8 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 		$group = uniqid();
 		\OC_Group::createGroup($group);
-		\OC_Group::addToGroup($users[1], $group);
 		\OC_Group::addToGroup($users[0], $group);
+		\OC_Group::addToGroup($users[1], $group);
 
 		\OC_SubAdmin::createSubAdmin($users[0], $group);
 
