@@ -145,10 +145,8 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 		OC_Group::deleteGroup($group1);
 
 		$user1 = $this->generateUsers();
-		$user2 = $this->generateUsers();
 		OC_User::setUserId($user1);
 		OC_Group::addToGroup($user1, 'admin');
-		$group1 = uniqid();
 		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
 			'groupid' => uniqid(),
 		));

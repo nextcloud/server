@@ -26,6 +26,10 @@ class Test_Provisioning_Api_Users extends PHPUnit_Framework_TestCase {
 
 	private $users = array();
 
+	public function setUp() {
+		OC_Group::createGroup('admin');
+	}
+
 	/**
 	 * Generates a temp user
 	 * @param $num int number of users to generate
@@ -436,7 +440,6 @@ class Test_Provisioning_Api_Users extends PHPUnit_Framework_TestCase {
 			));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
-		$data = $result->getData();
 		OC_Group::deleteGroup($group);
 	}
 
