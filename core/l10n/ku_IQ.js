@@ -26,6 +26,7 @@ OC.L10N.register(
     "Database name" : "ناوی داتابه‌یس",
     "Database host" : "هۆستی داتابه‌یس",
     "Finish setup" : "كۆتایی هات ده‌ستكاریه‌كان",
-    "Log out" : "چوونەدەرەوە"
+    "Log out" : "چوونەدەرەوە",
+    "Search" : "بگەڕێ"
 },
 "nplurals=2; plural=(n != 1);");

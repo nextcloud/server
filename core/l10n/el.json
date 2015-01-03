@@ -113,6 +113,8 @@
     "Error loading dialog template: {error}" : "Σφάλμα φόρτωσης προτύπου διαλόγων: {σφάλμα}",
     "No tags selected for deletion." : "Καμμία ετικέτα δεν επιλέχθηκε για διαγραφή.",
     "unknown text" : "άγνωστο κείμενο",
+    "sunny" : "ηλιόλουστη",
+    "Hello {name}, the weather is {weather}" : "Γειά σου {name}, ο καιρός είναι {weather}",
     "_download %n file_::_download %n files_" : ["λήψη %n αρχείου","λήψη %n αρχείων"],
     "Updating {productName} to version {version}, this may take a while." : "Ενημέρωση του {productName} στην έκδοση {version}, αυτό μπορεί να διαρκέσει λίγη ώρα.",
     "Please reload the page." : "Παρακαλώ επαναφορτώστε τη σελίδα.",
