@@ -27,6 +27,11 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 	private $users = array();
 
+	public function setUp() {
+		// These seems to be deleted by another test.
+		OC_Group::createGroup('admin');
+	}
+
 	/**
 	 * Generates a temp user
 	 * @param $num int number of users to generate
