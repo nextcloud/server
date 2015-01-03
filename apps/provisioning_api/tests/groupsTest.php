@@ -27,6 +27,11 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 	private $users = array();
 
+	public function setUp() {
+		// These seems to be deleted by another test.
+		OC_Group::createGroup('admin');
+	}
+
 	/**
 	 * Generates a temp user
 	 * @param $num int number of users to generate
@@ -145,10 +150,8 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 		OC_Group::deleteGroup($group1);
 
 		$user1 = $this->generateUsers();
-		$user2 = $this->generateUsers();
 		OC_User::setUserId($user1);
 		OC_Group::addToGroup($user1, 'admin');
-		$group1 = uniqid();
 		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
 			'groupid' => uniqid(),
 		));
@@ -164,6 +167,7 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 		foreach($this->users as $user) {
 			\OC_User::deleteUser($user);
 		}
+		OC_Group::deleteGroup('admin');
 	}
 
 

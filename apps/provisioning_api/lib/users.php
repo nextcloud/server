@@ -70,7 +70,7 @@ class Users {
 		// Admin? Or SubAdmin?
 		if(OC_User::isAdminUser(OC_User::getUser()) || OC_SubAdmin::isUserAccessible(OC_User::getUser(), $userId)) {
 			// Check they exist
-			if(!OC_user::userExists($userId)) {
+			if(!OC_User::userExists($userId)) {
 				return new OC_OCS_Result(null, \OC_API::RESPOND_NOT_FOUND, 'The requested user could not be found');
 			}
 			// Show all
