@@ -27,6 +27,9 @@ class Test_Provisioning_Api_Apps extends PHPUnit_Framework_TestCase {
 
 	private $users = array();
 
+	function setUp() {
+		OC_Group::createGroup('admin');
+	}
 	/**
 	 * Generates a temp user
 	 * @param $num int number of users to generate
@@ -96,6 +99,10 @@ class Test_Provisioning_Api_Apps extends PHPUnit_Framework_TestCase {
 		$disabled = array_diff($list, \OC_App::getEnabledApps());
 		$this->assertEquals(count($disabled), count($data['apps']));
 
+	}
+
+	function tearDown() {
+		OC_Group::deleteGroup('admin');
 	}
 
 }

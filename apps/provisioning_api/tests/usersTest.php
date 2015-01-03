@@ -793,6 +793,7 @@ class Test_Provisioning_Api_Users extends PHPUnit_Framework_TestCase {
 		foreach($this->users as $user) {
 			\OC_User::deleteUser($user);
 		}
+		OC_Group::deleteGroup('admin');
 	}
 
 }
