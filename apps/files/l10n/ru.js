@@ -8,16 +8,16 @@ OC.L10N.register(
     "Could not move %s" : "Невозможно переместить %s",
     "Permission denied" : "В доступе отказано",
     "File name cannot be empty." : "Имя файла не может быть пустым.",
-    "\"%s\" is an invalid file name." : "\"%s\" это не правильное имя файла.",
+    "\"%s\" is an invalid file name." : "\"%s\" недопустимое имя файла.",
     "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." : "Неправильное имя, символы '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы.",
-    "The target folder has been moved or deleted." : "Целевая папка была перемещена или удалена.",
-    "The name %s is already used in the folder %s. Please choose a different name." : "Имя %s уже используется для папки %s. Укажите другое имя.",
+    "The target folder has been moved or deleted." : "Целевой каталог была перемещена или удалена.",
+    "The name %s is already used in the folder %s. Please choose a different name." : "Имя %s уже используется для каталога %s. Укажите другое имя.",
     "Not a valid source" : "Неправильный источник",
     "Server is not allowed to open URLs, please check the server configuration" : "Сервер не позволяет открывать URL-адреса, проверьте настройки сервера",
     "The file exceeds your quota by %s" : "Размер файла превышает квоту на %s",
     "Error while downloading %s to %s" : "Ошибка при скачивании %s в %s",
     "Error when creating the file" : "Ошибка при создании файла",
-    "Folder name cannot be empty." : "Имя папки не может быть пустым.",
+    "Folder name cannot be empty." : "Имя каталога не может быть пустым.",
     "Error when creating the folder" : "Ошибка создания каталога",
     "Unable to set upload directory." : "Невозможно установить каталог загрузки.",
     "Invalid Token" : "Недопустимый маркер",
@@ -103,6 +103,6 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "Идет сканирование файлов. Пожалуйста подождите.",
     "Currently scanning" : "В настоящее время сканируется",
     "No favorites" : "Нет избранного",
-    "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и папки, которые вы отметите как избранное"
+    "Files and folders you mark as favorite will show up here" : "Здесь появятся файлы и каталоги, отмеченные как избранные"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);");

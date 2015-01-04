@@ -8,6 +8,9 @@ OC.L10N.register(
     "Delete permanently" : "Radera permanent",
     "Error" : "Fel",
     "restored" : "återställd",
+    "No deleted files" : "Inga borttagna filer",
+    "You will be able to recover deleted files from here" : "Du kommer kunna återfå raderade filer härifrån",
+    "Select all" : "Välj allt",
     "Name" : "Namn",
     "Deleted" : "Raderad",
     "Delete" : "Radera"
