@@ -63,7 +63,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 				'{DAV:}displayname' => $name,
 			);
 
-			$email= \OCP\Config::getUserValue($user, 'settings', 'email');
+			$email= \OCP\Config::getUserValue($name, 'settings', 'email');
 			if($email) {
 				$principal['{http://sabredav.org/ns}email-address'] = $email;
 			}
