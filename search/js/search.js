@@ -229,6 +229,14 @@
 				$searchResults.find('tr.result').remove();
 				lastQuery = false;
 			};
+			this.clear = function() {
+				self.hideResults();
+				if(self.hasFilter(getCurrentApp())) {
+					self.getFilter(getCurrentApp())('');
+				}
+				$searchBox.val('');
+				$searchBox.blur();
+			};
 
 			/**
 			 * Event handler for when scrolling the list container.

@@ -1713,6 +1713,9 @@
 			if (OCA.Search.files) {
 				OCA.Search.files.setFileList(this);
 			}
+			if (OC.Search) {
+				OC.Search.clear();
+			}
 		},
 		/**
 		 * Update UI based on the current selection
