@@ -210,7 +210,7 @@ OCA.Sharing.PublicApp = {
 			// this check needs to happen on the server due to the Content Security Policy directive
 			$.get(OC.generateUrl('apps/files_sharing/testremote'), {remote: remote}).then(function (protocol) {
 				if (protocol !== 'http' && protocol !== 'https') {
-					OC.dialogs.alert(t('files_sharing', 'No ownCloud installation found at {remote}', {remote: remote}),
+					OC.dialogs.alert(t('files_sharing', 'No ownCloud installation (7 or higher) found at {remote}', {remote: remote}),
 						t('files_sharing', 'Invalid ownCloud url'));
 				} else {
 					OC.redirect(protocol + '://' + url);
