@@ -21,6 +21,8 @@
 	 */
 	Files.prototype = {
 
+		fileList: null,
+
 		/**
 		 * Initialize the file search
 		 */
@@ -32,7 +34,7 @@
 				return !!OCA.Files && !!OCA.Files.App;
 			};
 			function inFileList($row, result) {
-				return self.fileAppLoaded() && OCA.Files.App.fileList.inList(result.name);
+				return self.fileAppLoaded() && self.fileList.inList(result.name);
 			}
 			function updateLegacyMimetype(result) {
 				// backward compatibility:
@@ -79,7 +81,7 @@
 				$row.find('td.result a').attr('href', result.link);
 
 				if (self.fileAppLoaded()) {
-					OCA.Files.App.fileList.lazyLoadPreview({
+					self.fileList.lazyLoadPreview({
 						path: result.path,
 						mime: result.mime,
 						callback: function (url) {
@@ -127,7 +129,7 @@
 			this.handleFolderClick = function($row, result, event) {
 				// open folder
 				if (self.fileAppLoaded()) {
-					OCA.Files.App.fileList.changeDirectory(result.path);
+					self.fileList.changeDirectory(result.path);
 					return false;
 				} else {
 					return true;
@@ -136,8 +138,8 @@
 
 			this.handleFileClick = function($row, result, event) {
 				if (self.fileAppLoaded()) {
-					OCA.Files.App.fileList.changeDirectory(OC.dirname(result.path));
-					OCA.Files.App.fileList.scrollTo(result.name);
+					self.fileList.changeDirectory(OC.dirname(result.path));
+					self.fileList.scrollTo(result.name);
 					return false;
 				} else {
 					return true;
@@ -150,6 +152,9 @@
 					result.mime = result.mime_type;
 				}
 			};
+			this.setFileList = function (fileList) {
+				this.fileList = fileList;
+			};
 
 			OC.Plugins.register('OCA.Search', this);
 		},
@@ -157,7 +162,7 @@
 			var self = this;
 			search.setFilter('files', function (query) {
 				if (self.fileAppLoaded()) {
-					OCA.Files.App.fileList.setFilter(query);
+					self.fileList.setFilter(query);
 					if (query.length > 2) {
 						//search is not started until 500msec have passed
 						window.setTimeout(function() {
@@ -176,6 +181,6 @@
 			search.setHandler(['file', 'audio', 'image'], this.handleFileClick.bind(this));
 		}
 	};
-	new Files();
 	OCA.Search.Files = Files;
+	OCA.Search.files = new Files();
 })();

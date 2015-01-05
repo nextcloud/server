@@ -165,7 +165,7 @@
 			function showResults(results) {
 				lastResults = results;
 				$searchResults.find('tr.result').remove();
-				$searchResults.show();
+				$searchResults.removeClass('hidden');
 				addResults(results);
 			}
 			function addResults(results) {

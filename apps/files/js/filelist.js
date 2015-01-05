@@ -214,6 +214,8 @@
 
 			this.$el.on('show', this._onResize);
 
+			this.updateSearch();
+
 			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
@@ -274,6 +276,8 @@
 			containerWidth -= $('#app-navigation-toggle').width();
 
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
+
+			this.updateSearch();
 		},
 
 		/**
@@ -1701,6 +1705,14 @@
 		 */
 		getFilter:function(filter) {
 			return this._filter;
+		},
+		/**
+		 * update the search object to use this filelist when filtering
+		 */
+		updateSearch:function() {
+			if (OCA.Search.files) {
+				OCA.Search.files.setFileList(this);
+			}
 		},
 		/**
 		 * Update UI based on the current selection

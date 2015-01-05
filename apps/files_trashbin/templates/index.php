@@ -12,6 +12,12 @@
 
 <input type="hidden" name="dir" value="" id="dir">
 
+<div id="nofilterresults" class="hidden">
+	<div class="icon-search"></div>
+	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
+	<p></p>
+</div>
+
 <table id="filestable">
 	<thead>
 		<tr>
