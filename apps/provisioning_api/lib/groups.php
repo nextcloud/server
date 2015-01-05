@@ -31,11 +31,6 @@ use \OC_SubAdmin;
 
 class Groups{
 
-	public function setUp() {
-		// These seems to be deleted by another test.
-		OC_Group::createGroup('admin');
-	}
-
 	/**
 	 * returns a list of groups
 	 */
