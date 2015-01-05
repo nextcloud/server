@@ -201,7 +201,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('ServerContainer', function ($c) {
-			$c->query('OCP\\ILogger')->warning(
+			$c->query('OCP\\ILogger')->info(
 				'Accessing the server container is deprecated. Use type ' .
 				'annotations to inject core services instead!'
 			);
@@ -222,7 +222,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		 * App Framework APIs
 		 */
 		$this->registerService('API', function($c){
-			$c->query('OCP\\ILogger')->warning(
+			$c->query('OCP\\ILogger')->info(
 				'Accessing the API class is deprecated! Use the appropriate ' .
 				'services instead!'
 			);
