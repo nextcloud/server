@@ -2,12 +2,34 @@
 /**
  * Copyright (c) 2011 Jakob Sack mail@jakobsack.de
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
+ * Copyright (c) 2014 Lukas Reschke lukas@owncloud.com
+ *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
 
-class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
+namespace OC\Connector\Sabre;
+
+use OCP\IUserManager;
+use OCP\IConfig;
+
+class Principal implements \Sabre\DAVACL\PrincipalBackend\BackendInterface {
+	/** @var IConfig */
+	private $config;
+	/** @var IUserManager */
+	private $userManager;
+
+	/**
+	 * @param IConfig $config
+	 * @param IUserManager $userManager
+	 */
+	public function __construct(IConfig $config,
+								IUserManager $userManager) {
+		$this->config = $config;
+		$this->userManager = $userManager;
+	}
+
 	/**
 	 * Returns a list of principals based on a prefix.
 	 *
@@ -19,22 +41,21 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *   {DAV:}displayname
 	 *
 	 * @param string $prefixPath
-	 * @return array
+	 * @return string[]
 	 */
-	public function getPrincipalsByPrefix( $prefixPath ) {
-		$principals = array();
+	public function getPrincipalsByPrefix($prefixPath) {
+		$principals = [];
 
-		if ($prefixPath == 'principals') {
-			foreach(OC_User::getUsers() as $user) {
+		if ($prefixPath === 'principals') {
+			foreach($this->userManager->search('') as $user) {
 
-				$user_uri = 'principals/'.$user;
-				$principal = array(
-					'uri' => $user_uri,
-					'{DAV:}displayname' => $user,
-				);
+				$principal = [
+					'uri' => 'principals/' . $user->getUID(),
+					'{DAV:}displayname' => $user->getUID(),
+				];
 
-				$email= \OCP\Config::getUserValue($user, 'settings', 'email');
-				if($email) {
+				$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
+				if(!empty($email)) {
 					$principal['{http://sabredav.org/ns}email-address'] = $email;
 				}
 
@@ -55,15 +76,15 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 */
 	public function getPrincipalByPath($path) {
 		list($prefix, $name) = explode('/', $path);
+		$user = $this->userManager->get($name);
 
-		if ($prefix == 'principals' && OC_User::userExists($name)) {
+		if ($prefix === 'principals' && !is_null($user)) {
+			$principal = [
+				'uri' => 'principals/' . $user->getUID(),
+				'{DAV:}displayname' => $user->getUID(),
+			];
 
-			$principal = array(
-				'uri' => 'principals/'.$name,
-				'{DAV:}displayname' => $name,
-			);
-
-			$email= \OCP\Config::getUserValue($name, 'settings', 'email');
+			$email = $this->config->getUserValue($user->getUID(), 'settings', 'email');
 			if($email) {
 				$principal['{http://sabredav.org/ns}email-address'] = $email;
 			}
@@ -79,6 +100,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *
 	 * @param string $principal
 	 * @return string[]
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function getGroupMemberSet($principal) {
 		// TODO: for now the group principal has only one member, the user itself
@@ -87,9 +109,7 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 			throw new \Sabre\DAV\Exception('Principal not found');
 		}
 
-		return array(
-			$principal['uri']
-		);
+		return [$principal['uri']];
 	}
 
 	/**
@@ -97,12 +117,13 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *
 	 * @param string $principal
 	 * @return array
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function getGroupMembership($principal) {
 		list($prefix, $name) = \Sabre\DAV\URLUtil::splitPath($principal);
 
 		$group_membership = array();
-		if ($prefix == 'principals') {
+		if ($prefix === 'principals') {
 			$principal = $this->getPrincipalByPath($principal);
 			if (!$principal) {
 				throw new \Sabre\DAV\Exception('Principal not found');
@@ -128,17 +149,27 @@ class OC_Connector_Sabre_Principal implements \Sabre\DAVACL\PrincipalBackend\Bac
 	 *
 	 * @param string $principal
 	 * @param array $members
-	 * @return void
+	 * @throws \Sabre\DAV\Exception
 	 */
 	public function setGroupMemberSet($principal, array $members) {
 		throw new \Sabre\DAV\Exception('Setting members of the group is not supported yet');
 	}
 
+	/**
+	 * @param string $path
+	 * @param array $mutations
+	 * @return int
+	 */
 	function updatePrincipal($path, $mutations) {
 		return 0;
 	}
 
+	/**
+	 * @param string $prefixPath
+	 * @param array $searchProperties
+	 * @return array
+	 */
 	function searchPrincipals($prefixPath, array $searchProperties) {
-		return array();
+		return [];
 	}
 }
