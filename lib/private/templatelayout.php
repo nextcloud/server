@@ -6,6 +6,7 @@ use Assetic\Filter\CssImportFilter;
 use Assetic\Filter\CssMinFilter;
 use Assetic\Filter\CssRewriteFilter;
 use Assetic\Filter\JSMinFilter;
+use OC\Assetic\SeparatorFilter; // waiting on upstream
 
 /**
  * Copyright (c) 2012 Bart Visscher <bartv@thisnet.nl>
@@ -163,10 +164,13 @@ class OC_TemplateLayout extends OC_Template {
 				$file = $item[2];
 				// no need to minifiy minified files
 				if (substr($file, -strlen('.min.js')) === '.min.js') {
-					return new FileAsset($root . '/' . $file, array(), $root, $file);
+					return new FileAsset($root . '/' . $file, array(
+						new SeparatorFilter(';')
+					), $root, $file);
 				}
 				return new FileAsset($root . '/' . $file, array(
-					new JSMinFilter()
+					new JSMinFilter(),
+					new SeparatorFilter(';')
 				), $root, $file);
 			}, $jsFiles);
 			$jsCollection = new AssetCollection($jsFiles);
