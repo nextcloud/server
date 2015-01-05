@@ -74,6 +74,7 @@ OC.L10N.register(
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ogiltig privat nyckel i krypteringsprogrammet. Vänligen uppdatera lösenordet till din privata nyckel under dina personliga inställningar för att återfå tillgång till dina krypterade filer.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Kryptering inaktiverades men dina filer är fortfarande krypterade. Vänligen gå till sidan för dina personliga inställningar för att dekryptera dina filer.",
     "{dirs} and {files}" : "{dirs} och {files}",
+    "Favorited" : "Favoritiserad",
     "Favorite" : "Favorit",
     "%s could not be renamed as it has been deleted" : "%s kan inte döpas om eftersom den har raderats",
     "%s could not be renamed" : "%s kunde inte namnändras",

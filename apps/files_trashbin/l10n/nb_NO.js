@@ -8,6 +8,9 @@ OC.L10N.register(
     "Delete permanently" : "Slett permanent",
     "Error" : "Feil",
     "restored" : "gjenopprettet",
+    "No deleted files" : "Ingen slettede filer",
+    "You will be able to recover deleted files from here" : "Du vil kunne gjenopprette slettede filer herfra",
+    "Select all" : "Velg alle",
     "Name" : "Navn",
     "Deleted" : "Slettet",
     "Delete" : "Slett"

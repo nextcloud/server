@@ -4,6 +4,8 @@
     "Settings" : "Podešavanja",
     "Users" : "Korisnici",
     "Admin" : "Adninistracija",
+    "Unknown filetype" : "Nepoznat tip fajla",
+    "Invalid image" : "Neispravna slika",
     "today" : "Danas",
     "yesterday" : "juče",
     "_%n day ago_::_%n days ago_" : ["","",""],

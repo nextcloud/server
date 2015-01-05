@@ -170,6 +170,8 @@ OC.L10N.register(
     "Bugtracker" : "Bugtracker",
     "Commercial Support" : "Komerčná podpora",
     "Get the apps to sync your files" : "Získať aplikácie na synchronizáciu vašich súborov",
+    "Android app" : "Android aplikácia",
+    "iOS app" : "iOS aplikácia",
     "If you want to support the project\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">join development</a>\n\t\tor\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">spread the word</a>!" : "Ak chcete podporiť projekt\n\t\t<a href=\"https://owncloud.org/contribute\"\n\t\t\ttarget=\"_blank\">pridajte sa do vývoja</a>\n\t\talebo\n\t\t<a href=\"https://owncloud.org/promote\"\n\t\t\ttarget=\"_blank\">pomáhajte šíriť povedomie</a>!",
     "Show First Run Wizard again" : "Znovu zobraziť sprievodcu prvým spustením",
     "You have used <strong>%s</strong> of the available <strong>%s</strong>" : "Použili ste <strong>%s</strong> z <strong>%s</strong> dostupných ",

@@ -27,6 +27,7 @@ OC.L10N.register(
     "You received a new remote share from %s" : "Du mottog en ny fjärrdelning från %s",
     "%1$s accepted remote share %2$s" : "%1$s accepterade fjärrdelning %2$s",
     "%1$s declined remote share %2$s" : "%1$s nekade fjärrdelning %2$s",
+    "%1$s unshared %2$s from you" : "%1$s odelad %2$s från dig",
     "Public shared folder %1$s was downloaded" : "Publikt delad mapp %1$s blev nerladdad",
     "Public shared file %1$s was downloaded" : "Publikt delad fil %1$s blev nerladdad",
     "This share is password-protected" : "Den här delningen är lösenordsskyddad",

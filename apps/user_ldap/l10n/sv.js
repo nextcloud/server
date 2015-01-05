@@ -49,6 +49,7 @@ OC.L10N.register(
     "Edit raw filter instead" : "Redigera rått filter istället",
     "Raw LDAP filter" : "Rått LDAP-filter",
     "The filter specifies which LDAP groups shall have access to the %s instance." : "Filtret specifierar vilka LDAD-grupper som ska ha åtkomst till %s instans",
+    "Test Filter" : "Testfilter",
     "groups found" : "grupper hittade",
     "Users login with this attribute:" : "Användare loggar in med detta attribut:",
     "LDAP Username:" : "LDAP användarnamn:",
