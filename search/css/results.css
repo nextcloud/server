@@ -5,10 +5,8 @@
 #searchresults {
 	background-color:#fff;
 	overflow-x:hidden;
-	overflow-y: auto;
 	text-overflow:ellipsis;
 	padding-top: 65px;
-	height: 100%;
 	box-sizing: border-box;
 	z-index:75;
 }

@@ -81,6 +81,7 @@
 
 			var currentResult = -1;
 			var lastQuery = '';
+			var lastInApps = [];
 			var lastPage = 0;
 			var lastSize = 30;
 			var lastResults = {};
@@ -115,6 +116,7 @@
 						return;
 					}
 					lastQuery = query;
+					lastInApps = inApps;
 					lastPage = page;
 					lastSize = size;
 
@@ -234,9 +236,11 @@
 			 */
 			function onScroll(e) {
 				if ($searchResults) {
-					//if ( $searchResults && $searchResults.scrollTop() + $searchResults.height() > $searchResults.find('table').height() - 300 ) {
-					//	self.search(lastQuery, lastPage + 1);
-					//}
+					var resultsBottom = $searchResults.offset().top + $searchResults.height();
+					var containerBottom = $searchResults.offsetParent().offset().top + $searchResults.offsetParent().height();
+					if ( resultsBottom < containerBottom * 1.2 ) {
+						self.search(lastQuery, lastInApps, lastPage + 1);
+					}
 					placeStatus();
 				}
 			}
