@@ -213,7 +213,7 @@
 				var result = $searchResults.find('tr.result')[currentResult];
 				if (result) {
 					var $result = $(result);
-					var currentOffset = $searchResults.scrollTop();
+					var currentOffset = $('#app-content').scrollTop();
 					$('#app-content').animate({
 						// Scrolling to the top of the new result
 						scrollTop: currentOffset + $result.offset().top - $result.height() * 2
@@ -235,7 +235,7 @@
 			 * This appends/renders the next page of entries when reaching the bottom.
 			 */
 			function onScroll(e) {
-				if ($searchResults) {
+				if ($searchResults && lastQuery !== false) {
 					var resultsBottom = $searchResults.offset().top + $searchResults.height();
 					var containerBottom = $searchResults.offsetParent().offset().top + $searchResults.offsetParent().height();
 					if ( resultsBottom < containerBottom * 1.2 ) {

@@ -34,7 +34,12 @@
 				return !!OCA.Files && !!OCA.Files.App;
 			};
 			function inFileList($row, result) {
-				return self.fileAppLoaded() && self.fileList.inList(result.name);
+				if (! self.fileAppLoaded()) {
+					return false;
+				}
+				var dir = self.fileList.getCurrentDirectory().replace(/\/+$/,'');
+				var resultDir = OC.dirname(result.path);
+				return dir === resultDir && self.fileList.inList(result.name);
 			}
 			function updateLegacyMimetype(result) {
 				// backward compatibility:
