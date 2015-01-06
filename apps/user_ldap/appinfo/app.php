@@ -27,8 +27,8 @@ OCP\App::registerAdmin('user_ldap', 'settings');
 $helper = new \OCA\user_ldap\lib\Helper();
 $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
+$ocConfig = \OC::$server->getConfig();
 if(count($configPrefixes) === 1) {
-	$ocConfig = \OC::$server->getConfig();
 	$userManager = new OCA\user_ldap\lib\user\Manager($ocConfig,
 		new OCA\user_ldap\lib\FilesystemHelper(),
 		new OCA\user_ldap\lib\LogWrapper(),
@@ -39,10 +39,12 @@ if(count($configPrefixes) === 1) {
 	$dbc = \OC::$server->getDatabaseConnection();
 	$ldapAccess->setUserMapper(new OCA\User_LDAP\Mapping\UserMapping($dbc));
 	$ldapAccess->setGroupMapper(new OCA\User_LDAP\Mapping\GroupMapping($dbc));
-	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess);
+	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess, $ocConfig);
 	$groupBackend = new OCA\user_ldap\GROUP_LDAP($ldapAccess);
 } else if(count($configPrefixes) > 1) {
-	$userBackend  = new OCA\user_ldap\User_Proxy($configPrefixes, $ldapWrapper);
+	$userBackend  = new OCA\user_ldap\User_Proxy(
+		$configPrefixes, $ldapWrapper, $ocConfig
+	);
 	$groupBackend  = new OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);
 }
 

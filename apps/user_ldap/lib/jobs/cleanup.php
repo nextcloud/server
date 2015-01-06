@@ -73,7 +73,8 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 		} else {
 			$this->userBackend =  new User_Proxy(
 				$this->ldapHelper->getServerConfigurationPrefixes(true),
-				new LDAP()
+				new LDAP(),
+				$this->ocConfig
 			);
 		}
 

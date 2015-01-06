@@ -72,8 +72,7 @@ class Manager {
 
 	/**
 	 * @brief Constructor
-	 * @param \OCP\IConfig respectively an instance that provides the methods
-	 * setUserValue and getUserValue as implemented in \OCP\Config
+	 * @param \OCP\IConfig 
 	 * @param \OCA\user_ldap\lib\FilesystemHelper object that gives access to
 	 * necessary functions from the OC filesystem
 	 * @param  \OCA\user_ldap\lib\LogWrapper

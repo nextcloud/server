@@ -156,7 +156,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 		$access = $this->getAccessMock();
 
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('roland', 'dt19');
@@ -167,7 +167,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 		$access = $this->getAccessMock();
 
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('roland', 'wrong');
@@ -178,7 +178,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 		$access = $this->getAccessMock();
 
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('mallory', 'evil');
@@ -193,7 +193,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			->method('username2dn')
 			->will($this->returnValue(false));
 
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = $backend->checkPassword('roland', 'dt19');
@@ -203,7 +203,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testCheckPasswordPublicAPI() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::checkPassword('roland', 'dt19');
@@ -213,7 +213,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testCheckPasswordPublicAPIWrongPassword() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::checkPassword('roland', 'wrong');
@@ -223,7 +223,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testCheckPasswordPublicAPIWrongUser() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForCheckPassword($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::checkPassword('mallory', 'evil');
@@ -232,7 +232,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testDeleteUserCancel() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$result = $backend->deleteUser('notme');
 		$this->assertFalse($result);
 	}
@@ -249,10 +249,12 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			->method('getUserMapper')
 			->will($this->returnValue($mapping));
 
-		$backend = new UserLDAP($access);
+		$config = $this->getMock('\OCP\IConfig');
+		$config->expects($this->exactly(2))
+			->method('getUserValue')
+			->will($this->returnValue(1));
 
-		$pref = \OC::$server->getConfig();
-		$pref->setUserValue('jeremy', 'user_ldap', 'isDeleted', 1);
+		$backend = new UserLDAP($access, $config);
 
 		$result = $backend->deleteUser('jeremy');
 		$this->assertTrue($result);
@@ -310,7 +312,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersNoParam() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->getUsers();
 		$this->assertEquals(3, count($result));
@@ -319,7 +321,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersLimitOffset() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->getUsers('', 1, 2);
 		$this->assertEquals(1, count($result));
@@ -328,7 +330,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersLimitOffset2() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->getUsers('', 2, 1);
 		$this->assertEquals(2, count($result));
@@ -337,7 +339,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersSearchWithResult() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->getUsers('yo');
 		$this->assertEquals(2, count($result));
@@ -346,7 +348,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersSearchEmptyResult() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->getUsers('nix');
 		$this->assertEquals(0, count($result));
@@ -355,7 +357,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersViaAPINoParam() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::getUsers();
@@ -365,7 +367,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersViaAPILimitOffset() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::getUsers('', 1, 2);
@@ -375,7 +377,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersViaAPILimitOffset2() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::getUsers('', 2, 1);
@@ -385,7 +387,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersViaAPISearchWithResult() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::getUsers('yo');
@@ -395,7 +397,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetUsersViaAPISearchEmptyResult() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetUsers($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		\OC_User::useBackend($backend);
 
 		$result = \OCP\User::getUsers('nix');
@@ -404,7 +406,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testUserExists() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 
 		$access->expects($this->any())
@@ -431,7 +433,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testUserExistsPublicAPI() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 		\OC_User::useBackend($backend);
 
@@ -459,7 +461,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testDeleteUser() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		//we do not support deleting users at all
 		$result = $backend->deleteUser('gunslinger');
@@ -468,7 +470,8 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 
 	public function testGetHome() {
 		$access = $this->getAccessMock();
-		$backend = new UserLDAP($access);
+		$config = $this->getMock('\OCP\IConfig');
+		$backend = new UserLDAP($access, $config);
 		$this->prepareMockForUserExists($access);
 
 		$access->connection->expects($this->any())
@@ -501,14 +504,17 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 				   }
 			   }));
 
+		$datadir = '/my/data/dir';
+		$config->expects($this->once())
+			->method('getSystemValue')
+			->will($this->returnValue($datadir));
+
 		//absolut path
 		$result = $backend->getHome('gunslinger');
 		$this->assertEquals('/tmp/rolandshome/', $result);
 
 		//datadir-relativ path
 		$result = $backend->getHome('ladyofshadows');
-		$datadir = \OCP\Config::getSystemValue('datadirectory',
-											   \OC::$SERVERROOT.'/data');
 		$this->assertEquals($datadir.'/susannah/', $result);
 
 		//no path at all – triggers OC default behaviour
@@ -546,7 +552,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetDisplayName() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetDisplayName($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 
 		//with displayName
@@ -561,7 +567,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 	public function testGetDisplayNamePublicAPI() {
 		$access = $this->getAccessMock();
 		$this->prepareAccessForGetDisplayName($access);
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 		$this->prepareMockForUserExists($access);
 		\OC_User::useBackend($backend);
 
@@ -584,7 +590,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			   ->method('countUsers')
 			   ->will($this->returnValue(5));
 
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->countUsers();
 		$this->assertEquals(5, $result);
@@ -597,7 +603,7 @@ class Test_User_Ldap_Direct extends \Test\TestCase {
 			   ->method('countUsers')
 			   ->will($this->returnValue(false));
 
-		$backend = new UserLDAP($access);
+		$backend = new UserLDAP($access, $this->getMock('\OCP\IConfig'));
 
 		$result = $backend->countUsers();
 		$this->assertFalse($result);

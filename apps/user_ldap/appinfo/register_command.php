@@ -15,12 +15,14 @@ use OCA\User_LDAP\lib\User\DeletedUsersIndex;
 $dbConnection = \OC::$server->getDatabaseConnection();
 $userMapping = new UserMapping($dbConnection);
 $helper = new Helper();
+$ocConfig = \OC::$server->getConfig();
 $uBackend = new User_Proxy(
 	$helper->getServerConfigurationPrefixes(true),
-	new LDAP()
+	new LDAP(),
+	$ocConfig
 );
 $deletedUsersIndex = new DeletedUsersIndex(
-	\OC::$server->getConfig(), $dbConnection, $userMapping
+	$ocConfig, $dbConnection, $userMapping
 );
 
 $application->add(new OCA\user_ldap\Command\ShowConfig());
@@ -28,7 +30,7 @@ $application->add(new OCA\user_ldap\Command\SetConfig());
 $application->add(new OCA\user_ldap\Command\TestConfig());
 $application->add(new OCA\user_ldap\Command\CreateEmptyConfig());
 $application->add(new OCA\user_ldap\Command\DeleteConfig());
-$application->add(new OCA\user_ldap\Command\Search());
+$application->add(new OCA\user_ldap\Command\Search($ocConfig));
 $application->add(new OCA\user_ldap\Command\ShowRemnants($deletedUsersIndex));
 $application->add(new OCA\user_ldap\Command\CheckUser(
 	$uBackend, $helper, $deletedUsersIndex, $userMapping)

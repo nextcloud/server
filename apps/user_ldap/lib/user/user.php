@@ -92,7 +92,7 @@ class User {
 	 * @param string the LDAP DN
 	 * @param IUserTools $access an instance that implements IUserTools for
 	 * LDAP interaction
-	 * @param \OCP\Config
+	 * @param \OCP\IConfig
 	 * @param FilesystemHelper
 	 * @param \OCP\Image any empty instance
 	 * @param LogWrapper

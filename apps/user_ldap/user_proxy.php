@@ -25,6 +25,8 @@ namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\ILDAPWrapper;
 use OCA\User_LDAP\lib\User\User;
+use \OCA\user_ldap\User_LDAP;
+use OCP\IConfig;
 
 class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterface {
 	private $backends = array();
@@ -34,11 +36,11 @@ class User_Proxy extends lib\Proxy implements \OCP\IUserBackend, \OCP\UserInterf
 	 * Constructor
 	 * @param array $serverConfigPrefixes array containing the config Prefixes
 	 */
-	public function __construct($serverConfigPrefixes, ILDAPWrapper $ldap) {
+	public function __construct(array $serverConfigPrefixes, ILDAPWrapper $ldap, IConfig $ocConfig) {
 		parent::__construct($ldap);
 		foreach($serverConfigPrefixes as $configPrefix) {
 			$this->backends[$configPrefix] =
-				new \OCA\user_ldap\USER_LDAP($this->getAccess($configPrefix));
+				new User_LDAP($this->getAccess($configPrefix), $ocConfig);
 			if(is_null($this->refBackend)) {
 				$this->refBackend = &$this->backends[$configPrefix];
 			}
