@@ -60,6 +60,12 @@
 	<p><?php p($l->t('Upload some content or sync with your devices!')); ?></p>
 </div>
 
+<div class="nofilterresults hidden">
+	<div class="icon-search"></div>
+	<h2><?php p($l->t('No entries found in this folder')); ?></h2>
+	<p></p>
+</div>
+
 <table id="filestable" data-allow-public-upload="<?php p($_['publicUploadEnabled'])?>" data-preview-x="36" data-preview-y="36">
 	<thead>
 		<tr>

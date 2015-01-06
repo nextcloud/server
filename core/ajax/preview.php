@@ -40,9 +40,9 @@ try {
 		$preview->setMaxY($maxY);
 		$preview->setScalingUp($scalingUp);
 		$preview->setKeepAspect($keepAspect);
+		$preview->showPreview();
 	}
 
-	$preview->showPreview();
 } catch (\Exception $e) {
 	\OC_Response::setStatus(500);
 	\OC_Log::write('core', $e->getmessage(), \OC_Log::DEBUG);

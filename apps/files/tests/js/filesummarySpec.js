@@ -85,4 +85,67 @@ describe('OCA.Files.FileSummary tests', function() {
 		expect(s.summary.totalFiles).toEqual(1);
 		expect(s.summary.totalSize).toEqual(127900);
 	});
+
+	it('renders filtered summary as text', function() {
+		var s = new FileSummary($container);
+		s.setSummary({
+			totalDirs: 5,
+			totalFiles: 2,
+			totalSize: 256000,
+			filter: 'foo'
+		});
+		expect($container.hasClass('hidden')).toEqual(false);
+		expect($container.find('.info').text()).toEqual('5 folders and 2 files match \'foo\'');
+		expect($container.find('.filesize').text()).toEqual('250 kB');
+	});
+	it('hides filtered summary when no files or folders', function() {
+		var s = new FileSummary($container);
+		s.setSummary({
+			totalDirs: 0,
+			totalFiles: 0,
+			totalSize: 0,
+			filter: 'foo'
+		});
+		expect($container.hasClass('hidden')).toEqual(true);
+	});
+	it('increases filtered summary when adding files', function() {
+		var s = new FileSummary($container);
+		s.setSummary({
+			totalDirs: 5,
+			totalFiles: 2,
+			totalSize: 256000,
+			filter: 'foo'
+		});
+		s.add({name: 'bar.txt', type: 'file', size: 256000});
+		s.add({name: 'foo.txt', type: 'file', size: 256001});
+		s.add({name: 'bar', type: 'dir', size: 100});
+		s.add({name: 'foo', type: 'dir', size: 102});
+		s.update();
+		expect($container.hasClass('hidden')).toEqual(false);
+		expect($container.find('.info').text()).toEqual('6 folders and 3 files match \'foo\'');
+		expect($container.find('.filesize').text()).toEqual('500 kB');
+		expect(s.summary.totalDirs).toEqual(6);
+		expect(s.summary.totalFiles).toEqual(3);
+		expect(s.summary.totalSize).toEqual(512103);
+	});
+	it('decreases filtered summary when removing files', function() {
+		var s = new FileSummary($container);
+		s.setSummary({
+			totalDirs: 5,
+			totalFiles: 2,
+			totalSize: 256000,
+			filter: 'foo'
+		});
+		s.remove({name: 'bar.txt', type: 'file', size: 128000});
+		s.remove({name: 'foo.txt', type: 'file', size: 127999});
+		s.remove({name: 'bar', type: 'dir', size: 100});
+		s.remove({name: 'foo', type: 'dir', size: 98});
+		s.update();
+		expect($container.hasClass('hidden')).toEqual(false);
+		expect($container.find('.info').text()).toEqual('4 folders and 1 file match \'foo\'');
+		expect($container.find('.filesize').text()).toEqual('125 kB');
+		expect(s.summary.totalDirs).toEqual(4);
+		expect(s.summary.totalFiles).toEqual(1);
+		expect(s.summary.totalSize).toEqual(127903);
+	});
 });

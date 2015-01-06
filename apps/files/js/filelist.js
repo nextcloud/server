@@ -112,6 +112,12 @@
 		_selectionSummary: null,
 
 		/**
+		 * If not empty, only files containing this string will be shown
+		 * @type String
+		 */
+		_filter: '',
+
+		/**
 		 * Sort attribute
 		 * @type String
 		 */
@@ -208,6 +214,8 @@
 
 			this.$el.on('show', this._onResize);
 
+			this.updateSearch();
+
 			this.$fileList.on('click','td.filename>a.name', _.bind(this._onClickFile, this));
 			this.$fileList.on('change', 'td.filename>.selectCheckBox', _.bind(this._onClickFileCheckbox, this));
 			this.$el.on('urlChanged', _.bind(this._onUrlChanged, this));
@@ -268,6 +276,8 @@
 			containerWidth -= $('#app-navigation-toggle').width();
 
 			this.breadcrumb.setMaxWidth(containerWidth - actionsWidth - 10);
+
+			this.updateSearch();
 		},
 
 		/**
@@ -458,6 +468,7 @@
 				e.preventDefault();
 				this.changeDirectory($targetDir);
 			}
+			this.updateSearch();
 		},
 
 		/**
@@ -551,6 +562,7 @@
 		_nextPage: function(animate) {
 			var index = this.$fileList.children().length,
 				count = this.pageSize(),
+				hidden,
 				tr,
 				fileData,
 				newTrs = [],
@@ -562,7 +574,12 @@
 
 			while (count > 0 && index < this.files.length) {
 				fileData = this.files[index];
-				tr = this._renderRow(fileData, {updateSummary: false, silent: true});
+				if (this._filter) {
+					hidden = fileData.name.toLowerCase().indexOf(this._filter.toLowerCase()) === -1;
+				} else {
+					hidden = false;
+				}
+				tr = this._renderRow(fileData, {updateSummary: false, silent: true, hidden: hidden});
 				this.$fileList.append(tr);
 				if (isAllSelected || this._selectedFiles[fileData.id]) {
 					tr.addClass('selected');
@@ -1638,24 +1655,68 @@
 				});
 			});
 		},
+		/**
+		 * @deprecated use setFilter(filter)
+		 */
 		filter:function(query) {
+			this.setFilter('');
+		},
+		/**
+		 * @deprecated use setFilter('')
+		 */
+		unfilter:function() {
+			this.setFilter('');
+		},
+		/**
+		 * hide files matching the given filter
+		 * @param filter
+		 */
+		setFilter:function(filter) {
+			this._filter = filter;
+			this.fileSummary.setFilter(filter, this.files);
+			this.hideIrrelevantUIWhenNoFilesMatch();
+			var that = this;
 			this.$fileList.find('tr').each(function(i,e) {
-				if ($(e).data('file').toString().toLowerCase().indexOf(query.toLowerCase()) !== -1) {
-					$(e).addClass("searchresult");
+				var $e = $(e);
+				if ($e.data('file').toString().toLowerCase().indexOf(filter.toLowerCase()) === -1) {
+					$e.addClass('hidden');
+					that.$container.trigger('scroll');
 				} else {
-					$(e).removeClass("searchresult");
+					$e.removeClass('hidden');
 				}
 			});
-			//do not use scrollto to prevent removing searchresult css class
-			var first = this.$fileList.find('tr.searchresult').first();
-			if (first.exists()) {
-				$(window).scrollTop(first.position().top);
+		},
+		hideIrrelevantUIWhenNoFilesMatch:function() {
+			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
+				this.$el.find('#filestable thead th').addClass('hidden');
+				this.$el.find('#emptycontent').addClass('hidden');
+				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden')) {
+					this.$el.find('.nofilterresults').removeClass('hidden').
+						find('p').text(t('files', "No entries in this folder match '{filter}'", {filter:this._filter}));
+				}
+			} else {
+				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
+				this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+				this.$el.find('.nofilterresults').addClass('hidden');
 			}
 		},
-		unfilter:function() {
-			this.$fileList.find('tr.searchresult').each(function(i,e) {
-				$(e).removeClass("searchresult");
-			});
+		/**
+		 * get the current filter
+		 * @param filter
+		 */
+		getFilter:function(filter) {
+			return this._filter;
+		},
+		/**
+		 * update the search object to use this filelist when filtering
+		 */
+		updateSearch:function() {
+			if (OCA.Search.files) {
+				OCA.Search.files.setFileList(this);
+			}
+			if (OC.Search) {
+				OC.Search.clear();
+			}
 		},
 		/**
 		 * Update UI based on the current selection

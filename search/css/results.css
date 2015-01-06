@@ -4,38 +4,42 @@
 
 #searchresults {
 	background-color:#fff;
-	border-bottom-left-radius:11px;
-	box-shadow:0 0 10px #000;
-	list-style:none;
-	max-height:80%;
 	overflow-x:hidden;
-	overflow-y: auto;
-	padding-bottom:6px;
-	position:fixed;
-	right:0;
 	text-overflow:ellipsis;
-	top:45px;
-	width:380px;
-	max-width: 95%;
+	padding-top: 65px;
+	box-sizing: border-box;
 	z-index:75;
 }
 
-.ie8 #searchresults {
-	border: 1px solid #666 !important;
+#searchresults.hidden {
+	display: none;
+}
+#searchresults * {
+	box-sizing: content-box;
 }
 
-#searchresults li.resultHeader {
-	background-color:#eee;
-	border-bottom:solid 1px #CCC;
-	font-size:1.2em;
-	font-weight:700;
-	padding:.2em;
+#searchresults #status {
+	background-color: rgba(255, 255, 255, .85);
+	height: 12px;
+	padding: 28px 0 28px 56px;
+	font-size: 18px;
+}
+.has-favorites:not(.hidden) ~ #searchresults #status {
+	padding-left: 102px;
+}
+#searchresults #status.fixed {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	z-index: 10;
 }
 
-#searchresults li.result {
-	margin-left:2em;
+#searchresults #status .spinner {
+	height: 16px;
+	width: 16px;
+	vertical-align: middle;
+	margin-left: 10px;
 }
-
 #searchresults table {
 	border-spacing:0;
 	table-layout:fixed;
@@ -44,46 +48,51 @@
 }
 
 #searchresults td {
-	padding:0 .3em;
-	height: 44px;
+	padding: 5px 19px;
+	font-style: normal;
+	vertical-align: middle;
+	border-bottom: none;
 }
+#searchresults td.icon {
+	text-align: right;
+	width: 40px;
+	height: 40px;
+	padding: 5px 0;
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+.has-favorites:not(.hidden) ~ #searchresults td.icon {
+	width: 86px;
+}
+
 #searchresults tr.template {
 	display: none;
 }
 
 #searchresults .name,
-#searchresults .text {
+#searchresults .text,
+#searchresults .path {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 #searchresults .text {
-	padding-left: 16px;
-	color: #999;
+	white-space: normal;
+	color: #545454;
+}
+#searchresults .path {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+#searchresults .text em {
+	color: #545454;
+	font-weight: bold;
+	opacity: 1;
 }
 
-#searchresults td.result * {
+#searchresults tr.result * {
 	cursor:pointer;
-}
-
-#searchresults td.container {
-	width:20px;
-}
-
-#searchresults td.container img {
-	vertical-align: middle;
-	display:none;
-}
-#searchresults tr:hover td.container img {
-	display:inline;
-}
-
-#searchresults td.type {
-	border-bottom:none;
-	border-right:1px solid #aaa;
-	font-weight:700;
-	text-align:right;
-	width:3.5em;
 }
 
 #searchresults tr.current {

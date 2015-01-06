@@ -308,22 +308,9 @@ var OC={
 	 * Do a search query and display the results
 	 * @param {string} query the search query
 	 */
-	search: _.debounce(function(query){
-		if(query){
-			OC.addStyle('search','results');
-			var classList = document.getElementById('content').className.split(/\s+/);
-			var inApps = [];
-			for (var i = 0; i < classList.length; i++) {
-				if (classList[i].indexOf('app-') === 0) {
-					var inApps = [classList[i].substr(4)];
-				}
-			}
-			$.getJSON(OC.generateUrl('search/ajax/search.php'), {inApps:inApps, query:query}, function(results){
-				OC.search.lastResults=results;
-				OC.search.showResults(results);
-			});
-		}
-	}, 500),
+	search: function (query) {
+		OC.Search.search(query, null, 0, 30);
+	},
 	/**
 	 * Dialog helper for jquery dialogs.
 	 *
@@ -608,10 +595,12 @@ OC.Plugins = {
 /**
  * @namespace OC.search
  */
-OC.search.customResults={};
-OC.search.currentResult=-1;
-OC.search.lastQuery='';
-OC.search.lastResults={};
+OC.search.customResults = {};
+/**
+ * @deprecated use get/setFormatter() instead
+ */
+OC.search.resultTypes = {};
+
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
@@ -1038,48 +1027,6 @@ function initCore() {
 	}else{
 		SVGSupport.checkMimeType();
 	}
-	$('form.searchbox').submit(function(event){
-		event.preventDefault();
-	});
-	$('#searchbox').keyup(function(event){
-		if(event.keyCode===13){//enter
-			if(OC.search.currentResult>-1){
-				var result=$('#searchresults tr.result a')[OC.search.currentResult];
-				window.location = $(result).attr('href');
-			}
-		}else if(event.keyCode===38){//up
-			if(OC.search.currentResult>0){
-				OC.search.currentResult--;
-				OC.search.renderCurrent();
-			}
-		}else if(event.keyCode===40){//down
-			if(OC.search.lastResults.length>OC.search.currentResult+1){
-				OC.search.currentResult++;
-				OC.search.renderCurrent();
-			}
-		}else if(event.keyCode===27){//esc
-			OC.search.hide();
-			if (FileList && typeof FileList.unfilter === 'function') { //TODO add hook system
-				FileList.unfilter();
-			}
-		}else{
-			var query=$('#searchbox').val();
-			if(OC.search.lastQuery!==query){
-				OC.search.lastQuery=query;
-				OC.search.currentResult=-1;
-				if (FileList && typeof FileList.filter === 'function') { //TODO add hook system
-						FileList.filter(query);
-				}
-				if(query.length>2){
-					OC.search(query);
-				}else{
-					if(OC.search.hide){
-						OC.search.hide();
-					}
-				}
-			}
-		}
-	});
 
 	// user menu
 	$('#settings #expand').keydown(function(event) {
