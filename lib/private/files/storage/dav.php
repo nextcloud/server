@@ -529,7 +529,7 @@ class DAV extends \OC\Files\Storage\Common {
 		} catch (Exception\NotFound $e) {
 			return false;
 		} catch (Exception $e) {
-			throw new StorageNotAvailableException();
+			throw new StorageNotAvailableException(get_class($e).": ".$e->getMessage());
 		}
 	}
 }

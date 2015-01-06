@@ -56,12 +56,12 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("File is not updatable: ".$e->getMessage());
 		}
 
 		// throw an exception if encryption was disabled but the files are still encrypted
 		if (\OC_Util::encryptedFiles()) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable();
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
 		}
 
 		$fileName = basename($this->path);
@@ -107,7 +107,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
 			throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to write file contents: ".$e->getMessage());
 		}
 
 		try {
@@ -147,7 +147,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			}
 			$this->refreshInfo();
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to check file size: ".$e->getMessage());
 		}
 
 		return '"' . $this->info->getEtag() . '"';
@@ -162,14 +162,14 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 
 		//throw exception if encryption is disabled but files are still encrypted
 		if (\OC_Util::encryptedFiles()) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable();
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
 		} else {
 			try {
 				return $this->fileView->fopen(ltrim($this->path, '/'), 'rb');
 			} catch (\OCA\Files_Encryption\Exception\EncryptionException $e) {
 				throw new \Sabre\DAV\Exception\Forbidden($e->getMessage());
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+				throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to open file: ".$e->getMessage());
 			}
 		}
 
@@ -192,7 +192,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 				throw new \Sabre\DAV\Exception\Forbidden();
 			}
 		} catch (\OCP\Files\StorageNotAvailableException $e) {
-			throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+			throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to unlink: ".$e->getMessage());
 		}
 
 		// remove properties
@@ -297,7 +297,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 				$info = $this->fileView->getFileInfo($targetPath);
 				return $info->getEtag();
 			} catch (\OCP\Files\StorageNotAvailableException $e) {
-				throw new \Sabre\DAV\Exception\ServiceUnavailable($e->getMessage());
+				throw new \Sabre\DAV\Exception\ServiceUnavailable("Failed to put file: ".$e->getMessage());
 			}
 		}
 
