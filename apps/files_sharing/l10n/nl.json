@@ -17,7 +17,6 @@
     "Remote share password" : "Wachtwoord externe share",
     "Cancel" : "Annuleren",
     "Add remote share" : "Toevoegen externe share",
-    "No ownCloud installation found at {remote}" : "Geen ownCloud installatie gevonden op {remote}",
     "Invalid ownCloud url" : "Ongeldige ownCloud url",
     "Shared by" : "Gedeeld door",
     "A file or folder was shared from <strong>another server</strong>" : "Een bestand of map werd gedeeld vanaf <strong>een andere server</strong>",

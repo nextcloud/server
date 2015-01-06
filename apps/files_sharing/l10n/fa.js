@@ -12,7 +12,6 @@ OC.L10N.register(
     "Remote share password" : "رمز عبور اشتراک از راه دور",
     "Cancel" : "منصرف شدن",
     "Add remote share" : "افزودن اشتراک از راه دور",
-    "No ownCloud installation found at {remote}" : "نمونه ای از ownCloud نصب شده در {remote} یافت نشد",
     "Invalid ownCloud url" : "آدرس نمونه ownCloud  غیر معتبر است",
     "Shared by" : "اشتراک گذاشته شده به وسیله",
     "This share is password-protected" : "این اشتراک توسط رمز عبور محافظت می شود",

@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Sandi berbagi remote",
     "Cancel" : "Batal",
     "Add remote share" : "Tambah berbagi remote",
-    "No ownCloud installation found at {remote}" : "Tidak ada instalasi ownCloud yang ditemukan di {remote}",
     "Invalid ownCloud url" : "URL ownCloud tidak sah",
     "Shared by" : "Dibagikan oleh",
     "This share is password-protected" : "Berbagi ini dilindungi sandi",

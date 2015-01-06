@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Geslo za mesto za oddaljeno souporabo",
     "Cancel" : "Prekliči",
     "Add remote share" : "Dodaj oddaljeno mesto za souporabo",
-    "No ownCloud installation found at {remote}" : "Na mestu {remote} ni namestitve ownCloud",
     "Invalid ownCloud url" : "Naveden je neveljaven naslov URL strežnika ownCloud",
     "Shared by" : "V souporabi z",
     "A file or folder was shared from <strong>another server</strong>" : "Souporaba datoteke ali mape <strong>z drugega strežnika</strong> je odobrena.",

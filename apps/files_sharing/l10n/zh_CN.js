@@ -11,7 +11,6 @@ OC.L10N.register(
     "Remote share password" : "远程分享密码",
     "Cancel" : "取消",
     "Add remote share" : "添加远程分享",
-    "No ownCloud installation found at {remote}" : "未能在 {remote} 找到 ownCloud 服务",
     "Invalid ownCloud url" : "无效的 ownCloud 网址",
     "Shared by" : "共享人",
     "This share is password-protected" : "这是一个密码保护的共享",

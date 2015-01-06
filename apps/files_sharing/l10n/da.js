@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Adgangskode for ekstern deling",
     "Cancel" : "Annuller",
     "Add remote share" : "Tilføj ekstern deling",
-    "No ownCloud installation found at {remote}" : "Der blev ikke fundet en ownCloud-installation på {remote}",
     "Invalid ownCloud url" : "Ugyldig ownCloud-URL",
     "Shared by" : "Delt af",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe blev delt fra <strong>en anden server</strong>",

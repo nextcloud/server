@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Kaugjagamise parool",
     "Cancel" : "Loobu",
     "Add remote share" : "Lisa kaugjagamine",
-    "No ownCloud installation found at {remote}" : "Ei leitud ownCloud paigaldust asukohas {remote}",
     "Invalid ownCloud url" : "Vigane ownCloud url",
     "Shared by" : "Jagas",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",

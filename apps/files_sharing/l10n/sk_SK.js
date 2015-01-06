@@ -12,7 +12,6 @@ OC.L10N.register(
     "Remote share password" : "Heslo k vzdialenému úložisku",
     "Cancel" : "Zrušiť",
     "Add remote share" : "Pridať vzdialené úložisko",
-    "No ownCloud installation found at {remote}" : "Žiadna ownCloud inštancia na {remote}",
     "Invalid ownCloud url" : "Chybná ownCloud url",
     "Shared by" : "Zdieľa",
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",

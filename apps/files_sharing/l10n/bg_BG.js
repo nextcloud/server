@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Парола за прикачена папка",
     "Cancel" : "Отказ",
     "Add remote share" : "Добави прикачена папка",
-    "No ownCloud installation found at {remote}" : "Не е открит инсталиран ownCloud на {remote}.",
     "Invalid ownCloud url" : "Невалиден ownCloud интернет адрес.",
     "Shared by" : "Споделено от",
     "This share is password-protected" : "Тази зона е защитена с парола.",

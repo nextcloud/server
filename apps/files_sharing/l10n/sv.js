@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Lösenord för fjärrdelning",
     "Cancel" : "Avbryt",
     "Add remote share" : "Lägg till fjärrdelning",
-    "No ownCloud installation found at {remote}" : "Ingen ownCloudinstallation funnen på {remote}",
     "Invalid ownCloud url" : "Felaktig ownCloud url",
     "Shared by" : "Delad av",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",

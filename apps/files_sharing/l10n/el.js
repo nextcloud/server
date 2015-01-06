@@ -15,7 +15,6 @@ OC.L10N.register(
     "Remote share password" : "Κωδικός πρόσβασης απομακρυσμένου κοινόχρηστου φακέλου",
     "Cancel" : "Άκυρο",
     "Add remote share" : "Προσθήκη απομακρυσμένου κοινόχρηστου φακέλου",
-    "No ownCloud installation found at {remote}" : "Δεν βρέθηκε εγκατεστημένο ownCloud στο {remote}",
     "Invalid ownCloud url" : "Άκυρη url ownCloud ",
     "Shared by" : "Διαμοιράστηκε από",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",

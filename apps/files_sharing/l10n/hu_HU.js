@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Jelszó a távoli megosztáshoz",
     "Cancel" : "Mégsem",
     "Add remote share" : "Távoli megosztás létrehozása",
-    "No ownCloud installation found at {remote}" : "Nem található ownCloud telepítés ezen a címen {remote}",
     "Invalid ownCloud url" : "Érvénytelen ownCloud webcím",
     "Shared by" : "Megosztotta Önnel",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",

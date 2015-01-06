@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Uzak paylaşım parolası",
     "Cancel" : "İptal",
     "Add remote share" : "Uzak paylaşım ekle",
-    "No ownCloud installation found at {remote}" : "{remote} üzerinde ownCloud kurulumu bulunamadı",
     "Invalid ownCloud url" : "Geçersiz ownCloud adresi",
     "Shared by" : "Paylaşan",
     "This share is password-protected" : "Bu paylaşım parola korumalı",

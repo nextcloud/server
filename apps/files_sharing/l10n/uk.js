@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Пароль для віддаленої загальної теки",
     "Cancel" : "Відмінити",
     "Add remote share" : "Додати віддалену загальну теку",
-    "No ownCloud installation found at {remote}" : "Не знайдено ownCloud на {remote}",
     "Invalid ownCloud url" : "Невірний ownCloud URL",
     "Shared by" : "Опубліковано",
     "This share is password-protected" : "Цей ресурс обміну захищений паролем",

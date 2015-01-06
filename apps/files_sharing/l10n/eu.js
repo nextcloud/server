@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Urrutiko parte hartzeen pasahitza",
     "Cancel" : "Ezeztatu",
     "Add remote share" : "Gehitu urrutiko parte hartzea",
-    "No ownCloud installation found at {remote}" : "Ez da ownClouden instalaziorik aurkitu {remote}n",
     "Invalid ownCloud url" : "ownCloud url baliogabea",
     "Shared by" : "Honek elkarbanatuta",
     "This share is password-protected" : "Elkarbanatutako hau pasahitzarekin babestuta dago",

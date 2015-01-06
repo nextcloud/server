@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Contraseña de compartición remota",
     "Cancel" : "Encaboxar",
     "Add remote share" : "Amestar compartición remota",
-    "No ownCloud installation found at {remote}" : "Nun s'alcontró denguna instalación d'ownCloud en {remote}",
     "Invalid ownCloud url" : "Url ownCloud inválida",
     "Shared by" : "Compartíos por",
     "This share is password-protected" : "Esta compartición tien contraseña protexida",

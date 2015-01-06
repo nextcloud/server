@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Heslo ke vzdálenému úložišti",
     "Cancel" : "Zrušit",
     "Add remote share" : "Přidat vzdálené úložiště",
-    "No ownCloud installation found at {remote}" : "Nebyla nalezena instalace ownCloud na {remote}",
     "Invalid ownCloud url" : "Neplatná ownCloud url",
     "Shared by" : "Sdílí",
     "A file or folder was shared from <strong>another server</strong>" : "Soubor nebo složka byla nasdílena z <strong>jiného serveru</strong>",

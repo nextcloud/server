@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Remote share password",
     "Cancel" : "Cancel",
     "Add remote share" : "Add remote share",
-    "No ownCloud installation found at {remote}" : "No ownCloud installation found at {remote}",
     "Invalid ownCloud url" : "Invalid ownCloud URL",
     "Shared by" : "Shared by",
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",

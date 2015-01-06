@@ -6,7 +6,6 @@ OC.L10N.register(
     "Shared with others" : "Kunhavata kun aliaj",
     "Shared by link" : "Kunhavata per ligilo",
     "Cancel" : "Nuligi",
-    "No ownCloud installation found at {remote}" : "Ne troviĝis instalo de ownCloud ĉe {remote}",
     "Invalid ownCloud url" : "Nevalidas URL de ownCloud",
     "Shared by" : "Kunhavigita de",
     "This share is password-protected" : "Ĉi tiu kunhavigo estas protektata per pasvorto",

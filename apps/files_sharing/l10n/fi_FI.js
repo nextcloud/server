@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Etäjaon salasana",
     "Cancel" : "Peru",
     "Add remote share" : "Lisää etäjako",
-    "No ownCloud installation found at {remote}" : "ownCloud-asennusta ei löytynyt kohteesta {remote}",
     "Invalid ownCloud url" : "Virheellinen ownCloud-osoite",
     "Shared by" : "Jakanut",
     "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio jaettiin <strong>toiselta palvelimelta</strong>",

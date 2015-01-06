@@ -19,7 +19,6 @@ OC.L10N.register(
     "Remote share password" : "Contraseña del compartido remoto",
     "Cancel" : "Cancelar",
     "Add remote share" : "Añadir recurso compartido remoto",
-    "No ownCloud installation found at {remote}" : "No se encontró una instalación de ownCloud en {remote}",
     "Invalid ownCloud url" : "URL de ownCloud inválido",
     "Shared by" : "Compartido por",
     "A file or folder was shared from <strong>another server</strong>" : "Se ha compartido un archivo o carpeta desde <strong>otro servidor</strong>",

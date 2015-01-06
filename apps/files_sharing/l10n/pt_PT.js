@@ -13,7 +13,6 @@ OC.L10N.register(
     "Remote share password" : "Senha da partilha remota",
     "Cancel" : "Cancelar",
     "Add remote share" : "Adicionar partilha remota",
-    "No ownCloud installation found at {remote}" : "Não foi encontrada uma instalação ownCloud em {remote}",
     "Invalid ownCloud url" : "Url ownCloud inválido",
     "Shared by" : "Partilhado por",
     "This share is password-protected" : "Esta partilha está protegida por senha",

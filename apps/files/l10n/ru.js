@@ -10,7 +10,7 @@ OC.L10N.register(
     "File name cannot be empty." : "Имя файла не может быть пустым.",
     "\"%s\" is an invalid file name." : "\"%s\" недопустимое имя файла.",
     "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." : "Неправильное имя, символы '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы.",
-    "The target folder has been moved or deleted." : "Целевой каталог была перемещена или удалена.",
+    "The target folder has been moved or deleted." : "Целевой каталог был перемещен или удален.",
     "The name %s is already used in the folder %s. Please choose a different name." : "Имя %s уже используется для каталога %s. Укажите другое имя.",
     "Not a valid source" : "Неправильный источник",
     "Server is not allowed to open URLs, please check the server configuration" : "Сервер не позволяет открывать URL-адреса, проверьте настройки сервера",

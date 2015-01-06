@@ -17,7 +17,6 @@
     "Remote share password" : "Contrasinal da compartición remota",
     "Cancel" : "Cancelar",
     "Add remote share" : "Engadir unha compartición remota",
-    "No ownCloud installation found at {remote}" : "Non se atopou unha instalación do ownCloud en {remote}",
     "Invalid ownCloud url" : "URL incorrecta do ownCloud",
     "Shared by" : "Compartido por",
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol desde <strong>outro servidor</strong>",
