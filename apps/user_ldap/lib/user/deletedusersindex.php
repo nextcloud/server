@@ -49,8 +49,13 @@ class DeletedUsersIndex {
 	/**
 	 * @var array $deletedUsers
 	 */
-	protected $deletedUsers = false;
+	protected $deletedUsers;
 
+	/**
+	 * @param OCP\IConfig $config
+	 * @param OCP\IDBConnection $db
+	 * @param OCA\User_LDAP\Mapping\UserMapping $mapping
+	 */
 	public function __construct(\OCP\IConfig $config, \OCP\IDBConnection $db, UserMapping $mapping) {
 		$this->config = $config;
 		$this->db = $db;

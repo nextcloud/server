@@ -20,7 +20,8 @@ $uBackend = new User_Proxy(
 	new LDAP()
 );
 $deletedUsersIndex = new DeletedUsersIndex(
-	\OC::$server->getConfig(), $dbConnection, $userMapping);
+	\OC::$server->getConfig(), $dbConnection, $userMapping
+);
 
 $application->add(new OCA\user_ldap\Command\ShowConfig());
 $application->add(new OCA\user_ldap\Command\SetConfig());
@@ -28,6 +29,7 @@ $application->add(new OCA\user_ldap\Command\TestConfig());
 $application->add(new OCA\user_ldap\Command\CreateEmptyConfig());
 $application->add(new OCA\user_ldap\Command\DeleteConfig());
 $application->add(new OCA\user_ldap\Command\Search());
-$application->add(new OCA\user_ldap\Command\ShowRemnants($userMapping));
+$application->add(new OCA\user_ldap\Command\ShowRemnants($deletedUsersIndex));
 $application->add(new OCA\user_ldap\Command\CheckUser(
-	$uBackend, $helper, $deletedUsersIndex, $userMapping));
+	$uBackend, $helper, $deletedUsersIndex, $userMapping)
+);

@@ -22,29 +22,22 @@ use \OCA\User_LDAP\Mapping\UserMapping;
  * @package OCA\user_ldap\lib;
  */
 class CleanUp extends \OC\BackgroundJob\TimedJob {
-	/**
-	 * @var int $limit amount of users that should be checked per run
-	 */
+	/** @var int $limit amount of users that should be checked per run */
 	protected $limit = 50;
 
-	/**
-	 * @var \OCP\UserInterface $userBackend
-	 */
+	/** @var int $defaultIntervalMin default interval in minutes */
+	protected $defaultIntervalMin = 51;
+
+	/** @var \OCP\UserInterface $userBackend */
 	protected $userBackend;
 
-	/**
-	 * @var \OCP\IConfig $ocConfig
-	 */
+	/** @var \OCP\IConfig $ocConfig */
 	protected $ocConfig;
 
-	/**
-	 * @var \OCP\IDBConnection $db
-	 */
+	/** @var \OCP\IDBConnection $db */
 	protected $db;
 
-	/**
-	 * @var Helper $ldapHelper
-	 */
+	/** @var Helper $ldapHelper */
 	protected $ldapHelper;
 
 	/** @var \OCA\User_LDAP\Mapping\UserMapping */
@@ -52,11 +45,6 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 
 	/** @var \OCA\User_LDAP\lib\User\DeletedUsersIndex */
 	protected $dui;
-
-	/**
-	 * @var int $defaultIntervalMin default interval in minutes
-	 */
-	protected $defaultIntervalMin = 51;
 
 	public function __construct() {
 		$minutes = \OC::$server->getConfig()->getSystemValue(
@@ -177,7 +165,7 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	 * checks users whether they are still existing
 	 * @param array $users result from getMappedUsers()
 	 */
-	private function checkUsers($users) {
+	private function checkUsers(array $users) {
 		foreach($users as $user) {
 			$this->checkUser($user);
 		}
@@ -187,7 +175,7 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	 * checks whether a user is still existing in LDAP
 	 * @param string[] $user
 	 */
-	private function checkUser($user) {
+	private function checkUser(array $user) {
 		if($this->userBackend->userExistsOnLDAP($user['name'])) {
 			//still available, all good
 

@@ -106,30 +106,6 @@ class Test_CleanUp extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * test whether sql is OK
-	 */
-	public function test_getMappedUsers() {
-		$args = $this->getMocks();
-
-		$bgJob = new \OCA\User_LDAP\Jobs\CleanUp();
-		$bgJob->setArguments($args);
-
-		if(version_compare(\PHPUnit_Runner_Version::id(), '3.8', '<')) {
-			//otherwise we run into
-			//https://github.com/sebastianbergmann/phpunit-mock-objects/issues/103
-			$this->markTestIncomplete();
-		}
-
-		$stmt = $this->getMock('\Doctrine\DBAL\Driver\Statement');
-
-		$args['db']->expects($this->once())
-			->method('prepare')
-			->will($this->returnValue($stmt));
-
-		$bgJob->getMappedUsers(0, $bgJob->getChunkSize());
-	}
-
-	/**
 	 * check whether offset will be reset when it needs to
 	 */
 	public function test_OffsetResetIsNecessary() {

@@ -71,6 +71,12 @@ class OfflineUser {
 	 */
 	protected $mapping;
 
+	/**
+	 * @param string $ocName
+	 * @param OCP\IConfig $config
+	 * @param OCP\IDBConnection $db
+	 * @param OCA\User_LDAP\Mapping\UserMapping $mapping
+	 */
 	public function __construct($ocName, \OCP\IConfig $config, \OCP\IDBConnection $db, UserMapping $mapping) {
 		$this->ocName = $ocName;
 		$this->config = $config;

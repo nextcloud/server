@@ -19,16 +19,14 @@ use OCA\User_LDAP\lib\Connection;
 use OCA\User_LDAP\Mapping\UserMapping;
 
 class ShowRemnants extends Command {
-	/** @var OCA\User_LDAP\Mapping\UserMapping */
-	protected $mapping;
+	/** @var use OCA\User_LDAP\lib\User\DeletedUsersIndex; */
+	protected $dui;
 
 	/**
-	 * @param OCA\user_ldap\User_Proxy $uBackend
-	 * @param OCA\User_LDAP\lib\Helper $helper
-	 * @param OCP\IConfig $config
+	 * @param OCA\user_ldap\lib\user\DeletedUsersIndex $dui
 	 */
-	public function __construct(UserMapping $mapper) {
-		$this->mapper = $mapper;
+	public function __construct(DeletedUsersIndex $dui) {
+		$this->dui = $dui;
 		parent::__construct();
 	}
 
@@ -39,20 +37,19 @@ class ShowRemnants extends Command {
 		;
 	}
 
+	/**
+	 * executes the command, i.e. creeates and outputs a table of LDAP users marked as deleted
+	 *
+	 * {@inheritdoc}
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$dui = new DeletedUsersIndex(
-			\OC::$server->getConfig(),
-			\OC::$server->getDatabaseConnection(),
-			$this->mapper
-		);
-
 		/** @var \Symfony\Component\Console\Helper\Table $table */
 		$table = $this->getHelperSet()->get('table');
 		$table->setHeaders(array(
 			'ownCloud name', 'Display Name', 'LDAP UID', 'LDAP DN', 'Last Login',
 			'Dir', 'Sharer'));
 		$rows = array();
-		$resultSet = $dui->getUsers();
+		$resultSet = $this->dui->getUsers();
 		foreach($resultSet as $user) {
 			$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
 			$lastLogin = ($user->getLastLogin() > 0) ?

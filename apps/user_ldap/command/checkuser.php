@@ -17,7 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use OCA\user_ldap\lib\user\User;
 use OCA\User_LDAP\lib\user\Manager;
 use OCA\User_LDAP\lib\User\DeletedUsersIndex;
-use OCA\user_ldap\lib\Helper;
+use OCA\User_LDAP\Mapping\UserMapping;
+use OCA\user_ldap\lib\Helper as LDAPHelper;
 use OCA\user_ldap\User_Proxy;
 
 class CheckUser extends Command {
@@ -35,10 +36,11 @@ class CheckUser extends Command {
 
 	/**
 	 * @param OCA\user_ldap\User_Proxy $uBackend
-	 * @param OCA\User_LDAP\lib\Helper $helper
-	 * @param OCP\IConfig $config
+	 * @param OCA\user_ldap\lib\Helper $helper
+	 * @param OCA\User_LDAP\lib\User\DeletedUsersIndex $dui
+	 * @param OCA\User_LDAP\Mapping\UserMapping $mapping
 	 */
-	public function __construct(User_Proxy $uBackend, Helper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
+	public function __construct(User_Proxy $uBackend, LDAPHelper $helper, DeletedUsersIndex $dui, UserMapping $mapping) {
 		$this->backend = $uBackend;
 		$this->helper = $helper;
 		$this->dui = $dui;
@@ -100,13 +102,13 @@ class CheckUser extends Command {
 	}
 
 	/**
-	 * checks whether the setup allows reliable checking of LDAP user existance
+	 * checks whether the setup allows reliable checking of LDAP user existence
 	 * @throws \Exception
-	 * @return bool
+	 * @return true
 	 */
 	protected function isAllowed($force) {
 		if($this->helper->haveDisabledConfigurations() && !$force) {
-			throw new \Exception('Cannot check user existance, because '
+			throw new \Exception('Cannot check user existence, because '
 				. 'disabled LDAP configurations are present.');
 		}
 
