@@ -120,6 +120,8 @@ class AppSettingsController extends Controller {
 		// fix groups to be an array
 		$dependencyAnalyzer = new DependencyAnalyzer(new Platform($this->config), $this->l10n);
 		$apps = array_map(function($app) use ($dependencyAnalyzer) {
+
+			// fix groups
 			$groups = array();
 			if (is_string($app['groups'])) {
 				$groups = json_decode($app['groups']);
@@ -127,11 +129,16 @@ class AppSettingsController extends Controller {
 			$app['groups'] = $groups;
 			$app['canUnInstall'] = !$app['active'] && $app['removable'];
 
+			// fix licence vs license
+			if (isset($app['license']) && !isset($app['licence'])) {
+				$app['licence'] = $app['license'];
+			}
+
 			// analyse dependencies
 			$missing = $dependencyAnalyzer->analyze($app);
-
 			$app['canInstall'] = empty($missing);
 			$app['missingDependencies'] = $missing;
+
 			return $app;
 		}, $apps);
 
