@@ -36,30 +36,27 @@ use OCA\user_ldap\lib\user\OfflineUser;
  * cache
  */
 class Manager {
-	/**
-	 * @var IUserTools
-	 */
+	/** @var IUserTools */
 	protected $access;
-	/**
-	 * @var \OCP\IConfig
-	 */
+
+	/** @var \OCP\IConfig */
 	protected $ocConfig;
-	/**
-	 * @var FilesystemHelper
-	 */
+
+	/** @var \OCP\IDBConnection */
+	protected $db;
+
+	/** @var FilesystemHelper */
 	protected $ocFilesystem;
-	/**
-	 * @var LogWrapper
-	 */
+
+	/** @var LogWrapper */
 	protected $ocLog;
-	/**
-	 * @var \OCP\Image
-	 */
+
+	/** @var \OCP\Image */
 	protected $image;
-	/**
-	 * @param \OCP\IAvatarManager
-	 */
+
+	/** @param \OCP\IAvatarManager */
 	protected $avatarManager;
+
 	/**
 	 * array['byDN']	\OCA\user_ldap\lib\User[]
 	 * 	['byUid']	\OCA\user_ldap\lib\User[]
@@ -71,28 +68,25 @@ class Manager {
 	);
 
 	/**
-	 * @brief Constructor
-	 * @param \OCP\IConfig 
-	 * @param \OCA\user_ldap\lib\FilesystemHelper object that gives access to
-	 * necessary functions from the OC filesystem
-	 * @param  \OCA\user_ldap\lib\LogWrapper
-	 * @param \OCP\IAvatarManager
-	 * @param \OCP\Image an empty image instance
+	 * @param \OCP\IConfig $ocConfig
+	 * @param \OCA\user_ldap\lib\FilesystemHelper $ocFilesystem object that
+	 * gives access to necessary functions from the OC filesystem
+	 * @param  \OCA\user_ldap\lib\LogWrapper $ocLog
+	 * @param \OCP\IAvatarManager $avatarManager
+	 * @param \OCP\Image $image an empty image instance
+	 * @param \OCP\IDBConnection $db
 	 * @throws Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(\OCP\IConfig $ocConfig,
 		FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
-		\OCP\IAvatarManager $avatarManager, \OCP\Image $image) {
+		\OCP\IAvatarManager $avatarManager, \OCP\Image $image, \OCP\IDBConnection $db) {
 
-		if(!method_exists($ocConfig, 'setUserValue')
-		   || !method_exists($ocConfig, 'getUserValue')) {
-			throw new \Exception('Invalid ownCloud User Config object');
-		}
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->ocLog         = $ocLog;
 		$this->avatarManager = $avatarManager;
 		$this->image         = $image;
+		$this->db            = $db;
 	}
 
 	/**
@@ -152,7 +146,7 @@ class Manager {
 		return new OfflineUser(
 			$id,
 			$this->ocConfig,
-			\OC::$server->getDatabaseConnection(),
+			$this->db,
 			$this->access->getUserMapper());
 	}
 

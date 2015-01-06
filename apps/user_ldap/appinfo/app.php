@@ -29,14 +29,17 @@ $configPrefixes = $helper->getServerConfigurationPrefixes(true);
 $ldapWrapper = new OCA\user_ldap\lib\LDAP();
 $ocConfig = \OC::$server->getConfig();
 if(count($configPrefixes) === 1) {
+	$dbc = \OC::$server->getDatabaseConnection();
 	$userManager = new OCA\user_ldap\lib\user\Manager($ocConfig,
 		new OCA\user_ldap\lib\FilesystemHelper(),
 		new OCA\user_ldap\lib\LogWrapper(),
 		\OC::$server->getAvatarManager(),
-		new \OCP\Image());
+		new \OCP\Image(),
+		$dbc
+	);
 	$connector = new OCA\user_ldap\lib\Connection($ldapWrapper, $configPrefixes[0]);
 	$ldapAccess = new OCA\user_ldap\lib\Access($connector, $ldapWrapper, $userManager);
-	$dbc = \OC::$server->getDatabaseConnection();
+
 	$ldapAccess->setUserMapper(new OCA\User_LDAP\Mapping\UserMapping($dbc));
 	$ldapAccess->setGroupMapper(new OCA\User_LDAP\Mapping\GroupMapping($dbc));
 	$userBackend  = new OCA\user_ldap\USER_LDAP($ldapAccess, $ocConfig);

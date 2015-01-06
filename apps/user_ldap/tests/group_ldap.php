@@ -45,7 +45,8 @@ class Test_Group_Ldap extends \Test\TestCase {
 				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
 				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
-				$this->getMock('\OCP\Image')
+				$this->getMock('\OCP\Image'),
+				$this->getMock('\OCP\IDBConnection')
 			);
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 								 $accMethods,

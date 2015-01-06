@@ -164,16 +164,18 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		$ldapWrapper = new LDAP();
 		if(count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured
+			$dbc = \OC::$server->getDatabaseConnection();
 			$userManager = new user\Manager(
 				\OC::$server->getConfig(),
 				new FilesystemHelper(),
 				new LogWrapper(),
 				\OC::$server->getAvatarManager(),
-				new \OCP\Image());
+				new \OCP\Image(),
+				$dbc);
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $ldapWrapper, $userManager);
-			$groupMapper = new GroupMapping(\OC::$server->getDatabaseConnection());
-			$userMapper  = new UserMapping(\OC::$server->getDatabaseConnection());
+			$groupMapper = new GroupMapping($dbc);
+			$userMapper  = new UserMapping($dbc);
 			$ldapAccess->setGroupMapper($groupMapper);
 			$ldapAccess->setUserMapper($userMapper);
 			self::$groupBE = new \OCA\user_ldap\GROUP_LDAP($ldapAccess);

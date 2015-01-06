@@ -33,11 +33,12 @@ class Test_User_User extends \Test\TestCase {
 		$log     = $this->getMock('\OCA\user_ldap\lib\LogWrapper');
 		$avaMgr  = $this->getMock('\OCP\IAvatarManager');
 		$image   = $this->getMock('\OCP\Image');
+		$dbc     = $this->getMock('\OCP\IDBConnection');
 
-		return array($access, $config, $filesys, $image, $log, $avaMgr);
+		return array($access, $config, $filesys, $image, $log, $avaMgr, $dbc);
 	}
 
-	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr) {
+	private function getAdvancedMocks($cfMock, $fsMock, $logMock, $avaMgr, $dbc) {
 		static $conMethods;
 		static $accMethods;
 		static $umMethods;
@@ -52,7 +53,7 @@ class Test_User_User extends \Test\TestCase {
 		$lw = $this->getMock('\OCA\user_ldap\lib\ILDAPWrapper');
 		$im = $this->getMock('\OCP\Image');
 		$um = $this->getMock('\OCA\user_ldap\lib\user\Manager',
-			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im));
+			$umMethods, array($cfMock, $fsMock, $logMock, $avaMgr, $im, $dbc));
 		$connector = $this->getMock('\OCA\user_ldap\lib\Connection',
 			$conMethods, array($lw, null, null));
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
@@ -76,11 +77,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateEmailProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->once())
 			->method('__get')
@@ -110,11 +111,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateEmailNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->once())
 			->method('__get')
@@ -140,11 +141,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateEmailNotConfigured() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->once())
 			->method('__get')
@@ -167,11 +168,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaAllProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->at(0))
 			->method('__get')
@@ -210,11 +211,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaDefaultProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->at(0))
 			->method('__get')
@@ -253,11 +254,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaIndividualProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->at(0))
 			->method('__get')
@@ -296,11 +297,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaNoneProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->at(0))
 			->method('__get')
@@ -334,11 +335,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateQuotaNoneConfigured() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$connection->expects($this->at(0))
 			->method('__get')
@@ -370,11 +371,11 @@ class Test_User_User extends \Test\TestCase {
 
 	//the testUpdateAvatar series also implicitely tests getAvatarImage
 	public function testUpdateAvatarJpegPhotoProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$access->expects($this->once())
 			->method('readAttribute')
@@ -419,11 +420,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarThumbnailPhotoProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$access->expects($this->at(0))
 			->method('readAttribute')
@@ -477,11 +478,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateAvatarNotProvided() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$access->expects($this->at(0))
 			->method('readAttribute')
@@ -523,11 +524,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateBeforeFirstLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$config->expects($this->at(0))
 			->method('getUserValue')
@@ -559,11 +560,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateAfterFirstLogin() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$config->expects($this->at(0))
 			->method('getUserValue')
@@ -599,11 +600,11 @@ class Test_User_User extends \Test\TestCase {
 	}
 
 	public function testUpdateNoRefresh() {
-		list($access, $config, $filesys, $image, $log, $avaMgr) =
+		list($access, $config, $filesys, $image, $log, $avaMgr, $dbc) =
 			$this->getTestInstances();
 
 		list($access, $connection) =
-			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr);
+			$this->getAdvancedMocks($config, $filesys, $log, $avaMgr, $dbc);
 
 		$config->expects($this->at(0))
 			->method('getUserValue')

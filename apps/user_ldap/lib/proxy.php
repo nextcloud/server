@@ -49,16 +49,18 @@ abstract class Proxy {
 		static $avatarM;
 		static $userMap;
 		static $groupMap;
+		static $db;
 		if(is_null($fs)) {
 			$ocConfig = \OC::$server->getConfig();
 			$fs       = new FilesystemHelper();
 			$log      = new LogWrapper();
 			$avatarM  = \OC::$server->getAvatarManager();
-			$userMap  = new UserMapping(\OC::$server->getDatabaseConnection());
-			$groupMap = new GroupMapping(\OC::$server->getDatabaseConnection());
+			$db       = \OC::$server->getDatabaseConnection();
+			$userMap  = new UserMapping($db);
+			$groupMap = new GroupMapping($db);
 		}
 		$userManager =
-			new user\Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image());
+			new user\Manager($ocConfig, $fs, $log, $avatarM, new \OCP\Image(), $db);
 		$connector = new Connection($this->ldap, $configPrefix);
 		$access = new Access($connector, $this->ldap, $userManager);
 		$access->setUserMapper($userMap);
