@@ -137,12 +137,10 @@ class Preferences {
 	 * @param string $app
 	 * @param string $key
 	 * @param string $value
-	 * @param int|null $limit
-	 * @param int|null $offset
 	 * @return array
 	 * @deprecated use getUsersForUserValue of \OCP\IConfig instead
 	 */
-	public function getUsersForValue($app, $key, $value, $limit = null, $offset = null) {
+	public function getUsersForValue($app, $key, $value) {
 		return $this->config->getUsersForUserValue($app, $key, $value);
 	}
 
