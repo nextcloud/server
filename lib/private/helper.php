@@ -905,6 +905,9 @@ class OC_Helper {
 		if (!$rootInfo) {
 			$rootInfo = \OC\Files\Filesystem::getFileInfo($path, false);
 		}
+		if (!$rootInfo instanceof \OCP\Files\FileInfo) {
+			throw new \OCP\Files\NotFoundException();
+		}
 		$used = $rootInfo->getSize();
 		if ($used < 0) {
 			$used = 0;
