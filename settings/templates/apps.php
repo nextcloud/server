@@ -22,8 +22,8 @@
 	<h2 class="app-name"><a href="{{detailpage}}" target="_blank">{{name}}</a></h2>
 	<div class="app-version"> {{version}}</div>
 	<div class="app-author"><?php p($l->t('by')); ?> {{author}}
-		{{#if license}}
-		({{license}}-<?php p($l->t('licensed')); ?>)
+		{{#if licence}}
+		({{licence}}-<?php p($l->t('licensed')); ?>)
 		{{/if}}
 	</div>
 	{{#if score}}
