@@ -2,7 +2,7 @@
  * Strengthify - show the weakness of a password (uses zxcvbn for this)
  * https://github.com/kabum/strengthify
  *
- * Version: 0.3
+ * Version: 0.4.1
  * Author: Morris Jobke (github.com/kabum)
  *
  * License:
@@ -29,22 +29,21 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+/* global jQuery */
 (function ($) {
-	$.fn.strengthify = function(options) {
-		var me = this
-
-		var defaults = {
-			zxcvbn: 'zxcvbn/zxcvbn.js',
-			titles: [
-				'Weakest',
-				'Weak',
-				'So-so',
-				'Good',
-				'Perfect'
-			]
-		}
-
-		var options = $.extend(defaults, options)
+	$.fn.strengthify = function(paramOptions) {
+		var me = this,
+			defaults = {
+				zxcvbn: 'zxcvbn/zxcvbn.js',
+				titles: [
+					'Weakest',
+					'Weak',
+					'So-so',
+					'Good',
+					'Perfect'
+				]
+			},
+			options = $.extend(defaults, paramOptions);
 
 		// add elements
 		$('.strengthify-wrapper')
@@ -52,9 +51,7 @@
 			.append('<div class="strengthify-container" />')
 			.append('<div class="strengthify-separator" style="left: 25%" />')
 			.append('<div class="strengthify-separator" style="left: 50%" />')
-			.append('<div class="strengthify-separator" style="left: 75%" />')
-
-		var oldDisplayState = $('.strengthify-wrapper').css('display')
+			.append('<div class="strengthify-separator" style="left: 75%" />');
 
 		$.ajax({
 			cache: true,
@@ -62,22 +59,24 @@
 			url: options.zxcvbn
 		}).done(function() {
 			me.bind('keyup input', function() {
-				var password = $(this).val()
+				var password = $(this).val(),
+					// hide strengthigy if no input is provided
+					opacity = (password === '') ? 0 : 1,
+					// calculate result
+					result = zxcvbn(password),
+					css = '',
+					// cache jQuery selections
+					$container = $('.strengthify-container'),
+					$wrapper = $('.strengthify-wrapper');
 
-				// hide strengthigy if no input is provided
-				var opacity = (password === '') ? 0 : 1
-				$('.strengthify-wrapper').children().css(
+				$wrapper.children().css(
 					'opacity',
 					opacity
 				).css(
 					'-ms-filter',
 					'"progid:DXImageTransform.Microsoft.Alpha(Opacity=' + opacity * 100 + ')"'
-				)
+				);
 
-				// calculate result
-				var result = zxcvbn(password)
-
-				var css = ''
 				// style strengthify bar
 				// possible scores: 0-4
 				switch(result.score) {
@@ -94,16 +93,18 @@
 						break;
 				}
 
-				$('.strengthify-container').attr('class', css + ' strengthify-container')
-				// possible scores: 0-4
-				$('.strengthify-container').css(
-					'width',
-					// if score is '0' it will be changed to '1' to
-					// not hide strengthify if the password is extremely weak
-					((result.score == 0 ? 1 : result.score) * 25) + '%'
-				)
+				$container
+					.attr('class', css + ' strengthify-container')
+					// possible scores: 0-4
+					.css(
+						'width',
+						// if score is '0' it will be changed to '1' to
+						// not hide strengthify if the password is extremely weak
+						((result.score === 0 ? 1 : result.score) * 25) + '%'
+					);
+
 				// set a title for the wrapper
-				$('.strengthify-wrapper').attr(
+				$wrapper.attr(
 					'title',
 					options.titles[result.score]
 				).tipsy({
@@ -111,23 +112,23 @@
 					opacity: opacity
 				}).tipsy(
 					'show'
-				)
+				);
 
 				if(opacity === 0) {
-					$('.strengthify-wrapper').tipsy(
+					$wrapper.tipsy(
 						'hide'
-					)
+					);
 				}
 
 				// reset state for empty string password
 				if(password === '') {
-					$('.strengthify-container').css('width', 0)
+					$container.css('width', 0);
 				}
 
-			})
-		})
+			});
+		});
 
-		return me
+		return me;
 	};
 
-}(jQuery))
+}(jQuery));
