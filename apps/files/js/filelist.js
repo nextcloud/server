@@ -468,6 +468,7 @@
 				e.preventDefault();
 				this.changeDirectory($targetDir);
 			}
+			this.updateSearch();
 		},
 
 		/**
