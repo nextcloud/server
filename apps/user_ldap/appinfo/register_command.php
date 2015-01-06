@@ -31,7 +31,9 @@ $application->add(new OCA\user_ldap\Command\TestConfig());
 $application->add(new OCA\user_ldap\Command\CreateEmptyConfig());
 $application->add(new OCA\user_ldap\Command\DeleteConfig());
 $application->add(new OCA\user_ldap\Command\Search($ocConfig));
-$application->add(new OCA\user_ldap\Command\ShowRemnants($deletedUsersIndex));
+$application->add(new OCA\user_ldap\Command\ShowRemnants(
+	$deletedUsersIndex, \OC::$server->getDateTimeFormatter())
+);
 $application->add(new OCA\user_ldap\Command\CheckUser(
 	$uBackend, $helper, $deletedUsersIndex, $userMapping)
 );

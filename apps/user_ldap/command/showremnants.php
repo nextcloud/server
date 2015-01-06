@@ -17,16 +17,21 @@ use Symfony\Component\Console\Output\OutputInterface;
 use OCA\user_ldap\lib\user\DeletedUsersIndex;
 use OCA\User_LDAP\lib\Connection;
 use OCA\User_LDAP\Mapping\UserMapping;
+use OCP\IDateTimeFormatter;
 
 class ShowRemnants extends Command {
-	/** @var use OCA\User_LDAP\lib\User\DeletedUsersIndex; */
+	/** @var OCA\User_LDAP\lib\User\DeletedUsersIndex */
 	protected $dui;
+
+	/** @var OCP\IDateTimeFormatter */
+	protected $dateFormatter;
 
 	/**
 	 * @param OCA\user_ldap\lib\user\DeletedUsersIndex $dui
 	 */
-	public function __construct(DeletedUsersIndex $dui) {
+	public function __construct(DeletedUsersIndex $dui, IDateTimeFormatter $dateFormatter) {
 		$this->dui = $dui;
+		$this->dateFormatter = $dateFormatter;
 		parent::__construct();
 	}
 
@@ -53,7 +58,7 @@ class ShowRemnants extends Command {
 		foreach($resultSet as $user) {
 			$hAS = $user->getHasActiveShares() ? 'Y' : 'N';
 			$lastLogin = ($user->getLastLogin() > 0) ?
-				\OCP\Util::formatDate($user->getLastLogin()) : '-';
+				$this->dateFormatter->formatDate($user->getLastLogin()) : '-';
 			$rows[] = array(
 				$user->getOCName(),
 				$user->getDisplayName(),
