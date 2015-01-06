@@ -77,7 +77,7 @@ class Scan extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		$path = $input->getOption('path');
-		if ($path !== false) {
+		if ($path) {
 			$path = '/'.trim($path, '/');
 			list (, $user, ) = explode('/', $path, 3);
 			$users = array($user);
