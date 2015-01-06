@@ -84,7 +84,8 @@
 			var lastInApps = [];
 			var lastPage = 0;
 			var lastSize = 30;
-			var lastResults = {};
+			var lastResults = [];
+			var timeoutID = null;
 
 			this.getLastQuery = function() {
 				return lastQuery;
@@ -94,8 +95,8 @@
 			 * Do a search query and display the results
 			 * @param {string} query the search query
 			 */
-			this.search = _.debounce(function(query, inApps, page, size) {
-				if(query) {
+			this.search = function(query, inApps, page, size) {
+				if (query) {
 					OC.addStyle('search','results');
 					if (typeof page !== 'number') {
 						page = 1;
@@ -115,26 +116,29 @@
 					if ($searchResults && query === lastQuery && page === lastPage && size === lastSize) {
 						return;
 					}
-					lastQuery = query;
-					lastInApps = inApps;
-					lastPage = page;
-					lastSize = size;
+					window.clearTimeout(timeoutID);
+					timeoutID = window.setTimeout(function() {
+						lastQuery = query;
+						lastInApps = inApps;
+						lastPage = page;
+						lastSize = size;
 
-					//show spinner
-					$searchResults.removeClass('hidden');
-					$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading.gif" />');
+						//show spinner
+						$searchResults.removeClass('hidden');
+						$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading.gif" />');
 
-					// do the actual search query
-					$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
-						lastResults = results;
-						if (page === 1) {
-							showResults(results);
-						} else {
-							addResults(results);
-						}
-					});
+						// do the actual search query
+						$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
+							lastResults = results;
+							if (page === 1) {
+								showResults(results);
+							} else {
+								addResults(results);
+							}
+						});
+					}, 500);
 				}
-			}, 500);
+			};
 
 			//TODO should be a core method, see https://github.com/owncloud/core/issues/12557
 			function getCurrentApp() {
@@ -243,7 +247,7 @@
 			 * This appends/renders the next page of entries when reaching the bottom.
 			 */
 			function onScroll(e) {
-				if ($searchResults && lastQuery !== false) {
+				if ($searchResults && lastQuery !== false && lastResults.length > 0) {
 					var resultsBottom = $searchResults.offset().top + $searchResults.height();
 					var containerBottom = $searchResults.offsetParent().offset().top + $searchResults.offsetParent().height();
 					if ( resultsBottom < containerBottom * 1.2 ) {
