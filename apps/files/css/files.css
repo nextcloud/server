@@ -600,7 +600,7 @@ table.dragshadow td.size {
 	opacity: 0;
 }
 
-#nofilterresults {
+.nofilterresults {
 	font-size: 16px;
 	color: #888;
 	position: absolute;
@@ -608,12 +608,12 @@ table.dragshadow td.size {
 	top: 30%;
 	width: 100%;
 }
-#nofilterresults h2 {
+.nofilterresults h2 {
 	font-size: 22px;
 	margin-bottom: 10px;
 }
-#nofilterresults [class^="icon-"],
-#nofilterresults [class*=" icon-"] {
+.nofilterresults [class^="icon-"],
+.nofilterresults [class*=" icon-"] {
 	background-size: 64px;
 	height: 64px;
 	width: 64px;

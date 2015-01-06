@@ -48,7 +48,7 @@
 				}
 			}
 			function hideNoFilterResults() {
-				var $nofilterresults = $('#nofilterresults');
+				var $nofilterresults = $('.nofilterresults');
 				if ( ! $nofilterresults.hasClass('hidden') ) {
 					$nofilterresults.addClass('hidden');
 				}
@@ -171,7 +171,7 @@
 					if (query.length > 2) {
 						//search is not started until 500msec have passed
 						window.setTimeout(function() {
-							$('#nofilterresults').addClass('hidden');
+							$('.nofilterresults').addClass('hidden');
 						}, 500);
 					}
 				}
