@@ -73,6 +73,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Program za šifriranje je omogočen, vendar ni začet. Odjavite se in nato ponovno prijavite.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ni ustreznega osebnega ključa za program za šifriranje. Posodobite osebni ključ za dostop do šifriranih datotek med nastavitvami.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Šifriranje je onemogočeno, datoteke pa so še vedno šifrirane. Odšifrirajte jih med nastavitvami.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["","","",""],
     "{dirs} and {files}" : "{dirs} in {files}",
     "Favorited" : "Označeno kot priljubljeno",
     "Favorite" : "Priljubljene",

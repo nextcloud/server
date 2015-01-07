@@ -17,6 +17,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "Upload (max. %s)" : "Incargar (max. %s)",
     "Maximum upload size" : "Dimension maxime de incargamento",
     "Save" : "Salveguardar",

@@ -73,6 +73,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Salaussovellus on käytössä, mutta salausavaimia ei ole alustettu. Ole hyvä ja kirjaudu sisään uudelleen.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Salaussovelluksen salausavain on virheellinen. Ole hyvä ja päivitä salausavain henkilökohtaisissa asetuksissasi jotta voit taas avata salatuskirjoitetut tiedostosi.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Salaus poistettiin käytöstä, mutta tiedostosi ovat edelleen salattuina. Siirry henkilökohtaisiin asetuksiin avataksesi tiedostojesi salauksen.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} ja {files}",
     "Favorited" : "Lisätty suosikkeihin",
     "Favorite" : "Suosikki",

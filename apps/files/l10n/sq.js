@@ -70,6 +70,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacioni i Shifrimit është i aktivizuar por çelësat tuaj nuk janë aktivizuar, ju lutem dilni dhe ri-hyni përseri në sistem",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Çelësi privat për Aplikacionin e Shifrimit është i pavlefshëm. Ju lutem përditësoni fjalëkalimin e çelësit tuaj privat në parametrat tuaj për të rimarrë qasje në skedarët tuaj të shifruar.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Kodifikimi u çaktivizua por skedarët tuaj vazhdojnë të jenë të kodifikuar. Ju lutem shkoni tek parametrat personale për të dekodifikuar skedarët tuaj.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} dhe {files}",
     "%s could not be renamed as it has been deleted" : "%s nuk mund të riemërtohet sepse është fshirë",
     "%s could not be renamed" : "Nuk është i mundur riemërtimi i %s",

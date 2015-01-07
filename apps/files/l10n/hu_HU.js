@@ -72,6 +72,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Az állományok titkosítása engedélyezve van, de az Ön titkos kulcsai nincsenek beállítva. Ezért kérjük, hogy jelentkezzen ki, és lépjen be újra!",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Az állományok titkosításához használt titkos kulcsa érvénytelen. Kérjük frissítse a titkos kulcs jelszót a személyes beállításokban, hogy ismét hozzáférjen a titkosított állományaihoz!",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "A titkosítási funkciót kikapcsolták, de az Ön állományai még mindig titkosított állapotban vannak. A személyes beállításoknál tudja a titkosítást feloldani.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} és {files}",
     "Favorited" : "Kedvenc",
     "Favorite" : "Kedvenc",

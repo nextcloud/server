@@ -72,6 +72,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicatia de criptare este activata dar tastatura nu este initializata , va rugam deconectati-va si reconectati-va",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Cheie privată nevalidă pentru aplicația Încriptare. Te rog, actualizează-ți parola cheii private folosind setările personale pentru a reaccesa fișierele tale încriptate.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "criptarea a fost disactivata dar fisierele sant inca criptate.va rog intrati in setarile personale pentru a decripta fisierele",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["","",""],
     "{dirs} and {files}" : "{dirs} și {files}",
     "Favorite" : "Favorit",
     "%s could not be renamed as it has been deleted" : "%s nu a putut fi redenumit deoarece a fost sters",

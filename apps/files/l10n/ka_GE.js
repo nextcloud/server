@@ -35,6 +35,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : [""],
     "Your storage is full, files can not be updated or synced anymore!" : "თქვენი საცავი გადაივსო. ფაილების განახლება და სინქრონიზირება ვერ მოხერხდება!",
     "Your storage is almost full ({usedSpacePercent}%)" : "თქვენი საცავი თითქმის გადაივსო ({usedSpacePercent}%)",
+    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
     "Favorite" : "ფავორიტი",
     "File handling" : "ფაილის დამუშავება",
     "Maximum upload size" : "მაქსიმუმ ატვირთის ზომა",

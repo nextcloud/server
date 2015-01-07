@@ -72,6 +72,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikacja szyfrująca jest aktywna, ale twoje klucze nie zostały zainicjowane, prosze wyloguj się i zaloguj ponownie.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Klucz prywatny nie jest poprawny! Może Twoje hasło zostało zmienione z zewnątrz. Można zaktualizować hasło klucza prywatnego w ustawieniach osobistych w celu odzyskania dostępu do plików",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Szyfrowanie zostało wyłączone, ale nadal pliki są zaszyfrowane. Przejdź do ustawień osobistych i tam odszyfruj pliki.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["","",""],
     "{dirs} and {files}" : "{dirs} i {files}",
     "Favorite" : "Ulubione",
     "%s could not be renamed as it has been deleted" : "%s nie może mieć zmienionej nazwy, ponieważ został usunięty",

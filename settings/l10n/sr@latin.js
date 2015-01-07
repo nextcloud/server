@@ -13,6 +13,7 @@ OC.L10N.register(
     "Strong password" : "Jaka lozinka",
     "Delete" : "Obriši",
     "Groups" : "Grupe",
+    "never" : "nikad",
     "Security Warning" : "Bezbednosno upozorenje",
     "Port" : "Port",
     "by" : "od",

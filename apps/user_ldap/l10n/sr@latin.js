@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Deletion failed" : "Brisanje neuspelo",
     "Error" : "Greška",
     "_%s group found_::_%s groups found_" : ["","",""],
     "_%s user found_::_%s users found_" : ["","",""],

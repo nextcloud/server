@@ -21,6 +21,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : [""],
     "_%n file_::_%n files_" : [""],
     "_Uploading %n file_::_Uploading %n files_" : [""],
+    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
     "File handling" : "Pengendalian fail",
     "Maximum upload size" : "Saiz maksimum muat naik",
     "max. possible: " : "maksimum:",

@@ -71,6 +71,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikasi Enskripsi telah diaktifkan tetapi kunci tidak diinisialisasi, silakan log-out dan log-in lagi",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Kunci privat tidak sah untuk Aplikasi Enskripsi. Silakan perbarui sandi kunci privat anda pada pengaturan pribadi untuk memulihkan akses ke berkas anda yang dienskripsi.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Enskripi telah dinonaktifkan tetapi berkas anda tetap dienskripsi. Silakan menuju ke pengaturan pribadi untuk deskrip berkas anda.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
     "{dirs} and {files}" : "{dirs} dan {files}",
     "Favorite" : "Favorit",
     "%s could not be renamed as it has been deleted" : "%s tidak dapat diubah namanya kerena telah dihapus",

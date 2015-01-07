@@ -50,6 +50,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Your storage is full, files can not be updated or synced anymore!" : "Вашиот сториџ е полн, датотеките веќе не можат да се освежуваат или синхронизираат!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Вашиот сториџ е скоро полн ({usedSpacePercent}%)",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} и {files}",
     "%s could not be renamed" : "%s не може да биде преименуван",
     "File handling" : "Ракување со датотеки",

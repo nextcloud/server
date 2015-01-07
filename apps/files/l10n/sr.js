@@ -33,6 +33,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : ["","",""],
     "Your storage is full, files can not be updated or synced anymore!" : "Ваше складиште је пуно. Датотеке више не могу бити ажуриране ни синхронизоване.",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ваше складиште је скоро па пуно ({usedSpacePercent}%)",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["","",""],
     "File handling" : "Управљање датотекама",
     "Maximum upload size" : "Највећа величина датотеке",
     "max. possible: " : "највећа величина:",

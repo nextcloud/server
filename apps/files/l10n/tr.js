@@ -72,6 +72,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli dosyalarınıza erişimi tekrar kazanabilmek için kişisel ayarlarınızdan özel anahtar parolanızı güncelleyin.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Şifreleme işlemi durduruldu ancak dosyalarınız hala şifreli. Dosyalarınızın şifrelemesini kaldırmak için lütfen kişisel ayarlar kısmına geçin.",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} ve {files}",
     "Favorite" : "Sık Kullanılan",
     "%s could not be renamed as it has been deleted" : "%s, silindiği için adlandırılamadı",

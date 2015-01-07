@@ -73,6 +73,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "加密应用被启用了，但是你的加密密钥没有初始化，请重新登出登录系统一次。",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "无效的私有密钥。请到您的个人配置里去更新私有密钥，来恢复对加密文件的访问。",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "加密是被禁用的，但是您的文件还是被加密了。请到您的个人配置里设置文件加密选项。",
+    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
     "{dirs} and {files}" : "{dirs} 和 {files}",
     "Favorited" : "已收藏",
     "Favorite" : "收藏",

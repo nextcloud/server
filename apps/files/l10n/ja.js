@@ -73,6 +73,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "暗号化アプリの無効なプライベートキーです。あなたの暗号化されたファイルへアクセスするために、個人設定からプライベートキーのパスワードを更新してください。",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "暗号化の機能は無効化されましたが、ファイルはすでに暗号化されています。個人設定からファイルを複合を行ってください。",
+    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
     "{dirs} and {files}" : "{dirs} と {files}",
     "Favorited" : "お気に入り済",
     "Favorite" : "お気に入り",

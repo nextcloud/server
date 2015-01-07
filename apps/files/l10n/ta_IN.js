@@ -5,6 +5,7 @@ OC.L10N.register(
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "Settings" : "அமைப்புகள்",
     "New folder" : "புதிய கோப்புறை",
     "Upload" : "பதிவேற்று"

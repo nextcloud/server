@@ -19,6 +19,7 @@ OC.L10N.register(
     "Remote share password" : "Passwort für die entfernte Freigabe",
     "Cancel" : "Abbrechen",
     "Add remote share" : "Entfernte Freigabe hinzufügen",
+    "No ownCloud installation (7 or higher) found at {remote}" : "Keine OwnCloud-Installation (7 oder höher) auf {remote} gefunden",
     "Invalid ownCloud url" : "Ungültige OwnCloud-Adresse",
     "Shared by" : "Geteilt von",
     "A file or folder was shared from <strong>another server</strong>" : "Eine Datei oder Ordner wurde von <strong>einem anderen Server</strong> geteilt",

@@ -50,6 +50,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : ["%n ফাইল আপলোড হচ্ছে","%n ফাইল আপলোড হচ্ছে"],
     "\"{name}\" is an invalid file name." : "\"{name}\" টি একটি অননুমোদিত ফাইল নাম।",
     "Your storage is almost full ({usedSpacePercent}%)" : "আপনার সংরক্ষণাধার প্রায় পরিপূর্ণ ({usedSpacePercent}%) ",
+    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
     "Favorite" : "প্রিয়জন",
     "File handling" : "ফাইল হ্যার্ডলিং",
     "Maximum upload size" : "আপলোডের সর্বোচ্চ আকার",
