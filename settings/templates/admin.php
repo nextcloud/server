@@ -178,13 +178,13 @@ if (!$_['isLocaleWorking']) {
 <?php
 }
 
-if ($_['suggestedOverwriteWebroot']) {
+if ($_['suggestedOverwriteCliUrl']) {
 	?>
 	<div class="section">
 		<h2><?php p($l->t('URL generation in notification emails'));?></h2>
 
 		<span class="connectionwarning">
-		<?php p($l->t('If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwritewebroot" option in your config.php file to the webroot path of your installation (Suggested: "%s")', $_['suggestedOverwriteWebroot'])); ?>
+		<?php p($l->t('If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the "overwrite.cli.url" option in your config.php file to the webroot path of your installation (Suggested: "%s")', $_['suggestedOverwriteCliUrl'])); ?>
 	</span>
 
 	</div>
