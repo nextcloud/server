@@ -15,7 +15,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 use OCA\user_ldap\lib\user\User;
-use OCA\User_LDAP\lib\user\Manager;
 use OCA\User_LDAP\lib\User\DeletedUsersIndex;
 use OCA\User_LDAP\Mapping\UserMapping;
 use OCA\user_ldap\lib\Helper as LDAPHelper;

@@ -68,7 +68,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return boolean
+	 * @return false|string
 	 *
 	 * Check if the password is correct without logging in the user
 	 */

@@ -191,7 +191,7 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 	 * @return int
 	 */
 	private function getOffset() {
-		return $this->ocConfig->getAppValue('user_ldap', 'cleanUpJobOffset', 0);
+		return intval($this->ocConfig->getAppValue('user_ldap', 'cleanUpJobOffset', 0));
 	}
 
 	/**

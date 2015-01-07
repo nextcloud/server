@@ -67,7 +67,7 @@ class OfflineUser {
 	 */
 	protected $db;
 	/**
-	 * @var OCA\User_LDAP\Mapping\UserMapping
+	 * @var \OCA\User_LDAP\Mapping\UserMapping
 	 */
 	protected $mapping;
 
