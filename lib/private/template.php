@@ -233,13 +233,14 @@ class OC_Template extends \OC\Template\Base {
 	 */
 	public static function isAssetPipelineEnabled() {
 		// asset management enabled?
-		$useAssetPipeline = \OC::$server->getConfig()->getSystemValue('asset-pipeline.enabled', false);
+		$config = \OC::$server->getConfig();
+		$useAssetPipeline = $config->getSystemValue('asset-pipeline.enabled', false);
 		if (!$useAssetPipeline) {
 			return false;
 		}
 
 		// assets folder exists?
-		$assetDir = \OC::$SERVERROOT . '/assets';
+		$assetDir = $config->getSystemValue('assetdirectory', \OC::$SERVERROOT) . '/assets';
 		if (!is_dir($assetDir)) {
 			if (!mkdir($assetDir)) {
 				\OCP\Util::writeLog('assets',
