@@ -23,35 +23,15 @@
  *
  */
 
-class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
+namespace OCA\Provisioning_API\Tests;
 
-	private $users = array();
-
-	public function setUp() {
-		// These seems to be deleted by another test.
-		OC_Group::createGroup('admin');
-	}
-
-	/**
-	 * Generates a temp user
-	 * @param $num int number of users to generate
-	 */
-	function generateUsers($num=1) {
-		for($i=0; $i<$num; $i++) {
-			$user = uniqid();
-			\OC_User::createUser($user, 'password');
-			$this->users[] = $user;
-			$users[] = $user;
-		}
-		return count($users) == 1 ? reset($users) : $users;
-	}
-
-	function testGetGroupAsUser() {
+class GroupsTest extends TestCase {
+	public function testGetGroupAsUser() {
 
 		$users = $this->generateUsers(2);
 		\OC_User::setUserId($users[0]);
 
-		$group = uniqid();
+		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
 		\OC_Group::addToGroup($users[1], $group);
 
@@ -65,12 +45,12 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 	}
 
-	function testGetGroupAsSubadmin() {
+	public function testGetGroupAsSubadmin() {
 
 		$users = $this->generateUsers(2);
 		\OC_User::setUserId($users[0]);
 
-		$group = uniqid();
+		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
 		\OC_Group::addToGroup($users[0], $group);
 		\OC_Group::addToGroup($users[1], $group);
@@ -87,14 +67,14 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 	}
 
-	function testGetGroupAsIrrelevantSubadmin() {
+	public function testGetGroupAsIrrelevantSubadmin() {
 
 		$users = $this->generateUsers(2);
 		\OC_User::setUserId($users[0]);
 
-		$group = uniqid();
+		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
-		$group2 = uniqid();
+		$group2 = $this->getUniqueID();
 		\OC_Group::createGroup($group2);
 		\OC_Group::addToGroup($users[1], $group);
 		\OC_Group::addToGroup($users[0], $group2);
@@ -111,12 +91,12 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 	}
 
-	function testGetGroupAsAdmin() {
+	public function testGetGroupAsAdmin() {
 
 		$users = $this->generateUsers(2);
 		\OC_User::setUserId($users[0]);
 
-		$group = uniqid();
+		$group = $this->getUniqueID();
 		\OC_Group::createGroup($group);
 
 		\OC_Group::addToGroup($users[1], $group);
@@ -132,14 +112,14 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 
 	}
 
-	function testGetSubAdminsOfGroup() {
+	public function testGetSubAdminsOfGroup() {
 		$user1 = $this->generateUsers();
 		$user2 = $this->generateUsers();
-		OC_User::setUserId($user1);
-		OC_Group::addToGroup($user1, 'admin');
-		$group1 = uniqid();
-		OC_Group::createGroup($group1);
-		OC_SubAdmin::createSubAdmin($user2, $group1);
+		\OC_User::setUserId($user1);
+		\OC_Group::addToGroup($user1, 'admin');
+		$group1 = $this->getUniqueID();
+		\OC_Group::createGroup($group1);
+		\OC_SubAdmin::createSubAdmin($user2, $group1);
 		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
 			'groupid' => $group1,
 		));
@@ -147,28 +127,16 @@ class Test_Provisioning_Api_Groups extends PHPUnit_Framework_TestCase {
 		$this->assertTrue($result->succeeded());
 		$data = $result->getData();
 		$this->assertEquals($user2, reset($data));
-		OC_Group::deleteGroup($group1);
+		\OC_Group::deleteGroup($group1);
 
 		$user1 = $this->generateUsers();
-		OC_User::setUserId($user1);
-		OC_Group::addToGroup($user1, 'admin');
+		\OC_User::setUserId($user1);
+		\OC_Group::addToGroup($user1, 'admin');
 		$result = \OCA\provisioning_api\Groups::getSubAdminsOfGroup(array(
-			'groupid' => uniqid(),
+			'groupid' => $this->getUniqueID(),
 		));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertFalse($result->succeeded());
 		$this->assertEquals(101, $result->getStatusCode());
 	}
-
-	/**
-	 * Remove all the temporary users
-	 */
-	function tearDown() {
-		foreach($this->users as $user) {
-			\OC_User::deleteUser($user);
-		}
-		OC_Group::deleteGroup('admin');
-	}
-
-
 }
