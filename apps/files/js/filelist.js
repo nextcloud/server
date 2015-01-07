@@ -1696,7 +1696,9 @@
 				}
 			} else {
 				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
-				this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+				if (!this.$el.find('.mask').exists()) {
+					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+				}
 				this.$el.find('.nofilterresults').addClass('hidden');
 			}
 		},
