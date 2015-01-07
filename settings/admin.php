@@ -56,11 +56,11 @@ $template->assign('forceSSLforSubdomainsEnabled', $config->getSystemValue('force
 
 // If the current web root is non-empty but the web root from the config is,
 // and system cron is used, the URL generator fails to build valid URLs.
-$shouldSuggestOverwriteWebRoot = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'cron' &&
+$shouldSuggestOverwriteCliUrl = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'cron' &&
 	\OC::$WEBROOT && \OC::$WEBROOT !== '/' &&
-	!$config->getSystemValue('overwritewebroot', '');
-$suggestedOverwriteWebRoot = ($shouldSuggestOverwriteWebRoot) ? \OC::$WEBROOT : '';
-$template->assign('suggestedOverwriteWebroot', $suggestedOverwriteWebRoot);
+	!$config->getSystemValue('overwrite.cli.url', '');
+$suggestedOverwriteCliUrl = ($shouldSuggestOverwriteCliUrl) ? \OC::$WEBROOT : '';
+$template->assign('suggestedOverwriteCliUrl', $suggestedOverwriteCliUrl);
 
 $template->assign('allowLinks', $appConfig->getValue('core', 'shareapi_allow_links', 'yes'));
 $template->assign('enforceLinkPassword', \OCP\Util::isPublicLinkPasswordRequired());
