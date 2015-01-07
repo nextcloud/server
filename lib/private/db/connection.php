@@ -7,6 +7,7 @@
  */
 
 namespace OC\DB;
+use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Cache\QueryCacheProfile;
@@ -23,6 +24,15 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	 * @var \OC\DB\Adapter $adapter
 	 */
 	protected $adapter;
+
+	public function connect() {
+		try {
+			return parent::connect();
+		} catch (DBALException $e) {
+			// throw a new exception to prevent leaking info from the stacktrace
+			throw new DBALException($e->getMessage(), $e->getCode());
+		}
+	}
 
 	/**
 	 * Initializes a new instance of the Connection class.
