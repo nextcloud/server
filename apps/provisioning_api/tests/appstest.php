@@ -23,36 +23,17 @@
  *
  */
 
-class Test_Provisioning_Api_Apps extends PHPUnit_Framework_TestCase {
+namespace OCA\Provisioning_API\Tests;
 
-	private $users = array();
-
-	function setUp() {
-		OC_Group::createGroup('admin');
-	}
-	/**
-	 * Generates a temp user
-	 * @param $num int number of users to generate
-	 */
-	function generateUsers($num=1) {
-		for($i=0; $i<$num; $i++) {
-			$user = uniqid();
-			\OC_User::createUser($user, 'password');
-			$this->users[] = $user;
-			$users[] = $user;
-		}
-		return count($users) == 1 ? reset($users) : $users;
-	}
-
-	function testGetAppInfo() {
-
+class AppsTest extends TestCase {
+	public function testGetAppInfo() {
 		$result = \OCA\provisioning_API\Apps::getAppInfo(array('appid' => 'provisioning_api'));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
 		$this->assertTrue($result->succeeded());
 
 	}
 
-	function testGetAppInfoOnBadAppID() {
+	public function testGetAppInfoOnBadAppID() {
 
 		$result = \OCA\provisioning_API\Apps::getAppInfo(array('appid' => 'not_provisioning_api'));
 		$this->assertInstanceOf('OC_OCS_Result', $result);
@@ -100,9 +81,4 @@ class Test_Provisioning_Api_Apps extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(count($disabled), count($data['apps']));
 
 	}
-
-	function tearDown() {
-		OC_Group::deleteGroup('admin');
-	}
-
 }
