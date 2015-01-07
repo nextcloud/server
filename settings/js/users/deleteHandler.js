@@ -201,7 +201,7 @@ DeleteHandler.prototype.deleteEntry = function(keepNotification) {
 				dh.removeCallback(dh.oidToDelete);
 				dh.canceled = true;
 			} else {
-				OC.dialogs.alert(result.data.message, t('settings', 'Unable to delete {objName}', {objName: escapeHTML(dh.oidToDelete)}));
+				OC.dialogs.alert(result.data.message, t('settings', 'Unable to delete {objName}', {objName: dh.oidToDelete}));
 				dh.undoCallback(dh.oidToDelete);
 			}
 		}
