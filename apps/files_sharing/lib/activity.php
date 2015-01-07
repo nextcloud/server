@@ -45,7 +45,7 @@ class Activity implements \OCP\Activity\IExtension {
 		return array(
 			self::TYPE_REMOTE_SHARE => $l->t('A file or folder was shared from <strong>another server</strong>'),
 			self::TYPE_PUBLIC_LINKS => $l->t('A public shared file or folder was <strong>downloaded</strong>'),
-			);
+		);
 	}
 
 	/**
@@ -91,10 +91,6 @@ class Activity implements \OCP\Activity\IExtension {
 
 		$l = \OC::$server->getL10N('files_sharing', $languageCode);
 
-		if (!$text) {
-			return '';
-		}
-
 		if ($app === 'files_sharing') {
 			switch ($text) {
 				case self::SUBJECT_REMOTE_SHARE_RECEIVED:
@@ -111,6 +107,8 @@ class Activity implements \OCP\Activity\IExtension {
 					return $l->t('Public shared file %1$s was downloaded', $params)->__toString();
 			}
 		}
+
+		return false;
 	}
 
 	/**
