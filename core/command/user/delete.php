@@ -14,6 +14,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
 class Delete extends Command {
+	/** @var \OC\User\Manager */
+	protected $userManager;
+
+	/**
+	 * @param \OC\User\Manager $userManager
+	 */
+	public function __construct(\OC\User\Manager $userManager) {
+		$this->userManager = $userManager;
+		parent::__construct();
+	}
+
 	protected function configure() {
 		$this
 			->setName('user:delete')
@@ -26,7 +37,7 @@ class Delete extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$wasSuccessful = \OC_User::deleteUser($input->getArgument('uid'));
+		$wasSuccessful = $this->userManager->get($input->getArgument('uid'))->delete();
 		if($wasSuccessful === true) {
 			$output->writeln('The specified user was deleted');
 			return;
