@@ -183,6 +183,37 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 
 			$result = $mailNotification->sendLinkShareMail($to_address, $file, $link, $expiration);
 			if(empty($result)) {
+				// Get the token from the link
+				$linkParts = explode('/', $link);
+				$token = array_pop($linkParts);
+
+				// Get the share for the token
+				$share = \OCP\Share::getShareByToken($token, false);
+				if ($share !== false) {
+					$currentUser = \OC::$server->getUserSession()->getUser()->getUID();
+					$file = '/' . ltrim($file, '/');
+
+					// Check whether share belongs to the user and whether the file is the same
+					if ($share['file_target'] === $file && $share['uid_owner'] === $currentUser) {
+
+						// Get the path for the user
+						$view = new \OC\Files\View('/' . $currentUser . '/files');
+						$fileId = (int) $share['item_source'];
+						$path = $view->getPath((int) $share['item_source']);
+
+						if ($path !== null) {
+							$event = \OC::$server->getActivityManager()->generateEvent();
+							$event->setApp(\OCA\Files_Sharing\Activity::FILES_SHARING_APP)
+								->setType(\OCA\Files_Sharing\Activity::TYPE_SHARED)
+								->setAuthor($currentUser)
+								->setAffectedUser($currentUser)
+								->setObject('files', $fileId, $path)
+								->setSubject(\OCA\Files_Sharing\Activity::SUBJECT_SHARED_EMAIL, [$path, $to_address]);
+							\OC::$server->getActivityManager()->publish($event);
+						}
+					}
+				}
+
 				\OCP\JSON::success();
 			} else {
 				$l = \OC::$server->getL10N('core');
