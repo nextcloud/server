@@ -73,9 +73,9 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$return = OCP\Share::setPermissions(
 					$_POST['itemType'],
 					$_POST['itemSource'],
-					$_POST['shareType'],
+					(int)$_POST['shareType'],
 					$_POST['shareWith'],
-					$_POST['permissions']
+					(int)$_POST['permissions']
 				);
 				($return) ? OC_JSON::success() : OC_JSON::error();
 			}
