@@ -8,10 +8,12 @@
 
 namespace OCA\User_LDAP\Jobs;
 
+use \OC\BackgroundJob\TimedJob;
+use \OCA\user_ldap\User_LDAP;
 use \OCA\user_ldap\User_Proxy;
 use \OCA\user_ldap\lib\Helper;
 use \OCA\user_ldap\lib\LDAP;
-use \OCA\User_LDAP\lib\User\DeletedUsersIndex;
+use \OCA\user_ldap\lib\user\DeletedUsersIndex;
 use \OCA\User_LDAP\Mapping\UserMapping;
 
 /**
@@ -21,14 +23,14 @@ use \OCA\User_LDAP\Mapping\UserMapping;
  *
  * @package OCA\user_ldap\lib;
  */
-class CleanUp extends \OC\BackgroundJob\TimedJob {
+class CleanUp extends TimedJob {
 	/** @var int $limit amount of users that should be checked per run */
 	protected $limit = 50;
 
 	/** @var int $defaultIntervalMin default interval in minutes */
 	protected $defaultIntervalMin = 51;
 
-	/** @var \OCP\UserInterface $userBackend */
+	/** @var User_LDAP|User_Proxy $userBackend */
 	protected $userBackend;
 
 	/** @var \OCP\IConfig $ocConfig */
@@ -68,6 +70,12 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 			$this->ldapHelper = new Helper();
 		}
 
+		if(isset($arguments['ocConfig'])) {
+			$this->ocConfig = $arguments['ocConfig'];
+		} else {
+			$this->ocConfig = \OC::$server->getConfig();
+		}
+
 		if(isset($arguments['userBackend'])) {
 			$this->userBackend = $arguments['userBackend'];
 		} else {
@@ -76,12 +84,6 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 				new LDAP(),
 				$this->ocConfig
 			);
-		}
-
-		if(isset($arguments['ocConfig'])) {
-			$this->ocConfig = $arguments['ocConfig'];
-		} else {
-			$this->ocConfig = \OC::$server->getConfig();
 		}
 
 		if(isset($arguments['db'])) {
@@ -114,7 +116,7 @@ class CleanUp extends \OC\BackgroundJob\TimedJob {
 		if(!$this->isCleanUpAllowed()) {
 			return;
 		}
-		$users = $this->mapping->getList($this->limit, $this->getOffset());
+		$users = $this->mapping->getList($this->getOffset(), $this->limit);
 		if(!is_array($users)) {
 			//something wrong? Let's start from the beginning next time and
 			//abort
