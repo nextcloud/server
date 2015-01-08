@@ -10,6 +10,7 @@ OC.L10N.register(
     "restored" : "palautettu",
     "No deleted files" : "Ei poistettuja tiedostoja",
     "You will be able to recover deleted files from here" : "Voit palauttaa poistettuja tiedostoja tätä kautta",
+    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Select all" : "Valitse kaikki",
     "Name" : "Nimi",
     "Deleted" : "Poistettu",

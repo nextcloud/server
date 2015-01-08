@@ -60,6 +60,7 @@ OC.L10N.register(
     "Error" : "Erro",
     "Could not rename file" : "Não foi possível renomear o arquivo",
     "Error deleting file." : "Erro eliminando o arquivo.",
+    "No entries in this folder match '{filter}'" : "Nenhuma entrada nesta pasta coincide com '{filter}'",
     "Name" : "Nome",
     "Size" : "Tamanho",
     "Modified" : "Modificado",

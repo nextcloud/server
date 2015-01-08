@@ -10,6 +10,7 @@ OC.L10N.register(
     "restored" : "restored",
     "No deleted files" : "No deleted files",
     "You will be able to recover deleted files from here" : "You will be able to recover deleted files from here",
+    "No entries found in this folder" : "No entries found in this folder",
     "Select all" : "Select all",
     "Name" : "Name",
     "Deleted" : "Deleted",

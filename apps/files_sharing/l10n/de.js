@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "Diese Freigabe ist durch ein Passwort geschützt",
     "The password is wrong. Try again." : "Bitte überprüfe Dein Passwort und versuche es erneut.",
     "Password" : "Passwort",
+    "No entries found in this folder" : "Keine Einträge in diesem Ordner gefunden",
     "Name" : "Name",
     "Share time" : "Zeitpunkt der Freigabe",
     "Sorry, this link doesn’t seem to work anymore." : "Entschuldigung, dieser Link scheint nicht mehr zu funktionieren.",

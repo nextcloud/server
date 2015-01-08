@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "This share is password-protected",
     "The password is wrong. Try again." : "The password is wrong. Try again.",
     "Password" : "Password",
+    "No entries found in this folder" : "No entries found in this folder",
     "Name" : "Name",
     "Share time" : "Share time",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, this link doesn’t seem to work anymore.",

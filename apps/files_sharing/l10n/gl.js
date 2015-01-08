@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "Esta compartición está protexida con contrasinal",
     "The password is wrong. Try again." : "O contrasinal é incorrecto. Ténteo de novo.",
     "Password" : "Contrasinal",
+    "No entries found in this folder" : "Non se atoparon entradas neste cartafol",
     "Name" : "Nome",
     "Share time" : "Compartir o tempo",
     "Sorry, this link doesn’t seem to work anymore." : "Semella que esta ligazón non funciona.",

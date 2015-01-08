@@ -123,7 +123,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Isto significa que pode haber problemas con certos caracteres en nomes de ficheiro.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Recomendámoslle que instale no sistema os paquetes necesarios para admitir unha das seguintes configuracións rexionais: %s.",
     "URL generation in notification emails" : "Xeración dos URL nos correos de notificación",
-    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Se a instalación non foi feita na raíz do dominio e usa o sistema de cron, poden xurdir problemas coa xeración dos URL. Para evitar estes problemas, axuste a opción «overwritewebroot» no ficheiro config.php ás ruta de webroot da súa instalación (suxírese: «%s»)",
     "Configuration Checks" : "Comprobacións da configuración",
     "No problems found" : "Non se atoparon problemas",
     "Please double check the <a href='%s'>installation guides</a>." : "Volva comprobar as <a href='%s'>guías de instalación</a>",

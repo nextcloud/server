@@ -20,7 +20,6 @@ OC.L10N.register(
     "Host" : "হোস্ট",
     "Username" : "ব্যবহারকারী",
     "Password" : "কূটশব্দ",
-    "Root" : "শেকড়",
     "Secure ftps://" : "ftps:// অর্জন কর",
     "Client ID" : "ক্লায়েন্ট পরিচিতি",
     "Share" : "ভাগাভাগি কর",

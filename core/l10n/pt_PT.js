@@ -72,7 +72,7 @@ OC.L10N.register(
     "Share" : "Compartilhar",
     "Error" : "Erro",
     "Error while sharing" : "Erro ao partilhar",
-    "Error while unsharing" : "Erro ao deixar de partilhar",
+    "Error while unsharing" : "Erro ao remover a partilha",
     "Error while changing permissions" : "Erro ao mudar permissões",
     "Shared with you and the group {group} by {owner}" : "Partilhado consigo e com o grupo {group} por {owner}",
     "Shared with you by {owner}" : "Partilhado consigo por {owner}",

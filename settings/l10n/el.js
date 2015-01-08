@@ -119,7 +119,6 @@ OC.L10N.register(
     "System locale can not be set to a one which supports UTF-8." : "Οι ρυθμίσεις τοποθεσίας συστήματος δεν μπορούν να οριστούν σε κάποιες που δεν υποστηρίζουν UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Αυτό σημαίνει ότι μπορεί να υπάρχουν προβλήματα με κάποιους χαρακτήρες στα ονόματα αρχείων.",
     "URL generation in notification emails" : "Δημιουργία URL στις ειδοποιήσεις ηλεκτρονικού ταχυδρομείου",
-    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Αν η εγκατάστασή σας δεν είναι εγκατεστημένη στη ρίζα της περιοχής και χρησιμοποιεί το cron του συστήματος, μπορεί να υπάρξουν ζητήματα με τη δημιουργία URL. Για να αποφύγετε αυτά τα προβλήματα, παρακαλώ ρυθμίστε την επιλογή \"overwritewebroot\" στον config.php φάκελό σας στη διαδρομή webroot της εγκατάστασής σας (Suggested: \"%s\")",
     "Configuration Checks" : "Έλεγχοι ρυθμίσεων",
     "No problems found" : "Δεν βρέθηκαν προβλήματα",
     "Please double check the <a href='%s'>installation guides</a>." : "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>.",

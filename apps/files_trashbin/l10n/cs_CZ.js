@@ -10,6 +10,7 @@ OC.L10N.register(
     "restored" : "obnoveno",
     "No deleted files" : "Žádné smazané soubory",
     "You will be able to recover deleted files from here" : "Odtud budete moci obnovovat odstraněné soubory",
+    "No entries found in this folder" : "V tomto adresáři nebylo nic nalezeno",
     "Select all" : "Vybrat vše",
     "Name" : "Název",
     "Deleted" : "Smazáno",

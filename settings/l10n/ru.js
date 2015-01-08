@@ -123,7 +123,6 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Это значит, что могут быть проблемы с некоторыми символами в именах файлов.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Мы рекомендуем установить требуемые пакеты для вашей системы для поддержки одного из следующих языков: %s.",
     "URL generation in notification emails" : "Генерирование URL в уведомляющих электронных письмах",
-    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Если ваша копия ownCloud установлена не в корне домена и использует планировщик cron системы, возможны проблемы с правильной генерацией URL. Чтобы избежать этого, укажите опцию \"overwritewebroot\" в файле config.php в соответствии с путём установки. (Предположительно: \"%s\")",
     "Configuration Checks" : "Проверка конфигурации",
     "No problems found" : "Проблемы не найдены",
     "Please double check the <a href='%s'>installation guides</a>." : "Подробно изучите <a href='%s'>инструкции по установке</a>.",

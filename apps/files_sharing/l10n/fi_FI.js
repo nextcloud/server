@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "Tämä jako on suojattu salasanalla",
     "The password is wrong. Try again." : "Väärä salasana. Yritä uudelleen.",
     "Password" : "Salasana",
+    "No entries found in this folder" : "Ei kohteita tässä kansiossa",
     "Name" : "Nimi",
     "Share time" : "Jakamisen ajankohta",
     "Sorry, this link doesn’t seem to work anymore." : "Valitettavasti linkki ei vaikuta enää toimivan.",

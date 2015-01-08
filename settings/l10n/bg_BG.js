@@ -109,7 +109,6 @@ OC.L10N.register(
     "System locale can not be set to a one which supports UTF-8." : "Системните настройки за местоположение не могат да бъдат промени на такива, подържащи UTF-8.",
     "This means that there might be problems with certain characters in file names." : "Това означва, че може да има проблеми с определини символи в имената на файловете.",
     "URL generation in notification emails" : "Генериране на URL в имейлите за известяване",
-    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ако инсталацията не e инсталиранa в root на домейна и използва cron, може да има проблеми с генерирането на URL. За да избегнеш тези проблеми, моля, промени \"overwritewebroot\" в config.php с webroot пътя (Препоръчително: \"%s\")",
     "No problems found" : "Не са открити проблеми",
     "Please double check the <a href='%s'>installation guides</a>." : "Моля, провери <a href='%s'>ръководството за инсталиране</a> отново.",
     "Last cron was executed at %s." : "Последният cron се изпълни в %s.",

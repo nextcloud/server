@@ -103,7 +103,6 @@ OC.L10N.register(
     "System locale can not be set to a one which supports UTF-8." : "A rendszer lokalizációs állományai között nem sikerült olyat beállítani, ami támogatja az UTF-8-at.",
     "This means that there might be problems with certain characters in file names." : "Ez azt jelenti, hogy probléma lehet bizonyos karakterekkel a fájlnevekben.",
     "URL generation in notification emails" : "URL-képzés az értesítő e-mailekben",
-    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwritewebroot\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Ha a telepítése nem a webkiszolgáló gyökerében van, és a rendszer cron szolgáltatását használja, akkor problémák lehetnek az URL-ek képzésével. Ezek elkerülése érdekében állítsa be a config.php-ban az \"overwritewebroot\" paramétert a telepítés által használt webútvonalra. (Javasolt beállítás: \"%s\")",
     "Please double check the <a href='%s'>installation guides</a>." : "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
     "Last cron was executed at %s." : "Az utolsó cron feladat ekkor futott le: %s.",
     "Last cron was executed at %s. This is more than an hour ago, something seems wrong." : "Az utolsó cron feladat ekkor futott le: %s. Ez több, mint 1 órája történt, valami nincs rendben.",

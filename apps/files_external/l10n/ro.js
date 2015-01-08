@@ -10,7 +10,6 @@ OC.L10N.register(
     "Host" : "Gazdă",
     "Username" : "Nume utilizator",
     "Password" : "Parolă",
-    "Root" : "Root",
     "Share" : "Partajează",
     "URL" : "URL",
     "Access granted" : "Acces permis",
