@@ -32,7 +32,7 @@ abstract class AbstractMapping {
 	}
 
 	/**
-	 * checks whether a provided string represents an exisiting table col
+	 * checks whether a provided string represents an existing table col
 	 * @param string $col
 	 * @return bool
 	 */
@@ -164,7 +164,7 @@ abstract class AbstractMapping {
 				`ldap_dn` AS `dn`,
 				`owncloud_name` AS `name`,
 				`directory_uuid` AS `uuid`
-			FROM `*PREFIX*ldap_user_mapping`',
+			FROM `' . $this->getTableName() . '`',
 			$limit,
 			$offset
 		);
