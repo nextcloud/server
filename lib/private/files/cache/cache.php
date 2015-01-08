@@ -699,6 +699,6 @@ class Cache {
 	 */
 	public function normalize($path) {
 
-		return \OC_Util::normalizeUnicode($path);
+		return trim(\OC_Util::normalizeUnicode($path), '/');
 	}
 }
