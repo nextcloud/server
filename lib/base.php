@@ -585,7 +585,8 @@ class OC {
 		self::registerLogRotate();
 
 		//make sure temporary files are cleaned up
-		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
+		$tmpManager = \OC::$server->getTempManager();
+		register_shutdown_function(array($tmpManager, 'clean'));
 
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app']) ? OC_App::cleanAppId(strip_tags($_GET['app'])) : OC_Config::getValue('defaultapp', 'files'));

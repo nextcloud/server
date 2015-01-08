@@ -153,6 +153,10 @@ class Server extends SimpleContainer implements IServerContainer {
 			$config = $c->query('AllConfig');
 			return new HTTPHelper($config);
 		});
+		$this->registerService('TempManager', function ($c) {
+			/** @var Server $c */
+			return new TempManager(get_temp_dir(), \OC_Log::$object);
+		});
 	}
 
 	/**
@@ -356,4 +360,12 @@ class Server extends SimpleContainer implements IServerContainer {
 		return $this->query('HTTPHelper');
 	}
 
+	/**
+	 * Get the manager for temporary files and folders
+	 *
+	 * @return \OCP\ITempManager
+	 */
+	function getTempManager() {
+		return $this->query('TempManager');
+	}
 }
