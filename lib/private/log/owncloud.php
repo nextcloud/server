@@ -111,7 +111,7 @@ class OC_Log_Owncloud {
 			$entriesCount = 0;
 			$lines = 0;
 			// Loop through each character of the file looking for new lines
-			while ($pos >= 0 && $entriesCount < $limit) {
+			while ($pos >= 0 && ($limit === null ||$entriesCount < $limit)) {
 				fseek($handle, $pos);
 				$ch = fgetc($handle);
 				if ($ch == "\n" || $pos == 0) {
@@ -140,5 +140,12 @@ class OC_Log_Owncloud {
 			fclose($handle);
 		}
 		return $entries;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function getLogFilePath() {
+		return self::$logFile;
 	}
 }

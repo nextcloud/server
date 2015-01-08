@@ -34,7 +34,7 @@ $(document).ready(function(){
 
 
 	$('#loglevel').change(function(){
-		$.post(OC.filePath('settings','ajax','setloglevel.php'), { level: $(this).val() },function(){
+		$.post(OC.generateUrl('/settings/admin/log/level'), {level: $(this).val()},function(){
 			OC.Log.reload();
 		} );
 	});

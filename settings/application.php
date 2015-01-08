@@ -12,6 +12,7 @@ namespace OC\Settings;
 
 use OC\Settings\Controller\AppSettingsController;
 use OC\Settings\Controller\GroupsController;
+use OC\Settings\Controller\LogSettingsController;
 use OC\Settings\Controller\MailSettingsController;
 use OC\Settings\Controller\SecuritySettingsController;
 use OC\Settings\Controller\UsersController;
@@ -89,6 +90,15 @@ class Application extends App {
 				$c->query('Mail'),
 				$c->query('DefaultMailAddress'),
 				$c->query('URLGenerator')
+			);
+		});
+		$container->registerService('LogSettingsController', function(IContainer $c) {
+			return new LogSettingsController(
+				$c->query('AppName'),
+				$c->query('Request'),
+				$c->query('Config'),
+				$c->query('L10N'),
+				$c->query('TimeFactory')
 			);
 		});
 
