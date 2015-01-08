@@ -199,7 +199,9 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		if ($itemType === 'folder') {
 			$source = \OCP\Share::getItemSharedWith('folder', $mountPoint, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 			if ($source && $target !== '') {
-				$source['path'] = $source['path'].'/'.$target;
+				// note: in case of ext storage mount points the path might be empty
+				// which would cause a leading slash to appear
+				$source['path'] = ltrim($source['path'] . '/' . $target, '/');
 			}
 		} else {
 			$source = \OCP\Share::getItemSharedWith('file', $mountPoint, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
