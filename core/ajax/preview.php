@@ -29,21 +29,17 @@ if ($maxX === 0 || $maxY === 0) {
 	exit;
 }
 
-try {
-	$preview = new \OC\Preview(\OC_User::getUser(), 'files');
-	$info = \OC\Files\Filesystem::getFileInfo($file);
-	if (!$always and !$preview->isAvailable($info)) {
-		\OC_Response::setStatus(404);
-	} else {
-		$preview->setFile($file);
-		$preview->setMaxX($maxX);
-		$preview->setMaxY($maxY);
-		$preview->setScalingUp($scalingUp);
-		$preview->setKeepAspect($keepAspect);
-		$preview->showPreview();
-	}
+$preview = new \OC\Preview(\OC_User::getUser(), 'files');
 
-} catch (\Exception $e) {
-	\OC_Response::setStatus(500);
-	\OC_Log::write('core', $e->getmessage(), \OC_Log::DEBUG);
+$info = \OC\Files\Filesystem::getFileInfo($file);
+
+if (!$info instanceof OCP\Files\FileInfo || !$always && !$preview->isAvailable($info)) {
+	\OC_Response::setStatus(404);
+} else {
+	$preview->setFile($file);
+	$preview->setMaxX($maxX);
+	$preview->setMaxY($maxY);
+	$preview->setScalingUp($scalingUp);
+	$preview->setKeepAspect($keepAspect);
+	$preview->showPreview();
 }
