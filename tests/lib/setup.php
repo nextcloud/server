@@ -19,7 +19,7 @@ class Test_OC_Setup extends \Test\TestCase {
 		parent::setUp();
 
 		$this->config = $this->getMock('\OCP\IConfig');
-		$this->setupClass = $this->getMock('\OC_Setup', array('class_exists', 'is_callable'), array($this->config));
+		$this->setupClass = $this->getMock('\OC_Setup', ['class_exists', 'is_callable'], [$this->config]);
 	}
 
 	public function testGetSupportedDatabasesWithOneWorking() {
@@ -101,5 +101,18 @@ class Test_OC_Setup extends \Test\TestCase {
 			->method('getSystemValue')
 			->will($this->returnValue('NotAnArray'));
 		$this->setupClass->getSupportedDatabases();
+	}
+
+	/**
+	 * This is actual more an integration test whether the version parameter in the .htaccess
+	 * was updated as well when the version has been incremented.
+	 * If it hasn't this test will fail.
+	 */
+	public function testHtaccessIsCurrent() {
+		$result = Test_Helper::invokePrivate(
+			$this->setupClass,
+			'isCurrentHtaccess'
+		);
+		$this->assertTrue($result);
 	}
 }

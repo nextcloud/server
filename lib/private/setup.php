@@ -243,13 +243,42 @@ class OC_Setup {
 	}
 
 	/**
+	 * @return string Absolute path to htaccess
+	 */
+	private function pathToHtaccess() {
+		return OC::$SERVERROOT.'/.htaccess';
+	}
+
+	/**
+	 * Checks if the .htaccess contains the current version parameter
+	 *
+	 * @return bool
+	 */
+	private function isCurrentHtaccess() {
+		$version = \OC_Util::getVersion();
+		unset($version[3]);
+
+		return !strpos(
+			file_get_contents($this->pathToHtaccess()),
+			'Version: '.implode('.', $version)
+		) === false;
+	}
+
+	/**
 	 * Append the correct ErrorDocument path for Apache hosts
+	 *
+	 * @throws \OC\HintException If .htaccess does not include the current version
 	 */
 	public static function updateHtaccess() {
+		$setupHelper = new OC_Setup(\OC::$server->getConfig());
+		if(!$setupHelper->isCurrentHtaccess()) {
+			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version.');
+		}
+
 		$content = "\n";
 		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
 		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php";//custom 404 error page
-		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content, FILE_APPEND); //suppress errors in case we don't have permissions for it
+		@file_put_contents($setupHelper->pathToHtaccess(), $content, FILE_APPEND); //suppress errors in case we don't have permissions for it
 	}
 
 	public static function protectDataDirectory() {
