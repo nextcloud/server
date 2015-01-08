@@ -34,7 +34,7 @@ abstract class TestCase extends \Test\TestCase {
 		\OC_Util::tearDownFS();
 		\OC_User::setUserId('');
 		\OC\Files\Filesystem::tearDown();
-		\OC_User::setUserId($user);
+		\OC::$server->getUserSession()->setUser(new \OC\User\User($user, new \OC_User_Database()));
 		\OC_Util::setupFS($user);
 
 		if ($loadEncryption) {

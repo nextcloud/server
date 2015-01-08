@@ -56,10 +56,12 @@ class Proxy extends \OC_FileProxy {
 
 		$path = \OC\Files\Filesystem::normalizePath($path);
 
+		$parts = explode('/', $path);
+
 		// we only encrypt/decrypt files in the files and files_versions folder
 		if(
 			strpos($path, '/' . $uid . '/files/') !== 0 &&
-			strpos($path, '/' . $uid . '/files_versions/') !== 0) {
+			!($parts[2] === 'files_versions' && \OCP\User::userExists($parts[1]))) {
 
 			return true;
 		}

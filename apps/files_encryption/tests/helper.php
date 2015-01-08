@@ -8,10 +8,13 @@
 
 namespace OCA\Files_Encryption\Tests;
 
+use OCA\Files_Encryption;
+use OCA\Files_Encryption\Helper;
+
 /**
  * Class Helper
  */
-class Helper extends TestCase {
+class TestHelper extends TestCase {
 
 	const TEST_ENCRYPTION_HELPER_USER1 = "test-helper-user1";
 	const TEST_ENCRYPTION_HELPER_USER2 = "test-helper-user2";
@@ -30,11 +33,11 @@ class Helper extends TestCase {
 
 	public static function setupHooks() {
 		// Filesystem related hooks
-		\OCA\Files_Encryption\Helper::registerFilesystemHooks();
+		Helper::registerFilesystemHooks();
 
 		// clear and register hooks
 		\OC_FileProxy::clearProxies();
-		\OC_FileProxy::register(new \OCA\Files_Encryption\Proxy());
+		\OC_FileProxy::register(new Files_Encryption\Proxy());
 	}
 
 	public static function tearDownAfterClass() {
@@ -49,13 +52,13 @@ class Helper extends TestCase {
 		$partFilename = 'testfile.txt.part';
 		$filename = 'testfile.txt';
 
-		$this->assertTrue(\OCA\Files_Encryption\Helper::isPartialFilePath($partFilename));
+		$this->assertTrue(Helper::isPartialFilePath($partFilename));
 
-		$this->assertEquals('testfile.txt', \OCA\Files_Encryption\Helper::stripPartialFileExtension($partFilename));
+		$this->assertEquals('testfile.txt', Helper::stripPartialFileExtension($partFilename));
 
-		$this->assertFalse(\OCA\Files_Encryption\Helper::isPartialFilePath($filename));
+		$this->assertFalse(Helper::isPartialFilePath($filename));
 
-		$this->assertEquals('testfile.txt', \OCA\Files_Encryption\Helper::stripPartialFileExtension($filename));
+		$this->assertEquals('testfile.txt', Helper::stripPartialFileExtension($filename));
 	}
 
 
@@ -67,26 +70,79 @@ class Helper extends TestCase {
 		$partFilename = 'testfile.txt.ocTransferId643653835.part';
 		$filename = 'testfile.txt';
 
-		$this->assertTrue(\OCA\Files_Encryption\Helper::isPartialFilePath($partFilename));
+		$this->assertTrue(Helper::isPartialFilePath($partFilename));
 
-		$this->assertEquals('testfile.txt', \OCA\Files_Encryption\Helper::stripPartialFileExtension($partFilename));
+		$this->assertEquals('testfile.txt', Helper::stripPartialFileExtension($partFilename));
 
-		$this->assertFalse(\OCA\Files_Encryption\Helper::isPartialFilePath($filename));
+		$this->assertFalse(Helper::isPartialFilePath($filename));
 
-		$this->assertEquals('testfile.txt', \OCA\Files_Encryption\Helper::stripPartialFileExtension($filename));
+		$this->assertEquals('testfile.txt', Helper::stripPartialFileExtension($filename));
 	}
 
-	function testGetPathToRealFile() {
+	/**
+	 * @dataProvider dataVersionsPathPositive
+	 */
+	function testGetPathFromVersionPositive($path, $expected) {
+		$result = Helper::getPathFromVersion($path);
+		$this->assertSame($expected, $result);
+	}
 
-		// the relative path to /user/files/ that's what we want to get from getPathToRealFile()
-		$relativePath = "foo/bar/test.txt";
+	function dataVersionsPathPositive() {
+		return array(
+			array('/user/files_versions/foo/bar/test.txt.v456756835', 'foo/bar/test.txt'),
+			array('user/files_versions/foo/bar/test.txt.v456756835', 'foo/bar/test.txt'),
+			array('user/files_versions//foo/bar/test.txt.v456756835', 'foo/bar/test.txt'),
+			array('user/files_versions/test.txt.v456756835', 'test.txt'),
+		);
+	}
 
-		// test paths
-		$versionPath = "/user/files_versions/foo/bar/test.txt.v456756835";
-		$cachePath = "/user/cache/transferid636483/foo/bar/test.txt";
+	/**
+	 * @dataProvider dataVersionsPathNegative
+	 * @expectedException \OCA\Files_Encryption\Exception\EncryptionException
+	 */
+	function testGetPathFromVersionNegative($path) {
+		Helper::getPathFromVersion($path);
+	}
 
-		$this->assertEquals($relativePath, \OCA\Files_Encryption\Helper::getPathToRealFile($versionPath));
-		$this->assertEquals($relativePath, \OCA\Files_Encryption\Helper::getPathToRealFile($cachePath));
+	function dataVersionsPathNegative() {
+		return array(
+			array('/user/files_versions/'),
+			array('/user/files_versions'),
+		);
+	}
+
+	/**
+	 * @dataProvider dataPathsCachedFilePositive
+	 */
+	function testGetPathFromCachedFilePositive($path, $expected) {
+		$result = Helper::getPathFromCachedFile($path);
+		$this->assertEquals($expected, $result);
+	}
+
+	function dataPathsCachedFilePositive() {
+		return array(
+			array('/user/cache/transferid636483/foo/bar/test.txt', 'foo/bar/test.txt'),
+			array('/user/cache/transferid636483//test.txt', 'test.txt'),
+			array('user/cache/transferid636483//test.txt', 'test.txt'),
+		);
+	}
+
+
+	/**
+	 * @dataProvider dataPathsCachedFileNegative
+	 * @expectedException \OCA\Files_Encryption\Exception\EncryptionException
+	 */
+	function testGetPathFromCachedFileNegative($path) {
+		Helper::getPathFromCachedFile($path);
+	}
+
+	function dataPathsCachedFileNegative() {
+		return array(
+			array('/user/cache/transferid636483/'),
+			array('/user/cache/transferid636483'),
+			array('/user/cache/transferid636483//'),
+			array('/user/cache'),
+		);
 	}
 
 	function testGetUser() {
@@ -100,21 +156,167 @@ class Helper extends TestCase {
 		self::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1);
 
 		// if we are logged-in every path should return the currently logged-in user
-		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, \OCA\Files_Encryption\Helper::getUser($path3));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Helper::getUser($path1));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Helper::getUser($path2));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Helper::getUser($path3));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Helper::getUser($path4));
 
 		// now log out
 		self::logoutHelper();
 
 		// now we should only get the user from /user/files and user/cache paths
-		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, \OCA\Files_Encryption\Helper::getUser($path1));
-		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, \OCA\Files_Encryption\Helper::getUser($path2));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Helper::getUser($path1));
+		$this->assertEquals(self::TEST_ENCRYPTION_HELPER_USER1, Helper::getUser($path2));
 
-		$this->assertFalse(\OCA\Files_Encryption\Helper::getUser($path3));
-		$this->assertFalse(\OCA\Files_Encryption\Helper::getUser($path4));
+		try {
+			$this->assertFalse(Helper::getUser($path3));
+			$this->assertFalse(true, '"OCA\Files_Encryption\Exception\EncryptionException: Could not determine user expected"');
+		} catch (Files_Encryption\Exception\EncryptionException $e) {
+			$this->assertSame('Could not determine user', $e->getMessage());
+		}
+		try {
+			$this->assertFalse(Helper::getUser($path4));
+			$this->assertFalse(true, '"OCA\Files_Encryption\Exception\EncryptionException: Could not determine user expected"');
+		} catch (Files_Encryption\Exception\EncryptionException $e) {
+			$this->assertSame('Could not determine user', $e->getMessage());
+		}
 
 		// Log-in again
 		self::loginHelper(self::TEST_ENCRYPTION_HELPER_USER1);
 		self::cleanUpUsers();
+	}
+
+	/**
+	 * @dataProvider dataStripUserFilesPath
+	 */
+	function testStripUserFilesPath($path, $expected) {
+		$result = Helper::stripUserFilesPath($path);
+		$this->assertSame($expected, $result);
+	}
+
+	function dataStripUserFilesPath() {
+		return array(
+			array('/user/files/foo.txt', 'foo.txt'),
+			array('//user/files/foo.txt', 'foo.txt'),
+			array('user//files/foo/bar.txt', 'foo/bar.txt'),
+			array('user//files/', false),
+			array('/user', false),
+			array('', false),
+		);
+	}
+
+	/**
+	 * @dataProvider dataStripUserFilesPathPositive
+	 */
+	function testGetUserFromPathPositive($path, $expected) {
+		self::setUpUsers();
+		$result = Helper::getUserFromPath($path);
+		$this->assertSame($expected, $result);
+		self::cleanUpUsers();
+	}
+
+	function dataStripUserFilesPathPositive() {
+		return array(
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '/files/foo.txt', self::TEST_ENCRYPTION_HELPER_USER1),
+			array('//' . self::TEST_ENCRYPTION_HELPER_USER2 . '/files_versions/foo.txt', self::TEST_ENCRYPTION_HELPER_USER2),
+			array(self::TEST_ENCRYPTION_HELPER_USER1 . '//cache/foo/bar.txt', self::TEST_ENCRYPTION_HELPER_USER1),
+		);
+	}
+
+	/**
+	 * @dataProvider dataStripUserFilesPathNegative
+	 * @expectedException \OCA\Files_Encryption\Exception\EncryptionException
+	 */
+	function testGetUserFromPathNegative($path) {
+		Helper::getUserFromPath($path);
+	}
+
+	function dataStripUserFilesPathNegative() {
+		return array(
+			array('/unknown_user/files/foo.txt'),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER2 . '/unknown_folder/foo.txt'),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1),
+			array(''),
+		);
+	}
+
+	/**
+	 * @dataProvider dataPaths
+	 */
+	function testMkdirr($path, $expected) {
+		self::setUpUsers();
+		Helper::mkdirr($path, new \OC\Files\View('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '/files'));
+		// ignore the filename because we only check for the directories
+		$dirParts = array_slice($expected, 0, -1);
+		$expectedPath = implode('/', $dirParts);
+		$this->assertTrue(\OC\Files\Filesystem::is_dir($expectedPath));
+
+		// cleanup
+		\OC\Files\Filesystem::unlink('/' . $expected[0]);
+		self::cleanUpUsers();
+	}
+
+	/**
+	 * @dataProvider dataDetectFileTypePositive
+	 */
+	function testDetectFileTypePositive($path, $expected) {
+		$result = Helper::detectFileType($path);
+		$this->assertSame($expected, $result);
+	}
+
+	function dataDetectFileTypePositive() {
+		return array(
+			array(self::TEST_ENCRYPTION_HELPER_USER1 . '/files', Files_Encryption\Util::FILE_TYPE_FILE),
+			array(self::TEST_ENCRYPTION_HELPER_USER1 . '/files/foo/bar', Files_Encryption\Util::FILE_TYPE_FILE),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '/files/foo/bar', Files_Encryption\Util::FILE_TYPE_FILE),
+			array(self::TEST_ENCRYPTION_HELPER_USER1 . '/files_versions', Files_Encryption\Util::FILE_TYPE_VERSION),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '//files_versions/foo/bar', Files_Encryption\Util::FILE_TYPE_VERSION),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '//cache/foo/bar', Files_Encryption\Util::FILE_TYPE_CACHE),
+		);
+	}
+
+	/**
+	 * @dataProvider dataDetectFileTypeNegative
+	 * @expectedException \OCA\Files_Encryption\Exception\EncryptionException
+	 */
+	function testDetectFileTypeNegative($path) {
+		Helper::detectFileType($path);
+	}
+
+	function dataDetectFileTypeNegative() {
+		return array(
+			array('/files'),
+			array('/' . self::TEST_ENCRYPTION_HELPER_USER1 . '/unsuported_dir/foo/bar'),
+		);
+	}
+
+	/**
+	 * @dataProvider dataPaths
+	 */
+	function testSplitPath($path, $expected) {
+		$result = Helper::splitPath($path);
+		$this->compareArray($result, $expected);
+	}
+
+	function dataPaths() {
+		return array(
+			array('foo/bar/test.txt', array('', 'foo', 'bar', 'test.txt')),
+			array('/foo/bar/test.txt', array('', 'foo', 'bar', 'test.txt')),
+			array('/foo/bar//test.txt', array('', 'foo', 'bar', 'test.txt')),
+			array('//foo/bar/test.txt', array('', 'foo', 'bar', 'test.txt')),
+			array('foo', array('', 'foo')),
+			array('/foo', array('', 'foo')),
+			array('//foo', array('', 'foo')),
+		);
+	}
+
+	function compareArray($result, $expected) {
+		$this->assertSame(count($expected), count($result));
+
+		foreach ($expected as $key => $value) {
+			$this->assertArrayHasKey($key, $result);
+			$this->assertSame($value, $result[$key]);
+		}
 	}
 
 }

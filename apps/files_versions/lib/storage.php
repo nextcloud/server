@@ -139,10 +139,10 @@ class Storage {
 			\OC_FileProxy::$enabled = false;
 
 			// store a new version of a file
-			$mtime = $users_view->filemtime('files'.$filename);
-			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'. $mtime);
+			$mtime = $users_view->filemtime('files/' . $filename);
+			$users_view->copy('files/' . $filename, 'files_versions/' . $filename . '.v' . $mtime);
 			// call getFileInfo to enforce a file cache entry for the new version
-			$users_view->getFileInfo('files_versions'.$filename.'.v'.$mtime);
+			$users_view->getFileInfo('files_versions/' . $filename . '.v' . $mtime);
 
 			// reset proxy state
 			\OC_FileProxy::$enabled = $proxyStatus;

@@ -279,6 +279,40 @@ class Share extends TestCase {
 		}
 	}
 
+	function testDownloadVersions() {
+		// login as admin
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
+
+		$rootView = new \OC\Files\View();
+
+		// save file twice to create a new version
+		\OC\Files\Filesystem::file_put_contents($this->filename, "revision1");
+		\OCA\Files_Versions\Storage::store($this->filename);
+		\OC\Files\Filesystem::file_put_contents($this->filename, "revision2");
+
+		// check if the owner can retrieve the correct version
+		$versions = \OCA\Files_Versions\Storage::getVersions(self::TEST_ENCRYPTION_SHARE_USER1, $this->filename);
+		$this->assertSame(1, count($versions));
+		$version = reset($versions);
+		$versionUser1 = $rootView->file_get_contents('/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_versions/' . $this->filename . '.v' . $version['version']);
+		$this->assertSame('revision1', $versionUser1);
+
+		// share the file
+		$fileInfo = \OC\Files\Filesystem::getFileInfo($this->filename);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
+		$this->assertTrue(\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL));
+
+		// try to download the version as user2
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER2);
+		$versionUser2 = $rootView->file_get_contents('/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_versions/' . $this->filename . '.v' . $version['version']);
+		$this->assertSame('revision1', $versionUser2);
+
+		//cleanup
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
+		\OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER2);
+		\OC\Files\Filesystem::unlink($this->filename);
+	}
+
 	/**
 	 * @medium
 	 * @param bool $withTeardown
