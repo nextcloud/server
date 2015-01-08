@@ -74,7 +74,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			return $this->createFileChunked($data);
 		}
 
-		list($storage, $internalPath) = $this->fileView->resolvePath($this->path);
+		list($storage, ) = $this->fileView->resolvePath($this->path);
 		$needsPartFile = $this->needsPartFile($storage);
 
 		if ($needsPartFile) {
@@ -277,17 +277,17 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		}
 
 		if ($chunk_handler->isComplete()) {
-			list($storage, $internalPath) = $this->fileView->resolvePath($path);
+			list($storage, ) = $this->fileView->resolvePath($path);
 			$needsPartFile = $this->needsPartFile($storage);
 
 			try {
+				$targetPath = $path . '/' . $info['name'];
 				if ($needsPartFile) {
 					// we first assembly the target file as a part file
 					$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
 					$chunk_handler->file_assemble($partFile);
 
 					// here is the final atomic rename
-					$targetPath = $path . '/' . $info['name'];
 					$renameOkay = $this->fileView->rename($partFile, $targetPath);
 					$fileExists = $this->fileView->file_exists($targetPath);
 					if ($renameOkay === false || $fileExists === false) {
@@ -300,8 +300,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 					}
 				} else {
 					// assemble directly into the final file
-					$partFile = $path . '/' . $info['name'];
-					$chunk_handler->file_assemble($partFile);
+					$chunk_handler->file_assemble($targetPath);
 				}
 
 				// allow sync clients to send the mtime along in a header
