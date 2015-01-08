@@ -1031,6 +1031,11 @@ class OC_Util {
 			return true;
 		}
 
+		// php dev server does not support htaccess
+		if (php_sapi_name() === 'cli-server') {
+			return false;
+		}
+
 		// testdata
 		$fileName = '/htaccesstest.txt';
 		$testContent = 'testcontent';
