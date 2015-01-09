@@ -1,5 +1,6 @@
 <?php
 
+OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('files_versions');
 OCP\JSON::callCheck();
 

@@ -1,4 +1,6 @@
 <?php
+OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 OCP\JSON::checkAppEnabled('files_versions');
 
 $source = $_GET['source'];
