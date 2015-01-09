@@ -200,14 +200,15 @@ class Preview {
 	/**
 	 * set the path of the file you want a thumbnail from
 	 * @param string $file
-	 * @return \OC\Preview $this
+	 * @return $this
 	 */
 	public function setFile($file) {
 		$this->file = $file;
 		$this->info = null;
+
 		if ($file !== '') {
 			$this->getFileInfo();
-			if($this->info !== null && $this->info !== false) {
+			if($this->info instanceof \OCP\Files\FileInfo) {
 				$this->mimeType = $this->info->getMimetype();
 			}
 		}
