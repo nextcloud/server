@@ -45,7 +45,7 @@ Before we're able to merge your code into the ownCloud core, you need to sign ou
 Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the ownCloud code with PHPUnit.
 
 [agreement]: http://owncloud.org/about/contributor-agreement/
-[devmanual]: http://owncloud.org/dev/
+[devmanual]: http://owncloud.org/dev
 
 ## Translations
 Please submit translations via [Transifex][transifex].
