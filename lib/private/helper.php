@@ -882,13 +882,19 @@ class OC_Helper {
 	 * @return null|string
 	 */
 	public static function findBinaryPath($program) {
+		$memcache = \OC::$server->getMemCacheFactory()->create('findBinaryPath');
+		if ($memcache->hasKey($program)) {
+			return $memcache->get($program);
+		}
+		$result = null;
 		if (!\OC_Util::runningOnWindows() && self::is_function_enabled('exec')) {
 			exec('command -v ' . escapeshellarg($program) . ' 2> /dev/null', $output, $returnCode);
 			if ($returnCode === 0 && count($output) > 0) {
-				return escapeshellcmd($output[0]);
+				$result = escapeshellcmd($output[0]);
 			}
 		}
-		return null;
+		$memcache->set($program, $result, 3600);
+		return $result;
 	}
 
 	/**
