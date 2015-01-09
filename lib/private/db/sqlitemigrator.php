@@ -10,24 +10,8 @@ namespace OC\DB;
 
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Schema\Schema;
-use OCP\Security\ISecureRandom;
 
 class SQLiteMigrator extends Migrator {
-
-	/**
-	 * @var \OCP\IConfig
-	 */
-	private $config;
-
-	/**
-	 * @param \Doctrine\DBAL\Connection $connection
-	 * @param ISecureRandom $random
-	 * @param \OCP\IConfig $config
-	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection, ISecureRandom $random, \OCP\IConfig $config) {
-		parent::__construct($connection, $random);
-		$this->config = $config;
-	}
 
 	/**
 	 * @param \Doctrine\DBAL\Schema\Schema $targetSchema

@@ -36,9 +36,7 @@ class MDB2SchemaManager {
 	 * TODO: write more documentation
 	 */
 	public function getDbStructure($file, $mode = MDB2_SCHEMA_DUMP_STRUCTURE) {
-		$sm = $this->conn->getSchemaManager();
-
-		return \OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $sm);
+		return \OC_DB_MDB2SchemaWriter::saveSchemaToFile($file, $this->conn);
 	}
 
 	/**
@@ -60,19 +58,19 @@ class MDB2SchemaManager {
 	public function getMigrator() {
 		$random = \OC::$server->getSecureRandom()->getMediumStrengthGenerator();
 		$platform = $this->conn->getDatabasePlatform();
+		$config = \OC::$server->getConfig();
 		if ($platform instanceof SqlitePlatform) {
-			$config = \OC::$server->getConfig();
 			return new SQLiteMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof OraclePlatform) {
-			return new OracleMigrator($this->conn, $random);
+			return new OracleMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof MySqlPlatform) {
-			return new MySQLMigrator($this->conn, $random);
+			return new MySQLMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof SQLServerPlatform) {
-			return new MsSqlMigrator($this->conn, $random);
+			return new MsSqlMigrator($this->conn, $random, $config);
 		} else if ($platform instanceof PostgreSqlPlatform) {
-			return new Migrator($this->conn, $random);
+			return new Migrator($this->conn, $random, $config);
 		} else {
-			return new NoCheckMigrator($this->conn, $random);
+			return new NoCheckMigrator($this->conn, $random, $config);
 		}
 	}
 

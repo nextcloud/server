@@ -14,6 +14,7 @@ use \Doctrine\DBAL\Schema\Table;
 use \Doctrine\DBAL\Schema\Schema;
 use \Doctrine\DBAL\Schema\SchemaConfig;
 use \Doctrine\DBAL\Schema\Comparator;
+use OCP\IConfig;
 use OCP\Security\ISecureRandom;
 
 class Migrator {
@@ -28,13 +29,18 @@ class Migrator {
 	 */
 	private $random;
 
+	/** @var IConfig */
+	protected $config;
+
 	/**
 	 * @param \Doctrine\DBAL\Connection $connection
 	 * @param ISecureRandom $random
+	 * @param IConfig $config
 	 */
-	public function __construct(\Doctrine\DBAL\Connection $connection, ISecureRandom $random) {
+	public function __construct(\Doctrine\DBAL\Connection $connection, ISecureRandom $random, IConfig $config) {
 		$this->connection = $connection;
 		$this->random = $random;
+		$this->config = $config;
 	}
 
 	/**
@@ -70,6 +76,8 @@ class Migrator {
 		 */
 		$tables = $targetSchema->getTables();
 
+		$this->connection->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix', 'oc_') . '/');
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
 		foreach ($tables as $table) {
@@ -153,6 +161,8 @@ class Migrator {
 	}
 
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
+		$connection->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix', 'oc_') . '/');
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about

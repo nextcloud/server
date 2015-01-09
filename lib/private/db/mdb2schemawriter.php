@@ -10,16 +10,22 @@ class OC_DB_MDB2SchemaWriter {
 
 	/**
 	 * @param string $file
-	 * @param \Doctrine\DBAL\Schema\AbstractSchemaManager $sm
+	 * @param \OC\DB\Connection $conn
 	 * @return bool
 	 */
-	static public function saveSchemaToFile($file, $sm) {
+	static public function saveSchemaToFile($file, \OC\DB\Connection $conn) {
+		$config = \OC::$server->getConfig();
+
 		$xml = new SimpleXMLElement('<database/>');
-		$xml->addChild('name', OC_Config::getValue( "dbname", "owncloud" ));
+		$xml->addChild('name', $config->getSystemValue('dbname', 'owncloud'));
 		$xml->addChild('create', 'true');
 		$xml->addChild('overwrite', 'false');
 		$xml->addChild('charset', 'utf8');
-		foreach ($sm->listTables() as $table) {
+
+		$conn->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^' . $config->getSystemValue('dbtableprefix', 'oc_') . '/');
+
+		foreach ($conn->getSchemaManager()->listTables() as $table) {
 			self::saveTable($table, $xml->addChild('table'));
 		}
 		file_put_contents($file, $xml->asXML());

@@ -8,11 +8,23 @@
  */
 
 namespace OC\DB;
+use OCP\IConfig;
 
 /**
 * Various PostgreSQL specific helper functions.
 */
 class PgSqlTools {
+
+	/** @var \OCP\IConfig */
+	private $config;
+
+	/**
+	 * @param \OCP\IConfig $config
+	 */
+	public function __construct(IConfig $config) {
+		$this->config = $config;
+	}
+
 	/**
 	* @brief Resynchronizes all sequences of a database after using INSERTs
 	*        without leaving out the auto-incremented column.
@@ -21,6 +33,9 @@ class PgSqlTools {
 	*/
 	public function resynchronizeDatabaseSequences(Connection $conn) {
 		$databaseName = $conn->getDatabase();
+		$conn->getConfiguration()->
+			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix', 'oc_') . '/');
+
 		foreach ($conn->getSchemaManager()->listSequences() as $sequence) {
 			$sequenceName = $sequence->getName();
 			$sqlInfo = 'SELECT table_schema, table_name, column_name
