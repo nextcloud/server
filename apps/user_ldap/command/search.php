@@ -18,8 +18,20 @@ use OCA\user_ldap\User_Proxy;
 use OCA\user_ldap\Group_Proxy;
 use OCA\user_ldap\lib\Helper;
 use OCA\user_ldap\lib\LDAP;
+use OCP\IConfig;
 
 class Search extends Command {
+	/** @var \OCP\IConfig */
+	protected $ocConfig;
+
+	/**
+	 * @param \OCP\IConfig $ocConfig
+	 */
+	public function __construct(IConfig $ocConfig) {
+		$this->ocConfig = $ocConfig;
+		parent::__construct();
+	}
+
 	protected function configure() {
 		$this
 			->setName('ldap:search')
@@ -74,7 +86,8 @@ class Search extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$configPrefixes = Helper::getServerConfigurationPrefixes(true);
+		$helper = new Helper();
+		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 
 		$offset = intval($input->getOption('offset'));
@@ -86,7 +99,7 @@ class Search extends Command {
 			$getMethod = 'getGroups';
 			$printID = false;
 		} else {
-			$proxy = new User_Proxy($configPrefixes, $ldapWrapper);
+			$proxy = new User_Proxy($configPrefixes, $ldapWrapper, $this->ocConfig);
 			$getMethod = 'getDisplayNames';
 			$printID = true;
 		}

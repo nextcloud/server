@@ -32,7 +32,7 @@ abstract class AbstractMapping {
 	}
 
 	/**
-	 * checks whether a provided string represents an exisiting table col
+	 * checks whether a provided string represents an existing table col
 	 * @param string $col
 	 * @return bool
 	 */
@@ -150,6 +150,27 @@ abstract class AbstractMapping {
 	 */
 	public function getNameByUUID($uuid) {
 		return $this->getXbyY('owncloud_name', 'directory_uuid', $uuid);
+	}
+
+	/**
+	 * gets a piece of the mapping list
+	 * @param int $offset
+	 * @param int $limit
+	 * @return array
+	 */
+	public function getList($offset = null, $limit = null) {
+		$query = $this->dbc->prepare('
+			SELECT
+				`ldap_dn` AS `dn`,
+				`owncloud_name` AS `name`,
+				`directory_uuid` AS `uuid`
+			FROM `' . $this->getTableName() . '`',
+			$limit,
+			$offset
+		);
+
+		$query->execute();
+		return $query->fetchAll();
 	}
 
 	/**

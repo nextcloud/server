@@ -92,7 +92,7 @@ class User {
 	 * @param string the LDAP DN
 	 * @param IUserTools $access an instance that implements IUserTools for
 	 * LDAP interaction
-	 * @param \OCP\Config
+	 * @param \OCP\IConfig
 	 * @param FilesystemHelper
 	 * @param \OCP\Image any empty instance
 	 * @param LogWrapper
@@ -210,6 +210,31 @@ class User {
 			return false;
 		}
 		return  true;
+	}
+
+	/**
+	 * Stores a key-value pair in relation to this user
+	 * @param string $key
+	 * @param string $value
+	 */
+	private function store($key, $value) {
+		$this->config->setUserValue($this->uid, 'user_ldap', $key, $value);
+	}
+
+	/**
+	 * Stores the display name in the databae
+	 * @param string $displayName
+	 */
+	public function storeDisplayName($displayName) {
+		$this->store('displayName', $displayName);
+	}
+
+	/**
+	 * Stores the LDAP Username in the Database
+	 * @param string $userName
+	 */
+	public function storeLDAPUserName($userName) {
+		$this->store('uid', $userName);
 	}
 
 	/**

@@ -659,7 +659,8 @@ class Wizard extends LDAPUtility {
 		//this did not help :(
 		//Let's see whether we can parse the Host URL and convert the domain to
 		//a base DN
-		$domain = Helper::getDomainFromURL($this->configuration->ldapHost);
+		$helper = new Helper();
+		$domain = $helper->getDomainFromURL($this->configuration->ldapHost);
 		if(!$domain) {
 			return false;
 		}

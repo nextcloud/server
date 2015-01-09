@@ -23,6 +23,9 @@
 
 namespace OCA\user_ldap\lib;
 
+use OCA\User_LDAP\Mapping\GroupMapping;
+use OCA\User_LDAP\Mapping\UserMapping;
+
 class Jobs extends \OC\BackgroundJob\TimedJob {
 	static private $groupsFromDB;
 
@@ -156,18 +159,25 @@ class Jobs extends \OC\BackgroundJob\TimedJob {
 		if(!is_null(self::$groupBE)) {
 			return self::$groupBE;
 		}
-		$configPrefixes = Helper::getServerConfigurationPrefixes(true);
+		$helper = new Helper();
+		$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 		$ldapWrapper = new LDAP();
 		if(count($configPrefixes) === 1) {
 			//avoid the proxy when there is only one LDAP server configured
+			$dbc = \OC::$server->getDatabaseConnection();
 			$userManager = new user\Manager(
 				\OC::$server->getConfig(),
 				new FilesystemHelper(),
 				new LogWrapper(),
 				\OC::$server->getAvatarManager(),
-				new \OCP\Image());
+				new \OCP\Image(),
+				$dbc);
 			$connector = new Connection($ldapWrapper, $configPrefixes[0]);
 			$ldapAccess = new Access($connector, $ldapWrapper, $userManager);
+			$groupMapper = new GroupMapping($dbc);
+			$userMapper  = new UserMapping($dbc);
+			$ldapAccess->setGroupMapper($groupMapper);
+			$ldapAccess->setUserMapper($userMapper);
 			self::$groupBE = new \OCA\user_ldap\GROUP_LDAP($ldapAccess);
 		} else {
 			self::$groupBE = new \OCA\user_ldap\Group_Proxy($configPrefixes, $ldapWrapper);

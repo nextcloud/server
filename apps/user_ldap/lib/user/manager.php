@@ -27,6 +27,7 @@ use OCA\user_ldap\lib\user\IUserTools;
 use OCA\user_ldap\lib\user\User;
 use OCA\user_ldap\lib\LogWrapper;
 use OCA\user_ldap\lib\FilesystemHelper;
+use OCA\user_ldap\lib\user\OfflineUser;
 
 /**
  * Manager
@@ -35,32 +36,31 @@ use OCA\user_ldap\lib\FilesystemHelper;
  * cache
  */
 class Manager {
-	/**
-	 * @var IUserTools
-	 */
+	/** @var IUserTools */
 	protected $access;
-	/**
-	 * @var \OCP\IConfig
-	 */
+
+	/** @var \OCP\IConfig */
 	protected $ocConfig;
-	/**
-	 * @var FilesystemHelper
-	 */
+
+	/** @var \OCP\IDBConnection */
+	protected $db;
+
+	/** @var FilesystemHelper */
 	protected $ocFilesystem;
-	/**
-	 * @var LogWrapper
-	 */
+
+	/** @var LogWrapper */
 	protected $ocLog;
-	/**
-	 * @var \OCP\Image
-	 */
+
+	/** @var \OCP\Image */
 	protected $image;
-	/**
-	 * @param \OCP\IAvatarManager
-	 */
+
+	/** @param \OCP\IAvatarManager */
 	protected $avatarManager;
+
 	/**
-	 * @var string[][]
+	 * array['byDN']	\OCA\user_ldap\lib\User[]
+	 * 	['byUid']	\OCA\user_ldap\lib\User[]
+	 * @var array $users
 	 */
 	protected $users = array(
 		'byDN'  => array(),
@@ -68,29 +68,25 @@ class Manager {
 	);
 
 	/**
-	 * @brief Constructor
-	 * @param \OCP\IConfig respectively an instance that provides the methods
-	 * setUserValue and getUserValue as implemented in \OCP\Config
-	 * @param \OCA\user_ldap\lib\FilesystemHelper object that gives access to
-	 * necessary functions from the OC filesystem
-	 * @param  \OCA\user_ldap\lib\LogWrapper
-	 * @param \OCP\IAvatarManager
-	 * @param \OCP\Image an empty image instance
+	 * @param \OCP\IConfig $ocConfig
+	 * @param \OCA\user_ldap\lib\FilesystemHelper $ocFilesystem object that
+	 * gives access to necessary functions from the OC filesystem
+	 * @param  \OCA\user_ldap\lib\LogWrapper $ocLog
+	 * @param \OCP\IAvatarManager $avatarManager
+	 * @param \OCP\Image $image an empty image instance
+	 * @param \OCP\IDBConnection $db
 	 * @throws Exception when the methods mentioned above do not exist
 	 */
 	public function __construct(\OCP\IConfig $ocConfig,
 		FilesystemHelper $ocFilesystem, LogWrapper $ocLog,
-		\OCP\IAvatarManager $avatarManager, \OCP\Image $image) {
+		\OCP\IAvatarManager $avatarManager, \OCP\Image $image, \OCP\IDBConnection $db) {
 
-		if(!method_exists($ocConfig, 'setUserValue')
-		   || !method_exists($ocConfig, 'getUserValue')) {
-			throw new \Exception('Invalid ownCloud User Config object');
-		}
 		$this->ocConfig      = $ocConfig;
 		$this->ocFilesystem  = $ocFilesystem;
 		$this->ocLog         = $ocLog;
 		$this->avatarManager = $avatarManager;
 		$this->image         = $image;
+		$this->db            = $db;
 	}
 
 	/**
@@ -131,9 +127,45 @@ class Manager {
 	}
 
 	/**
+	 * Checks whether the specified user is marked as deleted
+	 * @param string $id the ownCloud user name
+	 * @return bool
+	 */
+	public function isDeletedUser($id) {
+		$isDeleted = $this->ocConfig->getUserValue(
+			$id, 'user_ldap', 'isDeleted', 0);
+		return intval($isDeleted) === 1;
+	}
+
+	/**
+	 * creates and returns an instance of OfflineUser for the specified user
+	 * @param string $id
+	 * @return \OCA\user_ldap\lib\user\OfflineUser
+	 */
+	public function getDeletedUser($id) {
+		return new OfflineUser(
+			$id,
+			$this->ocConfig,
+			$this->db,
+			$this->access->getUserMapper());
+	}
+
+	protected function createInstancyByUserName($id) {
+		//most likely a uid. Check whether it is a deleted user
+		if($this->isDeletedUser($id)) {
+			return $this->getDeletedUser($id);
+		}
+		$dn = $this->access->username2dn($id);
+		if($dn !== false) {
+			return $this->createAndCache($dn, $id);
+		}
+		throw new \Exception('Could not create User instance');
+	}
+
+	/**
 	 * @brief returns a User object by it's DN or ownCloud username
 	 * @param string the DN or username of the user
-	 * @return \OCA\user_ldap\lib\User | null
+	 * @return \OCA\user_ldap\lib\user\User|\OCA\user_ldap\lib\user\OfflineUser|null
 	 */
 	public function get($id) {
 		$this->checkAccess();
@@ -143,25 +175,19 @@ class Manager {
 			return $this->users['byUid'][$id];
 		}
 
-		if(!$this->access->stringResemblesDN($id) ) {
-			//most likely a uid
-			$dn = $this->access->username2dn($id);
-			if($dn !== false) {
-				return $this->createAndCache($dn, $id);
-			}
-		} else {
-			//so it's a DN
+		if($this->access->stringResemblesDN($id) ) {
 			$uid = $this->access->dn2username($id);
 			if($uid !== false) {
 				return $this->createAndCache($id, $uid);
 			}
 		}
-		//either funny uid or invalid. Assume funny to be on the safe side.
-		$dn = $this->access->username2dn($id);
-		if($dn !== false) {
-			return $this->createAndCache($dn, $id);
+
+		try {
+			$user = $this->createInstancyByUserName($id);
+			return $user;
+		} catch (\Exception $e) {
+			return null;
 		}
-		return null;
 	}
 
 }

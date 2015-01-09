@@ -71,8 +71,9 @@ class Connection extends LDAPUtility {
 		}
 		$this->hasPagedResultSupport =
 			$this->ldap->hasPagedResultSupport();
+		$helper = new Helper();
 		$this->doNotValidate = !in_array($this->configPrefix,
-			Helper::getServerConfigurationPrefixes());
+			$helper->getServerConfigurationPrefixes());
 	}
 
 	public function __destruct() {

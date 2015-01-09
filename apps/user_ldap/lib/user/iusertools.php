@@ -38,5 +38,4 @@ interface IUserTools {
 	public function dn2username($dn, $ldapname = null);
 
 	public function username2dn($name);
-
 }

@@ -12,7 +12,8 @@ if($state === 'unset') {
 $installedVersion = $configInstance->getAppValue('user_ldap', 'installed_version');
 $enableRawMode = version_compare($installedVersion, '0.4.1', '<');
 
-$configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
+$helper = new \OCA\user_ldap\lib\Helper();
+$configPrefixes = $helper->getServerConfigurationPrefixes(true);
 $ldap = new OCA\user_ldap\lib\LDAP();
 foreach($configPrefixes as $config) {
 	$connection = new OCA\user_ldap\lib\Connection($ldap, $config);

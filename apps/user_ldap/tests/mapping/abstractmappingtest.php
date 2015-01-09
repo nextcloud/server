@@ -191,4 +191,28 @@ abstract class AbstractMappingTest extends \Test\TestCase {
 			$this->assertFalse($name);
 		}
 	}
+
+	/**
+	 * tests getList() method
+	 */
+	public function testList() {
+		list($mapper, $data) = $this->initTest();
+
+		// get all entries without specifying offset or limit
+		$results = $mapper->getList();
+		$this->assertSame(3, count($results));
+
+		// get all-1 entries by specifying offset, and an high limit
+		// specifying only offset without limit will not work by underlying lib
+		$results = $mapper->getList(1, 999);
+		$this->assertSame(count($data) - 1, count($results));
+
+		// get first 2 entries by limit, but not offset
+		$results = $mapper->getList(null, 2);
+		$this->assertSame(2, count($results));
+
+		// get 2nd entry by specifying both offset and limit
+		$results = $mapper->getList(1, 1);
+		$this->assertSame(1, count($results));
+	}
 }

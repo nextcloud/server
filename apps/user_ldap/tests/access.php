@@ -47,7 +47,8 @@ class Test_Access extends \Test\TestCase {
 				$this->getMock('\OCA\user_ldap\lib\FilesystemHelper'),
 				$this->getMock('\OCA\user_ldap\lib\LogWrapper'),
 				$this->getMock('\OCP\IAvatarManager'),
-				$this->getMock('\OCP\Image')));
+				$this->getMock('\OCP\Image'),
+				$this->getMock('\OCP\IDBConnection')));
 
 		return array($lw, $connector, $um);
 	}

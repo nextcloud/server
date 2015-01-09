@@ -31,7 +31,8 @@ class ShowConfig extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$availableConfigs = Helper::getServerConfigurationPrefixes();
+		$helper = new Helper();
+		$availableConfigs = $helper->getServerConfigurationPrefixes();
 		$configID = $input->getArgument('configID');
 		if(!is_null($configID)) {
 			$configIDs[] = $configID;

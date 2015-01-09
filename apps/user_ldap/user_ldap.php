@@ -26,8 +26,27 @@
 namespace OCA\user_ldap;
 
 use OCA\user_ldap\lib\BackendUtility;
+use OCA\user_ldap\lib\Access;
+use OCA\user_ldap\lib\user\OfflineUser;
+use OCA\User_LDAP\lib\User\User;
+use OCP\IConfig;
 
 class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserInterface {
+	/** @var string[] $homesToKill */
+	protected $homesToKill = array();
+
+	/** @var \OCP\IConfig */
+	protected $ocConfig;
+
+	/**
+	 * @param \OCA\user_ldap\lib\Access $access
+	 * @param \OCP\IConfig $ocConfig
+	 */
+	public function __construct(Access $access, IConfig $ocConfig) {
+		parent::__construct($access);
+		$this->ocConfig = $ocConfig;
+	}
+
 	/**
 	 * checks whether the user is allowed to change his avatar in ownCloud
 	 * @param string $uid the ownCloud user name
@@ -35,7 +54,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 */
 	public function canChangeAvatar($uid) {
 		$user = $this->access->userManager->get($uid);
-		if(is_null($user)) {
+		if(!$user instanceof User) {
 			return false;
 		}
 		if($user->getAvatarImage() === false) {
@@ -49,7 +68,7 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	 * Check if the password is correct
 	 * @param string $uid The username
 	 * @param string $password The password
-	 * @return boolean
+	 * @return false|string
 	 *
 	 * Check if the password is correct without logging in the user
 	 */
@@ -57,15 +76,17 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 		$uid = $this->access->escapeFilterPart($uid);
 
 		//find out dn of the user name
+		$attrs = array($this->access->connection->ldapUserDisplayName, 'dn',
+			'uid', 'samaccountname');
 		$filter = \OCP\Util::mb_str_replace(
 			'%uid', $uid, $this->access->connection->ldapLoginFilter, 'UTF-8');
-		$ldap_users = $this->access->fetchListOfUsers($filter, 'dn');
-		if(count($ldap_users) < 1) {
+		$users = $this->access->fetchListOfUsers($filter, $attrs);
+		if(count($users) < 1) {
 			return false;
 		}
-		$dn = $ldap_users[0];
+		$dn = $users[0]['dn'];
 		$user = $this->access->userManager->get($dn);
-		if(is_null($user)) {
+		if(!$user instanceof User) {
 			\OCP\Util::writeLog('user_ldap',
 				'LDAP Login: Could not get user object for DN ' . $dn .
 				'. Maybe the LDAP entry has no set display name attribute?',
@@ -79,6 +100,15 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 			}
 
 			$user->markLogin();
+			if(isset($users[0][$this->access->connection->ldapUserDisplayName])) {
+				$dpn = $users[0][$this->access->connection->ldapUserDisplayName];
+				$user->storeDisplayName($dpn);
+			}
+			if(isset($users[0]['uid'])) {
+				$user->storeLDAPUserName($users[0]['uid']);
+			} else if(isset($users[0]['samaccountname'])) {
+				$user->storeLDAPUserName($users[0]['samaccountname']);
+			}
 
 			return $user->getUsername();
 		}
@@ -128,6 +158,33 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 	}
 
 	/**
+	 * checks whether a user is still available on LDAP
+	 * @param string|\OCA\User_LDAP\lib\user\User $user either the ownCloud user
+	 * name or an instance of that user
+	 * @return bool
+	 */
+	public function userExistsOnLDAP($user) {
+		if(is_string($user)) {
+			$user = $this->access->userManager->get($user);
+		}
+		if(!$user instanceof User) {
+			return false;
+		}
+
+		$dn = $user->getDN();
+		//check if user really still exists by reading its entry
+		if(!is_array($this->access->readAttribute($dn, ''))) {
+			$lcr = $this->access->connection->getConnectionResource();
+			if(is_null($lcr)) {
+				throw new \Exception('No LDAP Connection to server ' . $this->access->connection->ldapHost);
+			}
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * check if a user exists
 	 * @param string $uid the username
 	 * @return boolean
@@ -143,41 +200,65 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
 			$this->access->connection->writeToCache('userExists'.$uid, false);
 			return false;
-		}
-		$dn = $user->getDN();
-		//check if user really still exists by reading its entry
-		if(!is_array($this->access->readAttribute($dn, ''))) {
-			\OCP\Util::writeLog('user_ldap', 'LDAP says no user '.$dn.' on '.
-				$this->access->connection->ldapHost, \OCP\Util::DEBUG);
-			$this->access->connection->writeToCache('userExists'.$uid, false);
-			return false;
+		} else if($user instanceof OfflineUser) {
+			//express check for users marked as deleted. Returning true is
+			//necessary for cleanup
+			return true;
 		}
 
-		$this->access->connection->writeToCache('userExists'.$uid, true);
-		$user->update();
-		return true;
+		try {
+			$result = $this->userExistsOnLDAP($user);
+			$this->access->connection->writeToCache('userExists'.$uid, $result);
+			if($result === true) {
+				$user->update();
+			}
+			return $result;
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog('user_ldap', $e->getMessage(), \OCP\Util::WARN);
+			return false;
+		}
 	}
 
 	/**
-	* delete a user
+	* returns whether a user was deleted in LDAP
+	*
 	* @param string $uid The username of the user to delete
 	* @return bool
-	*
-	* Deletes a user
 	*/
 	public function deleteUser($uid) {
-		return false;
+		$marked = $this->ocConfig->getUserValue($uid, 'user_ldap', 'isDeleted', 0);
+		if(intval($marked) === 0) {
+			\OC::$server->getLogger()->notice(
+				'User '.$uid . ' is not marked as deleted, not cleaning up.',
+				array('app' => 'user_ldap'));
+			return false;
+		}
+		\OC::$server->getLogger()->info('Cleaning up after user ' . $uid,
+			array('app' => 'user_ldap'));
+
+		//Get Home Directory out of user preferences so we can return it later,
+		//necessary for removing directories as done by OC_User.
+		$home = $this->ocConfig->getUserValue($uid, 'user_ldap', 'homePath', '');
+		$this->homesToKill[$uid] = $home;
+		$this->access->getUserMapper()->unmap($uid);
+
+		return true;
 	}
 
 	/**
 	* get the user's home directory
 	* @param string $uid the username
-	* @return boolean
+	* @return string|bool
 	*/
 	public function getHome($uid) {
 		// user Exists check required as it is not done in user proxy!
 		if(!$this->userExists($uid)) {
 			return false;
+		}
+
+		if(isset($this->homesToKill[$uid]) && !empty($this->homesToKill[$uid])) {
+			//a deleted user who needs some clean up
+			return $this->homesToKill[$uid];
 		}
 
 		$cacheKey = 'getHome'.$uid;
@@ -199,16 +280,23 @@ class USER_LDAP extends BackendUtility implements \OCP\IUserBackend, \OCP\UserIn
 				) {
 					$homedir = $path;
 				} else {
-					$homedir = \OC::$server->getConfig()->getSystemValue('datadirectory',
+					$homedir = $this->ocConfig->getSystemValue('datadirectory',
 						\OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
 				}
 				$this->access->connection->writeToCache($cacheKey, $homedir);
+				//we need it to store it in the DB as well in case a user gets
+				//deleted so we can clean up afterwards
+				$this->ocConfig->setUserValue(
+					$uid, 'user_ldap', 'homePath', $homedir
+				);
+				//TODO: if home directory changes, the old one needs to be removed.
 				return $homedir;
 			}
 		}
 
 		//false will apply default behaviour as defined and done by OC_User
 		$this->access->connection->writeToCache($cacheKey, false);
+		$this->ocConfig->setUserValue($uid, 'user_ldap', 'homePath', '');
 		return false;
 	}
 
