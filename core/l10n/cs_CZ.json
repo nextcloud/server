@@ -117,6 +117,7 @@
     "Hello world!" : "Zdravím, světe!",
     "sunny" : "slunečno",
     "Hello {name}, the weather is {weather}" : "Ahoj {name}, je {weather}",
+    "Hello {name}" : "Vítej, {name}",
     "_download %n file_::_download %n files_" : ["stáhnout %n soubor","stáhnout %n soubory","stáhnout %n souborů"],
     "Updating {productName} to version {version}, this may take a while." : "Aktualizuji {productName} na verzi {version}, může to chvíli trvat.",
     "Please reload the page." : "Načtěte stránku znovu, prosím.",

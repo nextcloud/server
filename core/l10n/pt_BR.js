@@ -119,6 +119,7 @@ OC.L10N.register(
     "Hello world!" : "Alô mundo!",
     "sunny" : "ensolarado",
     "Hello {name}, the weather is {weather}" : "Olá {name}, o clima está {weather}",
+    "Hello {name}" : "Olá {name}",
     "_download %n file_::_download %n files_" : ["baixar %n arquivo","baixar %n arquivos"],
     "Updating {productName} to version {version}, this may take a while." : "Atualizando {productName} para a versão {version}, isso pode demorar um pouco.",
     "Please reload the page." : "Por favor recarregue a página",

@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_trashbin",
     {
-    "Couldn't delete %s permanently" : "%s не может быть удалён навсегда",
+    "Couldn't delete %s permanently" : "%s не может быть удалён окончательно",
     "Couldn't restore %s" : "%s не может быть восстановлен",
     "Deleted files" : "Удалённые файлы",
     "Restore" : "Восстановить",
@@ -9,8 +9,9 @@ OC.L10N.register(
     "Error" : "Ошибка",
     "restored" : "восстановлен",
     "No deleted files" : "Нет удалённых файлов",
-    "You will be able to recover deleted files from here" : "Отсюда вы сможете восстановить удалённые файлы",
-    "Select all" : "Выбрать все",
+    "You will be able to recover deleted files from here" : "Здесь вы сможете восстановить удалённые файлы",
+    "No entries found in this folder" : "Каталог пуст",
+    "Select all" : "Выделить все",
     "Name" : "Имя",
     "Deleted" : "Удалён",
     "Delete" : "Удалить"

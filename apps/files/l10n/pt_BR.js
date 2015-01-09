@@ -98,6 +98,7 @@ OC.L10N.register(
     "Cancel upload" : "Cancelar envio",
     "No files yet" : "Nenhum arquivo até agora",
     "Upload some content or sync with your devices!" : "Carregue algum conteúdo ou sincronize com seus dispositivos!",
+    "No entries found in this folder" : "Nenhuma entrada foi encontrada nesta pasta",
     "Select all" : "Selecionar tudo",
     "Download" : "Baixar",
     "Upload too large" : "Arquivo muito grande para envio",

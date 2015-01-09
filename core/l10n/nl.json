@@ -117,6 +117,7 @@
     "Hello world!" : "Hallo wereld!",
     "sunny" : "zonnig",
     "Hello {name}, the weather is {weather}" : "Hallo {name}, het is hier {weather}",
+    "Hello {name}" : "Hallo {name}",
     "_download %n file_::_download %n files_" : ["download %n bestand","download %n bestanden"],
     "Updating {productName} to version {version}, this may take a while." : "Bijwerken {productName} naar versie {version}, dit kan even duren.",
     "Please reload the page." : "Herlaad deze pagina.",

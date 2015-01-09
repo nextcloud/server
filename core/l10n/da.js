@@ -119,6 +119,7 @@ OC.L10N.register(
     "Hello world!" : "Hej verden!",
     "sunny" : "solrigt",
     "Hello {name}, the weather is {weather}" : "Hej {name}, vejret er {weather}",
+    "Hello {name}" : "Hej {name}",
     "_download %n file_::_download %n files_" : ["hent %n fil","hent %n filer"],
     "Updating {productName} to version {version}, this may take a while." : "Opdaterer {productName} til version {version}, det kan tage et stykke tid.",
     "Please reload the page." : "Genindlæs venligst siden",

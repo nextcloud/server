@@ -117,6 +117,7 @@
     "Hello world!" : "Hallo Welt!",
     "sunny" : "Sonnig",
     "Hello {name}, the weather is {weather}" : "Hallo {name}, das Wetter ist {weather}",
+    "Hello {name}" : "Hallo {name}",
     "_download %n file_::_download %n files_" : ["Lade %n Datei herunter","Lade %n Dateien herunter"],
     "Updating {productName} to version {version}, this may take a while." : "{productName} wird auf Version {version} aktualisiert. Das könnte eine Weile dauern.",
     "Please reload the page." : "Bitte laden Sie diese Seite neu.",

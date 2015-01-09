@@ -123,6 +123,7 @@ OC.L10N.register(
     "This means that there might be problems with certain characters in file names." : "Dieses bedeutet, dass es Probleme mit bestimmten Zeichen in den Dateinamen geben kann.",
     "We strongly suggest installing the required packages on your system to support one of the following locales: %s." : "Wir empfehlen dringend, die erforderlichen Pakete auf Ihrem System zu installieren, damit eine der folgenden Gebietsschemas unterstützt wird: %s.",
     "URL generation in notification emails" : "Adresserstellung in E-Mail-Benachrichtungen",
+    "If your installation is not installed in the root of the domain and uses system cron, there can be issues with the URL generation. To avoid these problems, please set the \"overwrite.cli.url\" option in your config.php file to the webroot path of your installation (Suggested: \"%s\")" : "Wenn sich Ihre Installation nicht im Wurzelverzeichnis der Domain befindet und Cron aus dem System genutzt wird, kann es zu Fehlern bei der URL-Generierung kommen. Um dies zu verhindern, setzen Sie bitte die \"overwrite.cli.url\"-Option in Ihrer config.php auf das Web-Wurzelverzeichnis Ihrer Installation (Vorschlag: \"%s\").",
     "Configuration Checks" : "Konfigurationsprüfungen",
     "No problems found" : "Keine Probleme gefunden",
     "Please double check the <a href='%s'>installation guides</a>." : "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",

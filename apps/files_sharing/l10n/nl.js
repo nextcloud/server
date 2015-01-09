@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "Deze share is met een wachtwoord beveiligd",
     "The password is wrong. Try again." : "Wachtwoord ongeldig. Probeer het nogmaals.",
     "Password" : "Wachtwoord",
+    "No entries found in this folder" : "Niets gevonden in deze map",
     "Name" : "Naam",
     "Share time" : "Deel tijd",
     "Sorry, this link doesn’t seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",

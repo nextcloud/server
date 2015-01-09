@@ -83,7 +83,7 @@ OC.L10N.register(
     "Password protect" : "Lösenordsskydda",
     "Password" : "Lösenord",
     "Choose a password for the public link" : "Välj ett lösenord för den publika länken",
-    "Allow editing" : "Tillåt regidering",
+    "Allow editing" : "Tillåt redigering",
     "Email link to person" : "E-posta länk till person",
     "Send" : "Skicka",
     "Set expiration date" : "Sätt utgångsdatum",

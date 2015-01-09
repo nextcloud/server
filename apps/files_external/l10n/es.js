@@ -1,8 +1,8 @@
 OC.L10N.register(
     "files_external",
     {
-    "Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens solicitados ha fallado. Verifique que la llave y el secreto de su app Dropbox es correcta.",
-    "Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens de acceso ha fallado. Verifique que la llave y el secreto de su app Dropbox es correcta.",
+    "Fetching request tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens solicitados ha fallado. Verifique que la clave y el secreto de su app Dropbox es correcta.",
+    "Fetching access tokens failed. Verify that your Dropbox app key and secret are correct." : "La descarga de los tokens de acceso ha fallado. Verifique que la clave y el secreto de su app Dropbox es correcta.",
     "Please provide a valid Dropbox app key and secret." : "Por favor, proporcione un una clave válida de la app Dropbox y una clave secreta.",
     "Step 1 failed. Exception: %s" : "El paso 1 falló. Excepción: %s",
     "Step 2 failed. Exception: %s" : "El paso 2 falló. Excepción: %s",

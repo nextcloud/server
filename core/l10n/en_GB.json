@@ -117,6 +117,7 @@
     "Hello world!" : "Hello world!",
     "sunny" : "sunny",
     "Hello {name}, the weather is {weather}" : "Hello {name}, the weather is {weather}",
+    "Hello {name}" : "Hello {name}",
     "_download %n file_::_download %n files_" : ["download %n file","download %n files"],
     "Updating {productName} to version {version}, this may take a while." : "Updating {productName} to version {version}, this may take a while.",
     "Please reload the page." : "Please reload the page.",
