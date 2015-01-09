@@ -24,7 +24,7 @@ class Factory implements ICacheFactory {
 	}
 
 	/**
-	 * get a cache instance, will return null if no backend is available
+	 * get a cache instance, or Null backend if no backend available
 	 *
 	 * @param string $prefix
 	 * @return \OC\Memcache\Cache
@@ -42,7 +42,7 @@ class Factory implements ICacheFactory {
 		} elseif (Memcached::isAvailable()) {
 			return new Memcached($prefix);
 		} else {
-			return null;
+			return new Null($prefix);
 		}
 	}
 
