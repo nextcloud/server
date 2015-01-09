@@ -97,36 +97,28 @@ class OC_Template extends \OC\Template\Base {
 	}
 
 	/**
-	 * Returns the formfactor extension for current formfactor
+	 * Returns the form factor extension for current form factor
 	 */
 	static public function getFormFactorExtension()
 	{
-		if (!\OC::$session) {
-			return '';
-		}
-		// if the formfactor is not yet autodetected do the
-		// autodetection now. For possible formfactors check the
-		// detectFormfactor documentation
-		if (!\OC::$session->exists('formfactor')) {
-			\OC::$session->set('formfactor', self::detectFormfactor());
-		}
 		// allow manual override via GET parameter
 		if(isset($_GET['formfactor'])) {
-			\OC::$session->set('formfactor', $_GET['formfactor']);
+			$formFactor = $_GET['formfactor'];
+		} else {
+			$formFactor = self::detectFormfactor();
 		}
-		$formfactor = \OC::$session->get('formfactor');
-		if($formfactor==='default') {
-			$fext='';
-		}elseif($formfactor==='mobile') {
-			$fext='.mobile';
-		}elseif($formfactor==='tablet') {
-			$fext='.tablet';
-		}elseif($formfactor==='standalone') {
-			$fext='.standalone';
+		if($formFactor==='default') {
+			$formFactorExt='';
+		}elseif($formFactor==='mobile') {
+			$formFactorExt='.mobile';
+		}elseif($formFactor==='tablet') {
+			$formFactorExt='.tablet';
+		}elseif($formFactor==='standalone') {
+			$formFactorExt='.standalone';
 		}else{
-			$fext='';
+			$formFactorExt='';
 		}
-		return $fext;
+		return $formFactorExt;
 	}
 
 	/**
