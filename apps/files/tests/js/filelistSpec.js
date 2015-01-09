@@ -61,8 +61,8 @@ describe('OCA.Files.FileList tests', function() {
 		$('#testArea').append(
 			'<div id="app-content-files">' +
 			// init horrible parameters
-			'<input type="hidden" id="dir" value="/subdir"></input>' +
-			'<input type="hidden" id="permissions" value="31"></input>' +
+			'<input type="hidden" id="dir" value="/subdir"/>' +
+			'<input type="hidden" id="permissions" value="31"/>' +
 			// dummy controls
 			'<div id="controls">' +
 			'   <div class="actions creatable"></div>' +
@@ -88,6 +88,7 @@ describe('OCA.Files.FileList tests', function() {
 			'<tfoot></tfoot>' +
 			'</table>' +
 			'<div id="emptycontent">Empty content message</div>' +
+			'<div class="nofilterresults hidden"></div>' +
 			'</div>'
 		);
 
@@ -763,7 +764,7 @@ describe('OCA.Files.FileList tests', function() {
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'error',
 				data: {
-					message: 'Error while moving file',
+					message: 'Error while moving file'
 				}
 			}));
 
@@ -785,7 +786,7 @@ describe('OCA.Files.FileList tests', function() {
 			fakeServer.requests[0].respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
 				status: 'error',
 				data: {
-					message: 'Error while moving file',
+					message: 'Error while moving file'
 				}
 			}));
 
@@ -899,6 +900,116 @@ describe('OCA.Files.FileList tests', function() {
 			fileList.remove('unexist.txt');
 			expect($summary.hasClass('hidden')).toEqual(false);
 			expect($summary.find('.info').text()).toEqual('0 folders and 1 file');
+		});
+	});
+	describe('Filtered list rendering', function() {
+		it('filters the list of files using filter()', function() {
+			expect(fileList.files.length).toEqual(0);
+			expect(fileList.files).toEqual([]);
+			fileList.setFiles(testFiles);
+			var $summary = $('#filestable .summary');
+			var $nofilterresults = fileList.$el.find(".nofilterresults");
+			expect($nofilterresults.length).toEqual(1);
+			expect($summary.hasClass('hidden')).toEqual(false);
+
+			expect($('#fileList tr:not(.hidden)').length).toEqual(4);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			fileList.setFilter('e');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(3);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual("1 folder and 2 files match 'e'");
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			fileList.setFilter('ee');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(1);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual("0 folders and 1 file matches 'ee'");
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			fileList.setFilter('eee');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(0);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(true);
+			expect($nofilterresults.hasClass('hidden')).toEqual(false);
+
+			fileList.setFilter('ee');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(1);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual("0 folders and 1 file matches 'ee'");
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			fileList.setFilter('e');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(3);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual("1 folder and 2 files match 'e'");
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			fileList.setFilter('');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(4);
+			expect(fileList.files.length).toEqual(4);
+			expect($summary.hasClass('hidden')).toEqual(false);
+			expect($summary.find('.info').text()).toEqual("1 folder and 3 files");
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+		});
+		it('hides the emptyfiles notice when using filter()', function() {
+			expect(fileList.files.length).toEqual(0);
+			expect(fileList.files).toEqual([]);
+			fileList.setFiles([]);
+			var $summary = $('#filestable .summary');
+			var $emptycontent = fileList.$el.find("#emptycontent");
+			var $nofilterresults = fileList.$el.find(".nofilterresults");
+			expect($emptycontent.length).toEqual(1);
+			expect($nofilterresults.length).toEqual(1);
+
+			expect($('#fileList tr:not(.hidden)').length).toEqual(0);
+			expect(fileList.files.length).toEqual(0);
+			expect($summary.hasClass('hidden')).toEqual(true);
+			expect($emptycontent.hasClass('hidden')).toEqual(false);
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			fileList.setFilter('e');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(0);
+			expect(fileList.files.length).toEqual(0);
+			expect($summary.hasClass('hidden')).toEqual(true);
+			expect($emptycontent.hasClass('hidden')).toEqual(true);
+			expect($nofilterresults.hasClass('hidden')).toEqual(false);
+
+			fileList.setFilter('');
+			expect($('#fileList tr:not(.hidden)').length).toEqual(0);
+			expect(fileList.files.length).toEqual(0);
+			expect($summary.hasClass('hidden')).toEqual(true);
+			expect($emptycontent.hasClass('hidden')).toEqual(false);
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+		});
+		it('does not show the emptyfiles or nofilterresults notice when the mask is active', function() {
+			expect(fileList.files.length).toEqual(0);
+			expect(fileList.files).toEqual([]);
+			fileList.showMask();
+			fileList.setFiles(testFiles);
+			var $emptycontent = fileList.$el.find("#emptycontent");
+			var $nofilterresults = fileList.$el.find(".nofilterresults");
+			expect($emptycontent.length).toEqual(1);
+			expect($nofilterresults.length).toEqual(1);
+
+			expect($emptycontent.hasClass('hidden')).toEqual(true);
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
+
+			/*
+			fileList.setFilter('e');
+			expect($emptycontent.hasClass('hidden')).toEqual(true);
+			expect($nofilterresults.hasClass('hidden')).toEqual(false);
+			*/
+
+			fileList.setFilter('');
+			expect($emptycontent.hasClass('hidden')).toEqual(true);
+			expect($nofilterresults.hasClass('hidden')).toEqual(true);
 		});
 	});
 	describe('Rendering next page on scroll', function() {
