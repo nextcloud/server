@@ -428,8 +428,10 @@ class Hooks {
 
 		// we only need to rename the keys if the rename happens on the same mountpoint
 		// otherwise we perform a stream copy, so we get a new set of keys
-		$mp1 = $view->getMountPoint('/' . $user . '/files/' . $params['oldpath']);
-		$mp2 = $view->getMountPoint('/' . $user . '/files/' . $params['newpath']);
+		$oldPath = \OC\Files\Filesystem::normalizePath('/' . $user . '/files/' . $params['oldpath']);
+		$newPath = \OC\Files\Filesystem::normalizePath('/' . $user . '/files/' . $params['newpath']);
+		$mp1 = $view->getMountPoint($oldPath);
+		$mp2 = $view->getMountPoint($newPath);
 
 		$oldKeysPath = Keymanager::getKeyPath($view, $util, $params['oldpath']);
 
@@ -438,7 +440,7 @@ class Hooks {
 				'operation' => $operation,
 				'oldKeysPath' => $oldKeysPath,
 				);
-		} else {
+		} elseif ($mp1 !== $oldPath . '/') {
 			self::$renamedFiles[$params['oldpath']] = array(
 				'operation' => 'cleanup',
 				'oldKeysPath' => $oldKeysPath,
