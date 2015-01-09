@@ -61,6 +61,7 @@ describe('OC.Share tests', function() {
 			loadItemStub.restore();
 
 			autocompleteStub.restore();
+			$('#dropdown').remove();
 		});
 		it('calls loadItem with the correct arguments', function() {
 			OC.Share.showDropDown(
@@ -500,6 +501,161 @@ describe('OC.Share tests', function() {
 				expect(shares).toBeDefined();
 				expect(shares[OC.Share.SHARE_TYPE_USER][0].share_with_displayname).toEqual('User One');
 				expect(shares[OC.Share.SHARE_TYPE_GROUP]).not.toBeDefined();
+			});
+		});
+		describe('share permissions', function() {
+			beforeEach(function() {
+				oc_appconfig.core.resharingAllowed = true;
+			});
+
+			/**
+			 * Tests sharing with the given possible permissions
+			 *
+			 * @param {int} possiblePermissions
+			 * @return {int} permissions sent to the server
+			 */
+			function testWithPermissions(possiblePermissions) {
+				OC.Share.showDropDown(
+					'file',
+					123,
+					$container,
+					true,
+					possiblePermissions,
+					'shared_file_name.txt'
+				);
+				var autocompleteOptions = autocompleteStub.getCall(0).args[0];
+				// simulate autocomplete selection
+				autocompleteOptions.select(new $.Event('select'), {
+					item: {
+						label: 'User Two',
+						value: {
+							shareType: OC.Share.SHARE_TYPE_USER,
+							shareWith: 'user2'
+						}
+					}
+				});
+				autocompleteStub.reset();
+				var requestBody = OC.parseQueryString(_.last(fakeServer.requests).requestBody);
+				return parseInt(requestBody.permissions, 10);
+			}
+
+			describe('regular sharing', function() {
+				it('shares with given permissions with default config', function() {
+					loadItemStub.returns({
+						reshare: [],
+						shares: []
+					});
+					expect(
+						testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+					).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE);
+					expect(
+						testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_SHARE)
+					).toEqual(OC.PERMISSION_READ | OC.PERMISSION_SHARE);
+				});
+				it('removes share permission when not allowed', function() {
+					oc_appconfig.core.resharingAllowed = false;
+					loadItemStub.returns({
+						reshare: [],
+						shares: []
+					});
+					expect(
+						testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+					).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE);
+				});
+				it('automatically adds READ permission even when not specified', function() {
+					oc_appconfig.core.resharingAllowed = false;
+					loadItemStub.returns({
+						reshare: [],
+						shares: []
+					});
+					expect(
+						testWithPermissions(OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+					).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_UPDATE);
+				});
+				it('does not show sharing options when sharing not allowed', function() {
+					loadItemStub.returns({
+						reshare: [],
+						shares: []
+					});
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						OC.PERMISSION_READ,
+						'shared_file_name.txt'
+					);
+					expect($('#dropdown #shareWithList').length).toEqual(0);
+				});
+			});
+			describe('resharing', function() {
+				it('shares with given permissions when original share had all permissions', function() {
+					loadItemStub.returns({
+						reshare: {
+							permissions: OC.PERMISSION_ALL
+						},
+						shares: []
+					});
+					expect(
+						testWithPermissions(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE)
+					).toEqual(OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_SHARE);
+				});
+				it('reduces reshare permissions to the ones from the original share', function() {
+					loadItemStub.returns({
+						reshare: {
+							permissions: OC.PERMISSION_READ,
+							uid_owner: 'user1'
+						},
+						shares: []
+					});
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						OC.PERMISSION_ALL,
+						'shared_file_name.txt'
+					);
+					// no resharing allowed
+					expect($('#dropdown #shareWithList').length).toEqual(0);
+				});
+				it('reduces reshare permissions to possible permissions', function() {
+					loadItemStub.returns({
+						reshare: {
+							permissions: OC.PERMISSION_ALL,
+							uid_owner: 'user1'
+						},
+						shares: []
+					});
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						OC.PERMISSION_READ,
+						'shared_file_name.txt'
+					);
+					// no resharing allowed
+					expect($('#dropdown #shareWithList').length).toEqual(0);
+				});
+				it('does not show sharing options when resharing not allowed', function() {
+					loadItemStub.returns({
+						reshare: {
+							permissions: OC.PERMISSION_READ | OC.PERMISSION_UPDATE | OC.PERMISSION_DELETE,
+							uid_owner: 'user1'
+						},
+						shares: []
+					});
+					OC.Share.showDropDown(
+						'file',
+						123,
+						$container,
+						true,
+						OC.PERMISSION_ALL,
+						'shared_file_name.txt'
+					);
+					expect($('#dropdown #shareWithList').length).toEqual(0);
+				});
 			});
 		});
 	});
