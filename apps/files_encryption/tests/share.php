@@ -1032,7 +1032,7 @@ class Share extends TestCase {
 
 
 	/**
-	 * test moving a shared file out of the Shared folder
+	 * test rename a shared file mount point
 	 */
 	function testRename() {
 
@@ -1055,7 +1055,10 @@ class Share extends TestCase {
 		// share the file
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
 
-		// check if share key for user2 exists
+		// check if share key for user1 and user2 exists
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
 		$this->assertTrue($this->view->file_exists(
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
 			. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
@@ -1073,9 +1076,10 @@ class Share extends TestCase {
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
+		\OC\Files\Filesystem::mkdir($this->folder1);
+
 		// move the file to a subfolder
-		$this->view->rename('/' . self::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->filename,
-			'/' . self::TEST_ENCRYPTION_SHARE_USER2 . '/files/' . $this->folder1 . $this->filename);
+		\OC\Files\Filesystem::rename($this->filename, $this->folder1 . $this->filename);
 
 		// check if we can read the moved file
 		$retrievedRenamedFile = $this->view->file_get_contents(
@@ -1084,9 +1088,87 @@ class Share extends TestCase {
 		// check if data is the same as we previously written
 		$this->assertEquals($this->dataShort, $retrievedRenamedFile);
 
+		// check if share key for user2 and user1 still exists
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER2 . '.shareKey'));
+
 		// cleanup
 		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
 		$this->view->unlink('/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+	}
+
+	function testRenameGroupShare() {
+		// login as admin
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
+
+		// save file with content
+		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile));
+
+		// get the file info from previous created file
+		$fileInfo = $this->view->getFileInfo(
+			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
+
+		// check if we have a valid file info
+		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+
+		// share the file
+		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_ENCRYPTION_SHARE_GROUP1, \OCP\Constants::PERMISSION_ALL);
+
+		// check if share key for user1, user3 and user4 exists
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER3 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER4 . '.shareKey'));
+
+
+		// login as user2
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER3);
+
+		$this->assertTrue(\OC\Files\Filesystem::file_exists($this->filename));
+
+		// get file contents
+		$retrievedCryptedFile = \OC\Files\Filesystem::file_get_contents($this->filename);
+
+		// check if data is the same as we previously written
+		$this->assertEquals($this->dataShort, $retrievedCryptedFile);
+
+		\OC\Files\Filesystem::mkdir($this->folder1);
+
+		// move the file to a subfolder
+		\OC\Files\Filesystem::rename($this->filename, $this->folder1 . $this->filename);
+
+		// check if we can read the moved file
+		$retrievedRenamedFile = \OC\Files\Filesystem::file_get_contents($this->folder1 . $this->filename);
+
+		// check if data is the same as we previously written
+		$this->assertEquals($this->dataShort, $retrievedRenamedFile);
+
+		// check if share key for user1, user3 and user4 still exists
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER3 . '.shareKey'));
+		$this->assertTrue($this->view->file_exists(
+				'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files_encryption/keys/'
+				. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER4 . '.shareKey'));
+
+		// cleanup
+		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
+		\OC\Files\Filesystem::unlink($this->filename);
 	}
 
 	/**
