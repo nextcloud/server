@@ -517,6 +517,42 @@ class Cache extends \Test\TestCase {
 		$this->assertEquals(1, count($this->cache->getFolderContents('folder')));
 	}
 
+	function bogusPathNamesProvider() {
+		return array(
+			array('/bogus.txt', 'bogus.txt'),
+			array('//bogus.txt', 'bogus.txt'),
+			array('bogus/', 'bogus'),
+			array('bogus//', 'bogus'),
+		);
+	}
+
+	/**
+	 * Test bogus paths with leading or doubled slashes
+	 *
+	 * @dataProvider bogusPathNamesProvider
+	 */
+	public function testBogusPaths($bogusPath, $fixedBogusPath) {
+		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+
+		// put root folder
+		$this->assertFalse($this->cache->get(''));
+		$parentId = $this->cache->put('', $data);
+		$this->assertGreaterThan(0, $parentId);
+
+		$this->assertGreaterThan(0, $this->cache->put($bogusPath, $data));
+
+		$newData = $this->cache->get($fixedBogusPath);
+		$this->assertNotFalse($newData);
+
+		$this->assertEquals($fixedBogusPath, $newData['path']);
+		// parent is the correct one, resolved properly (they used to not be)
+		$this->assertEquals($parentId, $newData['parent']);
+
+		$newDataFromBogus = $this->cache->get($bogusPath);
+		// same entry
+		$this->assertEquals($newData, $newDataFromBogus);
+	}
+
 	protected function tearDown() {
 		if ($this->cache) {
 			$this->cache->clear();

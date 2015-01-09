@@ -30,7 +30,7 @@ class CacheJail extends CacheWrapper {
 		if ($path === '') {
 			return $this->root;
 		} else {
-			return $this->root . '/' . $path;
+			return $this->root . '/' . ltrim($path, '/');
 		}
 	}
 
