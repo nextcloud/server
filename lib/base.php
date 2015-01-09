@@ -737,7 +737,9 @@ class OC {
 		}
 
 		// Load minimum set of apps
-		if (!self::checkUpgrade(false)) {
+		if (!self::checkUpgrade(false)
+			&& !$systemConfig->getValue('maintenance', false)
+			&& !\OCP\Util::needUpgrade()) {
 			// For logged-in users: Load everything
 			if(OC_User::isLoggedIn()) {
 				OC_App::loadApps();
