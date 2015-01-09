@@ -360,6 +360,8 @@ OC.Share={
 				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.displayname_owner})+'</span>';
 			}
 			html += '<br />';
+			// reduce possible permissions to what the original share allowed
+			possiblePermissions = possiblePermissions & data.reshare.permissions;
 		}
 
 		if (possiblePermissions & OC.PERMISSION_SHARE) {
