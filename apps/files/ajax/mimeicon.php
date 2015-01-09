@@ -1,4 +1,6 @@
 <?php
 \OC::$server->getSession()->close();
 
-print OC_Helper::mimetypeIcon($_GET['mime']);
+$mime = isset($_GET['mime']) ? $_GET['mime'] : '';
+
+print OC_Helper::mimetypeIcon($mime);
