@@ -48,20 +48,13 @@ class Test_StreamWrappers extends \Test\TestCase {
 		//test callback
 		$tmpFile = OC_Helper::TmpFile('.txt');
 		$file = 'close://' . $tmpFile;
-		\OC\Files\Stream\Close::registerCallback($tmpFile, array('Test_StreamWrappers', 'closeCallBack'));
+		$actual = false;
+		$callback = function($path) use (&$actual) { $actual = $path; };
+		\OC\Files\Stream\Close::registerCallback($tmpFile, $callback);
 		$fh = fopen($file, 'w');
 		fwrite($fh, 'asd');
-		try {
-			fclose($fh);
-			$this->fail('Expected exception');
-		} catch (Exception $e) {
-			$path = $e->getMessage();
-			$this->assertEquals($path, $tmpFile);
-		}
-	}
-
-	public static function closeCallBack($path) {
-		throw new Exception($path);
+		fclose($fh);
+		$this->assertSame($tmpFile, $actual);
 	}
 
 	public function testOC() {
