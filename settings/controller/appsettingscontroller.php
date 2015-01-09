@@ -14,6 +14,7 @@ namespace OC\Settings\Controller;
 use OC\App\DependencyAnalyzer;
 use OC\App\Platform;
 use \OCP\AppFramework\Controller;
+use OCP\ICacheFactory;
 use OCP\IRequest;
 use OCP\IL10N;
 use OCP\IConfig;
@@ -27,20 +28,25 @@ class AppSettingsController extends Controller {
 	private $l10n;
 	/** @var IConfig */
 	private $config;
+	/** @var \OCP\ICache */
+	private $cache;
 
 	/**
 	 * @param string $appName
 	 * @param IRequest $request
 	 * @param IL10N $l10n
 	 * @param IConfig $config
+	 * @param ICacheFactory $cache
 	 */
 	public function __construct($appName,
 								IRequest $request,
 								IL10N $l10n,
-								IConfig $config) {
+								IConfig $config,
+								ICacheFactory $cache) {
 		parent::__construct($appName, $request);
 		$this->l10n = $l10n;
 		$this->config = $config;
+		$this->cache = $cache->create($appName);
 	}
 
 	/**
@@ -49,13 +55,16 @@ class AppSettingsController extends Controller {
 	 */
 	public function listCategories() {
 
-		$categories = array(
-			array('id' => 0, 'displayName' => (string)$this->l10n->t('Enabled') ),
-			array('id' => 1, 'displayName' => (string)$this->l10n->t('Not enabled') ),
-		);
+		if(!is_null($this->cache->get('listCategories'))) {
+			return $this->cache->get('listCategories');
+		}
+		$categories = [
+			['id' => 0, 'displayName' => (string)$this->l10n->t('Enabled')],
+			['id' => 1, 'displayName' => (string)$this->l10n->t('Not enabled')],
+		];
 
 		if($this->config->getSystemValue('appstoreenabled', true)) {
-			$categories[] = array('id' => 2, 'displayName' => (string)$this->l10n->t('Recommended') );
+			$categories[] = ['id' => 2, 'displayName' => (string)$this->l10n->t('Recommended')];
 			// apps from external repo via OCS
 			$ocs = \OC_OCSClient::getCategories();
 			foreach($ocs as $k => $v) {
@@ -67,6 +76,7 @@ class AppSettingsController extends Controller {
 		}
 
 		$categories['status'] = 'success';
+		$this->cache->set('listCategories', $categories, 3600);
 
 		return $categories;
 	}
@@ -77,44 +87,46 @@ class AppSettingsController extends Controller {
 	 * @return array
 	 */
 	public function listApps($category = 0) {
-		$apps = array();
-
-		switch($category) {
-			// installed apps
-			case 0:
-				$apps = \OC_App::listAllApps(true);
-				$apps = array_filter($apps, function($app) {
-					return $app['active'];
-				});
-				break;
-			// not-installed apps
-			case 1:
-				$apps = \OC_App::listAllApps(true);
-				$apps = array_filter($apps, function($app) {
-					return !$app['active'];
-				});
-				break;
-			default:
-				if ($category === 2) {
-					$apps = \OC_App::getAppstoreApps('approved');
-					$apps = array_filter($apps, function($app) {
-						return isset($app['internalclass']) && $app['internalclass'] === 'recommendedapp';
+		if(!is_null($this->cache->get('listApps-'.$category))) {
+			$apps = $this->cache->get('listApps-'.$category);
+		} else {
+			switch ($category) {
+				// installed apps
+				case 0:
+					$apps = \OC_App::listAllApps(true);
+					$apps = array_filter($apps, function ($app) {
+						return $app['active'];
 					});
-				} else {
-					$apps = \OC_App::getAppstoreApps('approved', $category);
-				}
-				if (!$apps) {
-					$apps = array();
-				}
-				usort($apps, function ($a, $b) {
-					$a = (int)$a['score'];
-					$b = (int)$b['score'];
-					if ($a === $b) {
-						return 0;
+					break;
+				// not-installed apps
+				case 1:
+					$apps = \OC_App::listAllApps(true);
+					$apps = array_filter($apps, function ($app) {
+						return !$app['active'];
+					});
+					break;
+				default:
+					if ($category === 2) {
+						$apps = \OC_App::getAppstoreApps('approved');
+						$apps = array_filter($apps, function ($app) {
+							return isset($app['internalclass']) && $app['internalclass'] === 'recommendedapp';
+						});
+					} else {
+						$apps = \OC_App::getAppstoreApps('approved', $category);
 					}
-					return ($a > $b) ? -1 : 1;
-				});
-				break;
+					if (!$apps) {
+						$apps = array();
+					}
+					usort($apps, function ($a, $b) {
+						$a = (int)$a['score'];
+						$b = (int)$b['score'];
+						if ($a === $b) {
+							return 0;
+						}
+						return ($a > $b) ? -1 : 1;
+					});
+					break;
+			}
 		}
 
 		// fix groups to be an array
@@ -142,6 +154,8 @@ class AppSettingsController extends Controller {
 			return $app;
 		}, $apps);
 
-		return array('apps' => $apps, 'status' => 'success');
+		$this->cache->set('listApps-'.$category, $apps, 300);
+
+		return ['apps' => $apps, 'status' => 'success'];
 	}
 }
