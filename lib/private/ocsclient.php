@@ -147,7 +147,7 @@ class OC_OCSClient{
 			$app['changed']=strtotime($tmp[$i]->changed);
 			$app['description']=(string)$tmp[$i]->description;
 			$app['score']=(string)$tmp[$i]->score;
-			$app['downloads'] = $tmp[$i]->downloads;
+			$app['downloads'] = (int)$tmp[$i]->downloads;
 
 			$apps[]=$app;
 		}

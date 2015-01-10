@@ -55,7 +55,8 @@ class Application extends App {
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('L10N'),
-				$c->query('Config')
+				$c->query('Config'),
+				$c->query('ICacheFactory')
 			);
 		});
 		$container->registerService('SecuritySettingsController', function(IContainer $c) {
@@ -119,6 +120,9 @@ class Application extends App {
 		 */
 		$container->registerService('Config', function(IContainer $c) {
 			return $c->query('ServerContainer')->getConfig();
+		});
+		$container->registerService('ICacheFactory', function(IContainer $c) {
+			return $c->query('ServerContainer')->getMemCacheFactory();
 		});
 		$container->registerService('L10N', function(IContainer $c) {
 			return $c->query('ServerContainer')->getL10N('settings');
