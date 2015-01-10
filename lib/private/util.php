@@ -1274,14 +1274,17 @@ class OC_Util {
 	 * @return bool|string
 	 */
 	public static function normalizeUnicode($value) {
-		$normalizedValue = normalizer_normalize($value);
-		if ($normalizedValue === null || $normalizedValue === false) {
-			\OC_Log::write('core', 'normalizing failed for "' . $value . '"', \OC_Log::WARN);
-		} else {
-			$value = $normalizedValue;
+		if(Normalizer::isNormalized($value)) {
+			return $value;
 		}
 
-		return $value;
+		$normalizedValue = Normalizer::normalize($value);
+		if ($normalizedValue === null || $normalizedValue === false) {
+			\OC::$server->getLogger()->warning('normalizing failed for "' . $value . '"', ['app' => 'core']);
+			return $value;
+		}
+
+		return $normalizedValue;
 	}
 
 	/**
