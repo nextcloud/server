@@ -22,7 +22,8 @@
 */
 
 // Check if we are a user
-\OC_JSON::checkLoggedIn();
+\OCP\JSON::checkLoggedIn();
+\OCP\JSON::callCheck();
 \OC::$server->getSession()->close();
 
 if (isset($_GET['query'])) {
