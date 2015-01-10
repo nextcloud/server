@@ -154,6 +154,39 @@ class Filesystem extends \Test\TestCase {
 		$this->assertEquals($expected, \OC\Files\Filesystem::normalizePath($path, $stripTrailingSlash));
 	}
 
+	public function isValidPathData() {
+		return array(
+			array('/', true),
+			array('/path', true),
+			array('/foo/bar', true),
+			array('/foo//bar/', true),
+			array('/foo////bar', true),
+			array('/foo//\///bar', true),
+			array('/foo/bar/.', true),
+			array('/foo/bar/./', true),
+			array('/foo/bar/./.', true),
+			array('/foo/bar/././', true),
+			array('/foo/bar/././..bar', true),
+			array('/foo/bar/././..bar/a', true),
+			array('/foo/bar/././..', false),
+			array('/foo/bar/././../', false),
+			array('/foo/bar/.././', false),
+			array('/foo/bar/../../', false),
+			array('/foo/bar/../..\\', false),
+			array('..', false),
+			array('../', false),
+			array('../foo/bar', false),
+			array('..\foo/bar', false),
+		);
+	}
+
+	/**
+	 * @dataProvider isValidPathData
+	 */
+	public function testIsValidPath($path, $expected) {
+		$this->assertSame($expected, \OC\Files\Filesystem::isValidPath($path));
+	}
+
 	public function normalizePathWindowsAbsolutePathData() {
 		return array(
 			array('C:/', 'C:\\'),

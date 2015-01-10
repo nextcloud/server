@@ -504,7 +504,7 @@ class Filesystem {
 		if (!$path || $path[0] !== '/') {
 			$path = '/' . $path;
 		}
-		if (strstr($path, '/../') || strrchr($path, '/') === '/..') {
+		if (strpos($path, '/../') !== FALSE || strrchr($path, '/') === '/..') {
 			return false;
 		}
 		return true;
