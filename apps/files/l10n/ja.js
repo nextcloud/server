@@ -97,6 +97,7 @@ OC.L10N.register(
     "Cancel upload" : "アップロードをキャンセル",
     "No files yet" : "ファイルなし",
     "Upload some content or sync with your devices!" : "何かコンテンツをアップロードするか、デバイスからファイルを同期してください。",
+    "No entries found in this folder" : "このフォルダーにはエントリーがありません",
     "Select all" : "すべて選択",
     "Download" : "ダウンロード",
     "Upload too large" : "アップロードには大きすぎます。",
@@ -104,6 +105,6 @@ OC.L10N.register(
     "Files are being scanned, please wait." : "ファイルをスキャンしています、しばらくお待ちください。",
     "Currently scanning" : "現在スキャン中",
     "No favorites" : "お気に入りなし",
-    "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダは、ここに表示されます。"
+    "Files and folders you mark as favorite will show up here" : "お気に入りに登録されたファイルやフォルダーは、ここに表示されます。"
 },
 "nplurals=1; plural=0;");

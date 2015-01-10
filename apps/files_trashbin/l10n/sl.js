@@ -10,6 +10,7 @@ OC.L10N.register(
     "restored" : "obnovljeno",
     "No deleted files" : "Ni izbrisanih datotek",
     "You will be able to recover deleted files from here" : "Izbrisane datoteke je mogoče povrniti na tem mestu",
+    "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
     "Select all" : "izberi vse",
     "Name" : "Ime",
     "Deleted" : "Izbrisano",

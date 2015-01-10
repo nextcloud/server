@@ -119,6 +119,7 @@ OC.L10N.register(
     "Hello world!" : "Pozdravljen svet!",
     "sunny" : "sončno",
     "Hello {name}, the weather is {weather}" : "Pozdravljeni, {name}, vreme je {weather}",
+    "Hello {name}" : "Pozdravljeni, {name}",
     "_download %n file_::_download %n files_" : ["prejmi %n datoteko","prejmi %n datoteki","prejmi %n datoteke","prejmi %n datotek"],
     "Updating {productName} to version {version}, this may take a while." : "Poteka posodabljanje {productName} na različico {version}. Opravilo je lahko dolgotrajno.",
     "Please reload the page." : "Stran je treba ponovno naložiti",

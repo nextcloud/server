@@ -33,6 +33,7 @@ OC.L10N.register(
     "This share is password-protected" : "To mesto je zaščiteno z geslom.",
     "The password is wrong. Try again." : "Geslo je napačno. Poskusite znova.",
     "Password" : "Geslo",
+    "No entries found in this folder" : "V tej mapi ni najdenih predmetov.",
     "Name" : "Ime",
     "Share time" : "Čas souporabe",
     "Sorry, this link doesn’t seem to work anymore." : "Povezava očitno ni več v uporabi.",

@@ -33,7 +33,7 @@
     "Invalid directory." : "Geçersiz dizin.",
     "Files" : "Dosyalar",
     "All files" : "Tüm dosyalar",
-    "Favorites" : "Sık Kullanılanlar",
+    "Favorites" : "Sık kullanılanlar",
     "Home" : "Ev",
     "Unable to upload {filename} as it is a directory or has 0 bytes" : "{filename} bir dizin veya 0 bayt olduğundan yüklenemedi",
     "Total file size {size1} exceeds upload limit {size2}" : "Toplam dosya boyutu {size1}, {size2} gönderme sınırını aşıyor",
@@ -52,11 +52,13 @@
     "Unshare" : "Paylaşmayı Kaldır",
     "Select" : "Seç",
     "Pending" : "Bekliyor",
+    "Unable to determine date" : "Tarih tespit edilemedi",
     "Error moving file." : "Dosya taşıma hatası.",
     "Error moving file" : "Dosya taşıma hatası",
     "Error" : "Hata",
     "Could not rename file" : "Dosya adlandırılamadı",
     "Error deleting file." : "Dosya silinirken hata.",
+    "No entries in this folder match '{filter}'" : "Bu klasörde hiçbir girdi '{filter}' ile eşleşmiyor",
     "Name" : "İsim",
     "Size" : "Boyut",
     "Modified" : "Değiştirilme",
@@ -91,10 +93,13 @@
     "From link" : "Bağlantıdan",
     "Upload" : "Yükle",
     "Cancel upload" : "Yüklemeyi iptal et",
+    "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",
+    "Select all" : "Tümünü seç",
     "Download" : "İndir",
     "Upload too large" : "Yükleme çok büyük",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucudaki azami yükleme boyutunu aşıyor.",
     "Files are being scanned, please wait." : "Dosyalar taranıyor, lütfen bekleyin.",
-    "Currently scanning" : "Şu anda taranan"
+    "Currently scanning" : "Şu anda taranan",
+    "No favorites" : "Sık kullanılan öge yok."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }

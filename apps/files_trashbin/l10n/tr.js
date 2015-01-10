@@ -8,6 +8,10 @@ OC.L10N.register(
     "Delete permanently" : "Kalıcı olarak sil",
     "Error" : "Hata",
     "restored" : "geri yüklendi",
+    "No deleted files" : "Silinen dosya yok",
+    "You will be able to recover deleted files from here" : "Silinen dosyalarınızı buradan kurtarabileceksiniz",
+    "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",
+    "Select all" : "Tümünü seç",
     "Name" : "İsim",
     "Deleted" : "Silinme",
     "Delete" : "Sil"
