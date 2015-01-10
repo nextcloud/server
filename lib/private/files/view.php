@@ -1278,8 +1278,10 @@ class View {
 
 	private function assertPathLength($path) {
 		$maxLen = min(PHP_MAXPATHLEN, 4000);
-		$pathLen = strlen($path);
-		if ($pathLen > $maxLen) {
+		// Check for the string length - performed using isset() instead of strlen()
+		// because isset() is about 5x-40x faster.
+		if(isset($path[$maxLen])) {
+			$pathLen = strlen($path);
 			throw new \OCP\Files\InvalidPathException("Path length($pathLen) exceeds max path length($maxLen): $path");
 		}
 	}
