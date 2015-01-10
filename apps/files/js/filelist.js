@@ -1692,7 +1692,7 @@
 				this.$el.find('#emptycontent').addClass('hidden');
 				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden')) {
 					this.$el.find('.nofilterresults').removeClass('hidden').
-						find('p').text(t('files', "No entries in this folder match '{filter}'", {filter:this._filter}));
+						find('p').text(t('files', "No entries in this folder match '{filter}'", {filter:this._filter},  null, {'escape': false}));
 				}
 			} else {
 				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
