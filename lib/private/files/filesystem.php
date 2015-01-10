@@ -47,6 +47,8 @@ class Filesystem {
 
 	static private $usersSetup = array();
 
+	static private $normalizedPathCache = array();
+
 	/**
 	 * classname which used for hooks handling
 	 * used as signalclass in OC_Hooks::emit()
@@ -713,6 +715,12 @@ class Filesystem {
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false) {
+		$cacheKey = $path.'-'.-$stripTrailingSlash.'-'.$isAbsolutePath;
+
+		if(isset(self::$normalizedPathCache[$cacheKey])) {
+			return self::$normalizedPathCache[$cacheKey];
+		}
+
 		if ($path == '') {
 			return '/';
 		}
@@ -756,7 +764,10 @@ class Filesystem {
 		//normalize unicode if possible
 		$path = \OC_Util::normalizeUnicode($path);
 
-		return $windows_drive_letter . $path;
+		$normalizedPath = $windows_drive_letter . $path;
+		self::$normalizedPathCache[$cacheKey] = $normalizedPath;
+
+		return $normalizedPath;
 	}
 
 	/**
