@@ -8,6 +8,7 @@ OC.L10N.register(
     "Shared with you" : "Współdzielony z Tobą",
     "Shared with others" : "Współdzielony z innymi",
     "Shared by link" : "Współdzielony linkiem",
+    "No shared links" : "Brak udostępnionych odnośników",
     "Do you want to add the remote share {name} from {owner}@{remote}?" : "Czy chcesz dodać udział zdalny {name} od {owner}@{remote}?",
     "Remote share" : "Zdalny zasób",
     "Remote share password" : "Hasło do zdalnego zasobu",
