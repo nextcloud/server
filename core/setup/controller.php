@@ -173,17 +173,17 @@ class Controller {
 		if($this->iniWrapper->getString('open_basedir') !== '' && PHP_INT_SIZE === 4) {
 			$errors[] = array(
 				'error' => $this->l10n->t(
-					'It seems that this %s instance is running on a 32bit PHP environment and the open_basedir has been configured in php.ini. ' .
+					'It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. ' .
 					'This will lead to problems with files over 4GB and is highly discouraged.',
 					$this->defaults->getName()
 				),
-				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to  64bit PHP.')
+				'hint' => $this->l10n->t('Please remove the open_basedir setting within your php.ini or switch to 64-bit PHP.')
 			);
 		}
 		if(!function_exists('curl_init') && PHP_INT_SIZE === 4) {
 			$errors[] = array(
 				'error' => $this->l10n->t(
-					'It seems that this %s instance is running on a 32bit PHP environment and cURL is not installed. ' .
+					'It seems that this %s instance is running on a 32-bit PHP environment and cURL is not installed. ' .
 					'This will lead to problems with files over 4GB and is highly discouraged.',
 					$this->defaults->getName()
 				),
