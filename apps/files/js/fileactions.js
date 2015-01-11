@@ -469,7 +469,7 @@
 				if (url) {
 					OC.redirect(url);
 				}
-			});
+			}, t('files', 'Download'));
 		}
 	};
 

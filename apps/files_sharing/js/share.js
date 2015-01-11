@@ -135,7 +135,7 @@
 						$tr.removeAttr('data-share-recipients');
 					}
 				});
-			});
+			}, t('files_sharing', 'Share'));
 		},
 
 		/**
