@@ -30,13 +30,13 @@ $files = new \OCA\Files\App(
 	\OC::$server->getL10N('files')
 );
 $result = $files->rename(
-	$_GET["dir"],
-	$_GET["file"],
-	$_GET["newname"]
+	isset($_GET['dir']) ? $_GET['dir'] : '',
+	isset($_GET['file']) ? $_GET['file'] : '',
+	isset($_GET['newname']) ? $_GET['newname'] : ''
 );
 
 if($result['success'] === true){
-	OCP\JSON::success(array('data' => $result['data']));
+	OCP\JSON::success(['data' => $result['data']]);
 } else {
-	OCP\JSON::error(array('data' => $result['data']));
+	OCP\JSON::error(['data' => $result['data']]);
 }
