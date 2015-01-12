@@ -59,6 +59,15 @@ class Proxy extends \OC_FileProxy {
 		$parts = explode('/', $path);
 
 		// we only encrypt/decrypt files in the files and files_versions folder
+		if (sizeof($parts) < 3) {
+			/**
+			 * Less then 3 parts means, we can't match:
+			 * - /{$uid}/files/* nor
+			 * - /{$uid}/files_versions/*
+			 * So this is not a path we are looking for.
+			 */
+			return true;
+		}
 		if(
 			strpos($path, '/' . $uid . '/files/') !== 0 &&
 			!($parts[2] === 'files_versions' && \OCP\User::userExists($parts[1]))) {
