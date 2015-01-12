@@ -405,6 +405,45 @@ class Folder extends \Test\TestCase {
 		$this->assertEquals('/bar/foo/qwerty', $result[0]->getPath());
 	}
 
+	public function testSearchInRoot() {
+		$manager = $this->getMock('\OC\Files\Mount\Manager');
+		/**
+		 * @var \OC\Files\View | \PHPUnit_Framework_MockObject_MockObject $view
+		 */
+		$view = $this->getMock('\OC\Files\View');
+		$root = $this->getMock('\OC\Files\Node\Root', array('getUser', 'getMountsIn'), array($manager, $view, $this->user));
+		$root->expects($this->any())
+			->method('getUser')
+			->will($this->returnValue($this->user));
+		$storage = $this->getMock('\OC\Files\Storage\Storage');
+		$cache = $this->getMock('\OC\Files\Cache\Cache', array(), array(''));
+
+		$storage->expects($this->once())
+			->method('getCache')
+			->will($this->returnValue($cache));
+
+		$cache->expects($this->once())
+			->method('search')
+			->with('%qw%')
+			->will($this->returnValue(array(
+				array('fileid' => 3, 'path' => 'files/foo', 'name' => 'qwerty', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'),
+				array('fileid' => 3, 'path' => 'files_trashbin/foo2.d12345', 'name' => 'foo2.d12345', 'size' => 200, 'mtime' => 55, 'mimetype' => 'text/plain'),
+			)));
+
+		$root->expects($this->once())
+			->method('getMountsIn')
+			->with('')
+			->will($this->returnValue(array()));
+
+		$view->expects($this->once())
+			->method('resolvePath')
+			->will($this->returnValue(array($storage, 'files')));
+
+		$result = $root->search('qw');
+		$this->assertEquals(1, count($result));
+		$this->assertEquals('/foo', $result[0]->getPath());
+	}
+
 	public function testSearchByTag() {
 		$manager = $this->getMock('\OC\Files\Mount\Manager');
 		/**
