@@ -1832,9 +1832,18 @@
 			fileUploadStart.on('fileuploaddrop', function(e, data) {
 				OC.Upload.log('filelist handle fileuploaddrop', e, data);
 
+				if (self.$el.hasClass('hidden')) {
+					// do not upload to invisible lists
+					return false;
+				}
+
 				var dropTarget = $(e.originalEvent.target);
 				// check if dropped inside this container and not another one
-				if (dropTarget.length && !self.$el.is(dropTarget) && !self.$el.has(dropTarget).length) {
+				if (dropTarget.length
+					&& !self.$el.is(dropTarget) // dropped on list directly
+					&& !self.$el.has(dropTarget).length // dropped inside list
+					&& !dropTarget.is(self.$container) // dropped on main container
+					) {
 					return false;
 				}
 
