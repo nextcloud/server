@@ -35,6 +35,13 @@ class Connection extends \Doctrine\DBAL\Connection implements IDBConnection {
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getPrefix() {
+		return $this->tablePrefix;
+	}
+
+	/**
 	 * Initializes a new instance of the Connection class.
 	 *
 	 * @param array $params  The connection parameters.

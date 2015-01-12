@@ -228,8 +228,9 @@ class ConvertType extends Command {
 	}
 
 	protected function getTables(Connection $db) {
+		$filterExpression = '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 		$db->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^'.$this->config->getSystemValue('dbtableprefix', 'oc_').'/');
+			setFilterSchemaAssetsExpression($filterExpression);
 		return $db->getSchemaManager()->listTableNames();
 	}
 

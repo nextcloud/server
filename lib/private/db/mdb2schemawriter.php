@@ -22,8 +22,13 @@ class OC_DB_MDB2SchemaWriter {
 		$xml->addChild('overwrite', 'false');
 		$xml->addChild('charset', 'utf8');
 
-		$conn->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^' . $config->getSystemValue('dbtableprefix', 'oc_') . '/');
+		// FIX ME: bloody work around
+		if ($config->getSystemValue('dbtype', 'sqlite') === 'oci') {
+			$filterExpression = '/^"' . preg_quote($conn->getPrefix()) . '/';
+		} else {
+			$filterExpression = '/^' . preg_quote($conn->getPrefix()) . '/';
+		}
+		$conn->getConfiguration()->setFilterSchemaAssetsExpression($filterExpression);
 
 		foreach ($conn->getSchemaManager()->listTables() as $table) {
 			self::saveTable($table, $xml->addChild('table'));
