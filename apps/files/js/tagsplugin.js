@@ -110,10 +110,17 @@
 						dir + '/' + fileName,
 						tags
 					).then(function(result) {
+						// response from server should contain updated tags
+						var newTags = result.tags;
+						if (_.isUndefined(newTags)) {
+							newTags = tags;
+						}
+						var fileInfo = context.fileList.files[$file.index()];
 						// read latest state from result
-						toggleStar($actionEl, (result.tags.indexOf(OC.TAG_FAVORITE) >= 0));
-						$file.attr('data-tags', tags.join('|'));
+						toggleStar($actionEl, (newTags.indexOf(OC.TAG_FAVORITE) >= 0));
+						$file.attr('data-tags', newTags.join('|'));
 						$file.attr('data-favorite', !isFavorite);
+						fileInfo.tags = newTags;
 					});
 				}
 			});
