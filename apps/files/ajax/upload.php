@@ -168,7 +168,7 @@ if (strpos($dir, '..') === false) {
 					} else {
 						$data = \OCA\Files\Helper::formatFileInfo($meta);
 						$data['status'] = 'success';
-						$data['originalname'] = $files['tmp_name'][$i];
+						$data['originalname'] = $files['name'][$i];
 						$data['uploadMaxFilesize'] = $maxUploadFileSize;
 						$data['maxHumanFilesize'] = $maxHumanFileSize;
 						$data['permissions'] = $meta['permissions'] & $allowedPermissions;
@@ -195,7 +195,7 @@ if (strpos($dir, '..') === false) {
 				} else {
 					$data['status'] = 'readonly';
 				}
-				$data['originalname'] = $files['tmp_name'][$i];
+				$data['originalname'] = $files['name'][$i];
 				$data['uploadMaxFilesize'] = $maxUploadFileSize;
 				$data['maxHumanFilesize'] = $maxHumanFileSize;
 				$data['permissions'] = $meta['permissions'] & $allowedPermissions;
