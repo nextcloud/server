@@ -106,6 +106,7 @@ class App {
 			$meta = $this->view->getFileInfo($normalizedNewPath);
 			$meta = \OCA\Files\Helper::populateTags(array($meta));
 			$fileInfo = \OCA\Files\Helper::formatFileInfo(current($meta));
+			$fileInfo['path'] = dirname($normalizedNewPath);
 			$result['success'] = true;
 			$result['data'] = $fileInfo;
 		} else {
