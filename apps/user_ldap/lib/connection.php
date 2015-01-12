@@ -26,11 +26,13 @@ namespace OCA\user_ldap\lib;
 //magic properties (incomplete)
 /**
  * responsible for LDAP connections in context with the provided configuration
+ *
  * @property string ldapUserFilter
  * @property string ldapUserDisplayName
  * @property boolean hasPagedResultSupport
  * @property string[] ldapBaseUsers
-*/
+ * @property int|string ldapPagingSize holds an integer
+ */
 class Connection extends LDAPUtility {
 	private $ldapConnectionRes = null;
 	private $configPrefix;
