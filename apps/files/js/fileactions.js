@@ -247,8 +247,9 @@
 				html += '<img class="svg" alt="" src="' + img + '" />';
 			}
 			if (actionSpec.displayName) {
-				html += '<span> ' + actionSpec.displayName + '</span></a>';
+				html += '<span> ' + actionSpec.displayName + '</span>';
 			}
+			html += '</a>';
 
 			return $(html);
 		},

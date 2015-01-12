@@ -305,7 +305,6 @@ table td.filename .nametext .innernametext {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	position: relative;
-	display: inline-block;
 }
 
 @media only screen and (min-width: 1366px) {
@@ -518,9 +517,9 @@ a.action>img {
 
 #fileList a.action[data-action="Rename"] {
 	padding: 16px 14px 17px !important;
-	position: relative;
-	top: -21px;
 }
+
+.ie8 #fileList a.action img,
 #fileList tr:hover a.action,
 #fileList a.action.permanent,
 #fileList tr:focus a.action,
@@ -531,6 +530,7 @@ a.action>img {
 	opacity: .5;
 	display:inline;
 }
+.ie8 #fileList a.action:hover img,
 #fileList tr:hover a.action:hover,
 #fileList tr:focus a.action:focus,
 #fileList .name:focus a.action:focus {
