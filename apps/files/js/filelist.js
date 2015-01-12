@@ -1674,7 +1674,9 @@
 		setFilter:function(filter) {
 			this._filter = filter;
 			this.fileSummary.setFilter(filter, this.files);
-			this.hideIrrelevantUIWhenNoFilesMatch();
+			if (!this.$el.find('.mask').exists()) {
+				this.hideIrrelevantUIWhenNoFilesMatch();
+			}
 			var that = this;
 			this.$fileList.find('tr').each(function(i,e) {
 				var $e = $(e);
@@ -1690,13 +1692,15 @@
 			if (this._filter && this.fileSummary.summary.totalDirs + this.fileSummary.summary.totalFiles === 0) {
 				this.$el.find('#filestable thead th').addClass('hidden');
 				this.$el.find('#emptycontent').addClass('hidden');
-				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden')) {
+				if ( $('#searchresults').length === 0 || $('#searchresults').hasClass('hidden') ) {
 					this.$el.find('.nofilterresults').removeClass('hidden').
 						find('p').text(t('files', "No entries in this folder match '{filter}'", {filter:this._filter},  null, {'escape': false}));
 				}
 			} else {
 				this.$el.find('#filestable thead th').toggleClass('hidden', this.isEmpty);
-				this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+				if (!this.$el.find('.mask').exists()) {
+					this.$el.find('#emptycontent').toggleClass('hidden', !this.isEmpty);
+				}
 				this.$el.find('.nofilterresults').addClass('hidden');
 			}
 		},
