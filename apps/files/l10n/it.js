@@ -74,7 +74,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'applicazione di cifratura è abilitata, ma le chiavi non sono state inizializzate, disconnettiti ed effettua nuovamente l'accesso",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Chiave privata non valida per l'applicazione di cifratura. Aggiorna la password della chiave privata nelle impostazioni personali per ripristinare l'accesso ai tuoi file cifrati.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "La cifratura è stata disabilitata ma i tuoi file sono ancora cifrati. Vai nelle impostazioni personali per decifrare i file.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : ["corrisponde a '{filter}'","corrispondono a '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} e {files}",
     "Favorited" : "Preferiti",
     "Favorite" : "Preferito",

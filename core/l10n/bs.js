@@ -133,7 +133,6 @@ OC.L10N.register(
     "Reset password" : "Resetuj lozinku",
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nije podržan i %s na ovoj platformi neće raditi kako treba. Korištenje na vlastiti rizik!",
     "For the best results, please consider using a GNU/Linux server instead." : "Umjesto toga, za najbolje rezultate, molimo razmislite o mogućnosti korištenje GNU/Linux servera.",
-    "Please remove the open_basedir setting within your php.ini or switch to  64bit PHP." : "Molim odstranite open_basedir postavku iz vaše php.ini ili prebacite na 64bit PHP.",
     "Please install the cURL extension and restart your webserver." : "Molim instalirajte cURL proširenje i ponovo pokrenite svoj server.",
     "Personal" : "Osobno",
     "Users" : "Korisnici",

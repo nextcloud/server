@@ -37,7 +37,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["",""],
     "_Uploading %n file_::_Uploading %n files_" : ["",""],
     "Your storage is almost full ({usedSpacePercent}%)" : "שטח האחסון שלך כמעט מלא ({usedSpacePercent}%)",
-    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
+    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "Favorite" : "מועדף",
     "Upload (max. %s)" : "העלאה (מקסימום %s)",
     "File handling" : "טיפול בקבצים",

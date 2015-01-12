@@ -74,7 +74,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Crypto app is geactiveerd, maar uw sleutels werden niet geïnitialiseerd. Log uit en log daarna opnieuw in.",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Ongeldige privésleutel voor crypto app. Werk het privésleutel wachtwoord bij in uw persoonlijke instellingen om opnieuw toegang te krijgen tot uw versleutelde bestanden.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Encryptie is uitgeschakeld maar uw bestanden zijn nog steeds versleuteld. Ga naar uw persoonlijke instellingen om uw bestanden te decoderen.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : ["komt overeen met '{filter}'","komt overeen met '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} en {files}",
     "Favorited" : "Favoriet",
     "Favorite" : "Favoriet",

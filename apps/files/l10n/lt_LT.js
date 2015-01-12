@@ -73,7 +73,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Šifravimo programa įjungta, bet Jūsų raktai nėra pritaikyti. Prašome atsijungti ir vėl prisijungti",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Netinkamas privatus raktas Šifravimo programai. Prašome atnaujinti savo privataus rakto slaptažodį asmeniniuose nustatymuose, kad atkurti prieigą prie šifruotų failų.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Šifravimas buvo išjungtas, bet Jūsų failai vis dar užšifruoti. Prašome eiti į asmeninius nustatymus ir iššifruoti savo failus.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : ["","",""],
+    "_matches '{filter}'_::_match '{filter}'_" : ["","",""],
     "{dirs} and {files}" : "{dirs} ir {files}",
     "Favorited" : "Pažymėta mėgstamu",
     "Favorite" : "Mėgiamas",

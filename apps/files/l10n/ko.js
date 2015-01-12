@@ -60,7 +60,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "암호화 앱이 활성화되어 있지만 키가 초기화되지 않았습니다. 로그아웃한 후 다시 로그인하십시오",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "암호화 앱의 개인 키가 잘못되었습니다. 암호화된 파일에 다시 접근하려면 개인 설정에서 개인 키 암호를 업데이트해야 합니다.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "암호화는 해제되어 있지만, 파일은 아직 암호화되어 있습니다. 개인 설정에서 파일을 복호화하십시오.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
+    "_matches '{filter}'_::_match '{filter}'_" : [""],
     "{dirs} and {files}" : "{dirs} 그리고 {files}",
     "Favorite" : "즐겨찾기",
     "%s could not be renamed" : "%s의 이름을 변경할 수 없습니다",

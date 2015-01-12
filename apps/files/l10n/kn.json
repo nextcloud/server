@@ -56,7 +56,7 @@
     "_%n file_::_%n files_" : ["%n ಕಡತ"],
     "You don’t have permission to upload or create files here" : "﻿ನಿಮಗೆ ಇಲ್ಲಿ ಅಪ್ಲೋಡ್ ಅಥವಾ ಕಡತಗಳನ್ನು ರಚಿಸವ ಅನುಮತಿ ಇಲ್ಲ",
     "_Uploading %n file_::_Uploading %n files_" : ["%n 'ನೆ ಕಡತವನ್ನು ವರ್ಗಾಯಿಸಲಾಗುತ್ತಿದೆ"],
-    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
+    "_matches '{filter}'_::_match '{filter}'_" : [""],
     "Favorited" : "ಅಚ್ಚುಮೆಚ್ಚಿನವು",
     "Favorite" : "ಅಚ್ಚುಮೆಚ್ಚಿನ",
     "Upload (max. %s)" : "ವರ್ಗಾವಣೆ (ಗರಿಷ್ಠ %s)",

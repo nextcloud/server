@@ -74,8 +74,9 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Şifreleme Uygulaması için geçersiz özel anahtar. Lütfen şifreli dosyalarınıza erişimi tekrar kazanabilmek için kişisel ayarlarınızdan özel anahtar parolanızı güncelleyin.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Şifreleme işlemi durduruldu ancak dosyalarınız hala şifreli. Dosyalarınızın şifrelemesini kaldırmak için lütfen kişisel ayarlar kısmına geçin.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : ["",""],
+    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} ve {files}",
+    "Favorited" : "Sık kullanılanlara eklendi",
     "Favorite" : "Sık Kullanılan",
     "%s could not be renamed as it has been deleted" : "%s, silindiği için adlandırılamadı",
     "%s could not be renamed" : "%s yeniden adlandırılamadı",
@@ -95,6 +96,8 @@ OC.L10N.register(
     "From link" : "Bağlantıdan",
     "Upload" : "Yükle",
     "Cancel upload" : "Yüklemeyi iptal et",
+    "No files yet" : "Henüz dosya yok",
+    "Upload some content or sync with your devices!" : "Bir şeyler yükleyin veya aygıtlarınızla eşleştirin!",
     "No entries found in this folder" : "Bu klasörde hiçbir girdi bulunamadı",
     "Select all" : "Tümünü seç",
     "Download" : "İndir",
@@ -102,6 +105,7 @@ OC.L10N.register(
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Yüklemeye çalıştığınız dosyalar bu sunucudaki azami yükleme boyutunu aşıyor.",
     "Files are being scanned, please wait." : "Dosyalar taranıyor, lütfen bekleyin.",
     "Currently scanning" : "Şu anda taranan",
-    "No favorites" : "Sık kullanılan öge yok."
+    "No favorites" : "Sık kullanılan öge yok.",
+    "Files and folders you mark as favorite will show up here" : "Sık kullanılan olarak işaretlediğiniz dosya ve klasörler burada gösterilecek"
 },
 "nplurals=2; plural=(n > 1);");

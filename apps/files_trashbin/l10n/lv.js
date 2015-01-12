@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Dzēst pavisam",
     "Error" : "Kļūda",
     "restored" : "atjaunots",
+    "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Select all" : "Atzīmēt visu",
     "Name" : "Nosaukums",
     "Deleted" : "Dzēsts",

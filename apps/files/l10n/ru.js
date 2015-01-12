@@ -74,7 +74,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение для шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите вновь",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Закрытый ключ приложения шифрования недействителен. Обновите закрытый ключ в личных настройках, чтобы восстановить доступ к зашифрованным файлам.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Шифрование было отключено, но ваши файлы остались зашифрованными. Зайдите на страницу личных настроек для того, чтобы расшифровать их.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : ["соответствует '{filter}'","соответствуют '{filter}'","соответствует '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["","",""],
     "{dirs} and {files}" : "{dirs} и {files}",
     "Favorited" : "Избранное",
     "Favorite" : "Избранное",

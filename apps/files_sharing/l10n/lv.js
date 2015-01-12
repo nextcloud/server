@@ -4,6 +4,7 @@ OC.L10N.register(
     "Cancel" : "Atcelt",
     "Shared by" : "Dalījās",
     "Password" : "Parole",
+    "No entries found in this folder" : "Šajā mapē nekas nav atrasts",
     "Name" : "Nosaukums",
     "Download" : "Lejupielādēt"
 },

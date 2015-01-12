@@ -37,7 +37,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : ["در حال بارگذاری %n فایل"],
     "Your storage is full, files can not be updated or synced anymore!" : "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!",
     "Your storage is almost full ({usedSpacePercent}%)" : "فضای ذخیره ی شما تقریبا پر است ({usedSpacePercent}%)",
-    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
+    "_matches '{filter}'_::_match '{filter}'_" : [""],
     "%s could not be renamed" : "%s نمیتواند تغییر نام دهد.",
     "File handling" : "اداره پرونده ها",
     "Maximum upload size" : "حداکثر اندازه بارگزاری",

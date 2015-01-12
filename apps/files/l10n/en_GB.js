@@ -74,7 +74,7 @@ OC.L10N.register(
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again",
     "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files." : "Invalid private key for Encryption App. Please update your private key password in your personal settings to recover access to your encrypted files.",
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files.",
-    "_ matches '{filter}'_::_ match '{filter}'_" : [" matches '{filter}'"," match '{filter}'"],
+    "_matches '{filter}'_::_match '{filter}'_" : ["",""],
     "{dirs} and {files}" : "{dirs} and {files}",
     "Favorited" : "Favourited",
     "Favorite" : "Favourite",

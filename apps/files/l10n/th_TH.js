@@ -36,7 +36,7 @@ OC.L10N.register(
     "_Uploading %n file_::_Uploading %n files_" : [""],
     "Your storage is full, files can not be updated or synced anymore!" : "พื้นที่จัดเก็บข้อมูลของคุณเต็มแล้ว ไม่สามารถอัพเดทหรือผสานไฟล์ต่างๆได้อีกต่อไป",
     "Your storage is almost full ({usedSpacePercent}%)" : "พื้นที่จัดเก็บข้อมูลของคุณใกล้เต็มแล้ว ({usedSpacePercent}%)",
-    "_ matches '{filter}'_::_ match '{filter}'_" : [""],
+    "_matches '{filter}'_::_match '{filter}'_" : [""],
     "Favorite" : "รายการโปรด",
     "File handling" : "การจัดกาไฟล์",
     "Maximum upload size" : "ขนาดไฟล์สูงสุดที่อัพโหลดได้",
