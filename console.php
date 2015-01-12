@@ -23,6 +23,10 @@ try {
 	}
 
 	if (!OC_Util::runningOnWindows())  {
+		if (!function_exists('posix_getuid')) {
+			echo "The posix extensions are required - see http://php.net/manual/en/book.posix.php" . PHP_EOL;
+			exit(0);
+		}
 		$user = posix_getpwuid(posix_getuid());
 		$configUser = posix_getpwuid(fileowner(OC::$SERVERROOT . '/config/config.php'));
 		if ($user['name'] !== $configUser['name']) {
