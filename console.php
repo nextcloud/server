@@ -22,6 +22,17 @@ try {
 		exit(0);
 	}
 
+	if (!OC_Util::runningOnWindows())  {
+		$user = posix_getpwuid(posix_getuid());
+		$configUser = posix_getpwuid(fileowner(OC::$SERVERROOT . '/config/config.php'));
+		if ($user['name'] !== $configUser['name']) {
+			echo "Console has to be executed with the same user as the web server is operated" . PHP_EOL;
+			echo "Current user: " . $user['name'] . PHP_EOL;
+			echo "Web server user: " . $configUser['name'] . PHP_EOL;
+			exit(0);
+		}
+	}
+
 	// only load apps if no update is due,
 	// else only core commands will be available
 	if (!\OCP\Util::needUpgrade()) {
