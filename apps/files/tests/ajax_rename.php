@@ -117,9 +117,80 @@ class Test_OC_Files_App_Rename extends \Test\TestCase {
 		$this->assertEquals(18, $result['data']['size']);
 		$this->assertEquals('httpd/unix-directory', $result['data']['mimetype']);
 		$this->assertEquals('abcdef', $result['data']['etag']);
+		$this->assertFalse(isset($result['data']['tags']));
+		$this->assertEquals('/', $result['data']['path']);
 		$icon = \OC_Helper::mimetypeIcon('dir');
 		$icon = substr($icon, 0, -3) . 'svg';
 		$this->assertEquals($icon, $result['data']['icon']);
+	}
+
+	/**
+	 * test rename of file with tag
+	 */
+	function testRenameFileWithTag() {
+		$taggerMock = $this->getMock('\OCP\ITags');
+		$taggerMock->expects($this->any())
+			->method('getTagsForObjects')
+			->with(array(123))
+			->will($this->returnValue(array(123 => array('tag1', 'tag2'))));
+		$tagManagerMock = $this->getMock('\OCP\ITagManager');
+		$tagManagerMock->expects($this->any())
+			->method('load')
+			->with('files')
+			->will($this->returnValue($taggerMock));
+		$oldTagManager = \OC::$server->query('TagManager');
+		\OC::$server->registerService('TagManager', function ($c) use ($tagManagerMock) {
+			return $tagManagerMock;
+		});
+
+		$dir = '/';
+		$oldname = 'oldname.txt';
+		$newname = 'newname.txt';
+
+		$this->viewMock->expects($this->any())
+			->method('file_exists')
+			->with($this->anything())
+			->will($this->returnValueMap(array(
+				array('/', true),
+				array('/oldname.txt', true)
+				)));
+
+
+		$this->viewMock->expects($this->any())
+			->method('getFileInfo')
+			->will($this->returnValue(new \OC\Files\FileInfo(
+				'/new_name.txt',
+				new \OC\Files\Storage\Local(array('datadir' => '/')),
+				'/',
+				array(
+				'fileid' => 123,
+				'type' => 'file',
+				'mimetype' => 'text/plain',
+				'mtime' => 0,
+				'permissions' => 31,
+				'size' => 18,
+				'etag' => 'abcdef',
+				'directory' => '/',
+				'name' => 'new_name.txt',
+			), null)));
+
+		$result = $this->files->rename($dir, $oldname, $newname);
+
+		$this->assertTrue($result['success']);
+		$this->assertEquals(123, $result['data']['id']);
+		$this->assertEquals('new_name.txt', $result['data']['name']);
+		$this->assertEquals(18, $result['data']['size']);
+		$this->assertEquals('text/plain', $result['data']['mimetype']);
+		$this->assertEquals('abcdef', $result['data']['etag']);
+		$this->assertEquals(array('tag1', 'tag2'), $result['data']['tags']);
+		$this->assertEquals('/', $result['data']['path']);
+		$icon = \OC_Helper::mimetypeIcon('text');
+		$icon = substr($icon, 0, -3) . 'svg';
+		$this->assertEquals($icon, $result['data']['icon']);
+
+		\OC::$server->registerService('TagManager', function ($c) use ($oldTagManager) {
+			return $oldTagManager;
+		});
 	}
 
 	/**
