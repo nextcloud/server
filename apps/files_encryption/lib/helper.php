@@ -250,15 +250,14 @@ class Helper {
 	 * @return string e.g. turns '/admin/files/test.txt' into 'test.txt'
 	 */
 	public static function stripUserFilesPath($path) {
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
+		$split = self::splitPath($path);
 
 		// it is not a file relative to data/user/files
-		if (count($split) < 3 || $split[1] !== 'files') {
+		if (count($split) < 4 || $split[2] !== 'files') {
 			return false;
 		}
 
-		$sliced = array_slice($split, 2);
+		$sliced = array_slice($split, 3);
 		$relPath = implode('/', $sliced);
 
 		return $relPath;
@@ -267,7 +266,7 @@ class Helper {
 	/**
 	 * try to get the user from the path if no user is logged in
 	 * @param string $path
-	 * @return mixed user or false if we couldn't determine a user
+	 * @return string user
 	 */
 	public static function getUser($path) {
 
@@ -281,65 +280,85 @@ class Helper {
 
 		// if no user is logged in we try to access a publicly shared files.
 		// In this case we need to try to get the user from the path
+		return self::getUserFromPath($path);
+	}
 
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
+	/**
+	 * extract user from path
+	 *
+	 * @param string $path
+	 * @return string user id
+	 * @throws Exception\EncryptionException
+	 */
+	public static function getUserFromPath($path) {
+		$split = self::splitPath($path);
 
-		// it is not a file relative to data/user/files
-		if (count($split) < 2 || ($split[1] !== 'files' && $split[1] !== 'cache')) {
-			return false;
+		if (count($split) > 3 && (
+			$split[2] === 'files' || $split[2] === 'files_versions' || $split[2] === 'cache')) {
+
+			$user = $split[1];
+
+			if (\OCP\User::userExists($user)) {
+				return $user;
+			}
 		}
 
-		$user = $split[0];
-
-		if (\OCP\User::userExists($user)) {
-			return $user;
-		}
-
-		return false;
+		throw new Exception\EncryptionException('Could not determine user', Exception\EncryptionException::GENERIC);
 	}
 
 	/**
 	 * get path to the corresponding file in data/user/files if path points
-	 *        to a version or to a file in cache
-	 * @param string $path path to a version or a file in the trash
+	 * to a file in cache
+	 *
+	 * @param string $path path to a file in cache
 	 * @return string path to corresponding file relative to data/user/files
+	 * @throws Exception\EncryptionException
 	 */
-	public static function getPathToRealFile($path) {
-		$trimmed = ltrim($path, '/');
-		$split = explode('/', $trimmed);
-		$result = false;
+	public static function getPathFromCachedFile($path) {
+		$split = self::splitPath($path);
 
-		if (count($split) >= 3 && ($split[1] === "files_versions" || $split[1] === 'cache')) {
-			$sliced = array_slice($split, 2);
-			$result = implode('/', $sliced);
-			if ($split[1] === "files_versions") {
-				// we skip user/files
-				$sliced = array_slice($split, 2);
-				$relPath = implode('/', $sliced);
-				//remove the last .v
-				$result = substr($relPath, 0, strrpos($relPath, '.v'));
-			}
-			if ($split[1] === "cache") {
-				// we skip /user/cache/transactionId
-				$sliced = array_slice($split, 3);
-				$result = implode('/', $sliced);
-				//prepare the folders
-				self::mkdirr($path, new \OC\Files\View('/'));
-			}
+		if (count($split) < 5) {
+			throw new Exception\EncryptionException('no valid cache file path', Exception\EncryptionException::GENERIC);
 		}
 
-		return $result;
+		// we skip /user/cache/transactionId
+		$sliced = array_slice($split, 4);
+
+		return implode('/', $sliced);
+	}
+
+
+	/**
+	 * get path to the corresponding file in data/user/files for a version
+	 *
+	 * @param string $path path to a version
+	 * @return string path to corresponding file relative to data/user/files
+	 * @throws Exception\EncryptionException
+	 */
+	public static function getPathFromVersion($path) {
+		$split = self::splitPath($path);
+
+		if (count($split) < 4) {
+			throw new Exception\EncryptionException('no valid path to a version', Exception\EncryptionException::GENERIC);
+		}
+
+		// we skip user/files_versions
+		$sliced = array_slice($split, 3);
+		$relPath = implode('/', $sliced);
+		//remove the last .v
+		$realPath = substr($relPath, 0, strrpos($relPath, '.v'));
+
+		return $realPath;
 	}
 
 	/**
 	 * create directory recursively
+	 *
 	 * @param string $path
 	 * @param \OC\Files\View $view
 	 */
 	public static function mkdirr($path, \OC\Files\View $view) {
-		$dirname = \OC\Files\Filesystem::normalizePath(dirname($path));
-		$dirParts = explode('/', $dirname);
+		$dirParts = self::splitPath(dirname($path));
 		$dir = "";
 		foreach ($dirParts as $part) {
 			$dir = $dir . '/' . $part;
@@ -454,6 +473,32 @@ class Helper {
 	}
 
 	/**
+	 * detect file type, encryption can read/write regular files, versions
+	 * and cached files
+	 *
+	 * @param string $path
+	 * @return int
+	 * @throws Exception\EncryptionException
+	 */
+	public static function detectFileType($path) {
+	    $parts = self::splitPath($path);
+
+		if (count($parts) > 2) {
+			switch ($parts[2]) {
+				case 'files':
+					return Util::FILE_TYPE_FILE;
+				case 'files_versions':
+					return Util::FILE_TYPE_VERSION;
+				case 'cache':
+					return Util::FILE_TYPE_CACHE;
+			}
+		}
+
+		// thow exception if we couldn't detect a valid file type
+		throw new Exception\EncryptionException('Could not detect file type', Exception\EncryptionException::GENERIC);
+	}
+
+	/**
 	 * read the cipher used for encryption from the config.php
 	 *
 	 * @return string
@@ -472,5 +517,11 @@ class Helper {
 
 		return $cipher;
 	}
+
+	public static function splitPath($path) {
+		$normalized = \OC\Files\Filesystem::normalizePath($path);
+		return explode('/', $normalized);
+	}
+
 }
 

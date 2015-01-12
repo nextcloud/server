@@ -575,43 +575,6 @@ class Util extends TestCase {
 	}
 
 	/**
-	 * @param string $user
-	 * @param bool $create
-	 * @param bool $password
-	 */
-	public static function loginHelper($user, $create = false, $password = false, $loadEncryption = true) {
-		if ($create) {
-			try {
-				\OC_User::createUser($user, $user);
-			} catch(\Exception $e) { // catch username is already being used from previous aborted runs
-
-			}
-		}
-
-		if ($password === false) {
-			$password = $user;
-		}
-
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId('');
-		\OC\Files\Filesystem::tearDown();
-		\OC_User::setUserId($user);
-		\OC_Util::setupFS($user);
-
-		if ($loadEncryption) {
-			$params['uid'] = $user;
-			$params['password'] = $password;
-			\OCA\Files_Encryption\Hooks::login($params);
-		}
-	}
-
-	public static function logoutHelper() {
-		\OC_Util::tearDownFS();
-		\OC_User::setUserId(false);
-		\OC\Files\Filesystem::tearDown();
-	}
-
-	/**
 	 * helper function to set migration status to the right value
 	 * to be able to test the migration path
 	 *

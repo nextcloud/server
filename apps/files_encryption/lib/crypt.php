@@ -148,9 +148,6 @@ class Crypt {
 		// Fetch encryption metadata from end of file
 		$meta = substr($noPadding, -22);
 
-		// Fetch IV from end of file
-		$iv = substr($meta, -16);
-
 		// Fetch identifier from start of metadata
 		$identifier = substr($meta, 0, 6);
 

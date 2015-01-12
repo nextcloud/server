@@ -39,6 +39,10 @@ class Util {
 	const MIGRATION_IN_PROGRESS = -1; // migration is running
 	const MIGRATION_OPEN = 0;         // user still needs to be migrated
 
+	const FILE_TYPE_FILE = 0;
+	const FILE_TYPE_VERSION = 1;
+	const FILE_TYPE_CACHE = 2;
+
 	private $view; // OC\Files\View object for filesystem operations
 	private $userId; // ID of the user we use to encrypt/decrypt files
 	private $keyId; // ID of the key we want to manipulate

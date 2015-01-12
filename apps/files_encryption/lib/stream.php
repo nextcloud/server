@@ -75,6 +75,8 @@ class Stream {
 	private $headerWritten = false;
 	private $containHeader = false; // the file contain a header
 	private $cipher; // cipher used for encryption/decryption
+	/** @var \OCA\Files_Encryption\Util */
+	private $util;
 
 	/**
 	 * @var \OC\Files\View
@@ -103,9 +105,7 @@ class Stream {
 		// assume that the file already exist before we decide it finally in getKey()
 		$this->newFile = false;
 
-		if (!isset($this->rootView)) {
-			$this->rootView = new \OC\Files\View('/');
-		}
+		$this->rootView = new \OC\Files\View('/');
 
 		$this->session = new Session($this->rootView);
 
@@ -116,7 +116,8 @@ class Stream {
 		}
 
 		$normalizedPath = \OC\Files\Filesystem::normalizePath(str_replace('crypt://', '', $path));
-		if ($originalFile = Helper::getPathFromTmpFile($normalizedPath)) {
+		$originalFile = Helper::getPathFromTmpFile($normalizedPath);
+		if ($originalFile) {
 			$this->rawPath = $originalFile;
 			$this->isLocalTmpFile = true;
 			$this->localTmpFile = $normalizedPath;
@@ -124,24 +125,31 @@ class Stream {
 			$this->rawPath = $normalizedPath;
 		}
 
-		$this->userId = Helper::getUser($this->rawPath);
-
-		$util = new Util($this->rootView, $this->userId);
+		$this->util = new Util($this->rootView, Helper::getUser($this->rawPath));
 
 		// get the key ID which we want to use, can be the users key or the
 		// public share key
-		$this->keyId = $util->getKeyId();
+		$this->keyId = $this->util->getKeyId();
 
-		// Strip identifier text from path, this gives us the path relative to data/<user>/files
-		$this->relPath = Helper::stripUserFilesPath($this->rawPath);
-		// if raw path doesn't point to a real file, check if it is a version or a file in the trash bin
-		if ($this->relPath === false) {
-			$this->relPath = Helper::getPathToRealFile($this->rawPath);
-		}
+		$fileType = Helper::detectFileType($this->rawPath);
 
-		if($this->relPath === false) {
-			\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to "files", "files_versions" or "cache"', \OCP\Util::ERROR);
-			return false;
+		switch ($fileType) {
+			case Util::FILE_TYPE_FILE:
+				$this->relPath = Helper::stripUserFilesPath($this->rawPath);
+				$this->userId = \OC::$server->getUserSession()->getUser()->getUID();
+				break;
+			case Util::FILE_TYPE_VERSION:
+				$this->relPath = Helper::getPathFromVersion($this->rawPath);
+				$this->userId = Helper::getUserFromPath($this->rawPath);
+				break;
+			case Util::FILE_TYPE_CACHE:
+				$this->relPath = Helper::getPathFromCachedFile($this->rawPath);
+				Helper::mkdirr($this->rawPath, new \OC\Files\View('/'));
+				$this->userId = \OC::$server->getUserSession()->getUser()->getUID();
+				break;
+			default:
+				\OCP\Util::writeLog('Encryption library', 'failed to open file "' . $this->rawPath . '" expecting a path to "files", "files_versions" or "cache"', \OCP\Util::ERROR);
+				return false;
 		}
 
 		// Disable fileproxies so we can get the file size and open the source file without recursive encryption
@@ -154,22 +162,12 @@ class Stream {
 			or $mode === 'wb'
 			or $mode === 'wb+'
 		) {
-
 			// We're writing a new file so start write counter with 0 bytes
 			$this->size = 0;
 			$this->unencryptedSize = 0;
-
 		} else {
-
-			if($this->privateKey === false) {
-				// if private key is not valid redirect user to a error page
-				Helper::redirectToErrorPage($this->session);
-			}
-
 			$this->size = $this->rootView->filesize($this->rawPath);
-
 			$this->readHeader();
-
 		}
 
 		if ($this->isLocalTmpFile) {
@@ -328,9 +326,10 @@ class Stream {
 
 		}
 
+		$util = new Util($this->rootView, $this->userId);
+
 		// Fetch and decrypt keyfile
 		// Fetch existing keyfile
-		$util = new Util($this->rootView, $this->userId);
 		$this->encKeyfile = Keymanager::getFileKey($this->rootView, $util, $this->relPath);
 
 		// If a keyfile already exists
@@ -614,11 +613,9 @@ class Stream {
 				// Check if OC sharing api is enabled
 				$sharingEnabled = \OCP\Share::isEnabled();
 
-				$util = new Util($this->rootView, $this->userId);
-
 				// Get all users sharing the file includes current user
-				$uniqueUserIds = $util->getSharingUsersArray($sharingEnabled, $this->relPath);
-				$checkedUserIds = $util->filterShareReadyUsers($uniqueUserIds);
+				$uniqueUserIds = $this->util->getSharingUsersArray($sharingEnabled, $this->relPath);
+				$checkedUserIds = $this->util->filterShareReadyUsers($uniqueUserIds);
 
 				// Fetch public keys for all sharing users
 				$publicKeys = Keymanager::getPublicKeys($this->rootView, $checkedUserIds['ready']);
@@ -627,10 +624,10 @@ class Stream {
 				$this->encKeyfiles = Crypt::multiKeyEncrypt($this->plainKey, $publicKeys);
 
 				// Save the new encrypted file key
-				Keymanager::setFileKey($this->rootView, $util, $this->relPath, $this->encKeyfiles['data']);
+				Keymanager::setFileKey($this->rootView, $this->util, $this->relPath, $this->encKeyfiles['data']);
 
 				// Save the sharekeys
-				Keymanager::setShareKeys($this->rootView, $util, $this->relPath, $this->encKeyfiles['keys']);
+				Keymanager::setShareKeys($this->rootView, $this->util, $this->relPath, $this->encKeyfiles['keys']);
 
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;
