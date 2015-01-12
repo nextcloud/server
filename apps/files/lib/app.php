@@ -104,9 +104,10 @@ class App {
 		) {
 			// successful rename
 			$meta = $this->view->getFileInfo($normalizedNewPath);
-			$fileinfo = \OCA\Files\Helper::formatFileInfo($meta);
+			$meta = \OCA\Files\Helper::populateTags(array($meta));
+			$fileInfo = \OCA\Files\Helper::formatFileInfo(current($meta));
 			$result['success'] = true;
-			$result['data'] = $fileinfo;
+			$result['data'] = $fileInfo;
 		} else {
 			// rename failed
 			$result['data'] = array(
