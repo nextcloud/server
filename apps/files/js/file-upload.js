@@ -587,7 +587,7 @@ OC.Upload = {
 
 			// add input field
 			var form = $('<form></form>');
-			var input = $('<input type="text">');
+			var input = $('<input type="text" placeholder="https://…">');
 			var newName = $(this).attr('data-newname') || '';
 			var fileType = 'input-' + $(this).attr('data-type');
 			if (newName) {
