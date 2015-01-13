@@ -439,10 +439,9 @@ class View {
 
 	/**
 	 * @param string $directory
-	 * @param bool $empty
 	 * @return bool|mixed
 	 */
-	public function deleteAll($directory, $empty = false) {
+	public function deleteAll($directory) {
 		return $this->rmdir($directory);
 	}
 
