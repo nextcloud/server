@@ -668,6 +668,20 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($expectedPath, $view->getAbsolutePath($relativePath));
 	}
 
+	public function testPartFileInfo() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$storage->file_put_contents('test.part', 'foobar');
+		$scanner->scan('');
+		$view = new \OC\Files\View('/test');
+		$info = $view->getFileInfo('test.part');
+
+		$this->assertInstanceOf('\OCP\Files\FileInfo', $info);
+		$this->assertNull($info->getId());
+		$this->assertEquals(6, $info->getSize());
+	}
+
 	function absolutePathProvider() {
 		return array(
 			array('/files/', ''),
