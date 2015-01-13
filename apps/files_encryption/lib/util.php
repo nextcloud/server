@@ -734,7 +734,7 @@ class Util {
 			}
 
 			if ($successful) {
-				$this->backupAllKeys('decryptAll');
+				$this->backupAllKeys('decryptAll', false, false);
 				$this->view->deleteAll($this->keysPath);
 			}
 
@@ -1495,16 +1495,61 @@ class Util {
 	/**
 	 * create a backup of all keys from the user
 	 *
-	 * @param string $purpose (optional) define the purpose of the backup, will be part of the backup folder
+	 * @param string $purpose define the purpose of the backup, will be part of the backup folder name
+	 * @param boolean $timestamp (optional) should a timestamp be added, default true
+	 * @param boolean $includeUserKeys (optional) include users private-/public-key, default true
 	 */
-	public function backupAllKeys($purpose = '') {
+	public function backupAllKeys($purpose, $timestamp = true, $includeUserKeys = true) {
 		$this->userId;
-		$backupDir = $this->encryptionDir . '/backup.';
-		$backupDir .= ($purpose === '') ? date("Y-m-d_H-i-s") . '/' : $purpose . '.' . date("Y-m-d_H-i-s") . '/';
+		$backupDir = $this->encryptionDir . '/backup.' . $purpose;
+		$backupDir .= ($timestamp) ? '.' . date("Y-m-d_H-i-s") . '/' : '/';
 		$this->view->mkdir($backupDir);
 		$this->view->copy($this->keysPath, $backupDir . 'keys/');
-		$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.privateKey');
-		$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.publicKey');
+		if ($includeUserKeys) {
+			$this->view->copy($this->privateKeyPath, $backupDir . $this->userId . '.privateKey');
+			$this->view->copy($this->publicKeyPath, $backupDir . $this->userId . '.publicKey');
+		}
+	}
+
+	/**
+	 * restore backup
+	 *
+	 * @param string $backup complete name of the backup
+	 * @return boolean
+	 */
+	public function restoreBackup($backup) {
+		$backupDir = $this->encryptionDir . '/backup.' . $backup . '/';
+
+		$fileKeysRestored = $this->view->rename($backupDir . 'keys', $this->encryptionDir . '/keys');
+
+		$pubKeyRestored = $privKeyRestored = true;
+		if (
+			$this->view->file_exists($backupDir . $this->userId . '.privateKey') &&
+			$this->view->file_exists($backupDir . $this->userId . '.privateKey')
+		) {
+
+			$pubKeyRestored = $this->view->rename($backupDir . $this->userId . '.publicKey', $this->publicKeyPath);
+			$privKeyRestored = $this->view->rename($backupDir . $this->userId . '.privateKey', $this->privateKeyPath);
+		}
+
+		if ($fileKeysRestored && $pubKeyRestored && $privKeyRestored) {
+			$this->view->deleteAll($backupDir);
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * delete backup
+	 *
+	 * @param string $backup complete name of the backup
+	 * @return boolean
+	 */
+	public function deleteBackup($backup) {
+		$backupDir = $this->encryptionDir . '/backup.' . $backup . '/';
+		return $this->view->deleteAll($backupDir);
 	}
 
 	/**

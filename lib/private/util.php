@@ -692,9 +692,9 @@ class OC_Util {
 		$encryptedFiles = false;
 		if (OC_App::isEnabled('files_encryption') === false) {
 			$view = new OC\Files\View('/' . OCP\User::getUser());
-			$keyfilePath = '/files_encryption/keyfiles';
-			if ($view->is_dir($keyfilePath)) {
-				$dircontent = $view->getDirectoryContent($keyfilePath);
+			$keysPath = '/files_encryption/keys';
+			if ($view->is_dir($keysPath)) {
+				$dircontent = $view->getDirectoryContent($keysPath);
 				if (!empty($dircontent)) {
 					$encryptedFiles = true;
 				}
@@ -714,7 +714,7 @@ class OC_Util {
 		$backupExists = false;
 		if (OC_App::isEnabled('files_encryption') === false) {
 			$view = new OC\Files\View('/' . OCP\User::getUser());
-			$backupPath = '/files_encryption/keyfiles.backup';
+			$backupPath = '/files_encryption/backup.decryptAll';
 			if ($view->is_dir($backupPath)) {
 				$dircontent = $view->getDirectoryContent($backupPath);
 				if (!empty($dircontent)) {
