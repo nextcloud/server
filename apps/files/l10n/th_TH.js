@@ -25,6 +25,7 @@ OC.L10N.register(
     "Rename" : "เปลี่ยนชื่อ",
     "Delete" : "ลบ",
     "Unshare" : "ยกเลิกการแชร์",
+    "Download" : "ดาวน์โหลด",
     "Select" : "เลือก",
     "Pending" : "อยู่ระหว่างดำเนินการ",
     "Error" : "ข้อผิดพลาด",
@@ -51,7 +52,6 @@ OC.L10N.register(
     "From link" : "จากลิงก์",
     "Upload" : "อัพโหลด",
     "Cancel upload" : "ยกเลิกการอัพโหลด",
-    "Download" : "ดาวน์โหลด",
     "Upload too large" : "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",
     "Files are being scanned, please wait." : "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่."

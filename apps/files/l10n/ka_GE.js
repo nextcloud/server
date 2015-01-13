@@ -25,6 +25,7 @@ OC.L10N.register(
     "Rename" : "გადარქმევა",
     "Delete" : "წაშლა",
     "Unshare" : "გაუზიარებადი",
+    "Download" : "ჩამოტვირთვა",
     "Pending" : "მოცდის რეჟიმში",
     "Error" : "შეცდომა",
     "Name" : "სახელი",
@@ -50,7 +51,6 @@ OC.L10N.register(
     "From link" : "მისამართიდან",
     "Upload" : "ატვირთვა",
     "Cancel upload" : "ატვირთვის გაუქმება",
-    "Download" : "ჩამოტვირთვა",
     "Upload too large" : "ასატვირთი ფაილი ძალიან დიდია",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
     "Files are being scanned, please wait." : "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ."

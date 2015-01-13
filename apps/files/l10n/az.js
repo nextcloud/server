@@ -48,6 +48,7 @@ OC.L10N.register(
     "Error fetching URL" : "URL-in gətirilməsində səhv baş verdi",
     "Rename" : "Adı dəyiş",
     "Delete" : "Sil",
+    "Download" : "Yüklə",
     "Error" : "Səhv",
     "Name" : "Ad",
     "Size" : "Həcm",
@@ -60,7 +61,6 @@ OC.L10N.register(
     "New folder" : "Yeni qovluq",
     "Folder" : "Qovluq",
     "Upload" : "Serverə yüklə",
-    "Cancel upload" : "Yüklənməni dayandır",
-    "Download" : "Yüklə"
+    "Cancel upload" : "Yüklənməni dayandır"
 },
 "nplurals=2; plural=(n != 1);");

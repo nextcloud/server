@@ -15,6 +15,7 @@
     "Rename" : "ئات ئۆزگەرت",
     "Delete" : "ئۆچۈر",
     "Unshare" : "ھەمبەھىرلىمە",
+    "Download" : "چۈشۈر",
     "Pending" : "كۈتۈۋاتىدۇ",
     "Error" : "خاتالىق",
     "Name" : "ئاتى",
@@ -34,7 +35,6 @@
     "Folder" : "قىسقۇچ",
     "Upload" : "يۈكلە",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
-    "Download" : "چۈشۈر",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

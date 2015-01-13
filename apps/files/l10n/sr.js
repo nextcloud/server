@@ -23,6 +23,7 @@ OC.L10N.register(
     "Rename" : "Преименуј",
     "Delete" : "Обриши",
     "Unshare" : "Укини дељење",
+    "Download" : "Преузми",
     "Pending" : "На чекању",
     "Error" : "Грешка",
     "Name" : "Име",
@@ -46,7 +47,6 @@ OC.L10N.register(
     "From link" : "Са везе",
     "Upload" : "Отпреми",
     "Cancel upload" : "Прекини отпремање",
-    "Download" : "Преузми",
     "Upload too large" : "Датотека је превелика",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеке које желите да отпремите прелазе ограничење у величини.",
     "Files are being scanned, please wait." : "Скенирам датотеке…"

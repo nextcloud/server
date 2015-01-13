@@ -39,6 +39,7 @@ OC.L10N.register(
     "Rename" : "Alinomigi",
     "Delete" : "Forigi",
     "Unshare" : "Malkunhavigi",
+    "Download" : "Elŝuti",
     "Select" : "Elekti",
     "Pending" : "Traktotaj",
     "Error moving file" : "Eraris movo de dosiero",
@@ -71,7 +72,6 @@ OC.L10N.register(
     "From link" : "El ligilo",
     "Upload" : "Alŝuti",
     "Cancel upload" : "Nuligi alŝuton",
-    "Download" : "Elŝuti",
     "Upload too large" : "Alŝuto tro larĝa",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "La dosieroj, kiujn vi provas alŝuti, transpasas la maksimuman grandon por dosieralŝutoj en ĉi tiu servilo.",
     "Files are being scanned, please wait." : "Dosieroj estas skanataj, bonvolu atendi."

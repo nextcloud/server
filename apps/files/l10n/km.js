@@ -14,6 +14,7 @@ OC.L10N.register(
     "Rename" : "ប្ដូរ​ឈ្មោះ",
     "Delete" : "លុប",
     "Unshare" : "លែង​ចែក​រំលែក",
+    "Download" : "ទាញយក",
     "Pending" : "កំពុង​រង់ចាំ",
     "Error" : "កំហុស",
     "Name" : "ឈ្មោះ",
@@ -34,7 +35,6 @@ OC.L10N.register(
     "From link" : "ពី​តំណ",
     "Upload" : "ផ្ទុក​ឡើង",
     "Cancel upload" : "បោះបង់​ការ​ផ្ទុកឡើង",
-    "Download" : "ទាញយក",
     "Upload too large" : "ផ្ទុក​ឡើង​ធំ​ពេក"
 },
 "nplurals=1; plural=0;");

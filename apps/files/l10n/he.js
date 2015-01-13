@@ -27,6 +27,7 @@ OC.L10N.register(
     "Rename" : "שינוי שם",
     "Delete" : "מחיקה",
     "Unshare" : "הסר שיתוף",
+    "Download" : "הורדה",
     "Select" : "בחר",
     "Pending" : "ממתין",
     "Error" : "שגיאה",
@@ -53,7 +54,6 @@ OC.L10N.register(
     "From link" : "מקישור",
     "Upload" : "העלאה",
     "Cancel upload" : "ביטול ההעלאה",
-    "Download" : "הורדה",
     "Upload too large" : "העלאה גדולה מידי",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",
     "Files are being scanned, please wait." : "הקבצים נסרקים, נא להמתין."

@@ -15,6 +15,7 @@ OC.L10N.register(
     "Rename" : "නැවත නම් කරන්න",
     "Delete" : "මකා දමන්න",
     "Unshare" : "නොබෙදු",
+    "Download" : "බාන්න",
     "Select" : "තෝරන්න",
     "Error" : "දෝෂයක්",
     "Name" : "නම",
@@ -35,7 +36,6 @@ OC.L10N.register(
     "From link" : "යොමුවෙන්",
     "Upload" : "උඩුගත කරන්න",
     "Cancel upload" : "උඩුගත කිරීම අත් හරින්න",
-    "Download" : "බාන්න",
     "Upload too large" : "උඩුගත කිරීම විශාල වැඩිය",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",
     "Files are being scanned, please wait." : "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න"

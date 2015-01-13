@@ -42,6 +42,7 @@ OC.L10N.register(
     "Rename" : "Renombrar",
     "Delete" : "Eliminar",
     "Unshare" : "Dejar de compartir",
+    "Download" : "Descargar",
     "Pending" : "Pendiente",
     "Error moving file" : "Error moviendo archivo",
     "Error" : "Error",
@@ -78,7 +79,6 @@ OC.L10N.register(
     "From link" : "Desde enlace",
     "Upload" : "Subir archivo",
     "Cancel upload" : "Cancelar subida",
-    "Download" : "Descargar",
     "Upload too large" : "Subida demasido grande",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido en este servidor.",
     "Files are being scanned, please wait." : "Los archivos están siendo escaneados,  por favor espere."

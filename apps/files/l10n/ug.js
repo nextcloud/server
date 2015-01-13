@@ -17,6 +17,7 @@ OC.L10N.register(
     "Rename" : "ئات ئۆزگەرت",
     "Delete" : "ئۆچۈر",
     "Unshare" : "ھەمبەھىرلىمە",
+    "Download" : "چۈشۈر",
     "Pending" : "كۈتۈۋاتىدۇ",
     "Error" : "خاتالىق",
     "Name" : "ئاتى",
@@ -36,7 +37,6 @@ OC.L10N.register(
     "Folder" : "قىسقۇچ",
     "Upload" : "يۈكلە",
     "Cancel upload" : "يۈكلەشتىن ۋاز كەچ",
-    "Download" : "چۈشۈر",
     "Upload too large" : "يۈكلەندىغىنى بەك چوڭ"
 },
 "nplurals=1; plural=0;");

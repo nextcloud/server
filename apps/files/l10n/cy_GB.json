@@ -21,6 +21,7 @@
     "Rename" : "Ailenwi",
     "Delete" : "Dileu",
     "Unshare" : "Dad-rannu",
+    "Download" : "Llwytho i lawr",
     "Pending" : "I ddod",
     "Error" : "Gwall",
     "Name" : "Enw",
@@ -43,7 +44,6 @@
     "From link" : "Dolen o",
     "Upload" : "Llwytho i fyny",
     "Cancel upload" : "Diddymu llwytho i fyny",
-    "Download" : "Llwytho i lawr",
     "Upload too large" : "Maint llwytho i fyny'n rhy fawr",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Mae'r ffeiliau rydych yn ceisio llwytho i fyny'n fwy na maint mwyaf llwytho ffeiliau i fyny ar y gweinydd hwn.",
     "Files are being scanned, please wait." : "Arhoswch, mae ffeiliau'n cael eu sganio."

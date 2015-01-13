@@ -21,6 +21,7 @@ OC.L10N.register(
     "Rename" : "Endurskýra",
     "Delete" : "Eyða",
     "Unshare" : "Hætta deilingu",
+    "Download" : "Niðurhal",
     "Select" : "Velja",
     "Pending" : "Bíður",
     "Error" : "Villa",
@@ -43,7 +44,6 @@ OC.L10N.register(
     "From link" : "Af tengli",
     "Upload" : "Senda inn",
     "Cancel upload" : "Hætta við innsendingu",
-    "Download" : "Niðurhal",
     "Upload too large" : "Innsend skrá er of stór",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni.",
     "Files are being scanned, please wait." : "Verið er að skima skrár, vinsamlegast hinkraðu."

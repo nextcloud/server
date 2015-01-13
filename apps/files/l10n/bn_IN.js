@@ -16,6 +16,7 @@ OC.L10N.register(
     "Files" : "ফাইলস",
     "Rename" : "পুনঃনামকরণ",
     "Delete" : "মুছে ফেলা",
+    "Download" : "ডাউনলোড করুন",
     "Pending" : "মুলতুবি",
     "Error" : "ভুল",
     "Name" : "নাম",
@@ -27,7 +28,6 @@ OC.L10N.register(
     "Save" : "সেভ",
     "Settings" : "সেটিংস",
     "New folder" : "নতুন ফোল্ডার",
-    "Folder" : "ফোল্ডার",
-    "Download" : "ডাউনলোড করুন"
+    "Folder" : "ফোল্ডার"
 },
 "nplurals=2; plural=(n != 1);");

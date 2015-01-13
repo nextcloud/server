@@ -8,6 +8,7 @@
     "Home" : "Domo",
     "Delete" : "Deler",
     "Unshare" : "Leva compartir",
+    "Download" : "Discargar",
     "Error" : "Error",
     "Name" : "Nomine",
     "Size" : "Dimension",
@@ -25,7 +26,6 @@
     "New folder" : "Nove dossier",
     "Folder" : "Dossier",
     "Upload" : "Incargar",
-    "Download" : "Discargar",
     "Upload too large" : "Incargamento troppo longe"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

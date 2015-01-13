@@ -37,6 +37,7 @@ OC.L10N.register(
     "Rename" : "Преименувај",
     "Delete" : "Избриши",
     "Unshare" : "Не споделувај",
+    "Download" : "Преземи",
     "Select" : "Избери",
     "Pending" : "Чека",
     "Error moving file" : "Грешка при префрлање на датотека",
@@ -66,7 +67,6 @@ OC.L10N.register(
     "From link" : "Од врска",
     "Upload" : "Подигни",
     "Cancel upload" : "Откажи прикачување",
-    "Download" : "Преземи",
     "Upload too large" : "Фајлот кој се вчитува е преголем",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер.",
     "Files are being scanned, please wait." : "Се скенираат датотеки, ве молам почекајте."

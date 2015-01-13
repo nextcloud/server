@@ -9,6 +9,7 @@
     "Rename" : "Preimenij",
     "Delete" : "Obriši",
     "Unshare" : "Ukljoni deljenje",
+    "Download" : "Preuzmi",
     "Error" : "Greška",
     "Name" : "Ime",
     "Size" : "Veličina",
@@ -22,7 +23,6 @@
     "Settings" : "Podešavanja",
     "Folder" : "Direktorijum",
     "Upload" : "Pošalji",
-    "Download" : "Preuzmi",
     "Upload too large" : "Pošiljka je prevelika",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fajlovi koje želite da pošaljete prevazilaze ograničenje maksimalne veličine pošiljke na ovom serveru."
 },"pluralForm" :"nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);"

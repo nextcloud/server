@@ -31,6 +31,7 @@ OC.L10N.register(
     "Rename" : "إعادة تسميه",
     "Delete" : "إلغاء",
     "Unshare" : "إلغاء المشاركة",
+    "Download" : "تحميل",
     "Pending" : "قيد الانتظار",
     "Error moving file" : "حدث خطأ أثناء نقل الملف",
     "Error" : "خطأ",
@@ -63,7 +64,6 @@ OC.L10N.register(
     "From link" : "من رابط",
     "Upload" : "رفع",
     "Cancel upload" : "إلغاء الرفع",
-    "Download" : "تحميل",
     "Upload too large" : "حجم الترفيع أعلى من المسموح",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم.",
     "Files are being scanned, please wait." : "يرجى الانتظار , جاري فحص الملفات ."

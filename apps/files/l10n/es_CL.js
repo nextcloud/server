@@ -4,6 +4,7 @@ OC.L10N.register(
     "Unknown error" : "Error desconocido",
     "Files" : "Archivos",
     "Rename" : "Renombrar",
+    "Download" : "Descargar",
     "Error" : "Error",
     "_%n folder_::_%n folders_" : ["",""],
     "_%n file_::_%n files_" : ["",""],
@@ -12,7 +13,6 @@ OC.L10N.register(
     "Settings" : "Configuración",
     "New folder" : "Nuevo directorio",
     "Upload" : "Subir",
-    "Cancel upload" : "cancelar subida",
-    "Download" : "Descargar"
+    "Cancel upload" : "cancelar subida"
 },
 "nplurals=2; plural=(n != 1);");

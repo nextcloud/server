@@ -41,6 +41,7 @@ OC.L10N.register(
     "Rename" : "Sửa tên",
     "Delete" : "Xóa",
     "Unshare" : "Bỏ chia sẻ",
+    "Download" : "Tải về",
     "Select" : "Chọn",
     "Pending" : "Đang chờ",
     "Error moving file" : "Lỗi di chuyển tập tin",
@@ -76,7 +77,6 @@ OC.L10N.register(
     "From link" : "Từ liên kết",
     "Upload" : "Tải lên",
     "Cancel upload" : "Hủy upload",
-    "Download" : "Tải về",
     "Upload too large" : "Tập tin tải lên quá lớn",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",
     "Files are being scanned, please wait." : "Tập tin đang được quét ,vui lòng chờ."

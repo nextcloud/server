@@ -40,6 +40,7 @@
     "Rename" : "이름 바꾸기",
     "Delete" : "삭제",
     "Unshare" : "공유 해제",
+    "Download" : "다운로드",
     "Select" : "선택",
     "Pending" : "대기 중",
     "Error moving file" : "파일 이동 오류",
@@ -77,7 +78,6 @@
     "From link" : "링크에서",
     "Upload" : "업로드",
     "Cancel upload" : "업로드 취소",
-    "Download" : "다운로드",
     "Upload too large" : "업로드한 파일이 너무 큼",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
     "Files are being scanned, please wait." : "파일을 검색하고 있습니다. 기다려 주십시오."

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Rename" : "Torna nomenar",
     "Delete" : "Escafa",
     "Unshare" : "Pas partejador",
+    "Download" : "Avalcarga",
     "Pending" : "Al esperar",
     "Error" : "Error",
     "Name" : "Nom",
@@ -32,7 +33,6 @@ OC.L10N.register(
     "Folder" : "Dorsièr",
     "Upload" : "Amontcarga",
     "Cancel upload" : " Anulla l'amontcargar",
-    "Download" : "Avalcarga",
     "Upload too large" : "Amontcargament tròp gròs",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor.",
     "Files are being scanned, please wait." : "Los fiichièrs son a èsser explorats, "

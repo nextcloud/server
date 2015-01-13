@@ -2,6 +2,7 @@ OC.L10N.register(
     "files",
     {
     "Files" : "په‌ڕگەکان",
+    "Download" : "داگرتن",
     "Select" : "دیاریکردنی",
     "Error" : "هه‌ڵه",
     "Name" : "ناو",
@@ -12,7 +13,6 @@ OC.L10N.register(
     "Save" : "پاشکه‌وتکردن",
     "Settings" : "ڕێکخستنه‌کان",
     "Folder" : "بوخچه",
-    "Upload" : "بارکردن",
-    "Download" : "داگرتن"
+    "Upload" : "بارکردن"
 },
 "nplurals=2; plural=(n != 1);");

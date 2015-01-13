@@ -27,6 +27,7 @@ OC.L10N.register(
     "Rename" : "تغییرنام",
     "Delete" : "حذف",
     "Unshare" : "لغو اشتراک",
+    "Download" : "دانلود",
     "Pending" : "در انتظار",
     "Error" : "خطا",
     "Name" : "نام",
@@ -53,7 +54,6 @@ OC.L10N.register(
     "From link" : "از پیوند",
     "Upload" : "بارگزاری",
     "Cancel upload" : "متوقف کردن بار گذاری",
-    "Download" : "دانلود",
     "Upload too large" : "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",
     "Files are being scanned, please wait." : "پرونده ها در حال بازرسی هستند لطفا صبر کنید"

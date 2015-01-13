@@ -21,6 +21,7 @@ OC.L10N.register(
     "Add remote share" : "Lisää etäjako",
     "No ownCloud installation (7 or higher) found at {remote}" : "ownCloud-asennusta (versiota 7 tai uudempaa) ei löytynyt osoitteesta {remote}",
     "Invalid ownCloud url" : "Virheellinen ownCloud-osoite",
+    "Share" : "Jaa",
     "Shared by" : "Jakanut",
     "A file or folder was shared from <strong>another server</strong>" : "Tiedosto tai kansio jaettiin <strong>toiselta palvelimelta</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Julkisesti jaettu tiedosto tai kansio <strong>ladattiin</strong>",

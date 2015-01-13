@@ -10,6 +10,7 @@ OC.L10N.register(
     "Home" : "Domo",
     "Delete" : "Deler",
     "Unshare" : "Leva compartir",
+    "Download" : "Discargar",
     "Error" : "Error",
     "Name" : "Nomine",
     "Size" : "Dimension",
@@ -27,7 +28,6 @@ OC.L10N.register(
     "New folder" : "Nove dossier",
     "Folder" : "Dossier",
     "Upload" : "Incargar",
-    "Download" : "Discargar",
     "Upload too large" : "Incargamento troppo longe"
 },
 "nplurals=2; plural=(n != 1);");

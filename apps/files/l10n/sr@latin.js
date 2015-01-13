@@ -11,6 +11,7 @@ OC.L10N.register(
     "Rename" : "Preimenij",
     "Delete" : "Obriši",
     "Unshare" : "Ukljoni deljenje",
+    "Download" : "Preuzmi",
     "Error" : "Greška",
     "Name" : "Ime",
     "Size" : "Veličina",
@@ -24,7 +25,6 @@ OC.L10N.register(
     "Settings" : "Podešavanja",
     "Folder" : "Direktorijum",
     "Upload" : "Pošalji",
-    "Download" : "Preuzmi",
     "Upload too large" : "Pošiljka je prevelika",
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Fajlovi koje želite da pošaljete prevazilaze ograničenje maksimalne veličine pošiljke na ovom serveru."
 },
