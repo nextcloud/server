@@ -148,10 +148,6 @@ class Scanner extends BasicEmitter {
 					}
 					// Only update metadata that has changed
 					$newData = array_diff_assoc($data, $cacheData);
-					if (isset($newData['etag'])) {
-						$cacheDataString = print_r($cacheData, true);
-						$dataString = print_r($data, true);
-					}
 				} else {
 					$newData = $data;
 				}
