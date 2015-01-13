@@ -212,6 +212,10 @@ class View {
 		}
 	}
 
+	/**
+	 * @param string $path
+	 * @return bool|mixed
+	 */
 	public function rmdir($path) {
 		$absolutePath = $this->getAbsolutePath($path);
 		$mount = Filesystem::getMountManager()->find($absolutePath);
@@ -435,11 +439,17 @@ class View {
 
 	/**
 	 * @param string $directory
+	 * @return bool|mixed
 	 */
-	public function deleteAll($directory, $empty = false) {
+	public function deleteAll($directory) {
 		return $this->rmdir($directory);
 	}
 
+	/**
+	 * @param string $path1
+	 * @param string $path2
+	 * @return bool|mixed
+	 */
 	public function rename($path1, $path2) {
 		$postFix1 = (substr($path1, -1, 1) === '/') ? '/' : '';
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
