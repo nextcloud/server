@@ -132,9 +132,9 @@ if (strpos($dir, '..') === false) {
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
 		if ($resolution === 'autorename') {
 			// append a number in brackets like 'filename (2).ext'
-			$target = OCP\Files::buildNotExistingFileName(stripslashes($dir . $relativePath), $files['name'][$i]);
+			$target = OCP\Files::buildNotExistingFileName($dir . $relativePath, $files['name'][$i]);
 		} else {
-			$target = \OC\Files\Filesystem::normalizePath(stripslashes($dir . $relativePath).'/'.$files['name'][$i]);
+			$target = \OC\Files\Filesystem::normalizePath($dir . $relativePath.'/'.$files['name'][$i]);
 		}
 
 		// relative dir to return to the client

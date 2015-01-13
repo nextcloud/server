@@ -81,7 +81,6 @@ if (!\OC\Files\Filesystem::file_exists($dir . '/')) {
 	exit();
 }
 
-//TODO why is stripslashes used on foldername in newfolder.php but not here?
 $target = $dir.'/'.$filename;
 
 if (\OC\Files\Filesystem::file_exists($target)) {

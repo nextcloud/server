@@ -5,9 +5,9 @@ OCP\JSON::callCheck();
 \OC::$server->getSession()->close();
 
 // Get data
-$dir = stripslashes($_POST["dir"]);
-$file = stripslashes($_POST["file"]);
-$target = stripslashes(rawurldecode($_POST["target"]));
+$dir = isset($_POST['dir']) ? $_POST['dir'] : '';
+$file = isset($_POST['file']) ? $_POST['file'] : '';
+$target = isset($_POST['target']) ? rawurldecode($_POST['target']) : '';
 
 $l = \OC::$server->getL10N('files');
 

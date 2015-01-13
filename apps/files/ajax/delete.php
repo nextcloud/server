@@ -6,7 +6,7 @@ OCP\JSON::callCheck();
 
 
 // Get data
-$dir = stripslashes($_POST["dir"]);
+$dir = isset($_POST['dir']) ? $_POST['dir'] : '';
 $allFiles = isset($_POST["allfiles"]) ? $_POST["allfiles"] : false;
 
 // delete all files in dir ?
