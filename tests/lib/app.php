@@ -459,5 +459,34 @@ class Test_App extends \Test\TestCase {
 		// Remove the cache of the mocked apps list with a forceRefresh
 		\OC_App::getEnabledApps(true);
 	}
+
+	/**
+	 * Providers for the app data values
+	 */
+	function appDataProvider() {
+		return [
+			[
+				['description' => " \t  This is a multiline \n test with \n \t \n \n some new lines   "],
+				['description' => "This is a multiline test with\n\nsome new lines"]
+			],
+			[
+				['description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
+				['description' => "This is a multiline test with some new lines"]
+			],
+			[
+				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "],
+				['not-a-description' => " \t  This is a multiline \n test with \n \t   some new lines   "]
+			],
+		];
+	}
+
+	/**
+	 * Test app info parser
+	 *
+	 * @dataProvider appDataProvider
+	 */
+	public function testParseAppInfo($data, $expected) {
+		$this->assertEquals($expected, \OC_App::parseAppInfo($data));
+	}
 }
 
