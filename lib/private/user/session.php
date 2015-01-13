@@ -199,7 +199,7 @@ class Session implements IUserSession, Emitter {
 					$this->setUser($user);
 					$this->setLoginName($uid);
 					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
-					return true;
+					return $this->isLoggedIn();
 				} else {
 					return false;
 				}
