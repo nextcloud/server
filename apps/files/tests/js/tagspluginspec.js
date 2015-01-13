@@ -77,11 +77,39 @@ describe('OCA.Files.TagsPlugin tests', function() {
 	});
 	describe('Applying tags', function() {
 		it('sends request to server and updates icon', function() {
-			// TODO
+			var request;
 			fileList.setFiles(testFiles);
-		});
-		it('sends all tags to server when applyFileTags() is called ', function() {
-			// TODO
+			$tr = fileList.$el.find('tbody tr:first');
+			$action = $tr.find('.action-favorite');
+			$action.click();
+
+			expect(fakeServer.requests.length).toEqual(1);
+			var request = fakeServer.requests[0];
+			expect(JSON.parse(request.requestBody)).toEqual({
+				tags: ['tag1', 'tag2', OC.TAG_FAVORITE]
+			});
+			request.respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				tags: ['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]
+			}));
+
+			expect($tr.attr('data-favorite')).toEqual('true');
+			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
+			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3', OC.TAG_FAVORITE]);
+			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/starred'));
+
+			$action.click();
+			request = fakeServer.requests[1];
+			expect(JSON.parse(request.requestBody)).toEqual({
+				tags: ['tag1', 'tag2', 'tag3']
+			});
+			request.respond(200, {'Content-Type': 'application/json'}, JSON.stringify({
+				tags: ['tag1', 'tag2', 'tag3']
+			}));
+
+			expect($tr.attr('data-favorite')).toEqual('false');
+			expect($tr.attr('data-tags').split('|')).toEqual(['tag1', 'tag2', 'tag3']);
+			expect(fileList.files[0].tags).toEqual(['tag1', 'tag2', 'tag3']);
+			expect($action.find('img').attr('src')).toEqual(OC.imagePath('core', 'actions/star'));
 		});
 	});
 });
