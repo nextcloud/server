@@ -715,7 +715,7 @@ class Filesystem {
 	 * @return string
 	 */
 	public static function normalizePath($path, $stripTrailingSlash = true, $isAbsolutePath = false) {
-		$cacheKey = $path.'-'.-$stripTrailingSlash.'-'.$isAbsolutePath;
+		$cacheKey = json_encode([$path, $stripTrailingSlash, $isAbsolutePath]);
 
 		if(isset(self::$normalizedPathCache[$cacheKey])) {
 			return self::$normalizedPathCache[$cacheKey];
