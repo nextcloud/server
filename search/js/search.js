@@ -155,7 +155,8 @@
 			}
 
 			var $status = $searchResults.find('#status');
-			const summaryAndStatusHeight = 118;
+			// summaryAndStatusHeight is a constant
+			var summaryAndStatusHeight = 118;
 
 			function isStatusOffScreen() {
 				return $searchResults.position() && ($searchResults.position().top + summaryAndStatusHeight > window.innerHeight);
