@@ -51,4 +51,9 @@ class OracleMigrator extends NoCheckMigrator {
 		$script .= PHP_EOL;
 		return $script;
 	}
+
+	protected function getFilterExpression() {
+		return '/^"' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
+	}
+
 }

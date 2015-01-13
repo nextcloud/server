@@ -75,9 +75,9 @@ class Migrator {
 		 * @var \Doctrine\DBAL\Schema\Table[] $tables
 		 */
 		$tables = $targetSchema->getTables();
-
+		$filterExpression = $this->getFilterExpression();
 		$this->connection->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix', 'oc_') . '/');
+			setFilterSchemaAssetsExpression($filterExpression);
 		$existingTables = $this->connection->getSchemaManager()->listTableNames();
 
 		foreach ($tables as $table) {
@@ -161,8 +161,9 @@ class Migrator {
 	}
 
 	protected function getDiff(Schema $targetSchema, \Doctrine\DBAL\Connection $connection) {
-		$connection->getConfiguration()->
-			setFilterSchemaAssetsExpression('/^' . $this->config->getSystemValue('dbtableprefix', 'oc_') . '/');
+		$filterExpression = $this->getFilterExpression();
+		$this->connection->getConfiguration()->
+		setFilterSchemaAssetsExpression($filterExpression);
 		$sourceSchema = $connection->getSchemaManager()->createSchema();
 
 		// remove tables we don't know about
@@ -229,5 +230,9 @@ class Migrator {
 		$script .= PHP_EOL;
 		$script .= PHP_EOL;
 		return $script;
+	}
+
+	protected function getFilterExpression() {
+		return '/^' . preg_quote($this->config->getSystemValue('dbtableprefix', 'oc_')) . '/';
 	}
 }
