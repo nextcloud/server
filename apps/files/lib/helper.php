@@ -181,10 +181,10 @@ class Helper
 	/**
 	 * Populate the result set with file tags
 	 *
-	 * @param array file list
-	 * @return file list populated with tags
+	 * @param array $fileList
+	 * @return array file list populated with tags
 	 */
-	public static function populateTags($fileList) {
+	public static function populateTags(array $fileList) {
 		$filesById = array();
 		foreach ($fileList as $fileData) {
 			$filesById[$fileData['fileid']] = $fileData;
