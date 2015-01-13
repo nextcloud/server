@@ -736,6 +736,21 @@ class OC {
 			self::checkUpgrade();
 		}
 
+		// Load minimum set of apps
+		if (!self::checkUpgrade(false)
+			&& !$systemConfig->getValue('maintenance', false)
+			&& !\OCP\Util::needUpgrade()) {
+			// For logged-in users: Load everything
+			if(OC_User::isLoggedIn()) {
+				OC_App::loadApps();
+			} else {
+				// For guests: Load only authentication, filesystem and logging
+				OC_App::loadApps(array('authentication'));
+				OC_App::loadApps(array('filesystem', 'logging'));
+				\OC_User::tryBasicAuthLogin();
+			}
+		}
+
 		if (!self::$CLI and (!isset($_GET["logout"]) or ($_GET["logout"] !== 'true'))) {
 			try {
 				if (!$systemConfig->getValue('maintenance', false) && !\OCP\Util::needUpgrade()) {
@@ -752,19 +767,6 @@ class OC {
 			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
 				OC_Response::setStatus(405);
 				return;
-			}
-		}
-
-		// Load minimum set of apps
-		if (!self::checkUpgrade(false)) {
-			// For logged-in users: Load everything
-			if(OC_User::isLoggedIn()) {
-				OC_App::loadApps();
-			} else {
-				// For guests: Load only authentication, filesystem and logging
-				OC_App::loadApps(array('authentication'));
-				OC_App::loadApps(array('filesystem', 'logging'));
-				\OC_User::tryBasicAuthLogin();
 			}
 		}
 
