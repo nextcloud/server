@@ -783,9 +783,32 @@ $CONFIG = array(
 
 
 /**
+ * Memory caching backend configuration
+ *
+ * Available cache backends:
+ * - \OC\Memcache\APC        Alternative PHP Cache backend
+ * - \OC\Memcache\APCu       APC user backend
+ * - \OC\Memcache\ArrayCache In-memory array-based backend (not recommended)
+ * - \OC\Memcache\Memcached  Memcached backend
+ * - \OC\Memcache\Redis      Redis backend
+ * - \OC\Memcache\XCache     XCache backend
+ */
+
+/**
+ * Memory caching backend for locally stored data
+ * Used for host-specific data, e.g. file paths
+ */
+'memcache.local' => '\OC\Memcache\APCu',
+
+/**
+ * Memory caching backend for distributed data
+ * Used for installation-specific data, e.g. database caching
+ * If unset, defaults to the value of memcache.local
+ */
+'memcache.distributed' => '\OC\Memcache\Memcached',
+
+/**
  * Connection details for redis to use for memory caching.
- * Redis is only used if other memory cache options (xcache, apc, apcu) are
- * not available.
  */
 'redis' => array(
 	'host' => 'localhost', // can also be a unix domain socket: '/tmp/redis.sock'
@@ -795,8 +818,6 @@ $CONFIG = array(
 
 /**
  * Server details for one or more memcached servers to use for memory caching.
- * Memcache is only used if other memory cache options (xcache, apc, apcu,
- * redis) are not available.
  */
 'memcached_servers' => array(
 	// hostname, port and optional weight. Also see:
@@ -805,6 +826,7 @@ $CONFIG = array(
 	array('localhost', 11211),
 	//array('other.host.local', 11211),
 ),
+
 
 /**
  * Location of the cache folder, defaults to ``data/$user/cache`` where
