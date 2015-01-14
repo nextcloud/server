@@ -500,7 +500,7 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		if (!$storage) {
 			$storage = $this;
 		}
-		return new \OC\Files\Cache\Scanner($storage);
+		return new \OC\Files\Cache\SharedScanner($storage);
 	}
 
 	public function getWatcher($path = '', $storage = null) {
