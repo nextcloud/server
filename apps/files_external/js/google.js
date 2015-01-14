@@ -85,8 +85,9 @@ $(document).ready(function() {
 				|| $(tr).find('.chzn-select').val() != null))
 			{
 				if ($(tr).find('.google').length == 0) {
-					$(config).append($('<a/>').addClass('button google')
-						.text(t('files_external', 'Grant access')));
+					$(config).append($(document.createElement('input')).addClass('button google')
+						.attr('type', 'button')
+						.attr('value', t('files_external', 'Grant access')));
 				} else {
 					$(tr).find('.google').show();
 				}
