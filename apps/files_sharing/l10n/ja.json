@@ -19,6 +19,7 @@
     "Add remote share" : "リモート共有を追加",
     "No ownCloud installation (7 or higher) found at {remote}" : "{remote} にはownCloud (7以上)がインストールされていません",
     "Invalid ownCloud url" : "無効なownCloud URL です",
+    "Share" : "共有",
     "Shared by" : "共有者：",
     "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーは <strong>他のサーバー</strong>から共有されました",
     "You received a new remote share from %s" : "%sからリモート共有のリクエストは\n届きました。",

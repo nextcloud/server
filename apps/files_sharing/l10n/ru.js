@@ -21,6 +21,7 @@ OC.L10N.register(
     "Add remote share" : "Добавить удалённый общий ресурс",
     "No ownCloud installation (7 or higher) found at {remote}" : "На удаленном ресурсе {remote} не установлен ownCloud версии 7 или выше",
     "Invalid ownCloud url" : "Неверный адрес ownCloud",
+    "Share" : "Поделиться",
     "Shared by" : "Поделился",
     "A file or folder was shared from <strong>another server</strong>" : "Файлом или каталогом поделились с <strong>удаленного сервера</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Общий файл или каталог был <strong>скачан</strong>",

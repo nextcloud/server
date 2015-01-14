@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Loobu",
     "Add remote share" : "Lisa kaugjagamine",
     "Invalid ownCloud url" : "Vigane ownCloud url",
+    "Share" : "Jaga",
     "Shared by" : "Jagas",
     "This share is password-protected" : "See jagamine on parooliga kaitstud",
     "The password is wrong. Try again." : "Parool on vale. Proovi uuesti.",

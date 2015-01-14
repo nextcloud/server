@@ -13,6 +13,7 @@ OC.L10N.register(
     "Cancel" : "Odustanite",
     "Add remote share" : "Dodajte udaljeni zajednički resurs",
     "Invalid ownCloud url" : "Neispravan ownCloud URL",
+    "Share" : "Podijelite resurs",
     "Shared by" : "Podijeljeno od strane",
     "This share is password-protected" : "Ovaj zajednički resurs je zaštićen lozinkom",
     "The password is wrong. Try again." : "Pogrešna lozinka. Pokušajte ponovno.",

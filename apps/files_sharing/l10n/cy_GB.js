@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Diddymu",
+    "Share" : "Rhannu",
     "Shared by" : "Rhannwyd gan",
     "Password" : "Cyfrinair",
     "Name" : "Enw",

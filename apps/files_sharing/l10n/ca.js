@@ -13,6 +13,7 @@ OC.L10N.register(
     "Cancel" : "Cancel·la",
     "Add remote share" : "Afegeix compartició remota",
     "Invalid ownCloud url" : "La url d'ownCloud no és vàlida",
+    "Share" : "Comparteix",
     "Shared by" : "Compartit per",
     "This share is password-protected" : "Aquest compartit està protegit amb contrasenya",
     "The password is wrong. Try again." : "la contrasenya és incorrecta. Intenteu-ho de nou.",

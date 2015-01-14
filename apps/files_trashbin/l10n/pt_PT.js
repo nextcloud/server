@@ -9,6 +9,7 @@ OC.L10N.register(
     "Error" : "Erro",
     "restored" : "Restaurado",
     "No deleted files" : "Sem ficheiros eliminados",
+    "No entries found in this folder" : "Não foram encontradas entradas nesta pasta",
     "Select all" : "Seleccionar todos",
     "Name" : "Nome",
     "Deleted" : "Eliminado",

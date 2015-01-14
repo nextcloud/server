@@ -7,6 +7,7 @@ OC.L10N.register(
     "Shared by link" : "Kunhavata per ligilo",
     "Cancel" : "Nuligi",
     "Invalid ownCloud url" : "Nevalidas URL de ownCloud",
+    "Share" : "Kunhavigi",
     "Shared by" : "Kunhavigita de",
     "This share is password-protected" : "Ĉi tiu kunhavigo estas protektata per pasvorto",
     "The password is wrong. Try again." : "La pasvorto malĝustas. Provu denove.",

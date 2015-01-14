@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Cancelar",
+    "Share" : "Compartir",
     "Shared by" : "Compartido por",
     "This share is password-protected" : "Esto está protegido por contraseña",
     "The password is wrong. Try again." : "La contraseña no es correcta. Probá de nuevo.",

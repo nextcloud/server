@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "취소",
+    "Share" : "공유",
     "Shared by" : "공유한 사용자:",
     "This share is password-protected" : "이 공유는 암호로 보호되어 있습니다",
     "The password is wrong. Try again." : "암호가 잘못되었습니다. 다시 입력해 주십시오.",

@@ -13,6 +13,7 @@ OC.L10N.register(
     "Cancel" : "Zrušiť",
     "Add remote share" : "Pridať vzdialené úložisko",
     "Invalid ownCloud url" : "Chybná ownCloud url",
+    "Share" : "Zdieľať",
     "Shared by" : "Zdieľa",
     "This share is password-protected" : "Toto zdieľanie je chránené heslom",
     "The password is wrong. Try again." : "Heslo je chybné. Skúste to znova.",

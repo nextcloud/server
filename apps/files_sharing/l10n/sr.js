@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Откажи",
+    "Share" : "Дели",
     "Shared by" : "Делио",
     "Password" : "Лозинка",
     "Name" : "Име",

@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Відмінити",
     "Add remote share" : "Додати віддалену загальну теку",
     "Invalid ownCloud url" : "Невірний ownCloud URL",
+    "Share" : "Поділитися",
     "Shared by" : "Опубліковано",
     "This share is password-protected" : "Цей ресурс обміну захищений паролем",
     "The password is wrong. Try again." : "Невірний пароль. Спробуйте ще раз.",

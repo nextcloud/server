@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Mégsem",
     "Add remote share" : "Távoli megosztás létrehozása",
     "Invalid ownCloud url" : "Érvénytelen ownCloud webcím",
+    "Share" : "Megosztás",
     "Shared by" : "Megosztotta Önnel",
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",

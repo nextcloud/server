@@ -2,7 +2,9 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Otkaži",
+    "Share" : "Podeli",
     "Password" : "Lozinka",
+    "No entries found in this folder" : "Nema unosa u ovom direktorijumu",
     "Name" : "Ime",
     "Download" : "Preuzmi"
 },

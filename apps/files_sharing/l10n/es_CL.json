@@ -1,5 +1,6 @@
 { "translations": {
     "Cancel" : "Cancelar",
+    "Share" : "Compartir",
     "Password" : "Clave",
     "Download" : "Descargar"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

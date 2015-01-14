@@ -11,6 +11,7 @@ OC.L10N.register(
     "Cancel" : "Dayandır",
     "Add remote share" : "Uzaq yayımlanmanı əlavə et",
     "Invalid ownCloud url" : "Yalnış ownCloud url-i",
+    "Share" : "Yayımla",
     "Shared by" : "Tərəfindən yayımlanıb",
     "Password" : "Şifrə",
     "Name" : "Ad",

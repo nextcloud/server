@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Atšaukti",
+    "Share" : "Dalintis",
     "Shared by" : "Dalinasi",
     "This share is password-protected" : "Turinys apsaugotas slaptažodžiu",
     "The password is wrong. Try again." : "Netinka slaptažodis: Bandykite dar kartą.",

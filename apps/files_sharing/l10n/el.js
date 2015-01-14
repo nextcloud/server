@@ -16,6 +16,7 @@ OC.L10N.register(
     "Cancel" : "Άκυρο",
     "Add remote share" : "Προσθήκη απομακρυσμένου κοινόχρηστου φακέλου",
     "Invalid ownCloud url" : "Άκυρη url ownCloud ",
+    "Share" : "Διαμοιράστε",
     "Shared by" : "Διαμοιράστηκε από",
     "This share is password-protected" : "Αυτός ο κοινόχρηστος φάκελος προστατεύεται με κωδικό",
     "The password is wrong. Try again." : "Εσφαλμένος κωδικός πρόσβασης. Προσπαθήστε ξανά.",

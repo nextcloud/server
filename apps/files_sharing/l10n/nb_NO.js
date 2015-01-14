@@ -21,6 +21,7 @@ OC.L10N.register(
     "Add remote share" : "Legg til ekstern deling",
     "No ownCloud installation (7 or higher) found at {remote}" : "Ingen ownCloud-installasjon (7 eller høyere) funnet på {remote}",
     "Invalid ownCloud url" : "Ugyldig ownCloud-url",
+    "Share" : "Del",
     "Shared by" : "Delt av",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mappe ble delt fra <strong>en annen server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "En offentlig delt fil eller mappe ble <strong>lastet ned</strong>",

@@ -19,6 +19,7 @@
     "Add remote share" : "Uzak paylaşım ekle",
     "No ownCloud installation (7 or higher) found at {remote}" : "{remote} üzerinde ownCloud (7 veya daha üstü) kurulumu bulunamadı",
     "Invalid ownCloud url" : "Geçersiz ownCloud adresi",
+    "Share" : "Paylaş",
     "Shared by" : "Paylaşan",
     "A file or folder was shared from <strong>another server</strong>" : "<strong>Başka sunucudan</strong> bir dosya veya klasör paylaşıldı",
     "A public shared file or folder was <strong>downloaded</strong>" : "Herkese açık paylaşılan bir dosya veya klasör <strong>indirildi</strong>",

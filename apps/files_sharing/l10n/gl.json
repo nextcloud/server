@@ -19,6 +19,7 @@
     "Add remote share" : "Engadir unha compartición remota",
     "No ownCloud installation (7 or higher) found at {remote}" : "Non se atopa unha instalación de ownCloud (7 ou superior) en {remote}",
     "Invalid ownCloud url" : "URL incorrecta do ownCloud",
+    "Share" : "Compartir",
     "Shared by" : "Compartido por",
     "A file or folder was shared from <strong>another server</strong>" : "Compartiuse un ficheiro ou cartafol desde <strong>outro servidor</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Foi <strong>descargado</strong> un ficheiro ou cartafol público",

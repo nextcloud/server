@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Batal",
     "Add remote share" : "Tambah berbagi remote",
     "Invalid ownCloud url" : "URL ownCloud tidak sah",
+    "Share" : "Bagikan",
     "Shared by" : "Dibagikan oleh",
     "This share is password-protected" : "Berbagi ini dilindungi sandi",
     "The password is wrong. Try again." : "Sandi salah. Coba lagi",

@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Odustani",
+    "Share" : "Dijeli",
     "Shared by" : "Dijeli",
     "Password" : "Lozinka",
     "Name" : "Ime",

@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Ezeztatu",
     "Add remote share" : "Gehitu urrutiko parte hartzea",
     "Invalid ownCloud url" : "ownCloud url baliogabea",
+    "Share" : "Partekatu",
     "Shared by" : "Honek elkarbanatuta",
     "This share is password-protected" : "Elkarbanatutako hau pasahitzarekin babestuta dago",
     "The password is wrong. Try again." : "Pasahitza ez da egokia. Saiatu berriro.",

@@ -21,6 +21,7 @@ OC.L10N.register(
     "Add remote share" : "Toevoegen externe share",
     "No ownCloud installation (7 or higher) found at {remote}" : "Geen recente ownCloud installatie (7 of hoger) gevonden op {remote}",
     "Invalid ownCloud url" : "Ongeldige ownCloud url",
+    "Share" : "Deel",
     "Shared by" : "Gedeeld door",
     "A file or folder was shared from <strong>another server</strong>" : "Een bestand of map werd gedeeld vanaf <strong>een andere server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Een openbaar gedeeld bestand of map werd <strong>gedownloaded</strong>",

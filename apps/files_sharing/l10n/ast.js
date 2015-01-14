@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Encaboxar",
     "Add remote share" : "Amestar compartición remota",
     "Invalid ownCloud url" : "Url ownCloud inválida",
+    "Share" : "Compartir",
     "Shared by" : "Compartíos por",
     "This share is password-protected" : "Esta compartición tien contraseña protexida",
     "The password is wrong. Try again." : "La contraseña ye incorreuta. Inténtalo otra vegada.",

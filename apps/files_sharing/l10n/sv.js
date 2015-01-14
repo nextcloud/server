@@ -20,6 +20,7 @@ OC.L10N.register(
     "Cancel" : "Avbryt",
     "Add remote share" : "Lägg till fjärrdelning",
     "Invalid ownCloud url" : "Felaktig ownCloud url",
+    "Share" : "Dela",
     "Shared by" : "Delad av",
     "A file or folder was shared from <strong>another server</strong>" : "En fil eller mapp delades från <strong>en annan server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "En publikt delad fil eller mapp blev <strong>nerladdad</strong>",

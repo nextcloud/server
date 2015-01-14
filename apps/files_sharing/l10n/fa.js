@@ -13,6 +13,7 @@ OC.L10N.register(
     "Cancel" : "منصرف شدن",
     "Add remote share" : "افزودن اشتراک از راه دور",
     "Invalid ownCloud url" : "آدرس نمونه ownCloud  غیر معتبر است",
+    "Share" : "اشتراک‌گذاری",
     "Shared by" : "اشتراک گذاشته شده به وسیله",
     "This share is password-protected" : "این اشتراک توسط رمز عبور محافظت می شود",
     "The password is wrong. Try again." : "رمزعبور اشتباه می باشد. دوباره امتحان کنید.",

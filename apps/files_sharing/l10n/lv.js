@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_sharing",
     {
     "Cancel" : "Atcelt",
+    "Share" : "Dalīties",
     "Shared by" : "Dalījās",
     "Password" : "Parole",
     "No entries found in this folder" : "Šajā mapē nekas nav atrasts",

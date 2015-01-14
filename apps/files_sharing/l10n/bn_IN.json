@@ -1,5 +1,6 @@
 { "translations": {
     "Cancel" : "বাতিল করা",
+    "Share" : "শেয়ার",
     "Name" : "নাম",
     "Download" : "ডাউনলোড করুন"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"

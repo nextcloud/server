@@ -21,6 +21,7 @@ OC.L10N.register(
     "Add remote share" : "Add remote share",
     "No ownCloud installation (7 or higher) found at {remote}" : "No ownCloud installation (7 or higher) found at {remote}",
     "Invalid ownCloud url" : "Invalid ownCloud URL",
+    "Share" : "Share",
     "Shared by" : "Shared by",
     "A file or folder was shared from <strong>another server</strong>" : "A file or folder was shared from <strong>another server</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "A public shared file or folder was <strong>downloaded</strong>",

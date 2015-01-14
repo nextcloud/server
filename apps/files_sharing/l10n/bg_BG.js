@@ -14,6 +14,7 @@ OC.L10N.register(
     "Cancel" : "Отказ",
     "Add remote share" : "Добави прикачена папка",
     "Invalid ownCloud url" : "Невалиден ownCloud интернет адрес.",
+    "Share" : "Сподели",
     "Shared by" : "Споделено от",
     "This share is password-protected" : "Тази зона е защитена с парола.",
     "The password is wrong. Try again." : "Грешна парола. Опитай отново.",

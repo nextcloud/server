@@ -19,6 +19,7 @@
     "Add remote share" : "Ajouter un partage distant",
     "No ownCloud installation (7 or higher) found at {remote}" : "Aucune installation ownCloud (7 ou supérieur) trouvée sur {remote}",
     "Invalid ownCloud url" : "URL ownCloud non valide",
+    "Share" : "Partager",
     "Shared by" : "Partagé par",
     "A file or folder was shared from <strong>another server</strong>" : "Un fichier ou un répertoire a été partagé depuis <strong>un autre serveur</strong>",
     "A public shared file or folder was <strong>downloaded</strong>" : "Un fichier ou un répertoire partagé a été <strong>téléchargé</strong>",
