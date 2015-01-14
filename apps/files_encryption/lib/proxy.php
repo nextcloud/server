@@ -47,16 +47,15 @@ class Proxy extends \OC_FileProxy {
 	 * check if path is excluded from encryption
 	 *
 	 * @param string $path relative to data/
-	 * @param string $uid user
 	 * @return boolean
 	 */
-	protected function isExcludedPath($path, $uid) {
+	protected function isExcludedPath($path) {
 
 		$view = new \OC\Files\View();
 
-		$path = \OC\Files\Filesystem::normalizePath($path);
+		$normalizedPath = \OC\Files\Filesystem::normalizePath($path);
 
-		$parts = explode('/', $path);
+		$parts = explode('/', $normalizedPath);
 
 		// we only encrypt/decrypt files in the files and files_versions folder
 		if (sizeof($parts) < 3) {
@@ -69,18 +68,18 @@ class Proxy extends \OC_FileProxy {
 			return true;
 		}
 		if(
-			strpos($path, '/' . $uid . '/files/') !== 0 &&
+			!($parts[2] === 'files' && \OCP\User::userExists($parts[1])) &&
 			!($parts[2] === 'files_versions' && \OCP\User::userExists($parts[1]))) {
 
 			return true;
 		}
 
-		if (!$view->file_exists($path)) {
-			$path = dirname($path);
+		if (!$view->file_exists($normalizedPath)) {
+			$normalizedPath = dirname($normalizedPath);
 		}
 
 		// we don't encrypt server-to-server shares
-		list($storage, ) = \OC\Files\Filesystem::resolvePath($path);
+		list($storage, ) = \OC\Files\Filesystem::resolvePath($normalizedPath);
 		/**
 		 * @var \OCP\Files\Storage $storage
 		 */
@@ -102,17 +101,16 @@ class Proxy extends \OC_FileProxy {
 	 */
 	private function shouldEncrypt($path, $mode = 'w') {
 
-		$userId = Helper::getUser($path);
-
 		// don't call the crypt stream wrapper, if...
 		if (
 				Crypt::mode() !== 'server'   // we are not in server-side-encryption mode
-				|| $this->isExcludedPath($path, $userId) // if path is excluded from encryption
+				|| $this->isExcludedPath($path) // if path is excluded from encryption
 				|| substr($path, 0, 8) === 'crypt://' // we are already in crypt mode
 		) {
 			return false;
 		}
 
+		$userId = Helper::getUser($path);
 		$view = new \OC\Files\View('');
 		$util = new Util($view, $userId);
 

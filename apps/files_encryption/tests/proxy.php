@@ -126,9 +126,7 @@ class Proxy extends TestCase {
 		$this->view->mkdir(dirname($path));
 		$this->view->file_put_contents($path, "test");
 
-		$testClass = new DummyProxy();
-
-		$result = $testClass->isExcludedPathTesting($path, $this->userId);
+		$result = \Test_Helper::invokePrivate(new \OCA\Files_Encryption\Proxy(), 'isExcludedPath', array($path));
 		$this->assertSame($expected, $result);
 
 		$this->view->deleteAll(dirname($path));
@@ -149,12 +147,3 @@ class Proxy extends TestCase {
 
 }
 
-
-/**
- * Dummy class to make protected methods available for testing
- */
-class DummyProxy extends \OCA\Files_Encryption\Proxy {
-	public function isExcludedPathTesting($path, $uid) {
-		return $this->isExcludedPath($path, $uid);
-	}
-}
