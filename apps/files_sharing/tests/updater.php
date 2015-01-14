@@ -98,12 +98,12 @@ class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 
 		// trashbin should contain the local file but not the mount point
 		$rootView = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2);
-		$dirContent = $rootView->getDirectoryContent('files_trashbin/files');
-		$this->assertSame(1, count($dirContent));
-		$firstElement = reset($dirContent);
-		$ext = pathinfo($firstElement['path'], PATHINFO_EXTENSION);
-		$this->assertTrue($rootView->file_exists('files_trashbin/files/localFolder.' . $ext . '/localFile.txt'));
-		$this->assertFalse($rootView->file_exists('files_trashbin/files/localFolder.' . $ext . '/' . $this->folder));
+		$trashContent = \OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_FILES_SHARING_API_USER2);
+		$this->assertSame(1, count($trashContent));
+		$firstElement = reset($trashContent);
+		$timestamp = $firstElement['mtime'];
+		$this->assertTrue($rootView->file_exists('files_trashbin/files/localFolder.d' . $timestamp . '/localFile.txt'));
+		$this->assertFalse($rootView->file_exists('files_trashbin/files/localFolder.d' . $timestamp . '/' . $this->folder));
 
 		//cleanup
 		$rootView->deleteAll('files_trashin');

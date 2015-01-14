@@ -186,6 +186,7 @@ class Test_Files_Sharing_Mount extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertFalse(\OC\Files\Filesystem::file_exists("newFileName"));
 
 		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		\OCP\Share::unshare('file', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, 'testGroup');
 		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER1, 'testGroup');
 		\OC_Group::removeFromGroup(self::TEST_FILES_SHARING_API_USER2, 'testGroup');

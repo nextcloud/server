@@ -50,6 +50,7 @@ class Test_Files_Sharing extends OCA\Files_sharing\Tests\TestCase {
 	}
 
 	protected function tearDown() {
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->filename);
 		$this->view->deleteAll($this->folder);
 
