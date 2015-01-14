@@ -10,10 +10,10 @@
 
 namespace OCA\Files_Sharing\Middleware;
 
-use OCP\AppFramework\IApi;
-use \OCP\AppFramework\Middleware;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Middleware;
 use OCP\AppFramework\Http\TemplateResponse;
-use OCP\IAppConfig;
+use OCP\IConfig;
 
 /**
  * Checks whether the "sharing check" is enabled
@@ -24,22 +24,22 @@ class SharingCheckMiddleware extends Middleware {
 
 	/** @var string */
 	protected $appName;
-	/** @var IAppConfig */
-	protected $appConfig;
-	/** @var IApi */
-	protected $api;
+	/** @var IConfig */
+	protected $config;
+	/** @var IAppManager */
+	protected $appManager;
 
 	/***
 	 * @param string $appName
-	 * @param IAppConfig $appConfig
-	 * @param IApi $api
+	 * @param IConfig $config
+	 * @param IAppManager $appManager
 	 */
 	public function __construct($appName,
-								IAppConfig $appConfig,
-								IApi $api) {
+								IConfig $config,
+								IAppManager $appManager) {
 		$this->appName = $appName;
-		$this->appConfig = $appConfig;
-		$this->api = $api;
+		$this->config = $config;
+		$this->appManager = $appManager;
 	}
 
 	/**
@@ -69,12 +69,12 @@ class SharingCheckMiddleware extends Middleware {
 	private function isSharingEnabled() {
 		// FIXME: This check is done here since the route is globally defined and not inside the files_sharing app
 		// Check whether the sharing application is enabled
-		if(!$this->api->isAppEnabled($this->appName)) {
+		if(!$this->appManager->isEnabledForUser($this->appName)) {
 			return false;
 		}
 
 		// Check whether public sharing is enabled
-		if($this->appConfig->getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+		if($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
 			return false;
 		}
 
