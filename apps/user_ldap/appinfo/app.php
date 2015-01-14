@@ -57,7 +57,6 @@ if(count($configPrefixes) > 0) {
 	OC_Group::useBackend($groupBackend);
 }
 
-OCP\Util::addTranslations('user_ldap');
 OCP\Backgroundjob::registerJob('OCA\user_ldap\lib\Jobs');
 OCP\Backgroundjob::registerJob('\OCA\User_LDAP\Jobs\CleanUp');
 

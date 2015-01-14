@@ -362,6 +362,10 @@ class OC_Util {
 	public static function addScript($application, $file = null) {
 		$path = OC_Util::generatePath($application, 'js', $file);
 		if (!in_array($path, self::$scripts)) {
+			// core js files need separate handling
+			if ($application !== 'core' && $file !== null) {
+				self::addTranslations($application);
+			}
 			self::$scripts[] = $path;
 		}
 	}

@@ -1,6 +1,5 @@
 <?php
 
-\OCP\Util::addTranslations('files_encryption');
 \OCP\Util::addscript('files_encryption', 'encryption');
 \OCP\Util::addscript('files_encryption', 'detect-migration');
 
