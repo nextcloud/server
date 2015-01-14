@@ -365,7 +365,7 @@ class OC_Util {
 		if (!in_array($path, self::$scripts)) {
 			// load javascript translations if it is the first time an app's
 			// script is loaded.
-			if (!isset(self::$loadedScriptTranslations[$application]) && $file) {
+			if (!isset(self::$loadedScriptTranslations[$application]) && $file && $application !== 'core') {
 				error_log("adding " . $application . " "  . $file);
 
 				self::addTranslations($application);
@@ -406,7 +406,9 @@ class OC_Util {
 			$path = "l10n/$languageCode";
 		}
 		if (!in_array($path, self::$scripts)) {
+		error_log("translation " . $path);
 			self::$scripts[] = $path;
+			error_log(print_r(self::$scripts, true));
 		}
 	}
 
