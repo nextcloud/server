@@ -112,7 +112,7 @@ class Test_App extends \Test\TestCase {
 				),
 				true
 			),
-			// multiple OC number 
+			// multiple OC number
 			array(
 				'4.3.1',
 				array(
@@ -120,7 +120,7 @@ class Test_App extends \Test\TestCase {
 				),
 				true
 			),
-			// single app number 
+			// single app number
 			array(
 				'4',
 				array(
@@ -205,6 +205,55 @@ class Test_App extends \Test\TestCase {
 				'5.0.3',
 				array(
 					'requiremax' => '5',
+				),
+				true
+			),
+			// dependencies versions before require*
+			array(
+				'6.0.0.0',
+				array(
+					'requiremin' => '5.0',
+					'requiremax' => '7.0',
+					'dependencies' => array(
+						'owncloud' => array(
+							'@attributes' => array(
+								'min-version' => '7.0',
+								'max-version' => '7.0',
+							),
+						),
+					),
+				),
+				false
+			),
+			array(
+				'6.0.0.0',
+				array(
+					'requiremin' => '5.0',
+					'requiremax' => '7.0',
+					'dependencies' => array(
+						'owncloud' => array(
+							'@attributes' => array(
+								'min-version' => '5.0',
+								'max-version' => '5.0',
+							),
+						),
+					),
+				),
+				false
+			),
+			array(
+				'6.0.0.0',
+				array(
+					'requiremin' => '5.0',
+					'requiremax' => '5.0',
+					'dependencies' => array(
+						'owncloud' => array(
+							'@attributes' => array(
+								'min-version' => '5.0',
+								'max-version' => '7.0',
+							),
+						),
+					),
 				),
 				true
 			),

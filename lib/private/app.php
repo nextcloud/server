@@ -1022,13 +1022,17 @@ class OC_App {
 	public static function isAppCompatible($ocVersion, $appInfo){
 		$requireMin = '';
 		$requireMax = '';
-		if (isset($appInfo['requiremin'])) {
+		if (isset($appInfo['dependencies']['owncloud']['@attributes']['min-version'])) {
+			$requireMin = $appInfo['dependencies']['owncloud']['@attributes']['min-version'];
+		} else if (isset($appInfo['requiremin'])) {
 			$requireMin = $appInfo['requiremin'];
 		} else if (isset($appInfo['require'])) {
 			$requireMin = $appInfo['require'];
 		}
 
-		if (isset($appInfo['requiremax'])) {
+		if (isset($appInfo['dependencies']['owncloud']['@attributes']['max-version'])) {
+			$requireMax = $appInfo['dependencies']['owncloud']['@attributes']['max-version'];
+		} else if (isset($appInfo['requiremax'])) {
 			$requireMax = $appInfo['requiremax'];
 		}
 
