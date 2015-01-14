@@ -57,6 +57,23 @@ $template->assign('shareExcludeGroups', $excludeGroups);
 $excludedGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list', '');
 $excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
 $template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
+$template->assign('encryptionEnabled', \OC::$server->getEncryptionManager()->isEnabled());
+$encryptionModules = \OC::$server->getEncryptionManager()->getEncryptionModules();
+try {
+	$defaultEncryptionModule = \OC::$server->getEncryptionManager()->getDefaultEncryptionModule();
+	$defaultEncryptionModuleId = $defaultEncryptionModule->getId();
+} catch (Exception $e) {
+	$defaultEncryptionModule = null;
+}
+$encModulues = array();
+foreach ($encryptionModules as $module) {
+	$encModulues[$module->getId()]['displayName'] = $module->getDisplayName();
+	$encModulues[$module->getId()]['default'] = false;
+	if ($defaultEncryptionModule && $module->getId() === $defaultEncryptionModuleId) {
+		$encModulues[$module->getId()]['default'] = true;
+	}
+}
+$template->assign('encryptionModules', $encModulues);
 
 // If the current web root is non-empty but the web root from the config is,
 // and system cron is used, the URL generator fails to build valid URLs.
@@ -118,6 +135,7 @@ $formsAndMore = array_merge($formsAndMore, $formsMap);
 // add bottom hardcoded forms from the template
 $formsAndMore[] = array('anchor' => 'backgroundjobs', 'section-name' => $l->t('Cron'));
 $formsAndMore[] = array('anchor' => 'shareAPI', 'section-name' => $l->t('Sharing'));
+$formsAndMore[] = array('anchor' => 'encryptionAPI', 'section-name' => $l->t('Server Side Encryption'));
 $formsAndMore[] = array('anchor' => 'mail_general_settings', 'section-name' => $l->t('Email Server'));
 $formsAndMore[] = array('anchor' => 'log-section', 'section-name' => $l->t('Log'));
 

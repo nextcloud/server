@@ -54,6 +54,22 @@ $(document).ready(function(){
 		$('#shareAPI p:not(#enable)').toggleClass('hidden', !this.checked);
 	});
 
+	$('#encryptionEnabled').change(function() {
+		$('#encryptionAPI div#selectEncryptionModules').toggleClass('hidden');
+	});
+
+	$('#encryptionAPI input').change(function() {
+		var value = $(this).val();
+		if ($(this).attr('type') === 'checkbox') {
+			if (this.checked) {
+				value = 'yes';
+			} else {
+				value = 'no';
+			}
+		}
+		OC.AppConfig.setValue('core', $(this).attr('name'), value);
+	});
+
 	$('#shareAPI input:not(#excludedGroups)').change(function() {
 		var value = $(this).val();
 		if ($(this).attr('type') === 'checkbox') {

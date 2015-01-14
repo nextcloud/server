@@ -386,3 +386,12 @@ doesnotexist:-o-prefocus, .strengthify-wrapper {
 	font-weight: normal;
 	margin-top: 5px;
 }
+
+#selectEncryptionModules {
+	margin-left: 30px;
+	padding: 10px;
+}
+
+#encryptionModules {
+	padding: 10px;
+}
