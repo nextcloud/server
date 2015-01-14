@@ -906,6 +906,9 @@ class View {
 		if (!Filesystem::isValidPath($path)) {
 			return $data;
 		}
+		if (Cache\Scanner::isPartialFile($path)) {
+			return $this->getPartFileInfo($path);
+		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 
 		$mount = Filesystem::getMountManager()->find($path);
@@ -1317,5 +1320,33 @@ class View {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Get a fileinfo object for files that are ignored in the cache (part files)
+	 *
+	 * @param string $path
+	 * @return \OCP\Files\FileInfo
+	 */
+	private function getPartFileInfo($path) {
+		$mount  = $this->getMount($path);
+		$storage = $mount->getStorage();
+		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
+		return new FileInfo(
+			$this->getAbsolutePath($path),
+			$storage,
+			$internalPath,
+			[
+				'fileid' => null,
+				'mimetype' => $storage->getMimeType($internalPath),
+				'name' => basename($path),
+				'etag' => null,
+				'size' => $storage->filesize($internalPath),
+				'mtime' => $storage->filemtime($internalPath),
+				'encrypted' => false,
+				'permissions' => \OCP\Constants::PERMISSION_ALL
+			],
+			$mount
+		);
 	}
 }
