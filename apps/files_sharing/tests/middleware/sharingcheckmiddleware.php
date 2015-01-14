@@ -14,34 +14,34 @@ namespace OCA\Files_Sharing\Middleware;
 /**
  * @package OCA\Files_Sharing\Middleware\SharingCheckMiddleware
  */
-class SharingCheckMiddlewareTest extends \PHPUnit_Framework_TestCase {
+class SharingCheckMiddlewareTest extends \Test\TestCase {
 
-	/** @var \OCP\IAppConfig */
-	private $appConfig;
-	/** @var \OCP\AppFramework\IApi */
-	private $api;
+	/** @var \OCP\IConfig */
+	private $config;
+	/** @var \OCP\App\IAppManager */
+	private $appManager;
 	/** @var SharingCheckMiddleware */
 	private $sharingCheckMiddleware;
 
 	protected function setUp() {
-		$this->appConfig = $this->getMockBuilder('\OCP\IAppConfig')
+		$this->config = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$this->api = $this->getMockBuilder('\OCP\AppFramework\IApi')
+		$this->appManager = $this->getMockBuilder('\OCP\App\IAppManager')
 			->disableOriginalConstructor()->getMock();
 
-		$this->sharingCheckMiddleware = new SharingCheckMiddleware('files_sharing', $this->appConfig, $this->api);
+		$this->sharingCheckMiddleware = new SharingCheckMiddleware('files_sharing', $this->config, $this->appManager);
 	}
 
 	public function testIsSharingEnabledWithEverythingEnabled() {
-		$this->api
+		$this->appManager
 			->expects($this->once())
-			->method('isAppEnabled')
+			->method('isEnabledForUser')
 			->with('files_sharing')
 			->will($this->returnValue(true));
 
-		$this->appConfig
+		$this->config
 			->expects($this->once())
-			->method('getValue')
+			->method('getAppValue')
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('yes'));
 
@@ -49,9 +49,9 @@ class SharingCheckMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testIsSharingEnabledWithAppDisabled() {
-		$this->api
+		$this->appManager
 			->expects($this->once())
-			->method('isAppEnabled')
+			->method('isEnabledForUser')
 			->with('files_sharing')
 			->will($this->returnValue(false));
 
@@ -59,15 +59,15 @@ class SharingCheckMiddlewareTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testIsSharingEnabledWithSharingDisabled() {
-		$this->api
+		$this->appManager
 			->expects($this->once())
-			->method('isAppEnabled')
+			->method('isEnabledForUser')
 			->with('files_sharing')
 			->will($this->returnValue(true));
 
-		$this->appConfig
+		$this->config
 			->expects($this->once())
-			->method('getValue')
+			->method('getAppValue')
 			->with('core', 'shareapi_allow_links', 'yes')
 			->will($this->returnValue('no'));
 

@@ -29,21 +29,22 @@ class Application extends App {
 		parent::__construct('files_sharing', $urlParams);
 
 		$container = $this->getContainer();
+		$server = $container->getServer();
 
 		/**
 		 * Controllers
 		 */
-		$container->registerService('ShareController', function(SimpleContainer $c) {
+		$container->registerService('ShareController', function(SimpleContainer $c) use ($server) {
 			return new ShareController(
 				$c->query('AppName'),
 				$c->query('Request'),
 				$c->query('UserSession'),
-				$c->query('ServerContainer')->getAppConfig(),
-				$c->query('ServerContainer')->getConfig(),
+				$server->getAppConfig(),
+				$server->getConfig(),
 				$c->query('URLGenerator'),
-				$c->query('ServerContainer')->getUserManager(),
-				$c->query('ServerContainer')->getLogger(),
-				$c->query('ServerContainer')->getActivityManager()
+				$server->getUserManager(),
+				$server->getLogger(),
+				$server->getActivityManager()
 			);
 		});
 		$container->registerService('ExternalSharesController', function(SimpleContainer $c) {
@@ -58,33 +59,33 @@ class Application extends App {
 		/**
 		 * Core class wrappers
 		 */
-		$container->registerService('UserSession', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getUserSession();
+		$container->registerService('UserSession', function(SimpleContainer $c) use ($server) {
+			return $server->getUserSession();
 		});
-		$container->registerService('URLGenerator', function(SimpleContainer $c) {
-			return $c->query('ServerContainer')->getUrlGenerator();
+		$container->registerService('URLGenerator', function(SimpleContainer $c) use ($server){
+			return $server->getUrlGenerator();
 		});
 		$container->registerService('IsIncomingShareEnabled', function(SimpleContainer $c) {
 			return Helper::isIncomingServer2serverShareEnabled();
 		});
-		$container->registerService('ExternalManager', function(SimpleContainer $c) {
+		$container->registerService('ExternalManager', function(SimpleContainer $c) use ($server){
 			return new \OCA\Files_Sharing\External\Manager(
-					\OC::$server->getDatabaseConnection(),
+					$server->getDatabaseConnection(),
 					\OC\Files\Filesystem::getMountManager(),
 					\OC\Files\Filesystem::getLoader(),
-					\OC::$server->getUserSession(),
-					\OC::$server->getHTTPHelper()
+					$server->getUserSession(),
+					$server->getHTTPHelper()
 			);
 		});
 
 		/**
 		 * Middleware
 		 */
-		$container->registerService('SharingCheckMiddleware', function(SimpleContainer $c){
+		$container->registerService('SharingCheckMiddleware', function(SimpleContainer $c) use ($server){
 			return new SharingCheckMiddleware(
 				$c->query('AppName'),
-				$c->query('ServerContainer')->getAppConfig(),
-				$c->getCoreApi()
+				$server->getConfig(),
+				$server->getAppManager()
 			);
 		});
 
