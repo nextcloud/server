@@ -11,6 +11,7 @@ namespace OC;
 use OC\Hooks\BasicEmitter;
 use OC\Hooks\Emitter;
 use OC\Repair\AssetCache;
+use OC\Repair\CleanTags;
 use OC\Repair\Collation;
 use OC\Repair\FillETags;
 use OC\Repair\InnoDB;
@@ -81,7 +82,8 @@ class Repair extends BasicEmitter {
 			new RepairLegacyStorages(\OC::$server->getConfig(), \OC_DB::getConnection()),
 			new RepairConfig(),
 			new AssetCache(),
-			new FillETags(\OC_DB::getConnection())
+			new FillETags(\OC_DB::getConnection()),
+			new CleanTags(\OC_DB::getConnection()),
 		);
 	}
 
