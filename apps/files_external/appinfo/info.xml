@@ -14,6 +14,7 @@
 	<documentation>
 		<admin>admin-external-storage</admin>
 	</documentation>
+	<rememberlogin>false</rememberlogin>
 	<types>
 		<filesystem/>
 	</types>
