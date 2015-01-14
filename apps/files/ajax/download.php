@@ -25,8 +25,8 @@
 OCP\User::checkLoggedIn();
 \OC::$server->getSession()->close();
 
-$files = $_GET["files"];
-$dir = $_GET["dir"];
+$files = isset($_GET['files']) ? $_GET['files'] : '';
+$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
 
 $files_list = json_decode($files);
 // in case we get only a single file
