@@ -10,7 +10,6 @@ class OC_Util {
 	public static $headers = array();
 	private static $rootMounted = false;
 	private static $fsSetup = false;
-	private static $loadedScriptTranslations = array();
 
 	private static function initLocalStorageRootFS() {
 		// mount local file backend as root
@@ -363,14 +362,7 @@ class OC_Util {
 	public static function addScript($application, $file = null) {
 		$path = OC_Util::generatePath($application, 'js', $file);
 		if (!in_array($path, self::$scripts)) {
-			// load javascript translations if it is the first time an app's
-			// script is loaded.
-			if (!isset(self::$loadedScriptTranslations[$application]) && $file && $application !== 'core') {
-				error_log("adding " . $application . " "  . $file);
-
-				self::addTranslations($application);
-				self::$loadedScriptTranslations[$application] = true;
-			}
+			self::addTranslations($application);
 			self::$scripts[] = $path;
 		}
 	}
@@ -406,9 +398,7 @@ class OC_Util {
 			$path = "l10n/$languageCode";
 		}
 		if (!in_array($path, self::$scripts)) {
-		error_log("translation " . $path);
 			self::$scripts[] = $path;
-			error_log(print_r(self::$scripts, true));
 		}
 	}
 
