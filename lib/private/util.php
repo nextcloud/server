@@ -365,7 +365,9 @@ class OC_Util {
 		if (!in_array($path, self::$scripts)) {
 			// load javascript translations if it is the first time an app's
 			// script is loaded.
-			if (!isset(self::$loadedScriptTranslations[$application])) {
+			if (!isset(self::$loadedScriptTranslations[$application]) && $file) {
+				error_log("adding " . $application . " "  . $file);
+
 				self::addTranslations($application);
 				self::$loadedScriptTranslations[$application] = true;
 			}
