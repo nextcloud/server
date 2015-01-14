@@ -182,6 +182,8 @@ class DependencyAnalyzer {
 			$minVersion = $dependencies['owncloud']['@attributes']['min-version'];
 		} elseif (isset($appInfo['requiremin'])) {
 			$minVersion = $appInfo['requiremin'];
+		} elseif (isset($appInfo['require'])) {
+			$minVersion = $appInfo['require'];
 		}
 		$maxVersion = null;
 		if (isset($dependencies['owncloud']['@attributes']['max-version'])) {
