@@ -819,15 +819,33 @@ var LdapWizard = {
 		LdapWizard._save(inputObj, val);
 	},
 
+	/**
+	 * updates user or group count on multiSelect close. Resets the event
+	 * function subsequently.
+	 *
+	 * @param {LdapFilter} filter
+	 * @param {Object} $multiSelectObj
+	 */
+	onMultiSelectClose: function(filter, $multiSelectObj) {
+		filter.updateCount();
+		$multiSelectObj.multiselect({close: function(){}});
+	},
+
 	saveMultiSelect: function(originalObj, resultObj) {
-		values = '';
-		for(i = 0; i < resultObj.length; i++) {
+		var values = '';
+		for(var i = 0; i < resultObj.length; i++) {
 			values = values + "\n" + resultObj[i].value;
 		}
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
+		var $multiSelectObj = $('#'+originalObj);
+		var updateCount = !$multiSelectObj.multiselect("isOpen");
+		var applyUpdateOnCloseToFilter;
 		if(originalObj === 'ldap_userfilter_objectclass'
 		   || originalObj === 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose(true);
+			LdapWizard.userFilter.compose(updateCount);
+			if(!updateCount) {
+				applyUpdateOnCloseToFilter = LdapWizard.userFilter;
+			}
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
 			if(!LdapWizard.loginFilter) {
@@ -838,7 +856,19 @@ var LdapWizard = {
 			LdapWizard.loginFilter.compose();
 		} else if(originalObj === 'ldap_groupfilter_objectclass'
 		   || originalObj === 'ldap_groupfilter_groups') {
-			LdapWizard.groupFilter.compose(true);
+			LdapWizard.groupFilter.compose(updateCount);
+			if(!updateCount) {
+				applyUpdateOnCloseToFilter = LdapWizard.groupFilter;
+			}
+		}
+
+		if(applyUpdateOnCloseToFilter instanceof LdapFilter) {
+			$multiSelectObj.multiselect({
+				close: function () {
+					LdapWizard.onMultiSelectClose(
+						applyUpdateOnCloseToFilter, $multiSelectObj);
+				}
+			});
 		}
 	},
 
