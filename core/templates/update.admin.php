@@ -1,4 +1,4 @@
-<div class="update">
+<div class="update" data-productname="<?php p($_['productName']) ?>" data-version="<?php p($_['version']) ?>">
 	<div class="updateOverview">
 		<h2 class="title bold"><?php p($l->t('%s will be updated to version %s.',
 			array($_['productName'], $_['version']))); ?></h2>
