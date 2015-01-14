@@ -27,7 +27,7 @@ class Util extends TestCase {
 	 * @var \OC\Files\View
 	 */
 	public $view;
-	public $keyfilesPath;
+	public $keysPath;
 	public $publicKeyPath;
 	public $privateKeyPath;
 	/**
@@ -379,8 +379,6 @@ class Util extends TestCase {
 		$this->assertTrue($this->view->is_dir($backupPath . '/keys'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/fileKey'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/' . $filename . '/' . $user . '.shareKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.privateKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . $user . '.publicKey'));
 
 		// cleanup
 		$this->view->unlink($this->userId . '/files/' . $filename);
@@ -389,21 +387,27 @@ class Util extends TestCase {
 
 	}
 
-	/**
-	 * test if all keys get moved to the backup folder correctly
-	 */
-	function testBackupAllKeys() {
-		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
-
+	private function createDummyKeysForBackupTest() {
 		// create some dummy key files
 		$encPath = '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '/files_encryption';
 		$this->view->mkdir($encPath . '/keys/foo');
 		$this->view->file_put_contents($encPath . '/keys/foo/fileKey', 'key');
 		$this->view->file_put_contents($encPath . '/keys/foo/user1.shareKey', 'share key');
+	}
+
+	/**
+	 * test if all keys get moved to the backup folder correctly
+	 *
+	 * @dataProvider dataBackupAllKeys
+	 */
+	function testBackupAllKeys($addTimestamp, $includeUserKeys) {
+		self::loginHelper(self::TEST_ENCRYPTION_UTIL_USER1);
+
+		$this->createDummyKeysForBackupTest();
 
 		$util = new \OCA\Files_Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
 
-		$util->backupAllKeys('testBackupAllKeys');
+		$util->backupAllKeys('testBackupAllKeys', $addTimestamp, $includeUserKeys);
 
 		$backupPath = $this->getBackupPath('testBackupAllKeys');
 
@@ -412,15 +416,80 @@ class Util extends TestCase {
 		$this->assertTrue($this->view->is_dir($backupPath . '/keys/foo'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/fileKey'));
 		$this->assertTrue($this->view->file_exists($backupPath . '/keys/foo/user1.shareKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.privateKey'));
-		$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.publicKey'));
+
+		if ($includeUserKeys) {
+			$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.privateKey'));
+			$this->assertTrue($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.publicKey'));
+		} else {
+			$this->assertFalse($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.privateKey'));
+			$this->assertFalse($this->view->file_exists($backupPath . '/' . self::TEST_ENCRYPTION_UTIL_USER1 . '.publicKey'));
+		}
 
 		//cleanup
 		$this->view->deleteAll($backupPath);
-		$this->view->unlink($encPath . '/keys/foo/fileKey');
-		$this->view->unlink($encPath . '/keys/foo/user1.shareKey');
+		$this->view->unlink($this->encryptionDir . '/keys/foo/fileKey');
+		$this->view->unlink($this->encryptionDir . '/keys/foo/user1.shareKey');
 	}
 
+	function dataBackupAllKeys() {
+		return array(
+			array(true, true),
+			array(false, true),
+			array(true, false),
+			array(false, false),
+		);
+	}
+
+
+	/**
+	 * @dataProvider dataBackupAllKeys
+	 */
+	function testRestoreBackup($addTimestamp, $includeUserKeys) {
+
+		$util = new \OCA\Files_Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
+		$this->createDummyKeysForBackupTest();
+
+		$util->backupAllKeys('restoreKeysBackupTest', $addTimestamp, $includeUserKeys);
+		$this->view->deleteAll($this->keysPath);
+		if ($includeUserKeys) {
+			$this->view->unlink($this->privateKeyPath);
+			$this->view->unlink($this->publicKeyPath);
+		}
+
+		// key should be removed after backup was created
+		$this->assertFalse($this->view->is_dir($this->keysPath));
+		if ($includeUserKeys) {
+			$this->assertFalse($this->view->file_exists($this->privateKeyPath));
+			$this->assertFalse($this->view->file_exists($this->publicKeyPath));
+		}
+
+		$backupPath = $this->getBackupPath('restoreKeysBackupTest');
+		$backupName = substr(basename($backupPath), strlen('backup.'));
+
+		$this->assertTrue($util->restoreBackup($backupName));
+
+		// check if all keys are restored
+		$this->assertFalse($this->view->is_dir($backupPath));
+		$this->assertTrue($this->view->is_dir($this->keysPath));
+		$this->assertTrue($this->view->is_dir($this->keysPath . '/foo'));
+		$this->assertTrue($this->view->file_exists($this->keysPath . '/foo/fileKey'));
+		$this->assertTrue($this->view->file_exists($this->keysPath . '/foo/user1.shareKey'));
+		$this->assertTrue($this->view->file_exists($this->privateKeyPath));
+		$this->assertTrue($this->view->file_exists($this->publicKeyPath));
+	}
+
+	function testDeleteBackup() {
+		$util = new \OCA\Files_Encryption\Util($this->view, self::TEST_ENCRYPTION_UTIL_USER1);
+		$this->createDummyKeysForBackupTest();
+
+		$util->backupAllKeys('testDeleteBackup', false, false);
+
+		$this->assertTrue($this->view->is_dir($this->encryptionDir . '/backup.testDeleteBackup'));
+
+		$util->deleteBackup('testDeleteBackup');
+
+		$this->assertFalse($this->view->is_dir($this->encryptionDir . '/backup.testDeleteBackup'));
+	}
 
 	function testDescryptAllWithBrokenFiles() {
 
