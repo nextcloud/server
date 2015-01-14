@@ -9,7 +9,6 @@
 	</description>
 	<licence>AGPL</licence>
 	<author>Robin Appelman, Michael Gapczynski, Vincent Petry</author>
-	<requiremin>4.93</requiremin>
 	<shipped>true</shipped>
 	<documentation>
 		<admin>admin-external-storage</admin>
@@ -19,4 +18,8 @@
 		<filesystem/>
 	</types>
 	<ocsid>166048</ocsid>
+
+	<dependencies>
+		<owncloud min-version="8" />
+	</dependencies>
 </info>
