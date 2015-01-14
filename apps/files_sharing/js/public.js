@@ -8,7 +8,7 @@
  *
  */
 
-/* global FileActions, Files */
+/* global FileActions, Files, FileList */
 /* global dragOptions, folderDropOptions */
 if (!OCA.Sharing) {
 	OCA.Sharing = {};
@@ -164,6 +164,11 @@ OCA.Sharing.PublicApp = {
 			// URL history handling
 			this.fileList.$el.on('changeDirectory', _.bind(this._onDirectoryChanged, this));
 			OC.Util.History.addOnPopStateHandler(_.bind(this._onUrlChanged, this));
+
+			$('#download').click(function (e) {
+				e.preventDefault();
+				OC.redirect(FileList.getDownloadUrl());
+			});
 		}
 
 		$(document).on('click', '#directLink', function () {
