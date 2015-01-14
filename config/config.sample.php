@@ -88,7 +88,7 @@ $CONFIG = array(
  *
  * Available:
  * 	- sqlite (SQLite3 - Community Edition Only)
- * 	- mysql (MySQL)
+ * 	- mysql (MySQL/MariaDB)
  * 	- pgsql (PostgreSQL)
  * 	- oci (Oracle - Enterprise Edition Only)
  * 	- mssql (Microsoft SQL Server - Enterprise Edition Only)
@@ -636,6 +636,15 @@ $CONFIG = array(
  *  - OC\Preview\PDF
  *  - OC\Preview\StarOffice
  *  - OC\Preview\SVG
+ *
+ * The following providers are not available in Microsoft Windows:
+ *
+ *  - OC\Preview\Movie
+ *  - OC\Preview\MSOfficeDoc
+ *  - OC\Preview\MSOffice2003
+ *  - OC\Preview\MSOffice2007
+ *  - OC\Preview\OpenDocument
+ *  - OC\Preview\StarOffice
  */
 'enabledPreviewProviders' => array(
 	'OC\Preview\Image',
