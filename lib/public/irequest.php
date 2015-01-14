@@ -51,8 +51,10 @@ namespace OCP;
  * - When accessing ->patch and the Content-Type is either application/json
  *   or application/x-www-form-urlencoded (most cases) it will act like ->get
  *   and ->post and return an array. Otherwise the raw data will be returned.
+ *
+ * @property-read string[] $server
+ *
  */
-
 interface IRequest {
 
 	/**
