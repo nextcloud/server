@@ -53,6 +53,7 @@
 	 */
 	function toggleStar($actionEl, state) {
 		$actionEl.find('img').attr('src', getStarImage(state));
+		$actionEl.hide().show(0); //force Safari to redraw element on src change
 		$actionEl.toggleClass('permanent', state);
 	}
 
