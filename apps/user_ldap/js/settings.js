@@ -149,6 +149,7 @@ var LdapWizard = {
 	loginFilter: false,
 	groupFilter: false,
 	ajaxRequests: {},
+	lastTestSuccessful: true,
 
 	ajax: function(param, fnOnSuccess, fnOnError, reqID) {
 		if(!_.isUndefined(reqID)) {
@@ -619,6 +620,7 @@ var LdapWizard = {
 		LdapWizard.detectorsRunInXPMode = 0;
 		LdapWizard.instantiateFilters();
 		LdapWizard.admin.setExperienced($('#ldap_experienced_admin').is(':checked'));
+		LdapWizard.lastTestSuccessful = true;
 		LdapWizard.basicStatusCheck();
 		LdapWizard.functionalityCheck();
 		LdapWizard.isConfigurationActiveControlLocked = false;
@@ -760,7 +762,19 @@ var LdapWizard = {
 		}
 	},
 
-	processChanges: function(triggerObj) {
+	/**
+	 * allows UserFilter, LoginFilter and GroupFilter to lookup objectClasses
+	 * and similar again. This should be called after essential changes, e.g.
+	 * Host or BaseDN changes, or positive functionality check
+	 *
+	 */
+	allowFilterFeatureSearch: function () {
+		LdapWizard.userFilter.reAllowFeatureLookup();
+		LdapWizard.loginFilter.reAllowFeatureLookup();
+		LdapWizard.groupFilter.reAllowFeatureLookup();
+	},
+
+	processChanges: function (triggerObj) {
 		LdapWizard.hideInfoBox();
 
 		if(triggerObj.id === 'ldap_host'
@@ -771,6 +785,7 @@ var LdapWizard = {
 			if($('#ldap_port').val()) {
 				//if Port is already set, check BaseDN
 				LdapWizard.checkBaseDN();
+				LdapWizard.allowFilterFeatureSearch();
 			}
 		}
 
@@ -1002,6 +1017,10 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').addClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').removeClass('error');
 					$('.ldap_config_state_indicator_sign').addClass('success');
+					if(!LdapWizard.lastTestSuccessful) {
+						LdapWizard.lastTestSuccessful = true;
+						LdapWizard.allowFilterFeatureSearch();
+					}
 				},
 				//onError
 				function(result) {
@@ -1011,6 +1030,7 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').removeClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').addClass('error');
 					$('.ldap_config_state_indicator_sign').removeClass('success');
+					LdapWizard.lastTestSuccessful = false;
 				}
 			);
 		} else {

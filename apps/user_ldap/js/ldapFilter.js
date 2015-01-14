@@ -19,6 +19,8 @@ function LdapFilter(target, determineModeCallback) {
 
 LdapFilter.prototype.activate = function() {
 	if(this.activated) {
+		// might be necessary, if configuration changes happened.
+		this.findFeatures();
 		return;
 	}
 	this.activated = true;
@@ -136,8 +138,15 @@ LdapFilter.prototype.unlock = function() {
 	}
 };
 
+/**
+ * resets this.foundFeatures so that LDAP queries can be fired again to retrieve
+ * objectClasses, groups, etc.
+ */
+LdapFilter.prototype.reAllowFeatureLookup = function () {
+	this.foundFeatures = false;
+};
+
 LdapFilter.prototype.findFeatures = function() {
-	//TODO: reset this.foundFeatures when any base DN changes
 	if(!this.foundFeatures && !this.locked && this.mode === LdapWizard.filterModeAssisted) {
 		this.foundFeatures = true;
 		var objcEl, avgrEl;
