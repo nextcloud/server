@@ -102,6 +102,13 @@ if($_['displayNameChangeSupported']) {
 	<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php p($_['displayName'])?>" />
 </form>
 <?php
+} else {
+?>
+<div class="section">
+	<h2><?php echo $l->t('Full Name');?></h2>
+	<span><?php p($_['displayName'])?></span>
+</div>
+<?php
 }
 ?>
 
@@ -118,6 +125,13 @@ if($_['passwordChangeSupported']) {
 	<span class="msg"></span><br />
 	<em><?php p($l->t('Fill in an email address to enable password recovery and receive notifications'));?></em>
 </form>
+<?php
+} else {
+?>
+<div class="section">
+	<h2><?php echo $l->t('Email'); ?></h2>
+	<span><?php if($_['email']) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
+</div>
 <?php
 }
 ?>
