@@ -369,6 +369,8 @@
 							dir: $tr.attr('data-path') || this.getCurrentDirectory()
 						});
 					}
+					// deselect row
+					$(event.target).closest('a').blur();
 				}
 			}
 		},
