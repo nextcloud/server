@@ -75,7 +75,9 @@ class App {
 	 */
 	public static function main($controllerName, $methodName, DIContainer $container, array $urlParams = null) {
 		if (!is_null($urlParams)) {
-			$container['urlParams'] = $urlParams;
+			$container['OCP\\IRequest']->setUrlParameters($urlParams);
+		} else if (isset($container['urlParams']) && !is_null($container['urlParams'])) {
+			$container['OCP\\IRequest']->setUrlParameters($container['urlParams']);
 		}
 		$appName = $container['AppName'];
 

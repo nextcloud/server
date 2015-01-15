@@ -68,12 +68,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		$this->items['params'] = array();
 
 		if(!array_key_exists('method', $vars)) {
-			$vars['method'] = 'GET';			
+			$vars['method'] = 'GET';
 		}
 
 		foreach($this->allowedKeys as $name) {
 			$this->items[$name] = isset($vars[$name])
-				? $vars[$name] 
+				? $vars[$name]
 				: array();
 		}
 
@@ -83,7 +83,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			if(count($params) > 0) {
 				$this->items['params'] = $params;
 				if($vars['method'] === 'POST') {
-					$this->items['post'] = $params;					
+					$this->items['post'] = $params;
 				}
 			}
 		// Handle application/x-www-form-urlencoded for methods other than GET
@@ -91,12 +91,12 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 		} elseif($vars['method'] !== 'GET'
 				&& $vars['method'] !== 'POST'
 				&& strpos($this->getHeader('Content-Type'), 'application/x-www-form-urlencoded') !== false) {
-			
+
 			parse_str(file_get_contents($this->inputStream), $params);
 			if(is_array($params)) {
 				$this->items['params'] = $params;
 			}
-		} 
+		}
 
 		$this->items['parameters'] = array_merge(
 			$this->items['get'],
@@ -105,6 +105,14 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 			$this->items['params']
 		);
 
+	}
+
+	public function setUrlParameters($parameters) {
+		$this->items['urlParams'] = $parameters;
+		$this->items['parameters'] = array_merge(
+			$this->items['parameters'],
+			$this->items['urlParams']
+		);
 	}
 
 	// Countable method.
@@ -207,8 +215,8 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 				return $this->items['method'];
 				break;
 			default;
-				return isset($this[$name]) 
-					? $this[$name] 
+				return isset($this[$name])
+					? $this[$name]
 					: null;
 				break;
 		}
