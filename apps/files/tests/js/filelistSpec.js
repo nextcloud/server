@@ -1790,6 +1790,36 @@ describe('OCA.Files.FileList tests', function() {
 			expect(fileList.$el.find('.select-all').prop('checked')).toEqual(false);
 			expect(fileList.getSelectedFiles()).toEqual([]);
 		});
+		describe('Disabled selection', function() {
+			beforeEach(function() {
+				fileList._allowSelection = false;
+				fileList.setFiles(testFiles);
+			});
+			it('Does not render checkboxes', function() {
+				expect(fileList.$fileList.find('.selectCheckBox').length).toEqual(0);
+			});
+			it('Does not select a file with Ctrl or Shift if selection is not allowed', function() {
+				var $tr = fileList.findFileEl('One.txt');
+				var $tr2 = fileList.findFileEl('Three.pdf');
+				var e;
+				e = new $.Event('click');
+				e.ctrlKey = true;
+				$tr.find('td.filename .name').trigger(e);
+
+				// click on second entry, does not clear the selection
+				e = new $.Event('click');
+				e.ctrlKey = true;
+				$tr2.find('td.filename .name').trigger(e);
+
+				expect(fileList.getSelectedFiles().length).toEqual(0);
+
+				// deselect now
+				e = new $.Event('click');
+				e.shiftKey = true;
+				$tr2.find('td.filename .name').trigger(e);
+				expect(fileList.getSelectedFiles().length).toEqual(0);
+			});
+		})
 	});
 	describe('File actions', function() {
 		it('Clicking on a file name will trigger default action', function() {
