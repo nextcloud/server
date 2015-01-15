@@ -8,6 +8,10 @@ OC.L10N.register(
     "Delete permanently" : "Видалити назавжди",
     "Error" : "Помилка",
     "restored" : "відновлено",
+    "No deleted files" : "Немає видалених файлів",
+    "You will be able to recover deleted files from here" : "Ви зможете відновлювати видалені файли звідси",
+    "No entries found in this folder" : "Записів не знайдено в цій папці",
+    "Select all" : "Вибрати всі",
     "Name" : "Ім'я",
     "Deleted" : "Видалено",
     "Delete" : "Видалити"

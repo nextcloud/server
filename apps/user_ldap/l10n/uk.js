@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Підтвердіть Видалення",
     "_%s group found_::_%s groups found_" : [" %s група знайдена "," %s груп знайдено ","%s груп знайдено "],
     "_%s user found_::_%s users found_" : ["%s користувач знайден","%s користувачів знайдено","%s користувачів знайдено"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Не вдалося виявити ім'я користувача. Будь ласка, сформулюйте самі в розширених налаштуваннях LDAP.",
     "Could not find the desired feature" : "Не вдалося знайти потрібну функцію",
     "Invalid Host" : "Невірний Host",
     "Server" : "Сервер",
