@@ -214,4 +214,21 @@ class RequestTest extends \Test\TestCase {
 		$this->fail('Expected LogicException.');
 
 	}
+
+
+	public function testSetUrlParameters() {
+		$vars = array(
+			'post' => array(),
+			'method' => 'POST',
+			'urlParams' => array('id' => '2'),
+		);
+
+		$request = new Request($vars, $this->stream);
+
+		$newParams = array('id' => '3', 'test' => 'test2');
+		$request->setUrlParameters($newParams);
+		$this->assertEquals('test2', $request->getParam('test'));
+		$this->assertEquals('3', $request->getParam('id'));
+		$this->assertEquals('3', $request->getParams()['id']);
+	}
 }

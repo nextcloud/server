@@ -233,7 +233,6 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			/** @var $c SimpleContainer */
 			/** @var $server SimpleContainer */
 			$server = $c->query('ServerContainer');
-			$server->registerParameter('urlParams', $c['urlParams']);
 			/** @var $server IServerContainer */
 			return $server->getRequest();
 		});
