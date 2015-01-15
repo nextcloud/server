@@ -40,22 +40,37 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	 * Updates the configuration after running an update
 	 */
 	public function run() {
+		$this->deleteOrphanFileEntries();
+		$this->deleteOrphanTagEntries();
+		$this->deleteOrphanCategoryEntries();
+	}
 
-		// Delete tag entries for deleted files
+	/**
+	 * Delete tag entries for deleted files
+	 */
+	protected function deleteOrphanFileEntries() {
 		$this->deleteOrphanEntries(
 			'%d tags for delete files have been removed.',
 			'*PREFIX*vcategory_to_object', 'objid',
-			'*PREFIX*filecache', 'fileid', 'fileid'
+			'*PREFIX*filecache', 'fileid', 'path_hash'
 		);
+	}
 
-		// Delete tag entries for deleted tags
+	/**
+	 * Delete tag entries for deleted tags
+	 */
+	protected function deleteOrphanTagEntries() {
 		$this->deleteOrphanEntries(
 			'%d tag entries for deleted tags have been removed.',
 			'*PREFIX*vcategory_to_object', 'categoryid',
 			'*PREFIX*vcategory', 'id', 'uid'
 		);
+	}
 
-		// Delete tags that have no entries
+	/**
+	 * Delete tags that have no entries
+	 */
+	protected function deleteOrphanCategoryEntries() {
 		$this->deleteOrphanEntries(
 			'%d tags with no entries have been removed.',
 			'*PREFIX*vcategory', 'id',
@@ -81,14 +96,14 @@ class CleanTags extends BasicEmitter implements RepairStep {
 	protected function deleteOrphanEntries($repairInfo, $deleteTable, $deleteId, $sourceTable, $sourceId, $sourceNullColumn) {
 		$qb = $this->connection->createQueryBuilder();
 
-		$qb->select('d.' . $deleteId)
-			->from($deleteTable, 'd')
-			->leftJoin('d', $sourceTable, 's', 'd.' . $deleteId . ' = s.' . $sourceId)
+		$qb->select('d.`' . $deleteId . '`')
+			->from('`' . $deleteTable . '`', 'd')
+			->leftJoin('d', '`' . $sourceTable . '`', 's', 'd.`' . $deleteId . '` = s.`' . $sourceId . '`')
 			->where(
-				'd.type = ' . $qb->expr()->literal('files')
+				'd.`type` = ' . $qb->expr()->literal('files')
 			)
 			->andWhere(
-				$qb->expr()->isNull('s.' . $sourceNullColumn)
+				$qb->expr()->isNull('s.`' . $sourceNullColumn . '`')
 			);
 		$result = $qb->execute();
 
@@ -100,8 +115,11 @@ class CleanTags extends BasicEmitter implements RepairStep {
 		if (!empty($orphanItems)) {
 			$orphanItemsBatch = array_chunk($orphanItems, 200);
 			foreach ($orphanItemsBatch as $items) {
-				$qb->delete($deleteTable)
-					->where($qb->expr()->in($deleteId, ':ids'));
+				$qb->delete('`' . $deleteTable . '`')
+					->where(
+						'`type` = ' . $qb->expr()->literal('files')
+					)
+					->andWhere($qb->expr()->in('`' . $deleteId . '`', ':ids'));
 				$qb->setParameter('ids', $items, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
 				$qb->execute();
 			}
