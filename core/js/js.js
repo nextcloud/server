@@ -74,7 +74,7 @@ var OC={
 	config: window.oc_config,
 	appConfig: window.oc_appconfig || {},
 	theme: window.oc_defaults || {},
-	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
+	coreApps:['', 'admin','log','core/search','settings','core','3rdparty'],
 	menuSpeed: 100,
 
 	/**

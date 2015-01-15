@@ -22,8 +22,8 @@ $application->registerRoutes($this, array('routes' => array(
 /** @var $this OCP\Route\IRouter */
 // Core ajax actions
 // Search
-$this->create('search_ajax_search', '/search/ajax/search.php')
-	->actionInclude('search/ajax/search.php');
+$this->create('search_ajax_search', '/core/search')
+	->actionInclude('core/search/ajax/search.php');
 // AppConfig
 $this->create('core_ajax_appconfig', '/core/ajax/appconfig.php')
 	->actionInclude('core/ajax/appconfig.php');

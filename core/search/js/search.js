@@ -97,7 +97,7 @@
 			 */
 			this.search = function(query, inApps, page, size) {
 				if (query) {
-					OC.addStyle('search','results');
+					OC.addStyle('core/search','results');
 					if (typeof page !== 'number') {
 						page = 1;
 					}
@@ -128,7 +128,7 @@
 						$status.html(t('core', 'Searching other places')+'<img class="spinner" alt="search in progress" src="'+OC.webroot+'/core/img/loading.gif" />');
 
 						// do the actual search query
-						$.getJSON(OC.generateUrl('search/ajax/search.php'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
+						$.getJSON(OC.generateUrl('core/search'), {query:query, inApps:inApps, page:page, size:size }, function(results) {
 							lastResults = results;
 							if (page === 1) {
 								showResults(results);
@@ -364,7 +364,7 @@ $(document).ready(function() {
 	$('#app-content')
 		.append($searchResults)
 		.find('.viewcontainer').css('min-height', 'initial');
-	$searchResults.load(OC.webroot + '/search/templates/part.results.html', function () {
+	$searchResults.load(OC.webroot + '/core/search/templates/part.results.html', function () {
 		OC.Search = new OCA.Search($('#searchbox'), $('#searchresults'));
 	});
 });
