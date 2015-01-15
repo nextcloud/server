@@ -143,6 +143,25 @@ class Cache extends \Test\TestCase {
 		$this->assertFalse($this->cache->inCache($folder.'/bar'));
 	}
 
+	public function testRemoveRecursive() {
+		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
+		$fileData = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'text/plain');
+		$folders = ['folder', 'folder/subfolder', 'folder/sub2', 'folder/sub2/sub3'];
+		$files = ['folder/foo.txt', 'folder/bar.txt', 'folder/subfolder/asd.txt', 'folder/sub2/qwerty.txt', 'folder/sub2/sub3/foo.txt'];
+
+		foreach($folders as $folder){
+			$this->cache->put($folder, $folderData);
+		}
+		foreach ($files as $file) {
+			$this->cache->put($file, $fileData);
+		}
+
+		$this->cache->remove('folder');
+		foreach ($files as $file) {
+			$this->assertFalse($this->cache->inCache($file));
+		}
+	}
+
 	public function folderDataProvider() {
 
 		return array(
