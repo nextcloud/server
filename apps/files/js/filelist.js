@@ -323,7 +323,7 @@
 		 */
 		_onClickFile: function(event) {
 			var $tr = $(event.target).closest('tr');
-			if (event.ctrlKey || event.shiftKey) {
+			if (this._allowSelection && (event.ctrlKey || event.shiftKey)) {
 				event.preventDefault();
 				if (event.shiftKey) {
 					var $lastTr = $(this._lastChecked);
