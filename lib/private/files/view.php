@@ -1290,7 +1290,7 @@ class View {
 			$this->getAbsolutePath($path),
 			$storage,
 			$internalPath,
-			[
+			array(
 				'fileid' => null,
 				'mimetype' => $storage->getMimeType($internalPath),
 				'name' => basename($path),
@@ -1299,7 +1299,7 @@ class View {
 				'mtime' => $storage->filemtime($internalPath),
 				'encrypted' => false,
 				'permissions' => \OCP\PERMISSION_ALL
-			],
+			),
 			$mount
 		);
 	}
