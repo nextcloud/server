@@ -8,6 +8,7 @@
 namespace Test\Files;
 
 use OC\Files\Cache\Watcher;
+use OC\Files\Storage\Temporary;
 
 class TemporaryNoTouch extends \OC\Files\Storage\Temporary {
 	public function touch($path, $mtime = null) {
