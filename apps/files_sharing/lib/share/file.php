@@ -96,12 +96,13 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	public function formatItems($items, $format, $parameters = null) {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
+			$item = array_shift($items);
 			return array(
-				'parent' => $items[key($items)]['parent'],
-				'path' => $items[key($items)]['path'],
-				'storage' => $items[key($items)]['storage'],
-				'permissions' => $items[key($items)]['permissions'],
-				'uid_owner' => $items[key($items)]['uid_owner'],
+				'parent' => $item['parent'],
+				'path' => $item['path'],
+				'storage' => $item['storage'],
+				'permissions' => $item['permissions'],
+				'uid_owner' => $item['uid_owner'],
 			);
 		} else if ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
 			$files = array();
