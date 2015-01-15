@@ -1298,7 +1298,7 @@ class View {
 				'size' => $storage->filesize($internalPath),
 				'mtime' => $storage->filemtime($internalPath),
 				'encrypted' => false,
-				'permissions' => \OCP\Constants::PERMISSION_ALL
+				'permissions' => \OCP\PERMISSION_ALL
 			],
 			$mount
 		);
