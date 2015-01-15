@@ -113,6 +113,19 @@ class View {
 	}
 
 	/**
+	 * get the mountpoint of the storage object for a path
+	 * ( note: because a storage is not always mounted inside the fakeroot, the
+	 * returned mountpoint is relative to the absolute root of the filesystem
+	 * and doesn't take the chroot into account )
+	 *
+	 * @param string $path
+	 * @return \OC\Files\Mount\Mount
+	 */
+	public function getMount($path) {
+		return Filesystem::getMountManager()->find($this->getAbsolutePath($path));
+	}
+
+	/**
 	 * resolve a path to a storage and internal path
 	 *
 	 * @param string $path
