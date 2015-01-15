@@ -29,7 +29,8 @@ function ExperiencedAdmin(wizard, initialState) {
  */
 ExperiencedAdmin.prototype.setExperienced = function(isExperienced) {
 	this._isExperienced = isExperienced;
-	if(this._isExperienced) {		this.enableRawMode();
+	if(this._isExperienced) {
+		this.enableRawMode();
 		this.hideEntryCounters();
 	} else {
 		this.showEntryCounters();

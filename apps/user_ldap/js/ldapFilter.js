@@ -95,11 +95,13 @@ LdapFilter.prototype.determineMode = function() {
 			filter.mode = parseInt(result.changes[property], 10);
 			var rawContainerIsInvisible =
 				$('#raw'+filter.target+'FilterContainer').hasClass('invisible');
-			if(filter.mode === LdapWizard.filterModeRaw
-				&& rawContainerIsInvisible) {
+			if (   filter.mode === LdapWizard.filterModeRaw
+				&& rawContainerIsInvisible
+			) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
-			} else if(filter.mode === LdapWizard.filterModeAssisted
-				      && !rawContainerIsInvisible) {
+			} else if (    filter.mode === LdapWizard.filterModeAssisted
+						&& !rawContainerIsInvisible
+			) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
 			} else {
 				console.log('LDAP Wizard determineMode: returned mode was »' +
