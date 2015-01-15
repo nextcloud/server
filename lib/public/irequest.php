@@ -53,7 +53,7 @@ namespace OCP;
  *   and ->post and return an array. Otherwise the raw data will be returned.
  *
  * @property-read string[] $server
- *
+ * @property-read string[] $urlParams
  */
 interface IRequest {
 
