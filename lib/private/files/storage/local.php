@@ -353,5 +353,41 @@ if (\OC_Util::runningOnWindows()) {
 				return parent::getETag($path);
 			}
 		}
+
+		/**
+		 * @param \OCP\Files\Storage $sourceStorage
+		 * @param string $sourceInternalPath
+		 * @param string $targetInternalPath
+		 * @return bool
+		 */
+		public function copyFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+			if($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')){
+				/**
+				 * @var \OC\Files\Storage\Local $sourceStorage
+				 */
+				$rootStorage = new Local(['datadir' => '/']);
+				return $rootStorage->copy($sourceStorage->getSourcePath($sourceInternalPath), $this->getSourcePath($targetInternalPath));
+			} else {
+				return parent::copyFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			}
+		}
+
+		/**
+		 * @param \OCP\Files\Storage $sourceStorage
+		 * @param string $sourceInternalPath
+		 * @param string $targetInternalPath
+		 * @return bool
+		 */
+		public function moveFromStorage(\OCP\Files\Storage $sourceStorage, $sourceInternalPath, $targetInternalPath) {
+			if ($sourceStorage->instanceOfStorage('\OC\Files\Storage\Local')) {
+				/**
+				 * @var \OC\Files\Storage\Local $sourceStorage
+				 */
+				$rootStorage = new Local(['datadir' => '/']);
+				return $rootStorage->rename($sourceStorage->getSourcePath($sourceInternalPath), $this->getSourcePath($targetInternalPath));
+			} else {
+				return parent::moveFromStorage($sourceStorage, $sourceInternalPath, $targetInternalPath);
+			}
+		}
 	}
 }
