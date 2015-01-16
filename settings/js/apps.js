@@ -24,6 +24,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 	},
 
 	loadCategories: function() {
+		if (this._loadCategoriesCall) {
+			this._loadCategoriesCall.abort();
+		}
+
 		var categories = [
 			{displayName: 'Enabled', id: '0'}
 		];
@@ -35,7 +39,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 
 		OC.Settings.Apps.loadCategory(0);
 
-		$.ajax(OC.generateUrl('settings/apps/categories'), {
+		this._loadCategoriesCall = $.ajax(OC.generateUrl('settings/apps/categories'), {
 			data:{},
 			type:'GET',
 			success:function (jsondata) {
@@ -54,6 +58,9 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (OC.Settings.Apps.State.currentCategory === categoryId) {
 			return;
 		}
+		if (this._loadCategoryCall) {
+			this._loadCategoryCall.abort();
+		}
 		$('#apps-list')
 			.addClass('icon-loading')
 			.html('');
@@ -61,7 +68,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('#app-category-' + categoryId).addClass('active');
 		OC.Settings.Apps.State.currentCategory = categoryId;
 
-		$.ajax(OC.generateUrl('settings/apps/list?category={categoryId}', {
+		this._loadCategoryCall = $.ajax(OC.generateUrl('settings/apps/list?category={categoryId}', {
 			categoryId: categoryId
 		}), {
 			data:{},
