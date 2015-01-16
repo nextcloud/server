@@ -264,7 +264,7 @@ table td.filename .thumbnail {
 table td.filename input.filename {
 	width: 70%;
 	margin-top: 9px;
-	margin-left: 8px;
+	margin-left: 48px;
 	cursor: text;
 }
 .has-favorites table td.filename input.filename {
