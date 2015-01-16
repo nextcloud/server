@@ -287,7 +287,7 @@ class Share extends \OC\Share\Constants {
 	 * Get the item of item type shared with a given user by source
 	 * @param string $itemType
 	 * @param string $itemSource
-	 * @param string $user User user to whom the item was shared
+	 * @param string $user User to whom the item was shared
 	 * @param int $shareType only look for a specific share type
 	 * @return array Return list of items with file_target, permissions and expiration
 	 */
@@ -332,18 +332,23 @@ class Share extends \OC\Share\Constants {
 		if(empty($shares) && $user !== null) {
 			$groups = \OC_Group::getUserGroups($user);
 
-			$query = \OC_DB::prepare(
-					'SELECT *
-						FROM
-						`*PREFIX*share`
-						WHERE
-						`' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)'
-					);
+			if (!empty($groups)) {
+				$where = 'WHERE `' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)';
+				$arguments = array($itemSource, $itemType, $groups);
+				$types = array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
 
-			$result = \OC_DB::executeAudited($query, array($itemSource, $itemType, implode(',', $groups)));
+				// TODO: inject connection, hopefully one day in the future when this
+				// class isn't static anymore...
+				$conn = \OC_DB::getConnection();
+				$result = $conn->executeQuery(
+					'SELECT * FROM `*PREFIX*share` ' . $where,
+					$arguments,
+					$types
+				);
 
-			while ($row = $result->fetchRow()) {
-				$shares[] = $row;
+				while ($row = $result->fetch()) {
+					$shares[] = $row;
+				}
 			}
 		}
 
