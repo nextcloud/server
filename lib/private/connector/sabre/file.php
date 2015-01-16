@@ -74,8 +74,16 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			return $this->createFileChunked($data);
 		}
 
-		// mark file as partial while uploading (ignored by the scanner)
-		$partFilePath = $this->path . '.ocTransferId' . rand() . '.part';
+		list($storage, ) = $this->fileView->resolvePath($this->path);
+		$needsPartFile = $this->needsPartFile($storage);
+
+		if ($needsPartFile) {
+			// mark file as partial while uploading (ignored by the scanner)
+			$partFilePath = $this->path . '.ocTransferId' . rand() . '.part';
+		} else {
+			// upload file directly as the final path
+			$partFilePath = $this->path;
+		}
 
 		try {
 			$putOkay = $this->fileView->file_put_contents($partFilePath, $data);
@@ -123,19 +131,21 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 				}
 			}
 
-			// rename to correct path
-			try {
-				$renameOkay = $this->fileView->rename($partFilePath, $this->path);
-				$fileExists = $this->fileView->file_exists($this->path);
-				if ($renameOkay === false || $fileExists === false) {
-					\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-					$this->fileView->unlink($partFilePath);
-					throw new \Sabre\DAV\Exception('Could not rename part file to final file');
+			if ($needsPartFile) {
+				// rename to correct path
+				try {
+					$renameOkay = $this->fileView->rename($partFilePath, $this->path);
+					$fileExists = $this->fileView->file_exists($this->path);
+					if ($renameOkay === false || $fileExists === false) {
+						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+						$this->fileView->unlink($partFilePath);
+						throw new \Sabre\DAV\Exception('Could not rename part file to final file');
+					}
 				}
-			}
-			catch (\OCP\Files\LockNotAcquiredException $e) {
-				// the file is currently being written to by another process
-				throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
+				catch (\OCP\Files\LockNotAcquiredException $e) {
+					// the file is currently being written to by another process
+					throw new OC_Connector_Sabre_Exception_FileLocked($e->getMessage(), $e->getCode(), $e);
+				}
 			}
 
 			// allow sync clients to send the mtime along in a header
@@ -267,23 +277,30 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 		}
 
 		if ($chunk_handler->isComplete()) {
+			list($storage, ) = $this->fileView->resolvePath($path);
+			$needsPartFile = $this->needsPartFile($storage);
 
 			try {
-				// we first assembly the target file as a part file
-				$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
-				$chunk_handler->file_assemble($partFile);
-
-				// here is the final atomic rename
 				$targetPath = $path . '/' . $info['name'];
-				$renameOkay = $this->fileView->rename($partFile, $targetPath);
-				$fileExists = $this->fileView->file_exists($targetPath);
-				if ($renameOkay === false || $fileExists === false) {
-					\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
-					// only delete if an error occurred and the target file was already created
-					if ($fileExists) {
-						$this->fileView->unlink($targetPath);
+				if ($needsPartFile) {
+					// we first assembly the target file as a part file
+					$partFile = $path . '/' . $info['name'] . '.ocTransferId' . $info['transferid'] . '.part';
+					$chunk_handler->file_assemble($partFile);
+
+					// here is the final atomic rename
+					$renameOkay = $this->fileView->rename($partFile, $targetPath);
+					$fileExists = $this->fileView->file_exists($targetPath);
+					if ($renameOkay === false || $fileExists === false) {
+						\OC_Log::write('webdav', '\OC\Files\Filesystem::rename() failed', \OC_Log::ERROR);
+						// only delete if an error occurred and the target file was already created
+						if ($fileExists) {
+							$this->fileView->unlink($targetPath);
+						}
+						throw new \Sabre\DAV\Exception('Could not rename part file assembled from chunks');
 					}
-					throw new \Sabre\DAV\Exception('Could not rename part file assembled from chunks');
+				} else {
+					// assemble directly into the final file
+					$chunk_handler->file_assemble($targetPath);
 				}
 
 				// allow sync clients to send the mtime along in a header
@@ -303,4 +320,19 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 
 		return null;
 	}
+
+	/**
+	 * Returns whether a part file is needed for the given storage
+	 * or whether the file can be assembled/uploaded directly on the
+	 * target storage.
+	 *
+	 * @param \OCP\Files\Storage $storage storage to check
+	 * @param bool true if the storage needs part file handling
+	 */
+	private function needsPartFile($storage) {
+		// TODO: in the future use ChunkHandler provided by storage
+		// and/or add method on Storage called "needsPartFile()"
+		return !$storage->instanceOfStorage('OCA\Files_Sharing\External\Storage') &&
+			!$storage->instanceOfStorage('OC\Files\Storage\OwnCloud');
+	}	
 }
