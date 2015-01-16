@@ -32,11 +32,17 @@ tr:hover>td.remove>img { visibility:visible; cursor:pointer; }
 	margin-right: 3px;
 }
 
+#externalStorage td.configuration label {
+	min-width: 144px; /* 130px plus 2x7px padding */
+	display: inline-block;
+	margin-right: 6px;
+}
+
+
 #externalStorage td.applicable div.chzn-container {
 	position: relative;
 	top: 3px;
 }
-
 
 #externalStorage td.status .success {
 	border-radius: 50%;
