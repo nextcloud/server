@@ -110,7 +110,7 @@ class Wizard extends LDAPUtility {
 			return false;
 		}
 		$groupsTotal = ($groupsTotal !== false) ? $groupsTotal : 0;
-		$output = self::$l->n('%s group found', '%s groups found', $groupsTotal, $groupsTotal);
+		$output = self::$l->n('%s group found', '%s groups found', $groupsTotal, array($groupsTotal));
 		$this->result->addChange('ldap_group_count', $output);
 		return $this->result;
 	}
@@ -124,7 +124,7 @@ class Wizard extends LDAPUtility {
 
 		$usersTotal = $this->countEntries($filter, 'users');
 		$usersTotal = ($usersTotal !== false) ? $usersTotal : 0;
-		$output = self::$l->n('%s user found', '%s users found', $usersTotal, $usersTotal);
+		$output = self::$l->n('%s user found', '%s users found', $usersTotal, array($usersTotal));
 		$this->result->addChange('ldap_user_count', $output);
 		return $this->result;
 	}
@@ -314,7 +314,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * detects the available LDAP attributes
-	 * @return array The instance's WizardResult instance
+	 * @return array|false The instance's WizardResult instance
 	 * @throws \Exception
 	 */
 	private function getUserAttributes() {
@@ -348,7 +348,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * detects the available LDAP groups
-	 * @return WizardResult the instance's WizardResult instance
+	 * @return WizardResult|false the instance's WizardResult instance
 	 */
 	public function determineGroupsForGroups() {
 		return $this->determineGroups('ldap_groupfilter_groups',
@@ -358,7 +358,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * detects the available LDAP groups
-	 * @return WizardResult the instance's WizardResult instance
+	 * @return WizardResult|false the instance's WizardResult instance
 	 */
 	public function determineGroupsForUsers() {
 		return $this->determineGroups('ldap_userfilter_groups',
@@ -370,7 +370,7 @@ class Wizard extends LDAPUtility {
 	 * @param string $dbKey
 	 * @param string $confKey
 	 * @param bool $testMemberOf
-	 * @return WizardResult the instance's WizardResult instance
+	 * @return WizardResult|false the instance's WizardResult instance
 	 * @throws \Exception
 	 */
 	private function determineGroups($dbKey, $confKey, $testMemberOf = true) {
@@ -467,7 +467,7 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * Detects the available object classes
-	 * @return WizardResult the instance's WizardResult instance
+	 * @return WizardResult|false the instance's WizardResult instance
 	 * @throws \Exception
 	 */
 	public function determineGroupObjectClasses() {
@@ -524,7 +524,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @return WizardResult
+	 * @return WizardResult|false
 	 * @throws \Exception
 	 */
 	public function getGroupFilter() {
@@ -548,7 +548,7 @@ class Wizard extends LDAPUtility {
 	}
 
 	/**
-	 * @return WizardResult
+	 * @return WizardResult|false
 	 * @throws \Exception
 	 */
 	public function getUserListFilter() {
@@ -1146,7 +1146,7 @@ class Wizard extends LDAPUtility {
 	 * Configuration class
 	 * @param bool $po whether the objectClass with most result entries
 	 * shall be pre-selected via the result
-	 * @return array, list of found items.
+	 * @return array|false list of found items.
 	 * @throws \Exception
 	 */
 	private function determineFeature($objectclasses, $attr, $dbkey, $confkey, $po = false) {

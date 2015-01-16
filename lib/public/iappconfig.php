@@ -58,7 +58,7 @@ interface IAppConfig {
 	 *
 	 * @param string|false $key
 	 * @param string|false $app
-	 * @return array
+	 * @return array|false
 	 */
 	public function getValues($app, $key);
 

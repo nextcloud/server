@@ -97,7 +97,7 @@ interface ITags {
 	* Throws an exception if the tag could not be found.
 	*
 	* @param string|integer $tag Tag id or name.
-	* @return array An array of object ids or false on error.
+	* @return array|false An array of object ids or false on error.
 	*/
 	public function getIdsForTag($tag);
 
@@ -123,7 +123,7 @@ interface ITags {
 	* Add a new tag.
 	*
 	* @param string $name A string with a name of the tag
-	* @return int the id of the added tag or false if it already exists.
+	* @return int|false the id of the added tag or false if it already exists.
 	*/
 	public function add($name);
 
@@ -158,7 +158,7 @@ interface ITags {
 	/**
 	* Get favorites for an object type
 	*
-	* @return array An array of object ids.
+	* @return array|false An array of object ids.
 	*/
 	public function getFavorites();
 

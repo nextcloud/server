@@ -46,7 +46,7 @@ interface Share_Backend {
 	 * Converts the shared item sources back into the item in the specified format
 	 * @param array $items Shared items
 	 * @param int $format
-	 * @return TODO
+	 * @return array
 	 *
 	 * The items array is a 3-dimensional array with the item_source as the
 	 * first key and the share id as the second key to an array with the share

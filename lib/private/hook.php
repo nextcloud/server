@@ -52,7 +52,7 @@ class OC_Hook{
 	 * @param string $signalclass class name of emitter
 	 * @param string $signalname name of signal
 	 * @param mixed $params default: array() array with additional data
-	 * @return bool, true if slots exists or false if not
+	 * @return bool true if slots exists or false if not
 	 *
 	 * Emits a signal. To get data from the slot use references!
 	 *

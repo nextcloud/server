@@ -245,7 +245,7 @@ class AppConfig implements \OCP\IAppConfig {
 	 *
 	 * @param string|false $app
 	 * @param string|false $key
-	 * @return array
+	 * @return array|false
 	 */
 	public function getValues($app, $key) {
 		if (($app !== false) == ($key !== false)) {

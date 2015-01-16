@@ -343,7 +343,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * get the owner of a path
 	 *
 	 * @param string $path The path to get the owner
-	 * @return string uid or false
+	 * @return string|false uid or false
 	 */
 	public function getOwner($path) {
 		return \OC_User::getUser();
@@ -353,7 +353,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
-	 * @return string
+	 * @return string|false
 	 */
 	public function getETag($path) {
 		$ETagFunction = \OC_Connector_Sabre_Node::$ETagFunction;
@@ -400,7 +400,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * get the free space in the storage
 	 *
 	 * @param string $path
-	 * @return int
+	 * @return int|false
 	 */
 	public function free_space($path) {
 		return \OCP\Files\FileInfo::SPACE_UNKNOWN;
@@ -445,7 +445,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * For now the returned array can hold the parameter url - in future more attributes might follow.
 	 *
 	 * @param string $path
-	 * @return array
+	 * @return array|false
 	 */
 	public function getDirectDownload($path) {
 		return [];

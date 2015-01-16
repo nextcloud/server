@@ -303,7 +303,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	/**
 	 * returns the LDAP DN for the given internal ownCloud name of the user
 	 * @param string $name the ownCloud name in question
-	 * @return string with the LDAP DN on success, otherwise false
+	 * @return string|false with the LDAP DN on success, otherwise false
 	 */
 	public function username2dn($name) {
 		$fdn = $this->userMapper->getDNbyName($name);
@@ -322,7 +322,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 * @param string $fdn the dn of the group object
 	 * @param string $ldapName optional, the display name of the object
-	 * @return string with the name to use in ownCloud, false on DN outside of search DN
+	 * @return string|false with the name to use in ownCloud, false on DN outside of search DN
 	 */
 	public function dn2groupname($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -339,7 +339,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
-	 * @return string with with the name to use in ownCloud
+	 * @return string|false with with the name to use in ownCloud
 	 */
 	public function dn2username($fdn, $ldapName = null) {
 		//To avoid bypassing the base DN settings under certain circumstances
@@ -357,7 +357,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * @param string $dn the dn of the user object
 	 * @param string $ldapName optional, the display name of the object
 	 * @param bool $isUser optional, whether it is a user object (otherwise group assumed)
-	 * @return string with with the name to use in ownCloud
+	 * @return string|false with with the name to use in ownCloud
 	 */
 	public function dn2ocname($fdn, $ldapName = null, $isUser = true) {
 		if($isUser) {
@@ -508,7 +508,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	/**
 	 * creates a unique name for internal ownCloud use for users. Don't call it directly.
 	 * @param string $name the display name of the object
-	 * @return string with with the name to use in ownCloud or false if unsuccessful
+	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
 	 *
 	 * Instead of using this method directly, call
 	 * createAltInternalOwnCloudName($name, true)
@@ -530,7 +530,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	/**
 	 * creates a unique name for internal ownCloud use for groups. Don't call it directly.
 	 * @param string $name the display name of the object
-	 * @return string with with the name to use in ownCloud or false if unsuccessful.
+	 * @return string|false with with the name to use in ownCloud or false if unsuccessful.
 	 *
 	 * Instead of using this method directly, call
 	 * createAltInternalOwnCloudName($name, false)
@@ -569,7 +569,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 	 * creates a unique name for internal ownCloud use.
 	 * @param string $name the display name of the object
 	 * @param boolean $isUser whether name should be created for a user (true) or a group (false)
-	 * @return string with with the name to use in ownCloud or false if unsuccessful
+	 * @return string|false with with the name to use in ownCloud or false if unsuccessful
 	 */
 	private function createAltInternalOwnCloudName($name, $isUser) {
 		$originalTTL = $this->connection->ldapCacheTTL;
