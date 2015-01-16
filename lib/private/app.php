@@ -199,6 +199,7 @@ class OC_App {
 	 * @param bool $forceRefresh whether to refresh the cache
 	 * @param bool $all whether to return apps for all users, not only the
 	 * currently logged in one
+	 * @return array
 	 */
 	public static function getEnabledApps($forceRefresh = false, $all = false) {
 		if (!OC_Config::getValue('installed', false)) {
