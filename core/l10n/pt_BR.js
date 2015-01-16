@@ -133,6 +133,7 @@ OC.L10N.register(
     "New password" : "Nova senha",
     "New Password" : "Nova Senha",
     "Reset password" : "Redefinir senha",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X não é suportado e %s não funcionará corretamente nesta plataforma. Use-o por sua conta e risco!",
     "For the best results, please consider using a GNU/Linux server instead." : "Para obter os melhores resultados, por favor, considere o uso de um servidor GNU/Linux em seu lugar.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4GB and is highly discouraged." : "Aparentemente a instância %s está rodando em um ambiente PHP de 32bit e o open_basedir foi configurado no php.ini. Isto pode gerar problemas com arquivos maiores que 4GB e é altamente desencorajado.",

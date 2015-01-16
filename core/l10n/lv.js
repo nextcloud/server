@@ -85,6 +85,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Izmantojiet šo saiti, lai mainītu paroli: {link}",
     "New password" : "Jauna parole",
     "Reset password" : "Mainīt paroli",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Personal" : "Personīgi",
     "Users" : "Lietotāji",
     "Apps" : "Lietotnes",

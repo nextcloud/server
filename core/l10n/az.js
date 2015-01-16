@@ -36,6 +36,7 @@ OC.L10N.register(
     "Delete" : "Sil",
     "Add" : "Əlavə etmək",
     "_download %n file_::_download %n files_" : ["",""],
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Şəxsi",
     "Users" : "İstifadəçilər",
     "Admin" : "İnzibatçı",

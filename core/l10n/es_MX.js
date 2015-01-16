@@ -96,6 +96,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Utilice el siguiente enlace para restablecer su contraseña: {link}",
     "New password" : "Nueva contraseña",
     "Reset password" : "Restablecer contraseña",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Personal",
     "Users" : "Usuarios",
     "Apps" : "Aplicaciones",

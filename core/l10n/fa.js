@@ -103,6 +103,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
     "New password" : "گذرواژه جدید",
     "Reset password" : "تنظیم مجدد رمز عبور",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "شخصی",
     "Users" : "کاربران",
     "Apps" : "  برنامه ها",

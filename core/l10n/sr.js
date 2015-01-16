@@ -62,6 +62,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Овом везом ресетујте своју лозинку: {link}",
     "New password" : "Нова лозинка",
     "Reset password" : "Ресетуј лозинку",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Personal" : "Лично",
     "Users" : "Корисници",
     "Apps" : "Апликације",

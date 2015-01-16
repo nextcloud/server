@@ -53,6 +53,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Utiliza lo ligam seguent per tornar botar lo senhal : {link}",
     "New password" : "Senhal novèl",
     "Reset password" : "Senhal tornat botar",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Personal",
     "Users" : "Usancièrs",
     "Apps" : "Apps",

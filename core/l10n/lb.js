@@ -80,6 +80,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Benotz folgende Link fir däi Passwuert zréckzesetzen: {link}",
     "New password" : "Neit Passwuert",
     "Reset password" : "Passwuert zréck setzen",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Perséinlech",
     "Users" : "Benotzer",
     "Apps" : "Applikatiounen",

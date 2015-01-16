@@ -106,6 +106,7 @@ OC.L10N.register(
     "New password" : "새 암호",
     "New Password" : "새 암호",
     "Reset password" : "암호 재설정",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "개인",
     "Users" : "사용자",
     "Apps" : "앱",

@@ -77,6 +77,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
     "New password" : "كلمات سر جديدة",
     "Reset password" : "تعديل كلمة السر",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","","","","",""],
     "Personal" : "شخصي",
     "Users" : "المستخدمين",
     "Apps" : "التطبيقات",

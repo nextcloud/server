@@ -94,6 +94,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}",
     "New password" : "Mật khẩu mới",
     "Reset password" : "Khôi phục mật khẩu",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "Cá nhân",
     "Users" : "Người dùng",
     "Apps" : "Ứng dụng",

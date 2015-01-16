@@ -100,6 +100,7 @@ OC.L10N.register(
     "New password" : "Noua parolă",
     "New Password" : "Noua parolă",
     "Reset password" : "Resetează parola",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Personal" : "Personal",
     "Users" : "Utilizatori",
     "Apps" : "Aplicații",

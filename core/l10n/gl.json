@@ -131,6 +131,7 @@
     "New password" : "Novo contrasinal",
     "New Password" : "Novo contrasinal",
     "Reset password" : "Restabelecer o contrasinal",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X non é compatíbel e %s non funcionará correctamente nesta plataforma. Úseo baixo o seu risco!",
     "For the best results, please consider using a GNU/Linux server instead." : "Para obter mellores resultados, considere o emprego dun servidor GNU/Linux no seu canto.",
     "Please install the cURL extension and restart your webserver." : "Instale a extensión cURL e reinicie o servidor web.",

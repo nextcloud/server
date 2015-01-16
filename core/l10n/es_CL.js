@@ -38,6 +38,7 @@ OC.L10N.register(
     "Password" : "Clave",
     "The object type is not specified." : "El tipo de objeto no está especificado.",
     "_download %n file_::_download %n files_" : ["",""],
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Personal",
     "Users" : "Usuarios",
     "Admin" : "Administración",

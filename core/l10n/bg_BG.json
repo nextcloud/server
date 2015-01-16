@@ -124,6 +124,7 @@
     "New password" : "Нова парола",
     "New Password" : "Нова Парола",
     "Reset password" : "Възстановяване на парола",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X не се подържа и %s няма да работи правилно на тази платформа. Използвай го на свой риск!",
     "For the best results, please consider using a GNU/Linux server instead." : "За най-добри резултати, моля помисли дали не би желал да използваш GNU/Linux сървър.",
     "Personal" : "Лични",

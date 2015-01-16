@@ -131,6 +131,7 @@ OC.L10N.register(
     "New password" : "Nové heslo",
     "New Password" : "Nové heslo",
     "Reset password" : "Obnovenie hesla",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X nie je podporovaný a %s nebude správne fungovať na tejto platforme. Použite ho na vlastné riziko!",
     "For the best results, please consider using a GNU/Linux server instead." : "Pre dosiahnutie najlepších výsledkov, prosím zvážte použitie GNU/Linux servera.",
     "Personal" : "Osobné",

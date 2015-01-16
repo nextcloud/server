@@ -40,6 +40,7 @@ OC.L10N.register(
     "Add" : "قوش",
     "_download %n file_::_download %n files_" : [""],
     "New password" : "يېڭى ئىم",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "شەخسىي",
     "Users" : "ئىشلەتكۈچىلەر",
     "Apps" : "ئەپلەر",

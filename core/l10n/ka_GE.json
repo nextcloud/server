@@ -65,6 +65,7 @@
     "Use the following link to reset your password: {link}" : "გამოიყენე შემდეგი ლინკი პაროლის შესაცვლელად: {link}",
     "New password" : "ახალი პაროლი",
     "Reset password" : "პაროლის შეცვლა",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "პირადი",
     "Users" : "მომხმარებელი",
     "Apps" : "აპლიკაციები",

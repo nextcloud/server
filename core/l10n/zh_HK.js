@@ -57,6 +57,7 @@ OC.L10N.register(
     "New password" : "新密碼",
     "New Password" : "新密碼",
     "Reset password" : "重設密碼",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "個人",
     "Users" : "用戶",
     "Apps" : "軟件",

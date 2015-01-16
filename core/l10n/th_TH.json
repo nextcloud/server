@@ -64,6 +64,7 @@
     "Use the following link to reset your password: {link}" : "ใช้ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณใหม่: {link}",
     "New password" : "รหัสผ่านใหม่",
     "Reset password" : "เปลี่ยนรหัสผ่าน",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "ส่วนตัว",
     "Users" : "ผู้ใช้งาน",
     "Apps" : "แอปฯ",

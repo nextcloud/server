@@ -131,6 +131,7 @@
     "New password" : "Ny adgangskode",
     "New Password" : "Ny adgangskode",
     "Reset password" : "Nulstil kodeord",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X understøttes ikke og %s vil ikke virke optimalt på denne platform. Anvend på eget ansvar!",
     "For the best results, please consider using a GNU/Linux server instead." : "For de bedste resultater, overvej venligst at bruge en GNU/Linux-server i stedet.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4GB and is highly discouraged." : "Det ser ud til, at denne %s-instans kører på et 32-bit PHP-miljø, samt at open_basedir er blevet konfigureret gennem php.ini. Dette vil føre til problemer med filer som er større end 4GB, og frarådes kraftigt.",

@@ -133,6 +133,7 @@ OC.L10N.register(
     "New password" : "Nova palavra-chave",
     "New Password" : "Nova palavra-passe",
     "Reset password" : "Repor palavra-passe",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Esta plataforma não suporta o sistema operativo Mac OS X e o %s poderá não funcionar correctamente. Utilize por sua conta e risco.",
     "For the best results, please consider using a GNU/Linux server instead." : "Para um melhor resultado, utilize antes o servidor GNU/Linux.",
     "Please install the cURL extension and restart your webserver." : "Por favor, instale a extensão cURL e reinicie o seu servidor da Web.",

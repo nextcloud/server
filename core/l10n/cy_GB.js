@@ -65,6 +65,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
     "New password" : "Cyfrinair newydd",
     "Reset password" : "Ailosod cyfrinair",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","","",""],
     "Personal" : "Personol",
     "Users" : "Defnyddwyr",
     "Apps" : "Pecynnau",

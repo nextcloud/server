@@ -58,6 +58,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}",
     "New password" : "புதிய கடவுச்சொல்",
     "Reset password" : "மீளமைத்த கடவுச்சொல்",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "தனிப்பட்ட",
     "Users" : "பயனாளர்",
     "Apps" : "செயலிகள்",

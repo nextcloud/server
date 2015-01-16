@@ -96,6 +96,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Slaptažodio atkūrimui naudokite šią nuorodą: {link}",
     "New password" : "Naujas slaptažodis",
     "Reset password" : "Atkurti slaptažodį",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["","",""],
     "Personal" : "Asmeniniai",
     "Users" : "Vartotojai",
     "Apps" : "Programos",

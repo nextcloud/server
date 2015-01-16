@@ -63,6 +63,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}",
     "New password" : "Nýtt lykilorð",
     "Reset password" : "Endursetja lykilorð",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Um mig",
     "Users" : "Notendur",
     "Apps" : "Forrit",

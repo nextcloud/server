@@ -82,6 +82,7 @@ OC.L10N.register(
     "New password" : "নতুন কূটশব্দ",
     "New Password" : "নতুন কূটশব্দ",
     "Reset password" : "কূটশব্দ পূনঃনির্ধারণ কর",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "ব্যক্তিগত",
     "Users" : "ব্যবহারকারী",
     "Apps" : "অ্যাপ",

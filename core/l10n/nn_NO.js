@@ -92,6 +92,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Klikk følgjande lenkje til å nullstilla passordet ditt: {link}",
     "New password" : "Nytt passord",
     "Reset password" : "Nullstill passord",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Personleg",
     "Users" : "Brukarar",
     "Apps" : "Program",

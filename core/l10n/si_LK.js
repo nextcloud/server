@@ -49,6 +49,7 @@ OC.L10N.register(
     "_download %n file_::_download %n files_" : ["",""],
     "New password" : "නව මුරපදය",
     "Reset password" : "මුරපදය ප්‍රත්‍යාරම්භ කරන්න",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "පෞද්ගලික",
     "Users" : "පරිශීලකයන්",
     "Apps" : "යෙදුම්",

@@ -133,6 +133,7 @@ OC.L10N.register(
     "New password" : "Uusi salasana",
     "New Password" : "Uusi salasana",
     "Reset password" : "Palauta salasana",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X ei ole tuettu, joten %s ei toimi kunnolla tällä alustalla. Käytä omalla vastuulla!",
     "For the best results, please consider using a GNU/Linux server instead." : "Käytä parhaan lopputuloksen saamiseksi GNU/Linux-palvelinta.",
     "It seems that this %s instance is running on a 32-bit PHP environment and the open_basedir has been configured in php.ini. This will lead to problems with files over 4GB and is highly discouraged." : "Vaikuttaa siltä, että tämä %s-asennus toimii 32-bittisessä PHP-ympäristössä, ja asetus open_basedir on käytössä php.ini-tiedostossa. Tämä johtaa ongelmiin yli 4 gigatavun tiedostojen kanssa, eikä ole suositeltavaa.",

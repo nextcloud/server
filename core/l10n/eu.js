@@ -122,6 +122,7 @@ OC.L10N.register(
     "New password" : "Pasahitz berria",
     "New Password" : "Pasahitz Berria",
     "Reset password" : "Berrezarri pasahitza",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X-ek ez du sostengurik eta %s gaizki ibili daiteke plataforma honetan. Erabiltzekotan, zure ardurapean.",
     "For the best results, please consider using a GNU/Linux server instead." : "Emaitza hobeak izateko, mesedez gogoan hartu GNU/Linux zerbitzari bat erabiltzea.",
     "Personal" : "Pertsonala",

@@ -86,6 +86,7 @@
     "Use the following link to reset your password: {link}" : "Uzu la jenan ligilon por restarigi vian pasvorton: {link}",
     "New password" : "Nova pasvorto",
     "Reset password" : "Rekomenci la pasvorton",
+    "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Persona",
     "Users" : "Uzantoj",
     "Apps" : "Aplikaĵoj",

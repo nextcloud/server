@@ -40,6 +40,7 @@ OC.L10N.register(
     "Use the following link to reset your password: {link}" : "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}",
     "New password" : "Kata laluan baru",
     "Reset password" : "Penetapan semula kata laluan",
+    "_{count} search result in other places_::_{count} search results in other places_" : [""],
     "Personal" : "Peribadi",
     "Users" : "Pengguna",
     "Apps" : "Aplikasi",
