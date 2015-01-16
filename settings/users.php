@@ -32,7 +32,7 @@ $recoveryAdminEnabled = OC_App::isEnabled('files_encryption') &&
 					    OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 
 if($isAdmin) {
-	$accessibleUsers = OC_User::getDisplayNames('', 30);
+	$accessibleUsers = OC_User::getDisplayNames('', 50);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
 	/* Retrieve group IDs from $groups array, so we can pass that information into OC_Group::displayNamesInGroups() */
@@ -42,7 +42,7 @@ if($isAdmin) {
 			$gids[] = $group['id'];
 		}
 	}
-	$accessibleUsers = OC_Group::displayNamesInGroups($gids, '', 30);
+	$accessibleUsers = OC_Group::displayNamesInGroups($gids, '', 50);
 	$subadmins = false;
 }
 
