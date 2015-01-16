@@ -296,6 +296,10 @@ table td.filename .nametext {
 	max-width: 800px;
 	height: 100%;
 }
+/* IE8 text-overflow: ellipsis support */
+.ie8 table td.filename .nametext {
+	min-width: 50%;
+}
 .has-favorites #fileList td.filename a.name {
 	left: 50px;
 	margin-right: 50px;
@@ -307,6 +311,13 @@ table td.filename .nametext .innernametext {
 	position: relative;
 	display: inline-block;
 	vertical-align: top;
+}
+/* IE8 text-overflow: ellipsis support */
+.ie8 table td.filename .nametext .innernametext {
+	white-space: nowrap;
+	word-wrap: normal;
+	-ms-text-overflow: ellipsis;
+	max-width: 47%;
 }
 
 @media only screen and (min-width: 1366px) {
