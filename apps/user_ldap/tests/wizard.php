@@ -22,12 +22,8 @@
 
 namespace OCA\user_ldap\tests;
 
+use OCA\user_ldap\lib\EnvVariableFactory;
 use \OCA\user_ldap\lib\Wizard;
-
-// use \OCA\user_ldap\USER_LDAP as UserLDAP;
-// use \OCA\user_ldap\lib\Access;
-// use \OCA\user_ldap\lib\Configuration;
-// use \OCA\user_ldap\lib\ILDAPWrapper;
 
 class Test_Wizard extends \Test\TestCase {
 	protected function setUp() {
@@ -66,7 +62,8 @@ class Test_Wizard extends \Test\TestCase {
 		$access = $this->getMock('\OCA\user_ldap\lib\Access',
 			$accMethods, array($connector, $lw, $um));
 
-		return array(new Wizard($conf, $lw, $access), $conf, $lw, $access);
+		$envVarFactory = new EnvVariableFactory();
+		return array(new Wizard($conf, $lw, $access, $envVarFactory), $conf, $lw, $access);
 	}
 
 	private function prepareLdapWrapperForConnections(&$ldap) {

@@ -23,6 +23,9 @@
 
 namespace OCA\user_ldap\lib;
 
+/**
+ * @property string ldapHost
+ */
 class Configuration {
 
 	protected $configPrefix = null;

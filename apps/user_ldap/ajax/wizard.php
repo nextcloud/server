@@ -22,6 +22,9 @@
  */
 
 // Check user and app status
+use OCA\user_ldap\lib\EnvVariableFactory;
+use OCA\user_ldap\lib\Wizard;
+
 OCP\JSON::checkAdminUser();
 OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
@@ -57,7 +60,8 @@ $userManager = new \OCA\user_ldap\lib\user\Manager(
 
 $access = new \OCA\user_ldap\lib\Access($con, $ldapWrapper, $userManager);
 
-$wizard = new \OCA\user_ldap\lib\Wizard($configuration, $ldapWrapper, $access);
+$envVarFactory = new EnvVariableFactory();
+$wizard = new Wizard($configuration, $ldapWrapper, $access, $envVarFactory);
 
 switch($action) {
 	case 'guessPortAndTLS':

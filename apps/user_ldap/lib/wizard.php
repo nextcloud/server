@@ -23,6 +23,8 @@
 
 namespace OCA\user_ldap\lib;
 
+use OCA\user_ldap\lib\EnvVariableFactory;
+
 class Wizard extends LDAPUtility {
 	static protected $l;
 	protected $access;
@@ -30,6 +32,8 @@ class Wizard extends LDAPUtility {
 	protected $configuration;
 	protected $result;
 	protected $resultCache = array();
+	/** @var EnvVariableFactory */
+	protected $envVarFactory;
 
 	const LRESULT_PROCESSED_OK = 2;
 	const LRESULT_PROCESSED_INVALID = 3;
@@ -46,10 +50,13 @@ class Wizard extends LDAPUtility {
 
 	/**
 	 * Constructor
+	 *
 	 * @param Configuration $configuration an instance of Configuration
 	 * @param ILDAPWrapper $ldap an instance of ILDAPWrapper
+	 * @param Access $access
+	 * @param EnvVariableFactory $envVarFactory
 	 */
-	public function __construct(Configuration $configuration, ILDAPWrapper $ldap, Access $access) {
+	public function __construct(Configuration $configuration, ILDAPWrapper $ldap, Access $access, EnvVariableFactory $envVarFactory) {
 		parent::__construct($ldap);
 		$this->configuration = $configuration;
 		if(is_null(Wizard::$l)) {
@@ -57,6 +64,7 @@ class Wizard extends LDAPUtility {
 		}
 		$this->access = $access;
 		$this->result = new WizardResult();
+		$this->envVarFactory = $envVarFactory;
 	}
 
 	public function  __destruct() {
@@ -972,8 +980,8 @@ class Wizard extends LDAPUtility {
 	private function connectAndBind($port = 389, $tls = false, $ncc = false) {
 		if($ncc) {
 			//No certificate check
-			//FIXME: undo afterwards
-			putenv('LDAPTLS_REQCERT=never');
+			$reqCert = $this->envVarFactory->get('LDAPTLS_REQCERT');
+			$reqCert->set('never');
 		}
 
 		//connect, does not really trigger any server communication
@@ -984,9 +992,7 @@ class Wizard extends LDAPUtility {
 			throw new \Exception($this->l->t('Invalid Host'));
 		}
 		if(isset($hostInfo['scheme'])) {
-			if(isset($hostInfo['port'])) {
-				//problem
-			} else {
+			if(!isset($hostInfo['port'])) {
 				$host .= ':' . $port;
 			}
 		}
