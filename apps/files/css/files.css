@@ -305,6 +305,8 @@ table td.filename .nametext .innernametext {
 	text-overflow: ellipsis;
 	overflow: hidden;
 	position: relative;
+	display: inline-block;
+	vertical-align: top;
 }
 
 @media only screen and (min-width: 1366px) {
