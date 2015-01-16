@@ -97,12 +97,28 @@ class AppSettingsController extends Controller {
 					$apps = array_filter($apps, function ($app) {
 						return $app['active'];
 					});
+					usort($apps, function ($a, $b) {
+						$a = (string)$a['name'];
+						$b = (string)$b['name'];
+						if ($a === $b) {
+							return 0;
+						}
+						return ($a < $b) ? -1 : 1;
+					});
 					break;
 				// not-installed apps
 				case 1:
 					$apps = \OC_App::listAllApps(true);
 					$apps = array_filter($apps, function ($app) {
 						return !$app['active'];
+					});
+					usort($apps, function ($a, $b) {
+						$a = (string)$a['name'];
+						$b = (string)$b['name'];
+						if ($a === $b) {
+							return 0;
+						}
+						return ($a < $b) ? -1 : 1;
 					});
 					break;
 				default:
