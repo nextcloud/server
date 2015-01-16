@@ -337,17 +337,26 @@ class Share extends \OC\Share\Constants {
 		if(empty($shares) && $user !== null) {
 			$groups = \OC_Group::getUserGroups($user);
 
-			$query = \OC_DB::prepare(
-				'SELECT *
-						FROM
-						`*PREFIX*share`
-						WHERE
-						`' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)'
+			$where = 'WHERE `' . $column . '` = ? AND `item_type` = ? AND `share_with` in (?)';
+			$arguments = array($itemSource, $itemType, $groups);
+			$types = array(null, null, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY);
+
+			if ($owner !== null) {
+				$where .= ' AND `uid_owner` = ?';
+				$arguments[] = $owner;
+				$types[] = null;
+			}
+
+			// TODO: inject connection, hopefully one day in the future when this
+			// class isn't static anymore...
+			$conn = \OC_DB::getConnection();
+			$result = $conn->executeQuery(
+				'SELECT * FROM `*PREFIX*share` ' . $where,
+				$arguments,
+				$types
 			);
 
-			$result = \OC_DB::executeAudited($query, array($itemSource, $itemType, implode(',', $groups)));
-
-			while ($row = $result->fetchRow()) {
+			while ($row = $result->fetch()) {
 				$shares[] = $row;
 			}
 		}
