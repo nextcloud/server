@@ -1,10 +1,7 @@
 <?php
 /** @var $this \OCP\Route\IRouter */
-$this->create('core_ajax_trashbin_preview', '/preview')->action(
-function() {
-	require_once __DIR__ . '/../ajax/preview.php';
-});
-
+$this->create('core_ajax_trashbin_preview', 'ajax/preview.php')
+	->actionInclude('files_trashbin/ajax/preview.php');
 $this->create('files_trashbin_ajax_delete', 'ajax/delete.php')
 	->actionInclude('files_trashbin/ajax/delete.php');
 $this->create('files_trashbin_ajax_isEmpty', 'ajax/isEmpty.php')
