@@ -584,8 +584,6 @@ class View {
 	 * @return bool|mixed
 	 */
 	public function rename($path1, $path2) {
-		$postFix1 = (substr($path1, -1, 1) === '/') ? '/' : '';
-		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if (
@@ -620,7 +618,7 @@ class View {
 				$mount1 = $this->getMount($path1);
 				$mount2 = $this->getMount($path2);
 				$storage1 = $mount1->getStorage();
-				$storage2 = $mount1->getStorage();
+				$storage2 = $mount2->getStorage();
 				$internalPath1 = $mount1->getInternalPath($absolutePath1);
 				$internalPath2 = $mount2->getInternalPath($absolutePath2);
 
@@ -642,34 +640,9 @@ class View {
 						$result = false;
 					}
 				} else {
-					if ($this->is_dir($path1)) {
-						$result = $this->copy($path1, $path2, true);
-						if ($result === true) {
-							$result = $storage1->rmdir($internalPath1);
-						}
-					} else {
-						$source = $this->fopen($path1 . $postFix1, 'r');
-						$target = $this->fopen($path2 . $postFix2, 'w');
-						list(, $result) = \OC_Helper::streamCopy($source, $target);
-						if ($result !== false) {
-							$this->touch($path2, $this->filemtime($path1));
-						}
-
-						// close open handle - especially $source is necessary because unlink below will
-						// throw an exception on windows because the file is locked
-						fclose($source);
-						fclose($target);
-
-						if ($result !== false) {
-							$result &= $storage1->unlink($internalPath1);
-						} else {
-							// delete partially written target file
-							$storage2->unlink($internalPath2);
-							// delete cache entry that was created by fopen
-							$storage2->getCache()->remove($internalPath2);
-						}
-					}
+					$result = $storage2->moveFromStorage($storage1, $internalPath1, $internalPath2);
 				}
+				\OC_FileProxy::runPostProxies('rename', $absolutePath1, $absolutePath2);
 				if ((Cache\Scanner::isPartialFile($path1) && !Cache\Scanner::isPartialFile($path2)) && $result !== false) {
 					// if it was a rename from a part file to a regular file it was a write and not a rename operation
 					$this->updater->update($path2);
@@ -708,8 +681,6 @@ class View {
 	 * @return bool|mixed
 	 */
 	public function copy($path1, $path2, $preserveMtime = false) {
-		$postFix1 = (substr($path1, -1, 1) === '/') ? '/' : '';
-		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if (
@@ -738,52 +709,20 @@ class View {
 				$this->emit_file_hooks_pre($exists, $path2, $run);
 			}
 			if ($run) {
-				$mp1 = $this->getMountPoint($path1 . $postFix1);
-				$mp2 = $this->getMountPoint($path2 . $postFix2);
-				if ($mp1 == $mp2) {
-					list($storage, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-					list(, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
-					if ($storage) {
-						$result = $storage->copy($internalPath1, $internalPath2);
-						if (!$result) {
-							// delete partially written target file
-							$storage->unlink($internalPath2);
-							$storage->getCache()->remove($internalPath2);
-						}
+				$mount1 = $this->getMount($path1);
+				$mount2 = $this->getMount($path2);
+				$storage1 = $mount1->getStorage();
+				$internalPath1 = $mount1->getInternalPath($absolutePath1);
+				$storage2 = $mount2->getStorage();
+				$internalPath2 = $mount2->getInternalPath($absolutePath2);
+				if ($mount1->getMountPoint() == $mount2->getMountPoint()) {
+					if ($storage1) {
+						$result = $storage1->copy($internalPath1, $internalPath2);
 					} else {
 						$result = false;
 					}
 				} else {
-					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
-						$result = $this->mkdir($path2);
-						if ($preserveMtime) {
-							$this->touch($path2, $this->filemtime($path1));
-						}
-						if (is_resource($dh)) {
-							while (($file = readdir($dh)) !== false) {
-								if (!Filesystem::isIgnoredDir($file)) {
-									if (!$this->copy($path1 . '/' . $file, $path2 . '/' . $file, $preserveMtime)) {
-										$result = false;
-									}
-								}
-							}
-						}
-					} else {
-						list($storage2, $internalPath2) = Filesystem::resolvePath($absolutePath2 . $postFix2);
-						$source = $this->fopen($path1 . $postFix1, 'r');
-						$target = $this->fopen($path2 . $postFix2, 'w');
-						list(, $result) = \OC_Helper::streamCopy($source, $target);
-						if($result && $preserveMtime) {
-							$this->touch($path2, $this->filemtime($path1));
-						}
-						fclose($source);
-						fclose($target);
-						if (!$result) {
-							// delete partially written target file
-							$storage2->unlink($internalPath2);
-							$storage2->getCache()->remove($internalPath2);
-						}
-					}
+					$result = $storage2->copyFromStorage($storage1, $internalPath1, $internalPath2);
 				}
 				$this->updater->update($path2);
 				if ($this->shouldEmitHooks() && $result !== false) {
