@@ -210,6 +210,7 @@ OC.L10N.register(
     "Email" : "E-mailadres",
     "Your email address" : "Uw e-mailadres",
     "Fill in an email address to enable password recovery and receive notifications" : "Vul een e-mailadres in om wachtwoordherstel mogelijk te maken en meldingen te ontvangen",
+    "No email address set" : "Geen e-mailadres opgegeven",
     "Profile picture" : "Profielafbeelding",
     "Upload new" : "Upload een nieuwe",
     "Select new from Files" : "Selecteer een nieuwe vanuit bestanden",

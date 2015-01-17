@@ -131,6 +131,8 @@
     "New password" : "Nueva contraseña",
     "New Password" : "Nueva contraseña",
     "Reset password" : "Restablecer contraseña",
+    "Searching other places" : "Buscando en otros lugares",
+    "No search result in other places" : "No hay resultados de búsqueda en otros lugares",
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X no está soportado y %s no funcionará bien en esta plataforma. ¡Úsela a su propio riesgo! ",
     "For the best results, please consider using a GNU/Linux server instead." : "Para óptimos resultados, considere utilizar un servidor GNU/Linux.",

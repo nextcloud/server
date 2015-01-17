@@ -210,6 +210,7 @@ OC.L10N.register(
     "Email" : "Posta elettronica",
     "Your email address" : "Il tuo indirizzo email",
     "Fill in an email address to enable password recovery and receive notifications" : "Inserisci il tuo indirizzo di posta per abilitare il recupero della password e ricevere notifiche",
+    "No email address set" : "Nessun indirizzo email impostato",
     "Profile picture" : "Immagine del profilo",
     "Upload new" : "Carica nuova",
     "Select new from Files" : "Seleziona nuova da file",

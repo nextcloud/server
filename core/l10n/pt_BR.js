@@ -133,6 +133,8 @@ OC.L10N.register(
     "New password" : "Nova senha",
     "New Password" : "Nova Senha",
     "Reset password" : "Redefinir senha",
+    "Searching other places" : "Pesquisando em outros lugares",
+    "No search result in other places" : "Nenhum resultado da pesquisa em outros lugares",
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Mac OS X não é suportado e %s não funcionará corretamente nesta plataforma. Use-o por sua conta e risco!",
     "For the best results, please consider using a GNU/Linux server instead." : "Para obter os melhores resultados, por favor, considere o uso de um servidor GNU/Linux em seu lugar.",

@@ -25,6 +25,8 @@ OC.L10N.register(
     "Shared by" : "共有者：",
     "A file or folder was shared from <strong>another server</strong>" : "ファイルまたはフォルダーは <strong>他のサーバー</strong>から共有されました",
     "You received a new remote share from %s" : "%sからリモート共有のリクエストは\n届きました。",
+    "Public shared folder %1$s was downloaded" : "公開共有フォルダ %1$s がダウンロードされました",
+    "Public shared file %1$s was downloaded" : "公開共有ファイル %1$s がダウンロードされました",
     "This share is password-protected" : "この共有はパスワードで保護されています",
     "The password is wrong. Try again." : "パスワードが間違っています。再試行してください。",
     "Password" : "パスワード",

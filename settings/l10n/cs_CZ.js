@@ -210,6 +210,7 @@ OC.L10N.register(
     "Email" : "Email",
     "Your email address" : "Vaše emailová adresa",
     "Fill in an email address to enable password recovery and receive notifications" : "Zadejte emailovou adresu pro umožnění obnovy zapomenutého hesla a pro přijímání upozornění",
+    "No email address set" : "Emailová adresa není nastavena",
     "Profile picture" : "Profilový obrázek",
     "Upload new" : "Nahrát nový",
     "Select new from Files" : "Vyberte nový ze souborů",

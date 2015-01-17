@@ -210,6 +210,7 @@ OC.L10N.register(
     "Email" : "E-mail",
     "Your email address" : "Адрес электронной почты",
     "Fill in an email address to enable password recovery and receive notifications" : "Введите свой email-адрес для того, чтобы включить возможность восстановления пароля и получения уведомлений",
+    "No email address set" : "E-mail не указан",
     "Profile picture" : "Аватар",
     "Upload new" : "Загрузить новый",
     "Select new from Files" : "Выберите новый из файлов",
