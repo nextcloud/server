@@ -40,7 +40,7 @@
 		}
 		return this._template({
 			isFavorite: state,
-			altText: state ? t('core', 'Favorited') : t('core', 'Favorite'),
+			altText: state ? t('files', 'Favorited') : t('files', 'Favorite'),
 			imgFile: getStarImage(state)
 		});
 	}
