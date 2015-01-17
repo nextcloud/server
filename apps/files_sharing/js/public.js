@@ -97,7 +97,17 @@ OCA.Sharing.PublicApp = {
 		};
 
 		var img = $('<img class="publicpreview" alt="">');
-		if (previewSupported === 'true' || mimetype.substr(0, mimetype.indexOf('/')) === 'image' && mimetype !== 'image/svg+xml') {
+
+		var fileSize = parseInt($('#filesize').val(), 10);
+		var maxGifSize = parseInt($('#maxSizeAnimateGif').val(), 10);
+
+		if (mimetype === 'image/gif' &&
+			(maxGifSize === -1 || fileSize <= (maxGifSize * 1024 * 1024))) {
+			img.attr('src', $('#downloadURL').val());
+			img.appendTo('#imgframe');
+		} else if (previewSupported === 'true' ||
+			mimetype.substr(0, mimetype.indexOf('/')) === 'image' &&
+			mimetype !== 'image/svg+xml') {
 			img.attr('src', OC.filePath('files_sharing', 'ajax', 'publicpreview.php') + '?' + OC.buildQueryString(params));
 			img.appendTo('#imgframe');
 		} else if (mimetype.substr(0, mimetype.indexOf('/')) !== 'video') {

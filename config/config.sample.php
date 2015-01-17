@@ -944,6 +944,16 @@ $CONFIG = array(
 'forwarded_for_headers' => array('HTTP_X_FORWARDED', 'HTTP_FORWARDED_FOR'),
 
 /**
+ * max file size for animating gifs on public-sharing-site.
+ * If the gif is bigger, it'll show a static preview
+ *
+ * Value represents the maximum filesize in megabytes
+ * Default is 10
+ * Set to -1 for no limit
+ */
+'max_filesize_animated_gifs_public_sharing' => 10,
+
+/**
  * This entry is just here to show a warning in case somebody copied the sample
  * configuration. DO NOT ADD THIS SWITCH TO YOUR CONFIGURATION!
  *
