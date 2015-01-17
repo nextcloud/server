@@ -642,6 +642,10 @@ class OC_App {
 		$parser = new \OC\App\InfoParser(\OC::$server->getHTTPHelper(), \OC::$server->getURLGenerator());
 		$data = $parser->parse($file);
 
+		if(is_array($data)) {
+			$data = OC_App::parseAppInfo($data);
+		}
+
 		self::$appInfo[$appId] = $data;
 
 		return $data;
@@ -914,7 +918,8 @@ class OC_App {
 		$i = 0;
 		$l = \OC::$server->getL10N('core');
 		foreach ($remoteApps as $app) {
-			$app1[$i] = $app;
+			// enhance app info (for example the description)
+			$app1[$i] = OC_App::parseAppInfo($app);
 			$app1[$i]['author'] = $app['personid'];
 			$app1[$i]['ocs_id'] = $app['id'];
 			$app1[$i]['internal'] = $app1[$i]['active'] = 0;
@@ -1198,5 +1203,37 @@ class OC_App {
 			OC_Log::write('core', 'Can\'t get app storage, app ' . $appId . ' not enabled', OC_Log::ERROR);
 			return false;
 		}
+	}
+
+	/**
+	 * parses the app data array and enhanced the 'description' value
+	 *
+	 * @param array $data the app data
+	 * @return array improved app data
+	 */
+	public static function parseAppInfo(array $data) {
+
+		// just modify the description if it is available
+		// otherwise this will create a $data element with an empty 'description'
+		if(isset($data['description'])) {
+			// sometimes the description contains line breaks and they are then also
+			// shown in this way in the app management which isn't wanted as HTML
+			// manages line breaks itself
+
+			// first of all we split on empty lines
+			$paragraphs = preg_split("!\n[[:space:]]*\n!m", $data['description']);
+
+			$result = [];
+			foreach ($paragraphs as $value) {
+				// replace multiple whitespace (tabs, space, newlines) inside a paragraph
+				// with a single space - also trims whitespace
+				$result[] = trim(preg_replace('![[:space:]]+!m', ' ', $value));
+			}
+
+			// join the single paragraphs with a empty line in between
+			$data['description'] = implode("\n\n", $result);
+		}
+
+		return $data;
 	}
 }
