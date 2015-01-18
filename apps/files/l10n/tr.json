@@ -76,7 +76,7 @@
     "_matches '{filter}'_::_match '{filter}'_" : ["'{filter}' ile eşleşiyor","'{filter}' ile eşleşiyor"],
     "{dirs} and {files}" : "{dirs} ve {files}",
     "Favorited" : "Sık kullanılanlara eklendi",
-    "Favorite" : "Sık Kullanılan",
+    "Favorite" : "Sık kullanılan",
     "%s could not be renamed as it has been deleted" : "%s, silindiği için adlandırılamadı",
     "%s could not be renamed" : "%s yeniden adlandırılamadı",
     "Upload (max. %s)" : "Yükle (azami: %s)",
