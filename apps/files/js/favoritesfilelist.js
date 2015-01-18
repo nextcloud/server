@@ -28,7 +28,7 @@ $(document).ready(function() {
 		FavoritesFileList.prototype = _.extend({}, OCA.Files.FileList.prototype,
 			/** @lends OCA.Files.FavoritesFileList.prototype */ {
 			id: 'favorites',
-			appName: 'Favorites',
+			appName: t('files','Favorites'),
 
 			_clientSideSort: true,
 			_allowSelection: false,
