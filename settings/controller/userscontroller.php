@@ -161,7 +161,7 @@ class UsersController extends Controller {
 			if($gid !== '') {
 				$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
 			} else {
-				$batch = $this->userManager->search('', $limit, $offset);
+				$batch = $this->userManager->search($pattern, $limit, $offset);
 			}
 
 			foreach ($batch as $user) {
