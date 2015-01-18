@@ -330,11 +330,38 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		$('div#app-'+appId+' .warning')
 			.hide()
 			.text('');
-	}
+	},
 
+	filter: function(query) {
+		query = query.toLowerCase();
+		$('#apps-list').find('.section').hide();
+
+		var apps = _.filter(OC.Settings.Apps.State.apps, function (app) {
+			return app.name.toLowerCase().indexOf(query) !== -1;
+		});
+
+		apps = apps.concat(_.filter(OC.Settings.Apps.State.apps, function (app) {
+			return app.description.toLowerCase().indexOf(query) !== -1;
+		}));
+
+		apps = _.uniq(apps, function(app){return app.id;});
+
+		_.each(apps, function (app) {
+			$('#app-' + app.id).show();
+		});
+
+		$('#searchresults').hide();
+	}
+};
+
+OC.Settings.Apps.Search = {
+	attach: function (search) {
+		search.setFilter('settings', OC.Settings.Apps.filter);
+	}
 };
 
 $(document).ready(function () {
+	OC.Plugins.register('OCA.Search', OC.Settings.Apps.Search);
 	OC.Settings.Apps.loadCategories();
 
 	$(document).on('click', 'ul#apps-categories li', function () {
