@@ -621,6 +621,18 @@ $CONFIG = array(
  * original size. A value of ``1`` or ``null`` disables scaling.
  */
 'preview_max_scale_factor' => 10,
+
+/**
+ * max file size for generating image previews with imagegd (default behaviour)
+ * If the image is bigger, it'll try other preview generators,
+ * but will most likely show the default mimetype icon
+ *
+ * Value represents the maximum filesize in megabytes
+ * Default is 50
+ * Set to -1 for no limit
+ */
+'preview_max_filesize_image' => 50,
+
 /**
  * custom path for LibreOffice/OpenOffice binary
  */
