@@ -298,6 +298,10 @@ table td.filename .nametext {
 	max-width: 800px;
 	height: 100%;
 }
+/* IE8 text-overflow: ellipsis support */
+.ie8 table td.filename .nametext {
+	min-width: 50%;
+}
 .has-favorites #fileList td.filename a.name {
 	left: 50px;
 	margin-right: 50px;
@@ -308,6 +312,14 @@ table td.filename .nametext .innernametext {
 	overflow: hidden;
 	position: relative;
 	display: inline-block;
+	vertical-align: top;
+}
+/* IE8 text-overflow: ellipsis support */
+.ie8 table td.filename .nametext .innernametext {
+	white-space: nowrap;
+	word-wrap: normal;
+	-ms-text-overflow: ellipsis;
+	max-width: 47%;
 }
 
 @media only screen and (min-width: 1366px) {
@@ -520,9 +532,9 @@ a.action>img {
 
 #fileList a.action[data-action="Rename"] {
 	padding: 16px 14px 17px !important;
-	position: relative;
-	top: -21px;
 }
+
+.ie8 #fileList a.action img,
 #fileList tr:hover a.action,
 #fileList a.action.permanent,
 #fileList tr:focus a.action,
@@ -533,6 +545,7 @@ a.action>img {
 	opacity: .5;
 	display:inline;
 }
+.ie8 #fileList a.action:hover img,
 #fileList tr:hover a.action:hover,
 #fileList tr:focus a.action:focus,
 #fileList .name:focus a.action:focus {
