@@ -358,34 +358,41 @@ class OC_Image {
 		$o = $this->getOrientation();
 		$this->logger->debug('OC_Image->fixOrientation() Orientation: ' . $o, array('app' => 'core'));
 		$rotate = 0;
+		$flip = false;
 		switch ($o) {
 			case -1:
 				return false; //Nothing to fix
 			case 1:
 				$rotate = 0;
 				break;
-			case 2: // Not tested
+			case 2:
 				$rotate = 0;
+				$flip = true;
 				break;
 			case 3:
 				$rotate = 180;
 				break;
-			case 4: // Not tested
+			case 4:
 				$rotate = 180;
+				$flip = true;
 				break;
-			case 5: // Not tested
+			case 5:
 				$rotate = 90;
+				$flip = true;
 				break;
 			case 6:
-				//$rotate = 90;
 				$rotate = 270;
 				break;
-			case 7: // Not tested
+			case 7:
 				$rotate = 270;
+				$flip = true;
 				break;
 			case 8:
 				$rotate = 90;
 				break;
+		}
+		if($flip) {
+			imageflip($this->resource, IMG_FLIP_HORIZONTAL);
 		}
 		if ($rotate) {
 			$res = imagerotate($this->resource, $rotate, 0);
