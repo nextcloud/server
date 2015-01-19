@@ -588,7 +588,7 @@ class Cache {
 		if (is_null($entry) or !isset($entry['fileid'])) {
 			$entry = $this->get($path);
 		}
-		if ($entry && $entry['mimetype'] === 'httpd/unix-directory') {
+		if (isset($entry['mimetype']) && $entry['mimetype'] === 'httpd/unix-directory') {
 			$id = $entry['fileid'];
 			$sql = 'SELECT SUM(`size`) AS f1, MIN(`size`) AS f2, ' .
 				'SUM(`unencrypted_size`) AS f3 ' .
