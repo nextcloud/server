@@ -43,18 +43,69 @@ class Util {
 	const FILE_TYPE_VERSION = 1;
 	const FILE_TYPE_CACHE = 2;
 
+	/**
+	 * @var \OC\Files\View
+	 */
 	private $view; // OC\Files\View object for filesystem operations
+
+	/**
+	 * @var string
+	 */
 	private $userId; // ID of the user we use to encrypt/decrypt files
+
+	/**
+	 * @var string
+	 */
 	private $keyId; // ID of the key we want to manipulate
+
+	/**
+	 * @var bool
+	 */
 	private $client; // Client side encryption mode flag
+
+	/**
+	 * @var string
+	 */
 	private $publicKeyDir; // Dir containing all public user keys
+
+	/**
+	 * @var string
+	 */
 	private $encryptionDir; // Dir containing user's files_encryption
+
+	/**
+	 * @var string
+	 */
 	private $keysPath; // Dir containing all file related encryption keys
+
+	/**
+	 * @var string
+	 */
 	private $publicKeyPath; // Path to user's public key
+
+	/**
+	 * @var string
+	 */
 	private $privateKeyPath; // Path to user's private key
+
+	/**
+	 * @var string
+	 */
 	private $userFilesDir;
+
+	/**
+	 * @var string
+	 */
 	private $publicShareKeyId;
+
+	/**
+	 * @var string
+	 */
 	private $recoveryKeyId;
+
+	/**
+	 * @var bool
+	 */
 	private $isPublic;
 
 	/**
@@ -279,6 +330,10 @@ class Util {
 				while (false !== ($file = readdir($handle))) {
 
 					if ($file !== "." && $file !== "..") {
+						// skip stray part files
+						if (Helper::isPartialFilePath($file)) {
+							continue;
+						}
 
 						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 						$relPath = Helper::stripUserFilesPath($filePath);
