@@ -30,7 +30,7 @@ class Test_Tags extends \Test\TestCase {
 	protected $backupGlobals = FALSE;
 	/** @var \OC\Tagging\TagMapper */
 	protected $tagMapper;
-	/** @var \OC\TagManager */
+	/** @var \OCP\ITagManager */
 	protected $tagMgr;
 
 	protected function setUp() {
@@ -55,8 +55,9 @@ class Test_Tags extends \Test\TestCase {
 	}
 
 	protected function tearDown() {
-		//$query = OC_DB::prepare('DELETE FROM `*PREFIX*vcategories` WHERE `item_type` = ?');
-		//$query->execute(array('test'));
+		$conn = \OC_DB::getConnection();
+		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory_to_object`');
+		$conn->executeQuery('DELETE FROM `*PREFIX*vcategory`');
 
 		parent::tearDown();
 	}
@@ -174,6 +175,31 @@ class Test_Tags extends \Test\TestCase {
 			array(),
 			$tagger->getTagsForObjects(array(4, 5))
 		);
+	}
+
+	public function testGetTagsForObjectsMassiveResults() {
+		$defaultTags = array('tag1');
+		$tagger = $this->tagMgr->load($this->objectType, $defaultTags);
+		$tagData = $tagger->getTags();
+		$tagId = $tagData[0]['id'];
+		$tagType = $tagData[0]['type'];
+
+		$conn = \OC_DB::getConnection();
+		$statement = $conn->prepare(
+				'INSERT INTO `*PREFIX*vcategory_to_object` ' .
+				'(`objid`, `categoryid`, `type`) VALUES ' .
+				'(?, ?, ?)'
+		);
+
+		// insert lots of entries
+		$idsArray = array();
+		for($i = 1; $i <= 1500; $i++) {
+			$statement->execute(array($i, $tagId, $tagType));
+			$idsArray[] = $i;
+		}
+
+		$tags = $tagger->getTagsForObjects($idsArray);
+		$this->assertEquals(1500, count($tags));
 	}
 
 	public function testDeleteTags() {

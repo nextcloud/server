@@ -211,7 +211,7 @@ class Tags implements \OCP\ITags {
 
 		try {
 			$conn = \OC_DB::getConnection();
-			$chunks = array_chunk($objIds, 1000, false);
+			$chunks = array_chunk($objIds, 900, false);
 			foreach ($chunks as $chunk) {
 				$result = $conn->executeQuery(
 					'SELECT `category`, `categoryid`, `objid` ' .
