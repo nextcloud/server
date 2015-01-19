@@ -206,12 +206,17 @@ class Webdav extends TestCase {
 	 * handle webdav request
 	 *
 	 * @param bool $body
-	 *
 	 * @note this init procedure is copied from /apps/files/appinfo/remote.php
 	 */
 	function handleWebdavRequest($body = false) {
 		// Backends
-		$authBackend = new \OC_Connector_Sabre_Auth();
+		$authBackend = $this->getMockBuilder('OC_Connector_Sabre_Auth')
+			->setMethods(['validateUserPass'])
+			->getMock();
+		$authBackend->expects($this->any())
+			->method('validateUserPass')
+			->will($this->returnValue(true));
+
 		$lockBackend = new \OC_Connector_Sabre_Locks();
 		$requestBackend = new \OC_Connector_Sabre_Request();
 
@@ -235,6 +240,10 @@ class Webdav extends TestCase {
 		$server->addPlugin(new \OC_Connector_Sabre_QuotaPlugin($view));
 		$server->addPlugin(new \OC_Connector_Sabre_MaintenancePlugin());
 		$server->debugExceptions = true;
+
+		// Totally ugly hack to setup the FS
+		\OC::$server->getUserSession()->login($this->userId, $this->userId);
+		\OC_Util::setupFS($this->userId);
 
 		// And off we go!
 		if ($body) {
