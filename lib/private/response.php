@@ -195,15 +195,6 @@ class OC_Response {
 	 * components (e.g. SabreDAV) also benefit from this headers.
 	 */
 	public static function addSecurityHeaders() {
-		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
-		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
-
-		// iFrame Restriction Policy
-		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
-		if ($xFramePolicy) {
-			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
-		}
-
 		/**
 		 * FIXME: Content Security Policy for legacy ownCloud components. This
 		 * can be removed once \OCP\AppFramework\Http\Response from the AppFramework
@@ -219,9 +210,6 @@ class OC_Response {
 			. 'media-src *; ' 
 			. 'connect-src *';
 		header('Content-Security-Policy:' . $policy);
-
-		// https://developers.google.com/webmasters/control-crawl-index/docs/robots_meta_tag
-		header('X-Robots-Tag: none');
 	}
 
 }

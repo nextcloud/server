@@ -265,7 +265,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $token
 	 */
 	public function setMagicInCookie($username, $token) {
-		$secureCookie = \OC_Config::getValue("forcessl", false); //TODO: DI for cookies and OC_Config
+		$secureCookie = \OC::$server->getRequest()->getServerProtocol() === 'https';
 		$expires = time() + \OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		setcookie("oc_username", $username, $expires, \OC::$WEBROOT, '', $secureCookie, true);
 		setcookie("oc_token", $token, $expires, \OC::$WEBROOT, '', $secureCookie, true);

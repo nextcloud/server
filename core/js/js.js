@@ -211,6 +211,14 @@ var OC={
 	},
 
 	/**
+	 * Protocol that is used to access this ownCloud instance
+	 * @return {string} Used protocol
+	 */
+	getProtocol: function() {
+		return window.location.protocol.split(':')[0];
+	},
+
+	/**
 	 * get the absolute path to an image file
 	 * if no extension is given for the image, it will automatically decide
 	 * between .png and .svg based on what the browser supports

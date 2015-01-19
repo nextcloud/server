@@ -24,6 +24,7 @@
 		"config.js",
 		"multiselect.js",
 		"oc-requesttoken.js",
+		"setupchecks.js",
 		"../search/js/search.js"
 	]
 }

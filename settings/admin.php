@@ -58,11 +58,6 @@ $excludedGroupsList = $appConfig->getValue('core', 'shareapi_exclude_groups_list
 $excludedGroupsList = explode(',', $excludedGroupsList); // FIXME: this should be JSON!
 $template->assign('shareExcludedGroupsList', implode('|', $excludedGroupsList));
 
-// Check if connected using HTTPS
-$template->assign('isConnectedViaHTTPS', $request->getServerProtocol() === 'https');
-$template->assign('enforceHTTPSEnabled', $config->getSystemValue('forcessl', false));
-$template->assign('forceSSLforSubdomainsEnabled', $config->getSystemValue('forceSSLforSubdomains', false));
-
 // If the current web root is non-empty but the web root from the config is,
 // and system cron is used, the URL generator fails to build valid URLs.
 $shouldSuggestOverwriteCliUrl = $config->getAppValue('core', 'backgroundjobs_mode', 'ajax') === 'cron' &&

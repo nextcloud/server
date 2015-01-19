@@ -75,32 +75,6 @@ $(document).ready(function(){
 		$('#setDefaultExpireDate').toggleClass('hidden', !(this.checked && $('#shareapiDefaultExpireDate')[0].checked));
 	});
 
-	$('#forcessl').change(function(){
-		$(this).val(($(this).val() !== 'true'));
-		var forceSSLForSubdomain = $('#forceSSLforSubdomainsSpan');
-
-		$.post(OC.generateUrl('settings/admin/security/ssl'), {
-			enforceHTTPS: $(this).val()
-		},function(){} );
-
-		if($(this).val() === 'true') {
-			forceSSLForSubdomain.prop('disabled', false);
-			forceSSLForSubdomain.removeClass('hidden');
-		} else {
-			forceSSLForSubdomain.prop('disabled', true);
-			forceSSLForSubdomain.addClass('hidden');
-		}
-	});
-
-	$('#forceSSLforSubdomains').change(function(){
-		$(this).val(($(this).val() !== 'true'));
-
-		$.post(OC.generateUrl('settings/admin/security/ssl/subdomains'), {
-			forceSSLforSubdomains: $(this).val()
-		},function(){} );
-	});
-
-
 	$('#mail_smtpauth').change(function() {
 		if (!this.checked) {
 			$('#mail_credentials').addClass('hidden');
@@ -158,9 +132,10 @@ $(document).ready(function(){
 	// run setup checks then gather error messages
 	$.when(
 		OC.SetupChecks.checkWebDAV(),
-		OC.SetupChecks.checkSetup()
-	).then(function(check1, check2) {
-		var errors = [].concat(check1, check2);
+		OC.SetupChecks.checkSetup(),
+		OC.SetupChecks.checkGeneric()
+	).then(function(check1, check2, check3) {
+		var errors = [].concat(check1, check2, check3);
 		var $el = $('#postsetupchecks');
 		var $errorsEl;
 		$el.find('.loading').addClass('hidden');

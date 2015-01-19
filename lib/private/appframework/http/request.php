@@ -475,7 +475,7 @@ class Request implements \ArrayAccess, \Countable, IRequest {
 	private function isOverwriteCondition($type = '') {
 		$regex = '/' . $this->config->getSystemValue('overwritecondaddr', '')  . '/';
 		return $regex === '//' || preg_match($regex, $this->server['REMOTE_ADDR']) === 1
-		|| ($type !== 'protocol' && $this->config->getSystemValue('forcessl', false));
+		|| $type !== 'protocol';
 	}
 
 	/**

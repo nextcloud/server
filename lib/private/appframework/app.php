@@ -123,7 +123,7 @@ class App {
 				$expireDate,
 				$container->getServer()->getWebRoot(),
 				null,
-				$container->getServer()->getConfig()->getSystemValue('forcessl', false),
+				$container->getServer()->getRequest()->getServerProtocol() === 'https',
 				true
 			);
 		}
