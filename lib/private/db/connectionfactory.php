@@ -7,6 +7,9 @@
  */
 
 namespace OC\DB;
+use Doctrine\DBAL\Event\Listeners\OracleSessionInit;
+use Doctrine\DBAL\Event\Listeners\SQLSessionInit;
+use Doctrine\DBAL\Event\Listeners\MysqlSessionInit;
 
 /**
 * Takes care of creating and configuring Doctrine connections.
@@ -84,10 +87,12 @@ class ConnectionFactory {
 			case 'mysql':
 				// Send "SET NAMES utf8". Only required on PHP 5.3 below 5.3.6.
 				// See http://stackoverflow.com/questions/4361459/php-pdo-charset-set-names#4361485
-				$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit);
+				$eventManager->addEventSubscriber(new MysqlSessionInit);
+				$eventManager->addEventSubscriber(
+					new SQLSessionInit("SET SESSION AUTOCOMMIT=1"));
 				break;
 			case 'oci':
-				$eventManager->addEventSubscriber(new \Doctrine\DBAL\Event\Listeners\OracleSessionInit);
+				$eventManager->addEventSubscriber(new OracleSessionInit);
 				break;
 			case 'sqlite3':
 				$journalMode = $additionalConnectionParams['sqlite.journal_mode'];
@@ -136,8 +141,8 @@ class ConnectionFactory {
 		$name = $config->getValue('dbname', 'owncloud');
 
 		if ($this->normalizeType($type) === 'sqlite3') {
-			$datadir = $config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
-			$connectionParams['path'] = $datadir . '/' . $name . '.db';
+			$dataDir = $config->getValue("datadirectory", \OC::$SERVERROOT . '/data');
+			$connectionParams['path'] = $dataDir . '/' . $name . '.db';
 		} else {
 			$host = $config->getValue('dbhost', '');
 			if (strpos($host, ':')) {
