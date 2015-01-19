@@ -29,21 +29,6 @@ namespace OCA\Files_Trashbin;
 class Hooks {
 
 	/**
-	 * Copy files to trash bin
-	 * @param array $params
-	 *
-	 * This function is connected to the delete signal of OC_Filesystem
-	 * to copy the file to the trash bin
-	 */
-	public static function remove_hook($params) {
-
-		if ( \OCP\App::isEnabled('files_trashbin') ) {
-			$path = $params['path'];
-			Trashbin::move2trash($path);
-		}
-	}
-
-	/**
 	 * clean up user specific settings if user gets deleted
 	 * @param array $params array with uid
 	 *

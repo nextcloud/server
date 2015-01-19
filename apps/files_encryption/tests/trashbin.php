@@ -158,31 +158,30 @@ class Trashbin extends TestCase {
 			. $filename2 . '/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '.shareKey'));
 
 		// get files
-		$trashFiles = $this->view->getDirectoryContent(
-			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/files/');
+		$trashFiles = \OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_ENCRYPTION_TRASHBIN_USER1);
 
-		$trashFileSuffix = null;
 		// find created file with timestamp
+		$timestamp = null;
 		foreach ($trashFiles as $file) {
-			if (strpos($file['path'], $filename . '.d') !== false) {
-				$path_parts = pathinfo($file['name']);
-				$trashFileSuffix = $path_parts['extension'];
+			if ($file['name'] === $filename) {
+				$timestamp = $file['mtime'];
+				break;
 			}
 		}
 
 		// check if we found the file we created
-		$this->assertNotNull($trashFileSuffix);
+		$this->assertNotNull($timestamp);
 
-		$this->assertTrue($this->view->is_dir('/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/keys/' . $filename . '.' . $trashFileSuffix));
+		$this->assertTrue($this->view->is_dir('/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/keys/' . $filename . '.d' . $timestamp));
 
 		// check if key for admin not exists
 		$this->assertTrue($this->view->file_exists(
-			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/keys/' . $filename . '.' . $trashFileSuffix . '/fileKey'));
+			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/keys/' . $filename . '.d' . $timestamp . '/fileKey'));
 
 		// check if share key for admin not exists
 		$this->assertTrue($this->view->file_exists(
 			'/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/keys/' . $filename
-			.  '.' . $trashFileSuffix . '/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '.shareKey'));
+			. '.d' . $timestamp . '/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '.shareKey'));
 	}
 
 	/**
@@ -195,27 +194,26 @@ class Trashbin extends TestCase {
 		$filename2 = $filename . '.backup'; // a second file with similar name
 
 		// save file with content
-		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_TRASHBIN_USER1. '/files/'. $filename, $this->dataShort);
-		$cryptedFile2 = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_TRASHBIN_USER1. '/files/'. $filename2, $this->dataShort);
+		file_put_contents('crypt:///' . self::TEST_ENCRYPTION_TRASHBIN_USER1. '/files/'. $filename, $this->dataShort);
+		file_put_contents('crypt:///' . self::TEST_ENCRYPTION_TRASHBIN_USER1. '/files/'. $filename2, $this->dataShort);
 
 		// delete both files
 		\OC\Files\Filesystem::unlink($filename);
 		\OC\Files\Filesystem::unlink($filename2);
 
-		$trashFiles = $this->view->getDirectoryContent('/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '/files_trashbin/files/');
+		$trashFiles = \OCA\Files_Trashbin\Helper::getTrashFiles('/', self::TEST_ENCRYPTION_TRASHBIN_USER1);
 
-		$trashFileSuffix = null;
-		$trashFileSuffix2 = null;
 		// find created file with timestamp
+		$timestamp = null;
 		foreach ($trashFiles as $file) {
-			if (strpos($file['path'], $filename . '.d') !== false) {
-				$path_parts = pathinfo($file['name']);
-				$trashFileSuffix = $path_parts['extension'];
+			if ($file['name'] === $filename) {
+				$timestamp = $file['mtime'];
+				break;
 			}
 		}
 
-		// prepare file information
-		$timestamp = str_replace('d', '', $trashFileSuffix);
+		// make sure that we have a timestamp
+		$this->assertNotNull($timestamp);
 
 		// before calling the restore operation the keys shouldn't be there
 		$this->assertFalse($this->view->file_exists(
@@ -225,7 +223,7 @@ class Trashbin extends TestCase {
 			. $filename . '/' . self::TEST_ENCRYPTION_TRASHBIN_USER1 . '.shareKey'));
 
 		// restore first file
-		$this->assertTrue(\OCA\Files_Trashbin\Trashbin::restore($filename . '.' . $trashFileSuffix, $filename, $timestamp));
+		$this->assertTrue(\OCA\Files_Trashbin\Trashbin::restore($filename . '.d' . $timestamp, $filename, $timestamp));
 
 		// check if file exists
 		$this->assertTrue($this->view->file_exists(

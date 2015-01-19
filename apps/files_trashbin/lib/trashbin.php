@@ -144,9 +144,10 @@ class Trashbin {
 		$size = 0;
 		list($owner, $ownerPath) = self::getUidAndFilename($file_path);
 
+		$view = new \OC\Files\View('/' . $user);
 		// file has been deleted in between
-		if (empty($ownerPath)) {
-			return false;
+		if (!$view->file_exists('/files/' . $file_path)) {
+			return true;
 		}
 
 		self::setUpTrash($user);
@@ -165,7 +166,8 @@ class Trashbin {
 		\OC_FileProxy::$enabled = false;
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
 		try {
-			$sizeOfAddedFiles = self::copy_recursive('/files/'.$file_path, $trashPath, $view);
+			$sizeOfAddedFiles = $view->filesize('/files/' . $file_path);
+			$view->rename('/files/' . $file_path, $trashPath);
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$sizeOfAddedFiles = false;
 			if ($view->file_exists($trashPath)) {
@@ -203,6 +205,8 @@ class Trashbin {
 			$ownerTrashSize += $size;
 			$ownerTrashSize -= self::expire($ownerTrashSize, $owner);
 		}
+
+		return ($sizeOfAddedFiles === false) ? false : true;
 	}
 
 	/**
@@ -321,8 +325,8 @@ class Trashbin {
 			} else {
 				// if location no longer exists, restore file in the root directory
 				if ($location !== '/' &&
-					(!$view->is_dir('files' . $location) ||
-						!$view->isCreatable('files' . $location))
+					(!$view->is_dir('files/' . $location) ||
+					!$view->isCreatable('files/' . $location))
 				) {
 					$location = '';
 				}
@@ -918,12 +922,12 @@ class Trashbin {
 	 * register hooks
 	 */
 	public static function registerHooks() {
-		//Listen to delete file signal
-		\OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA\Files_Trashbin\Hooks", "remove_hook");
+		// create storage wrapper on setup
+		\OCP\Util::connectHook('OC_Filesystem', 'setup', 'OCA\Files_Trashbin\Storage', 'setupStorage');
 		//Listen to delete user signal
-		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', "OCA\Files_Trashbin\Hooks", "deleteUser_hook");
+		\OCP\Util::connectHook('OC_User', 'pre_deleteUser', 'OCA\Files_Trashbin\Hooks', 'deleteUser_hook');
 		//Listen to post write hook
-		\OCP\Util::connectHook('OC_Filesystem', 'post_write', "OCA\Files_Trashbin\Hooks", "post_write_hook");
+		\OCP\Util::connectHook('OC_Filesystem', 'post_write', 'OCA\Files_Trashbin\Hooks', 'post_write_hook');
 	}
 
 	/**

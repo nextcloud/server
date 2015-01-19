@@ -29,7 +29,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
-
+		\OCA\Files_Trashbin\Trashbin::registerHooks();
 		$this->folder = '/folder_share_storage_test';
 
 		$this->filename = '/share-api-storage.txt';

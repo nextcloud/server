@@ -327,7 +327,7 @@ class Storage {
 						} else {
 							$versions[$key]['preview'] = \OCP\Util::linkToRoute('core_ajax_versions_preview', array('file' => $userFullPath, 'version' => $timestamp));
 						}
-						$versions[$key]['path'] = $pathinfo['dirname'] . '/' . $filename;
+						$versions[$key]['path'] = \OC\Files\Filesystem::normalizePath($pathinfo['dirname'] . '/' . $filename);
 						$versions[$key]['name'] = $versionedFile;
 						$versions[$key]['size'] = $view->filesize($dir . '/' . $entryName);
 					}
