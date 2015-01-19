@@ -149,6 +149,7 @@ var LdapWizard = {
 	loginFilter: false,
 	groupFilter: false,
 	ajaxRequests: {},
+	lastTestSuccessful: true,
 
 	ajax: function(param, fnOnSuccess, fnOnError, reqID) {
 		if(!_.isUndefined(reqID)) {
@@ -207,7 +208,7 @@ var LdapWizard = {
 	},
 
 	basicStatusCheck: function() {
-		//criterias to continue from the first tab
+		//criteria to continue from the first tab
 		// - host, port, user filter, agent dn, password, base dn
 		var host  = $('#ldap_host').val();
 		var port  = $('#ldap_port').val();
@@ -224,7 +225,7 @@ var LdapWizard = {
 
 
 	blacklistAdd: function(id) {
-		obj = $('#'+id);
+		var obj = $('#' + id);
 		if(!(obj[0].hasOwnProperty('multiple') && obj[0]['multiple'] === true)) {
 			//no need to blacklist multiselect
 			LdapWizard.saveBlacklist[id] = true;
@@ -242,14 +243,14 @@ var LdapWizard = {
 	},
 
 	checkBaseDN: function() {
-		host = $('#ldap_host').val();
-		port = $('#ldap_port').val();
-		user = $('#ldap_dn').val();
-		pass = $('#ldap_agent_password').val();
+		var host = $('#ldap_host').val();
+		var port = $('#ldap_port').val();
+		var user = $('#ldap_dn').val();
+		var pass = $('#ldap_agent_password').val();
 
 		//FIXME: determine base dn with anonymous access
 		if(host && port && user && pass) {
-			param = 'action=guessBaseDN'+
+			var param = 'action=guessBaseDN'+
 					'&ldap_serverconfig_chooser='+
 					encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
@@ -276,11 +277,11 @@ var LdapWizard = {
 	},
 
 	checkPort: function() {
-		host = $('#ldap_host').val();
-		port = $('#ldap_port').val();
+		var host = $('#ldap_host').val();
+		var port = $('#ldap_port').val();
 
 		if(host && !port) {
-			param = 'action=guessPortAndTLS'+
+			var param = 'action=guessPortAndTLS'+
 					'&ldap_serverconfig_chooser='+
 					encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
@@ -307,7 +308,7 @@ var LdapWizard = {
 	},
 
 	controlBack: function() {
-		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		var curTabIndex = $('#ldapSettings').tabs('option', 'active');
 		if(curTabIndex == 0) {
 			return;
 		}
@@ -316,7 +317,7 @@ var LdapWizard = {
 	},
 
 	controlContinue: function() {
-		curTabIndex = $('#ldapSettings').tabs('option', 'active');
+		var curTabIndex = $('#ldapSettings').tabs('option', 'active');
 		if(curTabIndex == 3) {
 			return;
 		}
@@ -529,7 +530,7 @@ var LdapWizard = {
 		if(type !== 'User' && type !== 'Group') {
 			return false;
 		}
-		param = 'action=determine'+encodeURIComponent(type)+'ObjectClasses'+
+		var param = 'action=determine'+encodeURIComponent(type)+'ObjectClasses'+
 				'&ldap_serverconfig_chooser='+
 				encodeURIComponent($('#ldap_serverconfig_chooser').val());
 
@@ -571,11 +572,11 @@ var LdapWizard = {
 	functionalityCheck: function() {
 		//criteria to enable the connection:
 		// - host, port, basedn, user filter, login filter
-		host        = $('#ldap_host').val();
-		port        = $('#ldap_port').val();
-		base        = $('#ldap_base').val();
-		userfilter  = $('#ldap_userlist_filter').val();
-		loginfilter = $('#ldap_login_filter').val();
+		var host        = $('#ldap_host').val();
+		var port        = $('#ldap_port').val();
+		var base        = $('#ldap_base').val();
+		var userfilter  = $('#ldap_userlist_filter').val();
+		var loginfilter = $('#ldap_login_filter').val();
 
 		//FIXME: activates a manually deactivated configuration.
 		if(host && port && base && userfilter && loginfilter) {
@@ -619,6 +620,7 @@ var LdapWizard = {
 		LdapWizard.detectorsRunInXPMode = 0;
 		LdapWizard.instantiateFilters();
 		LdapWizard.admin.setExperienced($('#ldap_experienced_admin').is(':checked'));
+		LdapWizard.lastTestSuccessful = true;
 		LdapWizard.basicStatusCheck();
 		LdapWizard.functionalityCheck();
 		LdapWizard.isConfigurationActiveControlLocked = false;
@@ -760,7 +762,19 @@ var LdapWizard = {
 		}
 	},
 
-	processChanges: function(triggerObj) {
+	/**
+	 * allows UserFilter, LoginFilter and GroupFilter to lookup objectClasses
+	 * and similar again. This should be called after essential changes, e.g.
+	 * Host or BaseDN changes, or positive functionality check
+	 *
+	 */
+	allowFilterFeatureSearch: function () {
+		LdapWizard.userFilter.reAllowFeatureLookup();
+		LdapWizard.loginFilter.reAllowFeatureLookup();
+		LdapWizard.groupFilter.reAllowFeatureLookup();
+	},
+
+	processChanges: function (triggerObj) {
 		LdapWizard.hideInfoBox();
 
 		if(triggerObj.id === 'ldap_host'
@@ -771,6 +785,7 @@ var LdapWizard = {
 			if($('#ldap_port').val()) {
 				//if Port is already set, check BaseDN
 				LdapWizard.checkBaseDN();
+				LdapWizard.allowFilterFeatureSearch();
 			}
 		}
 
@@ -804,15 +819,33 @@ var LdapWizard = {
 		LdapWizard._save(inputObj, val);
 	},
 
+	/**
+	 * updates user or group count on multiSelect close. Resets the event
+	 * function subsequently.
+	 *
+	 * @param {LdapFilter} filter
+	 * @param {Object} $multiSelectObj
+	 */
+	onMultiSelectClose: function(filter, $multiSelectObj) {
+		filter.updateCount();
+		$multiSelectObj.multiselect({close: function(){}});
+	},
+
 	saveMultiSelect: function(originalObj, resultObj) {
-		values = '';
-		for(i = 0; i < resultObj.length; i++) {
+		var values = '';
+		for(var i = 0; i < resultObj.length; i++) {
 			values = values + "\n" + resultObj[i].value;
 		}
 		LdapWizard._save($('#'+originalObj)[0], $.trim(values));
+		var $multiSelectObj = $('#'+originalObj);
+		var updateCount = !$multiSelectObj.multiselect("isOpen");
+		var applyUpdateOnCloseToFilter;
 		if(originalObj === 'ldap_userfilter_objectclass'
 		   || originalObj === 'ldap_userfilter_groups') {
-			LdapWizard.userFilter.compose(true);
+			LdapWizard.userFilter.compose(updateCount);
+			if(!updateCount) {
+				applyUpdateOnCloseToFilter = LdapWizard.userFilter;
+			}
 			//when user filter is changed afterwards, login filter needs to
 			//be adjusted, too
 			if(!LdapWizard.loginFilter) {
@@ -823,7 +856,19 @@ var LdapWizard = {
 			LdapWizard.loginFilter.compose();
 		} else if(originalObj === 'ldap_groupfilter_objectclass'
 		   || originalObj === 'ldap_groupfilter_groups') {
-			LdapWizard.groupFilter.compose(true);
+			LdapWizard.groupFilter.compose(updateCount);
+			if(!updateCount) {
+				applyUpdateOnCloseToFilter = LdapWizard.groupFilter;
+			}
+		}
+
+		if(applyUpdateOnCloseToFilter instanceof LdapFilter) {
+			$multiSelectObj.multiselect({
+				close: function () {
+					LdapWizard.onMultiSelectClose(
+						applyUpdateOnCloseToFilter, $multiSelectObj);
+				}
+			});
 		}
 	},
 
@@ -1002,6 +1047,10 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').addClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').removeClass('error');
 					$('.ldap_config_state_indicator_sign').addClass('success');
+					if(!LdapWizard.lastTestSuccessful) {
+						LdapWizard.lastTestSuccessful = true;
+						LdapWizard.allowFilterFeatureSearch();
+					}
 				},
 				//onError
 				function(result) {
@@ -1011,6 +1060,7 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').removeClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').addClass('error');
 					$('.ldap_config_state_indicator_sign').removeClass('success');
+					LdapWizard.lastTestSuccessful = false;
 				}
 			);
 		} else {

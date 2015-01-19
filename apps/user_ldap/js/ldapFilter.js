@@ -19,6 +19,8 @@ function LdapFilter(target, determineModeCallback) {
 
 LdapFilter.prototype.activate = function() {
 	if(this.activated) {
+		// might be necessary, if configuration changes happened.
+		this.findFeatures();
 		return;
 	}
 	this.activated = true;
@@ -70,14 +72,6 @@ LdapFilter.prototype.compose = function(updateCount) {
 };
 
 /**
- * this function is triggered after attribute detectors have completed in
- * LdapWizard
- */
-LdapFilter.prototype.afterDetectorsRan = function() {
-	this.updateCount();
-};
-
-/**
  * this function is triggered after LDAP filters have been composed successfully
  * @param {object} result returned by the ajax call
  */
@@ -99,11 +93,15 @@ LdapFilter.prototype.determineMode = function() {
 		function(result) {
 			var property = 'ldap' + filter.target + 'FilterMode';
 			filter.mode = parseInt(result.changes[property], 10);
-			if(filter.mode === LdapWizard.filterModeRaw &&
-				$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+			var rawContainerIsInvisible =
+				$('#raw'+filter.target+'FilterContainer').hasClass('invisible');
+			if (   filter.mode === LdapWizard.filterModeRaw
+				&& rawContainerIsInvisible
+			) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
-			} else if(filter.mode === LdapWizard.filterModeAssisted &&
-				!$('#raw'+filter.target+'FilterContainer').hasClass('invisible')) {
+			} else if (    filter.mode === LdapWizard.filterModeAssisted
+						&& !rawContainerIsInvisible
+			) {
 				LdapWizard['toggleRaw'+filter.target+'Filter']();
 			} else {
 				console.log('LDAP Wizard determineMode: returned mode was »' +
@@ -142,8 +140,15 @@ LdapFilter.prototype.unlock = function() {
 	}
 };
 
+/**
+ * resets this.foundFeatures so that LDAP queries can be fired again to retrieve
+ * objectClasses, groups, etc.
+ */
+LdapFilter.prototype.reAllowFeatureLookup = function () {
+	this.foundFeatures = false;
+};
+
 LdapFilter.prototype.findFeatures = function() {
-	//TODO: reset this.foundFeatures when any base DN changes
 	if(!this.foundFeatures && !this.locked && this.mode === LdapWizard.filterModeAssisted) {
 		this.foundFeatures = true;
 		var objcEl, avgrEl;
@@ -167,7 +172,6 @@ LdapFilter.prototype.findFeatures = function() {
 /**
  * this function is triggered before user and group counts are executed
  * resolving the passed status variable will fire up counting
- * @param {object} status an instance of $.Deferred
  */
 LdapFilter.prototype.beforeUpdateCount = function() {
 	var status = $.Deferred();

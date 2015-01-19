@@ -25,7 +25,7 @@ function ExperiencedAdmin(wizard, initialState) {
 /**
  * toggles whether the admin is an experienced one or not
  *
- * @param {boolean} whether the admin is experienced or not
+ * @param {boolean} isExperienced whether the admin is experienced or not
  */
 ExperiencedAdmin.prototype.setExperienced = function(isExperienced) {
 	this._isExperienced = isExperienced;
