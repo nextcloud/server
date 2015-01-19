@@ -87,7 +87,7 @@ $forms = OC_App::getForms('admin');
 $l = OC_L10N::get('settings');
 $formsAndMore = array();
 if (OC_Request::serverProtocol() !== 'https' || !OC_Util::isAnnotationsWorking() ||
-	$suggestedOverwriteWebRoot || !OC_Util::isSetLocaleWorking() || !OC_Util::isPhpCharSetUtf8() ||
+	$suggestedOverwriteCliUrl || !OC_Util::isSetLocaleWorking() || !OC_Util::isPhpCharSetUtf8() ||
 	!OC_Util::fileInfoLoaded() || $databaseOverload
 ) {
 	$formsAndMore[] = array('anchor' => 'security-warning', 'section-name' => $l->t('Security & Setup Warnings'));
