@@ -130,6 +130,7 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->container['GroupManager']
 			->expects($this->once())
 			->method('displayNamesInGroup')
+			->with('gid', 'pattern')
 			->will($this->returnValue(array('foo' => 'M. Foo', 'admin' => 'S. Admin', 'bar' => 'B. Ar')));
 		$this->container['GroupManager']
 			->expects($this->exactly(3))
@@ -197,6 +198,132 @@ class UsersControllerTest extends \Test\TestCase {
 		$response = $this->usersController->index(0, 10, 'gid', 'pattern');
 		$this->assertEquals($expectedResponse, $response);
 	}
+
+	/**
+	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
+	 * to test for subadmins. Thus the test always assumes you have admin permissions...
+	 */
+	public function testIndexWithSearch() {
+		$foo = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$foo
+			->expects($this->exactly(4))
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$foo
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('M. Foo'));
+		$foo
+			->method('getLastLogin')
+			->will($this->returnValue(500));
+		$foo
+			->method('getHome')
+			->will($this->returnValue('/home/foo'));
+		$foo
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Database'));
+		$admin = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$admin
+			->expects($this->exactly(4))
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$admin
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('S. Admin'));
+		$admin
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(12));
+		$admin
+			->expects($this->once())
+			->method('getHome')
+			->will($this->returnValue('/home/admin'));
+		$admin
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Dummy'));
+		$bar = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$bar
+			->expects($this->exactly(4))
+			->method('getUID')
+			->will($this->returnValue('bar'));
+		$bar
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('B. Ar'));
+		$bar
+			->method('getLastLogin')
+			->will($this->returnValue(3999));
+		$bar
+			->method('getHome')
+			->will($this->returnValue('/home/bar'));
+		$bar
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Dummy'));
+
+		$this->container['UserManager']
+			->expects($this->once())
+			->method('search')
+			->with('pattern', 10, 0)
+			->will($this->returnValue([$foo, $admin, $bar]));
+		$this->container['GroupManager']
+			->expects($this->exactly(3))
+			->method('getUserGroupIds')
+			->will($this->onConsecutiveCalls(array('Users', 'Support'), array('admins', 'Support'), array('External Users')));
+		$this->container['Config']
+			->expects($this->exactly(6))
+			->method('getUserValue')
+			->will($this->onConsecutiveCalls(1024, 'foo@bar.com',
+				404, 'admin@bar.com',
+				2323, 'bar@dummy.com'));
+
+		$expectedResponse = new DataResponse(
+			array(
+				0 => array(
+					'name' => 'foo',
+					'displayname' => 'M. Foo',
+					'groups' => array('Users', 'Support'),
+					'subadmin' => array(),
+					'quota' => 1024,
+					'storageLocation' => '/home/foo',
+					'lastLogin' => 500,
+					'backend' => 'OC_User_Database',
+					'email' => 'foo@bar.com'
+				),
+				1 => array(
+					'name' => 'admin',
+					'displayname' => 'S. Admin',
+					'groups' => array('admins', 'Support'),
+					'subadmin' => array(),
+					'quota' => 404,
+					'storageLocation' => '/home/admin',
+					'lastLogin' => 12,
+					'backend' => 'OC_User_Dummy',
+					'email' => 'admin@bar.com'
+				),
+				2 => array(
+					'name' => 'bar',
+					'displayname' => 'B. Ar',
+					'groups' => array('External Users'),
+					'subadmin' => array(),
+					'quota' => 2323,
+					'storageLocation' => '/home/bar',
+					'lastLogin' => 3999,
+					'backend' => 'OC_User_Dummy',
+					'email' => 'bar@dummy.com'
+				),
+			)
+		);
+		$response = $this->usersController->index(0, 10, '', 'pattern');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 
 	public function testIndexWithBackend() {
 		$user = $this->getMockBuilder('\OC\User\User')
