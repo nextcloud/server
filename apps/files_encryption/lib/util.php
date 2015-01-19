@@ -279,6 +279,10 @@ class Util {
 				while (false !== ($file = readdir($handle))) {
 
 					if ($file !== "." && $file !== "..") {
+						// skip stray part files
+						if (Helper::isPartialFilePath($file)) {
+							continue;
+						}
 
 						$filePath = $directory . '/' . $this->view->getRelativePath('/' . $file);
 						$relPath = Helper::stripUserFilesPath($filePath);
