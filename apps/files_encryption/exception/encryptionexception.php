@@ -40,7 +40,7 @@ namespace OCA\Files_Encryption\Exception;
 class EncryptionException extends \Exception {
 	const GENERIC = 10;
 	const UNEXPECTED_END_OF_ENCRYPTION_HEADER = 20;
-	const UNEXPECTED_BLOG_SIZE = 30;
+	const UNEXPECTED_BLOCK_SIZE = 30;
 	const ENCRYPTION_HEADER_TO_LARGE = 40;
 	const UNKNOWN_CIPHER = 50;
 	const ENCRYPTION_FAILED = 60;

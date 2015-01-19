@@ -260,7 +260,7 @@ class Stream {
 
 		if ($count !== Crypt::BLOCKSIZE) {
 			\OCP\Util::writeLog('Encryption library', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL);
-			throw new EncryptionException('expected a blog size of 8192 byte', EncryptionException::UNEXPECTED_BLOG_SIZE);
+			throw new EncryptionException('expected a block size of 8192 byte', EncryptionException::UNEXPECTED_BLOCK_SIZE);
 		}
 
 		// Get the data from the file handle
