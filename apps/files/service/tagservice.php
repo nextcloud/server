@@ -8,6 +8,8 @@
 
 namespace OCA\Files\Service;
 
+use OC\Files\FileInfo;
+
 /**
  * Service class to manage tags on files.
  */
@@ -84,11 +86,19 @@ class TagService {
 		$nodes = $this->homeFolder->searchByTag(
 			$tagName, $this->userSession->getUser()->getUId()
 		);
-		foreach ($nodes as &$node) {
-			$node = $node->getFileInfo();
+		$fileInfos = [];
+		foreach ($nodes as $node) {
+			try {
+				/** @var \OC\Files\Node\Node $node */
+				$fileInfos[] = $node->getFileInfo();
+			} catch (\Exception $e) {
+				// FIXME Should notify the user, when this happens
+				// Can not get FileInfo, maybe the connection to the external
+				// storage is interrupted.
+			}
 		}
 
-		return $nodes;
+		return $fileInfos;
 	}
 }
 
