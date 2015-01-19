@@ -60,8 +60,9 @@ class Server2Server {
 					\OC::$server->getDatabaseConnection(),
 					\OC\Files\Filesystem::getMountManager(),
 					\OC\Files\Filesystem::getLoader(),
-					\OC::$server->getUserSession(),
-					\OC::$server->getHTTPHelper());
+					\OC::$server->getHTTPHelper(),
+					$shareWith
+				);
 
 			$name = \OCP\Files::buildNotExistingFileName('/', $name);
 

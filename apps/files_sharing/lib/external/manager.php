@@ -14,6 +14,11 @@ class Manager {
 	const STORAGE = '\OCA\Files_Sharing\External\Storage';
 
 	/**
+	 * @var string
+	 */
+	private $uid;
+
+	/**
 	 * @var \OCP\IDBConnection
 	 */
 	private $connection;
@@ -29,11 +34,6 @@ class Manager {
 	private $storageLoader;
 
 	/**
-	 * @var \OC\User\Session
-	 */
-	private $userSession;
-
-	/**
 	 * @var \OC\HTTPHelper
 	 */
 	private $httpHelper;
@@ -41,21 +41,21 @@ class Manager {
 	/**
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
-	 * @param \OC\User\Session $userSession
 	 * @param \OC\Files\Storage\StorageFactory $storageLoader
+	 * @param string $uid
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
-								\OC\Files\Storage\StorageFactory $storageLoader, \OC\User\Session $userSession, \OC\HTTPHelper $httpHelper) {
+								\OC\Files\Storage\StorageFactory $storageLoader, \OC\HTTPHelper $httpHelper, $uid) {
 		$this->connection = $connection;
 		$this->mountManager = $mountManager;
-		$this->userSession = $userSession;
 		$this->storageLoader = $storageLoader;
 		$this->httpHelper = $httpHelper;
+		$this->uid = $uid;
 	}
 
 	public function addShare($remote, $token, $password, $name, $owner, $accepted=false, $user = null, $remoteId = -1) {
 
-		$user = $user ? $user: $this->userSession->getUser()->getUID();
+		$user = $user ? $user : $this->uid;
 		$accepted = $accepted ? 1 : 0;
 
 		$mountPoint = Filesystem::normalizePath('/' . $name);
@@ -86,14 +86,13 @@ class Manager {
 			return false;
 		}
 
-		$user = $this->userSession->getUser();
-		if ($user) {
+		if (!is_null($this->uid)) {
 			$query = $this->connection->prepare('
 				SELECT `remote`, `share_token`, `password`, `mountpoint`, `owner`
 				FROM `*PREFIX*share_external`
 				WHERE `user` = ? AND `accepted` = ?
 			');
-			$query->execute(array($user->getUID(), 1));
+			$query->execute(array($this->uid, 1));
 
 			while ($row = $query->fetch()) {
 				$row['manager'] = $this;
@@ -114,7 +113,7 @@ class Manager {
 			SELECT `remote`, `share_token`
 			FROM  `*PREFIX*share_external`
 			WHERE `id` = ? AND `user` = ?');
-		$result = $getShare->execute(array($id,  $this->userSession->getUser()->getUID()));
+		$result = $getShare->execute(array($id, $this->uid));
 
 		return $result ? $getShare->fetch() : false;
 	}
@@ -133,7 +132,7 @@ class Manager {
 				UPDATE `*PREFIX*share_external`
 				SET `accepted` = ?
 				WHERE `id` = ? AND `user` = ?');
-			$acceptShare->execute(array(1, $id,  $this->userSession->getUser()->getUID()));
+			$acceptShare->execute(array(1, $id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'accept');
 		}
 	}
@@ -150,7 +149,7 @@ class Manager {
 		if ($share) {
 			$removeShare = $this->connection->prepare('
 				DELETE FROM `*PREFIX*share_external` WHERE `id` = ? AND `user` = ?');
-			$removeShare->execute(array($id, $this->userSession->getUser()->getUID()));
+			$removeShare->execute(array($id, $this->uid));
 			$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $id, 'decline');
 		}
 	}
@@ -175,19 +174,20 @@ class Manager {
 		return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
 	}
 
-	public static function setup() {
+	public static function setup($params) {
 		$externalManager = new \OCA\Files_Sharing\External\Manager(
 				\OC::$server->getDatabaseConnection(),
 				\OC\Files\Filesystem::getMountManager(),
 				\OC\Files\Filesystem::getLoader(),
-				\OC::$server->getUserSession(),
-				\OC::$server->getHTTPHelper()
+				\OC::$server->getHTTPHelper(),
+				$params['user']
 		);
+
 		$externalManager->setupMounts();
 	}
 
 	protected function stripPath($path) {
-		$prefix = '/' . $this->userSession->getUser()->getUID() . '/files';
+		$prefix = '/' . $this->uid . '/files';
 		return rtrim(substr($path, strlen($prefix)), '/');
 	}
 
@@ -196,11 +196,10 @@ class Manager {
 	 * @return Mount
 	 */
 	protected function mountShare($data) {
-		$user = $this->userSession->getUser();
 		$data['manager'] = $this;
-		$mountPoint = '/' . $user->getUID() . '/files' . $data['mountpoint'];
+		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = \OC::$server->getCertificateManager($user);
+		$data['certificateManager'] = \OC::$server->getCertificateManager(\OC::$server->getUserSession()->getUser());
 		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 		$this->mountManager->addMount($mount);
 		return $mount;
@@ -219,7 +218,6 @@ class Manager {
 	 * @return bool
 	 */
 	public function setMountPoint($source, $target) {
-		$user = $this->userSession->getUser();
 		$source = $this->stripPath($source);
 		$target = $this->stripPath($target);
 		$sourceHash = md5($source);
@@ -231,13 +229,12 @@ class Manager {
 			WHERE `mountpoint_hash` = ?
 			AND `user` = ?
 		');
-		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash, $user->getUID()));
+		$result = (bool)$query->execute(array($target, $targetHash, $sourceHash, $this->uid));
 
 		return $result;
 	}
 
 	public function removeShare($mountPoint) {
-		$user = $this->userSession->getUser();
 		$mountPoint = $this->stripPath($mountPoint);
 		$hash = md5($mountPoint);
 
@@ -245,7 +242,7 @@ class Manager {
 			SELECT `remote`, `share_token`, `remote_id`
 			FROM  `*PREFIX*share_external`
 			WHERE `mountpoint_hash` = ? AND `user` = ?');
-		$result = $getShare->execute(array($hash, $user->getUID()));
+		$result = $getShare->execute(array($hash, $this->uid));
 
 		if ($result) {
 			$share = $getShare->fetch();
@@ -257,7 +254,7 @@ class Manager {
 			WHERE `mountpoint_hash` = ?
 			AND `user` = ?
 		');
-		return (bool)$query->execute(array($hash, $user->getUID()));
+		return (bool)$query->execute(array($hash, $this->uid));
 	}
 
 	/**
@@ -294,7 +291,7 @@ class Manager {
 	 */
 	public function getOpenShares() {
 		$openShares = $this->connection->prepare('SELECT * FROM `*PREFIX*share_external` WHERE `accepted` = ? AND `user` = ?');
-		$result = $openShares->execute(array(0, $this->userSession->getUser()->getUID()));
+		$result = $openShares->execute(array(0, $this->uid));
 
 		return $result ? $openShares->fetchAll() : array();
 

@@ -69,12 +69,14 @@ class Application extends App {
 			return Helper::isIncomingServer2serverShareEnabled();
 		});
 		$container->registerService('ExternalManager', function(SimpleContainer $c) use ($server){
+			$user = $server->getUserSession()->getUser();
+			$uid = $user ? $user->getUID() : null;
 			return new \OCA\Files_Sharing\External\Manager(
 					$server->getDatabaseConnection(),
 					\OC\Files\Filesystem::getMountManager(),
 					\OC\Files\Filesystem::getLoader(),
-					$server->getUserSession(),
-					$server->getHTTPHelper()
+					$server->getHTTPHelper(),
+					$uid
 			);
 		});
 

@@ -142,7 +142,6 @@ class ShareController extends Controller {
 			return new TemplateResponse('core', '404', array(), 'guest');
 		}
 
-		$linkItem = OCP\Share::getShareByToken($token, false);
 		$shareOwner = $linkItem['uid_owner'];
 		$originalSharePath = null;
 		$rootLinkItem = OCP\Share::resolveReShare($linkItem);
