@@ -55,6 +55,7 @@ class OC_Connector_Sabre_Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 			$this->isDavAuthenticated($username)
 		) {
 			OC_Util::setupFS(OC_User::getUser());
+			\OC::$server->getSession()->close();
 			return true;
 		} else {
 			OC_Util::setUpFS(); //login hooks may need early access to the filesystem
