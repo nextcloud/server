@@ -404,7 +404,6 @@ var UserList = {
 						return true;
 					}
 					var $tr = UserList.add(user, user.lastLogin, false, user.backend);
-					$tr.addClass('appear transparent');
 					trs.push($tr);
 					loadedUsers++;
 				});
@@ -419,12 +418,6 @@ var UserList = {
 					$userList.siblings('.loading').remove();
 				}
 				UserList.offset += loadedUsers;
-				// animate
-				setTimeout(function() {
-					for (var i = 0; i < trs.length; i++) {
-						trs[i].removeClass('transparent');
-					}
-				}, 0);
 			}).always(function() {
 				UserList.updating = false;
 			});
