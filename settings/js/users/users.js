@@ -12,7 +12,7 @@ var filter;
 
 var UserList = {
 	availableGroups: [],
-	offset: 30, //The first 30 users are there. No prob, if less in total.
+	offset: 50, //The first 30 users are there. No prob, if less in total.
 				//hardcoded in settings/users.php
 
 	usersToLoad: 10, //So many users will be loaded when user scrolls down
@@ -215,11 +215,11 @@ var UserList = {
 		}
 	},
 	checkUsersToLoad: function() {
-		//30 shall be loaded initially, from then on always 10 upon scrolling
+		//50 shall be loaded initially, from then on always 10 upon scrolling
 		if(UserList.isEmpty === false) {
 			UserList.usersToLoad = 10;
 		} else {
-			UserList.usersToLoad = 30;
+			UserList.usersToLoad = 50;
 		}
 	},
 	empty: function() {
