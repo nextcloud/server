@@ -117,21 +117,21 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($user2View->file_exists($this->folder));
 
 		// create part file
-		$result = $user2View->file_put_contents($this->folder. '/foo.txt.part', 'some test data');
+		$result = $user2View->file_put_contents($this->folder . '/foo.txt.part', 'some test data');
 
 		$this->assertTrue(is_int($result));
 		// rename part file to real file
-		$result = $user2View->rename($this->folder. '/foo.txt.part', $this->folder. '/foo.txt');
+		$result = $user2View->rename($this->folder . '/foo.txt.part', $this->folder . '/foo.txt');
 
 		$this->assertTrue($result);
 
 		// check if the new file really exists
-		$this->assertTrue($user2View->file_exists( $this->folder. '/foo.txt'));
+		$this->assertTrue($user2View->file_exists($this->folder . '/foo.txt'));
 
 		// check if the rename also affected the owner
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 
-		$this->assertTrue($this->view->file_exists( $this->folder. '/foo.txt'));
+		$this->assertTrue($this->view->file_exists($this->folder . '/foo.txt'));
 
 		//cleanup
 		\OCP\Share::unshare('folder', $fileinfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -144,7 +144,7 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$fileinfoFile = $this->view->getFileInfo($this->filename);
 
 		$folderSize = $this->view->filesize($this->folder);
-		$file1Size = $this->view->filesize($this->folder. $this->filename);
+		$file1Size = $this->view->filesize($this->folder . $this->filename);
 		$file2Size = $this->view->filesize($this->filename);
 
 		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
@@ -373,11 +373,63 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER3 . '/files/' . $this->filename));
 
 		// make sure we didn't double setup shares for user 2 or mounted the shares for user 3 in user's 2 home
-		$this->assertFalse($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->folder .' (2)'));
+		$this->assertFalse($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->folder . ' (2)'));
 		$this->assertFalse($rootView->file_exists('/' . self::TEST_FILES_SHARING_API_USER2 . '/files/' . $this->filename));
 
 		//cleanup
 		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
 		$this->view->unlink($this->folder);
+	}
+
+	public function testCopyFromStorage() {
+		$folderInfo = $this->view->getFileInfo($this->folder);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		// share 2 different files with 2 different users
+		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->assertTrue($view->file_exists($this->folder));
+
+		/**
+		 * @var \OCP\Files\Storage $sharedStorage
+		 */
+		list($sharedStorage,) = $view->resolvePath($this->folder);
+		$this->assertInstanceOf('OCA\Files_Sharing\ISharedStorage', $sharedStorage);
+
+		$sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$sourceStorage->file_put_contents('foo.txt', 'asd');
+
+		$sharedStorage->copyFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
+		$this->assertTrue($sharedStorage->file_exists('bar.txt'));
+		$this->assertEquals('asd', $sharedStorage->file_get_contents('bar.txt'));
+	}
+
+	public function testMoveFromStorage() {
+		$folderInfo = $this->view->getFileInfo($this->folder);
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+
+		// share 2 different files with 2 different users
+		\OCP\Share::shareItem('folder', $folderInfo['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, 31);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$view = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+		$this->assertTrue($view->file_exists($this->folder));
+
+		/**
+		 * @var \OCP\Files\Storage $sharedStorage
+		 */
+		list($sharedStorage,) = $view->resolvePath($this->folder);
+		$this->assertInstanceOf('OCA\Files_Sharing\ISharedStorage', $sharedStorage);
+
+		$sourceStorage = new \OC\Files\Storage\Temporary(array());
+		$sourceStorage->file_put_contents('foo.txt', 'asd');
+
+		$sharedStorage->moveFromStorage($sourceStorage, 'foo.txt', 'bar.txt');
+		$this->assertTrue($sharedStorage->file_exists('bar.txt'));
+		$this->assertEquals('asd', $sharedStorage->file_get_contents('bar.txt'));
 	}
 }
