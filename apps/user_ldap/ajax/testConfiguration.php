@@ -38,8 +38,19 @@ if($connection->setConfiguration($_POST)) {
 		OCP\JSON::success(array('message'
 			=> $l->t('The configuration is valid and the connection could be established!')));
 	} else {
-		OCP\JSON::error(array('message'
-			=> $l->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')));
+		$envVar = new \OCA\user_ldap\lib\EnvVariable('LDAPTLS_REQCERT');
+		$envVar->set('never');
+		if(!$connection->bind()) {
+			OCP\JSON::error(array('message'
+				=> $l->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')));
+		} else {
+			OCP\JSON::success(array(
+				'message'
+					=> $l->t('The configuration is valid and the connection could be established!'),
+				'hint'
+					=> $l->t('You need to import the LDAP SSL certificate on your server')
+			));
+		}
 	}
 } else {
 	OCP\JSON::error(array('message'

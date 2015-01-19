@@ -105,7 +105,7 @@ var LdapConfiguration = {
 
 	testConfiguration: function(onSuccess, onError) {
 		$.post(
-			OC.filePath('user_ldap','ajax','testConfiguration.php'),
+			OC.generateUrl('/apps/user_ldap/ajax/testConfiguration.php'),
 			$('#ldap').serialize(),
 			function (result) {
 				if (result.status === 'success') {
@@ -995,6 +995,9 @@ var LdapWizard = {
 		if(isComplete) {
 			LdapConfiguration.testConfiguration(
 				//onSuccess
+				/**
+				 * @param {object} result
+				 */
 				function(result) {
 					$('.ldap_config_state_indicator').text(t('user_ldap',
 						'Configuration OK'
@@ -1002,6 +1005,9 @@ var LdapWizard = {
 					$('.ldap_config_state_indicator').addClass('ldap_grey');
 					$('.ldap_config_state_indicator_sign').removeClass('error');
 					$('.ldap_config_state_indicator_sign').addClass('success');
+					if(!_.isUndefined(result.hint)) {
+						OC.Notification.showTemporary(result.hint);
+					}
 				},
 				//onError
 				function(result) {

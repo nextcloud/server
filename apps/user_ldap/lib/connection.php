@@ -560,9 +560,15 @@ class Connection extends LDAPUtility {
 		}
 		$this->ldapConnectionRes = $this->ldap->connect($host, $port);
 		if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			file_put_contents('/tmp/starttls', "." . PHP_EOL, FILE_APPEND);
 			if($this->ldap->setOption($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-				if($this->configuration->ldapTLS) {
-					$this->ldap->startTls($this->ldapConnectionRes);
+				file_put_contents('/tmp/starttls', "." . PHP_EOL, FILE_APPEND);
+				if($this->configuration->ldapTLS || true) {
+					$res = $this->ldap->startTls($this->ldapConnectionRes);
+					file_put_contents('/tmp/starttls', print_r($res, true) . PHP_EOL, FILE_APPEND);
+				} else {
+					$v = $this->configuration->ldapTLS;
+					file_put_contents('/tmp/starttls', print_r($v, true) . PHP_EOL, FILE_APPEND);
 				}
 			}
 		}
