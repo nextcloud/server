@@ -773,7 +773,6 @@ $(document).ready(function () {
 			return false;
 		}
 		var groups = $('#newusergroups').val() || [];
-		$('#newuser').get(0).reset();
 		$.post(
 			OC.generateUrl('/settings/users/users'),
 			{
@@ -801,6 +800,8 @@ $(document).ready(function () {
 				GroupList.incEveryoneCount();
 			}).fail(function(result, textStatus, errorThrown) {
 				OC.dialogs.alert(result.responseJSON.message, t('settings', 'Error creating user'));
+			}).success(function(){
+				$('#newuser').get(0).reset();
 			});
 	});
 
