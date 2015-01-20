@@ -8,6 +8,7 @@
 
 namespace OC\Files\Storage;
 
+use OCP\Files\StorageInvalidException;
 use OCP\Files\StorageNotAvailableException;
 use Sabre\DAV\Exception;
 
@@ -125,6 +126,8 @@ class DAV extends \OC\Files\Storage\Common {
 			return opendir('fakedir://' . $id);
 		} catch (Exception\NotFound $e) {
 			return false;
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -144,6 +147,8 @@ class DAV extends \OC\Files\Storage\Common {
 			return (count($responseType) > 0 and $responseType[0] == "{DAV:}collection") ? 'dir' : 'file';
 		} catch (Exception\NotFound $e) {
 			return false;
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -159,6 +164,8 @@ class DAV extends \OC\Files\Storage\Common {
 			return true; //no 404 exception
 		} catch (Exception\NotFound $e) {
 			return false;
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -275,6 +282,8 @@ class DAV extends \OC\Files\Storage\Common {
 				$this->client->proppatch($this->encodePath($path), array('{DAV:}lastmodified' => $mtime));
 			} catch (Exception\NotImplemented $e) {
 				return false;
+			} catch (\Sabre\DAV\Exception $e) {
+				$this->convertSabreException($e);
 			} catch (\Exception $e) {
 				// TODO: log for now, but in the future need to wrap/rethrow exception
 				\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -326,6 +335,8 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->removeCachedFile($path1);
 			$this->removeCachedFile($path2);
 			return true;
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -341,6 +352,8 @@ class DAV extends \OC\Files\Storage\Common {
 			$this->client->request('COPY', $path1, null, array('Destination' => $path2));
 			$this->removeCachedFile($path2);
 			return true;
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -359,6 +372,8 @@ class DAV extends \OC\Files\Storage\Common {
 			);
 		} catch (Exception\NotFound $e) {
 			return array();
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -383,6 +398,8 @@ class DAV extends \OC\Files\Storage\Common {
 			} else {
 				return false;
 			}
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -423,6 +440,8 @@ class DAV extends \OC\Files\Storage\Common {
 		try {
 			$response = $this->client->request($method, $this->encodePath($path), $body);
 			return $response['statusCode'] == $expected;
+		} catch (\Sabre\DAV\Exception $e) {
+			$this->convertSabreException($e);
 		} catch (\Exception $e) {
 			// TODO: log for now, but in the future need to wrap/rethrow exception
 			\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
@@ -529,8 +548,28 @@ class DAV extends \OC\Files\Storage\Common {
 		} catch (Exception\NotFound $e) {
 			return false;
 		} catch (Exception $e) {
-			throw new StorageNotAvailableException(get_class($e).": ".$e->getMessage());
+			$this->convertSabreException($e);
 		}
+	}
+
+	/**
+	 * Convert sabre DAV exception to a storage exception,
+	 * then throw it
+	 *
+	 * @param \Sabre\Dav\Exception $e sabre exception
+	 * @throws StorageInvalidException if the storage is invalid, for example
+	 * when the authentication expired or is invalid
+	 * @throws StorageNotAvailableException if the storage is not available,
+	 * which might be temporary
+	 */
+	private function convertSabreException(\Sabre\Dav\Exception $e) {
+		\OCP\Util::writeLog('files_external', $e->getMessage(), \OCP\Util::ERROR);
+		if ($e instanceof \Sabre\DAV\Exception\NotAuthenticated) {
+			// either password was changed or was invalid all along
+			throw new StorageInvalidException(get_class($e).': '.$e->getMessage());
+		}
+
+		throw new StorageNotAvailableException(get_class($e).': '.$e->getMessage());
 	}
 }
 
