@@ -22,6 +22,12 @@ abstract class Cache extends \Test_Cache {
 		$this->assertEquals('bar', $this->instance->get('foo'));
 	}
 
+	public function testGetArrayAfterSet() {
+		$this->assertNull($this->instance->get('foo'));
+		$this->instance->set('foo', ['bar']);
+		$this->assertEquals(['bar'], $this->instance->get('foo'));
+	}
+
 	public function testDoesNotExistAfterRemove() {
 		$this->instance->set('foo', 'bar');
 		$this->instance->remove('foo');
