@@ -254,6 +254,7 @@ OC.L10N.register(
     "Group Admin for" : "Administrateur de groupe pour",
     "Quota" : "Quota",
     "Storage Location" : "Emplacement du Stockage",
+    "User Backend" : "Source",
     "Last Login" : "Dernière Connexion",
     "change full name" : "Modifier le nom complet",
     "set new password" : "Changer le mot de passe",

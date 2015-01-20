@@ -1,6 +1,7 @@
 OC.L10N.register(
     "settings",
     {
+    "Security & Setup Warnings" : "Upozorenja o sigurnosti i postavkama",
     "Cron" : "Cron",
     "Sharing" : "Dijeljenje zajedničkih resursa",
     "Security" : "Sigurnost",
@@ -30,6 +31,7 @@ OC.L10N.register(
     "Back-end doesn't support password change, but the users encryption key was successfully updated." : "Pozadina ne podržava promjenu lozinke, ali korisnički ključ za šifriranje je uspješno ažuriran.",
     "Unable to change password" : "Promjena lozinke nije moguća",
     "Enabled" : "Aktivirano",
+    "Recommended" : "Preporuceno",
     "Saved" : "Spremljeno",
     "test email settings" : "Postavke za testiranje e-pošte",
     "If you received this email, the settings seem to be correct." : "Ako ste ovu e-poštu primili,čini se da su postavke ispravne.",

@@ -19,6 +19,7 @@ OC.L10N.register(
     "This share is password-protected" : "Ez egy jelszóval védett megosztás",
     "The password is wrong. Try again." : "A megadott jelszó nem megfelelő. Próbálja újra!",
     "Password" : "Jelszó",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
     "Name" : "Név",
     "Share time" : "A megosztás időpontja",
     "Sorry, this link doesn’t seem to work anymore." : "Sajnos úgy tűnik, ez a link már nem működik.",

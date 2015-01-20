@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Trajno izbrišite",
     "Error" : "Pogreška",
     "restored" : "Obnovljeno",
+    "No entries found in this folder" : "Zapis nije pronadjen u ovom direktorijumu ",
+    "Select all" : "Selektiraj sve",
     "Name" : "Naziv",
     "Deleted" : "Izbrisano",
     "Delete" : "Izbrišite"

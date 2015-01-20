@@ -18,6 +18,7 @@ OC.L10N.register(
     "This share is password-protected" : "Ovaj zajednički resurs je zaštićen lozinkom",
     "The password is wrong. Try again." : "Pogrešna lozinka. Pokušajte ponovno.",
     "Password" : "Lozinka",
+    "No entries found in this folder" : "Zapis nije pronadjen u ovom direktorijumu ",
     "Name" : "Naziv",
     "Share time" : "Vrijeme dijeljenja",
     "Sorry, this link doesn’t seem to work anymore." : "Žao nam je, čini se da ova veza više ne radi.",

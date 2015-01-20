@@ -1,6 +1,7 @@
 OC.L10N.register(
     "user_ldap",
     {
+    "Failed to delete the server configuration" : "Greška prilikom brisanja konfiguracije poslužitelja.",
     "Deletion failed" : "Brisanje nije uspjelo",
     "Error" : "Greška",
     "_%s group found_::_%s groups found_" : ["","",""],

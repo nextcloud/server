@@ -8,6 +8,7 @@ OC.L10N.register(
     "Delete permanently" : "Végleges törlés",
     "Error" : "Hiba",
     "restored" : "visszaállítva",
+    "No entries found in this folder" : "Nincsenek bejegyzések ebben a könyvtárban",
     "Select all" : "Összes kijelölése",
     "Name" : "Név",
     "Deleted" : "Törölve",
