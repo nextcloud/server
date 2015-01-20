@@ -106,7 +106,7 @@ if($_['displayNameChangeSupported']) {
 ?>
 <div class="section">
 	<h2><?php echo $l->t('Full Name');?></h2>
-	<span><?php p($_['displayName'])?></span>
+	<span><?php if(isset($_['displayName'][0])) { p($_['displayName']); } else { p($l->t('No display name set')); } ?></span>
 </div>
 <?php
 }
@@ -130,7 +130,7 @@ if($_['passwordChangeSupported']) {
 ?>
 <div class="section">
 	<h2><?php echo $l->t('Email'); ?></h2>
-	<span><?php if($_['email']) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
+	<span><?php if(isset($_['email'][0])) { p($_['email']); } else { p($l->t('No email address set')); }?></span>
 </div>
 <?php
 }
