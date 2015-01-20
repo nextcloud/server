@@ -146,75 +146,88 @@ class RepairLegacyStorages extends BasicEmitter {
 
 		$this->connection->beginTransaction();
 
-		try {
-			// note: not doing a direct UPDATE with the REPLACE function
-			// because regexp search/extract is needed and it is not guaranteed
-			// to work on all database types
-			$sql = 'SELECT `id`, `numeric_id` FROM `*PREFIX*storages`'
-				. ' WHERE `id` LIKE ?'
-				. ' ORDER BY `id`';
-			$result = $this->connection->executeQuery($sql, array($dataDirId . '%'));
-			while ($row = $result->fetch()) {
-				$currentId = $row['id'];
-				// one entry is the datadir itself
-				if ($currentId === $dataDirId) {
-					continue;
-				}
+		// note: not doing a direct UPDATE with the REPLACE function
+		// because regexp search/extract is needed and it is not guaranteed
+		// to work on all database types
+		$sql = 'SELECT `id`, `numeric_id` FROM `*PREFIX*storages`'
+			. ' WHERE `id` LIKE ?'
+			. ' ORDER BY `id`';
+		$result = $this->connection->executeQuery($sql, array($dataDirId . '%'));
 
+		while ($row = $result->fetch()) {
+			$currentId = $row['id'];
+			// one entry is the datadir itself
+			if ($currentId === $dataDirId) {
+				continue;
+			}
+
+			try {
 				if ($this->fixLegacyStorage($currentId, (int)$row['numeric_id'])) {
 					$count++;
 				}
 			}
+			catch (\OC\RepairException $e) {
+				$this->emit(
+					'\OC\Repair',
+					'warning',
+					array('Could not repair legacy storage ' . $currentId . ' automatically.')
+				);
+			}
+		}
 
-			// check for md5 ids, not in the format "prefix::"
-			$sql = 'SELECT COUNT(*) AS "c" FROM `*PREFIX*storages`'
-				. ' WHERE `id` NOT LIKE \'%::%\'';
-			$result = $this->connection->executeQuery($sql);
-			$row = $result->fetch();
-			// find at least one to make sure it's worth
-			// querying the user list
-			if ((int)$row['c'] > 0) {
-				$userManager = \OC_User::getManager();
+		// check for md5 ids, not in the format "prefix::"
+		$sql = 'SELECT COUNT(*) AS "c" FROM `*PREFIX*storages`'
+			. ' WHERE `id` NOT LIKE \'%::%\'';
+		$result = $this->connection->executeQuery($sql);
+		$row = $result->fetch();
+		// find at least one to make sure it's worth
+		// querying the user list
+		if ((int)$row['c'] > 0) {
+			$userManager = \OC_User::getManager();
 
-				// use chunks to avoid caching too many users in memory
-				$limit = 30;
-				$offset = 0;
+			// use chunks to avoid caching too many users in memory
+			$limit = 30;
+			$offset = 0;
 
-				do {
-					// query the next page of users
-					$results = $userManager->search('', $limit, $offset);
-					$storageIds = array();
-					$userIds = array();
-					foreach ($results as $uid => $userObject) {
-						$storageId = $dataDirId . $uid . '/';
-						if (strlen($storageId) <= 64) {
-							// skip short storage ids as they were handled in the previous section
-							continue;
-						}
-						$storageIds[$uid] = $storageId;
+			do {
+				// query the next page of users
+				$results = $userManager->search('', $limit, $offset);
+				$storageIds = array();
+				$userIds = array();
+				foreach ($results as $uid => $userObject) {
+					$storageId = $dataDirId . $uid . '/';
+					if (strlen($storageId) <= 64) {
+						// skip short storage ids as they were handled in the previous section
+						continue;
 					}
+					$storageIds[$uid] = $storageId;
+				}
 
-					if (count($storageIds) > 0) {
-						// update the storages of these users
-						foreach ($storageIds as $uid => $storageId) {
-							$numericId = \OC\Files\Cache\Storage::getNumericStorageId($storageId);
+				if (count($storageIds) > 0) {
+					// update the storages of these users
+					foreach ($storageIds as $uid => $storageId) {
+						$numericId = \OC\Files\Cache\Storage::getNumericStorageId($storageId);
+						try {
 							if (!is_null($numericId) && $this->fixLegacyStorage($storageId, (int)$numericId)) {
 								$count++;
 							}
 						}
+						catch (\OC\RepairException $e) {
+							$this->emit(
+								'\OC\Repair',
+								'warning',
+								array('Could not repair legacy storage ' . $storageId . ' automatically.')
+							);
+						}
 					}
-					$offset += $limit;
-				} while (count($results) >= $limit);
-			}
-
-			$this->emit('\OC\Repair', 'info', array('Updated ' . $count . ' legacy home storage ids'));
-
-			$this->connection->commit();
+				}
+				$offset += $limit;
+			} while (count($results) >= $limit);
 		}
-		catch (\OC\RepairException $e) {
-			$this->connection->rollback();
-			throw $e;
-		}
+
+		$this->emit('\OC\Repair', 'info', array('Updated ' . $count . ' legacy home storage ids'));
+
+		$this->connection->commit();
 
 		$this->config->setAppValue('core', 'repairlegacystoragesdone', 'yes');
 	}
