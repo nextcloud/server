@@ -81,6 +81,8 @@ $template->assign('onlyShareWithGroupMembers', \OC\Share\Share::shareWithGroupMe
 $databaseOverload = (strpos(\OCP\Config::getSystemValue('dbtype'), 'sqlite') !== false);
 $template->assign('databaseOverload', $databaseOverload);
 
+// warn if Windows is used
+$template->assign('WindowsWarning', OC_Util::runningOnWindows());
 
 // add hardcoded forms from the template
 $forms = OC_App::getForms('admin');

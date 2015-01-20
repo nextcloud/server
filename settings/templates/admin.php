@@ -10,13 +10,10 @@
  */
 
 style('settings', 'settings');
-script('settings', 'settings');
-script( "settings", "admin" );
-script( "settings", "log" );
-script( 'core', 'multiselect' );
+script('settings', [ 'settings', 'admin', 'log'] );
+script('core', ['multiselect', 'setupchecks']);
 vendor_script('select2/select2');
 vendor_style('select2/select2');
-script('core', 'setupchecks');
 
 $levels = array('Debug', 'Info', 'Warning', 'Error', 'Fatal');
 $levelLabels = array(
@@ -119,6 +116,20 @@ if ($_['databaseOverload']) {
 
 	<p class="securitywarning">
 		<?php p($l->t('SQLite is used as database. For larger installations we recommend to change this. To migrate to another database use the command line tool: \'occ db:convert-type\'')); ?>
+	</p>
+
+</div>
+<?php
+}
+
+// Windows Warning
+if ($_['WindowsWarning']) {
+	?>
+<div class="section">
+	<h2><?php p($l->t('Microsoft Windows Platform'));?></h2>
+
+	<p class="securitywarning">
+		<?php p($l->t('Your server is running on Microsoft Windows. We highly recommend Linux for optimal user experience.')); ?>
 	</p>
 
 </div>
