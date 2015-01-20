@@ -849,4 +849,27 @@ class View extends \Test\TestCase {
 
 		$this->assertEquals($time, $view->filemtime('/test/sub/storage/foo/bar.txt'));
 	}
+
+	public function testDeleteFailKeepCache() {
+		/**
+		 * @var \PHPUnit_Framework_MockObject_MockObject | \OC\Files\Storage\Temporary $storage
+		 */
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setConstructorArgs(array(array()))
+			->setMethods(array('unlink'))
+			->getMock();
+		$storage->expects($this->once())
+			->method('unlink')
+			->will($this->returnValue(false));
+		$scanner = $storage->getScanner();
+		$cache = $storage->getCache();
+		$storage->file_put_contents('foo.txt', 'asd');
+		$scanner->scan('');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+
+		$view = new \OC\Files\View('/test');
+
+		$this->assertFalse($view->unlink('foo.txt'));
+		$this->assertTrue($cache->inCache('foo.txt'));
+	}
 }

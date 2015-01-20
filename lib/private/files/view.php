@@ -803,7 +803,7 @@ class View {
 
 				$result = \OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 
-				if (in_array('delete', $hooks)) {
+				if (in_array('delete', $hooks) and $result) {
 					$this->updater->remove($path);
 				}
 				if (in_array('write', $hooks)) {
