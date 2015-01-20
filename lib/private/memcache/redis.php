@@ -49,18 +49,18 @@ class Redis extends Cache {
 
 	public function get($key) {
 		$result = self::$cache->get($this->getNamespace() . $key);
-		if ($result === false and ! self::$cache->exists($this->getNamespace() . $key)) {
+		if ($result === false && !self::$cache->exists($this->getNamespace() . $key)) {
 			return null;
 		} else {
-			return $result;
+			return json_decode($result, true);
 		}
 	}
 
 	public function set($key, $value, $ttl = 0) {
 		if ($ttl > 0) {
-			return self::$cache->setex($this->getNamespace() . $key, $ttl, $value);
+			return self::$cache->setex($this->getNamespace() . $key, $ttl, json_encode($value));
 		} else {
-			return self::$cache->set($this->getNamespace() . $key, $value);
+			return self::$cache->set($this->getNamespace() . $key, json_encode($value));
 		}
 	}
 
