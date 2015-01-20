@@ -152,7 +152,7 @@ class Access extends LDAPUtility implements user\IUserTools {
 		$pagingSize = intval($this->connection->ldapPagingSize);
 		// 0 won't result in replies, small numbers may leave out groups
 		// (cf. #12306), 500 is default for paging and should work everywhere.
-		$maxResults = $pagingSize < 20 ? $pagingSize : 500;
+		$maxResults = $pagingSize > 20 ? $pagingSize : 500;
 		$this->initPagedSearch($filter, array($dn), array($attr), $maxResults, 0);
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @$this->ldap->read($cr, $dn, $filter, array($attr));
