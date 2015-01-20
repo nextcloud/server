@@ -971,7 +971,8 @@ class Share extends \OC\Share\Constants {
 			if ($item['permissions'] & ~$permissions) {
 				// If share permission is removed all reshares must be deleted
 				if (($item['permissions'] & \OCP\Constants::PERMISSION_SHARE) && (~$permissions & \OCP\Constants::PERMISSION_SHARE)) {
-					Helper::delete($item['id'], true);
+					// delete all shares, keep parent and group children
+					Helper::delete($item['id'], true, null, null, true);
 				} else {
 					$ids = array();
 					$parents = array($item['id']);

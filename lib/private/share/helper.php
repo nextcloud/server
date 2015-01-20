@@ -79,13 +79,14 @@ class Helper extends \OC\Share\Constants {
 	}
 
 	/**
-	 * Delete all reshares of an item
+	 * Delete all reshares and group share children of an item
 	 * @param int $parent Id of item to delete
 	 * @param bool $excludeParent If true, exclude the parent from the delete (optional)
 	 * @param string $uidOwner The user that the parent was shared with (optional)
 	 * @param int $newParent new parent for the childrens
+	 * @param bool $excludeGroupChildren exclude group children elements
 	 */
-	public static function delete($parent, $excludeParent = false, $uidOwner = null, $newParent = null) {
+	public static function delete($parent, $excludeParent = false, $uidOwner = null, $newParent = null, $excludeGroupChildren = false) {
 		$ids = array($parent);
 		$deletedItems = array();
 		$changeParent = array();
@@ -94,15 +95,25 @@ class Helper extends \OC\Share\Constants {
 			$parents = "'".implode("','", $parents)."'";
 			// Check the owner on the first search of reshares, useful for
 			// finding and deleting the reshares by a single user of a group share
+			$params = array();
 			if (count($ids) == 1 && isset($uidOwner)) {
-				$query = \OC_DB::prepare('SELECT `id`, `share_with`, `item_type`, `share_type`, `item_target`, `file_target`, `parent`'
-					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `uid_owner` = ? AND `share_type` != ?');
-				$result = $query->execute(array($uidOwner, self::$shareTypeGroupUserUnique));
+				// FIXME: don't concat $parents, use Docrine's PARAM_INT_ARRAY approach
+				$queryString = 'SELECT `id`, `share_with`, `item_type`, `share_type`, ' .
+					'`item_target`, `file_target`, `parent` ' .
+					'FROM `*PREFIX*share` ' .
+					'WHERE `parent` IN ('.$parents.') AND `uid_owner` = ? ';
+				$params[] = $uidOwner;
 			} else {
-				$query = \OC_DB::prepare('SELECT `id`, `share_with`, `item_type`, `share_type`, `item_target`, `file_target`, `parent`, `uid_owner`'
-					.' FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') AND `share_type` != ?');
-				$result = $query->execute(array(self::$shareTypeGroupUserUnique));
+				$queryString = 'SELECT `id`, `share_with`, `item_type`, `share_type`, ' .
+					'`item_target`, `file_target`, `parent`, `uid_owner` ' .
+					'FROM `*PREFIX*share` WHERE `parent` IN ('.$parents.') ';
 			}
+			if ($excludeGroupChildren) {
+				$queryString .= ' AND `share_type` != ?';
+				$params[] = self::$shareTypeGroupUserUnique;
+			}
+			$query = \OC_DB::prepare($queryString);
+			$result = $query->execute($params);
 			// Reset parents array, only go through loop again if items are found
 			$parents = array();
 			while ($item = $result->fetchRow()) {

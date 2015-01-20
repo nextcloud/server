@@ -44,11 +44,13 @@ class Test_Share extends \Test\TestCase {
 		$this->user2 = $this->getUniqueID('user2_');
 		$this->user3 = $this->getUniqueID('user3_');
 		$this->user4 = $this->getUniqueID('user4_');
+		$this->user5 = $this->getUniqueID('user5_');
 		$this->groupAndUser = $this->getUniqueID('groupAndUser_');
 		OC_User::createUser($this->user1, 'pass');
 		OC_User::createUser($this->user2, 'pass');
 		OC_User::createUser($this->user3, 'pass');
 		OC_User::createUser($this->user4, 'pass');
+		OC_User::createUser($this->user5, 'pass');
 		OC_User::createUser($this->groupAndUser, 'pass');
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
@@ -610,6 +612,51 @@ class Test_Share extends \Test\TestCase {
 		$this->assertEquals(array(), OCP\Share::getItemsShared('test'));
 	}
 
+	/**
+	 * Test that unsharing from group will also delete all
+	 * child entries
+	 */
+	public function testShareWithGroupThenUnshare() {
+		OC_User::setUserId($this->user5);
+		OCP\Share::shareItem(
+			'test',
+			'test.txt',
+			OCP\Share::SHARE_TYPE_GROUP,
+			$this->group1,
+			\OCP\Constants::PERMISSION_ALL
+		);
+
+		$targetUsers = array($this->user1, $this->user2, $this->user3);
+
+		foreach($targetUsers as $targetUser) {
+			OC_User::setUserId($targetUser);
+			$items = OCP\Share::getItemsSharedWithUser(
+				'test',
+				$targetUser,
+				Test_Share_Backend::FORMAT_TARGET
+			);
+			$this->assertEquals(1, count($items));
+		}
+
+		OC_User::setUserId($this->user5);
+		OCP\Share::unshare(
+			'test',
+			'test.txt',
+			OCP\Share::SHARE_TYPE_GROUP,
+			$this->group1
+		);
+
+		// verify that all were deleted
+		foreach($targetUsers as $targetUser) {
+			OC_User::setUserId($targetUser);
+			$items = OCP\Share::getItemsSharedWithUser(
+				'test',
+				$targetUser,
+				Test_Share_Backend::FORMAT_TARGET
+			);
+			$this->assertEquals(0, count($items));
+		}
+	}
 
 	public function testShareWithGroupAndUserBothHaveTheSameId() {
 
