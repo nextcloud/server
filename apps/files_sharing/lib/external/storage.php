@@ -103,7 +103,7 @@ class Storage extends DAV implements ISharedStorage {
 	}
 
 	public function getCache($path = '', $storage = null) {
-		if (!$storage) {
+		if (is_null($this->cache)) {
 			$this->cache = new Cache($this, $this->remote, $this->remoteUser);
 		}
 		return $this->cache;
