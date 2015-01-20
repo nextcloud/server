@@ -199,7 +199,7 @@ class Manager {
 		$data['manager'] = $this;
 		$mountPoint = '/' . $this->uid . '/files' . $data['mountpoint'];
 		$data['mountpoint'] = $mountPoint;
-		$data['certificateManager'] = \OC::$server->getCertificateManager(\OC::$server->getUserSession()->getUser());
+		$data['certificateManager'] = \OC::$server->getCertificateManager($this->uid);
 		$mount = new Mount(self::STORAGE, $mountPoint, $data, $this, $this->storageLoader);
 		$this->mountManager->addMount($mount);
 		return $mount;

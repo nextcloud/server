@@ -249,7 +249,9 @@ class Server extends SimpleContainer implements IServerContainer {
 		});
 		$this->registerService('HTTPHelper', function (Server $c) {
 			$config = $c->getConfig();
-			return new HTTPHelper($config, new \OC\Security\CertificateManager($c->getUserSession()->getUser()));
+			$user = $c->getUserSession()->getUser();
+			$uid = $user ? $user->getUID() : null;
+			return new HTTPHelper($config, new \OC\Security\CertificateManager($uid));
 		});
 		$this->registerService('EventLogger', function (Server $c) {
 			if (defined('DEBUG') and DEBUG) {
@@ -631,18 +633,19 @@ class Server extends SimpleContainer implements IServerContainer {
 	/**
 	 * Get the certificate manager for the user
 	 *
-	 * @param \OCP\IUser $user (optional) if not specified the current loggedin user is used
+	 * @param string $uid (optional) if not specified the current loggedin user is used
 	 * @return \OCP\ICertificateManager
 	 */
-	function getCertificateManager($user = null) {
-		if (is_null($user)) {
+	function getCertificateManager($uid = null) {
+		if (is_null($uid)) {
 			$userSession = $this->getUserSession();
 			$user = $userSession->getUser();
 			if (is_null($user)) {
 				return null;
 			}
+			$uid = $user->getUID();
 		}
-		return new CertificateManager($user);
+		return new CertificateManager($uid);
 	}
 
 	/**

@@ -16,15 +16,15 @@ use OCP\ICertificateManager;
  */
 class CertificateManager implements ICertificateManager {
 	/**
-	 * @var \OCP\IUser
+	 * @var string
 	 */
-	protected $user;
+	protected $uid;
 
 	/**
-	 * @param \OCP\IUser $user
+	 * @param string $uid
 	 */
-	public function __construct($user) {
-		$this->user = $user;
+	public function __construct($uid) {
+		$this->uid = $uid;
 	}
 
 	/**
@@ -134,7 +134,7 @@ class CertificateManager implements ICertificateManager {
 	}
 
 	private function getPathToCertificates() {
-		$path = $this->user ? $this->user->getHome() . '/files_external/' : '/files_external/';
+		$path = is_null($this->uid) ? '/files_external/' : '/' . $this->uid . '/files_external/';
 
 		return $path;
 	}

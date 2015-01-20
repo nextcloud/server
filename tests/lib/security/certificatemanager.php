@@ -28,9 +28,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		\OC\Files\Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 
-		$this->user = \OC::$server->getUserManager()->get($this->username);
-
-		$this->certificateManager = new CertificateManager($this->user);
+		$this->certificateManager = new CertificateManager($this->username);
 	}
 
 	protected function tearDown() {
@@ -84,7 +82,7 @@ class CertificateManagerTest extends \Test\TestCase {
 	}
 
 	function testGetCertificateBundle() {
-		$this->assertSame($this->user->getHome().'/files_external/rootcerts.crt', $this->certificateManager->getCertificateBundle());
+		$this->assertSame('/' . $this->username . '/files_external/rootcerts.crt', $this->certificateManager->getCertificateBundle());
 	}
 
 }
