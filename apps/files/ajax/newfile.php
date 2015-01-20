@@ -3,9 +3,8 @@
 // Init owncloud
 global $eventSource;
 
-if(!OC_User::isLoggedIn()) {
-	exit;
-}
+\OCP\JSON::checkLoggedIn();
+\OCP\JSON::callCheck();
 
 \OC::$server->getSession()->close();
 
@@ -17,8 +16,6 @@ $source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
 
 if($source) {
 	$eventSource = \OC::$server->createEventSource();
-} else {
-	OC_JSON::callCheck();
 }
 
 function progress($notification_code, $severity, $message, $message_code, $bytes_transferred, $bytes_max) {
@@ -138,7 +135,7 @@ if($source) {
 				}
 			}
 		}
-		$result=\OC\Files\Filesystem::file_put_contents($target, $sourceStream);
+		$result = \OC\Files\Filesystem::file_put_contents($target, $sourceStream);
 	}
 	if($result) {
 		$meta = \OC\Files\Filesystem::getFileInfo($target);
