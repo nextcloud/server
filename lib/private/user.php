@@ -320,7 +320,7 @@ class OC_User {
 	 * Tries to login the user with HTTP Basic Authentication
 	 */
 	public static function tryBasicAuthLogin() {
-		if(!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_USER'])) {
+		if(!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
 			\OC_User::login($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
 		}
 	}

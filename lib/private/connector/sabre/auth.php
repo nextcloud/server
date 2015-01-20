@@ -101,7 +101,6 @@ class OC_Connector_Sabre_Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	public function authenticate(\Sabre\DAV\Server $server, $realm) {
 
 		$result = $this->auth($server, $realm);
-
 		return $result;
     }
 
@@ -111,10 +110,13 @@ class OC_Connector_Sabre_Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic {
 	 * @return bool
 	 */
 	private function auth(\Sabre\DAV\Server $server, $realm) {
-		if (OC_User::handleApacheAuth()) {
+		if (OC_User::handleApacheAuth() ||
+			(OC_User::isLoggedIn() && is_null(\OC::$server->getSession()->get(self::DAV_AUTHENTICATED)))
+		) {
 			$user = OC_User::getUser();
 			OC_Util::setupFS($user);
 			$this->currentUser = $user;
+			\OC::$server->getSession()->close();
 			return true;
 		}
 
