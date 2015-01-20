@@ -28,7 +28,7 @@ class CertificateManagerTest extends \Test\TestCase {
 		\OC\Files\Filesystem::tearDown();
 		\OC_Util::setupFS($this->username);
 
-		$this->certificateManager = new CertificateManager($this->username);
+		$this->certificateManager = new CertificateManager($this->username, new \OC\Files\View());
 	}
 
 	protected function tearDown() {

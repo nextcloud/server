@@ -251,7 +251,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			$config = $c->getConfig();
 			$user = $c->getUserSession()->getUser();
 			$uid = $user ? $user->getUID() : null;
-			return new HTTPHelper($config, new \OC\Security\CertificateManager($uid));
+			return new HTTPHelper($config, new \OC\Security\CertificateManager($uid, new \OC\Files\View()));
 		});
 		$this->registerService('EventLogger', function (Server $c) {
 			if (defined('DEBUG') and DEBUG) {
@@ -645,7 +645,7 @@ class Server extends SimpleContainer implements IServerContainer {
 			}
 			$uid = $user->getUID();
 		}
-		return new CertificateManager($uid);
+		return new CertificateManager($uid, new \OC\Files\View());
 	}
 
 	/**

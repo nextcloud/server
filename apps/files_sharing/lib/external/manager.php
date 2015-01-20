@@ -42,6 +42,7 @@ class Manager {
 	 * @param \OCP\IDBConnection $connection
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 * @param \OC\Files\Storage\StorageFactory $storageLoader
+	 * @param \OC\HTTPHelper $httpHelper
 	 * @param string $uid
 	 */
 	public function __construct(\OCP\IDBConnection $connection, \OC\Files\Mount\Manager $mountManager,
@@ -53,6 +54,19 @@ class Manager {
 		$this->uid = $uid;
 	}
 
+	/**
+	 * add new server-to-server share
+	 *
+	 * @param string $remote
+	 * @param string $token
+	 * @param string $password
+	 * @param string $name
+	 * @param string $owner
+	 * @param boolean $accepted
+	 * @param string $user
+	 * @param int $remoteId
+	 * @return mixed
+	 */
 	public function addShare($remote, $token, $password, $name, $owner, $accepted=false, $user = null, $remoteId = -1) {
 
 		$user = $user ? $user : $this->uid;
@@ -174,7 +188,12 @@ class Manager {
 		return ($result['success'] && $status['ocs']['meta']['statuscode'] === 100);
 	}
 
-	public static function setup($params) {
+	/**
+	 * setup the server-to-server mounts
+	 *
+	 * @param array $params
+	 */
+	public static function setup(array $params) {
 		$externalManager = new \OCA\Files_Sharing\External\Manager(
 				\OC::$server->getDatabaseConnection(),
 				\OC\Files\Filesystem::getMountManager(),
@@ -186,6 +205,12 @@ class Manager {
 		$externalManager->setupMounts();
 	}
 
+	/**
+	 * remove '/user/files' from the path and trailing slashes
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	protected function stripPath($path) {
 		$prefix = '/' . $this->uid . '/files';
 		return rtrim(substr($path, strlen($prefix)), '/');
