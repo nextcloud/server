@@ -1,5 +1,9 @@
+<?php
+	/** @var array $_ */
+	/** @var OC_L10N $l */
+?>
 <form id="encryption" class="section">
-	<h2><?php p( $l->t( 'Encryption' ) ); ?></h2>
+	<h2><?php p($l->t('Server-side Encryption')); ?></h2>
 
 	<?php if ( $_["initialized"] === \OCA\Files_Encryption\Session::NOT_INITIALIZED ): ?>
 
