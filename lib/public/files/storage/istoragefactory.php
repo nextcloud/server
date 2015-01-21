@@ -19,6 +19,8 @@ interface IStorageFactory {
 	 *
 	 * @param string $wrapperName
 	 * @param callable $callback
+	 * @return true if the wrapper was added, false if there was already a wrapper with this
+	 * name registered
 	 */
 	public function addStorageWrapper($wrapperName, $callback);
 

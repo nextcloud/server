@@ -175,7 +175,10 @@ class Filesystem {
 	 * @param callable $wrapper
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper) {
-		self::getLoader()->addStorageWrapper($wrapperName, $wrapper);
+		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper)) {
+			// do not re-wrap if storage with this name already existed
+			return;
+		}
 
 		$mounts = self::getMountManager()->getAll();
 		foreach ($mounts as $mount) {
