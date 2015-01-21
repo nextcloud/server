@@ -53,7 +53,8 @@ module.exports = function(config) {
 					// up with the global namespace/classes/state
 					'apps/files_sharing/js/app.js',
 					'apps/files_sharing/js/sharedfilelist.js',
-					'apps/files_sharing/js/share.js'
+					'apps/files_sharing/js/share.js',
+					'apps/files_sharing/js/external.js'
 				],
 				testFiles: ['apps/files_sharing/tests/js/*.js']
 			},
