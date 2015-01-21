@@ -186,6 +186,11 @@ class Filesystem {
 		}
 	}
 
+	/**
+	 * Returns the storage factory
+	 *
+	 * @return \OCP\Files\Storage\IStorageFactory
+	 */
 	public static function getLoader() {
 		if (!self::$loader) {
 			self::$loader = new StorageFactory();
@@ -193,6 +198,11 @@ class Filesystem {
 		return self::$loader;
 	}
 
+	/**
+	 * Returns the mount manager
+	 *
+	 * @return \OC\Files\Filesystem\Mount\Manager
+	 */
 	public static function getMountManager() {
 		if (!self::$mounts) {
 			\OC_Util::setupFS();
