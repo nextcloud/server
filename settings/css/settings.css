@@ -228,7 +228,10 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 
 /* LOG */
-#log { white-space:normal; }
+#log {
+	white-space:normal;
+	margin-bottom: 14px;
+}
 #lessLog { display:none; }
 table.grid td.date{
 	white-space: nowrap;
