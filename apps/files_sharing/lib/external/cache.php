@@ -28,6 +28,9 @@ class Cache extends \OC\Files\Cache\Cache {
 
 	public function get($file) {
 		$result = parent::get($file);
+		if (!$result) {
+			return false;
+		}
 		$result['displayname_owner'] = $this->remoteUser . '@' . $this->remote;
 		if (!$file || $file === '') {
 			$result['is_share_mount_point'] = true;
