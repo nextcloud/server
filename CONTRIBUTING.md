@@ -44,6 +44,10 @@ Before we're able to merge your code into the ownCloud core, you need to sign ou
 
 Please read the [Developer Manuals][devmanual] to learn how to create your first application or how to test the ownCloud code with PHPUnit.
 
+In order to constantly increase the quality of our software we can no longer accept pull request which submit un-tested code.
+It is a must have that changed and added code segments are unit tested.
+In some areas unit testing is hard (aka almost impossible) as of today - in these areas refactoring WHILE fixing a bug is encouraged to enable unit testing.
+
 [agreement]: http://owncloud.org/about/contributor-agreement/
 [devmanual]: http://owncloud.org/dev
 
