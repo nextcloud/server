@@ -261,6 +261,33 @@ class Manager {
 	}
 
 	/**
+	 * remove all shares for user $uid if the user was deleted
+	 *
+	 * @param string $uid
+	 * @return bool
+	 */
+	public function removeUserShares($uid) {
+		$getShare = $this->connection->prepare('
+			SELECT `remote`, `share_token`, `remote_id`
+			FROM  `*PREFIX*share_external`
+			WHERE `user` = ?');
+		$result = $getShare->execute(array($uid));
+
+		if ($result) {
+			$shares = $getShare->fetchAll();
+			foreach($shares as $share) {
+				$this->sendFeedbackToRemote($share['remote'], $share['share_token'], $share['remote_id'], 'decline');
+			}
+		}
+
+		$query = $this->connection->prepare('
+			DELETE FROM `*PREFIX*share_external`
+			WHERE `user` = ?
+		');
+		return (bool)$query->execute(array($uid));
+	}
+
+	/**
 	 * return a list of shares which are not yet accepted by the user
 	 *
 	 * @return array list of open server-to-server shares
