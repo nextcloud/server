@@ -166,8 +166,7 @@ class Trashbin {
 		\OC_FileProxy::$enabled = false;
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
 		try {
-			$sizeOfAddedFiles = $view->filesize('/files/' . $file_path);
-			$view->rename('/files/' . $file_path, $trashPath);
+			$sizeOfAddedFiles = self::renameRecursive('/files/'.$file_path, $trashPath, $view);
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$sizeOfAddedFiles = false;
 			if ($view->file_exists($trashPath)) {
@@ -802,6 +801,46 @@ class Trashbin {
 				throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
 			}
 			$view->touch($destination, $view->filemtime($source));
+		}
+		return $size;
+	}
+
+	/**
+	 * recursive rename a whole directory and preserve timestamps
+	 *
+	 * @param string $source source path, relative to the users files directory
+	 * @param string $destination destination path relative to the users root directoy
+	 * @param \OC\Files\View $view file view for the users root directory
+	 * @return int
+	 * @throws Exceptions\CopyRecursiveException
+	 */
+	private static function renameRecursive($source, $destination, \OC\Files\View $view) {
+		$size = 0;
+		if ($view->is_dir($source)) {
+			$view->mkdir($destination);
+			$view->touch($destination, $view->filemtime($source));
+			foreach ($view->getDirectoryContent($source) as $i) {
+				$pathDir = $source . '/' . $i['name'];
+				if ($view->is_dir($pathDir)) {
+					$size += self::renameRecursive($pathDir, $destination . '/' . $i['name'], $view);
+				} else {
+					$size += $view->filesize($pathDir);
+					$mtime = $view->filemtime($pathDir);
+					$result = $view->rename($pathDir, $destination . '/' . $i['name']);
+					if (!$result) {
+						throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
+					}
+					$view->touch($destination . '/' . $i['name'], $mtime);
+				}
+			}
+		} else {
+			$size += $view->filesize($source);
+			$mtime = $view->filemtime($source);
+			$result = $view->rename($source, $destination);
+			if (!$result) {
+				throw new \OCA\Files_Trashbin\Exceptions\CopyRecursiveException();
+			}
+			$view->touch($destination, $mtime);
 		}
 		return $size;
 	}

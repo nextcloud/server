@@ -93,6 +93,8 @@ class Trashbin extends TestCase {
 		// cleanup test user
 		\OC_User::deleteUser(self::TEST_ENCRYPTION_TRASHBIN_USER1);
 
+		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+
 		parent::tearDownAfterClass();
 	}
 
