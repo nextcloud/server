@@ -69,6 +69,6 @@ OC.L10N.register(
     "Add storage" : "Ajouter un support de stockage",
     "Delete" : "Supprimer",
     "Enable User External Storage" : "Autoriser les utilisateurs à ajouter des stockages externes",
-    "Allow users to mount the following external storage" : "Autorise les utilisateurs à monter les stockage externes suivants"
+    "Allow users to mount the following external storage" : "Autoriser les utilisateurs à monter les stockages externes suivants"
 },
 "nplurals=2; plural=(n > 1);");

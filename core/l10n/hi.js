@@ -21,6 +21,7 @@ OC.L10N.register(
     "November" : "नवंबर",
     "December" : "दिसम्बर",
     "Settings" : "सेटिंग्स",
+    "Saving..." : "सहेज रहे हैं...",
     "_{count} file conflict_::_{count} file conflicts_" : ["",""],
     "Cancel" : "रद्द करें ",
     "Share" : "साझा करें",

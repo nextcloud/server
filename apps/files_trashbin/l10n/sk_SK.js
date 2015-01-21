@@ -8,6 +8,8 @@ OC.L10N.register(
     "Delete permanently" : "Zmazať  trvalo",
     "Error" : "Chyba",
     "restored" : "obnovené",
+    "No entries found in this folder" : "V tomto priečinku nebolo nič nájdené",
+    "Select all" : "Vybrať všetko",
     "Name" : "Názov",
     "Deleted" : "Zmazané",
     "Delete" : "Zmazať"
