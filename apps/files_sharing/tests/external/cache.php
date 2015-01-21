@@ -1,4 +1,6 @@
 <?php
+namespace OCA\Files_sharing\Tests\External;
+
 use OCA\Files_sharing\Tests\TestCase;
 
 /**
@@ -21,7 +23,7 @@ use OCA\Files_sharing\Tests\TestCase;
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-class Test_Files_Sharing_External_Cache extends TestCase {
+class Cache extends TestCase {
 
 	/**
 	 * @var \OC\Files\Storage\Storage
