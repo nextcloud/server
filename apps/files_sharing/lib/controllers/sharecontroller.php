@@ -176,7 +176,9 @@ class ShareController extends Controller {
 		$shareTmpl['server2serversharing'] = Helper::isOutgoingServer2serverShareEnabled();
 		$shareTmpl['protected'] = isset($linkItem['share_with']) ? 'true' : 'false';
 		$shareTmpl['dir'] = '';
-		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize(\OC\Files\Filesystem::filesize($originalSharePath));
+		$nonHumanFileSize = \OC\Files\Filesystem::filesize($originalSharePath);
+		$shareTmpl['nonHumanFileSize'] = $nonHumanFileSize;
+		$shareTmpl['fileSize'] = \OCP\Util::humanFileSize($nonHumanFileSize);
 
 		// Show file list
 		if (Filesystem::is_dir($originalSharePath)) {
@@ -202,6 +204,7 @@ class ShareController extends Controller {
 		}
 
 		$shareTmpl['downloadURL'] = $this->urlGenerator->linkToRouteAbsolute('files_sharing.sharecontroller.downloadShare', array('token' => $token));
+		$shareTmpl['maxSizeAnimateGif'] = $this->config->getSystemValue('max_filesize_animated_gifs_public_sharing', 10);
 
 		return new TemplateResponse($this->appName, 'public', $shareTmpl, 'base');
 	}

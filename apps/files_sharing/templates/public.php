@@ -40,6 +40,8 @@ $previewSupported = OC\Preview::isMimeSupported($_['mimetype']) ? 'true' : 'fals
 <input type="hidden" name="mimetype" value="<?php p($_['mimetype']) ?>" id="mimetype">
 <input type="hidden" name="previewSupported" value="<?php p($previewSupported); ?>" id="previewSupported">
 <input type="hidden" name="mimetypeIcon" value="<?php p(OC_Helper::mimetypeIcon($_['mimetype'])); ?>" id="mimetypeIcon">
+<input type="hidden" name="filesize" value="<?php p($_['nonHumanFileSize']); ?>" id="filesize">
+<input type="hidden" name="maxSizeAnimateGif" value="<?php p($_['maxSizeAnimateGif']); ?>" id="maxSizeAnimateGif">
 
 
 <header><div id="header" class="<?php p((isset($_['folder']) ? 'share-folder' : 'share-file')) ?>">
