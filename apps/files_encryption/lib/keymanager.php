@@ -41,6 +41,7 @@ class Keymanager {
 	 * read key from hard disk
 	 *
 	 * @param string $path to key
+	 * @param \OC\Files\View $view
 	 * @return string|bool either the key or false
 	 */
 	private static function getKey($path, $view) {
@@ -51,15 +52,13 @@ class Keymanager {
 			$key =  self::$key_cache[$path];
 		} else {
 
-			$proxyStatus = \OC_FileProxy::$enabled;
-			\OC_FileProxy::$enabled = false;
+			/** @var \OCP\Files\Storage $storage */
+			list($storage, $internalPath) = $view->resolvePath($path);
 
-			if ($view->file_exists($path)) {
-				$key = $view->file_get_contents($path);
+			if ($storage->file_exists($internalPath)) {
+				$key = $storage->file_get_contents($internalPath);
 				self::$key_cache[$path] = $key;
 			}
-
-			\OC_FileProxy::$enabled = $proxyStatus;
 
 		}
 
@@ -77,14 +76,12 @@ class Keymanager {
 	 * @return bool
 	 */
 	private static function setKey($path, $name, $key, $view) {
-		$proxyStatus = \OC_FileProxy::$enabled;
-		\OC_FileProxy::$enabled = false;
-
 		self::keySetPreparation($view, $path);
-		$pathToKey = \OC\Files\Filesystem::normalizePath($path . '/' . $name);
-		$result = $view->file_put_contents($pathToKey, $key);
 
-		\OC_FileProxy::$enabled = $proxyStatus;
+		/** @var \OCP\Files\Storage $storage */
+		$pathToKey = \OC\Files\Filesystem::normalizePath($path . '/' . $name);
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($pathToKey);
+		$result = $storage->file_put_contents($internalPath, $key);
 
 		if (is_int($result) && $result > 0) {
 			self::$key_cache[$pathToKey] = $key;
