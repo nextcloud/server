@@ -48,6 +48,7 @@ class Test_Request extends PHPUnit_Framework_TestCase {
 			array('/core/ajax/translations.php', '/core/ajax/translations.php', 'index.php'),
 			array('/core/ajax/translations.php', '//core/ajax/translations.php', '/index.php'),
 			array('/core/ajax/translations.php', '/oc/core/ajax/translations.php', '/oc/index.php'),
+			array('/core/ajax/translations.php', '/oc//index.php/core/ajax/translations.php', '/oc/index.php'),
 			array('/1', '/oc/core/1', '/oc/core/index.php'),
 		);
 	}
