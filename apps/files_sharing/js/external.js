@@ -44,7 +44,8 @@
 					{name: name, owner: owner, remote: remoteClean}
 				),
 				t('files_sharing','Remote share'),
-				function (result) {
+				function (result, password) {
+					share.password = password;
 					callback(result, share);
 				},
 				true,
