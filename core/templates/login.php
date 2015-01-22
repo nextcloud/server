@@ -19,6 +19,11 @@ script('core', [
 				<small><?php p($l->t('Please contact your administrator.')); ?></small>
 			</div>
 		<?php endif; ?>
+		<?php foreach($_['messages'] as $message): ?>
+			<div class="warning">
+				<?php p($message); ?><br>
+			</div>
+		<?php endforeach; ?>
 		<p id="message" class="hidden">
 			<img class="float-spinner" alt=""
 				src="<?php p(\OCP\Util::imagePath('core', 'loading-dark.gif'));?>" />
