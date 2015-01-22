@@ -24,9 +24,10 @@
 
 namespace OC\AppFramework;
 
-use \OC_App;
-use \OC\AppFramework\DependencyInjection\DIContainer;
-use \OCP\AppFramework\QueryException;
+use OC_App;
+use OC\AppFramework\DependencyInjection\DIContainer;
+use OCP\AppFramework\QueryException;
+use OCP\AppFramework\Http\ICallbackResponse;
 
 /**
  * Entry point for every request in your app. You can consider this as your
@@ -93,15 +94,22 @@ class App {
 		// initialize the dispatcher and run all the middleware before the controller
 		$dispatcher = $container['Dispatcher'];
 
-		list($httpHeaders, $responseHeaders, $responseCookies, $output) =
-			$dispatcher->dispatch($controller, $methodName);
+		list(
+			$httpHeaders,
+			$responseHeaders,
+			$responseCookies,
+			$output,
+			$response
+		) = $dispatcher->dispatch($controller, $methodName);
+
+		$io = $container['OCP\\AppFramework\\Http\\IOutput'];
 
 		if(!is_null($httpHeaders)) {
-			header($httpHeaders);
+			$io->setHeader($httpHeaders);
 		}
 
 		foreach($responseHeaders as $name => $value) {
-			header($name . ': ' . $value);
+			$io->setHeader($name . ': ' . $value);
 		}
 
 		foreach($responseCookies as $name => $value) {
@@ -109,12 +117,22 @@ class App {
 			if($value['expireDate'] instanceof \DateTime) {
 				$expireDate = $value['expireDate']->getTimestamp();
 			}
-			setcookie($name, $value['value'], $expireDate, $container->getServer()->getWebRoot(), null, $container->getServer()->getConfig()->getSystemValue('forcessl', false), true);
+			$io->setCookie(
+				$name,
+				$value['value'],
+				$expireDate,
+				$container->getServer()->getWebRoot(),
+				null,
+				$container->getServer()->getConfig()->getSystemValue('forcessl', false),
+				true
+			);
 		}
 
-		if(!is_null($output)) {
-			header('Content-Length: ' . strlen($output));
-			print($output);
+		if ($response instanceof ICallbackResponse) {
+			$response->callback($io);
+		} else if(!is_null($output)) {
+			$io->setHeader('Content-Length: ' . strlen($output));
+			$io->setOutput($output);
 		}
 
 	}
