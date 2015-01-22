@@ -87,7 +87,7 @@
     "add group" : "добавить группу",
     "A valid username must be provided" : "Укажите правильное имя пользователя",
     "Error creating user" : "Ошибка создания пользователя",
-    "A valid password must be provided" : "Предоставте подходящий пароль",
+    "A valid password must be provided" : "Предоставьте корректный пароль",
     "A valid email must be provided" : "Введите корректный адрес email",
     "__language_name__" : "Русский ",
     "Personal Info" : "Личная информация",

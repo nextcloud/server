@@ -10,7 +10,6 @@
     "Could not update file recovery" : "به روز رسانی بازیابی فایل را نمی تواند انجام دهد.",
     "Missing requirements." : "نیازمندی های گمشده",
     "Following users are not set up for encryption:" : "کاربران زیر برای رمزنگاری تنظیم نشده اند",
-    "Encryption" : "رمزگذاری",
     "Enable recovery key (allow to recover users files in case of password loss):" : "فعال کردن کلید بازیابی(اجازه بازیابی فایل های کاربران در صورت از دست دادن رمزعبور):",
     "Recovery key password" : "رمزعبور کلید بازیابی",
     "Enabled" : "فعال شده",

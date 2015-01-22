@@ -27,7 +27,6 @@
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Merci de vous assurer que OpenSSL et son extension PHP sont activés et configurés correctement. Pour l'instant, l'application de chiffrement a été désactivée.",
     "Following users are not set up for encryption:" : "Les utilisateurs suivants ne sont pas configurés pour le chiffrement :",
     "Go directly to your %spersonal settings%s." : "Aller à %svos paramètres personnels%s.",
-    "Encryption" : "Chiffrement",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "L'application de chiffrement est activée mais vos clefs ne sont pas initialisées. Veuillez vous déconnecter et ensuite vous reconnecter.",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Activer la clef de récupération (permet de récupérer les fichiers des utilisateurs en cas de perte de mot de passe).",
     "Recovery key password" : "Mot de passe de la clef de récupération",

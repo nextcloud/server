@@ -5,7 +5,6 @@ OC.L10N.register(
     "Password successfully changed." : "Лозинката е успешно променета.",
     "Could not change the password. Maybe the old password was not correct." : "Лозинката не можеше да се промени. Можеби старата лозинка не беше исправна.",
     "Missing requirements." : "Барања кои недостасуваат.",
-    "Encryption" : "Енкрипција",
     "Repeat Recovery key password" : "Повтори ја лозинката за клучот на обновување",
     "Enabled" : "Овозможен",
     "Disabled" : "Оневозможен",

@@ -6,7 +6,6 @@ OC.L10N.register(
     "Could not change the password. Maybe the old password was not correct." : "Ne eblis ŝanĝi la pasvorton. Eble la malnova pasvorto malĝustis.",
     "Private key password successfully updated." : "La pasvorto de la malpublika klavo sukcese ĝisdatiĝis.",
     "Missing requirements." : "Mankas neproj.",
-    "Encryption" : "Ĉifrado",
     "Enabled" : "Kapabligita",
     "Disabled" : "Malkapabligita",
     "Change Password" : "Ŝarĝi pasvorton",

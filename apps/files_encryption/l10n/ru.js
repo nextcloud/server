@@ -29,7 +29,6 @@ OC.L10N.register(
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Убедитесь, что OpenSSL и соответствующее расширение PHP включены и правильно настроены. На данный момент приложение шифрования выключено.",
     "Following users are not set up for encryption:" : "Для следующих пользователей шифрование не настроено:",
     "Go directly to your %spersonal settings%s." : "Перейти к вашим %spersonal settings%s.",
-    "Encryption" : "Шифрование",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Приложение шифрования активно, но ваши ключи не инициализированы, выйдите из системы и войдите вновь",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Включить ключ восстановления (позволяет пользователям восстановить файлы при потере пароля):",
     "Recovery key password" : "Пароль ключа восстановления",

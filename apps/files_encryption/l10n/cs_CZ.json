@@ -27,7 +27,6 @@
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Ujistěte se prosím, že máte povolené a správně nakonfigurované OpenSSL včetně jeho rozšíření pro PHP. Aplikace pro šifrování byla prozatím vypnuta.",
     "Following users are not set up for encryption:" : "Následující uživatelé nemají nastavené šifrování:",
     "Go directly to your %spersonal settings%s." : "Přejít přímo do svého %sosobního nastavení%s.",
-    "Encryption" : "Šifrování",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplikace pro šifrování je zapnuta, ale vaše klíče nejsou inicializované. Prosím odhlaste se a znovu přihlaste",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Povolit klíč pro obnovu (umožňuje obnovu uživatelských souborů v případě ztráty hesla)",
     "Recovery key password" : "Heslo klíče pro obnovu",

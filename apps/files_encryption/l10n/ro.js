@@ -10,7 +10,6 @@ OC.L10N.register(
     "Private key password successfully updated." : "Cheia privata a fost actualizata cu succes",
     "File recovery settings updated" : "Setarile pentru recuperarea fisierelor au fost actualizate",
     "Could not update file recovery" : "Nu am putut actualiza recuperarea de fisiere",
-    "Encryption" : "Încriptare",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Aplicatia de criptare este activata dar tastatura nu este initializata , va rugam deconectati-va si reconectati-va",
     "Enabled" : "Activat",
     "Disabled" : "Dezactivat",

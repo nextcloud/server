@@ -27,7 +27,6 @@
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "必ず、OpenSSL及びOpenSSLのPHPの拡張を有効にした上で、適切に設定してください。現時点では暗号化アプリは無効になっています。",
     "Following users are not set up for encryption:" : "以下のユーザーは、暗号化設定がされていません：",
     "Go directly to your %spersonal settings%s." : "直接 %s個人設定%s に進む。",
-    "Encryption" : "暗号化",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "暗号化アプリは有効ですが、あなたの暗号化キーは初期化されていません。ログアウトした後に、再度ログインしてください",
     "Enable recovery key (allow to recover users files in case of password loss):" : "リカバリキーを有効にする (パスワードを忘れた場合にユーザーのファイルを回復できます):",
     "Recovery key password" : "リカバリキーのパスワード",
