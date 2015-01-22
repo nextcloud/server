@@ -74,6 +74,7 @@ class Migration {
 
 	public function reorganizeFolderStructureForUser($user) {
 		// backup all keys
+		\OC_Util::setupFS($user);
 		if ($this->backupUserKeys($user)) {
 			// create new 'key' folder
 			$this->view->mkdir($user . '/files_encryption/keys');
