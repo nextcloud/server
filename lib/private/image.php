@@ -467,7 +467,6 @@ class OC_Image {
 	public function loadFromFile($imagePath = false) {
 		// exif_imagetype throws "read error!" if file is less than 12 byte
 		if (!@is_file($imagePath) || !file_exists($imagePath) || filesize($imagePath) < 12 || !is_readable($imagePath)) {
-			$this->logger->debug('OC_Image->loadFromFile, could not load: ' . (string)urlencode($imagePath), array('app' => 'core'));
 			return false;
 		}
 		$iType = exif_imagetype($imagePath);
