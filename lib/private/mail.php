@@ -125,6 +125,9 @@ class OC_Mail {
 	 * @return bool
 	 */
 	public static function validateAddress($emailAddress) {
+		if (strpos($emailAddress, '@') === false) {
+			return false;
+		}
 		$emailAddress = self::buildAsciiEmail($emailAddress);
 		return PHPMailer::ValidateAddress($emailAddress);
 	}
