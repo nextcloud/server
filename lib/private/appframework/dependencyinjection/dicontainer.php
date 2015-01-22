@@ -24,6 +24,7 @@
 
 namespace OC\AppFramework\DependencyInjection;
 
+use OC;
 use OC\AppFramework\Http;
 use OC\AppFramework\Http\Request;
 use OC\AppFramework\Http\Dispatcher;
@@ -61,79 +62,79 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		 * Core services
 		 */
 		$this->registerService('OCP\\IAppConfig', function($c) {
-			return \OC::$server->getAppConfig();
+			return $this->getServer()->getAppConfig();
 		});
 
 		$this->registerService('OCP\\IAppManager', function($c) {
-			return \OC::$server->getAppManager();
+			return $this->getServer()->getAppManager();
 		});
 
 		$this->registerService('OCP\\IAvatarManager', function($c) {
-			return \OC::$server->getAvatarManager();
+			return $this->getServer()->getAvatarManager();
 		});
 
 		$this->registerService('OCP\\Activity\\IManager', function($c) {
-			return \OC::$server->getActivityManager();
+			return $this->getServer()->getActivityManager();
 		});
 
 		$this->registerService('OCP\\ICache', function($c) {
-			return \OC::$server->getCache();
+			return $this->getServer()->getCache();
 		});
 
 		$this->registerService('OCP\\ICacheFactory', function($c) {
-			return \OC::$server->getMemCacheFactory();
+			return $this->getServer()->getMemCacheFactory();
 		});
 
 		$this->registerService('OCP\\IConfig', function($c) {
-			return \OC::$server->getConfig();
+			return $this->getServer()->getConfig();
 		});
 
 		$this->registerService('OCP\\Contacts\\IManager', function($c) {
-			return \OC::$server->getContactsManager();
+			return $this->getServer()->getContactsManager();
 		});
 
 		$this->registerService('OCP\\IDateTimeZone', function($c) {
-			return \OC::$server->getDateTimeZone();
+			return $this->getServer()->getDateTimeZone();
 		});
 
 		$this->registerService('OCP\\IDb', function($c) {
-			return \OC::$server->getDb();
+			return $this->getServer()->getDb();
 		});
 
 		$this->registerService('OCP\\IDBConnection', function($c) {
-			return \OC::$server->getDatabaseConnection();
+			return $this->getServer()->getDatabaseConnection();
 		});
 
 		$this->registerService('OCP\\Diagnostics\\IEventLogger', function($c) {
-			return \OC::$server->getEventLogger();
+			return $this->getServer()->getEventLogger();
 		});
 
 		$this->registerService('OCP\\Diagnostics\\IQueryLogger', function($c) {
-			return \OC::$server->getQueryLogger();
+			return $this->getServer()->getQueryLogger();
 		});
 
 		$this->registerService('OCP\\Files\\Config\\IMountProviderCollection', function($c) {
-			return \OC::$server->getMountProviderCollection();
+			return $this->getServer()->getMountProviderCollection();
 		});
 
 		$this->registerService('OCP\\Files\\IRootFolder', function($c) {
-			return \OC::$server->getRootFolder();
+			return $this->getServer()->getRootFolder();
 		});
 
 		$this->registerService('OCP\\IGroupManager', function($c) {
-			return \OC::$server->getGroupManager();
+			return $this->getServer()->getGroupManager();
 		});
 
 		$this->registerService('OCP\\IL10N', function($c) {
-			return \OC::$server->getL10N($c->query('AppName'));
+			return $this->getServer()->getL10N($c->query('AppName'));
 		});
 
 		$this->registerService('OCP\\ILogger', function($c) {
-			return \OC::$server->getLogger();
+			return $this->getServer()->getLogger();
 		});
 
 		$this->registerService('OCP\\BackgroundJob\\IJobList', function($c) {
-			return \OC::$server->getJobList();
+			return $this->getServer()->getJobList();
 		});
 
 		$this->registerService('OCP\\AppFramework\\Utility\\IControllerMethodReflector', function($c) {
@@ -141,11 +142,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OCP\\INavigationManager', function($c) {
-			return \OC::$server->getNavigationManager();
+			return $this->getServer()->getNavigationManager();
 		});
 
 		$this->registerService('OCP\\IPreview', function($c) {
-			return \OC::$server->getPreviewManager();
+			return $this->getServer()->getPreviewManager();
 		});
 
 		$this->registerService('OCP\\IRequest', function($c) {
@@ -153,11 +154,11 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OCP\\ITagManager', function($c) {
-			return \OC::$server->getTagManager();
+			return $this->getServer()->getTagManager();
 		});
 
 		$this->registerService('OCP\\ITempManager', function($c) {
-			return \OC::$server->getTempManager();
+			return $this->getServer()->getTempManager();
 		});
 
 		$this->registerService('OCP\\AppFramework\\Utility\\ITimeFactory', function($c) {
@@ -165,47 +166,43 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 
 		$this->registerService('OCP\\Route\\IRouter', function($c) {
-			return \OC::$server->getRouter();
+			return $this->getServer()->getRouter();
 		});
 
 		$this->registerService('OCP\\ISearch', function($c) {
-			return \OC::$server->getSearch();
+			return $this->getServer()->getSearch();
 		});
 
 		$this->registerService('OCP\\ISearch', function($c) {
-			return \OC::$server->getSearch();
+			return $this->getServer()->getSearch();
 		});
 
 		$this->registerService('OCP\\Security\\ICrypto', function($c) {
-			return \OC::$server->getCrypto();
+			return $this->getServer()->getCrypto();
 		});
 
 		$this->registerService('OCP\\Security\\IHasher', function($c) {
-			return \OC::$server->getHasher();
+			return $this->getServer()->getHasher();
 		});
 
 		$this->registerService('OCP\\Security\\ISecureRandom', function($c) {
-			return \OC::$server->getSecureRandom();
+			return $this->getServer()->getSecureRandom();
 		});
 
 		$this->registerService('OCP\\IURLGenerator', function($c) {
-			return \OC::$server->getURLGenerator();
+			return $this->getServer()->getURLGenerator();
 		});
 
 		$this->registerService('OCP\\IUserManager', function($c) {
-			return \OC::$server->getUserManager();
+			return $this->getServer()->getUserManager();
 		});
 
 		$this->registerService('OCP\\IUserSession', function($c) {
-			return \OC::$server->getUserSession();
+			return $this->getServer()->getUserSession();
 		});
 
 		$this->registerService('ServerContainer', function ($c) {
-			$c->query('OCP\\ILogger')->debug(
-				'Accessing the server container is deprecated. Use type ' .
-				'annotations to inject core services instead!'
-			);
-			return \OC::$server;
+			return $this->getServer();
 		});
 
 		// commonly used attributes
@@ -330,7 +327,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	 */
 	function getServer()
 	{
-		return $this->query('ServerContainer');
+		return OC::$server;
 	}
 
 	/**
@@ -367,7 +364,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 	}
 
 	private function getUserId() {
-		return \OC::$server->getSession()->get('user_id');
+		return $this->getServer()->getSession()->get('user_id');
 	}
 
 	/**
