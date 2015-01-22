@@ -628,10 +628,25 @@ class OC_Util {
 			);
 			$webServerRestart = true;
 		}
+
+		/**
+		 * PHP 5.6 ships with a PHP setting which throws notices by default for a
+		 * lot of endpoints. Thus we need to ensure that the value is set to -1
+		 *
+		 * @link https://github.com/owncloud/core/issues/13592
+		 */
+		if(version_compare(phpversion(), '5.6.0', '>=') &&
+			\OC::$server->getIniWrapper()->getNumeric('always_populate_raw_post_data') !== -1) {
+			$errors[] = array(
+				'error' => $l->t('PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code.'),
+				'hint' => $l->t('To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini')
+			);
+		}
+
 		if (!self::isAnnotationsWorking()) {
 			$errors[] = array(
-				'error' => 'PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.',
-				'hint' => 'This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.'
+				'error' => $l->t('PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible.'),
+				'hint' => $l->t('This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator.')
 			);
 		}
 
