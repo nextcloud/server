@@ -782,12 +782,14 @@ class OC_Util {
 
 	/**
 	 * @param array $errors
+	 * @param string[] $messages
 	 */
-	public static function displayLoginPage($errors = array()) {
+	public static function displayLoginPage($errors = array(), $messages = []) {
 		$parameters = array();
 		foreach ($errors as $value) {
 			$parameters[$value] = true;
 		}
+		$parameters['messages'] = $messages;
 		if (!empty($_REQUEST['user'])) {
 			$parameters["username"] = $_REQUEST['user'];
 			$parameters['user_autofocus'] = false;

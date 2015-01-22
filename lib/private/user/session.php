@@ -189,6 +189,7 @@ class Session implements IUserSession, Emitter {
 	 * @param string $uid
 	 * @param string $password
 	 * @return boolean|null
+	 * @throws LoginException
 	 */
 	public function login($uid, $password) {
 		$this->manager->emit('\OC\User', 'preLogin', array($uid, $password));
@@ -199,7 +200,11 @@ class Session implements IUserSession, Emitter {
 					$this->setUser($user);
 					$this->setLoginName($uid);
 					$this->manager->emit('\OC\User', 'postLogin', array($user, $password));
-					return true;
+					if ($this->isLoggedIn()) {
+						return true;
+					} else {
+						throw new LoginException('Login canceled by app');
+					}
 				} else {
 					return false;
 				}
