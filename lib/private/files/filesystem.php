@@ -175,14 +175,10 @@ class Filesystem {
 	 * @param callable $wrapper
 	 */
 	public static function addStorageWrapper($wrapperName, $wrapper) {
-		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper)) {
+		$mounts = self::getMountManager()->getAll();
+		if (!self::getLoader()->addStorageWrapper($wrapperName, $wrapper, $mounts)) {
 			// do not re-wrap if storage with this name already existed
 			return;
-		}
-
-		$mounts = self::getMountManager()->getAll();
-		foreach ($mounts as $mount) {
-			$mount->wrapStorage($wrapper);
 		}
 	}
 
@@ -201,7 +197,7 @@ class Filesystem {
 	/**
 	 * Returns the mount manager
 	 *
-	 * @return \OC\Files\Filesystem\Mount\Manager
+	 * @return \OC\Files\Mount\Manager
 	 */
 	public static function getMountManager() {
 		if (!self::$mounts) {
