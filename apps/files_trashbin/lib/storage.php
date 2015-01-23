@@ -23,6 +23,7 @@
 
 namespace OCA\Files_Trashbin;
 
+use OC\Files\Filesystem;
 use OC\Files\Storage\Wrapper\Wrapper;
 
 class Storage extends Wrapper {
@@ -38,13 +39,13 @@ class Storage extends Wrapper {
 	}
 
 	public function unlink($path) {
-		$normalized = \OC\Files\Filesystem::normalizePath($this->mountPoint . '/' . $path);
+		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$result = true;
 		if (!isset($this->deletedFiles[$normalized])) {
+			$view = Filesystem::getView();
 			$this->deletedFiles[$normalized] = $normalized;
-			$parts = explode('/', $normalized);
-			if (count($parts) > 3 && $parts[2] === 'files') {
-				$filesPath = implode('/', array_slice($parts, 3));
+			if ($filesPath = $view->getRelativePath($normalized)) {
+				$filesPath = trim($filesPath, '/');
 				$result = \OCA\Files_Trashbin\Trashbin::move2trash($filesPath);
 				// in cross-storage cases the file will be copied
 				// but not deleted, so we delete it here
