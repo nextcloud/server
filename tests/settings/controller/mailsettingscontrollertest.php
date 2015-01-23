@@ -69,26 +69,37 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			);
 		 */
 
-		$this->container['Config']
-			->expects($this->exactly(15))
-			->method('setSystemValue');
-
+		/** @var \PHPUnit_Framework_MockObject_MockObject $config */
+		$config = $this->container['Config'];
+		$config->expects($this->exactly(2))
+			->method('setSystemValues');
 		/**
 		 * FIXME: Use the following block once Jenkins uses PHPUnit >= 4.1
-		 */
-		/*
-		$this->container['Config']
-			->expects($this->exactly(3))
-			->method('deleteSystemValue')
 			->withConsecutive(
-				array($this->equalTo('mail_smtpauth')),
-				array($this->equalTo('mail_smtpname')),
-				array($this->equalTo('mail_smtppassword'))
+				[[
+					'mail_domain' => 'owncloud.com',
+					'mail_from_address' => 'demo@owncloud.com',
+					'mail_smtpmode' => 'smtp',
+					'mail_smtpsecure' => 'ssl',
+					'mail_smtphost' => 'mx.owncloud.org',
+					'mail_smtpauthtype' => 'NTLM',
+					'mail_smtpauth' => 1,
+					'mail_smtpport' => '25',
+				]],
+				[[
+					'mail_domain' => 'owncloud.com',
+					'mail_from_address' => 'demo@owncloud.com',
+					'mail_smtpmode' => 'smtp',
+					'mail_smtpsecure' => 'ssl',
+					'mail_smtphost' => 'mx.owncloud.org',
+					'mail_smtpauthtype' => 'NTLM',
+					'mail_smtpauth' => null,
+					'mail_smtpport' => '25',
+					'mail_smtpname' => null,
+					'mail_smtppassword' => null,
+				]]
 			);
-		*/
-		$this->container['Config']
-			->expects($this->exactly(3))
-			->method('deleteSystemValue');
+		 */
 
 		// With authentication
 		$response = $this->container['MailSettingsController']->setMailSettings(
@@ -126,21 +137,13 @@ class MailSettingsControllerTest extends \Test\TestCase {
 			->method('t')
 			->will($this->returnValue('Saved'));
 
-		/**
-		 * FIXME: Use this block once Jenkins uses PHPUnit >= 4.1
-		 */
-		/*
 		$this->container['Config']
-			->expects($this->exactly(2))
-			->method('setSystemValue')
-			->withConsecutive(
-				array($this->equalTo('mail_smtpname'), $this->equalTo('UsernameToStore')),
-				array($this->equalTo('mail_smtppassword'), $this->equalTo('PasswordToStore'))
-			);
-		*/
-		$this->container['Config']
-			->expects($this->exactly(2))
-			->method('setSystemValue');
+			->expects($this->once())
+			->method('setSystemValues')
+			->with([
+				'mail_smtpname' => 'UsernameToStore',
+				'mail_smtppassword' => 'PasswordToStore',
+			]);
 
 		$response = $this->container['MailSettingsController']->storeCredentials('UsernameToStore', 'PasswordToStore');
 		$expectedResponse = array('data' => array('message' =>'Saved'), 'status' => 'success');
