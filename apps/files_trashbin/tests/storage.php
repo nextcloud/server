@@ -15,11 +15,6 @@ use OC\Files\Filesystem;
 
 class Storage extends \Test\TestCase {
 	/**
-	 * @var \OCA\Files_trashbin\Storage
-	 */
-	private $wrapper;
-
-	/**
 	 * @var string
 	 */
 	private $user;
@@ -43,7 +38,7 @@ class Storage extends \Test\TestCase {
 		parent::setUp();
 
 		$this->user = $this->getUniqueId('user');
-		\OC_User::createUser($this->user, $this->user);
+		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 
 		// this will setup the FS
 		$this->loginAsUser($this->user);
@@ -66,6 +61,9 @@ class Storage extends \Test\TestCase {
 		parent::tearDown();
 	}
 
+	/**
+	 * Test that deleting a file puts it into the trashbin.
+	 */
 	public function testSingleStorageDelete() {
 		$this->assertTrue($this->userView->file_exists('test.txt'));
 		$this->userView->unlink('test.txt');
@@ -80,6 +78,12 @@ class Storage extends \Test\TestCase {
 		$this->assertEquals('test.txt', substr($name, 0, strrpos($name, '.')));
 	}
 
+	/**
+	 * Test that deleting a file from another mounted storage properly
+	 * lands in the trashbin. This is a cross-storage situation because
+	 * the trashbin folder is in the root storage while the mounted one
+	 * isn't.
+	 */
 	public function testCrossStorageDelete() {
 		$storage2 = new Temporary(array());
 		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
@@ -98,5 +102,71 @@ class Storage extends \Test\TestCase {
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('subfile.txt', substr($name, 0, strrpos($name, '.')));
+	}
+
+	/**
+	 * Test that deleted versions properly land in the trashbin.
+	 */
+	public function testDeleteVersions() {
+		\OCA\Files_Versions\Hooks::connectHooks();
+
+		// trigger a version (multiple would not work because of the expire logic)
+		$this->userView->file_put_contents('test.txt', 'v1');
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/');
+		$this->assertEquals(1, count($results));
+
+		$this->userView->unlink('test.txt');
+
+		// rescan trash storage
+		list($rootStorage, ) = $this->rootView->resolvePath($this->user . '/files_trashbin');
+		$rootStorage->getScanner()->scan('');
+
+		// check if versions are in trashbin
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/versions');
+		$this->assertEquals(1, count($results));
+		$name = $results[0]->getName();
+		$this->assertEquals('test.txt', substr($name, 0, strlen('test.txt')));
+	}
+
+	/**
+	 * Test that versions are not auto-trashed when moving a file between
+	 * storages. This is because rename() between storages would call
+	 * unlink() which should NOT trigger the version deletion logic.
+	 */
+	public function testKeepFileAndVersionsWhenMovingBetweenStorages() {
+		\OCA\Files_Versions\Hooks::connectHooks();
+
+		$storage2 = new Temporary(array());
+		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
+
+		// trigger a version (multiple would not work because of the expire logic)
+		$this->userView->file_put_contents('test.txt', 'v1');
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files');
+		$this->assertEquals(0, count($results));
+
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/');
+		$this->assertEquals(1, count($results));
+
+		// move to another storage
+		$this->userView->rename('test.txt', 'substorage/test.txt');
+		$this->userView->file_exists('substorage/test.txt');
+
+		// rescan trash storage
+		list($rootStorage, ) = $this->rootView->resolvePath($this->user . '/files_trashbin');
+		$rootStorage->getScanner()->scan('');
+
+		// versions were moved too
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_versions/substorage');
+		$this->assertEquals(1, count($results));
+
+		// check that nothing got trashed by the rename's unlink() call
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files');
+		$this->assertEquals(0, count($results));
+
+		// check that versions were moved and not trashed
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/versions/');
+		$this->assertEquals(0, count($results));
 	}
 }
