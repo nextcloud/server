@@ -27,6 +27,8 @@ class Test_Share extends \Test\TestCase {
 	protected $user2;
 	protected $user3;
 	protected $user4;
+	protected $user5;
+	protected $user6;
 	protected $groupAndUser;
 	protected $groupBackend;
 	protected $group1;
@@ -45,12 +47,14 @@ class Test_Share extends \Test\TestCase {
 		$this->user3 = $this->getUniqueID('user3_');
 		$this->user4 = $this->getUniqueID('user4_');
 		$this->user5 = $this->getUniqueID('user5_');
+		$this->user6 = $this->getUniqueID('user6_');
 		$this->groupAndUser = $this->getUniqueID('groupAndUser_');
 		OC_User::createUser($this->user1, 'pass');
 		OC_User::createUser($this->user2, 'pass');
 		OC_User::createUser($this->user3, 'pass');
 		OC_User::createUser($this->user4, 'pass');
 		OC_User::createUser($this->user5, 'pass');
+		OC_User::createUser($this->user6, 'pass'); // no group
 		OC_User::createUser($this->groupAndUser, 'pass');
 		OC_User::setUserId($this->user1);
 		OC_Group::clearBackends();
@@ -84,6 +88,18 @@ class Test_Share extends \Test\TestCase {
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
 		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', $this->resharing);
+
+		OC_User::deleteUser($this->user1);
+		OC_User::deleteUser($this->user2);
+		OC_User::deleteUser($this->user3);
+		OC_User::deleteUser($this->user4);
+		OC_User::deleteUser($this->user5);
+		OC_User::deleteUser($this->user6);
+		OC_User::deleteUser($this->groupAndUser);
+
+		OC_Group::deleteGroup($this->group1);
+		OC_Group::deleteGroup($this->group2);
+		OC_Group::deleteGroup($this->groupAndUser);
 
 		parent::tearDown();
 	}
@@ -720,6 +736,8 @@ class Test_Share extends \Test\TestCase {
 		$query->execute($args);
 		$args = array('test', 99, 'target4', OCP\Share::SHARE_TYPE_USER, $this->user3, $this->user4);
 		$query->execute($args);
+		$args = array('test', 99, 'target4', OCP\Share::SHARE_TYPE_USER, $this->user6, $this->user4);
+		$query->execute($args);
 
 
 		$result1 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user2, $this->user1);
@@ -735,8 +753,12 @@ class Test_Share extends \Test\TestCase {
 		$this->verifyResult($result3, array('target3', 'target4'));
 
 		$result4 = \OCP\Share::getItemSharedWithUser('test', 99, null, null);
-		$this->assertSame(4, count($result4));
+		$this->assertSame(5, count($result4)); // 5 because target4 appears twice
 		$this->verifyResult($result4, array('target1', 'target2', 'target3', 'target4'));
+
+		$result6 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user6, null);
+		$this->assertSame(1, count($result6));
+		$this->verifyResult($result6, array('target4'));
 	}
 
 	public function testGetItemSharedWithUserFromGroupShare() {
@@ -772,6 +794,9 @@ class Test_Share extends \Test\TestCase {
 		$result4 = \OCP\Share::getItemSharedWithUser('test', 99, null, null);
 		$this->assertSame(4, count($result4));
 		$this->verifyResult($result4, array('target1', 'target2', 'target3', 'target4'));
+
+		$result6 = \OCP\Share::getItemSharedWithUser('test', 99, $this->user6, null);
+		$this->assertSame(0, count($result6));
 	}
 
 	public function verifyResult($result, $expected) {
