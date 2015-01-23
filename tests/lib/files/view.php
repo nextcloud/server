@@ -613,7 +613,7 @@ class View extends \Test\TestCase {
 		if (\OC_Util::runningOnWindows()) {
 			$this->markTestSkipped('[Windows] ');
 			$depth = ((260 - $tmpdirLength) / 57);
-		}elseif(\OC_Util::runningOnMac()){
+		} elseif (\OC_Util::runningOnMac()) {
 			$depth = ((1024 - $tmpdirLength) / 57);
 		} else {
 			$depth = ((4000 - $tmpdirLength) / 57);
@@ -805,5 +805,32 @@ class View extends \Test\TestCase {
 			array('hasUpdated', 0),
 			array('putFileInfo', array()),
 		);
+	}
+
+	public function testRenameCrossStoragePreserveMtime() {
+		$storage1 = new Temporary(array());
+		$storage2 = new Temporary(array());
+		$scanner1 = $storage1->getScanner();
+		$scanner2 = $storage2->getScanner();
+		$storage1->mkdir('sub');
+		$storage1->mkdir('foo');
+		$storage1->file_put_contents('foo.txt', 'asd');
+		$storage1->file_put_contents('foo/bar.txt', 'asd');
+		\OC\Files\Filesystem::mount($storage1, array(), '/test/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/test/sub/storage');
+
+		$view = new \OC\Files\View('');
+		$time = time() - 200;
+		$view->touch('/test/foo.txt', $time);
+		$view->touch('/test/foo', $time);
+		$view->touch('/test/foo/bar.txt', $time);
+
+		$view->rename('/test/foo.txt', '/test/sub/storage/foo.txt');
+
+		$this->assertEquals($time, $view->filemtime('/test/sub/storage/foo.txt'));
+
+		$view->rename('/test/foo', '/test/sub/storage/foo');
+
+		$this->assertEquals($time, $view->filemtime('/test/sub/storage/foo/bar.txt'));
 	}
 }
