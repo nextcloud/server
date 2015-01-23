@@ -28,6 +28,16 @@ class SystemConfig {
 	}
 
 	/**
+	 * Sets and deletes values and writes the config.php
+	 *
+	 * @param array $configs Associative array with `key => value` pairs
+	 *                       If value is null, the config key will be deleted
+	 */
+	public function setValues(array $configs) {
+		\OC_Config::setValues($configs);
+	}
+
+	/**
 	 * Looks up a system wide defined value
 	 *
 	 * @param string $key the key of the value, under which it was saved

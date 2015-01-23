@@ -41,10 +41,10 @@ class Config {
 
 	/**
 	 * Lists all available config keys
-	 * @return array an array of key names
 	 *
-	 * This function returns all keys saved in config.php. Please note that it
-	 * does not return the values.
+	 * Please note that it does not return the values.
+	 *
+	 * @return array an array of key names
 	 */
 	public function getKeys() {
 		return array_keys($this->cache);
@@ -52,12 +52,12 @@ class Config {
 
 	/**
 	 * Gets a value from config.php
+	 *
+	 * If it does not exist, $default will be returned.
+	 *
 	 * @param string $key key
 	 * @param mixed $default = null default value
 	 * @return mixed the value or $default
-	 *
-	 * This function gets the value from config.php. If it does not exist,
-	 * $default will be returned.
 	 */
 	public function getValue($key, $default = null) {
 		if (isset($this->cache[$key])) {
@@ -68,36 +68,81 @@ class Config {
 	}
 
 	/**
-	 * Sets a value
-	 * @param string $key key
-	 * @param mixed $value value
+	 * Sets and deletes values and writes the config.php
 	 *
-	 * This function sets the value and writes the config.php.
-	 *
+	 * @param array $configs Associative array with `key => value` pairs
+	 *                       If value is null, the config key will be deleted
 	 */
-	public function setValue($key, $value) {
-		// Add change
-		$this->cache[$key] = $value;
+	public function setValues(array $configs) {
+		$needsUpdate = false;
+		foreach ($configs as $key => $value) {
+			if ($value !== null) {
+				$needsUpdate |= $this->set($key, $value);
+			} else {
+				$needsUpdate |= $this->delete($key);
+			}
+		}
 
-		// Write changes
-		$this->writeData();
-	}
-
-	/**
-	 * Removes a key from the config
-	 * @param string $key key
-	 *
-	 * This function removes a key from the config.php.
-	 *
-	 */
-	public function deleteKey($key) {
-		if (isset($this->cache[$key])) {
-			// Delete key from cache
-			unset($this->cache[$key]);
-
+		if ($needsUpdate) {
 			// Write changes
 			$this->writeData();
 		}
+	}
+
+	/**
+	 * Sets the value and writes it to config.php if required
+	 *
+	 * @param string $key key
+	 * @param mixed $value value
+	 */
+	public function setValue($key, $value) {
+		if ($this->set($key, $value)) {
+			// Write changes
+			$this->writeData();
+		}
+	}
+
+	/**
+	 * This function sets the value
+	 *
+	 * @param string $key key
+	 * @param mixed $value value
+	 * @return bool True if the file needs to be updated, false otherwise
+	 */
+	protected function set($key, $value) {
+		if (!isset($this->cache[$key]) || $this->cache[$key] !== $value) {
+			// Add change
+			$this->cache[$key] = $value;
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Removes a key from the config and removes it from config.php if required
+	 * @param string $key
+	 */
+	public function deleteKey($key) {
+		if ($this->delete($key)) {
+			// Write changes
+			$this->writeData();
+		}
+	}
+
+	/**
+	 * This function removes a key from the config
+	 *
+	 * @param string $key
+	 * @return bool True if the file needs to be updated, false otherwise
+	 */
+	protected function delete($key) {
+		if (isset($this->cache[$key])) {
+			// Delete key from cache
+			unset($this->cache[$key]);
+			return true;
+		}
+		return false;
 	}
 
 	/**
