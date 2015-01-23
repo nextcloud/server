@@ -90,7 +90,8 @@ class Application extends App {
 				$c->query('Defaults'),
 				$c->query('Mail'),
 				$c->query('DefaultMailAddress'),
-				$c->query('URLGenerator')
+				$c->query('URLGenerator'),
+				$c->query('OCP\\App\\IAppManager')
 			);
 		});
 		$container->registerService('LogSettingsController', function(IContainer $c) {

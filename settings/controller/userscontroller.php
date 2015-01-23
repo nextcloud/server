@@ -11,9 +11,9 @@
 namespace OC\Settings\Controller;
 
 use OC\AppFramework\Http;
-use OC\User\Manager;
 use OC\User\User;
-use \OCP\AppFramework\Controller;
+use OCP\App\IAppManager;
+use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IConfig;
@@ -52,6 +52,10 @@ class UsersController extends Controller {
 	private $fromMailAddress;
 	/** @var IURLGenerator */
 	private $urlGenerator;
+	/** @var bool contains the state of the encryption app */
+	private $isEncryptionAppEnabled;
+	/** @var bool contains the state of the admin recovery setting */
+	private $isRestoreEnabled = false;
 
 	/**
 	 * @param string $appName
@@ -66,6 +70,7 @@ class UsersController extends Controller {
 	 * @param \OC_Defaults $defaults
 	 * @param \OC_Mail $mail
 	 * @param string $fromMailAddress
+	 * @param IAppManager $appManager
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -79,7 +84,8 @@ class UsersController extends Controller {
 								\OC_Defaults $defaults,
 								\OC_Mail $mail,
 								$fromMailAddress,
-								IURLGenerator $urlGenerator) {
+								IURLGenerator $urlGenerator,
+								IAppManager $appManager) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -92,6 +98,14 @@ class UsersController extends Controller {
 		$this->mail = $mail;
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
+
+		// check for encryption state - TODO see formatUserForIndex
+		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('files_encryption');
+		if($this->isEncryptionAppEnabled) {
+			// putting this directly in empty is possible in PHP 5.5+
+			$result = $config->getAppValue('files_encryption', 'recoveryAdminEnabled', 0);
+			$this->isRestoreEnabled = !empty($result);
+		}
 	}
 
 	/**
@@ -100,7 +114,33 @@ class UsersController extends Controller {
 	 * @return array
 	 */
 	private function formatUserForIndex(IUser $user, array $userGroups = null) {
-		return array(
+
+		// TODO: eliminate this encryption specific code below and somehow
+		// hook in additional user info from other apps
+
+		// recovery isn't possible if admin or user has it disabled and encryption
+		// is enabled - so we eliminate the else paths in the conditional tree
+		// below
+		$restorePossible = false;
+
+		if ($this->isEncryptionAppEnabled) {
+			if ($this->isRestoreEnabled) {
+				// check for the users recovery setting
+				$recoveryMode = $this->config->getUserValue($user->getUID(), 'files_encryption', 'recovery_enabled', '0');
+				// method call inside empty is possible with PHP 5.5+
+				$recoveryModeEnabled = !empty($recoveryMode);
+				if ($recoveryModeEnabled) {
+					// user also has recovery mode enabled
+					$restorePossible = true;
+				}
+			}
+		} else {
+			// recovery is possible if encryption is disabled (plain files are
+			// available)
+			$restorePossible = true;
+		}
+
+		return [
 			'name' => $user->getUID(),
 			'displayname' => $user->getDisplayName(),
 			'groups' => (empty($userGroups)) ? $this->groupManager->getUserGroupIds($user) : $userGroups,
@@ -109,8 +149,9 @@ class UsersController extends Controller {
 			'storageLocation' => $user->getHome(),
 			'lastLogin' => $user->getLastLogin(),
 			'backend' => $user->getBackendClassName(),
-			'email' => $this->config->getUserValue($user->getUID(), 'settings', 'email', '')
-		);
+			'email' => $this->config->getUserValue($user->getUID(), 'settings', 'email', ''),
+			'isRestoreDisabled' => !$restorePossible,
+		];
 	}
 
 	/**
