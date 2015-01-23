@@ -20,11 +20,6 @@ class Storage extends \Test\TestCase {
 	private $wrapper;
 
 	/**
-	 * @var \OCP\Files\Storage
-	 */
-	private $storage;
-
-	/**
 	 * @var string
 	 */
 	private $user;
@@ -33,6 +28,11 @@ class Storage extends \Test\TestCase {
 	 * @var \OC\Files\Storage\Storage
 	 **/
 	private $originalStorage;
+
+	/**
+	 * @var \OC\Files\View
+	 */
+	private $rootView;
 
 	/**
 	 * @var \OC\Files\View
@@ -50,52 +50,31 @@ class Storage extends \Test\TestCase {
 
 		$this->originalStorage = \OC\Files\Filesystem::getStorage('/');
 
-		$mockUser = $this->getMock('\OCP\IUser');
-		$mockUser->expects($this->any())
-			->method('getHome')
-			->will($this->returnValue($this->originalStorage->getLocalFolder($this->user)));
-		$mockUser->expects($this->any())
-			->method('getUID')
-			->will($this->returnValue($this->user));
+		\OCA\Files_Trashbin\Storage::setupStorage();
 
-		// use temp as root storage so we can wrap it for testing
-		$this->storage = new Home(
-			array('user' => $mockUser)
-		);
-		$this->wrapper = new \OCA\Files_Trashbin\Storage(
-			array(
-				'storage' => $this->storage,
-				'mountPoint' => $this->user,
-			)
-		);
-
-		// make room for a new root
-		Filesystem::clearMounts();
-		$rootMount = new MountPoint($this->originalStorage, '');
-		Filesystem::getMountManager()->addMount($rootMount);
-		$homeMount = new MountPoint($this->wrapper, $this->user);
-		Filesystem::getMountManager()->addMount($homeMount);
-
+		$this->rootView = new \OC\Files\View('/');
 		$this->userView = new \OC\Files\View('/' . $this->user . '/files/');
 		$this->userView->file_put_contents('test.txt', 'foo');
+
 	}
 
 	protected function tearDown() {
+		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 		$this->logout();
+		\OC_User::deleteUser($this->user);
 		parent::tearDown();
 	}
 
 	public function testSingleStorageDelete() {
-		$this->assertTrue($this->storage->file_exists('files/test.txt'));
+		$this->assertTrue($this->userView->file_exists('test.txt'));
 		$this->userView->unlink('test.txt');
-		$this->storage->getScanner()->scan('');
+		list($storage, ) = $this->userView->resolvePath('test.txt');
+		$storage->getScanner()->scan(''); // make sure we check the storage
 		$this->assertFalse($this->userView->getFileInfo('test.txt'));
-		$this->assertFalse($this->storage->file_exists('files/test.txt'));
 
 		// check if file is in trashbin
-		$rootView = new \OC\Files\View('/');
-		$results = $rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('test.txt', substr($name, 0, strrpos($name, '.')));
@@ -103,15 +82,7 @@ class Storage extends \Test\TestCase {
 
 	public function testCrossStorageDelete() {
 		$storage2 = new Temporary(array());
-		$wrapper2 = new \OCA\Files_Trashbin\Storage(
-			array(
-				'storage' => $storage2,
-				'mountPoint' => $this->user . '/files/substorage',
-			)
-		);
-
-		$mount = new MountPoint($wrapper2, $this->user . '/files/substorage');
-		Filesystem::getMountManager()->addMount($mount);
+		\OC\Files\Filesystem::mount($storage2, array(), $this->user . '/files/substorage');
 
 		$this->userView->file_put_contents('substorage/subfile.txt', 'foo');
 		$storage2->getScanner()->scan('');
@@ -123,8 +94,7 @@ class Storage extends \Test\TestCase {
 		$this->assertFalse($storage2->file_exists('subfile.txt'));
 
 		// check if file is in trashbin
-		$rootView = new \OC\Files\View('/');
-		$results = $rootView->getDirectoryContent($this->user . '/files_trashbin/files');
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files');
 		$this->assertEquals(1, count($results));
 		$name = $results[0]->getName();
 		$this->assertEquals('subfile.txt', substr($name, 0, strrpos($name, '.')));
