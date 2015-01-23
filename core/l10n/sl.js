@@ -133,6 +133,8 @@ OC.L10N.register(
     "New password" : "Novo geslo",
     "New Password" : "Novo geslo",
     "Reset password" : "Ponastavi geslo",
+    "Searching other places" : "Iskanje drugih mest",
+    "No search result in other places" : "Ni zadetkov iskanja drugih mest",
     "_{count} search result in other places_::_{count} search results in other places_" : ["","","",""],
     "Mac OS X is not supported and %s will not work properly on this platform. Use it at your own risk! " : "Sistem Mac OS X ni podprt, zato %s ne bo deloval zanesljivo v tem okolju. Program uporabljate na lastno odgovornost! ",
     "For the best results, please consider using a GNU/Linux server instead." : "Za najbolj še rezultate je priporočljivo uporabljati strežnik GNU/Linux.",
