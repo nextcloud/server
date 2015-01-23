@@ -68,11 +68,18 @@ class Activity implements \OCP\Activity\IExtension {
 	 * @return array|false
 	 */
 	public function getDefaultTypes($method) {
-		if ($method === 'stream') {
-			return array(self::TYPE_REMOTE_SHARE, self::TYPE_PUBLIC_LINKS);
+		switch ($method) {
+			case 'email':
+				$result = array(self::TYPE_REMOTE_SHARE);
+				break;
+			case 'stream':
+				$result = array(self::TYPE_REMOTE_SHARE, self::TYPE_PUBLIC_LINKS);
+				break;
+			default:
+				$result = false;
 		}
 
-		return false;
+		return $result;
 	}
 
 	/**
