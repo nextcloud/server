@@ -25,6 +25,15 @@ class ActivityManager implements IManager {
 	 */
 	private $extensions = array();
 
+	/** @var array list of filters "name" => "is valid" */
+	protected $validFilters = array();
+
+	/** @var array list of type icons "type" => "css class" */
+	protected $typeIcons = array();
+
+	/** @var array list of special parameters "app" => ["text" => ["parameter" => "type"]] */
+	protected $specialParameters = array();
+
 	/**
 	 * @param $app
 	 * @param $subject
@@ -173,16 +182,26 @@ class ActivityManager implements IManager {
 	 * @return array|false
 	 */
 	function getSpecialParameterList($app, $text) {
+		if (isset($this->specialParameters[$app][$text])) {
+			return $this->specialParameters[$app][$text];
+		}
+
+		if (!isset($this->specialParameters[$app])) {
+			$this->specialParameters[$app] = array();
+		}
+
 		foreach($this->extensions as $extension) {
 			$c = $extension();
 			if ($c instanceof IExtension) {
 				$specialParameter = $c->getSpecialParameterList($app, $text);
 				if (is_array($specialParameter)) {
+					$this->specialParameters[$app][$text] = $specialParameter;
 					return $specialParameter;
 				}
 			}
 		}
 
+		$this->specialParameters[$app][$text] = false;
 		return false;
 	}
 
@@ -191,16 +210,22 @@ class ActivityManager implements IManager {
 	 * @return string
 	 */
 	function getTypeIcon($type) {
+		if (isset($this->typeIcons[$type])) {
+			return $this->typeIcons[$type];
+		}
+
 		foreach($this->extensions as $extension) {
 			$c = $extension();
 			if ($c instanceof IExtension) {
 				$icon = $c->getTypeIcon($type);
 				if (is_string($icon)) {
+					$this->typeIcons[$type] = $icon;
 					return $icon;
 				}
 			}
 		}
 
+		$this->typeIcons[$type] = '';
 		return '';
 	}
 
@@ -249,15 +274,21 @@ class ActivityManager implements IManager {
 	 * @return boolean
 	 */
 	function isFilterValid($filterValue) {
+		if (isset($this->validFilters[$filterValue])) {
+			return $this->validFilters[$filterValue];
+		}
+
 		foreach($this->extensions as $extension) {
 			$c = $extension();
 			if ($c instanceof IExtension) {
 				if ($c->isFilterValid($filterValue) === true) {
+					$this->validFilters[$filterValue] = true;
 					return true;
 				}
 			}
 		}
 
+		$this->validFilters[$filterValue] = false;
 		return false;
 	}
 
