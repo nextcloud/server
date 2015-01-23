@@ -633,9 +633,14 @@ class OC_Util {
 		 * PHP 5.6 ships with a PHP setting which throws notices by default for a
 		 * lot of endpoints. Thus we need to ensure that the value is set to -1
 		 *
+		 * FIXME: Due to https://github.com/owncloud/core/pull/13593#issuecomment-71178078
+		 * this check is disabled for HHVM at the moment. This should get re-evaluated
+		 * at a later point.
+		 *
 		 * @link https://github.com/owncloud/core/issues/13592
 		 */
 		if(version_compare(phpversion(), '5.6.0', '>=') &&
+			!self::runningOnHhvm() &&
 			\OC::$server->getIniWrapper()->getNumeric('always_populate_raw_post_data') !== -1) {
 			$errors[] = array(
 				'error' => $l->t('PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code.'),
@@ -1238,6 +1243,15 @@ class OC_Util {
 	 */
 	public static function runningOnMac() {
 		return (strtoupper(substr(PHP_OS, 0, 6)) === 'DARWIN');
+	}
+
+	/**
+	 * Checks whether server is running on HHVM
+	 *
+	 * @return bool True if running on HHVM, false otherwise
+	 */
+	public static function runningOnHhvm() {
+		return defined('HHVM_VERSION');
 	}
 
 	/**
