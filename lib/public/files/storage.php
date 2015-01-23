@@ -439,4 +439,24 @@ interface Storage {
 	 * @since 8.1.0
 	 */
 	public function changeLock($path, $type, ILockingProvider $provider);
+
+	/**
+	 * Test a storage for availability
+	 *
+	 * @since 8.2.0
+	 * @return bool
+	 */
+	public function test();
+
+	/**
+	 * @since 8.2.0
+	 * @return array [ available, last_checked ]
+	 */
+	public function getAvailability();
+
+	/**
+	 * @since 8.2.0
+	 * @param bool $isAvailable
+	 */
+	public function setAvailability($isAvailable);
 }

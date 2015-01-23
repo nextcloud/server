@@ -102,6 +102,18 @@
 				<length>4</length>
 			</field>
 
+			<field>
+				<name>available</name>
+				<type>boolean</type>
+				<default>true</default>
+				<notnull>true</notnull>
+			</field>
+
+			<field>
+				<name>last_checked</name>
+				<type>integer</type>
+			</field>
+
 			<index>
 				<name>storages_id_index</name>
 				<unique>true</unique>

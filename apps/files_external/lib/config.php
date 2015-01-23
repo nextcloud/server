@@ -494,8 +494,16 @@ class OC_Mount_Config {
 		if (class_exists($class)) {
 			try {
 				$storage = new $class($options);
-				if ($storage->test($isPersonal)) {
-					return self::STATUS_SUCCESS;
+
+				try {
+					$result = $storage->test($isPersonal);
+					$storage->setAvailability($result);
+					if ($result) {
+						return self::STATUS_SUCCESS;
+					}
+				} catch (\Exception $e) {
+					$storage->setAvailability(false);
+					throw $e;
 				}
 			} catch (Exception $exception) {
 				\OCP\Util::logException('files_external', $exception);
