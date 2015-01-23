@@ -88,6 +88,8 @@ class Test_Trashbin extends \Test\TestCase {
 
 		\OC_Hook::clear();
 
+		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+
 		parent::tearDownAfterClass();
 	}
 
