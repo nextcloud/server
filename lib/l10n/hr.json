@@ -111,6 +111,8 @@
     "Please ask your server administrator to install the module." : "Molimo zamolite svog administratora poslužitelja da instalira modul.",
     "PHP module %s not installed." : "PHP modul %s nije instaliran.",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Molimo zamolite svog administratora poslužitelja da ažurira PHP na najnoviju verziju.Vašu PHP verziju ownCloud i PHP zajednica više ne podržavaju.",
+    "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP je očigledno postavljen na strip inline doc blocks. To će nekoliko osnovnih aplikacija učiniti nedostupnima.",
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Uzrok tome je vjerojatno neki ubrzivač predmemoriranja kao što je Zend OPcache ilieAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "PHP moduli su instalirani, ali još uvijek su na popisu onih koji nedostaju?",
     "Please ask your server administrator to restart the web server." : "Molimo zamolite  svog administratora poslužitelja da ponovno pokrene web poslužitelj.",
     "PostgreSQL >= 9 required" : "Potreban je PostgreSQL >= 9",

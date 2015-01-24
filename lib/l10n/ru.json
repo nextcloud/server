@@ -117,6 +117,8 @@
     "Please ask your server administrator to install the module." : "Пожалуйста, попростите администратора сервера установить модуль.",
     "PHP module %s not installed." : "Не установлен PHP-модуль %s.",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Пожалуйста, обратитесь к администратору сервера, чтобы обновить PHP до последней версии. Установленная версия PHP больше не поддерживается ownCloud и сообществом PHP.",
+    "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Очевидно, PHP настроен на вычищение блоков встроенной документации. Это сделает несколько центральных приложений недоступными.",
+    "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Возможно это вызвано кешем/ускорителем вроде Zend OPcache или eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Модули PHP был установлены, но все еще в списке как недостающие?",
     "Please ask your server administrator to restart the web server." : "Пожалуйста, попросите вашего администратора перезапустить веб-сервер.",
     "PostgreSQL >= 9 required" : "Требуется PostgreSQL >= 9",
