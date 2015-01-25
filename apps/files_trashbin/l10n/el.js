@@ -9,6 +9,7 @@ OC.L10N.register(
     "Error" : "Σφάλμα",
     "restored" : "επαναφέρθηκαν",
     "No deleted files" : "Κανένα διαγεγραμμένο αρχείο",
+    "No entries found in this folder" : "Δεν βρέθηκαν καταχωρήσεις σε αυτόν το φάκελο",
     "Select all" : "Επιλογή όλων",
     "Name" : "Όνομα",
     "Deleted" : "Διαγραμμένα",

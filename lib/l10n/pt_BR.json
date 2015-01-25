@@ -117,6 +117,7 @@
     "Please ask your server administrator to install the module." : "Por favor, peça ao seu administrador do servidor para instalar o módulo.",
     "PHP module %s not installed." : "Módulo PHP %s não instalado.",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Por favor, peça ao seu administrador do servidor para atualizar o PHP para a versão mais recente. A sua versão do PHP não é mais suportado pelo ownCloud e a comunidade PHP.",
+    "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Para corrigir esse problema configure <code> always_populate_raw_post_data </code> para <code> -1 </code> em seu arquivo de configuração php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "PHP é, aparentemente, a configuração para retirar blocos doc inline. Isso fará com que vários aplicativos do núcleo fiquem inacessíveis.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Isso provavelmente é causado por uma cache/acelerador, como Zend OPcache ou eAccelerator.",
     "PHP modules have been installed, but they are still listed as missing?" : "Módulos do PHP foram instalados, mas eles ainda estão listados como desaparecidos?",
