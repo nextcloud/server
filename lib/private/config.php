@@ -166,7 +166,9 @@ class Config {
 		// Include file and merge config
 		foreach ($configFiles as $file) {
 			$filePointer = @fopen($file, 'r');
-			if($file === $this->configFilePath && $filePointer === false) {
+			if($file === $this->configFilePath &&
+				$filePointer === false &&
+				@!file_exists($this->configFilePath)) {
 				// Opening the main config might not be possible, e.g. if the wrong
 				// permissions are set (likely on a new installation)
 				continue;
