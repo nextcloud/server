@@ -77,7 +77,7 @@ if (substr($remote, 0, 5) === 'https' and !OC_Util::getUrlContent($remote)) {
 		);
 		$externalManager->removeShare($mount->getMountPoint());
 		\OCP\JSON::error(array('data' => array('message' => $l->t('Storage not valid'))));
-		throw new \OCP\Files\StorageNotAvailableException(get_class($e).': '.$e->getMessage());
+		exit();
 	}
 	$result = $storage->file_exists('');
 	if ($result) {
