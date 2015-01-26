@@ -80,7 +80,9 @@ class IntegrationTests extends \Test\TestCase {
 		$this->assertEquals('text/plain', $file->getMimeType());
 		$this->assertEquals('qwerty', $file->getContent());
 		$this->assertFalse($this->root->nodeExists('/bar.txt'));
-		$file->move('/bar.txt');
+		$target = $file->move('/bar.txt');
+		$this->assertEquals($id, $target->getId());
+		$this->assertEquals($id, $file->getId());
 		$this->assertFalse($this->root->nodeExists('/foo.txt'));
 		$this->assertTrue($this->root->nodeExists('/bar.txt'));
 		$this->assertEquals('bar.txt', $file->getName());
