@@ -194,7 +194,7 @@ class Storage extends DAV implements ISharedStorage {
 		$remote = $this->getRemote();
 		$token = $this->getToken();
 		$password = $this->getPassword();
-		$url = $remote . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
+		$url = rtrim($remote, '/') . '/index.php/apps/files_sharing/shareinfo?t=' . $token;
 
 		$ch = curl_init();
 
