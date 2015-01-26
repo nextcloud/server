@@ -64,7 +64,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			throw new \Sabre\DAV\Exception\ServiceUnavailable("Encryption is disabled");
 		}
 
-		$fileName = basename($this->path);
+		$fileName = basename($this->info->getPath());
 		if (!\OCP\Util::isValidFileName($fileName)) {
 			throw new \Sabre\DAV\Exception\BadRequest();
 		}
@@ -74,8 +74,8 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements \Sabre\
 			return $this->createFileChunked($data);
 		}
 
-		list($storage, ) = $this->fileView->resolvePath($this->path);
-		$needsPartFile = $this->needsPartFile($storage);
+		list($storage,) = $this->fileView->resolvePath($this->path);
+		$needsPartFile = $this->needsPartFile($storage) && (strlen($this->path) > 1);
 
 		if ($needsPartFile) {
 			// mark file as partial while uploading (ignored by the scanner)
