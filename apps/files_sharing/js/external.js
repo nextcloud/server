@@ -131,8 +131,10 @@
 							function(result, share) {
 								if (result) {
 									// Accept
-									$.post(OC.generateUrl('/apps/files_sharing/api/externalShares'), {id: share.id});
-									fileList.reload();
+									$.post(OC.generateUrl('/apps/files_sharing/api/externalShares'), {id: share.id})
+										.then(function() {
+											fileList.reload();
+										});
 								} else {
 									// Delete
 									$.ajax({

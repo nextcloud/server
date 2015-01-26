@@ -31,7 +31,7 @@ describe('OCA.Sharing external tests', function() {
 			fileList: {
 				reload: sinon.stub()
 			}
-		}
+		};
 	});
 	afterEach(function() {
 		urlQueryStub.restore();
@@ -118,6 +118,124 @@ describe('OCA.Sharing external tests', function() {
 		});
 	});
 	describe('show dialog for each share to confirm', function() {
-		// TODO test plugin.processSharesToConfirm()
+		var testShare;
+
+		/**
+		 * Call processSharesToConfirm() and make the fake server
+		 * return the passed response.
+		 *
+		 * @param {Array} response list of shares to process
+		 */
+		function processShares(response) {
+			plugin.processSharesToConfirm();
+
+			expect(fakeServer.requests.length).toEqual(1);
+			
+			var req = fakeServer.requests[0];
+			expect(req.method).toEqual('GET');
+			expect(req.url).toEqual(OC.webroot + '/index.php/apps/files_sharing/api/externalShares');
+
+			req.respond(
+				200,
+				{'Content-Type': 'application/json'},
+				JSON.stringify(response)
+			);
+		}
+
+		beforeEach(function() {
+			testShare = {
+				id: 123,
+				remote: 'http://example.com/owncloud',
+				token: 'abcdefg',
+				owner: 'theowner',
+				name: 'the share name'
+			};
+		});
+
+		it('does not show any dialog if no shares to confirm', function() {
+			processShares([]);
+			expect(confirmDialogStub.notCalled).toEqual(true);
+			expect(promptDialogStub.notCalled).toEqual(true);
+		});
+		it('sends accept info to server on confirm', function() {
+			processShares([testShare]);
+
+			expect(promptDialogStub.notCalled).toEqual(true);
+			expect(confirmDialogStub.calledOnce).toEqual(true);
+
+			confirmDialogStub.getCall(0).args[2](true);
+
+			expect(fakeServer.requests.length).toEqual(2);
+
+			var request = fakeServer.requests[1];
+			var query = OC.parseQueryString(request.requestBody);
+			expect(request.method).toEqual('POST');
+			expect(query).toEqual({id: '123'});
+			expect(request.url).toEqual(
+				OC.webroot + '/index.php/apps/files_sharing/api/externalShares'
+			);
+
+			expect(plugin.filesApp.fileList.reload.notCalled).toEqual(true);
+			request.respond(
+				200,
+				{'Content-Type': 'application/json'},
+				JSON.stringify({status: 'success'})
+			);
+			expect(plugin.filesApp.fileList.reload.calledOnce).toEqual(true);
+		});
+		it('sends delete info to server on cancel', function() {
+			processShares([testShare]);
+
+			expect(promptDialogStub.notCalled).toEqual(true);
+			expect(confirmDialogStub.calledOnce).toEqual(true);
+
+			confirmDialogStub.getCall(0).args[2](false);
+
+			expect(fakeServer.requests.length).toEqual(2);
+
+			var request = fakeServer.requests[1];
+			expect(request.method).toEqual('DELETE');
+			expect(request.url).toEqual(
+				OC.webroot + '/index.php/apps/files_sharing/api/externalShares/123'
+			);
+
+			expect(plugin.filesApp.fileList.reload.notCalled).toEqual(true);
+			request.respond(
+				200,
+				{'Content-Type': 'application/json'},
+				JSON.stringify({status: 'success'})
+			);
+			expect(plugin.filesApp.fileList.reload.notCalled).toEqual(true);
+		});
+		xit('shows another dialog when multiple shares need to be accepted', function() {
+			// TODO: enable this test when fixing multiple dialogs issue / confirm loop
+			var testShare2 = _.extend({}, testShare);
+			testShare2.id = 256;
+			processShares([testShare, testShare2]);
+
+			// confirm first one
+			expect(confirmDialogStub.calledOnce).toEqual(true);
+			confirmDialogStub.getCall(0).args[2](true);
+
+			// next dialog not shown yet
+			expect(confirmDialogStub.calledOnce);
+
+			// respond to the first accept request
+			fakeServer.requests[1].respond(
+				200,
+				{'Content-Type': 'application/json'},
+				JSON.stringify({status: 'success'})
+			);
+
+			// don't reload yet, there are other shares to confirm
+			expect(plugin.filesApp.fileList.reload.notCalled).toEqual(true);
+
+			// cancel second share
+			expect(confirmDialogStub.calledTwice).toEqual(true);
+			confirmDialogStub.getCall(1).args[2](true);
+
+			// reload only called at the very end
+			expect(plugin.filesApp.fileList.reload.calledOnce).toEqual(true);
+		});
 	});
 });
