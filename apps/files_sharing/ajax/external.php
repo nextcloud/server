@@ -34,8 +34,8 @@ $externalManager = new \OCA\Files_Sharing\External\Manager(
 		\OC::$server->getDatabaseConnection(),
 		\OC\Files\Filesystem::getMountManager(),
 		\OC\Files\Filesystem::getLoader(),
-		\OC::$server->getUserSession(),
-		\OC::$server->getHTTPHelper()
+		\OC::$server->getHTTPHelper(),
+		\OC::$server->getUserSession()->getUser()->getUID()
 );
 
 $name = OCP\Files::buildNotExistingFileName('/', $name);

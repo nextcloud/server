@@ -153,8 +153,9 @@ class Test_Files_Sharing_S2S_OCS_API extends TestCase {
 			\OC::$server->getDatabaseConnection(),
 			\OC\Files\Filesystem::getMountManager(),
 			\OC\Files\Filesystem::getLoader(),
-			\OC::$server->getUserSession(),
-			\OC::$server->getHTTPHelper());
+			\OC::$server->getHTTPHelper(),
+			$toDelete
+			);
 
 		$manager->removeUserShares($toDelete);
 
