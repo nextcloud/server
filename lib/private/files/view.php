@@ -537,16 +537,18 @@ class View {
 					if ($this->shouldEmitHooks()) {
 						$this->emit_file_hooks_post($exists, $path2);
 					}
-				} elseif ($this->shouldEmitHooks() && $result !== false) {
+				} elseif ($result !== false) {
 					$this->updater->rename($path1, $path2);
-					\OC_Hook::emit(
-						Filesystem::CLASSNAME,
-						Filesystem::signal_post_rename,
-						array(
-							Filesystem::signal_param_oldpath => $this->getHookPath($path1),
-							Filesystem::signal_param_newpath => $this->getHookPath($path2)
-						)
-					);
+					if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
+						\OC_Hook::emit(
+							Filesystem::CLASSNAME,
+							Filesystem::signal_post_rename,
+							array(
+								Filesystem::signal_param_oldpath => $this->getHookPath($path1),
+								Filesystem::signal_param_newpath => $this->getHookPath($path2)
+							)
+						);
+					}
 				}
 				return $result;
 			} else {
@@ -1315,7 +1317,7 @@ class View {
 		$maxLen = min(PHP_MAXPATHLEN, 4000);
 		// Check for the string length - performed using isset() instead of strlen()
 		// because isset() is about 5x-40x faster.
-		if(isset($path[$maxLen])) {
+		if (isset($path[$maxLen])) {
 			$pathLen = strlen($path);
 			throw new \OCP\Files\InvalidPathException("Path length($pathLen) exceeds max path length($maxLen): $path");
 		}
@@ -1351,7 +1353,7 @@ class View {
 	 * @return \OCP\Files\FileInfo
 	 */
 	private function getPartFileInfo($path) {
-		$mount  = $this->getMount($path);
+		$mount = $this->getMount($path);
 		$storage = $mount->getStorage();
 		$internalPath = $mount->getInternalPath($this->getAbsolutePath($path));
 		return new FileInfo(
