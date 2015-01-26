@@ -1049,7 +1049,7 @@ class View {
 								'core',
 								'Exception while scanning storage "' . $subStorage->getId() . '": ' .
 								get_class($e) . ': ' . $e->getMessage(),
-								\OC_Log::ERROR
+								\OCP\Util::ERROR
 							);
 							continue;
 						}
