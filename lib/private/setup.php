@@ -273,7 +273,7 @@ class OC_Setup {
 	public static function updateHtaccess() {
 		$setupHelper = new OC_Setup(\OC::$server->getConfig());
 		if(!$setupHelper->isCurrentHtaccess()) {
-			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version.');
+			throw new \OC\HintException('.htaccess file has the wrong version. Please upload the correct version. Maybe you forgot to replace it after updating?');
 		}
 
 		$content = "\n";
