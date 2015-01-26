@@ -19,7 +19,6 @@ class Application extends App {
 		parent::__construct('files', $urlParams);
 		$container = $this->getContainer();
 
-
 		/**
 		 * Controllers
 		 */
@@ -50,17 +49,6 @@ class Application extends App {
 				$c->query('ServerContainer')->getUserSession(),
 				$c->query('Tagger'),
 				$homeFolder
-			);
-		});
-
-		/**
-		 * Controllers
-		 */
-		$container->registerService('APIController', function (IContainer $c) {
-			return new ApiController(
-				$c->query('AppName'),
-				$c->query('Request'),
-				$c->query('TagService')
 			);
 		});
 	}
