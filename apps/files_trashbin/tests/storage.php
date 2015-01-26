@@ -37,6 +37,9 @@ class Storage extends \Test\TestCase {
 	protected function setUp() {
 		parent::setUp();
 
+		\OC_Hook::clear();
+		\OCA\Files_Trashbin\Trashbin::registerHooks();
+
 		$this->user = $this->getUniqueId('user');
 		\OC::$server->getUserManager()->createUser($this->user, $this->user);
 
@@ -58,6 +61,7 @@ class Storage extends \Test\TestCase {
 		\OC\Files\Filesystem::mount($this->originalStorage, array(), '/');
 		$this->logout();
 		\OC_User::deleteUser($this->user);
+		\OC_Hook::clear();
 		parent::tearDown();
 	}
 

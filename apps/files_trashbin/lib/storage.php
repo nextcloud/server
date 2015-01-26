@@ -33,12 +33,43 @@ class Storage extends Wrapper {
 	// move files across storages
 	private $deletedFiles = array();
 
+	/**
+	 * Disable trash logic
+	 *
+	 * @var bool
+	 */
+	private static $disableTrash = false;
+
 	function __construct($parameters) {
 		$this->mountPoint = $parameters['mountPoint'];
 		parent::__construct($parameters);
 	}
 
+	/**
+	 * @internal
+	 */
+	public static function preRenameHook($params) {
+		// in cross-storage cases, a rename is a copy + unlink,
+		// that last unlink must not go to trash
+		self::$disableTrash = true;
+	}
+
+	/**
+	 * @internal
+	 */
+	public static function postRenameHook($params) {
+		self::$disableTrash = false;
+	}
+
+	/**
+	 * Deletes the given file by moving it into the trashbin.
+	 *
+	 * @param string $path
+	 */
 	public function unlink($path) {
+		if (self::$disableTrash) {
+			return $this->storage->unlink($path);
+		}
 		$normalized = Filesystem::normalizePath($this->mountPoint . '/' . $path);
 		$result = true;
 		if (!isset($this->deletedFiles[$normalized])) {
