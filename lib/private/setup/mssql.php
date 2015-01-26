@@ -5,7 +5,7 @@ namespace OC\Setup;
 class MSSQL extends AbstractDatabase {
 	public $dbprettyname = 'MS SQL Server';
 
-	public function setupDatabase() {
+	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$masterConnectionInfo = array( "Database" => "master", "UID" => $this->dbuser, "PWD" => $this->dbpassword);
 
