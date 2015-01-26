@@ -64,7 +64,10 @@ $files = \OCA\Files\Helper::getFiles($dir, $sortAttribute, $sortDirection);
 $formattedFiles = array();
 foreach ($files as $file) {
 	$entry = \OCA\Files\Helper::formatFileInfo($file);
-	unset($entry['directory']); // for now
+	// for now
+	unset($entry['directory']);
+	// do not disclose share owner
+	unset($entry['shareOwner']);
 	$entry['permissions'] = \OCP\Constants::PERMISSION_READ;
 	$formattedFiles[] = $entry;
 }
