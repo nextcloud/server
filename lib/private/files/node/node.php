@@ -8,10 +8,9 @@
 
 namespace OC\Files\Node;
 
-use OCP\Files\FileInfo;
 use OCP\Files\NotPermittedException;
 
-class Node implements \OCP\Files\Node, FileInfo {
+class Node implements \OCP\Files\Node {
 	/**
 	 * @var \OC\Files\View $view
 	 */

@@ -29,7 +29,7 @@
 // This means that they should be used by apps instead of the internal ownCloud classes
 namespace OCP\Files;
 
-interface Node {
+interface Node extends FileInfo {
 	/**
 	 * Move the file or folder to a new location
 	 *
