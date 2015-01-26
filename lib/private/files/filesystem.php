@@ -293,7 +293,7 @@ class Filesystem {
 		}
 		$mount = self::$mounts->find($path);
 		if ($mount) {
-			return array($mount->getStorage(), $mount->getInternalPath($path));
+			return array($mount->getStorage(), rtrim($mount->getInternalPath($path), '/'));
 		} else {
 			return array(null, null);
 		}

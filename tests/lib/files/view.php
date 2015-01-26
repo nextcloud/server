@@ -729,6 +729,22 @@ class View extends \Test\TestCase {
 		);
 	}
 
+	public function testFileView() {
+		$storage = new Temporary(array());
+		$scanner = $storage->getScanner();
+		$storage->file_put_contents('foo.txt', 'bar');
+		\OC\Files\Filesystem::mount($storage, array(), '/test/');
+		$scanner->scan('');
+		$view = new \OC\Files\View('/test/foo.txt');
+
+		$this->assertEquals('bar', $view->file_get_contents(''));
+		$fh = tmpfile();
+		fwrite($fh, 'foo');
+		rewind($fh);
+		$view->file_put_contents('', $fh);
+		$this->assertEquals('foo', $view->file_get_contents(''));
+	}
+
 	/**
 	 * @dataProvider tooLongPathDataProvider
 	 * @expectedException \OCP\Files\InvalidPathException
