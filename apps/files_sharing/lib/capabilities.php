@@ -24,28 +24,22 @@ class Capabilities {
 
 		$res = array();
 		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === "yes") {
-			$res["allow_links"] = 1;
+			$res["allow_links"] = true;
 
 			if ($config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === "yes") {
-				$res["enforce_links_password"] = 1;
-			} else {
-				$res["enforce_links_password"] = 0;
-			}
+				$res["enforce_links_password"] = true;
+			} 
 
 			if ($config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === "yes") {
-				$res["allow_public_upload"] = 1;
-			} else {
-				$res["allow_public_upload"] = 0;
+				$res["allow_public_upload"] = true;
 			}
-		} else {
-			$res["allow_links"] = 0;
-		}
+
+			$res = array("sharing" => $res);
+		} 
 		
 		return new \OC_OCS_Result(array(
 			'capabilities' => array(
-				'files' => array(
-					'sharing' => $res
-					),
+				'files' => $res
 				),
 			));
 	}
