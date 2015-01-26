@@ -70,6 +70,16 @@ class AllConfig implements \OCP\IConfig {
 	}
 
 	/**
+	 * Sets and deletes system wide values
+	 *
+	 * @param array $configs Associative array with `key => value` pairs
+	 *                       If value is null, the config key will be deleted
+	 */
+	public function setSystemValues(array $configs) {
+		$this->systemConfig->setValues($configs);
+	}
+
+	/**
 	 * Sets a new system wide value
 	 *
 	 * @param string $key the key of the value, under which will be saved

@@ -59,6 +59,16 @@ class OC_Config {
 	}
 
 	/**
+	 * Sets and deletes values and writes the config.php
+	 *
+	 * @param array $configs Associative array with `key => value` pairs
+	 *                       If value is null, the config key will be deleted
+	 */
+	public static function setValues(array $configs) {
+		self::$object->setValues($configs);
+	}
+
+	/**
 	 * Removes a key from the config
 	 * @param string $key key
 	 *

@@ -35,20 +35,24 @@ abstract class AbstractDatabase {
 	}
 
 	public function initialize($config) {
-		$dbuser = $config['dbuser'];
-		$dbpass = $config['dbpass'];
-		$dbname = $config['dbname'];
-		$dbhost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
-		$dbtableprefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
+		$dbUser = $config['dbuser'];
+		$dbPass = $config['dbpass'];
+		$dbName = $config['dbname'];
+		$dbHost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
+		$dbTablePrefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
 
-		\OC_Config::setValue('dbname', $dbname);
-		\OC_Config::setValue('dbhost', $dbhost);
-		\OC_Config::setValue('dbtableprefix', $dbtableprefix);
+		\OC_Config::setValues([
+			'dbname'		=> $dbName,
+			'dbhost'		=> $dbHost,
+			'dbtableprefix'	=> $dbTablePrefix,
+		]);
 
-		$this->dbuser = $dbuser;
-		$this->dbpassword = $dbpass;
-		$this->dbname = $dbname;
-		$this->dbhost = $dbhost;
-		$this->tableprefix = $dbtableprefix;
+		$this->dbuser = $dbUser;
+		$this->dbpassword = $dbPass;
+		$this->dbname = $dbName;
+		$this->dbhost = $dbHost;
+		$this->tableprefix = $dbTablePrefix;
 	}
+
+	abstract public function setupDatabase($userName);
 }

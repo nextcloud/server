@@ -176,18 +176,19 @@ class OC_Setup {
 
 		//generate a random salt that is used to salt the local user passwords
 		$salt = \OC::$server->getSecureRandom()->getLowStrengthGenerator()->generate(30);
-		\OC::$server->getConfig()->setSystemValue('passwordsalt', $salt);
-
 		// generate a secret
 		$secret = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(48);
-		\OC::$server->getConfig()->setSystemValue('secret', $secret);
 
 		//write the config file
-		\OC::$server->getConfig()->setSystemValue('trusted_domains', $trustedDomains);
-		\OC::$server->getConfig()->setSystemValue('datadirectory', $dataDir);
-		\OC::$server->getConfig()->setSystemValue('overwrite.cli.url', \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . OC::$WEBROOT);
-		\OC::$server->getConfig()->setSystemValue('dbtype', $dbType);
-		\OC::$server->getConfig()->setSystemValue('version', implode('.', OC_Util::getVersion()));
+		\OC::$server->getConfig()->setSystemValues([
+			'passwordsalt'		=> $salt,
+			'secret'			=> $secret,
+			'trusted_domains'	=> $trustedDomains,
+			'datadirectory'		=> $dataDir,
+			'overwrite.cli.url'	=> \OC_Request::serverProtocol() . '://' . \OC_Request::serverHost() . OC::$WEBROOT,
+			'dbtype'			=> $dbType,
+			'version'			=> implode('.', OC_Util::getVersion()),
+		]);
 
 		try {
 			$dbSetup->initialize($options);

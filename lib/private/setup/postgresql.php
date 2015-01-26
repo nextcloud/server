@@ -43,20 +43,15 @@ class PostgreSQL extends AbstractDatabase {
 			$this->dbpassword=\OC_Util::generateRandomBytes(30);
 
 			$this->createDBUser($connection);
-
-			\OC_Config::setValue('dbuser', $this->dbuser);
-			\OC_Config::setValue('dbpassword', $this->dbpassword);
-
-			//create the database
-			$this->createDatabase($connection);
 		}
-		else {
-			\OC_Config::setValue('dbuser', $this->dbuser);
-			\OC_Config::setValue('dbpassword', $this->dbpassword);
 
-			//create the database
-			$this->createDatabase($connection);
-		}
+		\OC_Config::setValues([
+			'dbuser'		=> $this->dbuser,
+			'dbpassword'	=> $this->dbpassword,
+		]);
+
+		//create the database
+		$this->createDatabase($connection);
 
 		// the connection to dbname=postgres is not needed anymore
 		pg_close($connection);

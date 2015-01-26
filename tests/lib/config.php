@@ -71,6 +71,36 @@ class Test_Config extends \Test\TestCase {
 		$this->assertEquals($expected, $content);
 	}
 
+	public function testSetValues() {
+		$content = file_get_contents($this->configFile);
+		$this->assertEquals(self::TESTCONTENT, $content);
+
+		// Changing configs to existing values and deleting non-existing once
+		// should not rewrite the config.php
+		$this->config->setValues([
+			'foo'			=> 'bar',
+			'not_exists'	=> null,
+		]);
+
+		$this->assertAttributeEquals($this->initialConfig, 'cache', $this->config);
+		$content = file_get_contents($this->configFile);
+		$this->assertEquals(self::TESTCONTENT, $content);
+
+		$this->config->setValues([
+			'foo'			=> 'moo',
+			'alcohol_free'	=> null,
+		]);
+		$expectedConfig = $this->initialConfig;
+		$expectedConfig['foo'] = 'moo';
+		unset($expectedConfig['alcohol_free']);
+		$this->assertAttributeEquals($expectedConfig, 'cache', $this->config);
+
+		$content = file_get_contents($this->configFile);
+		$expected = "<?php\n\$CONFIG = array (\n  'foo' => 'moo',\n  'beers' => \n  array (\n    0 => 'Appenzeller',\n  " .
+			"  1 => 'Guinness',\n    2 => 'Kölsch',\n  ),\n);\n";
+		$this->assertEquals($expected, $content);
+	}
+
 	public function testDeleteKey() {
 		$this->config->deleteKey('foo');
 		$expectedConfig = $this->initialConfig;

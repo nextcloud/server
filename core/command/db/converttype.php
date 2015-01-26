@@ -282,17 +282,19 @@ class ConvertType extends Command {
 	protected function saveDBInfo(InputInterface $input) {
 		$type = $input->getArgument('type');
 		$username = $input->getArgument('username');
-		$dbhost = $input->getArgument('hostname');
-		$dbname = $input->getArgument('database');
+		$dbHost = $input->getArgument('hostname');
+		$dbName = $input->getArgument('database');
 		$password = $input->getOption('password');
 		if ($input->getOption('port')) {
-			$dbhost .= ':'.$input->getOption('port');
+			$dbHost .= ':'.$input->getOption('port');
 		}
 
-		$this->config->setSystemValue('dbtype', $type);
-		$this->config->setSystemValue('dbname', $dbname);
-		$this->config->setSystemValue('dbhost', $dbhost);
-		$this->config->setSystemValue('dbuser', $username);
-		$this->config->setSystemValue('dbpassword', $password);
+		$this->config->setSystemValues([
+			'dbtype'		=> $type,
+			'dbname'		=> $dbName,
+			'dbhost'		=> $dbHost,
+			'dbuser'		=> $username,
+			'dbpassword'	=> $password,
+		]);
 	}
 }
