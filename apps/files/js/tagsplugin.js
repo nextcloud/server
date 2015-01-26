@@ -105,12 +105,12 @@
 					} else {
 						tags.push(OC.TAG_FAVORITE);
 					}
+					toggleStar($actionEl, !isFavorite);
 
 					self.applyFileTags(
 						dir + '/' + fileName,
 						tags
 					).then(function(result) {
-						toggleStar($actionEl, !isFavorite);
 						// response from server should contain updated tags
 						var newTags = result.tags;
 						if (_.isUndefined(newTags)) {
@@ -171,8 +171,13 @@
 				}),
 				dataType: 'json',
 				type: 'POST'
-			}).fail(function() {
-				OC.Notification.showTemporary(t('files', 'An error occurred while trying to update the tags'));
+			}).fail(function(response) {
+				var message = '';
+				// show message if it is available
+				if(response.responseJSON && response.responseJSON.message) {
+					message = ': ' + response.responseJSON.message;
+				}
+				OC.Notification.showTemporary(t('files', 'An error occurred while trying to update the tags') + message);
 			});
 		}
 	};
