@@ -23,18 +23,18 @@ class Capabilities {
 		$config = \OC::$server->getConfig();
 
 		$res = array();
-		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === "yes") {
-			$res["allow_links"] = true;
+		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+			$res['allow_links'] = true;
 
-			if ($config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === "yes") {
-				$res["enforce_links_password"] = true;
+			if ($config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes') {
+				$res['enforce_links_password'] = true;
 			} 
 
-			if ($config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === "yes") {
-				$res["allow_public_upload"] = true;
+			if ($config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes') {
+				$res['allow_public_upload'] = true;
 			}
 
-			$res = array("sharing" => $res);
+			$res = array('sharing' => $res);
 		} 
 		
 		return new \OC_OCS_Result(array(
