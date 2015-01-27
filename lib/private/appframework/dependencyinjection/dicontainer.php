@@ -65,7 +65,7 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 			return $this->getServer()->getAppConfig();
 		});
 
-		$this->registerService('OCP\\IAppManager', function($c) {
+		$this->registerService('OCP\\App\\IAppManager', function($c) {
 			return $this->getServer()->getAppManager();
 		});
 
