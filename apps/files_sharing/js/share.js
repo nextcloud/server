@@ -25,7 +25,7 @@
 		 * @param {OCA.Files.FileList} fileList file list to be extended
 		 */
 		attach: function(fileList) {
-			if (fileList.id === 'trashbin') {
+			if (fileList.id === 'trashbin' || fileList.id === 'files.public') {
 				return;
 			}
 			var fileActions = fileList.fileActions;

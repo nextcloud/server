@@ -27,7 +27,7 @@ describe('OCA.Sharing.Util tests', function() {
 		$('#testArea').append($content);
 		// dummy file list
 		var $div = $(
-			'<div>' +
+			'<div id="listContainer">' +
 			'<table id="filestable">' +
 			'<thead></thead>' +
 			'<tbody id="fileList"></tbody>' +
@@ -448,6 +448,30 @@ describe('OCA.Sharing.Util tests', function() {
 			];
 			expect(OCA.Sharing.Util.formatRecipients(recipients, 10))
 				.toEqual('User four, User one, User three, User two, +6');
+		});
+	});
+	describe('Excluded lists', function() {
+		function createListThenAttach(listId) {
+			var fileActions = new OCA.Files.FileActions();
+			fileList.destroy();
+			fileList = new OCA.Files.FileList(
+				$('#listContainer'), {
+					id: listId,
+					fileActions: fileActions
+				}
+			);
+			OCA.Sharing.Util.attach(fileList);
+			fileList.setFiles(testFiles);
+			return fileList;
+		}
+
+		it('does not attach to trashbin or public file lists', function() {
+			createListThenAttach('trashbin');
+			expect($('.action-share').length).toEqual(0);
+			expect($('[data-share-recipient]').length).toEqual(0);
+			createListThenAttach('files.public');
+			expect($('.action-share').length).toEqual(0);
+			expect($('[data-share-recipient]').length).toEqual(0);
 		});
 	});
 	
