@@ -184,7 +184,13 @@ class Test_Mount_Config extends \Test\TestCase {
 		$applicable = 'all';
 		$isPersonal = false;
 
-		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', array(), $mountType, $applicable, $isPersonal));
+		$storageOptions = array(
+			'host' => 'localhost',
+			'user' => 'testuser',
+			'password' => '12345',
+		);
+
+		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', $storageOptions, $mountType, $applicable, $isPersonal));
 
 		$config = $this->readGlobalConfig();
 		$this->assertEquals(1, count($config));
@@ -205,7 +211,13 @@ class Test_Mount_Config extends \Test\TestCase {
 		$applicable = self::TEST_USER1;
 		$isPersonal = true;
 
-		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', array(), $mountType, $applicable, $isPersonal));
+		$storageOptions = array(
+			'host' => 'localhost',
+			'user' => 'testuser',
+			'password' => '12345',
+		);
+
+		$this->assertEquals(true, OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', $storageOptions, $mountType, $applicable, $isPersonal));
 
 		$config = $this->readUserConfig();
 		$this->assertEquals(1, count($config));
@@ -236,8 +248,14 @@ class Test_Mount_Config extends \Test\TestCase {
 			implode(',', array_keys($this->allBackends))
 		);
 
+		$storageOptions = array(
+			'host' => 'localhost',
+			'user' => 'testuser',
+			'password' => '12345',
+		);
+
 		// non-local but forbidden
-		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', array(), $mountType, $applicable, $isPersonal));
+		$this->assertFalse(OC_Mount_Config::addMountPoint('/ext', '\OC\Files\Storage\SFTP', $storageOptions, $mountType, $applicable, $isPersonal));
 
 		$this->assertFalse(file_exists($this->userHome . '/mount.json'));
 	}
@@ -629,7 +647,8 @@ class Test_Mount_Config extends \Test\TestCase {
 			'host' => 'someost',
 			'user' => 'someuser',
 			'password' => 'somepassword',
-			'root' => 'someroot'
+			'root' => 'someroot',
+			'share' => '',
 		);
 
 		// add mount point as "test" user
@@ -872,7 +891,8 @@ class Test_Mount_Config extends \Test\TestCase {
 			'host' => 'somehost',
 			'user' => 'someuser',
 			'password' => 'somepassword',
-			'root' => 'someroot'
+			'root' => 'someroot',
+			'share' => '',
 		);
 
 		// Add mount points
@@ -908,7 +928,8 @@ class Test_Mount_Config extends \Test\TestCase {
 			'host' => 'somehost',
 			'user' => 'someuser',
 			'password' => 'somepassword',
-			'root' => 'someroot'
+			'root' => 'someroot',
+			'share' => '',
 		);
 
 		$this->assertTrue(
@@ -954,7 +975,8 @@ class Test_Mount_Config extends \Test\TestCase {
 			'host' => 'somehost',
 			'user' => 'someuser',
 			'password' => 'somepassword',
-			'root' => 'someroot'
+			'root' => 'someroot',
+			'share' => '',
 		);
 
 		// Create personal mount point
