@@ -42,6 +42,7 @@ var UserList = {
 	 *				'lastLogin':		'1418632333'
 	 *				'backend':			'LDAP',
 	 *				'email':			'username@example.org'
+	 *				'isRestoreDisabled':false
 	 * 			}
 	 * @param sort
 	 * @returns table row created for this user
@@ -63,11 +64,12 @@ var UserList = {
 		}
 
 		/**
-		 * add username and displayname to row (in data and visible markup
+		 * add username and displayname to row (in data and visible markup)
 		 */
 		$tr.data('uid', user.name);
 		$tr.data('displayname', user.displayname);
 		$tr.data('mailAddress', user.email);
+		$tr.data('restoreDisabled', user.isRestoreDisabled);
 		$tr.find('td.name').text(user.name);
 		$tr.find('td.displayName > span').text(user.displayname);
 		$tr.find('td.mailAddress > span').text(user.email);
@@ -352,6 +354,9 @@ var UserList = {
 	getMailAddress: function(element) {
 		return ($(element).closest('tr').data('mailAddress') || '').toString();
 	},
+	getRestoreDisabled: function(element) {
+		return ($(element).closest('tr').data('restoreDisabled') || '');
+	},
 	initDeleteHandling: function() {
 		//set up handler
 		UserDeleteHandler = new DeleteHandler('/settings/users/users', 'username',
@@ -627,8 +632,16 @@ $(document).ready(function () {
 		event.stopPropagation();
 
 		var $td = $(this).closest('td');
+		var $tr = $(this).closest('tr');
 		var uid = UserList.getUID($td);
 		var $input = $('<input type="password">');
+		var isRestoreDisabled = UserList.getRestoreDisabled($td) === true;
+		if(isRestoreDisabled) {
+			$tr.addClass('row-warning');
+			// add tipsy if the password change could cause data loss - no recovery enabled
+			$input.tipsy({gravity:'s', fade:false});
+			$input.attr('title', t('settings', 'Changing the password will result in data loss, because data recovery is not available for this user'));
+		}
 		$td.find('img').hide();
 		$td.children('span').replaceWith($input);
 		$input
@@ -655,6 +668,8 @@ $(document).ready(function () {
 			.blur(function () {
 				$(this).replaceWith($('<span>●●●●●●●</span>'));
 				$td.find('img').show();
+				// remove highlight class from users without recovery ability
+				$tr.removeClass('row-warning');
 			});
 	});
 	$('input:password[id="recoveryPassword"]').keyup(function() {

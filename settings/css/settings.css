@@ -132,7 +132,10 @@ input.userFilter {width: 200px;}
 .ie8 table.hascontrols{border-collapse:collapse;width: 100%;}
 .ie8 table.hascontrols tbody tr{border-collapse:collapse;border: 1px solid #ddd !important;}
 
-
+/* used to highlight a user row in red */
+#userlist tr.row-warning {
+	background-color: #FDD;
+}
 
 
 /* APPS */
