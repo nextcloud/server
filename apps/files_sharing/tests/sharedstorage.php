@@ -46,6 +46,8 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->view->unlink($this->folder);
 		$this->view->unlink($this->filename);
 
+		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
+
 		parent::tearDown();
 	}
 

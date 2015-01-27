@@ -111,6 +111,8 @@ class Test_Files_Sharing_Updater extends OCA\Files_sharing\Tests\TestCase {
 		if ($status === false) {
 			\OC_App::disable('files_trashbin');
 		}
+
+		\OC\Files\Filesystem::getLoader()->removeStorageWrapper('oc_trashbin');
 	}
 
 	/**

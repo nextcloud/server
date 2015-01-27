@@ -511,7 +511,7 @@ class View {
 					}
 				} else {
 					if ($this->is_dir($path1)) {
-						$result = $this->copy($path1, $path2);
+						$result = $this->copy($path1, $path2, true);
 						if ($result === true) {
 							$result = $storage1->rmdir($internalPath1);
 						}
@@ -519,6 +519,7 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+						$this->touch($path2, $this->filemtime($path1));
 
 						// close open handle - especially $source is necessary because unlink below will
 						// throw an exception on windows because the file is locked
@@ -556,7 +557,7 @@ class View {
 		}
 	}
 
-	public function copy($path1, $path2) {
+	public function copy($path1, $path2, $preserveMtime = false) {
 		$postFix1 = (substr($path1, -1, 1) === '/') ? '/' : '';
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
@@ -601,10 +602,13 @@ class View {
 				} else {
 					if ($this->is_dir($path1) && ($dh = $this->opendir($path1))) {
 						$result = $this->mkdir($path2);
+						if ($preserveMtime) {
+							$this->touch($path2, $this->filemtime($path1));
+						}
 						if (is_resource($dh)) {
 							while (($file = readdir($dh)) !== false) {
 								if (!Filesystem::isIgnoredDir($file)) {
-									$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file);
+									$result = $this->copy($path1 . '/' . $file, $path2 . '/' . $file, $preserveMtime);
 								}
 							}
 						}
@@ -612,6 +616,9 @@ class View {
 						$source = $this->fopen($path1 . $postFix1, 'r');
 						$target = $this->fopen($path2 . $postFix2, 'w');
 						list($count, $result) = \OC_Helper::streamCopy($source, $target);
+						if($preserveMtime) {
+							$this->touch($path2, $this->filemtime($path1));
+						}
 						fclose($source);
 						fclose($target);
 					}
