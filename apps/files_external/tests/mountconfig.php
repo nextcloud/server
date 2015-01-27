@@ -21,6 +21,12 @@
  */
 
 class Test_Mount_Config_Dummy_Storage {
+	public function __construct($params) {
+		if (isset($params['simulateFail']) && $params['simulateFail'] == true) {
+			throw new \Exception('Simulated config validation fail');
+		}
+	}
+
 	public function test() {
 		return true;
 	}
@@ -81,6 +87,13 @@ class Test_Mount_Config extends \Test\TestCase {
 
 	protected function setUp() {
 		parent::setUp();
+
+		OC_Mount_Config::registerBackend('Test_Mount_Config_Dummy_Storage', array(
+				'backend' => 'dummy',
+				'priority' => 150,
+				'configuration' => array()
+			)
+		);
 
 		\OC_User::createUser(self::TEST_USER1, self::TEST_USER1);
 		\OC_User::createUser(self::TEST_USER2, self::TEST_USER2);
@@ -1003,5 +1016,30 @@ class Test_Mount_Config extends \Test\TestCase {
 			$mountPointsOther['/'.self::TEST_USER1.'/files/ext']['class']);
 		$this->assertEquals($mountConfig,
 			$mountPointsOther['/'.self::TEST_USER1.'/files/ext']['options']);
+	}
+
+	public function testAllowWritingIncompleteConfigIfStorageContructorFails() {
+		$storageClass = 'Test_Mount_Config_Dummy_Storage';
+		$mountType = 'user';
+		$applicable = 'all';
+		$isPersonal = false;
+
+		$this->assertTrue(
+			OC_Mount_Config::addMountPoint(
+				'/ext',
+				$storageClass,
+				array('simulateFail' => true),
+				$mountType,
+				$applicable,
+				$isPersonal
+			)
+		);
+
+		// config can be retrieved afterwards
+		$mounts = OC_Mount_Config::getSystemMountPoints();
+		$this->assertEquals(1, count($mounts));
+
+		// no storage id was set
+		$this->assertFalse(isset($mounts[0]['storage_id']));
 	}
 }
