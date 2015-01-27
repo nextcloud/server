@@ -203,6 +203,9 @@ OC.Share={
 			tooltip += '@' + userDomain;
 		}
 		if (server) {
+			if (!userDomain) {
+				userDomain = '…';
+			}
 			tooltip += '@' + server;
 		}
 
