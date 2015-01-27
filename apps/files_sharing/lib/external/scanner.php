@@ -8,6 +8,11 @@
 
 namespace OCA\Files_Sharing\External;
 
+use OC\ForbiddenException;
+use OCP\Files\NotFoundException;
+use OCP\Files\StorageInvalidException;
+use OCP\Files\StorageNotAvailableException;
+
 class Scanner extends \OC\Files\Cache\Scanner {
 	/**
 	 * @var \OCA\Files_Sharing\External\Storage
@@ -18,12 +23,56 @@ class Scanner extends \OC\Files\Cache\Scanner {
 		$this->scanAll();
 	}
 
+	/**
+	 * Scan a single file and store it in the cache.
+	 * If an exception happened while accessing the external storage,
+	 * the storage will be checked for availability and removed
+	 * if it is not available any more.
+	 *
+	 * @param string $file file to scan
+	 * @param int $reuseExisting
+	 * @return array an array of metadata of the scanned file
+	 */
+	public function scanFile($file, $reuseExisting = 0) {
+		try {
+			return parent::scanFile($file, $reuseExisting);
+		} catch (ForbiddenException $e) {
+			$this->storage->checkStorageAvailability();
+		} catch (NotFoundException $e) {
+			// if the storage isn't found, the call to
+			// checkStorageAvailable() will verify it and remove it
+			// if appropriate
+			$this->storage->checkStorageAvailability();
+		} catch (StorageInvalidException $e) {
+			$this->storage->checkStorageAvailability();
+		} catch (StorageNotAvailableException $e) {
+			$this->storage->checkStorageAvailability();
+		}
+	}
+
+	/**
+	 * Checks the remote share for changes.
+	 * If changes are available, scan them and update
+	 * the cache.
+	 */
 	public function scanAll() {
-		$data = $this->storage->getShareInfo();
+		try {
+			$data = $this->storage->getShareInfo();
+		} catch (\Exception $e) {
+			$this->storage->checkStorageAvailability();
+			throw new \Exception(
+				'Error while scanning remote share: "' .
+				$this->storage->getRemote() . '" ' .
+				$e->getMessage()
+			);
+		}
 		if ($data['status'] === 'success') {
 			$this->addResult($data['data'], '');
 		} else {
-			throw new \Exception('Error while scanning remote share');
+			throw new \Exception(
+				'Error while scanning remote share: "' .
+				$this->storage->getRemote() . '"'
+			);
 		}
 	}
 

@@ -42,20 +42,70 @@ $name = OCP\Files::buildNotExistingFileName('/', $name);
 
 // check for ssl cert
 if (substr($remote, 0, 5) === 'https' and !OC_Util::getUrlContent($remote)) {
-	\OCP\JSON::error(array('data' => array('message' => $l->t("Invalid or untrusted SSL certificate"))));
+	\OCP\JSON::error(array('data' => array('message' => $l->t('Invalid or untrusted SSL certificate'))));
 	exit;
 } else {
 	$mount = $externalManager->addShare($remote, $token, $password, $name, $owner, true);
+
 	/**
 	 * @var \OCA\Files_Sharing\External\Storage $storage
 	 */
 	$storage = $mount->getStorage();
+	try {
+		// check if storage exists
+		$storage->checkStorageAvailability();
+	} catch (\OCP\Files\StorageInvalidException $e) {
+		// note: checkStorageAvailability will already remove the invalid share
+		\OCP\Util::writeLog(
+			'files_sharing',
+			'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+			\OCP\Util::DEBUG
+		);
+		\OCP\JSON::error(
+			array(
+				'data' => array(
+					'message' => $l->t('Could not authenticate to remote share, password might be wrong')
+				)
+			)
+		);
+		exit();
+	} catch (\Exception $e) {
+		\OCP\Util::writeLog(
+			'files_sharing',
+			'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+			\OCP\Util::DEBUG
+		);
+		$externalManager->removeShare($mount->getMountPoint());
+		\OCP\JSON::error(array('data' => array('message' => $l->t('Storage not valid'))));
+		exit();
+	}
 	$result = $storage->file_exists('');
 	if ($result) {
-		$storage->getScanner()->scanAll();
-		\OCP\JSON::success();
+		try {
+			$storage->getScanner()->scanAll();
+			\OCP\JSON::success();
+		} catch (\OCP\Files\StorageInvalidException $e) {
+			\OCP\Util::writeLog(
+				'files_sharing',
+				'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+				\OCP\Util::DEBUG
+			);
+			\OCP\JSON::error(array('data' => array('message' => $l->t('Storage not valid'))));
+		} catch (\Exception $e) {
+			\OCP\Util::writeLog(
+				'files_sharing',
+				'Invalid remote storage: ' . get_class($e) . ': ' . $e->getMessage(),
+				\OCP\Util::DEBUG
+			);
+			\OCP\JSON::error(array('data' => array('message' => $l->t('Couldn\'t add remote share'))));
+		}
 	} else {
 		$externalManager->removeShare($mount->getMountPoint());
-		\OCP\JSON::error(array('data' => array('message' => $l->t("Couldn't add remote share"))));
+		\OCP\Util::writeLog(
+			'files_sharing',
+			'Couldn\'t add remote share',
+			\OCP\Util::DEBUG
+		);
+		\OCP\JSON::error(array('data' => array('message' => $l->t('Couldn\'t add remote share'))));
 	}
 }
