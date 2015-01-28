@@ -8,6 +8,8 @@
 	margin-left: 3px;
 	overflow: hidden;
 	vertical-align: top;
+	position: relative;
+	z-index: -20;
 }
 #upload .icon-upload {
 	position: relative;
