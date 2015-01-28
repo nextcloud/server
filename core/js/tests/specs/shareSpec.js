@@ -702,17 +702,17 @@ describe('OC.Share tests', function() {
 			it('displays the user name part of a remote share owner', function() {
 				checkOwner(
 					'User One@someserver.com',
-					'User One',
+					'User One@…',
 					'User One@someserver.com'
 				);
 				checkOwner(
 					'User One@someserver.com/',
-					'User One',
+					'User One@…',
 					'User One@someserver.com'
 				);
 				checkOwner(
 					'User One@someserver.com/root/of/owncloud',
-					'User One',
+					'User One@…',
 					'User One@someserver.com'
 				);
 			});
