@@ -511,7 +511,7 @@ class OC_Installer{
 			OC_Appconfig::setValue($app, 'ocsid', $info['ocsid']);
 		}
 
-		//set remote/public handelers
+		//set remote/public handlers
 		foreach($info['remote'] as $name=>$path) {
 			OCP\CONFIG::setAppValue('core', 'remote_'.$name, $app.'/'.$path);
 		}
