@@ -71,7 +71,7 @@ class Storage extends \Test\TestCase {
 	public function testSingleStorageDelete() {
 		$this->assertTrue($this->userView->file_exists('test.txt'));
 		$this->userView->unlink('test.txt');
-		list($storage, ) = $this->userView->resolvePath('test.txt');
+		list($storage,) = $this->userView->resolvePath('test.txt');
 		$storage->getScanner()->scan(''); // make sure we check the storage
 		$this->assertFalse($this->userView->getFileInfo('test.txt'));
 
@@ -123,7 +123,7 @@ class Storage extends \Test\TestCase {
 		$this->userView->unlink('test.txt');
 
 		// rescan trash storage
-		list($rootStorage, ) = $this->rootView->resolvePath($this->user . '/files_trashbin');
+		list($rootStorage,) = $this->rootView->resolvePath($this->user . '/files_trashbin');
 		$rootStorage->getScanner()->scan('');
 
 		// check if versions are in trashbin
@@ -158,7 +158,7 @@ class Storage extends \Test\TestCase {
 		$this->userView->file_exists('substorage/test.txt');
 
 		// rescan trash storage
-		list($rootStorage, ) = $this->rootView->resolvePath($this->user . '/files_trashbin');
+		list($rootStorage,) = $this->rootView->resolvePath($this->user . '/files_trashbin');
 		$rootStorage->getScanner()->scan('');
 
 		// versions were moved too
@@ -171,6 +171,39 @@ class Storage extends \Test\TestCase {
 
 		// check that versions were moved and not trashed
 		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/versions/');
+		$this->assertEquals(0, count($results));
+	}
+
+	/**
+	 * Delete should fail is the source file cant be deleted
+	 */
+	public function testSingleStorageDeleteFail() {
+		/**
+		 * @var \OC\Files\Storage\Temporary | \PHPUnit_Framework_MockObject_MockObject $storage
+		 */
+		$storage = $this->getMockBuilder('\OC\Files\Storage\Temporary')
+			->setConstructorArgs([[]])
+			->setMethods(['rename', 'unlink'])
+			->getMock();
+
+		$storage->expects($this->any())
+			->method('rename')
+			->will($this->returnValue(false));
+		$storage->expects($this->any())
+			->method('unlink')
+			->will($this->returnValue(false));
+
+		$cache = $storage->getCache();
+
+		Filesystem::mount($storage, [], '/' . $this->user . '/files');
+		$this->userView->file_put_contents('test.txt', 'foo');
+		$this->assertTrue($storage->file_exists('test.txt'));
+		$this->assertFalse($this->userView->unlink('test.txt'));
+		$this->assertTrue($storage->file_exists('test.txt'));
+		$this->assertTrue($cache->inCache('test.txt'));
+
+		// file should not be in the trashbin
+		$results = $this->rootView->getDirectoryContent($this->user . '/files_trashbin/files/');
 		$this->assertEquals(0, count($results));
 	}
 }
