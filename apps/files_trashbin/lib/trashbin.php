@@ -167,6 +167,9 @@ class Trashbin {
 		$trashPath = '/files_trashbin/files/' . $filename . '.d' . $timestamp;
 		try {
 			$sizeOfAddedFiles = $view->filesize('/files/' . $file_path);
+			if ($view->file_exists($trashPath)) {
+				$view->unlink($trashPath);
+			}
 			$view->rename('/files/' . $file_path, $trashPath);
 		} catch (\OCA\Files_Trashbin\Exceptions\CopyRecursiveException $e) {
 			$sizeOfAddedFiles = false;
