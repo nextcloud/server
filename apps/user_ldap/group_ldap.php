@@ -444,6 +444,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if(!$this->groupExists($gid)) {
 			return array();
 		}
+		$search = $this->access->escapeFilterPart($search, true);
 		$cacheKey = 'usersInGroup-'.$gid.'-'.$search.'-'.$limit.'-'.$offset;
 		// check for cache of the exact query
 		$groupUsers = $this->access->connection->getFromCache($cacheKey);
@@ -557,6 +558,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 			$this->access->connection->writeToCache($cacheKey, $groupUsers);
 			return $groupUsers;
 		}
+		$search = $this->access->escapeFilterPart($search, true);
 		$isMemberUid =
 			(strtolower($this->access->connection->ldapGroupMemberAssocAttr)
 			=== 'memberuid');
@@ -663,6 +665,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
+		$search = $this->access->escapeFilterPart($search, true);
 		$pagingSize = $this->access->connection->ldapPagingSize;
 		if ((! $this->access->connection->hasPagedResultSupport)
 		   	|| empty($pagingSize)) {
