@@ -251,7 +251,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	/**
 	 * returns a filter for a "users in primary group" search or count operation
 	 *
-	 * @param $groupDN
+	 * @param string $groupDN
 	 * @param string $search
 	 * @return string
 	 * @throws \Exception
@@ -281,7 +281,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
-	 * @return \string[]
+	 * @return string[]
 	 */
 	public function getUsersInPrimaryGroup($groupDN, $search = '', $limit = -1, $offset = 0) {
 		try {
@@ -300,7 +300,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 	/**
 	 * returns the number of users that have the given group as primary group
 	 *
-	 * @param $groupDN
+	 * @param string $groupDN
 	 * @param string $search
 	 * @param int $limit
 	 * @param int $offset
@@ -310,7 +310,7 @@ class GROUP_LDAP extends BackendUtility implements \OCP\GroupInterface {
 		try {
 			$filter = $this->prepareFilterForUsersInPrimaryGroup($groupDN, $search);
 			$users = $this->access->countUsers($filter, array('dn'), $limit, $offset);
-			return (is_int($users)) ? $users : 0;
+			return (int)$users;
 		} catch (\Exception $e) {
 			return 0;
 		}
