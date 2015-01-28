@@ -42,6 +42,14 @@ class MountPoint implements IMountPoint {
 	private $loader;
 
 	/**
+	 * Specified whether the storage is invalid after failing to
+	 * instantiate it.
+	 *
+	 * @var bool
+	 */
+	private $invalidStorage = false;
+
+	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional) configuration for the storage backend
@@ -99,10 +107,15 @@ class MountPoint implements IMountPoint {
 	 * @return \OC\Files\Storage\Storage
 	 */
 	private function createStorage() {
+		if ($this->invalidStorage) {
+			return null;
+		}
+
 		if (class_exists($this->class)) {
 			try {
 				return $this->loader->getInstance($this->mountPoint, $this->class, $this->arguments);
 			} catch (\Exception $exception) {
+				$this->invalidStorage = true;
 				if ($this->mountPoint === '/') {
 					// the root storage could not be initialized, show the user!
 					throw new \Exception('The root storage could not be initialized. Please contact your local administrator.', $exception->getCode(), $exception);
@@ -113,6 +126,7 @@ class MountPoint implements IMountPoint {
 			}
 		} else {
 			\OC_Log::write('core', 'storage backend ' . $this->class . ' not found', \OC_Log::ERROR);
+			$this->invalidStorage = true;
 			return null;
 		}
 	}
@@ -137,6 +151,7 @@ class MountPoint implements IMountPoint {
 				if (is_null($storage)) {
 					return null;
 				}
+
 				$this->storage = $storage;
 			}
 			$this->storageId = $this->storage->getId();
@@ -177,7 +192,11 @@ class MountPoint implements IMountPoint {
 	 * @param callable $wrapper
 	 */
 	public function wrapStorage($wrapper) {
-		$this->storage = $wrapper($this->mountPoint, $this->getStorage());
+		$storage = $this->getStorage();
+		// storage can be null if it couldn't be initialized
+		if ($storage != null) {
+			$this->storage = $wrapper($this->mountPoint, $storage);
+		}
 	}
 
 	/**
