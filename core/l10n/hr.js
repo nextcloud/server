@@ -93,7 +93,7 @@ OC.L10N.register(
     "group" : "Grupa",
     "remote" : "na daljinu",
     "Resharing is not allowed" : "Ponovno dijeljenje nije dopušteno",
-    "Shared in {item} with {user}" : "Podijeljeno u {item} s {user}",
+    "Shared in {item} with {user}" : "Podijeljeno u {item} sa {user}",
     "Unshare" : "Prestanite dijeliti",
     "notify by email" : "Obavijestite e-poštom",
     "can share" : "Dijeljenje moguće",

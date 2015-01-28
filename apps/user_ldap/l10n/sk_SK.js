@@ -33,6 +33,7 @@ OC.L10N.register(
     "Confirm Deletion" : "Potvrdiť vymazanie",
     "_%s group found_::_%s groups found_" : ["%s nájdená skupina","%s nájdené skupiny","%s nájdených skupín"],
     "_%s user found_::_%s users found_" : ["%s nájdený používateľ","%s nájdení používatelia","%s nájdených používateľov"],
+    "Could not detect user display name attribute. Please specify it yourself in advanced ldap settings." : "Nemožno zistiť používateľský atribút pre zobrazenie používateľského mena. Prosím, zadajte ho sami v pokročilých nastaveniach LDAP.",
     "Could not find the desired feature" : "Nemožno nájsť požadovanú funkciu",
     "Invalid Host" : "Neplatný hostiteľ",
     "Server" : "Server",

@@ -75,7 +75,7 @@
     "Encryption was disabled but your files are still encrypted. Please go to your personal settings to decrypt your files." : "Krypteringen blev deaktiveret, men dine filer er stadig krypteret. Gå venligst til dine personlige indstillinger for at dekryptere dine filer. ",
     "_matches '{filter}'_::_match '{filter}'_" : ["match '{filter}'","match '{filter}'"],
     "{dirs} and {files}" : "{dirs} og {files}",
-    "Favorited" : "Gjort til favorit",
+    "Favorited" : "Gjort til foretrukken",
     "Favorite" : "Foretrukken",
     "%s could not be renamed as it has been deleted" : "%s kunne ikke omdøbes, da den er blevet slettet",
     "%s could not be renamed" : "%s kunne ikke omdøbes",
@@ -103,7 +103,7 @@
     "The files you are trying to upload exceed the maximum size for file uploads on this server." : "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
     "Files are being scanned, please wait." : "Filerne bliver indlæst, vent venligst.",
     "Currently scanning" : "Indlæser",
-    "No favorites" : "Ingen favoritter",
-    "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som favoritter, vil blive vist her"
+    "No favorites" : "Ingen foretrukne",
+    "Files and folders you mark as favorite will show up here" : "Filer og mapper som du har markeret som foretrukne, vil blive vist her"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

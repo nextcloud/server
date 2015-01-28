@@ -19,6 +19,7 @@ OC.L10N.register(
     "Language changed" : "Хэл солигдлоо",
     "Invalid request" : "Буруу хүсэлт",
     "Admins can't remove themself from the admin group" : "Админууд өөрсдийгөө Админ бүлгээс хасаж чадахгүй",
+    "Wrong password" : "Нууц үг буруу",
     "All" : "Бүгд",
     "Password" : "Нууц үг",
     "Email" : "И-мэйл",

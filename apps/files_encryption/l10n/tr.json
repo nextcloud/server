@@ -27,6 +27,7 @@
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "OpenSSL'nin PHP uzantısıyla birlikte etkin ve düzgün yapılandırılmış olduğundan emin olun. Şimdilik şifreleme uygulaması devre dışı bırakıldı.",
     "Following users are not set up for encryption:" : "Aşağıdaki kullanıcılar şifreleme için ayarlanmamış:",
     "Go directly to your %spersonal settings%s." : "Doğrudan %skişisel ayarlarınıza%s gidin.",
+    "Server-side Encryption" : "Sunucu Taraflı Şifreleme",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Şifreleme Uygulaması etkin ancak anahtarlarınız başlatılmamış. Lütfen oturumu kapatıp yeniden açın",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Kurtarma anahtarını etkinleştir (parola kaybı durumunda kullanıcı dosyalarının kurtarılmasına izin verir):",
     "Recovery key password" : "Kurtarma anahtarı parolası",

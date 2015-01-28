@@ -152,7 +152,7 @@ OC.L10N.register(
     "Error deleting tag(s)" : "Fejl ved sletning af mærke(r)",
     "Error tagging" : "Fejl ved opmærkning",
     "Error untagging" : "Fejl ved fjernelse af opmærkning",
-    "Error favoriting" : "Fejl ved favoritering",
+    "Error favoriting" : "Fejl ved omdannelse til foretrukken",
     "Error unfavoriting" : "Fejl ved fjernelse af favorisering.",
     "Access forbidden" : "Adgang forbudt",
     "File not found" : "Filen blev ikke fundet",

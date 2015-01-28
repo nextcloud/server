@@ -29,6 +29,7 @@ OC.L10N.register(
     "Please make sure that OpenSSL together with the PHP extension is enabled and configured properly. For now, the encryption app has been disabled." : "Please make sure that OpenSSL together with the PHP extension is enabled and properly configured. For now, the encryption app has been disabled.",
     "Following users are not set up for encryption:" : "Following users are not set up for encryption:",
     "Go directly to your %spersonal settings%s." : "Go directly to your %spersonal settings%s.",
+    "Server-side Encryption" : "Server-side Encryption",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Encryption App is enabled but your keys are not initialised, please log-out and log-in again",
     "Enable recovery key (allow to recover users files in case of password loss):" : "Enable recovery key (allow to recover users files in case of password loss):",
     "Recovery key password" : "Recovery key password",
