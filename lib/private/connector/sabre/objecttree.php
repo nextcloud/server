@@ -35,11 +35,11 @@ class ObjectTree extends \Sabre\DAV\ObjectTree {
 	}
 
 	/**
-	 * @param \Sabre\DAV\ICollection $rootNode
+	 * @param \Sabre\DAV\INode $rootNode
 	 * @param \OC\Files\View $view
 	 * @param \OC\Files\Mount\Manager $mountManager
 	 */
-	public function init(\Sabre\DAV\ICollection $rootNode, \OC\Files\View $view, \OC\Files\Mount\Manager $mountManager) {
+	public function init(\Sabre\DAV\INode $rootNode, \OC\Files\View $view, \OC\Files\Mount\Manager $mountManager) {
 		$this->rootNode = $rootNode;
 		$this->fileView = $view;
 		$this->mountManager = $mountManager;
