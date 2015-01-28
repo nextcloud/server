@@ -85,6 +85,8 @@ class Storage extends Wrapper {
 				$result = $this->storage->unlink($path);
 			}
 			unset($this->deletedFiles[$normalized]);
+		} else if ($this->storage->file_exists($path)) {
+			$result = $this->storage->unlink($path);
 		}
 
 		return $result;
