@@ -19,4 +19,8 @@
 	<documentation>
 		<admin>admin-provisioning-api</admin>
 	</documentation>
+	<types>
+		<!-- this is used to disable the feature of enabling an app for specific groups only because this would break this app -->
+		<filesystem/>
+	</types>
 </info>
