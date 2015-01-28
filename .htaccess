@@ -13,7 +13,7 @@ php_value post_max_size 513M
 php_value memory_limit 512M
 php_value mbstring.func_overload 0
 php_value always_populate_raw_post_data -1
-<IfModule env_module>
+<IfModule mod_env.c>
   SetEnv htaccessWorking true
 </IfModule>
 </IfModule>
@@ -34,7 +34,7 @@ RewriteRule ^(\.|autotest|occ|issue|indie|db_|console).* - [R=404,L]
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 </IfModule>
-<IfModule dir_module>
+<IfModule mod_dir.c>
 DirectoryIndex index.php index.html
 </IfModule>
 AddDefaultCharset utf-8
