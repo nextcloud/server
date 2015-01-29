@@ -1109,7 +1109,7 @@ class Util {
 			// Find out who, if anyone, is sharing the file
 			$result = \OCP\Share::getUsersSharingFile($ownerPath, $owner);
 			$userIds = \array_merge($userIds, $result['users']);
-			if ($result['public']) {
+			if ($result['public'] || $result['remote']) {
 				$userIds[] = $this->publicShareKeyId;
 			}
 
