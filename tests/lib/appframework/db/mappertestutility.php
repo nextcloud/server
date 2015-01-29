@@ -88,15 +88,14 @@ abstract class MapperTestUtility extends \Test\TestCase {
 					}
 
 					return $result;
-			  	}
+				}
 			));
 		if ($expectClose) {
-            $closing = $this->once();
-        } else {
-            $closing = $this->any();
-        }
-        $this->pdoResult->expects($closing)
-            ->method('closeCursor');
+			$closing = $this->once();
+		} else {
+			$closing = $this->any();
+		}
+		$this->pdoResult->expects($closing)->method('closeCursor');
 
 		$index = 1;
 		foreach($arguments as $argument) {
