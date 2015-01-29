@@ -668,7 +668,7 @@ class Share extends TestCase {
 			. $this->filename . '/' . self::TEST_ENCRYPTION_SHARE_USER1 . '.shareKey'));
 	}
 
-		function testPublicShareFile() {
+	function testPublicShareFile() {
 		// login as admin
 		self::loginHelper(self::TEST_ENCRYPTION_SHARE_USER1);
 
@@ -676,7 +676,7 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-			$this->assertInternalType('int', $cryptedFile);
+		$this->assertInternalType('int', $cryptedFile);
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -687,7 +687,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-			$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
