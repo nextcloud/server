@@ -163,7 +163,7 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// get the file info from previous created file
 		$fileInfo = $this->view->getFileInfo(
@@ -229,7 +229,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertInstanceOf('\\OC\\Files\\FileInfo', $fileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -412,7 +412,7 @@ class Share extends TestCase {
 			. $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -423,7 +423,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files' . $this->folder1);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -501,7 +501,7 @@ class Share extends TestCase {
 			. $this->subfolder);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfoSubFolder instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfoSubFolder);
 
 		// re-enable the file proxy
 		\OC_FileProxy::$enabled = $proxyStatus;
@@ -535,7 +535,7 @@ class Share extends TestCase {
 			. $this->subsubfolder . '/' . $this->filename);
 
 		// check if we have fileInfos
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// share the file with user3
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER4, \OCP\Constants::PERMISSION_ALL);
@@ -620,7 +620,7 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -631,7 +631,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -676,7 +676,7 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/'  . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+			$this->assertInternalType('int', $cryptedFile);
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -687,7 +687,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+			$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -754,7 +754,7 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -765,7 +765,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -860,8 +860,8 @@ class Share extends TestCase {
 			. $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile1));
-		$this->assertTrue(is_int($cryptedFile2));
+		$this->assertInternalType('int', $cryptedFile1);
+		$this->assertInternalType('int', $cryptedFile2);
 
 		// check if share key for admin and recovery exists
 		$this->assertTrue($this->view->file_exists(
@@ -967,8 +967,8 @@ class Share extends TestCase {
 			. $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile1));
-		$this->assertTrue(is_int($cryptedFile2));
+		$this->assertInternalType('int', $cryptedFile1);
+		$this->assertInternalType('int', $cryptedFile2);
 
 		// check if share key for user and recovery exists
 		$this->assertTrue($this->view->file_exists(
@@ -1055,7 +1055,7 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// disable encryption proxy to prevent recursive calls
 		$proxyStatus = \OC_FileProxy::$enabled;
@@ -1066,7 +1066,7 @@ class Share extends TestCase {
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// check if the unencrypted file size is stored
 		$this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
@@ -1138,14 +1138,14 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// get the file info from previous created file
 		$fileInfo = $this->view->getFileInfo(
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// share the file
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
@@ -1204,14 +1204,14 @@ class Share extends TestCase {
 		$cryptedFile = file_put_contents('crypt:///' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename, $this->dataShort);
 
 		// test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// get the file info from previous created file
 		$fileInfo = $this->view->getFileInfo(
 			'/' . self::TEST_ENCRYPTION_SHARE_USER1 . '/files/' . $this->filename);
 
 		// check if we have a valid file info
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// share the file
 		\OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_GROUP, self::TEST_ENCRYPTION_SHARE_GROUP1, \OCP\Constants::PERMISSION_ALL);
@@ -1283,7 +1283,7 @@ class Share extends TestCase {
 		$cryptedFile = \OC\Files\Filesystem::file_put_contents($folder . $filename, $this->dataShort);
 
 		// Test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// Get file decrypted contents
 		$decrypt = \OC\Files\Filesystem::file_get_contents($folder . $filename);
@@ -1295,7 +1295,7 @@ class Share extends TestCase {
 
 		// get the file info from previous created file
 		$fileInfo = \OC\Files\Filesystem::getFileInfo('/newfolder');
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// share the folder
 		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
@@ -1341,7 +1341,7 @@ class Share extends TestCase {
 		$cryptedFile = \OC\Files\Filesystem::file_put_contents($folder . $filename, $this->dataShort);
 
 		// Test that data was successfully written
-		$this->assertTrue(is_int($cryptedFile));
+		$this->assertInternalType('int', $cryptedFile);
 
 		// Get file decrypted contents
 		$decrypt = \OC\Files\Filesystem::file_get_contents($folder . $filename);
@@ -1353,7 +1353,7 @@ class Share extends TestCase {
 
 		// get the file info from previous created file
 		$fileInfo = \OC\Files\Filesystem::getFileInfo($folder);
-		$this->assertTrue($fileInfo instanceof \OC\Files\FileInfo);
+		$this->assertInstanceOf('\OC\Files\FileInfo', $fileInfo);
 
 		// share the folder
 		\OCP\Share::shareItem('folder', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, self::TEST_ENCRYPTION_SHARE_USER2, \OCP\Constants::PERMISSION_ALL);
