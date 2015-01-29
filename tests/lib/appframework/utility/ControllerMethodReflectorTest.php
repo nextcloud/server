@@ -37,6 +37,11 @@ class BaseController {
 	 */
 	public function test2(){}
 
+	/**
+	 * @Annotation
+	 */
+	public function test3(){}
+
 }
 
 class MiddleController extends BaseController {
@@ -45,6 +50,8 @@ class MiddleController extends BaseController {
 	 * @NoAnnotation
 	 */
 	public function test2() {}
+
+	public function test3() {}
 
 }
 
@@ -153,5 +160,12 @@ class ControllerMethodReflectorTest extends \Test\TestCase {
 		$this->assertFalse($reader->hasAnnotation('Annotation'));
 	}
 
+
+	public function testInheritanceOverrideNoDocblock() {
+		$reader = new ControllerMethodReflector();
+		$reader->reflect('OC\AppFramework\Utility\EndController', 'test3');
+
+		$this->assertFalse($reader->hasAnnotation('Annotation'));
+	}
 
 }
