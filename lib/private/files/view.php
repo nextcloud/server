@@ -527,7 +527,7 @@ class View {
 						fclose($target);
 
 						if ($result !== false) {
-							$storage1->unlink($internalPath1);
+							$result &= $storage1->unlink($internalPath1);
 						}
 					}
 				}
@@ -537,7 +537,7 @@ class View {
 					if ($this->shouldEmitHooks()) {
 						$this->emit_file_hooks_post($exists, $path2);
 					}
-				} elseif ($result !== false) {
+				} elseif ($result) {
 					$this->updater->rename($path1, $path2);
 					if ($this->shouldEmitHooks($path1) and $this->shouldEmitHooks($path2)) {
 						\OC_Hook::emit(
