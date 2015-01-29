@@ -34,7 +34,7 @@ class Server2Server {
 	public function createShare($params) {
 
 		if (!$this->isS2SEnabled(true)) {
-			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support federated cloud sharing');
 		}
 
 		$remote = isset($_POST['remote']) ? $_POST['remote'] : null;
@@ -94,7 +94,7 @@ class Server2Server {
 	public function acceptShare($params) {
 
 		if (!$this->isS2SEnabled()) {
-			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support federated cloud sharing');
 		}
 
 		$id = $params['id'];
@@ -121,7 +121,7 @@ class Server2Server {
 	public function declineShare($params) {
 
 		if (!$this->isS2SEnabled()) {
-			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support federated cloud sharing');
 		}
 
 		$id = $params['id'];
@@ -152,7 +152,7 @@ class Server2Server {
 	public function unshare($params) {
 
 		if (!$this->isS2SEnabled()) {
-			return new \OC_OCS_Result(null, 503, 'Server does not support server-to-server sharing');
+			return new \OC_OCS_Result(null, 503, 'Server does not support federated cloud sharing');
 		}
 
 		$id = $params['id'];
