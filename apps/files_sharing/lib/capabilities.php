@@ -16,27 +16,44 @@ namespace OCA\Files_Sharing;
  */
 class Capabilities {
 
-	/**
-	 * @return \OC_OCS_Result
+	private $config;
+
+	/*
+	 * @codeCoverageIgnore
+	 */
+	public function __construct($config) {
+		$this->config = $config;
+	}
+
+	/*
+	 * @codeCoverageIgnore
 	 */
 	public static function getCapabilities() {
 		$config = \OC::$server->getConfig();
+		$cap = new Capabilities($config);
+		return $cap->getCaps();
+	}
 
+
+	/**
+	 * @return \OC_OCS_Result
+	 */
+	public function getCaps() {
 		$res = array();
-		if ($config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
+		if ($this->config->getAppValue('core', 'shareapi_allow_links', 'yes') === 'yes') {
 			$res['allow_links'] = true;
 
-			if ($config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes') {
+			if ($this->config->getAppValue('core', 'shareapi_enforce_links_password', 'yes') === 'yes') {
 				$res['enforce_links_password'] = true;
 			} 
 
-			if ($config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes') {
+			if ($this->config->getAppValue('core', 'shareapi_allow_public_upload', 'yes') === 'yes') {
 				$res['allow_public_upload'] = true;
 			}
 
 			$res = array('sharing' => $res);
-		} 
-		
+		}
+
 		return new \OC_OCS_Result(array(
 			'capabilities' => array(
 				'files' => $res
