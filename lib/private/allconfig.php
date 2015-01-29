@@ -181,6 +181,7 @@ class AllConfig implements \OCP\IConfig {
 				'WHERE `userid` = ? AND `appid` = ? AND `configkey` = ?';
 		$result = $this->connection->executeQuery($sql, array($userId, $appName, $key));
 		$oldValue = $result->fetchColumn();
+		$result->closeCursor();
 		$exists = $oldValue !== false;
 
 		if($oldValue === strval($value)) {
