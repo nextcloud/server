@@ -41,7 +41,7 @@ abstract class Mapper {
 
 	/**
 	 * @param IDb $db Instance of the Db abstraction layer
-	 * @param string $tableName the name of the table. set this to allow entity 
+	 * @param string $tableName the name of the table. set this to allow entity
 	 * @param string $entityClass the name of the entity that the sql should be
 	 * mapped to queries without using sql
 	 */
@@ -70,10 +70,12 @@ abstract class Mapper {
 	/**
 	 * Deletes an entity from the table
 	 * @param Entity $entity the entity that should be deleted
+	 * @return Entity the deleted entity
 	 */
 	public function delete(Entity $entity){
 		$sql = 'DELETE FROM `' . $this->tableName . '` WHERE `id` = ?';
-		$this->execute($sql, array($entity->getId()));
+		$this->execute($sql, [$entity->getId()]);
+		return $entity;
 	}
 
 
@@ -88,14 +90,14 @@ abstract class Mapper {
 		$properties = $entity->getUpdatedFields();
 		$values = '';
 		$columns = '';
-		$params = array();
+		$params = [];
 
 		// build the fields
 		$i = 0;
 		foreach($properties as $property => $updated) {
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
-			
+
 			$columns .= '`' . $column . '`';
 			$values .= '?';
 
@@ -112,10 +114,11 @@ abstract class Mapper {
 
 		$sql = 'INSERT INTO `' . $this->tableName . '`(' .
 				$columns . ') VALUES(' . $values . ')';
-		
+
 		$this->execute($sql, $params);
 
 		$entity->setId((int) $this->db->getInsertId($this->tableName));
+
 		return $entity;
 	}
 
@@ -147,7 +150,7 @@ abstract class Mapper {
 		unset($properties['id']);
 
 		$columns = '';
-		$params = array();
+		$params = [];
 
 		// build the fields
 		$i = 0;
@@ -155,7 +158,7 @@ abstract class Mapper {
 
 			$column = $entity->propertyToColumn($property);
 			$getter = 'get' . ucfirst($property);
-			
+
 			$columns .= '`' . $column . '` = ?';
 
 			// only append colon if there are more entries
@@ -167,7 +170,7 @@ abstract class Mapper {
 			$i++;
 		}
 
-		$sql = 'UPDATE `' . $this->tableName . '` SET ' . 
+		$sql = 'UPDATE `' . $this->tableName . '` SET ' .
 				$columns . ' WHERE `id` = ?';
 		array_push($params, $id);
 
@@ -185,7 +188,7 @@ abstract class Mapper {
 	 * @param int $offset from which row we want to start
 	 * @return \PDOStatement the database query result
 	 */
-	protected function execute($sql, array $params=array(), $limit=null, $offset=null){
+	protected function execute($sql, array $params=[], $limit=null, $offset=null){
 		$query = $this->db->prepareQuery($sql, $limit, $offset);
 
 		$index = 1;  // bindParam is 1 indexed
@@ -199,12 +202,12 @@ abstract class Mapper {
 				case 'boolean':
 					$pdoConstant = \PDO::PARAM_BOOL;
 					break;
-				
+
 				default:
 					$pdoConstant = \PDO::PARAM_STR;
 					break;
 			}
-			
+
 			$query->bindValue($index, $param, $pdoConstant);
 
 			$index++;
@@ -226,14 +229,16 @@ abstract class Mapper {
 	 * @throws MultipleObjectsReturnedException if more than one item exist
 	 * @return array the result as row
 	 */
-	protected function findOneQuery($sql, array $params=array(), $limit=null, $offset=null){
-		$result = $this->execute($sql, $params, $limit, $offset);
-		$row = $result->fetch();
+	protected function findOneQuery($sql, array $params=[], $limit=null, $offset=null){
+		$stmt = $this->execute($sql, $params, $limit, $offset);
+		$row = $stmt->fetch();
 
 		if($row === false || $row === null){
+			$stmt->closeCursor();
 			throw new DoesNotExistException('No matching entry found');
 		}
-		$row2 = $result->fetch();
+		$row2 = $stmt->fetch();
+		$stmt->closeCursor();
 		//MDB2 returns null, PDO and doctrine false when no row is available
 		if( ! ($row2 === false || $row2 === null )) {
 			throw new MultipleObjectsReturnedException('More than one result');
@@ -262,14 +267,16 @@ abstract class Mapper {
 	 * @param int $offset from which row we want to start
 	 * @return array all fetched entities
 	 */
-	protected function findEntities($sql, array $params=array(), $limit=null, $offset=null) {
-		$result = $this->execute($sql, $params, $limit, $offset);
+	protected function findEntities($sql, array $params=[], $limit=null, $offset=null) {
+		$stmt = $this->execute($sql, $params, $limit, $offset);
 
-		$entities = array();
-		
-		while($row = $result->fetch()){
+		$entities = [];
+
+		while($row = $stmt->fetch()){
 			$entities[] = $this->mapRowToEntity($row);
 		}
+
+		$stmt->closeCursor();
 
 		return $entities;
 	}
@@ -286,7 +293,7 @@ abstract class Mapper {
 	 * @throws MultipleObjectsReturnedException if more than one item exist
 	 * @return Entity the entity
 	 */
-	protected function findEntity($sql, array $params=array(), $limit=null, $offset=null){
+	protected function findEntity($sql, array $params=[], $limit=null, $offset=null){
 		return $this->mapRowToEntity($this->findOneQuery($sql, $params, $limit, $offset));
 	}
 

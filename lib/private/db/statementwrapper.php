@@ -69,6 +69,7 @@ class OC_DB_StatementWrapper {
 			return false;
 		}
 		if ($this->isManipulation) {
+			$this->statement->closeCursor();
 			return $this->statement->rowCount();
 		} else {
 			return $this;
