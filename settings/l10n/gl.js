@@ -87,6 +87,7 @@ OC.L10N.register(
     "never" : "nunca",
     "deleted {userName}" : "{userName} foi eliminado",
     "add group" : "engadir un grupo",
+    "Changing the password will result in data loss, because data recovery is not available for this user" : "Mudar o contrasinal resultará nunha perda de datos, xa que a recuperación de datos non está dispoñible para este usuario",
     "A valid username must be provided" : "Debe fornecer un nome de usuario",
     "Error creating user" : "Produciuse un erro ao crear o usuario",
     "A valid password must be provided" : "Debe fornecer un contrasinal",

@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Le partage de serveur à serveur n'est pas activé sur ce serveur",
     "The mountpoint name contains invalid characters." : "Le nom du point de montage contient des caractères invalides.",
     "Invalid or untrusted SSL certificate" : "Certificat SSL non valable ou non fiable",
+    "Could not authenticate to remote share, password might be wrong" : "Impossible de s'authentifier au partage distant : le mot de passe en probablement incorrect",
+    "Storage not valid" : "Support de stockage non valide",
     "Couldn't add remote share" : "Impossible d'ajouter le partage distant",
     "Shared with you" : "Partagés avec vous",
     "Shared with others" : "Partagés avec d'autres",

@@ -87,6 +87,7 @@ OC.L10N.register(
     "never" : "geen",
     "deleted {userName}" : "verwijderd {userName}",
     "add group" : "toevoegen groep",
+    "Changing the password will result in data loss, because data recovery is not available for this user" : "Wijzigen van het wachtwoord leidt tot gegevensverlies, omdat gegevensherstel voor deze gebruiker niet beschikbaar is",
     "A valid username must be provided" : "Er moet een geldige gebruikersnaam worden opgegeven",
     "Error creating user" : "Fout bij aanmaken gebruiker",
     "A valid password must be provided" : "Er moet een geldig wachtwoord worden opgegeven",

@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "На данном сервере выключено межсерверное предоставление общего доступа",
     "The mountpoint name contains invalid characters." : "Имя точки монтирования содержит недопустимые символы.",
     "Invalid or untrusted SSL certificate" : "Недействительный или недоверенный сертификат SSL",
+    "Could not authenticate to remote share, password might be wrong" : "Не удалось произвести аутентификацию для доступа к удалённому хранилищу, возможно неправильно указан пароль",
+    "Storage not valid" : "Хранилище не доступно",
     "Couldn't add remote share" : "Невозможно добавить удалённый общий ресурс",
     "Shared with you" : "Поделились с вами",
     "Shared with others" : "Доступные для других",

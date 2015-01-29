@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Server til serverdeling er ikke slået til på denne server",
     "The mountpoint name contains invalid characters." : "Monteringspunktets navn indeholder ugyldige tegn.",
     "Invalid or untrusted SSL certificate" : "Ugyldigt eller upålideligt SSL-certifikat",
+    "Could not authenticate to remote share, password might be wrong" : "Kunne ikke autentikere til fjerndelingen - kodeordet er muilgvis forkert",
+    "Storage not valid" : "Lagerplads er ikke gyldig",
     "Couldn't add remote share" : "Kunne ikke tliføje den delte ekstern ressource",
     "Shared with you" : "Delt med dig",
     "Shared with others" : "Delt med andre",

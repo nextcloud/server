@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Zdieľanie server-server nie je na tomto serveri povolené",
     "The mountpoint name contains invalid characters." : "Názov pripojovacieho bodu obsahuje nepovolené znaky.",
     "Invalid or untrusted SSL certificate" : "Neplatný alebo nedôveryhodný certifikát SSL",
+    "Could not authenticate to remote share, password might be wrong" : "Nie je možné overiť vo vzdialenom úložisku, heslo môže byť nesprávne",
+    "Storage not valid" : "Neplatné úložisko",
     "Couldn't add remote share" : "Nemožno pridať vzdialené zdieľanie",
     "Shared with you" : "Zdieľané s vami",
     "Shared with others" : "Zdieľané s ostanými",

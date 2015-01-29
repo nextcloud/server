@@ -2,6 +2,8 @@
     "Server to server sharing is not enabled on this server" : "Der Server für die Serverfreigabe ist auf diesem Server nicht aktiviert",
     "The mountpoint name contains invalid characters." : "Der Name des Einhängepunktes enthält nicht gültige Zeichen.",
     "Invalid or untrusted SSL certificate" : "Ungültiges oder nicht vertrauenswürdiges SSL-Zertifikat",
+    "Could not authenticate to remote share, password might be wrong" : "Die Authentifizierung an der entfernten Freigabe konnte nicht erfolgen, das Passwort könnte falsch sein",
+    "Storage not valid" : "Speicher ungültig",
     "Couldn't add remote share" : "Entfernte Freigabe kann nicht hinzu gefügt werden",
     "Shared with you" : "Mit Dir geteilt",
     "Shared with others" : "Von Dir geteilt",

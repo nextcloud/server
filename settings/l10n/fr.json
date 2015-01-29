@@ -85,6 +85,7 @@
     "never" : "jamais",
     "deleted {userName}" : "{userName} supprimé",
     "add group" : "ajouter un groupe",
+    "Changing the password will result in data loss, because data recovery is not available for this user" : "La modification du mot de passe entrainera la perte des données car la restauration de données n'est pas disponible pour cet utilisateur",
     "A valid username must be provided" : "Un nom d'utilisateur valide doit être saisi",
     "Error creating user" : "Erreur lors de la création de l'utilisateur",
     "A valid password must be provided" : "Un mot de passe valide doit être saisi",

@@ -87,6 +87,7 @@ OC.L10N.register(
     "never" : "aldrig",
     "deleted {userName}" : "slettede {userName}",
     "add group" : "Tilføj gruppe",
+    "Changing the password will result in data loss, because data recovery is not available for this user" : "Ændring af kodeordet vil føre til datatab, fordi datagendannelse ikke er tilgængelig for denne bruger",
     "A valid username must be provided" : "Et gyldigt brugernavn skal angives",
     "Error creating user" : "Fejl ved oprettelse af bruger",
     "A valid password must be provided" : "En gyldig adgangskode skal angives",

@@ -85,6 +85,7 @@
     "never" : "ei koskaan",
     "deleted {userName}" : "poistettu {userName}",
     "add group" : "lisää ryhmä",
+    "Changing the password will result in data loss, because data recovery is not available for this user" : "Salasanan muuttaminen johtaa tietojen häviämiseen, koska tietojen palautusta ei ole käytettävissä tämän käyttäjän kohdalla",
     "A valid username must be provided" : "Anna kelvollinen käyttäjätunnus",
     "Error creating user" : "Virhe käyttäjää luotaessa",
     "A valid password must be provided" : "Anna kelvollinen salasana",

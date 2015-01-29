@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Server met server delen is niet geactiveerd op deze server",
     "The mountpoint name contains invalid characters." : "De naam van het mountpoint bevat ongeldige karakters.",
     "Invalid or untrusted SSL certificate" : "Ongeldig of onvertrouwd SSL-certificaat",
+    "Could not authenticate to remote share, password might be wrong" : "Kon niet authenticeren bij externe share, misschien verkeerd wachtwoord",
+    "Storage not valid" : "Opslag ongeldig",
     "Couldn't add remote share" : "Kon geen externe share toevoegen",
     "Shared with you" : "Gedeeld met u",
     "Shared with others" : "Gedeeld door u",
