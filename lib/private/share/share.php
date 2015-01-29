@@ -706,6 +706,7 @@ class Share extends \OC\Share\Constants {
 			$token = \OC::$server->getSecureRandom()->getMediumStrengthGenerator()->generate(self::TOKEN_LENGTH, \OCP\Security\ISecureRandom::CHAR_LOWER . \OCP\Security\ISecureRandom::CHAR_UPPER .
 				\OCP\Security\ISecureRandom::CHAR_DIGITS);
 
+			$shareWith = rtrim($shareWith, '/');
 			$shareId = self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions, null, $token, $itemSourceName);
 
 			$send = false;
