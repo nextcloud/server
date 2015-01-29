@@ -103,6 +103,7 @@ class Share extends \OC\Share\Constants {
 
 		$shares = $sharePaths = $fileTargets = array();
 		$publicShare = false;
+		$remoteShare = false;
 		$source = -1;
 		$cache = false;
 
@@ -170,21 +171,38 @@ class Share extends \OC\Share\Constants {
 
 			//check for public link shares
 			if (!$publicShare) {
-				$query = \OC_DB::prepare(
-					'SELECT `share_with`
-					FROM
-					`*PREFIX*share`
-					WHERE
-					`item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')'
+				$query = \OC_DB::prepare('
+					SELECT `share_with`
+					FROM `*PREFIX*share`
+					WHERE `item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')', 1
 				);
 
 				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
 
 				if (\OCP\DB::isError($result)) {
-					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
 				} else {
 					if ($result->fetchRow()) {
 						$publicShare = true;
+					}
+				}
+			}
+
+			//check for remote share
+			if (!$remoteShare) {
+				$query = \OC_DB::prepare('
+					SELECT `share_with`
+					FROM `*PREFIX*share`
+					WHERE `item_source` = ? AND `share_type` = ? AND `item_type` IN (\'file\', \'folder\')', 1
+				);
+
+				$result = $query->execute(array($source, self::SHARE_TYPE_REMOTE));
+
+				if (\OCP\DB::isError($result)) {
+					\OCP\Util::writeLog('OCP\Share', \OC_DB::getErrorMessage($result), \OCP\Util::ERROR);
+				} else {
+					if ($result->fetchRow()) {
+						$remoteShare = true;
 					}
 				}
 			}
@@ -234,7 +252,7 @@ class Share extends \OC\Share\Constants {
 			return $sharePaths;
 		}
 
-		return array("users" => array_unique($shares), "public" => $publicShare);
+		return array('users' => array_unique($shares), 'public' => $publicShare, 'remote' => $remoteShare);
 	}
 
 	/**
@@ -2280,7 +2298,7 @@ class Share extends \OC\Share\Constants {
 		if ($user && $remote) {
 			$url = $remote . self::BASE_PATH_TO_SHARE_API . '?format=' . self::RESPONSE_FORMAT;
 
-			$local = \OC::$server->getURLGenerator()->getAbsoluteURL('');
+			$local = \OC::$server->getURLGenerator()->getAbsoluteURL('/');
 
 			$fields = array(
 				'shareWith' => $user,
