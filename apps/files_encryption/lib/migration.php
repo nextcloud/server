@@ -40,6 +40,15 @@ class Migration {
 	}
 
 	public function reorganizeFolderStructure() {
+		$this->reorganizeSystemFolderStructure();
+
+		$users = \OCP\User::getUsers();
+		foreach ($users as $user) {
+			$this->reorganizeFolderStructureForUser($user);
+		}
+	}
+
+	public function reorganizeSystemFolderStructure() {
 
 		$this->createPathForKeys('/files_encryption');
 
@@ -60,27 +69,28 @@ class Migration {
 		$this->view->deleteAll('/owncloud_private_key');
 		$this->view->deleteAll('/files_encryption/share-keys');
 		$this->view->deleteAll('/files_encryption/keyfiles');
+	}
 
-		$users = \OCP\User::getUsers();
-		foreach ($users as $user) {
-			// backup all keys
-			if ($this->backupUserKeys($user)) {
-				// create new 'key' folder
-				$this->view->mkdir($user . '/files_encryption/keys');
-				// rename users private key
-				$this->renameUsersPrivateKey($user);
-				// rename file keys
-				$path = $user . '/files_encryption/keyfiles';
-				$this->renameFileKeys($user, $path);
-				$trashPath = $user . '/files_trashbin/keyfiles';
-				if (\OC_App::isEnabled('files_trashbin') && $this->view->is_dir($trashPath)) {
-					$this->renameFileKeys($user, $trashPath, true);
-					$this->view->deleteAll($trashPath);
-					$this->view->deleteAll($user . '/files_trashbin/share-keys');
-				}
-				// delete old folders
-				$this->deleteOldKeys($user);
+
+	public function reorganizeFolderStructureForUser($user) {
+		// backup all keys
+		\OC_Util::setupFS($user);
+		if ($this->backupUserKeys($user)) {
+			// create new 'key' folder
+			$this->view->mkdir($user . '/files_encryption/keys');
+			// rename users private key
+			$this->renameUsersPrivateKey($user);
+			// rename file keys
+			$path = $user . '/files_encryption/keyfiles';
+			$this->renameFileKeys($user, $path);
+			$trashPath = $user . '/files_trashbin/keyfiles';
+			if (\OC_App::isEnabled('files_trashbin') && $this->view->is_dir($trashPath)) {
+				$this->renameFileKeys($user, $trashPath, true);
+				$this->view->deleteAll($trashPath);
+				$this->view->deleteAll($user . '/files_trashbin/share-keys');
 			}
+			// delete old folders
+			$this->deleteOldKeys($user);
 		}
 	}
 
@@ -277,6 +287,4 @@ class Migration {
 			}
 		}
 	}
-
-
 }
