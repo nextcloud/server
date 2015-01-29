@@ -1,6 +1,8 @@
 <?php
 	/** @var array $_ */
 	/** @var OC_L10N $l */
+
+style('core', ['styles', 'header']);
 ?>
 <span class="error error-wide">
 	<h2><strong><?php p($l->t('Internal Server Error')) ?></strong></h2>
