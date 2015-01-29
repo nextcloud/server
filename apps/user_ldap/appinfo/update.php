@@ -20,7 +20,7 @@ foreach($configPrefixes as $config) {
 		'user_ldap', $config.'ldap_uuid_user_attribute', 'not existing');
 	if($state === 'non existing') {
 		$value = \OCP\Config::getAppValue(
-			'user_ldap', $config.'ldap_uuid_attribute', '');
+			'user_ldap', $config.'ldap_uuid_attribute', 'auto');
 		\OCP\Config::setAppValue(
 			'user_ldap', $config.'ldap_uuid_user_attribute', $value);
 		\OCP\Config::setAppValue(
