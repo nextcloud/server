@@ -32,6 +32,31 @@ class Test_OC_Connector_Sabre_File extends \Test\TestCase {
 		$file->put('test data');
 	}
 
+	public function testPutSingleFileShare() {
+		// setup
+		$storage = $this->getMock('\OCP\Files\Storage');
+		$view = $this->getMock('\OC\Files\View', array('file_put_contents', 'getRelativePath'), array());
+		$view->expects($this->any())
+			->method('resolvePath')
+			->with('')
+			->will($this->returnValue(array($storage, '')));
+		$view->expects($this->any())
+			->method('getRelativePath')
+			->will($this->returnValue(''));
+		$view->expects($this->any())
+			->method('file_put_contents')
+			->with('')
+			->will($this->returnValue(true));
+
+		$info = new \OC\Files\FileInfo('/foo.txt', null, null, array(
+			'permissions' => \OCP\Constants::PERMISSION_ALL
+		), null);
+
+		$file = new OC_Connector_Sabre_File($view, $info);
+
+		$this->assertNotEmpty($file->put('test data'));
+	}
+
 	/**
 	 * @expectedException \Sabre\DAV\Exception
 	 */
