@@ -30,11 +30,13 @@ if(!\OCP\Util::isValidFileName($name)) {
 	exit();
 }
 
+$user = \OC::$server->getUserSession()->getUser();
+$uid = ($user) ? $user->getUID() : null;
 $externalManager = new \OCA\Files_Sharing\External\Manager(
 	\OC::$server->getDatabaseConnection(),
 	\OC\Files\Filesystem::getMountManager(),
 	\OC\Files\Filesystem::getLoader(),
-	\OC::$server->getUserSession()
+	$uid
 );
 
 $name = OCP\Files::buildNotExistingFileName('/', $name);
