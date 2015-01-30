@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke
- * @copyright 2014 Lukas Reschke lukas@owncloud.com
+ * @copyright 2014-2015 Lukas Reschke lukas@owncloud.com
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -35,7 +35,6 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 		$this->container['Config'] = $this->getMockBuilder('\OCP\IConfig')
 			->disableOriginalConstructor()->getMock();
-		$this->container['IsAdmin'] = true;
 		$this->container['L10N']
 			->expects($this->any())
 			->method('t')
@@ -55,11 +54,9 @@ class UsersControllerTest extends \Test\TestCase {
 			->disableOriginalConstructor()->getMock();
 	}
 
-	/**
-	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
-	 * to test for subadmins. Thus the test always assumes you have admin permissions...
-	 */
-	public function testIndex() {
+	public function testIndexAdmin() {
+		$this->container['IsAdmin'] = true;
+
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
@@ -198,11 +195,167 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
+	public function testIndexSubAdmin() {
+		$this->container['IsAdmin'] = false;
+		$this->container['SubAdminOfGroups'] = ['SubGroup1', 'SubGroup2'];
+
+		$foo = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$foo
+			->expects($this->exactly(4))
+			->method('getUID')
+			->will($this->returnValue('foo'));
+		$foo
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('M. Foo'));
+		$foo
+			->method('getLastLogin')
+			->will($this->returnValue(500));
+		$foo
+			->method('getHome')
+			->will($this->returnValue('/home/foo'));
+		$foo
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Database'));
+		$admin = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$admin
+			->expects($this->exactly(4))
+			->method('getUID')
+			->will($this->returnValue('admin'));
+		$admin
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('S. Admin'));
+		$admin
+			->expects($this->once())
+			->method('getLastLogin')
+			->will($this->returnValue(12));
+		$admin
+			->expects($this->once())
+			->method('getHome')
+			->will($this->returnValue('/home/admin'));
+		$admin
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Dummy'));
+		$bar = $this->getMockBuilder('\OC\User\User')
+			->disableOriginalConstructor()->getMock();
+		$bar
+			->expects($this->exactly(4))
+			->method('getUID')
+			->will($this->returnValue('bar'));
+		$bar
+			->expects($this->once())
+			->method('getDisplayName')
+			->will($this->returnValue('B. Ar'));
+		$bar
+			->method('getLastLogin')
+			->will($this->returnValue(3999));
+		$bar
+			->method('getHome')
+			->will($this->returnValue('/home/bar'));
+		$bar
+			->expects($this->once())
+			->method('getBackendClassName')
+			->will($this->returnValue('OC_User_Dummy'));
+
+		$this->container['GroupManager']
+			->expects($this->at(0))
+			->method('displayNamesInGroup')
+			->with('SubGroup1', 'pattern')
+			->will($this->returnValue(['foo' => 'M. Foo', 'admin' => 'S. Admin']));
+		$this->container['GroupManager']
+			->expects($this->at(1))
+			->method('displayNamesInGroup')
+			->with('SubGroup2', 'pattern')
+			->will($this->returnValue(['bar' => 'B. Ar']));
+		$this->container['GroupManager']
+			->expects($this->exactly(3))
+			->method('getUserGroupIds')
+			->will($this->onConsecutiveCalls(
+				['SubGroup2', 'SubGroup1'],
+				['SubGroup2', 'Foo'],
+				['admin', 'SubGroup1', 'testGroup']
+			));
+		$this->container['UserManager']
+			->expects($this->at(0))
+			->method('get')
+			->with('foo')
+			->will($this->returnValue($foo));
+		$this->container['UserManager']
+			->expects($this->at(1))
+			->method('get')
+			->with('admin')
+			->will($this->returnValue($admin));
+		$this->container['UserManager']
+			->expects($this->at(2))
+			->method('get')
+			->with('bar')
+			->will($this->returnValue($bar));
+		$this->container['Config']
+			->expects($this->exactly(6))
+			->method('getUserValue')
+			->will($this->onConsecutiveCalls(
+				1024, 'foo@bar.com',
+				404, 'admin@bar.com',
+				2323, 'bar@dummy.com'
+			));
+
+		$expectedResponse = new DataResponse(
+			[
+				0 => [
+					'name' => 'foo',
+					'displayname' => 'M. Foo',
+					'groups' => ['SubGroup2', 'SubGroup1'],
+					'subadmin' => [],
+					'quota' => 1024,
+					'storageLocation' => '/home/foo',
+					'lastLogin' => 500,
+					'backend' => 'OC_User_Database',
+					'email' => 'foo@bar.com',
+					'isRestoreDisabled' => false,
+				],
+				1 => [
+					'name' => 'admin',
+					'displayname' => 'S. Admin',
+					'groups' => ['SubGroup2'],
+					'subadmin' => [],
+					'quota' => 404,
+					'storageLocation' => '/home/admin',
+					'lastLogin' => 12,
+					'backend' => 'OC_User_Dummy',
+					'email' => 'admin@bar.com',
+					'isRestoreDisabled' => false,
+				],
+				2 => [
+					'name' => 'bar',
+					'displayname' => 'B. Ar',
+					'groups' => ['SubGroup1'],
+					'subadmin' => [],
+					'quota' => 2323,
+					'storageLocation' => '/home/bar',
+					'lastLogin' => 3999,
+					'backend' => 'OC_User_Dummy',
+					'email' => 'bar@dummy.com',
+					'isRestoreDisabled' => false,
+				],
+			]
+		);
+
+		$response = $this->container['UsersController']->index(0, 10, '', 'pattern');
+		$this->assertEquals($expectedResponse, $response);
+	}
+
 	/**
 	 * TODO: Since the function uses the static OC_Subadmin class it can't be mocked
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testIndexWithSearch() {
+		$this->container['IsAdmin'] = true;
+
 		$foo = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$foo
@@ -326,8 +479,9 @@ class UsersControllerTest extends \Test\TestCase {
 		$this->assertEquals($expectedResponse, $response);
 	}
 
-
 	public function testIndexWithBackend() {
+		$this->container['IsAdmin'] = true;
+
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -386,6 +540,8 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testIndexWithBackendNoUser() {
+		$this->container['IsAdmin'] = true;
+
 		$this->container['UserManager']
 			->expects($this->once())
 			->method('getBackends')
@@ -406,6 +562,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testCreateSuccessfulWithoutGroup() {
+		$this->container['IsAdmin'] = true;
+
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -449,6 +607,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testCreateSuccessfulWithGroup() {
+		$this->container['IsAdmin'] = true;
+
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -520,6 +680,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testCreateUnsuccessful() {
+		$this->container['IsAdmin'] = true;
+
 		$this->container['UserManager']
 			->method('createUser')
 			->will($this->throwException(new \Exception()));
@@ -539,6 +701,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testDestroySelf() {
+		$this->container['IsAdmin'] = true;
+
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -567,6 +731,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testDestroy() {
+		$this->container['IsAdmin'] = true;
+
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -604,6 +770,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * to test for subadmins. Thus the test always assumes you have admin permissions...
 	 */
 	public function testDestroyUnsuccessful() {
+		$this->container['IsAdmin'] = true;
+
 		$user = $this->getMockBuilder('\OC\User\User')
 			->disableOriginalConstructor()->getMock();
 		$user
@@ -641,6 +809,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * test if an invalid mail result in a failure response
 	 */
 	public function testCreateUnsuccessfulWithInvalidEMail() {
+		$this->container['IsAdmin'] = true;
+
 		/**
 		 * FIXME: Disabled due to missing DI on mail class.
 		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
@@ -666,6 +836,8 @@ class UsersControllerTest extends \Test\TestCase {
 	 * test if a valid mail result in a successful mail send
 	 */
 	public function testCreateSuccessfulWithValidEMail() {
+		$this->container['IsAdmin'] = true;
+
 		/**
 		 * FIXME: Disabled due to missing DI on mail class.
 		 * TODO: Re-enable when https://github.com/owncloud/core/pull/12085 is merged.
@@ -737,6 +909,8 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testRestorePossibleWithoutEncryption() {
+		$this->container['IsAdmin'] = true;
+
 		list($user, $expectedResult) = $this->mockUser();
 
 		$result = \Test_Helper::invokePrivate($this->container['UsersController'], 'formatUserForIndex', [$user]);
@@ -744,6 +918,8 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testRestorePossibleWithAdminAndUserRestore() {
+		$this->container['IsAdmin'] = true;
+
 		list($user, $expectedResult) = $this->mockUser();
 
 		$this->container['OCP\\App\\IAppManager']
@@ -779,6 +955,8 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testRestoreNotPossibleWithoutAdminRestore() {
+		$this->container['IsAdmin'] = true;
+
 		list($user, $expectedResult) = $this->mockUser();
 
 		$this->container['OCP\\App\\IAppManager']
@@ -795,6 +973,8 @@ class UsersControllerTest extends \Test\TestCase {
 	}
 
 	public function testRestoreNotPossibleWithoutUserRestore() {
+		$this->container['IsAdmin'] = true;
+
 		list($user, $expectedResult) = $this->mockUser();
 
 		$this->container['OCP\\App\\IAppManager']

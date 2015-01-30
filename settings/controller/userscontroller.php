@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Lukas Reschke
- * @copyright 2014 Lukas Reschke lukas@owncloud.com
+ * @copyright 2014-2015 Lukas Reschke lukas@owncloud.com
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later.
@@ -56,6 +56,8 @@ class UsersController extends Controller {
 	private $isEncryptionAppEnabled;
 	/** @var bool contains the state of the admin recovery setting */
 	private $isRestoreEnabled = false;
+	/** @var string[] Array of groups the user is sub-admin of */
+	private $subAdminOfGroups = [];
 
 	/**
 	 * @param string $appName
@@ -70,7 +72,9 @@ class UsersController extends Controller {
 	 * @param \OC_Defaults $defaults
 	 * @param \OC_Mail $mail
 	 * @param string $fromMailAddress
+	 * @param IURLGenerator $urlGenerator
 	 * @param IAppManager $appManager
+	 * @param array $subAdminOfGroups
 	 */
 	public function __construct($appName,
 								IRequest $request,
@@ -85,7 +89,8 @@ class UsersController extends Controller {
 								\OC_Mail $mail,
 								$fromMailAddress,
 								IURLGenerator $urlGenerator,
-								IAppManager $appManager) {
+								IAppManager $appManager,
+								array $subAdminOfGroups) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
@@ -98,6 +103,7 @@ class UsersController extends Controller {
 		$this->mail = $mail;
 		$this->fromMailAddress = $fromMailAddress;
 		$this->urlGenerator = $urlGenerator;
+		$this->subAdminOfGroups = $subAdminOfGroups;
 
 		// check for encryption state - TODO see formatUserForIndex
 		$this->isEncryptionAppEnabled = $appManager->isEnabledForUser('files_encryption');
@@ -210,18 +216,15 @@ class UsersController extends Controller {
 			}
 
 		} else {
-			/** @var array $subAdminOf List of groups the user is subadmin */
-			$subAdminOf = \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID());
-
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && !in_array($gid, $subAdminOf)) {
+			if($gid !== '' && !in_array($gid, $this->subAdminOfGroups)) {
 				$gid = '';
 			}
 
 			// Batch all groups the user is subadmin of when a group is specified
 			$batch = [];
 			if($gid === '') {
-				foreach($subAdminOf as $group) {
+				foreach($this->subAdminOfGroups as $group) {
 					$groupUsers = $this->groupManager->displayNamesInGroup($group, $pattern, $limit, $offset);
 					foreach($groupUsers as $uid => $displayName) {
 						$batch[$uid] = $displayName;
@@ -234,7 +237,10 @@ class UsersController extends Controller {
 
 			foreach ($batch as $user) {
 				// Only add the groups, this user is a subadmin of
-				$userGroups = array_intersect($this->groupManager->getUserGroupIds($user), $subAdminOf);
+				$userGroups = array_values(array_intersect(
+					$this->groupManager->getUserGroupIds($user),
+					$this->subAdminOfGroups
+				));
 				$users[] = $this->formatUserForIndex($user, $userGroups);
 			}
 		}
@@ -274,7 +280,7 @@ class UsersController extends Controller {
 				}
 			}
 			if (empty($groups)) {
-				$groups = \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID());
+				$groups = $this->subAdminOfGroups;
 			}
 		}
 
