@@ -273,16 +273,16 @@ class UsersController extends Controller {
 		}
 
 		if (!$this->isAdmin) {
-			$uid = $this->userSession->getUser()->getUID();
+			$userId = $this->userSession->getUser()->getUID();
 			if (!empty($groups)) {
 				foreach ($groups as $key => $group) {
-					if (!$this->subAdminFactory->isGroupAccessible($uid, $group)) {
+					if (!$this->subAdminFactory->isGroupAccessible($userId, $group)) {
 						unset($groups[$key]);
 					}
 				}
 			}
 			if (empty($groups)) {
-				$groups = $this->subAdminFactory->getSubAdminsOfGroups($uid);
+				$groups = $this->subAdminFactory->getSubAdminsOfGroups($userId);
 			}
 		}
 
@@ -367,8 +367,8 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function destroy($id) {
-		$UserId = $this->userSession->getUser()->getUID();
-		if($UserId === $id) {
+		$userId = $this->userSession->getUser()->getUID();
+		if($userId === $id) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
@@ -380,7 +380,7 @@ class UsersController extends Controller {
 			);
 		}
 
-		if(!$this->isAdmin && !$this->subAdminFactory->isUserAccessible($UserId, $id)) {
+		if(!$this->isAdmin && !$this->subAdminFactory->isUserAccessible($userId, $id)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
@@ -429,11 +429,10 @@ class UsersController extends Controller {
 	 * @return DataResponse
 	 */
 	public function setMailAddress($id, $mailAddress) {
-		$UserId = $this->userSession->getUser()->getUID();
-		// FIXME: Remove this static function call at some point…
-		if($this->userSession->getUser()->getUID() !== $id
+		$userId = $this->userSession->getUser()->getUID();
+		if($userId !== $id
 			&& !$this->isAdmin
-			&& !$this->subAdminFactory->isUserAccessible($UserId, $id)) {
+			&& !$this->subAdminFactory->isUserAccessible($userId, $id)) {
 			return new DataResponse(
 				array(
 					'status' => 'error',
