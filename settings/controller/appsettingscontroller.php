@@ -67,11 +67,13 @@ class AppSettingsController extends Controller {
 			$categories[] = ['id' => 2, 'displayName' => (string)$this->l10n->t('Recommended')];
 			// apps from external repo via OCS
 			$ocs = \OC_OCSClient::getCategories();
-			foreach($ocs as $k => $v) {
-				$categories[] = array(
-					'id' => $k,
-					'displayName' => str_replace('ownCloud ', '', $v)
-				);
+			if ($ocs) {
+				foreach($ocs as $k => $v) {
+					$categories[] = array(
+						'id' => $k,
+						'displayName' => str_replace('ownCloud ', '', $v)
+					);
+				}
 			}
 		}
 
@@ -124,9 +126,11 @@ class AppSettingsController extends Controller {
 				default:
 					if ($category === 2) {
 						$apps = \OC_App::getAppstoreApps('approved');
-						$apps = array_filter($apps, function ($app) {
-							return isset($app['internalclass']) && $app['internalclass'] === 'recommendedapp';
-						});
+						if ($apps) {
+							$apps = array_filter($apps, function ($app) {
+								return isset($app['internalclass']) && $app['internalclass'] === 'recommendedapp';
+							});
+						}
 					} else {
 						$apps = \OC_App::getAppstoreApps('approved', $category);
 					}
