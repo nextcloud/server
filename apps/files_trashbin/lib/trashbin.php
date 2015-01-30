@@ -152,7 +152,6 @@ class Trashbin {
 
 		self::setUpTrash($user);
 
-		$view = new \OC\Files\View('/' . $user);
 		$path_parts = pathinfo($file_path);
 
 		$filename = $path_parts['basename'];
