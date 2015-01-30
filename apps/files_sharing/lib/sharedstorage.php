@@ -294,8 +294,10 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 		$relPath1 = $this->getMountPoint() . '/' . $path1;
 		$relPath2 = $this->getMountPoint() . '/' . $path2;
 
+		$targetExists = $this->file_exists($path2);
+
 		// check for update permissions on the share
-		if ($this->isUpdatable('')) {
+		if (($targetExists && $this->isUpdatable('')) || (!$targetExists && $this->isCreatable(''))) {
 
 			$pathinfo = pathinfo($relPath1);
 			// for part files we need to ask for the owner and path from the parent directory because
@@ -343,12 +345,24 @@ class Shared extends \OC\Files\Storage\Common implements ISharedStorage {
 				case 'xb':
 				case 'a':
 				case 'ab':
-					$exists = $this->file_exists($path);
-					if ($exists && !$this->isUpdatable($path)) {
+					$creatable = $this->isCreatable($path);
+					$updatable = $this->isUpdatable($path);
+					// if neither permissions given, no need to continue
+					if (!$creatable && !$updatable) {
 						return false;
 					}
-					if (!$exists && !$this->isCreatable(dirname($path))) {
+
+					$exists = $this->file_exists($path);
+					// if a file exists, updatable permissions are required
+					if ($exists && !$updatable) {
 						return false;
+					}
+
+					// part file is allowed if !$creatable but the final file is $updatable
+					if (pathinfo($path, PATHINFO_EXTENSION) !== 'part') {
+						if (!$exists && !$creatable) {
+							return false;
+						}
 					}
 			}
 			$info = array(

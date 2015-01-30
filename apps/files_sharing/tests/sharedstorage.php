@@ -199,6 +199,154 @@ class Test_Files_Sharing_Storage extends OCA\Files_sharing\Tests\TestCase {
 		$this->assertTrue($result);
 	}
 
+	function testFopenWithReadOnlyPermission() {
+		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
+		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		// part file should be forbidden
+		$handle = $user2View->fopen($this->folder . '/test.txt.part', 'w');
+		$this->assertFalse($handle);
+
+		// regular file forbidden
+		$handle = $user2View->fopen($this->folder . '/test.txt', 'w');
+		$this->assertFalse($handle);
+
+		// rename forbidden
+		$this->assertFalse($user2View->rename($this->folder . '/existing.txt', $this->folder . '/existing2.txt'));
+
+		// delete forbidden
+		$this->assertFalse($user2View->unlink($this->folder . '/existing.txt'));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
+	function testFopenWithCreateOnlyPermission() {
+		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
+		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_CREATE);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		// create part file allowed
+		$handle = $user2View->fopen($this->folder . '/test.txt.part', 'w');
+		$this->assertNotFalse($handle);
+		fclose($handle);
+
+		// create regular file allowed
+		$handle = $user2View->fopen($this->folder . '/test-create.txt', 'w');
+		$this->assertNotFalse($handle);
+		fclose($handle);
+
+		// rename file allowed as long as target did not exist
+		$this->assertTrue($user2View->rename($this->folder . '/test-create.txt', $this->folder . '/newtarget.txt'));
+		$this->assertTrue($user2View->file_exists($this->folder . '/newtarget.txt'));
+
+		// rename file not allowed if target exists 
+		$this->assertFalse($user2View->rename($this->folder . '/newtarget.txt', $this->folder . '/existing.txt'));
+
+		// overwriting file not allowed
+		$handle = $user2View->fopen($this->folder . '/existing.txt', 'w');
+		$this->assertFalse($handle);
+
+		// overwrite forbidden (no update permission)
+		$this->assertFalse($user2View->rename($this->folder . '/test.txt.part', $this->folder . '/existing.txt'));
+
+		// delete forbidden
+		$this->assertFalse($user2View->unlink($this->folder . '/existing.txt'));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
+	function testFopenWithUpdateOnlyPermission() {
+		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
+		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+
+		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		// create part file allowed
+		$handle = $user2View->fopen($this->folder . '/test.txt.part', 'w');
+		$this->assertNotFalse($handle);
+		fclose($handle);
+
+		// create regular file not allowed
+		$handle = $user2View->fopen($this->folder . '/test-create.txt', 'w');
+		$this->assertFalse($handle);
+
+		// rename part file not allowed to non-existing file
+		$this->assertFalse($user2View->rename($this->folder . '/test.txt.part', $this->folder . '/nonexist.txt'));
+
+		// rename part file allowed to target existing file
+		$this->assertTrue($user2View->rename($this->folder . '/test.txt.part', $this->folder . '/existing.txt'));
+		$this->assertTrue($user2View->file_exists($this->folder . '/existing.txt'));
+
+		// overwriting file directly is allowed
+		$handle = $user2View->fopen($this->folder . '/existing.txt', 'w');
+		$this->assertNotFalse($handle);
+		fclose($handle);
+
+		// delete forbidden
+		$this->assertFalse($user2View->unlink($this->folder . '/existing.txt'));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
+	function testFopenWithDeleteOnlyPermission() {
+		$this->view->file_put_contents($this->folder . '/existing.txt', 'foo');
+		$fileinfoFolder = $this->view->getFileInfo($this->folder);
+		$result = \OCP\Share::shareItem('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2, \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_DELETE);
+		$this->assertTrue($result);
+
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER2);
+		$user2View = new \OC\Files\View('/' . self::TEST_FILES_SHARING_API_USER2 . '/files');
+
+		// part file should be forbidden
+		$handle = $user2View->fopen($this->folder . '/test.txt.part', 'w');
+		$this->assertFalse($handle);
+
+		// regular file forbidden
+		$handle = $user2View->fopen($this->folder . '/test.txt', 'w');
+		$this->assertFalse($handle);
+
+		// rename forbidden
+		$this->assertFalse($user2View->rename($this->folder . '/existing.txt', $this->folder . '/existing2.txt'));
+
+		// delete allowed
+		$this->assertTrue($user2View->unlink($this->folder . '/existing.txt'));
+
+		//cleanup
+		self::loginHelper(self::TEST_FILES_SHARING_API_USER1);
+		$result = \OCP\Share::unshare('folder', $fileinfoFolder['fileid'], \OCP\Share::SHARE_TYPE_USER,
+			self::TEST_FILES_SHARING_API_USER2);
+		$this->assertTrue($result);
+	}
+
 	function testMountSharesOtherUser() {
 		$folderInfo = $this->view->getFileInfo($this->folder);
 		$fileInfo = $this->view->getFileInfo($this->filename);
