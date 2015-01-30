@@ -182,7 +182,7 @@
     "Documentation:" : "Documentation :",
     "User Documentation" : "Documentation utilisateur",
     "Admin Documentation" : "Documentation administrateur",
-    "This app cannot be installed because the following dependencies are not fulfilled:" : "Cette application ne peut être installée à cause de ces dépendances non satisfaites:",
+    "This app cannot be installed because the following dependencies are not fulfilled:" : "Cette application ne peut être installée à cause de ces dépendances non satisfaites :",
     "Update to %s" : "Mettre à niveau vers la version %s",
     "Enable only for specific groups" : "Activer uniquement pour certains groupes",
     "Uninstall App" : "Désinstaller l'application",

@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Server to server sharing is not enabled on this server",
     "The mountpoint name contains invalid characters." : "The mountpoint name contains invalid characters.",
     "Invalid or untrusted SSL certificate" : "Invalid or untrusted SSL certificate",
+    "Could not authenticate to remote share, password might be wrong" : "Could not authenticate to remote share, password might be wrong",
+    "Storage not valid" : "Storage not valid",
     "Couldn't add remote share" : "Couldn't add remote share",
     "Shared with you" : "Shared with you",
     "Shared with others" : "Shared with others",
@@ -47,7 +49,6 @@ OC.L10N.register(
     "Download" : "Download",
     "Download %s" : "Download %s",
     "Direct link" : "Direct link",
-    "Server-to-Server Sharing" : "Server-to-Server Sharing",
     "Allow users on this server to send shares to other servers" : "Allow users on this server to send shares to other servers",
     "Allow users on this server to receive shares from other servers" : "Allow users on this server to receive shares from other servers"
 },

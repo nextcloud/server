@@ -87,6 +87,7 @@ OC.L10N.register(
     "never" : "nikdy",
     "deleted {userName}" : "smazán {userName}",
     "add group" : "přidat skupinu",
+    "Changing the password will result in data loss, because data recovery is not available for this user" : "Změna hesla bude mít za následek ztrátu dat, protože jejich obnova není pro tohoto uživatele dostupná.",
     "A valid username must be provided" : "Musíte zadat platné uživatelské jméno",
     "Error creating user" : "Chyba při vytváření užiatele",
     "A valid password must be provided" : "Musíte zadat platné heslo",

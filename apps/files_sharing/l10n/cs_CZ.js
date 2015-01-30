@@ -4,6 +4,8 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "Sdílení mezi servery není povoleno",
     "The mountpoint name contains invalid characters." : "Jméno přípojného bodu obsahuje nepovolené znaky.",
     "Invalid or untrusted SSL certificate" : "Neplatný nebo nedůvěryhodný SSL certifikát",
+    "Could not authenticate to remote share, password might be wrong" : "Nezdařilo se ověření vzdáleného úložiště, pravděpodobně chybné heslo",
+    "Storage not valid" : "Úložiště není platné",
     "Couldn't add remote share" : "Nelze přidat vzdálené úložiště",
     "Shared with you" : "Sdíleno s vámi",
     "Shared with others" : "Sdíleno s ostatními",
@@ -47,7 +49,6 @@ OC.L10N.register(
     "Download" : "Stáhnout",
     "Download %s" : "Stáhnout %s",
     "Direct link" : "Přímý odkaz",
-    "Server-to-Server Sharing" : "Sdílení mezi servery",
     "Allow users on this server to send shares to other servers" : "Povolit uživatelům z tohoto serveru zasílat sdílení na jiné servery",
     "Allow users on this server to receive shares from other servers" : "Povolit uživatelům z tohoto serveru přijímat sdílení z jiných serverů"
 },

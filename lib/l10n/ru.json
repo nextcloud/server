@@ -117,6 +117,7 @@
     "Please ask your server administrator to install the module." : "Пожалуйста, попростите администратора сервера установить модуль.",
     "PHP module %s not installed." : "Не установлен PHP-модуль %s.",
     "Please ask your server administrator to update PHP to the latest version. Your PHP version is no longer supported by ownCloud and the PHP community." : "Пожалуйста, обратитесь к администратору сервера, чтобы обновить PHP до последней версии. Установленная версия PHP больше не поддерживается ownCloud и сообществом PHP.",
+    "PHP is configured to populate raw post data. Since PHP 5.6 this will lead to PHP throwing notices for perfectly valid code." : "В PHP включена директива \"always_populate_raw_post_data\". PHP версии 5.6 и выше, при включенной директиве, добавляет уведомления в журнал даже для абсолютно рабочего кода.",
     "To fix this issue set <code>always_populate_raw_post_data</code> to <code>-1</code> in your php.ini" : "Что-бы исправить эту ошибку, укажите значение <code>-1</code> параметру <code>always_populate_raw_post_data</code> в вашем php.ini",
     "PHP is apparently setup to strip inline doc blocks. This will make several core apps inaccessible." : "Очевидно, PHP настроен на вычищение блоков встроенной документации. Это сделает несколько центральных приложений недоступными.",
     "This is probably caused by a cache/accelerator such as Zend OPcache or eAccelerator." : "Возможно это вызвано кешем/ускорителем вроде Zend OPcache или eAccelerator.",

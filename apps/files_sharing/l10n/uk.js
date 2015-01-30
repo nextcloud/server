@@ -47,7 +47,6 @@ OC.L10N.register(
     "Download" : "Завантажити",
     "Download %s" : "Завантажити %s",
     "Direct link" : "Пряме посилання",
-    "Server-to-Server Sharing" : "Публікація між серверами",
     "Allow users on this server to send shares to other servers" : "Дозволити користувачам цього сервера публікувати на інших серверах",
     "Allow users on this server to receive shares from other servers" : "Дозволити користувачам на цьому сервері отримувати публікації з інших серверів"
 },

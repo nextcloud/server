@@ -47,7 +47,6 @@ OC.L10N.register(
     "Download" : "Λήψη",
     "Download %s" : "Λήψη %s",
     "Direct link" : "Άμεσος σύνδεσμος",
-    "Server-to-Server Sharing" : "Διαμοιρασμός διακομιστής προς διακομιστή",
     "Allow users on this server to send shares to other servers" : "Να επιτρέπεται σε χρήστες αυτού του διακομιστή να στέλνουν διαμοιρασμένους φακέλους σε άλλους διακομιστές",
     "Allow users on this server to receive shares from other servers" : "Να επιτρέπεται στους χρίστες του διακομιστή να λαμβάνουν διαμοιρασμένα αρχεία από άλλους διακομιστές"
 },

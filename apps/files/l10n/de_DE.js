@@ -69,7 +69,7 @@ OC.L10N.register(
     "_%n file_::_%n files_" : ["%n Datei","%n Dateien"],
     "You don’t have permission to upload or create files here" : "Sie besitzen hier keine Berechtigung Dateien hochzuladen oder zu erstellen",
     "_Uploading %n file_::_Uploading %n files_" : ["%n Datei wird hoch geladen","%n Dateien werden hoch geladen"],
-    "\"{name}\" is an invalid file name." : "»{name}« ist kein gültiger Dateiname.",
+    "\"{name}\" is an invalid file name." : "„{name}“ ist kein gültiger Dateiname.",
     "Your storage is full, files can not be updated or synced anymore!" : "Ihr Speicher ist voll, daher können keine Dateien mehr aktualisiert oder synchronisiert werden!",
     "Your storage is almost full ({usedSpacePercent}%)" : "Ihr Speicher ist fast voll ({usedSpacePercent}%)",
     "Encryption App is enabled but your keys are not initialized, please log-out and log-in again" : "Verschlüsselungs-App ist aktiviert, aber Ihre Schlüssel sind nicht initialisiert. Bitte melden Sie sich nochmals ab und wieder an.",

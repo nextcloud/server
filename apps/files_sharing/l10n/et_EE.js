@@ -31,7 +31,6 @@ OC.L10N.register(
     "Download" : "Lae alla",
     "Download %s" : "Laadi alla %s",
     "Direct link" : "Otsene link",
-    "Server-to-Server Sharing" : "Serverist-serverisse jagamine",
     "Allow users on this server to send shares to other servers" : "Luba selle serveri kasutajatel saata faile teistesse serveritesse",
     "Allow users on this server to receive shares from other servers" : "Luba selle serveri kasutajatel võtta vastu jagamisi teistest serveritest"
 },

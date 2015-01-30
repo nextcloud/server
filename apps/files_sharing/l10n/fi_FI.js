@@ -49,7 +49,6 @@ OC.L10N.register(
     "Download" : "Lataa",
     "Download %s" : "Lataa %s",
     "Direct link" : "Suora linkki",
-    "Server-to-Server Sharing" : "Palvelimelta palvelimelle -jakaminen",
     "Allow users on this server to send shares to other servers" : "Salli tämän palvelimen käyttäjien lähettää jakoja muille palvelimille",
     "Allow users on this server to receive shares from other servers" : "Salli tämän palvelimen käyttäjien vastaanottaa jakoja muilta palvelimilta"
 },

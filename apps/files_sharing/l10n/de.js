@@ -49,7 +49,6 @@ OC.L10N.register(
     "Download" : "Herunterladen",
     "Download %s" : "Download %s",
     "Direct link" : "Direkter Link",
-    "Server-to-Server Sharing" : "Server-zu-Server Datenaustausch",
     "Allow users on this server to send shares to other servers" : "Nutzern auf diesem Server das Senden von Freigaben an andere Server erlauben",
     "Allow users on this server to receive shares from other servers" : "Nutzern auf diesem Server das Empfangen von Freigaben von anderen Servern erlauben"
 },

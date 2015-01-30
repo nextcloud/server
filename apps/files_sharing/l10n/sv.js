@@ -45,7 +45,6 @@ OC.L10N.register(
     "Download" : "Ladda ner",
     "Download %s" : "Ladda ner %s",
     "Direct link" : "Direkt länk",
-    "Server-to-Server Sharing" : "Server-till-Server delning",
     "Allow users on this server to send shares to other servers" : "Tillåt användare på denna server att skicka utdelningar till andra servrar",
     "Allow users on this server to receive shares from other servers" : "Tillåt användare på denna servern att ta emot utdelningar från andra servrar"
 },

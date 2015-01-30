@@ -47,7 +47,6 @@ OC.L10N.register(
     "Download" : "Preuzmi",
     "Download %s" : "Preuzmi %s",
     "Direct link" : "Direktna prečica",
-    "Server-to-Server Sharing" : "Deljenje od servera do servera",
     "Allow users on this server to send shares to other servers" : "Dozvoli korisnicima na ovom serveru da šalju deljene resurse na druge servere",
     "Allow users on this server to receive shares from other servers" : "Dozvoli korisnicima na ovom serveru da primaju deljene resurse sa drugih servera"
 },

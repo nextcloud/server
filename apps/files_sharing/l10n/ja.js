@@ -4,6 +4,7 @@ OC.L10N.register(
     "Server to server sharing is not enabled on this server" : "このサーバーでは、サーバー間の共有が有効ではありません",
     "The mountpoint name contains invalid characters." : "マウントポイント名 に不正な文字列が含まれています。",
     "Invalid or untrusted SSL certificate" : "無効または信頼できないSSL証明書",
+    "Storage not valid" : "ストレージが無効です",
     "Couldn't add remote share" : "リモート共有を追加できませんでした",
     "Shared with you" : "他ユーザーがあなたと共有中",
     "Shared with others" : "他ユーザーと共有中",
@@ -43,7 +44,6 @@ OC.L10N.register(
     "Download" : "ダウンロード",
     "Download %s" : "%s をダウンロード",
     "Direct link" : "リンク",
-    "Server-to-Server Sharing" : "サーバー間共有",
     "Allow users on this server to send shares to other servers" : "ユーザーがこのサーバーから他のサーバーに共有することを許可する",
     "Allow users on this server to receive shares from other servers" : "ユーザーが他のサーバーからこのサーバーに共有することを許可する"
 },

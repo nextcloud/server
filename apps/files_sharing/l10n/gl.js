@@ -49,7 +49,6 @@ OC.L10N.register(
     "Download" : "Descargar",
     "Download %s" : "Descargar %s",
     "Direct link" : "Ligazón directa",
-    "Server-to-Server Sharing" : "Compartición Servidor-a-Servidor",
     "Allow users on this server to send shares to other servers" : "Permitir aos ususarios de este servidor enviar comparticións a outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir aos usuarios de este servidor recibir comparticións de outros servidores"
 },

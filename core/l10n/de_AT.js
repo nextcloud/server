@@ -32,6 +32,7 @@ OC.L10N.register(
     "can share" : "Kann teilen",
     "can edit" : "kann bearbeiten",
     "Delete" : "Löschen",
+    "Add" : "Hinzufügen",
     "_download %n file_::_download %n files_" : ["",""],
     "_{count} search result in other places_::_{count} search results in other places_" : ["",""],
     "Personal" : "Persönlich",

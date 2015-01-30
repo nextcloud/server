@@ -36,7 +36,6 @@ OC.L10N.register(
     "Download" : "Transferir",
     "Download %s" : "Transferir %s",
     "Direct link" : "Hiperligação direta",
-    "Server-to-Server Sharing" : "Servidor-para-Servidor de Partilha",
     "Allow users on this server to send shares to other servers" : "Permitir utilizadores neste servidor para enviar as partilhas para outros servidores",
     "Allow users on this server to receive shares from other servers" : "Permitir utilizadores neste servidor para receber as partilhas de outros servidores"
 },

@@ -47,7 +47,6 @@ OC.L10N.register(
     "Download" : "Prejmi",
     "Download %s" : "Prejmi %s",
     "Direct link" : "Neposredna povezava",
-    "Server-to-Server Sharing" : "Souporaba strežnik-na-strežnik",
     "Allow users on this server to send shares to other servers" : "Dovoli uporabnikom tega strežnika pošiljanje map za souporabo na druge strežnike.",
     "Allow users on this server to receive shares from other servers" : "Dovoli uporabnikom tega strežnika sprejemanje map za souporabo z drugih strežnikov."
 },

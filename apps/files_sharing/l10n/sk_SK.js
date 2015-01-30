@@ -8,7 +8,7 @@ OC.L10N.register(
     "Storage not valid" : "Neplatné úložisko",
     "Couldn't add remote share" : "Nemožno pridať vzdialené zdieľanie",
     "Shared with you" : "Zdieľané s vami",
-    "Shared with others" : "Zdieľané s ostanými",
+    "Shared with others" : "Zdieľané s ostatnými",
     "Shared by link" : "Zdieľané pomocou odkazu",
     "Nothing shared with you yet" : "Zatiaľ s vami nikto nič nezdieľal.",
     "Files and folders others share with you will show up here" : "Tu budú zobrazené súbory a priečinky, ktoré s vami zdieľajú ostatní",
@@ -49,7 +49,6 @@ OC.L10N.register(
     "Download" : "Sťahovanie",
     "Download %s" : "Stiahnuť %s",
     "Direct link" : "Priama linka",
-    "Server-to-Server Sharing" : "Zdieľanie medzi servermi",
     "Allow users on this server to send shares to other servers" : "Povoliť používateľom z tohoto servera posielať zdieľania na iné servery",
     "Allow users on this server to receive shares from other servers" : "Povoliť používateľom z tohoto servera prijímať zdieľania z iných serverov"
 },
