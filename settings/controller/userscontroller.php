@@ -161,7 +161,7 @@ class UsersController extends Controller {
 	private function getUsersForUID(array $userIDs) {
 		$users = [];
 		foreach ($userIDs as $uid => $displayName) {
-			$users[] = $this->userManager->get($uid);
+			$users[$uid] = $this->userManager->get($uid);
 		}
 		return $users;
 	}
@@ -196,7 +196,7 @@ class UsersController extends Controller {
 			}
 		}
 
-		$users = array();
+		$users = [];
 		if ($this->isAdmin) {
 
 			if($gid !== '') {
@@ -210,16 +210,31 @@ class UsersController extends Controller {
 			}
 
 		} else {
+			/** @var array $subAdminOf List of groups the user is subadmin */
+			$subAdminOf = \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID());
+
 			// Set the $gid parameter to an empty value if the subadmin has no rights to access a specific group
-			if($gid !== '' && !in_array($gid, \OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()))) {
+			if($gid !== '' && !in_array($gid, $subAdminOf)) {
 				$gid = '';
 			}
 
-			$batch = $this->getUsersForUID($this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset));
+			// Batch all groups the user is subadmin of when a group is specified
+			$batch = [];
+			if($gid === '') {
+				foreach($subAdminOf as $group) {
+					$groupUsers = $this->groupManager->displayNamesInGroup($group, $pattern, $limit, $offset);
+					foreach($groupUsers as $uid => $displayName) {
+						$batch[$uid] = $displayName;
+					}
+				}
+			} else {
+				$batch = $this->groupManager->displayNamesInGroup($gid, $pattern, $limit, $offset);
+			}
+			$batch = $this->getUsersForUID($batch);
+
 			foreach ($batch as $user) {
 				// Only add the groups, this user is a subadmin of
-				$userGroups = array_intersect($this->groupManager->getUserGroupIds($user),
-					\OC_SubAdmin::getSubAdminsGroups($this->userSession->getUser()->getUID()));
+				$userGroups = array_intersect($this->groupManager->getUserGroupIds($user), $subAdminOf);
 				$users[] = $this->formatUserForIndex($user, $userGroups);
 			}
 		}
